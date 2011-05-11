@@ -29,6 +29,13 @@ class ezpDatabaseTestCase extends ezpTestCase
     protected $insertDefaultData = true;
 
     /**
+     * Hold shared fixtures
+     * 
+     * @var mixed
+     */
+    protected $sharedFixture;
+
+    /**
      * Sets up the database enviroment
      */
     protected function setUp()

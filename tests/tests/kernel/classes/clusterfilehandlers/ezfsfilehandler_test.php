@@ -95,5 +95,10 @@ class eZFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
     {
         self::assertTrue( eZClusterFileHandler::instance()->abortCacheGeneration() );
     }
+
+    public function testPrefork()
+    {
+        self::markTestSkipped( "preFork does nothing on non DB based handlers" );
+    }
 }
 ?>

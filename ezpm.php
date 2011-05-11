@@ -202,17 +202,14 @@ function helpHelp()
 
 function changeSiteAccessSetting( $siteAccess )
 {
-    global $isQuiet;
     $cli = eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $siteAccess) )
     {
-        if ( !$isQuiet )
-            $cli->notice( "Using siteaccess $siteAccess for nice url update" );
+        $cli->output( "Using siteaccess $siteAccess for nice url update" );
     }
     else
     {
-        if ( !$isQuiet )
-            $cli->notice( "Siteaccess $siteAccess does not exist, using default siteaccess" );
+        $cli->notice( "Siteaccess $siteAccess does not exist, using default siteaccess" );
     }
 }
 
@@ -851,8 +848,7 @@ foreach ( $commandList as $commandItem )
                         foreach ( $groups as $group )
                         {
                             $package->appendGroup( $group );
-                            if ( !$isQuiet )
-                                $cli->notice( "Added to group $group" );
+                            $cli->output( "Added to group $group" );
                         }
                         $package->store();
                     }
@@ -924,9 +920,8 @@ foreach ( $commandList as $commandItem )
                     case 'state':
                     {
                         $package->setAttribute( $commandItem['attribute'], $commandItem['attribute-value'] );
-                        if ( !$isQuiet )
-                            $cli->notice( "Attribute " . $cli->style( 'symbol' ) . $commandItem['attribute'] . $cli->style( 'emphasize-end' ) .
-                                          " was set to " . $cli->style( 'symbol' ) . $commandItem['attribute-value'] . $cli->style( 'emphasize-end' ) );
+                        $cli->output( "Attribute " . $cli->style( 'symbol' ) . $commandItem['attribute'] . $cli->style( 'emphasize-end' ) .
+                                      " was set to " . $cli->style( 'symbol' ) . $commandItem['attribute-value'] . $cli->style( 'emphasize-end' ) );
                     } break;
                 }
                 $package->store();
@@ -947,7 +942,7 @@ foreach ( $commandList as $commandItem )
 
             if ( $package instanceof eZPackage )
             {
-                $cli->notice( "Package " . $cli->stylize( 'emphasize', $packageName ) . " sucessfully imported" );
+                $cli->output( "Package " . $cli->stylize( 'emphasize', $packageName ) . " sucessfully imported" );
             }
             else if ( $package == eZPackage::STATUS_ALREADY_EXISTS )
             {
@@ -982,7 +977,7 @@ foreach ( $commandList as $commandItem )
                                         'language_map' => $package->defaultLanguageMap() );
             $result = $package->install( $installParameters );
             if ( $result )
-                $cli->notice( "Package " . $cli->stylize( 'emphasize', $package->attribute( 'name' ) ) . " sucessfully installed" );
+                $cli->output( "Package " . $cli->stylize( 'emphasize', $package->attribute( 'name' ) ) . " sucessfully installed" );
             else
                 $cli->error( "Failed to install package " . $cli->stylize( 'emphasize', $package->attribute( 'name' ) ) );
         }
@@ -1002,21 +997,18 @@ foreach ( $commandList as $commandItem )
                 $exportDirectory = $commandItem['export-directory'];
                 if ( !file_exists( $exportDirectory ) )
                 {
-                    if ( !$isQuiet )
-                        $cli->notice( "The directory " . $cli->style( 'dir' ) . $exportDirectory . $cli->style( 'dir-end' ) . " does not exist, cannot export package" );
+                    $cli->warning( "The directory " . $cli->style( 'dir' ) . $exportDirectory . $cli->style( 'dir-end' ) . " does not exist, cannot export package" );
                 }
                 else
                 {
                     $package->exportToArchive( $exportDirectory . eZSys::fileSeparator() . $package->exportName() );
-                    if ( !$isQuiet )
-                        $cli->notice( "Package " . $cli->stylize( 'symbol', $package->attribute( 'name' ) ) . " exported to directory " . $cli->stylize( 'dir', $exportDirectory ) );
+                    $cli->output( "Package " . $cli->stylize( 'symbol', $package->attribute( 'name' ) ) . " exported to directory " . $cli->stylize( 'dir', $exportDirectory ) );
                 }
             }
             else
             {
                 $exportPath = $package->exportToArchive( $package->exportName() );
-                if ( !$isQuiet )
-                    $cli->notice( "Package " . $cli->stylize( 'symbol', $package->attribute( 'name' ) ) . " exported to file " . $cli->stylize( 'file', $exportPath ) );
+                $cli->output( "Package " . $cli->stylize( 'symbol', $package->attribute( 'name' ) ) . " exported to file " . $cli->stylize( 'file', $exportPath ) );
             }
         }
         else

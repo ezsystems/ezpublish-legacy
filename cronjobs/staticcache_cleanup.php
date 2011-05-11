@@ -29,8 +29,7 @@
 /*! \file
 */
 
-if ( !$isQuiet )
-    $cli->output( "Starting processing pending static cache cleanups" );
+$cli->output( "Starting processing pending static cache cleanups" );
 
 $db = eZDB::instance();
 
@@ -59,8 +58,7 @@ do
 
         if ( !isset( $fileContentCache[$source] ) )
         {
-            if ( !$isQuiet )
-                $cli->output( "Fetching URL: $source" );
+            $cli->output( "Fetching URL: $source" );
 
             $fileContentCache[$source] = eZHTTPTool::getDataByURL( $source, false, eZStaticCache::USER_AGENT );
         }
@@ -105,7 +103,6 @@ do
     }
 } while ( true );
 
-if ( !$isQuiet )
-    $cli->output( "Done" );
+$cli->output( "Done" );
 
 ?>

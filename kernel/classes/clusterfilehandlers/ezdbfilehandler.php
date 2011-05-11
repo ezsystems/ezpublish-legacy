@@ -33,7 +33,7 @@
   Note: Not all code is using this class for cluster access, see index_image_mysql.php and index_image_pgsql.php for more custom code.
 */
 
-class eZDBFileHandler
+class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
 {
     /*!
      Controls whether file data from database is cached on the local filesystem.
@@ -80,6 +80,15 @@ class eZDBFileHandler
             unset( $fileINI );
         }
         $this->nonExistantStaleCacheHandling = $GLOBALS['eZDBFileHandler_Settings']['NonExistantStaleCacheHandling'];
+    }
+
+    /**
+     * Disconnects the cluster handler from the database
+     */
+    public function disconnect()
+    {
+        $this->backend->_disconnect();
+        $this->backend = null;
     }
 
     /**

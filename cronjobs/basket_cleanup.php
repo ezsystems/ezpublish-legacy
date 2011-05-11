@@ -47,8 +47,7 @@ $maxTime = $ini->variable( 'Session', 'BasketCleanupTime' );
 $idleTime = $ini->variable( 'Session', 'BasketCleanupIdleTime' );
 $fetchLimit = $ini->variable( 'Session', 'BasketCleanupFetchLimit' );
 
-if ( !$isQuiet )
-    $cli->output( "Cleaning up expired baskets" );
+$cli->output( "Cleaning up expired baskets" );
 eZDBGarbageCollector::collectBaskets( $maxTime, $idleTime, $fetchLimit );
 
 ?>

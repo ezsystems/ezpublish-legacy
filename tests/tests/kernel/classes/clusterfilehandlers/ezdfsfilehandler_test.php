@@ -919,5 +919,38 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
         $handler = eZClusterFileHandler::instance();
         $this->assertTrue( $handler->requiresClusterizing() );
     }
+
+    public function testDisconnect()
+    {
+        $handler = eZClusterFileHandler::instance();
+
+        $refHandler = new ReflectionObject( $handler );
+        $refBackendProperty = $refHandler->getProperty( 'dbbackend' );
+        $refBackendProperty->setAccessible( true );
+
+        self::assertNotNull( $refBackendProperty->getValue( $handler ) );
+
+        $handler->disconnect();
+
+        self::assertNull( $refBackendProperty->getValue( $handler ) );
+    }
+
+    /**
+     * Test for the global {@see eZClusterFilehandler::preFork()} method
+     */
+    public function testPreFork()
+    {
+        $handler = eZClusterFileHandler::instance();
+
+        $refHandler = new ReflectionObject( $handler );
+        $refBackendProperty = $refHandler->getProperty( 'dbbackend' );
+        $refBackendProperty->setAccessible( true );
+
+        self::assertNotNull( $refBackendProperty->getValue( $handler ) );
+
+        eZClusterFileHandler::preFork();
+
+        self::assertNull( $refBackendProperty->getValue( $handler ) );
+    }
 }
 ?>

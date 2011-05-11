@@ -82,10 +82,10 @@ class eZTemplateMenuFunction
         {
             $menuIni = eZINI::instance( "menu.ini" );
             $nameData = $parameters["name"];
-            if ( !eZTemplateNodeTool::isStaticElement( $nameData ) )
+            if ( !eZTemplateNodeTool::isConstantElement( $nameData ) )
                 return false;
 
-            $menuName = eZTemplateNodeTool::elementStaticValue( $nameData );
+            $menuName = eZTemplateNodeTool::elementConstantValue( $nameData );
 
             if ( $menuIni->hasVariable( 'SelectedMenu', $menuName ) )
             {

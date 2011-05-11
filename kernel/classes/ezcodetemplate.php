@@ -60,6 +60,10 @@ class eZCodeTemplate
         {
             $this->Templates[$key] = array( 'filepath' => $template );
         }
+
+        // The default limit has to be increased to avoid PREG_BACKTRACK_LIMIT_ERROR
+        // when calling preg_*() functions.
+        ini_set( "pcre.backtrack_limit", 1e6);
     }
 
     /*!

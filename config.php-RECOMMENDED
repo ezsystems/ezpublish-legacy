@@ -72,6 +72,9 @@
     ----------------
     This setting controls if eZ Publish's autoload system should allow, and
     load classes, which override kernel classes from extensions.
+    NB1: Not all classes can be overridden because of existing includes for eg handlers.
+    NB2: This feature is not covered by support and any kind of kernel overrides
+         needs to be explicitly informed to eZ Systems on support requests.
 */
 //define( 'EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE', false );
 

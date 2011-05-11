@@ -51,7 +51,7 @@ $siteAccess = $options['siteaccess'] ? $options['siteaccess'] : false;
 $script->setUseSiteAccess( $siteAccess );
 $script->initialize();
 
-$cli->notice( "\nStart." );
+$cli->output( "\nStart." );
 
 $contentIni = eZINI::instance( 'content.ini' );
 $userRootNodeID = $contentIni->variable( 'NodeSettings', 'UserRootNode' );
@@ -134,7 +134,7 @@ else
     }
 }
 
-$cli->notice( "\nDone." );
+$cli->output( "\nDone." );
 $script->shutdown();
 
 ?>

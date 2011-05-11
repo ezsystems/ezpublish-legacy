@@ -88,21 +88,21 @@ class eZTemplateUnitOperator
     function operatorTransform( $operatorName, &$node, $tpl, &$resourceData,
                                 $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
-        if ( !eZTemplateNodeTool::isStaticElement( $parameters[1] ) ||
-             ( count( $parameters ) > 2 && !eZTemplateNodeTool::isStaticElement( $parameters[2] ) ) )
+        if ( !eZTemplateNodeTool::isConstantElement( $parameters[1] ) ||
+             ( count( $parameters ) > 2 && !eZTemplateNodeTool::isConstantElement( $parameters[2] ) ) )
         {
             return false;
         }
 
         // We do not support non-static values for decimal_count, decimal_symbol and thousands_separator
         if ( count( $parameters ) > 3 and
-             !eZTemplateNodeTool::isStaticElement( $parameters[3] ) )
+             !eZTemplateNodeTool::isConstantElement( $parameters[3] ) )
             return false;
         if ( count( $parameters ) > 4 and
-             !eZTemplateNodeTool::isStaticElement( $parameters[4] ) )
+             !eZTemplateNodeTool::isConstantElement( $parameters[4] ) )
             return false;
         if ( count( $parameters ) > 5 and
-             !eZTemplateNodeTool::isStaticElement( $parameters[5] ) )
+             !eZTemplateNodeTool::isConstantElement( $parameters[5] ) )
             return false;
 
         $locale = eZLocale::instance();
@@ -112,7 +112,7 @@ class eZTemplateUnitOperator
 
         if ( count( $parameters ) > 2 )
         {
-            $prefix = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
+            $prefix = eZTemplateNodeTool::elementConstantValue( $parameters[2] );
         }
         else
         {
@@ -120,19 +120,19 @@ class eZTemplateUnitOperator
         }
 
         if ( count( $parameters ) > 3 )
-            $decimalCount = eZTemplateNodeTool::elementStaticValue( $parameters[3] );
+            $decimalCount = eZTemplateNodeTool::elementConstantValue( $parameters[3] );
         elseif ( $prefix == 'none' )
             $decimalCount = 0;
 
         if ( count( $parameters ) > 4 )
-            $decimalSymbol = eZTemplateNodeTool::elementStaticValue( $parameters[4] );
+            $decimalSymbol = eZTemplateNodeTool::elementConstantValue( $parameters[4] );
         if ( count( $parameters ) > 5 )
-            $decimalThousandsSeparator = eZTemplateNodeTool::elementStaticValue( $parameters[5] );
+            $decimalThousandsSeparator = eZTemplateNodeTool::elementConstantValue( $parameters[5] );
 
         $decimalSymbolText = eZPHPCreator::variableText( $decimalSymbol, 0, 0, false );
         $decimalThousandsSeparatorText = eZPHPCreator::variableText( $decimalThousandsSeparator, 0, 0, false );
 
-        $unit = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+        $unit = eZTemplateNodeTool::elementConstantValue( $parameters[1] );
 
         $ini = eZINI::instance();
         if ( $prefix == "auto" )
@@ -154,9 +154,9 @@ class eZTemplateUnitOperator
 
         $hasInput = false;
         $output = false;
-        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+        if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
         {
-            $output = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+            $output = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
             $hasInput = true;
         }
 

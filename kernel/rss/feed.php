@@ -49,13 +49,7 @@ $cacheTime = intval( $config->variable( 'RSSSettings', 'CacheTime' ) );
 
 $lastModified = gmdate( 'D, d M Y H:i:s', time() ) . ' GMT';
 
-// Overriding ezurl & ezroot operators with eZURLOperatorFullPath
-eZTemplate::factory()->registerAutoloadOperators(
-    array(
-        'class' => 'eZURLOperatorFullPath',
-        'operator_names' => array( 'ezurl', 'ezroot' )
-    )
-);
+eZURI::setTransformURIMode( 'full' );
 
 if ( $cacheTime <= 0 )
 {

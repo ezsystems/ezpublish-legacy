@@ -28,7 +28,6 @@
 //
 
 set_time_limit( 0 );
-$isQuiet = false;
 
 require 'autoload.php';
 
@@ -48,8 +47,7 @@ $options = $script->getOptions( "",
                                 array() );
 $script->initialize();
 
-if ( !$isQuiet )
-    $cli->notice( "Cleaning up expired sessions." );
+$cli->output( "Cleaning up expired sessions." );
 
 // Functions for session to make sure baskets are cleaned up
 function eZSessionBasketGarbageCollector( $db, $time )

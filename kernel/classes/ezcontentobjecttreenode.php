@@ -4935,10 +4935,34 @@ class eZContentObjectTreeNode extends eZPersistentObject
     // This code is automatically generated from templates/classlistfrompolicy.ctpl
     // code-template::auto-generated:END class-list-from-policy
 
-    // code-template::create-block: can-instantiate-class-list, group-filter, object-policy-list, name-create, object-creation, object-sql-creation
+    // code-template::create-block: can-instantiate-class-list, group-filter, object-policy-list, name-create, object-creation, object-sql-creation, current-subtree-limitation
     // code-template::auto-generated:START can-instantiate-class-list
     // This code is automatically generated from templates/classcreatelist.ctpl
     // DO NOT EDIT THIS CODE DIRECTLY, CHANGE THE TEMPLATE FILE INSTEAD
+
+    /**
+     * Checks if provided policy array has a limitation on current subtree
+     * @param array $policy
+     * @return bool
+     */
+    protected function hasCurrentSubtreeLimitation( array $policy )
+    {
+        if ( !isset( $policy['Subtree'] ) )
+        {
+            return false;
+        }
+
+        $pathString = $this->attribute( 'path_string' );
+        foreach ( $policy['Subtree'] as $subtreeString )
+        {
+            if ( strpos( $pathString, $subtreeString ) !== false )
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /*!
      Finds all classes that the current user can create objects from and returns.
@@ -4983,19 +5007,21 @@ class eZContentObjectTreeNode extends eZPersistentObject
             foreach ( $policies as $policyKey => $policy )
             {
                 $policyArray = $this->classListFromPolicy( $policy, $languageCodeList );
-                if ( count( $policyArray ) == 0 )
+                if ( empty( $policyArray ) )
                 {
                     continue;
                 }
                 $classIDArrayPart = $policyArray['classes'];
                 $languageCodeArrayPart = $policyArray['language_codes'];
-                if ( $classIDArrayPart == '*' )
+                // No class limitation for this policy AND no previous limitation(s)
+                if ( $classIDArrayPart == '*' && empty( $classIDArray ) )
                 {
                     $fetchAll = true;
                     $allowedLanguages['*'] = array_unique( array_merge( $allowedLanguages['*'], $languageCodeArrayPart ) );
                 }
-                else
+                else if ( is_array( $classIDArrayPart ) && $this->hasCurrentSubtreeLimitation( $policy ) )
                 {
+                    $fetchAll = false;
                     foreach( $classIDArrayPart as $class )
                     {
                         if ( isset( $allowedLanguages[$class] ) )
@@ -5762,6 +5788,18 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $time = time();
         $db = eZDB::instance();
 
+        if ( eZAudit::isAuditEnabled() )
+        {
+            // Set audit params.
+            $objectID = $node->attribute( 'contentobject_id' );
+            $objectName = $node->attribute( 'name' );
+            eZAudit::writeAudit( 'content-hide', array( 'Node ID' => $nodeID,
+                                                        'Object ID' => $objectID,
+                                                        'Content Name' => $objectName,
+                                                        'Time' => $time,
+                                                        'Comment' => 'Node has been hidden: eZContentObjectTreeNode::hideSubTree()' ) );
+        }
+
         $db->begin();
 
         if ( !$node->attribute( 'is_invisible' ) ) // if root node is visible
@@ -5815,6 +5853,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $nodeInvisible = $node->attribute( 'is_invisible' );
         $parentNode = $node->attribute( 'parent' );
         $time = time();
+
+        if ( eZAudit::isAuditEnabled() )
+        {
+            // Set audit params.
+            $objectID = $node->attribute( 'contentobject_id' );
+            $objectName = $node->attribute( 'name' );
+
+            eZAudit::writeAudit( 'content-hide', array( 'Node ID' => $nodeID,
+                                                        'Object ID' => $objectID,
+                                                        'Content Name' => $objectName,
+                                                        'Time' => $time,
+                                                        'Comment' => 'Node has been unhidden: eZContentObjectTreeNode::unhideSubTree()' ) );
+        }
+
         $db = eZDB::instance();
 
         $db->begin();

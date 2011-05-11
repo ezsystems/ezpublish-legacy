@@ -382,8 +382,6 @@ class eZCLI
     */
     function notice( $string = false, $addEOL = true )
     {
-        if ( $this->isQuiet() )
-            return;
         fputs( STDERR, $string );
         if ( $addEOL )
             fputs( STDERR, $this->endlineString() );
@@ -395,8 +393,6 @@ class eZCLI
     */
     function warning( $string = false, $addEOL = true )
     {
-        if ( $this->isQuiet() )
-            return;
         $string = $this->stylize( 'warning', $string );
         fputs( STDERR, $string );
         if ( $addEOL )
@@ -409,18 +405,19 @@ class eZCLI
     */
     function error( $string = false, $addEOL = true )
     {
-        if ( $this->isQuiet() )
-            return;
         $string = $this->stylize( 'error', $string );
         fputs( STDERR, $string );
         if ( $addEOL )
             fputs( STDERR, $this->endlineString() );
     }
 
-    /*!
-     Sets whether the output(), notice(), warning() and error() methods should print out anything.
-     \sa isQuiet, isLoud
-    */
+    /**
+     * Sets whether the output() method should print out anything.
+     *
+     * @param bool $isQuiet
+     *
+     * @see isQuiet, isLoud
+     */
     function setIsQuiet( $isQuiet )
     {
         $this->IsQuiet = $isQuiet;

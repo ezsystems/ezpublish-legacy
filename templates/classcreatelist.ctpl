@@ -1,3 +1,29 @@
+<START:code-template::current-subtree-limitation>
+    /**
+     * Checks if provided policy array has a limitation on current subtree
+     * @param array $policy
+     * @return bool
+     */
+    protected function hasCurrentSubtreeLimitation( array $policy )
+    {
+        if ( !isset( $policy['Subtree'] ) )
+        {
+            return false;
+        }
+
+        $pathString = $this->attribute( 'path_string' );
+        foreach ( $policy['Subtree'] as $subtreeString )
+        {
+            if ( strpos( $pathString, $subtreeString ) !== false )
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+<END:code-template::current-subtree-limitation>
     /*!
 <START:code-template::static-method>
      \static
@@ -101,7 +127,7 @@
         }
         else if ( $accessWord == 'no' )
         {
-            // Cannnot create any objects, return empty list.
+            // Cannot create any objects, return empty list.
             return $classList;
         }
         else
@@ -124,20 +150,22 @@
 /*END:code-template::class-policy-list*/
 /*START:code-template::object-policy-list*/
                 $policyArray = $this->classListFromPolicy( $policy, $languageCodeList );
-                if ( count( $policyArray ) == 0 )
+                if ( empty( $policyArray ) )
                 {
                     continue;
                 }
                 $classIDArrayPart = $policyArray['classes'];
                 $languageCodeArrayPart = $policyArray['language_codes'];
 /*END:code-template::object-policy-list*/
-                if ( $classIDArrayPart == '*' )
+                // No class limitation for this policy AND no previous limitation(s)
+                if ( $classIDArrayPart == '*' && empty( $classIDArray ) )
                 {
                     $fetchAll = true;
                     $allowedLanguages['*'] = array_unique( array_merge( $allowedLanguages['*'], $languageCodeArrayPart ) );
                 }
-                else
+                else if ( is_array( $classIDArrayPart )/*START:code-template::current-subtree-limitation*/ && $this->hasCurrentSubtreeLimitation( $policy )/*END:code-template::current-subtree-limitation*/ )
                 {
+                    $fetchAll = false;
                     foreach( $classIDArrayPart as $class )
                     {
                         if ( isset( $allowedLanguages[$class] ) )

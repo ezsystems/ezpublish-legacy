@@ -32,7 +32,6 @@ set_time_limit( 0 );
 require 'autoload.php';
 
 $cli = eZCLI::instance();
-$endl = $cli->endlineString();
 
 $script = eZScript::instance( array( 'description' => ( "eZ Publish database flattening.\n\n" .
                                                         "Will remove data that is not considered currently in use to minimize the amount of database data it consumes\n" .
@@ -118,17 +117,14 @@ else
 
 function changeSiteAccessSetting( $siteAccess )
 {
-    global $isQuiet;
     $cli = eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $siteAccess) )
     {
-        if ( !$isQuiet )
-            $cli->notice( "Using siteaccess $siteAccess for nice url update" );
+        $cli->output( "Using siteaccess $siteAccess for nice url update" );
     }
     else
     {
-        if ( !$isQuiet )
-            $cli->notice( "Siteaccess $siteAccess does not exist, using default siteaccess" );
+        $cli->notice( "Siteaccess $siteAccess does not exist, using default siteaccess" );
     }
 }
 

@@ -69,7 +69,7 @@ class eZAutoLinkOperator
     function addURILinks( $text, $max, $methods = 'http|https|ftp' )
     {
         return preg_replace(
-            "!($methods):\/\/[\w]+(.[\w]+)([\w\-\.,@?^=%&:\/~\+#;*\(\)\!]*[\w\-\@?^=%&\/~\+#;*\(\)\!])?!e",
+            "`(?<!href=\"|href='|src=\"|src='|value=\"|value=')($methods):\/\/[\w]+(.[\w]+)([\w\-\.,@?^=%&:\/~\+#;*\(\)\!]*[\w\-\@?^=%&\/~\+#;*\(\)\!])?`e",
             'eZAutoLinkOperator::formatUri("$0", '. $max. ')',
             $text
         );

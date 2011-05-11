@@ -122,6 +122,18 @@ class eZDBFileHandlerMysqliBackend
         }
     }
 
+    /**
+     * Disconnects the handler from the database
+     */
+    public function _disconnect()
+    {
+        if ( $this->db !== null )
+        {
+            mysqli_close( $this->db );
+            $this->db = null;
+        }
+    }
+
     function _copy( $srcFilePath, $dstFilePath, $fname = false )
     {
         if ( $fname )

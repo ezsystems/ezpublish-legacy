@@ -91,11 +91,11 @@ class eZObjectForwarder
         if ( isset( $parameters['render-mode'] ) )
         {
             $renderData = $parameters['render-mode'];
-            if ( !eZTemplateNodeTool::isStaticElement( $renderData ) )
+            if ( !eZTemplateNodeTool::isConstantElement( $renderData ) )
             {
                 return false;
             }
-            $renderMode = eZTemplateNodeTool::elementStaticValue( $renderData );
+            $renderMode = eZTemplateNodeTool::elementConstantValue( $renderData );
         }
         if ( $renderMode )
             $view_dir .= "/render-$renderMode";
@@ -109,11 +109,11 @@ class eZObjectForwarder
             if ( isset( $parameters[$viewName] ) )
             {
                 $viewData = $parameters[$viewName];
-                if ( !eZTemplateNodeTool::isStaticElement( $viewData ) )
+                if ( !eZTemplateNodeTool::isConstantElement( $viewData ) )
                 {
                     return false;
                 }
-                $viewValue = eZTemplateNodeTool::elementStaticValue( $viewData );
+                $viewValue = eZTemplateNodeTool::elementConstantValue( $viewData );
                 $viewDir .= '/' . $viewValue;
             }
             else

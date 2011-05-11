@@ -118,7 +118,7 @@ class eZTemplateControlOperator
                     }
                     $code .= $spacingCode. 'if ( %' . count( $values ) . "% )\n" . $spacingCode . "{\n";
 
-                    if ( !eZTemplateNodeTool::isStaticElement( $parameters[$i*2 + 1] ) )
+                    if ( !eZTemplateNodeTool::isConstantElement( $parameters[$i*2 + 1] ) )
                     {
                         $values[] = $parameters[$i*2 + 1];
                         $code .= ( $spacingCode . "    %code" . count( $values ) . "%\n" .
@@ -126,7 +126,7 @@ class eZTemplateControlOperator
                     }
                     else
                     {
-                        $code .= $spacingCode . '    %output% = ' . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i*2 + 1] ), 0, 0, false ) . ';' . "\n";
+                        $code .= $spacingCode . '    %output% = ' . eZPHPCreator::variableText( eZTemplateNodeTool::elementConstantValue( $parameters[$i*2 + 1] ), 0, 0, false ) . ';' . "\n";
                     }
                     $code .= $spacingCode . "}\n";
                     ++$spacing;
@@ -168,9 +168,9 @@ class eZTemplateControlOperator
                     $spacingCode = str_repeat( ' ', $spacing*4 );
                     ++$spacing;
 
-                    if ( eZTemplateNodeTool::isStaticElement( $parameters[$i] ) )
+                    if ( eZTemplateNodeTool::isConstantElement( $parameters[$i] ) )
                     {
-                        $code .= "$spacingCode%output% = " . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false ) . ";\n";
+                        $code .= "$spacingCode%output% = " . eZPHPCreator::variableText( eZTemplateNodeTool::elementConstantValue( $parameters[$i] ), 0, 0, false ) . ";\n";
                         break;
                     }
                     ++$nestCount;

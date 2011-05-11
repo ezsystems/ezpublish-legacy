@@ -188,6 +188,7 @@ $autoloadGenerator->setOutputCallback( array( $autoloadCliOutput, 'outputCli') )
 try
 {
     $autoloadGenerator->buildAutoloadArrays();
+    $autoloadGenerator->buildPHPUnitConfigurationFile();
 
     // If we are showing progress output, let's print the list of warnings at
     // the end.

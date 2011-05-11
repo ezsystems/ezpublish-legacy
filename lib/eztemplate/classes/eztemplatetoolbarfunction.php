@@ -83,7 +83,7 @@ class eZTemplateToolbarFunction
         if ( isset( $parameters["view"] ) )
         {
             $viewData = $parameters["view"];
-            $viewMode = eZTemplateNodeTool::elementStaticValue( $viewData );
+            $viewMode = eZTemplateNodeTool::elementConstantValue( $viewData );
         }
         else
         {
@@ -95,10 +95,10 @@ class eZTemplateToolbarFunction
         if ( isset( $parameters["name"] ) )
         {
             $nameData = $parameters["name"];
-            if ( !eZTemplateNodeTool::isStaticElement( $nameData ) )
+            if ( !eZTemplateNodeTool::isConstantElement( $nameData ) )
                 return false;
 
-            $nameValue = eZTemplateNodeTool::elementStaticValue( $nameData );
+            $nameValue = eZTemplateNodeTool::elementConstantValue( $nameData );
 
             $toolbarPosition = $nameValue;
             $toolbarName = "Toolbar_" . $toolbarPosition;

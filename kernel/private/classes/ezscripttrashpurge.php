@@ -87,7 +87,7 @@ class eZScriptTrashPurge
         if ( $this->memoryMonitoring )
         {
             eZLog::rotateLog( $this->logFile );
-            $this->cli->notice( "Logging memory usage to {$this->logFile}" );
+            $this->cli->output( "Logging memory usage to {$this->logFile}" );
         }
 
         $this->cli->output( "Purging trash items:" );

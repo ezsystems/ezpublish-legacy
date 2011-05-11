@@ -137,14 +137,14 @@ class eZURLOperator
         if ( !isset( $parameters[1] ) )
             return false;
 
-        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) &&
-             eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+        if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) &&
+             eZTemplateNodeTool::isConstantElement( $parameters[1] ) )
         {
-            $iniGroup = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
-            $iniVariable = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+            $iniGroup = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
+            $iniVariable = eZTemplateNodeTool::elementConstantValue( $parameters[1] );
 
-            $iniName = isset( $parameters[2] ) ? eZTemplateNodeTool::elementStaticValue( $parameters[2] ) : false;
-            $iniPath = isset( $parameters[3] ) ? eZTemplateNodeTool::elementStaticValue( $parameters[3] ) : false;
+            $iniName = isset( $parameters[2] ) ? eZTemplateNodeTool::elementConstantValue( $parameters[2] ) : false;
+            $iniPath = isset( $parameters[3] ) ? eZTemplateNodeTool::elementConstantValue( $parameters[3] ) : false;
 
             // If we should check for existence of variable.
             // You can use like:
@@ -158,14 +158,14 @@ class eZURLOperator
             else
             {
                 $checkExistence = isset( $parameters[5] )
-                                  ? ( eZTemplateNodeTool::elementStaticValue( $parameters[5] ) === true or
-                                      eZTemplateNodeTool::elementStaticValue( $parameters[5] ) == 'hasVariable' ) ? true : false
+                                  ? ( eZTemplateNodeTool::elementConstantValue( $parameters[5] ) === true or
+                                      eZTemplateNodeTool::elementConstantValue( $parameters[5] ) == 'hasVariable' ) ? true : false
                                   : false;
             }
 
             if ( isset( $parameters[4] ) )
             {
-                $dynamic = eZTemplateNodeTool::elementStaticValue( $parameters[4] );
+                $dynamic = eZTemplateNodeTool::elementConstantValue( $parameters[4] );
             }
             else
             {
@@ -255,30 +255,40 @@ class eZURLOperator
         {
             case $this->URLName:
             {
-                if ( !$shareTemplates && eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                if ( !$shareTemplates && eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
                 {
-                    $url = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                    $url = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
 
-                    $serverURL = isset( $parameters[2] ) ? eZTemplateNodeTool::elementStaticValue( $parameters[2] ) : 'relative';
+                    $serverURL = isset( $parameters[2] ) ? eZTemplateNodeTool::elementConstantValue( $parameters[2] ) : eZURI::getTransformURIMode();
 
                     eZURI::transformURI( $url, false, $serverURL );
 
                     $url = $this->applyQuotes( $url, $parameters[1] );
                     return array( eZTemplateNodeTool::createStringElement( $url ) );
                 }
-                else if ( $shareTemplates && eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                else if ( $shareTemplates && eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
                 {
-                    $url = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                    $url = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
 
                     $values[] = array( eZTemplateNodeTool::createStringElement( $url ) );
-                    $values[] = isset( $parameters[2] ) ? $parameters[2] : array( eZTemplateNodeTool::createStringElement( 'relative' ) );
+
+                    if ( isset( $parameters[2] ) )
+                    {
+                        $values[] = $parameters[2];
+                        $parameter = "%2%";
+                    }
+                    else
+                    {
+                        $parameter = "eZURI::getTransformURIMode()";
+                    }
 
                     $code = <<<CODEPIECE
 
 %tmp1% = %1%;
-eZURI::transformURI( %tmp1%, false, %2% );
+eZURI::transformURI( %tmp1%, false, $parameter );
 
 CODEPIECE;
+                    unset( $parameter );
                     $useTmp = true;
                     ++$tmpCount;
 
@@ -286,13 +296,23 @@ CODEPIECE;
                 else
                 {
                     $values[] = $parameters[0];
-                    $values[] = isset( $parameters[2] ) ? $parameters[2] : array( eZTemplateNodeTool::createStringElement( 'relative' ) );
+
+                    if ( isset( $parameters[2] ) )
+                    {
+                        $values[] = $parameters[2];
+                        $parameter = "%2%";
+                    }
+                    else
+                    {
+                        $parameter = "eZURI::getTransformURIMode()";
+                    }
 
                     $code = <<<CODEPIECE
 
-eZURI::transformURI( %1%, false, %2% );
+eZURI::transformURI( %1%, false, $parameter );
 
 CODEPIECE;
+                    unset( $parameter );
                 }
 
                 ++$paramCount;
@@ -300,9 +320,9 @@ CODEPIECE;
 
             case $this->URLRootName:
             {
-                if ( !$shareTemplates && eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                if ( !$shareTemplates && eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
                 {
-                    $url = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                    $url = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
 
                     if ( preg_match( "#^[a-zA-Z0-9]+:#", $url ) or
                          substr( $url, 0, 2 ) == '//' )
@@ -311,7 +331,7 @@ CODEPIECE;
                               $url[0] != '/' )
                         $url = '/' . $url;
 
-                    $serverURL = isset( $parameters[2] ) ? eZTemplateNodeTool::elementStaticValue( $parameters[2] ) : 'relative';
+                    $serverURL = isset( $parameters[2] ) ? eZTemplateNodeTool::elementConstantValue( $parameters[2] ) : eZURI::getTransformURIMode();
 
                     // Same as "ezurl" without "index.php" and the siteaccess name in the returned address.
                     eZURI::transformURI( $url, true, $serverURL );
@@ -319,12 +339,21 @@ CODEPIECE;
                     $url = $this->applyQuotes( $url, $parameters[1] );
                     return array( eZTemplateNodeTool::createStringElement( $url ) );
                 }
-                else if ( $shareTemplates && eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                else if ( $shareTemplates && eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
                 {
-                    $url = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                    $url = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
 
                     $values[] = array( eZTemplateNodeTool::createStringElement( $url ) );
-                    $values[] = isset( $parameters[2] ) ? $parameters[2] : array( eZTemplateNodeTool::createStringElement( 'relative' ) );
+
+                    if ( isset( $parameters[2] ) )
+                    {
+                        $values[] = $parameters[2];
+                        $parameter = "%2%";
+                    }
+                    else
+                    {
+                        $parameter = "eZURI::getTransformURIMode()";
+                    }
 
                     $code = '%tmp1% = %1%;';
                     $code .= 'if ( preg_match( "#^[a-zA-Z0-9]+:#", %tmp1% ) or' . "\n" .
@@ -334,7 +363,9 @@ CODEPIECE;
                              '  %tmp1%[0] != \'/\' )' . "\n" .
                              '%tmp1% = \'/\' . %tmp1%;' . "\n";
 
-                    $code .= 'eZURI::transformURI( %tmp1%, true, %2% );' . "\n";
+                    $code .= "eZURI::transformURI( %tmp1%, true, $parameter );\n";
+
+                    unset( $parameter );
 
                     $useTmp = true;
                     ++$tmpCount;
@@ -342,7 +373,16 @@ CODEPIECE;
                 else
                 {
                     $values[] = $parameters[0];
-                    $values[] = isset( $parameters[2] ) ? $parameters[2] : array( eZTemplateNodeTool::createStringElement( 'relative' ) );
+
+                    if ( isset( $parameters[2] ) )
+                    {
+                        $values[] = $parameters[2];
+                        $parameter = "%2%";
+                    }
+                    else
+                    {
+                        $parameter = "eZURI::getTransformURIMode()";
+                    }
 
                     $code = 'if ( preg_match( "#^[a-zA-Z0-9]+:#", %1% ) or' . "\n" .
                             'substr( %1%, 0, 2 ) == \'//\' )' . "\n" .
@@ -350,8 +390,9 @@ CODEPIECE;
                             'else if ( strlen( %1% ) > 0 and' . "\n" .
                             '  %1%[0] != \'/\' )' . "\n" .
                             '%1% = \'/\' . %1%;' . "\n";
-                    $code .= 'eZURI::transformURI( %1%, true, %2% );' . "\n";
+                    $code .= "eZURI::transformURI( %1%, true, $parameter );\n";
 
+                    unset( $parameter );
                 }
 
                 ++$paramCount;
@@ -359,9 +400,9 @@ CODEPIECE;
 
             case $this->SysName:
             {
-                if ( !$shareTemplates && eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+                if ( !$shareTemplates && eZTemplateNodeTool::isConstantElement( $parameters[1] ) )
                 {
-                    $sysAttribute = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+                    $sysAttribute = eZTemplateNodeTool::elementConstantValue( $parameters[1] );
 
                     return array( eZTemplateNodeTool::createStringElement( $this->Sys->attribute( $sysAttribute ) ) );
                 }
@@ -370,18 +411,18 @@ CODEPIECE;
 
             case $this->DesignName:
             {
-                if ( !$shareTemplates && eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                if ( !$shareTemplates && eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
                 {
-                    $path = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                    $path = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
 
                     $path = $this->eZDesign( $tpl, $path, $operatorName );
                     $path = $this->applyQuotes( $path, $parameters[1] );
 
                     return array( eZTemplateNodeTool::createStringElement( $path ) );
                 }
-                else if ( $shareTemplates && eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                else if ( $shareTemplates && eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
                 {
-                    $path = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                    $path = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
 
                     $values[] = array( eZTemplateNodeTool::createStringElement( $path ) );
                     $code = ( '%tmp1% = %1%;' . "\n" . '%tmp1% = eZURLOperator::eZDesign( $tpl, %tmp1%, "' . $operatorName . '" );' . "\n" );
@@ -400,20 +441,20 @@ CODEPIECE;
 
             case $this->ImageName:
             {
-                $skipSlash = count( $parameters ) > 2 ? eZTemplateNodeTool::elementStaticValue( $parameters[2] ) == true : false;
+                $skipSlash = count( $parameters ) > 2 ? eZTemplateNodeTool::elementConstantValue( $parameters[2] ) == true : false;
 
-                if ( !$shareTemplates && eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                if ( !$shareTemplates && eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
                 {
-                    $path = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                    $path = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
 
                     $path = eZURLOperator::eZImage( $tpl, $path, $operatorName, $skipSlash );
                     $path = $this->applyQuotes( $path, $parameters[1] );
 
                     return array( eZTemplateNodeTool::createStringElement( $path ) );
                 }
-                else if ( $shareTemplates && eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                else if ( $shareTemplates && eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
                 {
-                    $path = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                    $path = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
 
                     $values[] = array( eZTemplateNodeTool::createStringElement( $path ) );
                     $values[] = array( eZTemplateNodeTool::createBooleanElement( $skipSlash ) );
@@ -436,9 +477,9 @@ CODEPIECE;
 
             case $this->ExtName:
             {
-                if ( !$shareTemplates && eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                if ( !$shareTemplates && eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
                 {
-                    $origUrl = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                    $origUrl = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
 
                     $url = eZURL::urlByMD5( md5( $origUrl ) );
                     if ( $url == false )
@@ -450,9 +491,9 @@ CODEPIECE;
 
                     return array( eZTemplateNodeTool::createStringElement( $origUrl ) );
                 }
-                else if ( $shareTemplates && eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                else if ( $shareTemplates && eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
                 {
-                    $origUrl = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                    $origUrl = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
 
                     $values[] = array( eZTemplateNodeTool::createStringElement( $origUrl ) );
 
@@ -498,10 +539,10 @@ CODEPIECE;
 
         if ( count( $parameters ) > $paramCount )
         {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters[$paramCount] ) )
+            if ( eZTemplateNodeTool::isConstantElement( $parameters[$paramCount] ) )
             {
                 $quote = '"';
-                $val = eZTemplateNodeTool::elementStaticValue( $parameters[$paramCount] );
+                $val = eZTemplateNodeTool::elementConstantValue( $parameters[$paramCount] );
                 ++$paramCount;
 
                 if ( $val == 'single' )
@@ -594,7 +635,7 @@ CODEPIECE;
         $quote = "\"";
         if ( $parameter != null )
         {
-            $val = eZTemplateNodeTool::elementStaticValue( $parameter );
+            $val = eZTemplateNodeTool::elementConstantValue( $parameter );
             if ( $val == 'single' )
                 $quote = "'";
             else if ( $val == 'no' )

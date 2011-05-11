@@ -129,6 +129,18 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
+     * Disconnects the handler from the database
+     */
+    public function _disconnect()
+    {
+        if ( $this->db !== null )
+        {
+            mysql_close( $this->db );
+            $this->db = null;
+        }
+    }
+
+    /**
      * Creates a copy of a file in DB+DFS
      * @param string $srcFilePath Source file
      * @param string $dstFilePath Destination file

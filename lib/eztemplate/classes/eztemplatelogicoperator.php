@@ -310,9 +310,9 @@ class eZTemplateLogicOperator
                     $dynamicParameters[] = $parameter;
                     continue;
                 }
-                if ( eZTemplateNodeTool::isStaticElement( $parameter ) )
+                if ( eZTemplateNodeTool::isConstantElement( $parameter ) )
                 {
-                    $parameterValue = eZTemplateNodeTool::elementStaticValue( $parameter );
+                    $parameterValue = eZTemplateNodeTool::elementConstantValue( $parameter );
                     if ( $staticValue === null )
                     {
                         $staticValue = $parameterValue;
@@ -337,7 +337,7 @@ class eZTemplateLogicOperator
             {
                 if ( !$staticResult )
                     $lastValue = false;
-                $newElements[] = eZTemplateNodeTool::createStaticElement( $lastValue );
+                $newElements[] = eZTemplateNodeTool::createConstantElement( $lastValue );
                 return $newElements;
             }
 
@@ -370,9 +370,9 @@ class eZTemplateLogicOperator
                     $dynamicParameters[] = $parameter;
                     continue;
                 }
-                if ( eZTemplateNodeTool::isStaticElement( $parameter ) )
+                if ( eZTemplateNodeTool::isConstantElement( $parameter ) )
                 {
-                    $parameterValue = eZTemplateNodeTool::elementStaticValue( $parameter );
+                    $parameterValue = eZTemplateNodeTool::elementConstantValue( $parameter );
                     if ( $staticValue === null )
                     {
                         $staticValue = $parameterValue;
@@ -396,7 +396,7 @@ class eZTemplateLogicOperator
             }
             if ( count( $dynamicParameters ) == 0 )
             {
-                $newElements[] = eZTemplateNodeTool::createStaticElement( $lastValue );
+                $newElements[] = eZTemplateNodeTool::createConstantElement( $lastValue );
                 return $newElements;
             }
 
@@ -422,7 +422,7 @@ class eZTemplateLogicOperator
             $allStatic = true;
             foreach ( $parameters as $parameter )
             {
-                if ( !eZTemplateNodeTool::isStaticElement( $parameter ) )
+                if ( !eZTemplateNodeTool::isConstantElement( $parameter ) )
                     $allStatic = false;
             }
             if ( $allStatic )
@@ -431,26 +431,26 @@ class eZTemplateLogicOperator
                 {
                     case 'lt':
                     {
-                        $evalStatus = ( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) <
-                                        eZTemplateNodeTool::elementStaticValue( $parameters[1] ) );
+                        $evalStatus = ( eZTemplateNodeTool::elementConstantValue( $parameters[0] ) <
+                                        eZTemplateNodeTool::elementConstantValue( $parameters[1] ) );
                     } break;
 
                     case 'le':
                     {
-                        $evalStatus = ( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) <=
-                                        eZTemplateNodeTool::elementStaticValue( $parameters[1] ) );
+                        $evalStatus = ( eZTemplateNodeTool::elementConstantValue( $parameters[0] ) <=
+                                        eZTemplateNodeTool::elementConstantValue( $parameters[1] ) );
                     } break;
 
                     case 'gt':
                     {
-                        $evalStatus = ( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) >
-                                        eZTemplateNodeTool::elementStaticValue( $parameters[1] ) );
+                        $evalStatus = ( eZTemplateNodeTool::elementConstantValue( $parameters[0] ) >
+                                        eZTemplateNodeTool::elementConstantValue( $parameters[1] ) );
                     } break;
 
                     case 'ge':
                     {
-                        $evalStatus = ( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) >=
-                                        eZTemplateNodeTool::elementStaticValue( $parameters[1] ) );
+                        $evalStatus = ( eZTemplateNodeTool::elementConstantValue( $parameters[0] ) >=
+                                        eZTemplateNodeTool::elementConstantValue( $parameters[1] ) );
                     } break;
 
                     case 'eq':
@@ -458,7 +458,7 @@ class eZTemplateLogicOperator
                         $staticParameters = array();
                         foreach ( $parameters as $parameter )
                         {
-                            $staticParameters[] = eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameter ),
+                            $staticParameters[] = eZPHPCreator::variableText( eZTemplateNodeTool::elementConstantValue( $parameter ),
                                                                               0, 0, false );
                         }
                         eval( '$evalStatus = ( ' . implode( ' == ', $staticParameters ) . ' );' );
@@ -469,7 +469,7 @@ class eZTemplateLogicOperator
                         $staticParameters = array();
                         foreach ( $parameters as $parameter )
                         {
-                            $staticParameters[] = eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameter ),
+                            $staticParameters[] = eZPHPCreator::variableText( eZTemplateNodeTool::elementConstantValue( $parameter ),
                                                                               0, 0, false );
                         }
                         eval( '$evalStatus = ( ' . implode( ' != ', $staticParameters ) . ' );' );
@@ -482,7 +482,7 @@ class eZTemplateLogicOperator
 
             foreach ( $parameters as $parameter )
             {
-                if ( !eZTemplateNodeTool::isStaticElement( $parameter ) )
+                if ( !eZTemplateNodeTool::isConstantElement( $parameter ) )
                     $allStatic = false;
                 if ( $counter++ )
                 {
@@ -546,9 +546,9 @@ class eZTemplateLogicOperator
 
         $tmpValues = false;
         $newElements = array();
-        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+        if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
         {
-            $selected = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+            $selected = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
 
             if ( $selected < 0 or $selected > ( count( $parameters ) - 1 ) )
             {
@@ -586,9 +586,9 @@ class eZTemplateLogicOperator
                 {
                     $parameterNumber = $i + 1;
                     $code .= "    case $i:";
-                    if ( eZTemplateNodeTool::isStaticElement( $parameters[$parameterNumber] ) )
+                    if ( eZTemplateNodeTool::isConstantElement( $parameters[$parameterNumber] ) )
                     {
-                        $value = eZTemplateNodeTool::elementStaticValue( $parameters[$parameterNumber] );
+                        $value = eZTemplateNodeTool::elementConstantValue( $parameters[$parameterNumber] );
                         $valueText = eZPHPCreator::variableText( $value, 0, 0, false );
                         $code .= " %output% = $valueText; break;\n";
                     }

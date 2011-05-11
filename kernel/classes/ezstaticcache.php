@@ -33,6 +33,8 @@ class eZStaticCache
      */
     const USER_AGENT = 'eZ Publish static cache generator';
 
+    private static $actionList = array();
+
     /**
      * The name of the host to fetch HTML data from.
      *
@@ -568,10 +570,7 @@ class eZStaticCache
      */
     private function addAction( $action, $parameters )
     {
-        if (! isset( $GLOBALS['eZStaticCache-ActionList'] ) ) {
-            $GLOBALS['eZStaticCache-ActionList'] = array();
-        }
-        $GLOBALS['eZStaticCache-ActionList'][] = array( $action, $parameters );
+        self::$actionList[] = array( $action, $parameters );
     }
 
     /**
@@ -579,7 +578,8 @@ class eZStaticCache
      */
     static function executeActions()
     {
-        if (! isset( $GLOBALS['eZStaticCache-ActionList'] ) ) {
+        if ( empty( self::$actionList ) )
+        {
             return;
         }
 
@@ -596,7 +596,7 @@ class eZStaticCache
 
         $http = eZHTTPTool::instance();
 
-        foreach ( $GLOBALS['eZStaticCache-ActionList'] as $action )
+        foreach ( self::$actionList as $action )
         {
             list( $action, $parameters ) = $action;
 
@@ -635,7 +635,7 @@ class eZStaticCache
                     break;
             }
         }
-        $GLOBALS['eZStaticCache-ActionList'] = array();
+        self::$actionList = array();
     }
 }
 

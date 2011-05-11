@@ -277,7 +277,7 @@ class eZContentClass extends eZPersistentObject
         return $contentClass;
     }
 
-    function instantiateIn( $lang, $userID = false, $sectionID = 0, $versionNumber = false, $versionStatus = eZContentObjectVersion::STATUS_INTERNAL_DRAFT )
+    function instantiateIn( $lang, $userID = false, $sectionID = 1, $versionNumber = false, $versionStatus = eZContentObjectVersion::STATUS_INTERNAL_DRAFT )
     {
         return eZContentClass::instantiate( $userID, $sectionID, $versionNumber, $lang, $versionStatus );
     }
@@ -286,12 +286,12 @@ class eZContentClass extends eZPersistentObject
      Creates a new content object instance and stores it.
 
      \param userID user ID (optional), current user if not set (also store object id in session if $userID = false)
-     \param sectionID section ID (optional), 0 if not set
+     \param sectionID section ID (optional), 1 if not set (Standard section)
      \param versionNumber version number, create initial version if not set
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function instantiate( $userID = false, $sectionID = 0, $versionNumber = false, $languageCode = false, $versionStatus = eZContentObjectVersion::STATUS_INTERNAL_DRAFT )
+    function instantiate( $userID = false, $sectionID = 1, $versionNumber = false, $languageCode = false, $versionStatus = eZContentObjectVersion::STATUS_INTERNAL_DRAFT )
     {
         $attributes = $this->fetchAttributes();
 
@@ -488,13 +488,15 @@ class eZContentClass extends eZPersistentObject
                     $languageCodeArrayPart = array_intersect( $policy['Language'], $languageCodeList );
                 }
 
-                if ( $classIDArrayPart == '*' )
+                // No class limitation for this policy AND no previous limitation(s)
+                if ( $classIDArrayPart == '*' && empty( $classIDArray ) )
                 {
                     $fetchAll = true;
                     $allowedLanguages['*'] = array_unique( array_merge( $allowedLanguages['*'], $languageCodeArrayPart ) );
                 }
-                else
+                else if ( is_array( $classIDArrayPart ) )
                 {
+                    $fetchAll = false;
                     foreach( $classIDArrayPart as $class )
                     {
                         if ( isset( $allowedLanguages[$class] ) )

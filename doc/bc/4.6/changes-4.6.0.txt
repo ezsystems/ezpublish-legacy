@@ -1,0 +1,28 @@
+Changes to BC and behavior in version 4.6.0
+===========================================
+
+Change of behavior
+------------------
+
+
+
+Removed features
+----------------
+
+
+
+
+Removed constants
+-----------------
+
+
+
+Removed globals
+---------------
+
+
+
+
+Deprecated
+----------
+

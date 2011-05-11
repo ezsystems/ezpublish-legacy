@@ -41,18 +41,12 @@ foreach ( $rssImportArray as $rssImport )
     $rssSource = $rssImport->attribute( 'url' );
     $addCount = 0;
 
-    if ( !$isQuiet )
-    {
-        $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Starting.' );
-    }
+    $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Starting.' );
 
     $xmlData = eZHTTPTool::getDataByURL( $rssSource, false, 'eZ Publish RSS Import' );
     if ( $xmlData === false )
     {
-        if ( !$isQuiet )
-        {
-            $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Failed to open RSS feed file: '.$rssSource );
-        }
+        $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Failed to open RSS feed file: '.$rssSource );
         continue;
     }
 
@@ -62,10 +56,7 @@ foreach ( $rssImportArray as $rssImport )
 
     if ( !$success )
     {
-        if ( !$isQuiet )
-        {
-            $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Invalid RSS document.' );
-        }
+        $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Invalid RSS document.' );
         continue;
     }
 
@@ -90,10 +81,7 @@ foreach ( $rssImportArray as $rssImport )
     $importDescription = $rssImport->importDescription();
     if ( $version != $importDescription['rss_version'] )
     {
-        if ( !$isQuiet )
-        {
-            $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Invalid RSS version missmatch. Please reconfigure import.' );
-        }
+        $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Invalid RSS version missmatch. Please reconfigure import.' );
         continue;
     }
 
@@ -126,8 +114,6 @@ eZStaticCache::executeActions();
 */
 function rssImport1( $root, $rssImport, $cli )
 {
-    global $isQuiet;
-
     $addCount = 0;
 
     // Get all items in rss feed
@@ -140,11 +126,7 @@ function rssImport1( $root, $rssImport, $cli )
         $addCount += importRSSItem( $item, $rssImport, $cli, $channel );
     }
 
-    if ( !$isQuiet )
-    {
-        $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': End. '.$addCount.' objects added' );
-    }
-
+    $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': End. '.$addCount.' objects added' );
 }
 
 /*!
@@ -156,8 +138,6 @@ function rssImport1( $root, $rssImport, $cli )
 */
 function rssImport2( $root, $rssImport, $cli )
 {
-    global $isQuiet;
-
     $addCount = 0;
 
     // Get all items in rss feed
@@ -169,11 +149,7 @@ function rssImport2( $root, $rssImport, $cli )
         $addCount += importRSSItem( $item, $rssImport, $cli, $channel );
     }
 
-    if ( !$isQuiet )
-    {
-        $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': End. '.$addCount.' objects added' );
-    }
-
+    $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': End. '.$addCount.' objects added' );
 }
 
 /*!
@@ -188,17 +164,13 @@ function rssImport2( $root, $rssImport, $cli )
 */
 function importRSSItem( $item, $rssImport, $cli, $channel )
 {
-    global $isQuiet;
     $rssImportID = $rssImport->attribute( 'id' );
     $rssOwnerID = $rssImport->attribute( 'object_owner_id' ); // Get owner user id
     $parentContentObjectTreeNode = eZContentObjectTreeNode::fetch( $rssImport->attribute( 'destination_node_id' ) ); // Get parent treenode object
 
     if ( $parentContentObjectTreeNode == null )
     {
-        if ( !$isQuiet )
-        {
-            $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Destination tree node seems to be unavailable' );
-        }
+        $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Destination tree node seems to be unavailable' );
         return 0;
     }
 
@@ -220,10 +192,7 @@ function importRSSItem( $item, $rssImport, $cli, $channel )
     }
     else
     {
-        if ( !$isQuiet )
-        {
-            $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Item has no unique identifier. RSS guid or link missing.' );
-        }
+        $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Item has no unique identifier. RSS guid or link missing.' );
         return 0;
     }
     $md5Sum = md5( $rssId );
@@ -235,10 +204,7 @@ function importRSSItem( $item, $rssImport, $cli, $channel )
     // if object exists, continue to next import item
     if ( $existingObject != null )
     {
-        if ( !$isQuiet )
-        {
-            $cli->output( 'RSSImport ' . $rssImport->attribute( 'name' ) . ': Object ( ' . $existingObject->attribute( 'id' ) . ' ) with ID: "' . $rssId . '" already exists' );
-        }
+        $cli->output( 'RSSImport ' . $rssImport->attribute( 'name' ) . ': Object ( ' . $existingObject->attribute( 'id' ) . ' ) with ID: "' . $rssId . '" already exists' );
         unset( $existingObject ); // delete object to preserve memory
         return 0;
     }
@@ -392,10 +358,7 @@ function importRSSItem( $item, $rssImport, $cli, $channel )
     $contentObject->store();
     $db->commit();
 
-    if ( !$isQuiet )
-    {
-        $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Object created; ' . $title );
-    }
+    $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Object created; ' . $title );
 
     return 1;
 }

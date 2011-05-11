@@ -90,14 +90,14 @@ class eZTemplateExecuteOperator
 
         if ( $operatorName == $this->Fetch )
         {
-            if ( !eZTemplateNodeTool::isStaticElement( $parameters[0] ) ||
-                 !eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+            if ( !eZTemplateNodeTool::isConstantElement( $parameters[0] ) ||
+                 !eZTemplateNodeTool::isConstantElement( $parameters[1] ) )
             {
                 return false;
             }
 
-            $moduleName = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
-            $functionName = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+            $moduleName = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
+            $functionName = eZTemplateNodeTool::elementConstantValue( $parameters[1] );
 
             $moduleFunctionInfo = eZFunctionHandler::moduleFunctionInfo( $moduleName );
             if ( !$moduleFunctionInfo->isValid() )
@@ -111,12 +111,12 @@ class eZTemplateExecuteOperator
         }
         else if ( $operatorName == $this->FetchAlias )
         {
-            if ( !eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+            if ( !eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
             {
                 return false;
             }
 
-            $aliasFunctionName = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+            $aliasFunctionName = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
 
             $aliasSettings = eZINI::instance( 'fetchalias.ini' );
             if ( $aliasSettings->hasSection( $aliasFunctionName ) )
@@ -175,9 +175,9 @@ class eZTemplateExecuteOperator
 
         $isDynamic = false;
         $isVariable = false;
-        if ( eZTemplateNodeTool::isStaticElement( $fetchParameters ) )
+        if ( eZTemplateNodeTool::isConstantElement( $fetchParameters ) )
         {
-            $staticParameters = eZTemplateNodeTool::elementStaticValue( $fetchParameters );
+            $staticParameters = eZTemplateNodeTool::elementConstantValue( $fetchParameters );
             $functionKeys = array_keys( $staticParameters );
         }
         else if ( eZTemplateNodeTool::isDynamicArrayElement( $fetchParameters ) )
@@ -261,9 +261,9 @@ class eZTemplateExecuteOperator
                     {
                         if ( $isDynamic )
                         {
-                            if ( eZTemplateNodeTool::isStaticElement( $dynamicParameters[$parameterName] ) )
+                            if ( eZTemplateNodeTool::isConstantElement( $dynamicParameters[$parameterName] ) )
                             {
-                                $parametersCode .= eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $dynamicParameters[$parameterName] ), 0, 0, false );
+                                $parametersCode .= eZPHPCreator::variableText( eZTemplateNodeTool::elementConstantValue( $dynamicParameters[$parameterName] ), 0, 0, false );
                             }
                             else
                             {

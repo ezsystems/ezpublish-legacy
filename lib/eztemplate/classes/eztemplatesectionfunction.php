@@ -195,28 +195,28 @@ class eZTemplateSectionFunction
     {
         $useLastValue = false;
         if ( isset( $parameters['last-value'] ) and
-             !eZTemplateNodeTool::isStaticElement( $parameters['last-value'] ) )
+             !eZTemplateNodeTool::isConstantElement( $parameters['last-value'] ) )
             return false;
         if ( isset( $parameters['name'] ) and
-             !eZTemplateNodeTool::isStaticElement( $parameters['name'] ) )
+             !eZTemplateNodeTool::isConstantElement( $parameters['name'] ) )
             return false;
         if ( isset( $parameters['var'] ) and
-             !eZTemplateNodeTool::isStaticElement( $parameters['var'] ) )
+             !eZTemplateNodeTool::isConstantElement( $parameters['var'] ) )
             return false;
         if ( isset( $parameters['reverse'] ) and
-             !eZTemplateNodeTool::isStaticElement( $parameters['reverse'] ) )
+             !eZTemplateNodeTool::isConstantElement( $parameters['reverse'] ) )
             return false;
 
         $varName = false;
         if ( isset( $parameters['var'] ) )
-            $varName = eZTemplateNodeTool::elementStaticValue( $parameters['var'] );
+            $varName = eZTemplateNodeTool::elementConstantValue( $parameters['var'] );
         if ( isset( $parameters['last-value'] ) )
-            $useLastValue = (bool)eZTemplateNodeTool::elementStaticValue( $parameters['last-value'] );
+            $useLastValue = (bool)eZTemplateNodeTool::elementConstantValue( $parameters['last-value'] );
         if ( !$varName )
             $useLastValue = false;
         $reverseLoop = false;
         if ( isset( $parameters['reverse'] ) )
-            $reverseLoop = eZTemplateNodeTool::elementStaticValue( $parameters['reverse'] );
+            $reverseLoop = eZTemplateNodeTool::elementConstantValue( $parameters['reverse'] );
 
         $useLoop = isset( $parameters['loop'] );
         $allowLoop = true;
@@ -227,9 +227,9 @@ class eZTemplateSectionFunction
         $maxPopText = false;
         if ( isset( $parameters['max'] ) )
         {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters['max'] ) )
+            if ( eZTemplateNodeTool::isConstantElement( $parameters['max'] ) )
             {
-                $maxValue = eZTemplateNodeTool::elementStaticValue( $parameters['max'] );
+                $maxValue = eZTemplateNodeTool::elementConstantValue( $parameters['max'] );
                 if ( $maxValue > 0 )
                 {
                     $maxText = eZPHPCreator::variableText( $maxValue );
@@ -258,9 +258,9 @@ class eZTemplateSectionFunction
         $spacing = 0;
         if ( isset( $parameters['show'] ) )
         {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters['show'] ) )
+            if ( eZTemplateNodeTool::isConstantElement( $parameters['show'] ) )
             {
-                $showValue = eZTemplateNodeTool::elementStaticValue( $parameters['show'] );
+                $showValue = eZTemplateNodeTool::elementConstantValue( $parameters['show'] );
                 if ( $showValue )
                 {
                     $useMain = true;
@@ -366,9 +366,9 @@ class eZTemplateSectionFunction
             if ( isset( $parameters['offset'] ) )
             {
                 $offsetParameter = $parameters['offset'];
-                if ( eZTemplateNodeTool::isStaticElement( $offsetParameter ) )
+                if ( eZTemplateNodeTool::isConstantElement( $offsetParameter ) )
                 {
-                    $iterationValue = (int)eZTemplateNodeTool::elementStaticValue( $offsetParameter );
+                    $iterationValue = (int)eZTemplateNodeTool::elementConstantValue( $offsetParameter );
                     if ( $iterationValue > 0 )
                     {
                         $arrayCode = "    \$loopKeys = array_splice( \$loopKeys, $iterationValue );\n";
@@ -512,9 +512,9 @@ class eZTemplateSectionFunction
                     $hasFilter = true;
                     $filterParameterMatch = $filterParameters['match'];
                     $filterParameterMatch = eZTemplateCompiler::processElementTransformationList( $tpl, $filterNode, $filterParameterMatch, $privateData );
-                    if ( eZTemplateNodeTool::isStaticElement( $filterParameterMatch ) )
+                    if ( eZTemplateNodeTool::isConstantElement( $filterParameterMatch ) )
                     {
-                        $matchValue = eZTemplateNodeTool::elementStaticValue( $filterParameterMatch );
+                        $matchValue = eZTemplateNodeTool::elementConstantValue( $filterParameterMatch );
                         if ( eZTemplateNodeTool::extractFunctionNodeName( $filterNode ) == 'section-exclude' )
                         {
                             if ( $matchValue )
@@ -604,9 +604,9 @@ class eZTemplateSectionFunction
                 {
                     $delimiterMatch = $delimiterParameters['match'];
                     $delimiterMatch = eZTemplateCompiler::processElementTransformationList( $tpl, $delimiterNode, $delimiterMatch, $privateData );
-                    if ( eZTemplateNodeTool::isStaticElement( $delimiterMatch ) )
+                    if ( eZTemplateNodeTool::isConstantElement( $delimiterMatch ) )
                     {
-                        $moduloValue = eZTemplateNodeTool::elementStaticValue( $delimiterMatch );
+                        $moduloValue = eZTemplateNodeTool::elementConstantValue( $delimiterMatch );
                         $useModulo = false;
                     }
                     else
@@ -620,9 +620,9 @@ class eZTemplateSectionFunction
                 {
                     $delimiterModulo = $delimiterParameters['modulo'];
                     $delimiterModulo = eZTemplateCompiler::processElementTransformationList( $tpl, $delimiterModulo, $delimiterModulo, $privateData );
-                    if ( eZTemplateNodeTool::isStaticElement( $delimiterModulo ) )
+                    if ( eZTemplateNodeTool::isConstantElement( $delimiterModulo ) )
                     {
-                        $moduloValue = (int)eZTemplateNodeTool::elementStaticValue( $delimiterModulo );
+                        $moduloValue = (int)eZTemplateNodeTool::elementConstantValue( $delimiterModulo );
                         $matchCode = " and ( ( \$currentIndex - 1 ) % $moduloValue ) == 0";
                     }
                     else

@@ -29,8 +29,7 @@
 /*! \file
 */
 
-if ( !$isQuiet )
-    $cli->output( "Cleaning up internal drafts..." );
+$cli->output( "Cleaning up internal drafts..." );
 
 // Remove all temporary internal drafts
 $ini = eZINI::instance( 'content.ini' );
@@ -70,13 +69,11 @@ if ( $isDurationSet )
     $expiryTime = time() - $duration;
     $processedCount = eZContentObjectVersion::removeVersions( eZContentObjectVersion::STATUS_INTERNAL_DRAFT, $internalDraftsCleanUpLimit, $expiryTime );
 
-    if ( !$isQuiet )
-        $cli->output( "Cleaned up " . $processedCount . " internal drafts" );
+    $cli->output( "Cleaned up " . $processedCount . " internal drafts" );
 }
 else
 {
-    if ( !$isQuiet )
-        $cli->output( "Lifetime is not set for internal drafts (see your ini-settings, content.ini, VersionManagement section)." );
+    $cli->output( "Lifetime is not set for internal drafts (see your ini-settings, content.ini, VersionManagement section)." );
 }
 
 ?>
