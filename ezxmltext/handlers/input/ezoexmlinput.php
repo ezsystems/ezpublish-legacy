@@ -741,7 +741,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             $output = str_replace( '<p></p>', '<p><br /></p>', $output );
         }
 
-        $output = str_replace( "\n", '', $output );
+        $output = str_replace( array( "\n", "\xC2\xA0" ), array( '', '&nbsp;' ), $output );
 
         if ( $output )
         {

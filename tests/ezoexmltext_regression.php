@@ -103,6 +103,76 @@ class eZOEXMLTextRegression extends ezpDatabaseTestCase
         self::assertEquals( $custom->textContent, 'May the Force be with you' );
     }
 
+
+    /**
+     * Test for issue #18220: non breaking spaces are wrongly encoded
+     *
+     * Check that non breaking spaces are encoded with the UTF8 character
+     * instead of XML encoding of the HTML entity (&amp;nbsp;)
+     *
+     * @group issue_18220
+     * @link http://issues.ez.no/18220
+     */
+    public function testNonBreakingSpaceEncoding()
+    {
+        $htmlData = '<p>French typography rules&nbsp;:</p>';
+        $parser = new eZOEInputParser();
+        $dom = $parser->process( $htmlData );
+        self::assertInstanceOf( 'DomDocument', $dom );
+        $xpath = new DomXPath( $dom );
+        $paragraph = $xpath->query( '//paragraph' )->item( 0 );
+        self::assertEquals( "French typography rules\xC2\xA0:", $paragraph->textContent );
+    }
+
+    /**
+     * Test for issue #18220: non breaking spaces are wrongly encoded
+     *
+     * Check that wrongly encoded non breaking spaces are correctly decoded to
+     * be use in Online Editor
+     *
+     * @group issue_18220
+     * @link http://issues.ez.no/18220
+     */
+    public function testNonBreakingSpaceDecodingOldXmlEncoding()
+    {
+        $xmlData = '<?xml version="1.0" encoding="utf-8"?>';
+        $xmlData .= '<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/" xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">';
+        $xmlData .= "<paragraph>French typography&amp;nbsp;:</paragraph>";
+        $xmlData .= "</section>";
+
+        $folder = new ezpObject( 'folder', 2 );
+        $folder->name = 'Non breaking space decoding of old (and bad) xml encoding (&amp;nbsp;)';
+        $folder->short_description = '';
+
+        $oeHandler = new eZOEXMLInput( $xmlData, false,  $folder->short_description );
+        $xhtml = $oeHandler->attribute( 'input_xml' );
+        self::assertEquals( '&lt;p&gt;French typography&amp;nbsp;:&lt;/p&gt;&lt;p&gt;&lt;br /&gt;&lt;/p&gt;', $xhtml );
+    }
+
+    /**
+     * Test for issue #18220: non breaking spaces are wrongly encoded
+     *
+     * Check that utf8 non breaking spaces are correctly decoded to be use in
+     * Online Editor.
+     *
+     * @group issue_18220
+     * @link http://issues.ez.no/18220
+     */
+    public function testNonBreakingSpaceDecodingUtf8Encoding()
+    {
+        $xmlData = '<?xml version="1.0" encoding="utf-8"?>';
+        $xmlData .= '<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/" xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">';
+        $xmlData .= "<paragraph>French typography\xC2\xA0:</paragraph>";
+        $xmlData .= "</section>";
+
+        $folder = new ezpObject( 'folder', 2 );
+        $folder->name = 'Non breaking space decoding of utf8 encoding';
+        $folder->short_description = '';
+
+        $oeHandler = new eZOEXMLInput( $xmlData, false,  $folder->short_description );
+        $xhtml = $oeHandler->attribute( 'input_xml' );
+        self::assertEquals( '&lt;p&gt;French typography&amp;nbsp;:&lt;/p&gt;&lt;p&gt;&lt;br /&gt;&lt;/p&gt;', $xhtml );
+    }
 }
 
 ?>

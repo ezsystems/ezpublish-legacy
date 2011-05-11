@@ -206,7 +206,7 @@ class eZOEInputParser extends eZXMLInputParser
     public function process( $text, $createRootNode = true )
     {
         $text = preg_replace( '#<!--.*?-->#s', '', $text ); // remove HTML comments
-        $text = str_replace( array("\xC2\xA0", '&#160;'), '&nbsp;', $text ); // replace Unicode non breaking space with html
+        $text = str_replace( array( '&nbsp;', '&#160;', '&#xa0;' ), "\xC2\xA0", $text );
         return parent::process( $text, $createRootNode );
     }
 
