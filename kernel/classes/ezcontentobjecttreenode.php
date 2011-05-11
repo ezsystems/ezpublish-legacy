@@ -5793,9 +5793,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
             // Set audit params.
             $objectID = $node->attribute( 'contentobject_id' );
             $objectName = $node->attribute( 'name' );
-            eZAudit::writeAudit( 'content-hide', array( 'Node ID' => $nodeID, 
-                                                        'Object ID' => $objectID, 
-                                                        'Content Name' => $objectName, 
+            eZAudit::writeAudit( 'content-hide', array( 'Node ID' => $nodeID,
+                                                        'Object ID' => $objectID,
+                                                        'Content Name' => $objectName,
                                                         'Time' => $time,
                                                         'Comment' => 'Hided the current node: eZContentObjectTreeNode::hideSubTree()' ) );
         }
@@ -5860,9 +5860,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $objectID = $node->attribute( 'contentobject_id' );
             $objectName = $node->attribute( 'name' );
 
-            eZAudit::writeAudit( 'content-hide', array( 'Node ID' => $nodeID, 
-                                                        'Object ID' => $objectID, 
-                                                        'Content Name' => $objectName, 
+            eZAudit::writeAudit( 'content-hide', array( 'Node ID' => $nodeID,
+                                                        'Object ID' => $objectID,
+                                                        'Content Name' => $objectName,
                                                         'Time' => $time,
                                                         'Comment' => 'Unhided the current node: eZContentObjectTreeNode::unhideSubTree()' ) );
         }
