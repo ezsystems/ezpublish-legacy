@@ -70,12 +70,6 @@ if ( isset( $functions[$currentFunction] ) && $functions[$currentFunction] )
     {
         if ( ( count( $limitation['values'] ) == 0 ) && array_key_exists( 'class', $limitation ) )
         {
-            $basePath = 'kernel/'; //set default basepath for limitationValueClasses
-            if( array_key_exists( 'extension', $limitation ) && $limitation['extension'] )
-            {
-                $basePath = 'extension/' . $limitation['extension'] . '/';
-            }
-            include_once( $basePath . $limitation['path'] . $limitation['file']  );
             $obj = new $limitation['class']( array() );
             $limitationValueList = call_user_func_array( array( $obj, $limitation['function'] ), $limitation['parameter'] );
             $limitationValueArray = array();
