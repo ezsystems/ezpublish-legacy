@@ -33,6 +33,8 @@ class ezpContentPublishingQueueProcessor
         $reflection = new ReflectionClass( $this->queueReader );
         if ( !$reflection->implementsInterface( 'ezpContentPublishingQueueReaderInterface' ) )
             throw new Exception( "Configured asynchronous publishing queue reader doesn't implement ezpContentPublishingQueueReaderInterface", __CLASS__ );
+
+        call_user_func( array( $this->queueReader, 'init' ) );
     }
 
     /**

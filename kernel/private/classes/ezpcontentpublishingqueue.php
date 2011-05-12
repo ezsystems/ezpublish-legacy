@@ -27,7 +27,6 @@ class ezpContentPublishingQueue implements ezpContentPublishingQueueReaderInterf
         if ( self::$signals == null )
         {
             self::$signals = new ezcSignalCollection();
-            self::initHooks();
         }
         return self::$signals;
     }
@@ -37,15 +36,20 @@ class ezpContentPublishingQueue implements ezpContentPublishingQueueReaderInterf
      */
     protected final static function initHooks()
     {
-        static $init = true;
-
         if ( isset( $init ) )
             return;
+
+        static $init = true;
 
         $ini = eZINI::instance( 'content.ini' );
 
         self::attachHooks( 'preQueue', $ini->variable( 'PublishingSettings', 'AsynchronousPublishingPreQueueHooks' ) );
         self::attachHooks( 'postHandling', $ini->variable( 'PublishingSettings', 'AsynchronousPublishingPostHandlingHooks' ) );
+    }
+
+    public static function init()
+    {
+        self::initHooks();
     }
 
     /**

@@ -22,5 +22,10 @@
      * @return ezpContentPublishingProcess|false the next process, or false if nothing is to be processed
      */
     public static function next();
+
+    /**
+     * Initialization method. Called once before the reader class is used.
+     */
+    public static function init();
 }
 ?>
