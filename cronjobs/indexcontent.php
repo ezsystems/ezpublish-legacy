@@ -39,7 +39,7 @@ $limit = 50;
 
 $searchEngine = eZSearch::getEngine();
 
-if ( !is_object( $searchEngine ) )
+if ( !$searchEngine instanceof ezpSearchEngine )
 {
     $cli->error( "The configured search engine does not implement the ezpSearchEngine interface or can't be found." );
     $script->shutdown( 1 );

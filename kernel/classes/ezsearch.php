@@ -52,14 +52,11 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'needCommit'))
+        if ( $searchEngine instanceof ezpSearchEngine )
         {
             return $searchEngine->needCommit();
         }
-        else
-        {
-            return true;
-        }
+        return true;
     }
     /*!
      \static
@@ -70,14 +67,11 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'needRemoveWithUpdate'))
+        if ( $searchEngine instanceof ezpSearchEngine )
         {
             return $searchEngine->needRemoveWithUpdate();
         }
-        else
-        {
-            return true;
-        }
+        return true;
     }
 
     /**
@@ -91,7 +85,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( is_object( $searchEngine ) )
+        if ( $searchEngine instanceof ezpSearchEngine )
         {
             return $searchEngine->removeObject( $contentObject, $commit );
         }
@@ -110,7 +104,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( is_object( $searchEngine ) )
+        if ( $searchEngine instanceof ezpSearchEngine )
         {
             return $searchEngine->addObject( $contentObject, $commit );
         }
@@ -126,7 +120,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( is_object( $searchEngine ) )
+        if ( $searchEngine instanceof ezpSearchEngine )
         {
             return $searchEngine->search( $searchText, $params, $searchTypes );
         }
@@ -139,7 +133,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( is_object( $searchEngine ) )
+        if ( $searchEngine instanceof ezpSearchEngine )
         {
             return $searchEngine->normalizeText( $text );
         }
@@ -159,7 +153,7 @@ class eZSearch
         $andSearchParts = array();
         $searchTypesDefinition = array( 'types' => array(), 'general_filter' => array() );
 
-        if ( is_object( $searchEngine ) )
+        if ( $searchEngine instanceof ezpSearchEngine )
         {
             // This method was renamed in pre 3.5 trunk
             if ( method_exists( $searchEngine, 'supportedSearchTypes' ) )
@@ -444,7 +438,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'cleanup' ) )
+        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'cleanup' ) )
         {
             $searchEngine->cleanup();
         }
@@ -522,7 +516,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'updateNodeSection'))
+        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'updateNodeSection'))
         {
             return $searchEngine->updateNodeSection( $nodeID, $sectionID );
         }
@@ -541,7 +535,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'updateNodeVisibility'))
+        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'updateNodeVisibility'))
         {
             return $searchEngine->updateNodeVisibility( $nodeID, $action );
         }
@@ -561,7 +555,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'addNodeAssignment'))
+        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'addNodeAssignment'))
         {
             return $searchEngine->addNodeAssignment( $mainNodeID, $objectID, $nodeAssignmentIDList );
         }
@@ -582,7 +576,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'removeNodeAssignment'))
+        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'removeNodeAssignment'))
         {
             return $searchEngine->removeNodeAssignment( $mainNodeID, $newMainNodeID, $objectID, $nodeAssigmentIDList );
         }
@@ -600,7 +594,7 @@ class eZSearch
     {
         $searchEngine = self::getEngine();
 
-        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'removeNodes' ) )
+        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'removeNodes' ) )
         {
             return $searchEngine->removeNodes( $nodeIdList );
         }
@@ -619,7 +613,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'updateObjectState'))
+        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'updateObjectState'))
         {
             return $searchEngine->updateObjectState( $objectID, $objectStateList );
         }
@@ -639,7 +633,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'swapNode'))
+        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'swapNode'))
         {
             return $searchEngine->swapNode( $nodeID, $selectedNodeID, $nodeIdList = array() );
         }
