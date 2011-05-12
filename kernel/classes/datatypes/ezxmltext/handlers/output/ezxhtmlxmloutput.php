@@ -598,7 +598,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         if ( $element->parentNode->nodeName != 'literal' )
         {
             $text = htmlspecialchars( $element->textContent );
-            $text = str_replace ( '&amp;nbsp;', '&nbsp;', $text);
+            $text = str_replace( array( '&amp;nbsp;', "\xC2\xA0" ), '&nbsp;', $text);
             // Get rid of linebreak and spaces stored in xml file
             $text = str_replace( "\n", '', $text );
 
