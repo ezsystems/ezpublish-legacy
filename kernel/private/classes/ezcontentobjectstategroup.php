@@ -679,8 +679,6 @@ class eZContentObjectStateGroup extends eZPersistentObject
                     $limitations[$name] = array(
                         'name'   => $name,
                         'values' => array(),
-                        'path'   => 'private/classes/',
-                        'file'   => 'ezcontentobjectstategroup.php',
                         'class' => __CLASS__,
                         'function' => 'limitationValues',
                         'parameter' => array( $group->attribute( 'id' ) )
