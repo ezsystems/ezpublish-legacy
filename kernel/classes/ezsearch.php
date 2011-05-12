@@ -516,7 +516,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'updateNodeSection'))
+        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'updateNodeSection' ) )
         {
             return $searchEngine->updateNodeSection( $nodeID, $sectionID );
         }
@@ -535,7 +535,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'updateNodeVisibility'))
+        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'updateNodeVisibility' ) )
         {
             return $searchEngine->updateNodeVisibility( $nodeID, $action );
         }
@@ -555,7 +555,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'addNodeAssignment'))
+        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'addNodeAssignment' ) )
         {
             return $searchEngine->addNodeAssignment( $mainNodeID, $objectID, $nodeAssignmentIDList );
         }
@@ -576,7 +576,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'removeNodeAssignment'))
+        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'removeNodeAssignment' ) )
         {
             return $searchEngine->removeNodeAssignment( $mainNodeID, $newMainNodeID, $objectID, $nodeAssigmentIDList );
         }
@@ -613,7 +613,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'updateObjectState'))
+        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'updateObjectState' ) )
         {
             return $searchEngine->updateObjectState( $objectID, $objectStateList );
         }
@@ -633,7 +633,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'swapNode'))
+        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'swapNode' ) )
         {
             return $searchEngine->swapNode( $nodeID, $selectedNodeID, $nodeIdList = array() );
         }
