@@ -677,6 +677,7 @@ return array(
       'ezpRestTokenManager'                                => 'kernel/private/oauth/classes/tokenmanager.php',
       'ezpRestVersionedRoute'                              => 'kernel/private/rest/classes/routes/versioned_route.php',
       'ezpRestViewControllerInterface'                     => 'kernel/private/rest/classes/interfaces/view_controller.php',
+      'ezpSearchEngine'                                    => 'kernel/private/interfaces/ezpsearchengine.php',
       'ezpSessionHandler'                                  => 'lib/ezsession/classes/ezpsessionhandler.php',
       'ezpSessionHandlerDB'                                => 'lib/ezsession/classes/ezpsessionhandlerdb.php',
       'ezpSessionHandlerPHP'                               => 'lib/ezsession/classes/ezpsessionhandlerphp.php',

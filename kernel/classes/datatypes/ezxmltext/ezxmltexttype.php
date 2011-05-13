@@ -725,20 +725,15 @@ class eZXMLTextType extends eZDataType
                     continue;
                 }
 
-                $nodeID = $nodeArray['node_id'];
-                $node->setAttribute( 'node_id', $nodeID );
+                $node->setAttribute( 'node_id', $nodeArray['node_id'] );
                 $node->removeAttribute( 'node_remote_id' );
                 $modified = true;
 
                 // add as related object
                 if ( $contentObject )
                 {
-                    $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
-                    if ( $node )
-                    {
-                        $relationType = $node->nodeName == 'link' ? eZContentObject::RELATION_LINK : eZContentObject::RELATION_EMBED;
-                        $contentObject->addContentObjectRelation( $node['contentobject_id'], $objectAttribute->attribute( 'version' ), 0, $relationType );
-                    }
+                    $relationType = $node->nodeName == 'link' ? eZContentObject::RELATION_LINK : eZContentObject::RELATION_EMBED;
+                    $contentObject->addContentObjectRelation( $nodeArray['contentobject_id'], $objectAttribute->attribute( 'version' ), 0, $relationType );
                 }
             }
         }
