@@ -6,7 +6,6 @@
  * @package kernel
  */
 
-
 $tpl = eZTemplate::factory();
 $http = eZHTTPTool::instance();
 $Module = $Params['Module'];

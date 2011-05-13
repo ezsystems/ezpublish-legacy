@@ -8,7 +8,6 @@
  * @package kernel
  */
 
-
 /*!
  \class eZClusterFileHandler ezclusterfilefailure.php
  Special failure object which can be used by some of the cluster functions

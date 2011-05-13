@@ -6,8 +6,6 @@
  * @package kernel
  */
 
-
-
 $tpl = eZTemplate::factory();
 $tpl->setVariable( 'generated', false );
 $tpl->setVariable( 'wrong_email', false );

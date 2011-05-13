@@ -8,7 +8,6 @@
  * @package lib
  */
 
-
 /*!
   \class eZTemplateCompiledLoop eztemplatecompiledloop.php
   \ingroup eZTemplateFunctions

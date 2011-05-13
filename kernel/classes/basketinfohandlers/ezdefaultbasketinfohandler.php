@@ -8,7 +8,6 @@
  * @package kernel
  */
 
-
 class eZDefaultBasketInfoHandler
 {
     /*!

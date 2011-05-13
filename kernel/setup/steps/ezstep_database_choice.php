@@ -8,7 +8,6 @@
  * @package kernel
  */
 
-
 /*!
   \class eZStepDatabaseChoice ezstep_database_choice.php
   \brief The class eZStepDatabaseChoice does

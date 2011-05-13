@@ -8,7 +8,6 @@
  * @package kernel
  */
 
-
 /*!
   \class eZStepLanguageOptions ezstep_language_options.php
   \brief The class eZStepLanguageOptions does

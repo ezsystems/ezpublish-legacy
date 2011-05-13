@@ -1,6 +1,4 @@
 <?php
-//
-// $Id$
 /**
  * File containing the eZSOAPParameter class.
  *
@@ -10,7 +8,6 @@
  * @package lib
  */
 
-//!! eZSOAP
 //! eZSOAPParameter handles parameters to SOAP requests
 /*!
   \code

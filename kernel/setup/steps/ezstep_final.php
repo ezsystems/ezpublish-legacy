@@ -8,7 +8,6 @@
  * @package kernel
  */
 
-
 /*!
   \class eZStepFinal ezstep_final.php
   \brief The class eZStepFinal does

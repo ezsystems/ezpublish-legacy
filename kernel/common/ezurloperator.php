@@ -8,7 +8,6 @@
  * @package kernel
  */
 
-
 /*!
  \class eZURLOperator ezurloperator.php
  \brief Collection of url modifying operators

@@ -6,8 +6,6 @@
  * @package kernel
  */
 
-
-
 $module = $Params["Module"];
 
 $offset = $Params['Offset'];

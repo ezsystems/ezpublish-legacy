@@ -8,8 +8,6 @@
  * @package kernel
  */
 
-
-
 /*!
   \class eZStepSiteTypes ezstep_site_types.php
   \brief The class eZStepSiteTypes does

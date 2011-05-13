@@ -4,7 +4,8 @@
  *
  * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU General Public License v2
- *
+ * @version //autogentag//
+ * @package kernel
  */
 
 /**
@@ -16,8 +17,6 @@
  * There might be more filter functionality setup between the retrieval calls
  * so that new buisness logic can be created to create custom update streams,
  * independent of actual content structure.
- *
- * @package default
  */
 
 abstract class ezpUpdatedContent

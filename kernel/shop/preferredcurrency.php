@@ -6,7 +6,6 @@
  * @package kernel
  */
 
-
 $tpl = eZTemplate::factory();
 
 $Result = array();

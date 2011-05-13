@@ -6,7 +6,6 @@
  * @package kernel
  */
 
-
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
 $deleteIDArray = $http->hasSessionVariable( 'DeleteGroupIDArray' ) ? $http->sessionVariable( 'DeleteGroupIDArray' ) : array();

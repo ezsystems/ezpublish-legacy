@@ -8,8 +8,6 @@
  * @package kernel
  */
 
-
-
 /*!
   \class eZStepWelcome ezstep_welcome.php
   \brief The class eZStepWelcome does

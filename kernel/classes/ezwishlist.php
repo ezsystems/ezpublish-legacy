@@ -8,7 +8,6 @@
  * @package kernel
  */
 
-
 /*!
   \class eZWishList ezwishlist.php
   \brief eZWishList handles shopping wish lists

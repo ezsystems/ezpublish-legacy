@@ -6,8 +6,6 @@
  * @package kernel
  */
 
-
-
 $tpl = eZTemplate::factory();
 $Module = $Params['Module'];
 $roleID = $Params['RoleID'];

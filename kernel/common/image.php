@@ -8,7 +8,6 @@
  * @package kernel
  */
 
-
 /**
  * Image manager instance
  *

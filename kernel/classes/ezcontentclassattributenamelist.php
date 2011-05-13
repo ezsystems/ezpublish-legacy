@@ -8,7 +8,6 @@
  * @package kernel
  */
 
-
 /**
  * @deprecated since 4.3, use eZSerializedObjectNameList directly instead!
  */

@@ -8,7 +8,6 @@
  * @package kernel
  */
 
-
 /*!
  \class eZSSLZone ezsslzone.php
  \brief SSL zones handling functionality.

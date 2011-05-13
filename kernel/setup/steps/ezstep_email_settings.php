@@ -8,8 +8,6 @@
  * @package kernel
  */
 
-
-
 /*!
   \class eZStepEmailSettings ezstep_email_settings.php
   \brief The class eZStepEmailSettings does

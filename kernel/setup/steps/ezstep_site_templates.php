@@ -8,7 +8,6 @@
  * @package kernel
  */
 
-
 /*!
   \class eZStepSiteTemplates ezstep_site_templates.php
   \brief The class eZStepSiteTemplates does

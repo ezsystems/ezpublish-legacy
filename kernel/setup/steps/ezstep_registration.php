@@ -8,7 +8,6 @@
  * @package kernel
  */
 
-
 /*!
   \class eZStepRegistration ezstep_registration.php
   \brief The class eZStepRegistration does

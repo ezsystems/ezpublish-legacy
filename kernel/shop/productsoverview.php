@@ -6,7 +6,6 @@
  * @package kernel
  */
 
-
 $module = $Params['Module'];
 $offset = $Params['Offset'];
 $productClassIdentifier = $Params['ProductClass'];

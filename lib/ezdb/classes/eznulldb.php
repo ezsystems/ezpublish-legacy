@@ -1,6 +1,4 @@
 <?php
-//
-// $Id$
 /**
  * File containing the eZNullDB class.
  *

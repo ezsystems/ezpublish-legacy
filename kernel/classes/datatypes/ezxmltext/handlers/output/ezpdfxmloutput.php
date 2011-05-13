@@ -8,7 +8,6 @@
  * @package kernel
  */
 
-
 class eZPDFXMLOutput extends eZXHTMLXMLOutput
 {
 

@@ -6,7 +6,6 @@
  * @package kernel
  */
 
-
 $module = $Params['Module'];
 
 $http = eZHTTPTool::instance();

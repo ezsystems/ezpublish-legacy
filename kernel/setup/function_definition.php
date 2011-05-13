@@ -6,7 +6,6 @@
  * @package kernel
  */
 
-
 $FunctionList = array();
 
 $FunctionList['version'] = array( 'name' => 'version',

@@ -8,7 +8,6 @@
  * @package kernel
  */
 
-
 /*!
   \class eZStepSystemCheck ezstep_system_check.php
   \brief The class eZStepSystemCheck does

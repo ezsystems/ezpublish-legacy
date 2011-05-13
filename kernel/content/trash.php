@@ -6,7 +6,6 @@
  * @package kernel
  */
 
-
 $Module = $Params['Module'];
 $Offset = $Params['Offset'];
 if ( isset( $Params['UserParameters'] ) )

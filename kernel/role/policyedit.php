@@ -6,8 +6,6 @@
  * @package kernel
  */
 
-
-
 $Module = $Params['Module'];
 $policyID = $Params['PolicyID'];
 

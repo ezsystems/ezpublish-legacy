@@ -8,7 +8,6 @@
  * @package lib
  */
 
-
 // private class, should not be used outside of this file
 class eZTemplateLoopSequence
 {

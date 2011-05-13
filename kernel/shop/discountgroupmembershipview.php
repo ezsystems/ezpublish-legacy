@@ -6,7 +6,6 @@
  * @package kernel
  */
 
-
 $module = $Params['Module'];
 $discountGroupID = null;
 if ( isset( $Params["DiscountGroupID"] ) )

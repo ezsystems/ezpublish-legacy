@@ -6,7 +6,6 @@
  * @package kernel
  */
 
-
 $Module = $Params['Module'];
 $Alphabet = rawurldecode( $Params['Alphabet'] );
 

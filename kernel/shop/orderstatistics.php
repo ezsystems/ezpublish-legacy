@@ -6,8 +6,6 @@
  * @package kernel
  */
 
-
-
 $module = $Params['Module'];
 $year = $Params['Year'];
 $month = $Params['Month'];

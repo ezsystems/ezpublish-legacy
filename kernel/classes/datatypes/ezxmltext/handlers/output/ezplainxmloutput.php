@@ -8,7 +8,6 @@
  * @package kernel
  */
 
-
 class eZPlainXMLOutput extends eZXMLOutputHandler
 {
     function eZPlainXMLOutput( &$xmlData, $aliasedType )

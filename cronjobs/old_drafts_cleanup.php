@@ -8,7 +8,6 @@
  * @package kernel
  */
 
-
 $cli->output( "Cleaning up user's drafts..." );
 
 // Cleaning up usual drafts
