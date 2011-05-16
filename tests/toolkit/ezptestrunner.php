@@ -89,6 +89,20 @@ class ezpTestRunner extends PHPUnit_TextUI_Command
         $this->arguments['db-per-test'] = true;
     }
     
+    protected function showHelp()
+    {
+        parent::showHelp();
+        print <<<EOT
+
+  --db-per-test             Use a clean database per test
+  --dsn <resource>          Use the database specified with a DSN: type://user:password@host/database.
+                            An example to connect with the local MySQL database is:
+                            mysql://root@mypass@localhost/unittests
+  --list-tests              Lists all tests
+
+EOT;
+    }
+    
     /**
      * Scans a set of directories looking for suite.php to add to include.
      *
