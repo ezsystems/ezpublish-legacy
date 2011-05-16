@@ -18,6 +18,7 @@ class eZTemplateTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZTemplateAttributeOperatorTest' );
         $this->addTestSuite( 'eZTemplateStringOperatorRegression' );
         $this->addTestSuite( 'eZTemplateTextOperatorRegression' );
+        $this->addTestSuite( 'eZTemplateRegression' );
     }
 
     public static function suite()

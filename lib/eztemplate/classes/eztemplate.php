@@ -1476,9 +1476,22 @@ class eZTemplate
      * @param string $var
      * @param string $val
      * @param string $namespace (optional)
+     * @param bool $scopeSafe If true, will assure that $var is not overridden for $namespace. False by default
      */
-    function setVariable( $var, $val, $namespace = '' )
+    function setVariable( $var, $val, $namespace = '', $scopeSafe = false )
     {
+        if ( $scopeSafe && isset( $this->Variables[$namespace][$var] ) )
+        {
+            $safeNamespace = $namespace;
+            do
+            {
+                $safeNamespace .= ':safe';
+            }
+            while( isset( $this->Variables[$safeNamespace][$var] ) );
+
+            $this->Variables[$safeNamespace][$var] = $this->Variables[$namespace][$var];
+        }
+
         $this->Variables[$namespace][$var] = $val;
     }
 
@@ -1507,9 +1520,30 @@ class eZTemplate
     {
         if ( isset( $this->Variables[$namespace] ) &&
              array_key_exists( $var, $this->Variables[$namespace] ) )
-            unset( $this->Variables[$namespace][$var] );
+        {
+            $safeNamespace = "{$namespace}:safe";
+            if ( isset( $this->Variables[$safeNamespace][$var] ) )
+            {
+                // Check if a nested safe namespace for $var
+                // If true, then add a level of testing and test again
+                while( isset( $this->Variables["{$safeNamespace}:safe"][$var] )  )
+                {
+                    $safeNamespace .= ':safe';
+                }
+
+                // Get the $var backup back and delete it
+                $this->Variables[$namespace][$var] = $this->Variables[$safeNamespace][$var];
+                unset( $this->Variables[$safeNamespace][$var] );
+            }
+            else
+            {
+                unset( $this->Variables[$namespace][$var] );
+            }
+        }
         else
-            $this->warning( "unsetVariable()", "Undefined Variable: \$$namespace:$var, cannot unset" );
+        {
+            $this->warning( "unsetVariable()", "Undefined Variable: \${$namespace}:{$var}, cannot unset" );
+        }
     }
 
     /**
