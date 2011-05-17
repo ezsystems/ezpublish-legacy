@@ -43,7 +43,7 @@ class eZTemplateSequenceFunction
     /*!
      Returns an array of the function names, required for eZTemplate::registerFunctions.
     */
-    function &functionList()
+    function functionList()
     {
         $functionList = array( $this->SequenceName );
         return $functionList;

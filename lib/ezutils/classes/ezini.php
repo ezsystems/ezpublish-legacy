@@ -1688,10 +1688,9 @@ class eZINI
      Fetches the ini file \a $fileName and returns the INI object for it.
      \note This will not use the override system or read cache files, this is a direct fetch from one file.
     */
-    static function &fetchFromFile( $fileName, $useTextCodec = null )
+    static function fetchFromFile( $fileName, $useTextCodec = null )
     {
-        $impl = new eZINI( $fileName, false, $useTextCodec, false, false, true );
-        return $impl;
+        return new eZINI( $fileName, false, $useTextCodec, false, false, true );
     }
 
     /**

@@ -75,7 +75,7 @@ class eZFilePackageHandler extends eZPackageHandler
                     if ( isset( $iniFileVariables[$fileRole][$fileRoleValue][$fileName] ) )
                     {
                         $variables = $iniFileVariables[$fileRole][$fileRoleValue][$fileName];
-                        $ini =& eZINI::fetchFromFile( $newFilePath );
+                        $ini = eZINI::fetchFromFile( $newFilePath );
                         $ini->setVariables( $variables );
                         $ini->save( false, false, false, false, false );
                     }

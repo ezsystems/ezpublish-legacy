@@ -42,7 +42,7 @@ class eZTemplateForFunction
     /*!
      * Returns an array of the function names, required for eZTemplate::registerFunctions.
      */
-    function &functionList()
+    function functionList()
     {
         $functionList = array( eZTemplateForFunction::FUNCTION_NAME );
         return $functionList;

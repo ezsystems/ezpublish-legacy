@@ -41,7 +41,7 @@ class eZTemplateIfFunction
     /*!
      * Returns an array of the function names, required for eZTemplate::registerFunctions.
      */
-    function &functionList()
+    function functionList()
     {
         //eZDebug::writeDebug( "if::functionList()" );
         $functionList = array( eZTemplateIfFunction::FUNCTION_NAME );

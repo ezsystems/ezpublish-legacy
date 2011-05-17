@@ -1452,7 +1452,7 @@ class eZLocale
      Returns the eZINI object for the locale ini file.
      \warning Do not modify this object.
     */
-    function &localeFile( $withVariation = false )
+    function localeFile( $withVariation = false )
     {
         $type = $withVariation ? 'variation' : 'default';
         if ( !( $this->LocaleINI[$type] instanceof eZINI ) )
@@ -1483,7 +1483,7 @@ class eZLocale
      Returns the eZINI object for the country ini file.
      \warning Do not modify this object.
     */
-    function &countryFile( $withVariation = false )
+    function countryFile( $withVariation = false )
     {
         $type = $withVariation ? 'variation' : 'default';
         if ( !( $this->CountryINI[$type] instanceof eZINI ) )
@@ -1511,7 +1511,7 @@ class eZLocale
      Returns the eZINI object for the language ini file.
      \warning Do not modify this object.
     */
-    function &languageFile( $withVariation = false )
+    function languageFile( $withVariation = false )
     {
         $type = $withVariation ? 'variation' : 'default';
         if ( !( $this->LanguageINI[$type] instanceof eZINI ) )
