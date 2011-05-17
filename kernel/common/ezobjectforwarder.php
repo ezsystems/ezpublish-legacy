@@ -710,7 +710,6 @@ class eZObjectForwarder
 
         $resourceData = null;
         $root = null;
-        $canCache = false;
         if ( is_array( $attributeAccess ) )
         {
             foreach( $attributeAccess as $attributeAccessArray )
