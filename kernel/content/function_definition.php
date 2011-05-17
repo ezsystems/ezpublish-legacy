@@ -1090,6 +1090,10 @@ $FunctionList['related_objects'] = array( 'name' => 'object',
                                                         array( 'name' => 'ignore_visibility',
                                                                'type' => 'boolean',
                                                                'required' => false,
+                                                               'default' => null ),
+                                                        array( 'name' => 'related_class_identifiers',
+                                                               'type' => 'array',
+                                                               'required' => false,
                                                                'default' => null ) ) );
 
 $FunctionList['related_objects_count'] = array( 'name' => 'object',

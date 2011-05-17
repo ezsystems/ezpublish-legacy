@@ -1222,7 +1222,7 @@ class eZContentFunctionCollection
     }
 
     // Fetches reverse related objects
-    static public function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $limit = false, $offset = false, $asObject = true, $loadDataMap = false, $ignoreVisibility = null )
+    static public function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $limit = false, $offset = false, $asObject = true, $loadDataMap = false, $ignoreVisibility = null, $relatedClassIdentifiers = null )
     {
         if ( !is_numeric( $objectID ) )
         {
@@ -1281,6 +1281,11 @@ class eZContentFunctionCollection
             }
         }
 
+        if ( $relatedClassIdentifiers !== null )
+        {
+            $params['RelatedClassIdentifiers'] = $relatedClassIdentifiers;
+        }
+		
         if ( $attributeID && !is_numeric( $attributeID ) && !is_bool( $attributeID ) )
         {
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
