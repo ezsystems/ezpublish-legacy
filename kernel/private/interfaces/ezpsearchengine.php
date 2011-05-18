@@ -39,7 +39,7 @@ interface ezpSearchEngine
      * @param bool $commit Whether to commit after adding the object
      * @return bool True if the operation succeed.
      */
-    public function addObject( $contentObject, $commit );
+    public function addObject( $contentObject, $commit = true );
 
     /**
      * Removes object $contentObject from the search database.
@@ -48,7 +48,7 @@ interface ezpSearchEngine
      * @param bool $commit Whether to commit after removing the object
      * @return bool True if the operation succeed.
      */
-    public function removeObject( $contentObject, $commit );
+    public function removeObject( $contentObject, $commit = true );
 
     /**
      * Searches $searchText in the search database.

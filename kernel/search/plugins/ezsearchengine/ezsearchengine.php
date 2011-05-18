@@ -48,7 +48,7 @@ class eZSearchEngine implements ezpSearchEngine
      * @param bool $commit Whether to commit after adding the object
      * @return bool True if the operation succeed.
      */
-    public function addObject( $contentObject, $commit )
+    public function addObject( $contentObject, $commit = true )
     {
         $contentObjectID = $contentObject->attribute( 'id' );
         $currentVersion = $contentObject->currentVersion();
@@ -376,7 +376,7 @@ class eZSearchEngine implements ezpSearchEngine
      * @param bool $commit Whether to commit after removing the object
      * @return bool True if the operation succeed.
      */
-    public function removeObject( $contentObject, $commit )
+    public function removeObject( $contentObject, $commit = true )
     {
         $db = eZDB::instance();
         $objectID = $contentObject->attribute( "id" );
