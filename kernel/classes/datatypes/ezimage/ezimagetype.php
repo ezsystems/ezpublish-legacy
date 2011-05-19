@@ -46,7 +46,6 @@ class eZImageType extends eZDataType
     {
         $imageHandler = $contentObjectAttribute->attribute( "content" );
         $originalAlias = $imageHandler->imageAlias( "original" );
-        $file = eZClusterFileHandler::instance( $originalAlias["url"] );
         $imageHandler->updateAliasPath( "{$originalAlias["dirpath"]}/trashed", md5( $originalAlias["basename"] ) );
         if ( $imageHandler->isStorageRequired() )
         {
