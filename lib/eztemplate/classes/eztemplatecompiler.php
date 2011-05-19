@@ -1722,35 +1722,6 @@ $rbracket
         return $name;
     }
 
-    /*!
-     Increases the counter for the current text name, this ensure a uniqe name for it.
-    */
-    static function increaseCurrentTextName( &$parameters )
-    {
-        $textData = array( 'variable' => 'text',
-                           'counter' => 0 );
-        if ( !isset( $parameters['text-data'] ) )
-            $parameters['text-data'] = $textData;
-
-        $parameters['text-data']['counter']++;
-    }
-
-    /*!
-     Decreases a previosuly increased counter for the current text name.
-    */
-    static function decreaseCurrentTextName( &$parameters )
-    {
-        $textData = array( 'variable' => 'text',
-                           'counter' => 0 );
-        if ( !isset( $parameters['text-data'] ) )
-        {
-            $parameters['text-data'] = $textData;
-            return;
-        }
-
-        $parameters['text-data']['counter']--;
-    }
-
     static function boundVariableName( $variableID, $parameters )
     {
         $bindMap =& $parameters['variable-bind']['map'][$variableID];
