@@ -100,6 +100,11 @@ class eZSection extends eZPersistentObject
                                                        null,
                                                        array( "identifier" => $sectionIdentifier ),
                                                        $asObject );
+            if( !$sectionFetched )
+            {
+                return null;
+            }
+
             if( $asObject )
             {
                 // the section identifier index refers to the id index object
