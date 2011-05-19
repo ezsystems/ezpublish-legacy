@@ -460,9 +460,6 @@ class eZObjectForwarder
             }
             $templateCounter = 0;
 
-            $basedir = $viewFileMatch['base_dir'];
-            $template = $viewFileMatch['template'];
-            $file = $basedir . $template;
 
             $addFileResource = true;
             if ( isset( $viewFileMatch['custom_match'] ) )
@@ -542,6 +539,7 @@ class eZObjectForwarder
             }
             if ( $addFileResource )
             {
+                $file = $viewFileMatch['base_dir'] . $viewFileMatch['template'];
                 $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                                  $file, $file,
                                                                                  eZTemplate::RESOURCE_FETCH, false,
