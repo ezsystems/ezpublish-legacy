@@ -4039,6 +4039,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                            $object->attribute( 'current_version' ),
                                                            $newMainNode->attribute( 'parent_node_id' ) );
                 $this->removeThis();
+                eZSearch::addObject( $object );
                 $db->commit();
             }
             else
