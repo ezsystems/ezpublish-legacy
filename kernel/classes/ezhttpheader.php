@@ -127,8 +127,9 @@ class eZHTTPHeader
                     }
                     else
                     {
-                        $pathLevel = count( explode( '/', $path ) );
-                        $uriLevel = count( explode( '/', $uriString ) );
+                        $pathLevel = $path == '/' ? 1 : count( explode( '/', $path ) );
+                        $uriLevel = $uriString == '/' ? 1 : count( explode( '/', $uriString ) );
+
                         if ( $level === null )
                         {
                             if ( $uriLevel <= $pathLevel + $depth )
