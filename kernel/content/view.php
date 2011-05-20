@@ -100,8 +100,10 @@ $operationResult = array();
 
 if ( eZOperationHandler::operationIsAvailable( 'content_read' ) )
 {
+    $node = eZContentObjectTreeNode::fetch($NodeID);
     $operationResult = eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID,
                                                                               'user_id' => $user->id(),
+                                                                              'object_id' => $node->attribute('contentobject_id'),
                                                                               'language_code' => $LanguageCode ), null, true );
 }
 
