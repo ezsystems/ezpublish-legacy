@@ -411,11 +411,11 @@ $OperationList['updatesection'] = array( 'name' => 'updatesection',
                                                                       'type' => 'integer',
                                                                       'required' => true ) ),
 
-                                        'keys' => array( 'node_id', 'selected_section_id', ),
+                                        'keys' => array( 'node_id', 'object_id', 'selected_section_id', ),
 
                                         'body' => array( array( 'type' => 'trigger',
                                                                 'name' => 'pre_updatesection',
-                                                                'keys' => array( 'node_id', 'selected_section_id' ),
+                                                                'keys' => array( 'node_id', 'object_id', 'selected_section_id' ),
                                                             ),
                                                         array( 'type' => 'method',
                                                                'name' => 'updatesection',
@@ -424,7 +424,7 @@ $OperationList['updatesection'] = array( 'name' => 'updatesection',
                                                                 ),
                                                         array( 'type' => 'trigger',
                                                                 'name' => 'post_updatesection',
-                                                                'keys' => array( 'node_id', 'selected_section_id' )
+                                                                'keys' => array( 'node_id', 'object_id', 'selected_section_id' )
                                                             )
                                                         )
                               );

@@ -40,6 +40,7 @@ function sectionEditActionCheck( $module, $class, $object, $version, $contentObj
                                 $operationResult = eZOperationHandler::execute( 'content',
                                                                                 'updatesection',
                                                                                 array( 'node_id'             => $node->attribute( 'node_id' ),
+                                                                                       'object_id'             => $node->attribute( 'contentobject_id' ),
                                                                                        'selected_section_id' => $selectedSectionID ),
                                                                                 null,
                                                                                 true );
