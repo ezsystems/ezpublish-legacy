@@ -228,4 +228,68 @@ var_dump( $result );
 </table>
 <a name="eztoc3_3_3" id="eztoc3_3_3"></a><h4>Heading 3</h4><a name="eztoc3_4" id="eztoc3_4"></a><h3>Heading 2</h3>', $outputHandler->outputText() );
     }
+
+
+    /**
+     * Test scenario for issue #18336: Alignment in table cells is not rendered
+     * properly if RenderParagraphInTableCells=disabled
+     *
+     * With RenderParagraphInTableCells=enabled, check that the align attribute
+     * of eZXML paragraph is still taken into account in the HTML paragraph
+     *
+     * @group issue_18336
+     * @link http://issues.ez.no/18336
+     * @note Test depends on template output!!
+     */
+    function testRenderAlignInCellsWithParagraph()
+    {
+        ezpINIHelper::setINISetting( 'ezxml.ini', 'ezxhtml', 'RenderParagraphInTableCells', 'enabled' );
+        $xml = '<?xml version="1.0" encoding="utf-8"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/" xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+<paragraph><table width="100%" custom:summary="Test alignment" custom:caption=""><tr><td align="right"><paragraph align="left">align=left</paragraph></td></tr></table></paragraph>
+</section>';
+        $outputHandler = new eZXHTMLXMLOutput( $xml, false );
+        $expected = '<table class="renderedtable" cellpadding="2" cellspacing="0" width="100%" summary="Test alignment">
+<tr>
+<td class=" text-right" valign="top">  <p class=" text-left">align=left</p>
+  </td>
+</tr>
+
+</table>
+';
+        $this->assertEquals( $expected, $outputHandler->outputText() );
+        ezpINIHelper::restoreINISettings();
+    }
+
+    /**
+     * Test scenario for issue #18336: Alignment in table cells is not rendered
+     * properly if RenderParagraphInTableCells=disabled
+     *
+     * With RenderParagraphInTableCells=disabled, check that the align
+     * attribute of eZXML paragraph is taken into account while rendering the
+     * table cell containing this paragraph.
+     *
+     * @group issue_18336
+     * @link http://issues.ez.no/18336
+     * @note Test depends on template output!!
+     */
+    function testRenderAlignInCellsWithoutParagraph()
+    {
+        ezpINIHelper::setINISetting( 'ezxml.ini', 'ezxhtml', 'RenderParagraphInTableCells', 'disabled' );
+        $xml = '<?xml version="1.0" encoding="utf-8"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/" xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+<paragraph><table width="100%" custom:summary="Test alignment" custom:caption=""><tr><td align="right"><paragraph align="left">align=left</paragraph></td></tr></table></paragraph>
+</section>';
+        $outputHandler = new eZXHTMLXMLOutput( $xml, false );
+        $expected = '<table class="renderedtable" cellpadding="2" cellspacing="0" width="100%" summary="Test alignment">
+<tr>
+<td class=" text-left" valign="top">  align=left
+  </td>
+</tr>
+
+</table>
+';
+        $this->assertEquals( $expected, $outputHandler->outputText() );
+        ezpINIHelper::restoreINISettings();
+    }
 }

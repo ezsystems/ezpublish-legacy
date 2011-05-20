@@ -419,6 +419,14 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         if ( $parent instanceof DOMElement && $parent->hasAttribute('class') )
             $ret['design_keys'] = array( 'table_classification' => $parent->getAttribute('class') );
 
+        if ( !$this->RenderParagraphInTableCells
+                && self::childTagCount( $element ) == 1
+                && $element->childNodes->item( 0 )->hasAttribute( 'align' ) )
+        {
+            // paragraph will not be rendered so its align attribute needs to
+            // be taken into account at the td/th level
+            $attributes['align'] = $element->childNodes->item( 0 )->getAttribute( 'align' );
+        }
         return $ret;
     }
 
