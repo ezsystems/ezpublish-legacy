@@ -215,7 +215,8 @@
 
 .yuimenu .yui-menu-body-scrolled {
     border-color: #808080 #808080;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .yuimenu .topscrollbar,.yuimenu .bottomscrollbar
@@ -254,6 +255,11 @@
     color: #000;
     text-decoration: none;
     cursor: default;
+}
+
+.yuimenuitemlabel:hover {
+    color: #000;
+    text-decoration: none;
 }
 
 .yuimenuitemlabel:visited {
@@ -304,6 +310,10 @@ a.yuimenuitemlabel-disabled{
 
 .yuimenuitemlabel-disabled,.yuimenuitemlabel-disabled:visited {
     cursor: default;
+    color: #A6A6A6;
+}
+
+.yuimenuitemlabel-disabled:hover {
     color: #A6A6A6;
 }
 
