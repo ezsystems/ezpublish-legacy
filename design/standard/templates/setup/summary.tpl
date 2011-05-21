@@ -57,6 +57,23 @@
 
   <tr>
     <td>
+    {if count($summary_proxy_info)}
+      <div class="setup_summary_ok">
+    {else}
+      <div class="setup_summary_empty">
+    {/if}
+
+    {"Proxy"|i18n("design/standard/setup")}:</td>
+
+    <td>
+    {if count($summary_proxy_info)}
+      <div class="setup_summary_ok">{$summary_proxy_info}</div>
+    {/if}
+    </td>
+  </tr>  
+  
+  <tr>
+    <td>
     {if count($database)}
       <div class="setup_summary_ok">
     {else}
