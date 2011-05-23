@@ -214,8 +214,9 @@ if ( $http->hasPostVariable( 'RemoveGroupButton' ) && $http->hasPostVariable( 'g
 }
 
 
-// Ajax actions ( normal ones have "<action>_<attribute_id>" form and are fixed up later in $dataType->fixupClassAttributeHTTPInput )
-if ( $http->hasPostVariable( 'MoveUp' ) )
+// Ajax actions (normal ones have $contentClassHasInput == 1 and are fixed up
+// later in $dataType->fixupClassAttributeHTTPInput)
+if ( $contentClassHasInput == 0 && $http->hasPostVariable( 'MoveUp' ) )
 {
     $attribute = eZContentClassAttribute::fetch( $http->postVariable( 'MoveUp' ), true, eZContentClass::VERSION_STATUS_TEMPORARY,
                                                   array( 'contentclass_id', 'version', 'placement' ) );
@@ -226,7 +227,7 @@ if ( $http->hasPostVariable( 'MoveUp' ) )
     eZDB::checkTransactionCounter();
     eZExecution::cleanExit();
 }
-else if ( $http->hasPostVariable( 'MoveDown' ) )
+else if ( $contentClassHasInput == 0 && $http->hasPostVariable( 'MoveDown' ) )
 {
     $attribute = eZContentClassAttribute::fetch( $http->postVariable( 'MoveDown' ), true, eZContentClass::VERSION_STATUS_TEMPORARY,
                                                   array( 'contentclass_id', 'version', 'placement' ) );
