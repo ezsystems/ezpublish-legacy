@@ -111,6 +111,18 @@ class eZSetupSummary
             }
         }
 
+        // Proxy settings
+        $this->Tpl->setVariable( 'summary_proxy_info', '' );
+
+        if ( isset( $persistenceList['proxy_info'] ) ) {
+            if ( $persistenceList['proxy_info']['server'] <> "" )
+            {
+                $this->Tpl->setVariable( 'summary_proxy_info', $persistenceList['proxy_info']['server'] );
+            }else{
+                $this->Tpl->setVariable( 'summary_proxy_info', '-' );
+            }
+        }		
+		
         // Templates chosen
         $chosenSitePackage = false;
         if ( isset( $this->PersistenceList['chosen_site_package']['0'] ) )

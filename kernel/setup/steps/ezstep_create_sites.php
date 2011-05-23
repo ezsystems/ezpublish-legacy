@@ -313,6 +313,13 @@ class eZStepCreateSites extends eZStepInstaller
             $ini->setVariable( 'MailSettings', 'TransportPassword', $emailInfo['password'] );
         }
 
+        if ( $this->PersistenceList['proxy_info']['server']<>"" )
+        {
+        $ini->setVariable( 'ProxySettings', 'ProxyServer', $this->PersistenceList['proxy_info']['server'] );
+		$ini->setVariable( 'ProxySettings', 'User', $this->PersistenceList['proxy_info']['user'] );
+		$ini->setVariable( 'ProxySettings', 'Password', $this->PersistenceList['proxy_info']['password'] );
+        }
+       
         // Enable design location cache
         $ini->setVariable( 'DesignSettings', 'DesignLocationCache', 'enabled' );
 
