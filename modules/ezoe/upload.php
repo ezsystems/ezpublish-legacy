@@ -83,6 +83,12 @@ if ( !$object )
 // allowed size set in max_post_size in php.ini
 if ( $http->hasPostVariable( 'uploadButton' ) || $forcedUpload )
 {
+    $version   = eZContentObjectVersion::fetchVersion( $objectVersion, $objectID );
+    if ( !$version )
+    {
+        echo ezpI18n::tr( 'design/standard/ezoe', 'Invalid parameter: %parameter = %value', null, array( '%parameter' => 'ObjectVersion', '%value' => $objectVersion ) );
+        eZExecution::cleanExit();
+    }
     $upload = new eZContentUpload();
 
     $location = false;
@@ -98,7 +104,14 @@ if ( $http->hasPostVariable( 'uploadButton' ) || $forcedUpload )
         $objectName = trim( $http->postVariable( 'objectName' ) );
     }
 
-    $uploadedOk = $upload->handleUpload( $result, 'fileName', $location, false, $objectName );
+    $uploadedOk = $upload->handleUpload(
+        $result,
+        'fileName',
+        $location,
+        false,
+        $objectName,
+        $version->attribute( 'initial_language' )->attribute( 'locale' )
+    );
 
 
     if ( $uploadedOk )
