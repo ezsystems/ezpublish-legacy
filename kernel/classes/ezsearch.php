@@ -433,7 +433,7 @@ class eZSearch
     static function getEngine()
     {
         // Get instance if already created.
-        $instanceName = 'eZSearchPlugin_' . $GLOBALS['eZCurrentAccess'];
+        $instanceName = "eZSearchPlugin_" . $GLOBALS["eZCurrentAccess"]["name"];
         if ( isset( $GLOBALS[$instanceName] ) )
         {
             return $GLOBALS[$instanceName];
