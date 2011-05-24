@@ -440,7 +440,6 @@ class eZDir
     */
     static function recursiveFindRelative( $baseDir, $subDir, $suffix )
     {
-        $returnFiles = array();
         $dir = $baseDir;
         if ( $subDir != "" )
         {
@@ -449,6 +448,13 @@ class eZDir
             else
                 $dir .= $subDir;
         }
+
+        if ( !is_dir( $dir ) )
+        {
+            return array();
+        }
+
+        $returnFiles = array();
         if ( $handle = @opendir( $dir ) )
         {
             while ( ( $file = readdir( $handle ) ) !== false )
