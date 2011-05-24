@@ -110,7 +110,10 @@ class eZWebDAVContentServerWrapper extends eZWebDAVContentServer
                 $text = @ob_get_contents();
                 if ( strlen( $text ) != 0 )
                     $this->appendLogEntry( $text, "DAV: PHP Output" );
-                while ( @ob_end_clean() );
+                for ( $i = 0, $obLevel = ob_get_level(); $i < $obLevel; ++$i )
+                {
+                    ob_end_clean();
+                }
 
                 if ( !$headers_only )
                 {
@@ -151,7 +154,10 @@ class eZWebDAVContentServerWrapper extends eZWebDAVContentServer
             $text = @ob_get_contents();
             if ( strlen( $text ) != 0 )
                 $this->appendLogEntry( $text, "DAV: PHP Output" );
-            while ( @ob_end_clean() );
+            for ( $i = 0, $obLevel = ob_get_level(); $i < $obLevel; ++$i )
+            {
+                ob_end_clean();
+            }
 
             return eZWebDAVServer::FAILED_NOT_FOUND;
         }
@@ -316,7 +322,10 @@ class eZWebDAVContentServerWrapper extends eZWebDAVContentServer
         $text = @ob_get_contents();
         if ( strlen( $text ) != 0 )
             $this->appendLogEntry( $text, "DAV: PHP Output" );
-        while ( @ob_end_clean() );
+        for ( $i = 0, $obLevel = ob_get_level(); $i < $obLevel; ++$i )
+        {
+            ob_end_clean();
+        }
 
         // Dump XML response (from server to client to logfile.
         //$this->appendLogEntry( $xmlText, 'xmlText' );

@@ -98,7 +98,10 @@ else
 header( 'Content-Length: ' . strlen( $rssContent ) );
 header( 'X-Powered-By: eZ Publish' );
 
-while ( @ob_end_clean() );
+for ( $i = 0, $obLevel = ob_get_level(); $i < $obLevel; ++$i )
+{
+    ob_end_clean();
+}
 
 echo $rssContent;
 

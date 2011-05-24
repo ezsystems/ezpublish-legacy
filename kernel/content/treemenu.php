@@ -60,7 +60,10 @@ function arrayToJSON( $array )
     }
 }
 
-while ( @ob_end_clean() );
+for ( $i = 0, $obLevel = ob_get_level(); $i < $obLevel; ++$i )
+{
+    ob_end_clean();
+}
 
 if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
 {
