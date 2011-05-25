@@ -285,15 +285,10 @@ var eZOEPopupUtils = {
         var paragraphCleanup = false, newElement;
         if ( html.indexOf( '<div' ) === 0 || html.indexOf( '<pre' ) === 0 )
         {
-            var edCurrentNode = ed.selection.getNode();
-            if ( edCurrentNode && edCurrentNode.nodeName.toLowerCase() === 'p' )
-            {
-                html = '</p>' + html + '<p>';
-                paragraphCleanup = true;
-            }
+            paragraphCleanup = true;
         }
 
-        ed.execCommand('mceInsertContent', false, html, {skip_undo : 1} );
+        ed.execCommand('mceInsertRawHTML', false, html, {skip_undo : 1} );
 
         newElement = ed.dom.get( id );
         if ( paragraphCleanup ) this.paragraphCleanup( ed, newElement );
