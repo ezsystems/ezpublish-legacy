@@ -2817,6 +2817,7 @@ class eZContentObject extends eZPersistentObject
                 $params['SortBy']           - related objects sorting mode.
                             Supported modes: class_identifier, class_name, modified, name, published, section
                 $params['IgnoreVisibility'] - ignores 'hidden' state of related objects if true
+                $params['RelatedClassIdentifiers'] - limit returned relations to objects of the specified class identifiers
      \param $reverseRelatedObjects : if "true" returns reverse related contentObjects
                                      if "false" returns related contentObjects
     */
@@ -2845,7 +2846,7 @@ class eZContentObject extends eZPersistentObject
         $sortingInfo = array( 'attributeFromSQL' => '',
                               'attributeWhereSQL' => '',
                               'attributeTargetSQL' => '' );
-
+        $relatedClassIdentifiersSQL = '';
         $showInvisibleNodesCond = '';
         // process params (only SortBy and IgnoreVisibility currently supported):
         // Supported sort_by modes:
@@ -2892,6 +2893,11 @@ class eZContentObject extends eZPersistentObject
             if ( isset( $params['IgnoreVisibility'] ) )
             {
                 $showInvisibleNodesCond = self::createFilterByVisibilitySQLString( $params['IgnoreVisibility'] );
+            }
+            if ( isset( $params['RelatedClassIdentifiers'] ) )
+            {
+                $relatedClassIdentifiersString = implode( "', '", $params['RelatedClassIdentifiers'] );
+                $relatedClassIdentifiersSQL = "ezcontentclass.identifier IN ('$relatedClassIdentifiersString') AND ";
             }
         }
 
@@ -2954,6 +2960,7 @@ class eZContentObject extends eZPersistentObject
                         ezcontentclass.version=0 AND
                         ezcontentobject.status=" . eZContentObject::STATUS_PUBLISHED . " AND
                         $sortingInfo[attributeWhereSQL]
+                        $relatedClassIdentifiersSQL
                         ezcontentobject_link.op_code='0'
                         $relationTypeMasking
                         $fromOrToContentObjectID
@@ -3024,6 +3031,7 @@ class eZContentObject extends eZPersistentObject
                 $params['SortBy']           - related objects sorting mode.
                             Supported modes: class_identifier, class_name, modified, name, published, section
                 $params['IgnoreVisibility'] - ignores 'hidden' state of related objects if true
+                $params['RelatedClassIdentifiers'] - limit returned relations to objects of the specified class identifiers
     */
     function relatedContentObjectList( $fromObjectVersion = false,
                                        $fromObjectID = false,
@@ -3138,7 +3146,7 @@ class eZContentObject extends eZPersistentObject
                                true  - return all relations groupped by attribute ID
                                This parameter makes sense only when $attributeID == false or $params['AllRelations'] = true
     \param $params : other parameters from template fetch function :
-               $params['AllRelations'] - relation type filter :
+                $params['AllRelations'] - relation type filter :
                            true - return ALL relations, including attribute-level
                            false    - return object-level relations
                            >0       - bit mask of EZ_CONTENT_OBJECT_RELATION_* values
