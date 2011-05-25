@@ -379,8 +379,9 @@ jQuery(function( $ )//called on document.ready
         inp2.val( inpv );
 
         // store with ajax request
-        var postVar = { 'ContentClassHasInput': 0 };
+        var postVar = { 'ContentClassHasInput': 0 }, _tokenNode = document.getElementById('ezxform_token_js');
         postVar[ param[0] ] = param[1];
+        if ( _tokenNode ) postVar['ezxform_token'] = _tokenNode.getAttribute('title');
         $.post( $('#ClassEdit').attr('action'), postVar, onDone );
         return false;
     });
