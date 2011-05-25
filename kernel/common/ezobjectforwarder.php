@@ -159,6 +159,11 @@ class eZObjectForwarder
                 {
                     $templateRoot = $rootMatch[1];
 
+                    if ( is_array( $templateRoot ) )
+                    {
+                        $templateRoot = $templateRoot[0];
+                    }
+
                     $resourceNodes = $this->resourceAcquisitionTransformation( $functionName, $node, $rule, $inputData,
                                                                                $outputName, $namespaceValue,
                                                                                $templateRoot, $viewDir, $viewValue,
