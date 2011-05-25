@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * File containing the eZStepData class.
  *
@@ -148,6 +148,8 @@ class eZStepData
                                    'class' => 'SystemFinetune' ),
                             array( 'file' => 'email_settings',
                                    'class' => 'EmailSettings' ),
+                            array( 'file' => 'proxy_settings',
+                                   'class' => 'ProxySettings' ),
                             array( 'file' => 'database_choice',
                                    'class' => 'DatabaseChoice' ),
                             array( 'file' => 'database_init',
