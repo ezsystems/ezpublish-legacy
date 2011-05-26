@@ -1750,12 +1750,22 @@
                 var n = this.__getParentByTag( ed.selection.getNode(), 'DIV', 'ezoeItemNonEditable', '', true );
                 if ( n !== undefined && n.parentNode )
                 {
+                    var newNode, pos;
                     this.__recursion = true;
-                    var newNode = ed.dom.create('p', false, tinymce.isIE ? '&nbsp;' : '<br />' );
-                    ed.dom.insertAfter( newNode, n );
-                    ed.selection.select( newNode, true );
+                    if ( n.parentNode.nodeName.toLowerCase() === 'li' )
+                    {
+                        newNode = ed.dom.create('li', false, tinymce.isIE ? '&nbsp;' : '<br _mce_bogus="1" />' );
+                        pos = n.parentNode;
+                    }
+                    else
+                    {
+                        newNode = ed.dom.create('p', false, tinymce.isIE ? '&nbsp;' : '<br />' );
+                        pos = n;
+                    }
+                    newNode = ed.dom.insertAfter( newNode, pos );
                     setTimeout(BIND( function(){ this.__recursion = false; }, this ), 150);
                     ed.nodeChanged();
+                    ed.selection.select( newNode, true );
                 }
             }
             else if ( k === 32 && !this.__recursion )// user clicks space, create space after embed inline
