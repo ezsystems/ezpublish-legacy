@@ -251,7 +251,9 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                                      'url_alias' => array( 'url_alias' ),
                                                                      'remote_id' => array( 'object', 'remote_id' ),
                                                                      'node_remote_id' => array( 'remote_id' ),
-                                                                     'parent_class_identifier' => array( 'parent', 'class_identifier' ) ),
+                                                                     'parent_class_identifier' => array( 'parent', 'class_identifier' ),
+                                                                     'parent_node_remote_id' => array( 'parent', 'remote_id'),
+                                                                     'parent_object_remote_id' => array( 'parent', 'object', 'remote_id') ),
                                           'attribute_access' => array(),
                                           'use_views' => 'view' ),
 
