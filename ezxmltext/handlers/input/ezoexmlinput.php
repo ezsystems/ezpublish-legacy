@@ -6,7 +6,7 @@
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Online Editor extension for eZ Publish
 // SOFTWARE RELEASE: 5.0
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
+// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
 //   This program is free software; you can redistribute it and/or
@@ -741,7 +741,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             $output = str_replace( '<p></p>', '<p><br /></p>', $output );
         }
 
-        $output = str_replace( "\n", '', $output );
+        $output = str_replace( array( "\n", "\xC2\xA0" ), array( '', '&nbsp;' ), $output );
 
         if ( $output )
         {
@@ -1333,6 +1333,13 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $output .= '<img src="' . $imageUrl . '" class="ezoeItemCustomTag ' . $name .
                                '" type="custom"' . $customAttributePart . $styleString . ' />';
                 }
+                else if ( $tag->textContent === '' )
+                {
+                    // for empty custom tag, just put a paragraph with the name
+                    // of the custom tag in to handle it in the rich text editor
+                    $output .= '<div class="ezoeItemCustomTag ' . $name . '" type="custom"' .
+                                    $customAttributePart . $styleString . '><p>' . $name . '</p></div>';
+                }
                 else
                 {
                     $customTagContent = $this->inputSectionXML( $tag, $currentSectionLevel, $tdSectionLevel );
@@ -1850,10 +1857,10 @@ class eZOEXMLInput extends eZXMLInputHandler
     /*
      * Find out if embed object is image type or not.
      */
-    public static function embedTagIsImageByNode( $node )
+    public static function embedTagIsImageByNode( $xmlNode )
     {
-        $objectID  = $node->getAttribute( 'object_id' );
-        $nodeID    = $node->getAttribute( 'node_id' );
+        $objectID  = $xmlNode->getAttribute( 'object_id' );
+        $nodeID    = $xmlNode->getAttribute( 'node_id' );
         $object    = false;
         $classIdentifier = false;
 
@@ -1863,8 +1870,9 @@ class eZOEXMLInput extends eZXMLInputHandler
         }
         elseif ( is_numeric( $nodeID ) )
         {
-            $node      = eZContentObjectTreeNode::fetch( $nodeID );
-            $object    = $node->object();
+            $node = eZContentObjectTreeNode::fetch( $nodeID );
+            if ( $node instanceof eZContentObjectTreeNode )
+                $object = $node->object();
         }
 
         if ( $object instanceof eZContentObject )

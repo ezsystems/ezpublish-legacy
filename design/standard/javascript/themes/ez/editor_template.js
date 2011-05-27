@@ -168,6 +168,16 @@
                 else if (ed.settings.content_css !== false)
                     ed.dom.loadCSS(ed.baseURI.toAbsolute(url + "/skins/" + ed.settings.skin + "/content.css"));
 
+                // eZ : underline is represented with a custom tag
+                // ie: <span class="ezoeItemCustomTag underline" type="custom">foo bar</span>
+                ed.formatter.register({
+                    underline : {inline : 'span',
+                                 classes : 'ezoeItemCustomTag underline',
+                                 attributes : {'type': 'custom'},
+                                 exact: true,
+                                 remove: 'all'}
+                });
+
                 // START eZ: alignment customizations
                 // Add support for align attribute (taken from legacyoutput plugin)
                 var alignElements = 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', serializer = ed.serializer;
@@ -1149,7 +1159,7 @@
             }
 
             // eZ: table button code
-            p = getParent('TD,TH,CAPTION');
+            p = getParent('TD,TH,CAPTION,TR');
             if (p && p.nodeName === 'CAPTION') p = null;
             cm.setDisabled('table', header );
             cm.setDisabled('tablemenu', header );
@@ -1545,7 +1555,10 @@
         {
             var ed = this.editor, n = ed.selection.getNode();
             if ( n.nodeName === 'P' && n.parentNode.nodeName === 'BODY' )
-                ed.execCommand('mceInsertRawHTML', false, '</p><div type="custom" class="ezoeItemCustomTag pagebreak"><p>pagebreak</p></div><p>');
+            {
+                // extra paragraph required after the div to be able to write content after it
+                ed.execCommand('mceInsertRawHTML', false, '</p><div type="custom" class="ezoeItemCustomTag pagebreak"><p>pagebreak</p></div><p>' + (tinymce.isIE ? '&nbsp;' : '<br _mce_bogus="1" />') + '</p><p>');
+            }
             else if ( n.nodeName === 'BODY' )
                 ed.execCommand ('mceInsertRawHTML', false, '<div type="custom" class="ezoeItemCustomTag pagebreak"><p>pagebreak</p></div>');
             else
@@ -1737,12 +1750,22 @@
                 var n = this.__getParentByTag( ed.selection.getNode(), 'DIV', 'ezoeItemNonEditable', '', true );
                 if ( n !== undefined && n.parentNode )
                 {
+                    var newNode, pos;
                     this.__recursion = true;
-                    var newNode = ed.dom.create('p', false, tinymce.isIE ? '&nbsp;' : '<br />' );
-                    ed.dom.insertAfter( newNode, n );
-                    ed.selection.select( newNode, true );
+                    if ( n.parentNode.nodeName.toLowerCase() === 'li' )
+                    {
+                        newNode = ed.dom.create('li', false, tinymce.isIE ? '&nbsp;' : '<br _mce_bogus="1" />' );
+                        pos = n.parentNode;
+                    }
+                    else
+                    {
+                        newNode = ed.dom.create('p', false, tinymce.isIE ? '&nbsp;' : '<br />' );
+                        pos = n;
+                    }
+                    newNode = ed.dom.insertAfter( newNode, pos );
                     setTimeout(BIND( function(){ this.__recursion = false; }, this ), 150);
                     ed.nodeChanged();
+                    ed.selection.select( newNode, true );
                 }
             }
             else if ( k === 32 && !this.__recursion )// user clicks space, create space after embed inline

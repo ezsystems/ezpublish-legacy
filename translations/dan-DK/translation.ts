@@ -1,4 +1,46 @@
-<!DOCTYPE TS><TS>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.0">
+<context>
+    <name>design/admin/content/browse</name>
+    <message>
+        <source>Bookmarks</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/content/edit</name>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Navn</translation>
+    </message>
+    <message>
+        <source>File type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation type="unfinished">Størrelse</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished">Type</translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/content/search</name>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/content/upload</name>
+    <message>
+        <source>Upload</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 <context>
     <name>design/standard/content/datatype</name>
     <message>
@@ -11,22 +53,58 @@
     </message>
 </context>
 <context>
+    <name>design/standard/content/edit</name>
+    <message>
+        <source>Send for publishing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Store draft</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discard</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/search</name>
+    <message>
+        <source>No results were found when searching for &amp;quot;%1&amp;quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/view</name>
+    <message>
+        <source>You have no bookmarks</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/error/kernel</name>
+    <message>
+        <source>Your current user does not have the proper privileges to access this page.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/standard/ezoe</name>
     <message>
         <source>Do you want to use the WYSIWYG mode for this textarea?</source>
-        <translation>Vil du bruge WYSIWYG mode for dette tekstområde?</translation>
+        <translation type="unfinished">Vil du bruge WYSIWYG mode for dette tekstområde?</translation>
     </message>
     <message>
         <source>Apply</source>
-        <translation>Anvend</translation>
+        <translation type="unfinished">Anvend</translation>
     </message>
     <message>
         <source>Insert</source>
-        <translation>Indsæt</translation>
+        <translation type="unfinished">Indsæt</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation>Opdater</translation>
+        <translation type="unfinished">Opdater</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -34,7 +112,7 @@
     </message>
     <message>
         <source>Close</source>
-        <translation>Luk</translation>
+        <translation type="unfinished">Luk</translation>
     </message>
     <message>
         <source>Browse</source>
@@ -46,29 +124,29 @@
     </message>
     <message>
         <source>-- Not set --</source>
-        <translation>-- Ikke angivet --</translation>
+        <translation type="unfinished">-- Ikke angivet --</translation>
     </message>
     <message>
         <source>Copy/Cut/Paste is not available in Mozilla and Firefox.
 Do you want more information about this issue?</source>
-        <translation>Kopier/Klip/Indsæt er ikke tilgængelig i Mozilla og Firefox
+        <translation type="unfinished">Kopier/Klip/Indsæt er ikke tilgængelig i Mozilla og Firefox
 Vil du have flere oplysninger om dette problem?</translation>
     </message>
     <message>
         <source>Currently not supported by your browser, use keyboard shortcuts instead.</source>
-        <translation>I øjeblikket understøttet af din browser, brug tastaturgenveje i stedet.</translation>
+        <translation type="unfinished">I øjeblikket understøttet af din browser, brug tastaturgenveje i stedet.</translation>
     </message>
     <message>
         <source>Sorry, but we have noticed that your popup-blocker has disabled a window that provides application functionality. You will need to disable popup blocking on this site in order to fully utilize this tool.</source>
-        <translation>Beklager, men vi har opdaget, at din popup-blocker har deaktiveret et vindue, som yder applikationsfunktionalitet. Du er nødt til at deaktivere popup-blokering på denne side for at få fuldt udbytte af dette værktøj.</translation>
+        <translation type="unfinished">Beklager, men vi har opdaget, at din popup-blocker har deaktiveret et vindue, som yder applikationsfunktionalitet. Du er nødt til at deaktivere popup-blokering på denne side for at få fuldt udbytte af dette værktøj.</translation>
     </message>
     <message>
         <source>Error: Invalid values entered, these are marked in red.</source>
-        <translation>Fejl: Ugyldig værdier indtastet, disse er markeret med rødt.</translation>
+        <translation type="unfinished">Fejl: Ugyldig værdier indtastet, disse er markeret med rødt.</translation>
     </message>
     <message>
         <source>More colors</source>
-        <translation>Flere farver</translation>
+        <translation type="unfinished">Flere farver</translation>
     </message>
     <message>
         <source>Alignment</source>
@@ -88,111 +166,111 @@ Vil du have flere oplysninger om dette problem?</translation>
     </message>
     <message>
         <source>Full</source>
-        <translation>Fuld</translation>
+        <translation type="unfinished">Fuld</translation>
     </message>
     <message>
         <source>%Y-%m-%d</source>
-        <translation>%Y-%m-%d</translation>
+        <translation type="unfinished">%Y-%m-%d</translation>
     </message>
     <message>
         <source>%H:%M:%S</source>
-        <translation>%H:%M:%S</translation>
+        <translation type="unfinished">%H:%M:%S</translation>
     </message>
     <message>
         <source>Insert date</source>
-        <translation>Indsæt dato</translation>
+        <translation type="unfinished">Indsæt dato</translation>
     </message>
     <message>
         <source>Insert time</source>
-        <translation>Indsæt tid</translation>
+        <translation type="unfinished">Indsæt tid</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Print</translation>
+        <translation type="unfinished">Print</translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation>Forhåndsvisning</translation>
+        <translation type="unfinished">Forhåndsvisning</translation>
     </message>
     <message>
         <source>Direction left to right</source>
-        <translation>Retning venstre til højre</translation>
+        <translation type="unfinished">Retning venstre til højre</translation>
     </message>
     <message>
         <source>Direction right to left</source>
-        <translation>Retning højre til venstre</translation>
+        <translation type="unfinished">Retning højre til venstre</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Gem</translation>
+        <translation type="unfinished">Gem</translation>
     </message>
     <message>
         <source>Cancel all changes</source>
-        <translation>Annuller alle ændringer</translation>
+        <translation type="unfinished">Annuller alle ændringer</translation>
     </message>
     <message>
         <source>Insert non-breaking space character</source>
-        <translation>Insdæt non-bracking mellemrumbogstav</translation>
+        <translation type="unfinished">Insdæt non-bracking mellemrumbogstav</translation>
     </message>
     <message>
         <source>Find</source>
-        <translation>Find</translation>
+        <translation type="unfinished">Find</translation>
     </message>
     <message>
         <source>Find/Replace</source>
-        <translation>Find/Erstat</translation>
+        <translation type="unfinished">Find/Erstat</translation>
     </message>
     <message>
         <source>Paste as Plain Text</source>
-        <translation>Indsæt som Plain Text</translation>
+        <translation type="unfinished">Indsæt som Plain Text</translation>
     </message>
     <message>
         <source>Paste from Word</source>
-        <translation>Indsæt fra Word</translation>
+        <translation type="unfinished">Indsæt fra Word</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>Marker alt</translation>
+        <translation type="unfinished">Marker alt</translation>
     </message>
     <message>
         <source>Use CTRL+V on your keyboard to paste the text into the window.</source>
-        <translation>Brug CRTL+V på dit tastatur for at indsætte teksten i vinduet.</translation>
+        <translation type="unfinished">Brug CRTL+V på dit tastatur for at indsætte teksten i vinduet.</translation>
     </message>
     <message>
         <source>Keep linebreaks</source>
-        <translation>Behold linjeskift</translation>
+        <translation type="unfinished">Behold linjeskift</translation>
     </message>
     <message>
         <source>Inserts a new table</source>
-        <translation>Indsætter en ny tabel</translation>
+        <translation type="unfinished">Indsætter en ny tabel</translation>
     </message>
     <message>
         <source>Insert row before</source>
-        <translation>Indsæt række før</translation>
+        <translation type="unfinished">Indsæt række før</translation>
     </message>
     <message>
         <source>Insert row after</source>
-        <translation>Indsæt række efter</translation>
+        <translation type="unfinished">Indsæt række efter</translation>
     </message>
     <message>
         <source>Delete row</source>
-        <translation>Slet række</translation>
+        <translation type="unfinished">Slet række</translation>
     </message>
     <message>
         <source>Insert column before</source>
-        <translation>Indsæt kolonne før</translation>
+        <translation type="unfinished">Indsæt kolonne før</translation>
     </message>
     <message>
         <source>Insert column after</source>
-        <translation>Indsæt kolonne efter</translation>
+        <translation type="unfinished">Indsæt kolonne efter</translation>
     </message>
     <message>
         <source>Remove column</source>
-        <translation>Fjern kolonne</translation>
+        <translation type="unfinished">Fjern kolonne</translation>
     </message>
     <message>
         <source>Split merged table cells</source>
-        <translation>Opdel sammensmeltede tabelceller</translation>
+        <translation type="unfinished">Opdel sammensmeltede tabelceller</translation>
     </message>
     <message>
         <source>Merge table cells</source>
@@ -200,35 +278,35 @@ Vil du have flere oplysninger om dette problem?</translation>
     </message>
     <message>
         <source>Table row properties</source>
-        <translation>Tabelrække-egenskaber</translation>
+        <translation type="unfinished">Tabelrække-egenskaber</translation>
     </message>
     <message>
         <source>Table cell properties</source>
-        <translation>Tabelcelle-egenskaber</translation>
+        <translation type="unfinished">Tabelcelle-egenskaber</translation>
     </message>
     <message>
         <source>Table properties</source>
-        <translation>Tabelegenskaber</translation>
+        <translation type="unfinished">Tabelegenskaber</translation>
     </message>
     <message>
         <source>Paste table row before</source>
-        <translation>Indsæt tabelrække før</translation>
+        <translation type="unfinished">Indsæt tabelrække før</translation>
     </message>
     <message>
         <source>Paste table row after</source>
-        <translation>Indsæt tabelrække efter</translation>
+        <translation type="unfinished">Indsæt tabelrække efter</translation>
     </message>
     <message>
         <source>Cut table row</source>
-        <translation>Klip tabelrække</translation>
+        <translation type="unfinished">Klip tabelrække</translation>
     </message>
     <message>
         <source>Copy table row</source>
-        <translation>Kopier tabelrække</translation>
+        <translation type="unfinished">Kopier tabelrække</translation>
     </message>
     <message>
         <source>Delete table</source>
-        <translation>Slet tabel</translation>
+        <translation type="unfinished">Slet tabel</translation>
     </message>
     <message>
         <source>Row</source>
@@ -252,235 +330,235 @@ Vil du have flere oplysninger om dette problem?</translation>
     </message>
     <message>
         <source>The changes you made will be lost if you navigate away from this page.</source>
-        <translation>De ændringer, du har foretagetm vil gå tabt, hvis du bevæger dig væk fra denne side.</translation>
+        <translation type="unfinished">De ændringer, du har foretagetm vil gå tabt, hvis du bevæger dig væk fra denne side.</translation>
     </message>
     <message>
         <source>Toggle fullscreen mode</source>
-        <translation>Skift fuldskærmstilstand</translation>
+        <translation type="unfinished">Skift fuldskærmstilstand</translation>
     </message>
     <message>
         <source>Insert / edit embedded media</source>
-        <translation>Indsæt / rediger embeddede medier</translation>
+        <translation type="unfinished">Indsæt / rediger embeddede medier</translation>
     </message>
     <message>
         <source>Edit embedded media</source>
-        <translation>Ret embeddede</translation>
+        <translation type="unfinished">Ret embeddede</translation>
     </message>
     <message>
         <source>Document properties</source>
-        <translation>Dokumentegenskaber</translation>
+        <translation type="unfinished">Dokumentegenskaber</translation>
     </message>
     <message>
         <source>Insert predefined template content</source>
-        <translation>Indsæt forhåndsdefineret skabelonindhold</translation>
+        <translation type="unfinished">Indsæt forhåndsdefineret skabelonindhold</translation>
     </message>
     <message>
         <source>Visual control characters on/off.</source>
-        <translation>Synlige kontrolbogstaver til/fra.</translation>
+        <translation type="unfinished">Synlige kontrolbogstaver til/fra.</translation>
     </message>
     <message>
         <source>Insert page break.</source>
-        <translation>Indsæt sideskift.</translation>
+        <translation type="unfinished">Indsæt sideskift.</translation>
     </message>
     <message>
         <source>Styles</source>
-        <translation>Stile</translation>
+        <translation type="unfinished">Stile</translation>
     </message>
     <message>
         <source>Format</source>
-        <translation>Format</translation>
+        <translation type="unfinished">Format</translation>
     </message>
     <message>
         <source>Paragraph</source>
-        <translation>Afsnit</translation>
+        <translation type="unfinished">Afsnit</translation>
     </message>
     <message>
         <source>Div</source>
-        <translation>Div</translation>
+        <translation type="unfinished">Div</translation>
     </message>
     <message>
         <source>Literal</source>
-        <translation>Bogstaveligt</translation>
+        <translation type="unfinished">Bogstaveligt</translation>
     </message>
     <message>
         <source>Heading 1</source>
-        <translation>Overskrift 1</translation>
+        <translation type="unfinished">Overskrift 1</translation>
     </message>
     <message>
         <source>Heading 2</source>
-        <translation>Overskrift 2</translation>
+        <translation type="unfinished">Overskrift 2</translation>
     </message>
     <message>
         <source>Heading 3</source>
-        <translation>Overskrift 3</translation>
+        <translation type="unfinished">Overskrift 3</translation>
     </message>
     <message>
         <source>Heading 4</source>
-        <translation>Overskrift 4</translation>
+        <translation type="unfinished">Overskrift 4</translation>
     </message>
     <message>
         <source>Heading 5</source>
-        <translation>Overskrift 5</translation>
+        <translation type="unfinished">Overskrift 5</translation>
     </message>
     <message>
         <source>Heading 6</source>
-        <translation>Overskrift 6</translation>
+        <translation type="unfinished">Overskrift 6</translation>
     </message>
     <message>
         <source>Code</source>
-        <translation>Kode</translation>
+        <translation type="unfinished">Kode</translation>
     </message>
     <message>
         <source>Code sample</source>
-        <translation>Kodesamling</translation>
+        <translation type="unfinished">Kodesamling</translation>
     </message>
     <message>
         <source>Definition term </source>
-        <translation>Defintionsterm</translation>
+        <translation type="obsolete">Defintionsterm</translation>
     </message>
     <message>
         <source>Definition description</source>
-        <translation>Definitionsbeskrivelse</translation>
+        <translation type="unfinished">Definitionsbeskrivelse</translation>
     </message>
     <message>
         <source>Bold (Ctrl+B)</source>
-        <translation>BOLD (CTRL+B)</translation>
+        <translation type="unfinished">BOLD (CTRL+B)</translation>
     </message>
     <message>
         <source>Italic (Ctrl+I)</source>
-        <translation>Italic (CTRL+I)</translation>
+        <translation type="unfinished">Italic (CTRL+I)</translation>
     </message>
     <message>
         <source>Underline (Ctrl+U)</source>
-        <translation>Understregning (CTRL+U)</translation>
+        <translation type="unfinished">Understregning (CTRL+U)</translation>
     </message>
     <message>
         <source>Strikethrough</source>
-        <translation>Gennemslag</translation>
+        <translation type="unfinished">Gennemslag</translation>
     </message>
     <message>
         <source>Align left</source>
-        <translation>Opstil til venstre</translation>
+        <translation type="unfinished">Opstil til venstre</translation>
     </message>
     <message>
         <source>Align center</source>
-        <translation>Opstil i midten</translation>
+        <translation type="unfinished">Opstil i midten</translation>
     </message>
     <message>
         <source>Align right</source>
-        <translation>Opstil til højre</translation>
+        <translation type="unfinished">Opstil til højre</translation>
     </message>
     <message>
         <source>Align full</source>
-        <translation>Opstil fuld</translation>
+        <translation type="unfinished">Opstil fuld</translation>
     </message>
     <message>
         <source>Unordered list</source>
-        <translation>Ubestilt liste</translation>
+        <translation type="unfinished">Ubestilt liste</translation>
     </message>
     <message>
         <source>Ordered list</source>
-        <translation>Bestilt liste</translation>
+        <translation type="unfinished">Bestilt liste</translation>
     </message>
     <message>
         <source>Outdent</source>
-        <translation>Outdent</translation>
+        <translation type="unfinished">Outdent</translation>
     </message>
     <message>
         <source>Indent</source>
-        <translation>Beskær</translation>
+        <translation type="unfinished">Beskær</translation>
     </message>
     <message>
         <source>Undo (Ctrl+Z)</source>
-        <translation>Fortryd (CTRL+Z)</translation>
+        <translation type="unfinished">Fortryd (CTRL+Z)</translation>
     </message>
     <message>
         <source>Redo (Ctrl+Y)</source>
-        <translation>Fortryd fortryd</translation>
+        <translation type="unfinished">Fortryd fortryd</translation>
     </message>
     <message>
         <source>Insert/edit link</source>
-        <translation>Indsæt/rediger link</translation>
+        <translation type="unfinished">Indsæt/rediger link</translation>
     </message>
     <message>
         <source>Unlink</source>
-        <translation>Unlink</translation>
+        <translation type="unfinished">Unlink</translation>
     </message>
     <message>
         <source>Insert/edit image</source>
-        <translation>Indsæt/rediger billede</translation>
+        <translation type="unfinished">Indsæt/rediger billede</translation>
     </message>
     <message>
         <source>Insert/edit object</source>
-        <translation>Indsæt/rediger objekt</translation>
+        <translation type="unfinished">Indsæt/rediger objekt</translation>
     </message>
     <message>
         <source>Insert custom tag</source>
-        <translation>Indsæt tilpasset tag</translation>
+        <translation type="unfinished">Indsæt tilpasset tag</translation>
     </message>
     <message>
         <source>Insert literal text</source>
-        <translation>Indsæt ordret tekst (Teksten forbliver, som det bliver skrevet)</translation>
+        <translation type="unfinished">Indsæt ordret tekst (Teksten forbliver, som det bliver skrevet)</translation>
     </message>
     <message>
         <source>Insert pagebreak</source>
-        <translation>Indsæt sideskift</translation>
+        <translation type="unfinished">Indsæt sideskift</translation>
     </message>
     <message>
         <source>Cleanup messy code</source>
-        <translation>Ryd op i rodet kode</translation>
+        <translation type="unfinished">Ryd op i rodet kode</translation>
     </message>
     <message>
         <source>Edit HTML Source</source>
-        <translation>Rediger HTML-kilde</translation>
+        <translation type="unfinished">Rediger HTML-kilde</translation>
     </message>
     <message>
         <source>Subscript</source>
-        <translation>Subscript</translation>
+        <translation type="unfinished">Subscript</translation>
     </message>
     <message>
         <source>Superscript</source>
-        <translation>Superscript</translation>
+        <translation type="unfinished">Superscript</translation>
     </message>
     <message>
         <source>Remove formatting</source>
-        <translation>Fjern formatering</translation>
+        <translation type="unfinished">Fjern formatering</translation>
     </message>
     <message>
         <source>Your custom description here</source>
-        <translation>Din kundebeskrivelse her</translation>
+        <translation type="unfinished">Din kundebeskrivelse her</translation>
     </message>
     <message>
         <source>Insert special character</source>
-        <translation>Indsæt specielle tegn</translation>
+        <translation type="unfinished">Indsæt specielle tegn</translation>
     </message>
     <message>
         <source>Toggle guidelines/invisible elements</source>
-        <translation>Slå retningslinjer af eller på/usynlige elementer</translation>
+        <translation type="unfinished">Slå retningslinjer af eller på/usynlige elementer</translation>
     </message>
     <message>
         <source>Insert/edit anchor</source>
-        <translation>Indsæt/rediger anker</translation>
+        <translation type="unfinished">Indsæt/rediger anker</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation>Klip</translation>
+        <translation type="unfinished">Klip</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopier</translation>
+        <translation type="unfinished">Kopier</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>Sæt ind</translation>
+        <translation type="unfinished">Sæt ind</translation>
     </message>
     <message>
         <source>Image properties</source>
-        <translation>Billedindstillinger</translation>
+        <translation type="unfinished">Billedindstillinger</translation>
     </message>
     <message>
         <source>New document</source>
-        <translation>Nyt dokument</translation>
+        <translation type="unfinished">Nyt dokument</translation>
     </message>
     <message>
         <source>Help</source>
@@ -488,31 +566,31 @@ Vil du have flere oplysninger om dette problem?</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation>Sti</translation>
+        <translation type="unfinished">Sti</translation>
     </message>
     <message>
         <source>Are you sure you want clear all contents?</source>
-        <translation>Er du sikker på, at du vil rydde alt indhold?</translation>
+        <translation type="unfinished">Er du sikker på, at du vil rydde alt indhold?</translation>
     </message>
     <message>
         <source>Jump to tool buttons - Alt+Q, Jump to editor - Alt-Z, Jump to element path - Alt-X</source>
-        <translation>Gå til værktøjsknap - ALT+Q, Gå til redigerer - ALT+Z, Gå til elementsti - ALT + X</translation>
+        <translation type="unfinished">Gå til værktøjsknap - ALT+Q, Gå til redigerer - ALT+Z, Gå til elementsti - ALT + X</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Næste</translation>
+        <translation type="unfinished">Næste</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Forrige</translation>
+        <translation type="unfinished">Forrige</translation>
     </message>
     <message>
         <source>Select</source>
-        <translation>Vælg</translation>
+        <translation type="unfinished">Vælg</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>Type</translation>
+        <translation type="unfinished">Type</translation>
     </message>
     <message>
         <source>About</source>
@@ -528,7 +606,7 @@ Vil du have flere oplysninger om dette problem?</translation>
     </message>
     <message>
         <source>Plugin</source>
-        <translation>Plugin</translation>
+        <translation type="unfinished">Plugin</translation>
     </message>
     <message>
         <source>Author</source>
@@ -540,47 +618,47 @@ Vil du have flere oplysninger om dette problem?</translation>
     </message>
     <message>
         <source>Loaded plugins</source>
-        <translation>Hentede plugins</translation>
+        <translation type="unfinished">Hentede plugins</translation>
     </message>
     <message>
         <source>HTML Source Editor</source>
-        <translation>HTML-kildeeditor</translation>
+        <translation type="unfinished">HTML-kildeeditor</translation>
     </message>
     <message>
         <source>Word wrap</source>
-        <translation>Word wrap</translation>
+        <translation type="unfinished">Word wrap</translation>
     </message>
     <message>
         <source>Select a color</source>
-        <translation>Vælg en farve</translation>
+        <translation type="unfinished">Vælg en farve</translation>
     </message>
     <message>
         <source>Picker</source>
-        <translation>Plukker</translation>
+        <translation type="unfinished">Plukker</translation>
     </message>
     <message>
         <source>Color picker</source>
-        <translation>Farveplukker</translation>
+        <translation type="unfinished">Farveplukker</translation>
     </message>
     <message>
         <source>Palette</source>
-        <translation>Palet</translation>
+        <translation type="unfinished">Palet</translation>
     </message>
     <message>
         <source>Palette colors</source>
-        <translation>Paletfarver</translation>
+        <translation type="unfinished">Paletfarver</translation>
     </message>
     <message>
         <source>Named</source>
-        <translation>Døbt</translation>
+        <translation type="unfinished">Døbt</translation>
     </message>
     <message>
         <source>Named colors</source>
-        <translation>Døbte farver</translation>
+        <translation type="unfinished">Døbte farver</translation>
     </message>
     <message>
         <source>Color</source>
-        <translation>Farve</translation>
+        <translation type="unfinished">Farve</translation>
     </message>
     <message>
         <source>Name</source>
@@ -588,7 +666,7 @@ Vil du have flere oplysninger om dette problem?</translation>
     </message>
     <message>
         <source>Select special character</source>
-        <translation>Vælg specielt bogstav</translation>
+        <translation type="unfinished">Vælg specielt bogstav</translation>
     </message>
     <message>
         <source>All</source>
@@ -652,7 +730,7 @@ Vil du have flere oplysninger om dette problem?</translation>
     </message>
     <message>
         <source>Anchor properties</source>
-        <translation>Ankerindstillinger</translation>
+        <translation type="obsolete">Ankerindstillinger</translation>
     </message>
     <message>
         <source>Properties</source>
@@ -660,7 +738,7 @@ Vil du have flere oplysninger om dette problem?</translation>
     </message>
     <message>
         <source>Custom tag properties</source>
-        <translation>Egenskaber for tilpasset tag (html)</translation>
+        <translation type="obsolete">Egenskaber for tilpasset tag (html)</translation>
     </message>
     <message>
         <source>Related content</source>
@@ -684,19 +762,19 @@ Vil du have flere oplysninger om dette problem?</translation>
     </message>
     <message>
         <source>Heading Properties</source>
-        <translation>Heading-egenskaber</translation>
+        <translation type="obsolete">Heading-egenskaber</translation>
     </message>
     <message>
         <source>Link properties</source>
-        <translation>Egenskaber for link</translation>
+        <translation type="obsolete">Egenskaber for link</translation>
     </message>
     <message>
         <source>Table Properties</source>
-        <translation>Egenskaber for tabel</translation>
+        <translation type="obsolete">Egenskaber for tabel</translation>
     </message>
     <message>
         <source>Cell Properties</source>
-        <translation>Egenskaber for celle</translation>
+        <translation type="obsolete">Egenskaber for celle</translation>
     </message>
     <message>
         <source>Apply to</source>
@@ -704,7 +782,7 @@ Vil du have flere oplysninger om dette problem?</translation>
     </message>
     <message>
         <source>Upload new</source>
-        <translation>Upload en fil</translation>
+        <translation type="obsolete">Upload en fil</translation>
     </message>
     <message>
         <source>File</source>
@@ -752,61 +830,66 @@ Vil du have flere oplysninger om dette problem?</translation>
     </message>
     <message>
         <source>Invalid or missing parameter: %parameter</source>
-        <translation>Ugyldig eller manglende parameter: %parameter</translation>
+        <translation type="unfinished">Ugyldig eller manglende parameter: %parameter</translation>
     </message>
     <message>
         <source>Invalid parameter: %parameter = %value</source>
-        <translation>Ugyldig paramaeter: %parameter = %value</translation>
+        <translation type="unfinished">Ugyldig paramaeter: %parameter = %value</translation>
     </message>
-</context>
-<context>
-    <name>design/standard/ezoe/wai</name>
     <message>
-        <source>Upload file from your local machine.</source>
+        <source>this</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Search for content already in eZ Publish.</source>
+        <source>Top</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Browse the content tree in eZ Publish.</source>
+        <source>Bottom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Select or browse content among your personal eZ Publish bookmarks.</source>
+        <source>List of possible link types. Link types that use the &apos;://&apos; format are technically called protocols.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Name for the uploaded object, filename is used if none is specified.</source>
+        <source>eznode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Choose file to upload from your local machine.</source>
+        <source>ezobject</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Lets you specify where in eZ Publish to store the uploaded object.</source>
+        <source>Ftp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.</source>
+        <source>Http</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Caption for a image is usually shown bellow it as a description to the image.</source>
+        <source>Https</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Description to the file your uploading, so internet clients can read more about it before they decide to download it.</source>
+        <source>Mail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enter the word you want to search for here, for instance the name of the content you are looking for.</source>
+        <source>Anchor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Lets you limit the content type your searching for, by limiting the eZ Publish content classes that are returned in the search result.</source>
+        <source>Other</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Id not valid!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The url the link points to, starts with link type (like http://).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -825,15 +908,16 @@ Vil du have flere oplysninger om dette problem?</translation>
         <source>To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>design/standard/ezoe/contenttype</name>
     <message>
-        <source>Image</source>
+        <source>The unique identifier used for the element in the (x)html output, used by style sheets and/or anchors.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>File</source>
+        <source>New %tag_name tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit %tag_name tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -841,11 +925,230 @@ Vil du have flere oplysninger om dette problem?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Flash</source>
+        <source>Node</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video</source>
+        <source>Relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch embed file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>[default]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New window (_blank)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Table cell</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Table header</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload new File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no related files.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload new Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no related images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload new Object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Run spell checking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ieSpell not detected. Do you want to install it now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Horizontale rule</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Emotions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert emotion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cool</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Embarassed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Foot in mouth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Frown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Innocent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Kiss</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Laughing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Money mouth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sealed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Smile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Surprised</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tongue out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Undecided</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wink</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Yell</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Paste is now in plain text mode. Click again to toggle back to regular paste mode. After you paste something you will be returned to regular paste mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Paste is now in plain text mode. Click again to toggle back to regular paste mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle spellchecker</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Spellchecker settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignore word</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignore all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Languages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please wait...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Suggestions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No suggestions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No misspellings found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Definition term</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert/edit file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert horizontal ruler</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/handler</name>
+    <message>
+        <source>Node %1 does not exist.</source>
+        <translation type="unfinished">Node %1 findes ikke.</translation>
+    </message>
+    <message>
+        <source>Node &apos;%1&apos; does not exist.</source>
+        <translation type="obsolete">Node %1 findes ikke.</translation>
+    </message>
+    <message>
+        <source>Object %1 does not exist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node &amp;apos;%1&amp;apos; does not exist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -865,7 +1168,7 @@ Vil du have flere oplysninger om dette problem?</translation>
     </message>
     <message>
         <source>Make the selected text &lt;u&gt;underline&lt;/u&gt;. This button is only enabled if you have a custom tag named underline, template code to handle underline custom tags is not included in Online Editor.</source>
-        <translation>Gør den markerede tekst underline. Denne knap er kun aktiv, hvis du har en tilpasset tag døbt underline, skabelonkode til at håndtere tilpassede tags er ikke inkluderet i Online Editor.</translation>
+        <translation type="obsolete">Gør den markerede tekst underline. Denne knap er kun aktiv, hvis du har en tilpasset tag døbt underline, skabelonkode til at håndtere tilpassede tags er ikke inkluderet i Online Editor.</translation>
     </message>
     <message>
         <source>Create a bullet list. To create a new list item, press &quot;Enter&quot;. To end a list, press &quot;Enter&quot; key on an empty list item. If you click this button when the cursor is on a list item, the formatting will be removed.</source>
@@ -1015,24 +1318,242 @@ Vil du have flere oplysninger om dette problem?</translation>
         <source>You can find more documentation in the doc folder of this extension and online on %link.</source>
         <translation>Du kan finde yderligere dokumentation i doc-mappen for denne udvidelse og online på %link.</translation>
     </message>
+    <message>
+        <source>Toggle &lt;u&gt;underline&lt;/u&gt; style on the selected text. This button is only enabled if you have a custom tag named underline.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle &lt;sub&gt;subscript&lt;/sub&gt; style on the selected text. This button is only enabled if you have a custom tag named subscript, template code to handle subscript custom tags is not included in Online Editor.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle &lt;sup&gt;superscript&lt;/sup&gt; style on the selected text. This button is only enabled if you have a custom tag named superscript, template code to handle superscript custom tags is not included in Online Editor.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle left align text, or float block content to the left.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle center align text, or float block content to the center (Same as not aligned by default).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle right align text, or float block content to the right.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle justify text, stretches the lines so that each line has equal width.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert an file from the related file list, upload a new file, search for an existing file or browse for it. To upload a local file, click &quot;Upload new&quot; button choose the local file, specify the name of the new file, choose placement from list and then click &quot;Upload&quot; button. This button is not enabled by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to spellcheck your text using google api or other depending on ezoe.ini settings. This button is not enabled by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find a string or a word in your text. This button is not enabled by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Replace a string or a word in your text. This button is not enabled by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dialog to paste text from word, the dialog will handle cleaning the content from word.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse for a node / object in your bookmarks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can switch text style from paragraph to header using keybord shortcut CTRL+1 to 6, and back to paragraph using CTRL+7</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>design/standard/ezoe/handler</name>
+    <name>design/standard/ezoe/searchreplace</name>
     <message>
-        <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
+        <source>Find again</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Object %1 does not exist.</source>
+        <source>The search has been completed. The search string could not be found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Node %1 does not exist.</source>
-        <translation>Node %1 findes ikke.</translation>
+        <source>Find</source>
+        <translation type="unfinished">Find</translation>
     </message>
     <message>
-        <source>Node &apos;%1&apos; does not exist.</source>
-        <translation>Node %1 findes ikke.</translation>
+        <source>Find/Replace</source>
+        <translation type="unfinished">Find/Erstat</translation>
+    </message>
+    <message>
+        <source>All occurrences of the search string were replaced.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find what</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Replace with</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Direction</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Match case</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Replace</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Replace all</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/validator</name>
+    <message>
+        <source>&amp;quot;%label&amp;quot; is required and must have a value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid integer number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid absolute url address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid email address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid css size/unit value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid html element id</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be higher then %min</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be lower then %max</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/wai</name>
+    <message>
+        <source>Upload file from your local machine.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search for content already in eZ Publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse the content tree in eZ Publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select or browse content among your personal eZ Publish bookmarks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name for the uploaded object, filename is used if none is specified.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose file to upload from your local machine.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you specify where in eZ Publish to store the uploaded object.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Caption for a image is usually shown bellow it as a description to the image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description to the file your uploading, so internet clients can read more about it before they decide to download it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the word you want to search for here, for instance the name of the content you are looking for.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you limit the content type your searching for, by limiting the eZ Publish content classes that are returned in the search result.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tags, aka Keywords are a comma separated list of words thats categorizes the content.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/node/view</name>
+    <message>
+        <source>Preview</source>
+        <translation type="unfinished">Forhåndsvisning</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/classes/datatypes</name>
+    <message>
+        <source>Content required</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/classes/datatypes/ezxmltext</name>
+    <message>
+        <source>Invalid e-mail address: &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/content</name>
+    <message>
+        <source>Top Level Nodes</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

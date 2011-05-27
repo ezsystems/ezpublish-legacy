@@ -5,7 +5,7 @@
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Online Editor extension for eZ Publish
 // SOFTWARE RELEASE: 5.0
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
+// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
 //   This program is free software; you can redistribute it and/or
@@ -218,12 +218,16 @@ else
 
 
 // view mode list
-if ( $contentIni->hasVariable( 'embed', 'AvailableViewModes' ) )
+if ( $contentIni->hasVariable( 'embed_' . $embedClassIdentifier, 'AvailableViewModes' ) )
+    $viewList = array_unique( $contentIni->variable( 'embed_' . $embedClassIdentifier, 'AvailableViewModes' ) );
+elseif ( $contentIni->hasVariable( 'embed', 'AvailableViewModes' ) )
     $viewList = array_unique( $contentIni->variable( 'embed', 'AvailableViewModes' ) );
 else
     $viewList = array();
 
-if ( $contentIni->hasVariable( 'embed-inline', 'AvailableViewModes' ) )
+if ( $contentIni->hasVariable( 'embed-inline_' . $embedClassIdentifier, 'AvailableViewModes' ) )
+    $viewListInline = array_unique( $contentIni->variable( 'embed-inline_' . $embedClassIdentifier, 'AvailableViewModes' ) );
+elseif ( $contentIni->hasVariable( 'embed-inline', 'AvailableViewModes' ) )
     $viewListInline = array_unique( $contentIni->variable( 'embed-inline', 'AvailableViewModes' ) );
 else
     $viewListInline = array();

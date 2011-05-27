@@ -1,4 +1,13 @@
-<!DOCTYPE TS><TS>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.0">
+<context>
+    <name>design/admin/content/browse</name>
+    <message>
+        <source>Bookmarks</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 <context>
     <name>design/admin/content/edit</name>
     <message>
@@ -62,7 +71,14 @@
     <name>design/standard/content/search</name>
     <message>
         <source>No results were found when searching for &amp;quot;%1&amp;quot;</source>
-        <translation>Ništa nije pronađeno za upit &amp;quot;%1&amp;quot;</translation>
+        <translation type="unfinished">Ništa nije pronađeno za upit &amp;quot;%1&amp;quot;</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/view</name>
+    <message>
+        <source>You have no bookmarks</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -76,19 +92,19 @@
     <name>design/standard/ezoe</name>
     <message>
         <source>Do you want to use the WYSIWYG mode for this textarea?</source>
-        <translation>Da li hoćeš da koristiš WYSIWYG način rada za ovaj deo teksta?</translation>
+        <translation type="unfinished">Da li hoćeš da koristiš WYSIWYG način rada za ovaj deo teksta?</translation>
     </message>
     <message>
         <source>Apply</source>
-        <translation>Primeni</translation>
+        <translation type="unfinished">Primeni</translation>
     </message>
     <message>
         <source>Insert</source>
-        <translation>Unesi</translation>
+        <translation type="unfinished">Unesi</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation>Ažuriraj</translation>
+        <translation type="unfinished">Ažuriraj</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -96,7 +112,7 @@
     </message>
     <message>
         <source>Close</source>
-        <translation>Zatvori</translation>
+        <translation type="unfinished">Zatvori</translation>
     </message>
     <message>
         <source>Browse</source>
@@ -108,29 +124,29 @@
     </message>
     <message>
         <source>-- Not set --</source>
-        <translation>-- Nije postavljen --</translation>
+        <translation type="unfinished">-- Nije postavljen --</translation>
     </message>
     <message>
         <source>Copy/Cut/Paste is not available in Mozilla and Firefox.
 Do you want more information about this issue?</source>
-        <translation>Kopiraj/Iseci/Zalepi nije dostupno u Mozilli i Firefoxu.
+        <translation type="unfinished">Kopiraj/Iseci/Zalepi nije dostupno u Mozilli i Firefoxu.
 Da li želiš više informacija o ovoj temi?</translation>
     </message>
     <message>
         <source>Currently not supported by your browser, use keyboard shortcuts instead.</source>
-        <translation>Trenutno nije podržano u Vašem pretraživaču, umesto toga koristite prečice na tastaturi.</translation>
+        <translation type="unfinished">Trenutno nije podržano u Vašem pretraživaču, umesto toga koristite prečice na tastaturi.</translation>
     </message>
     <message>
         <source>Sorry, but we have noticed that your popup-blocker has disabled a window that provides application functionality. You will need to disable popup blocking on this site in order to fully utilize this tool.</source>
-        <translation>Izvinite, primetili smo da je Vaš blokator iskačućih prozora onemogućio prozor aplikacije da funkcioniše. Treba da onemogućite blokator iskačućih prozora na ovom sajtu kako biste mogli u potpunosti da koristite ovaj alat.</translation>
+        <translation type="unfinished">Izvinite, primetili smo da je Vaš blokator iskačućih prozora onemogućio prozor aplikacije da funkcioniše. Treba da onemogućite blokator iskačućih prozora na ovom sajtu kako biste mogli u potpunosti da koristite ovaj alat.</translation>
     </message>
     <message>
         <source>Error: Invalid values entered, these are marked in red.</source>
-        <translation>Greška: unešene su pogrešne vrednosti, označene crvenom bojom.</translation>
+        <translation type="unfinished">Greška: unešene su pogrešne vrednosti, označene crvenom bojom.</translation>
     </message>
     <message>
         <source>More colors</source>
-        <translation>više boja</translation>
+        <translation type="unfinished">više boja</translation>
     </message>
     <message>
         <source>Alignment</source>
@@ -151,111 +167,111 @@ Desno</translation>
     </message>
     <message>
         <source>Full</source>
-        <translation>Puno</translation>
+        <translation type="unfinished">Puno</translation>
     </message>
     <message>
         <source>%Y-%m-%d</source>
-        <translation>%Y-%m-%d</translation>
+        <translation type="unfinished">%Y-%m-%d</translation>
     </message>
     <message>
         <source>%H:%M:%S</source>
-        <translation>%H:%M:%S</translation>
+        <translation type="unfinished">%H:%M:%S</translation>
     </message>
     <message>
         <source>Insert date</source>
-        <translation>Unesi datum</translation>
+        <translation type="unfinished">Unesi datum</translation>
     </message>
     <message>
         <source>Insert time</source>
-        <translation>Unesi vreme</translation>
+        <translation type="unfinished">Unesi vreme</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Štampaj</translation>
+        <translation type="unfinished">Štampaj</translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation>Pregled</translation>
+        <translation type="unfinished">Pregled</translation>
     </message>
     <message>
         <source>Direction left to right</source>
-        <translation>Smer sa leva na desno</translation>
+        <translation type="unfinished">Smer sa leva na desno</translation>
     </message>
     <message>
         <source>Direction right to left</source>
-        <translation>Smer sa desna na levo</translation>
+        <translation type="unfinished">Smer sa desna na levo</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Sačuvaj</translation>
+        <translation type="unfinished">Sačuvaj</translation>
     </message>
     <message>
         <source>Cancel all changes</source>
-        <translation>Otkaži sve promene</translation>
+        <translation type="unfinished">Otkaži sve promene</translation>
     </message>
     <message>
         <source>Insert non-breaking space character</source>
-        <translation>Unesi znak koji ne prekidaju liniju</translation>
+        <translation type="unfinished">Unesi znak koji ne prekidaju liniju</translation>
     </message>
     <message>
         <source>Find</source>
-        <translation>Pronađi</translation>
+        <translation type="unfinished">Pronađi</translation>
     </message>
     <message>
         <source>Find/Replace</source>
-        <translation>Pronađi/Zameni</translation>
+        <translation type="unfinished">Pronađi/Zameni</translation>
     </message>
     <message>
         <source>Paste as Plain Text</source>
-        <translation>Zalepi kao običan tekst</translation>
+        <translation type="unfinished">Zalepi kao običan tekst</translation>
     </message>
     <message>
         <source>Paste from Word</source>
-        <translation>Zalepi iz Word-a</translation>
+        <translation type="unfinished">Zalepi iz Word-a</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>Izaberi sve</translation>
+        <translation type="unfinished">Izaberi sve</translation>
     </message>
     <message>
         <source>Use CTRL+V on your keyboard to paste the text into the window.</source>
-        <translation>Koristi CTRL+V na tastaturi da bi zalepio tekst unutar prozora.</translation>
+        <translation type="unfinished">Koristi CTRL+V na tastaturi da bi zalepio tekst unutar prozora.</translation>
     </message>
     <message>
         <source>Keep linebreaks</source>
-        <translation>Zadrži raspored linija</translation>
+        <translation type="unfinished">Zadrži raspored linija</translation>
     </message>
     <message>
         <source>Inserts a new table</source>
-        <translation>Unesi novu tabelu</translation>
+        <translation type="unfinished">Unesi novu tabelu</translation>
     </message>
     <message>
         <source>Insert row before</source>
-        <translation>Unesi red ispred</translation>
+        <translation type="unfinished">Unesi red ispred</translation>
     </message>
     <message>
         <source>Insert row after</source>
-        <translation>Unesi red posle</translation>
+        <translation type="unfinished">Unesi red posle</translation>
     </message>
     <message>
         <source>Delete row</source>
-        <translation>Obriši red</translation>
+        <translation type="unfinished">Obriši red</translation>
     </message>
     <message>
         <source>Insert column before</source>
-        <translation>Unesi kolonu ispred</translation>
+        <translation type="unfinished">Unesi kolonu ispred</translation>
     </message>
     <message>
         <source>Insert column after</source>
-        <translation>Unesi kolonu posle</translation>
+        <translation type="unfinished">Unesi kolonu posle</translation>
     </message>
     <message>
         <source>Remove column</source>
-        <translation>Ukloni kolonu</translation>
+        <translation type="unfinished">Ukloni kolonu</translation>
     </message>
     <message>
         <source>Split merged table cells</source>
-        <translation>Podeli ujedinjena polja ćelije</translation>
+        <translation type="unfinished">Podeli ujedinjena polja ćelije</translation>
     </message>
     <message>
         <source>Merge table cells</source>
@@ -263,35 +279,35 @@ Desno</translation>
     </message>
     <message>
         <source>Table row properties</source>
-        <translation>Svojstva redova tabele</translation>
+        <translation type="unfinished">Svojstva redova tabele</translation>
     </message>
     <message>
         <source>Table cell properties</source>
-        <translation>Svojstva ćelija tabele</translation>
+        <translation type="unfinished">Svojstva ćelija tabele</translation>
     </message>
     <message>
         <source>Table properties</source>
-        <translation>Svojstva tabele</translation>
+        <translation type="unfinished">Svojstva tabele</translation>
     </message>
     <message>
         <source>Paste table row before</source>
-        <translation>Zalepi red tabele ispred</translation>
+        <translation type="unfinished">Zalepi red tabele ispred</translation>
     </message>
     <message>
         <source>Paste table row after</source>
-        <translation>Zalepi red tabele iza</translation>
+        <translation type="unfinished">Zalepi red tabele iza</translation>
     </message>
     <message>
         <source>Cut table row</source>
-        <translation>Iseci red tabele</translation>
+        <translation type="unfinished">Iseci red tabele</translation>
     </message>
     <message>
         <source>Copy table row</source>
-        <translation>Kopiraj red tabele</translation>
+        <translation type="unfinished">Kopiraj red tabele</translation>
     </message>
     <message>
         <source>Delete table</source>
-        <translation>Izbriši red tabele</translation>
+        <translation type="unfinished">Izbriši red tabele</translation>
     </message>
     <message>
         <source>Row</source>
@@ -315,235 +331,235 @@ Desno</translation>
     </message>
     <message>
         <source>The changes you made will be lost if you navigate away from this page.</source>
-        <translation>Promene koje ste napravili biće izgubljene ako odete sa ove stranice.</translation>
+        <translation type="unfinished">Promene koje ste napravili biće izgubljene ako odete sa ove stranice.</translation>
     </message>
     <message>
         <source>Toggle fullscreen mode</source>
-        <translation>Izaberi opciju: preko celog ekrana</translation>
+        <translation type="unfinished">Izaberi opciju: preko celog ekrana</translation>
     </message>
     <message>
         <source>Insert / edit embedded media</source>
-        <translation>Unesi / uredi ugrađeni multimedij</translation>
+        <translation type="unfinished">Unesi / uredi ugrađeni multimedij</translation>
     </message>
     <message>
         <source>Edit embedded media</source>
-        <translation>Uredi ugrađeni multimedij</translation>
+        <translation type="unfinished">Uredi ugrađeni multimedij</translation>
     </message>
     <message>
         <source>Document properties</source>
-        <translation>Svojstva dokumenta</translation>
+        <translation type="unfinished">Svojstva dokumenta</translation>
     </message>
     <message>
         <source>Insert predefined template content</source>
-        <translation>Unesi predefinisanu listu šablona</translation>
+        <translation type="unfinished">Unesi predefinisanu listu šablona</translation>
     </message>
     <message>
         <source>Visual control characters on/off.</source>
-        <translation>Vizuelna kontrola karaktera on/off.</translation>
+        <translation type="unfinished">Vizuelna kontrola karaktera on/off.</translation>
     </message>
     <message>
         <source>Insert page break.</source>
-        <translation>Unesi prelom stranice.</translation>
+        <translation type="unfinished">Unesi prelom stranice.</translation>
     </message>
     <message>
         <source>Styles</source>
-        <translation>Stilovi</translation>
+        <translation type="unfinished">Stilovi</translation>
     </message>
     <message>
         <source>Format</source>
-        <translation>Format</translation>
+        <translation type="unfinished">Format</translation>
     </message>
     <message>
         <source>Paragraph</source>
-        <translation>Paragraf</translation>
+        <translation type="unfinished">Paragraf</translation>
     </message>
     <message>
         <source>Div</source>
-        <translation>Div</translation>
+        <translation type="unfinished">Div</translation>
     </message>
     <message>
         <source>Literal</source>
-        <translation>Doslovan</translation>
+        <translation type="unfinished">Doslovan</translation>
     </message>
     <message>
         <source>Heading 1</source>
-        <translation>Naslov 1</translation>
+        <translation type="unfinished">Naslov 1</translation>
     </message>
     <message>
         <source>Heading 2</source>
-        <translation>Naslov 2</translation>
+        <translation type="unfinished">Naslov 2</translation>
     </message>
     <message>
         <source>Heading 3</source>
-        <translation>Naslov 3</translation>
+        <translation type="unfinished">Naslov 3</translation>
     </message>
     <message>
         <source>Heading 4</source>
-        <translation>Naslov 4</translation>
+        <translation type="unfinished">Naslov 4</translation>
     </message>
     <message>
         <source>Heading 5</source>
-        <translation>Naslov 5</translation>
+        <translation type="unfinished">Naslov 5</translation>
     </message>
     <message>
         <source>Heading 6</source>
-        <translation>Naslov 6</translation>
+        <translation type="unfinished">Naslov 6</translation>
     </message>
     <message>
         <source>Code</source>
-        <translation>Kod</translation>
+        <translation type="unfinished">Kod</translation>
     </message>
     <message>
         <source>Code sample</source>
-        <translation>Uzorak koda</translation>
+        <translation type="unfinished">Uzorak koda</translation>
     </message>
     <message>
         <source>Definition term </source>
-        <translation>Propis definicije</translation>
+        <translation type="obsolete">Propis definicije</translation>
     </message>
     <message>
         <source>Definition description</source>
-        <translation>Opis definicije</translation>
+        <translation type="unfinished">Opis definicije</translation>
     </message>
     <message>
         <source>Bold (Ctrl+B)</source>
-        <translation>Masna slova (Ctrl+B)</translation>
+        <translation type="unfinished">Masna slova (Ctrl+B)</translation>
     </message>
     <message>
         <source>Italic (Ctrl+I)</source>
-        <translation>Kursiv (Ctrl+I)</translation>
+        <translation type="unfinished">Kursiv (Ctrl+I)</translation>
     </message>
     <message>
         <source>Underline (Ctrl+U)</source>
-        <translation>Podvučeno (Ctrl+U)</translation>
+        <translation type="unfinished">Podvučeno (Ctrl+U)</translation>
     </message>
     <message>
         <source>Strikethrough</source>
-        <translation>Precrtano</translation>
+        <translation type="unfinished">Precrtano</translation>
     </message>
     <message>
         <source>Align left</source>
-        <translation>Podesi ulevo</translation>
+        <translation type="unfinished">Podesi ulevo</translation>
     </message>
     <message>
         <source>Align center</source>
-        <translation>Podesi u centar</translation>
+        <translation type="unfinished">Podesi u centar</translation>
     </message>
     <message>
         <source>Align right</source>
-        <translation>Podesi udesno</translation>
+        <translation type="unfinished">Podesi udesno</translation>
     </message>
     <message>
         <source>Align full</source>
-        <translation>Podesi puno</translation>
+        <translation type="unfinished">Podesi puno</translation>
     </message>
     <message>
         <source>Unordered list</source>
-        <translation>Neuređena lista</translation>
+        <translation type="unfinished">Neuređena lista</translation>
     </message>
     <message>
         <source>Ordered list</source>
-        <translation>Uređenja lista</translation>
+        <translation type="unfinished">Uređenja lista</translation>
     </message>
     <message>
         <source>Outdent</source>
-        <translation>Izvučen</translation>
+        <translation type="unfinished">Izvučen</translation>
     </message>
     <message>
         <source>Indent</source>
-        <translation>Uvučen</translation>
+        <translation type="unfinished">Uvučen</translation>
     </message>
     <message>
         <source>Undo (Ctrl+Z)</source>
-        <translation>Poništi (Ctrl+Z)</translation>
+        <translation type="unfinished">Poništi (Ctrl+Z)</translation>
     </message>
     <message>
         <source>Redo (Ctrl+Y)</source>
-        <translation>Ponovi (Ctrl+Y)</translation>
+        <translation type="unfinished">Ponovi (Ctrl+Y)</translation>
     </message>
     <message>
         <source>Insert/edit link</source>
-        <translation>Unesi/uredi link</translation>
+        <translation type="unfinished">Unesi/uredi link</translation>
     </message>
     <message>
         <source>Unlink</source>
-        <translation>Podlink</translation>
+        <translation type="unfinished">Podlink</translation>
     </message>
     <message>
         <source>Insert/edit image</source>
-        <translation>Unesi/uredi sliku</translation>
+        <translation type="unfinished">Unesi/uredi sliku</translation>
     </message>
     <message>
         <source>Insert/edit object</source>
-        <translation>Unesi/uredi objekt</translation>
+        <translation type="unfinished">Unesi/uredi objekt</translation>
     </message>
     <message>
         <source>Insert custom tag</source>
-        <translation>Unesi posebnu oznaku</translation>
+        <translation type="unfinished">Unesi posebnu oznaku</translation>
     </message>
     <message>
         <source>Insert literal text</source>
-        <translation>Unesi doslovni tekst</translation>
+        <translation type="unfinished">Unesi doslovni tekst</translation>
     </message>
     <message>
         <source>Insert pagebreak</source>
-        <translation>Unesi prelom stranice</translation>
+        <translation type="unfinished">Unesi prelom stranice</translation>
     </message>
     <message>
         <source>Cleanup messy code</source>
-        <translation>Počisti nejasan kod</translation>
+        <translation type="unfinished">Počisti nejasan kod</translation>
     </message>
     <message>
         <source>Edit HTML Source</source>
-        <translation>Uredi HTML Izvor</translation>
+        <translation type="unfinished">Uredi HTML Izvor</translation>
     </message>
     <message>
         <source>Subscript</source>
-        <translation>Indeks</translation>
+        <translation type="unfinished">Indeks</translation>
     </message>
     <message>
         <source>Superscript</source>
-        <translation>Eksponent</translation>
+        <translation type="unfinished">Eksponent</translation>
     </message>
     <message>
         <source>Remove formatting</source>
-        <translation>Ukloni formatiranje</translation>
+        <translation type="unfinished">Ukloni formatiranje</translation>
     </message>
     <message>
         <source>Your custom description here</source>
-        <translation>Vaš posebni opis ovde</translation>
+        <translation type="unfinished">Vaš posebni opis ovde</translation>
     </message>
     <message>
         <source>Insert special character</source>
-        <translation>Unesi posebni znak</translation>
+        <translation type="unfinished">Unesi posebni znak</translation>
     </message>
     <message>
         <source>Toggle guidelines/invisible elements</source>
-        <translation>Izaberi smernice/nevidljive elemente</translation>
+        <translation type="unfinished">Izaberi smernice/nevidljive elemente</translation>
     </message>
     <message>
         <source>Insert/edit anchor</source>
-        <translation>Unesi/uredi sidro</translation>
+        <translation type="unfinished">Unesi/uredi sidro</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation>Iseci</translation>
+        <translation type="unfinished">Iseci</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiraj</translation>
+        <translation type="unfinished">Kopiraj</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>Zalepi</translation>
+        <translation type="unfinished">Zalepi</translation>
     </message>
     <message>
         <source>Image properties</source>
-        <translation>Svojstva slike</translation>
+        <translation type="unfinished">Svojstva slike</translation>
     </message>
     <message>
         <source>New document</source>
-        <translation>Novi dokument</translation>
+        <translation type="unfinished">Novi dokument</translation>
     </message>
     <message>
         <source>Help</source>
@@ -551,31 +567,31 @@ Desno</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation>Staza</translation>
+        <translation type="unfinished">Staza</translation>
     </message>
     <message>
         <source>Are you sure you want clear all contents?</source>
-        <translation>Da li ste sigurni da želite da obrišete sav sadržaj?</translation>
+        <translation type="unfinished">Da li ste sigurni da želite da obrišete sav sadržaj?</translation>
     </message>
     <message>
         <source>Jump to tool buttons - Alt+Q, Jump to editor - Alt-Z, Jump to element path - Alt-X</source>
-        <translation>Skči na Upravlajčku dugmad - Alt+Q, Skoči na uređivač - Alt-Z, Skoči na stazu elementa - Alt-X</translation>
+        <translation type="unfinished">Skči na Upravlajčku dugmad - Alt+Q, Skoči na uređivač - Alt-Z, Skoči na stazu elementa - Alt-X</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Sledeći</translation>
+        <translation type="unfinished">Sledeći</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Prethodni</translation>
+        <translation type="unfinished">Prethodni</translation>
     </message>
     <message>
         <source>Select</source>
-        <translation>Izaberi</translation>
+        <translation type="unfinished">Izaberi</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>Tip</translation>
+        <translation type="unfinished">Tip</translation>
     </message>
     <message>
         <source>About</source>
@@ -591,7 +607,7 @@ Desno</translation>
     </message>
     <message>
         <source>Plugin</source>
-        <translation>Dodatak</translation>
+        <translation type="unfinished">Dodatak</translation>
     </message>
     <message>
         <source>Author</source>
@@ -603,47 +619,47 @@ Desno</translation>
     </message>
     <message>
         <source>Loaded plugins</source>
-        <translation>Učitani dodaci</translation>
+        <translation type="unfinished">Učitani dodaci</translation>
     </message>
     <message>
         <source>HTML Source Editor</source>
-        <translation>Uređivač HTML Izvora</translation>
+        <translation type="unfinished">Uređivač HTML Izvora</translation>
     </message>
     <message>
         <source>Word wrap</source>
-        <translation>Ciklički niz reči</translation>
+        <translation type="unfinished">Ciklički niz reči</translation>
     </message>
     <message>
         <source>Select a color</source>
-        <translation>Izaberi boju</translation>
+        <translation type="unfinished">Izaberi boju</translation>
     </message>
     <message>
         <source>Picker</source>
-        <translation>Sakupljač</translation>
+        <translation type="unfinished">Sakupljač</translation>
     </message>
     <message>
         <source>Color picker</source>
-        <translation>Sakupljač boje</translation>
+        <translation type="unfinished">Sakupljač boje</translation>
     </message>
     <message>
         <source>Palette</source>
-        <translation>Paleta</translation>
+        <translation type="unfinished">Paleta</translation>
     </message>
     <message>
         <source>Palette colors</source>
-        <translation>Paleta boja</translation>
+        <translation type="unfinished">Paleta boja</translation>
     </message>
     <message>
         <source>Named</source>
-        <translation>Nazvan</translation>
+        <translation type="unfinished">Nazvan</translation>
     </message>
     <message>
         <source>Named colors</source>
-        <translation>Nazvane boje</translation>
+        <translation type="unfinished">Nazvane boje</translation>
     </message>
     <message>
         <source>Color</source>
-        <translation>Boja</translation>
+        <translation type="unfinished">Boja</translation>
     </message>
     <message>
         <source>Name</source>
@@ -651,7 +667,7 @@ Desno</translation>
     </message>
     <message>
         <source>Select special character</source>
-        <translation>Izaberi posebni znak</translation>
+        <translation type="unfinished">Izaberi posebni znak</translation>
     </message>
     <message>
         <source>All</source>
@@ -715,7 +731,7 @@ Desno</translation>
     </message>
     <message>
         <source>Anchor properties</source>
-        <translation>Svojstva sidra</translation>
+        <translation type="obsolete">Svojstva sidra</translation>
     </message>
     <message>
         <source>Properties</source>
@@ -723,7 +739,7 @@ Desno</translation>
     </message>
     <message>
         <source>Custom tag properties</source>
-        <translation>Svojstva posebne oznake</translation>
+        <translation type="obsolete">Svojstva posebne oznake</translation>
     </message>
     <message>
         <source>Related content</source>
@@ -747,19 +763,19 @@ Desno</translation>
     </message>
     <message>
         <source>Heading Properties</source>
-        <translation>Svojstva naslova</translation>
+        <translation type="obsolete">Svojstva naslova</translation>
     </message>
     <message>
         <source>Link properties</source>
-        <translation>Svojstva linka</translation>
+        <translation type="obsolete">Svojstva linka</translation>
     </message>
     <message>
         <source>Table Properties</source>
-        <translation>Svojstva tabele</translation>
+        <translation type="obsolete">Svojstva tabele</translation>
     </message>
     <message>
         <source>Cell Properties</source>
-        <translation>Svojstva ćelije</translation>
+        <translation type="obsolete">Svojstva ćelije</translation>
     </message>
     <message>
         <source>Apply to</source>
@@ -767,7 +783,7 @@ Desno</translation>
     </message>
     <message>
         <source>Upload new</source>
-        <translation>Otpremi novo</translation>
+        <translation type="obsolete">Otpremi novo</translation>
     </message>
     <message>
         <source>File</source>
@@ -811,11 +827,326 @@ Desno</translation>
     </message>
     <message>
         <source>Invalid or missing parameter: %parameter</source>
-        <translation>Neispravan ili nepostojeći parametar: %parameter</translation>
+        <translation type="unfinished">Neispravan ili nepostojeći parametar: %parameter</translation>
     </message>
     <message>
         <source>Invalid parameter: %parameter = %value</source>
-        <translation>Neispravan: %parameter = %value</translation>
+        <translation type="unfinished">Neispravan: %parameter = %value</translation>
+    </message>
+    <message>
+        <source>this</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>List of possible link types. Link types that use the &apos;://&apos; format are technically called protocols.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eznode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ezobject</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ftp</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Http</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Https</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Anchor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Id not valid!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The url the link points to, starts with link type (like http://).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class are often used to give different design or appearance, either by using a different template, style or both.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you specify the target window for the link, if any.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The title on the (x)html tag, used by screen readers, and to give better explanation like this one.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The unique identifier used for the element in the (x)html output, used by style sheets and/or anchors.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New %tag_name tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit %tag_name tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch embed file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>[default]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New window (_blank)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Table cell</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Table header</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload new File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no related files.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload new Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alternative text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no related images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload new Object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Run spell checking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ieSpell not detected. Do you want to install it now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Horizontale rule</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Emotions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert emotion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cool</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Embarassed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Foot in mouth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Frown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Innocent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Kiss</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Laughing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Money mouth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sealed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Smile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Surprised</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tongue out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Undecided</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wink</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Yell</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Paste is now in plain text mode. Click again to toggle back to regular paste mode. After you paste something you will be returned to regular paste mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Paste is now in plain text mode. Click again to toggle back to regular paste mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle spellchecker</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Spellchecker settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignore word</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignore all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Languages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please wait...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Suggestions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No suggestions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No misspellings found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Definition term</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert/edit file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert horizontal ruler</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/handler</name>
+    <message>
+        <source>Object %1 does not exist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node %1 does not exist.</source>
+        <translation type="unfinished">Čvor %1 ne postoji.</translation>
+    </message>
+    <message>
+        <source>Node &amp;apos;%1&amp;apos; does not exist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -834,7 +1165,7 @@ Desno</translation>
     </message>
     <message>
         <source>Make the selected text &lt;u&gt;underline&lt;/u&gt;. This button is only enabled if you have a custom tag named underline, template code to handle underline custom tags is not included in Online Editor.</source>
-        <translation>Podvuci odabrani tekst &lt;u&gt;underline&lt;/u&gt;. Ovo dugme je aktivno samo ako je ime posebne oznake podvučeno, šablonski kod za manipulisanje posebnim oznakama nije uključen u Online Editor. </translation>
+        <translation type="obsolete">Podvuci odabrani tekst &lt;u&gt;underline&lt;/u&gt;. Ovo dugme je aktivno samo ako je ime posebne oznake podvučeno, šablonski kod za manipulisanje posebnim oznakama nije uključen u Online Editor. </translation>
     </message>
     <message>
         <source>Create a bullet list. To create a new list item, press &quot;Enter&quot;. To end a list, press &quot;Enter&quot; key on an empty list item. If you click this button when the cursor is on a list item, the formatting will be removed.</source>
@@ -984,6 +1315,215 @@ Desno</translation>
         <source>You can find more documentation in the doc folder of this extension and online on %link.</source>
         <translation>Možete pronaći više dokumentacije u doc fascikli ove oznake i na mreži na %link.</translation>
     </message>
+    <message>
+        <source>Toggle &lt;u&gt;underline&lt;/u&gt; style on the selected text. This button is only enabled if you have a custom tag named underline.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle &lt;sub&gt;subscript&lt;/sub&gt; style on the selected text. This button is only enabled if you have a custom tag named subscript, template code to handle subscript custom tags is not included in Online Editor.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle &lt;sup&gt;superscript&lt;/sup&gt; style on the selected text. This button is only enabled if you have a custom tag named superscript, template code to handle superscript custom tags is not included in Online Editor.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle left align text, or float block content to the left.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle center align text, or float block content to the center (Same as not aligned by default).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle right align text, or float block content to the right.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle justify text, stretches the lines so that each line has equal width.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert an file from the related file list, upload a new file, search for an existing file or browse for it. To upload a local file, click &quot;Upload new&quot; button choose the local file, specify the name of the new file, choose placement from list and then click &quot;Upload&quot; button. This button is not enabled by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to spellcheck your text using google api or other depending on ezoe.ini settings. This button is not enabled by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find a string or a word in your text. This button is not enabled by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Replace a string or a word in your text. This button is not enabled by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dialog to paste text from word, the dialog will handle cleaning the content from word.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse for a node / object in your bookmarks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can switch text style from paragraph to header using keybord shortcut CTRL+1 to 6, and back to paragraph using CTRL+7</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/searchreplace</name>
+    <message>
+        <source>Find again</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The search has been completed. The search string could not be found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find</source>
+        <translation type="unfinished">Pronađi</translation>
+    </message>
+    <message>
+        <source>Find/Replace</source>
+        <translation type="unfinished">Pronađi/Zameni</translation>
+    </message>
+    <message>
+        <source>All occurrences of the search string were replaced.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find what</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Replace with</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Direction</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Match case</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Replace</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Replace all</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/validator</name>
+    <message>
+        <source>&amp;quot;%label&amp;quot; is required and must have a value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid integer number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid absolute url address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid email address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid css size/unit value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid html element id</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be higher then %min</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be lower then %max</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/wai</name>
+    <message>
+        <source>Enter the word you want to search for here, for instance the name of the content you are looking for.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you limit the content type your searching for, by limiting the eZ Publish content classes that are returned in the search result.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name for the uploaded object, filename is used if none is specified.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose file to upload from your local machine.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you specify where in eZ Publish to store the uploaded object.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload file from your local machine.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search for content already in eZ Publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse the content tree in eZ Publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select or browse content among your personal eZ Publish bookmarks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description to the file your uploading, so internet clients can read more about it before they decide to download it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Caption for a image is usually shown bellow it as a description to the image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tags, aka Keywords are a comma separated list of words thats categorizes the content.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/node/view</name>
@@ -996,29 +1536,36 @@ Desno</translation>
     <name>handlers/input</name>
     <message>
         <source>Node %1 does not exist.</source>
-        <translation>Čvor %1 ne postoji.</translation>
+        <translation type="obsolete">Čvor %1 ne postoji.</translation>
     </message>
     <message>
         <source>Node &apos;%1&apos; does not exist.</source>
-        <translation>Čvor&apos;%1&apos; ne postoji.</translation>
+        <translation type="obsolete">Čvor&apos;%1&apos; ne postoji.</translation>
     </message>
 </context>
 <context>
     <name>kernel/classes/datatypes</name>
     <message>
         <source>Invalid e-mail address: &apos;%1&apos;</source>
-        <translation>Pogrešna e-mail adresa: &apos;%1&apos;</translation>
+        <translation type="obsolete">Pogrešna e-mail adresa: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Content required</source>
-        <translation>Potreban sadržaj</translation>
+        <translation type="unfinished">Potreban sadržaj</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/classes/datatypes/ezxmltext</name>
+    <message>
+        <source>Invalid e-mail address: &apos;%1&apos;</source>
+        <translation type="unfinished">Pogrešna e-mail adresa: &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
     <name>kernel/content</name>
     <message>
         <source>Top Level Nodes</source>
-        <translation>Čvorovi najvišeg nivoa</translation>
+        <translation type="unfinished">Čvorovi najvišeg nivoa</translation>
     </message>
 </context>
 </TS>

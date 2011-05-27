@@ -1,4 +1,13 @@
-<!DOCTYPE TS><TS>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.0">
+<context>
+    <name>design/admin/content/browse</name>
+    <message>
+        <source>Bookmarks</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 <context>
     <name>design/admin/content/edit</name>
     <message>
@@ -62,7 +71,14 @@
     <name>design/standard/content/search</name>
     <message>
         <source>No results were found when searching for &amp;quot;%1&amp;quot;</source>
-        <translation>Tuloksia ei löytynyt etsittäessä &amp;quot;%1&amp;quot;</translation>
+        <translation type="unfinished">Tuloksia ei löytynyt etsittäessä &amp;quot;%1&amp;quot;</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/view</name>
+    <message>
+        <source>You have no bookmarks</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -76,31 +92,31 @@
     <name>design/standard/ezoe</name>
     <message>
         <source>Insert special character</source>
-        <translation>Lisää erikoismerkki</translation>
+        <translation type="unfinished">Lisää erikoismerkki</translation>
     </message>
     <message>
         <source>Insert literal text</source>
-        <translation>Lisää kirjoitettu teksti</translation>
+        <translation type="unfinished">Lisää kirjoitettu teksti</translation>
     </message>
     <message>
         <source>Insert custom tag</source>
-        <translation>Lisää mukauttu merkki</translation>
+        <translation type="unfinished">Lisää mukauttu merkki</translation>
     </message>
     <message>
         <source>Insert pagebreak</source>
-        <translation>Lisää sivunvaihto</translation>
+        <translation type="unfinished">Lisää sivunvaihto</translation>
     </message>
     <message>
         <source>Delete table</source>
-        <translation>Poista taulukko</translation>
+        <translation type="unfinished">Poista taulukko</translation>
     </message>
     <message>
         <source>Delete row</source>
-        <translation>Poista rivi</translation>
+        <translation type="unfinished">Poista rivi</translation>
     </message>
     <message>
         <source>Find</source>
-        <translation>Etsi</translation>
+        <translation type="unfinished">Etsi</translation>
     </message>
     <message>
         <source>Help</source>
@@ -108,31 +124,31 @@
     </message>
     <message>
         <source>Heading 1</source>
-        <translation>Otsikko 1</translation>
+        <translation type="unfinished">Otsikko 1</translation>
     </message>
     <message>
         <source>Heading 2</source>
-        <translation>Otsikko 2</translation>
+        <translation type="unfinished">Otsikko 2</translation>
     </message>
     <message>
         <source>Heading 3</source>
-        <translation>Otsikko 3</translation>
+        <translation type="unfinished">Otsikko 3</translation>
     </message>
     <message>
         <source>Heading 4</source>
-        <translation>Otsikko 4</translation>
+        <translation type="unfinished">Otsikko 4</translation>
     </message>
     <message>
         <source>Heading 5</source>
-        <translation>Otsikko 5</translation>
+        <translation type="unfinished">Otsikko 5</translation>
     </message>
     <message>
         <source>Heading 6</source>
-        <translation>Otsikko 6</translation>
+        <translation type="unfinished">Otsikko 6</translation>
     </message>
     <message>
         <source>Literal</source>
-        <translation>Kirjoitettu</translation>
+        <translation type="unfinished">Kirjoitettu</translation>
     </message>
     <message>
         <source>Properties</source>
@@ -140,23 +156,23 @@
     </message>
     <message>
         <source>Cut</source>
-        <translation>Leikkaa</translation>
+        <translation type="unfinished">Leikkaa</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopioi</translation>
+        <translation type="unfinished">Kopioi</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>Liitä</translation>
+        <translation type="unfinished">Liitä</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>Valitse kaikki</translation>
+        <translation type="unfinished">Valitse kaikki</translation>
     </message>
     <message>
         <source>Table Properties</source>
-        <translation>Taulukon ominaisuudet</translation>
+        <translation type="obsolete">Taulukon ominaisuudet</translation>
     </message>
     <message>
         <source>OK</source>
@@ -180,7 +196,7 @@
     </message>
     <message>
         <source>Type</source>
-        <translation>Tyyppi</translation>
+        <translation type="unfinished">Tyyppi</translation>
     </message>
     <message>
         <source>Browse</source>
@@ -228,7 +244,7 @@
     </message>
     <message>
         <source>Upload new</source>
-        <translation>Lataa uusi</translation>
+        <translation type="obsolete">Lataa uusi</translation>
     </message>
     <message>
         <source>Center</source>
@@ -280,19 +296,19 @@
     </message>
     <message>
         <source>Cell Properties</source>
-        <translation>Solun ominaisuudet</translation>
+        <translation type="obsolete">Solun ominaisuudet</translation>
     </message>
     <message>
         <source>Custom tag properties</source>
-        <translation>Mukautetun merkin ominaisuudet</translation>
+        <translation type="obsolete">Mukautetun merkin ominaisuudet</translation>
     </message>
     <message>
         <source>Link properties</source>
-        <translation>Linkin ominaisuudet</translation>
+        <translation type="obsolete">Linkin ominaisuudet</translation>
     </message>
     <message>
         <source>Anchor properties</source>
-        <translation>Ankkurin ominaisuudet</translation>
+        <translation type="obsolete">Ankkurin ominaisuudet</translation>
     </message>
     <message>
         <source>View</source>
@@ -304,49 +320,49 @@
     </message>
     <message>
         <source>Do you want to use the WYSIWYG mode for this textarea?</source>
-        <translation>Haluatko käyttää WYSIWYG-tilaa tässä tekstialueessa?</translation>
+        <translation type="unfinished">Haluatko käyttää WYSIWYG-tilaa tässä tekstialueessa?</translation>
     </message>
     <message>
         <source>Apply</source>
-        <translation>Käytä</translation>
+        <translation type="unfinished">Käytä</translation>
     </message>
     <message>
         <source>Insert</source>
-        <translation>Lisää</translation>
+        <translation type="unfinished">Lisää</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation>Päivitä</translation>
+        <translation type="unfinished">Päivitä</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation>Sulje</translation>
+        <translation type="unfinished">Sulje</translation>
     </message>
     <message>
         <source>-- Not set --</source>
-        <translation>-- Ei asetettu --</translation>
+        <translation type="unfinished">-- Ei asetettu --</translation>
     </message>
     <message>
         <source>Copy/Cut/Paste is not available in Mozilla and Firefox.
 Do you want more information about this issue?</source>
-        <translation>Kopioi/Leikkaa/Liitä-toiminnot eivät ole käytettävissä Mozillassa ja Firefoxissa.
+        <translation type="unfinished">Kopioi/Leikkaa/Liitä-toiminnot eivät ole käytettävissä Mozillassa ja Firefoxissa.
 Haluatko lisätietoja aiheesta?</translation>
     </message>
     <message>
         <source>Currently not supported by your browser, use keyboard shortcuts instead.</source>
-        <translation>Selaimesi ei tällä hetkellä tue tätä, käytä näppäimistön lyhenteitä sen sijaan.</translation>
+        <translation type="unfinished">Selaimesi ei tällä hetkellä tue tätä, käytä näppäimistön lyhenteitä sen sijaan.</translation>
     </message>
     <message>
         <source>Sorry, but we have noticed that your popup-blocker has disabled a window that provides application functionality. You will need to disable popup blocking on this site in order to fully utilize this tool.</source>
-        <translation>Pahoittelut, mutta huomasimme, että pop up -estosi on estänyt ohjelman toiminnan mahdollistavan ikkunan avaamisen. Sinun täytyy poistaa pop up -eston käyttö tällä sivulla, jotta työkalu toimisi kunnolla.</translation>
+        <translation type="unfinished">Pahoittelut, mutta huomasimme, että pop up -estosi on estänyt ohjelman toiminnan mahdollistavan ikkunan avaamisen. Sinun täytyy poistaa pop up -eston käyttö tällä sivulla, jotta työkalu toimisi kunnolla.</translation>
     </message>
     <message>
         <source>Error: Invalid values entered, these are marked in red.</source>
-        <translation>Virhe: Syötetyt virheelliset arvot on merkitty punaisella.</translation>
+        <translation type="unfinished">Virhe: Syötetyt virheelliset arvot on merkitty punaisella.</translation>
     </message>
     <message>
         <source>More colors</source>
-        <translation>Lisää värejä</translation>
+        <translation type="unfinished">Lisää värejä</translation>
     </message>
     <message>
         <source>Alignment</source>
@@ -354,99 +370,99 @@ Haluatko lisätietoja aiheesta?</translation>
     </message>
     <message>
         <source>Full</source>
-        <translation>Täysi</translation>
+        <translation type="unfinished">Täysi</translation>
     </message>
     <message>
         <source>%Y-%m-%d</source>
-        <translation>%Y-%m-%d</translation>
+        <translation type="unfinished">%Y-%m-%d</translation>
     </message>
     <message>
         <source>%H:%M:%S</source>
-        <translation>%H:%M:%S</translation>
+        <translation type="unfinished">%H:%M:%S</translation>
     </message>
     <message>
         <source>Insert date</source>
-        <translation>Lisää päivämäärä</translation>
+        <translation type="unfinished">Lisää päivämäärä</translation>
     </message>
     <message>
         <source>Insert time</source>
-        <translation>Lisää aika</translation>
+        <translation type="unfinished">Lisää aika</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Tulosta</translation>
+        <translation type="unfinished">Tulosta</translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation>Esikatselu</translation>
+        <translation type="unfinished">Esikatselu</translation>
     </message>
     <message>
         <source>Direction left to right</source>
-        <translation>Suunta vasemmalta oikealle</translation>
+        <translation type="unfinished">Suunta vasemmalta oikealle</translation>
     </message>
     <message>
         <source>Direction right to left</source>
-        <translation>Suunta oikelta vasemmalle</translation>
+        <translation type="unfinished">Suunta oikelta vasemmalle</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Tallenna</translation>
+        <translation type="unfinished">Tallenna</translation>
     </message>
     <message>
         <source>Cancel all changes</source>
-        <translation>Peruuta kaikki muutokset</translation>
+        <translation type="unfinished">Peruuta kaikki muutokset</translation>
     </message>
     <message>
         <source>Insert non-breaking space character</source>
-        <translation>Lisää sitova välilyönti </translation>
+        <translation type="unfinished">Lisää sitova välilyönti </translation>
     </message>
     <message>
         <source>Find/Replace</source>
-        <translation>Etsi/Korvaa</translation>
+        <translation type="unfinished">Etsi/Korvaa</translation>
     </message>
     <message>
         <source>Paste as Plain Text</source>
-        <translation>Liitä pelkkä teksti</translation>
+        <translation type="unfinished">Liitä pelkkä teksti</translation>
     </message>
     <message>
         <source>Paste from Word</source>
-        <translation>Liitä Word-ohjelmasta</translation>
+        <translation type="unfinished">Liitä Word-ohjelmasta</translation>
     </message>
     <message>
         <source>Use CTRL+V on your keyboard to paste the text into the window.</source>
-        <translation>Valitse CTRL+V näppäimistöstäsi liittääksesi tekstiä ikkunaan.</translation>
+        <translation type="unfinished">Valitse CTRL+V näppäimistöstäsi liittääksesi tekstiä ikkunaan.</translation>
     </message>
     <message>
         <source>Keep linebreaks</source>
-        <translation>Pidä pakotetut rivinvaihdot</translation>
+        <translation type="unfinished">Pidä pakotetut rivinvaihdot</translation>
     </message>
     <message>
         <source>Inserts a new table</source>
-        <translation>Lisää uuden taulukon</translation>
+        <translation type="unfinished">Lisää uuden taulukon</translation>
     </message>
     <message>
         <source>Insert row before</source>
-        <translation>Lisää rivi ennen</translation>
+        <translation type="unfinished">Lisää rivi ennen</translation>
     </message>
     <message>
         <source>Insert row after</source>
-        <translation>Lisää rivi jälkeen</translation>
+        <translation type="unfinished">Lisää rivi jälkeen</translation>
     </message>
     <message>
         <source>Insert column before</source>
-        <translation>Lisää sarake ennen</translation>
+        <translation type="unfinished">Lisää sarake ennen</translation>
     </message>
     <message>
         <source>Insert column after</source>
-        <translation>Lisää sarake jälkeen</translation>
+        <translation type="unfinished">Lisää sarake jälkeen</translation>
     </message>
     <message>
         <source>Remove column</source>
-        <translation>Poista sarake</translation>
+        <translation type="unfinished">Poista sarake</translation>
     </message>
     <message>
         <source>Split merged table cells</source>
-        <translation>Jaa liitetyt taulukkosolut</translation>
+        <translation type="unfinished">Jaa liitetyt taulukkosolut</translation>
     </message>
     <message>
         <source>Merge table cells</source>
@@ -454,231 +470,231 @@ Haluatko lisätietoja aiheesta?</translation>
     </message>
     <message>
         <source>Table row properties</source>
-        <translation>Taulukon riviominaisuudet</translation>
+        <translation type="unfinished">Taulukon riviominaisuudet</translation>
     </message>
     <message>
         <source>Table cell properties</source>
-        <translation>Taulukon soluominaisuudet</translation>
+        <translation type="unfinished">Taulukon soluominaisuudet</translation>
     </message>
     <message>
         <source>Table properties</source>
-        <translation>Taulukon ominaisuudet</translation>
+        <translation type="unfinished">Taulukon ominaisuudet</translation>
     </message>
     <message>
         <source>Paste table row before</source>
-        <translation>Liitä taulukkorivi ennen</translation>
+        <translation type="unfinished">Liitä taulukkorivi ennen</translation>
     </message>
     <message>
         <source>Paste table row after</source>
-        <translation>Liitä taulukkorivi jälkeen</translation>
+        <translation type="unfinished">Liitä taulukkorivi jälkeen</translation>
     </message>
     <message>
         <source>Cut table row</source>
-        <translation>Leikkaa taulukkorivi</translation>
+        <translation type="unfinished">Leikkaa taulukkorivi</translation>
     </message>
     <message>
         <source>Copy table row</source>
-        <translation>Kopioi taulukkorivi</translation>
+        <translation type="unfinished">Kopioi taulukkorivi</translation>
     </message>
     <message>
         <source>The changes you made will be lost if you navigate away from this page.</source>
-        <translation>Tekemäsi muutoksia ei tallenneta, jos navigoit pois tältä sivulta.</translation>
+        <translation type="unfinished">Tekemäsi muutoksia ei tallenneta, jos navigoit pois tältä sivulta.</translation>
     </message>
     <message>
         <source>Toggle fullscreen mode</source>
-        <translation>Kytke kokoruututila näkyviin</translation>
+        <translation type="unfinished">Kytke kokoruututila näkyviin</translation>
     </message>
     <message>
         <source>Insert / edit embedded media</source>
-        <translation>Lisää / muokkaa sulautettua mediaa</translation>
+        <translation type="unfinished">Lisää / muokkaa sulautettua mediaa</translation>
     </message>
     <message>
         <source>Edit embedded media</source>
-        <translation>Muokkaa sulautettua mediaa</translation>
+        <translation type="unfinished">Muokkaa sulautettua mediaa</translation>
     </message>
     <message>
         <source>Document properties</source>
-        <translation>Asiakirjan ominaisuudet</translation>
+        <translation type="unfinished">Asiakirjan ominaisuudet</translation>
     </message>
     <message>
         <source>Insert predefined template content</source>
-        <translation>Lisää ennaltamäärätyn mallin sisältö</translation>
+        <translation type="unfinished">Lisää ennaltamäärätyn mallin sisältö</translation>
     </message>
     <message>
         <source>Visual control characters on/off.</source>
-        <translation>Visuaaliset kontrollimerkit päällä/pois päältä.</translation>
+        <translation type="unfinished">Visuaaliset kontrollimerkit päällä/pois päältä.</translation>
     </message>
     <message>
         <source>Insert page break.</source>
-        <translation>Lisää sivunvaihto.</translation>
+        <translation type="unfinished">Lisää sivunvaihto.</translation>
     </message>
     <message>
         <source>Styles</source>
-        <translation>Tyylit</translation>
+        <translation type="unfinished">Tyylit</translation>
     </message>
     <message>
         <source>Format</source>
-        <translation>Muoto</translation>
+        <translation type="unfinished">Muoto</translation>
     </message>
     <message>
         <source>Paragraph</source>
-        <translation>Kappale</translation>
+        <translation type="unfinished">Kappale</translation>
     </message>
     <message>
         <source>Div</source>
-        <translation>Div</translation>
+        <translation type="unfinished">Div</translation>
     </message>
     <message>
         <source>Code</source>
-        <translation>Koodi</translation>
+        <translation type="unfinished">Koodi</translation>
     </message>
     <message>
         <source>Code sample</source>
-        <translation>Koodimalli</translation>
+        <translation type="unfinished">Koodimalli</translation>
     </message>
     <message>
         <source>Definition term </source>
-        <translation>Määritelmän termi</translation>
+        <translation type="obsolete">Määritelmän termi</translation>
     </message>
     <message>
         <source>Definition description</source>
-        <translation>Määritelmän kuvaus</translation>
+        <translation type="unfinished">Määritelmän kuvaus</translation>
     </message>
     <message>
         <source>Bold (Ctrl+B)</source>
-        <translation>Lihavoi (Ctrl+B)</translation>
+        <translation type="unfinished">Lihavoi (Ctrl+B)</translation>
     </message>
     <message>
         <source>Italic (Ctrl+I)</source>
-        <translation>Kursivoi (Ctrl+I)</translation>
+        <translation type="unfinished">Kursivoi (Ctrl+I)</translation>
     </message>
     <message>
         <source>Underline (Ctrl+U)</source>
-        <translation>Alleviivaa (Ctrl+U)</translation>
+        <translation type="unfinished">Alleviivaa (Ctrl+U)</translation>
     </message>
     <message>
         <source>Strikethrough</source>
-        <translation>Yliviivaus</translation>
+        <translation type="unfinished">Yliviivaus</translation>
     </message>
     <message>
         <source>Align left</source>
-        <translation>Tasaa vasemmalle</translation>
+        <translation type="unfinished">Tasaa vasemmalle</translation>
     </message>
     <message>
         <source>Align center</source>
-        <translation>Tasaa keskelle</translation>
+        <translation type="unfinished">Tasaa keskelle</translation>
     </message>
     <message>
         <source>Align right</source>
-        <translation>Tasaa oikealle</translation>
+        <translation type="unfinished">Tasaa oikealle</translation>
     </message>
     <message>
         <source>Align full</source>
-        <translation>Tasaa </translation>
+        <translation type="unfinished">Tasaa </translation>
     </message>
     <message>
         <source>Unordered list</source>
-        <translation>Järjestämätön lista</translation>
+        <translation type="unfinished">Järjestämätön lista</translation>
     </message>
     <message>
         <source>Ordered list</source>
-        <translation>Järjestetty lista</translation>
+        <translation type="unfinished">Järjestetty lista</translation>
     </message>
     <message>
         <source>Outdent</source>
-        <translation>Sisennyksen poisto</translation>
+        <translation type="unfinished">Sisennyksen poisto</translation>
     </message>
     <message>
         <source>Indent</source>
-        <translation>Sisennys</translation>
+        <translation type="unfinished">Sisennys</translation>
     </message>
     <message>
         <source>Undo (Ctrl+Z)</source>
-        <translation>Kumoa (Ctrl+Z)</translation>
+        <translation type="unfinished">Kumoa (Ctrl+Z)</translation>
     </message>
     <message>
         <source>Redo (Ctrl+Y)</source>
-        <translation>Tee uudelleen (Ctrl+Y)</translation>
+        <translation type="unfinished">Tee uudelleen (Ctrl+Y)</translation>
     </message>
     <message>
         <source>Insert/edit link</source>
-        <translation>Lisää/muokkaa linkkiä</translation>
+        <translation type="unfinished">Lisää/muokkaa linkkiä</translation>
     </message>
     <message>
         <source>Unlink</source>
-        <translation>Poista linkki</translation>
+        <translation type="unfinished">Poista linkki</translation>
     </message>
     <message>
         <source>Insert/edit image</source>
-        <translation>Lisää/muokkaa kuvaa</translation>
+        <translation type="unfinished">Lisää/muokkaa kuvaa</translation>
     </message>
     <message>
         <source>Insert/edit object</source>
-        <translation>Lisää/muokkaa objektia</translation>
+        <translation type="unfinished">Lisää/muokkaa objektia</translation>
     </message>
     <message>
         <source>Cleanup messy code</source>
-        <translation>Siivoa epäsiisti koodi</translation>
+        <translation type="unfinished">Siivoa epäsiisti koodi</translation>
     </message>
     <message>
         <source>Edit HTML Source</source>
-        <translation>Muokkaa HTML-lähdettä</translation>
+        <translation type="unfinished">Muokkaa HTML-lähdettä</translation>
     </message>
     <message>
         <source>Subscript</source>
-        <translation>Alaindeksi</translation>
+        <translation type="unfinished">Alaindeksi</translation>
     </message>
     <message>
         <source>Superscript</source>
-        <translation>Yläindeksi</translation>
+        <translation type="unfinished">Yläindeksi</translation>
     </message>
     <message>
         <source>Remove formatting</source>
-        <translation>Poista muotoilu</translation>
+        <translation type="unfinished">Poista muotoilu</translation>
     </message>
     <message>
         <source>Your custom description here</source>
-        <translation>Mukautettu kuvauksesi tulee tähän</translation>
+        <translation type="unfinished">Mukautettu kuvauksesi tulee tähän</translation>
     </message>
     <message>
         <source>Toggle guidelines/invisible elements</source>
-        <translation>Kytke opasteet/näkymättömät elementit</translation>
+        <translation type="unfinished">Kytke opasteet/näkymättömät elementit</translation>
     </message>
     <message>
         <source>Insert/edit anchor</source>
-        <translation>Lisää/muokkaa ankkuria</translation>
+        <translation type="unfinished">Lisää/muokkaa ankkuria</translation>
     </message>
     <message>
         <source>Image properties</source>
-        <translation>Kuvaominaisuudet</translation>
+        <translation type="unfinished">Kuvaominaisuudet</translation>
     </message>
     <message>
         <source>New document</source>
-        <translation>Uusi asiakirja</translation>
+        <translation type="unfinished">Uusi asiakirja</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation>Polku</translation>
+        <translation type="unfinished">Polku</translation>
     </message>
     <message>
         <source>Are you sure you want clear all contents?</source>
-        <translation>Oletko varma, että haluat tyhjentää koko sisällön?</translation>
+        <translation type="unfinished">Oletko varma, että haluat tyhjentää koko sisällön?</translation>
     </message>
     <message>
         <source>Jump to tool buttons - Alt+Q, Jump to editor - Alt-Z, Jump to element path - Alt-X</source>
-        <translation>Pikänäppäimet työkalunäppäimiin - Alt+Q, Siirry editoriin - Alt-Z, Siirry elementtipolkuun - Alt-X</translation>
+        <translation type="unfinished">Pikänäppäimet työkalunäppäimiin - Alt+Q, Siirry editoriin - Alt-Z, Siirry elementtipolkuun - Alt-X</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Seuraava</translation>
+        <translation type="unfinished">Seuraava</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Edellinen</translation>
+        <translation type="unfinished">Edellinen</translation>
     </message>
     <message>
         <source>Select</source>
-        <translation>Valitse</translation>
+        <translation type="unfinished">Valitse</translation>
     </message>
     <message>
         <source>About</source>
@@ -694,7 +710,7 @@ Haluatko lisätietoja aiheesta?</translation>
     </message>
     <message>
         <source>Plugin</source>
-        <translation>Laajennus</translation>
+        <translation type="unfinished">Laajennus</translation>
     </message>
     <message>
         <source>Author</source>
@@ -706,51 +722,51 @@ Haluatko lisätietoja aiheesta?</translation>
     </message>
     <message>
         <source>Loaded plugins</source>
-        <translation>Ladatut laajennukset</translation>
+        <translation type="unfinished">Ladatut laajennukset</translation>
     </message>
     <message>
         <source>HTML Source Editor</source>
-        <translation>HTML-lähde-editori</translation>
+        <translation type="unfinished">HTML-lähde-editori</translation>
     </message>
     <message>
         <source>Word wrap</source>
-        <translation>Tekstin rivitys</translation>
+        <translation type="unfinished">Tekstin rivitys</translation>
     </message>
     <message>
         <source>Select a color</source>
-        <translation>Valitse väri</translation>
+        <translation type="unfinished">Valitse väri</translation>
     </message>
     <message>
         <source>Picker</source>
-        <translation>Valitsija</translation>
+        <translation type="unfinished">Valitsija</translation>
     </message>
     <message>
         <source>Color picker</source>
-        <translation>Värinvalitsija</translation>
+        <translation type="unfinished">Värinvalitsija</translation>
     </message>
     <message>
         <source>Palette</source>
-        <translation>Paletti</translation>
+        <translation type="unfinished">Paletti</translation>
     </message>
     <message>
         <source>Palette colors</source>
-        <translation>Palettivärit</translation>
+        <translation type="unfinished">Palettivärit</translation>
     </message>
     <message>
         <source>Named</source>
-        <translation>Nimetty</translation>
+        <translation type="unfinished">Nimetty</translation>
     </message>
     <message>
         <source>Named colors</source>
-        <translation>Nimetyt värit</translation>
+        <translation type="unfinished">Nimetyt värit</translation>
     </message>
     <message>
         <source>Color</source>
-        <translation>Väri</translation>
+        <translation type="unfinished">Väri</translation>
     </message>
     <message>
         <source>Select special character</source>
-        <translation>Valitse erikoismerkit</translation>
+        <translation type="unfinished">Valitse erikoismerkit</translation>
     </message>
     <message>
         <source>All</source>
@@ -802,7 +818,7 @@ Haluatko lisätietoja aiheesta?</translation>
     </message>
     <message>
         <source>Heading Properties</source>
-        <translation>Otsikon ominaisuudet</translation>
+        <translation type="obsolete">Otsikon ominaisuudet</translation>
     </message>
     <message>
         <source>Upload is in progress, it may take a few seconds...</source>
@@ -810,11 +826,326 @@ Haluatko lisätietoja aiheesta?</translation>
     </message>
     <message>
         <source>Invalid or missing parameter: %parameter</source>
-        <translation>Epäkelpo tai puuttuva parametri: %parameter</translation>
+        <translation type="unfinished">Epäkelpo tai puuttuva parametri: %parameter</translation>
     </message>
     <message>
         <source>Invalid parameter: %parameter = %value</source>
-        <translation>Epäkelpo parametri: %parameter = %value</translation>
+        <translation type="unfinished">Epäkelpo parametri: %parameter = %value</translation>
+    </message>
+    <message>
+        <source>this</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>List of possible link types. Link types that use the &apos;://&apos; format are technically called protocols.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eznode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ezobject</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ftp</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Http</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Https</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Anchor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Id not valid!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The url the link points to, starts with link type (like http://).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class are often used to give different design or appearance, either by using a different template, style or both.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you specify the target window for the link, if any.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The title on the (x)html tag, used by screen readers, and to give better explanation like this one.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The unique identifier used for the element in the (x)html output, used by style sheets and/or anchors.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New %tag_name tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit %tag_name tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch embed file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>[default]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New window (_blank)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Table cell</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Table header</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload new File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no related files.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload new Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alternative text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no related images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload new Object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Run spell checking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ieSpell not detected. Do you want to install it now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Horizontale rule</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Emotions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert emotion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cool</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Embarassed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Foot in mouth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Frown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Innocent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Kiss</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Laughing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Money mouth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sealed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Smile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Surprised</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tongue out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Undecided</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wink</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Yell</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Paste is now in plain text mode. Click again to toggle back to regular paste mode. After you paste something you will be returned to regular paste mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Paste is now in plain text mode. Click again to toggle back to regular paste mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle spellchecker</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Spellchecker settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignore word</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignore all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Languages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please wait...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Suggestions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No suggestions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No misspellings found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Definition term</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert/edit file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert horizontal ruler</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/handler</name>
+    <message>
+        <source>Object %1 does not exist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node %1 does not exist.</source>
+        <translation type="unfinished">Solmua %1 ei ole olemassa.</translation>
+    </message>
+    <message>
+        <source>Node &amp;apos;%1&amp;apos; does not exist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -881,7 +1212,7 @@ Haluatko lisätietoja aiheesta?</translation>
     </message>
     <message>
         <source>Make the selected text &lt;u&gt;underline&lt;/u&gt;. This button is only enabled if you have a custom tag named underline, template code to handle underline custom tags is not included in Online Editor.</source>
-        <translation>Tee valitusta tekstistä &lt;u&gt;alleviivattua&lt;/u&gt;. Tämä näppäin on käytettävissä ainoastaan jos sinulla on näkyvissä mukautettu merkki nimeltään alleviivaus. Alleviivauksen käytön mallikoodi ei tule Online Editorin mukana.</translation>
+        <translation type="obsolete">Tee valitusta tekstistä &lt;u&gt;alleviivattua&lt;/u&gt;. Tämä näppäin on käytettävissä ainoastaan jos sinulla on näkyvissä mukautettu merkki nimeltään alleviivaus. Alleviivauksen käytön mallikoodi ei tule Online Editorin mukana.</translation>
     </message>
     <message>
         <source>Removes a hyperlink. Select a link first and then click this button to remove the link (but not the content of the link).</source>
@@ -983,6 +1314,215 @@ Haluatko lisätietoja aiheesta?</translation>
         <source>You can find more documentation in the doc folder of this extension and online on %link.</source>
         <translation>Löydät lisää dokumentaatiota tämän laajennuksen doc-kansiosta sekä Internetistä %link.</translation>
     </message>
+    <message>
+        <source>Toggle &lt;u&gt;underline&lt;/u&gt; style on the selected text. This button is only enabled if you have a custom tag named underline.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle &lt;sub&gt;subscript&lt;/sub&gt; style on the selected text. This button is only enabled if you have a custom tag named subscript, template code to handle subscript custom tags is not included in Online Editor.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle &lt;sup&gt;superscript&lt;/sup&gt; style on the selected text. This button is only enabled if you have a custom tag named superscript, template code to handle superscript custom tags is not included in Online Editor.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle left align text, or float block content to the left.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle center align text, or float block content to the center (Same as not aligned by default).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle right align text, or float block content to the right.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle justify text, stretches the lines so that each line has equal width.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert an file from the related file list, upload a new file, search for an existing file or browse for it. To upload a local file, click &quot;Upload new&quot; button choose the local file, specify the name of the new file, choose placement from list and then click &quot;Upload&quot; button. This button is not enabled by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to spellcheck your text using google api or other depending on ezoe.ini settings. This button is not enabled by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find a string or a word in your text. This button is not enabled by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Replace a string or a word in your text. This button is not enabled by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dialog to paste text from word, the dialog will handle cleaning the content from word.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse for a node / object in your bookmarks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can switch text style from paragraph to header using keybord shortcut CTRL+1 to 6, and back to paragraph using CTRL+7</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/searchreplace</name>
+    <message>
+        <source>Find again</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The search has been completed. The search string could not be found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find</source>
+        <translation type="unfinished">Etsi</translation>
+    </message>
+    <message>
+        <source>Find/Replace</source>
+        <translation type="unfinished">Etsi/Korvaa</translation>
+    </message>
+    <message>
+        <source>All occurrences of the search string were replaced.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find what</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Replace with</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Direction</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Match case</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Replace</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Replace all</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/validator</name>
+    <message>
+        <source>&amp;quot;%label&amp;quot; is required and must have a value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid integer number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid absolute url address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid email address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid css size/unit value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid html element id</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be higher then %min</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be lower then %max</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/wai</name>
+    <message>
+        <source>Enter the word you want to search for here, for instance the name of the content you are looking for.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you limit the content type your searching for, by limiting the eZ Publish content classes that are returned in the search result.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name for the uploaded object, filename is used if none is specified.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose file to upload from your local machine.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you specify where in eZ Publish to store the uploaded object.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload file from your local machine.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search for content already in eZ Publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse the content tree in eZ Publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select or browse content among your personal eZ Publish bookmarks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description to the file your uploading, so internet clients can read more about it before they decide to download it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Caption for a image is usually shown bellow it as a description to the image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tags, aka Keywords are a comma separated list of words thats categorizes the content.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/node/view</name>
@@ -995,29 +1535,36 @@ Haluatko lisätietoja aiheesta?</translation>
     <name>handlers/input</name>
     <message>
         <source>Node %1 does not exist.</source>
-        <translation>Solmua %1 ei ole olemassa.</translation>
+        <translation type="obsolete">Solmua %1 ei ole olemassa.</translation>
     </message>
     <message>
         <source>Node &apos;%1&apos; does not exist.</source>
-        <translation>Solmua &apos;%1&apos; ei ole olemassa.</translation>
+        <translation type="obsolete">Solmua &apos;%1&apos; ei ole olemassa.</translation>
     </message>
 </context>
 <context>
     <name>kernel/classes/datatypes</name>
     <message>
         <source>Content required</source>
-        <translation>Sisältö vaadittu</translation>
+        <translation type="unfinished">Sisältö vaadittu</translation>
     </message>
     <message>
         <source>Invalid e-mail address: &apos;%1&apos;</source>
-        <translation>Virheellinen email-osoite: &apos;%1&apos;</translation>
+        <translation type="obsolete">Virheellinen email-osoite: &apos;%1&apos;</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/classes/datatypes/ezxmltext</name>
+    <message>
+        <source>Invalid e-mail address: &apos;%1&apos;</source>
+        <translation type="unfinished">Virheellinen email-osoite: &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
     <name>kernel/content</name>
     <message>
         <source>Top Level Nodes</source>
-        <translation>Ylätason solmut</translation>
+        <translation type="unfinished">Ylätason solmut</translation>
     </message>
 </context>
 </TS>

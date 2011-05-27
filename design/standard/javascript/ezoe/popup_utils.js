@@ -2,7 +2,7 @@
     eZ Online Editor MCE popup : common js code used in popups
     Created on: <06-Feb-2008 00:00:00 ar>
     
-    Copyright (c) 1999-2010 eZ Systems AS
+    Copyright (c) 1999-2011 eZ Systems AS
     Licensed under the GPL 2.0 License:
     http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt 
 */
@@ -285,15 +285,10 @@ var eZOEPopupUtils = {
         var paragraphCleanup = false, newElement;
         if ( html.indexOf( '<div' ) === 0 || html.indexOf( '<pre' ) === 0 )
         {
-            var edCurrentNode = ed.selection.getNode();
-            if ( edCurrentNode && edCurrentNode.nodeName.toLowerCase() === 'p' )
-            {
-                html = '</p>' + html + '<p>';
-                paragraphCleanup = true;
-            }
+            paragraphCleanup = true;
         }
 
-        ed.execCommand('mceInsertContent', false, html, {skip_undo : 1} );
+        ed.execCommand('mceInsertRawHTML', false, html, {skip_undo : 1} );
 
         newElement = ed.dom.get( id );
         if ( paragraphCleanup ) this.paragraphCleanup( ed, newElement );
@@ -314,7 +309,9 @@ var eZOEPopupUtils = {
         var edCurrentNode = ed.selection.getNode(), newElement = edCurrentNode.ownerDocument.createElement( tag );
         if ( tag !== 'img' ) newElement.innerHTML = content;
 
-        if ( edCurrentNode.nextSibling )
+        if ( edCurrentNode.nodeName === 'TD' )
+            edCurrentNode.appendChild( newElement );
+        else if ( edCurrentNode.nextSibling )
             edCurrentNode.parentNode.insertBefore( newElement, edCurrentNode.nextSibling );
         else if ( edCurrentNode.nodeName === 'BODY' )// IE when editor is empty
             edCurrentNode.appendChild( newElement );
@@ -537,10 +534,15 @@ var eZOEPopupUtils = {
         });
     },
 
+    /**
+     * Sets deafult values for based on custom attribute value
+     * global objects: ez
+     *
+     * @param string node Element id of parent node for custom attribute form
+     * @param string valueString The raw customattributes string from attribute
+     */
     initCustomAttributeValue: function( node, valueString )
     {
-        // sets deafult values for based on custom attribute value
-        // global objects: ez     
         if ( valueString === null || !document.getElementById( node ) )
             return;
         var arr = valueString.split('attribute_separation'), values = {}, t, handler = eZOEPopupUtils.settings.customAttributeInitHandler;
@@ -705,7 +707,7 @@ var eZOEPopupUtils = {
     browse: function( nodeId, offset )
     {
         // browse for a specific node id and a offset on the child elements
-        var postData = jQuery('#browse_box input, #browse_box select').serializeArray(), o = offset ? offset : 0;
+        var postData = eZOEPopupUtils.jqSafeSerilizer('browse_box'), o = offset ? offset : 0;
         jQuery.ez('ezoe::browse::' + nodeId + '::' + o, postData, function( data ){ eZOEPopupUtils.browseCallBack( data, 'browse' ) } );
         jQuery('#browse_progress' ).show();
     },
@@ -715,10 +717,21 @@ var eZOEPopupUtils = {
         // serach for nodes with input and select form elements inside a 'search_box' container element
         if ( jQuery.trim( jQuery('#SearchText').val() ) )
         {
-            var postData = jQuery('#search_box input, #search_box select').serializeArray(), o = offset ? offset : 0;
+            var postData = eZOEPopupUtils.jqSafeSerilizer('search_box'), o = offset ? offset : 0;
             jQuery.ez('ezjsc::search::x::' + o, postData, eZOEPopupUtils.searchCallBack );
             jQuery('#search_progress' ).show();
         }
+    },
+
+    jqSafeSerilizer: function( id )
+    {
+        // jQuery encodes form names incl [] if you pass an object / array to it, avoid by using string
+        var postData = '', val;
+        jQuery.each( jQuery('#' + id + ' input, #' + id + ' select').serializeArray(), function(i, o){
+            if ( o.value )
+                postData += ( postData ? '&' : '') + o.name + '=' + o.value;
+        });
+        return postData;
     },
 
     browseCallBack: function( data, mode, emptyCallBack )

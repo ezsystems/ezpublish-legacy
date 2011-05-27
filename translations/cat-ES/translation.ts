@@ -1,4 +1,6 @@
-<!DOCTYPE TS><TS>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.0">
 <context>
     <name>design/admin/content/browse</name>
     <message>
@@ -69,14 +71,14 @@
     <name>design/standard/content/search</name>
     <message>
         <source>No results were found when searching for &amp;quot;%1&amp;quot;</source>
-        <translation>No s&apos;ha trobat cap resultat amb la búsqueda &amp;quot;%1&amp;quot;</translation>
+        <translation type="unfinished">No s&apos;ha trobat cap resultat amb la búsqueda &amp;quot;%1&amp;quot;</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/view</name>
     <message>
         <source>You have no bookmarks</source>
-        <translation>No tens marcadors</translation>
+        <translation type="unfinished">No tens marcadors</translation>
     </message>
 </context>
 <context>
@@ -90,19 +92,19 @@
     <name>design/standard/ezoe</name>
     <message>
         <source>Do you want to use the WYSIWYG mode for this textarea?</source>
-        <translation>Vols utilitzar el mode WYSIWYG per aquesta àrea del text?</translation>
+        <translation type="unfinished">Vols utilitzar el mode WYSIWYG per aquesta àrea del text?</translation>
     </message>
     <message>
         <source>Apply</source>
-        <translation>Aplica</translation>
+        <translation type="unfinished">Aplica</translation>
     </message>
     <message>
         <source>Insert</source>
-        <translation>Insertar</translation>
+        <translation type="unfinished">Insertar</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation>Actualitzar</translation>
+        <translation type="unfinished">Actualitzar</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -110,7 +112,7 @@
     </message>
     <message>
         <source>Close</source>
-        <translation>Tanca</translation>
+        <translation type="unfinished">Tanca</translation>
     </message>
     <message>
         <source>Browse</source>
@@ -122,29 +124,29 @@
     </message>
     <message>
         <source>-- Not set --</source>
-        <translation>-- No establert --</translation>
+        <translation type="unfinished">-- No establert --</translation>
     </message>
     <message>
         <source>Copy/Cut/Paste is not available in Mozilla and Firefox.
 Do you want more information about this issue?</source>
-        <translation>Copia/Retalla/Enganxa no està disponible a Mozilla i Firefox.
+        <translation type="unfinished">Copia/Retalla/Enganxa no està disponible a Mozilla i Firefox.
 Vols rebre més informació al respecte?</translation>
     </message>
     <message>
         <source>Currently not supported by your browser, use keyboard shortcuts instead.</source>
-        <translation>Actualment no suportat pel teu navegador. Alternativament, pots utilitzar el teclat. </translation>
+        <translation type="unfinished">Actualment no suportat pel teu navegador. Alternativament, pots utilitzar el teclat. </translation>
     </message>
     <message>
         <source>Sorry, but we have noticed that your popup-blocker has disabled a window that provides application functionality. You will need to disable popup blocking on this site in order to fully utilize this tool.</source>
-        <translation>Ho sento, el popup-blocker ha deshabilitat la finestra que garanteix la operativitat de l&apos;aplicació. Has de deshabilitar el popup blocking d&apos;aquest lloc web per tal de poder utilitzar aquesta eina.</translation>
+        <translation type="unfinished">Ho sento, el popup-blocker ha deshabilitat la finestra que garanteix la operativitat de l&apos;aplicació. Has de deshabilitar el popup blocking d&apos;aquest lloc web per tal de poder utilitzar aquesta eina.</translation>
     </message>
     <message>
         <source>Error: Invalid values entered, these are marked in red.</source>
-        <translation>Error: els valors introduïts assenyalats en vermell no són vàlids.  </translation>
+        <translation type="unfinished">Error: els valors introduïts assenyalats en vermell no són vàlids.  </translation>
     </message>
     <message>
         <source>More colors</source>
-        <translation>Més colors</translation>
+        <translation type="unfinished">Més colors</translation>
     </message>
     <message>
         <source>Alignment</source>
@@ -164,111 +166,111 @@ Vols rebre més informació al respecte?</translation>
     </message>
     <message>
         <source>Full</source>
-        <translation>És ple</translation>
+        <translation type="unfinished">És ple</translation>
     </message>
     <message>
         <source>%Y-%m-%d</source>
-        <translation>%Y-%m-%d</translation>
+        <translation type="unfinished">%Y-%m-%d</translation>
     </message>
     <message>
         <source>%H:%M:%S</source>
-        <translation>%H:%M:%S</translation>
+        <translation type="unfinished">%H:%M:%S</translation>
     </message>
     <message>
         <source>Insert date</source>
-        <translation>Introudeix la data</translation>
+        <translation type="unfinished">Introudeix la data</translation>
     </message>
     <message>
         <source>Insert time</source>
-        <translation>Introdueix l&apos;hora</translation>
+        <translation type="unfinished">Introdueix l&apos;hora</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Imprimeix</translation>
+        <translation type="unfinished">Imprimeix</translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation>Vista preliminar</translation>
+        <translation type="unfinished">Vista preliminar</translation>
     </message>
     <message>
         <source>Direction left to right</source>
-        <translation>D&apos;esquerra a dreta</translation>
+        <translation type="unfinished">D&apos;esquerra a dreta</translation>
     </message>
     <message>
         <source>Direction right to left</source>
-        <translation>De dreta a esquerra</translation>
+        <translation type="unfinished">De dreta a esquerra</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Desa</translation>
+        <translation type="unfinished">Desa</translation>
     </message>
     <message>
         <source>Cancel all changes</source>
-        <translation>Suprimeix els canivs</translation>
+        <translation type="unfinished">Suprimeix els canivs</translation>
     </message>
     <message>
         <source>Insert non-breaking space character</source>
-        <translation>Inserta un caràcter non-breaking space</translation>
+        <translation type="unfinished">Inserta un caràcter non-breaking space</translation>
     </message>
     <message>
         <source>Find</source>
-        <translation>Cercar</translation>
+        <translation type="unfinished">Cercar</translation>
     </message>
     <message>
         <source>Find/Replace</source>
-        <translation>Cerca/Susbtitueix</translation>
+        <translation type="unfinished">Cerca/Susbtitueix</translation>
     </message>
     <message>
         <source>Paste as Plain Text</source>
-        <translation>Copia tot el text</translation>
+        <translation type="unfinished">Copia tot el text</translation>
     </message>
     <message>
         <source>Paste from Word</source>
-        <translation>Copia des de Word</translation>
+        <translation type="unfinished">Copia des de Word</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>Seleccionar-ho tot</translation>
+        <translation type="unfinished">Seleccionar-ho tot</translation>
     </message>
     <message>
         <source>Use CTRL+V on your keyboard to paste the text into the window.</source>
-        <translation>Prem CTRL + V al teclar per a copiar el text a la finestra.</translation>
+        <translation type="unfinished">Prem CTRL + V al teclar per a copiar el text a la finestra.</translation>
     </message>
     <message>
         <source>Keep linebreaks</source>
-        <translation>Manté els linebreaks</translation>
+        <translation type="unfinished">Manté els linebreaks</translation>
     </message>
     <message>
         <source>Inserts a new table</source>
-        <translation>Insereix una fila nova</translation>
+        <translation type="unfinished">Insereix una fila nova</translation>
     </message>
     <message>
         <source>Insert row before</source>
-        <translation>Insereix una fila a dalt</translation>
+        <translation type="unfinished">Insereix una fila a dalt</translation>
     </message>
     <message>
         <source>Insert row after</source>
-        <translation>Insereix una fila a baix</translation>
+        <translation type="unfinished">Insereix una fila a baix</translation>
     </message>
     <message>
         <source>Delete row</source>
-        <translation>Esborrar fila</translation>
+        <translation type="unfinished">Esborrar fila</translation>
     </message>
     <message>
         <source>Insert column before</source>
-        <translation>Insereix una columna a dalt</translation>
+        <translation type="unfinished">Insereix una columna a dalt</translation>
     </message>
     <message>
         <source>Insert column after</source>
-        <translation>Insereix una columna a baix</translation>
+        <translation type="unfinished">Insereix una columna a baix</translation>
     </message>
     <message>
         <source>Remove column</source>
-        <translation>Suprimeix la columna</translation>
+        <translation type="unfinished">Suprimeix la columna</translation>
     </message>
     <message>
         <source>Split merged table cells</source>
-        <translation>Separa les cel·les de taula que s&apos;havien combinat</translation>
+        <translation type="unfinished">Separa les cel·les de taula que s&apos;havien combinat</translation>
     </message>
     <message>
         <source>Merge table cells</source>
@@ -276,35 +278,35 @@ Vols rebre més informació al respecte?</translation>
     </message>
     <message>
         <source>Table row properties</source>
-        <translation>Propietats de la línea de taula</translation>
+        <translation type="unfinished">Propietats de la línea de taula</translation>
     </message>
     <message>
         <source>Table cell properties</source>
-        <translation>Propietats de la cel·la de taula</translation>
+        <translation type="unfinished">Propietats de la cel·la de taula</translation>
     </message>
     <message>
         <source>Table properties</source>
-        <translation>Propietats de la taula</translation>
+        <translation type="unfinished">Propietats de la taula</translation>
     </message>
     <message>
         <source>Paste table row before</source>
-        <translation>Insereix línea de taula abans</translation>
+        <translation type="unfinished">Insereix línea de taula abans</translation>
     </message>
     <message>
         <source>Paste table row after</source>
-        <translation>Insereix línea de taula a continuació</translation>
+        <translation type="unfinished">Insereix línea de taula a continuació</translation>
     </message>
     <message>
         <source>Cut table row</source>
-        <translation>Retalla línea de taula</translation>
+        <translation type="unfinished">Retalla línea de taula</translation>
     </message>
     <message>
         <source>Copy table row</source>
-        <translation>Copia línea de taula</translation>
+        <translation type="unfinished">Copia línea de taula</translation>
     </message>
     <message>
         <source>Delete table</source>
-        <translation>Suprimeix la taula</translation>
+        <translation type="unfinished">Suprimeix la taula</translation>
     </message>
     <message>
         <source>Row</source>
@@ -328,87 +330,87 @@ Vols rebre més informació al respecte?</translation>
     </message>
     <message>
         <source>The changes you made will be lost if you navigate away from this page.</source>
-        <translation>Els canvis efectuats es perdran si surts d&apos;aquesta pàgina.</translation>
+        <translation type="unfinished">Els canvis efectuats es perdran si surts d&apos;aquesta pàgina.</translation>
     </message>
     <message>
         <source>Toggle fullscreen mode</source>
-        <translation>Toggle mode pantalla completa</translation>
+        <translation type="unfinished">Toggle mode pantalla completa</translation>
     </message>
     <message>
         <source>Insert / edit embedded media</source>
-        <translation>Insereix / edita la memòria incrustada</translation>
+        <translation type="unfinished">Insereix / edita la memòria incrustada</translation>
     </message>
     <message>
         <source>Edit embedded media</source>
-        <translation>Edita memòria incrustada</translation>
+        <translation type="unfinished">Edita memòria incrustada</translation>
     </message>
     <message>
         <source>Document properties</source>
-        <translation>Propietats del document</translation>
+        <translation type="unfinished">Propietats del document</translation>
     </message>
     <message>
         <source>Insert predefined template content</source>
-        <translation>Insereix contingut de plantilla predefinit</translation>
+        <translation type="unfinished">Insereix contingut de plantilla predefinit</translation>
     </message>
     <message>
         <source>Visual control characters on/off.</source>
-        <translation>Control visual on/off.</translation>
+        <translation type="unfinished">Control visual on/off.</translation>
     </message>
     <message>
         <source>Insert page break.</source>
-        <translation>Inserta salt de pàgina.</translation>
+        <translation type="unfinished">Inserta salt de pàgina.</translation>
     </message>
     <message>
         <source>Styles</source>
-        <translation>Estils</translation>
+        <translation type="unfinished">Estils</translation>
     </message>
     <message>
         <source>Format</source>
-        <translation>Format</translation>
+        <translation type="unfinished">Format</translation>
     </message>
     <message>
         <source>Paragraph</source>
-        <translation>Paràgraf</translation>
+        <translation type="unfinished">Paràgraf</translation>
     </message>
     <message>
         <source>Div</source>
-        <translation>Div</translation>
+        <translation type="unfinished">Div</translation>
     </message>
     <message>
         <source>Literal</source>
-        <translation>Literal</translation>
+        <translation type="unfinished">Literal</translation>
     </message>
     <message>
         <source>Heading 1</source>
-        <translation>Capcelera 1</translation>
+        <translation type="unfinished">Capcelera 1</translation>
     </message>
     <message>
         <source>Heading 2</source>
-        <translation>Capcelera 2</translation>
+        <translation type="unfinished">Capcelera 2</translation>
     </message>
     <message>
         <source>Heading 3</source>
-        <translation>Capcelera 3</translation>
+        <translation type="unfinished">Capcelera 3</translation>
     </message>
     <message>
         <source>Heading 4</source>
-        <translation>Capcelera 4</translation>
+        <translation type="unfinished">Capcelera 4</translation>
     </message>
     <message>
         <source>Heading 5</source>
-        <translation>Capcelera 5</translation>
+        <translation type="unfinished">Capcelera 5</translation>
     </message>
     <message>
         <source>Heading 6</source>
-        <translation>Capcelera 6</translation>
+        <translation type="unfinished">Capcelera 6</translation>
     </message>
     <message>
         <source>Code</source>
-        <translation>Codi</translation>
+        <translation type="unfinished">Codi</translation>
     </message>
     <message>
         <source>Code sample</source>
-        <translation>Codi de la mostra</translation>
+        <translation type="unfinished">Codi de la mostra</translation>
     </message>
     <message>
         <source>Definition term </source>
@@ -416,147 +418,147 @@ Vols rebre més informació al respecte?</translation>
     </message>
     <message>
         <source>Definition description</source>
-        <translation>Descripació de la definició</translation>
+        <translation type="unfinished">Descripació de la definició</translation>
     </message>
     <message>
         <source>Bold (Ctrl+B)</source>
-        <translation>Destacar (Ctrl+B)</translation>
+        <translation type="unfinished">Destacar (Ctrl+B)</translation>
     </message>
     <message>
         <source>Italic (Ctrl+I)</source>
-        <translation>Cursiva (Ctrl+l)</translation>
+        <translation type="unfinished">Cursiva (Ctrl+l)</translation>
     </message>
     <message>
         <source>Underline (Ctrl+U)</source>
-        <translation>Subratllat (Ctrl+U)</translation>
+        <translation type="unfinished">Subratllat (Ctrl+U)</translation>
     </message>
     <message>
         <source>Strikethrough</source>
-        <translation>Ratllar</translation>
+        <translation type="unfinished">Ratllar</translation>
     </message>
     <message>
         <source>Align left</source>
-        <translation>Justificar a l&apos;esquerra</translation>
+        <translation type="unfinished">Justificar a l&apos;esquerra</translation>
     </message>
     <message>
         <source>Align center</source>
-        <translation>Centra</translation>
+        <translation type="unfinished">Centra</translation>
     </message>
     <message>
         <source>Align right</source>
-        <translation>Justificar a la dreta</translation>
+        <translation type="unfinished">Justificar a la dreta</translation>
     </message>
     <message>
         <source>Align full</source>
-        <translation>Justificar-ho tot</translation>
+        <translation type="unfinished">Justificar-ho tot</translation>
     </message>
     <message>
         <source>Unordered list</source>
-        <translation>Llista no endreçada</translation>
+        <translation type="unfinished">Llista no endreçada</translation>
     </message>
     <message>
         <source>Ordered list</source>
-        <translation>Llista endreçada</translation>
+        <translation type="unfinished">Llista endreçada</translation>
     </message>
     <message>
         <source>Outdent</source>
-        <translation>desmarcar</translation>
+        <translation type="unfinished">desmarcar</translation>
     </message>
     <message>
         <source>Indent</source>
-        <translation>Marcar</translation>
+        <translation type="unfinished">Marcar</translation>
     </message>
     <message>
         <source>Undo (Ctrl+Z)</source>
-        <translation>Desfer (Ctrl+Z)</translation>
+        <translation type="unfinished">Desfer (Ctrl+Z)</translation>
     </message>
     <message>
         <source>Redo (Ctrl+Y)</source>
-        <translation>Tornar a fer (Ctrl+Y)</translation>
+        <translation type="unfinished">Tornar a fer (Ctrl+Y)</translation>
     </message>
     <message>
         <source>Insert/edit link</source>
-        <translation>Insertar/editar víncle</translation>
+        <translation type="unfinished">Insertar/editar víncle</translation>
     </message>
     <message>
         <source>Unlink</source>
-        <translation>Desvincular</translation>
+        <translation type="unfinished">Desvincular</translation>
     </message>
     <message>
         <source>Insert/edit image</source>
-        <translation>Insertar/ editar imatge</translation>
+        <translation type="unfinished">Insertar/ editar imatge</translation>
     </message>
     <message>
         <source>Insert/edit object</source>
-        <translation>Insertar/ editar objecte</translation>
+        <translation type="unfinished">Insertar/ editar objecte</translation>
     </message>
     <message>
         <source>Insert custom tag</source>
-        <translation>Insertar tag personalitzat</translation>
+        <translation type="unfinished">Insertar tag personalitzat</translation>
     </message>
     <message>
         <source>Insert literal text</source>
-        <translation>Insertar text literal</translation>
+        <translation type="unfinished">Insertar text literal</translation>
     </message>
     <message>
         <source>Insert pagebreak</source>
-        <translation>Inserta salt de pàgina</translation>
+        <translation type="unfinished">Inserta salt de pàgina</translation>
     </message>
     <message>
         <source>Cleanup messy code</source>
-        <translation>Neteja el codi</translation>
+        <translation type="unfinished">Neteja el codi</translation>
     </message>
     <message>
         <source>Edit HTML Source</source>
-        <translation>Editar font HTML</translation>
+        <translation type="unfinished">Editar font HTML</translation>
     </message>
     <message>
         <source>Subscript</source>
-        <translation>Subíndex</translation>
+        <translation type="unfinished">Subíndex</translation>
     </message>
     <message>
         <source>Superscript</source>
-        <translation>Superíndice</translation>
+        <translation type="unfinished">Superíndice</translation>
     </message>
     <message>
         <source>Remove formatting</source>
-        <translation>Suprimeix el formateig</translation>
+        <translation type="unfinished">Suprimeix el formateig</translation>
     </message>
     <message>
         <source>Your custom description here</source>
-        <translation>Descripció personalitzada</translation>
+        <translation type="unfinished">Descripció personalitzada</translation>
     </message>
     <message>
         <source>Insert special character</source>
-        <translation>Insertar caràcter especial</translation>
+        <translation type="unfinished">Insertar caràcter especial</translation>
     </message>
     <message>
         <source>Toggle guidelines/invisible elements</source>
-        <translation>Directrius toggle/elements invisibles</translation>
+        <translation type="unfinished">Directrius toggle/elements invisibles</translation>
     </message>
     <message>
         <source>Insert/edit anchor</source>
-        <translation>Insereix/edita àncora</translation>
+        <translation type="unfinished">Insereix/edita àncora</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation>Retallar</translation>
+        <translation type="unfinished">Retallar</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation type="unfinished">Copiar</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>Enganxar</translation>
+        <translation type="unfinished">Enganxar</translation>
     </message>
     <message>
         <source>Image properties</source>
-        <translation>Propietats de les imatges</translation>
+        <translation type="unfinished">Propietats de les imatges</translation>
     </message>
     <message>
         <source>New document</source>
-        <translation>Document en blanc</translation>
+        <translation type="unfinished">Document en blanc</translation>
     </message>
     <message>
         <source>Help</source>
@@ -564,31 +566,31 @@ Vols rebre més informació al respecte?</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation>Trajectòria</translation>
+        <translation type="unfinished">Trajectòria</translation>
     </message>
     <message>
         <source>Are you sure you want clear all contents?</source>
-        <translation>Vols eliminar tots els continguts?</translation>
+        <translation type="unfinished">Vols eliminar tots els continguts?</translation>
     </message>
     <message>
         <source>Jump to tool buttons - Alt+Q, Jump to editor - Alt-Z, Jump to element path - Alt-X</source>
-        <translation>Salta als botons d&apos;eines - Alt+Q, Salta a l&apos;editor -Alt-Z, Salta a la trajectòria -Alt-X</translation>
+        <translation type="unfinished">Salta als botons d&apos;eines - Alt+Q, Salta a l&apos;editor -Alt-Z, Salta a la trajectòria -Alt-X</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Següent</translation>
+        <translation type="unfinished">Següent</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Anterior</translation>
+        <translation type="unfinished">Anterior</translation>
     </message>
     <message>
         <source>Select</source>
-        <translation>Selecciona</translation>
+        <translation type="unfinished">Selecciona</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>Tipus</translation>
+        <translation type="unfinished">Tipus</translation>
     </message>
     <message>
         <source>About</source>
@@ -604,7 +606,7 @@ Vols rebre més informació al respecte?</translation>
     </message>
     <message>
         <source>Plugin</source>
-        <translation>Connector</translation>
+        <translation type="unfinished">Connector</translation>
     </message>
     <message>
         <source>Author</source>
@@ -616,47 +618,43 @@ Vols rebre més informació al respecte?</translation>
     </message>
     <message>
         <source>Loaded plugins</source>
-        <translation>Connectors carregats</translation>
+        <translation type="unfinished">Connectors carregats</translation>
     </message>
     <message>
         <source>HTML Source Editor</source>
-        <translation>Editor de fonts HTML</translation>
-    </message>
-    <message>
-        <source>Word wrap</source>
-        <translation></translation>
+        <translation type="unfinished">Editor de fonts HTML</translation>
     </message>
     <message>
         <source>Select a color</source>
-        <translation>Selecciona un color</translation>
+        <translation type="unfinished">Selecciona un color</translation>
     </message>
     <message>
         <source>Picker</source>
-        <translation>Recolector d&apos;informació</translation>
+        <translation type="unfinished">Recolector d&apos;informació</translation>
     </message>
     <message>
         <source>Color picker</source>
-        <translation>Recolector de colors</translation>
+        <translation type="unfinished">Recolector de colors</translation>
     </message>
     <message>
         <source>Palette</source>
-        <translation>Paleta</translation>
+        <translation type="unfinished">Paleta</translation>
     </message>
     <message>
         <source>Palette colors</source>
-        <translation>Paleta de colors</translation>
+        <translation type="unfinished">Paleta de colors</translation>
     </message>
     <message>
         <source>Named</source>
-        <translation>Amb nom definit</translation>
+        <translation type="unfinished">Amb nom definit</translation>
     </message>
     <message>
         <source>Named colors</source>
-        <translation>Colors amb nom definit</translation>
+        <translation type="unfinished">Colors amb nom definit</translation>
     </message>
     <message>
         <source>Color</source>
-        <translation>Color</translation>
+        <translation type="unfinished">Color</translation>
     </message>
     <message>
         <source>Name</source>
@@ -664,7 +662,7 @@ Vols rebre més informació al respecte?</translation>
     </message>
     <message>
         <source>Select special character</source>
-        <translation>Tria un caràcter excepcional</translation>
+        <translation type="unfinished">Tria un caràcter excepcional</translation>
     </message>
     <message>
         <source>All</source>
@@ -824,55 +822,55 @@ Vols rebre més informació al respecte?</translation>
     </message>
     <message>
         <source>Invalid or missing parameter: %parameter</source>
-        <translation>Paràmetre no vàlid o inexistent: %parameter</translation>
+        <translation type="unfinished">Paràmetre no vàlid o inexistent: %parameter</translation>
     </message>
     <message>
         <source>Invalid parameter: %parameter = %value</source>
-        <translation>Paràmetre invàlid: %parameter = %value</translation>
+        <translation type="unfinished">Paràmetre invàlid: %parameter = %value</translation>
     </message>
     <message>
         <source>Toggle spellchecker</source>
-        <translation>Des/Activar corrector</translation>
+        <translation type="unfinished">Des/Activar corrector</translation>
     </message>
     <message>
         <source>Spellchecker settings</source>
-        <translation>Configuració del corrector</translation>
+        <translation type="unfinished">Configuració del corrector</translation>
     </message>
     <message>
         <source>Ignore word</source>
-        <translation>Ignora paraula</translation>
+        <translation type="unfinished">Ignora paraula</translation>
     </message>
     <message>
         <source>Ignore all</source>
-        <translation>Ignora tot</translation>
+        <translation type="unfinished">Ignora tot</translation>
     </message>
     <message>
         <source>Languages</source>
-        <translation>Idiomes</translation>
+        <translation type="unfinished">Idiomes</translation>
     </message>
     <message>
         <source>Please wait...</source>
-        <translation>Si us plau espera...</translation>
+        <translation type="unfinished">Si us plau espera...</translation>
     </message>
     <message>
         <source>Suggestions</source>
-        <translation>Suggerències</translation>
+        <translation type="unfinished">Suggerències</translation>
     </message>
     <message>
         <source>No suggestions</source>
-        <translation>No hi ha suggerències</translation>
+        <translation type="unfinished">No hi ha suggerències</translation>
     </message>
     <message>
         <source>No misspellings found.</source>
-        <translation>No s&apos;han trobat errors.</translation>
+        <translation type="unfinished">No s&apos;han trobat errors.</translation>
     </message>
     <message>
         <source>Definition term</source>
-        <translation>Definició</translation>
+        <translation type="unfinished">Definició</translation>
     </message>
     <message>
         <source>Insert/edit file</source>
-        <translation>Insertar/editar arxiu</translation>
+        <translation type="unfinished">Insertar/editar arxiu</translation>
     </message>
     <message>
         <source>this</source>
@@ -1030,24 +1028,124 @@ Vols rebre més informació al respecte?</translation>
         <source>Upload new Object</source>
         <translation>Carrega nou objecte</translation>
     </message>
+    <message>
+        <source>Run spell checking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ieSpell not detected. Do you want to install it now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Horizontale rule</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Emotions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert emotion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cool</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Embarassed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Foot in mouth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Frown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Innocent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Kiss</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Laughing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Money mouth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sealed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Smile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Surprised</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tongue out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Undecided</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wink</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Yell</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Paste is now in plain text mode. Click again to toggle back to regular paste mode. After you paste something you will be returned to regular paste mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Paste is now in plain text mode. Click again to toggle back to regular paste mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert horizontal ruler</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Word wrap</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/ezoe/handler</name>
     <message>
         <source>Object %1 does not exist.</source>
-        <translation>L&apos;objecte %1 no existeix.</translation>
+        <translation type="unfinished">L&apos;objecte %1 no existeix.</translation>
     </message>
     <message>
         <source>Node %1 does not exist.</source>
-        <translation>El node %1 no existeix.</translation>
+        <translation type="unfinished">El node %1 no existeix.</translation>
     </message>
     <message>
         <source>Node &amp;apos;%1&amp;apos; does not exist.</source>
-        <translation>El node &amp;apos;%1&amp;apos; no existeix.</translation>
+        <translation type="unfinished">El node &amp;apos;%1&amp;apos; no existeix.</translation>
     </message>
     <message>
         <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
-        <translation>Alguns objectes utilitzats en etiquetes incrustades(-inline) han estat esborrats i ja no estan disponibles.</translation>
+        <translation type="unfinished">Alguns objectes utilitzats en etiquetes incrustades(-inline) han estat esborrats i ja no estan disponibles.</translation>
     </message>
 </context>
 <context>
@@ -1277,98 +1375,98 @@ Vols rebre més informació al respecte?</translation>
     <name>design/standard/ezoe/searchreplace</name>
     <message>
         <source>Find again</source>
-        <translation>Cerca altra vegada</translation>
+        <translation type="unfinished">Cerca altra vegada</translation>
     </message>
     <message>
         <source>The search has been completed. The search string could not be found.</source>
-        <translation>La cerca s&apos;ha completat. La cadena de cerca no s&apos;ha pogut trobar.</translation>
+        <translation type="unfinished">La cerca s&apos;ha completat. La cadena de cerca no s&apos;ha pogut trobar.</translation>
     </message>
     <message>
         <source>Find</source>
-        <translation>Cercar</translation>
+        <translation type="unfinished">Cercar</translation>
     </message>
     <message>
         <source>Find/Replace</source>
-        <translation>Cerca/Susbtitueix</translation>
+        <translation type="unfinished">Cerca/Susbtitueix</translation>
     </message>
     <message>
         <source>All occurrences of the search string were replaced.</source>
-        <translation>Totes les aparicions de la cadena de cerca han estat substituides.</translation>
+        <translation type="unfinished">Totes les aparicions de la cadena de cerca han estat substituides.</translation>
     </message>
     <message>
         <source>Find what</source>
-        <translation>Cercar el que</translation>
+        <translation type="unfinished">Cercar el que</translation>
     </message>
     <message>
         <source>Replace with</source>
-        <translation>Substituir per</translation>
+        <translation type="unfinished">Substituir per</translation>
     </message>
     <message>
         <source>Direction</source>
-        <translation>Direcció</translation>
+        <translation type="unfinished">Direcció</translation>
     </message>
     <message>
         <source>Up</source>
-        <translation>Amunt</translation>
+        <translation type="unfinished">Amunt</translation>
     </message>
     <message>
         <source>Down</source>
-        <translation>Abaix</translation>
+        <translation type="unfinished">Abaix</translation>
     </message>
     <message>
         <source>Match case</source>
-        <translation>Coincidir majúscules</translation>
+        <translation type="unfinished">Coincidir majúscules</translation>
     </message>
     <message>
         <source>Find next</source>
-        <translation>Cerca següent</translation>
+        <translation type="unfinished">Cerca següent</translation>
     </message>
     <message>
         <source>Replace</source>
-        <translation>Substitueix</translation>
+        <translation type="unfinished">Substitueix</translation>
     </message>
     <message>
         <source>Replace all</source>
-        <translation>Substituir tot</translation>
+        <translation type="unfinished">Substituir tot</translation>
     </message>
 </context>
 <context>
     <name>design/standard/ezoe/validator</name>
     <message>
         <source>&amp;quot;%label&amp;quot; is required and must have a value</source>
-        <translation>&amp;quot;%label&amp;quot; és requerit i ha de tenir valor</translation>
+        <translation type="unfinished">&amp;quot;%label&amp;quot; és requerit i ha de tenir valor</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be a valid number</source>
-        <translation>&amp;quot;%label&amp;quot; ha de ser un nombre vàlid</translation>
+        <translation type="unfinished">&amp;quot;%label&amp;quot; ha de ser un nombre vàlid</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be a valid integer number</source>
-        <translation>&amp;quot;%label&amp;quot; ha de ser un nombre enter vàlid</translation>
+        <translation type="unfinished">&amp;quot;%label&amp;quot; ha de ser un nombre enter vàlid</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be a valid absolute url address</source>
-        <translation>&amp;quot;%label&amp;quot; ha de ser una adreça url absoluta vàlida</translation>
+        <translation type="unfinished">&amp;quot;%label&amp;quot; ha de ser una adreça url absoluta vàlida</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be a valid email address</source>
-        <translation>&amp;quot;%label&amp;quot; ha de ser una adreça de correu vàlida</translation>
+        <translation type="unfinished">&amp;quot;%label&amp;quot; ha de ser una adreça de correu vàlida</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be a valid css size/unit value</source>
-        <translation>&amp;quot;%label&amp;quot; ha de ser una mida/unitat vàlida</translation>
+        <translation type="unfinished">&amp;quot;%label&amp;quot; ha de ser una mida/unitat vàlida</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be a valid html element id</source>
-        <translation>&amp;quot;%label&amp;quot; ha de ser un identificador d&apos;element html vàlid</translation>
+        <translation type="unfinished">&amp;quot;%label&amp;quot; ha de ser un identificador d&apos;element html vàlid</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be higher then %min</source>
-        <translation>&amp;quot;%label&amp;quot; ha de ser més gran de %min</translation>
+        <translation type="unfinished">&amp;quot;%label&amp;quot; ha de ser més gran de %min</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be lower then %max</source>
-        <translation>&amp;quot;%label&amp;quot; ha de ser més petit de %max</translation>
+        <translation type="unfinished">&amp;quot;%label&amp;quot; ha de ser més petit de %max</translation>
     </message>
 </context>
 <context>
@@ -1448,7 +1546,7 @@ Vols rebre més informació al respecte?</translation>
     <name>kernel/classes/datatypes</name>
     <message>
         <source>Content required</source>
-        <translation>Contingut requerit</translation>
+        <translation type="unfinished">Contingut requerit</translation>
     </message>
     <message>
         <source>Invalid e-mail address: &apos;%1&apos;</source>
@@ -1459,14 +1557,14 @@ Vols rebre més informació al respecte?</translation>
     <name>kernel/classes/datatypes/ezxmltext</name>
     <message>
         <source>Invalid e-mail address: &apos;%1&apos;</source>
-        <translation>Adreça de correu electrònic no vàlida: &apos;%1&apos;</translation>
+        <translation type="unfinished">Adreça de correu electrònic no vàlida: &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
     <name>kernel/content</name>
     <message>
         <source>Top Level Nodes</source>
-        <translation>Nòduls alt nivell</translation>
+        <translation type="unfinished">Nòduls alt nivell</translation>
     </message>
 </context>
 </TS>

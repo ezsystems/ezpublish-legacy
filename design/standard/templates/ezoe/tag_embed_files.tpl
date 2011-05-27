@@ -138,8 +138,8 @@ function loadEmbedPreview( )
 {
     // Dynamically loads embed preview when attributes change
     var url = tinyMCEPopup.editor.settings.ez_extension_url + '/embed_view/' + eZOEPopupUtils.embedObject['contentobject_id'];
-    var postData = jQuery('#embed_attributes input, #embed_attributes select').serialize();
-    jQuery.post( url, postData, function( data )
+    var getData = eZOEPopupUtils.jqSafeSerilizer('embed_attributes');
+    jQuery.get( url, getData, function( data )
     {
         jQuery('#embed_preview').html( data );
     });

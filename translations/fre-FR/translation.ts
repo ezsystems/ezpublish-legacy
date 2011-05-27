@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="1.1" language="fr_FR">
+<!DOCTYPE TS>
+<TS version="2.0">
+<context>
+    <name>design/admin/content/browse</name>
+    <message>
+        <source>Bookmarks</source>
+        <translation>Signets</translation>
+    </message>
+</context>
 <context>
     <name>design/admin/content/edit</name>
     <message>
@@ -63,7 +71,14 @@
     <name>design/standard/content/search</name>
     <message>
         <source>No results were found when searching for &amp;quot;%1&amp;quot;</source>
-        <translation>Aucun résultat pour la recherche &amp;quot;1%&amp;quot;</translation>
+        <translation type="unfinished">Aucun résultat pour la recherche &amp;quot;1%&amp;quot;</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/view</name>
+    <message>
+        <source>You have no bookmarks</source>
+        <translation type="unfinished">Vous n&apos;avez aucun signet</translation>
     </message>
 </context>
 <context>
@@ -77,19 +92,19 @@
     <name>design/standard/ezoe</name>
     <message>
         <source>Do you want to use the WYSIWYG mode for this textarea?</source>
-        <translation>Souhaitez-vous utiliser le mode WYSIWYG pour cette zone de texte ?</translation>
+        <translation type="unfinished">Souhaitez-vous utiliser le mode WYSIWYG pour cette zone de texte ?</translation>
     </message>
     <message>
         <source>Apply</source>
-        <translation>Appliquer</translation>
+        <translation type="unfinished">Appliquer</translation>
     </message>
     <message>
         <source>Insert</source>
-        <translation>Insérer</translation>
+        <translation type="unfinished">Insérer</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation>Mettre à jour</translation>
+        <translation type="unfinished">Mettre à jour</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -97,7 +112,7 @@
     </message>
     <message>
         <source>Close</source>
-        <translation>Fermer</translation>
+        <translation type="unfinished">Fermer</translation>
     </message>
     <message>
         <source>Browse</source>
@@ -109,29 +124,29 @@
     </message>
     <message>
         <source>-- Not set --</source>
-        <translation>-- Non défini --</translation>
+        <translation type="unfinished">-- Non défini --</translation>
     </message>
     <message>
         <source>Copy/Cut/Paste is not available in Mozilla and Firefox.
 Do you want more information about this issue?</source>
-        <translation>Copier/Couper/Coller n&apos;est pas disponible pour Mozilla et Firefox.
+        <translation type="unfinished">Copier/Couper/Coller n&apos;est pas disponible pour Mozilla et Firefox.
 Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Currently not supported by your browser, use keyboard shortcuts instead.</source>
-        <translation>Actuellement non pris en charge par votre navigateur, veuillez utiliser les raccourcis clavier à la place.</translation>
+        <translation type="unfinished">Actuellement non pris en charge par votre navigateur, veuillez utiliser les raccourcis clavier à la place.</translation>
     </message>
     <message>
         <source>Sorry, but we have noticed that your popup-blocker has disabled a window that provides application functionality. You will need to disable popup blocking on this site in order to fully utilize this tool.</source>
-        <translation>Nous avons remarqué que votre bloqueur de popup a désactivé une fenêtre fournissant des fonctionnalités d&apos;application. Vous devez désactiver le blocage des popups pour ce site afin de pouvoir utiliser pleinement cet outil.</translation>
+        <translation type="unfinished">Nous avons remarqué que votre bloqueur de popup a désactivé une fenêtre fournissant des fonctionnalités d&apos;application. Vous devez désactiver le blocage des popups pour ce site afin de pouvoir utiliser pleinement cet outil.</translation>
     </message>
     <message>
         <source>Error: Invalid values entered, these are marked in red.</source>
-        <translation>Erreur : valeurs saisies invalides, signalées en rouge.</translation>
+        <translation type="unfinished">Erreur : valeurs saisies invalides, signalées en rouge.</translation>
     </message>
     <message>
         <source>More colors</source>
-        <translation>Plus de couleurs</translation>
+        <translation type="unfinished">Plus de couleurs</translation>
     </message>
     <message>
         <source>Alignment</source>
@@ -151,111 +166,111 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Full</source>
-        <translation>Plein</translation>
+        <translation type="unfinished">Plein</translation>
     </message>
     <message>
         <source>%Y-%m-%d</source>
-        <translation>%Y-%m-%d</translation>
+        <translation type="unfinished">%d/%m/%Y</translation>
     </message>
     <message>
         <source>%H:%M:%S</source>
-        <translation>%H:%M:%S</translation>
+        <translation type="unfinished">%H:%M:%S</translation>
     </message>
     <message>
         <source>Insert date</source>
-        <translation>Insérer la date</translation>
+        <translation type="unfinished">Insérer la date</translation>
     </message>
     <message>
         <source>Insert time</source>
-        <translation>Insérer l&apos;heure</translation>
+        <translation type="unfinished">Insérer l&apos;heure</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Imprimer</translation>
+        <translation type="unfinished">Imprimer</translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation>Prévisualiser</translation>
+        <translation type="unfinished">Prévisualiser</translation>
     </message>
     <message>
         <source>Direction left to right</source>
-        <translation>De gauche à droite</translation>
+        <translation type="unfinished">De gauche à droite</translation>
     </message>
     <message>
         <source>Direction right to left</source>
-        <translation>De droite à gauche</translation>
+        <translation type="unfinished">De droite à gauche</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Enregistrer</translation>
+        <translation type="unfinished">Enregistrer</translation>
     </message>
     <message>
         <source>Cancel all changes</source>
-        <translation>Annuler toutes les modifications</translation>
+        <translation type="unfinished">Annuler toutes les modifications</translation>
     </message>
     <message>
         <source>Insert non-breaking space character</source>
-        <translation>Insérer un espace insécable</translation>
+        <translation type="unfinished">Insérer un espace insécable</translation>
     </message>
     <message>
         <source>Find</source>
-        <translation>Rechercher</translation>
+        <translation type="unfinished">Rechercher</translation>
     </message>
     <message>
         <source>Find/Replace</source>
-        <translation>Rechercher/Remplacer</translation>
+        <translation type="unfinished">Rechercher/Remplacer</translation>
     </message>
     <message>
         <source>Paste as Plain Text</source>
-        <translation>Coller en tant que texte brut</translation>
+        <translation type="unfinished">Coller en tant que texte brut</translation>
     </message>
     <message>
         <source>Paste from Word</source>
-        <translation>Coller depuis Word</translation>
+        <translation type="unfinished">Coller depuis Word</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>Sélectionner tout</translation>
+        <translation type="unfinished">Sélectionner tout</translation>
     </message>
     <message>
         <source>Use CTRL+V on your keyboard to paste the text into the window.</source>
-        <translation>Utilisez CTRL+V sur votre clavier pour coller le texte dans la fenêtre.</translation>
+        <translation type="unfinished">Utilisez CTRL+V sur votre clavier pour coller le texte dans la fenêtre.</translation>
     </message>
     <message>
         <source>Keep linebreaks</source>
-        <translation>Conserver les sauts de ligne</translation>
+        <translation type="unfinished">Conserver les sauts de ligne</translation>
     </message>
     <message>
         <source>Inserts a new table</source>
-        <translation>Insère un nouveau tableau</translation>
+        <translation type="unfinished">Insère un nouveau tableau</translation>
     </message>
     <message>
         <source>Insert row before</source>
-        <translation>Insérer une ligne au-dessus</translation>
+        <translation type="unfinished">Insérer une ligne au-dessus</translation>
     </message>
     <message>
         <source>Insert row after</source>
-        <translation>Insérer une ligne en-dessous</translation>
+        <translation type="unfinished">Insérer une ligne en-dessous</translation>
     </message>
     <message>
         <source>Delete row</source>
-        <translation>Supprimer une ligne</translation>
+        <translation type="unfinished">Supprimer une ligne</translation>
     </message>
     <message>
         <source>Insert column before</source>
-        <translation>Insérer une colonne à gauche</translation>
+        <translation type="unfinished">Insérer une colonne à gauche</translation>
     </message>
     <message>
         <source>Insert column after</source>
-        <translation>Insérer une colonne à droite</translation>
+        <translation type="unfinished">Insérer une colonne à droite</translation>
     </message>
     <message>
         <source>Remove column</source>
-        <translation>Supprimer la colonne</translation>
+        <translation type="unfinished">Supprimer la colonne</translation>
     </message>
     <message>
         <source>Split merged table cells</source>
-        <translation>Fractionner les cellules fusionnées</translation>
+        <translation type="unfinished">Fractionner les cellules fusionnées</translation>
     </message>
     <message>
         <source>Merge table cells</source>
@@ -263,35 +278,35 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Table row properties</source>
-        <translation>Propriétés de la ligne</translation>
+        <translation type="unfinished">Propriétés de la ligne</translation>
     </message>
     <message>
         <source>Table cell properties</source>
-        <translation>Propriétés de la celulle</translation>
+        <translation type="unfinished">Propriétés de la celulle</translation>
     </message>
     <message>
         <source>Table properties</source>
-        <translation>Propriétés du tableau</translation>
+        <translation type="unfinished">Propriétés du tableau</translation>
     </message>
     <message>
         <source>Paste table row before</source>
-        <translation>Coller la ligne au-dessus</translation>
+        <translation type="unfinished">Coller la ligne au-dessus</translation>
     </message>
     <message>
         <source>Paste table row after</source>
-        <translation>Coller la ligne en-dessous</translation>
+        <translation type="unfinished">Coller la ligne en-dessous</translation>
     </message>
     <message>
         <source>Cut table row</source>
-        <translation>Couper la ligne</translation>
+        <translation type="unfinished">Couper la ligne</translation>
     </message>
     <message>
         <source>Copy table row</source>
-        <translation>Copier la ligne</translation>
+        <translation type="unfinished">Copier la ligne</translation>
     </message>
     <message>
         <source>Delete table</source>
-        <translation>Supprimer le tableau</translation>
+        <translation type="unfinished">Supprimer le tableau</translation>
     </message>
     <message>
         <source>Row</source>
@@ -315,235 +330,235 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>The changes you made will be lost if you navigate away from this page.</source>
-        <translation>Si vous quittez cette page, vos modification seront perdues.</translation>
+        <translation type="unfinished">Si vous quittez cette page, vos modifications seront perdues.</translation>
     </message>
     <message>
         <source>Toggle fullscreen mode</source>
-        <translation>Activer le mode plein écran</translation>
+        <translation type="unfinished">(Dés)activer le mode plein écran</translation>
     </message>
     <message>
         <source>Insert / edit embedded media</source>
-        <translation>Insérer/modifier le média embarqué</translation>
+        <translation type="unfinished">Insérer/modifier le média embarqué</translation>
     </message>
     <message>
         <source>Edit embedded media</source>
-        <translation>Modifier le média embarqué</translation>
+        <translation type="unfinished">Modifier le média embarqué</translation>
     </message>
     <message>
         <source>Document properties</source>
-        <translation>Propriétés du document</translation>
+        <translation type="unfinished">Propriétés du document</translation>
     </message>
     <message>
         <source>Insert predefined template content</source>
-        <translation>Insérer un contenu de template prédéfini</translation>
+        <translation type="unfinished">Insérer un contenu de template prédéfini</translation>
     </message>
     <message>
         <source>Visual control characters on/off.</source>
-        <translation>Caractères du contrôle visuel on/off.</translation>
+        <translation type="unfinished">Caractères du contrôle visuels on/off.</translation>
     </message>
     <message>
         <source>Insert page break.</source>
-        <translation>Insérer un saut de page.</translation>
+        <translation type="unfinished">Insérer un saut de page.</translation>
     </message>
     <message>
         <source>Styles</source>
-        <translation>Styles</translation>
+        <translation type="unfinished">Styles</translation>
     </message>
     <message>
         <source>Format</source>
-        <translation>Format</translation>
+        <translation type="unfinished">Format</translation>
     </message>
     <message>
         <source>Paragraph</source>
-        <translation>Paragraphe</translation>
+        <translation type="unfinished">Paragraphe</translation>
     </message>
     <message>
         <source>Div</source>
-        <translation>Div</translation>
+        <translation type="unfinished">Div</translation>
     </message>
     <message>
         <source>Literal</source>
-        <translation>Littéral</translation>
+        <translation type="unfinished">Littéral</translation>
     </message>
     <message>
         <source>Heading 1</source>
-        <translation>Titre 1</translation>
+        <translation type="unfinished">Titre 1</translation>
     </message>
     <message>
         <source>Heading 2</source>
-        <translation>Titre 2</translation>
+        <translation type="unfinished">Titre 2</translation>
     </message>
     <message>
         <source>Heading 3</source>
-        <translation>Titre 3</translation>
+        <translation type="unfinished">Titre 3</translation>
     </message>
     <message>
         <source>Heading 4</source>
-        <translation>Titre 4</translation>
+        <translation type="unfinished">Titre 4</translation>
     </message>
     <message>
         <source>Heading 5</source>
-        <translation>Titre 5</translation>
+        <translation type="unfinished">Titre 5</translation>
     </message>
     <message>
         <source>Heading 6</source>
-        <translation>Titre 6</translation>
+        <translation type="unfinished">Titre 6</translation>
     </message>
     <message>
         <source>Code</source>
-        <translation>Code</translation>
+        <translation type="unfinished">Code</translation>
     </message>
     <message>
         <source>Code sample</source>
-        <translation>Exemple de code</translation>
+        <translation type="unfinished">Exemple de code</translation>
     </message>
     <message>
         <source>Definition term </source>
-        <translation>Terme de la définition</translation>
+        <translation type="obsolete">Terme de la définition </translation>
     </message>
     <message>
         <source>Definition description</source>
-        <translation>Description de la définition</translation>
+        <translation type="unfinished">Description de la définition</translation>
     </message>
     <message>
         <source>Bold (Ctrl+B)</source>
-        <translation>Gras (Ctrl+G)</translation>
+        <translation type="unfinished">Gras (Ctrl+B)</translation>
     </message>
     <message>
         <source>Italic (Ctrl+I)</source>
-        <translation>Italique (Ctrl+I)</translation>
+        <translation type="unfinished">Italique (Ctrl+I)</translation>
     </message>
     <message>
         <source>Underline (Ctrl+U)</source>
-        <translation>Souligné (Ctrl+U)</translation>
+        <translation type="unfinished">Souligné (Ctrl+U)</translation>
     </message>
     <message>
         <source>Strikethrough</source>
-        <translation>Barré</translation>
+        <translation type="unfinished">Barré</translation>
     </message>
     <message>
         <source>Align left</source>
-        <translation>Aligné à gauche</translation>
+        <translation type="unfinished">Aligné à gauche</translation>
     </message>
     <message>
         <source>Align center</source>
-        <translation>Centré</translation>
+        <translation type="unfinished">Centré</translation>
     </message>
     <message>
         <source>Align right</source>
-        <translation>Aligné à droite</translation>
+        <translation type="unfinished">Aligné à droite</translation>
     </message>
     <message>
         <source>Align full</source>
-        <translation>Justifié</translation>
+        <translation type="unfinished">Justifié</translation>
     </message>
     <message>
         <source>Unordered list</source>
-        <translation>Liste non ordonnée</translation>
+        <translation type="unfinished">Liste non ordonnée</translation>
     </message>
     <message>
         <source>Ordered list</source>
-        <translation>Liste ordonnée</translation>
+        <translation type="unfinished">Liste ordonnée</translation>
     </message>
     <message>
         <source>Outdent</source>
-        <translation>Alinéa</translation>
+        <translation type="unfinished">Supprimer un niveau d&apos;indentation</translation>
     </message>
     <message>
         <source>Indent</source>
-        <translation>Indentation</translation>
+        <translation type="unfinished">Ajouter un niveau d&apos;indentation</translation>
     </message>
     <message>
         <source>Undo (Ctrl+Z)</source>
-        <translation>Annuler (Ctrl+Z)</translation>
+        <translation type="unfinished">Annuler (Ctrl+Z)</translation>
     </message>
     <message>
         <source>Redo (Ctrl+Y)</source>
-        <translation>Rétablir (Ctrl+Y)</translation>
+        <translation type="unfinished">Rétablir (Ctrl+Y)</translation>
     </message>
     <message>
         <source>Insert/edit link</source>
-        <translation>Insérer/modifier un lien</translation>
+        <translation type="unfinished">Insérer/modifier le lien</translation>
     </message>
     <message>
         <source>Unlink</source>
-        <translation>Supprimer le lien</translation>
+        <translation type="unfinished">Supprimer le lien</translation>
     </message>
     <message>
         <source>Insert/edit image</source>
-        <translation>Insérer/modifier une image</translation>
+        <translation type="unfinished">Insérer/modifier une image</translation>
     </message>
     <message>
         <source>Insert/edit object</source>
-        <translation>Insérer/modifier un objet</translation>
+        <translation type="unfinished">Insérer/modifier un objet</translation>
     </message>
     <message>
         <source>Insert custom tag</source>
-        <translation>Insérer une balise personnalisée</translation>
+        <translation type="unfinished">Insérer une balise personnalisée</translation>
     </message>
     <message>
         <source>Insert literal text</source>
-        <translation>Insérer un texte littéral</translation>
+        <translation type="unfinished">Insérer un texte littéral</translation>
     </message>
     <message>
         <source>Insert pagebreak</source>
-        <translation>Insérer un saut de page</translation>
+        <translation type="unfinished">Insérer un saut de page</translation>
     </message>
     <message>
         <source>Cleanup messy code</source>
-        <translation>Nettoyer le code</translation>
+        <translation type="unfinished">Nettoyer le code</translation>
     </message>
     <message>
         <source>Edit HTML Source</source>
-        <translation>Modifier la source HTML</translation>
+        <translation type="unfinished">Modifier la source HTML</translation>
     </message>
     <message>
         <source>Subscript</source>
-        <translation>Indice</translation>
+        <translation type="unfinished">Indice</translation>
     </message>
     <message>
         <source>Superscript</source>
-        <translation>Exposant</translation>
+        <translation type="unfinished">Exposant</translation>
     </message>
     <message>
         <source>Remove formatting</source>
-        <translation>Supprimer la mise en forme</translation>
+        <translation type="unfinished">Supprimer la mise en forme</translation>
     </message>
     <message>
         <source>Your custom description here</source>
-        <translation>Insérez votre description personnalisée ici</translation>
+        <translation type="unfinished">Insérez votre description personnalisée ici</translation>
     </message>
     <message>
         <source>Insert special character</source>
-        <translation>Insérer un caractère spécial</translation>
+        <translation type="unfinished">Insérer un caractère spécial</translation>
     </message>
     <message>
         <source>Toggle guidelines/invisible elements</source>
-        <translation>Activer les instructions/les éléments invisibles</translation>
+        <translation type="unfinished">(Dés)activer les instructions/les éléments invisibles</translation>
     </message>
     <message>
         <source>Insert/edit anchor</source>
-        <translation>Insérer/modifier une ancre</translation>
+        <translation type="unfinished">Insérer/modifier une ancre</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation>Couper</translation>
+        <translation type="unfinished">Couper</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copier</translation>
+        <translation type="unfinished">Copier</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>Coller</translation>
+        <translation type="unfinished">Coller</translation>
     </message>
     <message>
         <source>Image properties</source>
-        <translation>Propriétés de l&apos;image</translation>
+        <translation type="unfinished">Propriétés de l&apos;image</translation>
     </message>
     <message>
         <source>New document</source>
-        <translation>Nouveau document</translation>
+        <translation type="unfinished">Nouveau document</translation>
     </message>
     <message>
         <source>Help</source>
@@ -551,31 +566,31 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation>Chemin</translation>
+        <translation type="unfinished">Chemin</translation>
     </message>
     <message>
         <source>Are you sure you want clear all contents?</source>
-        <translation>Souhaitez-vous vraiment supprimer tout le contenu ?</translation>
+        <translation type="unfinished">Souhaitez-vous vraiment supprimer tout le contenu ?</translation>
     </message>
     <message>
         <source>Jump to tool buttons - Alt+Q, Jump to editor - Alt-Z, Jump to element path - Alt-X</source>
-        <translation>Raccourci vers les boutons outils - Alt+Q, Raccourci vers l&apos;éditeur - Alt-Z, Raccourci vers le chemin élément - Alt-X</translation>
+        <translation type="unfinished">Raccourci vers les outils - Alt+Q, Raccourci vers l&apos;éditeur - Alt-Z, Raccourci vers le chemin élément - Alt-X</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Suivant</translation>
+        <translation type="unfinished">Suivant</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Précédent</translation>
+        <translation type="unfinished">Précédent</translation>
     </message>
     <message>
         <source>Select</source>
-        <translation>Sélectionner</translation>
+        <translation type="unfinished">Sélectionner</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>Type</translation>
+        <translation type="unfinished">Type</translation>
     </message>
     <message>
         <source>About</source>
@@ -591,7 +606,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Plugin</source>
-        <translation>Plugin</translation>
+        <translation type="unfinished">Plugin</translation>
     </message>
     <message>
         <source>Author</source>
@@ -603,47 +618,47 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Loaded plugins</source>
-        <translation>Plugins chargés</translation>
+        <translation type="unfinished">Plugins chargés</translation>
     </message>
     <message>
         <source>HTML Source Editor</source>
-        <translation>Editeur de source HTML</translation>
+        <translation type="unfinished">Éditeur de source HTML</translation>
     </message>
     <message>
         <source>Word wrap</source>
-        <translation>Renvoi à la ligne</translation>
+        <translation type="unfinished">Renvoi à la ligne</translation>
     </message>
     <message>
         <source>Select a color</source>
-        <translation>Sélectionnez une couleur</translation>
+        <translation type="unfinished">Sélectionnez une couleur</translation>
     </message>
     <message>
         <source>Picker</source>
-        <translation>Sélecteur</translation>
+        <translation type="unfinished">Sélecteur</translation>
     </message>
     <message>
         <source>Color picker</source>
-        <translation>Sélecteur de couleur</translation>
+        <translation type="unfinished">Sélecteur de couleur</translation>
     </message>
     <message>
         <source>Palette</source>
-        <translation>Palette</translation>
+        <translation type="unfinished">Palette</translation>
     </message>
     <message>
         <source>Palette colors</source>
-        <translation>Couleurs de la palette</translation>
+        <translation type="unfinished">Palette de couleurs</translation>
     </message>
     <message>
         <source>Named</source>
-        <translation>Nommé</translation>
+        <translation type="unfinished">Nommé</translation>
     </message>
     <message>
         <source>Named colors</source>
-        <translation>Couleurs nommées</translation>
+        <translation type="unfinished">Couleurs nommées</translation>
     </message>
     <message>
         <source>Color</source>
-        <translation>Couleur</translation>
+        <translation type="unfinished">Couleur</translation>
     </message>
     <message>
         <source>Name</source>
@@ -651,7 +666,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Select special character</source>
-        <translation>Sélectionner un caractère spécial</translation>
+        <translation type="unfinished">Sélectionner un caractère spécial</translation>
     </message>
     <message>
         <source>All</source>
@@ -659,7 +674,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Align</source>
-        <translation>Aligner</translation>
+        <translation>Alignement</translation>
     </message>
     <message>
         <source>Size</source>
@@ -667,7 +682,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Visualiser</translation>
+        <translation>Vue</translation>
     </message>
     <message>
         <source>Inline</source>
@@ -707,7 +722,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation>Balise</translation>
+        <translation>Mots clés</translation>
     </message>
     <message>
         <source>OK</source>
@@ -715,7 +730,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Anchor properties</source>
-        <translation>Propriétés de l&apos;ancre</translation>
+        <translation type="obsolete">Propriétés de l&apos;ancre</translation>
     </message>
     <message>
         <source>Properties</source>
@@ -723,8 +738,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Custom tag properties</source>
-        <translation>Propriétés de la balise personnalisée
-</translation>
+        <translation type="obsolete">Propriétés de la balise personnalisée</translation>
     </message>
     <message>
         <source>Related content</source>
@@ -740,27 +754,27 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Switch embed image</source>
-        <translation>Basculer vers l&apos;image embarquée</translation>
+        <translation>Basculer vers l&apos;affichage des images embarquées</translation>
     </message>
     <message>
         <source>Switch embed object</source>
-        <translation>Basculer vers l&apos;objet embarqué</translation>
+        <translation>Basculer vers l&apos;affichage des objets embarqués</translation>
     </message>
     <message>
         <source>Heading Properties</source>
-        <translation>Propriétés du titre</translation>
+        <translation type="obsolete">Propriétés du titre</translation>
     </message>
     <message>
         <source>Link properties</source>
-        <translation>Propriétés du lien</translation>
+        <translation type="obsolete">Propriétés du lien</translation>
     </message>
     <message>
         <source>Table Properties</source>
-        <translation>Propriétés du tableau</translation>
+        <translation type="obsolete">Propriétés du tableau</translation>
     </message>
     <message>
         <source>Cell Properties</source>
-        <translation>Propriétés des cellules</translation>
+        <translation type="obsolete">Propriétés de la cellule</translation>
     </message>
     <message>
         <source>Apply to</source>
@@ -768,7 +782,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Upload new</source>
-        <translation>Nouveau téléchargement</translation>
+        <translation type="obsolete">Nouveau téléchargement</translation>
     </message>
     <message>
         <source>File</source>
@@ -796,7 +810,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Upload is in progress, it may take a few seconds...</source>
-        <translation>Téléchargement en cours, patientez quelques secondes...</translation>
+        <translation>Téléchargement en cours, cette opération peut prendre quelques secondes...</translation>
     </message>
     <message>
         <source>Related images</source>
@@ -808,15 +822,330 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>There are no related objects.</source>
-        <translation>Il n&apos;y a pas d&apos;objets associés.</translation>
+        <translation>Il n&apos;y a pas d&apos;objet associé.</translation>
     </message>
     <message>
         <source>Invalid or missing parameter: %parameter</source>
-        <translation>Paramètre manquant ou invalide : %parameter</translation>
+        <translation type="unfinished">Paramètre manquant ou invalide : %parameter</translation>
     </message>
     <message>
         <source>Invalid parameter: %parameter = %value</source>
-        <translation>Paramètre invalide : %parameter = %value</translation>
+        <translation type="unfinished">Paramètre invalide : %parameter = %value</translation>
+    </message>
+    <message>
+        <source>Run spell checking</source>
+        <translation type="unfinished">Lancer le correcteur orthographique</translation>
+    </message>
+    <message>
+        <source>ieSpell not detected. Do you want to install it now?</source>
+        <translation type="unfinished">ieSpell est introuvable. Voulez vous l&apos;installer maintenant ?</translation>
+    </message>
+    <message>
+        <source>Horizontale rule</source>
+        <translation type="unfinished">Règle horizontale</translation>
+    </message>
+    <message>
+        <source>Emotions</source>
+        <translation type="unfinished">Smileys</translation>
+    </message>
+    <message>
+        <source>Insert emotion</source>
+        <translation type="unfinished">Insérer un smiley</translation>
+    </message>
+    <message>
+        <source>Cool</source>
+        <translation type="unfinished">Cool</translation>
+    </message>
+    <message>
+        <source>Cry</source>
+        <translation type="unfinished">Pleur</translation>
+    </message>
+    <message>
+        <source>Embarassed</source>
+        <translation type="unfinished">Embarassé</translation>
+    </message>
+    <message>
+        <source>Foot in mouth</source>
+        <translation type="unfinished">Ne pas répéter</translation>
+    </message>
+    <message>
+        <source>Frown</source>
+        <translation type="unfinished">Froncement de sourcils</translation>
+    </message>
+    <message>
+        <source>Innocent</source>
+        <translation type="unfinished">Innocent</translation>
+    </message>
+    <message>
+        <source>Kiss</source>
+        <translation type="unfinished">Bise</translation>
+    </message>
+    <message>
+        <source>Laughing</source>
+        <translation type="unfinished">Rire</translation>
+    </message>
+    <message>
+        <source>Money mouth</source>
+        <translation type="unfinished">Embarassé</translation>
+    </message>
+    <message>
+        <source>Sealed</source>
+        <translation type="unfinished">Décidé</translation>
+    </message>
+    <message>
+        <source>Smile</source>
+        <translation type="unfinished">Sourire</translation>
+    </message>
+    <message>
+        <source>Surprised</source>
+        <translation type="unfinished">Surpris</translation>
+    </message>
+    <message>
+        <source>Tongue out</source>
+        <translation type="unfinished">Tire la langue</translation>
+    </message>
+    <message>
+        <source>Undecided</source>
+        <translation type="unfinished">Indécis</translation>
+    </message>
+    <message>
+        <source>Wink</source>
+        <translation type="unfinished">Clin d&apos;œil</translation>
+    </message>
+    <message>
+        <source>Yell</source>
+        <translation type="unfinished">Cri</translation>
+    </message>
+    <message>
+        <source>Paste is now in plain text mode. Click again to toggle back to regular paste mode. After you paste something you will be returned to regular paste mode.</source>
+        <translation type="unfinished">La fonction coller est en mode texte brut. Recliquez pour repasser la fonction coller en mode classique. Après avoir collé quelque chose, la fonction coller repassera en mode classique.</translation>
+    </message>
+    <message>
+        <source>Paste is now in plain text mode. Click again to toggle back to regular paste mode.</source>
+        <translation type="unfinished">La fonction coller est en mode texte brut. Recliquez pour repasser la fonction coller en mode classique.</translation>
+    </message>
+    <message>
+        <source>Toggle spellchecker</source>
+        <translation type="unfinished">(Dés)active le correcteur orthographique</translation>
+    </message>
+    <message>
+        <source>Spellchecker settings</source>
+        <translation type="unfinished">Configuration du correcteur orthographique</translation>
+    </message>
+    <message>
+        <source>Ignore word</source>
+        <translation type="unfinished">Ignorer ce mot</translation>
+    </message>
+    <message>
+        <source>Ignore all</source>
+        <translation type="unfinished">Tout ignorer</translation>
+    </message>
+    <message>
+        <source>Languages</source>
+        <translation type="unfinished">Langues</translation>
+    </message>
+    <message>
+        <source>Please wait...</source>
+        <translation type="unfinished">Veuillez patienter...</translation>
+    </message>
+    <message>
+        <source>Suggestions</source>
+        <translation type="unfinished">Propositions</translation>
+    </message>
+    <message>
+        <source>No suggestions</source>
+        <translation type="unfinished">Aucune proprosition</translation>
+    </message>
+    <message>
+        <source>No misspellings found.</source>
+        <translation type="unfinished">Aucune erreur n&apos;a été trouvée.</translation>
+    </message>
+    <message>
+        <source>Definition term</source>
+        <translation type="unfinished">Définition du terme</translation>
+    </message>
+    <message>
+        <source>Insert/edit file</source>
+        <translation type="unfinished">Insérer/Modifier le fichier</translation>
+    </message>
+    <message>
+        <source>Insert horizontal ruler</source>
+        <translation type="unfinished">Insérer un séparateur horizontal</translation>
+    </message>
+    <message>
+        <source>this</source>
+        <translation>ce nœud</translation>
+    </message>
+    <message>
+        <source>Top</source>
+        <translation>En haut</translation>
+    </message>
+    <message>
+        <source>Bottom</source>
+        <translation>En bas</translation>
+    </message>
+    <message>
+        <source>List of possible link types. Link types that use the &apos;://&apos; format are technically called protocols.</source>
+        <translation>Liste des types de lien disponibles. Les types de lien contenant &apos;://&apos; sont des protocoles.</translation>
+    </message>
+    <message>
+        <source>eznode</source>
+        <translation>eznode</translation>
+    </message>
+    <message>
+        <source>ezobject</source>
+        <translation>ezobject</translation>
+    </message>
+    <message>
+        <source>Ftp</source>
+        <translation>ftp</translation>
+    </message>
+    <message>
+        <source>Http</source>
+        <translation>http</translation>
+    </message>
+    <message>
+        <source>Https</source>
+        <translation>https</translation>
+    </message>
+    <message>
+        <source>Mail</source>
+        <translation>Courriel</translation>
+    </message>
+    <message>
+        <source>Anchor</source>
+        <translation>Ancre</translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation>Autre</translation>
+    </message>
+    <message>
+        <source>Id not valid!</source>
+        <translation>L&apos;id n&apos;est pas valide !</translation>
+    </message>
+    <message>
+        <source>The url the link points to, starts with link type (like http://).</source>
+        <translation>L&apos;URL vers laquelle le lien doit pointer; elle démarre par le type de lien (par exemple http://)</translation>
+    </message>
+    <message>
+        <source>Class are often used to give different design or appearance, either by using a different template, style or both.</source>
+        <translation>Les classes sont souvent utilisées pour donner une apparence différente en utilisant soit un template différent, soit un style, soit les deux.</translation>
+    </message>
+    <message>
+        <source>Lets you specify the target window for the link, if any.</source>
+        <translation>Donne la possibilité de définir la fenêtre cible du lien si nécessaire.</translation>
+    </message>
+    <message>
+        <source>The title on the (x)html tag, used by screen readers, and to give better explanation like this one.</source>
+        <translation>Le titre de la balise (x)html utilisé par les lecteurs d&apos;écran pour donner de plus amples explications comme ce texte.</translation>
+    </message>
+    <message>
+        <source>To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.</source>
+        <translation>Utilisé pour définir la largeur de cet élément, soit en pourcentage en ajoutant % soit en pixel en entrant uniquement un nombre.</translation>
+    </message>
+    <message>
+        <source>The unique identifier used for the element in the (x)html output, used by style sheets and/or anchors.</source>
+        <translation>L&apos;identifiant unique de cet élément dans la sortie (x)html utilisé par les feuilles de style et/ou comme anchre.</translation>
+    </message>
+    <message>
+        <source>New %tag_name tag</source>
+        <translation>Nouvel élément %tag_name</translation>
+    </message>
+    <message>
+        <source>Edit %tag_name tag</source>
+        <translation>Modifier l&apos;élément %tag_name</translation>
+    </message>
+    <message>
+        <source>Object</source>
+        <translation>Objet</translation>
+    </message>
+    <message>
+        <source>Node</source>
+        <translation>Nœud</translation>
+    </message>
+    <message>
+        <source>Relation</source>
+        <translation>Relation</translation>
+    </message>
+    <message>
+        <source>Switch embed file</source>
+        <translation>Basculer vers l&apos;affichage des objets embarqués</translation>
+    </message>
+    <message>
+        <source>Edit file</source>
+        <translation>Modifier le fichier</translation>
+    </message>
+    <message>
+        <source>Edit image</source>
+        <translation>Modifier l&apos;image</translation>
+    </message>
+    <message>
+        <source>Edit object</source>
+        <translation>Modifier l&apos;objet</translation>
+    </message>
+    <message>
+        <source>[default]</source>
+        <translation>[par défaut]</translation>
+    </message>
+    <message>
+        <source>New window (_blank)</source>
+        <translation>Nouvelle fenêtre (_blank)</translation>
+    </message>
+    <message>
+        <source>Table cell</source>
+        <translation>Cellule de tableau</translation>
+    </message>
+    <message>
+        <source>Table header</source>
+        <translation>Entête de tableau</translation>
+    </message>
+    <message>
+        <source>Upload new File</source>
+        <translation>Envoyer un nouveau fichier</translation>
+    </message>
+    <message>
+        <source>There are no related files.</source>
+        <translation>Il n&apos;y a aucun fichier lié.</translation>
+    </message>
+    <message>
+        <source>Upload new Image</source>
+        <translation>Envoyer une nouvelle image</translation>
+    </message>
+    <message>
+        <source>Alternative text</source>
+        <translation>Texte alternatif</translation>
+    </message>
+    <message>
+        <source>Tags</source>
+        <translation>Mots clés</translation>
+    </message>
+    <message>
+        <source>There are no related images.</source>
+        <translation>Il n&apos;y a aucune image liée.</translation>
+    </message>
+    <message>
+        <source>Upload new Object</source>
+        <translation>Envoyer un nouvel objet</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/handler</name>
+    <message>
+        <source>Object %1 does not exist.</source>
+        <translation type="unfinished">L&apos;objet %1 n&apos;existe pas.</translation>
+    </message>
+    <message>
+        <source>Node %1 does not exist.</source>
+        <translation type="unfinished">Le nœud %1 n&apos;existe pas.</translation>
+    </message>
+    <message>
+        <source>Node &amp;apos;%1&amp;apos; does not exist.</source>
+        <translation type="unfinished">Le nœud &apos;%1&apos; n&apos;existe pas.</translation>
+    </message>
+    <message>
+        <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
+        <translation type="unfinished">Des objets inclus ont été supprimés.</translation>
     </message>
 </context>
 <context>
@@ -827,19 +1156,19 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Make the selected text &lt;b&gt;bold&lt;/b&gt;. If the selected text is &lt;b&gt;bold&lt;/b&gt; already, this button will remove the formating.</source>
-        <translation>Créer en &lt;b&gt;gras&lt;/b&gt; le texte sélectionné. Si le texte sélectionné est déjà en &lt;b&gt;gras&lt;/b&gt;, ce bouton va supprimer ce format.</translation>
+        <translation>Met en &lt;b&gt;gras&lt;/b&gt; le texte sélectionné. Si le texte sélectionné est déjà en &lt;b&gt;gras&lt;/b&gt;, ce bouton supprime la mise en gras.</translation>
     </message>
     <message>
         <source>Make the selected text &lt;i&gt;italic&lt;/i&gt;. If the selected text is &lt;i&gt;italic&lt;/i&gt; already, this button will remove the formating.</source>
-        <translation>Créer en &lt;i&gt;italique&lt;/i&gt; le texte sélectionné. Si le texte sélectionné est déjà en &lt;i&gt;italique&lt;/i&gt;, ce bouton va supprimer ce format.</translation>
+        <translation>Met en &lt;i&gt;italique&lt;/i&gt; le texte sélectionné. Si le texte sélectionné est déjà en &lt;i&gt;italique&lt;/i&gt;, ce bouton supprime la mise en italique..</translation>
     </message>
     <message>
         <source>Make the selected text &lt;u&gt;underline&lt;/u&gt;. This button is only enabled if you have a custom tag named underline, template code to handle underline custom tags is not included in Online Editor.</source>
-        <translation>Créer en &lt;u&gt;souligné&lt;u&gt; le texte sélectionné. Ce bouton est activé uniquement si  vous possédez une balise personnalisée nommée underline. Le template de code pour gérer les balises personnalisées underline n&apos;est pas compris dans l&apos;Editeur en ligne. </translation>
+        <translation type="obsolete">&lt;u&gt;Souligne&lt;u&gt; le texte sélectionné. Ce bouton est activé uniquement si une balise personnalisée nommée underline existe. Le template pour gérer la balise personnalisée underline n&apos;est pas inclus dans l&apos;extension Online Editor.</translation>
     </message>
     <message>
         <source>Create a bullet list. To create a new list item, press &quot;Enter&quot;. To end a list, press &quot;Enter&quot; key on an empty list item. If you click this button when the cursor is on a list item, the formatting will be removed.</source>
-        <translation>Créer une liste à puces. Pour créer un élément dans la liste, pressez &quot;Entrée&quot;. Pour finir une liste, pressez le bouton &quot;Entrée&quot; sur un élément vide de la liste. Si vous cliquez sur ce bouton lorsque le curseur est sur un élément de la liste, la mise en forme sera supprimée.</translation>
+        <translation>Créer une liste à puce. Pour créer un élément dans la liste, pressez &quot;Entrée&quot;. Pour finir une liste, pressez le bouton &quot;Entrée&quot; sur un élément vide de la liste. Si vous cliquez sur ce bouton lorsque le curseur est sur un élément de la liste, la mise en forme sera supprimée.</translation>
     </message>
     <message>
         <source>Create a numbered list. To create a new list item, press &quot;Enter&quot;. To end a list, press &quot;Enter&quot; key on an empty list item. If you click this button when the cursor is on a list item, the formatting will be removed.</source>
@@ -947,11 +1276,11 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Browse for a node / object.</source>
-        <translation>Rechercher un noeud/un objet.</translation>
+        <translation>Rechercher un nœud/un objet.</translation>
     </message>
     <message>
         <source>Search for a node / object.</source>
-        <translation>Rechercher un noeud/un objet.</translation>
+        <translation>Rechercher un nœud/un objet.</translation>
     </message>
     <message>
         <source>Tips &amp;amp; Tricks</source>
@@ -979,11 +1308,220 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>You can edit wordmatch.ini to make text copied from MS Word directly assigned to a desired class.</source>
-        <translation>Vous pouvez modifier wordmatch.ini afin d&apos;assigner directement le texte copié à partir de Word dans une classe souhaitée.</translation>
+        <translation>Vous pouvez modifier wordmatch.ini afin d&apos;affecter une classe à partir du texte copié de Word.</translation>
     </message>
     <message>
         <source>You can find more documentation in the doc folder of this extension and online on %link.</source>
         <translation>Vous pouvez trouver plus d&apos;informations dans le dossier de cette extension et en ligne sur %link.</translation>
+    </message>
+    <message>
+        <source>Toggle &lt;u&gt;underline&lt;/u&gt; style on the selected text. This button is only enabled if you have a custom tag named underline.</source>
+        <translation>(Dés)active le style &lt;u&gt;souligné&lt;/u&gt; sur le texte sélectionné. Ce bouton est activé seulement si une balise personnalisée appelée underline existe.</translation>
+    </message>
+    <message>
+        <source>Toggle &lt;sub&gt;subscript&lt;/sub&gt; style on the selected text. This button is only enabled if you have a custom tag named subscript, template code to handle subscript custom tags is not included in Online Editor.</source>
+        <translation>(Dés)active le style &lt;u&gt;indice&lt;/u&gt; sur le texte sélectionné. Ce bouton est activé seulement si une balise personnalisée appelée subscript existe.</translation>
+    </message>
+    <message>
+        <source>Toggle &lt;sup&gt;superscript&lt;/sup&gt; style on the selected text. This button is only enabled if you have a custom tag named superscript, template code to handle superscript custom tags is not included in Online Editor.</source>
+        <translation>(Dés)active le style &lt;u&gt;exposant&lt;/u&gt; sur le texte sélectionné. Ce bouton est activé seulement si une balise personnalisée appelée superscript existe.</translation>
+    </message>
+    <message>
+        <source>Toggle left align text, or float block content to the left.</source>
+        <translation>(Dés)active l&apos;alignement ou le style flottant du bloc à gauche.</translation>
+    </message>
+    <message>
+        <source>Toggle center align text, or float block content to the center (Same as not aligned by default).</source>
+        <translation>(Dés)active le centrage du texte ou du bloc (Sans alignement comme par le style par défaut).</translation>
+    </message>
+    <message>
+        <source>Toggle right align text, or float block content to the right.</source>
+        <translation>(Dés)active l&apos;alignement ou le style flottant du bloc à droite.</translation>
+    </message>
+    <message>
+        <source>Toggle justify text, stretches the lines so that each line has equal width.</source>
+        <translation>(Dés)active la justification du texte.</translation>
+    </message>
+    <message>
+        <source>Insert an file from the related file list, upload a new file, search for an existing file or browse for it. To upload a local file, click &quot;Upload new&quot; button choose the local file, specify the name of the new file, choose placement from list and then click &quot;Upload&quot; button. This button is not enabled by default.</source>
+        <translation>Insérer un fichier depuis les fichiers liés, télécharger un nouveau fichier, chercher un fichier existant. Pour télécharger un fichier local, cliquez sur le bouton &quot;Envoyer un nouveau fichier&quot;, choisissez un fichier local et définissez un nom pour ce fichier, choisissez un emplacement dans la liste et enfin cliquez sur le bouton &quot;Télécharger&quot;. Ce bouton n&apos;est pas activé par défaut.</translation>
+    </message>
+    <message>
+        <source>Allows you to spellcheck your text using google api or other depending on ezoe.ini settings. This button is not enabled by default.</source>
+        <translation>Permet de vérifier l&apos;orthographe du texte en utilisant l&apos;API Google ou équivalent configurée dans le fichier ezoe.ini. Ce bouton n&apos;est pas activé par défaut.</translation>
+    </message>
+    <message>
+        <source>Find a string or a word in your text. This button is not enabled by default.</source>
+        <translation>Chercher un mot ou une suite de mots dans votre texte. Ce bouton n&apos;est pas activé par défaut.</translation>
+    </message>
+    <message>
+        <source>Replace a string or a word in your text. This button is not enabled by default.</source>
+        <translation>Remplacer un mot ou une suite de mots dans votre texte. Ce bouton n&apos;est pas activé par défaut.</translation>
+    </message>
+    <message>
+        <source>Dialog to paste text from word, the dialog will handle cleaning the content from word.</source>
+        <translation>Assistant pour coller du texte depuis Word, il permet de gérer le nettoyage du contenu en provenance de Word.</translation>
+    </message>
+    <message>
+        <source>Browse for a node / object in your bookmarks.</source>
+        <translation>Parcourir vos favoris.</translation>
+    </message>
+    <message>
+        <source>You can switch text style from paragraph to header using keybord shortcut CTRL+1 to 6, and back to paragraph using CTRL+7</source>
+        <translation>Vous pouvez transformer un paragraphe en titre avec les raccourcis clavier CTRL+1 à 6, et revenir au paragraphe en utilisant CTRL+7</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/searchreplace</name>
+    <message>
+        <source>Find again</source>
+        <translation type="unfinished">Rechercher à nouveau</translation>
+    </message>
+    <message>
+        <source>The search has been completed. The search string could not be found.</source>
+        <translation type="unfinished">La recherche est terminée. La chaîne recherchée n&apos;a pas été trouvée.</translation>
+    </message>
+    <message>
+        <source>Find</source>
+        <translation type="unfinished">Rechercher</translation>
+    </message>
+    <message>
+        <source>Find/Replace</source>
+        <translation type="unfinished">Rechercher/Remplacer</translation>
+    </message>
+    <message>
+        <source>All occurrences of the search string were replaced.</source>
+        <translation type="unfinished">Toutes les occurences de la chaîne recherchée ont été remplacées.</translation>
+    </message>
+    <message>
+        <source>Find what</source>
+        <translation type="unfinished">Rechercher</translation>
+    </message>
+    <message>
+        <source>Replace with</source>
+        <translation type="unfinished">Remplacer par</translation>
+    </message>
+    <message>
+        <source>Direction</source>
+        <translation type="unfinished">Sens</translation>
+    </message>
+    <message>
+        <source>Up</source>
+        <translation type="unfinished">Vers le haut</translation>
+    </message>
+    <message>
+        <source>Down</source>
+        <translation type="unfinished">Vers le bas</translation>
+    </message>
+    <message>
+        <source>Match case</source>
+        <translation type="unfinished">Sensible à la casse</translation>
+    </message>
+    <message>
+        <source>Find next</source>
+        <translation type="unfinished">Chercher le suivant</translation>
+    </message>
+    <message>
+        <source>Replace</source>
+        <translation type="unfinished">Remplacer</translation>
+    </message>
+    <message>
+        <source>Replace all</source>
+        <translation type="unfinished">Tout remplacer</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/validator</name>
+    <message>
+        <source>&amp;quot;%label&amp;quot; is required and must have a value</source>
+        <translation type="unfinished">&amp;quot;%label&amp;quot; est requis</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid number</source>
+        <translation type="unfinished">&amp;quot;%label&amp;quot; doit être un nombre</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid integer number</source>
+        <translation type="unfinished">&amp;quot;%label&amp;quot; doit être un nombre entier</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid absolute url address</source>
+        <translation type="unfinished">&amp;quot;%label&amp;quot; doit être une URL absolue</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid email address</source>
+        <translation type="unfinished">&amp;quot;%label&amp;quot; doit être un courriel</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid css size/unit value</source>
+        <translation type="unfinished">&amp;quot;%label&amp;quot; doit être une taille CSS</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid html element id</source>
+        <translation type="unfinished">&amp;quot;%label&amp;quot; doit être un id HTML valide</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be higher then %min</source>
+        <translation type="unfinished">&amp;quot;%label&amp;quot; doit être supérieur à %min</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be lower then %max</source>
+        <translation type="unfinished">&amp;quot;%label&amp;quot; doit être inférieur à %max</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/wai</name>
+    <message>
+        <source>Enter the word you want to search for here, for instance the name of the content you are looking for.</source>
+        <translation>Entrez le terme à rechercher, par exemple le nom d&apos;un contenu.</translation>
+    </message>
+    <message>
+        <source>Lets you limit the content type your searching for, by limiting the eZ Publish content classes that are returned in the search result.</source>
+        <translation>Permet de limiter les types de contenus à chercher en limitant les classes de contenus possibles.</translation>
+    </message>
+    <message>
+        <source>Name for the uploaded object, filename is used if none is specified.</source>
+        <translation>Nom pour l&apos;objet télécharger, le nom du fichier est utilisé si rien n&apos;est indiqué.</translation>
+    </message>
+    <message>
+        <source>Choose file to upload from your local machine.</source>
+        <translation>Choisissez un fichier à télécharger depuis votre machine.</translation>
+    </message>
+    <message>
+        <source>Lets you specify where in eZ Publish to store the uploaded object.</source>
+        <translation>Permet d&apos;indiquer où stocker l&apos;objet téléchargé dans eZ Publish.</translation>
+    </message>
+    <message>
+        <source>Upload file from your local machine.</source>
+        <translation>Télécharger un fichier depuis votre machine.</translation>
+    </message>
+    <message>
+        <source>Search for content already in eZ Publish.</source>
+        <translation>Chercher dans le contenu existant dans eZ Publish.</translation>
+    </message>
+    <message>
+        <source>Browse the content tree in eZ Publish.</source>
+        <translation>Parcourir l&apos;arborescence d&apos;eZ Publish.</translation>
+    </message>
+    <message>
+        <source>Select or browse content among your personal eZ Publish bookmarks.</source>
+        <translation>Sélectionner ou parcourir les contenus parmis vos signets eZ Publish.</translation>
+    </message>
+    <message>
+        <source>Description to the file your uploading, so internet clients can read more about it before they decide to download it.</source>
+        <translation>Description du fichier à télécharger pour permettre de choisir de le télécharger ou non.</translation>
+    </message>
+    <message>
+        <source>Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.</source>
+        <translation>Le texte alternatif à l&apos;image, permet de connaître le type d&apos;image sans la télécharger et donc la voir.</translation>
+    </message>
+    <message>
+        <source>Caption for a image is usually shown bellow it as a description to the image.</source>
+        <translation>La légende de l&apos;image est habituellement présenté sous l&apos;image comme une description.</translation>
+    </message>
+    <message>
+        <source>Tags, aka Keywords are a comma separated list of words thats categorizes the content.</source>
+        <translation>Les tags ou les mots clés sont une liste de mots séparés par une virgule qui permettent de catégoriser le contenu.</translation>
     </message>
 </context>
 <context>
@@ -997,29 +1535,36 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     <name>handlers/input</name>
     <message>
         <source>Node %1 does not exist.</source>
-        <translation>Le noeud %1 n&apos;existe pas.</translation>
+        <translation type="obsolete">Le nœud %1 n&apos;existe pas.</translation>
     </message>
     <message>
         <source>Node &apos;%1&apos; does not exist.</source>
-        <translation>Le noeud &apos;%1&apos; n&apos;existe pas.</translation>
+        <translation type="obsolete">Le nœud &apos;%1&apos; n&apos;existe pas.</translation>
     </message>
 </context>
 <context>
     <name>kernel/classes/datatypes</name>
     <message>
         <source>Content required</source>
-        <translation>Contenu requis</translation>
+        <translation type="unfinished">Contenu requis</translation>
     </message>
     <message>
         <source>Invalid e-mail address: &apos;%1&apos;</source>
-        <translation>Adresse email invalide : &apos;%1&apos;</translation>
+        <translation type="obsolete">Adresse email invalide : &apos;%1&apos;</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/classes/datatypes/ezxmltext</name>
+    <message>
+        <source>Invalid e-mail address: &apos;%1&apos;</source>
+        <translation type="unfinished">Adresse email invalide : &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
     <name>kernel/content</name>
     <message>
         <source>Top Level Nodes</source>
-        <translation>Noeuds supérieurs</translation>
+        <translation type="unfinished">Nœuds supérieurs</translation>
     </message>
 </context>
 </TS>

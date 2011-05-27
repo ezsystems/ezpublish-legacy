@@ -129,7 +129,12 @@
         atd_ignore_enable           : "true",
         /* the URL to the button image to display */
         //atd_button_url              : "atdbuttontr.gif",
-        atd_css_url : {'javascript/plugins/AtD/css/content.css'|ezdesign}
+        atd_css_url : {'javascript/plugins/AtD/css/content.css'|ezdesign},
+        paste_preprocess : function(pl, o) {ldelim}
+            // Strip <a> HTML tags from clipboard content (Happens on Internet Explorer)
+            o.content = o.content.replace( /(\s[a-z]+=")<a\s[^>]+>([^<]+)<\/a>/gi, '$1$2' );
+        {rdelim}
+
     {rdelim};
 
     {literal}

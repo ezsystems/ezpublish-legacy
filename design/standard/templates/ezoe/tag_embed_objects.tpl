@@ -19,6 +19,7 @@ var viewListData = {$view_list}, classListData = {$class_list}, attributeDefault
 
 tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     tagName: 'embed',
+    selectedTag: {/literal}'{$tag_name}'{literal},
     form: 'EditForm',
     cancelButton: 'CancelButton',
     cssClass: compatibilityMode !== 'enabled' ? 'ezoeItemNonEditable ezoeItemContentTypeObjects' : '',
@@ -138,8 +139,8 @@ function loadEmbedPreview( )
 {
     // Dynamically loads embed preview when attributes change
     var url = tinyMCEPopup.editor.settings.ez_extension_url + '/embed_view/' + eZOEPopupUtils.embedObject['contentobject_id'];
-    var postData = jQuery('#embed_attributes input, #embed_attributes select').serialize();
-    jQuery.post( url, postData, function( data )
+    var getData = eZOEPopupUtils.jqSafeSerilizer('embed_attributes');
+    jQuery.get( url, getData, function( data )
     {
         jQuery('#embed_preview').html( data );
     });

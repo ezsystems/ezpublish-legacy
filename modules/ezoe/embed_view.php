@@ -5,7 +5,7 @@
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Online Editor extension for eZ Publish
 // SOFTWARE RELEASE: 5.0
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
+// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
 //   This program is free software; you can redistribute it and/or
@@ -83,28 +83,48 @@ $view  = 'embed';
 $align = 'right';
 //$style = '';//'text-align: left;';
 
-if ( $http->hasPostVariable('inline') &&
+if ( isset( $_GET['inline'] ) && $_GET['inline'] === 'true' )
+{
+    $tagName = 'embed-inline';
+}
+else if ( $http->hasPostVariable('inline') &&
      $http->postVariable('inline') === 'true' )
 {
     $tagName = 'embed-inline';
 }
 
-if ( $http->hasPostVariable('class') )
+if ( isset( $_GET['class'] ) )
+{
+    $className = $_GET['class'];
+}
+else if ( $http->hasPostVariable('class') )
 {
     $className = $http->postVariable('class');
 }
 
-if ( $http->hasPostVariable('size') )
+if ( isset( $_GET['size'] ) )
+{
+    $size = $_GET['size'];
+}
+else if ( $http->hasPostVariable('size') )
 {
     $size = $http->postVariable('size');
 }
 
-if ( $http->hasPostVariable('view') )
+if ( isset( $_GET['view'] ) )
+{
+    $view = $_GET['view'];
+}
+else if ( $http->hasPostVariable('view') )
 {
     $view = $http->postVariable('view');
 }
 
-if ( $http->hasPostVariable('align') )
+if ( isset( $_GET['align'] ) )
+{
+    $align = $_GET['align'] === 'middle' ? 'center' : $_GET['align'];
+}
+else if ( $http->hasPostVariable('align') )
 {
     $align = $http->postVariable('align');
     if ( $align === 'middle' )

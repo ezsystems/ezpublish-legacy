@@ -129,16 +129,15 @@ function loadImageSize( e, el )
     else
     {
         var url = eds.ez_extension_url + '/load/' + eZOEPopupUtils.embedObject['contentobject_id'];
-        jQuery.post( url, 'imagePreGenerateSizes=' + size, function( data )
-        //jQuery.ez( 'ezjscnode::load::ezobject_' + eZOEPopupUtils.embedObject['contentobject_id'] + '::0::' + size, 0, function( data )
+        jQuery.ez( 'ezjscnode::load::ezobject_' + eZOEPopupUtils.embedObject['contentobject_id'] + '::0::' + size, 0, function( data )
         {
-            if ( data )
+            if ( data['content'] )
             {
                 var size = jQuery('#embed_size_source').val(), imageAttributes = eZOEPopupUtils.embedObject['image_attributes'];
-                eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ] = data['data_map'][ imageAttributes[0] ]['content'][ size ];
+                eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ] = data['content']['data_map'][ imageAttributes[0] ]['content'][ size ];
                 previewImageNode.attr( 'src', eds.ez_root_url + eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ]['url'] );
             }
-        }, 'json');
+        });
     }
 }
 

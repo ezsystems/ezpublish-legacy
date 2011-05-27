@@ -6,7 +6,7 @@
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Online Editor extension for eZ Publish
 // SOFTWARE RELEASE: 5.0
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
+// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
 //   This program is free software; you can redistribute it and/or
@@ -206,7 +206,7 @@ class eZOEInputParser extends eZXMLInputParser
     public function process( $text, $createRootNode = true )
     {
         $text = preg_replace( '#<!--.*?-->#s', '', $text ); // remove HTML comments
-        $text = str_replace( array("\xC2\xA0", '&#160;'), '&nbsp;', $text ); // replace Unicode non breaking space with html
+        $text = str_replace( array( '&nbsp;', '&#160;', '&#xa0;' ), "\xC2\xA0", $text );
         return parent::process( $text, $createRootNode );
     }
 
@@ -1068,6 +1068,19 @@ class eZOEInputParser extends eZXMLInputParser
     function structHandlerParagraph( $element, $newParent )
     {
         $ret = array();
+
+        $parentNode = $element->parentNode;
+        if ( $parentNode->nodeName === 'custom' &&
+                !$this->XMLSchema->isInline( $parentNode ) &&
+                $parentNode->childNodes->length === 1 &&
+                $parentNode->getAttribute( 'name' ) === $element->textContent )
+        {
+            // removing the paragraph as it is there only to handle the custom
+            // in the rich text editor
+            $parentNode->removeAttribute( 'children_required' );
+            $parentNode->removeChild( $element );
+            return $ret;
+        }
 
         if ( $element->getAttribute( 'ezparser-new-element' ) === 'true' &&
              !$element->hasChildren() )
