@@ -45,6 +45,7 @@ var confObj = {ldelim}
 {/switch}
 
     dataSourceURL: "{concat('ezjscore/call/ezjscnode::subtree::', $node.node_id)|ezurl('no')}",
+    editPrefixURL: {'/content/edit/'|ezurl},
     rowsPrPage: {$number_of_items},
     sortOrder: {$node.sort_order},
     nameFilter: '{$view_parameters.namefilter}',

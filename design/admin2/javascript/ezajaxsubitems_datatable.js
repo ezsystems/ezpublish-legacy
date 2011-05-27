@@ -71,7 +71,13 @@ var sortableSubitems = function () {
         var translationView = function(cell, record, column, data) {
             var html = '';
             jQuery(data).each(function(i, e) {
+                if (record.getData('can_edit') === true) {
+                    html += '<a href="' + confObj.editPrefixURL + '/' + record.getData('contentobject_id') + '/f/' + e + '">';
+                }
                 html += '<img src="' + confObj.flagIcons[e] + '" width="18" height="12" style="margin-right: 4px;" alt="' + e + '" title="' + e + '"/>';
+                if (record.getData('can_edit') === true) {
+                    html += '</a>'
+                }
             });
             cell.innerHTML = html;
         }
@@ -384,6 +390,7 @@ var sortableSubitems = function () {
             var groupName = createGroups[i];
             createNewBtnMenu.setItemGroupTitle(groupName, i);
         }
+
 
         var moreActBtnAction = function( type, args, item ) {
             if ($('form[name=children] input[name=DeleteIDArray[]]:checked').length == 0)
