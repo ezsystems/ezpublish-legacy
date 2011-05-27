@@ -104,6 +104,10 @@ function inlineSelectorChange( e, el )
 
 function setEmbedAlign( e, el )
 {
+    var cssAlign = el.value;
+    if ( cssAlign === 'middle' )
+        cssAlign = 'center';
+    jQuery('#embed_preview').css( 'text-align', cssAlign );
     jQuery('#embed_preview_image').attr( 'align', el.value );
 }
 

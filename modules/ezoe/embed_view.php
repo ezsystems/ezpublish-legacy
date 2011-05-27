@@ -80,7 +80,7 @@ else
 $className = '';
 $size  = 'medium';
 $view  = 'embed';
-$align = 'right';
+$align = 'none';
 //$style = '';//'text-align: left;';
 
 if ( isset( $_GET['inline'] ) && $_GET['inline'] === 'true' )
