@@ -1215,7 +1215,7 @@ class eZOEInputParser extends eZXMLInputParser
                     }
 
                     // Check mail address validity following RFC 5322 and RFC 5321
-                    if ( preg_match( "/^mailto:([^.][a-z0-9!#\$%&'*+-\/=?`{|}~^]+@([a-z0-9.]+))/i" , $url, $mailAddr ) )
+                    if ( preg_match( "/^mailto:([^.][a-z0-9!#\$%&'*+-\/=?`{|}~^]+@([a-z0-9.-]+))/i" , $url, $mailAddr ) )
                     {
                         if ( !eZMail::validate( $mailAddr[1] ) )
                         {
