@@ -177,7 +177,8 @@ div.ezoeItemCustomTag.separator p { margin: 2px; }
 
 div.ezoeItemNonEditable, span.ezoeItemNonEditable
 {
-    background: transparent url('../../../images/tango/mail-attachment.png') no-repeat 0 2px scroll;
+    border:1px solid #afafaf;
+    background: #eee url('../../../images/tango/mail-attachment.png') no-repeat 0 0px scroll;
     min-height: 18px;
     padding-left: 16px;
 }
