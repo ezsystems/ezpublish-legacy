@@ -595,11 +595,23 @@ class eZSys
         // $nowSSl is true if current access mode is HTTPS.
         $nowSSL = ( self::serverPort() == $sslPort );
 
-        //Check if this request might be driven through a ssl proxy
-        if ( isset ( $_SERVER['HTTP_X_FORWARDED_SERVER'] ) and !$nowSSL )
+        if ( !$nowSSL )
         {
-            $sslProxyServerName = $ini->variable( 'SiteSettings', 'SSLProxyServerName' );
-            $nowSSL = ( $sslProxyServerName == $_SERVER['HTTP_X_FORWARDED_SERVER'] );
+            // Check if this request might be driven through a ssl proxy
+            if ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) )
+            {
+                $nowSSL = ( $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' );
+            }
+            else if ( isset( $_SERVER['HTTP_X_FORWARDED_PORT'] ) )
+            {
+                $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
+                $nowSSL = ( $_SERVER['HTTP_X_FORWARDED_PORT'] == $sslPort );
+            }
+            else if ( isset( $_SERVER['HTTP_X_FORWARDED_SERVER'] ) )
+            {
+                $sslProxyServerName = $ini->variable( 'SiteSettings', 'SSLProxyServerName' );
+                $nowSSL = ( $sslProxyServerName == $_SERVER['HTTP_X_FORWARDED_SERVER'] );
+            }
         }
         return $nowSSL;
     }
