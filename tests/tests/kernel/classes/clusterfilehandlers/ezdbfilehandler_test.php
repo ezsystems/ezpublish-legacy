@@ -39,9 +39,8 @@ class eZDBFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
         // We need to clear the existing handler if it was loaded before the INI
         // settings changes
-        if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) and
-            !$GLOBALS['eZClusterFileHandler_chosen_handler'] instanceof eZDBFileHandler )
-            unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
+        if ( !eZClusterFileHandler::$globalHandler instanceof eZDBFileHandler )
+            eZClusterFileHandler::$globalHandler = null;
 
         unset( $GLOBALS['eZClusterInfo'] );
 
@@ -86,8 +85,7 @@ class eZDBFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
             $fileINI = eZINI::instance( 'file.ini' );
             $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', $this->previousFileHandler );
             $this->previousFileHandler = null;
-            if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) )
-                unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
+            eZClusterFileHandler::$globalHandler = null;
         }
 
         parent::tearDown();

@@ -42,7 +42,7 @@ class eZClusterFileHandler
         else
         {
             // return Filehandler from GLOBALS based on ini setting.
-            if ( !isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) )
+            if ( self::$globalHandler === null )
             {
                 $optionArray = array( 'iniFile'      => 'file.ini',
                                       'iniSection'   => 'ClusteringSettings',
@@ -52,10 +52,10 @@ class eZClusterFileHandler
 
                 $handler = eZExtension::getHandlerClass( $options );
 
-                $GLOBALS['eZClusterFileHandler_chosen_handler'] = $handler;
+                self::$globalHandler = $handler;
             }
             else
-                $handler = $GLOBALS['eZClusterFileHandler_chosen_handler'];
+                $handler = self::$globalHandler;
 
             return $handler;
         }
@@ -176,6 +176,9 @@ class eZClusterFileHandler
         if ( $clusterHandler instanceof ezpDatabaseBasedClusterFileHandler )
         {
             $clusterHandler->disconnect();
+
+            // destroy the current handler so that it reconnects when instanciated again
+            self::$globalHandler = null;
         }
     }
 
@@ -190,6 +193,12 @@ class eZClusterFileHandler
      * @var bool
      */
     private static $isShutdownFunctionRegistered = false;
+
+    /**
+     * Global, generic (e.g. not linked to a file) cluster handler, used for caching
+     * @var eZClusterFileHandlerInterface
+     */
+    public static $globalHandler;
 }
 
 ?>
