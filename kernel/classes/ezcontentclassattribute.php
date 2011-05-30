@@ -295,7 +295,6 @@ class eZContentClassAttribute extends eZPersistentObject
         $stored = eZPersistentObject::store( $fieldFilters );
 
         // store the content data for this attribute
-        $info = $dataType->attribute( "information" );
         $dataType->storeClassAttribute( $this, $this->attribute( 'version' ) );
 
         return $stored;
@@ -345,7 +344,6 @@ class eZContentClassAttribute extends eZPersistentObject
         eZPersistentObject::store();
 
         // store the content data for this attribute
-        $info = $dataType->attribute( "information" );
         $dataType->storeVersionedClassAttribute( $this, $version );
         $db->commit();
     }
