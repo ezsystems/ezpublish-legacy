@@ -75,7 +75,7 @@ class eZOEXMLInput extends eZXMLInputHandler
      /**
      * $nativeCustomTags
      * List of custom tags that have a native xhtml counterpart.
-     * {@link eZOEInputParser::tagNameCustomHelper()} hendels
+     * {@link eZOEInputParser::tagNameCustomHelper()} handles
      * input parsing.
      *
      * @static
