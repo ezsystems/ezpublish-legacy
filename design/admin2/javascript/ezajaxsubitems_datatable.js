@@ -329,7 +329,7 @@ var sortableSubitems = function () {
                                                                                    modal: true,
                                                                                    buttons: [ { text: "Close", 
                                                                                                 handler: hideTblOptsDialog } ],
-                                                                                   fixedcenter: true,
+                                                                                   fixedcenter: "contained",
                                                                                    constrainToViewport: true });
 
         var escKeyListener = new YAHOO.util.KeyListener(document, { keys:27 },
