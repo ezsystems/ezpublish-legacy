@@ -150,12 +150,12 @@ class eZImageFile extends eZPersistentObject
         if ( !$ignoreUnique )
         {
             // Fetch ezimagefile objects having the $filepath
-            $imageFiles = eZImageFile::fetchByFilePath( false, $filepath, false );
+            $imageFiles = eZImageFile::fetchByFilepath( false, $filepath, false );
             // Checking If the filePath already exists in ezimagefile table
             if ( isset( $imageFiles[ 'contentobject_attribute_id' ] ) )
                 return false;
         }
-        $fileObject = eZImageFile::fetchByFilePath( $contentObjectAttributeID, $filepath );
+        $fileObject = eZImageFile::fetchByFilepath( $contentObjectAttributeID, $filepath );
         if ( $fileObject )
             return false;
         $fileObject = eZImageFile::create( $contentObjectAttributeID, $filepath );
@@ -167,7 +167,7 @@ class eZImageFile extends eZPersistentObject
     {
         if ( empty( $filepath ) )
             return false;
-        $fileObject = eZImageFile::fetchByFilePath( $contentObjectAttributeID, $filepath );
+        $fileObject = eZImageFile::fetchByFilepath( $contentObjectAttributeID, $filepath );
         if ( !$fileObject )
             return false;
         $fileObject->remove();
