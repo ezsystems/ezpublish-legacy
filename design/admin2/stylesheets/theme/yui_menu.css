@@ -217,6 +217,7 @@
     border-color: #808080 #808080;
     overflow-x: hidden;
     overflow-y: auto;
+    min-height: 100px;
 }
 
 .yuimenu .topscrollbar,.yuimenu .bottomscrollbar
