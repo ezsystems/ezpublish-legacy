@@ -936,6 +936,9 @@ class eZImageManager
                     $existingAliasList[$aliasName] = $currentAliasData;
 
                     $convertHandler->endCacheGeneration( false );
+                    
+                    ezpEvent::getInstance()->filter( 'image/alias', array( 'alias_url' => $currentAliasData['url'],
+                                                                           'alias_name' => $currentAliasData['name'] ) );
 
                     return true;
                 }
