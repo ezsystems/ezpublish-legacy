@@ -36,20 +36,22 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
         $filePath = eZDBFileHandler::cleanPath( $filePath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::ctor( '$filePath' )" );
 
-        $optionArray = array( 'iniFile'     => 'file.ini',
-                              'iniSection'  => 'ClusteringSettings',
-                              'iniVariable' => 'DBBackend' );
+        if ( self::$dbbackend === null )
+        {
+            $optionArray = array( 'iniFile'     => 'file.ini',
+                                  'iniSection'  => 'ClusteringSettings',
+                                  'iniVariable' => 'DBBackend' );
 
-        $options = new ezpExtensionOptions( $optionArray );
+            $options = new ezpExtensionOptions( $optionArray );
 
-        $this->backend = eZExtension::getHandlerClass( $options );
-        $this->backend->_connect( false );
+            self::$dbbackend = eZExtension::getHandlerClass( $options );
+            self::$dbbackend->_connect( false );
 
-        // connection failed
-        if( $this->backend->db === false )
-            throw new eZDBNoConnectionException( $this->backend->dbparams['host'] );
+            // connection failed
+            if( self::$dbbackend->db === false )
+                throw new eZDBNoConnectionException( self::$dbbackend->dbparams['host'] );
+        }
 
-        $this->backendVerify = null;
         $this->filePath = $filePath;
 
         if ( !isset( $GLOBALS['eZDBFileHandler_Settings'] ) )
@@ -66,8 +68,8 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
      */
     public function disconnect()
     {
-        $this->backend->_disconnect();
-        $this->backend = null;
+        self::$dbbackend->_disconnect();
+        self::$dbbackend = null;
     }
 
     /**
@@ -98,7 +100,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
             return;
         }
 
-        $metaData = $this->backend->_fetchMetadata( $this->filePath );
+        $metaData = self::$dbbackend->_fetchMetadata( $this->filePath );
         if ( $metaData )
             $this->_metaData = $metaData;
         else
@@ -140,7 +142,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
         if ( $datatype === false )
             $datatype = 'misc';
 
-        $this->backend->_store( $filePath, $datatype, $scope );
+        self::$dbbackend->_store( $filePath, $datatype, $scope );
 
         if ( $delete )
             @unlink( $filePath );
@@ -167,7 +169,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
         if ( $datatype === false )
             $datatype = 'misc';
 
-        $this->backend->_storeContents( $filePath, $contents, $scope, $datatype );
+        self::$dbbackend->_storeContents( $filePath, $contents, $scope, $datatype );
     }
 
     /**
@@ -187,7 +189,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
 
         $filePath = $this->filePath;
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::storeContents( '$filePath' )" );
-        $this->backend->_storeContents( $filePath, $contents, $scope, $datatype );
+        self::$dbbackend->_storeContents( $filePath, $contents, $scope, $datatype );
         if ( $storeLocally )
         {
             eZFile::create( basename( $filePath ), dirname( $filePath ), $contents, true );
@@ -205,7 +207,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
         $filePath = eZDBFileHandler::cleanPath( $filePath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileFetch( '$filePath' )" );
 
-        return $this->backend->_fetch( $filePath );
+        return self::$dbbackend->_fetch( $filePath );
     }
 
     /**
@@ -776,7 +778,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
         $filePath = $this->filePath;
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fetchUnique( '$filePath' )" );
 
-        $fetchedFilePath = $this->backend->_fetch( $filePath, true );
+        $fetchedFilePath = self::$dbbackend->_fetch( $filePath, true );
         $this->uniqueName = $fetchedFilePath;
         return $fetchedFilePath;
     }
@@ -789,7 +791,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
     function fetch( $noLocalCache = false )
     {
         $filePath = $this->filePath;
-        $metaData = $this->backend->_fetchMetadata( $filePath );
+        $metaData = self::$dbbackend->_fetchMetadata( $filePath );
         $mtime = @filemtime( $filePath );
         if ( !$noLocalCache ||
              $metaData === false ||
@@ -799,7 +801,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
              !is_readable( $filePath ) )
         {
             eZDebugSetting::writeDebug( 'kernel-clustering', "db::fetch( '$filePath' )" );
-            $this->backend->_fetch( $filePath );
+            self::$dbbackend->_fetch( $filePath );
         }
     }
 
@@ -815,7 +817,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
         $filePath = eZDBFileHandler::cleanPath( $filePath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileFetchContents( '$filePath' )" );
 
-        $contents = $this->backend->_fetchContents( $filePath );
+        $contents = self::$dbbackend->_fetchContents( $filePath );
         return $contents;
     }
 
@@ -829,7 +831,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
     {
         $filePath = $this->filePath;
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileFetchContents( '$filePath' )" );
-        $contents = $this->backend->_fetchContents( $filePath );
+        $contents = self::$dbbackend->_fetchContents( $filePath );
         return $contents;
     }
 
@@ -899,7 +901,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDeleteByRegex( '$dir', '$fileRegex' )" );
 
         $regex = '^' . ( $dir ? $dir . '/' : '' ) . $fileRegex;
-        $this->backend->_deleteByRegex( $regex );
+        self::$dbbackend->_deleteByRegex( $regex );
     }
 
     /**
@@ -913,7 +915,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
         eZDebug::writeWarning( "Using eZDBFileHandler::fileDeleteByWildcard is not recommended since it has some severe performance issues" );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDeleteByWildcard( '$wildcard' )" );
 
-        $this->backend->_deleteByWildcard( $wildcard );
+        self::$dbbackend->_deleteByWildcard( $wildcard );
     }
 
     /**
@@ -931,7 +933,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
         $commonSuffix = eZDBFileHandler::cleanPath( $commonSuffix );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDeleteByDirList( '$dirList', '$commonPath', '$commonSuffix' )" );
 
-        $this->backend->_deleteByDirList( $dirList, $commonPath, $commonSuffix );
+        self::$dbbackend->_deleteByDirList( $dirList, $commonPath, $commonSuffix );
     }
 
     /**
@@ -950,12 +952,12 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
 
         if ( $fnamePart === false )
         {
-            $this->backend->_delete( $path );
+            self::$dbbackend->_delete( $path );
         }
         else
         {
             $pattern = $path . '/' . $fnamePart . '%';
-            $this->backend->_deleteByLike( $pattern );
+            self::$dbbackend->_deleteByLike( $pattern );
         }
     }
 
@@ -972,7 +974,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
         $path = $this->filePath;
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::delete( '$path' )" );
 
-        $this->backend->_delete( $path );
+        self::$dbbackend->_delete( $path );
 
         $this->_metaData = null;
     }
@@ -1020,8 +1022,8 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
         {
             if ( $count > 0 && $microsleep )
                 usleep( $microsleep ); // Sleep a bit to make the database happier
-            $count = $this->backend->_purgeByLike( $file . "/%", true, $max, $expiry, 'purge' );
-            $this->backend->_purge( $file, true, $expiry, 'purge' );
+            $count = self::$dbbackend->_purgeByLike( $file . "/%", true, $max, $expiry, 'purge' );
+            self::$dbbackend->_purge( $file, true, $expiry, 'purge' );
             if ( $printCallback )
                 call_user_func_array( $printCallback,
                                       array( $file, $count ) );
@@ -1050,7 +1052,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
         $path = eZDBFileHandler::cleanPath( $path );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileExists( '$path' )" );
 
-        $rc = $this->backend->_exists( $path );
+        $rc = self::$dbbackend->_exists( $path );
         return $rc;
     }
 
@@ -1066,7 +1068,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
     {
         $path = $this->filePath;
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::exists( '$path' )" );
-        $rc = $this->backend->_exists( $path );
+        $rc = self::$dbbackend->_exists( $path );
         return $rc;
     }
 
@@ -1095,7 +1097,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
         header( "X-Powered-By: eZ Publish" );
         header( "Accept-Ranges: bytes" );
 
-        $this->backend->_passThrough( $path );
+        self::$dbbackend->_passThrough( $path );
     }
 
     /**
@@ -1110,7 +1112,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
         $dstPath = eZDBFileHandler::cleanPath( $dstPath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileCopy( '$srcPath', '$dstPath' )" );
 
-        $this->backend->_copy( $srcPath, $dstPath );
+        self::$dbbackend->_copy( $srcPath, $dstPath );
     }
 
     /**
@@ -1125,7 +1127,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
         $dstPath = eZDBFileHandler::cleanPath( $dstPath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileLinkCopy( '$srcPath', '$dstPath' )" );
 
-        $this->backend->_linkCopy( $srcPath, $dstPath );
+        self::$dbbackend->_linkCopy( $srcPath, $dstPath );
     }
 
     /**
@@ -1140,7 +1142,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
         $dstPath = eZDBFileHandler::cleanPath( $dstPath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileMove( '$srcPath', '$dstPath' )" );
 
-        $this->backend->_rename( $srcPath, $dstPath );
+        self::$dbbackend->_rename( $srcPath, $dstPath );
 
         $this->_metaData = null;
     }
@@ -1157,7 +1159,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
 
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileMove( '$srcPath', '$dstPath' )" );
 
-        $this->backend->_rename( $srcPath, $dstPath );
+        self::$dbbackend->_rename( $srcPath, $dstPath );
 
         $this->_metaData = null;
     }
@@ -1176,7 +1178,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
         eZDebugSetting::writeDebug( 'kernel-clustering',
                                     sprintf( "db::getFileList( array( %s ), %d )",
                                              implode( ', ', $scopes ), (int) $excludeScopes ) );
-        return $this->backend->_getFileList( $scopes, $excludeScopes );
+        return self::$dbbackend->_getFileList( $scopes, $excludeScopes );
     }
 
     /**
@@ -1211,7 +1213,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
     public function startCacheGeneration()
     {
         $generatingFilePath = $this->filePath . '.generating';
-        $ret = $this->backend->_startCacheGeneration( $this->filePath, $generatingFilePath );
+        $ret = self::$dbbackend->_startCacheGeneration( $this->filePath, $generatingFilePath );
 
         // generation granted
         if ( $ret['result'] == 'ok' )
@@ -1240,7 +1242,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
      */
     public function endCacheGeneration( $rename = true )
     {
-        if ( $this->backend->_endCacheGeneration( $this->realFilePath, $this->filePath, $rename ) )
+        if ( self::$dbbackend->_endCacheGeneration( $this->realFilePath, $this->filePath, $rename ) )
         {
             $this->filePath = $this->realFilePath;
             $this->realFilePath = null;
@@ -1261,7 +1263,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
      */
     public function abortCacheGeneration()
     {
-        $this->backend->_abortCacheGeneration( $this->filePath );
+        self::$dbbackend->_abortCacheGeneration( $this->filePath );
         $this->filePath = $this->realFilePath;
         $this->realFilePath = null;
         eZClusterFileHandler::removeGeneratingFile( $this );
@@ -1274,7 +1276,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
      */
     public function checkCacheGenerationTimeout()
     {
-        return $this->backend->_checkCacheGenerationTimeout( $this->filePath, $this->generationStartTimestamp );
+        return self::$dbbackend->_checkCacheGenerationTimeout( $this->filePath, $this->generationStartTimestamp );
     }
 
     /**
@@ -1364,7 +1366,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
      */
     public function fetchExpiredBinaryItems( $limit = array( 0, 100 ) )
     {
-        return $this->backend->fetchExpiredItems( array( 'image', 'binaryfile' ), $limit );
+        return self::$dbbackend->fetchExpiredItems( array( 'image', 'binaryfile' ), $limit );
     }
 
     /**
@@ -1379,21 +1381,14 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
      */
     public function fetchExpiredItems( $scopes, $limit = array( 0 , 100 ), $expiry = false )
     {
-        return $this->backend->expiredFilesList( $scopes, $limit, $expiry );
+        return self::$dbbackend->expiredFilesList( $scopes, $limit, $expiry );
     }
 
     /**
      * Database backend class
      * @var eZDBFileHandlerMysqlBackend
      */
-    public $backend;
-
-    /**
-     * Secondary database backend class, used to check for modifications outside
-     * of the main transaction scope
-     * @var eZDBFileHandlerMysqlBackend
-     */
-    public $backendVerify;
+    public static $dbbackend;
 
     /**
      * Path to the current file

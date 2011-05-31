@@ -990,6 +990,14 @@ You will need to change the class of the node by using the swap functionality.' 
         $db = eZDB::instance();
         $db->begin();
 
+        // Before removing anything from the attributes, load attribute information
+        // which might otherwise not accessible when recreating them below.
+        // See issue #18164
+        foreach ( $attributes as $attribute )
+        {
+            $attribute->content();
+        }
+
         $this->removeAttributes( false, $version );
         $this->removeAttributes( false, $previousVersion );
         $this->remove( false );

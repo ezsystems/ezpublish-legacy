@@ -282,6 +282,11 @@ class eZEnumType extends eZDataType
         $contentClassAttribute->content()->setVersion( eZContentClass::VERSION_STATUS_DEFINED );
     }
 
+    function storeModifiedClassAttribute( $contentClassAttribute )
+    {
+        $contentClassAttribute->content()->setVersion( eZContentClass::VERSION_STATUS_MODIFIED );
+    }
+
     /*!
      Returns the content.
     */

@@ -25,6 +25,7 @@ $purgeHandler->optScopes = array( 'classattridentifiers',
                                   'viewcache',
                                   'wildcard-cache-index',
                                   'image',
+                                  'media',
                                   'binaryfile' );
 $purgeHandler->optExpiry = 30;
 $purgeHandler->run();
