@@ -84,7 +84,8 @@ var labelsObj = {ldelim}
                         nodeid: "{'Node ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         objectid: "{'Object ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         noderemoteid: "{'Node remote ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
-                        objectremoteid: "{'Object remote ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}"
+                        objectremoteid: "{'Object remote ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        objectstate: "{'Object state'|i18n( 'design/admin/node/view/full' )|wash('javascript')}"
                     {rdelim},
 
     TABLE_OPTIONS: {ldelim}

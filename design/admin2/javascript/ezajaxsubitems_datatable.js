@@ -115,6 +115,7 @@ var sortableSubitems = function () {
             {key:"node_remote_id", label:labelsObj.DATA_TABLE_COLS.noderemoteid, sortable:false, resizeable:true},
             {key:"contentobject_id", label:labelsObj.DATA_TABLE_COLS.objectid, sortable:true, resizeable:true},
             {key:"contentobject_remote_id", label:labelsObj.DATA_TABLE_COLS.objectremoteid, sortable:false, resizeable:true},
+            {key:"contentobject_state", label:labelsObj.DATA_TABLE_COLS.objectstate, sortable:false, resizeable:true},
             {key:"priority", label: labelsObj.DATA_TABLE_COLS.priority, sortable:true, resizeable:true, 
                 editor: new YAHOO.widget.TextboxCellEditor({asyncSubmitter: updatePriority, disableBtns:true, validator:YAHOO.widget.DataTable.validateNumber}) }
         ];
@@ -166,6 +167,7 @@ var sortableSubitems = function () {
                 {key:"node_remote_id"},
                 {key:"contentobject_id"},
                 {key:"contentobject_remote_id"},
+                {key:"contentobject_state"},
                 {key:"priority"},
                 {key:"class_icon"},
                 {key:"thumbnail_url"},
