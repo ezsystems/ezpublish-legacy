@@ -156,27 +156,6 @@ if ( $http->hasPostVariable( "DeleteGroupButton" ) && $http->hasPostVariable( "g
 $event_list = $workflow->fetchEvents();
 $type_list = eZWorkflowType::fetchRegisteredTypes();
 
-if ( $http->hasPostVariable( "DeleteButton" ) )
-{
-    $db = eZDB::instance();
-    $db->begin();
-
-    if ( eZHTTPPersistence::splitSelected( "WorkflowEvent", $event_list,
-                                           $http, "id",
-                                           $keepers, $rejects ) )
-    {
-        $event_list = $keepers;
-
-        foreach ( $rejects as $reject )
-        {
-            $reject->remove();
-        }
-    }
-    $db->commit();
-
-    $event_list = $workflow->fetchEvents();
-}
-
 // Validate input
 $canStore = true;
 $requireFixup = false;
@@ -218,6 +197,21 @@ $cur_type = 0;
 // Apply HTTP POST variables
 eZHTTPPersistence::fetch( "WorkflowEvent", eZWorkflowEvent::definition(),
                           $event_list, $http, true );
+if ( $http->hasPostVariable( "DeleteButton" ) )
+{
+    if ( eZHTTPPersistence::splitSelected( "WorkflowEvent", $event_list, $http, "id", $keepers, $rejects ) )
+    {
+        $db = eZDB::instance();
+        $db->begin();
+        foreach ( $rejects as $reject )
+        {
+            $reject->remove();
+        }
+        $db->commit();
+        $event_list = $keepers;
+    }
+}
+
 eZHTTPPersistence::fetch( "Workflow", eZWorkflow::definition(),
                           $workflow, $http, false );
 if ( $http->hasPostVariable( "WorkflowTypeString" ) )
