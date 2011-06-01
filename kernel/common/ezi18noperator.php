@@ -116,7 +116,7 @@ class eZi18nOperator
         if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
         {
             $language = eZLocale::instance()->localeFullCode();
-            if ( $language != "eng-GB" ) // eng-GB does not need translation
+            if ( $language != $ini->variable( 'RegionalSettings', 'Basei18nLocale' ) )
             {
                 $file = 'translation.ts';
                 $ini = eZINI::instance();
