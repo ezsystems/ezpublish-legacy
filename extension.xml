@@ -9,11 +9,11 @@
 
         <software>
             <uses>
-                <name>TinyMce Javascript HTML WYSIWYG editor</name>
+                <name>Ephox Enterprise TinyMCE Javascript HTML WYSIWYG editor</name>
                 <license>GNU Lesser General Public License v2.1</license>
-                <copyright>Copyright (C) 2004-2010, Moxiecode Systems AB, All rights reserved.</copyright>
-                <info_url>http://tinymce.moxiecode.com/</info_url>
-                <version>3.3.9.2</version>
+                <copyright>Copyright (C) 2010, Ephox Corporation, All rights reserved.</copyright>
+                <info_url>http://tinymce.ephox.com/</info_url>
+                <version>3.3.9.3-328</version>
             </uses>
             <uses>
                 <name>Tango Icon theme</name>
