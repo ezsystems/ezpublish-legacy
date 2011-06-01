@@ -93,10 +93,19 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
 
 $db->setIsSQLOutputEnabled( $showSQL );
 
+$searchEngine = eZSearch::getEngine();
+
+if ( !$searchEngine instanceof ezpSearchEngine )
+{
+    $cli->error( "The configured search engine does not implement the ezpSearchEngine interface or can't be found." );
+    $script->shutdown( 1 );
+}
+
+
 if ( $cleanupSearch )
 {
     print( "{eZSearchEngine: Cleaning up search data" );
-    eZSearch::cleanup();
+    $searchEngine->cleanup();
     print( "}$endl" );
 }
 
@@ -116,6 +125,8 @@ $fieldFilters = null;
 
 $script->resetIteration( $count );
 
+$needRemoveWithUpdate = $searchEngine->needRemoveWithUpdate();
+
 do
 {
     // clear in-memory object cache
@@ -125,11 +136,14 @@ do
 
     foreach ( $objects as $object )
     {
-        if ( !$cleanupSearch )
+        if ( $needRemoveWithUpdate || !$cleanupSearch )
         {
-            eZSearch::removeObject( $object );
+            $searchEngine->removeObject( $object, false );
         }
-        eZSearch::addObject( $object );
+        if ( !$searchEngine->addObject( $object, false ) )
+        {
+            $cli->warning( "\tFailed indexing object ID #" . $object->attribute( "id" ) . "." );
+        }
 
         $script->iterate( $cli, true );
     }
@@ -138,6 +152,7 @@ do
 
 } while ( count( $objects ) == $length );
 
+$searchEngine->commit();
 
 print( $endl . "done" . $endl );
 
