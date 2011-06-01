@@ -14,7 +14,6 @@ set_time_limit( 0 );
 require 'autoload.php';
 
 $cli = eZCLI::instance();
-$endl = $cli->endlineString();
 
 $script = eZScript::instance( array( 'description' => ( "eZ Publish search index updater.\n\n" .
                                                         "Goes trough all objects and reindexes the meta data to the search engine" .
@@ -121,8 +120,6 @@ $cli->output( "Number of objects to index: $count");
 $length = 50;
 $limit = array( 'offset' => 0 , 'length' => $length );
 
-$fieldFilters = null;
-
 $script->resetIteration( $count );
 
 $needRemoveWithUpdate = $searchEngine->needRemoveWithUpdate();
@@ -132,7 +129,7 @@ do
     // clear in-memory object cache
     eZContentObject::clearCache();
 
-    $objects = eZPersistentObject::fetchObjectList( $def, $fieldFilters, $conds, null, $limit );
+    $objects = eZPersistentObject::fetchObjectList( $def, null, $conds, null, $limit );
 
     foreach ( $objects as $object )
     {
