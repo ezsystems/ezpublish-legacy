@@ -68,7 +68,7 @@ function changeSiteAccessSetting( $siteAccess )
     }
 }
 
-print( "Starting object re-indexing\n" );
+$cli->output( "Starting object re-indexing" );
 
 eZExecution::registerShutdownHandler();
 $db = eZDB::instance();
@@ -104,9 +104,9 @@ if ( !$searchEngine instanceof ezpSearchEngine )
 
 if ( $cleanupSearch )
 {
-    print( "{eZSearchEngine: Cleaning up search data" );
+    $cli->output( "{eZSearchEngine: Cleaning up search data", false );
     $searchEngine->cleanup();
-    print( "}$endl" );
+    $cli->output( "}" );
 }
 
 $def = eZContentObject::definition();
@@ -116,7 +116,7 @@ $conds = array(
 
 $count = eZPersistentObject::count( $def, $conds, 'id' );
 
-print( "Number of objects to index: $count $endl" );
+$cli->output( "Number of objects to index: $count");
 
 $length = 50;
 $limit = array( 'offset' => 0 , 'length' => $length );
@@ -154,7 +154,8 @@ do
 
 $searchEngine->commit();
 
-print( $endl . "done" . $endl );
+$cli->output();
+$cli->output( "done" );
 
 $script->shutdown();
 
