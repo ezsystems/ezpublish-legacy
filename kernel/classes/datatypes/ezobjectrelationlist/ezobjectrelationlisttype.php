@@ -69,7 +69,10 @@ class eZObjectRelationListType extends eZDataType
         }
 
         $content = $contentObjectAttribute->content();
-        if ( $contentObjectAttribute->validateIsRequired() and count( $content['relation_list'] ) == 0 )
+        $ajaxFilledPostVariableName = $base . "_data_object_relation_list_ajax_filled_" . $contentObjectAttribute->attribute( "id" );
+        if ( $contentObjectAttribute->validateIsRequired()
+                && count( $content['relation_list'] ) == 0
+                && $http->postVariable( $ajaxFilledPostVariableName, 0 ) != 1 )
         {
             $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                  'Missing objectrelation list input.' ) );
