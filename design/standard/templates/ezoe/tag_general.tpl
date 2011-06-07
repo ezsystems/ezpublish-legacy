@@ -12,6 +12,17 @@
 tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {ldelim}
     tagName: '{$tag_name|wash}',
     form: 'EditForm',
+    onTagGenerated: function( element, editor, utils, args ) {ldelim}
+
+        // insert an empty paragraph to allow the user to put something
+        // after the tag that has been added, see http://issues.ez.no/18209
+        if ( !element.nextSibling || element.nextSibling.nodeName.toLowerCase() !== 'p' ) {ldelim}
+
+            var e = editor.dom.create( 'p', false, tinymce.isIE ? '&nbsp;' : '<br />' );
+            editor.dom.insertAfter( e, element );
+        {rdelim}
+        return false;
+    {rdelim},
     customAttributeStyleMap: {$custom_attribute_style_map},
     cancelButton: 'CancelButton',
     tagEditTitleText: "{'Edit %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name_alias, '&gt;') ))|wash('javascript')}"
