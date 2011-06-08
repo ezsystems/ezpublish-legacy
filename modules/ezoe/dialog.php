@@ -58,17 +58,18 @@ if ( $dialog === '' )
 
 
 
-$ezoeInfo = ezoeInfo::info();
+$ezoeInfo = eZExtension::extensionInfo( 'ezoe' );
 
 $tpl = eZTemplate::factory();
 $tpl->setVariable( 'object', $object );
 $tpl->setVariable( 'object_id', $objectID );
 $tpl->setVariable( 'object_version', $objectVersion );
 
-$tpl->setVariable( 'ezoe_name', $ezoeInfo['Name'] );
-$tpl->setVariable( 'ezoe_version', $ezoeInfo['Version'] );
-$tpl->setVariable( 'ezoe_copyright', $ezoeInfo['Copyright'] );
-$tpl->setVariable( 'ezoe_license', $ezoeInfo['License'] );
+$tpl->setVariable( 'ezoe_name', $ezoeInfo['name'] );
+$tpl->setVariable( 'ezoe_version', $ezoeInfo['version'] );
+$tpl->setVariable( 'ezoe_copyright', $ezoeInfo['copyright'] );
+$tpl->setVariable( 'ezoe_license', $ezoeInfo['license'] );
+$tpl->setVariable( 'ezoe_info_url', $ezoeInfo['info_url'] );
 
 // use persistent_variable like content/view does, sending parameters
 // to pagelayout as a hash.

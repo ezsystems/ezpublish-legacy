@@ -229,13 +229,12 @@ class eZOEXMLInput extends eZXMLInputHandler
      * version
      *
      * @static
-     * @return string ezoe verion number
+     * @return string ezoe version number
      */
     public static function version()
     {
-        $info = ezoeInfo::info();
-        $version = $info['version'];
-        return $version;
+        $info = eZExtension::extensionInfo( 'ezoe' );
+        return $info['version'];
     }
 
      /**
