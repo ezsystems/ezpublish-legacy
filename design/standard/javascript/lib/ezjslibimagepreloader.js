@@ -46,7 +46,7 @@ eZImagePreloader.prototype.preloadImageList = function( imageList )
     this.nLoadedImagesCount     = 0;
     this.bPreloadDone           = false;
 
-    for( var i in imageList )
+    for ( var i in imageList )
     {
         if ( typeof imageList[i] != 'function' )
         {
@@ -102,7 +102,7 @@ eZImagePreloader.prototype.onImageAbort = function()
 eZImagePreloader.prototype.onComplete = function( imageList )
 {
     this.nProcessedImagesCount++;
-    if( this.nProcessedImagesCount == this.nImagesCount )
+    if ( this.nProcessedImagesCount == this.nImagesCount )
     {
         this.bPreloadDone = true;
     }

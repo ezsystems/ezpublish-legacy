@@ -42,10 +42,10 @@ function getAllImageOptions()
     for ( i = 0; i < allItputEl.length; i++ )
     {
         if ( allItputEl[i].name.slice( 0, 8 ) == 'eZOption' )
-	{
-	    imageOptions[counter] = allItputEl[i];
-	    counter++;
-	}
+        {
+            imageOptions[counter] = allItputEl[i];
+            counter++;
+        }
     }
     return imageOptions;
 }
@@ -57,10 +57,10 @@ function getAllOptionSelects()
     for ( i = 0; i < allSelectEl.length; i++ )
     {
         if ( allSelectEl[i].name.slice( 0, 8 ) == 'eZOption' )
-	{
-	    selectOptions[counter] = allSelectEl[i];
-	    counter++;
-	}
+        {
+            selectOptions[counter] = allSelectEl[i];
+            counter++;
+        }
     }
     return selectOptions;
 
@@ -71,7 +71,7 @@ function validate_options( event )
     var wrongValue;
     var formOptionsSelectedIndex;
     var validated = true;
-    for( var i = 0; i < selectBoxList.length; i++ )
+    for ( var i = 0; i < selectBoxList.length; i++ )
     {
         selectedValue = selectBoxList[i].value;
          formOptionsSelectedIndex = selectBoxList[i].options.selectedIndex;
@@ -82,14 +82,14 @@ function validate_options( event )
         }
     }
     imageOptions = getAllImageOptions();
-    for( var j = 0; j < imageOptions.length; j++ )
+    for ( var j = 0; j < imageOptions.length; j++ )
     {
-	if ( imageOptions[j].checked && imageOptions[j].disabled )
-	{
-	   optionText = document.getElementById( 'td-' + imageOptions[j].id ).childNodes[0].textContent;
+        if ( imageOptions[j].checked && imageOptions[j].disabled )
+        {
+           optionText = document.getElementById( 'td-' + imageOptions[j].id ).childNodes[0].textContent;
            alert( "Incorrect selection \""  + optionText + "\"" );
            validated = false;
-	}
+        }
     }
     return validated;
 }
@@ -107,7 +107,7 @@ function init_options( rules, attributeID1 )
 
     this.onload = connect_validate_options_handler;
 
-    for( var i = 0; i < selectBoxList.length; i++ )
+    for ( var i = 0; i < selectBoxList.length; i++ )
     {
         selectedValue = selectBoxList[i].value;
         checkOptionsToDisable( rules, selectedValue, attributeID, selectBoxList[i] );
@@ -136,43 +136,43 @@ function checkOptionsToEnable( rules, value, attributeID, node )
     {
        splitArray = node.name.split( "][");
        moptionid = splitArray[1].slice(0,-1);
-    } 
+    }
     else
     {
          moptionid =  nodeInfoArray[2];
     }
     var optionidlist;
 
-    for(  var i = 0; i < rules.length; i++ )
+    for ( var i = 0; i < rules.length; i++ )
     {
-        for (  var j = 0; j < rules[i][1].	length; j++ )
+        for ( var j = 0; j < rules[i][1].length; j++ )
         {
             moption = rules[i][1][j][0];
             if ( moptionid == moption )
             {
                optionidlist = rules[i][1][j][1];
 
-               if (!optionidlist.inArray( value ))               
+               if (!optionidlist.inArray( value ))
                {
                    enableOption( rules[i][0], attributeID );
                }
-         
+
             }
 
         }
     }
 }
- 
+
 
 function enableOption( optionID, attributeID )
 {
      idstr = attributeID + "_" + optionID;
-     if( DisabledOptions[idstr] > 1 )
+     if ( DisabledOptions[idstr] > 1 )
      {
           DisabledOptions[idstr]--;
      }
      else
-     { 
+     {
          if ( this.document.getElementById( idstr ) != null && DisabledOptions[idstr] != null )
          {
              this.document.getElementById( idstr ).disabled = false;
@@ -204,14 +204,14 @@ function checkOptionsToDisable( rules, selectedValue, attributeID, node )
     {
        splitArray = node.name.split( "][");
        moptionid = splitArray[1].slice(0,-1);
-    } 
+    }
     else
     {
          moptionid =  nodeInfoArray[2];
     }
     var optionidlist;
 
-    for(  var i = 0; i < rules.length; i++ )
+    for (  var i = 0; i < rules.length; i++ )
     {
         for (  var j = 0; j < rules[i][1].length; j++ )
         {
@@ -220,11 +220,11 @@ function checkOptionsToDisable( rules, selectedValue, attributeID, node )
             {
                optionidlist = rules[i][1][j][1];
 
-               if (!optionidlist.inArray( selectedValue ))               
+               if (!optionidlist.inArray( selectedValue ))
                {
                    disableOption( rules[i][0], attributeID );
                }
-              
+
             }
 
         }
@@ -240,14 +240,14 @@ function ezmultioption_check_option( node, rules, attributeID )
     var oldValue;
     if ( node.type == 'radio' )
     {
-	oldValue = OldValues[ node.name ];
+        oldValue = OldValues[ node.name ];
     }
     else
         oldValue = OldValues[ node.id ];
 
     if ( node.value == oldValue )
     {
-	return true;
+        return true;
     }
 
     if ( oldValue != null )
@@ -265,8 +265,8 @@ function ezmultioption_check_option( node, rules, attributeID )
     }
     else
     {
-        if( /MSIE [567]/.test( navigator.appVersion ) )
-	{
+        if ( /MSIE [567]/.test( navigator.appVersion ) )
+        {
             disableOptions( node );
         }
         OldValues[ node.id ] = node.value;
@@ -276,10 +276,10 @@ function ezmultioption_check_option( node, rules, attributeID )
 
 function initSelects()
 {
-    if( /MSIE [567]/.test( navigator.appVersion ) )
+    if ( /MSIE [567]/.test( navigator.appVersion ) )
     {
         var sa = document.getElementsByTagName('select');
-    
+
         for ( var sc = 0; sc < sa.length; sc++ )
         {
             disableOptions( sa[sc] );
@@ -297,11 +297,11 @@ function disableOptions( se )
         {
             se.options[oc].className = 'disabled';
             se.options[oc].selected = false;
-            od = true;            
+            od = true;
         }
         else if ( se.options[oc].selected )
         {
-            os = true;            
+            os = true;
         }
     }
 

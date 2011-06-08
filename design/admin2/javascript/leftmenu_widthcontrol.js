@@ -6,7 +6,7 @@ jQuery(function( $ )
             timeout : null,
             down: function( e )
             {
-    	        leftMenuDrag.elements = [ $( '#leftmenu' ), $( '#maincontent' ) ];
+                leftMenuDrag.elements = [ $( '#leftmenu' ), $( '#maincontent' ) ];
                 if ( leftMenuDrag.timeout !== null )
                 {
                     clearTimeout( leftMenuDrag.timeout );
@@ -46,7 +46,7 @@ jQuery(function( $ )
                 return (px / scale).toFixed(8);
             }
     };
-    var wl = $('#widthcontrol-links'), wh = $('#widthcontrol-handler'); 
+    var wl = $('#widthcontrol-links'), wh = $('#widthcontrol-handler');
     if ( wl && wh )
     {
         wl.addClass( 'hide' );

@@ -24,36 +24,35 @@
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
-            
-/*! \file ezjslibcookiesupport.js 
+
+/*! \file ezjslibcookiesupport.js
 */
 
-/*!    
+/*!
     \brief
     Functions which works direct with cookie:
         ezjslib_setCookie,
         ezjslib_getCookie,
         ezjslib_setCookieFromArray,
         ezjslib_getCookieToArray.
-        
 */
 
 
 /*!
     Sets cookie with \a name, \a value and \a expires date.
 */
-function ezjslib_setCookie( name, value, expires ) 
+function ezjslib_setCookie( name, value, expires )
 {
     document.cookie = name + '=' + escape(value) + (( !expires ) ? "" : ('; expires=' + expires.toUTCString())) + '; path=/';
-} 
+}
 
 /*!
     \return a value of cookie with name \a name.
 */
-function ezjslib_getCookie( name ) 
+function ezjslib_getCookie( name )
 {
     var cookie  = document.cookie;
-    
+
     var startPos = cookie.indexOf( name );
     if ( startPos != -1 )
     {
@@ -67,7 +66,7 @@ function ezjslib_getCookie( name )
     }
 
     return null;
-} 
+}
 
 /*!
     Converts array \a valueArray to string using as delimiter \a delimiter.
