@@ -37,9 +37,6 @@
   \brief The class eZOEInputParser does
 
 */
-
-require_once( 'kernel/common/i18n.php' );
-
 class eZOEInputParser extends eZXMLInputParser
 {
     /**
