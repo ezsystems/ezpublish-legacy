@@ -255,6 +255,17 @@ div.object-right /* Used for floating images and other content elements to the r
     clear: right;
 }
 
+div.object-center
+{
+    text-align:center;
+    margin: 0.25em 0 0.25em 0;
+}
+
+div.object-none
+{
+    margin: 0.25em 0.25em 0.25em 0;
+}
+
 div.split
 {
     clear: both;

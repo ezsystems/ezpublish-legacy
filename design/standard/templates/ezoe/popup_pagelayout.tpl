@@ -29,7 +29,6 @@ table#browse_box_prev thead td { padding-bottom: 5px; }
 table#browse_box_prev tfoot td { padding-top: 5px; }
 
 #embed_preview_heading { margin: 14px 10px 2px 10px; color: #999; }
-#embed_preview { text-align: center; }
 #embed_preview.object_preview { margin: 0 10px 10px 10px; border: 1px solid #ddd; padding: 5px; clear: both; float: left; height: auto; width: 94%; }
 #embed_preview img { margin: auto; }
 
