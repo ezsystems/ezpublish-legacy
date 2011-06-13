@@ -177,6 +177,19 @@
        </div>
 
        <div class="block">
+         <label class="inline" for="rssExporClass_{$Source:index}_author">{'Author'|i18n( 'design/admin/rss/edit_export' )} ({'optional'|i18n( 'design/admin/rss/edit_export' )}):</label>
+         <select id="rssExporClass_{$Source:index}_author" name="Item_Class_Attribute_Author_{$Source:index}" title="{'Use this drop-down to select the attribute that should be exported as the author of the RSS export entry.'|i18n('design/admin/rss/edit_export')}" onchange="document.getElementById('Ignore_Values_On_Browse_{$Source:index}').value=0;">
+         <option value="">[{'Skip'|i18n('design/admin/rss/edit_export')}]</option>
+         {section name=ClassAttribute loop=$rss_export.item_list[$Source:index].class_attributes}
+         <option value="{$:item.identifier|wash}"
+             {section name=ShowSelected show=eq( $Source:item.author, $:item.identifier )}
+                 selected="selected"
+             {/section}>{$:item.name|wash}</option>
+         {/section}
+         </select>
+       </div>
+
+       <div class="block">
          <label class="inline" for="rssExporClass_{$Source:index}_category">{'Category'|i18n( 'design/admin/rss/edit_export' )} ({'optional'|i18n( 'design/admin/rss/edit_export' )}):</label>
          <select id="rssExporClass_{$Source:index}_category" name="Item_Class_Attribute_Category_{$Source:index}" title="{'Use this drop-down to select the attribute that should be exported as the category of the RSS export entry.'|i18n('design/admin/rss/edit_export')}" onchange="document.getElementById('Ignore_Values_On_Browse_{$Source:index}').value=0;">
          <option value="">[{'Skip'|i18n('design/admin/rss/edit_export')}]</option>
