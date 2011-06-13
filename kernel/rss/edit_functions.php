@@ -99,7 +99,7 @@ class eZRSSEditFunction
                 {
                     $valid = false;
                     $validationErrors[] = ezpI18n::tr( 'kernel/rss/edit_export',
-                                                  'Invalid selection for description class %1 does not have attribute "%2"', null,
+                                                  'Invalid selection for author class %1 does not have attribute "%2"', null,
                                                   array( $class->attribute( 'name'), $authorClassAttributeIdentifier ) );
                 }
                 if ( $categoryClassAttributeIdentifier != '' && !isset( $dataMap[$categoryClassAttributeIdentifier] ) )
