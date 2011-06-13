@@ -990,7 +990,7 @@ class eZRSSExport extends eZPersistentObject
                     else
                     {
                         $authorItem = $item->add( 'author' );
-                        $authorItem->email = $authorElement['email'];
+                        $authorItem->email = $authorContent;
                     }
                 }
 
