@@ -42,6 +42,12 @@ class eZSearchLog
         }
         else
         {
+            // 250 is the numbers of characters accepted by the DB table, so shorten to fit
+            if ( strlen( $phrase ) > 250 )
+            {
+                $phrase = substr( $phrase , 0 , 247 ) . "...";
+            }
+
             $db->query( "INSERT INTO
                               ezsearch_search_phrase ( phrase, phrase_count, result_count )
                          VALUES ( '$phrase', 1, $returnCount )" );
