@@ -38,7 +38,7 @@ jQuery(function( $ )
                 var html = '', arr = data.content.SearchResult, pub = $('#ezobjectrelation-search-published-text');
                 for ( var i = 0, l = arr.length; i < l; i++ )
                 {
-                    html += '<a onclick="return ezajaxrelationsSearchAddObject( this, \'' + boxID + '\', ' + arr[i].id + ',\'' + arr[i].name + '\',\'' + arr[i].class_name + '\',\'' + arr[i].section.name + '\',\'' + pub.val() + '\'  );">' + arr[i].name + '<\/a><br \/>';
+                    html += '<a onclick="return ezajaxrelationsSearchAddObject( this, \'' + boxID + '\', ' + arr[i].id + ',\'' + arr[i].name + '\',\'' + arr[i].class_name + '\',\'' + arr[i].section.name + '\',\'' + pub.val() + '\'  );" title="' + arr[i].path_identification_string + '">' + arr[i].name + '<\/a><br \/>';
                 }
                 $( boxID + ' div.ezobject-relation-search-browse'  ).html( html ).show();
             }
