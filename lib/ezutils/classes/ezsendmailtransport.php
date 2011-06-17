@@ -58,7 +58,7 @@ class eZSendmailTransport extends eZMailTransport
         {
             $message = $mail->body();
             $sys = eZSys::instance();
-			$excludeHeaders = $ini->variable( 'MailSettings', 'ExcludeHeaders' );
+            $excludeHeaders = $ini->variable( 'MailSettings', 'ExcludeHeaders' );
             $excludeHeaders[] = 'Subject';
             // If not Windows PHP mail() implementation, we can not specify a To: header in the $additional_headers parameter,
             // because then there will be 2 To: headers in the resulting e-mail.
