@@ -191,7 +191,7 @@ if ( $http->hasPostVariable( 'NewDraftButton' ) )
 if ( $http->hasPostVariable( 'LanguageSelection' ) )
 {
     $selectedEditLanguage = $http->postVariable( 'EditLanguage' );
-    $selectedFromLanguage = $http->postVariable( 'FromLanguage' );
+    $selectedFromLanguage = $http->hasPostVariable( 'FromLanguage' ) ? $http->postVariable( 'FromLanguage' ) : '';
     if ( in_array( $selectedEditLanguage, $obj->availableLanguages() ) )
     {
         $selectedFromLanguage = false;
