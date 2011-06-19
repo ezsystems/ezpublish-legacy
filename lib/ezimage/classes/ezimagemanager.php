@@ -937,8 +937,10 @@ class eZImageManager
 
                     $convertHandler->endCacheGeneration( false );
 
-                    ezpEvent::getInstance()->filter( 'image/alias', array( 'alias_url' => $currentAliasData['url'],
-                                                                           'alias_name' => $currentAliasData['name'] ) );
+                    // Notify about image alias generation. Parameters are alias
+                    // url and alias name.
+                    ezpEvent::getInstance()->notify( 'image/alias', array( $currentAliasData['url'],
+                                                                           $currentAliasData['name'] ) );
                     
                     return true;
                 }
