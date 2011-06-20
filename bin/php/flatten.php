@@ -99,10 +99,8 @@ else
 
 function changeSiteAccessSetting( $siteAccess )
 {
-    $ini = eZINI::instance();    
     $cli = eZCLI::instance();
-    $availableSiteAccessList = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
-    if ( in_array( $siteaccess, $availableSiteAccessList ) )
+    if ( in_array( $siteAccess, eZINI::instance()->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' ) ) )
     {
         $cli->output( "Using siteaccess $siteAccess for flatten" );
     }
