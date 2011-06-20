@@ -74,8 +74,10 @@ if ( $siteAccess )
 
 function changeSiteAccessSetting( $siteAccess )
 {
+    $ini = eZINI::instance();    
     $cli = eZCLI::instance();
-    if ( file_exists( 'settings/siteaccess/' . $siteAccess) )
+    $availableSiteAccessList = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+    if ( !in_array( $siteaccess, $availableSiteAccessList ) )
     {
         $cli->output( "Using siteaccess $siteAccess for nice url update" );
     }
