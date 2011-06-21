@@ -1313,7 +1313,6 @@ class eZDebug
                 {
                     $label = htmlspecialchars( $label );
 
-                    $contents = '';
                     if ( extension_loaded( 'xdebug' ) && ( strncmp( self::XDEBUG_SIGNATURE, $debug['String'], strlen( self::XDEBUG_SIGNATURE ) ) === 0 ) )
                         $contents = substr( $debug['String'], strlen( self::XDEBUG_SIGNATURE ) );
                     else
@@ -1339,8 +1338,6 @@ class eZDebug
             echo "<table id='timingpoints' title='Tabel of timingpoint stats.'><tr><th>Checkpoint</th><th>Elapsed</th><th>Rel. Elapsed</th><th>Memory</th><th>Rel. Memory</th></tr>";
         }
         $startTime = false;
-        $elapsed = 0.00;
-        $relElapsed = 0.00;
         if ( $useTiming )
         {
             for ( $i = 0, $l = count( $this->TimePoints ); $i < $l; ++$i )
@@ -1350,12 +1347,11 @@ class eZDebug
                 if ( isset( $this->TimePoints[$i + 1] ) )
                     $nextPoint = $this->TimePoints[$i + 1];
                 $time = $point["Time"];
-                $nextTime = false;
+                
                 if ( $startTime === false )
                     $startTime = $time;
                 $elapsed = $time - $startTime;
 
-                $relMemory = 0;
                 $memory = $point["MemoryUsage"];
                 // Calculate relative time and memory usage
                 if ( $nextPoint !== false )
