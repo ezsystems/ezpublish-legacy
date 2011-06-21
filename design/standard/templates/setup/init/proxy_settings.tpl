@@ -5,7 +5,7 @@
 </div>
 
 <p>
-  {"This section is used to configure how eZ Publish is connect to internet."|i18n("design/standard/setup/init")}
+  {"This section is used to configure how eZ Publish connects to the Internet. This step is only needed if the server where eZ Publish will be installed needs to use a proxy to connect to Internet, otherwise you can ignore this step."|i18n("design/standard/setup/init")}
 </p>
 
 <p>
@@ -15,15 +15,15 @@
 <table cellspacing="3" cellpadding="0" border="0">
 <tr>
   <td></td><td class="normal"><label for="eZSetupPROXYServer" class="textfield">{"Server name: "|i18n("design/standard/setup/init")}</label></td>
-  <td class="normal"><input type="text" size="25" id="eZSetupPROXYServer" name="eZSetupPROXYServer" value=""></td>
+  <td class="normal"><input type="text" size="25" id="eZSetupPROXYServer" name="eZSetupPROXYServer" value="{$proxy_info.server|wash}"></td>
 </tr>
 <tr>
   <td></td><td class="normal"><label for="eZSetupPROXYUser" class="textfield">{"Username (optional): "|i18n("design/standard/setup/init")}</label></td>
-  <td class="normal"><input type="text" size="25" id="eZSetupPROXYUser" name="eZSetupPROXYUser" value=""></td>
+  <td class="normal"><input type="text" size="25" id="eZSetupPROXYUser" name="eZSetupPROXYUser" value="{$proxy_info.user|wash}"></td>
 </tr>
 <tr>
   <td></td><td class="normal"><label for="eZSetupPROXYPassword" class="textfield">{"Password (optional): "|i18n("design/standard/setup/init")}</label></td>
-  <td class="normal"><input type="password" size="25" id="eZSetupPROXYPassword" name="eZSetupPROXYPassword" value=""></td>
+  <td class="normal"><input type="password" size="25" id="eZSetupPROXYPassword" name="eZSetupPROXYPassword" value="{$proxy_info.password|wash}"></td>
 </tr>
 </table>
 </fieldset>
