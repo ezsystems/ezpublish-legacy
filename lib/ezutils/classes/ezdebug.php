@@ -78,9 +78,6 @@ class eZDebug
     const OUTPUT_MESSAGE_SCREEN = 1;
     const OUTPUT_MESSAGE_STORE = 2;
 
-    const MAX_LOGFILE_SIZE = 204800; // 200*1024
-    const MAX_LOGROTATE_FILES = 3;
-
     const XDEBUG_SIGNATURE = '--XDEBUG--';
 
     /*!
@@ -779,88 +776,6 @@ class eZDebug
     }
 
     /*!
-     \static
-     \return the maxium size for a log file in bytes.
-    */
-    static function maxLogSize()
-    {
-        if ( isset( $GLOBALS['eZDebugMaxLogSize'] ) )
-        {
-            return $GLOBALS['eZDebugMaxLogSize'];
-        }
-        return self::MAX_LOGFILE_SIZE;
-    }
-
-    /*!
-     \static
-     Sets the maxium size for a log file to \a $size.
-    */
-    static function setMaxLogSize( $size )
-    {
-        $GLOBALS['eZDebugMaxLogSize'] = $size;
-    }
-
-    /*!
-     \static
-     \return the maxium number of logrotate files to keep.
-    */
-    static function maxLogrotateFiles()
-    {
-        if ( isset( $GLOBALS['eZDebugMaxLogrotateFiles'] ) )
-        {
-            return $GLOBALS['eZDebugMaxLogrotateFiles'];
-        }
-        return self::MAX_LOGROTATE_FILES;
-    }
-
-    /*!
-     \static
-     Sets the maxium number of logrotate files to keep to \a $files.
-    */
-    static function setLogrotateFiles( $files )
-    {
-        $GLOBALS['eZDebugMaxLogrotateFiles'] = $files;
-    }
-
-    /*!
-     \static
-     Rotates logfiles so the current logfile is backed up,
-     old rotate logfiles are rotated once more and those that
-     exceed maxLogrotateFiles() will be removed.
-     Rotated files will get the extension .1, .2 etc.
-    */
-    static function rotateLog( $fileName )
-    {
-        $maxLogrotateFiles = eZDebug::maxLogrotateFiles();
-        for ( $i = $maxLogrotateFiles; $i > 0; --$i )
-        {
-            $logRotateName = $fileName . '.' . $i;
-            if ( file_exists( $logRotateName ) )
-            {
-                if ( $i == $maxLogrotateFiles )
-                {
-                    @unlink( $logRotateName );
-//                     print( "@unlink( $logRotateName )<br/>" );
-                }
-                else
-                {
-                    $newLogRotateName = $fileName . '.' . ($i + 1);
-                    eZFile::rename( $logRotateName, $newLogRotateName );
-//                     print( "@rename( $logRotateName, $newLogRotateName )<br/>" );
-                }
-            }
-        }
-        if ( file_exists( $fileName ) )
-        {
-            $newLogRotateName = $fileName . '.' . 1;
-            eZFile::rename( $fileName, $newLogRotateName );
-//             print( "@rename( $fileName, $newLogRotateName )<br/>" );
-            return true;
-        }
-        return false;
-    }
-
-    /*!
      \private
      Writes the log message $string to the file $fileName.
     */
@@ -871,55 +786,18 @@ class eZDebug
             return;
         if ( !$alwaysLog and !$this->isLogFileEnabled( $verbosityLevel ) )
             return;
-        $oldHandleType = eZDebug::setHandleType( self::HANDLE_TO_PHP );
+
         $logDir = $logFileData[0];
         $logName = $logFileData[1];
-        $fileName = $logDir . $logName;
-        if ( !file_exists( $logDir ) )
+
+        $ip = eZSys::serverVariable( 'REMOTE_ADDR', true );
+        if ( !$ip )
         {
-            eZDir::mkdir( $logDir, false, true );
+            $ip = eZSys::serverVariable( 'HOSTNAME', true );
         }
-        $oldumask = @umask( 0 );
-        $fileExisted = file_exists( $fileName );
-        if ( $fileExisted and
-             filesize( $fileName ) > eZDebug::maxLogSize() )
-        {
-            if ( eZDebug::rotateLog( $fileName ) )
-                $fileExisted = false;
-        }
-        $logFile = @fopen( $fileName, "a" );
-        if ( $logFile )
-        {
-            $time = strftime( "%b %d %Y %H:%M:%S", strtotime( "now" ) );
-            $ip = eZSys::serverVariable( 'REMOTE_ADDR', true );
-            if ( !$ip )
-                $ip = eZSys::serverVariable( 'HOSTNAME', true );
-            $notice = "[ " . $time . " ] [" . $ip . "] " . $string . "\n";
-            @fwrite( $logFile, $notice );
-            @fclose( $logFile );
-            if ( !$fileExisted )
-            {
-                $ini = eZINI::instance();
-                $permissions = octdec( $ini->variable( 'FileSettings', 'LogFilePermissions' ) );
-                @chmod( $fileName, $permissions );
-            }
-            @umask( $oldumask );
-        }
-        else
-        {
-            @umask( $oldumask );
-            $logEnabled = $this->isLogFileEnabled( $verbosityLevel );
-            $this->setLogFileEnabled( false, $verbosityLevel );
-            if ( $verbosityLevel != self::LEVEL_ERROR or
-                 $logEnabled )
-            {
-                eZDebug::setHandleType( $oldHandleType );
-                $this->writeError( "Cannot open log file '$fileName' for writing\n" .
-                                   "The web server must be allowed to modify the file.\n" .
-                                   "File logging for '$fileName' is disabled." , 'eZDebug::writeFile' );
-            }
-        }
-        eZDebug::setHandleType( $oldHandleType );
+        $message = "[{$ip}] $string";
+        
+        eZLog::write( $message, $logName, $logDir );
     }
 
     /*!
