@@ -256,7 +256,7 @@ $script->setUseSiteAccess( $siteaccess );
 
 $script->initialize();
 
-print( "Updating content object names\n" );
+$cli->output( "Updating content object names\n" );
 
 //eZDebug::setHandleType( eZDebug::HANDLE_FROM_PHP );
 
@@ -296,7 +296,7 @@ foreach ( array_keys ( $topNodeArray ) as $key  )
     $subTreeCount += $topNodeArray[$key]->subTreeCount( array( 'Limitation' => array() ) );
 }
 
-print( "Number of objects to update: $subTreeCount $endl" );
+$cli->output( "Number of objects to update: $subTreeCount $endl" );
 
 $i = 0;
 $dotMax = 70;
@@ -323,12 +323,12 @@ foreach ( array_keys ( $topNodeArray ) as $key  )
             // show progress bar
             ++$i;
             ++$dotCount;
-            print( "." );
+            $cli->output( ".", false );
             if ( $dotCount >= $dotMax or $i >= $subTreeCount )
             {
                 $dotCount = 0;
                 $percent = (float)( ($i*100.0) / $subTreeCount );
-                print( " " . $percent . "%" . $endl );
+                $cli->output( " " . $percent . "%" );
             }
         }
         $offset += $limit;
@@ -338,7 +338,7 @@ foreach ( array_keys ( $topNodeArray ) as $key  )
     }
 }
 
-print( $endl . "done" . $endl );
+$cli->output( "done" );
 
 $script->shutdown();
 
