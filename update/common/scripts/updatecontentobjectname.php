@@ -339,7 +339,7 @@ foreach ( $topNodeArray as $node )
             if ( $dotCount >= $dotMax || $i >= $subTreeCount )
             {
                 $dotCount = 0;
-                $percent = (float)( ($i*100.0) / $subTreeCount );
+                $percent = number_format( ( $i * 100.0 ) / $subTreeCount, 2 );
                 $cli->output( " " . $percent . "%" );
             }
         }
