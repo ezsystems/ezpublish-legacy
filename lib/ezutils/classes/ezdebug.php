@@ -660,11 +660,6 @@ class eZDebug
         $this->MessageOutput = $output;
     }
 
-    function setStoreLog( $store )
-    {
-        $this->StoreLog = $store;
-    }
-
     /*!
       Adds a new timing point for the benchmark report.
     */
