@@ -6,7 +6,7 @@ function showDatePicker( base, id, datatype )
 
     YAHOO.util.Dom.setStyle( calContainerID, 'display', 'block' );
 
-    window['cal'+id] = new YAHOO.widget.Calendar( base + '_' + datatype + '_calendar_' + id , calContainerID, { close: true, 
+    window['cal'+id] = new YAHOO.widget.Calendar( base + '_' + datatype + '_calendar_' + id , calContainerID, { close: true,
                                                                                               mindate: "1/1/1970",
                                                                                               LOCALE_WEEKDAYS: "medium" } );
     window['cal'+id].render();
@@ -27,12 +27,12 @@ function showDatePicker( base, id, datatype )
 
         /* Set time to 12:00, if no time is set */
         var txtHour = document.getElementsByName( base + '_' + datatype + '_hour_' + id );
-        if( txtHour && txtHour[0].value.length == '' ) {
+        if ( txtHour && txtHour[0].value.length == '' ) {
             txtHour[0].value = '12';
         }
 
         var txtMinute = document.getElementsByName( base + '_' + datatype + '_minute_' + id );
-        if( txtMinute && txtMinute[0].value == '' ) {
+        if ( txtMinute && txtMinute[0].value == '' ) {
             txtMinute[0].value = '00';
         }
 

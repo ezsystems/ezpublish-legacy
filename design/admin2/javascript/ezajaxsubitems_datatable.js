@@ -84,17 +84,17 @@ var sortableSubitems = function () {
 
         var updatePriority = function(callback, v) {
             var record = this.getRecord(), dataTable = this.getDataTable(), sortedBy = dataTable.get('sortedBy'), paginator = dataTable.get('paginator');
-            
+
             var onSuccess = function(data) {
                 dataTable.getDataSource().flushCache();
                 if (sortedBy.key == 'priority') {
                     dataTable.onPaginatorChangeRequest(paginator.getState({'page':paginator.getCurrentPage()}));
                 }
             }
-            
-            jQuery.post(jQuery.ez.url + 'call/ezjscnode::updatepriority', { ContentNodeID: record.getData('parent_node_id'), 
+
+            jQuery.post(jQuery.ez.url + 'call/ezjscnode::updatepriority', { ContentNodeID: record.getData('parent_node_id'),
                                                                             ContentObjectID: record.getData('contentobject_id'),
-                                                                            PriorityID: [record.getData('node_id')], 
+                                                                            PriorityID: [record.getData('node_id')],
                                                                             Priority:  [v] }, onSuccess );
             callback(true, v);
         }
@@ -116,7 +116,7 @@ var sortableSubitems = function () {
             {key:"contentobject_id", label:labelsObj.DATA_TABLE_COLS.objectid, sortable:true, resizeable:true},
             {key:"contentobject_remote_id", label:labelsObj.DATA_TABLE_COLS.objectremoteid, sortable:false, resizeable:true},
             {key:"contentobject_state", label:labelsObj.DATA_TABLE_COLS.objectstate, sortable:false, resizeable:true},
-            {key:"priority", label: labelsObj.DATA_TABLE_COLS.priority, sortable:true, resizeable:true, 
+            {key:"priority", label: labelsObj.DATA_TABLE_COLS.priority, sortable:true, resizeable:true,
                 editor: new YAHOO.widget.TextboxCellEditor({asyncSubmitter: updatePriority, disableBtns:true, validator:YAHOO.widget.DataTable.validateNumber}) }
         ];
 
@@ -137,7 +137,7 @@ var sortableSubitems = function () {
                 return section.name;
             return '?';
         }
-        
+
         var translationsParser = function(translations) {
             return translations.language_list;
         }
@@ -181,13 +181,13 @@ var sortableSubitems = function () {
         };
 
         var paginator = new YAHOO.widget.Paginator({ rowsPerPage:confObj.rowsPrPage,
-                                                     containers: ["bpg"], 
+                                                     containers: ["bpg"],
                                                      firstPageLinkLabel : labelsObj.ACTION_BUTTONS.first_page,
                                                      lastPageLinkLabel : labelsObj.ACTION_BUTTONS.last_page,
                                                      previousPageLinkLabel : labelsObj.ACTION_BUTTONS.previous_page,
                                                      nextPageLinkLabel : labelsObj.ACTION_BUTTONS.next_page,
                                                      template : '<div class="yui-pg-backward"> {FirstPageLink} {PreviousPageLink} </div>' +
-                                                                '{PageLinks}' + 
+                                                                '{PageLinks}' +
                                                                 '<div class="yui-pg-forward"> {NextPageLink} {LastPageLink} </div>'
                                                      });
 
@@ -222,7 +222,7 @@ var sortableSubitems = function () {
             initialRequest: "::" + confObj.rowsPrPage + "::0" + "::" + confObj.sortKey + "::" + confObj.sortOrder + "::" + confObj.nameFilter + "?ContentType=json",   // Initial request for first page of data
             dynamicData: true,                                                                                                             // Enables dynamic server-driven data
             generateRequest: buildQueryString,
-            sortedBy : {key:confObj.sortKey, 
+            sortedBy : {key:confObj.sortKey,
                         dir:((confObj.sortOrder === 1) ? YAHOO.widget.DataTable.CLASS_ASC : YAHOO.widget.DataTable.CLASS_DESC) },          // Sets UI initial sort arrow
             paginator: paginator,                                                                                                          // Enables pagination
             MSG_LOADING: labelsObj.DATA_TABLE.msg_loading
@@ -329,7 +329,7 @@ var sortableSubitems = function () {
         var tblOptsDialog = new YAHOO.widget.SimpleDialog("to-dialog-container", { width: "25em",
                                                                                    visible: false,
                                                                                    modal: true,
-                                                                                   buttons: [ { text: "Close", 
+                                                                                   buttons: [ { text: "Close",
                                                                                                 handler: hideTblOptsDialog } ],
                                                                                    fixedcenter: "contained",
                                                                                    constrainToViewport: true });
@@ -438,7 +438,7 @@ var sortableSubitems = function () {
                                                         id:"ezbtn-options",
                                                         container:"action-controls",
                                                         onclick: { fn: showTblOptsDialog, obj: this, scope: true } });
-    
+
     return subItemsTable;
     }
 
@@ -455,6 +455,6 @@ var sortableSubitems = function () {
             dataTable = initDataTable();
         }
     };
- 
+
 }();
 

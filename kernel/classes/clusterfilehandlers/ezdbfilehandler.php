@@ -769,9 +769,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
     /**
      * Fetches file from db and saves it in FS under unique name.
      *
-     * \public
-     * \static
-     * \return filename with path of a saved file. You can use this filename to get contents of file from filesystem.
+     * @return string filename with path of a saved file. You can use this filename to get contents of file from filesystem.
      */
     function fetchUnique( )
     {
@@ -1075,29 +1073,19 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
     /**
      * Outputs file contents prepending them with appropriate HTTP headers.
      *
-     * @deprecated This function should not be used since it cannot handle reading errors.
-     *             For the PHP 5 port this should be removed.
+     * @param int $offset Transfer start offset
+     * @param int $length Transfer length
+     *
+     * @return void
      */
-    function passthrough()
+    function passthrough( $offset = 0, $length = false )
     {
-        $path = $this->filePath;
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::passthrough( '$path' )" );
+        $fname = "db::passthrough( '{$this->filePath}' )";
+        eZDebugSetting::writeDebug( 'kernel-clustering', $fname );
         if ( $this->metaData === null )
             $this->loadMetaData();
-        $size = $this->metaData['size'];
-        $mimeType = $this->metaData['datatype'];
-        $mtime = $this->metaData['mtime'];
-        $mdate = gmdate( 'D, d M Y H:i:s T', $mtime );
 
-        header( "Content-Length: $size" );
-        header( "Content-Type: $mimeType" );
-        header( "Last-Modified: $mdate GMT" );
-        header( "Expires: ". gmdate('D, d M Y H:i:s', time() + 6000) . ' GMT');
-        header( "Connection: close" );
-        header( "X-Powered-By: eZ Publish" );
-        header( "Accept-Ranges: bytes" );
-
-        self::$dbbackend->_passThrough( $path );
+        self::$dbbackend->_passThrough( $this->filePath, $offset, $length, $fname );
     }
 
     /**

@@ -681,10 +681,14 @@ class eZDFSFileHandlerMySQLiBackend
 
     /**
      * Passes $filePath content through
+     *
      * @param string $filePath
-     * @deprecated should not be used since it cannot handle reading errors
+     * @param int    $offset  Byte offset to start download from
+     * @param int    $length  Byte length to be sent
+     *
+     * @return bool
      */
-    public function _passThrough( $filePath, $fname = false )
+    public function _passThrough( $filePath, $startOffset = 0, $length = false, $fname = false )
     {
         if ( $fname )
             $fname .= "::_passThrough($filePath)";
@@ -697,7 +701,7 @@ class eZDFSFileHandlerMySQLiBackend
             return false;
 
         // @todo Catch an exception
-        $this->dfsbackend->passthrough( $filePath );
+        $this->dfsbackend->passthrough( $filePath, $startOffset, $length );
 
         return true;
     }

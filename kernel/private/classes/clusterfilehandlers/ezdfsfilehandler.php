@@ -1145,29 +1145,17 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
     }
 
     /**
-     * Outputs file contents prepending them with appropriate HTTP headers.
+     * Outputs file contents directly
      *
-     * @deprecated This function should not be used since it cannot handle
-     *             reading errors.
+     * @param int $startOffset Byte offset to start transfer from
+     * @param int $length Byte length to transfer. NOT end offset, end offset = $startOffset + $length
+     *
+     * @return void
      */
-    function passthrough()
+    function passthrough( $startOffset = 0, $length = false )
     {
-        $path = $this->filePath;
-        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::passthrough( '$path' )" );
-        $size = $this->metaData['size'];
-        $mimeType = $this->metaData['datatype'];
-        $mtime = $this->metaData['mtime'];
-        $mdate = gmdate( 'D, d M Y H:i:s T', $mtime );
-
-        header( "Content-Length: $size" );
-        header( "Content-Type: $mimeType" );
-        header( "Last-Modified: $mdate GMT" );
-        header( "Expires: ". gmdate('D, d M Y H:i:s', time() + 6000) . ' GMT');
-        header( "Connection: close" );
-        header( "X-Powered-By: eZ Publish" );
-        header( "Accept-Ranges: bytes" );
-
-        self::$dbbackend->_passThrough( $path );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::passthrough( '{$this->filePath}', $startOffset, $length )" );
+        self::$dbbackend->_passThrough( $this->filePath, $startOffset, $length, "dfs::passthrough( '{$this->filePath}'" );
     }
 
     /**

@@ -106,8 +106,10 @@ else
 
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
+    $ini = eZINI::instance();
     $cli = eZCLI::instance();
-    if ( file_exists( 'settings/siteaccess/' . $optionData ) )
+    $availableSiteAccessList = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+    if ( in_array( $optionData, $availableSiteAccessList ) )
     {
         $siteaccess = $optionData;
         $cli->output( "Using siteaccess $siteaccess for database cleanup" );
