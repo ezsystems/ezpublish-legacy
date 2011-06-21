@@ -149,18 +149,6 @@ class eZLog
 
     /*!
      \static
-     \return the maxium number of logrotate files to keep.
-    */
-    static function maxLogrotateFiles()
-    {
-        $maxLogrotateFiles =& $GLOBALS['eZMaxLogrotateFiles'];
-        if ( isset( $maxLogrotateFiles ) )
-            return $maxLogrotateFiles;
-        return self::MAX_LOGROTATE_FILES;
-    }
-
-    /*!
-     \static
      Rotates logfiles so the current logfile is backed up,
      old rotate logfiles are rotated once more and those that
      exceed maxLogrotateFiles() will be removed.
@@ -168,13 +156,12 @@ class eZLog
     */
     static function rotateLog( $fileName )
     {
-        $maxLogrotateFiles = eZLog::maxLogrotateFiles();
-        for ( $i = $maxLogrotateFiles; $i > 0; --$i )
+        for ( $i = self::MAX_LOGROTATE_FILES; $i > 0; --$i )
         {
             $logRotateName = $fileName . '.' . $i;
             if ( file_exists( $logRotateName ) )
             {
-                if ( $i == $maxLogrotateFiles )
+                if ( $i == self::MAX_LOGROTATE_FILES )
                 {
                     @unlink( $logRotateName );
                 }
@@ -193,16 +180,6 @@ class eZLog
         }
         return false;
     }
-
-    /*!
-     \static
-     Sets the maxium number of logrotate files to keep to \a $files.
-    */
-    static function setLogrotateFiles( $files )
-    {
-        $GLOBALS['eZMaxLogrotateFiles'] = $files;
-    }
-
 }
 
 ?>
