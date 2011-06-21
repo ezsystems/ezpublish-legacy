@@ -255,7 +255,7 @@ class eZWebDAVFileServer extends eZWebDAVServer
         append_to_log( "PUT: tempfile is $tempFile" );
 
         // Attempt to move the file from temp to desired location.
-        eZFile::rename( $tempFile, $realPath );
+        $status = eZFile::rename( $tempFile, $realPath );
 
         // Check status & return corresponding code:
         if ( $status )
