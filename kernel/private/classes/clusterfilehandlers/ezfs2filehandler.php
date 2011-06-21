@@ -460,6 +460,7 @@ class eZFS2FileHandler extends eZFSFileHandler
             }
             else
             {
+                unlink( $this->filePath );
                 eZLog::write( "eZFS2FileHandler::endCacheGeneration: Failed renaming '$this->filePath' to '$this->realFilePath'", 'cluster.log' );
             }
         }
