@@ -101,15 +101,13 @@ class eZMutex
     */
     function setMeta( $key, $value )
     {
-        $tmpFile = $this->MetaFileName . substr( md5( mt_rand() ), 0, 8 );
         $content = array();
         if ( file_exists( $this->MetaFileName ) )
         {
             $content = unserialize( file_get_contents( $this->MetaFileName ) );
         }
         $content[$key] = $value;
-        eZFile::create( $tmpFile, false, serialize( $content) );
-        eZFile::rename( $tmpFile, $this->MetaFileName );
+        eZFile::create( $this->MetaFileName, false, serialize( $content), true );
     }
 
     /*!
@@ -134,10 +132,8 @@ class eZMutex
     */
     function clearMeta()
     {
-        $tmpFile = $this->MetaFileName . substr( md5( mt_rand() ), 0, 8 );
         $content = array();
-        eZFile::create( $tmpFile, false, serialize( $content) );
-        eZFile::rename( $tmpFile, $this->MetaFileName );
+        eZFile::create( $this->MetaFileName, false, serialize( $content), true );
     }
 
     /*!
