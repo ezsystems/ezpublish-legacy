@@ -40,7 +40,7 @@ class eZLog
 
         $fileExisted = file_exists( $fileName );
         if ( $fileExisted and
-             filesize( $fileName ) > eZLog::maxLogSize() )
+             filesize( $fileName ) > self::MAX_LOGFILE_SIZE )
         {
             if ( eZLog::rotateLog( $fileName ) )
                 $fileExisted = false;
@@ -86,7 +86,7 @@ class eZLog
 
         $fileExisted = file_exists( $fileName );
         if ( $fileExisted and
-             filesize( $fileName ) > eZLog::maxLogSize() )
+             filesize( $fileName ) > self::MAX_LOGFILE_SIZE )
         {
             if ( eZLog::rotateLog( $fileName ) )
                 $fileExisted = false;
@@ -128,30 +128,9 @@ class eZLog
 
     /*!
      \static
-     \return the maxium size for a log file in bytes.
-    */
-    static function maxLogSize()
-    {
-        $maxLogSize =& $GLOBALS['eZMaxLogSize'];
-        if ( isset( $maxLogSize ) )
-            return $maxLogSize;
-        return self::MAX_LOGFILE_SIZE;
-    }
-
-    /*!
-     \static
-     Sets the maxium size for a log file to \a $size.
-    */
-    static function setMaxLogSize( $size )
-    {
-        $GLOBALS['eZMaxLogSize'] = $size;
-    }
-
-    /*!
-     \static
      Rotates logfiles so the current logfile is backed up,
      old rotate logfiles are rotated once more and those that
-     exceed maxLogrotateFiles() will be removed.
+     exceed self::MAX_LOGROTATE_FILES will be removed.
      Rotated files will get the extension .1, .2 etc.
     */
     static function rotateLog( $fileName )
