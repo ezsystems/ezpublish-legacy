@@ -54,10 +54,8 @@ function help()
 
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
-    $ini = eZINI::instance();
     $cli = eZCLI::instance();
-    $availableSiteAccessList = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
-    if ( in_array( $optionData, $availableSiteAccessList ) )
+    if ( in_array( $optionData, eZINI::instance()->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' ) ) )
     {
         $siteaccess = $optionData;
         $cli->output( "Using siteaccess $siteaccess for content object name update" );
