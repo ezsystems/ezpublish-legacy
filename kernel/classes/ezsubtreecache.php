@@ -128,7 +128,10 @@ class eZSubtreeCache
                 {
                     eZDir::mkdir( $expiryCacheDir, false, true );
                 }
-                eZFile::rename( $dir, $expiryCacheDir );
+                if ( !eZFile::rename( $dir, $expiryCacheDir ) )
+                {
+                    ezDebug::writeWarning( "$dir could not be renamed to $expiryCacheDir and has been deleted", __METHOD__ );
+                }
             }
             else
             {
