@@ -615,13 +615,24 @@ class eZINI
         fclose( $fp );
 
         // Rename cache temp file to final desitination and set permissions
-        eZFile::rename( $tmpCacheFile, $cachedFile );
-        chmod( $cachedFile, self::$filePermission );
+        if ( eZFile::rename( $tmpCacheFile, $cachedFile ) )
+        {
+            chmod( $cachedFile, self::$filePermission );
 
-        if ( self::isDebugEnabled() )
-            eZDebug::writeNotice( "Wrote cache file '$cachedFile'", __METHOD__ );
+            if ( self::isDebugEnabled() )
+                eZDebug::writeNotice( "Wrote cache file '$cachedFile'", __METHOD__ );
 
-        return true;
+            return true;
+        }
+        else
+        {
+            unlink( $tmpCacheFile );
+
+            if ( self::isDebugEnabled() )
+                eZDebug::writeError( "Writing of cache file '$cachedFile' failed", __METHOD__ );
+            
+            return false;
+        }
     }
 
     /*!
