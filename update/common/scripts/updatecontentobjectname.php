@@ -283,7 +283,7 @@ if ( $dbHost || $dbName || $dbUser || $dbImpl )
 
 $db->setIsSQLOutputEnabled( $showSQL );
 
-// Get top node
+// Get top nodes
 $topNodeArray = eZPersistentObject::fetchObjectList( 
     eZContentObjectTreeNode::definition(),
     null,
@@ -294,9 +294,9 @@ $topNodeArray = eZPersistentObject::fetchObjectList(
 );
 
 $subTreeCount = 0;
-foreach ( array_keys( $topNodeArray ) as $key  )
+foreach ( $topNodeArray as $node )
 {
-    $subTreeCount += $topNodeArray[$key]->subTreeCount( 
+    $subTreeCount += $node->subTreeCount( 
         array( 
             'Limitation' => array() 
         ) 
@@ -310,9 +310,8 @@ $dotMax = 70;
 $dotCount = 0;
 $limit = 50;
 
-foreach ( array_keys( $topNodeArray ) as $key )
+foreach ( $topNodeArray as $node )
 {
-    $node = $topNodeArray[$key];
     $offset = 0;
     $subTree = $node->subTree( 
         array( 
