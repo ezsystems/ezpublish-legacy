@@ -293,7 +293,7 @@ $topNodeArray = eZPersistentObject::fetchObjectList( eZContentObjectTreeNode::de
 $subTreeCount = 0;
 foreach ( array_keys ( $topNodeArray ) as $key  )
 {
-    $subTreeCount += $topNodeArray[$key]->subTreeCount( array( 'Limitation' => false ) );
+    $subTreeCount += $topNodeArray[$key]->subTreeCount( array( 'Limitation' => array() ) );
 }
 
 print( "Number of objects to update: $subTreeCount $endl" );
