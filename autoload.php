@@ -19,29 +19,6 @@ if ( file_exists( 'config.php' ) )
     require 'config.php';
 }
 
-$useBundledComponents = defined( 'EZP_USE_BUNDLED_COMPONENTS' ) ? EZP_USE_BUNDLED_COMPONENTS === true : file_exists( 'lib/ezc' );
-if ( $useBundledComponents )
-{
-    set_include_path( '.' . PATH_SEPARATOR . './lib/ezc' . PATH_SEPARATOR . get_include_path() );
-    require 'Base/src/base.php';
-    $baseEnabled = true;
-}
-else if ( defined( 'EZC_BASE_PATH' ) )
-{
-    require EZC_BASE_PATH;
-    $baseEnabled = true;
-}
-else
-{
-    $baseEnabled = @include 'ezc/Base/base.php';
-    if ( !$baseEnabled )
-    {
-        $baseEnabled = @include 'Base/src/base.php';
-    }
-}
-
-define( 'EZCBASE_ENABLED', $baseEnabled );
-
 /**
  * Provides the native autoload functionality for eZ Publish
  *
@@ -53,6 +30,11 @@ class ezpAutoloader
      * @var array|null
      */
     protected static $ezpClasses = null;
+
+    /**
+     * @var bool|null Null if not loaded, true if loaded and false if tried to load but failed
+     */
+    protected static $ezcLoaded = null;
 
     /**
      * @var string
@@ -67,6 +49,12 @@ class ezpAutoloader
      */
     public static function autoload( $className )
     {
+        // Lazy load ezcBase if a ezc class is requested (needs to be first to avoid recursion)
+        if ( !self::$ezcLoaded && strncmp( $className, 'ezc', 3 ) === 0 )
+        {
+            return self::$ezcLoaded = self::registerEzc();
+        }
+
         // Load class list array from cache or generate + save if it is not loaded
         if ( self::$ezpClasses === null )
         {
@@ -161,6 +149,40 @@ class ezpAutoloader
     }
 
     /**
+     * Register ezcBase autoloader based on optional constants defined in config.php
+     */
+    protected static function registerEzc()
+    {
+        $useBundledComponents = defined( 'EZP_USE_BUNDLED_COMPONENTS' ) ? EZP_USE_BUNDLED_COMPONENTS === true : file_exists( 'lib/ezc' );
+        if ( $useBundledComponents )
+        {
+            set_include_path( '.' . PATH_SEPARATOR . './lib/ezc' . PATH_SEPARATOR . get_include_path() );
+            require 'Base/src/base.php';
+            $baseEnabled = true;
+        }
+        else if ( defined( 'EZC_BASE_PATH' ) )
+        {
+            require EZC_BASE_PATH;
+            $baseEnabled = true;
+        }
+        else
+        {
+            $baseEnabled = @include 'ezc/Base/base.php';
+            if ( !$baseEnabled )
+            {
+                $baseEnabled = @include 'Base/src/base.php';
+            }
+        }
+
+        if ( $baseEnabled )
+        {
+            spl_autoload_register( array( 'ezcBase', 'autoload' ) );
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Resets the local, in-memory autoload cache.
      *
      * If the autoload arrays are extended during a requests lifetime, this
@@ -198,10 +220,5 @@ class ezpAutoloader
 }
 
 spl_autoload_register( array( 'ezpAutoloader', 'autoload' ) );
-
-if ( EZCBASE_ENABLED )
-{
-    spl_autoload_register( array( 'ezcBase', 'autoload' ) );
-}
 
 ?>
