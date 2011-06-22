@@ -80,6 +80,153 @@ class eZDebug
 
     const XDEBUG_SIGNATURE = '--XDEBUG--';
 
+    /**
+     * String array containing the debug information
+     *
+     * @var array
+     */
+    private $DebugStrings = array();
+
+    /**
+     * Array which contains the time points
+     *
+     * @var array
+     */
+    private $TimePoints = array();
+
+    /**
+     * Array which contains the temporary time points
+     *
+     * @var array
+     */
+    private $TmpTimePoints = array();
+
+    /**
+     * Array wich contains time accumulators
+     *
+     * @var array
+     */
+    private $TimeAccumulatorList = array();
+
+    /**
+     * Determines which debug messages should be shown
+     *
+     * @var int
+     */
+    private $ShowTypes;
+
+    /**
+     * Determines what to do with php errors, ignore, fetch or output
+     *
+     * @var int
+     */
+    private $HandleType;
+
+    /**
+     * An array of the outputformats for the different debug levels
+     *
+     * @var array
+     */
+    private $OutputFormat = array();
+
+    /**
+     * An array of logfiles used by the debug class with each key being the debug level
+     *
+     * @var array
+     */
+    private $LogFiles = array();
+
+    /**
+     * How many places behind . should be displayed when showing times
+     *
+     * @var int
+     */
+    private $TimingAccuracy = 4;
+
+    /**
+     * How many places behind . should be displayed when showing percentages
+     *
+     * @var int
+     */
+    private $PercentAccuracy = 4;
+
+    /**
+     * Whether to use external CSS or output own CSS. True if external is to be used.
+     *
+     * @var bool
+     */
+    private $UseCSS;
+
+    /**
+     * Determines how messages are output (screen/log)
+     *
+     * @var int
+     */
+    private $MessageOutput;
+
+    /**
+     * A list of message types
+     *
+     * @var array
+     */
+    private $MessageTypes = array();
+
+    /**
+     * A map with message types and whether they should do file logging.
+     *
+     * @var array
+     */
+    private $LogFileEnabled = array();
+
+    /**
+     * Controls whether logfiles are used at all.
+     *
+     * @var bool
+     */
+    private $GlobalLogFileEnabled;
+
+    /**
+     * The time when the script was started
+     *
+     * @var float
+     */
+    private $ScriptStart;
+
+    /**
+     * A list of override directories
+     *
+     * @var array
+     */
+    private $OverrideList = array();
+
+    /**
+     * A list of debug reports that appears at the bottom of debug output
+     *
+     * @var array
+     */
+    private $bottomReportsList = array();
+
+    /**
+     * A list of debug reports that appears at the top of debug output
+     *
+     * @var array
+     */
+    private $topReportsList = array();
+
+
+    /**
+     * Controls wether a recursion is in progress or not
+     *
+     * @var bool
+     */
+    private $recursionFlag = false;
+
+    /**
+     * @var string
+     * @deprecated 4.6 Not used inside the class anymore
+     */
+    private $storeLog;
+
     /*!
       Creates a new debug object.
     */
@@ -1173,11 +1320,15 @@ class eZDebug
         return $time;
     }
 
-    /*!
-     Sets the time of the start of the script ot \a $time.
-     If \a $time is not supplied it gets the current \c microtime( true ).
-     This is used to calculate total execution time and percentages.
-    */
+    /**
+     * Sets the time of the start of the script to $time.
+     * If $time is not supplied it gets the current microtime( true ).
+     * This is used to calculate total execution time and percentages.
+     *
+     * @static
+     * @param float|bool $time
+     * @return void
+     */
     static function setScriptStart( $time = false )
     {
         if ( $time == false )
@@ -1780,69 +1931,6 @@ class eZDebug
     {
         throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
     }
-
-    /// \privatesection
-    /// String array containing the debug information
-    public $DebugStrings = array();
-
-    /// Array which contains the time points
-    public $TimePoints = array();
-
-    /// Array which contains the temporary time points
-    public $TmpTimePoints;
-
-    /// Array wich contains time accumulators
-    public $TimeAccumulatorList = array();
-
-    /// Determines which debug messages should be shown
-    public $ShowTypes;
-
-    /// Determines what to do with php errors, ignore, fetch or output
-    public $HandleType;
-
-    /// An array of the outputformats for the different debug levels
-    public $OutputFormat;
-
-    /// An array of logfiles used by the debug class with each key being the debug level
-    public $LogFiles;
-
-    /// How many places behind . should be displayed when showing times
-    public $TimingAccuracy = 4;
-
-    /// How many places behind . should be displayed when showing percentages
-    public $PercentAccuracy = 4;
-
-    /// Whether to use external CSS or output own CSS. True if external is to be used.
-    public $UseCSS;
-
-    /// Determines how messages are output (screen/log)
-    public $MessageOutput;
-
-    /// A list of message types
-    public $MessageTypes;
-
-    /// A map with message types and whether they should do file logging.
-    public $LogFileEnabled;
-
-    /// Controls whether logfiles are used at all.
-    public $GlobalLogFileEnabled;
-
-    /// The time when the script was started
-    public $ScriptStart;
-
-    /// A list of override directories
-    public $OverrideList;
-
-    /// A list of debug reports that appears at the bottom of debug output
-    public $bottomReportsList;
-
-    /// A list of debug reports that appears at the top of debug output
-    public $topReportsList;
-
-    private $recursionFlag = false;
-
-    /// deprecated, not used anywhere
-    public $storeLog;
 }
 
 ?>
