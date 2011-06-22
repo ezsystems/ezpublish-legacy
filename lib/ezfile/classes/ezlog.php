@@ -8,14 +8,12 @@
  * @package lib
  */
 
-/*! \defgroup eZUtils Utility classes */
-
-/*!
-  \class eZLog ezlog.php
-  \ingroup eZUtils
+/**
+* This class handles writing to log files and log rotating
+*
+* @package lib
+* @subpackage ezfile
 */
-
-
 class eZLog
 {
     const MAX_LOGROTATE_FILES = 3;
