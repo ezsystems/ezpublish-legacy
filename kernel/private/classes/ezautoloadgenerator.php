@@ -459,6 +459,11 @@ class eZAutoloadGenerator
         $this->setStatArray( self::OUTPUT_PROGRESS_PHASE2, $statArray );
         $this->startProgressOutput( self::OUTPUT_PROGRESS_PHASE2 );
 
+        // Compatibility with PHP 5.2 where T_NAMESPACE constant is not available
+        // Assigning the constant value to $tNamespace
+        // 377 is the value for T_NAMESPACE in PHP 5.3.x
+        $tNamespace = defined( 'T_NAMESPACE' ) ? T_NAMESPACE : 377;
+
         foreach( $fileList as $file )
         {
             $this->updateProgressOutput( self::OUTPUT_PROGRESS_PHASE2 );
@@ -468,12 +473,31 @@ class eZAutoloadGenerator
             }
 
             $tokens = @token_get_all( file_get_contents( $file ) );
+            $namespace = null;
             foreach( $tokens as $key => $token )
             {
                 if ( is_array( $token ) )
                 {
                     switch( $token[0] )
                     {
+                        // Store namespace name, if applicable, to concatenate with class name
+                        case $tNamespace:
+                            // NAMESPACE_TOKEN - WHITESPACE_TOKEN - TEXT_TOKENS (containing namespace name)
+                            $offset = $key + 2;
+                            $namespace = "";
+                            while ( $tokens[$offset] !== ";" )
+                            {
+                                if ( is_array( $tokens[$offset] ) )
+                                {
+                                    $namespace .= $tokens[$offset][1];
+                                }
+
+                                $offset++;
+                            }
+
+                            $namespace = trim( $namespace );
+                            break;
+
                         case T_CLASS:
                         case T_INTERFACE:
                             // Increment stat for found class.
@@ -481,6 +505,10 @@ class eZAutoloadGenerator
 
                             // CLASS_TOKEN - WHITESPACE_TOKEN - TEXT_TOKEN (containing class name)
                             $className = $tokens[$key+2][1];
+                            if ( $namespace !== null )
+                            {
+                                $className = $namespace . "\\" . $className;
+                            }
 
                             $filePath = $file;
 
@@ -510,6 +538,7 @@ class eZAutoloadGenerator
 
                                 $retArray[$className] = $filePath;
                             }
+
                             break;
                     }
                 }
@@ -1163,7 +1192,7 @@ END;
      */
     public function buildPHPUnitConfigurationFile()
     {
-        
+
           if ( $this->mask == self::MODE_KERNEL )
           {
               $this->log('Creating phpunit configuration file.');
@@ -1171,7 +1200,7 @@ END;
               $autoloadArray = @include 'autoload/ezp_kernel.php';
 
               $baseDir = getcwd();
-              
+
               $dom = new DOMDocument( '1.0', 'utf-8' );
               $dom->formatOutput = true;
 
@@ -1199,6 +1228,6 @@ END;
           }
 
      }
-      
+
 }
 ?>
