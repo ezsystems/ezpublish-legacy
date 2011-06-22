@@ -4,6 +4,10 @@ Changes to BC and behavior in version 4.6.0
 Change of behavior
 ------------------
 
+- eZDebug class variables
+
+  Moved the class variables from the bottom private section to the top and declared the variables
+  as private. No direct access to these variables is made in other parts of the eZ Publish Core.
 
 
 Removed features
@@ -11,10 +15,14 @@ Removed features
 
 
 
-
 Removed constants
 -----------------
 
+- eZDebug::MAX_LOGFILE_SIZE, eZDebug::MAX_LOGROTATE_FILES
+
+  This constants controled the logfile generation in eZDebug. Logging has
+  been deferred to eZLog, so they became obsolete. Instead, eZLog::MAX_LOGFILE_SIZE
+  and eZLog::MAX_LOGROTATE_FILES are used where needed.
 
 
 Removed globals
@@ -25,4 +33,8 @@ Removed globals
 
 Deprecated
 ----------
+
+- eZDebug::setStoreLog(), eZDebug::$storeLog
+
+  These method and variable are not used by the eZ Publish Core.
 
