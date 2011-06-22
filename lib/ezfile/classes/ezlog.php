@@ -128,6 +128,42 @@ class eZLog
 
     /*!
      \static
+     \deprecated Use self::MAX_LOGFILE_SIZE instead
+     \return the maxium size for a log file in bytes.
+    */
+    static function maxLogSize()
+    {
+        $maxLogSize =& $GLOBALS['eZMaxLogSize'];
+        if ( isset( $maxLogSize ) )
+            return $maxLogSize;
+        return self::MAX_LOGFILE_SIZE;
+    }
+
+    /*!
+     \static
+     \deprecated
+     Sets the maxium size for a log file to \a $size.
+    */
+    static function setMaxLogSize( $size )
+    {
+        $GLOBALS['eZMaxLogSize'] = $size;
+    }
+
+    /*!
+     \static
+     \deprecated Use self::MAX_LOGROTATE_FILES instead
+     \return the maxium number of logrotate files to keep.
+    */
+    static function maxLogrotateFiles()
+    {
+        $maxLogrotateFiles =& $GLOBALS['eZMaxLogrotateFiles'];
+        if ( isset( $maxLogrotateFiles ) )
+            return $maxLogrotateFiles;
+        return self::MAX_LOGROTATE_FILES;
+    }
+    
+    /*!
+     \static
      Rotates logfiles so the current logfile is backed up,
      old rotate logfiles are rotated once more and those that
      exceed self::MAX_LOGROTATE_FILES will be removed.
@@ -158,6 +194,16 @@ class eZLog
             return true;
         }
         return false;
+    }
+
+    /*!
+     \static
+     \deprecated
+     Sets the maxium number of logrotate files to keep to \a $files.
+    */
+    static function setLogrotateFiles( $files )
+    {
+        $GLOBALS['eZMaxLogrotateFiles'] = $files;
     }
 }
 
