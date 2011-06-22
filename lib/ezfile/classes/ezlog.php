@@ -12,7 +12,7 @@
 * This class handles writing to log files and log rotating
 *
 * @package lib
-* @subpackage ezfile
+* @subpackage ezutils
 */
 class eZLog
 {

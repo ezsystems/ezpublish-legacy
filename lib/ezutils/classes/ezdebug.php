@@ -8,51 +8,44 @@
  * @package lib
  */
 
-/*! \defgroup eZUtils Utility classes */
-
-/*!
-  \class eZDebug ezdebug.php
-  \ingroup eZUtils
-  \brief Advanced debug/log system
-
-  The eZ debug library is used to handle debug information. It
-  can display information on screen and/or write it to log files.
-
-  You can enable on-screen debug information for specific IP addresses.
-
-  Timing points can be placed in the code to time the different sections of code.
-
-  Each debug message can be turned on/off by using the showTypes() function.
-
-  PHP error messages can also be shown using setHandleType().
-
-  \code
-
-  // write a temporary debug message
-  eZDebug::writeDebug( "Test" );
-
-  // write a notice
-  eZDebug::writeNotice( "Image found" );
-
-  // write a warning
-  eZDebug::writeWarning( "Image not found, using default" );
-
-  // write an error
-  eZDebug::writeError( "Object not found, bailing.." );
-
-  // add a timing points
-  eZDebug::addTimingPoint( "Module Found" );
-
-  //.... code
-
-  eZDebug::addTimingPoint( "Module loading" );
-
-  // print the results on screen.
-  eZDebug::printReport();
-
-  \endcode
+/**
+ * The eZ debug library is used to handle debug information. It
+ * can display information on screen and/or write it to log files.
+ *
+ * You can enable on-screen debug information for specific IP addresses.
+ * Timing points can be placed in the code to time the different sections of code.
+ *
+ * Each debug message can be turned on/off by using the showTypes() function.
+ *
+ * PHP error messages can also be shown using setHandleType().
+ *
+ * <code>
+ * // write a temporary debug message
+ * eZDebug::writeDebug( "Test" );
+ *
+ * // write a notice
+ * eZDebug::writeNotice( "Image found" );
+ *
+ * // write a warning
+ * eZDebug::writeWarning( "Image not found, using default" );
+ *
+ * // write an error
+ * eZDebug::writeError( "Object not found, bailing.." );
+ *
+ * // add a timing points
+ * eZDebug::addTimingPoint( "Module Found" );
+ *
+ * //.... code
+ *
+ * eZDebug::addTimingPoint( "Module loading" );
+ *
+ * // print the results on screen.
+ * eZDebug::printReport();
+ * </code>
+ * 
+ * @package lib
+ * @subpackage ezutils
 */
-
 class eZDebug
 {
     const LEVEL_NOTICE = 1;
