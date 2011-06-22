@@ -38,3 +38,17 @@ Deprecated
 
   These method and variable are not used by the eZ Publish Core.
 
+
+- eZLog::setLogrotateFiles(), eZLog::setMaxLogSize()
+
+  These method and variable are not used by the eZ Publish Core.
+
+
+- eZLog::maxLogSize()
+
+  Use eZLog::MAX_LOG_SIZE instead
+
+
+- eZLog::maxLogrotateFiles()
+
+  Use eZLog::MAX_LOGROTATE_FILES instead
