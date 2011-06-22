@@ -660,6 +660,14 @@ class eZDebug
         $this->MessageOutput = $output;
     }
 
+    /*
+     \deprecated $this->StoreLog wasn't used anywhere
+    */
+    function setStoreLog( $store )
+    {
+        $this->StoreLog = $store;
+    }
+
     /*!
       Adds a new timing point for the benchmark report.
     */
@@ -768,6 +776,67 @@ class eZDebug
                 }
             }
         }
+    }
+
+    /*!
+     \static
+     \deprecated
+     \return the maxium size for a log file in bytes.
+    */
+    static function maxLogSize()
+    {
+        if ( isset( $GLOBALS['eZDebugMaxLogSize'] ) )
+        {
+            return $GLOBALS['eZDebugMaxLogSize'];
+        }
+        return eZLog::MAX_LOGFILE_SIZE;
+    }
+
+    /*!
+     \static
+     \deprecated
+     Sets the maxium size for a log file to \a $size.
+    */
+    static function setMaxLogSize( $size )
+    {
+        $GLOBALS['eZDebugMaxLogSize'] = $size;
+    }
+
+    /*!
+     \static
+     \deprecated
+     \return the maxium number of logrotate files to keep.
+    */
+    static function maxLogrotateFiles()
+    {
+        if ( isset( $GLOBALS['eZDebugMaxLogrotateFiles'] ) )
+        {
+            return $GLOBALS['eZDebugMaxLogrotateFiles'];
+        }
+        return eZLog::MAX_LOGROTATE_FILES;
+    }
+
+    /*!
+     \static
+     \deprecated
+     Sets the maxium number of logrotate files to keep to \a $files.
+    */
+    static function setLogrotateFiles( $files )
+    {
+        $GLOBALS['eZDebugMaxLogrotateFiles'] = $files;
+    }
+
+    /*!
+     \static
+     \deprecated
+     Rotates logfiles so the current logfile is backed up,
+     old rotate logfiles are rotated once more and those that
+     exceed maxLogrotateFiles() will be removed.
+     Rotated files will get the extension .1, .2 etc.
+    */
+    static function rotateLog( $fileName )
+    {
+        eZLog::rotateLog( $fileName );
     }
 
     /*!
@@ -1771,6 +1840,9 @@ class eZDebug
     public $topReportsList;
 
     private $recursionFlag = false;
+
+    /// deprecated, not used anywhere
+    public $storeLog;
 }
 
 ?>
