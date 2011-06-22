@@ -98,7 +98,7 @@ class ezpAutoloader
             $ezpTestClasses = require 'var/autoload/ezp_tests.php';
         }
 
-        if ( defined( 'EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE' ) and EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE )
+        if ( defined( 'EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE' ) && EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE )
         {
             if ( file_exists( 'var/autoload/ezp_override.php' ) )
             {
@@ -106,7 +106,7 @@ class ezpAutoloader
             }
         }
 
-        return array_merge( $ezpClasses, $ezpExtensionClasses, $ezpTestClasses, $ezpKernelOverrideClasses );
+        return $ezpKernelOverrideClasses + $ezpTestClasses + $ezpExtensionClasses + $ezpClasses;
     }
 
     /**
@@ -153,8 +153,8 @@ class ezpAutoloader
      */
     protected static function registerEzc()
     {
-        $useBundledComponents = defined( 'EZP_USE_BUNDLED_COMPONENTS' ) ? EZP_USE_BUNDLED_COMPONENTS === true : file_exists( 'lib/ezc' );
-        if ( $useBundledComponents )
+        $useBundled = defined( 'EZP_USE_BUNDLED_COMPONENTS' ) ? EZP_USE_BUNDLED_COMPONENTS : file_exists( 'lib/ezc' );
+        if ( $useBundled )
         {
             set_include_path( '.' . PATH_SEPARATOR . './lib/ezc' . PATH_SEPARATOR . get_include_path() );
             require 'Base/src/base.php';
