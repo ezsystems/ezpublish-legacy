@@ -1233,6 +1233,10 @@ class eZImageManager
                         $result = false;
                         break;
                     }
+                    // store the converted file to cluster if the conversion is between mime name
+                    $fileHandler = eZClusterFileHandler::instance();
+                    $fileHandler->fileStore( $nextMimeData['url'], 'image', false, $nextMimeData['name']  );
+
                     $currentMimeData = $nextMimeData;
                 }
                 $filters = $leftoverFilters;
