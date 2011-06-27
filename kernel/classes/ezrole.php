@@ -885,16 +885,22 @@ class eZRole extends eZPersistentObject
                                                     $asObject );
     }
 
-    /*!
-     \static
-     \return the number of roles in the database.
-    */
-    static function roleCount()
+    /**
+     * Fetches the count of created roles
+     *
+     * @static
+     * @param boolean $ignoreNew Wether to ignore draft roles
+     *
+     * @return int
+     */
+    static function roleCount( $ignoreNew = true )
     {
-        $db = eZDB::instance();
-
-        $countArray = $db->arrayQuery(  "SELECT count( * ) AS count FROM ezrole WHERE version=0" );
-        return $countArray[0]['count'];
+        $conds = array( 'version' => 0 );
+        if ( $ignoreNew === true )
+        {
+            $conds['is_new'] = 0;
+        }
+        return eZPersistentObject::count( eZRole::definition(), $conds );
     }
 
     /*!
