@@ -621,8 +621,8 @@ class eZDFSFileHandlerMySQLiBackend
         {
             if ( !eZFile::rename( $tmpFilePath, $filePath ) )
             {
-                eZDebug::writeWarning( "$tmpFilePath could not be renamed to $filePath and has been deleted", __METHOD__ );
                 unlink( $tmpFilePath );
+                eZDebug::writeWarning( "$tmpFilePath could not be renamed to $filePath and has been deleted", __METHOD__ );
             }
         }
         else
