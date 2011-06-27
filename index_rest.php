@@ -40,6 +40,10 @@ $access = eZSiteAccess::change( $access );
 // load siteaccess extensions
 eZExtension::activateExtensions( 'access' );
 
+// Initialize module loading
+$moduleRepositories = eZModule::activeModuleRepositories();
+eZModule::setGlobalPathList( $moduleRepositories );
+
 if( ezpRestDebug::isDebugEnabled() )
 {
     $debug = ezpRestDebug::getInstance();
