@@ -54,15 +54,26 @@ class eZImageType extends eZDataType
         }
 
         // Now clean all other aliases, not cleanly registered within the attribute content
-        $db = eZDB::instance();
-        $db->begin();
-        $conds = array( "contentobject_attribute_id" => $contentObjectAttribute->attribute( "id" ) );
-        $remainingAliasesPath = $db->escapeString( "{$originalAlias["dirpath"]}/{$originalAlias["basename"]}%" );
+        // First get all remaining aliases full path to then safely remove them
+        $aliasNames = array_keys( $imageHandler->aliasList() );
+        $aliasesPath = array();
+        foreach ( $aliasNames as $aliasName )
+        {
+            if ( $aliasName === "original" )
+            {
+                continue;
+            }
+
+            $aliasesPath[] = "{$originalAlias["dirpath"]}/{$originalAlias["basename"]}_{$aliasName}.{$originalAlias["suffix"]}";
+        }
+
+        $conds = array(
+        	"contentobject_attribute_id" => $contentObjectAttribute->attribute( "id" ),
+            "filepath"                   => array( $aliasesPath )
+        );
         $remainingAliases = eZPersistentObject::fetchObjectList(
             eZImageFile::definition(), null,
-            $conds,
-            null, null, true, false, null, null,
-            " AND filepath LIKE '$remainingAliasesPath'"
+            $conds
         );
         unset( $conds, $remainingAliasesPath );
 
@@ -74,7 +85,6 @@ class eZImageType extends eZDataType
                 $remainingAlias->remove();
             }
         }
-        $db->commit();
     }
 
     public function restoreTrashedObjectAttribute( $contentObjectAttribute )
@@ -90,6 +100,39 @@ class eZImageType extends eZDataType
         {
             $imageHandler->store( $contentObjectAttribute );
             $contentObjectAttribute->store();
+        }
+
+        // Now clean all other aliases, not cleanly registered within the attribute content
+        // First get all remaining aliases full path to then safely remove them
+        $aliasNames = array_keys( $imageHandler->aliasList() );
+        $aliasesPath = array();
+        foreach ( $aliasNames as $aliasName )
+        {
+            if ( $aliasName === "original" )
+            {
+                continue;
+            }
+
+            $aliasesPath[] = "{$originalAlias["dirpath"]}/{$originalAlias["basename"]}_{$aliasName}.{$originalAlias["suffix"]}";
+        }
+
+        $conds = array(
+        	"contentobject_attribute_id" => $contentObjectAttribute->attribute( "id" ),
+            "filepath"                   => array( $aliasesPath )
+        );
+        $remainingAliases = eZPersistentObject::fetchObjectList(
+            eZImageFile::definition(), null,
+            $conds
+        );
+        unset( $conds, $remainingAliasesPath );
+
+        if ( !empty( $remainingAliases ) )
+        {
+            foreach ( $remainingAliases as $remainingAlias )
+            {
+                eZClusterFileHandler::instance( $remainingAlias->attribute( "filepath" ) )->delete();
+                $remainingAlias->remove();
+            }
         }
     }
 
