@@ -28,7 +28,7 @@ class eZLog
     }
 
     /**
-     * Writes a message $message to a given file name $name and directory $dir for logging
+     * Writes a message $message to a given file name $logName and directory $dir for logging
      *
      * @static
      * @param string $message
@@ -149,7 +149,7 @@ class eZLog
     }
 
     /**
-     * Sets the maxium size for a log file to \a $size.
+     * Sets the maxium size for a log file to $size.
      *
      * @deprecated since 4.6
      * @static
@@ -177,12 +177,15 @@ class eZLog
     }
 
     /**
+     * Rotates the logfile $fileName
+     * 
      * Rotates logfiles so the current logfile is backed up,
      * old rotate logfiles are rotated once more and those that
      * exceed self::MAX_LOGROTATE_FILES will be removed.
      * Rotated files will get the extension .1, .2 etc.
+     *
      * @static
-     * @param  $fileName
+     * @param string $fileName
      * @return bool
      */
     public static function rotateLog( $fileName )
