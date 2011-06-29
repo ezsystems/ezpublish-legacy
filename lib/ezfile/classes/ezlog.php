@@ -45,7 +45,7 @@ class eZLog
         if ( $fileExisted and
              filesize( $fileName ) > self::maxLogSize() )
         {
-            if ( eZLog::rotateLog( $fileName ) )
+            if ( self::rotateLog( $fileName ) )
                 $fileExisted = false;
         }
         else if ( !$fileExisted and !file_exists( $dir ) )
