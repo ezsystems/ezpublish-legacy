@@ -132,10 +132,10 @@
 </tr>
 {section show=$Basket:ProductItem:item.item_object.option_list}
 <tr>
-  <td class="{$Basket:ProductItem:sequence}" colspan='4'>
+  <td class="{$Basket:ProductItem:sequence}" colspan="4">
      <table class="shop-option_list">
 <tr>
-<td colspan='3'>
+<td colspan="3">
 {"Selected options"|i18n("design/standard/shop")}
 </td>
 </tr>
@@ -148,20 +148,20 @@
     {/section}
      </table>
    </td>
-  <td class="{$Basket:ProductItem:sequence}" colspan='5'>
+  <td class="{$Basket:ProductItem:sequence}" colspan="5">
   </td>
 </tr>
 {/section}
 {/section}
 <tr>
-     <td colspan='8'>
-     <hr size='2' />
+     <td colspan="8">
+     <hr size="2" />
      </td>
      <td>
      </td>
 </tr>
 <tr>
-     <td colspan='6'>
+     <td colspan="6">
      </td>
      <td>
      <b>{"Subtotal ex. VAT"|i18n("design/standard/shop")}</b>:
@@ -173,7 +173,7 @@
      </td>
 </tr>
 <tr>
-<td colspan='6'>
+<td colspan="6">
 </td>
 <td>
 {$basket.total_ex_vat|l10n( 'currency', $locale, $symbol )}
@@ -185,7 +185,7 @@
 {if is_set( $shipping_info )}
 {* Show shipping type/cost. *}
 <tr>
-     <td colspan='6'>
+     <td colspan="6">
      <a href={$shipping_info.management_link|ezurl}>{'Shipping'|i18n( 'design/admin/shop/basket' )}{if $shipping_info.description} ({$shipping_info.description}){/if}</a>:
      </td>
      <td>
@@ -199,7 +199,7 @@
 </tr>
 {* Show order total *}
 <tr>
-     <td colspan='6'>
+     <td colspan="6">
      <b>{'Order total'|i18n( 'design/admin/shop/basket' )}<b>:
      </td>
      <td>
