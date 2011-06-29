@@ -43,7 +43,7 @@ class eZLog
 
         $fileExisted = file_exists( $fileName );
         if ( $fileExisted and
-             filesize( $fileName ) > self::MAX_LOGFILE_SIZE )
+             filesize( $fileName ) > self::maxLogSize() )
         {
             if ( eZLog::rotateLog( $fileName ) )
                 $fileExisted = false;
@@ -87,21 +87,7 @@ class eZLog
         $ini = eZINI::instance();
         $varDir = $ini->variable( 'FileSettings', 'VarDir' );
         $logDir = $ini->variable( 'FileSettings', 'LogDir' );
-        $logName = 'storage.log';
-        $fileName = $varDir . '/' . $logDir . '/' . $logName;
-        $oldumask = @umask( 0 );
-
-        $fileExisted = file_exists( $fileName );
-        if ( $fileExisted and
-             filesize( $fileName ) > self::MAX_LOGFILE_SIZE )
-        {
-            if ( eZLog::rotateLog( $fileName ) )
-                $fileExisted = false;
-        }
-        else if ( !$fileExisted and !file_exists( $varDir . '/' . $logDir ) )
-        {
-            eZDir::mkdir( $varDir . '/' . $logDir, false, true );
-        }
+        $storageLogDir = $varDir . '/' . $logDir;
 
         if ( $dir !== false )
         {
@@ -113,30 +99,13 @@ class eZLog
             $dir = "";
         }
 
-        $logFile = @fopen( $fileName, "a" );
-        if ( $logFile )
-        {
-            $time = strftime( "%b %d %Y %H:%M:%S", strtotime( "now" ) );
-            $logMessage = "[ " . $time . " ] [" . $dir . $name . "]\n";
-            @fwrite( $logFile, $logMessage );
-            @fclose( $logFile );
-            if ( !$fileExisted )
-            {
-                $permissions = octdec( $ini->variable( 'FileSettings', 'LogFilePermissions' ) );
-                @chmod( $fileName, $permissions );
-            }
-            @umask( $oldumask );
-        }
-        else
-        {
-            eZDebug::writeError( 'Couldn\'t create the log file "' . $fileName . '"', __METHOD__ );
-        }
+        $message = "[" . $dir . $name . "]";
+        self::write( $message, 'storage.log', $storageLogDir );
     }
 
     /**
      * Returns the maxium size for a log file in bytes.
      *
-     * @deprecated since 4.6, use eZLog::MAX_LOGFILE_SIZE instead
      * @static
      * @return int
      */
@@ -151,7 +120,6 @@ class eZLog
     /**
      * Sets the maxium size for a log file to $size.
      *
-     * @deprecated since 4.6
      * @static
      * @param  $size
      * @return void
@@ -164,7 +132,6 @@ class eZLog
     /**
      * Returns the maxium number of logrotate files to keep.
      *
-     * @deprecated since 4.6, use eZLog::MAX_LOGROTATE_FILES instead
      * @static
      * @return int
      */
@@ -181,7 +148,7 @@ class eZLog
      * 
      * Rotates logfiles so the current logfile is backed up,
      * old rotate logfiles are rotated once more and those that
-     * exceed self::MAX_LOGROTATE_FILES will be removed.
+     * exceed self::maxLogrotateFiles() will be removed.
      * Rotated files will get the extension .1, .2 etc.
      *
      * @static
@@ -190,12 +157,13 @@ class eZLog
      */
     public static function rotateLog( $fileName )
     {
-        for ( $i = self::MAX_LOGROTATE_FILES; $i > 0; --$i )
+        $maxLogrotateFiles = self::maxLogrotateFiles();
+        for ( $i = $maxLogrotateFiles; $i > 0; --$i )
         {
             $logRotateName = $fileName . '.' . $i;
             if ( file_exists( $logRotateName ) )
             {
-                if ( $i == self::MAX_LOGROTATE_FILES )
+                if ( $i == $maxLogrotateFiles )
                 {
                     @unlink( $logRotateName );
                 }
@@ -218,7 +186,6 @@ class eZLog
     /**
      * Sets the number of files to be rotated
      *
-     * @deprecated since 4.6
      * @static
      * @param  $files
      * @return void
