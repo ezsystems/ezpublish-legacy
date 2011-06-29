@@ -926,6 +926,9 @@ class eZRSSExport extends eZPersistentObject
                         // description is optional
                         $descAttributeIdentifier = $attributeMapping[0]->attribute( 'description' );
                         $description = $descAttributeIdentifier ? $dataMap[$descAttributeIdentifier] : false;
+                        // author is optional
+                        $authorAttributeIdentifier = $attributeMapping[0]->attribute( 'author' );
+                        $author = $authorAttributeIdentifier ? $dataMap[$authorAttributeIdentifier] : false;
                         // category is optional
                         $catAttributeIdentifier = $attributeMapping[0]->attribute( 'category' );
                         $category = $catAttributeIdentifier ? $dataMap[$catAttributeIdentifier] : false;
@@ -971,13 +974,24 @@ class eZRSSExport extends eZPersistentObject
                     default:
                         $item->id = $nodeURL;
                 }
-
-                $itemCreatorObject = $node->attribute('creator');
-                if ( $itemCreatorObject instanceof eZContentObject )
+                
+                // @since 4.6. 
+                // author can be mapped now. 
+                if( $author )
                 {
-                    $author = $item->add( 'author' );
-                    $author->name = $itemCreatorObject->attribute('name');
-                    $author->email = $config->variable( 'MailSettings', 'AdminEmail' );
+                    $authorContent = $author->attribute( 'content' );
+                    if ( $authorContent instanceof eZAuthor )
+                    {
+                        $authorList = $authorContent->attribute( 'author_list');
+                        $authorItem = $item->add( 'author' );
+                        $authorItem->name = $authorList[0]['name'];
+                        $authorItem->email = $authorList[0]['email'];
+                    }
+                    else
+                    {
+                        $authorItem = $item->add( 'author' );
+                        $authorItem->email = $authorContent;
+                    }
                 }
 
                 // description RSS element with respective class attribute content
