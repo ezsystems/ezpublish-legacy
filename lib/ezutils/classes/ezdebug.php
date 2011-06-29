@@ -990,7 +990,7 @@ class eZDebug
     /**
      * Returns the maximum size for a log file in bytes.
      * 
-     * @deprecated since 4.6, use eZLog::MAX_LOGFILE_SIZE instead
+     * @deprecated since 4.6, use eZLog::maxLogSize() instead
      * @static
      * @return int
      */
@@ -1000,7 +1000,7 @@ class eZDebug
         {
             return $GLOBALS['eZDebugMaxLogSize'];
         }
-        return eZLog::MAX_LOGFILE_SIZE;
+        return eZLog::maxLogSize();
     }
 
     /**
@@ -1019,7 +1019,7 @@ class eZDebug
     /**
      * Returns the maxium number of logrotate files to keep.
      *
-     * @deprecated since 4.6, use eZLog::MAX_LOGROTATE_FILES instead
+     * @deprecated since 4.6, use eZLog::maxLogrotateFiles() instead
      * @static
      * @return int
      */
@@ -1029,7 +1029,7 @@ class eZDebug
         {
             return $GLOBALS['eZDebugMaxLogrotateFiles'];
         }
-        return eZLog::MAX_LOGROTATE_FILES;
+        return eZLog::maxLogrotateFiles();
     }
 
     /**
