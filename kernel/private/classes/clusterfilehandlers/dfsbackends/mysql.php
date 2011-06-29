@@ -1375,7 +1375,7 @@ class eZDFSFileHandlerMySQLBackend
 
         if ( !$this->_query( $query, "_startCacheGeneration( $filePath )", false ) )
         {
-            $errno = mysql_errno();
+            $errno = mysql_errno( $this->db );
             if ( $errno != 1062 )
             {
                 eZDebug::writeError( "Unexpected error #$errno when trying to start cache generation on $filePath (".mysql_error().")", __METHOD__ );
