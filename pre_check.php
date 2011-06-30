@@ -18,6 +18,7 @@
  */
 function eZCheckValidity( array &$siteBasics, eZURI $uri )
 {
+    eZDebug::writeStrict( 'Function eZCheckValidity() has been deprecated in 4.4', 'Deprecation' );
     $ini = eZINI::instance();
     $checkValidity = ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) == "true" );
     $check = null;
@@ -73,6 +74,7 @@ function eZCheckList()
  */
 function eZCheckUser( array &$siteBasics, eZURI $uri )
 {
+    eZDebug::writeStrict( 'Function eZCheckUser() has been deprecated in 4.4 in favor of eZUserLoginHandler::preCheck()', 'Deprecation' );
     if ( !$siteBasics['user-object-required'] )
     {
         return null;
