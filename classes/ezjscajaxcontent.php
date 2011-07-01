@@ -285,6 +285,8 @@ class ezjscAjaxContent
         if ( isset( $params['fetchThumbPreview'] ) )
         {
             $thumbUrl = '';
+            $thumbWidth = '';
+            $thumbHeight = '';
             $thumbDataType = isset( $params['thumbDataType'] ) ? $params['thumbDataType'] : 'ezimage';
             $thumbImageSize = isset( $params['thumbImageSize'] ) ? $params['thumbImageSize'] : 'small';
 
@@ -301,6 +303,8 @@ class ezjscAjaxContent
                             __METHOD__ );
 
                     $thumbUrl = isset( $imageAlias['full_path'] ) ? $imageAlias['full_path'] : '';
+                    $thumbWidth = isset( $imageAlias['width'] ) ? $imageAlias['width'] : '';
+                    $thumbHeight = isset( $imageAlias['height'] ) ? $imageAlias['height'] : '';
 
                     if ( $thumbUrl !== '' )
                         eZURI::transformURI( $thumbUrl, true );
@@ -310,6 +314,8 @@ class ezjscAjaxContent
             }
 
             $ret['thumbnail_url'] = $thumbUrl;
+            $ret['thumbnail_width'] = $thumbWidth;
+            $ret['thumbnail_height'] = $thumbHeight;
         }
 
         if ( $params['fetchSection'] )
