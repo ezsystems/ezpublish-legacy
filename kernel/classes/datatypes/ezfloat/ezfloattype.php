@@ -305,7 +305,7 @@ class eZFloatType extends eZDataType
 
     function metaData( $contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( "data_float" );
+        return (float)$contentObjectAttribute->attribute( "data_float" );
     }
 
     /*!
