@@ -166,8 +166,8 @@ class eZOption
 
         foreach ( $this->Options as $option )
         {
-            unset( $optionNode );
             $optionNode = $doc->createElement( "option", $option["value"] );
+            $optionNode->appendChild( $doc->createCDATASection( $option["value"] ) );
             $optionNode->setAttribute( "id", $option['id'] );
             $optionNode->setAttribute( 'additional_price', $option['additional_price'] );
             $options->appendChild( $optionNode );
