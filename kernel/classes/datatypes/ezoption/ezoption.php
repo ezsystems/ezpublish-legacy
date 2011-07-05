@@ -158,7 +158,7 @@ class eZOption
         $doc->appendChild( $root );
 
         $name = $doc->createElement( "name" );
-        $name->appendChild( $doc->createTextNode( $this->Name ) );
+        $name->appendChild( $doc->createCDATASection( $this->Name ) );
         $root->appendChild( $name );
 
         $options = $doc->createElement( "options" );
