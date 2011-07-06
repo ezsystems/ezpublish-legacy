@@ -157,17 +157,17 @@ class eZOption
         $root = $doc->createElement( "ezoption" );
         $doc->appendChild( $root );
 
-        $name = $doc->createElement( "name", $this->Name );
+        $name = $doc->createElement( "name" );
+        $name->appendChild( $doc->createCDATASection( $this->Name ) );
         $root->appendChild( $name );
 
         $options = $doc->createElement( "options" );
         $root->appendChild( $options );
 
-        $id=0;
         foreach ( $this->Options as $option )
         {
-            unset( $optionNode );
             $optionNode = $doc->createElement( "option", $option["value"] );
+            $optionNode->appendChild( $doc->createCDATASection( $option["value"] ) );
             $optionNode->setAttribute( "id", $option['id'] );
             $optionNode->setAttribute( 'additional_price', $option['additional_price'] );
             $options->appendChild( $optionNode );
