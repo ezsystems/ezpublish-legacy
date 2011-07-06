@@ -240,6 +240,10 @@ class eZScript
             // Extension check end
         }
 
+        // Now that all extensions are activated and siteaccess has been changed, reset
+        // all eZINI instances as they may not take into account siteaccess specific settings.
+        eZINI::resetAllInstances( false );
+
         // Set the global setting which is read by the session lib
         $GLOBALS['eZSiteBasics']['session-required'] = $this->UseSession;
 
