@@ -253,11 +253,11 @@ class eZFile
         header(
             "Content-Disposition: " .
             ( $isAttachedDownload ? 'attachment' : 'inline' ) .
-            ( $overrideFilename !== false ) ? "; filename={$overrideFilename}" : ''
+            ( $overrideFilename !== false ? "; filename={$overrideFilename}" : '' )
         );
 
         // partial download (HTTP 'Range' header)
-        if ( $startOffset !== 0 || $length !== false )
+        if ( $startOffset !== 0 )
         {
             $endOffset = ( $length !== false ) ? ( $length + $startOffset - 1 ) : $fileSize - 1;
             header( "Content-Range: bytes {$startOffset}-{$endOffset}/{$fileSize}" );
