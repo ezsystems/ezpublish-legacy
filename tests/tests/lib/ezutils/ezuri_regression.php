@@ -55,12 +55,7 @@ class eZURIRegression extends ezpTestCase
      */
     public function testUserParameters()
     {
-        $expectedParams = array( "ole" => "a", "dull" => "boy" );
-
-        $eZURI = eZURI::instance();
-        $userParams = $eZURI->userParameters();
-
-        $this->assertEquals( $expectedParams, $userParams );
+        self::assertEquals( array( "ole" => "a", "dull" => "boy" ), eZURI::instance()->userParameters() );
     }
 
     /**
