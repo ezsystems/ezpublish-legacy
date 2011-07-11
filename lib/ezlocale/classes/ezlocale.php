@@ -69,7 +69,6 @@ http://www.php.net/manual/en/function.date.php
 The following characters are not recognized in the format string:
 
 - B - Swatch Internet time
-- r - RFC 822 formatted date; e.g. "Thu, 21 Dec 2000 16:01:07 +0200" (added in PHP 4.0.4)
 - S - English ordinal suffix for the day of the month, 2 characters; i.e. "st", "nd", "rd" or "th"
 
 The following characters are recognized in the format string:
