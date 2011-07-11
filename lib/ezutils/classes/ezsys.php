@@ -511,6 +511,15 @@ class eZSys
         return $instance->wwwDir() . $instance->indexFile( $withAccessList );
     }
 
+    /**
+     * Returns query string for current request
+     * in the form of "?param1=value1&param2=value2"
+     */
+    public static function queryString()
+    {
+        return self::instance()->QueryString;
+    }
+
     /*!
      The filepath for the index file with the access path appended.
      \static
@@ -763,7 +772,8 @@ class eZSys
         return array_merge( array( 'wwwdir',
                                    'sitedir',
                                    'indexfile',
-                                   'indexdir' ),
+                                   'indexdir',
+                                   'querystring' ),
                             array_keys( $this->Attributes ) );
 
     }
@@ -801,6 +811,10 @@ class eZSys
         else if ( $attr == 'indexdir' )
         {
             return $this->indexDir();
+        }
+        else if ( $attr = 'querystring' )
+        {
+            return $this->queryString();
         }
 
         eZDebug::writeError( "Attribute '$attr' does not exist", __METHOD__ );
@@ -936,6 +950,7 @@ class eZSys
         $siteDir        = rtrim( str_replace( $index, '', $scriptFileName ), '\/' ) . '/';
         $wwwDir         = '';
         $IndexFile      = '';
+        $queryString    = '';
 
         // see if we can use phpSelf to determin wwwdir
         $tempwwwDir = self::getValidwwwDir( $phpSelf, $scriptFileName, $index );
@@ -987,10 +1002,14 @@ class eZSys
         if ( isset( $requestUri[1] ) && $requestUri !== '/'  )
         {
             $uriGetPos = strpos( $requestUri, '?' );
-            if ( $uriGetPos === 0 )
-                $requestUri = '';
-            elseif ( $uriGetPos !== false )
-                $requestUri = substr( $requestUri, 0, $uriGetPos );
+            if ( $uriGetPos !== false )
+            {
+                $queryString = substr( $requestUri, $uriGetPos );
+                if ( $uriGetPos === 0 )
+                    $requestUri = '';
+                else
+                    $requestUri = substr( $requestUri, 0, $uriGetPos );
+            }
 
             $uriHashPos = strpos( $requestUri, '#' );
             if ( $uriHashPos === 0 )
@@ -1016,6 +1035,7 @@ class eZSys
         $instance->WWWDir     = $wwwDir;
         $instance->IndexFile  = $IndexFile;
         $instance->RequestURI = $requestUri;
+        $instance->QueryString = $queryString;
     }
 
     /**
@@ -1287,6 +1307,13 @@ class eZSys
      * @var null|eZSys
      */
     protected static $instance = null;
+
+    /**
+     * Query string for the current request
+     * In the form of "?param1=value1&param2=value2
+     * @var string
+     */
+    protected $QueryString;
 }
 
 ?>

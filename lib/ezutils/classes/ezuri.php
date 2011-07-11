@@ -436,7 +436,8 @@ class eZURI
                       'tail',
                       'index',
                       'uri',
-                      'original_uri' );
+                      'original_uri',
+                      'query_string' );
     }
 
     /*!
@@ -471,6 +472,9 @@ class eZURI
                 break;
             case 'original_uri':
                 return $this->originalURIString();
+                break;
+            case 'query_string':
+                return eZSys::queryString();
                 break;
             default:
             {
