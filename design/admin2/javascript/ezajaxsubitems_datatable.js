@@ -31,7 +31,7 @@ var sortableSubitems = function () {
 
     function initDataTable(){
         var formatName = function(cell, record, column, data) {
-            cell.innerHTML =  '<a href="' + record.getData('url') + '" title="' + data + '">' + record.getData('class_icon') + '</a>' + '&nbsp' + '<a href="' + record.getData('url') + '" title="' + data + '">' + data + '</a>';
+            cell.innerHTML =  '<a href="' + record.getData('url') + '" title="' + data + '">' + record.getData('class_icon') + '</a>' + '&nbsp;' + '<a href="' + record.getData('url') + '" title="' + data + '">' + data + '</a>';
         }
 
         var customCheckbox = function(cell, record, column, data) {
@@ -61,11 +61,16 @@ var sortableSubitems = function () {
         }
 
         var thumbView = function(cell, record, column, data) {
-            var th = record.getData('thumbnail_url');
-            if (th)
-                cell.innerHTML = '<div class="thumbview"><div id="thumbfield" class="thumbfield"></div><span><img src="' + th + '" /></span></div>';
-            else
+            var url = record.getData('thumbnail_url');
+            if (url) {
+                var thBack = 'background: url(' + url + ') no-repeat;';
+                var thWidth = ' width: ' + record.getData('thumbnail_width') + 'px;';
+                var thHeight = ' height: ' + record.getData('thumbnail_height') + 'px;';
+                cell.innerHTML = '<div class="thumbview"><div id="thumbfield" class="thumbfield"></div><span><div style="' + thBack + thWidth + thHeight + '"></div></span></div>';
+            }
+            else {
                 cell.innerHTML = '';
+            }
         }
 
         var translationView = function(cell, record, column, data) {
@@ -171,6 +176,8 @@ var sortableSubitems = function () {
                 {key:"priority"},
                 {key:"class_icon"},
                 {key:"thumbnail_url"},
+                {key:"thumbnail_height"},
+                {key:"thumbnail_width"},
                 {key:"url"},
                 {key:"parent_node_id"},
                 {key:"can_edit"}
