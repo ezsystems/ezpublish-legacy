@@ -88,7 +88,7 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
 
         if ( id === 0 || ( url[0] !== 'eznode' && url[0] !== 'ezobject' ) ) return true;
 
-        ezoeLinkAttribute.timeOut = setTimeout( eZOEPopupUtils.BIND( ezoeLinkAttribute.ajaxCheck, this, url[0] + '_' + id ), 320 );
+        ezoeLinkAttribute.timeOut = setTimeout( eZOEPopupUtils.BIND( ezoeLinkAttribute.ajaxCheck, this, url[0] + '_' + id, lid ), 320 );
         return true;
     });
 
