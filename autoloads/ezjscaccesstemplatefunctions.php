@@ -173,7 +173,7 @@ class ezjscAccessTemplateFunctions
                 }
             }
         }
-        if ( isset( $missingLimitations[0] ) && $debug )
+        if ( !empty( $missingLimitations ) && $debug )
         {
             eZDebug::writeNotice( "Matched, but missing limitations[$module/$function]: " . implode( ', ', $missingLimitations ), __METHOD__ );
         }

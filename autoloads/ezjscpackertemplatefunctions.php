@@ -408,7 +408,7 @@ class ezjscPackerTemplateFunctions
         }
 
         $arrayFlatten = array();
-        while( isset( $array[0] ) )
+        while( !empty( $array ) )
         {
              $item = array_shift( $array );
              if ( is_array( $item ) )
