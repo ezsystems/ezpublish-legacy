@@ -239,18 +239,19 @@
                 { 
                     var body = ed.getBody();
 
-                    // Remove the content of the embed tags that are just there for oe preview
-                    // purpose, this is to avoid that the ez xml parsers in some cases 
-                    // duplicates the embed tag
+                    // Replace the content of the embed tags that are just there for oe preview
+                    // by 'ezembed'. This is to avoid that the ez xml parsers in some cases
+                    // duplicates the embed tag and to avoid that TinyMCE strips too much the HTML code
+                    // see http://issues.ez.no/18264
                     jQuery.each( body.getElementsByTagName('div'), function( i, node )
                     {
                         if ( node && node.className.indexOf('ezoeItemNonEditable') !== -1 )
-                            node.innerHTML = '';
+                            node.innerHTML = 'ezembed';
                     });
                     jQuery.each( body.getElementsByTagName('span'), function( i, node )
                     {
                         if ( node && node.className.indexOf('ezoeItemNonEditable') !== -1 )
-                            node.innerHTML = '';
+                            node.innerHTML = 'ezembed';
                         else if ( node && node.className.indexOf('ezoeItemTempSpan') !== -1 && node.innerHTML.indexOf('&nbsp;') === 0 )
                             node.firstChild.replaceData( 0, 1, ' ' );
                     });
