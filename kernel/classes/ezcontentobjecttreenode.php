@@ -4015,10 +4015,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function removeNodeFromTree( $moveToTrash = true )
     {
         $nodeID = $this->attribute( 'node_id' );
+        $object = $this->object();
+        $assignedNodes = $object->attribute( 'assigned_nodes' );
         if ( $nodeID == $this->attribute( 'main_node_id' ) )
         {
-            $object = $this->object();
-            $assignedNodes = $object->attribute( 'assigned_nodes' );
             if ( count( $assignedNodes ) > 1 )
             {
                 $newMainNode = false;
@@ -4069,6 +4069,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         else
         {
             $this->removeThis();
+            if ( count( $assignedNodes ) > 1 )
+            {
+                eZSearch::addObject( $object );
+            }
         }
     }
 
