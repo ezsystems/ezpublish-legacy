@@ -2870,6 +2870,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $pathListArray;
     }
 
+    /**
+    *
+    * Enter in a ContentObject Id and get back its Main Node Id.
+    * @param int $objectID
+    * @param boolean $asObject
+    * @return int|NULL
+    */
     static function findMainNode( $objectID, $asObject = false )
     {
         $objectID = (int)$objectID;
