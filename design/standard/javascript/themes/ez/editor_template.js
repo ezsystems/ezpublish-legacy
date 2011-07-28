@@ -8,7 +8,7 @@
  * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
-/* 
+/*
  * ez theme is a fork of advance theme modified for eZ Online Editor MCE integration
 */
 
@@ -83,7 +83,7 @@
 
         init : function(ed, url) {
             var t = this, s, v, o;
-    
+
             t.editor = ed;
             t.url = url;
             t.onResolveName = new tinymce.util.Dispatcher(this);
@@ -236,7 +236,7 @@
             ed.onBeforeGetContent.add(function(ed, o)
             {
                 if ( o.save === true && o.format === 'html' )
-                { 
+                {
                     var body = ed.getBody();
 
                     // Replace the content of the embed tags that are just there for oe preview
@@ -661,7 +661,7 @@
             if (DOM.get(ed.id + '_path_row')) {
                 Event.add(ed.id + '_tbl', 'mouseover', function(e) {
                     var re;
-    
+
                     e = e.target;
 
                     if (e.nodeName == 'SPAN' && DOM.hasClass(e.parentNode, 'mceButton')) {
@@ -941,18 +941,18 @@
             h.push(DOM.createHTML('a', {href : '#', accesskey : 'z', title : ed.getLang("advanced.toolbar_focus"), onfocus : 'tinyMCE.getInstanceById(\'' + ed.id + '\').focus();'}, '<!-- IE -->'));
             DOM.setHTML(n, h.join(''));
         },
-        
+
         // eZ: Custom floating toolbar renderer for ez theme
         // allows all buttons to be on one line and wrap to next line if there is not enough space
         _toolbarRenderFlowHTML : function()
         {
             var t = this, h = '<div class="mceToolbarGroupingElement">', c = 'mceToolbarElement mceToolbarEnd', co, s = t.settings, c2 = 'mceToolbar mceToolBarFlow';
-            
+
             h += DOM.createHTML('span', {'class' : 'mceToolbarElement mceToolbarStart'}, DOM.createHTML('span', null, '<!-- IE -->'));
 
             each(t.controls, function(c)
             {
-                // seperators create invalid html, so we create it here instead 
+                // seperators create invalid html, so we create it here instead
                 if ( c.classPrefix === 'mceSeparator' )
                 {
                     h += '<span class="mceToolbarElement">' + DOM.createHTML('span', {'class' : 'mceSeparator'}, '<!-- IE -->') + '</span>';
@@ -960,7 +960,7 @@
                 }
                 else h += '<span class="mceToolbarElement">' + c.renderHTML() + '</span>';
             });
-            
+
             co = t.controls[t.controls.length - 1].constructor;
 
             if (co === tinymce.ui.Button)
@@ -969,7 +969,7 @@
                 c += ' mceToolbarEndSplitButton';
             else if (co === tinymce.ui.ListBox)
                 c += ' mceToolbarEndListBox';
-    
+
             h += DOM.createHTML('span', {'class' : c}, DOM.createHTML('span', null, '<!-- IE -->')) + '</div>';
 
             if ( tinymce.isIE && !DOM.stdMode ) c2 += ' mceToolBarFlowIEbug';
@@ -1065,7 +1065,7 @@
             tinymce.each(t.stateControls, function(c) {
                 cm.setActive(c, ed.queryCommandState(t.controls[c][1]));
             });
-            
+
             function getParent(name) {
                 var i, parents = ob.parents, func = name;
 
@@ -1081,7 +1081,7 @@
                             return name.indexOf( ',' + node.nodeName + ',' ) !== -1;
                         };
                     }
-                    
+
                 }
 
                 for (i = 0, l = parents.length; i < l; i++) {
@@ -1160,7 +1160,7 @@
                     for (var i = 0, l = p.childNodes.length, count = 0; i < l; i++)
                     {
                         if (p.childNodes[i].nodeType === 1 && p.childNodes[i].nodeName === 'LI') count++;
-                        if ( count === 2 ) break;                        
+                        if ( count === 2 ) break;
                     }
                 }
                 c.setDisabled( !p || count < 2 );
@@ -1242,7 +1242,7 @@
                 {
                     c.setActive( !!p && DOM.getAttrib(p, 'name') && !DOM.getAttrib(p, 'href') );
                 }
-                
+
                 p = header ? header : getParent('DIV');
                 if (p && (c = cm.get('pagebreak')))
                     c.setDisabled( !!p && DOM.hasClass(p, 'pagebreak') );
@@ -1541,7 +1541,7 @@
             if ( c !== 'justify' || !this.__mceJustifyBlockTags.test( nn ) )
             {
                 p = this.__mceJustifyTags.test( nn );
-    
+
                 if ( !p )
                 {
                     if ( p = this.__mceJustifyTags.test( n.parentNode.nodeName ) )
@@ -1666,9 +1666,9 @@
 
         /**
          * Reusable function for sending form with custom form data
-         * 
-         * @param string name Name of custom form element 
-         * @param string value Value of custom form element 
+         *
+         * @param string name Name of custom form element
+         * @param string value Value of custom form element
          */
         __appendHiddenInputAndSubmit : function( name, value )
         {
@@ -1689,10 +1689,10 @@
             } else
                 ed.windowManager.alert("Error: No form element found.");
         },
-        
+
         /**
          * eZ: Custom function for getting parent element that matches parameters
-         * 
+         *
          * @param node n
          * @param string tag
          * @param string className
@@ -1706,7 +1706,7 @@
             while ( n && n.nodeName !== undefined && n.nodeName !== 'BODY' )
             {
                 if ( checkElement && tag.indexOf( ',' + n.nodeName + ',' ) !== -1
-                && ( !className || (' ' + n.className + ' ').indexOf( className ) !== -1 ) 
+                && ( !className || (' ' + n.className + ' ').indexOf( className ) !== -1 )
                 && ( !type || n.getAttribute('type') === type ) )
                 {
                     return n;
@@ -1720,7 +1720,7 @@
         /**
          * eZ: Blocks most events when ezoeItemNonEditable element is selected
          * activated by {@link this.__setDisabled()}
-         * 
+         *
          * @param object ed Editor object
          * @param object e Event object
          */
@@ -1730,7 +1730,7 @@
                 return true;
 
             //console.log( 'ezoeItemNonEditable __block()' );
-            e = e || window.event;            
+            e = e || window.event;
             var k = e.which || e.keyCode;
 
             // Don't block arrow keys, page up/down, and F1-F12
@@ -1799,8 +1799,8 @@
 
         /**
          * eZ: Disables/enables all buttons based on s parameter, where s is true if
-         * ezoeItemNonEditable element (embed objects) is selected. 
-         * 
+         * ezoeItemNonEditable element (embed objects) is selected.
+         *
          * @param bool s
          */
         __setDisabled : function( s )
@@ -1860,7 +1860,7 @@
 
         /**
          * eZ: Maps tag name to ezxmltext tag name, uses simple mapping hash if tag name exists there.
-         * 
+         *
          * @param node n
          */
         __tagsToXml : function( n )
@@ -1897,7 +1897,7 @@
 
         /**
          * eZ: Get related TinyMCE (OE custom) command based on node
-         * 
+         *
          * @param node n
          */
         __getTagCommand : function( n )
