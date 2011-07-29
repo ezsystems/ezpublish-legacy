@@ -23,6 +23,7 @@ class eZDatatypeTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZTextFileUserTest' );
         $this->addTestSuite( 'eZEmailTypeTest' );
         $this->addTestSuite( 'eZXMLInputParserTest' );
+        $this->addTestSuite( 'eZSimplifiedXMLInputParserRegression' );
 
         $this->addTestSuite( 'eZBinaryFileTypeRegression' );
         $this->addTestSuite( 'eZImageTypeRegression' );
