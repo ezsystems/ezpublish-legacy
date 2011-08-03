@@ -1,35 +1,12 @@
 <?php
-//
-// Definition of eZTemplateTextOperator class
-//
-// Created on: <01-Aug-2002 11:38:40 amos>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
-
-/*! \file
-*/
+/**
+ * File containing the eZTemplateTextOperator class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package lib
+ */
 
 /*!
   \class eZTemplateTextOperator eztemplatetextoperator.php
@@ -113,16 +90,16 @@ class eZTemplateTextOperator
 
         if ( $paramCount == 4 )
         {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters[3] ) )
+            if ( eZTemplateNodeTool::isConstantElement( $parameters[3] ) )
             {
-                $filler = eZTemplateNodeTool::elementStaticValue( $parameters[3] );
+                $filler = eZTemplateNodeTool::elementConstantValue( $parameters[3] );
             }
         }
         if ( $paramCount >= 3 )
         {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters[2] ) )
+            if ( eZTemplateNodeTool::isConstantElement( $parameters[2] ) )
             {
-                $type = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
+                $type = eZTemplateNodeTool::elementConstantValue( $parameters[2] );
                 if ( $type == 'space' )
                 {
                     $filler = ' ';
@@ -139,9 +116,9 @@ class eZTemplateTextOperator
         }
         if ( $paramCount >= 2 )
         {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+            if ( eZTemplateNodeTool::isConstantElement( $parameters[1] ) )
             {
-                $count = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+                $count = eZTemplateNodeTool::elementConstantValue( $parameters[1] );
             }
             if ( $paramCount < 3 )
             {
@@ -221,9 +198,9 @@ class eZTemplateTextOperator
             return false;
         }
         if ( ( count( $parameters ) == 1 ) and
-             eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+             eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
         {
-            return array( eZTemplateNodeTool::createStaticElement( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) );
+            return array( eZTemplateNodeTool::createConstantElement( eZTemplateNodeTool::elementConstantValue( $parameters[0] ) ) );
         }
         $newElements = array();
 

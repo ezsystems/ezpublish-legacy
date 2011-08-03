@@ -554,11 +554,6 @@ span.yui-pg-first,span.yui-pg-previous,span.yui-pg-next,span.yui-pg-last
     text-decoration: none;
 }
 
-.thumbview span img {
-    border-width: 0;
-    padding: 2px;
-}
-
 .thumbview:hover span {
     visibility: visible;
     top: 0;

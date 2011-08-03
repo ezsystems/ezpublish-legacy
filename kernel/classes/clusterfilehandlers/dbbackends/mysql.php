@@ -1,38 +1,16 @@
 <?php
-//
-// Definition of eZDBFileHandlerMysqlBackend class
-//
-// Created on: <19-Apr-2006 16:15:17 vs>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
-
-/*! \file
-*/
+/**
+ * File containing the eZDBFileHandlerMysqlBackend class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 if ( !defined( 'TABLE_METADATA' ) )
     define( 'TABLE_METADATA', 'ezdbfile' );
+
 if ( !defined( 'TABLE_DATA' ) )
     define( 'TABLE_DATA', 'ezdbfile_data' );
 
@@ -125,6 +103,18 @@ class eZDBFileHandlerMysqlBackend
             {
                 return $this->_die( "Failed to set Database charset to $charset." );
             }
+        }
+    }
+
+    /**
+     * Disconnects the handler from the database
+     */
+    public function _disconnect()
+    {
+        if ( $this->db !== null )
+        {
+            mysql_close( $this->db );
+            $this->db = null;
         }
     }
 
@@ -598,30 +588,84 @@ class eZDBFileHandlerMysqlBackend
     }
 
     /**
-     * \deprecated This function should not be used since it cannot handle reading errors.
-     *             For the PHP 5 port this should be removed.
+     * Sends a binary file's content to the client
+     *
+     * @param string $filePath File path
+     * @param int $startOffset Starting offset
+     * @param false|int $length Length to transmit, false means everything
+     * @param false|string $fname The function name that started the query
      */
-    function _passThrough( $filePath, $fname = false )
+    function _passThrough( $filePath, $startOffset = 0, $length = false, $fname = false )
     {
         if ( $fname )
             $fname .= "::_passThrough($filePath)";
         else
             $fname = "_passThrough($filePath)";
 
-        $metaData = $this->_fetchMetadata( $filePath, $fname );
-        if ( !$metaData )
-            return false;
+        $where = array();
+        $dbChunkSize = $this->dbparams['chunk_size'];
+        $dbStartOffset = ( $startOffset != 0 ) ? (int) ( floor( $startOffset / $dbChunkSize ) * $dbChunkSize ) : 0;
+        if ( $dbStartOffset !== 0 )
+        {
+            $where[] = "offset >= {$dbStartOffset}";
+        }
 
-        $sql = "SELECT filedata FROM " . TABLE_DATA . " WHERE name_hash=" . $this->md5( $filePath ) . " ORDER BY offset";
-        if ( !$res = $this->_query( $sql, $fname ) )
+        if ( $length !== false )
+        {
+            $where[] = "offset <= " . ( $length + $startOffset - 1 );
+            $endOffset = $length + $startOffset - 1;
+        }
+        else
+        {
+            $metaData = $this->_fetchMetadata( $filePath, $fname );
+            if ( !$metaData )
+            {
+                return false;
+            }
+            $endOffset = $metaData['size'] - 1;
+            unset( $metaData );
+        }
+
+        if ( !$res =
+            $this->_query(
+                "SELECT offset, filedata FROM " . TABLE_DATA . " WHERE name_hash=" . $this->_md5( $filePath ) .
+                ( !empty( $where ) ? " AND " . implode( " AND ", $where ) : "" ) . " " .
+                "ORDER BY offset",
+                $fname
+            ) )
         {
             eZDebug::writeError( "Failed to fetch file data for file '$filePath'.", __METHOD__ );
             return false;
         }
 
-        while ( $row = mysql_fetch_row( $res ) )
-            echo $row[0];
-
+        while ( $row = mysql_fetch_assoc( $res ) )
+        {
+            // The first byte to send is part of this first chunk
+            if ( $row['offset'] < $startOffset )
+            {
+                echo substr(
+                    $row['filedata'],
+                    $startOffset - $row['offset'],
+                    // we need the +1 as this is a length, not an offset
+                    $endOffset - $startOffset + 1
+                );
+            }
+            // The last byte to send is part of this last chunk
+            else if ( $row['offset'] + $dbChunkSize > $endOffset )
+            {
+                echo substr(
+                    $row['filedata'],
+                    0,
+                    // we need the +1 as this is a length, not an offset
+                    $endOffset - $row['offset'] + 1
+                );
+            }
+            else
+            {
+                echo $row['filedata'];
+            }
+        }
+        mysql_free_result( $res );
         return true;
     }
 

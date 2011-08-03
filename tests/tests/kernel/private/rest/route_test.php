@@ -1,10 +1,11 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: oms
- * Date: 14.12.10
- * Time: 15.08
- * To change this template use File | Settings | File Templates.
+ * File containing the ezpRestVersionRouteTest class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package tests
  */
 
 class ezpRestVersionRouteTest extends ezpTestCase

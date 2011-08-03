@@ -1,35 +1,12 @@
 <?php
-//
-// Definition of eZContentObjectTreeNode class
-//
-// Created on: <10-Jul-2002 19:28:22 sp>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
-
-/*! \file
-*/
+/**
+ * File containing the eZContentObjectTreeNode class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /*!
   \class eZContentObjectTreeNode ezcontentobjecttreenode.php
@@ -4038,10 +4015,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function removeNodeFromTree( $moveToTrash = true )
     {
         $nodeID = $this->attribute( 'node_id' );
+        $object = $this->object();
+        $assignedNodes = $object->attribute( 'assigned_nodes' );
         if ( $nodeID == $this->attribute( 'main_node_id' ) )
         {
-            $object = $this->object();
-            $assignedNodes = $object->attribute( 'assigned_nodes' );
             if ( count( $assignedNodes ) > 1 )
             {
                 $newMainNode = false;
@@ -4062,6 +4039,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                            $object->attribute( 'current_version' ),
                                                            $newMainNode->attribute( 'parent_node_id' ) );
                 $this->removeThis();
+                eZSearch::addObject( $object );
                 $db->commit();
             }
             else
@@ -4091,6 +4069,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         else
         {
             $this->removeThis();
+            if ( count( $assignedNodes ) > 1 )
+            {
+                eZSearch::addObject( $object );
+            }
         }
     }
 
@@ -4935,10 +4917,50 @@ class eZContentObjectTreeNode extends eZPersistentObject
     // This code is automatically generated from templates/classlistfrompolicy.ctpl
     // code-template::auto-generated:END class-list-from-policy
 
-    // code-template::create-block: can-instantiate-class-list, group-filter, object-policy-list, name-create, object-creation, object-sql-creation
+    // code-template::create-block: can-instantiate-class-list, group-filter, object-policy-list, name-create, object-creation, object-sql-creation, current-subtree-limitation
     // code-template::auto-generated:START can-instantiate-class-list
     // This code is automatically generated from templates/classcreatelist.ctpl
     // DO NOT EDIT THIS CODE DIRECTLY, CHANGE THE TEMPLATE FILE INSTEAD
+
+    /**
+     * Checks if provided policy array has a limitation on current subtree
+     * @param array $policy
+     * @return bool
+     */
+    protected function hasCurrentSubtreeLimitation( array $policy )
+    {
+        // No Subtree nor Node limitation, so we consider that it is potentially OK to create content under current subtree
+        if ( !isset( $policy['Subtree'] ) && !isset( $policy['Node'] ) )
+        {
+            return true;
+        }
+
+        // First check subtree limitations
+        if ( isset( $policy['Subtree'] ) )
+        {
+            foreach ( $policy['Subtree'] as $subtreeString )
+            {
+                if ( strpos( $this->attribute( 'path_string' ), $subtreeString ) !== false )
+                {
+                    return true;
+                }
+            }
+        }
+
+        // Then check node limitations
+        if ( isset( $policy['Node'] ) )
+        {
+            foreach ( $policy['Node'] as $subtreeString )
+            {
+                if ( strpos( $this->attribute( 'path_string' ), $subtreeString ) !== false )
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 
     /*!
      Finds all classes that the current user can create objects from and returns.
@@ -4983,19 +5005,21 @@ class eZContentObjectTreeNode extends eZPersistentObject
             foreach ( $policies as $policyKey => $policy )
             {
                 $policyArray = $this->classListFromPolicy( $policy, $languageCodeList );
-                if ( count( $policyArray ) == 0 )
+                if ( empty( $policyArray ) )
                 {
                     continue;
                 }
                 $classIDArrayPart = $policyArray['classes'];
                 $languageCodeArrayPart = $policyArray['language_codes'];
-                if ( $classIDArrayPart == '*' )
+                // No class limitation for this policy AND no previous limitation(s)
+                if ( $classIDArrayPart == '*' && empty( $classIDArray ) )
                 {
                     $fetchAll = true;
                     $allowedLanguages['*'] = array_unique( array_merge( $allowedLanguages['*'], $languageCodeArrayPart ) );
                 }
-                else
+                else if ( is_array( $classIDArrayPart ) && $this->hasCurrentSubtreeLimitation( $policy ) )
                 {
+                    $fetchAll = false;
                     foreach( $classIDArrayPart as $class )
                     {
                         if ( isset( $allowedLanguages[$class] ) )
@@ -5762,6 +5786,18 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $time = time();
         $db = eZDB::instance();
 
+        if ( eZAudit::isAuditEnabled() )
+        {
+            // Set audit params.
+            $objectID = $node->attribute( 'contentobject_id' );
+            $objectName = $node->attribute( 'name' );
+            eZAudit::writeAudit( 'content-hide', array( 'Node ID' => $nodeID,
+                                                        'Object ID' => $objectID,
+                                                        'Content Name' => $objectName,
+                                                        'Time' => $time,
+                                                        'Comment' => 'Node has been hidden: eZContentObjectTreeNode::hideSubTree()' ) );
+        }
+
         $db->begin();
 
         if ( !$node->attribute( 'is_invisible' ) ) // if root node is visible
@@ -5815,6 +5851,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $nodeInvisible = $node->attribute( 'is_invisible' );
         $parentNode = $node->attribute( 'parent' );
         $time = time();
+
+        if ( eZAudit::isAuditEnabled() )
+        {
+            // Set audit params.
+            $objectID = $node->attribute( 'contentobject_id' );
+            $objectName = $node->attribute( 'name' );
+
+            eZAudit::writeAudit( 'content-hide', array( 'Node ID' => $nodeID,
+                                                        'Object ID' => $objectID,
+                                                        'Content Name' => $objectName,
+                                                        'Time' => $time,
+                                                        'Comment' => 'Node has been unhidden: eZContentObjectTreeNode::unhideSubTree()' ) );
+        }
+
         $db = eZDB::instance();
 
         $db->begin();
@@ -6106,8 +6156,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $classID = $class['id'];
                 $className = $class['name'];
             }
-            $classList[] = array( 'classID' => (int) $classID,
-                                  'name'    => htmlentities( $className, ENT_QUOTES ) );
+            $classList[] = array(
+                'classID' => (int) $classID,
+                'name'    => $className
+            );
         }
 
         if ( $classList )

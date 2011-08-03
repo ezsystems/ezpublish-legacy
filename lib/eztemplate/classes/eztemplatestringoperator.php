@@ -1,32 +1,12 @@
 <?php
-//
-// Definition of eZTemplateStringOperator class
-//
-// Created on: <17-Jul-2003 13:00:18 bh>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZTemplateStringOperator class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package lib
+ */
 
 /*!
   \class eZTemplateStringOperator eztemplatestringoperator.php
@@ -305,9 +285,9 @@ class eZTemplateStringOperator
             return false;
         }
 
-        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+        if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
         {
-            $text = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+            $text = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
             $text = $phpFunction( $text );
             $text = str_replace( array( "'" ), array( "\\'" ), $text );
             $code = "%output% = '" . $text . "' ;\n";
@@ -350,9 +330,9 @@ class eZTemplateStringOperator
         $replacementMap = array('%output%');
         for ($i = 0; $i < $paramCount; $i++)
         {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters[$i] ) )
+            if ( eZTemplateNodeTool::isConstantElement( $parameters[$i] ) )
             {
-                $staticValues[$i] = eZTemplateNodeTool::elementStaticValue( $parameters[$i] );
+                $staticValues[$i] = eZTemplateNodeTool::elementConstantValue( $parameters[$i] );
             }
             else
             {
@@ -371,7 +351,7 @@ class eZTemplateStringOperator
             {
                 eval( $mapEntry['code'] );
             }
-            return array( eZTemplateNodeTool::createStaticElement( $result ) );
+            return array( eZTemplateNodeTool::createConstantElement( $result ) );
         }
         else
         {
@@ -459,9 +439,9 @@ class eZTemplateStringOperator
         $staticValues = array();
         for ($i = 0; $i < $paramCount; $i++)
         {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters[$i] ) )
+            if ( eZTemplateNodeTool::isConstantElement( $parameters[$i] ) )
             {
-                $staticValues[$i] = eZTemplateNodeTool::elementStaticValue( $parameters[$i] );
+                $staticValues[$i] = eZTemplateNodeTool::elementConstantValue( $parameters[$i] );
             }
             else
             {

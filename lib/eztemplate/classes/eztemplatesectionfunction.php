@@ -1,32 +1,12 @@
 <?php
-//
-// Definition of eZTemplateSectionFunction class
-//
-// Created on: <01-Mar-2002 13:50:33 amos>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZTemplateSectionFunction class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package lib
+ */
 
 /*!
   \class eZTemplateSectionFunction eztemplatesectionfunction.php
@@ -115,108 +95,33 @@ class eZTemplateSectionFunction
                                             'transform-parameters' => true ) );
     }
 
-    function functionTemplateStatistics( $functionName, &$node, $tpl, $resourceData, $namespace, &$stats )
-    {
-        if ( $functionName != $this->Name )
-            return false;
-        $newNamespace = $namespace;
-        $parameters = eZTemplateNodeTool::extractFunctionNodeParameters( $node );
-        if ( isset( $parameters['name'] ) )
-        {
-            $nameData = $parameters['name'];
-            $nameDataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
-                                                                           $nameData, false,
-                                                                           $resourceData );
-            if ( $nameDataInspection['is-constant'] and
-                 !$nameDataInspection['has-operators'] and
-                 !$nameDataInspection['has-attributes'] )
-            {
-                $parameterNamespace = $nameDataInspection['new-data'][0][1];
-                $newNamespace = $tpl->mergeNamespace( $namespace, $parameterNamespace );
-            }
-        }
-        $parameterNames = array( 'loop', 'show', 'var', 'last-value', 'reverse', 'sequence', 'max', 'offset' );
-        foreach ( $parameterNames as $parameterName )
-        {
-            if ( isset( $parameters[$parameterName] ) )
-            {
-                eZTemplateCompiler::calculateVariableNodeStatistics( $tpl, $parameters[$parameterName], false, $resourceData, $namespace, $stats );
-            }
-        }
-
-        if ( !isset( $parameters['var'] ) )
-        {
-            if ( isset( $parameters['loop'] ) )
-            {
-                $newVariables = array( 'key', 'item', 'index', 'number' );
-                foreach ( $newVariables as $newVariableName )
-                {
-                    eZTemplateCompiler::setVariableStatistics( $stats, $newNamespace, $newVariableName, array( 'is_created' => true,
-                                                                                                               'is_removed' => true ) );
-                }
-            }
-            if ( isset( $parameters['sequence'] ) )
-            {
-                $newVariables = array( 'sequence' );
-                foreach ( $newVariables as $newVariableName )
-                {
-                    eZTemplateCompiler::setVariableStatistics( $stats, $newNamespace, $newVariableName, array( 'is_created' => true,
-                                                                                                               'is_removed' => true ) );
-                }
-            }
-        }
-        else
-        {
-            if ( isset( $parameters['loop'] ) )
-            {
-                $varDataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
-                                                                              $parameters['var'], false,
-                                                                              $resourceData );
-                if ( $varDataInspection['is-constant'] and
-                     !$varDataInspection['has-operators'] and
-                     !$varDataInspection['has-attributes'] )
-                {
-                    $varName = $varDataInspection['new-data'][0][1];
-                    eZTemplateCompiler::setVariableStatistics( $stats, $newNamespace, $varName, array( 'is_created' => true,
-                                                                                                       'is_removed' => true ) );
-                }
-            }
-        }
-
-        $functionChildren = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
-        if ( is_array( $functionChildren ) )
-        {
-            eZTemplateCompiler::calculateVariableStatisticsChildren( $tpl, $functionChildren, $resourceData, $newNamespace, $stats );
-        }
-    }
-
     function templateNodeTransformation( $functionName, &$node,
                                          $tpl, $parameters, $privateData )
     {
         $useLastValue = false;
         if ( isset( $parameters['last-value'] ) and
-             !eZTemplateNodeTool::isStaticElement( $parameters['last-value'] ) )
+             !eZTemplateNodeTool::isConstantElement( $parameters['last-value'] ) )
             return false;
         if ( isset( $parameters['name'] ) and
-             !eZTemplateNodeTool::isStaticElement( $parameters['name'] ) )
+             !eZTemplateNodeTool::isConstantElement( $parameters['name'] ) )
             return false;
         if ( isset( $parameters['var'] ) and
-             !eZTemplateNodeTool::isStaticElement( $parameters['var'] ) )
+             !eZTemplateNodeTool::isConstantElement( $parameters['var'] ) )
             return false;
         if ( isset( $parameters['reverse'] ) and
-             !eZTemplateNodeTool::isStaticElement( $parameters['reverse'] ) )
+             !eZTemplateNodeTool::isConstantElement( $parameters['reverse'] ) )
             return false;
 
         $varName = false;
         if ( isset( $parameters['var'] ) )
-            $varName = eZTemplateNodeTool::elementStaticValue( $parameters['var'] );
+            $varName = eZTemplateNodeTool::elementConstantValue( $parameters['var'] );
         if ( isset( $parameters['last-value'] ) )
-            $useLastValue = (bool)eZTemplateNodeTool::elementStaticValue( $parameters['last-value'] );
+            $useLastValue = (bool)eZTemplateNodeTool::elementConstantValue( $parameters['last-value'] );
         if ( !$varName )
             $useLastValue = false;
         $reverseLoop = false;
         if ( isset( $parameters['reverse'] ) )
-            $reverseLoop = eZTemplateNodeTool::elementStaticValue( $parameters['reverse'] );
+            $reverseLoop = eZTemplateNodeTool::elementConstantValue( $parameters['reverse'] );
 
         $useLoop = isset( $parameters['loop'] );
         $allowLoop = true;
@@ -227,9 +132,9 @@ class eZTemplateSectionFunction
         $maxPopText = false;
         if ( isset( $parameters['max'] ) )
         {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters['max'] ) )
+            if ( eZTemplateNodeTool::isConstantElement( $parameters['max'] ) )
             {
-                $maxValue = eZTemplateNodeTool::elementStaticValue( $parameters['max'] );
+                $maxValue = eZTemplateNodeTool::elementConstantValue( $parameters['max'] );
                 if ( $maxValue > 0 )
                 {
                     $maxText = eZPHPCreator::variableText( $maxValue );
@@ -258,9 +163,9 @@ class eZTemplateSectionFunction
         $spacing = 0;
         if ( isset( $parameters['show'] ) )
         {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters['show'] ) )
+            if ( eZTemplateNodeTool::isConstantElement( $parameters['show'] ) )
             {
-                $showValue = eZTemplateNodeTool::elementStaticValue( $parameters['show'] );
+                $showValue = eZTemplateNodeTool::elementConstantValue( $parameters['show'] );
                 if ( $showValue )
                 {
                     $useMain = true;
@@ -366,9 +271,9 @@ class eZTemplateSectionFunction
             if ( isset( $parameters['offset'] ) )
             {
                 $offsetParameter = $parameters['offset'];
-                if ( eZTemplateNodeTool::isStaticElement( $offsetParameter ) )
+                if ( eZTemplateNodeTool::isConstantElement( $offsetParameter ) )
                 {
-                    $iterationValue = (int)eZTemplateNodeTool::elementStaticValue( $offsetParameter );
+                    $iterationValue = (int)eZTemplateNodeTool::elementConstantValue( $offsetParameter );
                     if ( $iterationValue > 0 )
                     {
                         $arrayCode = "    \$loopKeys = array_splice( \$loopKeys, $iterationValue );\n";
@@ -512,9 +417,9 @@ class eZTemplateSectionFunction
                     $hasFilter = true;
                     $filterParameterMatch = $filterParameters['match'];
                     $filterParameterMatch = eZTemplateCompiler::processElementTransformationList( $tpl, $filterNode, $filterParameterMatch, $privateData );
-                    if ( eZTemplateNodeTool::isStaticElement( $filterParameterMatch ) )
+                    if ( eZTemplateNodeTool::isConstantElement( $filterParameterMatch ) )
                     {
-                        $matchValue = eZTemplateNodeTool::elementStaticValue( $filterParameterMatch );
+                        $matchValue = eZTemplateNodeTool::elementConstantValue( $filterParameterMatch );
                         if ( eZTemplateNodeTool::extractFunctionNodeName( $filterNode ) == 'section-exclude' )
                         {
                             if ( $matchValue )
@@ -604,9 +509,9 @@ class eZTemplateSectionFunction
                 {
                     $delimiterMatch = $delimiterParameters['match'];
                     $delimiterMatch = eZTemplateCompiler::processElementTransformationList( $tpl, $delimiterNode, $delimiterMatch, $privateData );
-                    if ( eZTemplateNodeTool::isStaticElement( $delimiterMatch ) )
+                    if ( eZTemplateNodeTool::isConstantElement( $delimiterMatch ) )
                     {
-                        $moduloValue = eZTemplateNodeTool::elementStaticValue( $delimiterMatch );
+                        $moduloValue = eZTemplateNodeTool::elementConstantValue( $delimiterMatch );
                         $useModulo = false;
                     }
                     else
@@ -620,9 +525,9 @@ class eZTemplateSectionFunction
                 {
                     $delimiterModulo = $delimiterParameters['modulo'];
                     $delimiterModulo = eZTemplateCompiler::processElementTransformationList( $tpl, $delimiterModulo, $delimiterModulo, $privateData );
-                    if ( eZTemplateNodeTool::isStaticElement( $delimiterModulo ) )
+                    if ( eZTemplateNodeTool::isConstantElement( $delimiterModulo ) )
                     {
-                        $moduloValue = (int)eZTemplateNodeTool::elementStaticValue( $delimiterModulo );
+                        $moduloValue = (int)eZTemplateNodeTool::elementConstantValue( $delimiterModulo );
                         $matchCode = " and ( ( \$currentIndex - 1 ) % $moduloValue ) == 0";
                     }
                     else

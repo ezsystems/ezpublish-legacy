@@ -3,7 +3,7 @@
  * File containing the eZContentObjectStateGroup class.
  *
  * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
  */
@@ -609,6 +609,10 @@ class eZContentObjectStateGroup extends eZPersistentObject
             }
         }
         $db->commit();
+
+        // re-order states in the same group
+        $this->states( true );
+
         return true;
     }
 
@@ -675,8 +679,6 @@ class eZContentObjectStateGroup extends eZPersistentObject
                     $limitations[$name] = array(
                         'name'   => $name,
                         'values' => array(),
-                        'path'   => 'private/classes/',
-                        'file'   => 'ezcontentobjectstategroup.php',
                         'class' => __CLASS__,
                         'function' => 'limitationValues',
                         'parameter' => array( $group->attribute( 'id' ) )

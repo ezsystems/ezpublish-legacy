@@ -1,32 +1,12 @@
 <?php
-//
-// Definition of eZDFSFileHandler class
-//
-// Created on: <15-May-2009 14:39:01 bd>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZDFSFileHandler class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /**
  * Handles file operations for Distributed File Systems (f.e. NFS)
@@ -43,7 +23,7 @@
  *
  * @since 4.2.0
  */
-class eZDFSFileHandler implements eZClusterFileHandlerInterface
+class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBasedClusterFileHandler
 {
     /**
      * Controls whether file data from database is cached on the local filesystem.
@@ -100,6 +80,18 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
         }
 
         $this->filePath = $filePath;
+    }
+
+    /**
+     * Disconnects the cluster handler from the database
+     */
+    public function disconnect()
+    {
+        if ( self::$dbbackend !== null )
+        {
+            self::$dbbackend->_disconnect();
+            self::$dbbackend= null;
+        }
     }
 
     /**
@@ -1153,29 +1145,17 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
     }
 
     /**
-     * Outputs file contents prepending them with appropriate HTTP headers.
+     * Outputs file contents directly
      *
-     * @deprecated This function should not be used since it cannot handle
-     *             reading errors.
+     * @param int $startOffset Byte offset to start transfer from
+     * @param int $length Byte length to transfer. NOT end offset, end offset = $startOffset + $length
+     *
+     * @return void
      */
-    function passthrough()
+    function passthrough( $startOffset = 0, $length = false )
     {
-        $path = $this->filePath;
-        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::passthrough( '$path' )" );
-        $size = $this->metaData['size'];
-        $mimeType = $this->metaData['datatype'];
-        $mtime = $this->metaData['mtime'];
-        $mdate = gmdate( 'D, d M Y H:i:s T', $mtime );
-
-        header( "Content-Length: $size" );
-        header( "Content-Type: $mimeType" );
-        header( "Last-Modified: $mdate GMT" );
-        header( "Expires: ". gmdate('D, d M Y H:i:s', time() + 6000) . ' GMT');
-        header( "Connection: close" );
-        header( "X-Powered-By: eZ Publish" );
-        header( "Accept-Ranges: bytes" );
-
-        self::$dbbackend->_passThrough( $path );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::passthrough( '{$this->filePath}', $startOffset, $length )" );
+        self::$dbbackend->_passThrough( $this->filePath, $startOffset, $length, "dfs::passthrough( '{$this->filePath}'" );
     }
 
     /**

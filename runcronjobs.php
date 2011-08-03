@@ -1,32 +1,11 @@
 #!/usr/bin/env php
 <?php
-//
-// Created on: <18-Mar-2003 17:06:45 amos>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
-
+/**
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /* No more than one instance of a cronjob script can be run at any given time.
    If a script uses more time than the configured MaxScriptExecutionTime (see
@@ -56,7 +35,6 @@ $script = eZScript::instance( array( 'debug-message' => '',
 
 $script->startup();
 
-$endl = $cli->endlineString();
 $webOutput = $cli->isWebOutput();
 
 function help()
@@ -80,27 +58,23 @@ function help()
 
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
-    global $isQuiet;
     global $cronPart;
     $cli = eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {
         $siteaccess = $optionData;
-        if ( !$isQuiet )
-            $cli->notice( "Using siteaccess $siteaccess for cronjob" );
+        $cli->output( "Using siteaccess $siteaccess for cronjob" );
     }
     elseif ( isExtensionSiteaccess( $optionData ) )
     {
         $siteaccess = $optionData;
-        if ( !$isQuiet )
-            $cli->notice( "Using extension siteaccess $siteaccess for cronjob" );
+        $cli->output( "Using extension siteaccess $siteaccess for cronjob" );
 
         eZExtension::prependExtensionSiteAccesses( $siteaccess );
     }
     else
     {
-        if ( !$isQuiet )
-            $cli->notice( "Siteaccess $optionData does not exist, using default siteaccess" );
+        $cli->notice( "Siteaccess $optionData does not exist, using default siteaccess" );
     }
 }
 
@@ -288,6 +262,7 @@ $script->setAllowedDebugLevels( $allowedDebugLevels );
 $script->setUseDebugAccumulators( $useDebugAccumulators );
 $script->setUseDebugTimingPoints( $useDebugTimingpoints );
 $script->setUseIncludeFiles( $useIncludeFiles );
+$script->setIsQuiet( $isQuiet );
 
 if ( $webOutput )
     $useColors = true;
@@ -306,8 +281,7 @@ if ( !$script->isInitialized() )
 
 if ( $cronPart )
 {
-    if ( !$isQuiet )
-        print( "Running cronjob part '$cronPart'$endl" );
+    $cli->output( "Running cronjob part '$cronPart'" );
 }
 
 
@@ -323,7 +297,7 @@ if ( $cronPart !== false )
     $scriptGroup = "CronjobPart-$cronPart";
 $scripts = $ini->variable( $scriptGroup, 'Scripts' );
 
-if ( !is_array( $scripts ) or count( $scripts ) == 0 and !$isQuiet )
+if ( !is_array( $scripts ) or empty( $scripts ) )
 {
     $cli->notice( 'Notice: No scripts found for execution.' );
     $script->shutdown( 0 );
@@ -341,10 +315,9 @@ foreach ( $scripts as $cronScript )
     }
     if ( file_exists( $scriptFile ) )
     {
-        if ( !$isQuiet &&
-             $index > 0 )
+        if ( $index > 0 )
         {
-            print( $endl );
+            $cli->output();
         }
         if ( !$isQuiet )
         {

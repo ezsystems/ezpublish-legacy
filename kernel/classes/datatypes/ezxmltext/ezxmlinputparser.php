@@ -1,32 +1,12 @@
 <?php
-//
-// Definition of eZXMLInputParser class
-//
-// Created on: <27-Mar-2006 15:28:39 ks>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZXMLInputParser class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /*
     Base class for the input parser.
@@ -237,6 +217,18 @@ class eZXMLInputParser
     {
         $text = str_replace( "\r", '', $text);
         $text = str_replace( "\t", ' ', $text);
+        // replace unicode chars that will break the XML validity
+        // see http://www.w3.org/TR/REC-xml/#charsets
+        $text = preg_replace( '/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', ' ', $text, -1, $count );
+        if ( $count > 0 )
+        {
+            $this->Messages[] = ezpI18n::tr(
+                'kernel/classes/datatypes/ezxmltext',
+                "%count invalid character(s) have been found and replaced by a space",
+                false,
+                array( '%count' => $count )
+            );
+        }
         if ( !$this->ParseLineBreaks )
         {
             $text = str_replace( "\n", '', $text);
@@ -593,38 +585,27 @@ class eZXMLInputParser
 
     function parseAttributes( $attributeString )
     {
-        // Convert single quotes to double quotes
-        $attributeString = preg_replace( "/ +([a-zA-Z0-9:-_#\-]+) *\='(.*?)'/e", "' \\1'.'=\"'.'\\2'.'\"'", ' ' . $attributeString );
-
-        // Convert no quotes to double quotes and remove extra spaces
-        $attributeString = preg_replace( "/ +([a-zA-Z0-9:-_#\-]+) *\= *([^\s'\"]+)/e", "' \\1'.'=\"'.'\\2'.'\" '", $attributeString );
-
-        // Split by quotes followed by spaces
-        $attributeArray = preg_split( "#(?<=\") +#", $attributeString );
-
         $attributes = array();
-        foreach( $attributeArray as $attrStr )
-        {
-            if ( !$attrStr || strlen( $attrStr ) < 4 )
+        // Valid characters for XML attributes
+        // @see http://www.w3.org/TR/xml/#NT-Name
+        $nameStartChar = ':A-Z_a-z\\xC0-\\xD6\\xD8-\\xF6\\xF8-\\x{2FF}\\x{370}-\\x{37D}\\x{37F}-\\x{1FFF}\\x{200C}-\\x{200D}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}\\x{10000}-\\x{EFFFF}';
+        if (
+            preg_match_all(
+                "/\s+([$nameStartChar][$nameStartChar\-.0-9\\xB7\\x{0300}-\\x{036F}\\x{203F}-\\x{2040}]*)\s*=\s*(?:(?:\"([^\"]+?)\")|(?:'([^']+?)')|(?: *([^\"'\s]+)\s*))/u",
+                " " . $attributeString,
+                $attributeArray,
+                PREG_SET_ORDER
+            )
+        ) {
+            foreach ( $attributeArray as $attribute )
             {
-                continue;
+                // Value will always be at the last position
+                $value = trim( array_pop( $attribute ) );
+                if ( !empty( $value ) )
+                {
+                    $attributes[strtolower( $attribute[1] )] = $value;
+                }
             }
-
-            list( $attrName, $attrValue ) = preg_split( "/ *= *\"/", $attrStr );
-
-            $attrName = strtolower( trim( $attrName ) );
-            if ( !$attrName )
-            {
-                continue;
-            }
-
-            $attrValue = substr( $attrValue, 0, -1 );
-            if ( $attrValue === '' || $attrValue === false )
-            {
-                continue;
-            }
-
-            $attributes[$attrName] = $attrValue;
         }
 
         return $attributes;

@@ -3,7 +3,8 @@
  * File containing the eZDFSFileHandlerTest class
  *
  * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
  * @package tests
  */
 
@@ -42,18 +43,15 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
      */
     public function setUp()
     {
-        parent::setUp();
+        if ( ezpTestRunner::dsn()->dbsyntax !== 'mysql' && ezpTestRunner::dsn()->dbsyntax !== 'mysqli' )
+            self::markTestSkipped( "Not running MySQL, skipping" );
 
-        if ( !( $this->sharedFixture instanceof eZMySQLDB ) and !( $this->sharedFixture instanceof eZMySQLiDB ) )
-        {
-            self::markTestSkipped( "Not using mysql interface, skipping" );
-        }
+        parent::setUp();
 
         // We need to clear the existing handler if it was loaded before the INI
         // settings changes
-        if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) and
-            !$GLOBALS['eZClusterFileHandler_chosen_handler'] instanceof eZDFSFileHandler )
-            unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
+        if ( !eZClusterFileHandler::$globalHandler instanceof eZDFSFileHandler )
+            eZClusterFileHandler::$globalHandler = null;
 
         unset( $GLOBALS['eZClusterInfo'] );
 
@@ -103,8 +101,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
             $fileINI = eZINI::instance( 'file.ini' );
             $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', $this->previousFileHandler );
             $this->previousFileHandler = null;
-            if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) )
-                unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
+            eZClusterFileHandler::$globalHandler = null;
         }
 
         if ( $this->haveToRemoveDFSPath )
@@ -920,6 +917,39 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
     {
         $handler = eZClusterFileHandler::instance();
         $this->assertTrue( $handler->requiresClusterizing() );
+    }
+
+    public function testDisconnect()
+    {
+        $handler = eZClusterFileHandler::instance();
+
+        $refHandler = new ReflectionObject( $handler );
+        $refBackendProperty = $refHandler->getProperty( 'dbbackend' );
+        $refBackendProperty->setAccessible( true );
+
+        self::assertNotNull( $refBackendProperty->getValue( $handler ) );
+
+        $handler->disconnect();
+
+        self::assertNull( $refBackendProperty->getValue( $handler ) );
+    }
+
+    /**
+     * Test for the global {@see eZClusterFilehandler::preFork()} method
+     */
+    public function testPreFork()
+    {
+        $handler = eZClusterFileHandler::instance();
+
+        $refHandler = new ReflectionObject( $handler );
+        $refBackendProperty = $refHandler->getProperty( 'dbbackend' );
+        $refBackendProperty->setAccessible( true );
+
+        self::assertNotNull( $refBackendProperty->getValue( $handler ) );
+
+        eZClusterFileHandler::preFork();
+
+        self::assertNull( $refBackendProperty->getValue( $handler ) );
     }
 }
 ?>

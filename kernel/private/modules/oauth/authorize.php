@@ -9,7 +9,7 @@
  * @param string $_GET[state] Not implemented yet (optional)
  *
  * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package oauth
  */
@@ -155,7 +155,7 @@ if ( $pResponseType == 'token')
     // Redirect to the redirect_uri with these parameters:
     // - code, only if request_type == code OR code_and_token @todo Implement
     // - access_token, only if request_type == token OR code_and_token
-    // - expires_in, the token lifetime in seconds @todo Implement
+    // - expires_in, the token lifetime in seconds
     // - scope, the permission scope the provided code / token grants, if different from the requested one (not implemented yet)
     // - state, not implemented yet (state persistency related)
     $parameters = array();
@@ -188,7 +188,7 @@ elseif ( $pResponseType ==  'code')
     // Redirect to the redirect_uri with these parameters:
     // - code, only if request_type == code OR code_and_token @todo Implement
     // - access_token, only if request_type == token OR code_and_token
-    // - expires_in, the token lifetime in seconds @todo Implement
+    // - expires_in, the token lifetime in seconds
     // - scope, the permission scope the provided code / token grants, if different from the requested one (not implemented yet)
     // - state, not implemented yet (state persistency related)
     $parameters = array();

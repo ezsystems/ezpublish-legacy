@@ -4612,8 +4612,8 @@
         <translation>Vous utilisez : &lt;span id=&quot;ez-version&quot;&gt;%1&lt;/span&gt;</translation>
     </message>
     <message>
-        <source>If your installation is not running eZ Publish Premium, it might not be up to date with the latest maintenance service packs. Contact eZ Systems.</source>
-        <translation>Si vous n&apos;avez pas souscrit à eZ Publish Premium, votre installation n&apos;est peut-être pas à jour. Contactez eZ Systems.</translation>
+        <source>If your installation is not running eZ Publish Enterprise, it might not be up to date with the latest maintenance service packs. Contact eZ Systems.</source>
+        <translation>Si vous n&apos;avez pas souscrit à eZ Publish Enterprise, votre installation n&apos;est peut-être pas à jour. Contactez eZ Systems.</translation>
     </message>
 </context>
 <context>

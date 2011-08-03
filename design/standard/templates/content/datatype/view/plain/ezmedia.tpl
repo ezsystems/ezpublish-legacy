@@ -29,7 +29,7 @@ width="{$attribute.content.width}" height="{$attribute.content.height}">
 </object>
 {/case}
 {case match=windows_media_player}
-<object ID="MediaPlayer"  CLASSID="CLSID:22D6f312-B0F6-11D0-94AB-0080C74C7E95" STANDBY="Loading Windows Media Player components..." type="application/x-oleobject"
+<object ID="MediaPlayer"  CLASSID="CLSID:6BF52A52-394A-11D3-B153-00C04F79FAA6" STANDBY="Loading Windows Media Player components..." type="application/x-oleobject"
 width="{$attribute.content.width}" height="{$attribute.content.height}">
 <param name="filename" value={concat("content/download/",$attribute.contentobject_id,"/",$attribute.content.contentobject_attribute_id,"/",$attribute.content.original_filename)|ezurl} />
 <param name="autostart" value="{$attribute.content.is_autoplay}" />

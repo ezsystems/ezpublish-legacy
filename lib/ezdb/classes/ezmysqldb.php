@@ -1,34 +1,12 @@
 <?php
-//
-// $Id$
-//
-// Definition of eZMySQLDB class
-//
-// Created on: <12-Feb-2002 15:54:17 bf>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZMySQLDB class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package lib
+ */
 
 /**
  * The eZMySQLDB class provides MySQL implementation of the database interface.
@@ -226,6 +204,7 @@ class eZMySQLDB extends eZDBInterface
 
         if ( is_array( $charset ) )
         {
+            $realCharset = array();
             foreach ( $charset as $charsetItem )
                 $realCharset[] = eZCharsetInfo::realCharsetCode( $charsetItem );
         }
@@ -357,9 +336,9 @@ class eZMySQLDB extends eZDBInterface
                             $columns[$col]['size'] = max( $columns[$col]['size'], strlen( $data ) );
                         }
                     }
-
-                    $analysisText = '';
+                    
                     $delimiterLine = array();
+                    $colLine = array();
                     // Generate the column line and the vertical delimiter
                     // The look of the table is taken from the MySQL CLI client
                     // It looks like this:
@@ -388,8 +367,8 @@ class eZMySQLDB extends eZDBInterface
                             $size = $col['size'];
                             $data = isset( $row[$name] ) ? $row[$name] : '';
                             // Align numerical values to the right (ie. pad left)
-                            $rowLine[] = ' ' . str_pad( $row[$name], $size, ' ',
-                                                        is_numeric( $row[$name] ) ? STR_PAD_LEFT : STR_PAD_RIGHT ) . ' ';
+                            $rowLine[] = ' ' . str_pad( $data, $size, ' ',
+                                                        is_numeric( $data ) ? STR_PAD_LEFT : STR_PAD_RIGHT ) . ' ';
                         }
                         $analysisText .= '|' . join( '|', $rowLine ) . "|\n";
                         $analysisText .= $delimiterLine;
@@ -843,7 +822,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function rollbackQuery()
     {
-        return $this->query( "ROLLBACK" );
+        return mysql_query( "ROLLBACK", $this->DBWriteConnection );
     }
 
     function lastSerialID( $table = false, $column = false )
@@ -899,7 +878,7 @@ class eZMySQLDB extends eZDBInterface
 
     /**
      * Sets the internal error messages & number
-     * @param resource $connection database connection handle, overrides the current one if given
+     * @param int $connection database connection handle, overrides the current one if given
      */
     function setError( $connection = false)
     {
@@ -937,9 +916,6 @@ class eZMySQLDB extends eZDBInterface
         {
             return false;
         }
-
-        $dbServerVersion = $this->databaseServerVersion();
-        $dbServerMainVersion = $dbServerVersion['values'][0];
 
         while ( $i < $numRows )
         {

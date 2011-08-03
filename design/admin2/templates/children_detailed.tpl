@@ -45,8 +45,10 @@ var confObj = {ldelim}
 {/switch}
 
     dataSourceURL: "{concat('ezjscore/call/ezjscnode::subtree::', $node.node_id)|ezurl('no')}",
+    editPrefixURL: {'/content/edit/'|ezurl},
     rowsPrPage: {$number_of_items},
     sortOrder: {$node.sort_order},
+    nameFilter: '{$view_parameters.namefilter}',
     defaultShownColumns: vcols,
     navigationPart: "{$section.navigation_part_identifier}",
     cookieName: "eZSubitemColumns",
@@ -82,7 +84,8 @@ var labelsObj = {ldelim}
                         nodeid: "{'Node ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         objectid: "{'Object ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         noderemoteid: "{'Node remote ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
-                        objectremoteid: "{'Object remote ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}"
+                        objectremoteid: "{'Object remote ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        objectstate: "{'Object state'|i18n( 'design/admin/node/view/full' )|wash('javascript')}"
                     {rdelim},
 
     TABLE_OPTIONS: {ldelim}

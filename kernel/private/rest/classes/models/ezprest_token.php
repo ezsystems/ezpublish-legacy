@@ -3,8 +3,9 @@
  * File containing the ezpRestToken class
  *
  * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
- *
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
  */
 
 /**
@@ -99,5 +100,38 @@ class ezpRestToken implements ezcPersistentObject
          return $tokenHash;
      }
 
+    /**
+     * Fetches an ezpRestToken persistent object from an access token
+     * @param string $accessToken Access token hash string
+     * @param bool $authCheck If true, will also check if token corresponds to a client app authorized by its user
+     * @return ezpRestToken
+     */
+    public static function fetch( $accessToken, $authCheck = true )
+    {
+        $tokenInfo = null;
+        $session = ezcPersistentSessionInstance::get();
+        $q = $session->createFindQuery( __CLASS__ );
+        $e = $q->expr;
+
+        $q->innerJoin( 'ezprest_clients', 'ezprest_token.client_id', 'ezprest_clients.client_id' );
+        if ( $authCheck )
+        {
+            $q->innerJoin( 'ezprest_authorized_clients', $e->lAnd( $e->eq( 'ezprest_authorized_clients.rest_client_id', 'ezprest_clients.id' ),
+                                                                   $e->eq( 'ezprest_authorized_clients.user_id', 'ezprest_token.user_id' ) ) );
+        }
+
+        $q->where( $q->expr->eq( 'ezprest_token.id', $q->bindValue( $accessToken ) ) );
+        $tokenInfo = $session->find( $q, 'ezpRestToken' );
+        if ( !empty( $tokenInfo ) )
+        {
+            $tokenInfo = array_shift( $tokenInfo );
+        }
+        else // Empty array. For consistency in result, cast it to null
+        {
+            $tokenInfo = null;
+        }
+
+        return $tokenInfo;
+    }
 }
 ?>

@@ -1,35 +1,12 @@
 <?php
-//
-// Definition of eZFSFileHandler class
-//
-// Created on: <09-Mar-2006 16:40:46 vs>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
-
-/*! \file
-*/
+/**
+ * File containing the eZFSFileHandler class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 class eZFSFileHandler
 {
@@ -144,7 +121,7 @@ class eZFSFileHandler
                 eZDebugSetting::writeDebug( 'kernel-clustering', ' clearstatcache called on ' . $this->filePath, __METHOD__ );
             }
 
-            $this->metaData = @stat( $this->filePath );
+            $this->metaData = file_exists( $this->filePath ) ? stat( $this->filePath ) : false;
             eZDebug::accumulatorStop( 'dbfile' );
         }
     }
@@ -341,7 +318,7 @@ class eZFSFileHandler
         {
             $forceGeneration = false;
             $storeCache      = true;
-            $mtime = @filemtime( $fname );
+            $mtime = file_exists( $fname ) ? filemtime( $fname ) : false;
             if ( $retrieveCallback !== null && !$this->isExpired( $expiry, $curtime, $ttl ) )
             {
                 $args = array( $fname, $mtime );
@@ -404,11 +381,9 @@ class eZFSFileHandler
                 // This is where we perform a two-phase commit. If any other
                 // process or machine has generated the file data and it is valid
                 // we will retry the retrieval part and not do the generation.
-                @clearstatcache();
+                clearstatcache();
                 eZDebugSetting::writeDebug( 'kernel-clustering', "clearstatcache called on $fname", __METHOD__ );
-                $mtime = @filemtime( $fname );
-//                $expiry = max( $curtime, $expiry );
-                if ( $mtime > 0 && !$this->isExpired( $expiry, $curtime, $ttl ) )
+                if ( file_exists( $fname ) && !$this->isExpired( $expiry, $curtime, $ttl ) )
                 {
                     eZDebugSetting::writeDebug( 'kernel-clustering', "File was generated while we were locked, use that instead", __METHOD__ );
                     $this->metaData = false;
@@ -478,7 +453,12 @@ class eZFSFileHandler
      */
     public function isExpired( $expiry, $curtime, $ttl )
     {
-        return self::isFileExpired( $this->filePath, @filemtime( $this->filePath ), $expiry, $curtime, $ttl );
+        if ( !file_exists( $this->filePath ) )
+        {
+            return true;
+        }
+
+        return self::isFileExpired( $this->filePath, filemtime( $this->filePath ), $expiry, $curtime, $ttl );
     }
 
     /*!
@@ -906,29 +886,18 @@ class eZFSFileHandler
     }
 
     /**
-     * Outputs file contents prepending them with appropriate HTTP headers.
+     * Outputs file contents to the browser
+     * Note: does not handle headers. eZFile::downloadHeaders() can be used for this
      *
-     * \public
+     * @param int $offset Transfer start offset
+     * @param int $length Transfer length, in bytes
      */
-    function passthrough()
+    function passthrough( $offset = 0, $length = false )
     {
-        $path = $this->filePath;
-
-        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::passthrough()", __METHOD__ );
-
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::passthrough( '{$this->filePath}' )", __METHOD__ );
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
-        $mimeData = eZMimeType::findByFileContents( $path );
-//        $mimeType = $mimeData['name'];
-        $mimeType = 'application/octec-stream';
-        $contentLength = filesize( $path );
-
-        header( "Content-Length: $contentLength" );
-        header( "Content-Type: $mimeType" );
-        header( "Expires: ". gmdate('D, d M Y H:i:s', time() + 6000) . 'GMT');
-        header( "Connection: close" );
-
-        readfile( $path );
+        eZFile::downloadContent( $this->filePath, $offset, $length );
 
         eZDebug::accumulatorStop( 'dbfile' );
     }

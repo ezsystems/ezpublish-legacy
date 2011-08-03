@@ -1,32 +1,12 @@
 <?php
-//
-// Definition of eZXMLTextType class
-//
-// Created on: <06-May-2002 20:02:55 bf>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZXMLTextType class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /*!
   \class eZXMLTextType ezxmltexttype
@@ -725,20 +705,15 @@ class eZXMLTextType extends eZDataType
                     continue;
                 }
 
-                $nodeID = $nodeArray['node_id'];
-                $node->setAttribute( 'node_id', $nodeID );
+                $node->setAttribute( 'node_id', $nodeArray['node_id'] );
                 $node->removeAttribute( 'node_remote_id' );
                 $modified = true;
 
                 // add as related object
                 if ( $contentObject )
                 {
-                    $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
-                    if ( $node )
-                    {
-                        $relationType = $node->nodeName == 'link' ? eZContentObject::RELATION_LINK : eZContentObject::RELATION_EMBED;
-                        $contentObject->addContentObjectRelation( $node['contentobject_id'], $objectAttribute->attribute( 'version' ), 0, $relationType );
-                    }
+                    $relationType = $node->nodeName == 'link' ? eZContentObject::RELATION_LINK : eZContentObject::RELATION_EMBED;
+                    $contentObject->addContentObjectRelation( $nodeArray['contentobject_id'], $objectAttribute->attribute( 'version' ), 0, $relationType );
                 }
             }
         }

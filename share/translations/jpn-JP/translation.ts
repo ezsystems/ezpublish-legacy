@@ -4631,7 +4631,7 @@
         <translation>eZ Publishのバージョン: &lt;span id=&quot;ez-version&quot;&gt;%1&lt;/span&gt;</translation>
     </message>
     <message>
-        <source>If your installation is not running eZ Publish Premium, it might not be up to date with the latest maintenance service packs. Contact eZ Systems.</source>
+        <source>If your installation is not running eZ Publish Enterprise, it might not be up to date with the latest maintenance service packs. Contact eZ Systems.</source>
         <translation>インストレーションにeZ Publishプレミアムが付いていません、最新のサービスパックがインストールされていません可能性があります。eZ Systemsにお問い合わせください。</translation>
     </message>
 </context>

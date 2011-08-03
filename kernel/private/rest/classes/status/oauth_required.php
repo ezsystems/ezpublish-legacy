@@ -3,16 +3,18 @@
  * File containing the ezpOauthRequired class.
  *
  * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
- *
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
  */
-
 
 /**
  * This result type is used to signal a HTTP basic auth header
  */
 class ezpOauthRequired implements ezcMvcResultStatusObject
 {
+    const DEFAULT_REALM = 'eZ Publish REST';
+
     /**
      * The realm is the unique ID to identify a login area
      *
@@ -50,13 +52,19 @@ class ezpOauthRequired implements ezcMvcResultStatusObject
     {
         if ( $writer instanceof ezcMvcHttpResponseWriter )
         {
-            $writer->headers['HTTP/1.1 ' . ezpOauthErrorType::httpCodeforError( $this->errorType)] = "";
-            $writer->headers['WWW-Authenticate'] = "OAuth realm=\"{$this->realm}\"{$this->createErrorString()}";
+            $writer->headers['HTTP/1.1 ' . ezpOauthErrorType::httpCodeforError( $this->errorType )] = "";
+            $writer->headers['WWW-Authenticate'] = "OAuth realm='{$this->realm}'{$this->createErrorString()}";
         }
 
-        if ( $this->errorMessage !== null )
+        if ( isset( $this->errorType) )
         {
-            $writer->response->body = $this->errorMessage;
+            $writer->headers['Content-Type'] = 'application/json; charset=UTF-8';
+            $body = array( 'error' => $this->errorType );
+
+            if ( isset( $this->errorMessage ) )
+                $body['error_description'] = $this->errorMessage;
+
+            $writer->response->body = json_encode( $body );
         }
     }
 
@@ -70,12 +78,12 @@ class ezpOauthRequired implements ezcMvcResultStatusObject
         $str = '';
         if ( $this->errorType !== null )
         {
-            $str .= " error=\"{$this->errorType}\"";
+            $str .= ", error='{$this->errorType}'";
         }
 
         if ( $this->errorMessage !== null )
         {
-            $str .= " error_description=\"{$this->errorMessage}\"";
+            $str .= ", error_description='{$this->errorMessage}'";
         }
         return $str;
     }

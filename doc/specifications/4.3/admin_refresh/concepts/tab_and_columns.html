@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <title>eZ Publish 4.3 admin layout prototype</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+    <!--
+        Code is tested on all major browser, and should work on recent versions of Opera, Safari, Chrome, Firefox and IE
+    -->
+<style>
+<!--
+body
+{
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+p { margin:0.1em 0;  }
+
+a, a:visited { color: blue; }
+a:hover { color: green; }
+
+h1 { font-size: 1.6em; margin-bottom: 5px; }
+
+menu
+{
+    margin: 0;
+}
+
+menu li
+{
+    float: left;
+    text-align: center;
+    list-style-type: none;
+}
+
+menu li a
+{
+    display: block;
+    font-weight: bold;
+    text-decoration: none;
+    min-width: 100px;
+    min-height: 20px;
+    padding: 2px;
+    border: 1px solid #bbb;
+    border-bottom: 0 none;
+    /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    border-top-left-radius:  5px;
+    border-top-right-radius: 5px;
+}
+
+/* Header */
+#header, #columns
+{
+    text-align: left;
+}
+
+.float-break:after /* Terminate floating elements flow */
+{
+    content: "-";
+    height: 0;
+    font-size: 0;
+    visibility: hidden;
+    display: block;
+    clear: both;
+}
+
+#header
+{ 
+    border-bottom: 1px solid #bbb;
+}
+
+#footer { border-top: 1px solid #bbb; background-color: #f0f0f0; }
+
+div#header-user-links
+{
+    float: right;
+    max-width: 42em;
+    padding: 0 0 0 6px;
+}
+
+div#header-user-links form > div
+{
+    background-color: #fff;
+    float: right;
+    text-align: right;
+    padding: 2px 10px 1px 10px;
+    min-height: 24px;
+    border: 1px solid #bbb;
+    border-top: 0 none;
+    border-right: 0 none;
+    /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
+    -moz-border-radius-bottomleft: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    border-bottom-left-radius:  5px;
+}
+
+div#header-user-links form > span
+{
+  float: left;
+  padding-top: 2px;
+}
+
+#header-user-logo { float: left; margin-right: 5px; }
+
+#header menu
+{
+    padding-left: 2px;
+    padding-top: 6px;
+    float: left;
+}
+
+#header menu li a
+{
+    color: #555;
+    border-left: 0 none;
+    background-color: #fff;
+}
+
+#header menu li a:hover { color: green; }
+
+#path
+{
+    border-bottom: 1px solid #bbb;
+    padding: 2px 10px 3px 10px;
+    font-size: 90%;
+    text-align: left;
+}
+
+/* Columns */
+#leftmenu { float: left; width: 160px; overflow: hidden; }
+#rightmenu { float: right; width: 160px; overflow-x: hidden; }
+
+div.menuitem
+{
+    margin-top: 20px;
+    overflow: hidden;
+    border: 1px solid #bbb;
+}
+
+div.menuheader
+{
+    text-align: center;
+    border-bottom: 1px solid #fafafa;
+}
+
+#rightmenu div.menuitem
+{
+    margin: 0 0 12px 12px;
+    width: 148px;
+    border-right: 0 none;
+}
+
+#leftmenu div.menuitem
+{
+    border-left: 0 none;
+}
+
+div.boxcontent, div.menucontent { padding: 10px; }
+
+#leftmenu div.menucontent
+{
+    min-height: 200px;
+}
+
+div.boxitem
+{
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+div.boxheader
+{
+    padding-left: 10px;
+}
+
+div.boxitem
+{
+   border: 1px solid #bbb;
+}
+
+div.boxheader
+{
+    padding-bottom: 4px;
+}
+
+span.vertical-seperator
+{
+    height: 100%;
+    width: 0px;
+    border-left: 1px solid #bbb;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+#maincontent
+{
+    margin: 0 160px 0 160px;
+    min-height: 200px;
+    border-right: 1px solid #bbb;
+    padding: 1px 20px 0 20px;
+}
+
+/* Content */
+
+#maincontent ol
+{
+    text-align: left;
+}
+
+/* general form styling */
+
+form input[type=text]
+{
+    color: #ccc;
+    border: 1px solid #ccc;
+} 
+
+form input[type=text].active
+{
+    color: #000;
+    background: #ddeff6;  
+    border: 1px solid #0099d4;
+} 
+
+/*  size / hide controll css */
+
+a.item-hide-show, a.hidecontrol, div.sizecontrol a
+{
+    text-decoration: none;
+    color: green;
+    font-size: 80%;
+}
+
+a.item-hide-show
+{
+    float: right;
+    text-align: center;
+    padding: 2px;
+    border: 1px solid #bbb;
+    color: #555;
+    line-height: 7px;
+    height: 9px;
+    width: 8px;
+    margin: 2px;
+    /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    background-color: white;
+}
+
+a.hidecontrol
+{
+    display: block;
+    padding: 2px 0 2px 1px;
+}
+
+div.sizecontrol
+{
+    text-align: center;
+}
+
+div.sizecontrol a
+{
+    padding: 2px;
+}
+
+/* Tab box */
+
+div.tabbox menu li.selected a
+{
+    border-bottom: 1px solid #fff;
+    margin-bottom: -1px;
+}
+div.tabbox menu
+{
+    border-bottom: 1px solid #bbb;
+}
+
+div.tabbox div.tabcontent
+{
+    border: 1px solid #bbb;
+    border-top: 0 none;
+    padding: 20px;
+    height: 150px;
+    overflow-y: scroll;
+}
+
+
+/* General */
+.hide {display: none; }
+
+.float-right { float: right; }
+
+/* Change extrra menu to be hidden by default */
+#rightmenu { width: 12px; }
+#maincontent { margin-right: 12px; }
+
+-->
+</style>
+<!--[if lt IE 8]>
+<style>
+.float-break /* Terminate floating elements flow in IE < 8 */
+{
+    height: 1%;
+}
+</style>
+<![endif]-->
+</head>
+<body>
+    <div id="page">
+    <div id="header" class="float-break">
+        <div id="header-user-links">
+            <form method="post">
+                <div>
+                <span id="header-user-logo" title="eZ Publish version 4.3.1">eZ logo</span>
+                <select name="SubTreeSomething" title="Search location, to be able to narrow down the search results!">
+                    <option id="">All Content</option>
+                    <option id="2">Content</option>
+                    <option id="43">Media</option>
+                    <option id="5">Users</option>
+                    <option id="x" disabled="disabled">Current location</option>
+                </select>
+                <input type="text" name="SearchText" value="" defaultValue="Search text" title="Search string, what you want to search for." />
+                <input type="submit" name="SearchBtn" value="Search" title="Perform a search and look for the string as you have typed in to 'Search text' input form and using the location as selected in location dropdown box." />
+                </div>
+                <span><a href="tab_and_columns.html#">Logout (User name)</a> &nbsp;</span>
+            </form>
+        </div>
+        <menu>
+            <li class="selected"><a href="tab_and_columns.html#">Tab</a></li>
+            <li><a href="tab_and_columns.html#">Tab</a></li>
+            <li><a href="tab_and_columns.html#">Tab</a></li>
+            <li><a href="tab_and_columns.html#">Tab</a></li>
+            <li><a href="tab_and_columns.html#">Tab</a></li>
+        </menu>
+    </div>
+    <div id="path" class="float-break">
+        <a href="tab_and_columns.html#">Home</a> <span>&gt;</span> <a href="tab_and_columns.html#">About</a> <span>&gt;</span> <a href="tab_and_columns.html#">eZ Publish</a> <span>&gt;</span> <a href="tab_and_columns.html#">4.3</a> <span>&gt;</span> Admin restyling concepts
+    </div>
+    <div id="columns" class="float-break">
+        <div id="leftmenu" class="sidemenu">
+            
+            <div class="menuitem">
+                <div class="menuheader">
+                Treemenu  <a href="tab_and_columns.html#" class="item-hide-show" headerbox="div.menuheader">-</a>
+                </div>
+                <div class="menucontent">
+                    Treemenu content
+                    <br />
+                    <br />
+                </div>
+            </div>
+
+            <div class="menuitem">
+                <div class="menuheader">
+                Leftmenu
+                </div>
+                <div class="menucontent">
+                    Leftmenu content
+                    <br />
+                    <br />
+                </div>
+            </div>
+
+            <div class="sizecontrol">
+                <a href="JavaScript:void(0)" targetsize="160" title="Change width of left menu column to small size!">small</a>
+                <a href="JavaScript:void(0)" targetsize="230" title="Change width of left menu column to medium size!">medium</a>
+                <a href="JavaScript:void(0)" targetsize="300" title="Change width of left menu column to big size!">big</a>
+            </div>
+        </div>
+        <div id="rightmenu" class="sidemenu">
+            <a href="JavaScript:void(0)" class="hidecontrol" title="Click to hide/show the right menu with advance menu options.">&lt;</a>
+            <div class="menuitem">
+                <div class="menuheader">
+                Extramenu 1  <a href="tab_and_columns.html#" class="item-hide-show" headerbox="div.menuheader">-</a>
+                </div>
+                <div class="menucontent">
+                    Extramenu 1 content
+                    <br />
+                </div>
+            </div>
+            <div class="menuitem">
+                <div class="menuheader">
+                Extramenu 2  <a href="tab_and_columns.html#" class="item-hide-show" headerbox="div.menuheader">-</a>
+                </div>
+                <div class="menucontent">
+                    Extramenu 2 content
+                    <br />
+                    <br />
+                    <br />
+                </div>
+            </div>
+            <div class="menuitem">
+                <div class="menuheader">
+                Extramenu 3  <a href="tab_and_columns.html#" class="item-hide-show" headerbox="div.menuheader">-</a>
+                </div>
+                <div class="menucontent">
+                    Extramenu 3 content
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+        <div id="maincontent" class="float-break">
+        
+             <h1 title="Name of current page an it's [content type]">Admin restyling concepts [Future]</h1>
+
+            <div class="boxitem">
+                <div class="boxcontent">
+                    <form method="post">
+                        <select name="Class" title="Content type you want to create here">
+                            <option id="article">Article</option>
+                            <option id="blog">Blog</option>
+                            <option id="folder">Folder</option>
+                        </select>
+                        <input type="submit" name="Create" value="Create here" title="Create content as sub item of this page select type with drop down box next to this button first!" />
+
+                        <span class="vertical-seperator">&nbsp;</span>
+
+                        <select name="Language" title="To select language you want to edit current page in!">
+                            <option id="eng-us">Eng-US</option>
+                            <option id="ger-de">Ger-DE</option>
+                            <option id="fre-fr">Fre-FR</option>
+                        </select>
+                        <input type="submit" name="Edit" value="Edit" title="Edit current page in the language as selected in the language dropp down!" />
+                        <input type="submit" name="Move" value="Move" title="Move current page and it's sub items to another location." />
+                        <input type="submit" name="Copy" value="Copy" title="Copy curent current page but not it's sub items to another location." />
+                        <input type="submit" name="Remove" value="Remove" title="Remove curent current page and it's sub items, and optionally store them in the trashbin in case you regret it (trashbin is emptied on regular interval, so make sure you actually want to remove the content!)." />
+                        
+                        
+                        <a href="tab_and_columns.html#" class="float-right" title="Click to get list of versions of this page and be able to manage/edit/remove them.">Manage versions</a>
+        
+                    </form>
+                </div>
+            </div>
+
+            <div class="boxitem">
+                <div class="boxheader">
+                    &nbsp; <!--  some header? -->  <a href="tab_and_columns.html#" class="item-hide-show" headerbox="div.boxheader">-</a>
+                </div>
+                <div class="boxcontent">
+                    <div class="tabbox">
+                        <menu class="float-break">
+                            <li class="selected"><a href="tab_and_columns.html#">Preview</a></li>
+                            <li><a href="tab_and_columns.html#">Details</a></li>
+                            <li><a href="tab_and_columns.html#">Translations</a></li>
+                            <li><a href="tab_and_columns.html#">Locations</a></li>
+                            <li><a href="tab_and_columns.html#">Relations</a></li>
+                            <li><a href="tab_and_columns.html#">Object states</a></li>
+                        </menu>
+                        <div class="tabcontent selected">
+                            Features:
+                            <ol>
+                                <li>Moves all the controls for the current page to the top to avoid scrolling.</li>
+                                <li>Hides right menu by default to hide features that are not relevant for a editor (or even most admins) during normal use.</li>
+                                <li>Slims down the top header considerably to get more space for content area, also implements support for small screens (down to 200px) by automatically wrapping the header.</li>
+                                <li>Use tabs for misc object details (Preview,Details,...) to save scrolling to sub items and screen space.</li>
+                            </ol>
+                            <br />
+                            Other ideas:
+                             <ol>
+                                <li>Add context menu to sub items on far right side when you hover over the line (like dropbox web interface)</li>
+                                <li>The final result will need to be able to work correctly (with page reloads) for tabs, size control and show/hide controls if javascript is disabled or not supported.</li>
+                                <li>Always refer to Nodes and Objects as "Pages" and if placement specific: "Placement". And (Content Object) Class should refer to as "Page type" or "Type" for short. This way only developers will need to learn what a Node, Object and Class is!</li>
+                            </ol>
+                            
+                        </div>
+                        <div class="tabcontent hide">
+                            Details<br />
+                        </div>
+                        <div class="tabcontent hide">
+                            Translations<br />
+                        </div>
+                        <div class="tabcontent hide">
+                            Locations<br />
+                        </div>
+                        <div class="tabcontent hide">
+                            Relations<br />
+                        </div>
+                        <div class="tabcontent hide">
+                            Object states<br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="boxitem">
+                <div class="boxheader">
+                    Sub items
+                </div>
+                <div class="boxcontent">
+                    <div style="font-size: 85%;">
+			        <a title="Show 10 items per page." href="tab_and_columns.html#">10</a>
+			        <span class="current">25</span>
+			        <a title="Show 50 items per page." href="tab_and_columns.html#">50</a>
+	
+					<div class="float-right">
+					        <p>
+					                <a title="Display sub items using a simple list." href="tab_and_columns.html#">List</a>
+					        <a title="Display sub items as thumbnails." href="tab_and_columns.html#">Thumbnail</a>
+					        <span class="current">Detailed</span>
+					                </p>
+					</div>
+					</div>
+
+					<table cellspacing="0" class="list" style="width: 100%;">
+					<thead>
+					    <tr>
+					        <th class="remove" width="25"></th>
+					        <th class="name">Name</th>
+					        <th class="class">Type</th>
+					        <th class="modifier">Modifier</th>
+					        <th class="modified">Modified</th>
+					        <th class="contexmenu"> </th>
+					    </tr>
+			        </thead>
+				    <tbody>
+					    <tr class="bglight">
+					        <td><input type="checkbox" title='Use these checkboxes to select items to perform som action on them. Click the "&lt;action&gt; selected" button to perform the disired action on the elements you have selected.' value="162" name="DeleteIDArray[]"/></td>
+					        <td><a href="tab_and_columns.html#">Some article about something</a></td>
+					        <td class="class">Article</td>
+					        <td class="modifier"><a href="/trunk/index.php/ezwebin_site_admin/Users/Administrator-users/Administrator-User">Administrator User</a></td>
+					        <td class="modified">24/09/2009 3:28 pm</td>
+					        <td class="contexmenu"></td>
+					    </tr>
+                        <tr class="bgdark">
+                            <td><input type="checkbox" title='Use these checkboxes to select items to perform som action on them. Click the "&lt;action&gt; selected" button to perform the disired action on the elements you have selected.' value="162" name="DeleteIDArray[]"/></td>
+                            <td><a href="tab_and_columns.html#">Some article about something</a></td>
+                            <td class="class">Article</td>
+                            <td class="modifier"><a href="/trunk/index.php/ezwebin_site_admin/Users/Administrator-users/Administrator-User">Administrator User</a></td>
+                            <td class="modified">24/09/2009 3:28 pm</td>
+                            <td class="contexmenu"></td>
+                        </tr>
+                        <tr class="bglight">
+                            <td><input type="checkbox" title='Use these checkboxes to select items to perform som action on them. Click the "&lt;action&gt; selected" button to perform the disired action on the elements you have selected.' value="162" name="DeleteIDArray[]"/></td>
+                            <td><a href="tab_and_columns.html#">Some article about something</a></td>
+                            <td class="class">Article</td>
+                            <td class="modifier"><a href="/trunk/index.php/ezwebin_site_admin/Users/Administrator-users/Administrator-User">Administrator User</a></td>
+                            <td class="modified">24/09/2009 3:28 pm</td>
+                            <td class="contexmenu"></td>
+                        </tr>
+                        <tr class="bgdark">
+                            <td><input type="checkbox" title='Use these checkboxes to select items to perform som action on them. Click the "&lt;action&gt; selected" button to perform the disired action on the elements you have selected.' value="162" name="DeleteIDArray[]"/></td>
+                            <td><a href="tab_and_columns.html#">Some article about something</a></td>
+                            <td class="class">Article</td>
+                            <td class="modifier"><a href="/trunk/index.php/ezwebin_site_admin/Users/Administrator-users/Administrator-User">Administrator User</a></td>
+                            <td class="modified">24/09/2009 3:28 pm</td>
+                            <td class="contexmenu"></td>
+                        </tr>
+                        <tr class="bglight">
+                            <td><input type="checkbox" title='Use these checkboxes to select items to perform som action on them. Click the "&lt;action&gt; selected" button to perform the disired action on the elements you have selected.' value="162" name="DeleteIDArray[]"/></td>
+                            <td><a href="tab_and_columns.html#">Some article about something</a></td>
+                            <td class="class">Article</td>
+                            <td class="modifier"><a href="/trunk/index.php/ezwebin_site_admin/Users/Administrator-users/Administrator-User">Administrator User</a></td>
+                            <td class="modified">24/09/2009 3:28 pm</td>
+                            <td class="contexmenu"></td>
+                        </tr>
+                        <tr class="bgdark">
+                            <td><input type="checkbox" title='Use these checkboxes to select items to perform som action on them. Click the "&lt;action&gt; selected" button to perform the disired action on the elements you have selected.' value="162" name="DeleteIDArray[]"/></td>
+                            <td><a href="tab_and_columns.html#">Some article about something</a></td>
+                            <td class="class">Article</td>
+                            <td class="modifier"><a href="/trunk/index.php/ezwebin_site_admin/Users/Administrator-users/Administrator-User">Administrator User</a></td>
+                            <td class="modified">24/09/2009 3:28 pm</td>
+                            <td class="contexmenu"></td>
+                        </tr>
+					</tbody>
+					</table>
+					<form method="post">
+                        <input type="submit" name="Remove" value="Remove Selected" title="Remove selected elements from list above using the checkboxes and then clicking this button!"  />
+                        <input type="submit" name="Move" value="Move Selected"  title="Move selected elements from list above using the checkboxes and then clicking this button!" />
+                        
+                        
+                        <div class="float-right">
+							<label>Sorting:</label>
+							            <input type="hidden" value="66" name="ContentObjectID"/>
+							<select title="Use these controls to set the sorting method for the sub items of the current location." name="SortingField">    <option value="6">Class identifier</option>    <option value="7">Class name</option>    <option value="5">Depth</option>    <option value="3">Modified</option>    <option selected="selected" value="9">Name</option>    <option value="8">Priority</option>    <option value="2">Published</option>    <option value="4">Section</option></select>
+							
+							<select title="Use these controls to set the sorting method for the sub items of the current location." name="SortingOrder">
+							    <option value="0">Descending</option>
+							    <option selected="selected" value="1">Ascending</option>
+							</select>
+							
+							<input type="submit" title="Use these controls to set the sorting method for the sub items of the current location." value="Set" name="SetSorting" class="button"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="footer" class="float-break">
+       Footer
+    </div>
+    </div>
+<script type="text/javascript">
+<!--
+
+var inputTextBoxes = jQuery('input[defaultValue]'), rightSizeControlLinks = jQuery( '#rightmenu a.hidecontrol' );
+var leftSizeControlLinks = jQuery( '#leftmenu div.sizecontrol a' ), hideControlLinks = jQuery( 'a.item-hide-show' );
+
+// insert default values on input fields that has those
+// ( they are empty by default to work better for screen readers and non javascript clients  )
+inputTextBoxes.each(function( i, el )
+{
+    if ( el.value === '' ) el.value = el.getAttribute( 'defaultValue' );
+});
+
+// set class for styiling on focus
+inputTextBoxes.focus(function(e)
+{
+    jQuery(this).addClass("active");
+    if ( this.value === this.getAttribute( 'defaultValue' ) )
+        this.value = '';
+});
+
+// remove class for styling on unfocus
+inputTextBoxes.blur(function(e)
+{
+    jQuery(this).removeClass("active");
+    if ( this.value === '' && this.getAttribute( 'defaultValue' ) !== '' )
+        this.value = this.getAttribute( 'defaultValue' );
+});
+
+// Animate left & right menu width on click
+rightSizeControlLinks.click(function(e)
+{
+    var link = jQuery( this ), linkbox = jQuery( '#rightmenu' ), hide = linkbox.width() > 15, main = jQuery('#maincontent');
+    linkbox.animate({
+        width: ( hide ? '12px' : '160px')
+    }, 650 );
+    main.animate({ marginRight: ( hide ? '12px' : '160px')}, 650 );
+    link.html( hide ? '&lt;' : '&gt;' );
+});
+
+leftSizeControlLinks.click(function(e)
+{
+    var link = jQuery( this ), linkbox = jQuery( '#leftmenu' ), main = jQuery('#maincontent'), target = this.getAttribute('targetsize');
+    linkbox.animate({
+        width: target + 'px'
+    }, 500 );
+    main.animate({ marginLeft: target + 'px' }, 500 );
+});
+
+hideControlLinks.click(function(e)
+{
+    var link = jQuery( this ), box = jQuery( this.parentNode.parentNode ), header = jQuery( this.getAttribute('headerbox'), box ), hide = box.height() > header.height();
+    if ( hide ) box.attr( 'targetsize', box.height() );
+    box.animate({
+        height: ( hide ? header.height(): box.attr( 'targetsize' ) ) + 'px'
+    }, 300, 'swing', ( box.parent( '#leftmenu' ).size() == 0 ? undefined : function()
+    {
+        var leftmenu = jQuery( '#leftmenu' );
+        leftmenu.animate({
+            marginLeft: ( hide ? - ( leftmenu.width() -19 ) : 0 ) + 'px'
+        }, 300);
+        jQuery('#maincontent').animate({ marginLeft: ( hide ? '19px' : leftmenu.width() + 'px')}, 300 );
+    }));
+    link.html( hide ? '+' : '-' );
+});
+
+
+jQuery('div.tabbox menu li a').click( function( e )
+{
+    var li = jQuery(this.parentNode), box = this.parentNode.parentNode.parentNode, items = jQuery('menu li', box), boxes = jQuery('div.tabcontent', box);
+    if ( !li.hasClass( 'selected' ) )
+    {
+        var index = items.index( this.parentNode ), targetbox = jQuery( boxes.get( index ) );
+        boxes.filter( '.selected' ).addClass( 'hide' ).removeClass( 'selected');
+        items.filter( '.selected' ).removeClass( 'selected' );
+        targetbox.removeClass( 'hide').addClass( 'selected' );
+        li.addClass( 'selected' );
+    }
+});
+
+// Disable form controls when submiting form
+jQuery('form').submit(function()
+{
+	// Use timeout to make sure data is sent
+	var formElement = this;
+	window.setTimeout( function(){ jQuery('input,select', formElement).attr( 'disabled', true ).attr( 'title', 'Form control has been disabled since you are currently submitting this form using "' + formElement.name + '" button!' ) }, 5 )
+	return false;
+});
+
+-->
+</script>
+</body>
+</html>

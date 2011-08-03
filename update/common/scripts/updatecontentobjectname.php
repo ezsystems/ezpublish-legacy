@@ -1,86 +1,68 @@
 #!/usr/bin/env php
 <?php
-//
-// Created on: <28-Nov-2002 12:45:40 bf>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 require 'autoload.php';
 
 set_time_limit( 0 );
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'debug-message' => '',
-                                      'use-session' => true,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( 
+    array( 
+        'debug-message' => '',
+        'use-session' => true,
+        'use-modules' => true,
+        'use-extensions' => true 
+    ) 
+);
 
 $script->startup();
 
-$endl = $cli->endlineString();
 $webOutput = $cli->isWebOutput();
 
 function help()
 {
     $argv = $_SERVER['argv'];
     $cli = eZCLI::instance();
-    $cli->output( "Usage: " . $argv[0] . " [OPTION]...\n" .
-                  "eZ Publish content object name update.\n" .
-                  "Goes trough all objects and updates all content object names\n" .
-                  "\n" .
-                  "General options:\n" .
-                  "  -h,--help          display this help and exit \n" .
-                  "  -q,--quiet         do not give any output except when errors occur\n" .
-                  "  -s,--siteaccess    selected siteaccess for operations, if not specified default siteaccess is used\n" .
-                  "  -d,--debug         display debug output at end of execution\n" .
-                  "  --db-host=HOST     Use database host HOST\n" .
-                  "  --db-user=USER     Use database user USER\n" .
-                  "  --db-password=PWD  Use database password PWD\n" .
-                  "  --db-database=DB   Use database named DB\n" .
-                  "  --db-driver=DRIVER Use database driver DRIVER\n" .
-                  "  -c,--colors        display output using ANSI colors\n" .
-                  "  --sql              display sql queries\n" .
-                  "  --logfiles         create log files\n" .
-                  "  --no-logfiles      do not create log files (default)\n" .
-                  "  --no-colors        do not use ANSI coloring (default)\n" );
+    $cli->output( 
+        "Usage: " . $argv[0] . " [OPTION]...\n" .
+        "eZ Publish content object name update.\n" .
+        "Goes trough all objects and updates all content object names\n" .
+        "\n" .
+        "General options:\n" .
+        "  -h,--help          display this help and exit \n" .
+        "  -q,--quiet         do not give any output except when errors occur\n" .
+        "  -s,--siteaccess    selected siteaccess for operations, if not specified default siteaccess is used\n" .
+        "  -d,--debug         display debug output at end of execution\n" .
+        "  --db-host=HOST     Use database host HOST\n" .
+        "  --db-user=USER     Use database user USER\n" .
+        "  --db-password=PWD  Use database password PWD\n" .
+        "  --db-database=DB   Use database named DB\n" .
+        "  --db-driver=DRIVER Use database driver DRIVER\n" .
+        "  -c,--colors        display output using ANSI colors\n" .
+        "  --sql              display sql queries\n" .
+        "  --logfiles         create log files\n" .
+        "  --no-logfiles      do not create log files (default)\n" .
+        "  --no-colors        do not use ANSI coloring (default)\n" 
+    );
 }
 
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
-    global $isQuiet;
     $cli = eZCLI::instance();
-    if ( file_exists( 'settings/siteaccess/' . $optionData ) )
+    if ( in_array( $optionData, eZINI::instance()->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' ) ) )
     {
         $siteaccess = $optionData;
-        if ( !$isQuiet )
-            $cli->notice( "Using siteaccess $siteaccess for content object name update" );
+        $cli->output( "Using siteaccess $siteaccess for content object name update" );
     }
     else
     {
-        if ( !$isQuiet )
-            $cli->notice( "Siteaccess $optionData does not exist, using default siteaccess" );
+        $cli->notice( "Siteaccess $optionData does not exist, using default siteaccess" );
     }
 }
 
@@ -109,12 +91,9 @@ $readOptions = true;
 for ( $i = 1; $i < count( $argv ); ++$i )
 {
     $arg = $argv[$i];
-    if ( $readOptions and
-         strlen( $arg ) > 0 and
-         $arg[0] == '-' )
+    if ( $readOptions && strlen( $arg ) > 0 && $arg[0] == '-' )
     {
-        if ( strlen( $arg ) > 1 and
-             $arg[1] == '-' )
+        if ( strlen( $arg ) > 1 && $arg[1] == '-' )
         {
             $flag = substr( $arg, 2 );
             if ( in_array( $flag, $longOptionsWithData ) )
@@ -260,32 +239,31 @@ for ( $i = 1; $i < count( $argv ); ++$i )
         }
     }
 }
+
 $script->setUseDebugOutput( $debugOutput );
 $script->setAllowedDebugLevels( $allowedDebugLevels );
 $script->setUseDebugAccumulators( $useDebugAccumulators );
 $script->setUseDebugTimingPoints( $useDebugTimingpoints );
 $script->setUseIncludeFiles( $useIncludeFiles );
+$script->setIsQuiet( $isQuiet );
 
 if ( $webOutput )
     $useColors = true;
 
 $cli->setUseStyles( $useColors );
-$script->setDebugMessage( "\n\n" . str_repeat( '#', 36 ) . $cli->style( 'emphasize' ) . " DEBUG " . $cli->style( 'emphasize-end' )  . str_repeat( '#', 36 ) . "\n" );
 
+$script->setDebugMessage( "\n\n" . str_repeat( '#', 36 ) . $cli->style( 'emphasize' ) . " DEBUG " . $cli->style( 'emphasize-end' )  . str_repeat( '#', 36 ) . "\n" );
 $script->setUseSiteAccess( $siteaccess );
 
 $script->initialize();
 
-print( "Updating content object names\n" );
+$cli->output( "Updating content object names" );
 
-//eZDebug::setHandleType( eZDebug::HANDLE_FROM_PHP );
-
-// eZModule::setGlobalPathList( array( "kernel" ) );
 eZExecution::registerShutdownHandler( );
 
 $db = eZDB::instance();
 
-if ( $dbHost or $dbName or $dbUser or $dbImpl )
+if ( $dbHost || $dbName || $dbUser || $dbImpl )
 {
     $params = array();
     if ( $dbHost !== false )
@@ -305,30 +283,44 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
 
 $db->setIsSQLOutputEnabled( $showSQL );
 
-// Get top node
-$topNodeArray = eZPersistentObject::fetchObjectList( eZContentObjectTreeNode::definition(),
-                                                     null,
-                                                     array( 'parent_node_id' => 1,
-                                                            'depth' => 1 ) );
+// Get top nodes
+$topNodeArray = eZPersistentObject::fetchObjectList( 
+    eZContentObjectTreeNode::definition(),
+    null,
+    array( 
+        'parent_node_id' => 1,
+        'depth' => 1 
+    ) 
+);
+
 $subTreeCount = 0;
-foreach ( array_keys ( $topNodeArray ) as $key  )
+foreach ( $topNodeArray as $node )
 {
-    $subTreeCount += $topNodeArray[$key]->subTreeCount( array( 'Limitation' => false ) );
+    $subTreeCount += $node->subTreeCount( 
+        array( 
+            'Limitation' => array() 
+        ) 
+    );
 }
 
-print( "Number of objects to update: $subTreeCount $endl" );
+$cli->output( "Number of objects to update: $subTreeCount" );
 
 $i = 0;
 $dotMax = 70;
 $dotCount = 0;
 $limit = 50;
 
-foreach ( array_keys ( $topNodeArray ) as $key  )
+foreach ( $topNodeArray as $node )
 {
-    $node =& $topNodeArray[$key];
     $offset = 0;
-    $subTree =& $node->subTree( array( 'Offset' => $offset, 'Limit' => $limit,
-                                       'Limitation' => array() ) );
+    $subTree = $node->subTree( 
+        array( 
+            'Offset' => $offset, 
+            'Limit' => $limit,
+            'Limitation' => array() 
+        ) 
+    );
+
     while ( $subTree != null )
     {
         foreach ( $subTree as $innerNode )
@@ -343,23 +335,29 @@ foreach ( array_keys ( $topNodeArray ) as $key  )
             // show progress bar
             ++$i;
             ++$dotCount;
-            print( "." );
-            if ( $dotCount >= $dotMax or $i >= $subTreeCount )
+            $cli->output( '.', false );
+            if ( $dotCount >= $dotMax || $i >= $subTreeCount )
             {
                 $dotCount = 0;
-                $percent = (float)( ($i*100.0) / $subTreeCount );
-                print( " " . $percent . "%" . $endl );
+                $percent = number_format( ( $i * 100.0 ) / $subTreeCount, 2 );
+                $cli->output( " " . $percent . "%" );
             }
         }
         $offset += $limit;
         unset( $subTree );
-        $subTree =& $node->subTree( array( 'Offset' => $offset, 'Limit' => $limit,
-                                           'Limitation' => array() ) );
+        $subTree = $node->subTree( 
+            array( 
+                'Offset' => $offset, 
+                'Limit' => $limit,
+                'Limitation' => array() 
+            ) 
+        );
     }
 }
 
-print( $endl . "done" . $endl );
+$cli->output( "done" );
 
 $script->shutdown();
 
 ?>
+

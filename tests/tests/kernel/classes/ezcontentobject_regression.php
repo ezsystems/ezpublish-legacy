@@ -3,7 +3,8 @@
  * File containing the eZContentObjectRegression class
  *
  * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
  * @package tests
  */
 
@@ -248,6 +249,24 @@ class eZContentObjectRegression extends ezpDatabaseTestCase
             'sort_by' => array( 'class_identifier', true ) ) );
         self::assertType( 'array', $result );
         self::assertEquals( 4, count( $result ), "Expecting 4 objects fetched" );
+    }
+
+    /**
+     * Test scenario for issue #15985 : Debug notices when translating an 
+     * object to a new language
+     *
+     * @group issue_15985
+     */
+    public function testIssue15985()
+    {
+        $folder = new ezpObject( "folder", 2, 14, 1, 'eng-GB' );
+        $folder->name = __FUNCTION__;
+        $folder->object->setAttribute( 'always_available', 1 );
+        $folder->publish();
+
+        $nameNorNO = $folder->object->versionLanguageName( 1, 'nor-NO' );
+        self::assertType( 'string', $nameNorNO, 'Expecting to get a string (not false)' );
+        self::assertEquals( __FUNCTION__, $nameNorNO );
     }
 }
 

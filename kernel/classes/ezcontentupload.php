@@ -1,35 +1,12 @@
 <?php
-//
-// Definition of eZContentUpload class
-//
-// Created on: <28-Apr-2003 11:04:47 sp>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
-
-/*! \file
-*/
+/**
+ * File containing the eZContentUpload class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /*!
   \class eZContentUpload ezcontentupload.php
@@ -438,21 +415,32 @@ class eZContentUpload
                                      $object, $publishVersion, $class, $parentNodes, $parentMainNode );
     }
 
-    /*!
-     Fetches the uploaded file, figures out its MIME-type and creates the proper content object out of it.
-
-     \param $httpFileIdentifier The HTTP identifier of the uploaded file, this must match the \em name of your \em input tag.
-     \param $result Result data, will be filled with information which the client can examine, contains:
-                    - errors - An array with errors, each element is an array with \c 'description' containing the text
-     \param $location The node ID which the new object will be placed or the string \c 'auto' for automatic placement of type.
-     \param $existingNode Pass a contentobjecttreenode object to let the uploading be done to an existing object,
-                          if not it will create one from scratch.
-
-     \return \c false if something failed or \c true if succesful.
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
-    function handleUpload( &$result, $httpFileIdentifier, $location, $existingNode, $nameString = '' )
+    /**
+     * Fetches the uploaded file, figures out its MIME-type and creates the
+     * proper content object out of it.
+     *
+     * @param array $result
+     *        Result data, will be filled with information which the client can
+     *        examine, contains: errors An array with errors, each element is
+     *        an array with a 'description' entry containing the text
+     * @param string $httpFileIdentifier
+     *        The HTTP identifier of the uploaded file, this must match the
+     *        name of the input tag.
+     * @param mixed $location
+     *        The node ID which the new object will be placed or the string
+     *        'auto' for automatic placement of type.
+     * @param eZContentObjectTreeNode|false $existingNode
+     *        Pass a contentobjecttreenode object to let the uploading be done
+     *        to an existing object, if not it will create one from scratch.
+     * @param string $nameString
+     *        The name of the new object/new version
+     * @param string|false $localeCode
+     *        Locale code (eg eng-GB, fre-FR, ...) to use when creating the
+     *        object or the version.
+     *
+     * @return boolean
+     */
+    function handleUpload( &$result, $httpFileIdentifier, $location, $existingNode, $nameString = '', $localeCode = false )
     {
         $result = array( 'errors' => array(),
                          'notices' => array(),
@@ -632,14 +620,14 @@ class eZContentUpload
                 $db->commit();
                 return false;
             }
-            $version = $object->createNewVersion( false, true );
+            $version = $object->createNewVersion( false, true, $localeCode );
             unset( $dataMap );
             $dataMap = $version->dataMap();
             $publishVersion = $version->attribute( 'version' );
         }
         else
         {
-            $object = $class->instantiate();
+            $object = $class->instantiateIn( $localeCode );
             unset( $dataMap );
             $dataMap = $object->dataMap();
             $publishVersion = $object->attribute( 'current_version' );
@@ -648,7 +636,11 @@ class eZContentUpload
         unset( $dataMap );
         $dataMap = $object->dataMap();
 
-        $status = $dataMap[$fileAttribute]->insertHTTPFile( $object, $publishVersion, eZContentObject::defaultLanguage(),
+        if ( $localeCode === false )
+        {
+            $localeCode = eZContentObject::defaultLanguage();
+        }
+        $status = $dataMap[$fileAttribute]->insertHTTPFile( $object, $publishVersion, $localeCode,
                                                             $file, $mimeData,
                                                             $storeResult );
         if ( $status === null )
@@ -669,7 +661,7 @@ class eZContentUpload
         if ( $storeResult['require_storage'] )
             $dataMap[$fileAttribute]->store();
 
-        $status = $dataMap[$nameAttribute]->insertSimpleString( $object, $publishVersion, eZContentObject::defaultLanguage(),
+        $status = $dataMap[$nameAttribute]->insertSimpleString( $object, $publishVersion, $localeCode,
                                                                 $nameString,
                                                                 $storeResult );
         if ( $status === null )

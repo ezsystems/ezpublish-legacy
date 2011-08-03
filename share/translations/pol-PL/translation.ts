@@ -4578,8 +4578,8 @@
         <translation>Twoja instalacja: &lt;span id=&quot;ez-version&quot;&gt;%1&lt;/span&gt;</translation>
     </message>
     <message>
-        <source>If your installation is not running eZ Publish Premium, it might not be up to date with the latest maintenance service packs. Contact eZ Systems.</source>
-        <translation>Jeżeli instalacja nie jest uruchomiona jako eZ Publish Premium możesz nie otrzymywać na bieżąco informacji o nowych dodatkach Service Pack. Skontaktuj się z eZ Systems.</translation>
+        <source>If your installation is not running eZ Publish Enterprise, it might not be up to date with the latest maintenance service packs. Contact eZ Systems.</source>
+        <translation>Jeżeli instalacja nie jest uruchomiona jako eZ Publish Enterprise możesz nie otrzymywać na bieżąco informacji o nowych dodatkach Service Pack. Skontaktuj się z eZ Systems.</translation>
     </message>
 </context>
 <context>

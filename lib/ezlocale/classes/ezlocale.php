@@ -1,32 +1,12 @@
 <?php
-//
-// Definition of eZLocale class
-//
-// Created on: <01-Mar-2002 13:48:32 amos>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZLocale class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package lib
+ */
 
 /*! \defgroup eZLocale Locale system */
 
@@ -89,7 +69,6 @@ http://www.php.net/manual/en/function.date.php
 The following characters are not recognized in the format string:
 
 - B - Swatch Internet time
-- r - RFC 822 formatted date; e.g. "Thu, 21 Dec 2000 16:01:07 +0200" (added in PHP 4.0.4)
 - S - English ordinal suffix for the day of the month, 2 characters; i.e. "st", "nd", "rd" or "th"
 
 The following characters are recognized in the format string:
@@ -122,6 +101,8 @@ The following characters are recognized in the format string:
 - y - year, 2 digits; e.g. "99"
 - z - day of the year; i.e. "0" to "365"
 - Z - timezone offset in seconds (i.e. "-43200" to "43200"). The offset for timezones west of UTC is always negative, and for those east of UTC is always positive.
+- c - ISO 8601 date; i.e. 2004-02-12T15:19:21+00:00
+- r - RFC 2822 formated date; i.e. Thu, 21 Dec 2000 16:01:07 +0200
 
 \sa eZLanguage
 */
@@ -138,9 +119,9 @@ class eZLocale
     {
         $this->IsValid = false;
         $this->TimePHPArray = array( 'g', 'G', 'h', 'H', 'i', 's', 'U', 'I', 'L', 't' );
-        $this->DatePHPArray = array( 'd', 'j', 'm', 'n', 'O', 'T', 'U', 'w', 'W', 'Y', 'y', 'z', 'Z', 'I', 'L', 't' );
+        $this->DatePHPArray = array( 'd', 'j', 'm', 'n', 'O', 'S', 'T', 'U', 'w', 'W', 'Y', 'y', 'z', 'Z', 'I', 'L', 't' );
         $this->DateTimePHPArray = array( 'd', 'j', 'm', 'n', 'O', 'T', 'U', 'w', 'W', 'Y', 'y', 'z', 'Z',
-                                         'g', 'G', 'h', 'H', 'i', 's', 'U', 'I', 'L', 't', 'a' );
+                                         'g', 'G', 'h', 'H', 'i', 's', 'S', 'U', 'I', 'L', 't', 'a', 'c', 'r' );
         $this->TimeArray = preg_replace( '/.+/', '%$0', $this->TimePHPArray );
         $this->DateArray = preg_replace( '/.+/', '%$0', $this->DatePHPArray );
         $this->DateTimeArray = preg_replace( '/.+/', '%$0', $this->DateTimePHPArray );
@@ -1470,7 +1451,7 @@ class eZLocale
      Returns the eZINI object for the locale ini file.
      \warning Do not modify this object.
     */
-    function &localeFile( $withVariation = false )
+    function localeFile( $withVariation = false )
     {
         $type = $withVariation ? 'variation' : 'default';
         if ( !( $this->LocaleINI[$type] instanceof eZINI ) )
@@ -1501,7 +1482,7 @@ class eZLocale
      Returns the eZINI object for the country ini file.
      \warning Do not modify this object.
     */
-    function &countryFile( $withVariation = false )
+    function countryFile( $withVariation = false )
     {
         $type = $withVariation ? 'variation' : 'default';
         if ( !( $this->CountryINI[$type] instanceof eZINI ) )
@@ -1529,7 +1510,7 @@ class eZLocale
      Returns the eZINI object for the language ini file.
      \warning Do not modify this object.
     */
-    function &languageFile( $withVariation = false )
+    function languageFile( $withVariation = false )
     {
         $type = $withVariation ? 'variation' : 'default';
         if ( !( $this->LanguageINI[$type] instanceof eZINI ) )

@@ -1,31 +1,10 @@
 <?php
-//
-// Created on: <16-Apr-2002 11:00:12 amos>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
-
+/**
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 $Module = $Params['Module'];
 $ClassID = $Params['ClassID'];
@@ -235,8 +214,9 @@ if ( $http->hasPostVariable( 'RemoveGroupButton' ) && $http->hasPostVariable( 'g
 }
 
 
-// Ajax actions ( normal ones have "<action>_<attribute_id>" form and are fixed up later in $dataType->fixupClassAttributeHTTPInput )
-if ( $http->hasPostVariable( 'MoveUp' ) )
+// Ajax actions (normal ones have $contentClassHasInput == 1 and are fixed up
+// later in $dataType->fixupClassAttributeHTTPInput)
+if ( $contentClassHasInput == 0 && $http->hasPostVariable( 'MoveUp' ) )
 {
     $attribute = eZContentClassAttribute::fetch( $http->postVariable( 'MoveUp' ), true, eZContentClass::VERSION_STATUS_TEMPORARY,
                                                   array( 'contentclass_id', 'version', 'placement' ) );
@@ -247,7 +227,7 @@ if ( $http->hasPostVariable( 'MoveUp' ) )
     eZDB::checkTransactionCounter();
     eZExecution::cleanExit();
 }
-else if ( $http->hasPostVariable( 'MoveDown' ) )
+else if ( $contentClassHasInput == 0 && $http->hasPostVariable( 'MoveDown' ) )
 {
     $attribute = eZContentClassAttribute::fetch( $http->postVariable( 'MoveDown' ), true, eZContentClass::VERSION_STATUS_TEMPORARY,
                                                   array( 'contentclass_id', 'version', 'placement' ) );

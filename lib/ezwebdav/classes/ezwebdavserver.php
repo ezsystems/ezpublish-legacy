@@ -1,36 +1,12 @@
 <?php
-//
-// Definition of eZWebDAVServer class
-//
-// Created on: <01-Aug-2003 13:13:13 bh>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
-
-/*! \file
- WebDAV server base class.
-*/
+/**
+ * File containing the eZWebDAVServer class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package lib
+ */
 
 /*! \defgroup eZWebDAV WebDAV system */
 
@@ -523,7 +499,10 @@ class eZWebDAVServer
         $text = @ob_get_contents();
         if ( strlen( $text ) != 0 )
             $this->appendLogEntry( $text, "DAV: PHP Output" );
-        while ( @ob_end_clean() );
+        for ( $i = 0, $obLevel = ob_get_level(); $i < $obLevel; ++$i )
+        {
+            ob_end_clean();
+        }
 
         // Dump XML response (from server to client to logfile.
         //$this->appendLogEntry( $xmlText, 'xmlText' );
@@ -594,7 +573,10 @@ class eZWebDAVServer
                 $text = @ob_get_contents();
                 if ( strlen( $text ) != 0 )
                     $this->appendLogEntry( $text, "DAV: PHP Output" );
-                while ( @ob_end_clean() );
+                for ( $i = 0, $obLevel = ob_get_level(); $i < $obLevel; ++$i )
+                {
+                    ob_end_clean();
+                }
 
                 if ( !$headers_only )
                 {
@@ -633,7 +615,10 @@ class eZWebDAVServer
             $text = @ob_get_contents();
             if ( strlen( $text ) != 0 )
                 $this->appendLogEntry( $text, "DAV: PHP Output" );
-            while ( @ob_end_clean() );
+            for ( $i = 0, $obLevel = ob_get_level(); $i < $obLevel; ++$i )
+            {
+                ob_end_clean();
+            }
 
             return eZWebDAVServer::FAILED_NOT_FOUND;
         }
@@ -898,7 +883,10 @@ class eZWebDAVServer
         $text = @ob_get_contents();
         if ( strlen( $text ) != 0 )
             $this->appendLogEntry( $text, "DAV: PHP Output" );
-        while ( @ob_end_clean() );
+        for ( $i = 0, $obLevel = ob_get_level(); $i < $obLevel; ++$i )
+        {
+            ob_end_clean();
+        }
     }
 
     /*!

@@ -6,7 +6,7 @@ jQuery(function( $ )
             timeout : null,
             down: function( e )
             {
-    	        leftMenuDrag.elements = [ $( '#leftmenu' ), $( '#maincontent' ) ];
+                leftMenuDrag.elements = [ $( '#leftmenu' ), $( '#maincontent' ) ];
                 if ( leftMenuDrag.timeout !== null )
                 {
                     clearTimeout( leftMenuDrag.timeout );
@@ -35,7 +35,9 @@ jQuery(function( $ )
             {
                 var px  = $( '#leftmenu' ).width();
                 var url = $.ez.url.replace( 'ezjscore/', 'user/preferences/' ) + 'set_and_exit/admin_left_menu_size/' + leftMenuDrag.em( px ) + 'em';
-                $.post( url, {}, function(){} );
+                var _token = '', _tokenNode = document.getElementById('ezxform_token_js');
+                if ( _tokenNode ) _token = 'ezxform_token=' + _tokenNode.getAttribute('title');
+                $.post( url, _token, function(){} );
             },
             em: function( px )
             {
@@ -44,7 +46,7 @@ jQuery(function( $ )
                 return (px / scale).toFixed(8);
             }
     };
-    var wl = $('#widthcontrol-links'), wh = $('#widthcontrol-handler'); 
+    var wl = $('#widthcontrol-links'), wh = $('#widthcontrol-handler');
     if ( wl && wh )
     {
         wl.addClass( 'hide' );
