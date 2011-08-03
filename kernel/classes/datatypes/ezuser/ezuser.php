@@ -942,8 +942,13 @@ WHERE user_id = '" . $userID . "' AND
      All login handlers should use this function to ensure that the process
      is executed properly.
     */
-    static function setCurrentlyLoggedInUser( $user, $userID )
+    static function setCurrentlyLoggedInUser( $user, $userID = false )
     {
+        if ( $userID === false )
+        {
+            $userID = $user->attribute( 'contentobject_id' );
+        }
+
         $GLOBALS["eZUserGlobalInstance_$userID"] = $user;
         // Set/overwrite the global user, this will be accessed from
         // instance() when there is no ID passed to the function.
