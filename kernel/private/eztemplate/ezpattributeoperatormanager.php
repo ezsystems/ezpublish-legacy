@@ -14,6 +14,7 @@ class ezpAttributeOperatorManager
      * @var ezpAttributeOperatorFormatterInterface Output formatter object container
      */
     protected static $formatter = null;
+    protected static $format = null;
 
     /**
      * Searches for the output formatter handler class for a given format
@@ -64,9 +65,10 @@ class ezpAttributeOperatorManager
             $format = eZINI::instance( 'template.ini' )->variable( 'AttributeOperator', 'DefaultFormatter' );
         }
 
-        if ( !( self::$formatter instanceof ezpAttributeOperatorFormatterInterface ) )
+        if ( !( self::$formatter instanceof ezpAttributeOperatorFormatterInterface ) || $format != self::$format )
         {
             self::$formatter = self::createFormatter( $format );
+            self::$format = $format;
         }
 
         return self::$formatter;
