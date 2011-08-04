@@ -2759,7 +2759,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         foreach ( array_chunk( $objectSimpleIDArray, 100 ) as $pagedObjectIDs )
         {
             $db->query( "UPDATE ezcontentobject SET section_id='$sectionID' WHERE $filterPart " . $db->generateSQLINStatement( $pagedObjectIDs, 'id', false, true, 'int' ) );
-            $db->query( "UPDATE ezsearch_object_word_link SET section_id='$sectionID' WHERE $filterPart " . $db->generateSQLINStatement( $pagedObjectIDs, 'contentobject_id', false, true, 'int' ) );
+            eZSearch::updateObjectsSection( $pagedObjectIDs, $sectionID );
         }
         $db->commit();
 
