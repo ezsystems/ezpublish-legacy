@@ -292,7 +292,8 @@ class ezjscAjaxContent
 
             foreach( $contentObject->attribute( 'data_map' ) as $key => $atr )
             {
-                if ( $atr->attribute( 'data_type_string' ) == $thumbDataType )
+                if ( $atr->attribute( 'data_type_string' ) == $thumbDataType
+                        && $atr->attribute( 'has_content' ) )
                 {
                     $imageContent = $atr->attribute( 'content' );
 
