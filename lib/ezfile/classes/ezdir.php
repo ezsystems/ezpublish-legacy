@@ -432,13 +432,19 @@ class eZDir
         }
     }
 
-    /*!
-     \static
-     Recurses through the directory and returns the files that matches the given suffix.
-     This function will store the relative path from the given base only.
-     Note: this function will not traverse . (hidden) folders
-    */
-    static function recursiveFindRelative( $baseDir, $subDir, $suffix )
+    /**
+     * Recursivly search for file
+     * 
+     * Recurses through the directory and returns the files that matches the given suffix.
+     * This function will store the relative path from the given base only.
+     * Note: this function will not traverse . (hidden) folders
+     * 
+     * @param string $baseDir path to search
+     * @param string $subDir the subdirectory to search through
+     * @param string $suffix regular expression to match
+     * @return array of all items matching pattern
+     */
+    public static function recursiveFindRelative( $baseDir, $subDir, $suffix )
     {
         //  Old implementation as really weird and was way to much code for adding 1 slash
         $dir = $baseDir . (( '' !== $baseDir ) ? '/' : '' ) . $subDir;
