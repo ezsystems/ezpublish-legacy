@@ -765,7 +765,11 @@ if ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) !== 'true' )
 
     if ( $currentUser->isLoggedIn() )
     {
-        setcookie( 'is_logged_in', 'true', 0, $cookiePath );
+        // Only set the cookie if it doesnt exist. This way we are not constantly sending the set request in the headers.
+        if ( !isset( $_COOKIE['is_logged_in'] ) || $_COOKIE['is_logged_in'] != 'true' )
+        {
+            setcookie( 'is_logged_in', 'true', 0, $cookiePath );
+        }
     }
     else if ( isset( $_COOKIE['is_logged_in'] ) )
     {
