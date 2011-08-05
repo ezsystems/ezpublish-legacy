@@ -3,7 +3,8 @@
  * File containing various wrapper classes used by the WebDAV tests.
  *
  * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
  * @package tests
  */
 
@@ -109,7 +110,10 @@ class eZWebDAVContentServerWrapper extends eZWebDAVContentServer
                 $text = @ob_get_contents();
                 if ( strlen( $text ) != 0 )
                     $this->appendLogEntry( $text, "DAV: PHP Output" );
-                while ( @ob_end_clean() );
+                for ( $i = 0, $obLevel = ob_get_level(); $i < $obLevel; ++$i )
+                {
+                    ob_end_clean();
+                }
 
                 if ( !$headers_only )
                 {
@@ -150,7 +154,10 @@ class eZWebDAVContentServerWrapper extends eZWebDAVContentServer
             $text = @ob_get_contents();
             if ( strlen( $text ) != 0 )
                 $this->appendLogEntry( $text, "DAV: PHP Output" );
-            while ( @ob_end_clean() );
+            for ( $i = 0, $obLevel = ob_get_level(); $i < $obLevel; ++$i )
+            {
+                ob_end_clean();
+            }
 
             return eZWebDAVServer::FAILED_NOT_FOUND;
         }
@@ -315,7 +322,10 @@ class eZWebDAVContentServerWrapper extends eZWebDAVContentServer
         $text = @ob_get_contents();
         if ( strlen( $text ) != 0 )
             $this->appendLogEntry( $text, "DAV: PHP Output" );
-        while ( @ob_end_clean() );
+        for ( $i = 0, $obLevel = ob_get_level(); $i < $obLevel; ++$i )
+        {
+            ob_end_clean();
+        }
 
         // Dump XML response (from server to client to logfile.
         //$this->appendLogEntry( $xmlText, 'xmlText' );

@@ -568,6 +568,19 @@ CREATE SEQUENCE ezorder_s
 
 
 
+CREATE SEQUENCE ezorder_nr_incr_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
 CREATE SEQUENCE ezorder_item_s
     START 1
     INCREMENT 1
@@ -2088,6 +2101,16 @@ CREATE TABLE ezorder (
 
 
 
+CREATE TABLE ezorder_nr_incr (
+    id integer DEFAULT nextval('ezorder_nr_incr_s'::text) NOT NULL
+);
+
+
+
+
+
+
+
 CREATE TABLE ezorder_item (
     description character varying(255),
     id integer DEFAULT nextval('ezorder_item_s'::text) NOT NULL,
@@ -2251,7 +2274,7 @@ CREATE TABLE ezprest_authcode (
     expirytime bigint DEFAULT '0' NOT NULL,
     id character varying(200) DEFAULT ''::character varying NOT NULL,
     scope character varying(200),
-    user_id character varying(200) DEFAULT ''::character varying NOT NULL
+    user_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2298,7 +2321,7 @@ CREATE TABLE ezprest_token (
     id character varying(200) DEFAULT ''::character varying NOT NULL,
     refresh_token character varying(200) DEFAULT ''::character varying NOT NULL,
     scope character varying(200),
-    user_id character varying(200) DEFAULT ''::character varying NOT NULL
+    user_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -4659,6 +4682,15 @@ ALTER TABLE ONLY ezoperation_memento
 
 ALTER TABLE ONLY ezorder
     ADD CONSTRAINT ezorder_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezorder_nr_incr
+    ADD CONSTRAINT ezorder_nr_incr_pkey PRIMARY KEY (id);
 
 
 

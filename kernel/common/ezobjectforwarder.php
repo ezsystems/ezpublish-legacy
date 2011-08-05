@@ -1,35 +1,12 @@
 <?php
-//
-// Definition of eZObjectforwarder class
-//
-// Created on: <14-Sep-2002 15:38:26 amos>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
-
-/*! \file
-*/
+/**
+ * File containing the eZObjectforwarder class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /*!
   \class eZObjectForwarder ezobjectforwarder.php
@@ -91,11 +68,11 @@ class eZObjectForwarder
         if ( isset( $parameters['render-mode'] ) )
         {
             $renderData = $parameters['render-mode'];
-            if ( !eZTemplateNodeTool::isStaticElement( $renderData ) )
+            if ( !eZTemplateNodeTool::isConstantElement( $renderData ) )
             {
                 return false;
             }
-            $renderMode = eZTemplateNodeTool::elementStaticValue( $renderData );
+            $renderMode = eZTemplateNodeTool::elementConstantValue( $renderData );
         }
         if ( $renderMode )
             $view_dir .= "/render-$renderMode";
@@ -104,21 +81,20 @@ class eZObjectForwarder
         $viewName = false;
         if ( $rule['use_views'] )
         {
-            $optionalViews = isset( $rule['optional_views'] ) ? $rule['optional_views'] : false;
             $viewName = $rule['use_views'];
             if ( isset( $parameters[$viewName] ) )
             {
                 $viewData = $parameters[$viewName];
-                if ( !eZTemplateNodeTool::isStaticElement( $viewData ) )
+                if ( !eZTemplateNodeTool::isConstantElement( $viewData ) )
                 {
                     return false;
                 }
-                $viewValue = eZTemplateNodeTool::elementStaticValue( $viewData );
+                $viewValue = eZTemplateNodeTool::elementConstantValue( $viewData );
                 $viewDir .= '/' . $viewValue;
             }
             else
             {
-                if ( !$optionalViews )
+                if ( !( isset( $rule['optional_views'] ) && $rule['optional_views'] ) )
                 {
                     return false;
                 }
@@ -143,8 +119,8 @@ class eZObjectForwarder
                  $parameterName == $outputName or
                  $parameterName == $viewName )
                 continue;
-            $parameterData = $parameters[$parameterName];
-            $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, false, array(),
+
+            $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters[$parameterName], false, array(),
                                                                   array( $namespaceValue, eZTemplate::NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
             $variableList[] = $parameterName;
         }
@@ -170,21 +146,23 @@ class eZObjectForwarder
                  isset( $templateRoot['attributes'] ) and
                  isset( $templateRoot['matches'] ) )
             {
-                $rootAttributes = $templateRoot['attributes'];
                 $attributeAccessData = array();
                 $attributeAccessData[] = eZTemplateNodeTool::createVariableElement( $outputName, $namespaceValue, eZTemplate::NAMESPACE_SCOPE_RELATIVE );
-                foreach ( $rootAttributes as $rootAttributeName )
+                foreach ( $templateRoot['attributes'] as $rootAttributeName )
                 {
                     $attributeAccessData[] = eZTemplateNodeTool::createAttributeLookupElement( $rootAttributeName );
                 }
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $attributeAccessData, false,
                                                                       array( 'spacing' => 0 ), 'templateRootMatch' );
-                $rootMatches = $templateRoot['matches'];
                 $rootMatchCounter = 0;
-                foreach ( $rootMatches as $rootMatch )
+                foreach ( $templateRoot['matches'] as $rootMatch )
                 {
-                    $rootMatchValue = $rootMatch[0];
                     $templateRoot = $rootMatch[1];
+
+                    if ( is_array( $templateRoot ) )
+                    {
+                        $templateRoot = $templateRoot[0];
+                    }
 
                     $resourceNodes = $this->resourceAcquisitionTransformation( $functionName, $node, $rule, $inputData,
                                                                                $outputName, $namespaceValue,
@@ -195,7 +173,7 @@ class eZObjectForwarder
                     if ( $resourceNodes === false )
                         continue;
 
-                    $rootMatchValueText = eZPHPCreator::variableText( $rootMatchValue, 0, 0, false );
+                    $rootMatchValueText = eZPHPCreator::variableText( $rootMatch[0], 0, 0, false );
                     $code = '';
                     if ( $rootMatchCounter > 0 )
                     {
@@ -243,8 +221,7 @@ class eZObjectForwarder
                 continue;
 
             $path = $matchFile['template'];
-            $subPath = substr( $path, 0, $startRootLength );
-            if ( $subPath == $startRoot and
+            if ( substr( $path, 0, $startRootLength ) == $startRoot and
                  $path[$startRootLength] == '/' )
             {
                 $matchFile['match_part'] = substr( $path, $startRootLength + 1 );
@@ -261,14 +238,13 @@ class eZObjectForwarder
                                                                "}", array( 'spacing' => $acquisitionSpacing ) );
         if ( isset( $rule["attribute_keys"] ) )
         {
-            $attributeKeys = $rule["attribute_keys"];
             $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . "( !isset( \$" . $designKeysName . "Stack ) )\n" .
                                                                    "{\n" .
                                                                    "    \$" . $designKeysName . "Stack = array();\n" .
                                                                    "}\n" .
                                                                    "\$" . $designKeysName . "Stack[] = \$$designKeysName;",
                                                                    array( 'spacing' => $acquisitionSpacing ) );
-            foreach ( $attributeKeys as $designKey => $attributeKeyArray )
+            foreach ( $rule["attribute_keys"] as $designKey => $attributeKeyArray )
             {
                 $attributeAccessData = array();
                 $attributeAccessData[] = eZTemplateNodeTool::createVariableElement( $outputName, $namespaceValue, eZTemplate::NAMESPACE_SCOPE_RELATIVE );
@@ -337,9 +313,8 @@ class eZObjectForwarder
                     {
                         $customSpacing = $spacing + 4;
                         $defaultMatchSpacing = $spacing + 4;
-                        $customMatchList = $matchItem['custom_match'];
                         $matchCount = 0;
-                        foreach ( $customMatchList as $customMatch )
+                        foreach ( $matchItem['custom_match'] as $customMatch )
                         {
                             $matchConditionCount = count( $customMatch['conditions'] );
                             $code = '';
@@ -423,9 +398,6 @@ class eZObjectForwarder
                         if ( $addFileResource )
                         {
                             $matchFile = $matchItem['base_dir'] . $matchItem['template'];
-                            // If $matchFile is an array we cannot create a transformation for this entry
-                            if ( is_array( $matchFile ) )
-                                return false;
                             $tmpAcquisitionNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                                                         $matchFile, $matchFile,
                                                                                                         eZTemplate::RESOURCE_FETCH, false,
@@ -493,17 +465,13 @@ class eZObjectForwarder
             }
             $templateCounter = 0;
 
-            $basedir = $viewFileMatch['base_dir'];
-            $template = $viewFileMatch['template'];
-            $file = $basedir . $template;
 
             $addFileResource = true;
             if ( isset( $viewFileMatch['custom_match'] ) )
             {
                 $spacing = $mainSpacing + 4;
-                $customMatchList = $viewFileMatch['custom_match'];
                 $matchCount = 0;
-                foreach ( $customMatchList as $customMatch )
+                foreach ( $viewFileMatch['custom_match'] as $customMatch )
                 {
                     $matchConditionCount = count( $customMatch['conditions'] );
                     $code = '';
@@ -576,9 +544,7 @@ class eZObjectForwarder
             }
             if ( $addFileResource )
             {
-                // If $matchFile is an array we cannot create a transformation for this entry
-                if ( is_array( $file ) )
-                    return false;
+                $file = $viewFileMatch['base_dir'] . $viewFileMatch['template'];
                 $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                                  $file, $file,
                                                                                  eZTemplate::RESOURCE_FETCH, false,
@@ -674,11 +640,9 @@ class eZObjectForwarder
         if ( isset( $rule['attribute_keys'] ) )
         {
             $resourceKeys = array();
-            $attributeKeys = $rule['attribute_keys'];
-            foreach( $attributeKeys as $attributeKey => $attributeSelection )
+            foreach( $rule['attribute_keys'] as $attributeKey => $attributeSelection )
             {
-                $keyValue = $tpl->variableAttribute( $input_var, $attributeSelection );
-                $resourceKeys[] = array( $attributeKey, $keyValue );
+                $resourceKeys[] = array( $attributeKey, $tpl->variableAttribute( $input_var, $attributeSelection ) );
             }
         }
 
@@ -704,18 +668,16 @@ class eZObjectForwarder
                 else
                 {
                     $templateRootValue = $tpl->variableAttribute( $input_var, $templateRoot['attributes'] );
-                    $templateRootMatches = $templateRoot['matches'];
-                    foreach ( $templateRootMatches as $templateRootMatch )
+                    foreach ( $templateRoot['matches'] as $templateRootMatch )
                     {
                         if ( $templateRootMatch[0] == $templateRootValue )
                         {
                             $template_dir = $templateRootMatch[1];
                             if ( is_array( $template_dir ) )
                             {
-                                $templateDirAttributesList = $template_dir[1];
                                 $template_dir = $template_dir[0];
                                 $attributeValues = array();
-                                foreach ( $templateDirAttributesList as $templateDirAttributes )
+                                foreach ( $template_dir[1] as $templateDirAttributes )
                                 {
                                     $attributeValues[] = $tpl->variableAttribute( $input_var, $templateDirAttributes );
                                 }
@@ -732,8 +694,6 @@ class eZObjectForwarder
         }
 
         $resourceData = null;
-        $root = null;
-        $canCache = false;
         if ( is_array( $attributeAccess ) )
         {
             foreach( $attributeAccess as $attributeAccessArray )
@@ -770,7 +730,7 @@ class eZObjectForwarder
 
             $sub_text = "";
             $setVariableArray = array();
-            $tpl->setVariable( $rule["output_name"], $input_var, $outCurrentNamespace );
+            $tpl->setVariable( $rule["output_name"], $input_var, $outCurrentNamespace, true );
             $setVariableArray[] = $rule["output_name"];
             // Set design keys
             $tpl->setVariable( 'used', $designUsedKeys, $designKeyNamespace );
@@ -783,8 +743,13 @@ class eZObjectForwarder
                 {
                     continue;
                 }
-                $paramValue = $tpl->elementValue( $params[$paramName], $old_nspace, $currentNamespace, $functionPlacement );
-                $tpl->setVariable( $paramName, $paramValue, $outCurrentNamespace );
+
+                $tpl->setVariable(
+                    $paramName,
+                    $tpl->elementValue( $params[$paramName], $old_nspace, $currentNamespace, $functionPlacement ),
+                    $outCurrentNamespace,
+                    true
+                );
                 $setVariableArray[] = $paramName;
             }
             // Set constant variables
@@ -796,7 +761,7 @@ class eZObjectForwarder
                          $constantTemplateVariableKey == $view_var or
                          $tpl->hasVariable( $constantTemplateVariableKey, $currentNamespace ) )
                         continue;
-                    $tpl->setVariable( $constantTemplateVariableKey, $constantTemplateVariableValue, $outCurrentNamespace );
+                    $tpl->setVariable( $constantTemplateVariableKey, $constantTemplateVariableValue, $outCurrentNamespace, true );
                     $setVariableArray[] = $constantTemplateVariableKey;
                 }
             }
@@ -810,8 +775,7 @@ class eZObjectForwarder
             if ( !$templateCompilationUsed and
                  $resourceData['root-node'] )
             {
-                $root = $resourceData['root-node'];
-                $tpl->process( $root, $sub_text, $outCurrentNamespace, $outCurrentNamespace );
+                $tpl->process( $resourceData['root-node'], $sub_text, $outCurrentNamespace, $outCurrentNamespace );
                 $tpl->setIncludeOutput( $uri, $sub_text );
 
                 $textElements[] = $sub_text;

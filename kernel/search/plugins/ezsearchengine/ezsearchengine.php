@@ -1,39 +1,19 @@
 <?php
-//
-// Definition of eZSearchEngine class
-//
-// Created on: <25-Jun-2002 13:09:57 bf>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZSearchEngine class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /*!
   \class eZSearchEngine ezsearch.php
 
 */
 
-class eZSearchEngine
+class eZSearchEngine implements ezpSearchEngine
 {
     function eZSearchEngine()
     {
@@ -50,21 +30,25 @@ class eZSearchEngine
     }
 
 
-    static function needCommit()
+    public function needCommit()
     {
         //commits are NA
         return false;
     }
 
-    static function needRemoveWithUpdate()
+    public function needRemoveWithUpdate()
     {
         return true;
     }
 
-    /*!
-     Adds an object to the search database.
-    */
-    function addObject( $contentObject, $commit )
+    /**
+     * Adds object $contentObject to the search database.
+     *
+     * @param eZContentObject $contentObject Object to add to search engine
+     * @param bool $commit Whether to commit after adding the object
+     * @return bool True if the operation succeed.
+     */
+    public function addObject( $contentObject, $commit = true )
     {
         $contentObjectID = $contentObject->attribute( 'id' );
         $currentVersion = $contentObject->currentVersion();
@@ -74,7 +58,7 @@ class eZSearchEngine
             $errCurrentVersion = $contentObject->attribute( 'current_version');
             eZDebug::writeError( "Failed to fetch \"current version\" ({$errCurrentVersion})" .
                                  " of content object (ID: {$contentObjectID})", 'eZSearchEngine' );
-            return;
+            return false;
         }
 
         $indexArray = array();
@@ -163,6 +147,8 @@ class eZSearchEngine
             $placement = $this->indexWords( $contentObject, array_slice( $indexArray, $arrayCount, 1000 ), $wordIDArray, $placement );
         }
         $db->commit();
+
+        return true;
     }
 
     /*!
@@ -383,10 +369,14 @@ class eZSearchEngine
         return $placement;
     }
 
-    /*!
-     \static
-    */
-    function removeObject( $contentObject, $commit )
+    /**
+     * Removes object $contentObject from the search database.
+     *
+     * @param eZContentObject $contentObject the content object to remove
+     * @param bool $commit Whether to commit after removing the object
+     * @return bool True if the operation succeed.
+     */
+    public function removeObject( $contentObject, $commit = true )
     {
         $db = eZDB::instance();
         $objectID = $contentObject->attribute( "id" );
@@ -460,7 +450,7 @@ class eZSearchEngine
     /*!
      Runs a query to the search engine.
     */
-    function search( $searchText, $params = array(), $searchTypes = array() )
+    public function search( $searchText, $params = array(), $searchTypes = array() )
     {
         if ( count( $searchTypes ) == 0 )
         {
@@ -1368,7 +1358,7 @@ class eZSearchEngine
      \return Returns an array describing the supported search types in thie search engine.
      \note It has been renamed. In eZ Publish 3.4 and older it was (wrongly) named suportedSearchTypes().
     */
-    function supportedSearchTypes()
+    public function supportedSearchTypes()
     {
         $searchTypes = array( array( 'type' => 'attribute',
                                      'subtype' => 'fulltext',
@@ -2300,6 +2290,13 @@ class eZSearchEngine
             }
         }
         return false;
+    }
+
+    /**
+     * Commit the changes to the search engine
+     */
+    public function commit()
+    {
     }
 
 

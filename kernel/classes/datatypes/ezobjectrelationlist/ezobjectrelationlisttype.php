@@ -1,32 +1,12 @@
 <?php
-//
-// Definition of eZObjectRelationListType class
-//
-// Created on: <16-Apr-2002 11:08:14 amos>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZObjectRelationListType class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /*!
   \class eZObjectRelationListType ezobjectrelationlisttype.php
@@ -89,7 +69,10 @@ class eZObjectRelationListType extends eZDataType
         }
 
         $content = $contentObjectAttribute->content();
-        if ( $contentObjectAttribute->validateIsRequired() and count( $content['relation_list'] ) == 0 )
+        $ajaxFilledPostVariableName = $base . "_data_object_relation_list_ajax_filled_" . $contentObjectAttribute->attribute( "id" );
+        if ( $contentObjectAttribute->validateIsRequired()
+                && count( $content['relation_list'] ) == 0
+                && $http->postVariable( $ajaxFilledPostVariableName, 0 ) != 1 )
         {
             $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                  'Missing objectrelation list input.' ) );

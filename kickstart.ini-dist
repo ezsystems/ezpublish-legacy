@@ -99,10 +99,10 @@
 ## Type=<database-system>
 ## Which database system to use
 ## <database-system>:
-## - mysql - Use mysql
+## - mysql - Use mysqli (MySQL Improved)
 ## - postgresql - Use postgresql
 ## other values are possible if provided by extension
-#Type=mysql
+#Type=mysqli
 
 #[database_init]
 ## Continue=<true|false>

@@ -1,32 +1,12 @@
 <?php
-//
-// Definition of eZOption class
-//
-// Created on: <28-Jun-2002 11:05:48 bf>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZOption class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /*!
   \class eZOption ezoption.php
@@ -177,17 +157,17 @@ class eZOption
         $root = $doc->createElement( "ezoption" );
         $doc->appendChild( $root );
 
-        $name = $doc->createElement( "name", $this->Name );
+        $name = $doc->createElement( "name" );
+        $name->appendChild( $doc->createCDATASection( $this->Name ) );
         $root->appendChild( $name );
 
         $options = $doc->createElement( "options" );
         $root->appendChild( $options );
 
-        $id=0;
         foreach ( $this->Options as $option )
         {
-            unset( $optionNode );
             $optionNode = $doc->createElement( "option", $option["value"] );
+            $optionNode->appendChild( $doc->createCDATASection( $option["value"] ) );
             $optionNode->setAttribute( "id", $option['id'] );
             $optionNode->setAttribute( 'additional_price', $option['additional_price'] );
             $options->appendChild( $optionNode );

@@ -1,32 +1,12 @@
 <?php
-//
-// Definition of eZNodeviewfunctions class
-//
-// Created on: <20-Apr-2004 11:57:36 bf>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZNodeviewfunctions class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /*!
   \class eZNodeviewfunctions eznodeviewfunctions.php
@@ -129,12 +109,20 @@ class eZNodeviewfunctions
 
         $parentClassID = false;
         $parentClassIdentifier = false;
+        $parentNodeRemoteID = false;
+        $parentObjectRemoteID = false;
         $parentNode = $node->attribute( 'parent' );
         if ( is_object( $parentNode ) )
         {
+            $parentNodeRemoteID = $parentNode->attribute( 'remote_id' );
+            $keyArray[] = array( 'parent_node_remote_id', $parentNodeRemoteID );
+
             $parentObject = $parentNode->attribute( 'object' );
             if ( is_object( $parentObject ) )
             {
+                $parentObjectRemoteID = $parentObject->attribute( 'remote_id' );
+                $keyArray[] = array( 'parent_object_remote_id', $parentObjectRemoteID );
+
                 $parentClass = $parentObject->contentClass();
                 if ( is_object( $parentClass ) )
                 {
@@ -237,6 +225,8 @@ class eZNodeviewfunctions
         $contentInfoArray['state_identifier']        = $object->attribute( 'state_identifier_array' );
         $contentInfoArray['parent_class_id']         = $parentClassID;
         $contentInfoArray['parent_class_identifier'] = $parentClassIdentifier;
+        $contentInfoArray['parent_node_remote_id']   = $parentNodeRemoteID;
+        $contentInfoArray['parent_object_remote_id'] = $parentObjectRemoteID;
 
         $Result['content_info'] = $contentInfoArray;
 
@@ -460,6 +450,8 @@ class eZNodeviewfunctions
                 $keyArray = array( array( 'object', $Result['content_info']['object_id'] ),
                                    array( 'node', $Result['content_info']['node_id'] ),
                                    array( 'parent_node', $Result['content_info']['parent_node_id'] ),
+                                   array( 'parent_node_remote_id', $Result['content_info']['parent_node_remote_id'] ),
+                                   array( 'parent_object_remote_id', $Result['content_info']['parent_object_remote_id'] ),
                                    array( 'class', $Result['content_info']['class_id'] ),
                                    array( 'view_offset', $Result['content_info']['offset'] ),
                                    array( 'navigation_part_identifier', $Result['content_info']['navigation_part_identifier'] ),

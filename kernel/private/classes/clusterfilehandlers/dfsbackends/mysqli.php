@@ -1,32 +1,12 @@
 <?php
-//
-// Definition of eZDFSFileHandlerMySQLBackend class
-//
-// Created on: <19-Apr-2006 16:15:17 bd>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.4.0
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZDFSFileHandlerMySQLiBackend class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /*
 This is the structure / SQL CREATE for the DFS database table.
@@ -126,6 +106,18 @@ class eZDFSFileHandlerMySQLiBackend
             {
                 $this->_fail( "Failed to set Database charset to $charset." );
             }
+        }
+    }
+
+    /**
+     * Disconnects the handler from the database
+     */
+    public function _disconnect()
+    {
+        if ( $this->db !== null )
+        {
+            mysqli_close( $this->db );
+            $this->db = null;
         }
     }
 
@@ -689,10 +681,14 @@ class eZDFSFileHandlerMySQLiBackend
 
     /**
      * Passes $filePath content through
+     *
      * @param string $filePath
-     * @deprecated should not be used since it cannot handle reading errors
+     * @param int    $offset  Byte offset to start download from
+     * @param int    $length  Byte length to be sent
+     *
+     * @return bool
      */
-    public function _passThrough( $filePath, $fname = false )
+    public function _passThrough( $filePath, $startOffset = 0, $length = false, $fname = false )
     {
         if ( $fname )
             $fname .= "::_passThrough($filePath)";
@@ -705,7 +701,7 @@ class eZDFSFileHandlerMySQLiBackend
             return false;
 
         // @todo Catch an exception
-        $this->dfsbackend->passthrough( $filePath );
+        $this->dfsbackend->passthrough( $filePath, $startOffset, $length );
 
         return true;
     }

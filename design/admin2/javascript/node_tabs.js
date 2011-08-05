@@ -74,7 +74,9 @@ jQuery(function( $ )
         saveTabState : function( intBool )
         {
             var url = $.ez.url.replace( 'ezjscore/', 'user/preferences/set_and_exit/admin_navigation_content/' ) + intBool;
-            $.post( url, {}, function(){} );
+            var _token = '', _tokenNode = document.getElementById('ezxform_token_js');
+            if ( _tokenNode ) _token = 'ezxform_token=' + _tokenNode.getAttribute('title');
+            $.post( url, _token, function(){} );
         },
 
         // save open tab (using cookie)

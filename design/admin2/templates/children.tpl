@@ -72,6 +72,16 @@
 
 
 
+    <div class="context-toolbar">
+    {include name=navigator
+             uri='design:navigator/alphabetical.tpl'
+             page_uri=$node.url_alias
+             item_count=$children_count
+             view_parameters=$view_parameters
+             node_id=$node.node_id
+             item_limit=$number_of_items}
+    </div>
+
 {* DESIGN: Content END *}</div>
 
 </form>

@@ -1,28 +1,10 @@
 <?php
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /**
  * PHP 5.2 is our hard requirement
@@ -783,7 +765,11 @@ if ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) !== 'true' )
 
     if ( $currentUser->isLoggedIn() )
     {
-        setcookie( 'is_logged_in', 'true', 0, $cookiePath );
+        // Only set the cookie if it doesnt exist. This way we are not constantly sending the set request in the headers.
+        if ( !isset( $_COOKIE['is_logged_in'] ) || $_COOKIE['is_logged_in'] != 'true' )
+        {
+            setcookie( 'is_logged_in', 'true', 0, $cookiePath );
+        }
     }
     else if ( isset( $_COOKIE['is_logged_in'] ) )
     {
@@ -1002,14 +988,6 @@ if ( $show_page_layout )
     $site['page_title'] = $module->title();
 
     $tpl->setVariable( "site", $site );
-
-    if ( isset( $tpl_vars ) and is_array( $tpl_vars ) )
-    {
-        foreach( $tpl_vars as $tpl_var_name => $tpl_var_value )
-        {
-            $tpl->setVariable( $tpl_var_name, $tpl_var_value );
-        }
-    }
 
     if ( $ini->variable( 'DebugSettings', 'DisplayDebugWarnings' ) == 'enabled' )
     {

@@ -964,6 +964,15 @@ CREATE TABLE ezorder (
 
 
 
+CREATE TABLE ezorder_nr_incr (
+  id int(11) NOT NULL auto_increment,
+  PRIMARY KEY  (id)
+) ENGINE=InnoDB;
+
+
+
+
+
 CREATE TABLE ezorder_item (
   description varchar(255) default NULL,
   id int(11) NOT NULL auto_increment,
@@ -1130,7 +1139,7 @@ CREATE TABLE ezprest_authcode (
   expirytime bigint(20) NOT NULL default '0',
   id varchar(200) NOT NULL default '',
   scope varchar(200) default NULL,
-  user_id varchar(200) NOT NULL default '',
+  user_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY authcode_client_id (client_id)
 ) ENGINE=InnoDB;
@@ -1178,7 +1187,7 @@ CREATE TABLE ezprest_token (
   id varchar(200) NOT NULL default '',
   refresh_token varchar(200) NOT NULL default '',
   scope varchar(200) default NULL,
-  user_id varchar(200) NOT NULL default '',
+  user_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY token_client_id (client_id)
 ) ENGINE=InnoDB;

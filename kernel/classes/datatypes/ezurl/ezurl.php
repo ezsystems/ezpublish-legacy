@@ -1,32 +1,12 @@
 <?php
-//
-// Definition of eZURL class
-//
-// Created on: <08-Oct-2002 19:44:48 bf>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZURL class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /*!
   \class eZURL ezurl.php
@@ -107,31 +87,38 @@ class eZURL extends eZPersistentObject
                                           array( 'id' => $urlID ) );
     }
 
-    /*!
-     \static
-     Registers a URL to the URL database. The URL id is
-     returned if successful. False is returned if not.
-    */
+    /**
+     * Registers an URL to the URL database and returns the URL id.
+     * If URL is already present, the method will check the checksum and update the URL if needed
+     * @param string $url
+     * @return int
+     */
     static function registerURL( $url )
     {
-        $urlID = false;
-        $db = eZDB::instance();
+        $urlID = null;
+        $urlObject = self::fetchByUrl( $url );
 
-        // check if URL already exists
-        $checkURLQuery = "SELECT id FROM ezurl WHERE url='" . $db->escapeString( $url ) . "'";
-        $urlArray = $db->arrayQuery( $checkURLQuery );
-
-        if ( count( $urlArray ) == 0 )
+        if ( !$urlObject instanceof eZURL )
         {
             // store URL
-            $url = eZURL::create( $url );
-            $url->store();
-            $urlID = $url->attribute( 'id' );
+            $urlObject = self::create( $url );
+            $urlObject->store();
+            $urlID = $urlObject->attribute( 'id' );
         }
         else
         {
-            $urlID = $urlArray[0]['id'];
+            // Mismatch => most likely case sensitivity difference, so update the url
+            if ( $urlObject->attribute( 'url' ) !== $url )
+            {
+                $urlObject->setAttribute( 'url', $url );
+                $urlObject->setAttribute( 'original_url_md5', md5( $url ) );
+                $urlObject->setAttribute( 'modified', time() );
+                $urlObject->store( array( 'url', 'original_url_md5', 'modified' ) );
+            }
+
+            $urlID = $urlObject->attribute( 'id' );
         }
+
         return $urlID;
     }
 
@@ -242,6 +229,19 @@ class eZURL extends eZPersistentObject
     static function fetchList( $parameters = array() )
     {
         return eZURL::handleList( $parameters, false );
+    }
+
+    /**
+     * Fetches an URL object from an url string
+     * @param string $url
+     * @param bool $asObject
+     * @return eZURL|null
+     */
+    public static function fetchByUrl( $url, $asObject = true )
+    {
+        return parent::fetchObject( self::definition(),
+                                    null, array( 'url' => $url ),
+                                    $asObject );
     }
 
     /*!

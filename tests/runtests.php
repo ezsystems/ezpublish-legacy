@@ -4,33 +4,15 @@
  * File containing the runtests CLI script
  *
  * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
  * @package tests
  */
 
 set_time_limit( 0 );
 
 require_once 'autoload.php';
-
-require_once 'PHPUnit/Framework.php';
-require_once 'PHPUnit/TextUI/TestRunner.php';
-
-require_once 'tests/toolkit/ezptestrunner.php';
-
-// Exclude the test system from code coverage reports
-PHPUnit_Util_Filter::addDirectoryToFilter( getcwd() . '/tests' );
-
-// Whitelist all eZ Publish kernel files
-$baseDir = getcwd();
-$autoloadArray = include 'autoload/ezp_kernel.php';
-foreach ( $autoloadArray as $class => $file )
-{
-    // Exclude files from the tests directory
-    if ( strpos( $file, 'tests' ) !== 0 )
-    {
-        PHPUnit_Util_Filter::addFileToWhitelist( "{$baseDir}/{$file}" );
-    }
-}
+require_once 'PHPUnit/Autoload.php';
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ Publish Test Runner\n\n" .
@@ -45,6 +27,9 @@ $script = eZScript::instance( array( 'description' => ( "eZ Publish Test Runner\
 $ini = eZINI::instance();
 $ini->setOverrideDirs( array( array( 'tests/settings', true ) ), 'override' );
 $ini->loadCache();
+
+// Be sure to have clean content language data
+eZContentLanguage::expireCache();
 
 $script->startup();
 // $options = $script->getOptions();

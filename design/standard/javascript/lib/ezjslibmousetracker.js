@@ -25,7 +25,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezjslibmousetracker.js 
+/*! \file ezjslibmousetracker.js
 */
 
 
@@ -50,7 +50,7 @@ function ezjslib_mouseHandler( e )
     {
         e = window.event;
     }
-    if( e.pageX || e.pageY )
+    if ( e.pageX || e.pageY )
     {
         MouseX = e.pageX;
         MouseY = e.pageY;

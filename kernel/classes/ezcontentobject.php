@@ -1,32 +1,12 @@
 <?php
-//
-// Definition of eZContentObject class
-//
-// Created on: <17-Apr-2002 09:15:27 bf>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZContentObject class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /*!
   \class eZContentObject ezcontentobject.php
@@ -392,13 +372,17 @@ class eZContentObject extends eZPersistentObject
         $lang = $db->escapeString( $lang );
         $version = (int) $version;
 
-        $initialLanguage = $this->attribute( 'initial_language_id' );
+        $languageID = $this->attribute( 'initial_language_id' );
+        if ( $this->attribute( 'always_available' ) )
+        {
+            $languageID = (int) $languageID | 1;
+        }
 
         $query= "SELECT name, content_translation
                  FROM ezcontentobject_name
                  WHERE contentobject_id = '$contentObjectID'
                        AND content_version = '$version'
-                       AND ( content_translation = '$lang' OR language_id = '$initialLanguage' )";
+                       AND ( content_translation = '$lang' OR language_id = '$languageID' )";
         $result = $db->arrayQuery( $query );
 
         $resCount = count( $result );
@@ -4456,19 +4440,21 @@ class eZContentObject extends eZPersistentObject
             foreach ( $policies as $policyKey => $policy )
             {
                 $policyArray = $this->classListFromPolicy( $policy, $languageCodeList );
-                if ( count( $policyArray ) == 0 )
+                if ( empty( $policyArray ) )
                 {
                     continue;
                 }
                 $classIDArrayPart = $policyArray['classes'];
                 $languageCodeArrayPart = $policyArray['language_codes'];
-                if ( $classIDArrayPart == '*' )
+                // No class limitation for this policy AND no previous limitation(s)
+                if ( $classIDArrayPart == '*' && empty( $classIDArray ) )
                 {
                     $fetchAll = true;
                     $allowedLanguages['*'] = array_unique( array_merge( $allowedLanguages['*'], $languageCodeArrayPart ) );
                 }
-                else
+                else if ( is_array( $classIDArrayPart ) )
                 {
+                    $fetchAll = false;
                     foreach( $classIDArrayPart as $class )
                     {
                         if ( isset( $allowedLanguages[$class] ) )
@@ -6118,6 +6104,29 @@ class eZContentObject extends eZPersistentObject
             $db->query( "INSERT INTO ezcobj_state_link (contentobject_state_id, contentobject_id)
                          VALUES($stateID, $contentObjectID)" );
         }
+        $db->commit();
+    }
+
+    /**
+     * Restores attributes for current content object when it's being restored from trash
+     */
+    public function restoreObjectAttributes()
+    {
+        $db = eZDB::instance();
+        $db->begin();
+
+        foreach ( $this->allContentObjectAttributes( $this->attribute( "id" ) ) as $contentObjectAttribute )
+        {
+            $datatype = $contentObjectAttribute->dataType();
+            if ( !$datatype instanceof eZDataType )
+            {
+                eZDebug::writeError( "Attribute #{$contentObjectAttribute->attribute( "id" )} from contentobject #{$this->attribute( "id" )} isn't valid", __METHOD__ );
+                continue;
+            }
+
+            $datatype->restoreTrashedObjectAttribute( $contentObjectAttribute );
+        }
+
         $db->commit();
     }
 

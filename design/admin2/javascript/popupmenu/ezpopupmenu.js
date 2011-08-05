@@ -174,7 +174,7 @@ function _initOffsets( offsetX, offsetY )
 */
 function _setSubstituteValue( key, value )
 {
-  if( CurrentSubstituteValues != -1 )
+  if ( CurrentSubstituteValues != -1 )
   {
       CurrentSubstituteValues[key] = value;
   }
@@ -190,7 +190,7 @@ function _setSubstituteValue( key, value )
  */
 function _showTopLevel( event, menuID, substituteValues, menuHeader, disableIDList, disableMenuID )
 {
-    if( !document.getElementById( menuID ) ) return;
+    if ( !document.getElementById( menuID ) ) return;
     var mousePos = _mouseHandler( event ); // register new mouse position
 
     if ( substituteValues != -1 ) // new topmenu
@@ -199,7 +199,7 @@ function _showTopLevel( event, menuID, substituteValues, menuHeader, disableIDLi
         CurrentSubstituteValues = substituteValues;
     }
 
-    if( disableIDList && disableIDList != -1 )
+    if ( disableIDList && disableIDList != -1 )
     {
         CurrentDisableIDList = disableIDList.push !== undefined ? disableIDList : [disableIDList];
     }
@@ -223,7 +223,7 @@ function _showTopLevel( event, menuID, substituteValues, menuHeader, disableIDLi
  */
 function _showSubLevel( event, menuID, overItem )
 {
-    if( !document.getElementById( menuID ) ) return;
+    if ( !document.getElementById( menuID ) ) return;
     //var mousePos = _mouseHandler( event ); // register new mouse position
     //    ezpopmenu_showTopLevel( event, menuName, -1 );
     _doItemSubstitution( menuID );
@@ -243,7 +243,7 @@ function _showSubLevel( event, menuID, overItem )
 function _makeVisible( menuID )
 {
     var el = document.getElementById( menuID );
-    if( el ) el.style.display = 'block';
+    if ( el ) el.style.display = 'block';
     VisibleMenus[menuArray[menuID]['depth']] = menuID;
 
     document.getElementById( menuID ).onmouseover = function() { document.onmousedown = null; }
@@ -381,19 +381,19 @@ function _moveTopLevelOnScreen( menuID, mousePos )
     var newX = 0; var newY = 0;
 
     // compensate if we are below the screen
-    if( (screenData.ScrollY + screenData.Height) < ( mousePos.y + EZPOPMENU_OFFSET + menuElement.offsetHeight ) )
+    if ( (screenData.ScrollY + screenData.Height) < ( mousePos.y + EZPOPMENU_OFFSET + menuElement.offsetHeight ) )
         newY = mousePos.y - EZPOPMENU_OFFSET - menuElement.offsetHeight;
     // compensate if we are above the top of the screen
-    else if( screenData.ScrollY > EZPOPMENU_OFFSET + mousePos.y )
+    else if ( screenData.ScrollY > EZPOPMENU_OFFSET + mousePos.y )
         newY = screenData.ScrollY;
     else
         newY = mousePos.y + EZPOPMENU_OFFSET;
 
     // compensate if we are to the right of the screen
-    if( (screenData.ScrollX + screenData.Width) < ( mousePos.x + EZPOPMENU_OFFSET + menuElement.offsetWidth ) )
+    if ( (screenData.ScrollX + screenData.Width) < ( mousePos.x + EZPOPMENU_OFFSET + menuElement.offsetWidth ) )
         newX = mousePos.x - EZPOPMENU_OFFSET - menuElement.offsetWidth;
     // compensate if we are to the left
-    else if( screenData.ScrollX > EZPOPMENU_OFFSET + mousePos.x )
+    else if ( screenData.ScrollX > EZPOPMENU_OFFSET + mousePos.x )
         newX = screenData.ScrollX;
     else
         newX = mousePos.x + EZPOPMENU_OFFSET;
@@ -406,7 +406,7 @@ function _mouseHandler( e )
 {
     if ( !e )e = window.event;
 
-    if( e.pageX || e.pageY )//DOM
+    if ( e.pageX || e.pageY )//DOM
         return { 'x': e.pageX, 'y': e.pageY };
     else if ( e.clientX || e.clientY ) // IE needs special treatment
         return { 'x': e.clientX + document.documentElement.scrollLeft, 'y': e.clientY + document.documentElement.scrollTop };
@@ -430,20 +430,20 @@ function _moveSubLevelOnScreen( menuID, alignItem )
     alignElement = document.getElementById( alignItem );
     parentElement = document.getElementById( VisibleMenus[menuArray[menuID]['depth'] - 1] );
 
-    if( alignElement && parentElement )
+    if ( alignElement && parentElement )
     {
         newX = parseInt( parentElement.style.left ) + menuElement.offsetWidth - EZPOPMENU_SUBOFFSET;
         newY = parseInt( parentElement.style.top ) + alignElement.offsetTop + EZPOPMENU_SUBTOPOFFSET;
     }
     // compensate if we are below the screen
-    if( ( screenData.ScrollY + screenData.Height ) < ( newY + menuElement.offsetHeight ) )
+    if ( ( screenData.ScrollY + screenData.Height ) < ( newY + menuElement.offsetHeight ) )
         newY = screenData.ScrollY + screenData.Height - menuElement.offsetHeight;
     // compensate if above the screen
-    else if( screenData.ScrollY > newY )
+    else if ( screenData.ScrollY > newY )
         newY = screenData.ScrollY;
 
     // compensate if we are to the right of the screen
-    if( ( screenData.ScrollX + screenData.Width ) < ( newX + menuElement.offsetWidth ) )
+    if ( ( screenData.ScrollX + screenData.Width ) < ( newX + menuElement.offsetWidth ) )
     {
         newX = parseInt( parentElement.style.left ) + EZPOPMENU_SUBOFFSET - menuElement.offsetWidth;
     }
@@ -461,20 +461,20 @@ function _moveSubLevelOnScreen( menuID, alignItem )
 function _submitForm( formID, customSubstitute )
 {
     var formElement = document.getElementById( formID );
-    if( formElement )
+    if ( formElement )
     {
         // for all children do replacement
         var children = formElement.childNodes;
-        for( var i = 0, l = children.length; i < l; i++)
+        for ( var i = 0, l = children.length; i < l; i++)
         {
-            if( children[i].type == 'hidden' )
+            if ( children[i].type == 'hidden' )
             {
                 for ( var substItem in CurrentSubstituteValues )
                 {
                     children[i].value = children[i].value.replace( substItem, CurrentSubstituteValues[substItem] );
                     if ( customSubstitute )
                     {
-                        for( var j = 0, jl = customSubstitute.length; j < jl; j += 2 )
+                        for ( var j = 0, jl = customSubstitute.length; j < jl; j += 2 )
                         {
                             children[i].value = children[i].value.replace( '%'+customSubstitute[j]+'%', customSubstitute[j+1] );
                         }
@@ -512,7 +512,7 @@ function _hideHigher( level, el )
     for ( var i = level + 1, l = VisibleMenus.length; i < l && VisibleMenus[i] != 'none' ; i++ )
     {
         el = document.getElementById( VisibleMenus[i] );
-        if( el ) el.style.display = 'none';
+        if ( el ) el.style.display = 'none';
         VisibleMenus[i] = 'none';
     }
 }
@@ -533,7 +533,7 @@ function _createAArray( flat )
 {
     var resultArray = {};
 
-    if( flat.length % 2 != 0 ) return resultArray;
+    if ( flat.length % 2 != 0 ) return resultArray;
 
     for ( var i = 0, l = flat.length; i < l; i += 2 )
     {
@@ -561,33 +561,33 @@ function _getScreenProperties()
 {
   // client width and height
   var result = { 'ScrollX': 0, 'ScrollY': 0, 'Height': 0, 'Width': 0 };
-  if( typeof( window.innerWidth ) == 'number' )// all but IE
+  if ( typeof( window.innerWidth ) == 'number' )// all but IE
   {
     result.Width = window.innerWidth;
     result.Height = window.innerHeight;
   }
-  else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) )// IE 6
+  else if ( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) )// IE 6
   {
     result.Width = document.documentElement.clientWidth;
     result.Height = document.documentElement.clientHeight;
   }
-  else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) )// IE 4
+  else if ( document.body && ( document.body.clientWidth || document.body.clientHeight ) )// IE 4
   {
     result.Width = document.body.clientWidth;
     result.Height = document.body.clientHeight;
   }
 
-  if( document.body && ( document.body.scrollLeft || document.body.scrollTop ) )// DOM
+  if ( document.body && ( document.body.scrollLeft || document.body.scrollTop ) )// DOM
   {
     result.ScrollY = document.body.scrollTop;
     result.ScrollX = document.body.scrollLeft;
   }
-  else if( document.documentElement && ( document.documentElement.scrollLeft || document.documentElement.scrollTop ) )// IE6
+  else if ( document.documentElement && ( document.documentElement.scrollLeft || document.documentElement.scrollTop ) )// IE6
   {
     result.ScrollY = document.documentElement.scrollTop;
     result.ScrollX = document.documentElement.scrollLeft;
   }
-  else if( typeof( window.pageYOffset ) == 'number' )// Netscape compliant
+  else if ( typeof( window.pageYOffset ) == 'number' )// Netscape compliant
   {
     result.ScrollY = window.pageYOffset;
     result.ScrollX = window.pageXOffset;

@@ -1,30 +1,10 @@
 <?php
-//
-// Created on: <27-Aug-2002 15:41:43 bf>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 $Module = array( 'name' => 'eZSection' );
 
@@ -64,8 +44,6 @@ $ViewList['assign'] = array(
 $ClassID = array(
     'name'=> 'Class',
     'values'=> array(),
-    'path' => 'classes/',
-    'file' => 'ezcontentclass.php',
     'class' => 'eZContentClass',
     'function' => 'fetchList',
     'parameter' => array( 0, false, false, array( 'name' => 'asc' ) )
@@ -74,8 +52,6 @@ $ClassID = array(
 $NewSectionID = array(
     'name'=> 'NewSection',
     'values'=> array(),
-    'path' => 'classes/',
-    'file' => 'ezsection.php',
     'class' => 'eZSection',
     'function' => 'fetchList',
     'parameter' => array( false )
@@ -84,8 +60,6 @@ $NewSectionID = array(
 $SectionID = array(
     'name'=> 'Section',
     'values'=> array(),
-    'path' => 'classes/',
-    'file' => 'ezsection.php',
     'class' => 'eZSection',
     'function' => 'fetchList',
     'parameter' => array( false )

@@ -1,31 +1,11 @@
 #!/usr/bin/env php
 <?php
-//
-// Created on: <22-Aug-2006 12:05:27 ks>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ publish
-// SOFTWARE RELEASE: 3.10.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 define( "QUERY_LIMIT", 100 );
 
@@ -77,8 +57,6 @@ $skipCustomAlign = $options['skip-custom-align'];
 
 if ( $options['custom-align-attribute'] )
     $customAlignAttribute = $options['custom-align-attribute'];
-
-$isQuiet = $script->isQuiet();
 
 if ( $dbHost or $dbName or $dbUser or $dbImpl )
 {
@@ -187,12 +165,9 @@ $customAlignTagList = array();
 
 while( count( $xmlFieldsArray ) )
 {
-    if ( !$isQuiet )
-    {
-        $fromNumber = $pass * QUERY_LIMIT;
-        $toNumber = $fromNumber + count( $xmlFieldsArray );
-        $cli->notice( "Processing records #$fromNumber-$toNumber ..." );
-    }
+    $fromNumber = $pass * QUERY_LIMIT;
+    $toNumber = $fromNumber + count( $xmlFieldsArray );
+    $cli->output( "Processing records #$fromNumber-$toNumber ..." );
 
     foreach ( $xmlFieldsArray as $xmlField )
     {
@@ -225,15 +200,12 @@ while( count( $xmlFieldsArray ) )
                     "UPDATE ezcontentobject_attribute SET data_text=$xmlText " .
                     "WHERE id=" . $xmlField['id'] . " AND version=" . $xmlField['version'] );
 
-                if ( !$isQuiet )
-                {
-                    if ( $extraVerbosOutput )
-                        $cli->notice( 'Tag(s) have been converted on object id: ' . $xmlField['contentobject_id'] . ', version: '. $xmlField['version'] .
-                                  ', attribute id:' . $xmlField['id'] . ', changes: ' . var_export( $modificationList, true ) );
-                    else
-                        $cli->notice( 'Tag(s) have been converted on object id: ' . $xmlField['contentobject_id'] . ', version: '. $xmlField['version'] .
-                                  ', attribute id:' . $xmlField['id'] );
-                }
+                if ( $extraVerbosOutput )
+                    $cli->output( 'Tag(s) have been converted on object id: ' . $xmlField['contentobject_id'] . ', version: '. $xmlField['version'] .
+                              ', attribute id:' . $xmlField['id'] . ', changes: ' . var_export( $modificationList, true ) );
+                else
+                    $cli->output( 'Tag(s) have been converted on object id: ' . $xmlField['contentobject_id'] . ', version: '. $xmlField['version'] .
+                              ', attribute id:' . $xmlField['id'] );
                 $totalAttrCount++;
             }
         }
@@ -249,22 +221,19 @@ while( count( $xmlFieldsArray ) )
     }
 }
 
-if ( !$isQuiet )
+if ( $totalAttrCount )
+    $cli->output( "\nTotal: " . $totalAttrCount . " attribute(s) have been converted." );
+
+else
+    $cli->output( "\nXML text blocks: OK" );
+
+if ( $customAlignTagList )
 {
-    if ( $totalAttrCount )
-        $cli->notice( "\nTotal: " . $totalAttrCount . " attribute(s) have been converted." );
-
-    else
-        $cli->notice( "\nXML text blocks: OK" );
-
-    if ( $customAlignTagList )
-    {
-        $customAlignTagList = array_unique( $customAlignTagList );
-        $cli->notice( "\nNOTICE: You now need to remove custom '$customAlignAttribute' attribute from the following tags in content.ini: " . implode(', ', $customAlignTagList) );
-    }
+    $customAlignTagList = array_unique( $customAlignTagList );
+    $cli->notice( "\nNOTICE: You now need to remove custom '$customAlignAttribute' attribute from the following tags in content.ini: " . implode(', ', $customAlignTagList) );
 }
 
-$cli->notice( "\nDone." );
+$cli->output( "\nDone." );
 
 $script->shutdown();
 

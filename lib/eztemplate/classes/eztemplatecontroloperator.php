@@ -1,32 +1,12 @@
 <?php
-//
-// Definition of eZTemplateControlOperator class
-//
-// Created on: <18-Apr-2002 12:15:07 amos>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZTemplateControlOperator class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package lib
+ */
 
 /*!
   \class eZTemplateControlOperator eztemplatetypeoperator.php
@@ -118,7 +98,7 @@ class eZTemplateControlOperator
                     }
                     $code .= $spacingCode. 'if ( %' . count( $values ) . "% )\n" . $spacingCode . "{\n";
 
-                    if ( !eZTemplateNodeTool::isStaticElement( $parameters[$i*2 + 1] ) )
+                    if ( !eZTemplateNodeTool::isConstantElement( $parameters[$i*2 + 1] ) )
                     {
                         $values[] = $parameters[$i*2 + 1];
                         $code .= ( $spacingCode . "    %code" . count( $values ) . "%\n" .
@@ -126,7 +106,7 @@ class eZTemplateControlOperator
                     }
                     else
                     {
-                        $code .= $spacingCode . '    %output% = ' . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i*2 + 1] ), 0, 0, false ) . ';' . "\n";
+                        $code .= $spacingCode . '    %output% = ' . eZPHPCreator::variableText( eZTemplateNodeTool::elementConstantValue( $parameters[$i*2 + 1] ), 0, 0, false ) . ';' . "\n";
                     }
                     $code .= $spacingCode . "}\n";
                     ++$spacing;
@@ -168,9 +148,9 @@ class eZTemplateControlOperator
                     $spacingCode = str_repeat( ' ', $spacing*4 );
                     ++$spacing;
 
-                    if ( eZTemplateNodeTool::isStaticElement( $parameters[$i] ) )
+                    if ( eZTemplateNodeTool::isConstantElement( $parameters[$i] ) )
                     {
-                        $code .= "$spacingCode%output% = " . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false ) . ";\n";
+                        $code .= "$spacingCode%output% = " . eZPHPCreator::variableText( eZTemplateNodeTool::elementConstantValue( $parameters[$i] ), 0, 0, false ) . ";\n";
                         break;
                     }
                     ++$nestCount;

@@ -1,32 +1,12 @@
 <?php
-//
-// Definition of eZContentClass class
-//
-// Created on: <16-Apr-2002 11:08:14 amos>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZContentClass class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /*!
   \class eZContentClass ezcontentclass.php
@@ -277,7 +257,7 @@ class eZContentClass extends eZPersistentObject
         return $contentClass;
     }
 
-    function instantiateIn( $lang, $userID = false, $sectionID = 0, $versionNumber = false, $versionStatus = eZContentObjectVersion::STATUS_INTERNAL_DRAFT )
+    function instantiateIn( $lang, $userID = false, $sectionID = 1, $versionNumber = false, $versionStatus = eZContentObjectVersion::STATUS_INTERNAL_DRAFT )
     {
         return eZContentClass::instantiate( $userID, $sectionID, $versionNumber, $lang, $versionStatus );
     }
@@ -286,12 +266,12 @@ class eZContentClass extends eZPersistentObject
      Creates a new content object instance and stores it.
 
      \param userID user ID (optional), current user if not set (also store object id in session if $userID = false)
-     \param sectionID section ID (optional), 0 if not set
+     \param sectionID section ID (optional), 1 if not set (Standard section)
      \param versionNumber version number, create initial version if not set
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function instantiate( $userID = false, $sectionID = 0, $versionNumber = false, $languageCode = false, $versionStatus = eZContentObjectVersion::STATUS_INTERNAL_DRAFT )
+    function instantiate( $userID = false, $sectionID = 1, $versionNumber = false, $languageCode = false, $versionStatus = eZContentObjectVersion::STATUS_INTERNAL_DRAFT )
     {
         $attributes = $this->fetchAttributes();
 
@@ -488,13 +468,15 @@ class eZContentClass extends eZPersistentObject
                     $languageCodeArrayPart = array_intersect( $policy['Language'], $languageCodeList );
                 }
 
-                if ( $classIDArrayPart == '*' )
+                // No class limitation for this policy AND no previous limitation(s)
+                if ( $classIDArrayPart == '*' && empty( $classIDArray ) )
                 {
                     $fetchAll = true;
                     $allowedLanguages['*'] = array_unique( array_merge( $allowedLanguages['*'], $languageCodeArrayPart ) );
                 }
-                else
+                else if ( is_array( $classIDArrayPart ) )
                 {
+                    $fetchAll = false;
                     foreach( $classIDArrayPart as $class )
                     {
                         if ( isset( $allowedLanguages[$class] ) )
@@ -1007,6 +989,14 @@ You will need to change the class of the node by using the swap functionality.' 
 
         $db = eZDB::instance();
         $db->begin();
+
+        // Before removing anything from the attributes, load attribute information
+        // which might otherwise not accessible when recreating them below.
+        // See issue #18164
+        foreach ( $attributes as $attribute )
+        {
+            $attribute->content();
+        }
 
         $this->removeAttributes( false, $version );
         $this->removeAttributes( false, $previousVersion );

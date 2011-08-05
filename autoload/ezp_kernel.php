@@ -3,7 +3,7 @@
  * Autoloader definition for eZ Publish Kernel files.
  *
  * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
  *
@@ -361,6 +361,7 @@ return array(
       'eZSSLZone'                                          => 'kernel/classes/ezsslzone.php',
       'eZScript'                                           => 'kernel/classes/ezscript.php',
       'eZScriptClusterPurge'                               => 'kernel/private/classes/ezscriptclusterpurge.php',
+      'eZScriptTrashPurge'                                 => 'kernel/private/classes/ezscripttrashpurge.php',
       'eZSearch'                                           => 'kernel/classes/ezsearch.php',
       'eZSearchEngine'                                     => 'kernel/search/plugins/ezsearchengine/ezsearchengine.php',
       'eZSearchFunctionCollection'                         => 'kernel/search/ezsearchfunctioncollection.php',
@@ -558,7 +559,6 @@ return array(
       'ezpAutoloadFileFindContext'                         => 'kernel/private/structs/ezpautoloadfilefindcontext.php',
       'ezpAutoloadGeneratorOptions'                        => 'kernel/private/options/ezpautoloadgeneratoroptions.php',
       'ezpAutoloadOutput'                                  => 'kernel/private/interfaces/ezpautoloadoutput.php',
-      'ezpAutoloader'                                      => 'autoload.php',
       'ezpCacheClusterException'                           => 'kernel/private/rest/classes/cache/exceptions/cluster.php',
       'ezpCacheStorageClusterOptions'                      => 'kernel/private/rest/classes/cache/options/storage_cluster.php',
       'ezpContent'                                         => 'kernel/private/api/content/content.php',
@@ -587,6 +587,7 @@ return array(
       'ezpContentRepository'                               => 'kernel/private/api/content/repository.php',
       'ezpContentSortingCriteria'                          => 'kernel/private/api/content/criteria/sorting.php',
       'ezpContentXHTMLRenderer'                            => 'kernel/private/rest/classes/renderers/xhtml_content_renderer.php',
+      'ezpDatabaseBasedClusterFileHandler'                 => 'kernel/private/interfaces/ezpdatabasebasedclusterfilehandler.php',
       'ezpEvent'                                           => 'kernel/private/classes/ezpevent.php',
       'ezpExtension'                                       => 'kernel/private/classes/ezpextension.php',
       'ezpExtensionOptions'                                => 'kernel/private/options/ezpextensionoptions.php',
@@ -595,6 +596,11 @@ return array(
       'ezpLanguageSwitcher'                                => 'kernel/private/classes/ezplanguageswitcher.php',
       'ezpLanguageSwitcherCapable'                         => 'kernel/private/interfaces/ezplanguageswitchercapable.php',
       'ezpLanguageSwitcherFunctionCollection'              => 'kernel/private/modules/switchlanguage/ezpLanguageSwitcherFunctionCollection.php',
+      'ezpAttributeOperatorFormatterInterface'             => 'kernel/private/eztemplate/ezpattributeoperatorformatterinterface.php',
+      'ezpAttributeOperatorFormatter'                      => 'kernel/private/eztemplate/ezpattributeoperatorformatter.php',
+      'ezpAttributeOperatorHTMLFormatter'                  => 'kernel/private/eztemplate/ezpattributeoperatorhtmlformatter.php',
+      'ezpAttributeOperatorManager'                        => 'kernel/private/eztemplate/ezpattributeoperatormanager.php',
+      'ezpAttributeOperatorTextFormatter'                  => 'kernel/private/eztemplate/ezpattributeoperatortextformatter.php',
       'ezpLanguageSwitcherOperator'                        => 'kernel/private/eztemplate/ezplanguageswitcheroperator.php',
       'ezpLocation'                                        => 'kernel/private/api/location.php',
       'ezpMvcConfiguration'                                => 'kernel/private/rest/classes/mvc_configuration.php',
@@ -675,6 +681,7 @@ return array(
       'ezpRestTokenManager'                                => 'kernel/private/oauth/classes/tokenmanager.php',
       'ezpRestVersionedRoute'                              => 'kernel/private/rest/classes/routes/versioned_route.php',
       'ezpRestViewControllerInterface'                     => 'kernel/private/rest/classes/interfaces/view_controller.php',
+      'ezpSearchEngine'                                    => 'kernel/private/interfaces/ezpsearchengine.php',
       'ezpSessionHandler'                                  => 'lib/ezsession/classes/ezpsessionhandler.php',
       'ezpSessionHandlerDB'                                => 'lib/ezsession/classes/ezpsessionhandlerdb.php',
       'ezpSessionHandlerPHP'                               => 'lib/ezsession/classes/ezpsessionhandlerphp.php',

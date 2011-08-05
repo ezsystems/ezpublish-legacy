@@ -1,35 +1,12 @@
 <?php
-//
-// Definition of eZScript class
-//
-// Created on: <06-Aug-2003 11:06:35 amos>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
-
-/*! \file
-*/
+/**
+ * File containing the eZScript class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /*!
   \class eZScript ezscript.php
@@ -262,6 +239,10 @@ class eZScript
             eZExtension::activateExtensions( 'access' );
             // Extension check end
         }
+
+        // Now that all extensions are activated and siteaccess has been changed, reset
+        // all eZINI instances as they may not take into account siteaccess specific settings.
+        eZINI::resetAllInstances( false );
 
         // Set the global setting which is read by the session lib
         $GLOBALS['eZSiteBasics']['session-required'] = $this->UseSession;
@@ -1032,6 +1013,10 @@ class eZScript
             {
                 $this->setShowVerboseOutput( count( $options['verbose'] ) );
             }
+
+            if ( isset( $options['siteaccess'] ) and $options['siteaccess'] )
+                $this->setUseSiteAccess( $options['siteaccess'] );
+
             if ( $options['help'] )
             {
                 if ( !$this->IsInitialized )
@@ -1039,8 +1024,6 @@ class eZScript
                 $this->showHelp();
                 $this->shutdown( 0 );
             }
-            if ( isset( $options['siteaccess'] ) and $options['siteaccess'] )
-                $this->setUseSiteAccess( $options['siteaccess'] );
 
             if ( isset( $options['login'] ) and $options['login'] )
                 $this->setUser( $options['login'], isset( $options['password'] ) ? $options['password'] : false );

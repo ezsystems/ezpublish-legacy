@@ -1,32 +1,12 @@
 <?php
-//
-// Definition of eZTemplateCacheFunction class
-//
-// Created on: <28-Feb-2003 15:06:33 bf>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZTemplateCacheFunction class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package lib
+ */
 
 /*!
   \class eZTemplateCacheFunction eztemplatecachefunction.php
@@ -83,9 +63,9 @@ class eZTemplateCacheFunction
 
         if ( isset( $parameters['expiry'] ) )
         {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters['expiry'] ) )
+            if ( eZTemplateNodeTool::isConstantElement( $parameters['expiry'] ) )
             {
-                $expiryValue = eZTemplateNodeTool::elementStaticValue( $parameters['expiry'] );
+                $expiryValue = eZTemplateNodeTool::elementConstantValue( $parameters['expiry'] );
                 $ttlCode = $expiryValue > 0 ? eZPHPCreator::variableText( $expiryValue , 0, 0, false ) : 'null';
             }
             else
@@ -101,7 +81,7 @@ class eZTemplateCacheFunction
 
         if ( isset( $parameters['ignore_content_expiry'] ) )
         {
-            $ignoreContentExpiry = eZTemplateNodeTool::elementStaticValue( $parameters['ignore_content_expiry'] );
+            $ignoreContentExpiry = eZTemplateNodeTool::elementConstantValue( $parameters['ignore_content_expiry'] );
         }
 
         $keysData = false;
@@ -116,10 +96,10 @@ class eZTemplateCacheFunction
         if ( isset( $parameters['subtree_expiry'] ) )
         {
             $subtreeExpiryData = $parameters['subtree_expiry'];
-            if ( !eZTemplateNodeTool::isStaticElement( $subtreeExpiryData ) )
+            if ( !eZTemplateNodeTool::isConstantElement( $subtreeExpiryData ) )
                 $hasKeys = true;
             else
-                $subtreeValue = eZTemplateNodeTool::elementStaticValue( $subtreeExpiryData );
+                $subtreeValue = eZTemplateNodeTool::elementConstantValue( $subtreeExpiryData );
 
             $ignoreContentExpiry = true;
         }

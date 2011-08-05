@@ -61,8 +61,8 @@
     <input class="button" type="submit" name="DiscardButton" value="{'Cancel'|i18n( 'design/admin/class/edit' )}" title="{'Discard all changes and exit from edit mode.'|i18n( 'design/admin/class/edit' )|wash}" />
 </div>
 <div class="element">
-	{include uri="design:class/datatypes.tpl" name='DataTypes' id_name='DataTypeStringTop' selection_name='DataTypeString' datatypes=$datatypes current=$datatype}
-	<input class="button" type="submit" name="NewButton" id="NewButtonTop" value="{'Add attribute'|i18n( 'design/admin/class/edit' )}" title="{'Add a new attribute to the class. Use the menu on the left to select the attribute type.'|i18n( 'design/admin/class/edit' )|wash}" />
+    {include uri="design:class/datatypes.tpl" name='DataTypes' id_name='DataTypeStringTop' selection_name='DataTypeString' datatypes=$datatypes current=$datatype}
+    <input class="button" type="submit" name="NewButton" id="NewButtonTop" value="{'Add attribute'|i18n( 'design/admin/class/edit' )}" title="{'Add a new attribute to the class. Use the menu on the left to select the attribute type.'|i18n( 'design/admin/class/edit' )|wash}" />
 </div>
 <div class="button-right">
     <a href="JavaScript:void(0);" onclick="jQuery('#page').toggleClass('main-column-only');" class="controlbar-top-full-screen-toggle" title="{'Toggle fullscreen editing!'|i18n( 'design/admin/content/edit' )}">&nbsp;</a>
@@ -303,20 +303,20 @@
 {* DESIGN: Control bar START *}<div class="box-bc">
 
 <div class="block">
-	{* Remove selected attributes button *}
-	<div class="button-left">
-	{if $attributes}
-	<input class="button" type="submit" name="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" title="{'Remove the selected attributes.'|i18n( 'design/admin/class/edit' )|wash}" />
-	{else}
-	<input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" title="{'Remove the selected attributes.'|i18n( 'design/admin/class/edit' )|wash}" disabled="disabled" />
-	{/if}
-	</div>
-	
-	<div class="button-right">
-	{include uri="design:class/datatypes.tpl" name=DataTypes id_name=DataTypeString datatypes=$datatypes current=$datatype}
-	<input class="button" type="submit" name="NewButton" value="{'Add attribute'|i18n( 'design/admin/class/edit' )}" title="{'Add a new attribute to the class. Use the menu on the left to select the attribute type.'|i18n( 'design/admin/class/edit' )|wash}" />
-	</div>
-	<div class="float-break"></div>
+    {* Remove selected attributes button *}
+    <div class="button-left">
+    {if $attributes}
+    <input class="button" type="submit" name="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" title="{'Remove the selected attributes.'|i18n( 'design/admin/class/edit' )|wash}" />
+    {else}
+    <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" title="{'Remove the selected attributes.'|i18n( 'design/admin/class/edit' )|wash}" disabled="disabled" />
+    {/if}
+    </div>
+    
+    <div class="button-right">
+    {include uri="design:class/datatypes.tpl" name=DataTypes id_name=DataTypeString datatypes=$datatypes current=$datatype}
+    <input class="button" type="submit" name="NewButton" value="{'Add attribute'|i18n( 'design/admin/class/edit' )}" title="{'Add a new attribute to the class. Use the menu on the left to select the attribute type.'|i18n( 'design/admin/class/edit' )|wash}" />
+    </div>
+    <div class="float-break"></div>
 </div>
 
 <div class="block">
@@ -344,7 +344,7 @@ jQuery(function( $ )//called on document.ready
 {
     var el = $('#LastChangedID input[name^=ContentAttribute_name]');
     if ( !el.size() )
-    	el = $('#className');
+        el = $('#className');
     window.scrollTo(0, Math.max( el.offset().top - 180, 0 ));
     el.focus();
 
@@ -355,22 +355,22 @@ jQuery(function( $ )//called on document.ready
         // Prevent form from being sent and make sure user is not able to duble click on button and causing issues
         e.preventDefault();
         $('#ezcca-edit-list div.listbutton input[name^=Move]').attr( "disabled", "disabled" ).addClass('disabled');
-    	var tr = $(this).closest('tr.ezcca-edit-list-item'), param = this.name.split('_'), up = param[0] === 'MoveUp';
+        var tr = $(this).closest('tr.ezcca-edit-list-item'), param = this.name.split('_'), up = param[0] === 'MoveUp';
 
         // swap items in dom, or skip if number is to high / low
-    	if ( up )
-    	{
+        if ( up )
+        {
             var swap = tr.prev();
-        	if ( !swap.size() )
+            if ( !swap.size() )
                 return onDone();
-        	swap.before( tr );
+            swap.before( tr );
         }
-    	else
-    	{
+        else
+        {
             var swap = tr.next();
-        	if ( !swap.size() )
+            if ( !swap.size() )
                 return onDone();
-        	swap.after( tr );
+            swap.after( tr );
         }
 
         // swap priority number
@@ -379,8 +379,9 @@ jQuery(function( $ )//called on document.ready
         inp2.val( inpv );
 
         // store with ajax request
-        var postVar = { 'ContentClassHasInput': 0 };
+        var postVar = { 'ContentClassHasInput': 0 }, _tokenNode = document.getElementById('ezxform_token_js');
         postVar[ param[0] ] = param[1];
+        if ( _tokenNode ) postVar['ezxform_token'] = _tokenNode.getAttribute('title');
         $.post( $('#ClassEdit').attr('action'), postVar, onDone );
         return false;
     });

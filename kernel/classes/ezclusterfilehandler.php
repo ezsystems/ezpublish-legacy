@@ -3,7 +3,7 @@
  * File containing the eZClusterFileHandler class.
  *
  * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
  */
@@ -42,7 +42,7 @@ class eZClusterFileHandler
         else
         {
             // return Filehandler from GLOBALS based on ini setting.
-            if ( !isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) )
+            if ( self::$globalHandler === null )
             {
                 $optionArray = array( 'iniFile'      => 'file.ini',
                                       'iniSection'   => 'ClusteringSettings',
@@ -52,10 +52,10 @@ class eZClusterFileHandler
 
                 $handler = eZExtension::getHandlerClass( $options );
 
-                $GLOBALS['eZClusterFileHandler_chosen_handler'] = $handler;
+                self::$globalHandler = $handler;
             }
             else
-                $handler = $GLOBALS['eZClusterFileHandler_chosen_handler'];
+                $handler = self::$globalHandler;
 
             return $handler;
         }
@@ -162,6 +162,26 @@ class eZClusterFileHandler
         if ( isset( self::$generatingFiles[$file->filePath] ) )
             unset( self::$generatingFiles[$file->filePath] );
     }
+
+    /**
+     * Performs required operations before forking a process
+     *
+     * - disconnects DB based cluster handlers from the database
+     */
+    public static function preFork()
+    {
+        $clusterHandler = self::instance();
+
+        // disconnect DB based cluster handlers from the database
+        if ( $clusterHandler instanceof ezpDatabaseBasedClusterFileHandler )
+        {
+            $clusterHandler->disconnect();
+
+            // destroy the current handler so that it reconnects when instanciated again
+            self::$globalHandler = null;
+        }
+    }
+
     /**
      * Global list of currently generating files. Used by handlers that support stalecache.
      * @var array(filename => eZClusterFileHandlerInterface)
@@ -173,6 +193,12 @@ class eZClusterFileHandler
      * @var bool
      */
     private static $isShutdownFunctionRegistered = false;
+
+    /**
+     * Global, generic (e.g. not linked to a file) cluster handler, used for caching
+     * @var eZClusterFileHandlerInterface
+     */
+    public static $globalHandler;
 }
 
 ?>

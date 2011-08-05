@@ -1,32 +1,12 @@
 <?php
-//
-// Definition of eZSys class
-//
-// Created on: <01-Mar-2002 13:48:53 amos>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZSys class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package lib
+ */
 // Portions are modifications on patches by Andreas B�ckler and Francis Nart
 //
 
@@ -531,6 +511,15 @@ class eZSys
         return $instance->wwwDir() . $instance->indexFile( $withAccessList );
     }
 
+    /**
+     * Returns query string for current request
+     * in the form of "?param1=value1&param2=value2"
+     */
+    public static function queryString()
+    {
+        return self::instance()->QueryString;
+    }
+
     /*!
      The filepath for the index file with the access path appended.
      \static
@@ -615,11 +604,23 @@ class eZSys
         // $nowSSl is true if current access mode is HTTPS.
         $nowSSL = ( self::serverPort() == $sslPort );
 
-        //Check if this request might be driven through a ssl proxy
-        if ( isset ( $_SERVER['HTTP_X_FORWARDED_SERVER'] ) and !$nowSSL )
+        if ( !$nowSSL )
         {
-            $sslProxyServerName = $ini->variable( 'SiteSettings', 'SSLProxyServerName' );
-            $nowSSL = ( $sslProxyServerName == $_SERVER['HTTP_X_FORWARDED_SERVER'] );
+            // Check if this request might be driven through a ssl proxy
+            if ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) )
+            {
+                $nowSSL = ( $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' );
+            }
+            else if ( isset( $_SERVER['HTTP_X_FORWARDED_PORT'] ) )
+            {
+                $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
+                $nowSSL = ( $_SERVER['HTTP_X_FORWARDED_PORT'] == $sslPort );
+            }
+            else if ( isset( $_SERVER['HTTP_X_FORWARDED_SERVER'] ) )
+            {
+                $sslProxyServerName = $ini->variable( 'SiteSettings', 'SSLProxyServerName' );
+                $nowSSL = ( $sslProxyServerName == $_SERVER['HTTP_X_FORWARDED_SERVER'] );
+            }
         }
         return $nowSSL;
     }
@@ -771,7 +772,8 @@ class eZSys
         return array_merge( array( 'wwwdir',
                                    'sitedir',
                                    'indexfile',
-                                   'indexdir' ),
+                                   'indexdir',
+                                   'querystring' ),
                             array_keys( $this->Attributes ) );
 
     }
@@ -809,6 +811,10 @@ class eZSys
         else if ( $attr == 'indexdir' )
         {
             return $this->indexDir();
+        }
+        else if ( $attr = 'querystring' )
+        {
+            return $this->queryString();
         }
 
         eZDebug::writeError( "Attribute '$attr' does not exist", __METHOD__ );
@@ -944,6 +950,7 @@ class eZSys
         $siteDir        = rtrim( str_replace( $index, '', $scriptFileName ), '\/' ) . '/';
         $wwwDir         = '';
         $IndexFile      = '';
+        $queryString    = '';
 
         // see if we can use phpSelf to determin wwwdir
         $tempwwwDir = self::getValidwwwDir( $phpSelf, $scriptFileName, $index );
@@ -995,10 +1002,14 @@ class eZSys
         if ( isset( $requestUri[1] ) && $requestUri !== '/'  )
         {
             $uriGetPos = strpos( $requestUri, '?' );
-            if ( $uriGetPos === 0 )
-                $requestUri = '';
-            elseif ( $uriGetPos !== false )
-                $requestUri = substr( $requestUri, 0, $uriGetPos );
+            if ( $uriGetPos !== false )
+            {
+                $queryString = substr( $requestUri, $uriGetPos );
+                if ( $uriGetPos === 0 )
+                    $requestUri = '';
+                else
+                    $requestUri = substr( $requestUri, 0, $uriGetPos );
+            }
 
             $uriHashPos = strpos( $requestUri, '#' );
             if ( $uriHashPos === 0 )
@@ -1024,6 +1035,7 @@ class eZSys
         $instance->WWWDir     = $wwwDir;
         $instance->IndexFile  = $IndexFile;
         $instance->RequestURI = $requestUri;
+        $instance->QueryString = $queryString;
     }
 
     /**
@@ -1295,6 +1307,13 @@ class eZSys
      * @var null|eZSys
      */
     protected static $instance = null;
+
+    /**
+     * Query string for the current request
+     * In the form of "?param1=value1&param2=value2
+     * @var string
+     */
+    protected $QueryString;
 }
 
 ?>

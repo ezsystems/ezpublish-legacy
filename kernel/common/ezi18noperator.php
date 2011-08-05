@@ -1,32 +1,12 @@
 <?php
-//
-// Definition of eZi18nOperator class
-//
-// Created on: <18-Apr-2002 12:15:07 amos>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZi18nOperator class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 //!! eZKernel
 //! The class eZi18nOperator does
@@ -119,11 +99,11 @@ class eZi18nOperator
             }
         }
 
-        $value = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+        $value = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
 
         $numParameters = count ( $parameters );
-        $context = ( $numParameters > 1 ) ? eZTemplateNodeTool::elementStaticValue( $parameters[1] ) : null;
-        $comment = ( $numParameters > 2 ) ? eZTemplateNodeTool::elementStaticValue( $parameters[2] ) : null;
+        $context = ( $numParameters > 1 ) ? eZTemplateNodeTool::elementConstantValue( $parameters[1] ) : null;
+        $comment = ( $numParameters > 2 ) ? eZTemplateNodeTool::elementConstantValue( $parameters[2] ) : null;
 
         if ( $numParameters < 4 )
         {

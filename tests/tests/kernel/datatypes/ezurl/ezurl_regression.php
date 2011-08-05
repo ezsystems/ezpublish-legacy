@@ -3,7 +3,8 @@
  * File containing the eZURLTypeRegression class
  *
  * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
  * @package tests
  */
 
@@ -103,6 +104,28 @@ class eZURLTypeRegression extends ezpDatabaseTestCase
         $link->publish();
 
         return $link;
+    }
+
+    /**
+     * Test scenario for issue #018211: URL datatype is not case sensitive
+     *
+     * @link http://issues.ez.no/18211
+     * @group issue18211
+     */
+    public function testUrlCaseSensitivity()
+    {
+        $url = 'http://ez.no/EZPUBLISH';
+        $urlId = eZURL::registerURL( $url );
+        $urlObject = eZURL::fetch( $urlId );
+        self::assertEquals( $url, $urlObject->attribute( 'url' ) );
+        unset( $urlId, $urlObject );
+
+        $url2 = 'http://ez.no/ezpublish';
+        $url2Id = eZURL::registerURL( $url2 );
+        $url2Object = eZURL::fetch( $url2Id );
+        self::assertEquals( $url2, $url2Object->attribute( 'url' ) );
+        self::assertEquals( md5( $url2 ), $url2Object->attribute( 'original_url_md5' ) );
+        unset( $url2Id, $url2Object );
     }
 
 }

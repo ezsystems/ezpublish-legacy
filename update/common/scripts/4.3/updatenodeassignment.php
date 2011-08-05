@@ -1,29 +1,11 @@
 #!/usr/bin/env php
 <?php
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.3.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2009 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /**
  * Update script for bug 15478:Node assignment is not removed when removing node from child list
@@ -34,7 +16,7 @@
 
 class updateNodeAssignment
 {
-    public static function execute( $quiet = true, $exclusiveParentID = 1 )
+    public static function execute( $exclusiveParentID = 1 )
     {
         $db = eZDB::instance();
         $cli = eZCLI::instance();
@@ -58,12 +40,11 @@ class updateNodeAssignment
                 if ( $content["status"] == eZContentObject::STATUS_PUBLISHED )
                 {
                     // iterate the data to be deleted, delete them
-                    if( !$quiet )
-                    {
-                        $cli->notice( 'Node assignment [ id: ' . $deletedAssignment['id'] . ' ] for contentobject [ id: ' .
-                                            $deletedAssignment['contentobject_id'] . ' ] is not consistent with entries in contentobject_tree' .
-                                            ' table thus will be removed.' );
-                    }
+                    $cli->notice(
+                        'Node assignment [ id: ' . $deletedAssignment['id'] . ' ] for contentobject [ id: ' .
+                        $deletedAssignment['contentobject_id'] . ' ] is not consistent with entries in contentobject_tree' .
+                        ' table thus will be removed.'
+                    );
                     $sql = "DELETE FROM eznode_assignment WHERE id = " . $tempAssignID;
                     $result = $db->query( $sql );
                     if( $result === false )
@@ -100,11 +81,10 @@ class updateNodeAssignment
                 if( $assignmentList[$i]["parent_node"] != $exclusiveParentID )
                 {
                     $tempAssignID = $assignmentList[$i]["id"];
-                    if( !$quiet )
-                    {
-                        $cli->notice( 'Node assignment [ id: ' . $tempAssignID . ' ] for contentobject [ id: ' .
-                                      $assignmentList[$i]["contentobject_id"] . '] is duplicated thus will be removed.' );
-                    }
+                    $cli->notice(
+                        'Node assignment [ id: ' . $tempAssignID . ' ] for contentobject [ id: ' .
+                        $assignmentList[$i]["contentobject_id"] . '] is duplicated thus will be removed.'
+                    );
                     $sql = "DELETE FROM eznode_assignment WHERE id = " . $tempAssignID;
                     $result = $db->query( $sql );
                     if( $result === false )
@@ -118,16 +98,13 @@ class updateNodeAssignment
             }
         }
 
-        if( !$quiet )
+        if ( $deletedCount != 0 )
         {
-            if( $deletedCount != 0 )
-            {
-                $cli->notice( $deletedCount . ' node assignments have been deleted.' );
-            }
-            else
-            {
-                $cli->notice( 'None of available node assignments has been deleted.' );
-            }
+            $cli->output( $deletedCount . ' node assignments have been deleted.' );
+        }
+        else
+        {
+            $cli->output( 'None of available node assignments has been deleted.' );
         }
     }
 }
@@ -142,13 +119,12 @@ $script = eZScript::instance( array( 'description' => "eZ Publish node assignmen
 $script->startup();
 $options = $script->getOptions( "", "", array( "-q" => "Quiet mode" ) );
 $script->initialize();
-$quiet = $script->isQuiet();
 
 // execlude node whose parent_node = 1
 $cli = eZCLI::instance();
-$cli->notice( "Start." );
-updateNodeAssignment::execute( $quiet, 1 );
-$cli->notice( "Done." );
+$cli->output( "Start." );
+updateNodeAssignment::execute( 1 );
+$cli->output( "Done." );
 $script->shutdown();
 
 ?>

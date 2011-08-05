@@ -1,32 +1,10 @@
 <?php
-//
-// Created on: <30-Aug-2002 17:06:01 bf>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
-
-
+/**
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 $tpl = eZTemplate::factory();
 
@@ -88,15 +66,16 @@ eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "er
                 {
                     $httpErrorName = $errorINI->variable( 'HTTPError-' . $httpErrorCode, 'HTTPName' );
                     $httpErrorString = "$httpErrorCode $httpErrorName";
-                    header( eZSys::serverVariable( 'SERVER_PROTOCOL' ) . " $httpErrorString" );
-                    header( "Status: $httpErrorString" );
                     if ( $errorNumber == eZError::KERNEL_MOVED )
                     {
-                        // Set moved permanently headers.
-                        header( $_SERVER['SERVER_PROTOCOL'] .  " 301 Moved Permanently" );
-                        header( "Status: 301 Moved Permanently" );
-                        $location = eZSys::indexDir() . "/" . eZURI::encodeIRI( $extraErrorParameters['new_location'] ); // Make sure it is encoded to IRI format
-                        header( "Location: " . $location );
+                        $module->redirectTo( $extraErrorParameters['new_location'] );
+                        $module->setRedirectStatus( $httpErrorString );
+                        return array(); // $Result of this view
+                    }
+                    else
+                    {
+                        header( eZSys::serverVariable( 'SERVER_PROTOCOL' ) . " $httpErrorString" );
+                        header( "Status: $httpErrorString" );
                     }
                 }
             }
