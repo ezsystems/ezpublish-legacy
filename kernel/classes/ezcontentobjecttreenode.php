@@ -2871,7 +2871,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /**
-     * Enter in a ContentObject Id, get back its Main Node Id.
+     * Get Main Node Id ( or Main Node if $asObject = true ) by Content Object Id.
      *
      * @param int $objectID
      * @param boolean $asObject
