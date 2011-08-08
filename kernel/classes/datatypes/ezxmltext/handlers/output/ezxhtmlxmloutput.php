@@ -303,6 +303,38 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             return $ret;
         }
 
+        if ( eZINI::instance()->variable( 'SiteAccessSettings', 'ShowHiddenNodes' ) !== 'true' )
+        {
+            if ( isset( $node ) )
+            {
+                // embed with a node ID
+                if ( $node->attribute( 'is_invisible' ) )
+                {
+                    eZDebug::writeNotice( "Node #{$nodeID} is invisible", "XML output handler: embed" );
+                    return $ret;
+                }
+            }
+            else
+            {
+                // embed with an object id
+                // checking if at least a location is visible
+                $oneVisible = false;
+                foreach( $object->attribute( 'assigned_nodes' ) as $assignedNode )
+                {
+                    if ( !$assignedNode->attribute( 'is_invisible' ) )
+                    {
+                        $oneVisible = true;
+                        break;
+                    }
+                }
+                if ( !$oneVisible )
+                {
+                    eZDebug::writeNotice( "None of the object #{$objectID}'s location(s) is visible", "XML output handler: embed" );
+                    return $ret;
+                }
+            }
+        }
+
         if ( $object->attribute( 'can_read' ) ||
              $object->attribute( 'can_view_embed' ) )
         {
