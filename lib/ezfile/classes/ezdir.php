@@ -432,102 +432,115 @@ class eZDir
         }
     }
 
-    /*!
-     \static
-     Recurses through the directory and returns the files that matches the given suffix.
-     This function will store the relative path from the given base only.
-     Note: this function will not traverse . (hidden) folders
-    */
-    static function recursiveFindRelative( $baseDir, $subDir, $suffix )
+    /**
+     * Recursivly search for file
+     * 
+     * Recurses through the directory and returns the files that matches the given suffix.
+     * This function will store the relative path from the given base only.
+     * Note: this function will not traverse . (hidden) folders
+     * 
+     * @param string $baseDir path to search
+     * @param string $subDir the subdirectory to search through
+     * @param string $suffix regular expression to match
+     * @return array of all items matching pattern
+     */
+    public static function recursiveFindRelative( $baseDir, $subDir, $suffix )
     {
-        $dir = $baseDir;
-        if ( $subDir != "" )
-        {
-            if ( $dir != '' )
-                $dir .= "/" . $subDir;
-            else
-                $dir .= $subDir;
-        }
+        //  Old implementation as really weird and was way to much code for adding 1 slash
+        $dir = $baseDir . (( '' !== $baseDir ) ? '/' : '' ) . $subDir;
 
-        if ( !is_dir( $dir ) )
-        {
-            return array();
-        }
+        //  This could be refactored into something much nicer if by extending RecursiveRegexIterator
+        $iterator = new RecursiveDirectoryIterator( $dir );
+        $files = new RecursiveRegexIterator($iterator, "/{$suffix}$/");
 
-        $returnFiles = array();
-        if ( $handle = @opendir( $dir ) )
+        $map = array();
+
+        foreach ( $files as $key => $value )
         {
-            while ( ( $file = readdir( $handle ) ) !== false )
+            //  Skip hidden files and folders
+            if ( false === stripos( DIRECTORY_SEPARATOR . '.', $key ) )
             {
-                if ( ( $file == "." ) || ( $file == ".." ) )
-                {
-                    continue;
-                }
-                if ( is_dir( $dir . '/' . $file ) )
-                {
-                    if ( $file[0] != "." )
-                    {
-                        $files = eZDir::recursiveFindRelative( $baseDir, $subDir . '/' . $file, $suffix );
-                        $returnFiles = array_merge( $files, $returnFiles );
-                    }
-                }
-                else
-                {
-                    if ( preg_match( "/$suffix$/", $file ) )
-                        $returnFiles[] = $subDir . '/' . $file;
-                }
+                $map[] = $key;
             }
-            @closedir( $handle );
         }
-        return $returnFiles;
+
+        return $map;
     }
 
-    /*!
-     \static
-     Returns all subdirectories in a folder
-    */
-    static function findSubdirs( $dir, $includeHidden = false, $excludeItems = false )
+    /**
+     * Fetch sub folders recursivly
+     * 
+     * Fetches all sub folders of $dir recursivly and returns as array.
+     * 
+     * @param string  $dir path to search directory
+     * @param boolean $includeHidden whetever to include hidden folders
+     * @param string  $excludeItems regular expression of items to blacklist
+     * @return array all sub folders of $dir 
+     */
+    public static function findSubdirs( $dir, $includeHidden = false, $excludeItems = false )
     {
         return eZDir::findSubitems( $dir, 'd', false, $includeHidden, $excludeItems );
     }
 
-    /*!
-     \static
-     Returns all subdirectories in a folder
-    */
-    static function findSubitems( $dir, $types = false, $fullPath = false, $includeHidden = false, $excludeItems = false )
+    /**
+     *
+     * @param string $dir path to search
+     * @param string|false $types which types of items to search (combination of d/f/l)
+     * @param string|false $fullPath path to prefix with
+     * @param boolean $includeHidden whetever to include hidden folders
+     * @param string  $excludeItems regular expression of items to blacklist
+     * @return array of all items matching pattern
+     */
+    public static function findSubitems( $dir, $types = false, $fullPath = false, $includeHidden = false, $excludeItems = false )
     {
-        if ( !$types )
-            $types = 'dfl';
-        $dirArray = array();
-        if ( $handle = @opendir( $dir ) )
+        /**
+         * Bits are always faster than bytes =)
+         * Types are defined like this:
+         * 
+         * 1 = IS_DIR
+         * 2 = IS_LINK
+         * 4 = IS_FILE
+         */
+        $bit = 7;
+        if ( is_string( $types ) )
         {
-            while ( ( $element = readdir( $handle ) ) !== false )
-            {
-                if ( $element === '.' || $element === '..' )
-                    continue;
-                if ( !$includeHidden && $element[0] === '.' )
-                    continue;
-                if ( $excludeItems && preg_match( $excludeItems, $element ) )
-                    continue;
-                if ( strpos( $types, 'd' ) === false && is_dir( $dir . '/' . $element ) )
-                    continue;
-                if ( strpos( $types, 'l' ) === false && is_link( $dir . '/' . $element ) )
-                    continue;
-                if ( strpos( $types, 'f' ) === false && is_file( $dir . '/' . $element ))
-                    continue;
-                if ( $fullPath )
-                {
-                    if ( is_string( $fullPath ) )
-                        $dirArray[] = $fullPath . '/' . $element;
-                    else
-                        $dirArray[] = $dir . '/' . $element;
-                }
-                else
-                    $dirArray[] = $element;
-            }
-            @closedir( $handle );
+            $bit = ( false !== stripos( $types, 'd' ) ) ? $bit ^ 1 : $bit;
+            $bit = ( false !== stripos( $types, 'f' ) ) ? $bit ^ 2 : $bit;
+            $bit = ( false !== stripos( $types, 'l' ) ) ? $bit ^ 4 : $bit;
         }
+        
+        unset ( $types );
+        
+        $dirArray = array();
+        
+        $iterator = new RecursiveDirectoryIterator( $dir );
+        
+        foreach ( $iterator as $file => $info )
+        {
+            if ( '.'  === $info->getBasename() ||
+                 '..' === $info->getBasename() ||
+                 ( $bit !== 7 && 
+                 (0 === ($bit & 1) && $info->isDir() ) ||
+                 (0 === ($bit & 2) && $info->isFile() ) ||
+                 (0 === ($bit & 4) && $info->isLink() ) )
+            ) {
+                continue;
+            } elseif ( preg_match( $excludeItems, $file ) ) {
+                continue;
+            } elseif( true !== $includeHidden && 0 === stripos( $file, '.' )  ) {
+                continue;
+            }
+            
+            if ( false !== $fullPath )
+            {
+                $element = ( is_string( $fullPath ) ? $fullpath : $dir ) . DIRECTORY_SEPARATOR . $file;
+            }
+            
+            $dirArray[] = $file;
+        }
+        
+        unset($iterator, $excludeItems, $file, $includeHidden, $fullPath, $dir );
+        
         return $dirArray;
     }
 

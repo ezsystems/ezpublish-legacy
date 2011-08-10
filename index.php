@@ -519,6 +519,12 @@ while ( $moduleRunRequired )
             $objectHasMovedError = true;
         }
     }
+    
+    if ( false !== stripos( $translateResult, '://' ) )
+    {
+        header( "Location: {$translateResult}" );
+        eZExecution::cleanExit();
+    }
 
     if ( $uri->isEmpty() )
     {
