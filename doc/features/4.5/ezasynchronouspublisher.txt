@@ -231,13 +231,13 @@ This handler is the one in charge of reading from the queue and deciding what co
 A default queueReader handler is providing with your default eZ Publish distribution. It simply reads the oldest inactive
 item from the processes queue, and returns it.
 
-It can be changed to a new one by implementing the ``ezpContentPublishingQueueReaderInterface`` and configuring the new
-class in ``content.ini``.
+It can be changed to a new one by extending the ``ezpContentPublishingQueue`` class, with a new implementation for the
+``next`` method and configuring the new class in ``content.ini``.
 
 Here is a possible class definition::
 
     <?php
-    class myPublishingQueue implements ezpContentPublishingQueueReaderInterface
+    class myPublishingQueue extends ezpContentPublishingQueue
     {
         public static function next()
         {
@@ -254,3 +254,6 @@ And the matching INI (content.ini) configuration::
 
     [PublishingSettings]
     AsynchronousPublishingQueueReader=myContentPublishingQueue
+
+Other methods from ``ezpContentPublishingQueue`` can be overridden as well, but this is not officially supported as of
+now, and therefore not documented.
