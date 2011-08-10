@@ -520,7 +520,7 @@ while ( $moduleRunRequired )
         }
     }
 
-    if ( false !== stripos( $translateResult, '://' ) )
+    if ( false !== strpos( $translateResult, '://' ) )
     {
         header( "Location: {$translateResult}" );
         eZExecution::cleanExit();
