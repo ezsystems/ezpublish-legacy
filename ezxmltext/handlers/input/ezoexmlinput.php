@@ -1323,7 +1323,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 }
                 else if ( $inline )
                 {
-                    $imageUrl = self::getCustomAttrbute( $tag, 'image_url' );
+                    $imageUrl = self::getCustomAttribute( $tag, 'image_url' );
                     if ( $imageUrl === null || !$imageUrl )
                     {
                         $imageUrl = self::getDesignFile( $inline );
@@ -1750,7 +1750,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     /*
      * Get custom attribute value
      */
-    public static function getCustomAttrbute( $tag, $attributeName )
+    public static function getCustomAttribute( $tag, $attributeName )
     {
         foreach ( $tag->attributes as $attribute )
         {
