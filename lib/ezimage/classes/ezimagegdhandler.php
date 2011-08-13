@@ -634,6 +634,8 @@ class eZImageGDHandler extends eZImageHandler
         $sourceHeight = ImageSY( $imageObject );
 
         $temporaryImageObject = eZImageGDHandler::imageCreate( $destinationWidth, $destinationHeight, eZImageGDHandler::isImageTrueColor( $imageObject, $sourceMimeData ) );
+        imagealphablending( $temporaryImageObject, false );
+        imagesavealpha( $temporaryImageObject, true );
         ImageCopyResampled( $temporaryImageObject, $imageObject,
                             0, 0, 0, 0,
                             $destinationWidth, $destinationHeight, $sourceWidth, $sourceHeight );
