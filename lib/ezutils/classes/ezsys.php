@@ -590,6 +590,48 @@ class eZSys
         return self::serverVariable( 'HTTP_HOST' );
     }
 
+    /**
+     * Returns the client IP whether he's behind a proxy or not
+     *
+     * Use [DebugSettings].DebugByIPUseCustomHTTPHeader in site.ini if you want
+     * to use a custom http header such as X-Forwarded-For
+     *
+     * Note: X-Forwarded-For is transformed by PHP
+     *       into $_SERVER['HTTP_X_FORWARDED_FOR]
+     *
+     * @return string
+     */
+    static public function clientIP()
+    {
+        $ini = eZINI::instance();
+        $ipAddress = null;
+        $useCustomHTTPHeader = $ini->variable( 'DebugSettings', 'DebugByIPUseCustomHTTPHeader' );
+        if( $useCustomHTTPHeader && $useCustomHTTPHeader != 'false' )
+        {
+            // Transforms for instance, X-Forwarded-For into X_FORWARDED_FOR
+            $transformedHeader = str_replace( '-', '_', strtoupper( $useCustomHTTPHeader ) );
+            $forwardedClientsString = eZSys::serverVariable( 'HTTP_' . $transformedHeader, true );
+
+            // Did we find the header ?
+            if ( $forwardedClientsString !== null )
+            {
+                // $forwardedClientsString contains a comma+space separated list of IPs
+                // where the left-most being the farthest downstream client. All the others are proxy servers.
+                $forwardedClients = explode( ',', $forwardedClientsString );
+                if( count( $forwardedClients ) > 0 )
+                {
+                    $ipAddress = trim( $forwardedClients[0] );
+                }
+            }
+        }
+        // Fallback on the REMOTE_ADDR server var if something went wrong (no header / no value)
+        if( $ipAddress == null )
+        {
+            $ipAddress = eZSys::serverVariable( 'REMOTE_ADDR', true );
+        }
+        return $ipAddress;
+    }
+
     /*!
      Determines if SSL is enabled and protocol HTTPS is used.
      \return true if current access mode is HTTPS.
