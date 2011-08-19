@@ -11,7 +11,20 @@
 <link rel="Author" href={"/ezinfo/about"|ezurl} />
 
 {if $enable_print}
-<link rel="Alternate" href={concat("layout/set/print/",$site.uri.original_uri, $site.uri.query_string)|ezurl} media="print" title="{'Printable version'|i18n('design/standard/layout')}" />
+{* Add print <link> tag in JS to be cache safe with query string (not included in cache-block key by default in pagelayout) *}
+<script type="text/javascript">
+(function() {ldelim}
+
+    var head = document.getElementsByTagName('head')[0];
+    var printNode = document.createElement('link');
+    printNode.rel = 'Alternate';
+    printNode.href = "{concat( 'layout/set/print/', $site.uri.original_uri )|ezurl( 'no' )}" + document.location.search;
+    printNode.media = 'print';
+    printNode.title = "{'Printable version'|i18n('design/ezwebin/link')}";
+    head.appendChild(printNode);
+
+{rdelim})();
+</script>
 {/if}
 
 {/default}
