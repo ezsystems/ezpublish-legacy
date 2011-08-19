@@ -121,5 +121,5 @@ $moduleResult = $module->run( $viewName, $uri->elements( false ), false, $uri->u
 
 // ouput result and end exit cleanly
 eZDB::checkTransactionCounter();
-echo $moduleResult['content'];
+echo ezpEvent::getInstance()->filter( 'response/output', $moduleResult['content'] );
 eZExecution::cleanExit();
