@@ -97,10 +97,12 @@ var sortableSubitems = function () {
                 }
             }
 
-            jQuery.post(jQuery.ez.url + 'call/ezjscnode::updatepriority', { ContentNodeID: record.getData('parent_node_id'),
-                                                                            ContentObjectID: record.getData('contentobject_id'),
-                                                                            PriorityID: [record.getData('node_id')],
-                                                                            Priority:  [v] }, onSuccess );
+            jQuery.ez('ezjscnode::updatepriority', {
+                ContentNodeID: record.getData('parent_node_id'),
+                ContentObjectID: record.getData('contentobject_id'),
+                PriorityID: [record.getData('node_id')],
+                Priority: [v]
+            }, onSuccess);
             callback(true, v);
         }
 
