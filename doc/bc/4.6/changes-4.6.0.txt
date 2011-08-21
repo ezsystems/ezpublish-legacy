@@ -1,6 +1,15 @@
 Changes to BC and behavior in version 4.6.0
 ===========================================
 
+INI setting changes
+-------------------
+
+- subtreeexpirycleanup.php cronjob is not activated by default. 
+
+  As DelayedCacheBlockCleanup is disabled this script is not activated by 
+  default. You can re-enable it by adding Scripts[]=subtreeexpirycleanup.php
+  to cronjob.ini[CronjobSettings]
+
 Change of behavior
 ------------------
 
