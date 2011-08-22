@@ -38,15 +38,15 @@ class ezxFormToken
      */
     static public function input( eZURI $uri )
     {
-        if ( !self::shouldProtectUser() )
-        {
-            eZDebug::writeDebug( 'Input not protected (not logged in user)', __METHOD__ );
-            return null;
-        }
-
         if ( $_SERVER['REQUEST_METHOD'] !== 'POST' && empty( $_POST ) )
         {
             eZDebug::writeDebug( 'Input not protected (not POST)', __METHOD__ );
+            return null;
+        }
+
+        if ( !self::shouldProtectUser() )
+        {
+            eZDebug::writeDebug( 'Input not protected (not logged in user)', __METHOD__ );
             return null;
         }
 
