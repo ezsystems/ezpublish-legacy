@@ -593,7 +593,7 @@ class eZSys
     /**
      * Returns the client IP whether he's behind a proxy or not
      *
-     * Use [DebugSettings].DebugByIPUseCustomHTTPHeader in site.ini if you want
+     * Use [HTTPHeaderSettings].ClientIpByCustomHTTPHeader in site.ini if you want
      * to use a custom http header such as X-Forwarded-For
      *
      * Note: X-Forwarded-For is transformed by PHP
@@ -603,33 +603,30 @@ class eZSys
      */
     static public function clientIP()
     {
-        $ini = eZINI::instance();
-        $ipAddress = null;
-        $useCustomHTTPHeader = $ini->variable( 'DebugSettings', 'DebugByIPUseCustomHTTPHeader' );
-        if( $useCustomHTTPHeader && $useCustomHTTPHeader != 'false' )
+        $customHTTPHeader = eZINI::instance()->variable( 'HTTPHeaderSettings', 'ClientIpByCustomHTTPHeader' );
+        if( $customHTTPHeader && $customHTTPHeader != 'false' )
         {
             // Transforms for instance, X-Forwarded-For into X_FORWARDED_FOR
-            $transformedHeader = str_replace( '-', '_', strtoupper( $useCustomHTTPHeader ) );
-            $forwardedClientsString = eZSys::serverVariable( 'HTTP_' . $transformedHeader, true );
+            $phpHeader = 'HTTP_' . str_replace( '-', '_', strtoupper( $customHTTPHeader ) );
+            $forwardedClientsString = eZSys::serverVariable( $phpHeader, true );
 
-            // Did we find the header ?
-            if ( $forwardedClientsString !== null )
+            if ( $forwardedClientsString )
             {
-                // $forwardedClientsString contains a comma+space separated list of IPs
+                // $forwardedClientsString (usually) contains a comma+space separated list of IPs
                 // where the left-most being the farthest downstream client. All the others are proxy servers.
+                // As X-Forwarded-For is not a standard header yet, we prefer to use a simple comma as the explode delimiter
                 $forwardedClients = explode( ',', $forwardedClientsString );
-                if( count( $forwardedClients ) > 0 )
+                if( !empty( $forwardedClients ) )
                 {
-                    $ipAddress = trim( $forwardedClients[0] );
+                    return trim( $forwardedClients[0] );
                 }
             }
         }
-        // Fallback on the REMOTE_ADDR server var if something went wrong (no header / no value)
-        if( $ipAddress == null )
-        {
-            $ipAddress = eZSys::serverVariable( 'REMOTE_ADDR', true );
-        }
-        return $ipAddress;
+
+        // Fallback on $_SERVER['REMOTE_ADDR']
+        eZDebug::writeWarning( "Could not get ip with ClientIpByCustomHTTPHeader={$customHTTPHeader}, fallback to using REMOTE_ADDR",
+                               __METHOD__ );
+        return self::serverVariable( 'REMOTE_ADDR', true );
     }
 
     /*!
