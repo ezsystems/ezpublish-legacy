@@ -621,11 +621,12 @@ class eZSys
                     return trim( $forwardedClients[0] );
                 }
             }
+
+            // Fallback on $_SERVER['REMOTE_ADDR']
+            eZDebug::writeWarning( "Could not get ip with ClientIpByCustomHTTPHeader={$customHTTPHeader}, fallback to using REMOTE_ADDR",
+                                   __METHOD__ );
         }
 
-        // Fallback on $_SERVER['REMOTE_ADDR']
-        eZDebug::writeWarning( "Could not get ip with ClientIpByCustomHTTPHeader={$customHTTPHeader}, fallback to using REMOTE_ADDR",
-                               __METHOD__ );
         return self::serverVariable( 'REMOTE_ADDR', true );
     }
 
