@@ -101,7 +101,7 @@ class ezxFormToken
         $token = self::getToken();
         $field = self::FORM_FIELD;
         $replaceKey = self::REPLACE_KEY;
-        $tag = "\n<span hidden=\"hidden\" style='display:none;' id=\"{$field}_js\" title=\"{$token}\"></span>\n";
+        $tag = "\n<span style='display:none;' id=\"{$field}_js\" title=\"{$token}\"></span>\n";
         $input = "\n<input type=\"hidden\" name=\"{$field}\" value=\"{$token}\" />\n";
                
         eZDebug::writeDebug( 'Output protected (all forms will be modified)', __METHOD__ );
