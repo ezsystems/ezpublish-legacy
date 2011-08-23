@@ -123,9 +123,7 @@ class ezxFormToken
     
     /**
      * session/regenerate event handler, clears form token when users
-     * loggs out / in.
-     * 
-     * @param string $templateResult ByRef
+     * logs out / in.
      */
     static public function reset()
     {

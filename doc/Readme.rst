@@ -31,8 +31,8 @@ on an existing install.
 Known issues (by design):
 * Will break any custom Ajax POST code, see last section for how to modify your code.
 * Miss configured reverse proxies or miss configured site.ini\[HTTPHeaderSettings]
- settings causing logged in user response to be cached will lead to situations where
- form tokens does not verify.
+  settings causing logged in user response to be cached will lead to situations where
+  form tokens does not verify.
 
 
 =======
@@ -61,7 +61,8 @@ your already covered and don't need to look further.
 This section is about making sure code that uses ajax functions directly on
 any library or natively includes the correct post form token if available.
 
-The output filter will do the following changes to response* html to clients:
+The output filter will do the following changes on the html code:
+
 1. Add a hidden input tag with name='ezxform_token' for all form tags that
    have post method
 2. Add a hidden tag with id='ezxform_token_js' after body tag that contain
@@ -70,11 +71,12 @@ The output filter will do the following changes to response* html to clients:
 
 This is done in such a way to be ensure it has no negative impact on eZ Publish cache.
 
-* Only eZ Publish response is covered, not external javascript/stylesheet/image files.
-  Hence why example #A bellow uses dom to get token for ajax post requests.
+Only eZ Publish response is covered, not external javascript/stylesheet/image files.
+Hence why example #A bellow uses dom to get token for ajax post requests.
 
-#2 is best option for ajax code and is explained in example #A.
-If your ajax code is executed before body tag, then you will have to use option #3 as explained in example #B.
+Using the hidden tag with id='ezxform_token_js' is the best option for ajax
+code and it is explained in example #A. If your ajax code is executed before
+body tag, then you will have to use option #3 as explained in example #B.
 
 Examples:
 A Using DOM:
