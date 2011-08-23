@@ -107,7 +107,7 @@ class ezxFormToken
         eZDebug::writeDebug( 'Output protected (all forms will be modified)', __METHOD__ );
 
         $templateResult = preg_replace(
-            '/(<body\W[^>]*>)/i',
+            '/(<body[^>]*>)/i',
             '\\1' . $tag,
             $templateResult
         );
