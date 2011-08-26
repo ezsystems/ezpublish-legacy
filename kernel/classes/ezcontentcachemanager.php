@@ -658,11 +658,11 @@ class eZContentCacheManager
 
     /*!
      \static
-     Depreciated. Use 'clearObjectViewCache' instead
+     Deprecated. Use 'clearObjectViewCache' instead
     */
     static function clearViewCache( $objectID, $versionNum = true , $additionalNodeList = false )
     {
-        eZDebug::writeWarning( "'clearViewCache' function was depreciated. Use 'clearObjectViewCache' instead", __METHOD__ );
+        eZDebug::writeWarning( "'clearViewCache' function was deprecated. Use 'clearObjectViewCache' instead", __METHOD__ );
         eZContentCacheManager::clearObjectViewCache( $objectID, $versionNum, $additionalNodeList );
     }
 

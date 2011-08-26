@@ -23398,7 +23398,7 @@ Webサーバのユーザとグループを知っている場合は、ファイ�
         <translation>PHPは環境変数を登録しません。</translation>
     </message>
     <message>
-        <source>PHP is currently not configured to register enviroment variables in the global variable $_ENV.</source>
+        <source>PHP is currently not configured to register environment variables in the global variable $_ENV.</source>
         <translation>PHPは現在、グローバル変数 $_ENVに環境変数を登録するように設定されていません。</translation>
     </message>
     <message>
@@ -23438,7 +23438,7 @@ Webサーバのユーザとグループを知っている場合は、ファイ�
         <translation>、ですがPHPの最新ステーブルリリースをおすすめします。</translation>
     </message>
     <message>
-        <source>Since some extensions might use $_ENV it is recomended to fix it unless you have full controll over all extensions you use!</source>
+        <source>Since some extensions might use $_ENV it is recommended to fix it unless you have full control over all extensions you use!</source>
         <translation>エクステンションによって、$_ENVを使うこともありますため、すべてのエクステンションにフールコントロールがない場合に追加する様にお勧めします!</translation>
     </message>
     <message>

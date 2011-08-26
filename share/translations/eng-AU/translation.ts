@@ -23455,12 +23455,12 @@ To do this you need to change the %chown commands under Alternative shell comman
         <translation type="unfinished">PHP does not register environment variables</translation>
     </message>
     <message>
-        <source>PHP is currently not configured to register enviroment variables in the global variable $_ENV.</source>
-        <translation type="unfinished">PHP is currently not configured to register enviroment variables in the global variable $_ENV.</translation>
+        <source>PHP is currently not configured to register environment variables in the global variable $_ENV.</source>
+        <translation type="unfinished">PHP is currently not configured to register environment variables in the global variable $_ENV.</translation>
     </message>
     <message>
-        <source>Since some extensions might use $_ENV it is recomended to fix it unless you have full controll over all extensions you use!</source>
-        <translation type="unfinished">Since some extensions might use $_ENV it is recomended to fix it unless you have full controll over all extensions you use!</translation>
+        <source>Since some extensions might use $_ENV it is recommended to fix it unless you have full control over all extensions you use!</source>
+        <translation type="unfinished">Since some extensions might use $_ENV it is recommended to fix it unless you have full control over all extensions you use!</translation>
     </message>
     <message>
         <source>To fix this, edit your php.ini configuration and add E to the variables_order setting and restart your webserver.</source>
