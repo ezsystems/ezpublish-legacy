@@ -23500,7 +23500,7 @@ Per fer-ho, cal que canviïs els comandaments %chown sota els comandaments alter
         <translation>PHP no registra variables d&apos;entorn</translation>
     </message>
     <message>
-        <source>PHP is currently not configured to register enviroment variables in the global variable $_ENV.</source>
+        <source>PHP is currently not configured to register environment variables in the global variable $_ENV.</source>
         <translation>PHP no està configurat per registrar variables d&apos;entorn a la global global $_ENV.</translation>
     </message>
     <message>
@@ -23540,7 +23540,7 @@ Per fer-ho, cal que canviïs els comandaments %chown sota els comandaments alter
         <translation>, però sempre es recomana l&apos;última versió establa de PHP.</translation>
     </message>
     <message>
-        <source>Since some extensions might use $_ENV it is recomended to fix it unless you have full controll over all extensions you use!</source>
+        <source>Since some extensions might use $_ENV it is recommended to fix it unless you have full control over all extensions you use!</source>
         <translation>Algunes extensions poden fer servir $_ENV, recomanem arreglar-ho a no ser que tinguis control total sobre totes les extensions que fas servir!</translation>
     </message>
     <message>

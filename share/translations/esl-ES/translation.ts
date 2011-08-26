@@ -23494,7 +23494,7 @@ Para hacer esto necesitas cambiar los comandos %chown en comandos de consola alt
         <translation>PHP no registra variables de entorno</translation>
     </message>
     <message>
-        <source>PHP is currently not configured to register enviroment variables in the global variable $_ENV.</source>
+        <source>PHP is currently not configured to register environment variables in the global variable $_ENV.</source>
         <translation>PHP no está configurado para registrar variables de entorno en la variable global $_ENV.</translation>
     </message>
     <message>
@@ -23534,7 +23534,7 @@ Para hacer esto necesitas cambiar los comandos %chown en comandos de consola alt
         <translation>, pero siempre se recomienda la última versión estable de PHP.</translation>
     </message>
     <message>
-        <source>Since some extensions might use $_ENV it is recomended to fix it unless you have full controll over all extensions you use!</source>
+        <source>Since some extensions might use $_ENV it is recommended to fix it unless you have full control over all extensions you use!</source>
         <translation>Algunas extensiones pueden estar usando $_ENV, recomendamos corregirlo a no ser que tengas control total sobre todas las extensiones que usas!</translation>
     </message>
     <message>

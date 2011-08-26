@@ -31,7 +31,7 @@ class ezpDatabaseTestSuite extends ezpTestSuite
     protected $insertDefaultData = true;
 
     /**
-     * Sets up the database enviroment
+     * Sets up the database environment
      */
     protected function setUp()
     {

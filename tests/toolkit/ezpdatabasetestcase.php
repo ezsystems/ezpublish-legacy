@@ -37,7 +37,7 @@ class ezpDatabaseTestCase extends ezpTestCase
     protected $sharedFixture;
 
     /**
-     * Sets up the database enviroment
+     * Sets up the database environment
      */
     protected function setUp()
     {
