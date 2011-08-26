@@ -18,7 +18,7 @@
   The system is checked to see whether a virtualhost-less setup is used
   and sets the appropriate variables which can be fetched with
   siteDir(), wwwDir() and indexFile().
-  It also detects file and enviroment separators, fetch them with
+  It also detects file and environment separators, fetch them with
   fileSeparator() and envSeparator().
 
   Example:
@@ -408,7 +408,7 @@ class eZSys
     }
 
     /*!
-     Returns the string which is used for enviroment separators on the current OS (server).
+     Returns the string which is used for environment separators on the current OS (server).
      \static
     */
     static function envSeparator()

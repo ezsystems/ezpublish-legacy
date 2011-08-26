@@ -204,7 +204,7 @@ _`fileinfo`   You need to install the `fileinfo extension`_ through PECL.
                - download ``magic`` and ``magic.mime`` files from `gnuwin32`_ (from the
                  Binaries Zip in the File for Windows package) and copy them to a folder,
                  for example the folder where PHP is installed (e.g. ``c:\php``)
-               - in System settings, setup the enviroment variable **MAGIC** to point
+               - in System settings, setup the environment variable **MAGIC** to point
                  to the folder where you copied the magic files, plus the ``magic``
                  part (e.g. ``c:\php\magic``). Restart Windows if needed.
                - alternatively you can use this command-line before running your PHP

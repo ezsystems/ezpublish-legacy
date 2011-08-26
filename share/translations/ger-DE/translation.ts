@@ -28589,7 +28589,7 @@ Um das zu tun, müssen Sie die %chown Kommandos unter den alternativen Shell-Bef
         <translation>PHP registriert keine Umgebungs-Variablen</translation>
     </message>
     <message>
-        <source>PHP is currently not configured to register enviroment variables in the global variable $_ENV.</source>
+        <source>PHP is currently not configured to register environment variables in the global variable $_ENV.</source>
         <translation>PHP ist derzeit nicht konfiguriert, Umgebungs-Variablen in der global Variable $_ENV zu registrieren.</translation>
     </message>
     <message>
@@ -28629,7 +28629,7 @@ Um das zu tun, müssen Sie die %chown Kommandos unter den alternativen Shell-Bef
         <translation>, aber die aktuellste stabile PHP Version wird immer empfohlen.</translation>
     </message>
     <message>
-        <source>Since some extensions might use $_ENV it is recomended to fix it unless you have full controll over all extensions you use!</source>
+        <source>Since some extensions might use $_ENV it is recommended to fix it unless you have full control over all extensions you use!</source>
         <translation>Einige Extensions können $_ENV verwenden. Daher wird es empfohlen, diese Einstellung zu ändern!</translation>
     </message>
     <message>

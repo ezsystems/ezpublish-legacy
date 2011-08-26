@@ -23434,11 +23434,11 @@ Pour faire cela, vous avez besoin de changer les commandes %chown sous une autre
         <translation>PHP n&apos;enregistre pas de variable d&apos;environnement.</translation>
     </message>
     <message>
-        <source>PHP is currently not configured to register enviroment variables in the global variable $_ENV.</source>
+        <source>PHP is currently not configured to register environment variables in the global variable $_ENV.</source>
         <translation>PHP n&apos;est actuellement pas configuré pour enregistrer des variables d&apos;environnement dans la variable globale $_ENV</translation>
     </message>
     <message>
-        <source>Since some extensions might use $_ENV it is recomended to fix it unless you have full controll over all extensions you use!</source>
+        <source>Since some extensions might use $_ENV it is recommended to fix it unless you have full control over all extensions you use!</source>
         <translation>Étant donné que certaines extensions peuvent utiliser $_ENV il est recommandé de le résoudre à moins d&apos;avoir une maitrise totale sur toutes les extensions que vous utilisez !</translation>
     </message>
     <message>
