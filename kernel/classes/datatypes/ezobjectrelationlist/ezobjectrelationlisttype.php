@@ -1574,8 +1574,10 @@ class eZObjectRelationListType extends eZDataType
         if ( count( $objectAttributeContent['relation_list'] ) > 0 )
         {
             $target = $objectAttributeContent['relation_list'][0];
-            $targetObject = eZContentObject::fetch( $target['contentobject_id'], false );
-            return $targetObject['name'];
+            $targetObject = eZContentObject::fetch( $target['contentobject_id'] );
+            $attributeLanguage = $contentObjectAttribute->attribute( 'language_code' );
+            $targetObjectName = $targetObject->name( false, $attributeLanguage );
+            return $targetObjectName;
         }
         else
         {
