@@ -67,6 +67,10 @@ class eZImageType extends eZDataType
             $aliasesPath[] = "{$originalAlias["dirpath"]}/{$originalAlias["basename"]}_{$aliasName}.{$originalAlias["suffix"]}";
         }
 
+        if( empty( $aliasesPath ) )
+        {
+            return;
+        }
         $conds = array(
         	"contentobject_attribute_id" => $contentObjectAttribute->attribute( "id" ),
             "filepath"                   => array( $aliasesPath )
@@ -116,6 +120,10 @@ class eZImageType extends eZDataType
             $aliasesPath[] = "{$originalAlias["dirpath"]}/{$originalAlias["basename"]}_{$aliasName}.{$originalAlias["suffix"]}";
         }
 
+        if( empty( $aliasesPath ) )
+        {
+            return;
+        }
         $conds = array(
         	"contentobject_attribute_id" => $contentObjectAttribute->attribute( "id" ),
             "filepath"                   => array( $aliasesPath )
