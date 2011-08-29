@@ -15,7 +15,7 @@ jQuery(function( $ )
     function _search( e )
     {
         e.preventDefault();
-        var box = $( this.parentNode.parentNode.parentNode ), text = box.find('input.ezobject-relation-search-text');
+        var box = $( this.parentNode.parentNode ), text = box.find('input.ezobject-relation-search-text');
         if ( text.val() )
         {
             var params = { 'CallbackID': box.attr('id'), 'EncodingFetchSection': 1 };
