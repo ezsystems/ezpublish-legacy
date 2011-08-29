@@ -108,7 +108,7 @@ if ( $module->isCurrentAction( "Generate" ) )
                                                        null,
                                                        true );
         }
-        if ( count($users) > 0 )
+        if ( isset($users) && count($users) > 0 )
         {
             $user   = $users[0];
             $time   = time();
