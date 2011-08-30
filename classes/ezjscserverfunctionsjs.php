@@ -217,6 +217,8 @@ YUI( YUI3_config ).add('io-ez', function( Y )
             else
                 window.console.log( 'Y.ez(): ' + returnObject.responseJSON.content );
         }
+        _configBak.on.success = _configBak.on.successCallback;
+        _configBak.on.successCallback = undefined;
     }
 
     _ez.url = _serverUrl;
