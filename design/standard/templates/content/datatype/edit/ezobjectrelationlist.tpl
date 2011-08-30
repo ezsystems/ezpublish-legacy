@@ -408,6 +408,7 @@
             {/if}
 
 	        <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_browse_objects]" value="{'Add existing objects'|i18n( 'design/standard/content/datatype' )}" title="{'Browse to add existing objects in this relation'|i18n( 'design/standard/content/datatype' )}" />
+            {include uri='design:content/datatype/edit/ezobjectrelationlist_ajaxuploader.tpl'}
 
         </div>
         <div class="right">

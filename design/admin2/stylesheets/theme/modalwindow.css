@@ -75,3 +75,45 @@
 }
 
 
+/* AJAX UPLOADER STYLES */
+
+.ajaxuploader-locations label
+{
+    font-weight:normal;
+    white-space: normal;
+}
+
+.ajaxuploader-button-bar
+{
+    margin-top:1.5em;
+}
+
+.ajaxuploader-error
+{
+    color:maroon;
+    font-weight:bold;
+    padding-left:1em;
+}
+
+.ajaxuploader-preview h3
+{
+    padding-bottom:2px;
+    border-bottom: 1px solid #cacaca;
+    margin-bottom:1em;
+    color:#333;
+}
+.ajaxuploader-preview dt
+{
+    font-size:1em;
+}
+
+.ajaxuploader-preview dd
+{
+    margin-left:0;
+}
+
+.ajaxuploader-browse .pagination span
+{
+    color:#888;
+}
+
