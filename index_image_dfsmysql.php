@@ -99,4 +99,8 @@ if ( file_exists( $dfsFilePath ) )
     fpassthru( $fp );
     fclose( $fp );
 }
+else
+{
+    _die( "Server error: DFS File not found." );
+}
 ?>
