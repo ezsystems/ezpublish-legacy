@@ -183,13 +183,13 @@ document.getElementById('header-usermenu-logout').innerHTML += '<span class="hea
 <!--DEBUG_REPORT-->
 </div><!-- div id="page" -->
 
-{* modal window *}
+{* modal window and AJAX stuff *}
 <div id="overlay-mask" style="display:none;"></div>
 <div id="modal-window" style="display:none;">
     <h2><a href="#" class="window-close">{'Close'|i18n( 'design/admin/pagelayout' )}</a><span></span></h2>
     <div class="window-content"></div>
 </div>
-
+<img src={'2/loader.gif'|ezimage()} id="ajaxuploader-loader" style="display:none;" alt="{'Loading...'|i18n( 'design/admin/pagelayout' )}" />
 
 
 </body>
