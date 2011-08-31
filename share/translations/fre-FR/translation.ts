@@ -4489,7 +4489,7 @@
     </message>
     <message>
         <source>Internal errorD</source>
-        <translation>Erreur interne</translation>
+        <translation type="obsolete">Erreur interne</translation>
     </message>
 </context>
 <context>
@@ -4656,6 +4656,22 @@
     <message>
         <source>Currently you do not have any products on your wish list.</source>
         <translation>Vous n&apos;avez aucun produit dans votre liste de suggestions.</translation>
+    </message>
+    <message>
+        <source>Published</source>
+        <translation type="unfinished">Publié</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished">Modifier</translation>
+    </message>
+    <message>
+        <source>Edit &lt;%item_name&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You do not have permission to edit &lt;%item_name&gt;.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6168,6 +6184,10 @@
         <source>Path String</source>
         <translation type="unfinished">Fil d&apos;Ariane (chemin)</translation>
     </message>
+    <message>
+        <source>Object state</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view/line</name>
@@ -6964,6 +6984,14 @@ Note : les paquetages ne seront pas désinstallés.</translation>
         <source>User preferences</source>
         <translation>Préférences utilisateur</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/pagelayout/path</name>
@@ -7169,11 +7197,11 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Enable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
-        <translation>Activer les &amp;quot;onglets&amp;quot; par défaut lorsque vous parcourez le contenu.</translation>
+        <translation type="obsolete">Activer les &amp;quot;onglets&amp;quot; par défaut lorsque vous parcourez le contenu.</translation>
     </message>
     <message>
         <source>Disable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
-        <translation>Désactiver les &amp;quot;onglets&amp;quot; par défaut lorsque vous parcourez le contenu.</translation>
+        <translation type="obsolete">Désactiver les &amp;quot;onglets&amp;quot; par défaut lorsque vous parcourez le contenu.</translation>
     </message>
     <message>
         <source>Enable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
@@ -13866,6 +13894,107 @@ your account.</source>
     </message>
 </context>
 <context>
+    <name>design/admin2/ajaxupload</name>
+    <message>
+        <source>&lt;em&gt;%file&lt;/em&gt; has successfully been uploaded.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/ajaxuploader</name>
+    <message>
+        <source>Go to the parent level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Nom</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished">Type</translation>
+    </message>
+    <message>
+        <source>Section</source>
+        <translation type="unfinished">Section</translation>
+    </message>
+    <message>
+        <source>prev</source>
+        <translation type="unfinished">précédent</translation>
+    </message>
+    <message>
+        <source>next</source>
+        <translation type="unfinished">suivant</translation>
+    </message>
+    <message>
+        <source>Step 2/3: Choose a location for the new &apos;%class&apos; object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose a location for the &apos;%class&apos; object that is going to be created from it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose this location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Step 3/3: Preview of &apos;%name&apos; (%class)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File</source>
+        <translation type="unfinished">Fichier</translation>
+    </message>
+    <message>
+        <source>Required</source>
+        <translation type="unfinished">Obligatoire</translation>
+    </message>
+    <message>
+        <source>The name will be autogenerated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload the file</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/content/datatype</name>
+    <message>
+        <source>Upload a file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload a file to create a new object and add it to the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose a location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some required fields are empty.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unable to parse the JSON response.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload a file and add the resulting object in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/base</name>
     <message>
         <source>Back to poll</source>
@@ -14457,6 +14586,13 @@ your account.</source>
     <message>
         <source>Minute</source>
         <translation type="obsolete">Minute</translation>
+    </message>
+</context>
+<context>
+    <name>design/ezwebin/link</name>
+    <message>
+        <source>Printable version</source>
+        <translation type="unfinished">Version imprimable</translation>
     </message>
 </context>
 <context>
@@ -16397,7 +16533,7 @@ Si vous voulez laisser un commentaire au responsable de l&apos;approbation ou en
     </message>
     <message>
         <source>Add object</source>
-        <translation>Ajouter un objet</translation>
+        <translation type="obsolete">Ajouter un objet</translation>
     </message>
     <message>
         <source>Invert selection.</source>
@@ -16678,6 +16814,38 @@ Si vous voulez laisser un commentaire au responsable de l&apos;approbation ou en
     <message>
         <source>Confirm email</source>
         <translation>Confirmation du courriel</translation>
+    </message>
+    <message>
+        <source>Add an object in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add an existing object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse to add an existing object in this relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Objects in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected elements from the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add objects in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add existing objects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse to add existing objects in this relation</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -18534,7 +18702,7 @@ Si vous voulez laisser un commentaire au responsable de l&apos;approbation ou en
     </message>
     <message>
         <source>Printable version</source>
-        <translation>Version imprimable</translation>
+        <translation type="obsolete">Version imprimable</translation>
     </message>
     <message>
         <source>Advanced search</source>
@@ -26781,6 +26949,10 @@ your account.</source>
     <message>
         <source>Incorrect headers nesting</source>
         <translation>Imbrication incorrecte des titres</translation>
+    </message>
+    <message>
+        <source>%count invalid character(s) have been found and replaced by a space</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -3719,7 +3719,7 @@
     </message>
     <message>
         <source>There are no removable aliases.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Er zijn geen aliassen die kunnen worden verwijderd.</translation>
     </message>
     <message>
         <source>You cannot remove any aliases because you do not have permission to edit the current item.</source>
@@ -3950,7 +3950,7 @@
     </message>
     <message>
         <source>Remove selected aliases from the list above.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Geselecteerde aliases verwijderen uit de bovenstaande lijst.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove the selected aliases?</source>
@@ -3970,7 +3970,7 @@
     </message>
     <message>
         <source>There are no removable aliases.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Er zijn geen aliassen die kunnen worden verwijderd.</translation>
     </message>
     <message>
         <source>New URL alias</source>
@@ -4486,7 +4486,7 @@
     </message>
     <message>
         <source>Internal errorD</source>
-        <translation>Interne foutmelding</translation>
+        <translation type="obsolete">Interne foutmelding</translation>
     </message>
 </context>
 <context>
@@ -4610,7 +4610,11 @@
     </message>
     <message>
         <source>If your installation is not running eZ Publish Premium, it might not be up to date with the latest maintenance service packs. Contact eZ Systems.</source>
-        <translation>Als de huidige installatie niet draait op eZ Publish Premium is deze misschien niet bijgewerkt tot de laatste versie. Neem contact op met eZ Systems.</translation>
+        <translation type="obsolete">Als de huidige installatie niet draait op eZ Publish Premium is deze misschien niet bijgewerkt tot de laatste versie. Neem contact op met eZ Systems.</translation>
+    </message>
+    <message>
+        <source>If your installation is not running eZ Publish Enterprise, it might not be up to date with the latest maintenance service packs. Contact eZ Systems.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4653,6 +4657,22 @@
     <message>
         <source>Currently you do not have any products on your wish list.</source>
         <translation>Op dit moment heeft u geen producten op uw wensenlijst.</translation>
+    </message>
+    <message>
+        <source>Published</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished">Bewerken</translation>
+    </message>
+    <message>
+        <source>Edit &lt;%item_name&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You do not have permission to edit &lt;%item_name&gt;.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5102,11 +5122,11 @@
     <name>design/admin/node/removeobject</name>
     <message>
         <source>Confirm location removal</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Verwijderen van locatie bevestigen</translation>
     </message>
     <message>
         <source>Insufficient permissions</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Onvoldoende bevoegdheden</translation>
     </message>
     <message>
         <source>Some of the items that are about to be removed contain sub items.</source>
@@ -5146,7 +5166,7 @@
     </message>
     <message>
         <source>Cancel the removal of locations.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Annuleer het verwijderen van locaties.</translation>
     </message>
     <message>
         <source>Type</source>
@@ -5174,7 +5194,7 @@
     </message>
     <message>
         <source>Reverse related for subtree</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Omgekeerde relaties bekijken</translation>
     </message>
     <message>
         <source>Some of the objects selected for removal are used by other objects. Select the menu from the content tree, and</source>
@@ -5224,7 +5244,7 @@
     </message>
     <message>
         <source>You do not have permission to view this object</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">U heeft geen toegang om dit object te bekijken</translation>
     </message>
 </context>
 <context>
@@ -6153,6 +6173,10 @@
         <source>Path String</source>
         <translation type="unfinished">Padreeks</translation>
     </message>
+    <message>
+        <source>Object state</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view/line</name>
@@ -6162,7 +6186,7 @@
     </message>
     <message>
         <source>Click on the icon to display a context-sensitive menu.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Klik op het icoon om een context gevoelig menu te tonen.</translation>
     </message>
 </context>
 <context>
@@ -6947,6 +6971,14 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
         <source>User preferences</source>
         <translation>Gebruikersvoorkeuren</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/pagelayout/path</name>
@@ -7092,7 +7124,7 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     </message>
     <message>
         <source>My pending items</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mijn items ter afhandeling</translation>
     </message>
     <message>
         <source>Edit mode settings</source>
@@ -7137,14 +7169,6 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     <message>
         <source>Dashboard</source>
         <translation>Dashboard</translation>
-    </message>
-    <message>
-        <source>Enable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Disable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Enable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
@@ -8739,7 +8763,7 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     </message>
     <message>
         <source>Enclosure (media)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ingesloten (media)</translation>
     </message>
     <message>
         <source>Use this drop-down to select the attribute that should be exported as the enclosure of the RSS export entry, enclosures are direct link to a media file, so use a media/image/file datatype .</source>
@@ -12282,23 +12306,23 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     </message>
     <message>
         <source>Identifier:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Identifier:</translation>
     </message>
     <message>
         <source>Default language:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Standaardtaal:</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Naam:</translation>
     </message>
     <message>
         <source>Description:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Beschrijving:</translation>
     </message>
     <message>
         <source>Save changes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wijzigingen opslaan</translation>
     </message>
     <message>
         <source>Save changes to this state group.</source>
@@ -12357,7 +12381,7 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     </message>
     <message>
         <source>Select content object state group for removal.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Inhoudsobject status selecteren voor verwijdering.</translation>
     </message>
     <message>
         <source>Remove selected</source>
@@ -13825,6 +13849,107 @@ adres verzonden. Volg de instructies in deze e-mail om uw account te activeren.<
     </message>
 </context>
 <context>
+    <name>design/admin2/ajaxupload</name>
+    <message>
+        <source>&lt;em&gt;%file&lt;/em&gt; has successfully been uploaded.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/ajaxuploader</name>
+    <message>
+        <source>Go to the parent level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Section</source>
+        <translation type="unfinished">Sectie</translation>
+    </message>
+    <message>
+        <source>prev</source>
+        <translation type="unfinished">vorige</translation>
+    </message>
+    <message>
+        <source>next</source>
+        <translation type="unfinished">volgende</translation>
+    </message>
+    <message>
+        <source>Step 2/3: Choose a location for the new &apos;%class&apos; object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose a location for the &apos;%class&apos; object that is going to be created from it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose this location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Step 3/3: Preview of &apos;%name&apos; (%class)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File</source>
+        <translation type="unfinished">Bestand</translation>
+    </message>
+    <message>
+        <source>Required</source>
+        <translation type="unfinished">Vereist</translation>
+    </message>
+    <message>
+        <source>The name will be autogenerated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload the file</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/content/datatype</name>
+    <message>
+        <source>Upload a file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload a file to create a new object and add it to the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose a location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some required fields are empty.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unable to parse the JSON response.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload a file and add the resulting object in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/base</name>
     <message>
         <source>Back to poll</source>
@@ -14418,6 +14543,13 @@ adres verzonden. Volg de instructies in deze e-mail om uw account te activeren.<
     <message>
         <source>Minute</source>
         <translation type="obsolete">Minuut</translation>
+    </message>
+</context>
+<context>
+    <name>design/ezwebin/link</name>
+    <message>
+        <source>Printable version</source>
+        <translation type="unfinished">Printvriendelijke versie</translation>
     </message>
 </context>
 <context>
@@ -16358,7 +16490,7 @@ Indien u aanvullende opmerkingen voor de goedkeurder heeft of de status wilt zie
     </message>
     <message>
         <source>Add object</source>
-        <translation>Object toevoegen</translation>
+        <translation type="obsolete">Object toevoegen</translation>
     </message>
     <message>
         <source>Invert selection.</source>
@@ -16639,6 +16771,38 @@ Indien u aanvullende opmerkingen voor de goedkeurder heeft of de status wilt zie
     <message>
         <source>Confirm email</source>
         <translation>E-mail bevestigen</translation>
+    </message>
+    <message>
+        <source>Add an object in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add an existing object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse to add an existing object in this relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Objects in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected elements from the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add objects in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add existing objects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse to add existing objects in this relation</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -18501,7 +18665,7 @@ Neem contact op met deze persoon over het concept of maak een nieuw concept aan 
     </message>
     <message>
         <source>Printable version</source>
-        <translation>Printvriendelijke versie</translation>
+        <translation type="obsolete">Printvriendelijke versie</translation>
     </message>
     <message>
         <source>Advanced search</source>
@@ -24292,19 +24456,19 @@ Om dit te doen, moet u de %chown commando&apos;s bij de alternatieve shellcomman
     <name>design/standard/state/edit</name>
     <message>
         <source>Identifier:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Identifier:</translation>
     </message>
     <message>
         <source>Default language:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Standaardtaal:</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Naam:</translation>
     </message>
     <message>
         <source>Description:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Beschrijving:</translation>
     </message>
 </context>
 <context>
@@ -24330,19 +24494,19 @@ Om dit te doen, moet u de %chown commando&apos;s bij de alternatieve shellcomman
     <name>design/standard/state/group_edit</name>
     <message>
         <source>Identifier:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Identifier:</translation>
     </message>
     <message>
         <source>Default language:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Standaardtaal:</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Naam:</translation>
     </message>
     <message>
         <source>Description:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Beschrijving:</translation>
     </message>
 </context>
 <context>
@@ -26786,6 +26950,10 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
         <source>Object %1 can not be embeded to itself.</source>
         <translation>Object %1 kan niet bij zichzelf worden ingebed.</translation>
     </message>
+    <message>
+        <source>%count invalid character(s) have been found and replaced by a space</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/collaboration</name>
@@ -27320,7 +27488,7 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     <name>kernel/oauthadmin</name>
     <message>
         <source>oAuth admin</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">oAuth beheer</translation>
     </message>
     <message>
         <source>Edit REST application</source>
