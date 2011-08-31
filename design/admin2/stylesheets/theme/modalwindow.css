@@ -54,7 +54,7 @@
     min-height:64px;
 }
 
-.modal-window div.message-error
+div.box-content .modal-window div.message-error
 {
     margin:1em;
     padding:1em;
