@@ -37,7 +37,7 @@
     background-image: -o-linear-gradient(top,  #e4e3e4,  #fdfdfd);
     background-image: linear-gradient(top,  #e4e3e4,  #fdfdfd);
     /* IE */
-    /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e4e3e4', endColorstr='#fdfdfd');*/
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e4e3e4', endColorstr='#fdfdfd');
     border-radius:5px;
     margin-top:0;
     font-size:1.1em;
