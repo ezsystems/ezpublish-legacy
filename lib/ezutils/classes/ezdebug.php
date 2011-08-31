@@ -1204,12 +1204,8 @@ class eZDebug
 " );
             $header = "<!DOCTYPE html><html><head><title>eZ debug</title></head><body>";
             $footer = "</body></html>";
-            $fp = fopen( $debugFilePath, "w+" );
-
-            fwrite( $fp, $header );
-            fwrite( $fp, $report );
-            fwrite( $fp, $footer );
-            fclose( $fp );
+            $fullPage = ezpEvent::getInstance()->filter( 'response/output', $header . $report . $footer );
+            file_put_contents( $debugFilePath, $fullPage );
         }
         else
         {
