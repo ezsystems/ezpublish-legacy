@@ -196,9 +196,9 @@ class ezjscServerFunctionsAjaxUploader extends ezjscServerFunctions
             )
         );
         $classFilterArray = array();
-        foreach ( $containerClasses as $class )
+        foreach ( $containerClasses as $c )
         {
-            $classFilterArray[] = $class->attribute( 'identifier' );
+            $classFilterArray[] = $c->attribute( 'identifier' );
         }
         $children = $start->subTree(
             array(
