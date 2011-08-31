@@ -11,6 +11,10 @@
 
     {run-once}
     {ezscript_require( 'ezjsc::yui3', 'ezjsc::yui3io', 'ezmodalwindow.js', 'ezajaxuploader.js' )}
+    <div id="relationlist-modal-window" class="modal-window" style="display:none;">
+        <h2><a href="#" class="window-close">{'Close'|i18n( 'design/admin/pagelayout' )}</a><span></span></h2>
+        <div class="window-content"></div>
+    </div>
     <script type="text/javascript">
     {literal}
     (function () {
@@ -95,7 +99,7 @@
         };
 
         var windowConf = {
-            window: '#modal-window',
+            window: '#relationlist-modal-window',
             content: '.window-content',
             close: '.window-close, .window-cancel',
             title: 'h2 span',

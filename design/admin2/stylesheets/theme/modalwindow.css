@@ -14,7 +14,7 @@
     filter: alpha(opacity = 50);
 }
 
-#modal-window
+.modal-window
 {
     background:#fff;
     border:1px solid #bbb;
@@ -22,13 +22,13 @@
     padding:2px;
 }
 
-#modal-window .window-close
+.modal-window .window-close
 {
     float:right;
     display:block;
 }
 
-#modal-window h2
+.modal-window h2
 {
     background-color: #e4e3e4;
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e4e3e4), to(#fdfdfd));
@@ -37,24 +37,24 @@
     background-image: -o-linear-gradient(top,  #e4e3e4,  #fdfdfd);
     background-image: linear-gradient(top,  #e4e3e4,  #fdfdfd);
     /* IE */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e4e3e4', endColorstr='#fdfdfd');
+    /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e4e3e4', endColorstr='#fdfdfd');*/
     border-radius:5px;
     margin-top:0;
     font-size:1.1em;
     padding:4px 3px 4px 6px;
 }
 
-#modal-window fieldset
+.modal-window fieldset
 {
     margin:1em 1em 2em 1em;
 }
 
-#modal-window .window-content
+.modal-window .window-content
 {
     min-height:64px;
 }
 
-#modal-window div.message-error
+.modal-window div.message-error
 {
     margin:1em;
     padding:1em;
