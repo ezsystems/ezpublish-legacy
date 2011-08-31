@@ -1,0 +1,13 @@
+
+When we'll switch to HTML5, use another tag (meta ?) inside <head> so
+that the token can be used earlier in JavaScript.
+
+for instance:
+
+  <!DOCTYPE html>
+  <html>
+  <head>
+      <meta name="ezform_token_js" id="ezform_token_js"
+          title="7bbf9619d0475cd21845aac8e9b5ab8c"
+          content="7bbf9619d0475cd21845aac8e9b5ab8c" />
+      <!-- ... -->

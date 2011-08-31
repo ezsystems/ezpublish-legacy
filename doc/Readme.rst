@@ -19,7 +19,8 @@ This is all done transparently for html/xhtml forms but requires changes to all 
 The changes needed to eZ Publish is included in 4.5, and last section in this doc explains how
 you can modify your custom ajax code to work with this extension.
 
-If form token does not verify, an Exception is currently thrown!
+If form token does not verify, an Exception is currently thrown and an
+error 500 is send to the HTTP client.
 
 
 =======
@@ -29,10 +30,17 @@ Make sure you test this extension extensively with your custom solution before p
 on an existing install.
 
 Known issues (by design):
+
 * Will break any custom Ajax POST code, see last section for how to modify your code.
 * Miss configured reverse proxies or miss configured site.ini\[HTTPHeaderSettings]
   settings causing logged in user response to be cached will lead to situations where
   form tokens does not verify.
+
+Know issue:
+
+* When the extension is enabled, a filter is applied to add an hidden
+  span tag as the first child of body. This filter does not work if an
+  attribute of the body contains the caracter ">".
 
 
 =======
