@@ -184,7 +184,6 @@ class ezpRelationListAjaxUploader implements ezpAjaxUploaderHandlerInterface
         }
 
         $upload = new eZContentUpload();
-        eZDebug::writeDebug( 'Name=' . $name, __METHOD__ );
         $r = $upload->handleLocalFile(
             $result, $file, $parentNodeId, null, $name
         );
