@@ -104,7 +104,7 @@
                        Version: data[1]
                     };
                     if ( tokenNode ) {
-                        conf.token = _tokenNode.get('title');
+                        conf.token = tokenNode.get('title');
                     }
                     uploader = new eZAjaxUploader(win, conf, Y);
                     this.on('click', function (e) {
