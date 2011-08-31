@@ -185,7 +185,8 @@ class ezpRelationListAjaxUploader implements ezpAjaxUploaderHandlerInterface
 
         $upload = new eZContentUpload();
         $r = $upload->handleLocalFile(
-            $result, $file, $parentNodeId, null, $name
+            $result, $file, $parentNodeId, null, $name,
+            $this->attribute->attribute( 'language_code' )
         );
         if ( !$r || !$result['contentobject'] instanceof eZContentObject )
         {
