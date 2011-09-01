@@ -205,7 +205,7 @@ class ezjscServerFunctionsAjaxUploader extends ezjscServerFunctions
                 'ClassFilterArray' => $classFilterArray,
                 'ClassFilterType' => 'include',
                 'Depth' => 1,
-                'Limit' => $limit,
+                'Limit' => $result['limit'],
                 'Offset' => $offset
             )
         );
