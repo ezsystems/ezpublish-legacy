@@ -217,7 +217,7 @@ eZAjaxUploader.prototype.delegateWindowEvents = function () {
             try {
                 json = Y.JSON.parse(data.responseText);
             } catch (e) {
-                that.displayError("Uploading error");
+                that.displayError("Unable to parse JSON response");
                 that.endAjax();
                 return;
             }
