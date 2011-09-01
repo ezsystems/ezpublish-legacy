@@ -2,15 +2,16 @@
  * Constructor of eZModalWindow class
  *
  * @param conf Configuration object containing the following keys
- *              - 'window'   a selector used to get the window container
- *              - 'content'  a relative selector to get the container of the window's content
- *              - 'title'    a relative selector to get the element containing the title text
- *              - 'mask'     [optional] a selector to get the mask element
- *              - 'close'    [optional] a relative selector of elements that will close the window on click
- *              - 'width'    [optional] the width of the window in pixel
- *              - 'centered' [optional] boolean
- *              - 'xy'       [optional] array to define the position of the window in pixel, the first element can also be 'centered'
- *              - 'zIndex'   [optional] the z-index CSS value of the window
+ *              - 'window'   [required] a selector used to get the window container
+ *              - 'content'  [default ".window-content"] a relative selector to get the container of the window's content
+ *              - 'title'    [default "h2 span"]a relative selector to get the element containing the title text
+ *              - 'mask'     [default "#overlay-mask"] a selector to get the mask element
+ *              - 'maskOpacity' [default 0.5] the opacity of the mask after animation
+ *              - 'close'    [default ".window-close, .window-cancel"] a relative selector of elements that will close the window on click
+ *              - 'width'    [default "auto"] the width of the window in pixel
+ *              - 'centered' [default "true"] boolean
+ *              - 'xy'       [default empty array] array to define the position of the window in pixel, the first element can also be 'centered'
+ *              - 'zIndex'   [default 50] the z-index CSS value of the window
  * @param Y YUI global object
  */
 function eZModalWindow(conf, Y) {

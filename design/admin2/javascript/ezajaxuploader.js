@@ -4,15 +4,15 @@
  * @param modalWindow eZModalWindow instance
  * @param conf Configuration object containing the following items
  *          - title String, title of the modal window
- *          - requiredInput selector to get the required input
- *          - labelErrorClass CSS class to add on a label for a required field if this field is filled
- *          - validationErrorText text to show if a required field is not filled
- *          - validationErrorTextElement selector to get the element where to put the validationErrorText
- *          - errorTemplate template to use when displaying a server side error, %message is the variable for the message
+ *          - requiredInput [default "input.input-required"] selector to get the required input
+ *          - labelErrorClass [default "message-error"] CSS class to add on a label for a required field if this field is filled
+ *          - validationErrorText [default "Some required fields are empty."] text to show if a required field is not filled
+ *          - validationErrorTextElement [default ".ajaxuploader-error"] selector to get the element where to put the validationErrorText
+ *          - errorTemplate [default"'<div class="message-error">%message</div>'"] template to use when displaying a server side error, %message is the variable for the message
  *          - loading Object containing the following values
- *              - opacity opacity to set while an AJAX request is being done
- *              - loader selector to get the GIF loader to show
- *              - zIndex z-index style to set on the GIF loader
+ *              - opacity [default 0.2] opacity to set while an AJAX request is being done
+ *              - loader [default "#ajaxuploader-loader"] selector to get the GIF loader to show
+ *              - zIndex [default 51] z-index style to set on the GIF loader
  *          - target Object containing the hidden fields to post in each POST request
  *          - open Object containing the following values
  *              - action eZJSCore ajax action to use to open the window
