@@ -12758,11 +12758,11 @@ Tietokannan uudelleenyrityksien määrä</translation>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>Käyttäjätilisi on nyt aktivoitu.</translation>
+        <translation type="obsolete">Käyttäjätilisi on nyt aktivoitu.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>Pahoittelut, mutta annettu avain ei ollut kelvollinen avain. Tiliä ei aktivoitu.</translation>
+        <translation type="obsolete">Pahoittelut, mutta annettu avain ei ollut kelvollinen avain. Tiliä ei aktivoitu.</translation>
     </message>
     <message>
         <source>Your account was successfully created.</source>

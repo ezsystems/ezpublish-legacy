@@ -12766,11 +12766,11 @@ Note: The packages will not be uninstalled.</translation>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>Your account is now activated.</translation>
+        <translation type="obsolete">Your account is now activated.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>Sorry, the key submitted was not a valid key. Account was not activated.</translation>
+        <translation type="obsolete">Sorry, the key submitted was not a valid key. Account was not activated.</translation>
     </message>
     <message>
         <source>Your account was successfully created.</source>

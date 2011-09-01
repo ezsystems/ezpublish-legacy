@@ -15105,11 +15105,11 @@ Hinweis: Die Pakete werden nicht deinstalliert.</translation>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>Ihr Konto ist nun aktiviert.</translation>
+        <translation type="obsolete">Ihr Konto ist nun aktiviert.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>Der übertragene Schlüssel konnte nicht validiert werden. Ihr Konto wurde nicht aktiviert.</translation>
+        <translation type="obsolete">Der übertragene Schlüssel konnte nicht validiert werden. Ihr Konto wurde nicht aktiviert.</translation>
     </message>
     <message>
         <source>Your account was successfully created. An e-mail will be sent to the specified

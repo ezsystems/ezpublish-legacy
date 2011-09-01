@@ -12707,11 +12707,11 @@ Uwaga: Pakiety nie będą mogły być odinstalowane.
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>Twoje konto zostało aktywowane.</translation>
+        <translation type="obsolete">Twoje konto zostało aktywowane.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>Niestety wprowadzony klucz nie jest właściwy. Konto nie zostało aktywowane.</translation>
+        <translation type="obsolete">Niestety wprowadzony klucz nie jest właściwy. Konto nie zostało aktywowane.</translation>
     </message>
     <message>
         <source>Your account was successfully created.</source>

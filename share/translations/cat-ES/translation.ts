@@ -12811,11 +12811,11 @@ Nota: Els paquets no seran desinstal·lats.</translation>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>El teu compte ja està activat.</translation>
+        <translation type="obsolete">El teu compte ja està activat.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>La clau enviada no és vàlida. El compte no ha estat activat.</translation>
+        <translation type="obsolete">La clau enviada no és vàlida. El compte no ha estat activat.</translation>
     </message>
     <message>
         <source>User registered</source>

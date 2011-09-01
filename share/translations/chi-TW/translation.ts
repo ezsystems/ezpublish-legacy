@@ -14016,11 +14016,11 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>你的帳號已啟用。</translation>
+        <translation type="obsolete">你的帳號已啟用。</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>對不起， 提交鑰匙不對。帳號不能啟用。</translation>
+        <translation type="obsolete">對不起， 提交鑰匙不對。帳號不能啟用。</translation>
     </message>
     <message>
         <source>Your account was successfully created.</source>

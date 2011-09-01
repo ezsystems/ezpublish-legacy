@@ -12814,11 +12814,11 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>Tu cuenta está ahora activada.</translation>
+        <translation type="obsolete">Tu cuenta está ahora activada.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>Perdón, la clave enviada no es válida. La cuenta no ha sido activada.</translation>
+        <translation type="obsolete">Perdón, la clave enviada no es válida. La cuenta no ha sido activada.</translation>
     </message>
     <message>
         <source>User registered</source>

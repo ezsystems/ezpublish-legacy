@@ -12695,11 +12695,11 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>Vaš je račun aktiviran.</translation>
+        <translation type="obsolete">Vaš je račun aktiviran.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>Nažalost, uneseni ključ nije odgovarajući ključ. Račn nije aktiviran.</translation>
+        <translation type="obsolete">Nažalost, uneseni ključ nije odgovarajući ključ. Račn nije aktiviran.</translation>
     </message>
     <message>
         <source>Your account was successfully created.</source>

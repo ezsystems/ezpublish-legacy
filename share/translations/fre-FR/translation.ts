@@ -12776,11 +12776,11 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>Votre compte est activé.</translation>
+        <translation type="obsolete">Votre compte est activé.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>Désolé, la clé transmise est invalide. Le compte n&apos;a pas été activé.</translation>
+        <translation type="obsolete">Désolé, la clé transmise est invalide. Le compte n&apos;a pas été activé.</translation>
     </message>
     <message>
         <source>Your account was successfully created.</source>

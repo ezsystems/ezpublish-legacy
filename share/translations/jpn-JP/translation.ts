@@ -12806,11 +12806,11 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>ユーザ情報が有効になりました。</translation>
+        <translation type="obsolete">ユーザ情報が有効になりました。</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>申し訳ありませんが送信されたキーが正しくありません。ユーザアカウントを有効に出来ません。</translation>
+        <translation type="obsolete">申し訳ありませんが送信されたキーが正しくありません。ユーザアカウントを有効に出来ません。</translation>
     </message>
     <message>
         <source>Your account was successfully created.</source>

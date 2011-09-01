@@ -12723,11 +12723,11 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>Ditt konto är nu aktiverat.</translation>
+        <translation type="obsolete">Ditt konto är nu aktiverat.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>Den skickade nyckeln är inte giltig. Kontot aktiverades inte.</translation>
+        <translation type="obsolete">Den skickade nyckeln är inte giltig. Kontot aktiverades inte.</translation>
     </message>
     <message>
         <source>Your account was successfully created.</source>

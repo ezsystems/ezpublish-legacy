@@ -12730,11 +12730,11 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>Uw account is nu geactiveerd.</translation>
+        <translation type="obsolete">Uw account is nu geactiveerd.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>De opgegeven sleutel is niet geldig. De account is niet geactiveerd.</translation>
+        <translation type="obsolete">De opgegeven sleutel is niet geldig. De account is niet geactiveerd.</translation>
     </message>
     <message>
         <source>Your account was successfully created.</source>
