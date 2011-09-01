@@ -32,7 +32,7 @@
 function eZAjaxUploader(modalWindow, conf, Y) {
 
     this.Y = Y;
-    this.conf = conf;
+    this.conf = Y.merge(eZAjaxUploader.DEFAULT_CONFIG, conf);
     this.modalWindow = modalWindow;
 
     this.lastMetaData = false;
@@ -61,6 +61,19 @@ function eZAjaxUploader(modalWindow, conf, Y) {
 }
 
 eZAjaxUploader.HANDLER_FIELD_NAME = "AjaxUploadHandlerData";
+
+eZAjaxUploader.DEFAULT_CONFIG = {
+    requiredInput: 'input.input-required',
+    labelErrorClass: 'message-error',
+    validationErrorText: "Some required fields are empty.",
+    validationErrorTextElement: '.ajaxuploader-error',
+    errorTemplate: '<div class="message-error">%message</div>',
+    loading:{
+        opacity: 0.2,
+        loader: "#ajaxuploader-loader",
+        zIndex:51
+    }
+};
 
 /**
  * Displays the errorText in the modal window using the template

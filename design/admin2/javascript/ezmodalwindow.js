@@ -15,7 +15,7 @@
  */
 function eZModalWindow(conf, Y) {
     this.Y = Y;
-    this.conf = conf;
+    this.conf = Y.merge(eZModalWindow.DEFAULT_CONFIG, conf);
 
     this.window = Y.one(this.conf.window);
     this.isOpen = false;
@@ -24,14 +24,14 @@ function eZModalWindow(conf, Y) {
     this.mask = null;
     if ( !Y.UA.ie || Y.UA.ie > 6 ) {
         // the mask is ugly in IE6
-        this.mask = Y.one(conf.mask);
+        this.mask = Y.one(this.conf.mask);
     }
     this.overlay = new Y.Overlay({
-        srcNode: conf.window,
-        width: conf.width,
-        centered: conf.centered,
+        srcNode: this.conf.window,
+        width: this.conf.width,
+        centered: this.conf.centered,
         visible: false,
-        zIndex: conf.zIndex
+        zIndex: this.conf.zIndex
     });
 
     this.overlay.render();
@@ -50,6 +50,20 @@ function eZModalWindow(conf, Y) {
         }
     });
 }
+
+/**
+ * Default configuration of eZModalWindow
+ */
+eZModalWindow.DEFAULT_CONFIG = {
+    content: '.window-content',
+    close: '.window-close, .window-cancel',
+    title: 'h2 span',
+    centered: true,
+    xy: [],
+    zIndex: 50,
+    mask: '#overlay-mask',
+    maskOpacity: 0.5
+};
 
 /**
  * Defines a function to call when the window is closed

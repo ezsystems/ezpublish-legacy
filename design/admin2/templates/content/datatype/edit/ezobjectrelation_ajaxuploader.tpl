@@ -60,36 +60,18 @@
                 }
             },
     {/literal}
-            title: "{'Upload a file and add the resulting object in the relation'|i18n( 'design/admin2/content/datatype' )|wash( 'javascript' )}",
+            title: "{'Upload a file and add the resulting object in the relation'|i18n( 'design/admin2/content/datatype' )|wash( 'javascript' )}"
     {literal}
-
-            // validation, error settings
-            requiredInput: 'input.input-required',
-            labelErrorClass: 'message-error',
-            validationErrorText: "Some required fields are empty.",
-            validationErrorTextElement: '.ajaxuploader-error',
-            errorTemplate: '<div class="message-error">%message</div>',
-
-            loading:{
-                opacity: 0.2,
-                loader: "#ajaxuploader-loader",
-                zIndex:51
-            }
         };
 
         var windowConf = {
             window: '#relation-modal-window',
-            content: '.window-content',
-            close: '.window-close, .window-cancel',
-            title: 'h2 span',
-            width: 650,
             centered: false,
             xy: ['centered', 50],
-            zIndex: 50,
-            mask: '#overlay-mask'
+            width: 650
         };
 
-        YUI().use('node', 'overlay', 'dom-base', 'io-ez', 'io-form', 'io-upload-iframe', 'json-parse', function (Y) {
+        YUI().use('node', 'overlay', 'dom-base', 'io-ez', 'io-form', 'io-upload-iframe', 'json-parse', 'anim', function (Y) {
             Y.on('domready', function() {
                 var win = new eZModalWindow(windowConf, Y),
                     tokenNode = Y.one('#ezxform_token_js');
