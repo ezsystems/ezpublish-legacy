@@ -96,6 +96,14 @@ eZModalWindow.prototype.open = function () {
     }
     if ( this.mask ) {
         this.mask.show();
+        var anim = new Y.Anim({
+            node: this.mask,
+            to: {
+                opacity: this.conf.maskOpacity
+            },
+            duration: 0.4
+        });
+        anim.run();
     }
     this.overlay.show();
     this.isOpen = true;
@@ -141,9 +149,21 @@ eZModalWindow.prototype.empty = function () {
  * @param keepContent boolean
  */
 eZModalWindow.prototype.close = function (keepContent) {
+    var that = this;
+
     this.overlay.hide();
     if ( this.mask ) {
-        this.mask.hide();
+        var anim = new this.Y.Anim({
+            node: this.mask,
+            to: {
+                opacity: 0
+            },
+            duration: 0.2
+        });
+        anim.run();
+        anim.on('end', function () {
+            that.mask.hide();
+        });
     }
     this.isOpen = false;
     if ( !keepContent ) {

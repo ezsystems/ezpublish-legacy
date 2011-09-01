@@ -93,7 +93,7 @@
             width: 650
         };
 
-        YUI().use('node', 'overlay', 'dom-base', 'io-ez', 'io-form', 'io-upload-iframe', 'json-parse', function (Y) {
+        YUI().use('node', 'overlay', 'dom-base', 'io-ez', 'io-form', 'io-upload-iframe', 'json-parse', 'anim', function (Y) {
             Y.on('domready', function() {
                 var win = new eZModalWindow(windowConf, Y),
                     tokenNode = Y.one('#ezxform_token_js');
