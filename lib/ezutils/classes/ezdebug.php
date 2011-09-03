@@ -1797,7 +1797,7 @@ class eZDebug
     */
     private static function isAllowedByCurrentIP( $allowedIpList )
     {
-        $ipAddress = eZSys::serverVariable( 'REMOTE_ADDR', true );
+        $ipAddress = eZSys::clientIP();
         if ( $ipAddress )
         {
             foreach( $allowedIpList as $itemToMatch )

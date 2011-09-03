@@ -590,6 +590,46 @@ class eZSys
         return self::serverVariable( 'HTTP_HOST' );
     }
 
+    /**
+     * Returns the client IP whether he's behind a proxy or not
+     *
+     * Use [HTTPHeaderSettings].ClientIpByCustomHTTPHeader in site.ini if you want
+     * to use a custom http header such as X-Forwarded-For
+     *
+     * Note: X-Forwarded-For is transformed by PHP
+     *       into $_SERVER['HTTP_X_FORWARDED_FOR]
+     *
+     * @return string
+     */
+    static public function clientIP()
+    {
+        $customHTTPHeader = eZINI::instance()->variable( 'HTTPHeaderSettings', 'ClientIpByCustomHTTPHeader' );
+        if( $customHTTPHeader && $customHTTPHeader != 'false' )
+        {
+            // Transforms for instance, X-Forwarded-For into X_FORWARDED_FOR
+            $phpHeader = 'HTTP_' . str_replace( '-', '_', strtoupper( $customHTTPHeader ) );
+            $forwardedClientsString = eZSys::serverVariable( $phpHeader, true );
+
+            if ( $forwardedClientsString )
+            {
+                // $forwardedClientsString (usually) contains a comma+space separated list of IPs
+                // where the left-most being the farthest downstream client. All the others are proxy servers.
+                // As X-Forwarded-For is not a standard header yet, we prefer to use a simple comma as the explode delimiter
+                $forwardedClients = explode( ',', $forwardedClientsString );
+                if( !empty( $forwardedClients ) )
+                {
+                    return trim( $forwardedClients[0] );
+                }
+            }
+
+            // Fallback on $_SERVER['REMOTE_ADDR']
+            eZDebug::writeWarning( "Could not get ip with ClientIpByCustomHTTPHeader={$customHTTPHeader}, fallback to using REMOTE_ADDR",
+                                   __METHOD__ );
+        }
+
+        return self::serverVariable( 'REMOTE_ADDR', true );
+    }
+
     /*!
      Determines if SSL is enabled and protocol HTTPS is used.
      \return true if current access mode is HTTPS.
