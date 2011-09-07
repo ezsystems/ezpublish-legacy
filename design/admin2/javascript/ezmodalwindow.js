@@ -50,7 +50,7 @@ function eZModalWindow(conf, Y) {
             that.close();
         }
     });
-}
+};
 
 /**
  * Default configuration of eZModalWindow
@@ -77,7 +77,7 @@ eZModalWindow.prototype.onClose = function (fn, context) {
         fn: fn,
         context: context
     };
-}
+};
 
 /**
  * Opens the window
@@ -108,7 +108,7 @@ eZModalWindow.prototype.open = function () {
     }
     this.overlay.show();
     this.isOpen = true;
-}
+};
 
 /**
  * Defines the content of the window
@@ -117,7 +117,7 @@ eZModalWindow.prototype.open = function () {
  */
 eZModalWindow.prototype.setContent = function (content) {
     this.getContentNode().setContent(content);
-}
+};
 
 /**
  * Returns the Node used to show the content of the window
@@ -126,14 +126,14 @@ eZModalWindow.prototype.setContent = function (content) {
  */
 eZModalWindow.prototype.getContentNode = function () {
     return this.window.one(this.conf.content);
-}
+};
 
 /**
  * Defines the title of the window
  */
 eZModalWindow.prototype.setTitle = function (title) {
     this.window.one(this.conf.title).setContent(title);
-}
+};
 
 /**
  * Checks if the content of the window is empty or not
@@ -142,7 +142,7 @@ eZModalWindow.prototype.setTitle = function (title) {
  */
 eZModalWindow.prototype.empty = function () {
     return !this.getContentNode().hasChildNodes();
-}
+};
 
 /**
  * Closes the window
@@ -178,4 +178,4 @@ eZModalWindow.prototype.close = function (keepContent) {
         }
         this.closeCallback.fn.call(context);
     }
-}
+};

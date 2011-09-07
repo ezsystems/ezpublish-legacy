@@ -58,7 +58,7 @@ function eZAjaxUploader(modalWindow, conf, Y) {
         },
         method: 'POST'
     };
-}
+};
 
 eZAjaxUploader.HANDLER_FIELD_NAME = "AjaxUploadHandlerData";
 
@@ -86,7 +86,7 @@ eZAjaxUploader.prototype.displayError = function (errorText) {
         contentNode = this.modalWindow.getContentNode();
     e.setContent(e.get('innerHTML').replace('%message', errorText));
     contentNode.setContent(e);
-}
+};
 
 /**
  * Adds an effect while an AJAX request is being done
@@ -105,7 +105,7 @@ eZAjaxUploader.prototype.waitAjax = function () {
     img.setStyle('zIndex', this.conf.loading.zIndex)
     img.setXY(xy)
 
-}
+};
 
 /**
  * Stops the effect set by eZAjaxUploader::waitAjax()
@@ -115,7 +115,7 @@ eZAjaxUploader.prototype.endAjax = function () {
 
     contentNode.setStyle('opacity', 1);
     this.Y.one(this.conf.loading.loader).hide();
-}
+};
 
 /**
  * Defines the events needed by eZAjaxUploader
@@ -322,7 +322,7 @@ eZAjaxUploader.prototype.delegateWindowEvents = function () {
         'click', formLastBeforeSubmit, 'form input[type="submit"]'
     );
     this.windowEvents.push(sub);
-}
+};
 
 /**
  * Detaches the events set by eZAjaxUploader::delegateWindowEvents
@@ -331,7 +331,7 @@ eZAjaxUploader.prototype.detachWindowEvents = function () {
     for (var i = 0; i != this.windowEvents.length; i++) {
         this.windowEvents[i].detach();
     }
-}
+};
 
 /**
  * Build the POST string to use with the necessary POST parameters
@@ -346,7 +346,7 @@ eZAjaxUploader.prototype.buildPostString = function () {
         res += eZAjaxUploader.HANDLER_FIELD_NAME + '[' + k + ']=' + this.conf.target[k];
     }
     return res;
-}
+};
 
 /**
  * Cleans the state of the eZAjaxUploader instance
@@ -356,7 +356,7 @@ eZAjaxUploader.prototype.buildPostString = function () {
 eZAjaxUploader.prototype.cleanup = function () {
     this.detachWindowEvents();
     this.endAjax();
-}
+};
 
 /**
  * Opens the upload window and delegate events
@@ -372,4 +372,4 @@ eZAjaxUploader.prototype.open = function () {
 
     c.data = this.buildPostString();
     this.Y.io.ez(this.conf.open.action, c);
-}
+};
