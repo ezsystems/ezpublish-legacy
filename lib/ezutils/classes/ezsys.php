@@ -580,14 +580,27 @@ class eZSys
     */
     static function hostname()
     {
+        $hostName = null;
+
         $forwardedHostsString = self::serverVariable( 'HTTP_X_FORWARDED_HOST', true );
         if ( $forwardedHostsString !== null )
         {
             $forwardedHosts = explode( ',', $forwardedHostsString );
-            return $forwardedHosts[0];
+            $hostName = $forwardedHosts[0];
         }
 
-        return self::serverVariable( 'HTTP_HOST' );
+        if ( !$hostName && self::serverVariable( 'HTTP_HOST' ) )
+        {
+            $hostName = self::serverVariable( 'HTTP_HOST' );
+        }
+
+        if ( !$hostName )
+        {
+            $ini = eZINI::instance();
+            $hostName = $ini->variable( 'SiteSettings', 'SiteURL' );
+        }
+
+        return $hostName;
     }
 
     /**
