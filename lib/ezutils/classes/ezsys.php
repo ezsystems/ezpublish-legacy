@@ -734,6 +734,12 @@ class eZSys
             {
                 $port = self::serverVariable( 'SERVER_PORT' );
             }
+
+            if ( !$port )
+            {
+                $port = 80;
+            }
+
             $GLOBALS['eZSysServerPort'] = $port;
         }
         return $GLOBALS['eZSysServerPort'];
