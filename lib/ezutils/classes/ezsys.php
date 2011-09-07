@@ -597,7 +597,10 @@ class eZSys
         if ( !$hostName )
         {
             $ini = eZINI::instance();
-            $hostName = $ini->variable( 'SiteSettings', 'SiteURL' );
+            if ( $ini->hasVariable( 'SiteSettings', 'DefaultHostName' ) )
+            {
+                $hostName = $ini->variable( 'SiteSettings', 'DefaultHostName' );
+            }
         }
 
         return $hostName;
