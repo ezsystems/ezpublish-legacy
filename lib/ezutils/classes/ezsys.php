@@ -581,7 +581,6 @@ class eZSys
     static function hostname()
     {
         $hostName = null;
-
         $forwardedHostsString = self::serverVariable( 'HTTP_X_FORWARDED_HOST', true );
         if ( $forwardedHostsString !== null )
         {
@@ -596,9 +595,8 @@ class eZSys
 
         if ( !$hostName )
         {
-            $ini = eZINI::instance();
-            $siteUrl = 'http://' . $ini->variable( 'SiteSettings', 'SiteURL' );
-            $hostName = parse_url( $siteUrl, PHP_URL_HOST );
+            $siteUrl = eZINI::instance()->variable( 'SiteSettings', 'SiteURL' );
+            $hostName = parse_url( "http://{$siteUrl}", PHP_URL_HOST );
         }
 
         return $hostName;
