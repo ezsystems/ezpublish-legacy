@@ -3,7 +3,7 @@
     <fieldset>
         <legend>{"Step 2/3: Choose a location for the new '%class' object"|i18n( 'design/admin2/ajaxuploader', '', hash( '%class', $class.name|wash() ) )}</legend>
         <p>{'<em>%file</em> has successfully been uploaded.'|i18n( 'design/admin2/ajaxupload', '', hash( '%file', $file.original_filename|wash() ) )}</p>
-        <p>{"Please choose a location for the '%class' object that is goind to be created from it."|i18n( 'design/admin2/ajaxuploader', '', hash( '%class', $class.name|wash() ) )}</p>
+        <p>{"Please choose a location for the '%class' object that is going to be created from it."|i18n( 'design/admin2/ajaxuploader', '', hash( '%class', $class.name|wash() ) )}</p>
         <div class="ajaxuploader-browse">
             {include uri="design:ajaxuploader/browse.tpl" browse_start=$browse_start class=$class browse=$browse default_parent_node=$default_parent_node}
         </div>
