@@ -6,6 +6,7 @@
  *          - title String, title of the modal window
  *          - requiredInput [default "input.input-required"] selector to get the required input
  *          - labelErrorClass [default "message-error"] CSS class to add on a label for a required field if this field is filled
+ *          - parseJSONErrorText [default "Unable to parse the JSON response."] text to show when the JSON response can not be parsed
  *          - validationErrorText [default "Some required fields are empty."] text to show if a required field is not filled
  *          - validationErrorTextElement [default ".ajaxuploader-error"] selector to get the element where to put the validationErrorText
  *          - errorTemplate [default"'<div class="message-error">%message</div>'"] template to use when displaying a server side error, %message is the variable for the message
