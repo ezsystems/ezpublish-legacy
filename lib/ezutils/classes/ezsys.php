@@ -597,7 +597,7 @@ class eZSys
         if ( !$hostName )
         {
             $ini = eZINI::instance();
-            $siteUrl = $ini->variable( 'SiteSettings', 'SiteURL' );
+            $siteUrl = 'http://' . $ini->variable( 'SiteSettings', 'SiteURL' );
             $hostName = parse_url( $siteUrl, PHP_URL_HOST );
         }
 
