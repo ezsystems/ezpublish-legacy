@@ -790,8 +790,8 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                         return $ret;
 
                     }
-                    // Check mail address validity
-                    if ( preg_match( "/^mailto:(.*)/i" , $url, $mailAddr ) &&
+                    // Check mail address validity following RFC 5322 and RFC 5321
+                    if ( preg_match( "/^mailto:([^.][a-z0-9!#\$%&'*+-\/=?`{|}~^]+@([a-z0-9.-]+))/i" , $url, $mailAddr ) &&
                          !eZMail::validate( $mailAddr[1] ) )
                     {
                         $this->handleError( eZXMLInputParser::ERROR_DATA,
