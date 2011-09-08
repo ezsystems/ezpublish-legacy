@@ -66,6 +66,7 @@ eZAjaxUploader.DEFAULT_CONFIG = {
     requiredInput: 'input.input-required',
     labelErrorClass: 'message-error',
     validationErrorText: "Some required fields are empty.",
+    parseJSONErrorText: "Unable to parse the JSON response.",
     validationErrorTextElement: '.ajaxuploader-error',
     errorTemplate: '<div class="message-error">%message</div>',
     loading:{
@@ -217,7 +218,7 @@ eZAjaxUploader.prototype.delegateWindowEvents = function () {
             try {
                 json = Y.JSON.parse(data.responseText);
             } catch (e) {
-                that.displayError("Unable to parse JSON response");
+                that.displayError(that.conf.parseJSONErrorText);
                 that.endAjax();
                 return;
             }

@@ -82,6 +82,8 @@
                 }
             },
     {/literal}
+            validationErrorText: "{'Some required fields are empty.'|i18n( 'design/admin2/content/datatype' )|wash( 'javascript' )}",
+            parseJSONErrorText: "{'Unable to parse the JSON response.'|i18n( 'design/admin2/content/datatype' )|wash( 'javascript' )}",
             title: "{'Upload a file and add the resulting object in the relation'|i18n( 'design/admin2/content/datatype' )|wash( 'javascript' )}"
     {literal}
         };
