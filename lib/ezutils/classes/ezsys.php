@@ -574,18 +574,22 @@ class eZSys
         return self::instance()->IndexFile;
     }
 
-    /*!
-     Returns the current hostname.
-     \static
+    /**
+     * Returns the current hostname.
+     *
+     * First tries to use X-Forward-Host before it goes on to use host in header, if none of them
+     * exists fallback to use host part of site.ini\[SiteSettings]|SiteURL setting.
+     *
+     * @return string
     */
     static function hostname()
     {
         $hostName = null;
         $forwardedHostsString = self::serverVariable( 'HTTP_X_FORWARDED_HOST', true );
-        if ( $forwardedHostsString !== null )
+        if ( $forwardedHostsString )
         {
             $forwardedHosts = explode( ',', $forwardedHostsString );
-            $hostName = $forwardedHosts[0];
+            $hostName = trim( $forwardedHosts[0] );
         }
 
         if ( !$hostName && self::serverVariable( 'HTTP_HOST' ) )
