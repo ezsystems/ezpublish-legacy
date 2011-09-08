@@ -689,7 +689,7 @@ class eZInformationCollection extends eZPersistentObject
         else
         {
             $userIdentifier = session_id();
-            //$userIdentifierBase = 'ezuser-anonymous-' . eZSys::serverVariable( 'REMOTE_ADDR' );
+            //$userIdentifierBase = 'ezuser-anonymous-' . eZSys::clientIP();
         }
         return $userIdentifier;
     }

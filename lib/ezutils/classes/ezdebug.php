@@ -740,7 +740,7 @@ class eZDebug
         {
             if ( ! eZDebug::isLogOnlyEnabled() and $enabled )
             {
-                $ip = eZSys::serverVariable( 'REMOTE_ADDR', true );
+                $ip = eZSys::clientIP();
                 if ( !$ip )
                     $ip = eZSys::serverVariable( 'HOSTNAME', true );
                 $this->DebugStrings[] = array( "Level" => $verbosityLevel,
@@ -891,7 +891,7 @@ class eZDebug
         if ( $logFile )
         {
             $time = strftime( "%b %d %Y %H:%M:%S", strtotime( "now" ) );
-            $ip = eZSys::serverVariable( 'REMOTE_ADDR', true );
+            $ip = eZSys::clientIP();
             if ( !$ip )
                 $ip = eZSys::serverVariable( 'HOSTNAME', true );
             $notice = "[ " . $time . " ] [" . $ip . "] " . $string . "\n";

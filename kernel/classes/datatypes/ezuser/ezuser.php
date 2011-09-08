@@ -833,7 +833,7 @@ WHERE user_id = '" . $userID . "' AND
     */
     static function isUserIPInList( $ipList )
     {
-        $ipAddress = eZSys::serverVariable( 'REMOTE_ADDR', true );
+        $ipAddress = eZSys::clientIP();
         if ( $ipAddress )
         {
             $result = false;
