@@ -2383,7 +2383,7 @@ class eZTemplate
             $instance = self::instance();
 
             $ini = eZINI::instance();
-            if ( $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled' )
+            if (!isset($GLOBALS['eZTemplateDebugInternalsEnabled']) && $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled' )
                 eZTemplate::setIsDebugEnabled( true );
 
             $compatAutoLoadPath = $ini->variableArray( 'TemplateSettings', 'AutoloadPath' );
