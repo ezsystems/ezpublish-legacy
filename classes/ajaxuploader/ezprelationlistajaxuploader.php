@@ -88,7 +88,8 @@ class ezpRelationListAjaxUploader implements ezpAjaxUploaderHandlerInterface
             throw new RuntimeException(
                 ezpI18n::tr(
                     'extension/ezjscore/ajaxuploader',
-                    'Unable to retrieve the uploaded file.'
+                    'Unable to retrieve the uploaded file: %message',
+                    null, array( '%message' => $errors[0]['description'] )
                 )
             );
         }
@@ -193,7 +194,8 @@ class ezpRelationListAjaxUploader implements ezpAjaxUploaderHandlerInterface
             throw new RuntimeException(
                 ezpI18n::tr(
                     'extension/ezjscore/ajaxuploader',
-                    'Unable to create the content object to add to the relation.'
+                    'Unable to create the content object to add to the relation: %detail',
+                    null, array( '%detail', $result['errors'][0]['description'] )
                 )
             );
         }
