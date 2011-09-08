@@ -48,11 +48,16 @@ function eZAjaxUploader(modalWindow, conf, Y) {
                 that.endAjax();
             },
             success: function (transactionId, data) {
+                var input;
                 if ( data.responseJSON.error_text != "" ) {
                     that.displayError(data.responseJSON.error_text);
                 } else {
                     that.lastMetaData = data.responseJSON.content.meta_data;
                     that.modalWindow.setContent(data.responseJSON.content.html);
+                    input = that.modalWindow.getContentNode().one('input[type="text"]');
+                    if ( input ) {
+                        input.focus();
+                    }
                 }
             }
         },

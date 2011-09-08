@@ -4,7 +4,7 @@
         <legend>{'Step 1/3: Upload a file'|i18( 'design/admin2/ajaxuploader' )}</legend>
         <p>
             <label for="ajaxuploader-name">{'Name'|i18n( 'design/admin2/ajaxuploader' )}</label>
-            <input type="name" name="UploadName" id="ajaxuploader-name" class="box" />
+            <input type="text" name="UploadName" id="ajaxuploader-name" class="box" />
         </p>
         <p>
             <label for="ajaxuploader-file">{'File'|i18n( 'design/admin2/ajaxuploader' )} ({'Required'|i18n( 'design/admin2/ajaxuploader' )})</label>
