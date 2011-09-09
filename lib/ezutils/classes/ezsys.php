@@ -321,13 +321,15 @@ class eZSys
             return false;
         $phpVersion = self::phpVersion();
         $len = min( count( $phpVersion ), count( $requiredVersion ) );
-         for ( $i = 0; $i < $len; ++$i )
+
+        for ( $i = 0; $i < $len; ++$i )
         {
-            if ( $phpVersion[$i] > $requiredVersion[$i] )
+            if ( (int) $phpVersion[$i] > (int) $requiredVersion[$i] )
                 return true;
-            if ( $phpVersion[$i] < $requiredVersion[$i] )
+            if ( (int) $phpVersion[$i] < (int) $requiredVersion[$i] )
                 return false;
         }
+        
         return true;
     }
 
