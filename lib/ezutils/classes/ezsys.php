@@ -455,7 +455,7 @@ class eZSys
                 {
                     $tmpPos = strpos( $argumentText, $argumentText[$pos], $quoteEndPos );
                     if ( $tmpPos !== false and
-                         $argumentText[$tmpPos - 1] != "\\" );
+                         $argumentText[$tmpPos - 1] != "\\" )
                     {
                         $quoteEndPos = $tmpPos;
                         break;
