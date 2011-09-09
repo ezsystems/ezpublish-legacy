@@ -132,7 +132,7 @@ table.list th, table.list td, table.special th, table.special td
 {
     padding: 0.25em;
     text-align: left;
-    vertical-align: top;
+    vertical-align: middle;
 }
 
 table.list th, table.special th
