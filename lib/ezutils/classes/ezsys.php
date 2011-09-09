@@ -2,36 +2,147 @@
 /**
  * File containing the eZSys class.
  *
+ * Portions are modifications of patches by Andreas Böckler and Francis Nart
+ *
  * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
  */
-// Portions are modifications on patches by Andreas B�ckler and Francis Nart
-//
 
-/*!
-  \class eZSys ezsys.php
-  \ingroup eZUtils
-  \brief Easy access to various system settings
-
-  The system is checked to see whether a virtualhost-less setup is used
-  and sets the appropriate variables which can be fetched with
-  siteDir(), wwwDir() and indexFile().
-  It also detects file and environment separators, fetch them with
-  fileSeparator() and envSeparator().
-
-  Example:
-\code
-// Run the init in the index file
-eZSys::init( 'index.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) === 'true' );
-print( eZSys::indexFile() );
-print( eZSys::wwwDir() );
-\endcode
-*/
-
+/**
+ * Easy access to various system settings
+ *
+ * The system is checked to see whether a virtualhost-less setup is used and
+ * sets the appropriate variables which can be fetched with siteDir(), wwwDir()
+ * and indexFile().
+ * It also detects file and environment separators, fetch them with
+ * fileSeparator() and envSeparator().
+ *
+ * <code>
+ * // Run the init in the index file
+ * eZSys::init( 'index.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) === 'true' );
+ * echo eZSys::indexFile();
+ * echo eZSys::wwwDir();
+ * </code>
+ *
+ * @package lib
+ * @subpackage ezutils
+ */
 class eZSys
 {
+    /**
+     * The line separator used in files, "\n" / "\n\r" / "\r"
+     *
+     * @var string
+     */
+    public $LineSeparator;
+
+    /**
+     * The directory separator used for files, '/' or '\'
+     *
+     * @var string
+     */
+    public $FileSeparator;
+
+    /**
+     * The list separator used for env variables (':' or ';')
+     *
+     * @var string
+     */
+    public $EnvSeparator;
+
+    /**
+     * The absolute path to the root directory.
+     *
+     * @var string
+     */
+    public $RootDir;
+
+    /**
+     * The system path to where all the code resides
+     *
+     * @var string
+     */
+    public $SiteDir;
+
+    /**
+     * The access path of the current site view, associated array of associated arrays.
+     *
+     * On first level key is 'siteaccess' and 'path' to distinguish between siteaccess
+     * and general path. On second level you have (string)'name' and (array)'url',
+     * where url is the path and name is the name of the source (used to match siteaccess
+     * in {@link eZSys::indexFile()} for RemoveSiteAccessIfDefaultAccess matching) .
+     *
+     * @var array
+     */
+    protected $AccessPath;
+
+    /**
+     * The relative directory path of the vhless setup
+     *
+     * @var string
+     */
+    public $WWWDir;
+
+    /**
+     * The indef file name (eg: 'index.php')
+     *
+     * @var string
+     */
+    public $IndexFile;
+
+    /**
+     * The uri which is used for parsing module/view information from, may differ from $_SERVER['REQUEST_URI']
+     *
+     * @var string
+     */
+    public $RequestURI;
+
+    /**
+     * The type of filesystem, is either win32 or unix. This often used to determine OS specific paths.
+     *
+     * @var string
+     */
+    public $FileSystemType;
+
+    /**
+     * The character to be used in shell escaping, this character is OS specific
+     *
+     * @var stringt
+     */
+    public $ShellEscapeCharacter;
+
+    /**
+     * The type of OS, is either win32, mac or unix.
+     *
+     * @var string
+     */
+    public $OSType;
+
+    /**
+     * Holds server variables as read automatically or provided by unit tests
+     * Only used by init functionality as other calls will need to use live data direclty from globals.
+     *
+     * @var array
+     */
+    protected $Params = null;
+
+    /**
+     * Holds eZSys instance
+     *
+     * @var eZSys
+     */
+    protected static $instance = null;
+
+    /**
+     * Query string for the current request
+     * In the form of "?param1=value1&param2=value2
+     * 
+     * @var string
+     */
+    protected $QueryString;
+
     /**
      * Initializes the object with settings taken from the current script run.
      *
@@ -1277,105 +1388,6 @@ class eZSys
 
        return $result;
     }
-
-    /**
-     * The line separator used in files, "\n" / "\n\r" / "\r"
-     * @var string
-     */
-    public $LineSeparator;
-
-    /**
-     * The directory separator used for files, '/' or '\'
-     * @var string
-     */
-    public $FileSeparator;
-
-    /**
-     * The list separator used for env variables (':' or ';')
-     * @var string
-     */
-    public $EnvSeparator;
-
-    /**
-     * The absolute path to the root directory.
-     * @var string
-     */
-    public $RootDir;
-
-    /**
-     * The system path to where all the code resides
-     * @var string
-     */
-    public $SiteDir;
-
-    /**
-     * The access path of the current site view, associated array of associated arrays.
-     *
-     * On first level key is 'siteaccess' and 'path' to distinguish between siteaccess
-     * and general path. On second level you have (string)'name' and (array)'url',
-     * where url is the path and name is the name of the source (used to match siteaccess
-     * in {@link eZSys::indexFile()} for RemoveSiteAccessIfDefaultAccess matching) .
-     *
-     * @var array
-     */
-    protected $AccessPath;
-
-    /**
-     * The relative directory path of the vhless setup
-     * @var string
-     */
-    public $WWWDir;
-
-    /**
-     * The indef file name (eg: 'index.php')
-     * @var string
-     */
-    public $IndexFile;
-
-    /**
-     * The uri which is used for parsing module/view information from, may differ from $_SERVER['REQUEST_URI']
-     * @var string
-     */
-    public $RequestURI;
-
-    /**
-     * The type of filesystem, is either win32 or unix. This often used to determine OS specific paths.
-     * @var string
-     */
-    public $FileSystemType;
-
-    /**
-     * The character to be used in shell escaping, this character is OS specific
-     * @var stringt
-     */
-    public $ShellEscapeCharacter;
-
-    /**
-     * The type of OS, is either win32, mac or unix.
-     * @var string
-     */
-    public $OSType;
-
-    /**
-     * Holds server variables as read automatically or provided by unit tests
-     * Only used by init functionality as other calls will need to use live data direclty from globals.
-     *
-     * @var array
-     */
-    protected $Params = null;
-
-    /**
-     * Holds eZSys instance
-     * @var null|eZSys
-     */
-    protected static $instance = null;
-
-    /**
-     * Query string for the current request
-     * In the form of "?param1=value1&param2=value2
-     * @var string
-     */
-    protected $QueryString;
 }
 
 ?>
