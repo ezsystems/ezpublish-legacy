@@ -451,15 +451,17 @@ class eZSys
             {
                 $quoteStartPos = $pos + 1;
                 $quoteEndPos = $pos + 1;
+
                 while ( $quoteEndPos < strlen( $argumentText ) )
                 {
                     $tmpPos = strpos( $argumentText, $argumentText[$pos], $quoteEndPos );
-                    if ( $tmpPos !== false and
-                         $argumentText[$tmpPos - 1] != "\\" )
+
+                    if ( $tmpPos !== false && $argumentText[$tmpPos - 1] != "\\" )
                     {
                         $quoteEndPos = $tmpPos;
                         break;
                     }
+
                     if ( $tmpPos === false )
                     {
                         $quoteEndPos = strlen( $argumentText );
@@ -467,6 +469,7 @@ class eZSys
                     }
                     $quoteEndPos = $tmpPos + 1;
                 }
+
                 $argumentElements[] = substr( $argumentText, $quoteStartPos, $quoteEndPos - $quoteStartPos );
                 $pos = $quoteEndPos + 1;
             }
@@ -477,32 +480,45 @@ class eZSys
                 while ( $spaceEndPos < strlen( $argumentText ) )
                 {
                     if ( $argumentText[$spaceEndPos] != ' ' )
+                    {
                         break;
+                    }
                     ++$spaceEndPos;
                 }
                 $spaceText = substr( $argumentText, $spacePos, $spaceEndPos - $spacePos );
                 $spaceCount = strlen( $spaceText );
                 if ( $spaceCount > 0 )
+                {
                     $argumentElements[] = $spaceCount;
+                }
+
                 $pos = $spaceEndPos;
             }
             else
             {
                 $spacePos = strpos( $argumentText, ' ', $pos );
+
                 if ( $spacePos !== false )
                 {
                     $argumentElements[] = substr( $argumentText, $pos, $spacePos - $pos );
                     $spaceEndPos = $spacePos + 1;
+
                     while ( $spaceEndPos < strlen( $argumentText ) )
                     {
                         if ( $argumentText[$spaceEndPos] != ' ' )
+                        {
                             break;
+                        }
                         ++$spaceEndPos;
                     }
+
                     $spaceText = substr( $argumentText, $spacePos, $spaceEndPos - $spacePos );
                     $spaceCount = strlen( $spaceText );
+
                     if ( $spaceCount > 0 )
+                    {
                         $argumentElements[] = $spaceCount;
+                    }
                     $pos = $spaceEndPos;
                 }
                 else
@@ -512,6 +528,7 @@ class eZSys
                 }
             }
         }
+        
         return $argumentElements;
     }
 
