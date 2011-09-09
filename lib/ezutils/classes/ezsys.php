@@ -331,11 +331,13 @@ class eZSys
         return false;
     }
 
-    /*!
-     \static
-     Determins if the script got executed over the web or the shell/commandoline.
-    */
-    static function isShellExecution()
+    /**
+     * Determine if the current process has been started from the web or the shell
+     *
+     * @static
+     * @return bool
+     */
+    public static function isShellExecution()
     {
         $sapiType = php_sapi_name();
 
@@ -354,11 +356,14 @@ class eZSys
         return false;
     }
 
-    /*!
-     \static
-     Escape a string to be used as a shell argument and return it.
-    */
-    static function escapeShellArgument( $argument )
+    /**
+     * Return an escaped string to be used as a shell argument
+     *
+     * @static
+     * @param string $argument
+     * @return string
+     */
+    public static function escapeShellArgument( $argument )
     {
         $escapeChar = self::instance()->ShellEscapeCharacter;
         $argument = str_replace( "\\", "\\\\", $argument );
@@ -374,13 +379,16 @@ class eZSys
         return $argument;
     }
 
-    /*!
-     \static
-     Replaces % elements in the argument text \a $argumentText using the replace list \a $replaceList.
-     It will also properly escape the argument.
-     \sa splitArgumentIntoElements, mergeArgumentElements
-    */
-    static function createShellArgument( $argumentText, $replaceList )
+    /**
+     * Replace % elements in $argumentText using $replaceList, and also
+     * properly escape the argument
+     *
+     * @static
+     * @param string $argumentText
+     * @param array $replaceList
+     * @return string
+     */
+    public static function createShellArgument( $argumentText, array $replaceList )
     {
         $instance = self::instance();
         $elements = $instance->splitArgumentIntoElements( $argumentText );
@@ -410,9 +418,29 @@ class eZSys
      var_dump( $list ); // will give: array( "-geometry", 1, "100x100" );
      \endcode
 
-     You can then easily modify the elements separately and create the argument text with mergeArgumentElements().
+
     */
-    static function splitArgumentIntoElements( $argumentText )
+    /**
+     * Split $argumentText on boundaries formed by one or more spaces and save
+     * them into an array of separate arguments.
+     *
+     * The number of spaces between to arguments is inserted as an integer value
+     * between two argument values.
+     *
+     * Example:
+     * <code>
+     * $list = splitArgumentIntoElements( "-geometry 100x100" );
+     * var_dump( $list ); // Output: array( "-geometry", 1, "100x100" );
+     * </code>
+     *
+     * You can then easily modify the elements separately and create the argument
+     * text with eZSys::mergeArgumentElements()
+     *
+     * @static
+     * @param string $argumentText
+     * @return array
+     */
+    public static function splitArgumentIntoElements( $argumentText )
     {
         $argumentElements = array();
         $pos = 0;
