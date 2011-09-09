@@ -457,6 +457,8 @@ table.list th, table.special th
     background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
     background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
     background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    padding-top:0;
+    padding-bottom:0;
 }
 
 #leftmenu-design ul
