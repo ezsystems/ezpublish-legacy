@@ -268,7 +268,7 @@ class eZSys
     }
 
     /**
-     * Return the string used as the file separator on the curront OS/server
+     * Return the string used as the file separator on the current system
      *
      * @static
      * @return string
@@ -304,7 +304,7 @@ class eZSys
     }
 
     /**
-     * Return \c true if the PHP version is equal or higher than \a $requiredVersion.
+     * Checks if the given version is greater than or equal to the current PHP version
      *
      * Usage:
      * <code>
@@ -406,20 +406,6 @@ class eZSys
         return $text;
     }
 
-    /*!
-     \static
-     Splits the argument text into argument array elements.
-     It will split text on spaces and set them as strings in the array,
-     spaces will be counted and inserted as integers with the space count.
-     Text placed in quotes will also be parsed, this allows for spaces in the text.
-     \code
-     $list = splitArgumentIntoElements( "-geometry 100x100" );
-
-     var_dump( $list ); // will give: array( "-geometry", 1, "100x100" );
-     \endcode
-
-
-    */
     /**
      * Split $argumentText on boundaries formed by one or more spaces and save
      * them into an array of separate arguments.
@@ -532,12 +518,15 @@ class eZSys
         return $argumentElements;
     }
 
-    /*!
-     \static
-     Merges an argument list created by splitArgumentIntoElements() back into a text string.
-     The argument text will be properly quoted.
-    */
-    static function mergeArgumentElements( $argumentElements )
+    /**
+     * Merge an argument list created by eZSys::splitArgumentIntoElements()
+     * back into a text string
+     *
+     * @static
+     * @param array $argumentElements
+     * @return string
+     */
+    public static function mergeArgumentElements( array $argumentElements )
     {
         $instance = self::instance();
         $argumentText = '';
@@ -555,49 +544,60 @@ class eZSys
         return $argumentText;
     }
 
-    /*!
-     \static
-     \return the backup filename for this platform, returns .bak for win32 and ~ for unix and mac.
-    */
-    static function backupFilename()
+    /**
+     * Return the backup filename for this platform
+     *
+     * Possible values: .bak (win32), ~ (unix, mac)
+     *
+     * @static
+     * @return string
+     */
+    public static function backupFilename()
     {
         return self::instance()->BackupFilename;
     }
 
-    /*!
-     Returns the string which is used for line separators on the current OS (server).
-     \static
-    */
-    static function lineSeparator()
+    /**
+     * Return the string used as line separator on the current system
+     *
+     * @static
+     * @return string
+     */
+    public static function lineSeparator()
     {
         return self::instance()->LineSeparator;
     }
 
-    /*!
-     Returns the string which is used for environment separators on the current OS (server).
-     \static
-    */
-    static function envSeparator()
+    /**
+     * Return the string used as environment separator on the current system
+     *
+     * @static
+     * @return string
+     */
+    public static function envSeparator()
     {
         return self::instance()->EnvSeparator;
     }
 
-    /*!
-     \static
-     \return the directory used for storing various kinds of files like cache, temporary files and logs.
-    */
-    static function varDirectory()
+    /**
+     * Return the path of the current var directory
+     *
+     * @static
+     * @return string
+     */
+    public static function varDirectory()
     {
         $ini = eZINI::instance();
         return eZDir::path( array( $ini->variable( 'FileSettings', 'VarDir' ) ) );
     }
-
-    /*!
-     \static
-     \ return the directory used for storing various kinds of files like images, audio and more.
-     \Note This will include the varDirectory().
-    */
-    static function storageDirectory()
+    
+    /**
+     * Return the current storage directory
+     *
+     * @static
+     * @return string
+     */
+    public static function storageDirectory()
     {
         $ini = eZINI::instance();
         $varDir = self::varDirectory();
@@ -605,12 +605,13 @@ class eZSys
         return eZDir::path( array( $varDir, $storageDir ) );
     }
 
-    /*!
-     \static
-     \return the directory used for storing cache files.
-     \note This will include the varDirectory().
-    */
-    static function cacheDirectory()
+    /**
+     * Return the current cache directory.
+     *
+     * @static
+     * @return string
+     */
+    public static function cacheDirectory()
     {
         $ini = eZINI::instance();
         $cacheDir = $ini->variable( 'FileSettings', 'CacheDir' );
@@ -625,11 +626,13 @@ class eZSys
         }
     }
 
-    /*!
-     The absolute path to the root directory.
-     \static
-    */
-    static function rootDir()
+    /**
+     * Return the absolute path to the eZ Publish root directory
+     *
+     * @static
+     * @return string|null
+     */
+    public static function rootDir()
     {
         $instance = self::instance();
         if ( !$instance->RootDir )
@@ -649,28 +652,35 @@ class eZSys
         return $instance->RootDir;
     }
 
-    /*!
-     The path to where all the code resides.
-     \static
-    */
-    static function siteDir()
+    /**
+     * Return the path to where all the code resides.
+     *
+     * @static
+     * @return string
+     */
+    public static function siteDir()
     {
         return self::instance()->SiteDir;
     }
 
-    /*!
-     The relative directory path of the vhless setup.
-     \static
-    */
-    static function wwwDir()
+    /**
+     * Return the relative directory path of the vhless setup.
+     *
+     * @static
+     * @return string
+     */
+    public static function wwwDir()
     {
         return self::instance()->WWWDir;
     }
 
-    /*!
-     The filepath for the index file.
-     \static
-    */
+    /**
+     * Return the filepath for the index file.
+     *
+     * @static
+     * @param bool $withAccessList
+     * @return string
+     */
     static function indexDir( $withAccessList = true )
     {
         $instance = self::instance();
