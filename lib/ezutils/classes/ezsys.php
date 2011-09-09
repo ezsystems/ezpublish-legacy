@@ -126,12 +126,12 @@ class eZSys
      *
      * @var array
      */
-    protected $Params = null;
+    protected $Params;
 
     /**
      * Holds eZSys instance
      *
-     * @var eZSys
+     * @var eZSys|null
      */
     protected static $instance = null;
 
@@ -148,19 +148,14 @@ class eZSys
      *
      * @param array|null $serverParams For unit testing use, see first few lines for content
      */
-    function __construct( array $serverParams = null )
+    function __construct( array $serverParams = array() )
     {
-        if ( $serverParams === null )
-        {
-            $serverParams = array(
-                'PHP_OS' => PHP_OS,
-                'DIRECTORY_SEPARATOR' => DIRECTORY_SEPARATOR,
-                'PATH_SEPARATOR' => PATH_SEPARATOR,
-                '_SERVER' => $_SERVER,
-            );
-        }
-
-        $this->Params = $serverParams;
+        $this->Params = array_merge( array( 'PHP_OS' => PHP_OS,
+                                            'DIRECTORY_SEPARATOR' => DIRECTORY_SEPARATOR,
+                                            'PATH_SEPARATOR' => PATH_SEPARATOR,
+                                            '_SERVER' => $_SERVER, ),
+                                     $serverParams );
+        
         $this->Attributes = array( 'magickQuotes' => true,
                                    'hostname'     => true );
         $this->FileSeparator = $this->Params['DIRECTORY_SEPARATOR'];
