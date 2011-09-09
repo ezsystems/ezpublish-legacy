@@ -86,7 +86,7 @@ class eZSys
     public $WWWDir;
 
     /**
-     * The indef file name (eg: 'index.php')
+     * The index file name (eg: 'index.php')
      *
      * @var string
      */
@@ -144,11 +144,11 @@ class eZSys
     protected $QueryString;
 
     /**
-     * Initializes the object with settings taken from the current script run.
+     * Initialize the object with settings taken from the current script run.
      *
-     * @param array|null $serverParams For unit testing use, see first few lines for content
+     * @param array $serverParams For unit testing use, see first few lines for content
      */
-    function __construct( array $serverParams = array() )
+    public function __construct( array $serverParams = array() )
     {
         $this->Params = array_merge( array( 'PHP_OS' => PHP_OS,
                                             'DIRECTORY_SEPARATOR' => DIRECTORY_SEPARATOR,
@@ -206,11 +206,14 @@ class eZSys
     }
 
     /**
-     * Removes magic quotes
+     * Remove magic quotes
      *
      * @deprecated Since 4.5, magic quotes setting has been deprecated in PHP 5.3
+     *
+     * @static
+     * @return void
      */
-    static function removeMagicQuotes()
+    public static function removeMagicQuotes()
     {
         $globalVariables = array( '_SERVER', '_ENV' );
         foreach ( $globalVariables as $globalVariable )
@@ -225,43 +228,52 @@ class eZSys
         }
     }
 
-    /*!
-     \static
-     \return the os type, either \c "win32", \c "unix" or \c "mac"
-    */
-    static function osType()
+    /**
+     * Return the OS type
+     *
+     * Possible values: win32, unix
+     *
+     * @static
+     * @return string
+     */
+    public static function osType()
     {
         return self::instance()->OSType;
     }
 
-    /*!
-     \static
-     \return the name of the specific os or \c false if it could not be determined.
-     Currently detects:
-     - windows (win32)
-     - mac (mac)
-     - linux (unix)
-     - freebsd (unix)
-    */
-    static function osName()
+    /**
+     * Return the current OS name or false if it can not be determined.
+     *
+     * Possible values: windows, linux, freebsd, darwin
+     *
+     * @static
+     * @return string|bool
+     */
+    public static function osName()
     {
         return self::instance()->OS;
     }
 
-    /*!
-     \static
-     \return the filesystem type, either \c "win32" or \c "unix"
-    */
-    static function filesystemType()
+    /**
+     * Return the filesystem type
+     *
+     * Possible values: win32, unix
+     *
+     * @static
+     * @return string
+     */
+    public static function filesystemType()
     {
         return self::instance()->FileSystemType;
     }
 
-    /*!
-     Returns the string which is used for file separators on the current OS (server).
-     \static
-    */
-    static function fileSeparator()
+    /**
+     * Return the string used as the file separator on the curront OS/server
+     *
+     * @static
+     * @return string
+     */
+    public static function fileSeparator()
     {
         return self::instance()->FileSeparator;
     }
@@ -270,31 +282,34 @@ class eZSys
      * The PHP version as text.
      *
      * @deprecated Since 4.5, use PHP_VERSION
+     *
      * @return string
-    */
-    static function phpVersionText()
+     */
+    public static function phpVersionText()
     {
-        return phpversion();
+        return PHP_VERSION;
     }
 
     /**
      * Return the PHP version as an array with the version elements.
      *
      * @deprecated Since 4.5
+     *
      * @return array
      */
-    static function phpVersion()
+    public static function phpVersion()
     {
-        $text = self::phpVersionText();
-        $elements = explode( '.', $text );
+        $elements = explode( '.', PHP_VERSION );
         return $elements;
     }
 
     /**
      * Return \c true if the PHP version is equal or higher than \a $requiredVersion.
      *
-     * Use:
+     * Usage:
+     * <code>
      * eZSys::isPHPVersionSufficient( array( 4, 1, 0 ) );
+     * </code>
      *
      * @deprecated Since 4.5
      * @param array $requiredVersion Must be an array with version number
