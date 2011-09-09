@@ -826,10 +826,14 @@ class eZSys
         }
         return $url;
     }
-    /*!
-      \static
-      \return the port of the server.
-    */
+
+    /**
+     * Return the server port or 80 as default if the server port can not
+     * be retrieved from the hostname or the server variable 'SERVER_PORT'
+     *
+     * @static
+     * @return int
+     */
     static function serverPort()
     {
         if ( empty( $GLOBALS['eZSysServerPort'] ) )
@@ -837,11 +841,11 @@ class eZSys
             $hostname = self::hostname();
             if ( preg_match( "/.*:([0-9]+)/", $hostname, $regs ) )
             {
-                $port = $regs[1];
+                $port = (int) $regs[1];
             }
             else
             {
-                $port = self::serverVariable( 'SERVER_PORT' );
+                $port = (int) self::serverVariable( 'SERVER_PORT' );
             }
 
             if ( !$port )
