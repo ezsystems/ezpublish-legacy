@@ -206,7 +206,7 @@ class eZSys
     }
 
     /**
-     * Remove magic quotes
+     * Removes magic quotes
      *
      * @deprecated Since 4.5, magic quotes setting has been deprecated in PHP 5.3
      *
@@ -229,7 +229,7 @@ class eZSys
     }
 
     /**
-     * Return the OS type
+     * Returns the OS type
      *
      * Possible values: win32, unix
      *
@@ -242,7 +242,7 @@ class eZSys
     }
 
     /**
-     * Return the current OS name or false if it can not be determined.
+     * Returns the current OS name or false if it can not be determined.
      *
      * Possible values: windows, linux, freebsd, darwin
      *
@@ -255,7 +255,7 @@ class eZSys
     }
 
     /**
-     * Return the filesystem type
+     * Returns the filesystem type
      *
      * Possible values: win32, unix
      *
@@ -268,7 +268,7 @@ class eZSys
     }
 
     /**
-     * Return the string used as the file separator on the current system
+     * Returns the string used as the file separator on the current system
      *
      * @static
      * @return string
@@ -291,7 +291,7 @@ class eZSys
     }
 
     /**
-     * Return the PHP version as an array with the version elements.
+     * Returns the PHP version as an array with the version elements.
      *
      * @deprecated Since 4.5
      *
@@ -332,7 +332,7 @@ class eZSys
     }
 
     /**
-     * Determine if the current process has been started from the web or the shell
+     * Determines if the current process has been started from the web or the shell
      *
      * @static
      * @return bool
@@ -357,7 +357,7 @@ class eZSys
     }
 
     /**
-     * Return an escaped string to be used as a shell argument
+     * Returns an escaped string to be used as a shell argument
      *
      * @static
      * @param string $argument
@@ -380,7 +380,7 @@ class eZSys
     }
 
     /**
-     * Replace % elements in $argumentText using $replaceList, and also
+     * Replaces % elements in $argumentText using $replaceList, and also
      * properly escape the argument
      *
      * @static
@@ -407,7 +407,7 @@ class eZSys
     }
 
     /**
-     * Split $argumentText on boundaries formed by one or more spaces and save
+     * Splits $argumentText on boundaries formed by one or more spaces and save
      * them into an array of separate arguments.
      *
      * The number of spaces between to arguments is inserted as an integer value
@@ -519,7 +519,7 @@ class eZSys
     }
 
     /**
-     * Merge an argument list created by eZSys::splitArgumentIntoElements()
+     * Merges an argument list created by eZSys::splitArgumentIntoElements()
      * back into a text string
      *
      * @static
@@ -545,7 +545,7 @@ class eZSys
     }
 
     /**
-     * Return the backup filename for this platform
+     * Returns the backup filename for this platform
      *
      * Possible values: .bak (win32), ~ (unix, mac)
      *
@@ -558,7 +558,7 @@ class eZSys
     }
 
     /**
-     * Return the string used as line separator on the current system
+     * Returns the string used as line separator on the current system
      *
      * @static
      * @return string
@@ -569,7 +569,7 @@ class eZSys
     }
 
     /**
-     * Return the string used as environment separator on the current system
+     * Returns the string used as environment separator on the current system
      *
      * @static
      * @return string
@@ -580,7 +580,7 @@ class eZSys
     }
 
     /**
-     * Return the path of the current var directory
+     * Returns the path of the current var directory
      *
      * @static
      * @return string
@@ -592,7 +592,7 @@ class eZSys
     }
     
     /**
-     * Return the current storage directory
+     * Returns the current storage directory
      *
      * @static
      * @return string
@@ -606,7 +606,7 @@ class eZSys
     }
 
     /**
-     * Return the current cache directory.
+     * Returns the current cache directory.
      *
      * @static
      * @return string
@@ -627,7 +627,7 @@ class eZSys
     }
 
     /**
-     * Return the absolute path to the eZ Publish root directory
+     * Returns the absolute path to the eZ Publish root directory
      *
      * @static
      * @return string|null
@@ -653,7 +653,7 @@ class eZSys
     }
 
     /**
-     * Return the path to where all the code resides.
+     * Returns the path to where all the code resides.
      *
      * @static
      * @return string
@@ -664,7 +664,7 @@ class eZSys
     }
 
     /**
-     * Return the relative directory path of the vhless setup.
+     * Returns the relative directory path of the vhless setup.
      *
      * @static
      * @return string
@@ -675,7 +675,7 @@ class eZSys
     }
 
     /**
-     * Return the filepath for the index file.
+     * Returns the filepath for the index file.
      *
      * @static
      * @param bool $withAccessList
@@ -688,7 +688,7 @@ class eZSys
     }
 
     /**
-     * Return the query string for the current request.
+     * Returns the query string for the current request.
      * 
      * <code>
      * ?param1=value1&param2=value2
@@ -703,7 +703,7 @@ class eZSys
     }
 
     /**
-     * Return the filepath for the index file with the access path appended
+     * Returns the filepath for the index file with the access path appended
      *
      * @static
      * @param bool $withAccessPath
@@ -750,7 +750,8 @@ class eZSys
     }
 
     /**
-     * Return the filepath for the index file
+     * Returns the filepath for the index file
+     *
      * @static
      * @return string
      */
@@ -913,7 +914,7 @@ class eZSys
     }
 
     /**
-     * Return the server port or 80 as default if the server port can not
+     * Returns the server port or 80 as default if the server port can not
      * be retrieved from the hostname or the server variable 'SERVER_PORT'
      *
      * @static
@@ -956,7 +957,7 @@ class eZSys
     }
 
     /**
-     * Return the value of $_SERVER[$variableName] if it is set.
+     * Returns the value of $_SERVER[$variableName] if it is set.
      *
      * If it isn't set, trigger an error message if $quiet is false
      *
@@ -980,7 +981,7 @@ class eZSys
     }
 
     /**
-     * Set a server variable in the global array $_SERVER
+     * Sets a server variable in the global array $_SERVER
      *
      * Note: Variables are only set for the current process/page view
      * @static
@@ -994,7 +995,7 @@ class eZSys
     }
 
     /**
-     * Return the server's path string
+     * Returns the server's path string
      *
      * @static
      * @param bool $quiet
@@ -1006,7 +1007,7 @@ class eZSys
     }
 
     /**
-     * Return an environment variable or null if it is not available
+     * Returns an environment variable or null if it is not available
      *
      * If the variable is not available, trigger an error message
      *
@@ -1029,7 +1030,7 @@ class eZSys
     }
 
     /**
-     * Check if an environment variable is available
+     * Checks if an environment variable is available
      *
      * @static
      * @param string $variableName
@@ -1070,7 +1071,7 @@ class eZSys
     }
 
     /**
-     * Check if the attribute $attr is set.
+     * Checks if the attribute $attr is set.
      *
      * @param string $attr
      * @return bool
@@ -1081,7 +1082,7 @@ class eZSys
     }
 
     /**
-     * Return the attribute value for $attr or null if the attribute does not exist
+     * Returns the attribute value for $attr or null if the attribute does not exist
      *
      * @param string $attr
      * @return null|string
@@ -1210,7 +1211,7 @@ class eZSys
     }
 
     /**
-     * Return true if debugging of internals is enabled, this will display
+     * Returns true if debugging of internals is enabled, this will display
      * which server variables are read.
      * Set the option with setIsDebugEnabled().
      *
@@ -1383,7 +1384,7 @@ class eZSys
     }
 
     /**
-     * Return the URI used for parsing modules, views and parameters
+     * Returns the URI used for parsing modules, views and parameters
      *
      * May differ from $_SERVER['REQUEST_URI'].
      *
@@ -1420,7 +1421,7 @@ class eZSys
     }
 
     /**
-     * A wrapper for PHP's crc32 function. Return the crc32 polynomial as unsigned int
+     * A wrapper for PHP's crc32 function. Returns the crc32 polynomial as unsigned int
      *
      * @static
      * @param $string
@@ -1439,7 +1440,7 @@ class eZSys
     }
 
     /**
-     * Return the schema of the request.
+     * Returns the schema of the request.
      *
      * @static
      * @return string
