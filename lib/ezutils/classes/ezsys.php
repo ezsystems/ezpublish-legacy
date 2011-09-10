@@ -681,27 +681,35 @@ class eZSys
      * @param bool $withAccessList
      * @return string
      */
-    static function indexDir( $withAccessList = true )
+    public static function indexDir( $withAccessList = true )
     {
         $instance = self::instance();
-        return $instance->wwwDir() . $instance->indexFile( $withAccessList );
+        return $instance::wwwDir() . $instance::indexFile( $withAccessList );
     }
 
     /**
-     * Returns query string for current request
-     * in the form of "?param1=value1&param2=value2"
+     * Return the query string for the current request.
+     * 
+     * <code>
+     * ?param1=value1&param2=value2
+     * </code>
+     *
+     * @static
+     * @return string
      */
     public static function queryString()
     {
         return self::instance()->QueryString;
     }
 
-    /*!
-     The filepath for the index file with the access path appended.
-     \static
-     \sa indexFileName
-    */
-    static function indexFile( $withAccessPath = true )
+    /**
+     * Return the filepath for the index file with the access path appended
+     *
+     * @static
+     * @param bool $withAccessPath
+     * @return string
+     */
+    public static function indexFile( $withAccessPath = true )
     {
         $sys  = self::instance();
         $text = $sys->IndexFile;
@@ -741,11 +749,12 @@ class eZSys
         return $text;
     }
 
-    /*!
-     The filepath for the index file.
-     \static
-    */
-    static function indexFileName()
+    /**
+     * Return the filepath for the index file
+     * @static
+     * @return string
+     */
+    public static function indexFileName()
     {
         return self::instance()->IndexFile;
     }
@@ -758,7 +767,7 @@ class eZSys
      *
      * @return string
     */
-    static function hostname()
+    public static function hostname()
     {
         $hostName = null;
         $forwardedHostsString = self::serverVariable( 'HTTP_X_FORWARDED_HOST', true );
@@ -793,7 +802,7 @@ class eZSys
      *
      * @return string
      */
-    static public function clientIP()
+    public static function clientIP()
     {
         $customHTTPHeader = eZINI::instance()->variable( 'HTTPHeaderSettings', 'ClientIpByCustomHTTPHeader' );
         if( $customHTTPHeader && $customHTTPHeader != 'false' )
@@ -822,12 +831,13 @@ class eZSys
         return self::serverVariable( 'REMOTE_ADDR', true );
     }
 
-    /*!
-     Determines if SSL is enabled and protocol HTTPS is used.
-     \return true if current access mode is HTTPS.
-     \static
-    */
-    static function isSSLNow()
+    /**
+     * Determines if SSL is enabled and protocol HTTPS is used.
+     *
+     * @static
+     * @return bool
+     */
+    public static function isSSLNow()
     {
         $ini = eZINI::instance();
         $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
@@ -857,10 +867,13 @@ class eZSys
         return $nowSSL;
     }
 
-    /*!
-     \static
-    */
-    static function serverProtocol()
+    /**
+     * Returns the current server protocol depending on if SSL is enabled or not.
+     *
+     * @static
+     * @return string
+     */
+    public static function serverProtocol()
     {
         if ( self::isSSLNow() )
             return 'https';
@@ -868,11 +881,13 @@ class eZSys
             return 'http';
     }
 
-    /*!
-     Returns the server URL. (protocol with hostname and port)
-     \static
-    */
-    static function serverURL()
+    /**
+     * Returns the server URL (protocol and hostname and port)
+     *
+     * @static
+     * @return string
+     */
+    public static function serverURL()
     {
         $host = self::hostname();
         $url = '';
@@ -904,7 +919,7 @@ class eZSys
      * @static
      * @return int
      */
-    static function serverPort()
+    public static function serverPort()
     {
         if ( empty( $GLOBALS['eZSysServerPort'] ) )
         {
@@ -929,20 +944,28 @@ class eZSys
     }
 
     /**
-     * Returns true if magick quotes is enabled,
-     * but does nothing.
+     * Should return true when magick quotes are enabled, but instead return null.
+     *
      * @deprecated since 4.5
+     *
+     * @return null
      */
-    static function magickQuotes()
+    public static function magickQuotes()
     {
         return null;
     }
 
-    /*!
-     \return the variable named \a $variableName in the global \c $_SERVER variable.
-             If the variable is not present an error is shown and \c null is returned.
-    */
-    static function serverVariable( $variableName, $quiet = false )
+    /**
+     * Return the value of $_SERVER[$variableName] if it is set.
+     *
+     * If it isn't set, trigger an error message if $quiet is false
+     *
+     * @static
+     * @param string $variableName
+     * @param bool $quiet
+     * @return mixed|null
+     */
+    public static function serverVariable( $variableName, $quiet = false )
     {
         if ( !isset( $_SERVER[$variableName] ) )
         {
@@ -950,35 +973,49 @@ class eZSys
             {
                 eZDebug::writeError( "Server variable '$variableName' does not exist", __METHOD__ );
             }
-            $retVal = null;
-            return $retVal;
+
+            return null;
         }
         return $_SERVER[$variableName];
     }
 
-    /*!
-     Sets the server variable named \a $variableName to \a $variableValue.
-     \note Variables are only set for the current page view.
-    */
-    static function setServerVariable( $variableName, $variableValue )
+    /**
+     * Set a server variable in the global array $_SERVER
+     *
+     * Note: Variables are only set for the current process/page view
+     * @static
+     * @param string $variableName
+     * @param mixed $variableValue
+     * @return void
+     */
+    public static function setServerVariable( $variableName, $variableValue )
     {
-        $_SERVER;
         $_SERVER[$variableName] = $variableValue;
     }
 
-    /*!
-     \return the path string for the server.
-    */
-    static function path( $quiet = false )
+    /**
+     * Return the server's path string
+     *
+     * @static
+     * @param bool $quiet
+     * @return mixed|null
+     */
+    public static function path( $quiet = false )
     {
         return self::serverVariable( 'PATH', $quiet );
     }
 
     /**
-     * Return the variable named \a $variableName in the global \c ENV variable.
-     * If the variable is not present an error is shown and \c null is returned.
+     * Return an environment variable or null if it is not available
+     *
+     * If the variable is not available, trigger an error message
+     *
+     * @static
+     * @param string $variableName
+     * @param bool $quiet
+     * @return null|string
      */
-    static function environmentVariable( $variableName, $quiet = false )
+    public static function environmentVariable( $variableName, $quiet = false )
     {
         if ( getenv($variableName) === false )
         {
@@ -991,24 +1028,36 @@ class eZSys
         return getenv($variableName);
     }
 
-    /*!
-     \return the true if variable named \a $variableName exists.
-             If the variable is not present false is returned.
-    */
-    static function hasEnvironmentVariable( $variableName )
+    /**
+     * Check if an environment variable is available
+     *
+     * @static
+     * @param string $variableName
+     * @return bool
+     */
+    public static function hasEnvironmentVariable( $variableName )
     {
         return getenv($variableName) !== false;
     }
 
-    /*!
-     Sets the environment variable named \a $variableName to \a $variableValue.
-     \note Variables are only set for the current page view.
-    */
-    static function setEnvironmentVariable( $variableName, $variableValue )
+    /**
+     * Sets an environment variable for the current process/page view
+     *
+     * @static
+     * @param string $variableName
+     * @param mixed $variableValue
+     * @return void
+     */
+    public static function setEnvironmentVariable( $variableName, $variableValue )
     {
         putenv( "$variableName=$variableValue" );
     }
 
+    /**
+     * Make sure that certain attribute keys are available in $this->Attributes
+     *
+     * @return array
+     */
     function attributes()
     {
         return array_merge( array( 'wwwdir',
@@ -1020,18 +1069,23 @@ class eZSys
 
     }
 
-    /*!
-     Return true if the attribute $attr is set. Available attributes are
-     wwwdir, sitedir or indexfile
-    */
+    /**
+     * Check if the attribute $attr is set.
+     *
+     * @param string $attr
+     * @return bool
+     */
     function hasAttribute( $attr )
     {
         return in_array( $attr, $this->attributes() );
     }
 
-    /*!
-     Returns the attribute value for $attr or null if the attribute does not exist.
-    */
+    /**
+     * Return the attribute value for $attr or null if the attribute does not exist
+     *
+     * @param string $attr
+     * @return null|string
+     */
     function attribute( $attr )
     {
         if ( isset( $this->Attributes[$attr] ) )
@@ -1115,6 +1169,10 @@ class eZSys
 
     /**
      * Clears the access path, used by {@link eZSys::indexFile()}
+     *
+     * @static
+     * @param bool $siteaccess
+     * @return void
      */
     static function clearAccessPath( $siteaccess = true )
     {
@@ -1127,7 +1185,7 @@ class eZSys
     /**
      * Magic function to get access readonly properties (protected)
      *
-     * @param string $name
+     * @param string $propertyName
      * @return mixed
      * @throws ezcBasePropertyNotFoundException
      */
@@ -1159,7 +1217,7 @@ class eZSys
      * @deprecated Since 4.5, not used
      * @return bool
      */
-    static function isDebugEnabled()
+    public static function isDebugEnabled()
     {
     }
 
@@ -1169,7 +1227,7 @@ class eZSys
      * @deprecated Since 4.5, has not effect anymore
      * @param bool $debug
      */
-    static function setIsDebugEnabled( $debug )
+    public static function setIsDebugEnabled( $debug )
     {
     }
 
@@ -1324,10 +1382,15 @@ class eZSys
         return null;
     }
 
-    /*!
-     \return the URI used for parsing modules, views and parameters, may differ from $_SERVER['REQUEST_URI'].
-    */
-    static function requestURI()
+    /**
+     * Return the URI used for parsing modules, views and parameters
+     *
+     * May differ from $_SERVER['REQUEST_URI'].
+     *
+     * @static
+     * @return string
+     */
+    public static function requestURI()
     {
         return self::instance()->RequestURI;
     }
@@ -1351,16 +1414,19 @@ class eZSys
      *
      * @param eZSys $instance
      */
-    static function setInstance( eZSys $instance = null )
+    public static function setInstance( eZSys $instance = null )
     {
         self::$instance = $instance;
     }
 
-    /*!
-     A wrapper for php's crc32 function.
-     \return the crc32 polynomial as unsigned int
-    */
-    static function ezcrc32( $string )
+    /**
+     * A wrapper for PHP's crc32 function. Return the crc32 polynomial as unsigned int
+     *
+     * @static
+     * @param $string
+     * @return int|string
+     */
+    public static function ezcrc32( $string )
     {
         $ini = eZINI::instance();
 
@@ -1372,10 +1438,13 @@ class eZSys
         return $checksum;
     }
 
-    /*!
-     Returns the schema of the request.
+    /**
+     * Return the schema of the request.
+     *
+     * @static
+     * @return string
      */
-    static function protocolSchema()
+    public static function protocolSchema()
     {
         $schema = '';
         if( preg_match( "#^([a-zA-Z]+)/.*$#", self::serverVariable( 'SERVER_PROTOCOL' ), $schemaMatches ) )
@@ -1386,13 +1455,16 @@ class eZSys
         return $schema;
     }
 
-    /*!
-     Wraps around the built-in glob() function to provide same functionality
-     for systems (e.g Solaris) that does not support GLOB_BRACE.
-
-     \static
-    */
-    static function globBrace( $pattern, $flags = 0 )
+    /**
+     * Wraps around the built-in glob() function to provide same functionality
+     * for systems (e.g Solaris) that does not support GLOB_BRACE.
+     *
+     * @static
+     * @param string $pattern
+     * @param int $flags
+     * @return array
+     */
+    public static function globBrace( $pattern, $flags = 0 )
     {
         if ( defined( 'GLOB_BRACE' ) )
         {
@@ -1415,16 +1487,17 @@ class eZSys
         }
     }
 
-    /*!
-     Expands a list of filenames like GLOB_BRACE does.
-
-     GLOB_BRACE is non POSIX and only available in GNU glibc. This is needed to
-     support operating systems like Solars.
-
-     \static
-     \protected
+    /**
+     * Expands a list of filenames like GLOB_BRACE does.
+     *
+     * GLOB_BRACE is non POSIX and only available in GNU glibc. This is needed to
+     * support operating systems like Solars.
+     *
+     * @static
+     * @param $filenames
+     * @return array
      */
-    static protected function simulateGlobBrace( $filenames )
+    protected static function simulateGlobBrace( $filenames )
     {
        $result = array();
 
