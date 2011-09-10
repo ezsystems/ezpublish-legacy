@@ -694,8 +694,8 @@ div.context-block
 
 div.context-block h1.context-title img, div.context-block h2.context-title img
 {
-    vertical-align: bottom;
-    margin: -13px 8px 2px 0;
+    vertical-align: middle;
+    margin: -4px 8px 2px 0;
 }
 
 /* MENU-BLOCK */
@@ -770,7 +770,8 @@ input.button, input.defaultbutton, input.button-disabled
 {
     width: auto;
     overflow: visible;
-    padding: 0em 0.5em;;
+    padding-left:0.7em;
+    padding-right:0.7em;
 }
 
 /* SEARCH */
