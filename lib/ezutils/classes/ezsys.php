@@ -210,7 +210,6 @@ class eZSys
      *
      * @deprecated Since 4.5, magic quotes setting has been deprecated in PHP 5.3
      *
-     * @static
      * @return void
      */
     public static function removeMagicQuotes()
@@ -233,7 +232,6 @@ class eZSys
      *
      * Possible values: win32, unix
      *
-     * @static
      * @return string
      */
     public static function osType()
@@ -246,7 +244,6 @@ class eZSys
      *
      * Possible values: windows, linux, freebsd, darwin
      *
-     * @static
      * @return string|bool
      */
     public static function osName()
@@ -259,7 +256,6 @@ class eZSys
      *
      * Possible values: win32, unix
      *
-     * @static
      * @return string
      */
     public static function filesystemType()
@@ -270,7 +266,6 @@ class eZSys
     /**
      * Returns the string used as the file separator on the current system
      *
-     * @static
      * @return string
      */
     public static function fileSeparator()
@@ -334,7 +329,6 @@ class eZSys
     /**
      * Determines if the current process has been started from the web or the shell
      *
-     * @static
      * @return bool
      */
     public static function isShellExecution()
@@ -359,7 +353,6 @@ class eZSys
     /**
      * Returns an escaped string to be used as a shell argument
      *
-     * @static
      * @param string $argument
      * @return string
      */
@@ -383,7 +376,6 @@ class eZSys
      * Replaces % elements in $argumentText using $replaceList, and also
      * properly escape the argument
      *
-     * @static
      * @param string $argumentText
      * @param array $replaceList
      * @return string
@@ -422,7 +414,6 @@ class eZSys
      * You can then easily modify the elements separately and create the argument
      * text with eZSys::mergeArgumentElements()
      *
-     * @static
      * @param string $argumentText
      * @return array
      */
@@ -522,7 +513,6 @@ class eZSys
      * Merges an argument list created by eZSys::splitArgumentIntoElements()
      * back into a text string
      *
-     * @static
      * @param array $argumentElements
      * @return string
      */
@@ -549,7 +539,6 @@ class eZSys
      *
      * Possible values: .bak (win32), ~ (unix, mac)
      *
-     * @static
      * @return string
      */
     public static function backupFilename()
@@ -560,7 +549,6 @@ class eZSys
     /**
      * Returns the string used as line separator on the current system
      *
-     * @static
      * @return string
      */
     public static function lineSeparator()
@@ -571,7 +559,6 @@ class eZSys
     /**
      * Returns the string used as environment separator on the current system
      *
-     * @static
      * @return string
      */
     public static function envSeparator()
@@ -582,7 +569,6 @@ class eZSys
     /**
      * Returns the path of the current var directory
      *
-     * @static
      * @return string
      */
     public static function varDirectory()
@@ -594,7 +580,6 @@ class eZSys
     /**
      * Returns the current storage directory
      *
-     * @static
      * @return string
      */
     public static function storageDirectory()
@@ -608,7 +593,6 @@ class eZSys
     /**
      * Returns the current cache directory.
      *
-     * @static
      * @return string
      */
     public static function cacheDirectory()
@@ -629,7 +613,6 @@ class eZSys
     /**
      * Returns the absolute path to the eZ Publish root directory
      *
-     * @static
      * @return string|null
      */
     public static function rootDir()
@@ -655,7 +638,6 @@ class eZSys
     /**
      * Returns the path to where all the code resides.
      *
-     * @static
      * @return string
      */
     public static function siteDir()
@@ -666,7 +648,6 @@ class eZSys
     /**
      * Returns the relative directory path of the vhless setup.
      *
-     * @static
      * @return string
      */
     public static function wwwDir()
@@ -677,7 +658,6 @@ class eZSys
     /**
      * Returns the filepath for the index file.
      *
-     * @static
      * @param bool $withAccessList
      * @return string
      */
@@ -694,7 +674,6 @@ class eZSys
      * ?param1=value1&param2=value2
      * </code>
      *
-     * @static
      * @return string
      */
     public static function queryString()
@@ -705,7 +684,6 @@ class eZSys
     /**
      * Returns the filepath for the index file with the access path appended
      *
-     * @static
      * @param bool $withAccessPath
      * @return string
      */
@@ -752,7 +730,6 @@ class eZSys
     /**
      * Returns the filepath for the index file
      *
-     * @static
      * @return string
      */
     public static function indexFileName()
@@ -835,7 +812,6 @@ class eZSys
     /**
      * Determines if SSL is enabled and protocol HTTPS is used.
      *
-     * @static
      * @return bool
      */
     public static function isSSLNow()
@@ -871,7 +847,6 @@ class eZSys
     /**
      * Returns the current server protocol depending on if SSL is enabled or not.
      *
-     * @static
      * @return string
      */
     public static function serverProtocol()
@@ -885,7 +860,6 @@ class eZSys
     /**
      * Returns the server URL (protocol and hostname and port)
      *
-     * @static
      * @return string
      */
     public static function serverURL()
@@ -917,7 +891,6 @@ class eZSys
      * Returns the server port or 80 as default if the server port can not
      * be retrieved from the hostname or the server variable 'SERVER_PORT'
      *
-     * @static
      * @return int
      */
     public static function serverPort()
@@ -961,7 +934,6 @@ class eZSys
      *
      * If it isn't set, trigger an error message if $quiet is false
      *
-     * @static
      * @param string $variableName
      * @param bool $quiet
      * @return mixed|null
@@ -984,7 +956,6 @@ class eZSys
      * Sets a server variable in the global array $_SERVER
      *
      * Note: Variables are only set for the current process/page view
-     * @static
      * @param string $variableName
      * @param mixed $variableValue
      * @return void
@@ -997,7 +968,6 @@ class eZSys
     /**
      * Returns the server's path string
      *
-     * @static
      * @param bool $quiet
      * @return mixed|null
      */
@@ -1011,7 +981,6 @@ class eZSys
      *
      * If the variable is not available, trigger an error message
      *
-     * @static
      * @param string $variableName
      * @param bool $quiet
      * @return null|string
@@ -1032,7 +1001,6 @@ class eZSys
     /**
      * Checks if an environment variable is available
      *
-     * @static
      * @param string $variableName
      * @return bool
      */
@@ -1044,7 +1012,6 @@ class eZSys
     /**
      * Sets an environment variable for the current process/page view
      *
-     * @static
      * @param string $variableName
      * @param mixed $variableValue
      * @return void
@@ -1171,7 +1138,6 @@ class eZSys
     /**
      * Clears the access path, used by {@link eZSys::indexFile()}
      *
-     * @static
      * @param bool $siteaccess
      * @return void
      */
@@ -1388,7 +1354,6 @@ class eZSys
      *
      * May differ from $_SERVER['REQUEST_URI'].
      *
-     * @static
      * @return string
      */
     public static function requestURI()
@@ -1423,7 +1388,6 @@ class eZSys
     /**
      * A wrapper for PHP's crc32 function. Returns the crc32 polynomial as unsigned int
      *
-     * @static
      * @param $string
      * @return int|string
      */
@@ -1442,7 +1406,6 @@ class eZSys
     /**
      * Returns the schema of the request.
      *
-     * @static
      * @return string
      */
     public static function protocolSchema()
@@ -1460,7 +1423,6 @@ class eZSys
      * Wraps around the built-in glob() function to provide same functionality
      * for systems (e.g Solaris) that does not support GLOB_BRACE.
      *
-     * @static
      * @param string $pattern
      * @param int $flags
      * @return array
@@ -1494,7 +1456,6 @@ class eZSys
      * GLOB_BRACE is non POSIX and only available in GNU glibc. This is needed to
      * support operating systems like Solars.
      *
-     * @static
      * @param $filenames
      * @return array
      */
