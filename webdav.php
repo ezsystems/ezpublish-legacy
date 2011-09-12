@@ -107,6 +107,7 @@ if ( $enable === 'true' )
     eZWebDAVContentBackend::appendLogEntry( "========================================" );
     eZWebDAVContentBackend::appendLogEntry( "Requested URI is: " . $_SERVER['REQUEST_URI'], 'webdav.php' );
 
+    $ini = eZINI::instance( 'site.ini' );
     // Initialize/set the index file.
     eZSys::init( 'webdav.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) === 'true' );
 
