@@ -315,7 +315,7 @@ class ezoeServerFunctions extends ezjscServerFunctions
                 'type' => ezpI18n::tr( 'design/standard/ezoe', "Type")
             ),
             'advanced_dlg' => array(
-                //'about_title' => ezpI18n::tr( 'design/standard/ezoe', "Ephox Enterprise TinyMCE"),
+                //'about_title' => ezpI18n::tr( 'design/standard/ezoe', "Moxiecode TinyMCE"),
                 'about_general' => ezpI18n::tr( 'design/standard/ezoe', "About"),
                 'about_help' => ezpI18n::tr( 'design/standard/ezoe', "Help"),
                 'about_license' => ezpI18n::tr( 'design/standard/ezoe', "License"),

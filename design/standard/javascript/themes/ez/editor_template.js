@@ -88,6 +88,9 @@
             t.url = url;
             t.onResolveName = new tinymce.util.Dispatcher(this);
 
+			ed.forcedHighContrastMode = ed.settings.detect_highcontrast && t._isHighContrast();
+			ed.settings.skin = ed.forcedHighContrastMode ? 'highcontrast' : ed.settings.skin;
+
             // Default settings
             t.settings = s = extend({
                 theme_advanced_path : true,
@@ -143,6 +146,16 @@
             if (s.theme_advanced_statusbar_location == 'none')
                 s.theme_advanced_statusbar_location = 0;
 
+            // eZ: Support several theme css files using custom ez setting
+            if ( s.theme_ez_content_css )
+            {
+                var css_arr = s.theme_ez_content_css.split(',');
+                for ( var ind = 0, len = css_arr.length; ind < len; ind++ )
+                   ed.contentCSS.push( css_arr[ind] );
+            }
+            else if (ed.settings.content_css !== false)
+                ed.contentCSS.push(ed.baseURI.toAbsolute(url + "/skins/" + ed.settings.skin + "/content.css"));
+
             // Init editor
             ed.onInit.add(function() {
                 if (!ed.settings.readonly) {
@@ -158,16 +171,6 @@
                 ed.addShortcut('ctrl+8', '', ['FormatBlock', false, '<pre>']);
                 ed.addShortcut('ctrl+9', '', ['FormatBlock', false, '<pre>']);
 
-                // eZ: Support several theme css files using custom ez setting
-                if ( s.theme_ez_content_css )
-                {
-                    var css_arr = s.theme_ez_content_css.split(',');
-                    for ( var ind = 0, len = css_arr.length; ind < len; ind++ )
-                       ed.dom.loadCSS( css_arr[ind] );
-                }
-                else if (ed.settings.content_css !== false)
-                    ed.dom.loadCSS(ed.baseURI.toAbsolute(url + "/skins/" + ed.settings.skin + "/content.css"));
-
                 // eZ : underline is represented with a custom tag
                 // ie: <span class="ezoeItemCustomTag underline" type="custom">foo bar</span>
                 ed.formatter.register({
@@ -180,7 +183,7 @@
 
                 // START eZ: alignment customizations
                 // Add support for align attribute (taken from legacyoutput plugin)
-                var alignElements = 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', serializer = ed.serializer;
+                var alignElements = 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img';
 
                 // Override some internal formats to produce legacy elements and attributes
                 ed.formatter.register({
@@ -189,26 +192,6 @@
                     aligncenter : {selector : alignElements, attributes : {align : 'center'}},
                     alignright : {selector : alignElements, attributes : {align : 'right'}},
                     alignfull : {selector : alignElements, attributes : {align : 'full'}}
-                });
-
-                // Force parsing of the serializer rules
-                serializer._setup();
-
-                // Add the missing and depreacted align attribute for the serialization engine
-                tinymce.each(alignElements.split(','), function(name) {
-                    var rule = serializer.rules[name], found;
-
-                    if (rule) {
-                        tinymce.each(rule.attribs, function(name, attr) {
-                            if (attr.name == 'align') {
-                                found = true;
-                                return false;
-                            }
-                        });
-
-                        if (!found)
-                            rule.attribs.push({name : 'align'});
-                    }
                 });
                 // End eZ: alignment customizations
             });
@@ -288,10 +271,20 @@
             // eZ: the pasted text from Office with Firefox and Chrome on Windows may
             // contain some line feeds that are badly interpreted
             // see http://issues.ez.no/18239
+            // @todo Might not be needed anymore after TinyMCE 3.4 update
             ed.onPostProcess.add(function(pl, o) {
                 o.content = o.content.replace(/(\n|\r)/g, "");
             });
         },
+
+		_isHighContrast : function() {
+			var actualColor, div = DOM.add(DOM.getRoot(), 'div', {'style': 'background-color: rgb(171,239,86);'});
+
+			actualColor = (DOM.getStyle(div, 'background-color', true) + '').toLowerCase().replace(/ /g, '');
+			DOM.remove(div);
+
+			return actualColor != 'rgb(171,239,86)' && actualColor != '#abef56';
+		},
 
         createControl : function(n, cf) {
             var cd, c;
@@ -370,9 +363,10 @@
 
                     // Toggle off the current format
                     matches = ed.formatter.matchAll(formatNames);
-                    if (!name || matches[0] == name)
-                        ed.formatter.remove(matches[0]);
-                    else
+					if (!name || matches[0] == name) {
+						if (matches[0])
+							ed.formatter.remove(matches[0]);
+					} else
                         ed.formatter.apply(name);
 
                     ed.undoManager.add();
@@ -454,11 +448,15 @@
                         return v == sv;
                     });
 
+					if (cur && cur.value == v) {
+						c.select(null);
+					}
+
                     return false; // No auto select
                 }
             });
 
-            if ( c ) {
+            if (c) {
                 each(ed.getParam('theme_advanced_fonts', t.settings.theme_advanced_fonts, 'hash'), function(v, k) {
                     c.add(ed.translate(k), v, {style : v.indexOf('dings') == -1 ? 'font-family:' + v : ''});
                 });
@@ -501,6 +499,10 @@
                     return v == sv;
                 });
 
+				if (cur && (cur.value.fontSize == v.fontSize || cur.value['class'] == v['class'])) {
+					c.select(null);
+				}
+
                 return false; // No auto select
             }});
 
@@ -538,7 +540,11 @@
                 samp : 'advanced.samp'*/
             }, t = this;
 
-            c = t.editor.controlManager.createListBox('formatselect', {title : 'advanced.block', cmd : 'FormatBlock'});
+			c = t.editor.controlManager.createListBox('formatselect', {title : 'advanced.block', onselect : function(v) {
+				t.editor.execCommand('FormatBlock', false, v);
+				return false;
+			}});
+
             if (c) {
                 each(t.editor.getParam('theme_advanced_blockformats', t.settings.theme_advanced_blockformats, 'hash'), function(v, k) {
                     c.add(t.editor.translate(k != v ? k : fmts[v]), v, {'class' : 'mce_formatPreview mce_' + v});
@@ -609,12 +615,19 @@
         renderUI : function(o) {
             var n, ic, tb, t = this, ed = t.editor, s = t.settings, sc, p, nl;
 
-            n = p = DOM.create('span', {id : ed.id + '_parent', 'class' : 'mceEditor ' + ed.settings.skin + 'Skin' + (s.skin_variant ? ' ' + ed.settings.skin + 'Skin' + t._ufirst(s.skin_variant) : '')});
+			if (ed.settings) {
+				ed.settings.aria_label = s.aria_label + ed.getLang('advanced.help_shortcut');
+			}
+
+			// TODO: ACC Should have an aria-describedby attribute which is user-configurable to describe what this field is actually for.
+			// Maybe actually inherit it from the original textara?
+			n = p = DOM.create('span', {role : 'application', 'aria-labelledby' : ed.id + '_voice', id : ed.id + '_parent', 'class' : 'mceEditor ' + ed.settings.skin + 'Skin' + (s.skin_variant ? ' ' + ed.settings.skin + 'Skin' + t._ufirst(s.skin_variant) : '')});
+			DOM.add(n, 'span', {'class': 'mceVoiceLabel', 'style': 'display:none;', id: ed.id + '_voice'}, s.aria_label);
 
             if (!DOM.boxModel)
                 n = DOM.add(n, 'div', {'class' : 'mceOldBoxModel'});
 
-            n = sc = DOM.add(n, 'table', {id : ed.id + '_tbl', 'class' : 'mceLayout', cellSpacing : 0, cellPadding : 0});
+			n = sc = DOM.add(n, 'table', {role : "presentation", id : ed.id + '_tbl', 'class' : 'mceLayout', cellSpacing : 0, cellPadding : 0});
             n = tb = DOM.add(n, 'tbody');
 
             switch ((s.theme_advanced_layout_manager || '').toLowerCase()) {
@@ -633,7 +646,7 @@
             n = o.targetNode;
 
             // Add classes to first and last TRs
-            nl = DOM.stdMode ? sc.getElementsByTagName('tr') : sc.rows; // Quick fix for IE 8
+			nl = sc.rows;
             DOM.addClass(nl[0], 'mceFirst');
             DOM.addClass(nl[nl.length - 1], 'mceLast');
 
@@ -689,6 +702,24 @@
             t.deltaHeight = o.deltaHeight;
             o.targetNode = null;
 
+			ed.onKeyDown.add(function(ed, evt) {
+				var DOM_VK_F10 = 121, DOM_VK_F11 = 122;
+
+				if (evt.altKey) {
+		 			if (evt.keyCode === DOM_VK_F10) {
+						window.focus();
+						t.toolbarGroup.focus();
+						return Event.cancel(evt);
+					} else if (evt.keyCode === DOM_VK_F11) {
+						DOM.get(ed.id + '_path_row').focus();
+						return Event.cancel(evt);
+					}
+				}
+			});
+
+			// alt+0 is the UK recommended shortcut for accessing the list of access controls.
+			ed.addShortcut('alt+0', '', 'mceShortcuts', t);
+
             return {
                 iframeContainer : ic,
                 editorContainer : ed.id + '_parent',
@@ -707,7 +738,7 @@
         },
 
         resizeBy : function(dw, dh) {
-            var e = DOM.get(this.editor.id + '_tbl');
+			var e = DOM.get(this.editor.id + '_ifr');
 
             this.resizeTo(e.clientWidth + dw, e.clientHeight + dh);
         },
@@ -836,7 +867,7 @@
             each(explode(s.theme_advanced_containers || ''), function(c, i) {
                 var v = s['theme_advanced_container_' + c] || '';
 
-                switch (v.toLowerCase()) {
+				switch (c.toLowerCase()) {
                     case 'mceeditor':
                         n = DOM.add(tb, 'tr');
                         n = ic = DOM.add(n, 'td', {'class' : 'mceIframeContainer'});
@@ -904,17 +935,19 @@
         },
 
         _addToolbars : function(c, o) {
-            var t = this, i, tb, ed = t.editor, s = t.settings, v, cf = ed.controlManager, di, n, h = [], a;
+			var t = this, i, tb, ed = t.editor, s = t.settings, v, cf = ed.controlManager, di, n, h = [], a, toolbarGroup;
+
+			toolbarGroup = cf.createToolbarGroup('toolbargroup', {
+				'name': ed.getLang('advanced.toolbar'),
+				'tab_focus_toolbar':ed.getParam('theme_advanced_tab_focus_toolbar')
+			});
+
+			t.toolbarGroup = toolbarGroup;
 
             a = s.theme_advanced_toolbar_align.toLowerCase();
             a = 'mce' + t._ufirst(a);
 
-            n = DOM.add(DOM.add(c, 'tr'), 'td', {'class' : 'mceToolbar ' + a});
-
-            if (!ed.getParam('accessibility_focus'))
-                h.push(DOM.createHTML('a', {href : '#', onfocus : 'tinyMCE.get(\'' + ed.id + '\').focus();'}, '<!-- IE -->'));
-
-            h.push(DOM.createHTML('a', {href : '#', accesskey : 'q', title : ed.getLang("advanced.toolbar_focus")}, '<!-- IE -->'));
+			n = DOM.add(DOM.add(c, 'tr', {role: 'presentation'}), 'td', {'class' : 'mceToolbar ' + a, "role":"presentation"});
 
             // Create toolbar and add the controls
             for (i=1; (v = s['theme_advanced_buttons' + i]); i++) {
@@ -928,16 +961,15 @@
 
                 t._addControls(v, tb);
 
-                //n.appendChild(n = tb.render());
                 // eZ: Custom floating toobar style for ez theme
                 if ( s.theme_advanced_toolbar_floating )
-                    h.push( t._toolbarRenderFlowHTML.call( tb ) );
-                else
-                    h.push( tb.renderHTML() );
+                    tb.renderHTML = t._toolbarRenderFlowHTML;
+
+				toolbarGroup.add(tb);
 
                 o.deltaHeight -= s.theme_advanced_row_height;
             }
-
+			h.push(toolbarGroup.renderHTML());
             h.push(DOM.createHTML('a', {href : '#', accesskey : 'z', title : ed.getLang("advanced.toolbar_focus"), onfocus : 'tinyMCE.getInstanceById(\'' + ed.id + '\').focus();'}, '<!-- IE -->'));
             DOM.setHTML(n, h.join(''));
         },
@@ -981,13 +1013,19 @@
         _addStatusBar : function(tb, o) {
             var n, t = this, ed = t.editor, s = t.settings, r, mf, me, td;
 
-            n = DOM.add(tb, 'tr');
-            n = td = DOM.add(n, 'td', {'class' : 'mceStatusbar'});
-            n = DOM.add(n, 'div', {id : ed.id + '_path_row'}, s.theme_advanced_path ? ed.translate('advanced.path') + ': ' : '&#160;');
-            DOM.add(n, 'a', {href : '#', accesskey : 'x'});
+			n = DOM.add(tb, 'tr');
+			n = td = DOM.add(n, 'td', {'class' : 'mceStatusbar'});
+			n = DOM.add(n, 'div', {id : ed.id + '_path_row', 'role': 'group', 'aria-labelledby': ed.id + '_path_voice'});
+			if (s.theme_advanced_path) {
+				DOM.add(n, 'span', {id: ed.id + '_path_voice'}, ed.translate('advanced.path'));
+				DOM.add(n, 'span', {}, ': ');
+			} else {
+				DOM.add(n, 'span', {}, '&#160;');
+			}
 
-            if (s.theme_advanced_resizing) {
-                DOM.add(td, 'a', {id : ed.id + '_resize', href : 'javascript:;', onclick : "return false;", 'class' : 'mceResize'});
+
+			if (s.theme_advanced_resizing) {
+				DOM.add(td, 'a', {id : ed.id + '_resize', href : 'javascript:;', onclick : "return false;", 'class' : 'mceResize', tabIndex:"-1"});
 
                 if (s.theme_advanced_resizing_use_cookie) {
                     ed.onPostRender.add(function() {
@@ -1054,9 +1092,10 @@
         },
 
         _updateUndoStatus : function(ed) {
-            var cm = ed.controlManager;
-            cm.setDisabled('undo', !ed.undoManager.hasUndo() && !ed.typing);
-            cm.setDisabled('redo', !ed.undoManager.hasRedo());
+			var cm = ed.controlManager, um = ed.undoManager;
+
+			cm.setDisabled('undo', !um.hasUndo() && !um.typing);
+			cm.setDisabled('redo', !um.hasRedo());
         },
 
         _nodeChanged : function(ed, cm, n, co, ob) {
@@ -1240,7 +1279,7 @@
             {
                 if ( c = cm.get('anchor') )
                 {
-                    c.setActive( !!p && DOM.getAttrib(p, 'name') && !DOM.getAttrib(p, 'href') );
+                    c.setActive( !co && !!p && DOM.getAttrib(p, 'name') && !DOM.getAttrib(p, 'href') );
                 }
 
                 p = header ? header : getParent('DIV');
@@ -1250,7 +1289,7 @@
                 p = getParent('IMG');
                 if (c = cm.get('image'))
                 {
-                    c.setActive(!!p && p.className.indexOf('ezoeItem') === -1);
+                    c.setActive( !co && !!p && p.className.indexOf('ezoeItem') === -1);
                     c.setDisabled( header );
                 }
 
@@ -1273,17 +1312,20 @@
 
             if (s.theme_advanced_path && s.theme_advanced_statusbar_location) {
                 p = DOM.get(ed.id + '_path') || DOM.add(ed.id + '_path_row', 'span', {id : ed.id + '_path'});
+
+                if (t.statusKeyboardNavigation) {
+                    t.statusKeyboardNavigation.destroy();
+                    t.statusKeyboardNavigation = null;
+                }
+
                 DOM.setHTML(p, '&nbsp;');
 
                 getParent(function(n) {
                     var na = n.nodeName.toLowerCase(), u, pi, ti = '', className = false;
 
-                    /*if (n.getAttribute('_mce_bogus'))
-                    return;
-*/
-                    // Ignore non element and hidden elements
-                    if ( n.nodeType != 1 || n.nodeName === 'BR' || (DOM.hasClass(n, 'mceItemHidden') || DOM.hasClass(n, 'mceItemRemoved')) )
-                        return;
+					// Ignore non element and bogus/hidden elements
+					if (n.nodeType != 1 || na === 'br' || n.getAttribute('data-mce-bogus') || DOM.hasClass(n, 'mceItemHidden') || DOM.hasClass(n, 'mceItemRemoved'))
+						return;
 
                    // eZ: seems like hasClass has some issues in ie..
                    if ( DOM.getAttrib( n, 'class').indexOf('mceItemHidden') !== -1 )
@@ -1301,10 +1343,6 @@
                     var naa = na;
                     if ( s.theme_ez_xml_alias_list && s.theme_ez_xml_alias_list[na] !== undefined )
                         naa = s.theme_ez_xml_alias_list[na];
-
-                    // Fake name
-                    if (v = DOM.getAttrib(n, 'mce_name'))
-                        na = v;
 
                     // Handle prefix
                     if (tinymce.isIE && n.scopeName !== 'HTML')
@@ -1376,7 +1414,7 @@
                     //u = "javascript:tinymce.EditorManager.get('" + ed.id + "').theme._sel('" + (de++) + "');";
                     if ( s.theme_ez_statusbar_open_dialog )
                     {
-                        pi = DOM.create('a', {'href' : "javascript:;", onmousedown : "return false;", title : ti, 'class' : 'mcePath_' + (de++), 'onclick' : 'return false;'}, na);
+                        pi = DOM.create('a', {'href' : "javascript:;", role: 'button', onmousedown : "return false;", title : ti, 'class' : 'mcePath_' + (de++), 'onclick' : 'return false;'}, na);
                         Event.add( pi, 'click', function(e){
                             var x = t.__getTagCommand( n );
                             if (x) ed.execCommand( x.cmd, n || false, x.val );
@@ -1384,17 +1422,28 @@
                     }
                     else
                     {
-                        pi = DOM.create('a', {'href' : "javascript:;", onmousedown : "return false;", title : ti, 'class' : 'mcePath_' + (de++)}, na);
+                        pi = DOM.create('a', {'href' : "javascript:;", role: 'button', onmousedown : "return false;", title : ti, 'class' : 'mcePath_' + (de++)}, na);
                     }
 
-                    if (p.getElementsByTagName('a').length) {
-                        p.insertBefore(DOM.doc.createTextNode(' \u00bb '), p.firstChild);
+                    if (p.hasChildNodes() && p.getElementsByTagName('a').length) {
+                        p.insertBefore(DOM.create('span', {'aria-hidden': 'true'}, '\u00a0\u00bb '), p.firstChild);
                         p.insertBefore(pi, p.firstChild);
                     } else if ( p.firstChild ) // &nbsp;
                         p.insertBefore(pi, p.firstChild);
                     else
                         p.appendChild(pi);
                 }, ed.getBody());
+
+				if (DOM.select('a', p).length > 0) {
+					t.statusKeyboardNavigation = new tinymce.ui.KeyboardNavigation({
+						root: ed.id + "_path_row",
+						items: DOM.select('a', p),
+						excludeFromTabOrder: true,
+						onCancel: function() {
+							ed.focus();
+						}
+					}, DOM);
+				}
             }
         },
 
@@ -1428,6 +1477,18 @@
         _mceHelp : function() {
             this._generalXmlTagPopup( '/dialog/', 'help', 480, 380 );
         },
+
+		_mceShortcuts : function() {
+			var ed = this.editor;
+			ed.windowManager.open({
+				url: this.url + '/shortcuts.htm',
+				width: 480,
+				height: 380,
+				inline: true
+			}, {
+				theme_url: this.url
+			});
+		},
 
         _mceColorPicker : function(u, v) {
             var ed = this.editor;
@@ -1565,7 +1626,7 @@
             if ( n.nodeName === 'P' && n.parentNode.nodeName === 'BODY' )
             {
                 // extra paragraph required after the div to be able to write content after it
-                ed.execCommand('mceInsertRawHTML', false, '</p><div type="custom" class="ezoeItemCustomTag pagebreak"><p>pagebreak</p></div><p>' + (tinymce.isIE ? '&nbsp;' : '<br _mce_bogus="1" />') + '</p><p>');
+                ed.execCommand('mceInsertRawHTML', false, '</p><div type="custom" class="ezoeItemCustomTag pagebreak"><p>pagebreak</p></div><p>' + (tinymce.isIE ? '&nbsp;' : '<br data-mce-bogus="1" />') + '</p><p>');
             }
             else if ( n.nodeName === 'BODY' )
                 ed.execCommand ('mceInsertRawHTML', false, '<div type="custom" class="ezoeItemCustomTag pagebreak"><p>pagebreak</p></div>');
@@ -1762,7 +1823,7 @@
                     this.__recursion = true;
                     if ( n.parentNode.nodeName.toLowerCase() === 'li' )
                     {
-                        newNode = ed.dom.create('li', false, tinymce.isIE ? '&nbsp;' : '<br _mce_bogus="1" />' );
+                        newNode = ed.dom.create('li', false, tinymce.isIE ? '&nbsp;' : '<br data-mce-bogus="1" _mce_bogus="1" />' );
                         pos = n.parentNode;
                     }
                     else

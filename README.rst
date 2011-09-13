@@ -29,9 +29,9 @@ ezoe consists of three parts: TinyMCE, ezoe TinyMCE customizations and a eZXML i
 TinyMCE
 -------
 TinyMCE in ezoe is a out of the box setup of the official version, no hacks/changes applied at all.
-We use Ephox LGPL version, which is the original Moxiecode version with additional bug fixes.
-So if it turns out that issue comes from this part, then we'll report the issue for you to Ephox
-if your running a Enterprise version of eZ Publish, and if not you'll have to report it to Moxiecode.
+eZ Systems currently has an support agreement with Ephox, so if your a eZ Systems customer and
+find an issue we'll report the issue for you to Ephox. If you however run the community version
+you will have to report the issue to Moxiecode yourself.
 
 ezoe TinyMCE customizations
 ---------------------------

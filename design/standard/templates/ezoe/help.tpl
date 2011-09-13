@@ -216,16 +216,12 @@ tinyMCEPopup.onInit.add( function(){
                    {$ezoe_copyright|wash}</p>
                 <p>For more information about this software visit the <a href="http://ez.no" target="_blank">eZ Systems</a> website.</p>
 
-                <h3>{'About'|i18n('design/standard/ezoe')} Ephox Enterprise TinyMCE</h3>
+                <h3>{'About'|i18n('design/standard/ezoe')} Moxiecode TinyMCE</h3>
                 <p>{'Version'|i18n('design/standard/ezoe')}: <span id="version"></span> (<span id="date"></span>)</p>
                 <p>TinyMCE is a platform independent web based Javascript HTML WYSIWYG editor control released as Open Source under <a href="http://www.opensource.org/licenses/lgpl-2.1.php" target="_blank">LGPL</a>
-                </p>
-				<p>Copyright &copy; 2010, <a href="http://www.ephox.com" target="_blank">Ephox Corporation</a>, All rights reserved. For license information, see the LICENSE.TXT file
-				that was included with the distribution.</p>
-				<p>This product contains code licensed under an agreement with <a href="http://moxiecode.com" target="_blank">Moxiecode AG</a>
-				("Moxiecode"). Moxiecode remains the owner of the trademark "<a href="http://tinymce.moxiecode.com" target="_blank">TinyMCE</a>" and
-				warrants the ownership of its intellectual property.</p>
-				<p>For more information about this software visit the <a href="http://tinymce.ephox.com" target="_blank">Ephox Enterprise TinyMCE website</a>.</p>
+				by Moxiecode Systems AB. It has the ability to convert HTML TEXTAREA fields or other HTML elements to editor instances.</p>
+				<p>Copyright &copy; 2003-2008, <a href="http://www.moxiecode.com" target="_blank">Moxiecode Systems AB</a>, All rights reserved.</p>
+				<p>For more information about this software visit the <a href="http://tinymce.moxiecode.com" target="_blank">TinyMCE website</a>.</p>
 
             </div>
     </div>
