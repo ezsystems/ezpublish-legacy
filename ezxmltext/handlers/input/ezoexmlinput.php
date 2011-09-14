@@ -189,6 +189,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                       strpos( $userAgent, 'iPod' ) === false &&
                       preg_match('/WebKit\/([0-9\.]+)/i', $userAgent, $browserInfo ) )
             {
+                // @todo: iOS5 is rumored to have contentEditable support, if so add match for webkit/ios version if "Mobile"
                 if ( $browserInfo[1] >= 522.0 )
                     self::$browserType = 'WebKit';
             }
