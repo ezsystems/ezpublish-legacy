@@ -156,13 +156,6 @@ class eZOEXMLInput extends eZXMLInputHandler
                 if ( $browserInfo[1] >= 2.1 )
                     self::$browserType = 'Presto';
             }
-            // Opera 9.5
-            else if ( strpos( $userAgent, 'Opera' ) !== false &&
-                      preg_match('/Opera\/([0-9\.]+)/i', $userAgent, $browserInfo ) )
-            {
-                if ( $browserInfo[1] >= 9.5 )
-                    self::$browserType = 'Presto';
-            }
             // IE 8.0+
             else if ( strpos( $userAgent, 'Trident' ) !== false &&
                       preg_match('/Trident\/([0-9\.]+)/i', $userAgent, $browserInfo ) )
@@ -177,14 +170,14 @@ class eZOEXMLInput extends eZXMLInputHandler
                 if ( $browserInfo[1] >= 6.0 )
                     self::$browserType = 'Trident';
             }
-            // Firefox 2+
+            // Firefox 3+
             else if ( strpos( $userAgent, 'Gecko' ) !== false &&
                       preg_match('/rv:([0-9\.]+)/i', $userAgent, $browserInfo ) )
             {
-                if ( $browserInfo[1] >= 1.8 )
+                if ( $browserInfo[1] >= 1.9 )
                     self::$browserType = 'Gecko';
             }
-            // Safari 3+ (and Chrome)
+            // Safari 4+ (and Chrome)
             else if ( strpos( $userAgent, 'WebKit' ) !== false &&
                       strpos( $userAgent, 'Mobile' ) === false &&
                       strpos( $userAgent, 'Android' ) === false &&
@@ -193,7 +186,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                       strpos( $userAgent, 'iPod' ) === false &&
                       preg_match('/WebKit\/([0-9\.]+)/i', $userAgent, $browserInfo ) )
             {
-                if ( $browserInfo[1] >= 522.0 )
+                if ( $browserInfo[1] >= 528.16 )
                     self::$browserType = 'WebKit';
             }
             // iOS 5+
