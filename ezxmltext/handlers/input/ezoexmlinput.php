@@ -149,49 +149,61 @@ class eZOEXMLInput extends eZXMLInputHandler
         {
             self::$browserType = false;
             $userAgent = eZSys::serverVariable( 'HTTP_USER_AGENT' );
+            // Opera 9.6+
             if ( strpos( $userAgent, 'Presto' ) !== false &&
                  preg_match('/Presto\/([0-9\.]+)/i', $userAgent, $browserInfo ) )
             {
                 if ( $browserInfo[1] >= 2.1 )
                     self::$browserType = 'Presto';
             }
+            // Opera 9.5
             else if ( strpos( $userAgent, 'Opera' ) !== false &&
                       preg_match('/Opera\/([0-9\.]+)/i', $userAgent, $browserInfo ) )
             {
-                // Presto is not part of the user agent string on Opera < 9.6
                 if ( $browserInfo[1] >= 9.5 )
                     self::$browserType = 'Presto';
             }
+            // IE 8.0+
             else if ( strpos( $userAgent, 'Trident' ) !== false &&
                       preg_match('/Trident\/([0-9\.]+)/i', $userAgent, $browserInfo ) )
             {
                 if ( $browserInfo[1] >= 4.0 )
                     self::$browserType = 'Trident';
             }
+            // IE 6 & 7
             else if ( strpos( $userAgent, 'MSIE' ) !== false &&
                       preg_match('/MSIE[ \/]([0-9\.]+)/i', $userAgent, $browserInfo ) )
             {
-                // IE didn't have Trident in it's user agent string untill IE 8.0
                 if ( $browserInfo[1] >= 6.0 )
                     self::$browserType = 'Trident';
             }
+            // Firefox 2+
             else if ( strpos( $userAgent, 'Gecko' ) !== false &&
                       preg_match('/rv:([0-9\.]+)/i', $userAgent, $browserInfo ) )
             {
                 if ( $browserInfo[1] >= 1.8 )
                     self::$browserType = 'Gecko';
             }
+            // Safari 3+ (and Chrome)
             else if ( strpos( $userAgent, 'WebKit' ) !== false &&
-                      strpos( $userAgent, 'Mobile' ) === false && // Mobile webkit does not have rich text editing support
+                      strpos( $userAgent, 'Mobile' ) === false &&
                       strpos( $userAgent, 'Android' ) === false &&
                       strpos( $userAgent, 'iPad' ) === false &&
                       strpos( $userAgent, 'iPhone' ) === false &&
                       strpos( $userAgent, 'iPod' ) === false &&
                       preg_match('/WebKit\/([0-9\.]+)/i', $userAgent, $browserInfo ) )
             {
-                // @todo: iOS5 is rumored to have contentEditable support, if so add match for webkit/ios version if "Mobile"
                 if ( $browserInfo[1] >= 522.0 )
                     self::$browserType = 'WebKit';
+            }
+            // iOS 5+
+            else if ( strpos( $userAgent, 'AppleWebKit' ) !== false &&
+                      strpos( $userAgent, 'Mobile' ) !== false &&
+                      strpos( $userAgent, 'Android' ) === false &&//@todo: remove when Android is supported in TinyMCE
+                      preg_match('/AppleWebKit\/([0-9\.]+)/i', $userAgent, $browserInfo ) )
+            {
+                if ( $browserInfo[1] >= 534.46 )
+                    self::$browserType = 'MobileWebKit';
             }
             if ( self::$browserType === false )
                 eZDebug::writeNotice( 'Browser not supported: ' . $userAgent, __METHOD__ );
