@@ -244,8 +244,8 @@
                     var currenthost = document.location.protocol + '//' + document.location.host;
                     jQuery.each( body.getElementsByTagName('a'), function( i, node )
                     {
-                        if ( node.href.indexOf( currenthost ) === 0 && node.getAttribute('mce_href') != node.href )
-                            node.href = node.getAttribute('mce_href');
+                        if ( node.href.indexOf( currenthost ) === 0 && node.getAttribute('data-mce-href') != node.href )
+                            node.href = node.getAttribute('data-mce-href');
                     });
                 }
             });
