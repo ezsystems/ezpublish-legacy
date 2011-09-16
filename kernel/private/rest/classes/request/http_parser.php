@@ -22,6 +22,7 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
      */
     protected $request;
 
+
     protected function createRequestObject()
     {
         return new ezpRestRequest();
@@ -31,6 +32,7 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
     {
         $this->request->variables = $this->fillVariables();
         $this->request->contentVariables = $this->fillContentVariables();
+        $this->request->inputVariables = $this->fillInputVariables();
         $this->request->get = $_GET;
         $this->request->post = $_POST;
     }
@@ -38,6 +40,7 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
     protected function processStandardHeaders()
     {
         $this->processEncryption();
+        $this->processMethodOverride();
         parent::processStandardHeaders( );
     }
 
@@ -125,5 +128,47 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
         }
 
         return $contentVariables;
+    }
+
+    /**
+     * Creates PUT & DELETE variables based on the protocol information
+     *
+     * @return array
+     */
+    protected function fillInputVariables()
+    {
+        $inputVariables = array();
+
+        switch ( $this->request->protocol )
+        {
+            case 'http-put':
+            case 'http-delete':
+                parse_str( file_get_contents('php://input'), $inputVariables );
+                break;
+        }
+
+        if ( $this->request->originalMethod === 'POST' )
+            $inputVariables = $_POST;
+
+        return $inputVariables;
+    }
+
+    /**
+     * Overrides HTTP request method with POST _method value
+     *
+     * @return void
+     */
+    protected function processMethodOverride()
+    {
+        if ( isset( $_SERVER['REQUEST_METHOD'] )
+             && ( $_SERVER['REQUEST_METHOD'] === 'POST' ) )
+        {
+            if ( isset( $_POST['_method'] )
+                 && in_array( $method = strtoupper( $_POST['_method'] ), array( 'GET', 'POST', 'PUT', 'DELETE' ) ) )
+            {
+                $this->request->originalMethod = $_SERVER['REQUEST_METHOD'];
+                $_SERVER['REQUEST_METHOD'] = $method;
+            }
+        }
     }
 }
