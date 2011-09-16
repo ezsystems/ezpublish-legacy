@@ -97,6 +97,7 @@ class eZCache
                                        'path' => false,
                                        'enabled' => true,
                                        'function' => array( 'eZCache', 'clearImageAlias' ),
+                                       'purge-function' => array( 'eZCache', 'purgeImageAlias' ),
                                        'is-clustered' => true ),
                                 array( 'name' => ezpI18n::tr( 'kernel/cache', 'Template cache' ),
                                        'id' => 'template',
@@ -512,6 +513,98 @@ class eZCache
         $expiryHandler = eZExpiryHandler::instance();
         $expiryHandler->setTimestamp( 'image-manager-alias', time() );
         $expiryHandler->store();
+    }
+
+    /**
+     * Purges the image aliases of all ezimage attribute. The original image is
+     * kept.
+     *
+     * @param array $cacheItem
+     * @access public
+     */
+    static function purgeImageAlias( $cacheItem )
+    {
+        // 1. fetch ezcontentclass having an ezimage attribute
+        // 2. fetch objects of these classes
+        // 3. purge image alias for all version
+
+        $imageContentClassAttributes = eZContentClassAttribute::fetchList(
+            true,
+            array(
+                'data_type' => 'ezimage',
+                'version' => eZContentClass::VERSION_STATUS_DEFINED
+            )
+        );
+        $classIds = array();
+        $attributeIdentifiersByClass = array();
+        foreach ( $imageContentClassAttributes as $ccAttr )
+        {
+            $identifier = $ccAttr->attribute( 'identifier' );
+            $ccId = $ccAttr->attribute( 'contentclass_id' );
+            if ( !isset( $attributeIdentifiersByClass[$ccId] ) )
+            {
+                $attributeIdentifiersByClass[$ccId] = array();
+            }
+            $attributeIdentifiersByClass[$ccId][] = $identifier;
+            $classIds[] = $ccId;
+
+        }
+
+        $subTreeParams = array(
+            'ClassFilterType' => 'include',
+            'ClassFilterArray' => $classIds,
+            'MainNodeOnly' => true,
+            'IgnoreVisibility' => true,
+            'LoadDataMap' => false,
+            'Limit' => 100,
+            'Offset' => 0
+        );
+        $count = 0;
+        while ( true )
+        {
+            $nodes = eZContentObjectTreeNode::subTreeByNodeID( $subTreeParams, 1 );
+            if ( empty( $nodes ) )
+            {
+                break;
+            }
+            foreach ( $nodes as $node )
+            {
+                call_user_func( $cacheItem['reporter'], '', $count );
+                $object = $node->attribute( 'object' );
+                self::purgeImageAliasForObject(
+                    $cacheItem, $object, $attributeIdentifiersByClass[$object->attribute( 'contentclass_id' )]
+                );
+                $count++;
+            }
+            eZContentObject::clearCache();
+            $subTreeParams['Offset'] += $subTreeParams['Limit'];
+        }
+        self::clearImageAlias( $cacheItem );
+    }
+
+    /**
+     * The purge the image aliases in all versions of the content object.
+     *
+     * @param array $cacheItem
+     * @param eZContentObject $object
+     * @param array $imageIdentfiers array of ezimage attribute identifiers
+     */
+    private static function purgeImageAliasForObject( array $cacheItem, eZContentObject $object, array $imageIdentfiers )
+    {
+        $versions = $object->attribute( 'versions' );
+        foreach ( $versions as $version )
+        {
+            $dataMap = $version->attribute( 'data_map' );
+            foreach ( $imageIdentfiers as $identifier )
+            {
+                $attr = $dataMap[$identifier];
+                if ( $attr->attribute( 'has_content' ) )
+                {
+                    $attr->attribute( 'content' )->purgeAllAliases( $attr );
+                }
+            }
+        }
+
     }
 
     /**
