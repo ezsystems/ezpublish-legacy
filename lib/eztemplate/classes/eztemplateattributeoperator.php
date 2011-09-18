@@ -63,7 +63,7 @@ class eZTemplateAttributeOperator
                                                      'parameters' => 3 ),
                       $this->DumpName => array( 'input' => true,
                                                 'outpout' => true,
-                                                'parameters' => 1 ) );
+                                                'parameters' => 3 ) );
     }
 
     /*!
@@ -102,13 +102,13 @@ class eZTemplateAttributeOperator
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $showValues = $namedParameters[ 'show_values' ] == 'show';
-    	$max        = $namedParameters[ 'max_val' ];
+        $max        = $namedParameters[ 'max_val' ];
         $format     = $namedParameters[ 'format' ];
         
         switch( $operatorName )
         {
-        	case 'dump':
-        	{
+            case 'dump':
+            {
                 if( is_object( $operatorValue ) || is_array( $operatorValue ) )
                 {
                     $this->modify( $tpl, 'attribute', $operatorParameters, $rootNamespace, $currentNamespace, $operatorValue, $namedParameters );
@@ -117,11 +117,11 @@ class eZTemplateAttributeOperator
                 {
                     $operatorValue = var_export( $operatorValue, true );
                 }
-        	}
+            }
             break;
-        	
+            
             default:
-            	$formatter = ezpAttributeOperatorManager::getOutputFormatter( $format );
+                $formatter = ezpAttributeOperatorManager::getOutputFormatter( $format );
                 
                 $outputString = "";
                 $this->displayVariable( $operatorValue, $formatter, $showValues, $max, 0, $outputString );
