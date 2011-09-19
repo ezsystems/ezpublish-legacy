@@ -40,10 +40,12 @@ class eZTemplateAttributeOperator
     /*!
      Initializes the object with the name $name, default is "attribute".
     */
-    function eZTemplateAttributeOperator( $name = "attribute" )
+    function eZTemplateAttributeOperator( $attributeName = 'attribute',
+                                          $dumpName = 'dump' )
     {
-        $this->AttributeName = $name;
-        $this->Operators = array( $name );
+        $this->AttributeName = $attributeName;
+        $this->DumpName = $dumpName;
+        $this->Operators = array( $attributeName, $dumpName );
     }
 
     /*!
@@ -58,7 +60,10 @@ class eZTemplateAttributeOperator
     {
         return array( $this->AttributeName => array( 'input' => true,
                                                      'output' => true,
-                                                     'parameters' => 3 ) );
+                                                     'parameters' => 3 ),
+                      $this->DumpName => array( 'input' => true,
+                                                'outpout' => true,
+                                                'parameters' => 3 ) );
     }
 
     /*!
@@ -66,33 +71,64 @@ class eZTemplateAttributeOperator
     */
     function namedParameterList()
     {
-        return array( "show_values" => array( "type" => "string",
-                                              "required" => false,
-                                              "default" => "" ),
-                      "max_val" => array( "type" => "numerical",
-                                          "required" => false,
-                                          "default" => 2 ),
-                      "format" => array( "type" => "string",
-                                         "required" => false,
-                                         "default" => eZINI::instance( 'template.ini' )->variable( 'AttributeOperator', 'DefaultFormatter' ) ) );
+        return array( $this->AttributeName => array( "show_values" => array( "type" => "string",
+                                                                             "required" => false,
+                                                                             "default" => "" ),
+                                                     "max_val"     => array( "type" => "numerical",
+                                                                             "required" => false,
+                                                                             "default" => 2 ),
+                                                     "format"      => array( "type" => "boolean",
+                                                                             "required" => false,
+                                                                             "default" => eZINI::instance( 'template.ini' )->variable( 'AttributeOperator', 'DefaultFormatter' ) ) ),
+                      $this->DumpName =>      array( "show_values" => array( "type" => "string",
+                                                                             "required" => false,
+                                                                             "default" => "show" ),
+                                                     "max_val"     => array( "type" => "numerical",
+                                                                             "required" => false,
+                                                                             "default" => 1 ),
+                                                     "format"      => array( "type" => "boolean",
+                                                                             "required" => false,
+                                                                             "default" => eZINI::instance( 'template.ini' )->variable( 'AttributeOperator', 'DefaultFormatter' ) ) ) );
     }
 
+    function namedParameterPerOperator()
+    {
+        return true;
+    }
+    
     /*!
      Display the variable.
     */
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
-        $max = $namedParameters["max_val"];
-        $format = $namedParameters["format"];
-        $showValues = $namedParameters["show_values"] == "show";
-
-        $formatter = ezpAttributeOperatorManager::getOutputFormatter( $format );
-
-        $outputString = "";
-        $this->displayVariable( $operatorValue, $formatter, $showValues, $max, 0, $outputString );
-
-        if ( $formatter instanceof ezpAttributeOperatorFormatterInterface )
-                $operatorValue = $formatter->header( $outputString, $showValues );
+        $showValues = $namedParameters[ 'show_values' ] == 'show';
+        $max        = $namedParameters[ 'max_val' ];
+        $format     = $namedParameters[ 'format' ];
+        
+        switch( $operatorName )
+        {
+            case 'dump':
+            {
+                if( is_object( $operatorValue ) || is_array( $operatorValue ) )
+                {
+                    $this->modify( $tpl, 'attribute', $operatorParameters, $rootNamespace, $currentNamespace, $operatorValue, $namedParameters );
+                }
+                else
+                {
+                    $operatorValue = var_export( $operatorValue, true );
+                }
+            }
+            break;
+            
+            default:
+                $formatter = ezpAttributeOperatorManager::getOutputFormatter( $format );
+                
+                $outputString = "";
+                $this->displayVariable( $operatorValue, $formatter, $showValues, $max, 0, $outputString );
+                
+                if ( $formatter instanceof ezpAttributeOperatorFormatterInterface )
+                        $operatorValue = $formatter->header( $outputString, $showValues );
+        }
     }
 
     /*!
@@ -113,7 +149,7 @@ class eZTemplateAttributeOperator
             {
                 $outputString .= $formatter->line( $key, $item, $showValues, $level );
 
-                $this->displayVariable( $item, $formatter, $showValues, $max, $level + 1, $txt );
+                $this->displayVariable( $item, $formatter, $showValues, $max, $level + 1, $outputString );
             }
         }
         else if ( is_object( $value ) )
