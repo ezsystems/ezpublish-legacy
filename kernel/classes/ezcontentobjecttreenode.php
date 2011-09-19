@@ -3661,9 +3661,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
         // Remove static cache
         if ( $ini->variable( 'ContentSettings', 'StaticCache' ) == 'enabled' )
         {
-            $staticCache = new eZStaticCache();
-            $staticCache->removeURL( "/" . $urlAlias );
-            $staticCache->generateAlwaysUpdatedCache();
+            $optionArray = array( 'iniFile'      => 'site.ini',
+                                  'iniSection'   => 'ContentSettings',
+                                  'iniVariable'  => 'StaticCacheHandler' );
+
+            $options = new ezpExtensionOptions( $optionArray );
+
+            $staticCacheHandler = eZExtension::getHandlerClass( $options );
+        	
+            $staticCacheHandler->removeURL( "/" . $urlAlias );
+            $staticCacheHandler->generateAlwaysUpdatedCache();
 
             $parent = $this->fetchParent();
         }
@@ -3677,7 +3684,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             if ( $parent )
             {
-                $staticCache->cacheURL( "/" . $parent->urlAlias() );
+                $staticCacheHandler->cacheURL( "/" . $parent->urlAlias() );
             }
         }
 

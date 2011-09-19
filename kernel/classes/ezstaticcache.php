@@ -26,7 +26,7 @@
  *
  * @package kernel
  */
-class eZStaticCache
+class eZStaticCache implements ezpStaticCache
 {
     /**
      * User-Agent string
