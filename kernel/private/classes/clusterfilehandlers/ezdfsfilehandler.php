@@ -1123,25 +1123,27 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
     /**
      * Check if given file/dir exists.
      * @param string $path File path to test existence for
+     * @param bool $checkDFSFile if true, also check on the DFS
      * @see eZDFSFileHandler::exists()
      * @return bool
      */
-    function fileExists( $path )
+    function fileExists( $path, $checkDFSFile = false )
     {
         $path = eZDBFileHandler::cleanPath( $path );
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileExists( '$path' )" );
-        return self::$dbbackend->_exists( $path );
+        return self::$dbbackend->_exists( $path, false, true, $checkDFSFile );
     }
 
     /**
      * Check if given file/dir exists.
+     * @param bool $checkDFSFile if true, also check on the DFS
      * @see eZDFSFileHandler::fileExists()
      * @return bool
      */
-    function exists()
+    function exists( $checkDFSFile = false )
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::exists( '$this->filePath' )" );
-        return self::$dbbackend->_exists( $this->filePath );
+        return self::$dbbackend->_exists( $this->filePath, false, true, $checkDFSFile );
     }
 
     /**

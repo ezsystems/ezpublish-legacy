@@ -522,7 +522,7 @@ class eZDFSFileHandlerMySQLBackend
         return true;
     }
 
-    public function _exists( $filePath, $fname = false, $ignoreExpiredFiles = true )
+    public function _exists( $filePath, $fname = false, $ignoreExpiredFiles = true, $checkOnDFS = false )
     {
         if ( $fname )
             $fname .= "::_exists($filePath)";
@@ -538,6 +538,10 @@ class eZDFSFileHandlerMySQLBackend
         else
             $rc = true;
 
+        if ( $checkOnDFS && $rc )
+        {
+            $rc = $this->dfsbackend->existsOnDFS( $filePath );
+        }
         return $rc;
     }
 
@@ -910,7 +914,7 @@ class eZDFSFileHandlerMySQLBackend
             $query .= "IN ('" . implode( "', '", $scopes ) . "')";
         }
 
-        $rslt = $this->_query( $query, "_getFileList( array( " . implode( ', ', $scopes ) . " ), $excludeScopes )" );
+        $rslt = $this->_query( $query, "_getFileList( array( " . implode( ', ', is_array( $scopes ) ? $scopes : array() ) . " ), $excludeScopes )" );
         if ( !$rslt )
         {
             eZDebug::writeDebug( 'Unable to get file list', __METHOD__ );

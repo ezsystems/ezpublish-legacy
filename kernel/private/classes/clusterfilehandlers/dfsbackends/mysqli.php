@@ -523,7 +523,7 @@ class eZDFSFileHandlerMySQLiBackend
         return true;
     }
 
-    public function _exists( $filePath, $fname = false, $ignoreExpiredFiles = true )
+    public function _exists( $filePath, $fname = false, $ignoreExpiredFiles = true, $checkOnDFS = false )
     {
         if ( $fname )
             $fname .= "::_exists($filePath)";
@@ -539,6 +539,10 @@ class eZDFSFileHandlerMySQLiBackend
         else
             $rc = true;
 
+        if ( $checkOnDFS && $rc )
+        {
+            $rc = $this->dfsbackend->existsOnDFS( $filePath );
+        }
         return $rc;
     }
 
