@@ -304,26 +304,28 @@ class eZSys
      * Usage:
      * <code>
      * eZSys::isPHPVersionSufficient( array( 4, 1, 0 ) );
-     * eZSys::isPHPVersionSufficient( '4.1.0' );
      * </code>
      *
      * @deprecated Since 4.5
-     * @param array|string $requiredVersion
+     * @param array $requiredVersion Must be an array with version number
      * @return bool
     */
-    public static function isPHPVersionSufficient( $requiredVersion )
+    static function isPHPVersionSufficient( $requiredVersion )
     {
-        if ( is_array( $requiredVersion ) )
+        if ( !is_array( $requiredVersion ) )
+            return false;
+        $phpVersion = self::phpVersion();
+        $len = min( count( $phpVersion ), count( $requiredVersion ) );
+
+        for ( $i = 0; $i < $len; ++$i )
         {
-            $requiredVersion = implode( '.', $requiredVersion );
+            if ( (int) $phpVersion[$i] > (int) $requiredVersion[$i] )
+                return true;
+            if ( (int) $phpVersion[$i] < (int) $requiredVersion[$i] )
+                return false;
         }
         
-        if ( version_compare( PHP_VERSION, $requiredVersion ) >= 0 )
-        {
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     /**
