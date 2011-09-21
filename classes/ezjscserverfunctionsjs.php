@@ -52,7 +52,7 @@ class ezjscServerFunctionsJs extends ezjscServerFunctions
      *
      * @param array $args
      * @param array $packerFiles ByRef list of files to pack (by ezjscPacker)
-     * @return string Empty string
+     * @return string Empty string, this function only modifies $packerFiles
      */
     public static function yui2( $args, &$packerFiles )
     {
@@ -100,7 +100,7 @@ class ezjscServerFunctionsJs extends ezjscServerFunctions
      *
      * @param array $args
      * @param array $packerFiles ByRef list of files to pack (by ezjscPacker)
-     * @return string Empty string
+     * @return string Empty string, this function only modifies $packerFiles
      */
     public static function yui3( $args, &$packerFiles )
     {
@@ -234,6 +234,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
      *
      * @param array $args
      * @param array $packerFiles ByRef list of files to pack (by ezjscPacker)
+     * @return string Empty string, this function only modifies $packerFiles
      */
     public static function jquery( $args, &$packerFiles )
     {
@@ -247,6 +248,29 @@ YUI( YUI3_config ).add('io-ez', function( Y )
         {
             $scriptFiles = $ezjscoreIni->variable( 'eZJSCore', 'LocalScripts' );
             $packerFiles = array_merge( array( $scriptFiles['jquery'] ), $packerFiles );
+        }
+        return '';
+    }
+
+    /**
+     * Figures out where to load jQueryUI files from and prepends them to $packerFiles
+     *
+     * @param array $args
+     * @param array $packerFiles ByRef list of files to pack (by ezjscPacker)
+     * @return string Empty string, this function only modifies $packerFiles
+     */
+    public static function jqueryUI( $args, &$packerFiles )
+    {
+        $ezjscoreIni = eZINI::instance( 'ezjscore.ini' );
+        if ( $ezjscoreIni->variable( 'eZJSCore', 'LoadFromCDN' ) === 'enabled' )
+        {
+            $scriptFiles = $ezjscoreIni->variable( 'eZJSCore', 'ExternalScripts' );
+            $packerFiles = array_merge( array( $scriptFiles['jqueryUI'] ), $packerFiles );
+        }
+        else
+        {
+            $scriptFiles = $ezjscoreIni->variable( 'eZJSCore', 'LocalScripts' );
+            $packerFiles = array_merge( array( $scriptFiles['jqueryUI'] ), $packerFiles );
         }
         return '';
     }
@@ -526,11 +550,14 @@ if ( window.XMLHttpRequest && window.ActiveXObject )
 
     /**
      * Reimp
+     *
+     * @param string $fn FunctionName to get cache time for
+     * @return int -1 if function does not support caching, eg: yui3, yui2, jquery & jqueryUI
      */
-    public static function getCacheTime( $functionName )
+    public static function getCacheTime( $fn )
     {
         // Functions that always needs to be executed, since they append other files dynamically
-        if ( $functionName === 'yui3' || $functionName === 'yui2' || $functionName === 'jquery' )
+        if ( $fn === 'yui3' || $fn === 'yui2' || $fn === 'jquery' || $fn === 'jqueryUI' )
             return -1;
 
         static $mtime = null;

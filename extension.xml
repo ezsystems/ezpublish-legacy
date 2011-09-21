@@ -20,14 +20,21 @@
                 <license>Licensed under the BSD License</license>
                 <copyright>Copyright (c) 2011, Yahoo! Inc. All rights reserved.</copyright>
                 <info_url>http://developer.yahoo.com/yui/3/</info_url>
-                <version>3.3.0</version>
+                <version>3.4.0</version>
             </uses>
             <uses>
                 <name>jQuery</name>
                 <license>Dual licensed under the MIT and GPL licenses</license>
                 <copyright>Copyright (c) 2011 John Resig</copyright>
                 <info_url>http://jquery.com/</info_url>
-                <version>1.5.2</version>
+                <version>1.6.4</version>
+            </uses>
+            <uses>
+                <name>jQuery UI</name>
+                <license>Dual licensed under the MIT and GPL licenses</license>
+                <copyright>Copyright (c) 2011 jQuery project / jQuery UI team</copyright>
+                <info_url>http://jqueryui.com/about</info_url>
+                <version>1.8.16</version>
             </uses>
             <uses>
                 <name>JSMin</name>
