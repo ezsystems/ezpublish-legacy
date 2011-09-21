@@ -310,7 +310,7 @@ var sortableSubitems = function () {
                         }
                         var shownKeys = [];
                         $('#to-dialog-container input[name=TableOptionColumn]').each(function(i, e) {
-                            if ($(this).attr('checked') == true)
+                            if ( $(this).prop('checked') == true )
                                 shownKeys.push( $(this).attr('value') );
                         });
 
