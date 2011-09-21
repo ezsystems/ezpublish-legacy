@@ -311,10 +311,19 @@ class ezjscPacker
                 $data['last_modified'] = max( $data['last_modified'], $fileTime );
                 continue;
             }
-            // is it a http url  ?
+            // is it a http / https url  ?
             else if ( strpos( $file, 'http://' ) === 0 || strpos( $file, 'https://' ) === 0 )
             {
                 $data['http'][] = $file;
+                continue;
+            }
+            // is it a http / https url where protocol is selected dynamically  ?
+            else if ( strpos( $file, '://' ) === 0 )
+            {
+                if ( !isset( $protocol ) )
+                    $protocol = ( eZSys::isSSLNow() ? 'https' : 'http' );
+
+                $data['http'][] = $protocol . $file;
                 continue;
             }
             // is it a absolute path ?
