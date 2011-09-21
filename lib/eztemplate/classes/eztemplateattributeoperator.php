@@ -129,7 +129,8 @@ class eZTemplateAttributeOperator
         {
             case 'dump':
             {
-                if( is_object( $operatorValue ) || is_array( $operatorValue ) )
+            	// check for an object or an array that is not empty
+                if( is_object( $operatorValue ) || ( is_array( $operatorValue ) && !empty( $operatorValue ) ) )
                 {
                     $this->modify( $tpl, 'attribute', $operatorParameters, $rootNamespace, $currentNamespace, $operatorValue, $namedParameters );
                 }
