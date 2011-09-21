@@ -103,8 +103,8 @@ class eZXHTMLXMLOutputRegression extends ezpDatabaseTestCase
         $result = $outputHandler->outputText();
 
         $html = ' <p>
-Haustsemesteret, <b>7,5 studiepoeng</b> <br /><b>FP 336 620 Naturfag, del 1</b>: Individuell, skriftleg mappe (HSF Oppdrag/betalingsemne) </p> <p>
-<b>FP334 620 Naturfag, del 2</b> : Individuell, skriftleg eksamen.<br />Tid: 4 timar  </p>';
+Haustsemesteret, <b>7,5 studiepoeng</b> <br /><b>FP 336 620 Naturfag, del 1</b>: Individuell, skriftleg mappe (HSF Oppdrag/betalingsemne)</p> <p>
+<b>FP334 620 Naturfag, del 2</b> : Individuell, skriftleg eksamen.<br />Tid: 4 timar </p>';
 
         $this->assertEquals( $html, $result );
     }
@@ -291,5 +291,32 @@ var_dump( $result );
 ';
         $this->assertEquals( $expected, $outputHandler->outputText() );
         ezpINIHelper::restoreINISettings();
+    }
+
+    /**
+     * Test for issue #18652: before the fix, the spaces between inline tags
+     * are removed by the output handler
+     *
+     * @group issue18652
+     * @link http://issues.ez.no/18652
+     * @note Test depends on template output!!
+     */
+    function testSpaceBetweenInlineTags()
+    {
+        $xml = '<?xml version="1.0" encoding="utf-8"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/" xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+<paragraph>Test Text <emphasize>one</emphasize> <strong>two</strong>        <emphasize>three</emphasize></paragraph>
+</section>';
+        $outputHandler = new eZXHTMLXMLOutput( $xml, false );
+        $expected = '<p>Test Text <i>one</i> <b>two</b> <i>three</i></p>';
+        $this->assertEquals( $expected, $outputHandler->outputText() );
+
+        $xml = '<?xml version="1.0" encoding="utf-8"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/" xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+<paragraph>Test Text <emphasize>one</emphasize><strong>two</strong><emphasize>three</emphasize></paragraph>
+</section>';
+        $outputHandler = new eZXHTMLXMLOutput( $xml, false );
+        $expected = '<p>Test Text <i>one</i><b>two</b><i>three</i></p>';
+        $this->assertEquals( $expected, $outputHandler->outputText() );
     }
 }

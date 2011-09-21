@@ -503,7 +503,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             {
                 if( $childOutput[1] === ' ' )
                 {
-                    if ( isset( $childrenOutput[ $key + 1 ] ) )
+                    if ( isset( $childrenOutput[$key+1] ) && $childrenOutput[$key+1][0] === false )
                         continue;
                     else if ( isset( $childrenOutput[ $key - 1 ] ) && $childrenOutput[ $key - 1 ][0] === false )
                         continue;
@@ -647,6 +647,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     {
         if ( $element->parentNode->nodeName != 'literal' )
         {
+            if ( trim( $element->textContent ) === ''
+                && ( ( $element->previousSibling && $element->previousSibling->nodeName === 'line' )
+                    || ( $element->nextSibling && $element->nextSibling->nodeName === 'line' ) ) )
+            {
+                // spaces before or after a line element are irrelevant
+                return array( true, '' );
+            }
             $text = htmlspecialchars( $element->textContent );
             $text = str_replace( array( '&amp;nbsp;', "\xC2\xA0" ), '&nbsp;', $text);
             // Get rid of linebreak and spaces stored in xml file
