@@ -665,8 +665,7 @@ class eZSys
      */
     public static function indexDir( $withAccessList = true )
     {
-        $instance = self::instance();
-        return $instance::wwwDir() . $instance::indexFile( $withAccessList );
+        return self::wwwDir() . self::indexFile( $withAccessList );
     }
 
     /**
