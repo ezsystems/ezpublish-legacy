@@ -157,7 +157,7 @@ class eZCache
                                 array( 'name' => ezpI18n::tr( 'kernel/cache', 'Design base cache' ),
                                        'id' => 'design_base',
                                        'tag' => array( 'template' ),
-                                       'enabled' => true,
+                                       'enabled' => $ini->variable( 'DesignSettings', 'DesignLocationCache' ) == 'enabled',
                                        'path' => false,
                                        'function' => array( 'eZCache', 'clearDesignBaseCache' ) ),
                                 /**
@@ -752,7 +752,14 @@ class eZCache
         $cachePath = eZSys::cacheDirectory();
 
         $fileHandler = eZClusterFileHandler::instance();
-        $fileHandler->fileDeleteByWildcard( $cachePath . '/' . eZTemplateDesignResource::DESIGN_BASE_CACHE_NAME . '*' );
+        if ( !$fileHandler instanceof eZDBFileHandler )
+        {
+            // design base cache is disabled with eZDBFileHandler cluster
+            // handler, see eZTemplateDesignResource::allDesignBases()
+            $fileHandler->fileDelete(
+                $cachePath, eZTemplateDesignResource::DESIGN_BASE_CACHE_NAME
+            );
+        }
     }
 
     /**
