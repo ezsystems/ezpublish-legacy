@@ -460,10 +460,10 @@ class ezjscPacker
         // Pack all files to save bandwidth
         if ( $data['pack_level'] > 1 )
         {
-            if ( $isCSS )
-                $content = ezjscPacker::optimizeCSS( $content, $data['pack_level'] );
-            else
-                $content = ezjscPacker::optimizeScript( $content, $data['pack_level'] );
+            foreach( $ezjscINI->variable( 'eZJSCore', $isCSS ? 'CssOptimizer' : 'JavaScriptOptimizer' ) as $optimizer )
+            {
+                $content = call_user_func( array( $optimizer, 'optimize' ), $content, $data['pack_level'] );
+            }
         }
 
         // Save cache file and return path
@@ -504,80 +504,6 @@ class ezjscPacker
            }
         }
         return $fileContent;
-    }
-
-    /**
-     * 'compress' css code by removing whitespace
-     *
-     * @param string $css Concated Css string
-     * @param int $packLevel Level of packing, values: 2-3
-     * @return string
-     */
-    static function optimizeCSS( $css, $packLevel )
-    {
-        // Normalize line feeds
-        $css = str_replace( array( "\r\n", "\r" ), "\n", $css );
-
-        // Remove multiline comments
-        $css = preg_replace( '!(?:\n|\s|^)/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css );
-        $css = preg_replace( '!(?:;)/\*[^*]*\*+([^/][^*]*\*+)*/!', ';', $css );
-
-        // Remove whitespace from start and end of line + multiple linefeeds
-        $css = preg_replace( array( '/\n\s+/', '/\s+\n/', '/\n+/' ), "\n", $css );
-
-        if ( $packLevel > 2 )
-        {
-            // Remove space around ':' and ','
-            $css = preg_replace( array( '/:\s+/', '/\s+:/' ), ':', $css );
-            $css = preg_replace( array( '/,\s+/', '/\s+,/' ), ',', $css );
-
-            // Remove unnecessary line breaks...
-            $css = str_replace( array( ";\n", '; ' ), ';', $css );
-            $css = str_replace( array( "}\n", "\n}", ';}' ), '}', $css );
-            $css = str_replace( array( "{\n", "\n{", '{;' ), '{', $css );
-            // ... and spaces as well
-            $css = str_replace(array('\s{\s', '\s{', '{\s' ), '{', $css );
-            $css = str_replace(array('\s}\s', '\s}', '}\s' ), '}', $css );
-
-            // Optimize css
-            $css = str_replace( array( ' 0em', ' 0px', ' 0pt', ' 0pc' ), ' 0', $css );
-            $css = str_replace( array( ':0em', ':0px', ':0pt', ':0pc' ), ':0', $css );
-            $css = str_replace( ' 0 0 0 0;', ' 0;', $css );
-            $css = str_replace( ':0 0 0 0;', ':0;', $css );
-
-            // Optimize hex colors from #bbbbbb to #bbb
-            $css = preg_replace( "/#([0-9a-fA-F])\\1([0-9a-fA-F])\\2([0-9a-fA-F])\\3/", "#\\1\\2\\3", $css );
-        }
-        return $css;
-    }
-
-    /**
-     * 'compress' javascript code by removing whitespace,
-     * uses JSMin if packing level is set to 3 or higher
-     *
-     * @param string $script Concated JavaScript string
-     * @param int $packLevel Level of packing, values: 2-3
-     * @return string
-     */
-    static function optimizeScript( $script, $packLevel )
-    {
-        if ( $packLevel > 2 )
-        {
-            $script = JSMin::minify( $script );
-        }
-        else
-        {
-            // Normalize line feeds
-            $script = str_replace( array( "\r\n", "\r" ), "\n", $script );
-
-            // Remove multiline comments
-            $script = preg_replace( '!(?:\n|\s|^)/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $script );
-            $script = preg_replace( '!(?:;)/\*[^*]*\*+([^/][^*]*\*+)*/!', ';', $script );
-
-            // Remove whitespace from start & end of line + singelline comment + multiple linefeeds
-            $script = preg_replace( array( '/\n\s+/', '/\s+\n/', '#\n\s*//.*#', '/\n+/' ), "\n", $script );
-        }
-        return $script;
     }
 
     /**
