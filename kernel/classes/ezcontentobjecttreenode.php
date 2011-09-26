@@ -5661,8 +5661,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                  $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) != '' )
             {
                 $prepend = $ini->variable( 'SiteAccessSettings', 'PathPrefix' );
-                $pathIdenStr = substr( $prepend, -1 ) == '/' ? $URL . '/' : $URL;
-                if ( strncasecmp( $pathIdenStr, $prepend, strlen( $prepend ) ) == 0 )
+                $URLIdenStr = $URL . ( substr( $prepend, -1 ) == '/' ? '/' : '' );
+                if ( strncasecmp( $URLIdenStr, $prepend, strlen( $prepend ) ) == 0 )
                 {
                     $URL = substr( $URL, strlen( $prepend ) );
                 }
