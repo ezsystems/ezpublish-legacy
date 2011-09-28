@@ -11,7 +11,7 @@ $Module = array( 'name' => 'eZContentObject',
 
 $ViewList = array();
 $ViewList['edit'] = array(
-    'functions' => array( 'edit or create' ),
+    'functions' => array( 'edit or create or selfedit' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
     'ui_context' => 'edit',
     'single_post_actions' => array( 'PreviewButton' => 'Preview',
@@ -695,5 +695,6 @@ $FunctionList['restore'] = array();
 $FunctionList['cleantrash'] = array();
 $FunctionList['tipafriend'] = array();
 $FunctionList['dashboard'] = array();
+$FunctionList['selfedit'] = array();
 
 ?>

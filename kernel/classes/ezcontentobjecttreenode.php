@@ -321,7 +321,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                  $user = eZUser::currentUser();
                  if ( $user->id() == $this->ContentObject->attribute( 'id' ) )
                  {
-                     $access = $user->hasAccessTo( 'user', 'selfedit' );
+                     $access = $user->hasAccessTo( 'content', 'selfedit' );
                      if ( $access['accessWord'] == 'yes' )
                      {
                          $this->Permissions["can_edit"] = 1;
