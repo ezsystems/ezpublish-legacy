@@ -1190,6 +1190,11 @@
 
 			t.iframeHTML += '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
 
+			// Load the CSS by injecting them into the HTML this will reduce "flicker"
+			for (i = 0; i < t.contentCSS.length; i++) {
+				t.iframeHTML += '<link type="text/css" rel="stylesheet" href="' + t.contentCSS[i] + '" />';
+			}
+
 			bi = s.body_id || 'tinymce';
 			if (bi.indexOf('=') != -1) {
 				bi = t.getParam('body_id', '', 'hash');
@@ -1207,7 +1212,7 @@
 			// Domain relaxing enabled, then set document domain
 			if (tinymce.relaxedDomain && (isIE || (tinymce.isOpera && parseFloat(opera.version()) < 11))) {
 				// We need to write the contents here in IE since multiple writes messes up refresh button and back button
-				u = 'javascript:(function(){document.open();document.domain="' + document.domain + '";var ed = window.parent.tinyMCE.get("' + t.id + '");document.write(ed.iframeHTML);document.close();ed.setupIframe();})()';				
+				u = 'javascript:(function(){document.open();document.domain="' + document.domain + '";var ed = window.parent.tinyMCE.get("' + t.id + '");document.write(ed.iframeHTML);document.close();ed.setupIframe();})()';
 			}
 
 			// Create iframe
@@ -1248,24 +1253,6 @@
 
 			// Setup iframe body
 			if (!isIE || !tinymce.relaxedDomain) {
-				// Fix for a focus bug in FF 3.x where the body element
-				// wouldn't get proper focus if the user clicked on the HTML element
-				if (isGecko && !Range.prototype.getClientRects) { // Detect getClientRects got introduced in FF 4
-					t.onMouseDown.add(function(ed, e) {
-						if (e.target.nodeName === "HTML") {
-							var body = t.getBody();
-
-							// Blur the body it's focused but not correctly focused
-							body.blur();
-
-							// Refocus the body after a little while
-							setTimeout(function() {
-								body.focus();
-							}, 0);
-						}
-					});
-				}
-
 				d.open();
 				d.write(t.iframeHTML);
 				d.close();
@@ -2982,21 +2969,6 @@
 				t.onBeforeExecCommand.add(setOpts);
 				t.onMouseDown.add(setOpts);
 			}
-
-			t.onClick.add(function(ed, e) {
-				e = e.target;
-
-				// Workaround for bug, http://bugs.webkit.org/show_bug.cgi?id=12250
-				// WebKit can't even do simple things like selecting an image
-				// Needs tobe the setBaseAndExtend or it will fail to select floated images
-				if (tinymce.isWebKit && e.nodeName == 'IMG')
-					t.selection.getSel().setBaseAndExtent(e, 0, e, 1);
-
-				if (e.nodeName == 'A' && dom.hasClass(e, 'mceItemAnchor'))
-					t.selection.select(e);
-
-				t.nodeChanged();
-			});
 
 			// Add node change handlers
 			t.onMouseUp.add(t.nodeChanged);
