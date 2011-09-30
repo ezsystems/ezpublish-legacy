@@ -161,18 +161,6 @@ MatchFile=thumbnail/image_browse.tpl
 Subdir=templates
 Match[class_identifier]=image
 
-[window_controls]
-Source=window_controls.tpl
-MatchFile=window_controls_user.tpl
-Subdir=templates
-Match[navigation_part_identifier]=ezusernavigationpart
-
-[windows]
-Source=windows.tpl
-MatchFile=windows_user.tpl
-Subdir=templates
-Match[navigation_part_identifier]=ezusernavigationpart
-
 
 ###############################################################################
 #

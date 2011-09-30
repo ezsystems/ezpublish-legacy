@@ -13,6 +13,24 @@ INI setting changes
 Change of behavior
 ------------------
 
+- #016171: admin2: window_controls_user.tpl- adding new tabs in own extension
+
+  The fix for this enhancement made it possible to extend tabs in admin2 without
+  overriding the templates, this means the overrides for user tabs needs to be removed
+  as the templates have been removed. The override.ini rules to remove are:
+
+  [window_controls]
+  Source=window_controls.tpl
+  MatchFile=window_controls_user.tpl
+  Subdir=templates
+  Match[navigation_part_identifier]=ezusernavigationpart
+
+  [windows]
+  Source=windows.tpl
+  MatchFile=windows_user.tpl
+  Subdir=templates
+  Match[navigation_part_identifier]=ezusernavigationpart
+
 
 
 Removed features
