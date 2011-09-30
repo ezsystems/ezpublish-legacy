@@ -36,6 +36,10 @@ Change of behavior
   Content read access is now checked at the node level instead of content object.
   For the record, this access is checked in eZNodeViewFunctions::contentViewGenerate()
 
+- #18703: A user can remove any locations if he has right to delete one of them
+
+  While removing a node, the content remove access is now checked at the node
+  level instead of the content object.
 
 
 Removed features
