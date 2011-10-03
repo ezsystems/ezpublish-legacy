@@ -15,18 +15,16 @@
      $aditional_tabs_count = 0
      $valid_tabs = array( $default_tab, 'details', 'translations', 'locations', 'relations', 'states' )
      $navigation_part_name = fetch( 'section', 'object', hash( 'section_id', $node.object.section_id ) ).navigation_part_identifier
-     $extract_length = sub( count_chars( $navigation_part_name ), '14' )
-     $part_name = $navigation_part_name|extract( '2', $extract_length )
 }
 
-{if eq( $part_name, 'user' )}
+{if eq( $navigation_part_name, 'ezusernavigationpart' )}
 {def $assigned_policies   = fetch( 'user', 'user_role', hash( 'user_id', $node.contentobject_id ) )
      $assigned_roles      = fetch( 'user', 'member_of', hash( 'id', $node.contentobject_id ) )}
 {/if}
 
 {foreach ezini( 'WindowControlsSettings', 'AdditionalTabs', 'admininterface.ini' ) as $tab}
     {def $tab_navigation_part = ezini( concat( 'AdditionalTab_', $tab ), 'NavigationPartName', 'admininterface.ini' )}
-    {if eq( $tab_navigation_part, $part_name )}
+    {if eq( $tab_navigation_part, $navigation_part_name )}
         {set $aditional_tabs = $aditional_tabs|append( $tab )}
     {/if}
     {undef $tab_navigation_part}

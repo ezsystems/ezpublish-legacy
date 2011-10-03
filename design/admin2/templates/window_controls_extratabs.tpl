@@ -19,7 +19,7 @@
         {/if}
     </li>
     {else}
-        {include uri=concat( 'design:tabs/', $part_name, '/', $tab_header_template ) last=$last}
+        {include uri=concat( 'design:tabs/', $tab_header_template ) last=$last}
     {/if}
 
     {undef $tab_title $tab_description $tab_header_template $last}
