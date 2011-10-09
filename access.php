@@ -45,6 +45,7 @@ define( 'EZ_ACCESS_SUBTYPE_POST', 2 );
  */
 function accessType( eZURI $uri, $host, $port, $file )
 {
+    eZDebug::writeStrict( 'Function accessType() has been deprecated in 4.4 in favor of eZSiteAccess::match()', 'Deprecation' );
     return eZSiteAccess::match( $uri, $host, $port, $file );
 }
 
@@ -59,6 +60,7 @@ function accessType( eZURI $uri, $host, $port, $file )
  */
 function changeAccess( array $access )
 {
+    eZDebug::writeStrict( 'Function changeAccess() has been deprecated in 4.4 in favor of eZSiteAccess::change()', 'Deprecation' );
     return eZSiteAccess::change( $access );
 }
 
@@ -74,6 +76,7 @@ function changeAccess( array $access )
  */
 function accessMatchRegexp( &$text, $reg, $num )
 {
+    eZDebug::writeStrict( 'Function accessMatchRegexp() has been deprecated in 4.4 in favor of eZSiteAccess::matchRegexp()', 'Deprecation' );
     return eZSiteAccess::matchRegexp( $text, $reg, $num );
 }
 
@@ -89,6 +92,7 @@ function accessMatchRegexp( &$text, $reg, $num )
  */
 function accessMatchText( &$text, $match_pre, $match_post )
 {
+    eZDebug::writeStrict( 'Function accessMatchText() has been deprecated in 4.4 in favor of eZSiteAccess::matchText()', 'Deprecation' );
     return eZSiteAccess::matchText( $text, $match_pre, $match_post );
 }
 
@@ -130,6 +134,7 @@ function accessExtraDebugEnabled()
  */
 function accessAllowed( eZURI $uri )
 {
+    eZDebug::writeStrict( 'Function accessAllowed() has been deprecated in 4.4 in favor of eZModule::accessAllowed()', 'Deprecation' );
     return eZModule::accessAllowed( $uri );
 }
 

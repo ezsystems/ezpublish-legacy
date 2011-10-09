@@ -948,6 +948,12 @@ class eZContentClassAttribute extends eZPersistentObject
         return self::$identifierHash;
     }
 
+    /**
+     * Initialize the attribute in the existing objects.
+     *
+     * @param mixed $objects not used, the existing objects are fetched if
+     *        necessary (depending on the datatype of the attribute).
+     */
     function initializeObjectAttributes( &$objects = null )
     {
         $classAttributeID = $this->ID;
@@ -1020,38 +1026,47 @@ class eZContentClassAttribute extends eZPersistentObject
         }
         else
         {
-            if ( !is_array( $objects ) )
+            $limit = 1000;
+            $offset = 0;
+            while ( true )
             {
-                $objects = eZContentObject::fetchSameClassList( $classID );
-            }
-
-            foreach ( $objects as $object )
-            {
-                $contentobjectID = $object->attribute( 'id' );
-                $objectVersions = $object->versions();
-                // the start version ID, to make sure one attribute in different version has same id.
-                $startAttributeID = array();
-                foreach ( $objectVersions as $objectVersion )
+                $contentObjects = eZContentObject::fetchSameClassList( $classID, true, $offset, $limit );
+                if ( empty( $contentObjects ) )
                 {
-                    $translations = $objectVersion->translations( false );
-                    $version = $objectVersion->attribute( 'version' );
-                    foreach ( $translations as $translation )
+                    break;
+                }
+
+                foreach ( $contentObjects as $object )
+                {
+                    $contentobjectID = $object->attribute( 'id' );
+                    $objectVersions = $object->versions();
+                    // the start version ID, to make sure one attribute in different version has same id.
+                    $startAttributeID = array();
+                    foreach ( $objectVersions as $objectVersion )
                     {
-                        $objectAttribute = eZContentObjectAttribute::create( $classAttributeID, $contentobjectID, $version, $translation );
-                        if( array_key_exists( $translation, $startAttributeID ) )
+                        $translations = $objectVersion->translations( false );
+                        $version = $objectVersion->attribute( 'version' );
+                        foreach ( $translations as $translation )
                         {
-                            $objectAttribute->setAttribute( 'id', $startAttributeID[$translation] );
+                            $objectAttribute = eZContentObjectAttribute::create( $classAttributeID, $contentobjectID, $version, $translation );
+                            if( array_key_exists( $translation, $startAttributeID ) )
+                            {
+                                $objectAttribute->setAttribute( 'id', $startAttributeID[$translation] );
+                            }
+                            $objectAttribute->setAttribute( 'language_code', $translation );
+                            $objectAttribute->initialize();
+                            $objectAttribute->store();
+                            if( !array_key_exists( $translation, $startAttributeID ) )
+                            {
+                                $startAttributeID[$translation] = $objectAttribute->attribute( 'id' );
+                            }
+                            $objectAttribute->postInitialize();
                         }
-                        $objectAttribute->setAttribute( 'language_code', $translation );
-                        $objectAttribute->initialize();
-                        $objectAttribute->store();
-                        if( !array_key_exists( $translation, $startAttributeID ) )
-                        {
-                            $startAttributeID[$translation] = $objectAttribute->attribute( 'id' );
-                        }
-                        $objectAttribute->postInitialize();
                     }
                 }
+
+                $offset += $limit;
+                eZContentObject::clearCache();
             }
         }
     }

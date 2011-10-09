@@ -522,7 +522,7 @@ class eZDFSFileHandlerMySQLBackend
         return true;
     }
 
-    public function _exists( $filePath, $fname = false, $ignoreExpiredFiles = true )
+    public function _exists( $filePath, $fname = false, $ignoreExpiredFiles = true, $checkOnDFS = false )
     {
         if ( $fname )
             $fname .= "::_exists($filePath)";
@@ -538,6 +538,10 @@ class eZDFSFileHandlerMySQLBackend
         else
             $rc = true;
 
+        if ( $checkOnDFS && $rc )
+        {
+            $rc = $this->dfsbackend->existsOnDFS( $filePath );
+        }
         return $rc;
     }
 
@@ -680,10 +684,14 @@ class eZDFSFileHandlerMySQLBackend
 
     /**
      * Passes $filePath content through
+     *
      * @param string $filePath
-     * @deprecated should not be used since it cannot handle reading errors
+     * @param int    $offset  Byte offset to start download from
+     * @param int    $length  Byte length to be sent
+     *
+     * @return bool
      */
-    public function _passThrough( $filePath, $fname = false )
+    public function _passThrough( $filePath, $startOffset = 0, $length = false, $fname = false )
     {
         if ( $fname )
             $fname .= "::_passThrough($filePath)";
@@ -696,7 +704,7 @@ class eZDFSFileHandlerMySQLBackend
             return false;
 
         // @todo Catch an exception
-        $this->dfsbackend->passthrough( $filePath );
+        $this->dfsbackend->passthrough( $filePath, $startOffset, $length );
 
         return true;
     }
@@ -906,7 +914,7 @@ class eZDFSFileHandlerMySQLBackend
             $query .= "IN ('" . implode( "', '", $scopes ) . "')";
         }
 
-        $rslt = $this->_query( $query, "_getFileList( array( " . implode( ', ', $scopes ) . " ), $excludeScopes )" );
+        $rslt = $this->_query( $query, "_getFileList( array( " . implode( ', ', is_array( $scopes ) ? $scopes : array() ) . " ), $excludeScopes )" );
         if ( !$rslt )
         {
             eZDebug::writeDebug( 'Unable to get file list', __METHOD__ );
@@ -1371,7 +1379,7 @@ class eZDFSFileHandlerMySQLBackend
 
         if ( !$this->_query( $query, "_startCacheGeneration( $filePath )", false ) )
         {
-            $errno = mysql_errno();
+            $errno = mysql_errno( $this->db );
             if ( $errno != 1062 )
             {
                 eZDebug::writeError( "Unexpected error #$errno when trying to start cache generation on $filePath (".mysql_error().")", __METHOD__ );

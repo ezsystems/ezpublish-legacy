@@ -1,0 +1,125 @@
+/* GENERIC MODAL WINDOW STYLE */
+
+#overlay-mask
+{
+    position:fixed;
+    left:0;
+    top:0;
+    z-index:5;
+    background:#333;
+    opacity:0;
+    width:100%;
+    height:100%;
+    /* IE workaround */
+    filter: alpha(opacity = 0);
+}
+
+.modal-window
+{
+    background:#fff;
+    border:1px solid #bbb;
+    border-radius:5px;
+    padding:2px;
+}
+
+.modal-window .window-close
+{
+    float:right;
+    display:block;
+}
+
+.modal-window h2
+{
+    background-color: #e4e3e4;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e4e3e4), to(#fdfdfd));
+    background-image: -moz-linear-gradient(top, #e4e3e4, #fdfdfd);
+    background-image: -ms-linear-gradient(top,  #e4e3e4,  #fdfdfd);
+    background-image: -o-linear-gradient(top,  #e4e3e4,  #fdfdfd);
+    background-image: linear-gradient(top,  #e4e3e4,  #fdfdfd);
+    /* IE */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e4e3e4', endColorstr='#fdfdfd');
+    border-radius:5px;
+    margin-top:0;
+    font-size:1.1em;
+    padding:4px 3px 4px 6px;
+}
+
+.modal-window fieldset
+{
+    margin:1em 1em 2em 1em;
+}
+
+.modal-window .window-content
+{
+    min-height:64px;
+}
+
+div.box-content .modal-window div.message-error
+{
+    margin:1em;
+    padding:1em;
+    background:#f3dfdf;
+    border:2px solid #c11b17;
+    border-radius:3px;
+}
+
+.window-close
+{
+    float:right;
+    display:block;
+    width:13px;
+    height:13px;
+    margin-top:-1px;
+    background:url(../../images/2/yui_sprite.png) no-repeat -6px -301px;
+    text-indent:-1000em;
+    border:1px solid #aaa;
+    font-size:1px;
+}
+
+
+/* AJAX UPLOADER STYLES */
+
+.ajaxuploader-locations label
+{
+    font-weight:normal;
+    white-space: normal;
+}
+
+.ajaxuploader-button-bar
+{
+    margin-top:1.5em;
+}
+
+.ajaxuploader-error
+{
+    color:maroon;
+    font-weight:bold;
+    padding-left:1em;
+}
+
+.ajaxuploader-preview h3
+{
+    padding-bottom:2px;
+    border-bottom: 1px solid #cacaca;
+    margin-bottom:1em;
+    color:#333;
+}
+.ajaxuploader-preview dt
+{
+    font-size:1em;
+}
+
+.ajaxuploader-preview dd
+{
+    margin-left:0;
+}
+
+.ajaxuploader-browse .pagination span
+{
+    color:#888;
+}
+
+.has-default-value
+{
+    color:#888;
+}

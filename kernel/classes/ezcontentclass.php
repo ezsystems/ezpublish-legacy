@@ -257,7 +257,7 @@ class eZContentClass extends eZPersistentObject
         return $contentClass;
     }
 
-    function instantiateIn( $lang, $userID = false, $sectionID = 1, $versionNumber = false, $versionStatus = eZContentObjectVersion::STATUS_INTERNAL_DRAFT )
+    function instantiateIn( $lang, $userID = false, $sectionID = 0, $versionNumber = false, $versionStatus = eZContentObjectVersion::STATUS_INTERNAL_DRAFT )
     {
         return eZContentClass::instantiate( $userID, $sectionID, $versionNumber, $lang, $versionStatus );
     }
@@ -266,12 +266,12 @@ class eZContentClass extends eZPersistentObject
      Creates a new content object instance and stores it.
 
      \param userID user ID (optional), current user if not set (also store object id in session if $userID = false)
-     \param sectionID section ID (optional), 1 if not set (Standard section)
+     \param sectionID section ID (optional), 0 if not set
      \param versionNumber version number, create initial version if not set
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function instantiate( $userID = false, $sectionID = 1, $versionNumber = false, $languageCode = false, $versionStatus = eZContentObjectVersion::STATUS_INTERNAL_DRAFT )
+    function instantiate( $userID = false, $sectionID = 0, $versionNumber = false, $languageCode = false, $versionStatus = eZContentObjectVersion::STATUS_INTERNAL_DRAFT )
     {
         $attributes = $this->fetchAttributes();
 

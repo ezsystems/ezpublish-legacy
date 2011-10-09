@@ -14,7 +14,6 @@ set_time_limit( 0 );
 require 'autoload.php';
 
 $cli = eZCLI::instance();
-$endl = $cli->endlineString();
 
 $script = eZScript::instance( array( 'description' => ( "eZ Publish search index updater.\n\n" .
                                                         "Goes trough all objects and reindexes the meta data to the search engine" .
@@ -58,9 +57,9 @@ if ( $siteAccess )
 function changeSiteAccessSetting( $siteAccess )
 {
     $cli = eZCLI::instance();
-    if ( file_exists( 'settings/siteaccess/' . $siteAccess) )
+    if ( in_array( $siteAccess, eZINI::instance()->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' ) ) )
     {
-        $cli->output( "Using siteaccess $siteAccess for nice url update" );
+        $cli->output( "Using siteaccess $siteAccess for update search index" );
     }
     else
     {
@@ -68,7 +67,7 @@ function changeSiteAccessSetting( $siteAccess )
     }
 }
 
-print( "Starting object re-indexing\n" );
+$cli->output( "Starting object re-indexing" );
 
 eZExecution::registerShutdownHandler();
 $db = eZDB::instance();
@@ -93,11 +92,20 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
 
 $db->setIsSQLOutputEnabled( $showSQL );
 
+$searchEngine = eZSearch::getEngine();
+
+if ( !$searchEngine instanceof ezpSearchEngine )
+{
+    $cli->error( "The configured search engine does not implement the ezpSearchEngine interface or can't be found." );
+    $script->shutdown( 1 );
+}
+
+
 if ( $cleanupSearch )
 {
-    print( "{eZSearchEngine: Cleaning up search data" );
-    eZSearch::cleanup();
-    print( "}$endl" );
+    $cli->output( "{eZSearchEngine: Cleaning up search data", false );
+    $searchEngine->cleanup();
+    $cli->output( "}" );
 }
 
 $def = eZContentObject::definition();
@@ -107,29 +115,32 @@ $conds = array(
 
 $count = eZPersistentObject::count( $def, $conds, 'id' );
 
-print( "Number of objects to index: $count $endl" );
+$cli->output( "Number of objects to index: $count");
 
 $length = 50;
 $limit = array( 'offset' => 0 , 'length' => $length );
 
-$fieldFilters = null;
-
 $script->resetIteration( $count );
+
+$needRemoveWithUpdate = $searchEngine->needRemoveWithUpdate();
 
 do
 {
     // clear in-memory object cache
     eZContentObject::clearCache();
 
-    $objects = eZPersistentObject::fetchObjectList( $def, $fieldFilters, $conds, null, $limit );
+    $objects = eZPersistentObject::fetchObjectList( $def, null, $conds, null, $limit );
 
     foreach ( $objects as $object )
     {
-        if ( !$cleanupSearch )
+        if ( $needRemoveWithUpdate || !$cleanupSearch )
         {
-            eZSearch::removeObject( $object );
+            $searchEngine->removeObject( $object, false );
         }
-        eZSearch::addObject( $object );
+        if ( !$searchEngine->addObject( $object, false ) )
+        {
+            $cli->warning( "\tFailed indexing object ID #" . $object->attribute( "id" ) . "." );
+        }
 
         $script->iterate( $cli, true );
     }
@@ -138,8 +149,10 @@ do
 
 } while ( count( $objects ) == $length );
 
+$searchEngine->commit();
 
-print( $endl . "done" . $endl );
+$cli->output();
+$cli->output( "done" );
 
 $script->shutdown();
 

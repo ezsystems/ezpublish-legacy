@@ -937,6 +937,11 @@ class eZImageManager
 
                     $convertHandler->endCacheGeneration( false );
 
+                    // Notify about image alias generation. Parameters are alias
+                    // url and alias name.
+                    ezpEvent::getInstance()->notify( 'image/alias', array( $currentAliasData['url'],
+                                                                           $currentAliasData['name'] ) );
+                    
                     return true;
                 }
                 // conversion failed, we abort generation
@@ -1228,6 +1233,10 @@ class eZImageManager
                         $result = false;
                         break;
                     }
+                    // store the converted file to cluster if the conversion is between mime name
+                    $fileHandler = eZClusterFileHandler::instance();
+                    $fileHandler->fileStore( $nextMimeData['url'], 'image', false, $nextMimeData['name']  );
+
                     $currentMimeData = $nextMimeData;
                 }
                 $filters = $leftoverFilters;

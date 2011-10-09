@@ -138,7 +138,9 @@ class eZUserOperationCollection
         {
             $templateResult = $tpl->fetch( 'design:user/registrationinfo.tpl' );
             if ( $tpl->hasVariable( 'content_type' ) )
-                $mail->setContentType( $tpl->variable( 'content_type' ) );
+                $contentType = $tpl->variable( 'content_type' );
+            else
+                $contentType = $ini->variable( 'MailSettings', 'ContentType' );
 
             $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
             if ( $tpl->hasVariable( 'email_sender' ) )
@@ -153,6 +155,7 @@ class eZUserOperationCollection
 
             $mail = new eZMail();
             $mail->setSender( $emailSender );
+            $mail->setContentType( $contentType );
             $user = eZUser::fetch( $userID );
             $receiver = $user->attribute( 'email' );
             $mail->setReceiver( $receiver );

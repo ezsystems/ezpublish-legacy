@@ -740,7 +740,7 @@ class eZDebug
         {
             if ( ! eZDebug::isLogOnlyEnabled() and $enabled )
             {
-                $ip = eZSys::serverVariable( 'REMOTE_ADDR', true );
+                $ip = eZSys::clientIP();
                 if ( !$ip )
                     $ip = eZSys::serverVariable( 'HOSTNAME', true );
                 $this->DebugStrings[] = array( "Level" => $verbosityLevel,
@@ -891,7 +891,7 @@ class eZDebug
         if ( $logFile )
         {
             $time = strftime( "%b %d %Y %H:%M:%S", strtotime( "now" ) );
-            $ip = eZSys::serverVariable( 'REMOTE_ADDR', true );
+            $ip = eZSys::clientIP();
             if ( !$ip )
                 $ip = eZSys::serverVariable( 'HOSTNAME', true );
             $notice = "[ " . $time . " ] [" . $ip . "] " . $string . "\n";
@@ -1204,12 +1204,8 @@ class eZDebug
 " );
             $header = "<!DOCTYPE html><html><head><title>eZ debug</title></head><body>";
             $footer = "</body></html>";
-            $fp = fopen( $debugFilePath, "w+" );
-
-            fwrite( $fp, $header );
-            fwrite( $fp, $report );
-            fwrite( $fp, $footer );
-            fclose( $fp );
+            $fullPage = ezpEvent::getInstance()->filter( 'response/output', $header . $report . $footer );
+            file_put_contents( $debugFilePath, $fullPage );
         }
         else
         {
@@ -1801,7 +1797,7 @@ class eZDebug
     */
     private static function isAllowedByCurrentIP( $allowedIpList )
     {
-        $ipAddress = eZSys::serverVariable( 'REMOTE_ADDR', true );
+        $ipAddress = eZSys::clientIP();
         if ( $ipAddress )
         {
             foreach( $allowedIpList as $itemToMatch )

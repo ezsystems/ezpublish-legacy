@@ -479,15 +479,28 @@ class eZSearch
         return false;
     }
 
-    /*
-     * @since eZ Publish 4.1
-     * @description new methods that search plugins can implement when meta data is updated (outside publish operations)
+    /**
+     * Notifies search engine about the change of section of a set of objects
      *
+     * @since 4.6
+     * @param array $objectIDs
+     * @param int $sectionID
+     * @return false|mixed false in case method is undefined, otherwise return the result of the search engine call
      */
+    public static function updateObjectsSection( array $objectIDs, $sectionID )
+    {
+        $searchEngine = eZSearch::getEngine();
+        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'updateObjectsSection' ) )
+        {
+            return $searchEngine->updateObjectsSection( $objectIDs, $sectionID );
+        }
+        return false;
+    }
 
     /**
      * Notifies search engine about section changes
      *
+     * @since 4.1
      * @param int $nodeID
      * @param int $sectionID
      * @return false|mixed False in case method is undefined, otherwise return the result of the search engine call
@@ -507,6 +520,7 @@ class eZSearch
     /**
      * Notifies search engine about node visibility changes
      *
+     * @since 4.1
      * @param int $nodeID
      * @param string $action "hide" or "show"
      * @return false|mixed False in case method is undefined, otherwise return the result of the search engine call
@@ -526,6 +540,7 @@ class eZSearch
     /**
      * Notifies search engine about new node assignments added
      *
+     * @since 4.1
      * @param int $mainNodeID
      * @param int $objectID
      * @param array $nodeAssignmentIDList
@@ -546,6 +561,7 @@ class eZSearch
     /**
      * Notifies search engine about removed node assignments and what the new main node is (same if not changed)
      *
+     * @since 4.1
      * @param int $mainNodeID
      * @param int $newMainNodeID
      * @param int $objectID
@@ -567,6 +583,7 @@ class eZSearch
     /**
      * Notifies search engine about nodes being removed
      *
+     * @since 4.1
      * @param array $nodeIdList Array of node ID to remove.
      * @return false|mixed False in case method is undefined, otherwise return the result of the search engine call
      */
@@ -585,6 +602,7 @@ class eZSearch
     /**
      * Notifies search engine about updates to object states
      *
+     * @since 4.1
      * @param int $objectID
      * @param array $objectStateList
      * @return false|mixed False in case method is undefined, otherwise return the result of the search engine call
@@ -604,6 +622,7 @@ class eZSearch
     /**
      * Notifies search engine about an swap node operation
      *
+     * @since 4.1
      * @param int $nodeID
      * @param int $selectedNodeID
      * @param array $nodeIdList

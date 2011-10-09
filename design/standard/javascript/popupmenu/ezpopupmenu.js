@@ -173,7 +173,7 @@ function ezpopmenu_initOffsets( offsetX, offsetY )
 */
 function ezpopupmenu_setSubstituteValue( key, value )
 {
-  if( CurrentSubstituteValues != -1 )
+  if ( CurrentSubstituteValues != -1 )
   {
       CurrentSubstituteValues[key] = value;
   }
@@ -189,7 +189,7 @@ function ezpopupmenu_setSubstituteValue( key, value )
  */
 function ezpopmenu_showTopLevel( event, menuID, substituteValues, menuHeader, disableIDList, disableMenuID )
 {
-    if( !document.getElementById( menuID ) ) return;
+    if ( !document.getElementById( menuID ) ) return;
     ezjslib_mouseHandler( event ); // register new mouse position
 
     if ( substituteValues != -1 ) // new topmenu
@@ -198,9 +198,9 @@ function ezpopmenu_showTopLevel( event, menuID, substituteValues, menuHeader, di
         CurrentSubstituteValues = substituteValues;
     }
 
-    if( disableIDList && disableIDList != -1 )
+    if ( disableIDList && disableIDList != -1 )
     {
-    	CurrentDisableIDList = disableIDList.push !== undefined ? disableIDList : [disableIDList];
+        CurrentDisableIDList = disableIDList.push !== undefined ? disableIDList : [disableIDList];
     }
 
     CurrentDisableMenuID = disableMenuID;
@@ -222,7 +222,7 @@ function ezpopmenu_showTopLevel( event, menuID, substituteValues, menuHeader, di
  */
 function ezpopmenu_showSubLevel( event, menuID, overItem )
 {
-    if( !document.getElementById( menuID ) ) return;
+    if ( !document.getElementById( menuID ) ) return;
     ezjslib_mouseHandler( event ); // register new mouse position
     //    ezpopmenu_showTopLevel( event, menuName, -1 );
     ezpopmenu_doItemSubstitution( menuID );
@@ -242,7 +242,7 @@ function ezpopmenu_showSubLevel( event, menuID, overItem )
 function ezpopmenu_makeVisible( menuID )
 {
     var styleObject = ezjslib_getStyleObject( menuID, document );
-    if( styleObject ) styleObject.visibility = 'visible';
+    if ( styleObject ) styleObject.visibility = 'visible';
     VisibleMenus[menuArray[menuID]['depth']] = menuID;
 
     document.getElementById( menuID ).onmouseover = function() { document.onmousedown = null; }
@@ -309,11 +309,11 @@ function ezpopmenu_doItemSubstitution( menuID, menuHeader )
         var disabledForElement = false;
         if ( typeof( menuArray[menuID]['elements'][i]['disabled_for'] ) != 'undefined' && CurrentDisableIDList )
         {
-        	for ( var disI = 0, disL = CurrentDisableIDList.length; disI < disL; disI++ )
-        	{
-        		if ( disabledForElement = menuArray[menuID]['elements'][i]['disabled_for'][ CurrentDisableIDList[disI] ] === 'yes'  )
-        			break;
-        	}
+            for ( var disI = 0, disL = CurrentDisableIDList.length; disI < disL; disI++ )
+            {
+                if ( disabledForElement = menuArray[menuID]['elements'][i]['disabled_for'][ CurrentDisableIDList[disI] ] === 'yes'  )
+                    break;
+            }
         }
 
         if ( typeof( menuArray[menuID]['elements'][i]['disabled_class'] ) != 'undefined' &&
@@ -378,19 +378,19 @@ function ezpopmenu_moveTopLevelOnScreen( menuID )
     var newX = 0; var newY = 0;
 
     // compensate if we are below the screen
-    if( (screenData.ScrollY + screenData.Height) < ( MouseY + EZPOPMENU_OFFSET + menuElement.offsetHeight ) )
+    if ( (screenData.ScrollY + screenData.Height) < ( MouseY + EZPOPMENU_OFFSET + menuElement.offsetHeight ) )
         newY = MouseY - EZPOPMENU_OFFSET - menuElement.offsetHeight;
     // compensate if we are above the top of the screen
-    else if( screenData.ScrollY > EZPOPMENU_OFFSET + MouseY )
+    else if ( screenData.ScrollY > EZPOPMENU_OFFSET + MouseY )
         newY = screenData.ScrollY;
     else
         newY = MouseY + EZPOPMENU_OFFSET;
 
     // compensate if we are to the right of the screen
-    if( (screenData.ScrollX + screenData.Width) < ( MouseX + EZPOPMENU_OFFSET + menuElement.offsetWidth ) )
+    if ( (screenData.ScrollX + screenData.Width) < ( MouseX + EZPOPMENU_OFFSET + menuElement.offsetWidth ) )
         newX = MouseX - EZPOPMENU_OFFSET - menuElement.offsetWidth;
     // compensate if we are to the left
-    else if( screenData.ScrollX > EZPOPMENU_OFFSET + MouseX )
+    else if ( screenData.ScrollX > EZPOPMENU_OFFSET + MouseX )
         newX = screenData.ScrollX;
     else
         newX = MouseX + EZPOPMENU_OFFSET;
@@ -417,20 +417,20 @@ function ezpopmenu_moveSubLevelOnScreen( menuID, alignItem )
     alignElement = document.getElementById( alignItem );
     parentElement = document.getElementById( VisibleMenus[menuArray[menuID]['depth'] - 1] );
 
-    if( alignElement && parentElement )
+    if ( alignElement && parentElement )
     {
         newX = parseInt( parentElement.style.left ) + menuElement.offsetWidth - EZPOPMENU_OFFSET;
         newY = parseInt( parentElement.style.top ) + alignElement.offsetTop + EZPOPMENU_SUBTOPOFFSET;
     }
     // compensate if we are below the screen
-    if( ( screenData.ScrollY + screenData.Height ) < ( newY + menuElement.offsetHeight ) )
+    if ( ( screenData.ScrollY + screenData.Height ) < ( newY + menuElement.offsetHeight ) )
         newY = screenData.ScrollY + screenData.Height - menuElement.offsetHeight;
     // compensate if above the screen
-    else if( screenData.ScrollY > newY )
+    else if ( screenData.ScrollY > newY )
         newY = screenData.ScrollY;
 
     // compensate if we are to the right of the screen
-    if( ( screenData.ScrollX + screenData.Width ) < ( newX + menuElement.offsetWidth ) )
+    if ( ( screenData.ScrollX + screenData.Width ) < ( newX + menuElement.offsetWidth ) )
     {
         newX = parseInt( parentElement.style.left ) + EZPOPMENU_OFFSET - menuElement.offsetWidth;
     }
@@ -448,20 +448,20 @@ function ezpopmenu_moveSubLevelOnScreen( menuID, alignItem )
 function ezpopmenu_submitForm( formID, customSubstitute )
 {
     var formElement = document.getElementById( formID );
-    if( formElement )
+    if ( formElement )
     {
         // for all children do replacement
         var children = formElement.childNodes;
-        for( var i = 0; i < children.length; i++)
+        for ( var i = 0; i < children.length; i++)
         {
-            if( children[i].type == 'hidden' )
+            if ( children[i].type == 'hidden' )
             {
                 for ( var substItem in CurrentSubstituteValues )
                 {
                     children[i].value = children[i].value.replace( substItem, CurrentSubstituteValues[substItem] );
                     if ( customSubstitute )
                     {
-                        for( var j = 0; j < customSubstitute.length; j += 2 )
+                        for ( var j = 0; j < customSubstitute.length; j += 2 )
                         {
                             children[i].value = children[i].value.replace( '%'+customSubstitute[j]+'%', customSubstitute[j+1] );
                         }
@@ -500,7 +500,7 @@ function ezpopmenu_hideHigher( level )
     for ( var i = level + 1; i < VisibleMenus.length && VisibleMenus[i] != 'none' ; i++ )
     {
         var styleObject = ezjslib_getStyleObject( VisibleMenus[i], document );
-        if( styleObject ) styleObject.visibility = 'hidden';
+        if ( styleObject ) styleObject.visibility = 'hidden';
         VisibleMenus[i] = 'none';
     }
 }
@@ -521,7 +521,7 @@ function ez_createAArray( flat )
 {
     var resultArray = new Array();
 
-    if( flat.length % 2 != 0 ) return resultArray;
+    if ( flat.length % 2 != 0 ) return resultArray;
 
     var len = flat.length / 2;
     for ( var i = 0; i < flat.length; i += 2 )

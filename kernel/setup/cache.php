@@ -83,8 +83,15 @@ if ( $module->isCurrentAction( 'ClearCache' ) && $module->hasActionParameter( 'C
 
 if ( $module->isCurrentAction( 'RegenerateStaticCache' ) )
 {
-    $staticCache = new eZStaticCache();
-    $staticCache->generateCache( true, true );
+    // get staticCacheHandler instance
+    $optionArray = array( 'iniFile'      => 'site.ini',
+                          'iniSection'   => 'ContentSettings',
+                          'iniVariable'  => 'StaticCacheHandler' );
+
+    $options = new ezpExtensionOptions( $optionArray );
+    $staticCacheHandler = eZExtension::getHandlerClass( $options );
+	
+    $staticCacheHandler->generateCache( true, true );
     eZStaticCache::executeActions();
     $cacheCleared['static'] = true;
 }

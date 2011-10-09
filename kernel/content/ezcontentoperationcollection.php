@@ -1175,9 +1175,6 @@ class eZContentOperationCollection
     static public function updateSection( $nodeID, $selectedSectionID )
     {
         eZContentObjectTreeNode::assignSectionToSubTree( $nodeID, $selectedSectionID );
-
-        //call appropriate method from search engine
-        eZSearch::updateNodeSection( $nodeID, $selectedSectionID );
     }
 
     /**

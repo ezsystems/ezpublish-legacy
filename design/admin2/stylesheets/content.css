@@ -239,3 +239,13 @@ fieldset.ezcca-collapsible.ezcca-collapsed legend a
 {
     background: url("../images/2/yui_sprite.png") no-repeat 0 -350px;
 }
+
+/* OBJECTRELATIONLIST */
+
+.ezcca-edit-datatype-ezobjectrelationlist h4, .ezcca-edit-datatype-ezobjectrelation h4
+{
+    padding-bottom:2px;
+    border-bottom: 1px solid #cacaca;
+    margin-bottom:1em;
+    color:#333;
+}

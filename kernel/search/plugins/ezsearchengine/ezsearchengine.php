@@ -2299,6 +2299,22 @@ class eZSearchEngine implements ezpSearchEngine
     {
     }
 
+    /**
+     * Update the section in the search engine
+     *
+     * @param array $objectID
+     * @param int $sectionID
+     * @return void
+     * @see eZSearch::updateObjectsSection()
+     */
+    public function updateObjectsSection( array $objectIDs, $sectionID )
+    {
+        $db = eZDB::instance();
+        $db->query( "UPDATE ezsearch_object_word_link SET section_id='$sectionID' WHERE " .
+            $db->generateSQLINStatement( $objectIDs, 'contentobject_id', false, true, 'int' )
+        );
+    }
+
 
     public $TempTablesCount = 0;
     public $CreatedTempTablesNames = array();

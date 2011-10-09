@@ -238,6 +238,7 @@ function eZDisplayDebug()
 */
 function eZDisplayResult( $templateResult )
 {
+    ob_start();
     if ( $templateResult !== null )
     {
         $classname = eZINI::instance()->variable( "OutputSettings", "OutputFilterName" );//deprecated
@@ -245,7 +246,6 @@ function eZDisplayResult( $templateResult )
         {
             $templateResult = call_user_func( array ( $classname, 'filter' ), $templateResult );
         }
-        $templateResult = ezpEvent::getInstance()->filter('response/output', $templateResult );
         $debugMarker = '<!--DEBUG_REPORT-->';
         $pos = strpos( $templateResult, $debugMarker );
         if ( $pos !== false )
@@ -264,6 +264,8 @@ function eZDisplayResult( $templateResult )
     {
         eZDisplayDebug();
     }
+    $fullPage = ob_get_clean();
+    echo ezpEvent::getInstance()->filter( 'response/output', $fullPage );
 }
 
 function fetchModule( $uri, $check, &$module, &$module_name, &$function_name, &$params )
@@ -765,7 +767,11 @@ if ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) !== 'true' )
 
     if ( $currentUser->isLoggedIn() )
     {
-        setcookie( 'is_logged_in', 'true', 0, $cookiePath );
+        // Only set the cookie if it doesnt exist. This way we are not constantly sending the set request in the headers.
+        if ( !isset( $_COOKIE['is_logged_in'] ) || $_COOKIE['is_logged_in'] != 'true' )
+        {
+            setcookie( 'is_logged_in', 'true', 0, $cookiePath );
+        }
     }
     else if ( isset( $_COOKIE['is_logged_in'] ) )
     {
@@ -984,14 +990,6 @@ if ( $show_page_layout )
     $site['page_title'] = $module->title();
 
     $tpl->setVariable( "site", $site );
-
-    if ( isset( $tpl_vars ) and is_array( $tpl_vars ) )
-    {
-        foreach( $tpl_vars as $tpl_var_name => $tpl_var_value )
-        {
-            $tpl->setVariable( $tpl_var_name, $tpl_var_value );
-        }
-    }
 
     if ( $ini->variable( 'DebugSettings', 'DisplayDebugWarnings' ) == 'enabled' )
     {

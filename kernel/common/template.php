@@ -16,6 +16,7 @@
  */
 function templateInit( $name = false )
 {
+    eZDebug::writeStrict( 'Function templateInit() has been deprecated in 4.3 in favor of eZTemplate::factory()', 'Deprecation' );
     return eZTemplate::factory();
 }
 

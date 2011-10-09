@@ -14,7 +14,7 @@
 
   WorkflowEvent storage fields : data_text1 - selected_sections
                                  data_text2 - selected_usergroups
-                                 data_text3 - selected_classes
+                                 data_text5 - selected_classes
                                  data_int1  - selected_workflow
                                  data_int2  - language_list
                                  data_int3  - content object version option
@@ -47,7 +47,7 @@ class eZMultiplexerType extends eZWorkflowEventType
 
             case 'selected_classes':
             {
-                $attributeValue = trim( $event->attribute( 'data_text3' ) );
+                $attributeValue = trim( $event->attribute( 'data_text5' ) );
                 $returnValue = empty( $attributeValue ) ? array( -1 ) : explode( ',', $attributeValue );
             }break;
 
@@ -220,7 +220,7 @@ class eZMultiplexerType extends eZWorkflowEventType
         }
 
         $userArray = explode( ',', $event->attribute( 'data_text2' ) );
-        $classArray = explode( ',', $event->attribute( 'data_text3' ) );
+        $classArray = explode( ',', $event->attribute( 'data_text5' ) );
         $languageMask = $event->attribute( 'data_int2' );
 
         if ( !isset( $processParameters['user_id'] ) )
@@ -385,7 +385,7 @@ class eZMultiplexerType extends eZWorkflowEventType
                 $classesArray = array( -1 );
             }
             $classesString = implode( ',', $classesArray );
-            $event->setAttribute( "data_text3", $classesString );
+            $event->setAttribute( "data_text5", $classesString );
         }
 
         $workflowVar = $base . "_event_ezmultiplexer_workflow_id_" . $event->attribute( "id" );

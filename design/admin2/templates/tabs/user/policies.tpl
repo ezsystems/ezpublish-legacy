@@ -1,4 +1,5 @@
-{section show=$assigned_policies}
+{* Policy list window *}
+{if $assigned_policies}
 
 <table class="list" cellspacing="0" summary="{'Policy list and the Role that are assignet to current node.'|i18n( 'design/admin/node/view/full' )}">
 <tr>
@@ -22,7 +23,7 @@
     <td>
     {$AssignedRoles.item.name|wash}
     </td>
-    
+
     {* limitation (if any). *}
     <td>
     {if $AssignedRoles.item.limit_identifier}
@@ -50,7 +51,7 @@
 
     {* Limitations. *}
     <td>
-    {section show=ne( $Policy.item.limitations|count, 0 )}
+    {if ne( $Policy.item.limitations|count, 0 )}
         {section var=Limitation loop=$Policy.item.limitations}
             {$Limitation.identifier|wash}(
             {section var=LimitationValues loop=$Limitation.values_as_array_with_names}
@@ -59,9 +60,9 @@
         {/section})
         {delimiter}, {/delimiter}
         {/section}
-    {section-else}
+    {else}
         <i>{'No limitations'|i18n( 'design/admin/node/view/full' )}</i>
-    {/section}
+    {/if}
     </td>
 
 </tr>
@@ -71,8 +72,8 @@
 
 </table>
 
-{section-else}
+{else}
 <div class="block">
     <p>{'There are no available policies.'|i18n( 'design/admin/node/view/full' )}</p>
 </div>
-{/section}
+{/if}

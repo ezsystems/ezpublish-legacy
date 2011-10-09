@@ -146,31 +146,18 @@ class eZDFSFileHandlerDFSBackend
     /**
      * Sends the contents of $filePath to default output
      *
-     * @param string $filePath
+     * @param string $filePath File path
+     * @param int $startOffset Starting offset
+     * @param false|int $length Length to transmit, false means everything
      * @return bool true, or false if operation failed
      */
-    public function passthrough( $filePath )
+    public function passthrough( $filePath, $startOffset = 0, $length = false )
     {
-        $this->accumulatorStart();
-
-        $filePath = $this->makeDFSPath( $filePath );
-        if ( !$fp = @fopen( $filePath, 'rb' ) )
-        {
-            return false;
-        }
-        else
-        {
-            // @todo Optimize this by making $length dependant on the filesize
-            while ( $data = fgets( $fp ) )
-            {
-                echo $data;
-            }
-            fclose( $fp );
-        }
-
-        $this->accumulatorStop();
-
-        return true;
+        return eZFile::downloadContent(
+            $this->makeDFSPath( $filePath ),
+            $startOffset,
+            $length
+        );
     }
 
     /**
@@ -235,6 +222,27 @@ class eZDFSFileHandlerDFSBackend
         $this->accumulatorStop();
 
         return $ret;
+    }
+
+    /**
+     * Checks if a file exists on the DFS
+     *
+     * @param string $filePath
+     * @return bool
+     */
+    public function existsOnDFS( $filePath )
+    {
+        return file_exists( $this->makeDFSPath( $filePath ) );
+    }
+
+    /**
+     * Returns the mount point
+     *
+     * @return string
+     */
+    public function getMountPoint()
+    {
+        return $this->mountPointPath;
     }
 
     /**

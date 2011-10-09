@@ -8,51 +8,98 @@
  * @package lib
  */
 
-/*!
-  \class eZURI ezuri.php
-  \ingroup eZHTTP
-  \brief Provides access to the HTTP uri
+/**
+ * Provides access to the HTTP uri
 
-  The URI can be accessed one element at a time with element() and elements() and
-  can be iterated with increase() and the current index returned with index(). Moving
-  the beginning and end is done with toBeginning() and toEnd().
-  The base can be retrieved with base() and the elements with elements().
-
-  This class also supports the attribute system.
-
-  \note The index starts at 0
-*/
+ * The URI can be accessed one element at a time with element() and elements() and
+ * can be iterated with increase() and the current index returned with index(). Movin
+ * the beginning and end is done with toBeginning() and toEnd().
+ * The base can be retrieved with base() and the elements with elements().
+ *
+ * This class also supports the attribute system.
+ *
+ *
+ * The index starts at 0
+ *
+ * @package eZHTTP
+ */
 
 class eZURI
 {
-    /*!
-     Initializes with the URI string $uri. The URI string is split on / into an array.
+    /**
+     * The original URI string
+     *
+     * @var string
+     */
+    public $URI;
+
+    /**
+     * The URI array
+     *
+     * @var array
+     */
+    public $URIArray;
+
+    /**
+     * The current index
+     *
+     * @var int
+     */
+    public $Index;
+
+    /**
+     * User defined template variables
+     *
+     * @var array
+     */
+    public $UserArray;
+
+    /**
+     * URI transformation mode used by transformURI().
+     *
+     * @var string
+     *
+     * @see transformURI()
+     * @see getTransformURIMode()
+     * @see setTransformURIMode()
+     */
+    private static $transformURIMode = "relative";
+
+    /**
+     * Initializes with the URI string $uri. The URI string is split on / into an array.
+     *
+     * @param string $uri the URI to use
+     * @return void
     */
-    function eZURI( $uri )
+    public function __construct( $uri )
     {
         $this->setURIString( $uri );
     }
 
-    /*!
-     \static
-     Decodes a path string which is in IRI format and returns the new path in the internal encoding.
-
-     More info on IRI here: http://www.w3.org/International/O-URL-and-ident.html
+    /**
+     * Decodes a path string which is in IRI format and returns the new path in the internal encoding.
+     *
+     * More info on IRI here: {@link http://www.w3.org/International/O-URL-and-ident.html}
+     *
+     * @param string $str the string to decode
+     * @return string decoded version of $str
      */
-    static function decodeIRI( $str )
+    public static function decodeIRI( $str )
     {
         $str = urldecode( $str ); // Decode %xx entries, we now have a utf-8 string
         $codec = eZTextCodec::instance( 'utf-8' ); // Make sure string is converted from utf-8 to internal encoding
         return $codec->convertString( $str );
     }
 
-    /*!
-     \static
-     Encodes path string in internal encoding to a new string which conforms to the IRI specification.
-
-     More info on IRI here: http://www.w3.org/International/O-URL-and-ident.html
+    /**
+     * Encodes path string in internal encoding to a new string which conforms to the IRI specification.
+     *
+     * More info on IRI here: {@link http://www.w3.org/International/O-URL-and-ident.html}
+     *
+     * @param string $str the IRI to encode
+     * @return string $str encoded as IRU
      */
-    static function encodeIRI( $str )
+    public static function encodeIRI( $str )
     {
         $codec = eZTextCodec::instance( false, 'utf-8' );
         $str = $codec->convertString( $str ); // Make sure the string is in utf-8
@@ -75,11 +122,14 @@ class eZURI
         return $tmp;
     }
 
-    /*!
-     \static
-     Parse URL and encode/decode its path string.
+    /**
+     * Parse URL and encode/decode its path string
+     *
+     * @param string $url the URL to parse
+     * @param boolean $encode tells to encode the URI
+     * @return string the parsed url
      */
-    static function codecURL( $url, $encode )
+    public static function codecURL( $url, $encode )
     {
         $originalLocale = setlocale( LC_CTYPE, "0" );
         setlocale( LC_CTYPE, 'C' );
@@ -133,28 +183,39 @@ class eZURI
         return $url;
     }
 
-    /*!
-     \static
-     Encodes path string of URL in internal encoding to a new string which conforms to the IRI specification.
+    /**
+     * Encodes path string of URL in internal encoding to a new string which conforms to the IRI specification.
+     *
+     * @param type $url
+     * @return string the encoded url
      */
-    static function encodeURL( $url )
+    public static function encodeURL( $url )
     {
         return eZURI::codecURL( $url, true );
     }
 
-    /*!
-     Decodes URL which has path string is in IRI format and returns the new URL with path in the internal encoding.
+    /**
+     * Decodes URL which has path string is in IRI format and returns the new URL with path in the internal encoding.
+     *
+     * @param string $url url to decode
+     * @return string the decoded url
      */
-    static function decodeURL( $url )
+    public static function decodeURL( $url )
     {
         return eZURI::codecURL( $url, false );
     }
 
-    /*!
-     Sets the current URI string to $uri, the URI is then split into array elements
-     and index reset to 1.
-    */
-    function setURIString( $uri, $fullInitialize = true )
+    /**
+     * Sets uri string for instance
+     *
+     * Sets the current URI string to $uri, the URI is then split into array elements
+     * and index reset to 1.
+     *
+     * @param string $uri
+     * @param boolean $fullInitialize
+     * @return void
+     */
+    public function setURIString( $uri, $fullInitialize = true )
     {
         if ( strlen( $uri ) > 0 and
              $uri[0] == '/' )
@@ -237,11 +298,15 @@ class eZURI
         }
     }
 
-    /*!
-     \return the URI passed as to the object.
-     \note the URI will not include the leading \c / if \a $withLeadingSlash is \c true.
-    */
-    function uriString( $withLeadingSlash = false )
+    /**
+     * Get the uri string
+     *
+     * The URI will not include the leading / if $withLeadingSlash is true.
+     *
+     * @param boolean $withLeadingSlash prefix the uri with /
+     * @return string the URI passed as to the object
+     */
+    public function uriString( $withLeadingSlash = false )
     {
         $uri = $this->URI;
         if ( $withLeadingSlash )
@@ -249,11 +314,15 @@ class eZURI
         return $uri;
     }
 
-    /*!
-     \return the URI passed to the object with user parameters (if any).
-     \note the URI will not include the leading \c / if \a $withLeadingSlash is \c true.
-    */
-    function originalURIString( $withLeadingSlash = false )
+    /**
+     * Return the original URI
+     *
+     * the URI will not include the leading / if $withLeadingSlash is true.
+     *
+     * @param boolean $withLeadingSlash prefix the uri with /
+     * @return string the URI passed to the object with user parameters (if any).
+     */
+    public function originalURIString( $withLeadingSlash = false )
     {
         $uri = $this->OriginalURI;
         if ( $withLeadingSlash )
@@ -261,19 +330,24 @@ class eZURI
         return $uri;
     }
 
-    /*!
-     \return true if the URI is empty, ie it's equal to / or empty string.
-    */
-    function isEmpty()
+    /**
+     * Check if there URI is set
+     *
+     * @return boolean true if the URI is empty, ie it's equal to / or empty string.
+     */
+    public function isEmpty()
     {
         return $this->URI == '' or $this->URI == '/';
     }
 
-    /*!
-     \return the element at $index.
-     If $relative is true the index is relative to the current index().
-    */
-    function element( $index = 0, $relative = true )
+    /**
+     * Get element index from uri
+     *
+     * @param integer $index the index of URI to return
+     * @param boolean $relative if index is relative to the internal pointer
+     * @return string|null the element at $index
+     */
+    public function element( $index = 0, $relative = true )
     {
         $pos = $index;
         if ( $relative )
@@ -284,11 +358,13 @@ class eZURI
         return $ret;
     }
 
-    /*!
-     \return all elements as a string, this is all elements after the current index.
-     If $as_text is false the returned item is an array.
-    */
-    function elements( $as_text = true )
+    /**
+     * Return all URI elements
+     *
+     * @param boolean $as_text return the elements as string
+     * @return array|string all elements as string/array depending on $as_text
+     */
+    public function elements( $as_text = true )
     {
         $elements = array_slice( $this->URIArray, $this->Index );
         if ( $as_text )
@@ -300,13 +376,14 @@ class eZURI
             return $elements;
     }
 
-    /*!
-     Converts filter string to current locale.
-     When an user types in browser url like:
-     "/content/view/full/2/(namefilter)/a"
-     'a' letter should be urldecoded and converted from utf-8 to current locale.
-    */
-    function convertFilterString()
+    /**
+     * Converts filter string to current locale. When an user types in browser
+     * url like: "/content/view/full/2/(namefilter)/a" 'a' letter should be
+     * urldecoded and converted from utf-8 to current locale.
+     *
+     * @return string converted string
+     */
+    public function convertFilterString()
     {
         foreach ( array_keys( $this->UserArray ) as $paramKey )
         {
@@ -322,45 +399,56 @@ class eZURI
         }
     }
 
-    /*
-     \return all user defined variables
-    */
-    function userParameters()
+    /**
+     * Get user variables
+     *
+     * @return array all the user defined variables
+     */
+    public function userParameters()
     {
         return $this->UserArray;
     }
 
-    /*!
-     Moves the index to the beginning.
-    */
-    function toBeginning()
+    /**
+     * Reset the internal pointer
+     *
+     * @return void
+     */
+    public function toBeginning()
     {
         $this->Index = 0;
     }
 
-    /*!
-     Moves the index to the end.
-    */
-    function toEnd()
+    /**
+     * Moves the index to the end.
+     *
+     * @return void
+     */
+    public function toEnd()
     {
         $this->Index = count( $this->URIArray );
     }
 
-    /*!
-     Moves the index 1 step up or $num if specified.
-    */
-    function increase( $num = 1 )
+    /**
+     * Moves the index 1 step up or $num if specified.
+     *
+     * @param int $num number of steps to move pointer
+     * @return void
+     */
+    public function increase( $num = 1 )
     {
         $this->Index += $num;
         if ( $this->Index < 0 )
             $this->Index = 0;
     }
 
-    /*!
-     Removes all elements below the current index, recreates the URI string
-     and sets index to 0.
-    */
-    function dropBase()
+    /**
+     * Removes all elements below the current index, recreates the URI string
+     * and sets index to 0.
+     *
+     * @return void
+     */
+    public function dropBase()
     {
         $elements = array_slice( $this->URIArray, $this->Index );
         $this->URIArray = $elements;
@@ -374,19 +462,23 @@ class eZURI
         $this->Index = 0;
     }
 
-    /*!
-     \return the current index.
-    */
-    function index()
+    /**
+     * Return the current position of pointer
+     *
+     * @return int the current pointer position.
+     */
+    public function index()
     {
         return $this->Index;
     }
 
-    /*!
-     \return the base string or the base elements as an array if $as_text is true.
-     \sa elements
-    */
-    function base( $as_text = true )
+    /**
+     * Return the elements before pointer
+     *
+     * @param type $as_text return as text or array
+     * @return string|array the base string or the base elements as an array if $as_text is true.
+     */
+    public function base( $as_text = true )
     {
         $elements = array_slice( $this->URIArray, 0, $this->Index );
         if ( $as_text )
@@ -398,14 +490,16 @@ class eZURI
             return $elements;
     }
 
-    /*!
-     Tries to match the base of $uri against this base and returns the result.
-     A match is made if all elements of this object match the base elements of
-     the $uri object, this means that $uri's base may be longer than this base but
-     not shorter.
-     \note $uri must be a eZURI object
-    */
-    function matchBase( $uri )
+    /**
+     * Tries to match the base of $uri against this base and returns the result.
+     * A match is made if all elements of this object match the base elements of
+     * the $uri object, this means that $uri's base may be longer than this base but
+     * not shorter.
+     *
+     * @param eZURI $uri the uri to match against
+     * @return boolean
+     */
+    public function matchBase( eZURI $uri )
     {
         if ( !( $uri instanceof eZURI ) )
         {
@@ -426,31 +520,40 @@ class eZURI
         return true;
     }
 
-    /*!
-     \return the attributes for this object.
-    */
-    function attributes()
+    /**
+     * Export all attributes of the object
+     *
+     * @return array the attributes for the object
+     */
+    public function attributes()
     {
         return array( 'element',
                       'base',
                       'tail',
                       'index',
                       'uri',
-                      'original_uri' );
+                      'original_uri',
+                      'query_string' );
     }
 
-    /*!
-     \return true if the attribute $attr exist.
-    */
-    function hasAttribute( $attr )
+    /**
+     * Check if attribute exsits
+     *
+     * @param string $attr the attrbiute to check if exists
+     * @return boolean
+     */
+    public function hasAttribute( $attr )
     {
         return in_array( $attr, $this->attributes() );
     }
 
-    /*!
-     \return the value for attribute $attr or null if it does not exist.
-    */
-    function attribute( $attr )
+    /**
+     * Get value for an attribute
+     *
+     * @param string $attr
+     * @return boolean the value for attribute $attr or null if it does not exist.
+     */
+    public function attribute( $attr )
     {
         switch ( $attr )
         {
@@ -472,6 +575,9 @@ class eZURI
             case 'original_uri':
                 return $this->originalURIString();
                 break;
+            case 'query_string':
+                return eZSys::queryString();
+                break;
             default:
             {
                 eZDebug::writeError( "Attribute '$attr' does not exist", __METHOD__ );
@@ -487,7 +593,7 @@ class eZURI
      * @param false|string $uri Shared uri instance if false
      * @return eZURI
      */
-    static function instance( $uri = false )
+    public static function instance( $uri = false )
     {
         // If $uri is false we assume the caller wants eZSys::requestURI()
         if ( $uri === false or $uri == eZSys::requestURI() )
@@ -502,11 +608,16 @@ class eZURI
         return new eZURI( $uri );
     }
 
-    /*!
-     Implementation of an 'ezurl' template operator.
-     Makes valid ez publish urls to use in links.
-    */
-    static function transformURI( &$href, $ignoreIndexDir = false, $serverURL = null )
+    /**
+     * Implementation of an 'ezurl' template operator
+     * Makes valid eZ Publish urls to use in links
+     *
+     * @param string &$href
+     * @param boolean $ignoreIndexDir
+     * @param string $serverURL full|relative
+     * @return string the link to use
+     */
+    public static function transformURI( &$href, $ignoreIndexDir = false, $serverURL = null )
     {
         if ( $serverURL === null )
         {
@@ -571,25 +682,6 @@ class eZURI
         self::$transformURIMode = $mode;
     }
 
-    /// The original URI string
-    public $URI;
-    /// The URI array
-    public $URIArray;
-    /// The current index
-    public $Index;
-    /// User defined template variables
-    public $UserArray;
-
-    /**
-     * URI transformation mode used by transformURI().
-     *
-     * @var string
-     *
-     * @see transformURI()
-     * @see getTransformURIMode()
-     * @see setTransformURIMode()
-     */
-    private static $transformURIMode = "relative";
 }
 
 ?>

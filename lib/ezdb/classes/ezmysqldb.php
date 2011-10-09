@@ -204,6 +204,7 @@ class eZMySQLDB extends eZDBInterface
 
         if ( is_array( $charset ) )
         {
+            $realCharset = array();
             foreach ( $charset as $charsetItem )
                 $realCharset[] = eZCharsetInfo::realCharsetCode( $charsetItem );
         }
@@ -335,9 +336,9 @@ class eZMySQLDB extends eZDBInterface
                             $columns[$col]['size'] = max( $columns[$col]['size'], strlen( $data ) );
                         }
                     }
-
-                    $analysisText = '';
+                    
                     $delimiterLine = array();
+                    $colLine = array();
                     // Generate the column line and the vertical delimiter
                     // The look of the table is taken from the MySQL CLI client
                     // It looks like this:
@@ -366,8 +367,8 @@ class eZMySQLDB extends eZDBInterface
                             $size = $col['size'];
                             $data = isset( $row[$name] ) ? $row[$name] : '';
                             // Align numerical values to the right (ie. pad left)
-                            $rowLine[] = ' ' . str_pad( $row[$name], $size, ' ',
-                                                        is_numeric( $row[$name] ) ? STR_PAD_LEFT : STR_PAD_RIGHT ) . ' ';
+                            $rowLine[] = ' ' . str_pad( $data, $size, ' ',
+                                                        is_numeric( $data ) ? STR_PAD_LEFT : STR_PAD_RIGHT ) . ' ';
                         }
                         $analysisText .= '|' . join( '|', $rowLine ) . "|\n";
                         $analysisText .= $delimiterLine;
@@ -915,9 +916,6 @@ class eZMySQLDB extends eZDBInterface
         {
             return false;
         }
-
-        $dbServerVersion = $this->databaseServerVersion();
-        $dbServerMainVersion = $dbServerVersion['values'][0];
 
         while ( $i < $numRows )
         {

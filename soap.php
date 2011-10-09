@@ -73,8 +73,9 @@ eZDebug::checkDebugByUser();
 eZExtension::activateExtensions( 'access' );
 // Siteaccess extension check end
 
-// reload soap.ini cache now that override paths have changed
-$soapINI->loadCache();
+// Now that all extensions are activated and siteaccess has been changed, reset
+// all eZINI instances as they may not take into account siteaccess specific settings.
+eZINI::resetAllInstances( false );
 
 /*!
  Reads settings from i18n.ini and passes them to eZTextCodec.

@@ -29,6 +29,7 @@
                         'theme/yui_datatable.css',
                         'theme/yui_menu.css',
                         'theme/yui_container.css',
+                        'theme/modalwindow.css',
                         ezini( 'StylesheetSettings', 'BackendCSSFileList', 'design.ini' ) ) )}
   {else}
     {ezcss_load( array( 'core.css',

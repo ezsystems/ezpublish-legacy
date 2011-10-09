@@ -303,6 +303,38 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             return $ret;
         }
 
+        if ( eZINI::instance()->variable( 'SiteAccessSettings', 'ShowHiddenNodes' ) !== 'true' )
+        {
+            if ( isset( $node ) )
+            {
+                // embed with a node ID
+                if ( $node->attribute( 'is_invisible' ) )
+                {
+                    eZDebug::writeNotice( "Node #{$nodeID} is invisible", "XML output handler: embed" );
+                    return $ret;
+                }
+            }
+            else
+            {
+                // embed with an object id
+                // checking if at least a location is visible
+                $oneVisible = false;
+                foreach( $object->attribute( 'assigned_nodes' ) as $assignedNode )
+                {
+                    if ( !$assignedNode->attribute( 'is_invisible' ) )
+                    {
+                        $oneVisible = true;
+                        break;
+                    }
+                }
+                if ( !$oneVisible )
+                {
+                    eZDebug::writeNotice( "None of the object #{$objectID}'s location(s) is visible", "XML output handler: embed" );
+                    return $ret;
+                }
+            }
+        }
+
         if ( $object->attribute( 'can_read' ) ||
              $object->attribute( 'can_view_embed' ) )
         {
@@ -471,7 +503,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             {
                 if( $childOutput[1] === ' ' )
                 {
-                    if ( isset( $childrenOutput[ $key + 1 ] ) )
+                    if ( isset( $childrenOutput[$key+1] ) && $childrenOutput[$key+1][0] === false )
                         continue;
                     else if ( isset( $childrenOutput[ $key - 1 ] ) && $childrenOutput[ $key - 1 ][0] === false )
                         continue;
@@ -615,6 +647,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     {
         if ( $element->parentNode->nodeName != 'literal' )
         {
+            if ( trim( $element->textContent ) === ''
+                && ( ( $element->previousSibling && $element->previousSibling->nodeName === 'line' )
+                    || ( $element->nextSibling && $element->nextSibling->nodeName === 'line' ) ) )
+            {
+                // spaces before or after a line element are irrelevant
+                return array( true, '' );
+            }
             $text = htmlspecialchars( $element->textContent );
             $text = str_replace( array( '&amp;nbsp;', "\xC2\xA0" ), '&nbsp;', $text);
             // Get rid of linebreak and spaces stored in xml file

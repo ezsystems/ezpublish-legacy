@@ -33,6 +33,20 @@ class ezpRestRequest extends ezcMvcRequest
     public $post;
 
     /**
+     * PUT & DELETE variables
+     *
+     * @var array
+     */
+    public $inputVariables;
+
+    /**
+     * Original request method
+     *
+     * @var string
+     */
+    public $originalMethod;
+
+    /**
      * Variables related to content, extracted from GET
      *
      * @var array
@@ -58,6 +72,8 @@ class ezpRestRequest extends ezcMvcRequest
      * @param array $variables Containing request variables set by the router
      * @param array $get The GET variables which are available in the request
      * @param array $post The POST variables that are available in the request
+     * @param array $inputVariables The PUT & DELETE input variables that are available in the request
+     * @param string $originalMethod
      * @param array $contentVariables GET variables related to eZ Publish content
      * @param bool $isEncrypted Is the request made over an encrypted connection
      * @param string $body
@@ -71,8 +87,8 @@ class ezpRestRequest extends ezcMvcRequest
      */
     public function __construct( $date = null, $protocol = '',
         $host = '', $uri = '', $requestId = '', $referrer = '',
-        $variables = array(), $get = array(), $post = array(),
-        $contentVariables = array(), $isEncrypted = false, $body = '',
+        $variables = array(), $get = array(), $post = array(), $inputVariables = array(),
+        $originalMethod = '', $contentVariables = array(), $isEncrypted = false, $body = '',
         $files = null, $accept = null, $agent = null, $authentication = null,
         $raw = null, $cookies = array(), $isFatal = false )
     {
@@ -85,6 +101,8 @@ class ezpRestRequest extends ezcMvcRequest
         $this->variables = $variables;
         $this->get = $get;
         $this->post = $post;
+        $this->inputVariables = $inputVariables;
+        $this->originalMethod = $originalMethod;
         $this->contentVariables = $contentVariables;
         $this->isEncrypted = $isEncrypted;
         $this->body = $body;
@@ -114,8 +132,8 @@ class ezpRestRequest extends ezcMvcRequest
         return new ezpRestRequest( $array['date'], $array['protocol'],
             $array['host'], $array['uri'], $array['requestId'],
             $array['referrer'], $array['variables'], $array['get'],
-            $array['post'], $array['contentVariables'], $array['isEncrypted'],
-            $array['body'], $array['files'], $array['accept'], $array['agent'],
+            $array['post'], $array['inputVariables'], $array['originalMethod'], $array['contentVariables'],
+            $array['isEncrypted'], $array['body'], $array['files'], $array['accept'], $array['agent'],
             $array['authentication'], $array['raw'], $array['cookies'],
             $array['isFatal'] );
     }
