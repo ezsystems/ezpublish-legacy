@@ -5649,6 +5649,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function urlAlias()
     {
         $useURLAlias =& $GLOBALS['eZContentObjectTreeNodeUseURLAlias'];
+        $ini = eZINI::instance();
         if ( !isset( $useURLAlias ) )
         {
             $useURLAlias = $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled';
@@ -5656,7 +5657,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( $useURLAlias )
         {
             $URL = $this->pathWithNames();
-            $ini = eZINI::instance();
             if ( $ini->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) &&
                  $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) != '' )
             {
