@@ -277,7 +277,7 @@ class eZSiteAccess
                     $type = eZSiteAccess::TYPE_HTTP_HOST_URI;
                     if ( $ini->hasVariable( 'SiteAccessSettings', 'HostUriMatchMapItems' ) )
                     {
-                        $uirString = $uri->elements();
+                        $uriString = $uri->elements();
                         $matchMapItems = $ini->variableArray( 'SiteAccessSettings', 'HostUriMatchMapItems' );
                         $defaultHostMatchMethod = $ini->variable( 'SiteAccessSettings', 'HostUriMatchMethodDefault' );
 
