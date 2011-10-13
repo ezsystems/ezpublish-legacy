@@ -622,7 +622,11 @@ class eZDFSFileHandlerMySQLBackend
 
         if ( $uniqueName !== true )
         {
-            eZFile::rename( $tmpFilePath, $filePath );
+            if ( !eZFile::rename( $tmpFilePath, $filePath ) )
+            {
+                unlink( $tmpFilePath );
+                eZDebug::writeWarning( "$tmpFilePath could not be renamed to $filePath and has been deleted", __METHOD__ );
+            }
         }
         else
         {

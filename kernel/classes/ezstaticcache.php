@@ -538,7 +538,10 @@ class eZStaticCache implements ezpStaticCache
 
             fwrite( $fp, $content . $comment );
             fclose( $fp );
-            eZFile::rename( $tmpFileName, $file );
+            if ( !eZFile::rename( $tmpFileName, $file ) )
+            {
+                unlink( $tmpFileName );
+            }
 
             $perm = eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' );
             chmod( $file, octdec( $perm ) );

@@ -384,7 +384,7 @@ class eZFS2FileHandler extends eZFSFileHandler
                 // process in between. Not likely, though.
                 if ( !$fp = @fopen( $generatingFilePath, 'x' ) )
                 {
-                    $ret = $this->remainingCacheGenerationTime();
+                    $ret = $this->remainingCacheGenerationTime( $generatingFilePath );
                 }
             }
             // directory exists, we now check for timeout
@@ -460,6 +460,7 @@ class eZFS2FileHandler extends eZFSFileHandler
             }
             else
             {
+                unlink( $this->filePath );
                 eZLog::write( "eZFS2FileHandler::endCacheGeneration: Failed renaming '$this->filePath' to '$this->realFilePath'", 'cluster.log' );
             }
         }
