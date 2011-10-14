@@ -66,6 +66,8 @@ class ezjscAjaxContent
                                                                                   'xml' => 'xml',
                                                                                   'text' => 'text' ) )
     {
+        $acceptList = array();
+
         if ( isset($_POST['http_accept']) )
             $acceptList = explode( ',', $_POST['http_accept'] );
         else if ( isset($_POST['HTTP_ACCEPT']) )
@@ -74,7 +76,7 @@ class ezjscAjaxContent
             $acceptList = explode( ',', $_GET['http_accept'] );
         else if ( isset($_GET['HTTP_ACCEPT']) )
             $acceptList = explode( ',', $_GET['HTTP_ACCEPT'] );
-        else
+        else if ( isset($_SERVER['HTTP_ACCEPT']) )
             $acceptList = explode( ',', $_SERVER['HTTP_ACCEPT'] );
 
         foreach( $acceptList as $accept )
