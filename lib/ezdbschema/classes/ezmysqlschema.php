@@ -598,7 +598,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
                                  'koi8-r' => 'koi8r',
                                  'koi8-u' => 'koi8u' );
         $charset = strtolower( $charset );
-        if ( isset( $charsetMapping ) )
+        if ( isset( $charsetMapping[$charset] ) )
             return $charsetMapping[$charset];
         return $charset;
     }
