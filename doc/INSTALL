@@ -92,7 +92,11 @@ Installation
 Using eZ JSCore Server functions from javascript
 ================================================
 
-Yui 3.0 (uses Y.io):
+ezjscore AJAX calls
+-------------------
+
+Yui 3.x (uses Y.io):
+````````````````````
 
 {ezscript_require(array( 'ezjsc::yui3', 'ezjsc::yui3io') )}
 <script type="text/javascript">
@@ -106,10 +110,41 @@ YUI( YUI3_config ).use('io-ez', function( Y )
 
 
 jQuery (uses jQuery.post):
+``````````````````````````
 
 {ezscript_require(array( 'ezjsc::jquery', 'ezjsc::jqueryio') )}
 <script type="text/javascript">
 {literal}
     jQuery.ez( 'ezjsc::time', {postData: 'hi!'}, function(data){ alert(data.error_text || data.content) } );
+{/literal}
+</script>
+
+Set a preference
+----------------
+
+YUI 3.x
+```````
+
+{ezscript_require(array( 'ezjsc::yui3', 'ezjsc::yui3io') )}
+<script type="text/javascript">
+{literal}
+YUI( YUI3_config ).use('io-ez', function( Y )
+{
+    Y.io.ez.setPreference( 'preference_name', 'preference value' );
+    // will post to http://siteURL/user/preferences to set the preference
+    // preference name and value are automatically encoded
+});
+{/literal}
+</script>
+
+jQuery
+``````
+
+{ezscript_require(array( 'ezjsc::jquery', 'ezjsc::jqueryio') )}
+<script type="text/javascript">
+{literal}
+    jQuery.ez.setPreference( 'preference_name', 'preference value' );
+    // will post to http://siteURL/user/preferences to set the preference
+    // preference name and value are automatically encoded
 {/literal}
 </script>
