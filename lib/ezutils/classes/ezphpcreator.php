@@ -803,7 +803,7 @@ $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
 
             if ( $this->isAtomic )
             {
-                eZFile::rename( $this->tmpFilename, $this->requestedFilename );
+                eZFile::rename( $this->tmpFilename, $this->requestedFilename, false, eZFile::CLEAN_ON_FAILURE );
             }
             $this->FileResource = false;
         }

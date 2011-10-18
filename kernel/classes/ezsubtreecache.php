@@ -128,7 +128,7 @@ class eZSubtreeCache
                 {
                     eZDir::mkdir( $expiryCacheDir, false, true );
                 }
-                eZFile::rename( $dir, $expiryCacheDir );
+                eZFile::rename( $dir, $expiryCacheDir, false, eZFile::APPEND_DEBUG_ON_FAILURE );
             }
             else
             {
