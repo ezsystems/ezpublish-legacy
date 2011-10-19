@@ -29,7 +29,7 @@
  * 
  * @package eZKernel
  */
-class eZPersistentObject
+abstract class eZPersistentObject
 {
     /**
      * Initializes the object with the $row.
@@ -51,6 +51,15 @@ class eZPersistentObject
 
         $this->fill( $row );
     }
+
+    /**
+     * Fetches a peristent object by ID
+     *
+     * @param int $id
+     * @param bool $asObject
+     * @return eZPersistentObject
+     */
+    abstract public function fetch( $id, $asObject = true);
 
     /*!
      Tries to fill in the data in the object by using the object definition
