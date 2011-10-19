@@ -31,17 +31,24 @@
  */
 class eZPersistentObject
 {
-    /*!
-     Initializes the object with the row \a $row. It will try to set
-     each field taken from the database row. Calls fill to do the job.
-     If the parameter \a $row is an integer it will try to fetch it
-     from the database using it as the unique ID.
-    */
-    function eZPersistentObject( $row )
+    /**
+     * Initializes the object with the $row.
+     *
+     * It will try to set each field taken from the database row. Calls fill
+     * to do the job. If $row is an integer, it will try to fetch it from the
+     * database using it as the unique ID.
+     *
+     * @param int|array $row
+     */
+    public function __construct( $row )
     {
         $this->PersistentDataDirty = false;
+
         if ( is_numeric( $row ) )
+        {
             $row = $this->fetch( $row, false );
+        }
+
         $this->fill( $row );
     }
 
