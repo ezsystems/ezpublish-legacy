@@ -8,6 +8,23 @@
 
 $http = eZHTTPTool::instance();
 $Module = $Params['Module'];
+
+$offset = (int) $Params['Offset'];
+
+if( eZPreferences::value( 'admin_role_view_limit' ) )
+{
+    switch( eZPreferences::value( 'admin_role_view_limit' ) )
+    {
+        case '2': { $limit = 25; } break;
+        case '3': { $limit = 50; } break;
+        default:  { $limit = 10; } break;
+    }
+}
+else
+{
+    $limit = 10;
+}
+
 $roleID = $Params['RoleID'];
 
 $role = eZRole::fetch( $roleID );
@@ -92,16 +109,21 @@ if ( $http->hasPostVariable( 'RemoveRoleAssignmentButton' ) )
     $db->commit();
 }
 
+$viewParameters = array( 'offset' => $offset );
 $tpl = eZTemplate::factory();
 
-$userArray = $role->fetchUserByRole();
+$userArray = $role->fetchUserByRole( $offset, $limit );
+$userArrayCount = $role->fetchUserByRoleCount();
 
 $policies = $role->attribute( 'policies' );
 $tpl->setVariable( 'policies', $policies );
 $tpl->setVariable( 'module', $Module );
 $tpl->setVariable( 'role', $role );
+$tpl->setVariable( 'view_parameters', $viewParameters );
+$tpl->setVariable( 'limit', $limit );
 
 $tpl->setVariable( 'user_array', $userArray );
+$tpl->setVariable( 'user_array_count', $userArrayCount );
 
 $Module->setTitle( 'View role - ' . $role->attribute( 'name' ) );
 
