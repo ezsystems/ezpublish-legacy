@@ -770,10 +770,6 @@ class eZRole extends eZPersistentObject
     */
     function fetchUserByRole( $offset = false, $limit = false )
     {
-        $limitSQL = "";
-        if ( $offset !== false && $limit !== false )
-            $limitSQL = " LIMIT " . (int) $offset . ", " . (int) $limit;
-
         $db = eZDB::instance();
 
         $query = "SELECT
@@ -784,10 +780,9 @@ class eZRole extends eZPersistentObject
                   FROM
                      ezuser_role
                   WHERE
-                    ezuser_role.role_id = '$this->ID'
-                  $limitSQL";
+                    ezuser_role.role_id = '$this->ID'";
 
-        $userRoleArray = $db->arrayQuery( $query );
+        $userRoleArray = $db->arrayQuery( $query, array( 'limit' => $limit, 'offset' => $offset ) );
         $userRoles = array();
         foreach ( $userRoleArray as $userRole )
         {
