@@ -61,21 +61,34 @@ abstract class eZPersistentObject
      */
     abstract public function fetch( $id, $asObject = true);
 
-    /*!
-     Tries to fill in the data in the object by using the object definition
-     which is returned by the function definition() and the database row
-     data \a $row. Each field will be fetch from the definition and then
-     use that fieldname to fetch from the row and set the data.
-    */
-    function fill( $row )
+    /**
+     * Tries to fill in the data in the object by using the object definition
+     * which is returned by the function definition() and the database row
+     * data $row. Each field will be fetch from the definition and then
+     * use that fieldname to fetch from the row and set the data.
+     *
+     * @param array $row
+     * @return bool
+     */
+    protected function fill( $row )
     {
         if ( !is_array( $row ) )
-            return;
-        $def = $this->definition();
-        $fields = $def["fields"];
-        $intersectList = array_intersect_key( $fields,
-                                              $row );
+        {
+            return false;
+        }
 
+        $def = $this->definition();
+
+        if ( !isset( $def['fields'] ) )
+        {
+            eZDebug::writeError( get_class( $this ) . "::definition() must contain a subarray named 'fields'", __METHOD__ );
+            return false;
+        }
+
+        $fields = $def['fields'];
+
+        // Set defined properties with the given values from $row
+        $intersectList = array_intersect_key( $fields, $row );
         foreach ( $intersectList as $key => $item )
         {
             if ( is_array( $item ) )
@@ -85,7 +98,9 @@ abstract class eZPersistentObject
             $this->$item = $row[$key];
         }
 
-        foreach( array_diff_key( $fields, $intersectList ) as $item )
+        // Initialize defined properties which were not given from $row with null
+        $diffList = array_diff_key( $fields, $intersectList );
+        foreach( $diffList as $item )
         {
             if ( is_array( $item ) )
             {
@@ -93,6 +108,8 @@ abstract class eZPersistentObject
             }
             $this->$item = null;
         }
+
+        return true;
     }
 
     /*!
