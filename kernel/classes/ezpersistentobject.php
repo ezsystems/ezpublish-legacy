@@ -8,32 +8,27 @@
  * @package kernel
  */
 
-/*!
-  \defgroup eZKernel Kernel system
-*/
-
-/*!
-  \class eZPersistentObject ezpersistentobject.php
-  \ingroup eZKernel
-  \brief Allows for object persistence in a database
-
-  Classes which stores simple types in databases should inherit from this
-  and implement the definition() function. The class will then get initialization,
-  fetching, listing, moving, storing and deleting for free as well as attribute
-  access. The new class must have a constructor which takes one parameter called
-  \c $row and pass that this constructor.
-
-\code
-class MyClass extends eZPersistentObject
-{
-    function MyClass( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-}
-\endcode
-
-*/
+/**
+ * Allows for object persistence in a database
+ *
+ * Classes which stores simple types in databases should inherit from this
+ * and implement the definition() function. The class will then get initialization,
+ * fetching, listing, moving, storing and deleting for free as well as attribute
+ * access. The new class must have a constructor which takes one parameter called
+ * $row and pass that this constructor.
+ *
+ * <code>
+ * class MyClass extends eZPersistentObject
+ * {
+ *     public function __construct( $row )
+ *     {
+ *         parent::__construct( $row );
+ *     }
+ * }
+ * </code>
+ * 
+ * @package eZKernel
+ */
 class eZPersistentObject
 {
     /*!
