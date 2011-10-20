@@ -29,8 +29,8 @@ foreach( $pcntlFunctions as $pcntlFunction )
     {
         $cli->error( "The following pcntl (http://php.net/pcntl) function is disabled: $pcntlFunction" );
         $cli->error( "Required functions: " . implode( ', ', $pcntlFunctions ) );
+        $script->shutdown( 1 );
     }
-    $script->shutdown( 1 );
 }
 
 $options = $script->getOptions(
