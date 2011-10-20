@@ -134,13 +134,18 @@ abstract class eZPersistentObject
         $fields = $short_fields_names;
     }
 
-    /*!
-     Fetches the number of rows by using the object definition.
-     Uses fetchObjectList for the actual SQL handling.
-
-     See fetchObjectList() for a full description of the input parameters.
-    */
-    static function count( $def, $conds = null, $field = null )
+    /**
+     * Fetches the number of rows by using the object definition.
+     * Uses fetchObjectList for the actual SQL handling.
+     * See {@link eZPersistentObject::fetchObjectList()} for a full description
+     * of the input parameters.
+     *
+     * @param array $def
+     * @param array $conds
+     * @param string $field
+     * @return int
+     */
+    public static function count( $def, $conds = null, $field = null )
     {
         if ( !isset( $field ) )
         {
@@ -148,7 +153,7 @@ abstract class eZPersistentObject
         }
         $customFields = array( array( 'operation' => 'COUNT( ' . $field . ' )', 'name' => 'row_count' ) );
         $rows = eZPersistentObject::fetchObjectList( $def, array(), $conds, array(), null, false, false, $customFields );
-        return $rows[0]['row_count'];
+        return (int) $rows[0]['row_count'];
     }
 
     /*!
