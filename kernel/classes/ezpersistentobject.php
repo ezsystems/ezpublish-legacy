@@ -88,15 +88,19 @@ abstract class eZPersistentObject
 
         return true;
     }
-
-    /*!
-    \private
-    \static
-    For the given array \a fields treats its keys (for associative array) or
-    values (for non-associative array) as table fields names and replaces them
-    with short names (aliases) found in \a fieldDefs.
-    */
-    static function replaceFieldsWithShortNames( $db, $fieldDefs, &$fields )
+    
+    /**
+     * For the given array $fields treats its keys (for associative array) or
+     * values (for non-associative array) as table fields names and replaces them
+     * with short names (aliases) found in $fieldDefs.
+     *
+     * @access private
+     * @param eZDBInterface $db
+     * @param array $fieldDefs
+     * @param array $fields
+     * @return void
+     */
+    public static function replaceFieldsWithShortNames( $db, $fieldDefs, &$fields )
     {
         if ( !$db->useShortNames() || !$fields )
             return;
