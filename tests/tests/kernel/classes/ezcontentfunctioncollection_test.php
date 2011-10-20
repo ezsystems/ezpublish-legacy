@@ -29,11 +29,11 @@ class eZContentFunctionCollectionTest extends ezpDatabaseTestCase
         $ret = eZContentFunctionCollection::fetchRelatedObjects(
             $object2->attribute( 'id' ), false, true, false, false );
 
-        $this->assertType( 'array', $ret );
+        $this->assertInternalType( 'array', $ret );
         $this->assertArrayHasKey( 'result', $ret );
-        $this->assertType( 'array', $ret['result'] );
+        $this->assertInternalType( 'array', $ret['result'] );
         $this->assertTrue( count( $ret['result'] ) == 1 );
-        $this->assertType( 'eZContentObject', $ret['result'][0] );
+        $this->assertInstanceOf( 'eZContentObject', $ret['result'][0] );
         $this->assertEquals( $object1->attribute( 'id' ), $ret['result'][0]->attribute( 'id' ) );
     }
 
@@ -54,7 +54,7 @@ class eZContentFunctionCollectionTest extends ezpDatabaseTestCase
         $ret = eZContentFunctionCollection::fetchRelatedObjectsCount(
             $object2->attribute( 'id' ), false, true );
 
-        $this->assertType( 'array', $ret );
+        $this->assertInternalType( 'array', $ret );
         $this->assertArrayHasKey( 'result', $ret );
         $this->assertEquals( 1, $ret['result'] );
     }
@@ -76,11 +76,11 @@ class eZContentFunctionCollectionTest extends ezpDatabaseTestCase
         $ret = eZContentFunctionCollection::fetchReverseRelatedObjects(
             $object1->attribute( 'id' ), false, true, false, false, false );
 
-        $this->assertType( 'array', $ret );
+        $this->assertInternalType( 'array', $ret );
         $this->assertArrayHasKey( 'result', $ret );
-        $this->assertType( 'array', $ret['result'] );
+        $this->assertInternalType( 'array', $ret['result'] );
         $this->assertTrue( count( $ret['result'] ) == 1 );
-        $this->assertType( 'eZContentObject', $ret['result'][0] );
+        $this->assertInstanceOf( 'eZContentObject', $ret['result'][0] );
         $this->assertEquals( $object2->attribute( 'id' ), $ret['result'][0]->attribute( 'id' ) );
     }
 
@@ -101,7 +101,7 @@ class eZContentFunctionCollectionTest extends ezpDatabaseTestCase
         $ret = eZContentFunctionCollection::fetchReverseRelatedObjectsCount(
             $object1->attribute( 'id' ), false, true, false );
 
-        $this->assertType( 'array', $ret );
+        $this->assertInternalType( 'array', $ret );
         $this->assertArrayHasKey( 'result', $ret );
         $this->assertEquals( 1, $ret['result'] );
     }
@@ -142,14 +142,14 @@ class eZContentFunctionCollectionTest extends ezpDatabaseTestCase
         foreach( array( $class1ID, $class2ID ) as $contentClassID )
         {
             $count = eZContentFunctionCollection::fetchKeywordCount( 'k', $contentClassID );
-            $this->assertType( 'array', $count );
+            $this->assertInternalType( 'array', $count );
             $this->assertArrayHasKey( 'result', $count );
             $this->assertEquals( 3, $count['result'] );
         }
 
         // fetch count for prefix 'k' on both classes
         $count = eZContentFunctionCollection::fetchKeywordCount( 'k', array( $class1ID, $class2ID ) );
-        $this->assertType( 'array', $count );
+        $this->assertInternalType( 'array', $count );
         $this->assertArrayHasKey( 'result', $count );
         $this->assertEquals( 6, $count['result'] );
     }
@@ -177,16 +177,16 @@ class eZContentFunctionCollectionTest extends ezpDatabaseTestCase
         // Fetch keywords for class 1
         $keywords = eZContentFunctionCollection::fetchKeyword(
             'k', $class1ID, 0, 20 );
-        $this->assertType( 'array', $keywords );
+        $this->assertInternalType( 'array', $keywords );
         $this->assertArrayHasKey( 'result', $keywords );
-        $this->assertType( 'array', $keywords['result'] );
+        $this->assertInternalType( 'array', $keywords['result'] );
         $this->assertEquals( 3, count( $keywords['result'] ) );
         foreach( $keywords['result'] as $result )
         {
-            $this->assertType( 'array', $result );
+            $this->assertInternalType( 'array', $result );
             $this->assertArrayHasKey( 'keyword', $result );
             $this->assertArrayHasKey( 'link_object', $result );
-            $this->assertType( 'eZContentObjectTreeNode', $result['link_object'] );
+            $this->assertInstanceOf( 'eZContentObjectTreeNode', $result['link_object'] );
         }
     }
 }

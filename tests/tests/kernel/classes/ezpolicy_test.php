@@ -28,7 +28,7 @@ class eZPolicyTest extends ezpDatabaseTestCase
 
         // The first fetch should create the temporary copy
         $temporaryPolicy = eZPolicy::fetchTemporaryCopy( $policy->attribute( 'id' ) );
-        $this->assertType( 'eZPolicy', $temporaryPolicy,
+        $this->assertInstanceOf( 'eZPolicy', $temporaryPolicy,
             'The temporary policy isn\'t an eZPolicy' );
         $this->assertEquals( $policy->attribute( 'id' ), $temporaryPolicy->attribute( 'original_id' ),
             'The temporary policy\'s original_id should matche the ID of the attribute it was fetch as a copy of' );
@@ -37,7 +37,7 @@ class eZPolicyTest extends ezpDatabaseTestCase
 
         // The second one should transparently fetch it
         $temporaryPolicy = eZPolicy::fetchTemporaryCopy( $policy->attribute( 'id' ) );
-        $this->assertType( 'eZPolicy', $temporaryPolicy,
+        $this->assertInstanceOf( 'eZPolicy', $temporaryPolicy,
             'The temporary policy isn\'t an eZPolicy' );
         $this->assertEquals( $policy->attribute( 'id' ), $temporaryPolicy->attribute( 'original_id' ),
             'The temporary policy\'s original_id should matche the ID of the attribute it was fetch as a copy of' );

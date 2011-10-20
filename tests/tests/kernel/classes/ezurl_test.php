@@ -21,7 +21,7 @@ class eZURLTest extends ezpDatabaseTestCase
         $urlObj->store();
 
         $urlObj2 = eZURL::fetchByUrl( $url );
-        self::assertType( 'eZURL', $urlObj2 );
+        self::assertInstanceOf( 'eZURL', $urlObj2 );
     }
 }
 ?>
