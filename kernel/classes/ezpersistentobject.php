@@ -285,14 +285,19 @@ abstract class eZPersistentObject
             $this->store( $fieldFilters );
     }
 
-    /*!
-     \private
-     Stores the data in \a $obj to database.
-     \param fieldFilters If specified only certain fields will be stored.
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
-    static function storeObject( $obj, $fieldFilters = null )
+    /**
+     * Stores the data in $obj to database.
+     *
+     * Note: Transaction unsafe. If you call several transaction unsafe methods
+     * you must enclose the calls within a db transaction; thus within db->begin
+     * and db->commit.
+     *
+     * @access private
+     * @param eZPersistentObject $obj
+     * @param array $fieldFilters If specified only certain fields will be stored.
+     * @return void
+     */
+    public static function storeObject( $obj, $fieldFilters = null )
     {
         $db = eZDB::instance();
         $useFieldFilters = ( isset( $fieldFilters ) && is_array( $fieldFilters ) && $fieldFilters );
