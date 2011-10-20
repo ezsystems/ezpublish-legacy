@@ -136,6 +136,7 @@ abstract class eZPersistentObject
 
     /**
      * Fetches the number of rows by using the object definition.
+     *
      * Uses fetchObjectList for the actual SQL handling.
      * See {@link eZPersistentObject::fetchObjectList()} for a full description
      * of the input parameters.
@@ -156,24 +157,23 @@ abstract class eZPersistentObject
         return (int) $rows[0]['row_count'];
     }
 
-    /*!
-     Creates an SQL query out of the different parameters and returns an object with the result.
-     If \a $asObject is true the returned item is an object otherwise a db row.
-     Uses fetchObjectList for the actual SQL handling and just returns the first row item.
-
-     See fetchObjectList() for a full description of the input parameters.
-    */
-    static function fetchObject( /*! The definition structure */
-                               $def,
-                               /*! If defined determines the fields which are extracted, if not all fields are fetched */
-                               $field_filters,
-                               /*! An array of conditions which determines which rows are fetched*/
-                               $conds,
-                               $asObject = true,
-                               /*! An array of elements to group by */
-                               $grouping = null,
-                               /*! An array of extra fields to fetch, each field may be a SQL operation */
-                               $custom_fields = null )
+    /**
+     * Fetches and returns an object based on the given parameters and returns
+     * is either as an object or as an array
+     *
+     * See {@link eZPersistentObject::fetchObjectList()} for a full description
+     * of the input parameters.
+     *
+     * @static
+     * @param array $def The definition structure
+     * @param array $field_filters If defined determines the fields which are extracted, if not all fields are fetched
+     * @param array $conds An array of conditions which determines which rows are fetched
+     * @param bool $asObject If true the returned item is an object otherwise a db row (array).
+     * @param array $grouping An array of elements to group by
+     * @param array $custom_fields An array of extra fields to fetch, each field may be a SQL operation
+     * @return eZPersistentObject|array
+     */
+    public static function fetchObject( $def, $field_filters, $conds, $asObject = true, $grouping = null, $custom_fields = null )
     {
         $rows = eZPersistentObject::fetchObjectList( $def, $field_filters, $conds,
                                                       array(), null, $asObject,
