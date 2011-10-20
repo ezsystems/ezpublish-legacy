@@ -44,12 +44,8 @@ abstract class eZPersistentObject
     public function eZPersistentObject( $row )
     {
         $this->PersistentDataDirty = false;
-
         if ( is_numeric( $row ) )
-        {
             $row = $this->fetch( $row, false );
-        }
-
         $this->fill( $row );
     }
 
