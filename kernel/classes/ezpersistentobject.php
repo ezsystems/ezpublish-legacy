@@ -183,10 +183,6 @@ abstract class eZPersistentObject
         return null;
     }
 
-    /*!
-
-    */
-
     /**
      * Removes the object from the database, it will use the keys in the object
      * definition to figure out which table row should be removed unless
