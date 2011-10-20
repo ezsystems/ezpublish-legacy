@@ -252,14 +252,19 @@ abstract class eZPersistentObject
 
         $db->query( "DELETE FROM $table $cond_text" );
     }
-
-    /*!
-     Stores the object in the database, uses storeObject() to do the actual
-     job and passes \a $fieldFilters to it.
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
-    function store( $fieldFilters = null )
+    
+    /**
+     * Stores the object in the database, uses storeObject() to do the actual
+     * job and passes $fieldFilters to it.
+     *
+     * Note: Transaction unsafe. If you call several transaction unsafe methods
+     * you must enclose the calls within a db transaction; thus within db->begin
+     * and db->commit.
+     *
+     * @param array $fieldFilters
+     * @return void
+     */
+    public function store( $fieldFilters = null )
     {
         eZPersistentObject::storeObject( $this, $fieldFilters );
     }
