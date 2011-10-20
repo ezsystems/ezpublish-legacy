@@ -59,7 +59,12 @@ class eZAuthor
     function addAuthor( $id, $name, $email )
     {
         if ( $id == -1 )
-            $id = $this->Authors[$this->AuthorCount - 1]['id'] + 1;
+        {
+            if ( isset( $this->Authors[$this->AuthorCount - 1] ) )
+                $id = $this->Authors[$this->AuthorCount - 1]['id'] + 1;
+            else
+                $id = 1;
+        }
 
         $this->Authors[] = array( "id" => $id,
                                   "name" => $name,
