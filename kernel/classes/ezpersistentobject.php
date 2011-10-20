@@ -28,6 +28,7 @@
  * </code>
  * 
  * @package eZKernel
+ * @method fetch
  */
 abstract class eZPersistentObject
 {
@@ -40,7 +41,7 @@ abstract class eZPersistentObject
      *
      * @param int|array $row
      */
-    public function __construct( $row )
+    public function eZPersistentObject( $row )
     {
         $this->PersistentDataDirty = false;
 
@@ -53,24 +54,16 @@ abstract class eZPersistentObject
     }
 
     /**
-     * Fetches a peristent object by ID
-     *
-     * @param int $id
-     * @param bool $asObject
-     * @return eZPersistentObject
-     */
-    abstract public function fetch( $id, $asObject = true);
-
-    /**
      * Tries to fill in the data in the object by using the object definition
      * which is returned by the function definition() and the database row
      * data $row. Each field will be fetch from the definition and then
      * use that fieldname to fetch from the row and set the data.
      *
+     * @access protected
      * @param array $row
      * @return bool
      */
-    protected function fill( $row )
+    public function fill( $row )
     {
         if ( !is_array( $row ) )
         {
