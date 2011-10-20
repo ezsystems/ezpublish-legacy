@@ -14,12 +14,24 @@ declare( ticks=1 );
 require 'autoload.php';
 
 $cli = eZCLI::instance();
+
 $script = eZScript::instance( array( 'description' => "Processes the eZ Publish publishing queue",
                                      'use-session' => false,
                                      'use-modules' => true,
                                      'use-extensions' => true ) );
-
 $script->startup();
+
+// check required pcntl functions (ubuntu 11 disables them by default)
+$pcntlFunctions = array( 'pcntl_fork', 'pcntl_signal', 'pcntl_waitpid', 'pcntl_wexitstatus' );
+foreach( $pcntlFunctions as $pcntlFunction )
+{
+    if ( !function_exists( $pcntlFunction ) )
+    {
+        $cli->error( "The following pcntl (http://php.net/pcntl) function is disabled: $pcntlFunction" );
+        $cli->error( "Required functions: " . implode( ', ', $pcntlFunctions ) );
+    }
+    $script->shutdown( 1 );
+}
 
 $options = $script->getOptions(
     // options definition

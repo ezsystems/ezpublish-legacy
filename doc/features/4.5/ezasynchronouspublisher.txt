@@ -30,6 +30,22 @@ System configuration
 --------------------
 Publishing operations are handled by a system daemon. This daemon must be running, or content just won't be published.
 
+PHP
+'''
+The asynchronous publishing script/daemon requires the pcntl functions to be available in order to run, as it heavily
+requires on parallel publishing through forking and process control. Some distributions (Ubuntu 11.0 for instance)
+disable them by default. The daemon won't be able to run if one of the required ones isn't available.
+
+If they are disabled, either change your CLI php.ini configuration, or if the option isn't available to you, override
+them locally as follows::
+
+    php -d disabled_functions=0 bin/php/ezasynchronouspublisher.php
+
+Using the init scripts as described below in 'Settings', you can also add this option to your
+ezasynchronouspublisher.conf::
+
+    PHP_EXECUTABLE=/usr/bin/php -d disabled_functions=0
+
 Manual execution
 ''''''''''''''''
 The daemon can be started manually by running the following, as your webserver user::
