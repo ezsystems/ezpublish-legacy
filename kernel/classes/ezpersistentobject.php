@@ -215,15 +215,23 @@ abstract class eZPersistentObject
         eZPersistentObject::removeObject( $def, $conditions, $extraConditions );
     }
 
-    /*!
-     Deletes the object from the table defined in \a $def with conditions \a $conditions
-     and extra conditions \a $extraConditions. The extra conditions will either be
-     appended to the existing conditions or overwrite existing fields.
-     Uses conditionText() to create the condition SQL.
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
-    static function removeObject( $def, $conditions = null, $extraConditions = null )
+    /**
+     * Deletes the object from the table defined in $def with conditions $conditions
+     * and extra conditions \a $extraConditions. The extra conditions will either be
+     * appended to the existing conditions or overwrite existing fields.
+     *
+     * Uses conditionText() to create the condition SQL.
+     *
+     * Note: Transaction unsafe. If you call several transaction unsafe methods
+     * you must enclose the calls within a db transaction; thus within db->begin
+     * and db->commit.
+     *
+     * @param array $def
+     * @param array $conditions
+     * @param array $extraConditions
+     * @return void
+     */
+    public static function removeObject( $def, $conditions = null, $extraConditions = null )
     {
         $db = eZDB::instance();
 
@@ -236,9 +244,7 @@ abstract class eZPersistentObject
             }
         }
 
-        /* substitute fields mentioned the conditions whith their
-           short names (if any)
-         */
+        // substitute fields mentioned the conditions whith their short names (if any)
         $fields = $def['fields'];
         eZPersistentObject::replaceFieldsWithShortNames( $db, $fields, $conditions );
 
