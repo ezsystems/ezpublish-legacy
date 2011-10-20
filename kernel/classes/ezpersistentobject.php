@@ -269,13 +269,17 @@ abstract class eZPersistentObject
         eZPersistentObject::storeObject( $this, $fieldFilters );
     }
 
-    /*!
-     Makes sure data is stored if the data is considered dirty.
-     \sa hasDirtyData
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
-    function sync( $fieldFilters = null )
+    /**
+     * Makes sure data is stored if the data is considered dirty.
+     *
+     * Note: Transaction unsafe. If you call several transaction unsafe methods
+     * you must enclose the calls within a db transaction; thus within db->begin
+     * and db->commit.
+     *
+     * @param array $fieldFilters
+     * @return void
+     */
+    public function sync( $fieldFilters = null )
     {
         if ( $this->hasDirtyData() )
             $this->store( $fieldFilters );
