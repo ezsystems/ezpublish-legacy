@@ -184,15 +184,26 @@ abstract class eZPersistentObject
     }
 
     /*!
-     Removes the object from the database, it will use the keys in the object
-     definition to figure out which table row should be removed unless \a $conditions
-     is defined as an array with fieldnames.
-     It uses removeObject to do the real job and passes the object defintion,
-     conditions and extra conditions \a $extraConditions to this function.
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
+
     */
-    function remove( $conditions = null, $extraConditions = null )
+
+    /**
+     * Removes the object from the database, it will use the keys in the object
+     * definition to figure out which table row should be removed unless
+     * $conditions is defined as an array with fieldnames.
+     *
+     * It uses removeObject to do the real job and passes the object defintion,
+     * conditions and extra conditions \a $extraConditions to this function.
+     *
+     * Note: Transaction unsafe. If you call several transaction unsafe methods
+     * you must enclose the calls within a db transaction; thus within db->begin
+     * and db->commit.
+     *
+     * @param array $conditions
+     * @param array $extraConditions
+     * @return void
+     */
+    public function remove( $conditions = null, $extraConditions = null )
     {
         $def = $this->definition();
         $keys = $def["keys"];
