@@ -66,22 +66,12 @@ abstract class eZPersistentObject
     public function fill( $row )
     {
         if ( !is_array( $row ) )
-        {
             return false;
-        }
-
         $def = $this->definition();
+        $fields = $def["fields"];
+        $intersectList = array_intersect_key( $fields,
+                                              $row );
 
-        if ( !isset( $def['fields'] ) )
-        {
-            eZDebug::writeError( get_class( $this ) . "::definition() must contain a subarray named 'fields'", __METHOD__ );
-            return false;
-        }
-
-        $fields = $def['fields'];
-
-        // Set defined properties with the given values from $row
-        $intersectList = array_intersect_key( $fields, $row );
         foreach ( $intersectList as $key => $item )
         {
             if ( is_array( $item ) )
@@ -91,9 +81,7 @@ abstract class eZPersistentObject
             $this->$item = $row[$key];
         }
 
-        // Initialize defined properties which were not given from $row with null
-        $diffList = array_diff_key( $fields, $intersectList );
-        foreach( $diffList as $item )
+        foreach( array_diff_key( $fields, $intersectList ) as $item )
         {
             if ( is_array( $item ) )
             {
