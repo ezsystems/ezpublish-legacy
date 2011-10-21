@@ -1360,16 +1360,18 @@ abstract class eZPersistentObject
      *
      * @return bool
      */
-    function hasDirtyData()
+    public function hasDirtyData()
     {
         return $this->PersistentDataDirty;
     }
 
-    /*!
-     Sets whether the object has dirty data or not.
-     \sa hasDirtyData, sync
-    */
-    function setHasDirtyData( $hasDirtyData )
+    /**
+     * Sets whether the object has dirty data or not.
+     *
+     * @param bool $hasDirtyData
+     * @return void
+     */
+    public function setHasDirtyData( $hasDirtyData )
     {
         $this->PersistentDataDirty = $hasDirtyData;
     }
