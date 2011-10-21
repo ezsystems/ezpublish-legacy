@@ -30,7 +30,7 @@
  * @package eZKernel
  * @method fetch
  */
-abstract class eZPersistentObject
+class eZPersistentObject
 {
     /**
      * Whether the data is dirty, ie needs to be stored, or not.
