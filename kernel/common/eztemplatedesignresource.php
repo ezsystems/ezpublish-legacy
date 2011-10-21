@@ -855,7 +855,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         // Generate match cache for all templates
 
         // Build arrays of available files, start with standard design and end with most prefered design
-        $matchFilesArray = array();
+        $matchFileArray = array();
 
         $reverseBases = array_reverse( $bases );
 
