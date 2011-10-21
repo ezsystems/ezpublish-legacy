@@ -33,6 +33,14 @@
 abstract class eZPersistentObject
 {
     /**
+     * Whether the data is dirty, ie needs to be stored, or not.
+     *
+     * @access private
+     * @var bool
+     */
+    public $PersistentDataDirty;
+
+    /**
      * Initializes the object with the $row.
      *
      * It will try to set each field taken from the database row. Calls fill
@@ -1393,10 +1401,6 @@ abstract class eZPersistentObject
 
         return $attrName;
     }
-
-    /// \privatesection
-    /// Whether the data is dirty, ie needs to be stored, or not.
-    public $PersistentDataDirty;
 }
 
 ?>
