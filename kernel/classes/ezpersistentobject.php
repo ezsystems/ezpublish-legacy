@@ -1064,41 +1064,50 @@ abstract class eZPersistentObject
         }
     }
 
-    /*!
-     \return the definition for the object, the default implementation
-             is to return an empty array. It's upto each inheriting class
-             to return a proper definition array.
-
-     The definition array is an associative array consists of these keys:
-     - fields - an associative array of fields which defines which database field (the key) is to fetched and how they map
-                to object member variables (the value).
-     - keys - an array of fields which is used for uniquely identifying the object in the table.
-     - function_attributes - an associative array of attributes which maps to member functions, used for fetching data with functions.
-     - set_functions - an associative array of attributes which maps to member functions, used for setting data with functions.
-     - increment_key - the field which is incremented on table inserts.
-     - class_name - the classname which is used for instantiating new objecs when fetching from the
-                    database.
-     - sort - an associative array which defines the default sorting of lists, the key is the table field while the value
-              is the sorting method which is either \c asc or \c desc.
-     - name - the name of the database table
-
-     Example:
-\code
-static function definition()
-{
-    return array( "fields" => array( "id" => "ID",
-                                     "version" => "Version",
-                                     "name" => "Name" ),
-                  "keys" => array( "id", "version" ),
-                  "function_attributes" => array( "current" => "currentVersion",
-                                                  "class_name" => "className" ),
-                  "increment_key" => "id",
-                  "class_name" => "eZContentClass",
-                  "sort" => array( "id" => "asc" ),
-                  "name" => "ezcontentclass" );
-}
-\endcode
-    */
+    /**
+     * Returns the definition for the object, the default implementation
+     * is to return an empty array. It's upto each inheriting class
+     * to return a proper definition array.
+     *
+     * The definition array is an associative array consists of these keys:
+     * - fields:    an associative array of fields which defines which database
+     *              field (the key) is to fetched and how they map to object
+     *              member variables (the value).
+     * - keys:      an array of fields which is used for uniquely identifying
+     *              the object in the table.
+     * - function_attributes:   an associative array of attributes which maps
+     *                          to member functions, used for fetching
+     *                          data with functions.
+     *
+     * - set_functions: an associative array of attributes which maps to member
+     *                  functions, used for setting data with functions.
+     * - increment_key: the field which is incremented on table inserts.
+     * - class_name:    the classname which is used for instantiating new objecs
+     *                  when fetching from the database.
+     * - sort:  an associative array which defines the default sorting of lists,
+     *          the key is the table field while the value is the sorting method
+     *          which is either 'asc' or 'desc'.
+     * - name:  the name of the database table
+     *
+     * Example:
+     * <code>
+     * static function definition()
+     * {
+     *     return array(    "fields" => array( "id" => "ID",
+     *                                         "version" => "Version",
+     *                                         "name" => "Name" ),
+     *                      "keys" => array( "id", "version" ),
+     *                      "function_attributes" => array( "current" => "currentVersion",
+     *                                                      "class_name" => "className" ),
+     *                      "increment_key" => "id",
+     *                      "class_name" => "eZContentClass",
+     *                      "sort" => array( "id" => "asc" ),
+     *                      "name" => "ezcontentclass" );
+     * }
+     * </code>
+     *
+     * @return array
+     */
     static function definition()
     {
         return array();
