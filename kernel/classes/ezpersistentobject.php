@@ -669,107 +669,97 @@ abstract class eZPersistentObject
         return $where_text;
     }
 
-
-    /*!
-     Creates an SQL query out of the different parameters and returns an array with the result.
-     If \a $asObject is true the array contains objects otherwise a db row.
-
-
-     \param $def A definition array of all fields, table name and sorting
-     \param $field_filters If defined determines the fields which are extracted (array of field names), if not all fields are fetched
-     \param $conds \c null for no special condition or an associative array of fields to filter on.
-                   Syntax is \c FIELD => \c CONDITION, \c CONDITION can be one of:
-                   - Scalar value - Creates a condition where \c FIELD must match the value, e.g
-                                    \code array( 'id' => 5 ) \endcode
-                                    generates SQL
-                                    \code id = 5 \endcode
-                   - Array with two scalar values - Element \c 0 is the match operator and element \c 1 is the scalar value
-                                    \code array( 'priority' => array( '>', 5 ) ) \endcode
-                                    generates SQL
-                                    \code priority > 5 \endcode
-                   - Array with range - Element \c 1 is an array with start and stop of range in array
-                                    \code array( 'type' => array( false, array( 1, 5 ) ) ) \endcode
-                                    generates SQL
-                                    \code type BETWEEN 1 AND 5 \endcode
-                   - Array with multiple elements - Element \c 0 is an array with scalar values
-                                    \code array( 'id' => array( array( 1, 5, 7 ) ) ) \endcode
-                                    generates SQL
-                                    \code id IN ( 1, 5, 7 ) \endcode
-     \param $sorts An associative array of sorting conditions, if set to \c false ignores settings in \a $def,
-                   if set to \c null uses settingss in \a $def.
-                   Syntax is \c FIELD => \c DIRECTION. \c DIRECTION must either be string \c 'asc'
-                   for ascending or \c 'desc' for descending.
-     \param $limit An associative array with limitiations, can contain
-                   - offset - Numerical value defining the start offset for the fetch
-                   - length - Numerical value defining the max number of items to return
-     \param $asObject If \c true then it will return an array with objects, objects are created from class defined in \a $def.
-                      If \c false it will just return the rows fetch from database.
-     \param $grouping An array of fields to group by or \c null to use grouping in defintion \a $def.
-     \param $custom_fields Array of \c FIELD elements to add to SQL, can be used to perform custom fetches, e.g counts.
-                           \c FIELD is an associative array containing:
-                           - operation - A text field which is included in the field list
-                           - name - If present it adds 'AS name' to the operation.
-     \param $custom_tables Array of additional tables.
-     \param $custom_conds String with sql conditions for 'WHERE' clause.
-
-     A full example:
-     \code
-     $filter = array( 'id', 'name' );
-     $conds = array( 'type' => 5,
-                     'size' => array( false, array( 200, 500 ) ) );
-     $sorts = array( 'name' => 'asc' );
-     $limit = array( 'offset' => 50, 'length' => 10 );
-     eZPersistentObject::fetchObjectList( $def, $filter, $conds, $sorts, $limit, true, false, null )
-     \endcode
-
-     Counting number of elements.
-     \code
-     $custom = array( array( 'operation' => 'count( id )',
-                             'name' => 'count' ) );
-     // Here $field_filters is set to an empty array, that way only count is used in fields
-     $rows = eZPersistentObject::fetchObjectList( $def, array(), null, null, null, false, false, $custom );
-     return $rows[0]['count'];
-     \endcode
-
-     Counting elements per type using grouping
-     \code
-     $custom = array( array( 'operation' => 'count( id )',
-                             'name' => 'count' ) );
-     $group = array( 'type' );
-     $rows = eZPersistentObject::fetchObjectList( $def, array(), null, null, null, false, $group, $custom );
-     return $rows[0]['count'];
-     \endcode
-
-     Example to fetch a result with custom conditions. The following example will fetch the attributes to
-     the contentobject with id 1 and add the contentobject.name in each attribute row with the array key
-     contentobject_name.
-     \code
-     $objectDef = eZContentObject::definition();
-     $objectAttributeDef = eZContentObjectAttribute::definition();
-
-     $fields = array();
-     $conds = array( $objectDef['name'] . '.id' => 1 );
-     $sorts = array( $objectAttributeDef['name'] . '.sort_key_string' => 'asc' );
-
-     $limit = null;
-     $asObject = false;
-     $group = false;
-
-     $customFields = array( $objectAttributeDef['name'] . '.*',
-                             array( 'operation' => $objectDef['name'] . '.name',
-                                    'name' => 'contentobject_name' ) );
-
-     $customTables = array( $objectDef['name'] );
-
-     $languageCode = 'eng-GB';
-     $customConds = ' AND ' . $objectDef['name'] . '.current_version=' . $objectAttributeDef['name'] . '.version' .
-                     ' AND ' . $objectDef['name'] . '.id=' . $objectAttributeDef['name'] . '.contentobject_id' .
-                     ' AND ' . $objectAttributeDef['name'] . '.language_code=\'' . $languageCode . '\'';
-
-     $rows = eZPersistentObject::fetchObjectList( $objectAttributeDef, $fields, $conds, $sorts, $limit, $asObject,
-                                                  $group, $customFields, $customTables, $customConds );
-     \endcode
-    */
+    /**
+     * Creates an SQL query out of the different parameters and returns an array with the result.
+     *
+     * A full example:
+     * <code>
+     * $filter = array( 'id', 'name' );
+     * $conds = array( 'type' => 5,
+     *                 'size' => array( false, array( 200, 500 ) ) );
+     * $sorts = array( 'name' => 'asc' );
+     * $limit = array( 'offset' => 50, 'length' => 10 );
+     * eZPersistentObject::fetchObjectList( $def, $filter, $conds, $sorts, $limit, true, false, null )
+     * </code>
+     *
+     * Counting number of elements.
+     * <code>
+     * $custom = array( array( 'operation' => 'count( id )',
+     *                         'name' => 'count' ) );
+     * // Here $field_filters is set to an empty array, that way only count is used in fields
+     * $rows = eZPersistentObject::fetchObjectList( $def, array(), null, null, null, false, false, $custom );
+     * return $rows[0]['count'];
+     * </code>
+     *
+     * Counting elements per type using grouping
+     * <code>
+     * $custom = array( array( 'operation' => 'count( id )',
+     *                         'name' => 'count' ) );
+     * $group = array( 'type' );
+     * $rows = eZPersistentObject::fetchObjectList( $def, array(), null, null, null, false, $group, $custom );
+     * return $rows[0]['count'];
+     * </code>
+     *
+     * Example to fetch a result with custom conditions. The following example will fetch the attributes to
+     * the contentobject with id 1 and add the contentobject.name in each attribute row with the array key
+     * contentobject_name.
+     * <code>
+     * $objectDef = eZContentObject::definition();
+     * $objectAttributeDef = eZContentObjectAttribute::definition();
+     *
+     * $fields = array();
+     * $conds = array( $objectDef['name'] . '.id' => 1 );
+     * $sorts = array( $objectAttributeDef['name'] . '.sort_key_string' => 'asc' );
+     *
+     * $limit = null;
+     * $asObject = false;
+     * $group = false;
+     *
+     * $customFields = array( $objectAttributeDef['name'] . '.*',
+     *                        array( 'operation' => $objectDef['name'] . '.name',
+     *                               'name' => 'contentobject_name' ) );
+     *
+     * $customTables = array( $objectDef['name'] );
+     *
+     * $languageCode = 'eng-GB';
+     * $customConds = ' AND ' . $objectDef['name'] . '.current_version=' . $objectAttributeDef['name'] . '.version' .
+     *                ' AND ' . $objectDef['name'] . '.id=' . $objectAttributeDef['name'] . '.contentobject_id' .
+     *                ' AND ' . $objectAttributeDef['name'] . '.language_code=\'' . $languageCode . '\'';
+     *
+     * $rows = eZPersistentObject::fetchObjectList( $objectAttributeDef, $fields, $conds, $sorts, $limit, $asObject,
+     *                                              $group, $customFields, $customTables, $customConds );
+     * </code>
+     * 
+     * @param array $def                    A definition array of all fields, table name and sorting
+     * @param array|null $field_filters     If defined determines the fields which are extracted (array of field names), if not all fields are fetched
+     * @param array|null $conds             null for no special condition or an associative array of fields to filter on.
+     *                                      Syntax is FIELD => CONDITION
+     *                                      CONDITION can be one of:
+     *                                      - Scalar value: Creates a condition where FIELD must match the value, e.g
+     *                                      <code>array( 'id' => 5 )</code> generates <code>SQL id = 5</code>
+     *                                      - Array with two scalar values: The first value is the match operator, the second is the scalar value
+     *                                      <code>array( 'priority' => array( '>', 5 ) )</code> generates SQL <code>priority > 5</code>
+     *                                      - Array with range: The first value is <code>false</code>, the second value is an array with start and stop of range in array
+     *                                      <code>array( 'type' => array( false, array( 1, 5 ) ) )</code> generates SQL <code>type BETWEEN 1 AND 5</code>
+     *                                      - Array with multiple elements: The first value is the field identifier, the second is an array with scalar values
+     *                                       <code>array( 'id' => array( array( 1, 5, 7 ) ) )</code> generates SQL <code>id IN ( 1, 5, 7 )</code>
+     * @param array|null|bool $sorts        An associative array of sorting conditions, if set to false ignores settings in $def, if set to null uses settingss in $def.
+     *                                      Syntax is FIELD => DIRECTION.
+     *                                      DIRECTION must either be 'asc' for ascending or 'desc' for descending.
+     * @param array|null $limit             An associative array with limitiations, can contain
+     *                                      - 'offset': Numerical value defining the start offset for the fetch
+     *                                      - 'length': Numerical value defining the max number of items to return
+     * @param bool $asObject                If true then it will return an array with objects, objects are created from class defined in $def.
+     *                                      If falseit will just return the rows fetch from database.
+     * @param array|null|bool $grouping     An array of fields to group by or null to use grouping in defintion $def.
+     * @param null $custom_fields           Array of FIELD elements to add to SQL, can be used to perform custom fetches, e.g counts.
+     *                                      FIELD is an associative array containing:
+     *                                      - 'operation': A text field which is included in the field list
+     *                                      - 'name': If present it adds <code>AS name</code> to the operation.
+     * @param array|null $custom_tables     Array of additional tables
+     * @param string|null $custom_conds     String with sql conditions for 'WHERE' clause.
+     * @return array|null                   An array of objects or rows, null on error
+     */
     static function fetchObjectList( $def,
                               $field_filters = null,
                               $conds = null,
