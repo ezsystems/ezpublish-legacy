@@ -1238,6 +1238,8 @@ class eZPersistentObject
      * Returns the attributes for this object, taken from the definition fields
      * and function attributes.
      *
+     * @see eZPersistentObject::definition()
+     *
      * @return array
      */
     public function attributes()
