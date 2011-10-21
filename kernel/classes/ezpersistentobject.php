@@ -990,23 +990,28 @@ abstract class eZPersistentObject
             return 1;
     }
 
-    /*!
-     Moves a row in a database table. \a $def is the object definition.
-     Uses \a $orderField to determine the order of objects in a table, usually this
-     is a placement of some kind. It uses this order field to figure out how move
-     the row, the row is either swapped with another row which is either above or
-     below according to whether \a $down is true or false, or it is swapped
-     with the first item or the last item depending on whether this row is first or last.
-     Uses \a $conditions to figure out unique rows.
-     \sa swapRow
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
-    static function reorderObject( $def,
-                            /*! Associative array with one element, the key is the order id and values is order value. */
-                            $orderField,
-                            $conditions,
-                            $down = true )
+    /**
+     * Moves a row in a database table.
+     *
+     * Uses $orderField to determine the order of objects in a table, usually this
+     * is a placement of some kind. It uses this order field to figure out how move
+     * the row, the row is either swapped with another row which is either above or
+     * below according to whether $down is true or false, or it is swapped
+     * with the first item or the last item depending on whether this row
+     * is first or last.
+     * Uses $conditions to figure out unique rows.
+     *
+     * Note: Transaction unsafe. If you call several transaction unsafe methods
+     * you must enclose the calls within a db transaction; thus within db->begin
+     * and db->commit.
+     *
+     * @param array $def The object definition.
+     * @param array $orderField Associative array with one element, the key is the order id and values is order value.
+     * @param array $conditions
+     * @param bool $down
+     * @return void
+     */
+    public static function reorderObject( $def, $orderField, $conditions, $down = true )
     {
         $db = eZDB::instance();
         $table = $def["name"];
