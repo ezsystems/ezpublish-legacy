@@ -575,10 +575,13 @@ abstract class eZPersistentObject
         }
         $obj->setHasDirtyData( false );
     }
-
-    /*!
-     Calls conditionTextByRow with an empty row and \a $conditions.
-    */
+    
+    /**
+     * Calls conditionTextByRow with an empty row and $conditions.
+     *
+     * @param array $conditions
+     * @return string
+     */
     static function conditionText( $conditions )
     {
         return eZPersistentObject::conditionTextByRow( $conditions, null );
