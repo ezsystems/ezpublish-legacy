@@ -149,7 +149,7 @@ class eZPersistentObject
      * See {@link eZPersistentObject::fetchObjectList()} for a full description
      * of the input parameters.
      *
-     * @param array $def
+     * @param array $def A definition array of all fields, table name and sorting (see {@link eZPersistentObject::definition()} for more info)
      * @param array|null $conds
      * @param string|null $field
      * @return int
@@ -173,7 +173,7 @@ class eZPersistentObject
      * of the input parameters.
      *
      * @static
-     * @param array $def The definition structure
+     * @param array $def A definition array of all fields, table name and sorting (see {@link eZPersistentObject::definition()} for more info)
      * @param array $field_filters If defined determines the fields which are extracted, if not all fields are fetched
      * @param array $conds An array of conditions which determines which rows are fetched
      * @param bool $asObject If true the returned item is an object otherwise a db row (array).
@@ -234,7 +234,7 @@ class eZPersistentObject
      * you must enclose the calls within a db transaction; thus within db->begin
      * and db->commit.
      *
-     * @param array $def
+     * @param array $def A definition array of all fields, table name and sorting (see {@link eZPersistentObject::definition()} for more info)
      * @param array|null $conditions
      * @param array|null $extraConditions
      * @return void
@@ -738,7 +738,7 @@ class eZPersistentObject
      *                                              $group, $customFields, $customTables, $customConds );
      * </code>
      * 
-     * @param array $def                    A definition array of all fields, table name and sorting
+     * @param array $def                    A definition array of all fields, table name and sorting (see {@link eZPersistentObject::definition()} for more info)
      * @param array|null $field_filters     If defined determines the fields which are extracted (array of field names), if not all fields are fetched
      * @param array|null $conds             null for no special condition or an associative array of fields to filter on.
      *                                      Syntax is FIELD => CONDITION
@@ -980,7 +980,7 @@ class eZPersistentObject
      * Uses $def, $orderField and $conditions to figure out the currently maximum
      * order value and returns one that is larger.
      *
-     * @param array $def
+     * @param array $def A definition array of all fields, table name and sorting (see {@link eZPersistentObject::definition()} for more info)
      * @param string $orderField
      * @param array $conditions
      * @return int
@@ -1013,7 +1013,7 @@ class eZPersistentObject
      * you must enclose the calls within a db transaction; thus within db->begin
      * and db->commit.
      *
-     * @param array $def The object definition.
+     * @param array $def A definition array of all fields, table name and sorting (see {@link eZPersistentObject::definition()} for more info)
      * @param array $orderField Associative array with one element, the key is the order id and values is order value.
      * @param array $conditions
      * @param bool $down
@@ -1388,7 +1388,7 @@ class eZPersistentObject
      * Returns the short attribute name (alias) if it's defined, given attribute name otherwise
      *
      * @param eZDBInterface $db
-     * @param array $def
+     * @param array $def A definition array of all fields, table name and sorting (see {@link eZPersistentObject::definition()} for more info)
      * @param string $attrName
      * @return string
      */
