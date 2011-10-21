@@ -905,16 +905,19 @@ abstract class eZPersistentObject
         $objectList = eZPersistentObject::handleRows( $rows, $class_name, $asObject );
         return $objectList;
     }
-
-    /*!
-     Creates PHP objects out of the database rows \a $rows.
-     Each object is created from class \$ class_name and is passed
-     as a row array as parameter.
-
-     \param $asObject If \c true then objects will be created,
-                      if not it just returns \a $rows as it is.
-    */
-    static function handleRows( $rows, $class_name, $asObject )
+    
+    /**
+     * Creates PHP objects out of the database rows $rows.
+     *
+     * Each object is created from class \$ class_name and is passed
+     * as a row array as parameter.
+     *
+     * @param array $rows
+     * @param string $class_name
+     * @param bool $asObject If true then objects will be created, if not it just returns $rows as it is.
+     * @return array
+     */
+    public static function handleRows( $rows, $class_name, $asObject )
     {
         if ( $asObject )
         {
