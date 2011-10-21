@@ -587,11 +587,17 @@ abstract class eZPersistentObject
         return eZPersistentObject::conditionTextByRow( $conditions, null );
     }
 
-    /*!
-     Generates an SQL sentence from the conditions \a $conditions and row data \a $row.
-     If \a $row is empty (null) it uses the condition data instead of row data.
-    */
-    static function conditionTextByRow( $conditions, $row )
+    /**
+     * Generates an SQL sentence from the conditions \a $conditions and
+     * row data $row.
+     *
+     * If $row is empty (or null) it uses the condition data instead of row data.
+     *
+     * @param array $conditions
+     * @param array|null $row
+     * @return string
+     */
+    public static function conditionTextByRow( $conditions, $row )
     {
         $db = eZDB::instance();
 
