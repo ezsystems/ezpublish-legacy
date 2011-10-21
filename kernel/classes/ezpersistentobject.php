@@ -766,7 +766,7 @@ class eZPersistentObject
      *                                      - 'name': If present it adds <code>AS name</code> to the operation.
      * @param array|null $custom_tables     Array of additional tables
      * @param string|null $custom_conds     String with sql conditions for 'WHERE' clause.
-     * @return array|null                   An array of objects or rows, null on error
+     * @return eZPersistentObject[]|array|null                   An array of objects or rows, null on error
      */
     public static function fetchObjectList( $def,
                               $field_filters = null,
