@@ -1113,6 +1113,12 @@ abstract class eZPersistentObject
         return array();
     }
 
+    /**
+     * Escapes strings in an array with the help of {@link eZDBInterface::escapeString()}
+     *
+     * @param array $array
+     * @return array
+     */
     static function escapeArray( $array )
     {
         $db = eZDB::instance();
