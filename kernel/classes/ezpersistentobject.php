@@ -964,13 +964,20 @@ abstract class eZPersistentObject
         }
         return "UPDATE $table SET $text";
     }
-
-    /*!
-     Returns an order value which can be used for new items in table, for instance placement.
-     Uses \a $def, \a $orderField and \a $conditions to figure out the currently maximum order value
-     and returns one that is larger.
-    */
-    static function newObjectOrder( $def, $orderField, $conditions )
+    
+    /**
+     * Returns an order value which can be used for new items in table,
+     * for instance placement.
+     *
+     * Uses $def, $orderField and $conditions to figure out the currently maximum
+     * order value and returns one that is larger.
+     *
+     * @param array $def
+     * @param string $orderField
+     * @param array $conditions
+     * @return int
+     */
+    public static function newObjectOrder( $def, $orderField, $conditions )
     {
         $db = eZDB::instance();
         $table = $def["name"];
@@ -978,7 +985,7 @@ abstract class eZPersistentObject
         $cond_text = eZPersistentObject::conditionText( $conditions );
         $rows = $db->arrayQuery( "SELECT MAX($orderField) AS $orderField FROM $table $cond_text" );
         if ( count( $rows ) > 0 and isset( $rows[0][$orderField] ) )
-            return $rows[0][$orderField] + 1;
+            return (int) ( $rows[0][$orderField] + 1 );
         else
             return 1;
     }
