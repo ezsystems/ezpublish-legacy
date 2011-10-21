@@ -1099,7 +1099,7 @@ class eZPersistentObject
      *
      * Example:
      * <code>
-     * static function definition()
+     * public static function definition()
      * {
      *     return array(    "fields" => array( "id" => "ID",
      *                                         "version" => "Version",
