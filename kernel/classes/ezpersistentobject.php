@@ -142,8 +142,8 @@ abstract class eZPersistentObject
      * of the input parameters.
      *
      * @param array $def
-     * @param array $conds
-     * @param string $field
+     * @param array|null $conds
+     * @param string|null $field
      * @return int
      */
     public static function count( $def, $conds = null, $field = null )
@@ -169,9 +169,9 @@ abstract class eZPersistentObject
      * @param array $field_filters If defined determines the fields which are extracted, if not all fields are fetched
      * @param array $conds An array of conditions which determines which rows are fetched
      * @param bool $asObject If true the returned item is an object otherwise a db row (array).
-     * @param array $grouping An array of elements to group by
-     * @param array $custom_fields An array of extra fields to fetch, each field may be a SQL operation
-     * @return eZPersistentObject|array
+     * @param array|null $grouping An array of elements to group by
+     * @param array $custom_fields|null An array of extra fields to fetch, each field may be a SQL operation
+     * @return eZPersistentObject|array|null
      */
     public static function fetchObject( $def, $field_filters, $conds, $asObject = true, $grouping = null, $custom_fields = null )
     {
@@ -195,8 +195,8 @@ abstract class eZPersistentObject
      * you must enclose the calls within a db transaction; thus within db->begin
      * and db->commit.
      *
-     * @param array $conditions
-     * @param array $extraConditions
+     * @param array|null $conditions
+     * @param array|null $extraConditions
      * @return void
      */
     public function remove( $conditions = null, $extraConditions = null )
@@ -227,8 +227,8 @@ abstract class eZPersistentObject
      * and db->commit.
      *
      * @param array $def
-     * @param array $conditions
-     * @param array $extraConditions
+     * @param array|null $conditions
+     * @param array|null $extraConditions
      * @return void
      */
     public static function removeObject( $def, $conditions = null, $extraConditions = null )
@@ -261,7 +261,7 @@ abstract class eZPersistentObject
      * you must enclose the calls within a db transaction; thus within db->begin
      * and db->commit.
      *
-     * @param array $fieldFilters
+     * @param array|null $fieldFilters
      * @return void
      */
     public function store( $fieldFilters = null )
@@ -276,7 +276,7 @@ abstract class eZPersistentObject
      * you must enclose the calls within a db transaction; thus within db->begin
      * and db->commit.
      *
-     * @param array $fieldFilters
+     * @param array|null $fieldFilters
      * @return void
      */
     public function sync( $fieldFilters = null )
@@ -294,7 +294,7 @@ abstract class eZPersistentObject
      *
      * @access private
      * @param eZPersistentObject $obj
-     * @param array $fieldFilters If specified only certain fields will be stored.
+     * @param array|null $fieldFilters If specified only certain fields will be stored.
      * @return void
      */
     public static function storeObject( $obj, $fieldFilters = null )
