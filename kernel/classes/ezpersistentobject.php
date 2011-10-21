@@ -1108,7 +1108,7 @@ abstract class eZPersistentObject
      *
      * @return array
      */
-    static function definition()
+    public static function definition()
     {
         return array();
     }
@@ -1119,7 +1119,7 @@ abstract class eZPersistentObject
      * @param array $array
      * @return array
      */
-    static function escapeArray( $array )
+    public static function escapeArray( $array )
     {
         $db = eZDB::instance();
         $out = array();
@@ -1141,11 +1141,17 @@ abstract class eZPersistentObject
         return $out;
     }
 
-    /*!
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
+    /**
+     * Updates rows matching the given parameters
+     *
+     * Note: Transaction unsafe. If you call several transaction unsafe methods
+     * you must enclose the calls within a db transaction; thus within db->begin
+     * and db->commit.
+     *
+     * @param array $parameters
+     * @return void
      */
-    static function updateObjectList( $parameters )
+    public static function updateObjectList( $parameters )
     {
         $db = eZDB::instance();
         $def = $parameters['definition'];
