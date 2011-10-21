@@ -1226,11 +1226,13 @@ abstract class eZPersistentObject
         $db->query( $query );
     }
 
-    /*!
-     \return the attributes for this object, taken from the definition fields and
-             function attributes.
-    */
-    function attributes()
+    /**
+     * Returns the attributes for this object, taken from the definition fields
+     * and function attributes.
+     *
+     * @return array
+     */
+    public function attributes()
     {
         $def = $this->definition();
         $attrs = array_keys( $def["fields"] );
