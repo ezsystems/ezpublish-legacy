@@ -1354,11 +1354,12 @@ abstract class eZPersistentObject
                                  $def['class_name'] );
         }
     }
-
-    /*!
-     \return true if the data is considered dirty and needs to be stored.
-     \sa sync
-    */
+    
+    /**
+     * Returns true if the data is considered dirty and needs to be stored.
+     *
+     * @return bool
+     */
     function hasDirtyData()
     {
         return $this->PersistentDataDirty;
