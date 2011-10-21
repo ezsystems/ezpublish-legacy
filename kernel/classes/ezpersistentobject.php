@@ -923,7 +923,7 @@ class eZPersistentObject
      * @param array $rows
      * @param string $class_name
      * @param bool $asObject If true then objects will be created, if not it just returns $rows as it is.
-     * @return array
+     * @return eZPersistentObject[]|array
      */
     public static function handleRows( $rows, $class_name, $asObject )
     {
