@@ -1165,14 +1165,12 @@ class eZPersistentObject
         $def = $parameters['definition'];
         $table = $def['name'];
         $fields = $def['fields'];
-        $keys = $def['keys'];
 
         $updateFields = $parameters['update_fields'];
         $conditions = $parameters['conditions'];
 
         $query = "UPDATE $table SET ";
         $i = 0;
-        $valueBound = false;
 
         foreach( $updateFields as $field => $value )
         {
