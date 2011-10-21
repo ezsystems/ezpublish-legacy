@@ -989,7 +989,7 @@ class eZPersistentObject
     {
         $db = eZDB::instance();
         $table = $def["name"];
-        $keys = $def["keys"];
+        
         $cond_text = eZPersistentObject::conditionText( $conditions );
         $rows = $db->arrayQuery( "SELECT MAX($orderField) AS $orderField FROM $table $cond_text" );
         if ( count( $rows ) > 0 and isset( $rows[0][$orderField] ) )
