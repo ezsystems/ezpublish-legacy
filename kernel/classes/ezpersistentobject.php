@@ -582,7 +582,7 @@ abstract class eZPersistentObject
      * @param array $conditions
      * @return string
      */
-    static function conditionText( $conditions )
+    public static function conditionText( $conditions )
     {
         return eZPersistentObject::conditionTextByRow( $conditions, null );
     }
