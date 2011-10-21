@@ -1311,11 +1311,16 @@ abstract class eZPersistentObject
         }
     }
 
-    /*!
-     Sets the attribute \a $attr to the value \a $val. The attribute must be present in the
-     objects definition fields or set functions.
-    */
-    function setAttribute( $attr, $val )
+    /**
+     * Sets the attribute $attr to the value $val.
+     *
+     * The attribute must be present in the objects definition fields or set functions.
+     *
+     * @param string $attr
+     * @param mixed $val
+     * @return void
+     */
+    public function setAttribute( $attr, $val )
     {
         $def = $this->definition();
         $fields = $def["fields"];
