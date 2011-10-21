@@ -1260,11 +1260,16 @@ abstract class eZPersistentObject
         return $has_attr;
     }
 
-    /*!
-     \return the attribute data for \a $attr, this is either returned from the member variables
-             or a member function depending on whether the definition field or function attributes matched.
-    */
-    function attribute( $attr, $noFunction = false )
+    /**
+     * Returns the attribute data for $attr, this is either returned from the
+     * member variables or a member function depending on whether the definition
+     * field or function attributes matched.
+     *
+     * @param string $attr
+     * @param bool $noFunction
+     * @return mixed
+     */
+    public function attribute( $attr, $noFunction = false )
     {
         $def = $this->definition();
         $fields = $def["fields"];
