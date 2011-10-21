@@ -934,13 +934,23 @@ abstract class eZPersistentObject
         else
             return $rows;
     }
-
-    /*!
-     Sets row id \a $id2 to have the placement of row id \a $id1.
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
-    static function swapRow( $table, $keys, $order_id, $rows, $id1, $id2 )
+    
+    /**
+     * Sets row id $id2 to have the placement of row id $id1.
+     *
+     * Note: Transaction unsafe. If you call several transaction unsafe methods
+     * you must enclose the calls within a db transaction; thus within db->begin
+     * and db->commit.
+     *
+     * @param string $table
+     * @param array $keys
+     * @param int $order_id
+     * @param array $rows
+     * @param int $id1
+     * @param int $id2
+     * @return string
+     */
+    public static function swapRow( $table, $keys, $order_id, $rows, $id1, $id2 )
     {
         $db = eZDB::instance();
         $text = $order_id . "='" . $db->escapeString( $rows[$id1][$order_id] ) . "' WHERE ";
