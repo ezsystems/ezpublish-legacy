@@ -1242,11 +1242,14 @@ abstract class eZPersistentObject
             $attrs = array_unique( array_merge( $attrs, array_keys( $def["functions"] ) ) );
         return $attrs;
     }
-
-    /*!
-     \return true if the attribute \a $attr is part of the definition fields or function attributes.
-    */
-    function hasAttribute( $attr )
+    
+    /**
+     * Checks if $attr is part of the definition fields or function attributes.
+     *
+     * @param string $attr
+     * @return bool
+     */
+    public function hasAttribute( $attr )
     {
         $def = $this->definition();
         $has_attr = isset( $def["fields"][$attr] );
