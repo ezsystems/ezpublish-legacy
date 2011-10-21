@@ -1376,10 +1376,15 @@ abstract class eZPersistentObject
         $this->PersistentDataDirty = $hasDirtyData;
     }
 
-    /*!
-     \return short attribute name (alias) if it's defined, given attribute name otherwise
-    */
-    static function getShortAttributeName( $db, $def, $attrName )
+    /**
+     * Returns the short attribute name (alias) if it's defined, given attribute name otherwise
+     *
+     * @param eZDBInterface $db
+     * @param array $def
+     * @param string $attrName
+     * @return string
+     */
+    public static function getShortAttributeName( $db, $def, $attrName )
     {
         $fields = $def['fields'];
 
