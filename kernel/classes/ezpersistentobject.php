@@ -760,7 +760,7 @@ abstract class eZPersistentObject
      * @param string|null $custom_conds     String with sql conditions for 'WHERE' clause.
      * @return array|null                   An array of objects or rows, null on error
      */
-    static function fetchObjectList( $def,
+    public static function fetchObjectList( $def,
                               $field_filters = null,
                               $conds = null,
                               $sorts = null,
