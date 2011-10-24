@@ -109,7 +109,7 @@ class ezpExtension
         // try extension.xml first
         if ( is_readable( $XMLFilePath = eZExtension::baseDirectory() . "/{$this->name}/extension.xml" ) )
         {
-            $infoFields = array( 'name', 'version', 'copyright', 'license', 'info_url' );
+            $infoFields = array( 'name', 'description', 'version', 'copyright', 'author', 'license', 'info_url' );
 
             libxml_use_internal_errors( true );
             $xml = simplexml_load_file( $XMLFilePath );
