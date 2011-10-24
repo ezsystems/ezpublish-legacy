@@ -35,7 +35,8 @@ class eZPersistentObject
     /**
      * Whether the data is dirty, ie needs to be stored, or not.
      *
-     * @access private
+     * @todo Change the actual access to protected instead of just marking it as such
+     * @access protected
      * @var bool
      */
     public $PersistentDataDirty;
@@ -63,6 +64,7 @@ class eZPersistentObject
      * data $row. Each field will be fetch from the definition and then
      * use that fieldname to fetch from the row and set the data.
      *
+     * @todo Change the actual access to protected instead of just marking it as such
      * @access protected
      * @param array $row
      * @return bool
@@ -102,7 +104,8 @@ class eZPersistentObject
      * values (for non-associative array) as table fields names and replaces them
      * with short names (aliases) found in $fieldDefs.
      *
-     * @access private
+     * @todo Change the actual access to protected instead of just marking it as such
+     * @access protected
      * @param eZDBInterface $db
      * @param array $fieldDefs
      * @param array $fields
@@ -172,7 +175,6 @@ class eZPersistentObject
      * See {@link eZPersistentObject::fetchObjectList()} for a full description
      * of the input parameters.
      *
-     * @static
      * @param array $def A definition array of all fields, table name and sorting (see {@link eZPersistentObject::definition()} for more info)
      * @param array $field_filters If defined determines the fields which are extracted, if not all fields are fetched
      * @param array $conds An array of conditions which determines which rows are fetched
@@ -300,7 +302,8 @@ class eZPersistentObject
      * you must enclose the calls within a db transaction; thus within db->begin
      * and db->commit.
      *
-     * @access private
+     * @todo Change the actual access to protected instead of just marking it as such
+     * @access protected
      * @param eZPersistentObject $obj
      * @param array|null $fieldFilters If specified only certain fields will be stored.
      * @return void
