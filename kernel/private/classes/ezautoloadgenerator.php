@@ -426,7 +426,7 @@ class eZAutoloadGenerator
      * $excludeFilters on files. As soon as
      * https://issues.apache.org/jira/browse/ZETACOMP-85 is implemented, this
      * method could be removed.
-     * 
+     *
      * @param mixed $sourceDir
      * @param array $includeFilters
      * @param array $excludeFilters
@@ -565,97 +565,101 @@ class eZAutoloadGenerator
                             'classCount' => 0,
                             'classAdded' => 0,
                            );
-
         $this->setStatArray( self::OUTPUT_PROGRESS_PHASE2, $statArray );
-        $this->startProgressOutput( self::OUTPUT_PROGRESS_PHASE2 );
 
-        // Compatibility with PHP 5.2 where T_NAMESPACE constant is not available
-        // Assigning the constant value to $tNamespace
-        // 377 is the value for T_NAMESPACE in PHP 5.3.x
-        $tNamespace = defined( 'T_NAMESPACE' ) ? T_NAMESPACE : 377;
-
-        foreach( $fileList as $file )
+        if ( count( $fileList ) )
         {
-            $this->updateProgressOutput( self::OUTPUT_PROGRESS_PHASE2 );
-            if ( $mode === self::MODE_SINGLE_EXTENSION )
-            {
-                $file = getcwd() . DIRECTORY_SEPARATOR . $this->options->basePath . DIRECTORY_SEPARATOR . $file;
-            }
+            $this->startProgressOutput( self::OUTPUT_PROGRESS_PHASE2 );
 
-            $tokens = @token_get_all( file_get_contents( $file ) );
-            $namespace = null;
-            foreach( $tokens as $key => $token )
+            // Compatibility with PHP 5.2 where T_NAMESPACE constant is not available
+            // Assigning the constant value to $tNamespace
+            // 377 is the value for T_NAMESPACE in PHP 5.3.x
+            $tNamespace = defined( 'T_NAMESPACE' ) ? T_NAMESPACE : 377;
+
+            foreach( $fileList as $file )
             {
-                if ( is_array( $token ) )
+                $this->updateProgressOutput( self::OUTPUT_PROGRESS_PHASE2 );
+                if ( $mode === self::MODE_SINGLE_EXTENSION )
                 {
-                    switch( $token[0] )
+                    $file = getcwd() . DIRECTORY_SEPARATOR . $this->options->basePath . DIRECTORY_SEPARATOR . $file;
+                }
+
+                $tokens = @token_get_all( file_get_contents( $file ) );
+                $namespace = null;
+                foreach( $tokens as $key => $token )
+                {
+                    if ( is_array( $token ) )
                     {
-                        // Store namespace name, if applicable, to concatenate with class name
-                        case $tNamespace:
-                            // NAMESPACE_TOKEN - WHITESPACE_TOKEN - TEXT_TOKENS (containing namespace name)
-                            $offset = $key + 2;
-                            $namespace = "";
-                            while ( $tokens[$offset] !== ";" )
-                            {
-                                if ( is_array( $tokens[$offset] ) )
+                        switch( $token[0] )
+                        {
+                            // Store namespace name, if applicable, to concatenate with class name
+                            case $tNamespace:
+                                // NAMESPACE_TOKEN - WHITESPACE_TOKEN - TEXT_TOKENS (containing namespace name)
+                                $offset = $key + 2;
+                                $namespace = "";
+                                while ( $tokens[$offset] !== ";" )
                                 {
-                                    $namespace .= $tokens[$offset][1];
+                                    if ( is_array( $tokens[$offset] ) )
+                                    {
+                                        $namespace .= $tokens[$offset][1];
+                                    }
+
+                                    $offset++;
                                 }
 
-                                $offset++;
-                            }
+                                $namespace = trim( $namespace );
+                                break;
 
-                            $namespace = trim( $namespace );
-                            break;
+                            case T_CLASS:
+                            case T_INTERFACE:
+                                // Increment stat for found class.
+                                $this->incrementProgressStat( self::OUTPUT_PROGRESS_PHASE2, 'classCount' );
 
-                        case T_CLASS:
-                        case T_INTERFACE:
-                            // Increment stat for found class.
-                            $this->incrementProgressStat( self::OUTPUT_PROGRESS_PHASE2, 'classCount' );
+                                // CLASS_TOKEN - WHITESPACE_TOKEN - TEXT_TOKEN (containing class name)
+                                $className = $tokens[$key+2][1];
+                                if ( $namespace !== null )
+                                {
+                                    $className = $namespace . "\\" . $className;
+                                }
 
-                            // CLASS_TOKEN - WHITESPACE_TOKEN - TEXT_TOKEN (containing class name)
-                            $className = $tokens[$key+2][1];
-                            if ( $namespace !== null )
-                            {
-                                $className = $namespace . "\\" . $className;
-                            }
+                                $filePath = $file;
 
-                            $filePath = $file;
+                                if ( $mode === self::MODE_SINGLE_EXTENSION )
+                                {
+                                    $filePath = ezcBaseFile::calculateRelativePath( $filePath, getcwd() . DIRECTORY_SEPARATOR . $this->options->basePath );
+                                }
 
-                            if ( $mode === self::MODE_SINGLE_EXTENSION )
-                            {
-                                $filePath = ezcBaseFile::calculateRelativePath( $filePath, getcwd() . DIRECTORY_SEPARATOR . $this->options->basePath );
-                            }
+                                // make sure we store cross-platform file system paths,
+                                // using a forward slash as directory separator
+                                if ( DIRECTORY_SEPARATOR != '/' )
+                                {
+                                    $filePath = str_replace( DIRECTORY_SEPARATOR, '/', $filePath );
+                                }
+                                // Here there are two code paths.
+                                // MODE_KERNEL_OVERRIDE will only add a class if
+                                // it exists in the MODE_KERNEL autoload array.
+                                // All other modes will only add a class if the
+                                // class name is unique.
 
-                            // make sure we store cross-platform file system paths,
-                            // using a forward slash as directory separator
-                            if ( DIRECTORY_SEPARATOR != '/' )
-                            {
-                                $filePath = str_replace( DIRECTORY_SEPARATOR, '/', $filePath );
-                            }
-                            // Here there are two code paths.
-                            // MODE_KERNEL_OVERRIDE will only add a class if
-                            // it exists in the MODE_KERNEL autoload array.
-                            // All other modes will only add a class if the
-                            // class name is unique.
+                                $addClass = $this->classCanBeAdded( $className, $filePath, $mode, $retArray );
 
-                            $addClass = $this->classCanBeAdded( $className, $filePath, $mode, $retArray );
+                                if ( $addClass )
+                                {
+                                    // increment stat for actually added number of classes.
+                                    $this->incrementProgressStat( self::OUTPUT_PROGRESS_PHASE2, 'classAdded' );
 
-                            if ( $addClass )
-                            {
-                                // increment stat for actually added number of classes.
-                                $this->incrementProgressStat( self::OUTPUT_PROGRESS_PHASE2, 'classAdded' );
+                                    $retArray[$className] = $filePath;
+                                }
 
-                                $retArray[$className] = $filePath;
-                            }
-
-                            break;
+                                break;
+                        }
                     }
                 }
             }
-        }
 
-        $this->stopProgressOutput( self::OUTPUT_PROGRESS_PHASE2 );
+            $this->stopProgressOutput( self::OUTPUT_PROGRESS_PHASE2 );
+            ksort( $retArray );
+        }
 
         if ( $this->output !== null )
         {
@@ -663,7 +667,6 @@ class eZAutoloadGenerator
             $this->log( "Found {$classCount} classes, added {$classAdded} of them to the autoload array." );
         }
 
-        ksort( $retArray );
         return $retArray;
     }
 
