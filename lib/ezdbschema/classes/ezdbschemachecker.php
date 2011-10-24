@@ -187,7 +187,12 @@ class eZDbSchemaChecker
             return $field2;
         }
 
-        $test_fields = array( 'length', 'default', 'not_null' );
+        $test_fields = array( 'default', 'not_null' );
+        
+        // Ignore length for int types
+        if ( $field1['type'] === $field2['type'] && $field1['type'] !== 'int' )
+            $test_fields[] = 'length';
+
         $different_options = array();
 
         foreach ( $test_fields as $test_field )
