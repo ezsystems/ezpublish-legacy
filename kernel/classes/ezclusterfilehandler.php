@@ -11,7 +11,7 @@ class eZClusterFileHandler
 {
     /**
      * Returns the configured instance of an eZClusterFileHandlerInterface
-     * See ClusteringSettings.FileHandler in php.ini
+     * See ClusteringSettings.FileHandler in file.ini
      *
      * @param string|bool $filename
      *        Optional filename the handler should be initialized with
