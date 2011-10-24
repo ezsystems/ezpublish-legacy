@@ -1385,10 +1385,10 @@
                     if (v = DOM.getAttrib(n, 'id'))
                         ti += 'id: ' + v + ' ';
 
-                    // eZ: Support custom className var and remove internal ezoeItem prefix
+                    // eZ: Support custom className var and remove internal ezoeItem/ezoeAlign prefixes
                     if (v = className ?  className : n.className)
                     {
-                        v = v.replace(/\b\s*(webkit|mce|Apple-|ezoeItem)\w+\s*\b/g, '')
+                        v = jQuery.trim( v.replace(/\b\s*(webkit|mce|Apple-|ezoeItem|ezoeAlign)\w+\s*\b/g, '') );
 
                         if (v) {
                             ti = ti + 'class: ' + v + ' ';
@@ -1604,10 +1604,17 @@
 
             if ( p )
             {
+                // resetting CSS class for alignment before putting the new right value if needed
+                ed.dom.setAttrib( n, 'class', jQuery.trim( ed.dom.getAttrib( n, 'class' ).replace( /ezoeAlign\w+/, '' ) ) );
                 if ( n.align === c )
+                {
                     ed.dom.setAttrib( n, 'align', '' );
+                }
                 else
+                {
+                    ed.dom.addClass( n, 'ezoeAlign' + c );
                     ed.dom.setAttrib( n, 'align', c );
+                }
             }
             return false;
         },

@@ -284,6 +284,11 @@ div.ezoeItemNonEditable div.break /* Old method for terminating floating element
 
 .ezoeItemValidationError { border: 1px solid red; }
 
+img.ezoeAlignmiddle
+{
+display:block;
+margin:0 auto;
+}
 
 /* Example of class visualization for paragraph element:
    red background and center-aligned text. */

@@ -1227,7 +1227,10 @@ class eZOEXMLInput extends eZXMLInputHandler
                     }
 
                     if ( $alignment === 'center' )
+                    {
                         $objectAttr .= ' align="middle"';
+                        $className .= ' ezoeAlignmiddle'; // align="middle" is not taken into account by browsers on img
+                    }
                     else if ( $alignment )
                         $objectAttr .= ' align="' . $alignment . '"';
 
