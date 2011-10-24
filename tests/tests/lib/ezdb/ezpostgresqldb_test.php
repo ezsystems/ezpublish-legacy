@@ -17,6 +17,8 @@ class eZPostgreSQLDBTest extends ezpDatabaseTestCase
 
         parent::setUp();
 
+        $this->sharedFixture = ezpTestDatabaseHelper::create( ezpTestRunner::dsn() );
+
         ezpTestDatabaseHelper::clean( $this->sharedFixture );
     }
 
