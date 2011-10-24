@@ -1537,7 +1537,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $customAttributePart .= ' style="width:' . $width . ';"';
                 }*/
 
-                if ( is_string( $border ) )
+                if ( $border !== '' && is_string( $border ) )
                 {
                     if ( $border === '0%' )
                         $border = '0';// Strip % if 0 to make sure TinyMCE shows a dotted border
