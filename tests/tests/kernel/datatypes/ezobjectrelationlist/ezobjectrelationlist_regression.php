@@ -36,7 +36,7 @@ class eZObjectRelationListDatatypeRegression extends ezpDatabaseTestCase
         $o2->test_relation = array( $o1->attribute( 'id' ) );
         $o2->publish();
         // test O2's name
-        $this->assert( 'name_Test_NOR', $o2->name );
+        $this->assertEquals( 'name_Test_NOR', $o2->name );
     }
 }
 ?>
