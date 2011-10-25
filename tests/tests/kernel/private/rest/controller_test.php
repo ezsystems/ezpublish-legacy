@@ -52,7 +52,7 @@ class ezpRestControllerTest extends ezpRestTestCase
         $refMethod->setAccessible( true ); // Make the method public so we can test it individually. Won't work with PHP < 5.3.2
 
         $res = $refMethod->invoke( $controller );
-        self::assertType( PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $res );
+        self::assertInternalType( PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $res );
         self::assertContains( 'foo', $res );
         self::assertContains( 'bar', $res );
     }
@@ -78,7 +78,7 @@ class ezpRestControllerTest extends ezpRestTestCase
         $getResponseGroupsRefMethod = $refObj->getMethod( 'getResponseGroups' );
         $getResponseGroupsRefMethod->setAccessible( true );
         $res = $getResponseGroupsRefMethod->invoke( $controller );
-        self::assertType( PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $res );
+        self::assertInternalType( PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $res );
         self::assertContains( $defaultResponseGroup, $res, 'Default response groups must be considered as valid response groups, even if not provided in URI string' );
     }
 

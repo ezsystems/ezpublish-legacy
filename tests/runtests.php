@@ -14,6 +14,20 @@ set_time_limit( 0 );
 require_once 'autoload.php';
 require_once 'PHPUnit/Autoload.php';
 
+require_once 'PHPUnit/Util/Filter.php';
+
+// Whitelist all eZ Publish kernel files
+$baseDir = getcwd();
+$autoloadArray = include 'autoload/ezp_kernel.php';
+foreach ( $autoloadArray as $class => $file )
+{
+    // Exclude files from the tests directory
+    if ( strpos( $file, 'tests' ) !== 0 )
+    {
+//        PHPUnit_Util_Filter::addFileToWhitelist( "{$baseDir}/{$file}" ); //fixme
+    }
+}
+
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ Publish Test Runner\n\n" .
                                                          "sets up an eZ Publish testing environment" .
@@ -38,7 +52,21 @@ $script->initialize();
 // Avoids Fatal error: eZ Publish did not finish its request if die() is used.
 eZExecution::setCleanExit();
 
-ezpTestRunner::main();
+$version = PHPUnit_Runner_Version::id();
+
+if ( version_compare( $version, '3.5.0' ) == -1 && $version !== '@package_version@' )
+{
+    die( "PHPUnit 3.5.0 (or later) is required to run this test suite.\n" );
+}
+
+require_once 'PHP/CodeCoverage.php';
+PHP_CodeCoverage::getInstance()->filter()->addFileToBlacklist( __FILE__, 'PHPUNIT' );
+
+//require_once 'bootstrap.php';
+
+$runner = ezpTestRunner::instance();
+$runner->run($_SERVER['argv']);
 
 $script->shutdown();
+
 ?>

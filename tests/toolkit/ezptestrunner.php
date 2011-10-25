@@ -8,242 +8,102 @@
  * @package tests
  */
 
-class ezpTestRunner extends PHPUnit_TextUI_TestRunner
+
+class ezpTestRunner extends PHPUnit_TextUI_Command
 {
-    static $consoleInput;
-    public static $phpBinary;
-
-    public static function main()
+    protected $suite = null;
+    static private $instance = null;
+    
+    public function __construct()
     {
-        $testRunner = new ezpTestRunner();
-        $testRunner->runFromArguments();
-    }
-
-    public function runFromArguments()
-    {
-        self::$consoleInput = new ezcConsoleInput();
-
-        self::registerConsoleArguments( self::$consoleInput );
-        self::processConsoleArguments( self::$consoleInput );
-
-        $options = self::getSpecifiedConsoleOptions( self::$consoleInput );
-        $suite = $this->prepareTests( self::$consoleInput->getArguments(), $options );
-
-        if ( self::$consoleInput->getOption( 'list-tests' )->value )
-        {
-            $this->listTests( $suite );
-            exit( PHPUnit_TextUI_TestRunner::SUCCESS_EXIT );
-        }
-
-        if ( self::$consoleInput->getOption( 'list-groups' )->value )
-        {
-            $this->listGroups( $suite );
-            exit( PHPUnit_TextUI_TestRunner::SUCCESS_EXIT );
-        }
-
-        try
-        {
-            $result = $this->doRun( $suite, $options );
-        }
-        catch ( ezcConsoleOptionException $e )
-        {
-            die ( $e->getMessage() . "\n" );
-        }
-    }
-
-    /**
-     * Registers the consoleInput options and arguments.
-     *
-     * The options and arguments are registered in the given $consoleInput object.
-     *
-     * @param ezcConsoleInput $consoleInput
-     */
-    protected static function registerConsoleArguments( $consoleInput )
-    {
-        // Ansi option
-        $ansi = new ezcConsoleOption( 'a', 'ansi', ezcConsoleInput::TYPE_NONE );
-        $ansi->shorthelp = "Use ANSI colors in output. Needs PHPUnit 3.3 or newer.";
-        $consoleInput->registerOption( $ansi );
-
-        // Color option, 'ansi' renamed. Will keep ansi for PHPUnit 3.3.0 for now.
-        $colors = new ezcConsoleOption( '', 'colors', ezcConsoleInput::TYPE_NONE );
-        $colors->shorthelp = "Use ANSI colors in output. Needs PHPUnit 3.3.2 or newer.";
-        $consoleInput->registerOption( $colors );
-
+        //parent::__construct();
+        $this->longOptions['list-tests'] = 'handleListTests';
+        $this->longOptions['dsn='] = 'handleDsn';
+        $this->longOptions['db-per-test'] = 'handleDbPerTest';
+        
+/*        self::$consoleInput = new ezcConsoleInput();
         // Configuration XML File option
         $configuration = new ezcConsoleOption( '', 'configuration', ezcConsoleInput::TYPE_STRING );
         $configuration->shorthelp = "Read configuration from XML file.";
-        $consoleInput->registerOption( $configuration );
-
-        // Database-per-test option
-        $dbPerTest = new ezcConsoleOption( '', 'db-per-test', ezcConsoleInput::TYPE_NONE );
-        $dbPerTest->shorthelp = "Use a clean database per test";
-        $consoleInput->registerOption( $dbPerTest );
-
+        self::$consoleInput->registerOption( $configuration );
+        
         // DSN option
         $dsn = new ezcConsoleOption( 'D', 'dsn', ezcConsoleInput::TYPE_STRING );
         $dsn->shorthelp = "Use the database specified with a DSN: type://user:password@host/database.";
         $dsn->longhelp = "An example to connect with the local MySQL database is:\n";
         $dsn->longhelp .= "mysql://root@mypass@localhost/unittests";
-        $consoleInput->registerOption( $dsn );
+        self::$consoleInput->registerOption( $dsn );
 
-        // Coverage Clover XML option
-        $coverageXml = new ezcConsoleOption( '', 'coverage-xml', ezcConsoleInput::TYPE_STRING );
-        $coverageXml->shorthelp = "Write code coverage information in Clover XML format.";
-        $consoleInput->registerOption( $coverageXml );
+        // Database-per-test option
+        $dbPerTest = new ezcConsoleOption( '', 'db-per-test', ezcConsoleInput::TYPE_NONE );
+        $dbPerTest->shorthelp = "Use a clean database per test";
+        self::$consoleInput->registerOption( $dbPerTest );
 
-        // Code Coverage generation in html format
-        $coverageHtml = new ezcConsoleOption( '', 'coverage-html', ezcConsoleInput::TYPE_STRING );
-        $coverageHtml->shorthelp = "Generate code coverage report in HTML format [dir].";
-        $consoleInput->registerOption( $coverageHtml );
-
-        // Filter option
-        $filter = new ezcConsoleOption( 'f', 'filter', ezcConsoleInput::TYPE_STRING );
-        $filter->shorthelp = "Filter which tests to run.";
-        $consoleInput->registerOption( $filter );
-
-        // Groups option
-        $groups = new ezcConsoleOption( 'g', 'group', ezcConsoleInput::TYPE_STRING );
-        $groups->shorthelp = "Only runs tests from the specified group(s).";
-        $consoleInput->registerOption( $groups );
-
-        // Help option
-        $help = new ezcConsoleOption( 'h', 'help', ezcConsoleInput::TYPE_NONE );
-        $help->shorthelp = "Show this help";
-        $help->isHelpOption = true;
-        $consoleInput->registerOption( $help );
-
-        // List groups option
-        $listGroups = new ezcConsoleOption( '', 'list-groups', ezcConsoleInput::TYPE_NONE );
-        $listGroups->shorthelp = "List available test groups.";
-        $consoleInput->registerOption( $listGroups );
-
-        // List tests option
-        $listTests = new ezcConsoleOption( '', 'list-tests', ezcConsoleInput::TYPE_NONE );
-        $listTests->shorthelp = "Lists all tests";
-        $consoleInput->registerOption( $listTests );
-
-        // Metrics XML option
-        $metrics = new ezcConsoleOption( '', 'log-metrics', ezcConsoleInput::TYPE_STRING );
-        $metrics->shorthelp = "Write metrics report in XML format.";
-        $consoleInput->registerOption( $metrics );
-
-        // Project Mess Detector (PMD) XML option
-        $pmd = new ezcConsoleOption( '', 'log-pmd', ezcConsoleInput::TYPE_STRING );
-        $pmd->shorthelp = "Write violations report in PMD XML format.";
-        $consoleInput->registerOption( $pmd );
-
-        // Verbose option
-        $verbose = new ezcConsoleOption( 'v', 'verbose', ezcConsoleInput::TYPE_NONE );
-        $verbose->shorthelp = "Output more verbose information.";
-        $consoleInput->registerOption( $verbose );
-
-        // XML logfile option
-        $xml = new ezcConsoleOption( 'x', 'log-xml', ezcConsoleInput::TYPE_STRING );
-        $xml->shorthelp = "Log test execution in XML format to file.";
-        $consoleInput->registerOption( $xml );
-
-        // Stop on failure option
-        $stopOnFailure = new ezcConsoleOption( '', 'stop-on-failure', ezcConsoleInput::TYPE_NONE );
-        $stopOnFailure->shorthelp = "Stop execution upon first error or failure.";
-        $consoleInput->registerOption( $stopOnFailure );
-
-        // PHPUnit debug output option
-        $debug = new ezcConsoleOption( '', 'debug', ezcConsoleInput::TYPE_NONE );
-        $debug->shorthelp = "Turns on debugout output from PHPUnit.";
-        $consoleInput->registerOption( $debug );
-
-        // Temporary workaround for selenium suite, as this info is not readily available in ant
-        $phpBin = new ezcConsoleOption( '', 'php-binary', ezcConsoleInput::TYPE_STRING );
-        $phpBin->shorthelp = "The location of the PHP binary";
-        $consoleInput->registerOption( $phpBin );
-
-        // Set up dependencies
-        $dbPerTest->addDependency( new ezcConsoleOptionRule( $dsn ) );
+        self::$consoleInput->process(); */
     }
 
-    /**
-     * Returns an array of all the specified console options
-     *
-     * @param ezcConsoleInput $consoleInput
-     */
-    protected static function getSpecifiedConsoleOptions( $consoleInput )
+    static public function instance()
     {
-        $ansi = $consoleInput->getOption( 'ansi' )->value;
-        $colors = $consoleInput->getOption( 'colors' )->value;
-        $config = $consoleInput->getOption( 'configuration' )->value;
-        $coverageXml = $consoleInput->getOption( 'coverage-xml' )->value;
-        $coverageHtml = $consoleInput->getOption( 'coverage-html' )->value;
-        $dsn = $consoleInput->getOption( 'dsn' )->value;
-        $filter = $consoleInput->getOption( 'filter' )->value;
-        $groups = $consoleInput->getOption( 'group' )->value;
-        $logfile = $consoleInput->getOption( 'log-xml' )->value;
-        $metrics = $consoleInput->getOption( 'log-metrics' )->value;
-        $pmd = $consoleInput->getOption( 'log-pmd' )->value;
-        $verbose = $consoleInput->getOption( "verbose" )->value;
-        $stopOnFailure = $consoleInput->getOption( 'stop-on-failure' )->value;
-        $debug = $consoleInput->getOption( 'debug' )->value;
-
-        $options = array();
-        $options['ansi'] = $ansi ? True : null;
-        $options['colors'] = $colors ? True : null;
-        $options['configuration'] = $config ? $config : null;
-        $options['dsn'] = $dsn ? $dsn : null;
-        $options['groups'] = $groups ? explode(',', $groups ): null;
-        $options['filter'] = $filter ? $filter : null;
-        $options['metricsXML'] = $metrics ? $metrics : null;
-        $options['pmdXML'] = $pmd ? $pmd : null;
-        $options['coverageClover'] = $coverageXml ? $coverageXml : null;
-        $options['reportDirectory'] = $coverageHtml ? $coverageHtml : null;
-        $options['verbose'] = $verbose ? true : false;
-        $options['junitLogfile'] = $logfile ? $logfile : null;
-        $options['stopOnFailure'] = $stopOnFailure ? $stopOnFailure : null;
-        $options['debug'] = $debug ? true : null;
-
-        return $options;
+        if( self::$instance === null )
+        {
+            self::$instance = new ezpTestRunner;
+        }
+        return self::$instance;
     }
-
+    
     /**
-     * Processes all console options
-     *
-     * If the help option is specified by the user the help text will be
-     * displayed and the program will exit.
-     *
-     * @param ezcConsoleInput $consoleInput
-     */
-    protected static function processConsoleArguments( $consoleInput )
+     * Return the argument $argumentName given on the command line
+     * $argumentName must be the long option name ( 'configuration' ), not the short option name ( 'c' )
+     **/
+    public function getLongOption( $argumentName )
     {
-        try
+        if( array_key_exists( $argumentName, $this->longOptions ) or array_key_exists( "$argumentName=", $this->longOptions ) )
         {
-             $consoleInput->process();
-        }
-        catch ( ezcConsoleOptionException $e )
+            if( array_key_exists( $argumentName, $this->arguments ) )
+            {
+                return $this->arguments[$argumentName];
+            } else
+            {
+                return null;
+            }
+        } else
         {
-            die ( $e->getMessage() . "\n" );
-        }
-
-        if ( $consoleInput->getOption( "help" )->value )
-        {
-            self::displayHelp( self::$consoleInput );
-            exit();
-        }
-
-        if ( $consoleInput->getOption( 'php-binary' )->value )
-        {
-            self::$phpBinary = $consoleInput->getOption( 'php-binary' )->value;
+            //fixme : throw exception
+            var_dump( 'Error : invalid argument name : ' . $argumentName);
+            var_dump( $this->longOptions );
+            die;
         }
     }
 
-    /**
-     * Displays the help text
-     *
-     * @param ezcConsoleInput $consoleInput
-     */
-    protected static function displayHelp( $consoleInput )
+    public function handleListTests()
     {
-        echo $consoleInput->getHelpText( 'eZ Publish Test Runner' );
+        $this->arguments['list-tests'] = true;
     }
+    
+    public function handleDsn( $value )
+    {
+        $this->arguments['dsn'] = $value;
+    }
+    
+    public function handleDbPerTest()
+    {
+        $this->arguments['db-per-test'] = true;
+    }
+    
+    protected function showHelp()
+    {
+        parent::showHelp();
+        print <<<EOT
 
+  --db-per-test             Use a clean database per test
+  --dsn <resource>          Use the database specified with a DSN: type://user:password@host/database.
+                            An example to connect with the local MySQL database is:
+                            mysql://root@mypass@localhost/unittests
+  --list-tests              Lists all tests
+
+EOT;
+    }
+    
     /**
      * Scans a set of directories looking for suite.php to add to include.
      *
@@ -251,6 +111,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
      * @param string $params
      * @return ezpTestSuite $suite
      */
+     //taken from old ezptestrunner
     protected function prepareTests( $directories, $params )
     {
         if ( count( $directories ) <= 0 )
@@ -293,7 +154,8 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
      *
      * @return ezpTestSuite $suite
      */
-    public static function suite()
+//  taken from old ezptestrunner
+    static public function suite()
     {
         if ( !class_exists( 'eZTestSuite', true ) )
         {
@@ -320,25 +182,14 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         return $suite;
     }
 
-    /**
-     * Prints all groups (@group annotation) found in $suite
-     *
-     * @param ezpTestCase $suite
-     */
-    protected function listGroups( $suite )
+    protected function handleCustomTestSuite()
     {
-        print "Available test group(s):\n";
+        $this->suite = $this->prepareTests( null, null );
 
-        $groups = $suite->getGroups();
-        sort( $groups );
-
-        foreach ( $groups as $group )
-        {
-            print " - $group\n";
-        }
+        return $this->suite;
     }
-
-    /**
+    
+     /**
      * Prints all tests found in $suite
      *
      * @param ezpTestCase $suite
@@ -412,16 +263,18 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
      */
     static public function dsn()
     {
-        $dsnOption = self::$consoleInput->getOption( 'dsn' );
-        if ( $dsnOption->value )
+        $testRunner = ezpTestRunner::instance();
+        if( array_key_exists( 'dsn', $testRunner->arguments ) )
         {
-            $dsn = new ezpDsn( $dsnOption->value );
+            $dsnOption = $testRunner->arguments['dsn'];
+            $dsn = new ezpDsn( $dsnOption );
         }
         else
         {
-            throw new ezcConsoleOptionMandatoryViolationException( $dsnOption );
+            var_dump("Warning : dsn parameter mandatory");
+            //fixme
+            //throw new ezcConsoleOptionMandatoryViolationException( $dsnOption );
         }
-
         return $dsn;
     }
 
@@ -432,13 +285,622 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
      */
     static public function dbPerTest()
     {
-        if ( ezpTestRunner::$consoleInput->getOption( 'db-per-test' )->value )
+        $testRunner = ezpTestRunner::instance();
+        if( array_key_exists( 'db-per-test', $testRunner->arguments ) )
         {
-            return true;
+            return $testRunner->arguments['db-per-test'];
         }
 
         return false;
     }
+    
+    /**
+     * This function is cut&paste from PHPUnit_TextUI_Command::run
+     * - We don't require the 'test' parameter (default unnamed parameter ). Instead we'll run the whole test suite (unless filters are applied)
+     * - Added support for --list-tests parameter
+     **/
+    /**
+     * @param array   $argv
+     * @param boolean $exit
+     */
+    public function run(array $argv, $exit = TRUE)
+    {
+        $this->handleArguments($argv);
+        
+        // *** BEGIN ezp custom code BEGIN ***
+        if( isset($this->arguments['list-tests']) )
+        {
+            $this->listTests( $this->suite );
+            exit(PHPUnit_TextUI_TestRunner::SUCCESS_EXIT);
+        }
+        // *** END ezp custom code END***
+        
+
+        $runner = new PHPUnit_TextUI_TestRunner($this->arguments['loader']);
+
+        // *** BEGIN ezp custom code BEGIN ***
+        // **Following code is removed compared to the original implementation
+        /*if (is_object($this->arguments['test']) &&
+            $this->arguments['test'] instanceof PHPUnit_Framework_Test) {
+            $suite = $this->arguments['test'];
+        } else {
+            $suite = $runner->getTest(
+              $this->arguments['test'],
+              $this->arguments['testFile'],
+              $this->arguments['syntaxCheck']
+            );
+        }*/
+        // **And this line is added
+        $suite = $this->suite;
+        // *** END ezp custom code END ***
+
+        if (count($suite) == 0) {
+            $skeleton = new PHPUnit_Util_Skeleton_Test(
+              $suite->getName(),
+              $this->arguments['testFile']
+            );
+
+            $result = $skeleton->generate(TRUE);
+
+            if (!$result['incomplete']) {
+                eval(str_replace(array('<?php', '?>'), '', $result['code']));
+                $suite = new PHPUnit_Framework_TestSuite(
+                  $this->arguments['test'] . 'Test'
+                );
+            }
+        }
+
+        if ($this->arguments['listGroups']) {
+            PHPUnit_TextUI_TestRunner::printVersionString();
+
+            print "Available test group(s):\n";
+
+            $groups = $suite->getGroups();
+            sort($groups);
+
+            foreach ($groups as $group) {
+                print " - $group\n";
+            }
+
+            exit(PHPUnit_TextUI_TestRunner::SUCCESS_EXIT);
+        }
+
+        unset($this->arguments['test']);
+        unset($this->arguments['testFile']);
+
+        try {
+            $result = $runner->doRun($suite, $this->arguments);
+        }
+
+        catch (PHPUnit_Framework_Exception $e) {
+            print $e->getMessage() . "\n";
+        }
+
+        if ($exit) {
+            if (isset($result) && $result->wasSuccessful()) {
+                exit(PHPUnit_TextUI_TestRunner::SUCCESS_EXIT);
+            }
+
+            else if (!isset($result) || $result->errorCount() > 0) {
+                exit(PHPUnit_TextUI_TestRunner::EXCEPTION_EXIT);
+            }
+
+            else {
+                exit(PHPUnit_TextUI_TestRunner::FAILURE_EXIT);
+            }
+        }
+    }
+
+
+
+    /**
+     * This function is cut&paste from PHPUnit_TextUI_Command::handleArguments
+     * Removed the need for a required unnamed command option ( 'test')
+     **/
+    protected function handleArguments(array $argv)
+    {
+        try {
+            $this->options = PHPUnit_Util_Getopt::getopt(
+              $argv,
+              'd:c:',
+              array_keys($this->longOptions)
+            );
+        }
+
+        catch (RuntimeException $e) {
+            PHPUnit_TextUI_TestRunner::showError($e->getMessage());
+        }
+
+        $skeletonClass = FALSE;
+        $skeletonTest  = FALSE;
+
+        foreach ($this->options[0] as $option) {
+            switch ($option[0]) {
+                case '--colors': {
+                    $this->arguments['colors'] = TRUE;
+                }
+                break;
+
+                case '--bootstrap': {
+                    $this->arguments['bootstrap'] = $option[1];
+                }
+                break;
+
+                case 'c':
+                case '--configuration': {
+                    $this->arguments['configuration'] = $option[1];
+                }
+                break;
+
+                case '--coverage-clover': {
+                    if (extension_loaded('tokenizer') &&
+                        extension_loaded('xdebug')) {
+                        $this->arguments['coverageClover'] = $option[1];
+                    } else {
+                        if (!extension_loaded('tokenizer')) {
+                            $this->showMessage(
+                              'The tokenizer extension is not loaded.'
+                            );
+                        } else {
+                            $this->showMessage(
+                              'The Xdebug extension is not loaded.'
+                            );
+                        }
+                    }
+                }
+                break;
+
+                case '--coverage-html': {
+                    if (extension_loaded('tokenizer') &&
+                        extension_loaded('xdebug')) {
+                        $this->arguments['reportDirectory'] = $option[1];
+                    } else {
+                        if (!extension_loaded('tokenizer')) {
+                            $this->showMessage(
+                              'The tokenizer extension is not loaded.'
+                            );
+                        } else {
+                            $this->showMessage(
+                              'The Xdebug extension is not loaded.'
+                            );
+                        }
+                    }
+                }
+                break;
+
+                case 'd': {
+                    $ini = explode('=', $option[1]);
+
+                    if (isset($ini[0])) {
+                        if (isset($ini[1])) {
+                            ini_set($ini[0], $ini[1]);
+                        } else {
+                            ini_set($ini[0], TRUE);
+                        }
+                    }
+                }
+                break;
+
+                case '--debug': {
+                    $this->arguments['debug'] = TRUE;
+                }
+                break;
+
+                case '--help': {
+                    $this->showHelp();
+                    exit(PHPUnit_TextUI_TestRunner::SUCCESS_EXIT);
+                }
+                break;
+
+                case '--filter': {
+                    $this->arguments['filter'] = $option[1];
+                }
+                break;
+
+                case '--group': {
+                    $this->arguments['groups'] = explode(',', $option[1]);
+                }
+                break;
+
+                case '--exclude-group': {
+                    $this->arguments['excludeGroups'] = explode(
+                      ',', $option[1]
+                    );
+                }
+                break;
+
+                case '--include-path': {
+                    $includePath = $option[1];
+                }
+                break;
+
+                case '--list-groups': {
+                    $this->arguments['listGroups'] = TRUE;
+                }
+                break;
+
+                case '--loader': {
+                    $this->arguments['loader'] = $option[1];
+                }
+                break;
+
+                case '--log-dbus': {
+                    $this->arguments['logDbus'] = TRUE;
+                }
+                break;
+
+                case '--log-json': {
+                    $this->arguments['jsonLogfile'] = $option[1];
+                }
+                break;
+
+                case '--log-junit': {
+                    $this->arguments['junitLogfile'] = $option[1];
+                }
+                break;
+
+                case '--log-tap': {
+                    $this->arguments['tapLogfile'] = $option[1];
+                }
+                break;
+
+                case '--process-isolation': {
+                    $this->arguments['processIsolation'] = TRUE;
+                    $this->arguments['syntaxCheck']      = FALSE;
+                }
+                break;
+
+                case '--repeat': {
+                    $this->arguments['repeat'] = (int)$option[1];
+                }
+                break;
+
+                case '--stderr': {
+                    $this->arguments['printer'] = new PHPUnit_TextUI_ResultPrinter(
+                      'php://stderr',
+                      isset($this->arguments['verbose']) ? $this->arguments['verbose'] : FALSE
+                    );
+                }
+                break;
+
+                case '--stop-on-error': {
+                    $this->arguments['stopOnError'] = TRUE;
+                }
+                break;
+
+                case '--stop-on-failure': {
+                    $this->arguments['stopOnFailure'] = TRUE;
+                }
+                break;
+
+                case '--stop-on-incomplete': {
+                    $this->arguments['stopOnIncomplete'] = TRUE;
+                }
+                break;
+
+                case '--stop-on-skipped': {
+                    $this->arguments['stopOnSkipped'] = TRUE;
+                }
+                break;
+
+                case '--skeleton-test': {
+                    $skeletonTest  = TRUE;
+                    $skeletonClass = FALSE;
+                }
+                break;
+
+                case '--skeleton-class': {
+                    $skeletonClass = TRUE;
+                    $skeletonTest  = FALSE;
+                }
+                break;
+
+                case '--tap': {
+                    $this->arguments['printer'] = new PHPUnit_Util_Log_TAP;
+                }
+                break;
+
+                case '--story': {
+                    $this->showMessage(
+                      'The --story functionality is deprecated and ' .
+                      'will be removed in the future.',
+                      FALSE
+                    );
+
+                    $this->arguments['printer'] = new PHPUnit_Extensions_Story_ResultPrinter_Text;
+                }
+                break;
+
+                case '--story-html': {
+                    $this->showMessage(
+                      'The --story-html functionality is deprecated and ' .
+                      'will be removed in the future.',
+                      FALSE
+                    );
+
+                    $this->arguments['storyHTMLFile'] = $option[1];
+                }
+                break;
+
+                case '--story-text': {
+                    $this->showMessage(
+                      'The --story-text functionality is deprecated and ' .
+                      'will be removed in the future.',
+                      FALSE
+                    );
+
+                    $this->arguments['storyTextFile'] = $option[1];
+                }
+                break;
+
+                case '--syntax-check': {
+                    $this->arguments['syntaxCheck'] = TRUE;
+                }
+                break;
+
+                case '--testdox': {
+                    $this->arguments['printer'] = new PHPUnit_Util_TestDox_ResultPrinter_Text;
+                }
+                break;
+
+                case '--testdox-html': {
+                    $this->arguments['testdoxHTMLFile'] = $option[1];
+                }
+                break;
+
+                case '--testdox-text': {
+                    $this->arguments['testdoxTextFile'] = $option[1];
+                }
+                break;
+
+                case '--no-configuration': {
+                    $this->arguments['useDefaultConfiguration'] = FALSE;
+                }
+                break;
+
+                case '--no-globals-backup': {
+                    $this->arguments['backupGlobals'] = FALSE;
+                }
+                break;
+
+                case '--static-backup': {
+                    $this->arguments['backupStaticAttributes'] = TRUE;
+                }
+                break;
+
+                case '--verbose': {
+                    $this->arguments['verbose'] = TRUE;
+                }
+                break;
+
+                case '--version': {
+                    PHPUnit_TextUI_TestRunner::printVersionString();
+                    exit(PHPUnit_TextUI_TestRunner::SUCCESS_EXIT);
+                }
+                break;
+
+                case '--wait': {
+                    $this->arguments['wait'] = TRUE;
+                }
+                break;
+
+                case '--strict': {
+                    $this->arguments['strict'] = TRUE;
+                }
+                break;
+                
+                default: {
+                    $optionName = str_replace('--', '', $option[0]);
+
+                    if (isset($this->longOptions[$optionName])) {
+                        $handler = $this->longOptions[$optionName];
+                    }
+
+                    else if (isset($this->longOptions[$optionName . '='])) {
+                        $handler = $this->longOptions[$optionName . '='];
+                    }
+
+                    if (isset($handler) && is_callable(array($this, $handler))) {
+                        $this->$handler($option[1]);
+                    }
+                }
+            }
+        }
+
+        if (isset($this->arguments['printer']) &&
+            $this->arguments['printer'] instanceof PHPUnit_Extensions_Story_ResultPrinter_Text &&
+            isset($this->arguments['processIsolation']) &&
+            $this->arguments['processIsolation']) {
+            $this->showMessage(
+              'The story result printer cannot be used in process isolation.'
+            );
+        }
+
+        $this->handleCustomTestSuite();
+
+        if (!isset($this->arguments['test'])) {
+            if (isset($this->options[1][0])) {
+                $this->arguments['test'] = $this->options[1][0];
+            }
+
+            if (isset($this->options[1][1])) {
+                $this->arguments['testFile'] = $this->options[1][1];
+            } else {
+                $this->arguments['testFile'] = '';
+            }
+
+            if (isset($this->arguments['test']) && is_file($this->arguments['test'])) {
+                $this->arguments['testFile'] = realpath($this->arguments['test']);
+                $this->arguments['test']     = substr($this->arguments['test'], 0, strrpos($this->arguments['test'], '.'));
+            }
+        }
+
+        if (isset($includePath)) {
+            ini_set(
+              'include_path',
+              $includePath . PATH_SEPARATOR . ini_get('include_path')
+            );
+        }
+
+        if (isset($this->arguments['bootstrap'])) {
+            $this->handleBootstrap($this->arguments['bootstrap'], $this->arguments['syntaxCheck']);
+        }
+
+        if ($this->arguments['loader'] !== NULL) {
+            $this->arguments['loader'] = $this->handleLoader($this->arguments['loader']);
+        }
+
+        if (isset($this->arguments['configuration']) &&
+            is_dir($this->arguments['configuration'])) {
+            $configurationFile = $this->arguments['configuration'] .
+                                 '/phpunit.xml';
+
+            if (file_exists($configurationFile)) {
+                $this->arguments['configuration'] = realpath(
+                  $configurationFile
+                );
+            }
+
+            else if (file_exists($configurationFile . '.dist')) {
+                $this->arguments['configuration'] = realpath(
+                  $configurationFile . '.dist'
+                );
+            }
+        }
+
+        else if (!isset($this->arguments['configuration']) &&
+                 $this->arguments['useDefaultConfiguration']) {
+            if (file_exists('phpunit.xml')) {
+                $this->arguments['configuration'] = realpath('phpunit.xml');
+            } else if (file_exists('phpunit.xml.dist')) {
+                $this->arguments['configuration'] = realpath(
+                  'phpunit.xml.dist'
+                );
+            }
+        }
+
+        if (isset($this->arguments['configuration'])) {
+            try {
+                $configuration = PHPUnit_Util_Configuration::getInstance(
+                  $this->arguments['configuration']
+                );
+            }
+
+            catch (Exception $e) {
+                print $e->getMessage() . "\n";
+                exit(PHPUnit_TextUI_TestRunner::FAILURE_EXIT);
+            }
+
+            $phpunit = $configuration->getPHPUnitConfiguration();
+
+            if (isset($phpunit['syntaxCheck'])) {
+                $this->arguments['syntaxCheck'] = $phpunit['syntaxCheck'];
+            }
+
+            if (isset($phpunit['testSuiteLoaderClass'])) {
+                if (isset($phpunit['testSuiteLoaderFile'])) {
+                    $file = $phpunit['testSuiteLoaderFile'];
+                } else {
+                    $file = '';
+                }
+
+                $this->arguments['loader'] = $this->handleLoader(
+                  $phpunit['testSuiteLoaderClass'], $file
+                );
+            }
+
+            $configuration->handlePHPConfiguration();
+
+            if (!isset($this->arguments['bootstrap'])) {
+                $phpunitConfiguration = $configuration->getPHPUnitConfiguration();
+
+                if (isset($phpunitConfiguration['bootstrap'])) {
+                    $this->handleBootstrap($phpunitConfiguration['bootstrap'], $this->arguments['syntaxCheck']);
+                }
+            }
+
+            $browsers = $configuration->getSeleniumBrowserConfiguration();
+
+            if (!empty($browsers)) {
+                PHPUnit_Extensions_SeleniumTestCase::$browsers = $browsers;
+            }
+
+            if (!isset($this->arguments['test'])) {
+                $testSuite = $configuration->getTestSuiteConfiguration(
+                  $this->arguments['syntaxCheck']
+                );
+
+                if ($testSuite !== NULL) {
+                    $this->arguments['test'] = $testSuite;
+                }
+            }
+        }
+
+        if (isset($this->arguments['test']) && is_string($this->arguments['test']) && substr($this->arguments['test'], -5, 5) == '.phpt') {
+            $test = new PHPUnit_Extensions_PhptTestCase($this->arguments['test']);
+
+            $this->arguments['test'] = new PHPUnit_Framework_TestSuite;
+            $this->arguments['test']->addTest($test);
+        }
+
+        // *** BEGIN ezp custom code BEGIN ***
+        // Commented out this stuff
+/*        if (!isset($this->arguments['test']) ||
+            (isset($this->arguments['testDatabaseLogRevision']) && !isset($this->arguments['testDatabaseDSN']))) {
+            $this->showHelp();
+            exit(PHPUnit_TextUI_TestRunner::EXCEPTION_EXIT);
+        }*/
+        // *** END ezp custom code END ***
+
+        if (!isset($this->arguments['syntaxCheck'])) {
+            $this->arguments['syntaxCheck'] = FALSE;
+        }
+
+        if ($skeletonClass || $skeletonTest) {
+            if (isset($this->arguments['test']) && $this->arguments['test'] !== FALSE) {
+                PHPUnit_TextUI_TestRunner::printVersionString();
+
+                if ($skeletonClass) {
+                    $class = 'PHPUnit_Util_Skeleton_Class';
+                } else {
+                    $class = 'PHPUnit_Util_Skeleton_Test';
+                }
+
+                try {
+                    $args      = array();
+                    $reflector = new ReflectionClass($class);
+
+                    for ($i = 0; $i <= 3; $i++) {
+                        if (isset($this->options[1][$i])) {
+                            $args[] = $this->options[1][$i];
+                        }
+                    }
+
+                    $skeleton = $reflector->newInstanceArgs($args);
+                    $skeleton->write();
+                }
+
+                catch (Exception $e) {
+                    print $e->getMessage() . "\n";
+                    exit(PHPUnit_TextUI_TestRunner::FAILURE_EXIT);
+                }
+
+                printf(
+                  'Wrote skeleton for "%s" to "%s".' . "\n",
+                  $skeleton->getOutClassName(),
+                  $skeleton->getOutSourceFile()
+                );
+
+                exit(PHPUnit_TextUI_TestRunner::SUCCESS_EXIT);
+            } else {
+                $this->showHelp();
+                exit(PHPUnit_TextUI_TestRunner::EXCEPTION_EXIT);
+            }
+        }
+    }
+    
 }
+
+
 
 ?>

@@ -27,7 +27,7 @@ class ezpContentPublishingBehaviourTest extends ezpTestCase
     public function testGetDefaultBehaviour()
     {
         $behaviour = ezpContentPublishingBehaviour::getBehaviour();
-        self::assertType( 'ezpContentPublishingBehaviour', $behaviour );
+        self::assertInstanceOf( 'ezpContentPublishingBehaviour', $behaviour );
         self::assertEquals( true, $behaviour->disableAsynchronousPublishing, "disableAsynchronousPublishing should be true by default" );
         self::assertEquals( false, $behaviour->isTemporary, "isTemporary should be false by default" );
     }

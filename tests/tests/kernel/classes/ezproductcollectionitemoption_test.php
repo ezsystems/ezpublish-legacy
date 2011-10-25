@@ -63,7 +63,7 @@ class eZProductCollectionItemOptionTest extends ezpDatabaseTestCase
             $this->assertEquals( 10, count( $options ) );
             foreach( $options as $option )
             {
-                $this->assertType( 'eZProductCollectionItemOption', $option );
+                $this->assertInstanceOf( 'eZProductCollectionItemOption', $option );
             }
         }
     }

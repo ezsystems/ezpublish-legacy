@@ -52,7 +52,7 @@ class eZProductCollectionTest extends ezpDatabaseTestCase
         // And check that each item of remainingIDArray hasn't been deleted
         foreach( $remainingIDArray as $id )
         {
-            $this->assertType( 'eZProductCollection', eZProductCollection::fetch( $id ) );
+            $this->assertInstanceOf( 'eZProductCollection', eZProductCollection::fetch( $id ) );
         }
     }
 }

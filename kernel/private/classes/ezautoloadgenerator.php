@@ -1297,7 +1297,7 @@ END;
     }
 
     /**
-     * Create phpunit configuration file adding whitelist from kernel autoload file
+     * Create phpunit configuration file adding blacklist from tests/ and extension tests
      *
      * It writes file phpunit.xml in ./tests directory
      *
@@ -1305,42 +1305,63 @@ END;
      */
     public function buildPHPUnitConfigurationFile()
     {
+        if ( $this->mask & self::MODE_TESTS )
+        {
+            $this->log( 'Creating phpunit configuration file.' );
 
-          if ( $this->mask == self::MODE_KERNEL )
-          {
-              $this->log('Creating phpunit configuration file.');
 
-              $autoloadArray = @include 'autoload/ezp_kernel.php';
 
-              $baseDir = getcwd();
+            $dom = new DOMDocument( '1.0', 'utf-8' );
+            $dom->formatOutput = true;
 
-              $dom = new DOMDocument( '1.0', 'utf-8' );
-              $dom->formatOutput = true;
+            $baseDir = getcwd();
+            $root = $dom->createElement( 'phpunit' );
+            $filter = $dom->createElement( 'filter' );
+            $blacklist = $dom->createElement( 'blacklist' );
+            $directory = $dom->createElement( 'directory', $baseDir . DIRECTORY_SEPARATOR . 'tests' );
 
-              $root = $dom->createElement( 'phpunit' );
-              $filter = $dom->createElement( 'filter' );
-              $blacklist = $dom->createElement( 'blacklist' );
-              $whitelist = $dom->createElement( 'whitelist' );
-              $directory = $dom->createElement('directory', $baseDir . DIRECTORY_SEPARATOR . 'tests');
+            /* PHPUnit docs says we should either use whitelist or blacklist ( if a whitelist exists, the blacklsit will be ignored )
+             * Since whitelisting only works on source files containing classes, we base this on blacklisting
+             */
+            /*
+            $whitelist = $dom->createElement( 'whitelist' );
+            $autoloadArray = @include 'autoload/ezp_kernel.php';
+            foreach ( $autoloadArray as $class => $filename )
+            {
+                $file = $dom->createElement( 'file', $baseDir . DIRECTORY_SEPARATOR . $filename );
+                $whitelist->appendChild($file);
+            }
+            $filter->appendChild($whitelist);
+            */
+            
+            //Blacklist tests in extension/
+            $directoryEntries = scandir( $this->options->basePath . DIRECTORY_SEPARATOR . 'extension' );
+            foreach( $directoryEntries as $file )
+            {
+                if( ( $file === '.' ) or ( $file === '..' ) )
+                    continue;
+                $testDirectory = $this->options->basePath . DIRECTORY_SEPARATOR . 'extension' . DIRECTORY_SEPARATOR . $file . DIRECTORY_SEPARATOR . 'tests';
+                if( file_exists( $testDirectory ) )
+                {
+                    if( is_dir ( $testDirectory ) )
+                    {
+                        $directoryElement = $dom->createElement( 'directory', $testDirectory );
+                        $blacklist->appendChild( $directoryElement );
+                        
+                    }
+                }
+            }
 
-              foreach ( $autoloadArray as $class => $filename )
-              {
-                  $file = $dom->createElement( 'file', $baseDir . DIRECTORY_SEPARATOR . $filename );
-                  $whitelist->appendChild($file);
-              }
+            $blacklist->appendChild( $directory );
+            $filter->appendChild( $blacklist );
+            $root->appendChild( $filter );
+            $dom->appendChild( $root );
 
-              $blacklist->appendChild($directory);
-              $filter->appendChild($blacklist);
-              $filter->appendChild($whitelist);
-              $root->appendChild($filter);
-              $dom->appendChild($root);
+            file_put_contents( $baseDir . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'phpunit.xml', $dom->saveXML() );
 
-              file_put_contents($baseDir . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'phpunit.xml', $dom->saveXML());
-
-              return $dom;
-          }
-
-     }
-
+            return $dom;
+        }
+    }
+      
 }
 ?>

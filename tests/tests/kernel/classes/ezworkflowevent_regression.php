@@ -139,7 +139,7 @@ class eZWorkflowEventRegression extends ezpDatabaseTestCase
         $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $objectID,
                                                                                      'version'   => 1 ) );
 
-        $this->assertType( 'array', $operationResult );
+        $this->assertInternalType( 'array', $operationResult );
         $this->assertEquals( $operationResult['status'], eZModuleOperationInfo::STATUS_CONTINUE,
             "The operation result wasn't CONTINUE" );
 
