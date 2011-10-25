@@ -340,14 +340,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
         {
             case 'char':
             {
-                if ( $length == 1 )
-                {
-                    return 'character';
-                }
-                else
-                {
-                    return 'character varying';
-                }
+                return 'character';
             } break;
             case 'int':
             {
@@ -428,7 +421,6 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             } break;
             case 'character':
             {
-                $length = 1;
                 return 'char';
             } break;
             case 'numeric':
