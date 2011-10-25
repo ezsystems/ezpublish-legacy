@@ -23,10 +23,11 @@ $script = eZScript::instance( array( 'description' => ( "\n" .
                                       'use-extensions' => true ) );
 $script->startup();
 
-$scriptOptions = $script->getOptions( "[nodes-id:][ignore-trash]",
+$scriptOptions = $script->getOptions( "[nodes-id:][ignore-trash][scriptid:]",
                                       "",
                                       array( 'nodes-id' => "Subtree nodes ID (separated by comma ',').",
-                                             'ignore-trash' => "Ignore trash ('move to trash' by default)."
+                                             'ignore-trash' => "Ignore trash ('move to trash' by default).",
+                                             'scriptid' => 'Used by the Script Monitor extension, do not use manually'
                                              ),
                                       false );
 $script->initialize();
@@ -74,6 +75,16 @@ if ( count( $deleteResult ) == 0 )
     $script->shutdown( 1 );
 }
 
+// Take care of script monitoring
+$scheduledScript = false;
+if ( isset( $scriptOptions['scriptid'] ) and
+     in_array( 'ezscriptmonitor', eZExtension::activeExtensions() ) and
+     class_exists( 'eZScheduledScript' ) )
+{
+    $scriptID = $scriptOptions['scriptid'];
+    $scheduledScript = eZScheduledScript::fetch( $scriptID );
+}
+
 $totalChildCount = $info['total_child_count'];
 $canRemoveAll = $info['can_remove_all'];
 $moveToTrashStr = $moveToTrash ? 'true' : 'false';
@@ -87,6 +98,11 @@ $cli->output( "Removing subtrees:\n" );
 
 foreach ( $deleteResult as $deleteItem )
 {
+    if ( $scheduledScript )
+    {
+        $scheduledScript->updateProgress( eZScheduledScript::PROGRESS_UNKNOWN );
+    }
+
     $node = $deleteItem['node'];
     $nodeName = $deleteItem['node_name'];
     if ( $node === null )
@@ -122,6 +138,11 @@ foreach ( $deleteResult as $deleteItem )
         $cli->error( "\nWARNING!\nSome subitems have not been removed.\n" );
     else
         $cli->output( "Successfuly DONE.\n" );
+}
+
+if ( $scheduledScript )
+{
+    $scheduledScript->updateProgress( 100 ); // Complete
 }
 
 $cli->output( "Done." );

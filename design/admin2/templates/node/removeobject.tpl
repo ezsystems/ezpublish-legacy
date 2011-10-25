@@ -7,10 +7,14 @@
 {if $remove_info.has_pending_object}
     <h2 class="context-title">{'Pending sub-object'|i18n( 'design/admin/node/removeobject' )}</h2>
 {else}
-    {if $remove_info.can_remove_all}
-    <h2 class="context-title">{'Confirm location removal'|i18n( 'design/admin/node/removeobject' )}</h2>
+    {if $scheduled_script_id|gt(0)}
+        <h2 class="context-title">{'Scheduled for background removal'|i18n( 'design/admin/node/removeobject' )}</h2>
     {else}
-    <h2 class="context-title">{'Insufficient permissions'|i18n( 'design/admin/node/removeobject' )}</h2>
+        {if $remove_info.can_remove_all}
+            <h2 class="context-title">{'Confirm location removal'|i18n( 'design/admin/node/removeobject' )}</h2>
+        {else}
+            <h2 class="context-title">{'Insufficient permissions'|i18n( 'design/admin/node/removeobject' )}</h2>
+        {/if}
     {/if}
 {/if}
 
@@ -24,7 +28,14 @@
     <div class="block">
         <p>{'Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.'|i18n( 'design/admin/node/removeobject' )}</p>
     </div>
-{else}
+{elseif $scheduled_script_id|gt(0)} {* BEGIN scheduler section *}
+    <div class="block">
+        <p>
+            {'Some nodes have been scheduled for later removal in the background. The process will be started automatically. You can monitor the progress of the background process here:'|i18n( 'design/admin/node/removeobject' )}<br />
+            <b><a href={concat('scriptmonitor/view/',$scheduled_script_id)|ezurl}>{'Background process monitor'|i18n( 'design/admin/node/removeobject' )}</a></b>
+        </p>
+    </div>
+{else} {* ELSE scheduler section *}
 {if $total_child_count|gt( 0 )}
 <div class="block">
     <p>{'Some of the items that are about to be removed contain sub items.'|i18n( 'design/admin/node/removeobject' )}</p>
@@ -39,7 +50,11 @@
     {if eq( $exceeded_limit, true() )}
         <hr />
     <h4>Warnings:</h4>
-        <p>{'The lines marked with red contain more than the maximum possible nodes for subtree removal and will not be deleted. You can remove this subtree using the ezsubtreeremove.php script.'|i18n( 'design/admin/node/removeobject' )}</p>
+        {if $use_script_monitor}
+            <p>{'The lines marked with red contain more than the maximum possible nodes for subtree removal and will be scheduled for later removal in the background.'|i18n( 'design/admin/node/removeobject' )}</p>
+        {else}
+            <p>{'The lines marked with red contain more than the maximum possible nodes for subtree removal and will not be deleted. You can remove this subtree using the ezsubtreeremove.php script.'|i18n( 'design/admin/node/removeobject' )}</p>
+        {/if}
     <hr />
     {/if}
 
@@ -122,13 +137,17 @@
 
 <div class="block">
 
-    {if and( $remove_info.can_remove_all, eq( $delete_items_exist, true() ), not( $remove_info.has_pending_object ) )}
-        <input class="button" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/node/removeobject' )}" />
+    {if $scheduled_script_id|gt(0)}
+        <input class="button" type="submit" name="ScheduleContinueButton" value="{'Continue'|i18n( 'design/admin/node/removeobject' )}" />
     {else}
-        <input class="button-disabled" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/node/removeobject' )}" title="{'You cannot continue because you do not have permission to remove some of the selected locations.'|i18n( 'design/admin/node/removeobject' )}" disabled="disabled" />
-    {/if}
+        {if and( $remove_info.can_remove_all, or( eq( $delete_items_exist, true() ), eq( $use_script_monitor, true() ) ), not( $remove_info.has_pending_object ) )}
+            <input class="button" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/node/removeobject' )}" />
+        {else}
+            <input class="button-disabled" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/node/removeobject' )}" title="{'You cannot continue because you do not have permission to remove some of the selected locations.'|i18n( 'design/admin/node/removeobject' )}" disabled="disabled" />
+        {/if}
 
-    <input type="submit" class="button" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/node/removeobject' )}" title="{'Cancel the removal of locations.'|i18n( 'design/admin/node/removeobject' )}" />
+        <input type="submit" class="button" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/node/removeobject' )}" title="{'Cancel the removal of locations.'|i18n( 'design/admin/node/removeobject' )}" />
+    {/if}
 </div>
 
 {* DESIGN: Control bar END *}</div></div>
