@@ -57,6 +57,34 @@ class eZXMLInputParserRegression extends ezpTestCase
             ),
         );
     }
+
+    /**
+     * Test for issue #018737: Regression in eZXMLInputParser::parseAttributes with attr='0'
+     *
+     * @link http://issues.ez.no/18737
+     * @dataProvider providerForIssue18737
+     */
+    public function testIssue18737( $string, $expected )
+    {
+        $this->assertEquals(
+            $expected,
+            $this->parser->parseAttributes( $string )
+        );
+    }
+
+    public static function providerForIssue18737()
+    {
+        return array(
+            array(
+                'attribute="0"',
+                array( 'attribute' => '0' ),
+            ),
+            array(
+                'attribute=""',
+                array(),
+            ),
+        );
+    }
 }
 
 ?>
