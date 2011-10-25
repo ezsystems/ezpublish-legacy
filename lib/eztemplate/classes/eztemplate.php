@@ -1757,8 +1757,19 @@ class eZTemplate
         if ( eZTemplate::isXHTMLCodeIncluded() )
             $preText .= "<p class=\"small\">$path</p><br/>\n";
         $postText = "\n<!-- STOP: including template: $path ($uri) -->\n";
-        $root[1] = array_merge( array( eZTemplateNodeTool::createTextNode( $preText ) ), $root[1] );
-        $root[1][] = eZTemplateNodeTool::createTextNode( $postText );
+
+        $preNode = eZTemplateNodeTool::createTextNode( $preText );
+        $postNode = eZTemplateNodeTool::createTextNode( $postText );
+
+        if ( is_array( $root[1] ) )
+        {
+            $root[1] = array_merge( array( $preNode ), $root[1] );
+        }
+        else
+        {
+            $root[1] = array( $preNode );
+        }
+        $root[1][] = $postNode;
     }
 
     /*!
