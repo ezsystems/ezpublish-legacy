@@ -1333,7 +1333,7 @@ END;
             }
             $filter->appendChild($whitelist);
             */
-            
+
             //Blacklist tests in extension/
             $directoryEntries = scandir( $this->options->basePath . DIRECTORY_SEPARATOR . 'extension' );
             foreach( $directoryEntries as $file )
@@ -1347,7 +1347,7 @@ END;
                     {
                         $directoryElement = $dom->createElement( 'directory', $testDirectory );
                         $blacklist->appendChild( $directoryElement );
-                        
+
                     }
                 }
             }
@@ -1362,6 +1362,6 @@ END;
             return $dom;
         }
     }
-      
+
 }
 ?>
