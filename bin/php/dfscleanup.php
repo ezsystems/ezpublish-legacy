@@ -84,7 +84,7 @@ if ( $checkBase )
             if ( $delete );
             // expire the file, and purge it
             {
-		$fh->delete();
+                $fh->delete();
                 $fh->purge();
             }
         }
