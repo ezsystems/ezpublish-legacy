@@ -49,13 +49,13 @@
 
 {literal}
 <script type="text/javascript">
-<!--
+//<![CDATA[
     window.onload=function()
     {
         document.getElementById('sectionName').select();
         document.getElementById('sectionName').focus();
     }
--->
+//]]>
 </script>
 {/literal}
 

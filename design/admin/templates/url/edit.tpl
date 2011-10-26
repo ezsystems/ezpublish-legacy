@@ -32,12 +32,12 @@
 
 {literal}
 <script type="text/javascript">
-<!--
+//<![CDATA[
     window.onload=function()
     {
         document.getElementById('address').select();
         document.getElementById('address').focus();
     }
--->
+//]]>
 </script>
 {/literal}

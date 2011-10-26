@@ -11,9 +11,11 @@
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
 
 <style type="text/css">
+/*<![CDATA[*/
 {section var=css_file loop=ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' )}
     @import url({concat( 'stylesheets/',$css_file )|ezdesign});
 {/section}
+/*]]>*/
 </style>
 {include uri="design:page_head.tpl" enable_print=false()}
 </head>

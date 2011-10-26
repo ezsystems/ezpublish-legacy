@@ -27,8 +27,7 @@
 <script type="text/javascript" src={"javascript/yui/2.7.0/build/json/json-min.js"|ezdesign}></script>
 {literal}
 <script type="text/javascript">
-<!--
-
+//<![CDATA[
 if( !Array.prototype.inArray )
 {
     Array.prototype.inArray = function( value )
@@ -511,13 +510,12 @@ function ContentStructureMenu()
         }
     }
 }
-
-// -->
+//]]>
 </script>
 {/literal}
 
 <script type="text/javascript">
-<!--
+//<![CDATA[
     var path = [{foreach $module_result.path as $element}{$element.node_id}{delimiter}, {/delimiter}{/foreach}];
     var autoOpenPath = path;
 
@@ -542,6 +540,5 @@ function ContentStructureMenu()
 
     treeMenu.load( false, {$root_node_id}, {$root_node.modified_subnode} );
 {/cache-block}
-
-// -->
+//]]>
 </script>

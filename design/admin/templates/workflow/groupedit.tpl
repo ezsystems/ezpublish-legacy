@@ -40,12 +40,12 @@
 
 {literal}
 <script type="text/javascript">
-<!--
+//<![CDATA[
     window.onload=function()
     {
         document.getElementById('workflowGroupName').select();
         document.getElementById('workflowGroupName').focus();
     }
--->
+//]]>
 </script>
 {/literal}

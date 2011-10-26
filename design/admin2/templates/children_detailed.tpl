@@ -4,6 +4,7 @@
 
 {literal}
 <script type="text/javascript">
+//<![CDATA[
 (function() {
 {/literal}
 
@@ -178,6 +179,7 @@ YUILoader.insert(options, 'js');
 })();
 {/literal}
 {undef $section $visible_columns $locales}
+//]]>
 </script>
 
 <div id="action-controls-container">

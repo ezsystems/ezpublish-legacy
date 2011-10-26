@@ -15,12 +15,14 @@
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
 <style type="text/css">
+/*<![CDATA[*/
 {section var=css_file loop=ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' )}
     @import url({concat( 'stylesheets/',$css_file )|ezdesign});
 {/section}
 {section var=css_file loop=ezini( 'StylesheetSettings', 'FrontendCSSFileList', 'design.ini' )}
     @import url({concat( 'stylesheets/',$css_file )|ezdesign});
 {/section}
+/*]]>*/
 </style>
 
 {include uri="design:page_head.tpl"}

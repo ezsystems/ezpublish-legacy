@@ -339,7 +339,7 @@
 
 {literal}
 <script type="text/javascript">
-<!--
+//<![CDATA[
 jQuery(function( $ )//called on document.ready
 {
     var el = $('#LastChangedID input[name^=ContentAttribute_name]');
@@ -399,6 +399,6 @@ jQuery(function( $ )//called on document.ready
         jQuery('#DataTypeString').attr('disabled', true);
     });
 });
--->
+//]]>
 </script>
 {/literal}

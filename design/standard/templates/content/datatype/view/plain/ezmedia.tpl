@@ -56,8 +56,10 @@ width="{$attribute.content.width}" height="{$attribute.content.height}">
     {case match=silverlight}
     {literal}
     <script type="text/javascript">
+    //<![CDATA[
         function onErrorHandler(sender, args) { }
         function onResizeHandler(sender, args) { }
+    //]]>
     </script>
     {/literal}
 

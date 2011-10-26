@@ -90,11 +90,11 @@
 
 {literal}
 <script type="text/javascript">
-<!--
+//<![CDATA[
     window.onload=function()
     {
         document.getElementById('id1').focus();
     }
--->
+//]]>
 </script>
 {/literal}

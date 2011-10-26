@@ -4,6 +4,7 @@
 {ezcss_require( concat( '/', $base.yui2, 'calendar/assets/calendar.css' ) )}
 
 <script type="text/javascript">
+//<![CDATA[
 (function() {ldelim}
     YUILoader.addModule({ldelim}
         name: 'datepicker',
@@ -20,6 +21,7 @@
     var options = [];
     YUILoader.insert(options, "js");
 {rdelim})();
+//]]>
 </script>
 
 {default attribute_base=ContentObjectAttribute}

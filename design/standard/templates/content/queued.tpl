@@ -32,12 +32,14 @@
 {ezscript_require( array( 'ezjsc::yui3', 'ezjsc::yui3io', 'ezasynchronouspublishing.js' ) )}
 
 <script type="text/javascript">
+//<![CDATA[
 eZAsynchronousPublishingApp.cfg = {ldelim}
     contentobject_id: {$contentObjectId},
     version: {$version},
     redirect_uri: {if is_set( $redirect_uri )}'{$redirect_uri}'{else}false{/if}
 {rdelim};
 eZAsynchronousPublishingApp.init()
+//]]>
 </script>
 
 {* placeholder for error messages from the queue *}

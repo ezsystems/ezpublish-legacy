@@ -42,12 +42,12 @@
 
 {literal}
 <script type="text/javascript">
-<!--
+//<![CDATA[
     window.onload=function()
     {
         document.getElementById('classGroupName').select();
         document.getElementById('classGroupName').focus();
     }
--->
+//]]>
 </script>
 {/literal}

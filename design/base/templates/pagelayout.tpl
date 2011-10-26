@@ -5,6 +5,7 @@
 <head>
 
 <style type="text/css">
+/*<![CDATA[*/
     @import url({"stylesheets/core.css"|ezdesign});
 {*    @import url({ezini('StylesheetSettings','MainCSS','design.ini')|ezdesign}); *}
     @import url({"stylesheets/site.css"|ezdesign});
@@ -20,6 +21,7 @@
     {section var=css_file loop=ezini( 'StylesheetSettings', 'FrontendCSSFileList', 'design.ini' )}
         @import url({concat( 'stylesheets/', $css_file )|ezdesign});
     {/section}
+/*]]>*/
 </style>
 
 {section name=JavaScript loop=ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' ) }

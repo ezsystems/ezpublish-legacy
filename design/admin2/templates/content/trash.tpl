@@ -150,7 +150,7 @@
 </div>
 {literal}
 <script type="text/javascript">
-
+//<![CDATA[
 document.getElementById('trash-list-sort-control').style.display = '';
 
 function trashSortingSelection( trashUrl )
@@ -160,7 +160,7 @@ function trashSortingSelection( trashUrl )
     document.location = trashUrl;
     return false;
 }
-
+//]]>
 </script>
 {/literal}
 <div class="float-break"></div>

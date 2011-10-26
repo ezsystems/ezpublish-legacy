@@ -95,11 +95,11 @@
 
 {literal}
 <script type="text/javascript">
-<!--
+//<![CDATA[
     window.onload=function()
     {
         document.getElementById('pass').focus();
     }
--->
+//]]>
 </script>
 {/literal}

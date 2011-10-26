@@ -68,6 +68,7 @@
 {* Highlight "Update" button on changes *}
 {literal}
 <script type="text/javascript">
+//<![CDATA[
 $(document).ready(function() {
     var initialExtensionSettings = {};
     var extensionChecks = jQuery('[name=extensionform] :checkbox');
@@ -88,5 +89,6 @@ $(document).ready(function() {
         initialExtensionSettings[this.value] = this.checked;
     }).change(function(){styleUpdateButton();});
 });
+//]]>
 </script>
 {/literal}

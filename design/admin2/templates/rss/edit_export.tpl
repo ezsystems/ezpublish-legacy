@@ -227,12 +227,12 @@
 
 {literal}
 <script type="text/javascript">
-<!--
+//<![CDATA[
 jQuery(function( $ )//called on document.ready
 {
     document.getElementById('exportName').select();
     document.getElementById('exportName').focus();
 });
--->
+//]]>
 </script>
 {/literal}

@@ -315,7 +315,7 @@
 
 {literal}
 <script type="text/javascript">
-<!--
+//<![CDATA[
     window.onload=function()
     {
         with( document.aliasform )
@@ -331,6 +331,6 @@
             }
         }
     }
--->
+//]]>
 </script>
 {/literal}

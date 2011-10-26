@@ -117,12 +117,12 @@
 
 {literal}
 <script type="text/javascript">
-<!--
+//<![CDATA[
     window.onload=function()
     {
         document.getElementById('roleName').select();
         document.getElementById('roleName').focus();
     }
--->
+//]]>
 </script>
 {/literal}

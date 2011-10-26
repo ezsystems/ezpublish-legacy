@@ -78,8 +78,10 @@
     {case match=silverlight}
     {literal}
     <script type="text/javascript">
+    //<![CDATA[
         function onErrorHandler(sender, args) { }
         function onResizeHandler(sender, args) { }
+    //]]>
     </script>
     {/literal}
     <div id="silverlightControlHost">

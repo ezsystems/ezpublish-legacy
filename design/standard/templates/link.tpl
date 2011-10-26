@@ -13,6 +13,7 @@
 {if $enable_print}
 {* Add print <link> tag in JS to be cache safe with query string (not included in cache-block key by default in pagelayout) *}
 <script type="text/javascript">
+//<![CDATA[
 (function() {ldelim}
 
     var head = document.getElementsByTagName('head')[0];
@@ -24,6 +25,7 @@
     head.appendChild(printNode);
 
 {rdelim})();
+//]]>
 </script>
 {/if}
 

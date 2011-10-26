@@ -385,10 +385,12 @@
 {elseif and( is_set( $object ), is_set( $diff ), is_set( $oldVersion ), is_set( $newVersion ) )}
 {literal}
 <script type="text/javascript">
+//<![CDATA[
 function show( element, method )
 {
     document.getElementById( element ).className = method;
 }
+//]]>
 </script>
 {/literal}
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">

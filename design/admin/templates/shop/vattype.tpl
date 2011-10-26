@@ -78,7 +78,7 @@
 
 {literal}
 <script type="text/javascript">
-<!--
+//<![CDATA[
     window.onload=function()
     {
         var lastAddedItem = document.getElementById('LastAdded');
@@ -89,7 +89,7 @@
             lastAddedItem.focus();
         }
     }
--->
+//]]>
 </script>
 {/literal}
 

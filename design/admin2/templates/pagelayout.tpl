@@ -18,6 +18,7 @@
 
 {if and( $ui_context_edit|not, or( $collapse_right_menu, $admin_left_size ))}
 <style type="text/css">
+/*<![CDATA[*/
 {if $collapse_right_menu}
     div#page div#rightmenu  {ldelim} width: 18px; {rdelim}
     div#page div#maincolumn {ldelim} margin-right: 17px; {rdelim}
@@ -34,6 +35,7 @@
     {/if}
     {undef $left_menu_widths}
 {/if}
+/*]]>*/
 </style>
 {/if}
 
@@ -84,7 +86,9 @@
         {tool_bar name='admin_developer' view='full'}
     </div>
     <script type="text/javascript">
+    //<![CDATA[
         rightMenuWidthControl();
+    //]]>
     </script>
 {/if}
 </div>
@@ -149,8 +153,7 @@
 {/cache-block}
 
 <script type="text/javascript">
-<!--
-
+//<![CDATA[
 document.getElementById('header-usermenu-logout').innerHTML += '<span class="header-usermenu-name">{$current_user.login|wash}<\/span>';
 
 {literal}
@@ -175,8 +178,7 @@ document.getElementById('header-usermenu-logout').innerHTML += '<span class="hea
     });
 })( jQuery );
 {/literal}
-
-// -->
+//]]>
 </script>
 
 {* This comment will be replaced with actual debug report (if debug is on). *}
