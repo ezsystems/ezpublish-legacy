@@ -82,7 +82,9 @@ if ( $checkBase )
         {
             $cli->output( '  - ' . $fh->name() );
             if ( $delete );
+            // expire the file, and purge it
             {
+		$fh->delete();
                 $fh->purge();
             }
         }
