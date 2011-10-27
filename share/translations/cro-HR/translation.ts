@@ -31,7 +31,7 @@
     </message>
     <message>
         <source>Last modified</source>
-        <translation>Zadnja promjena</translation>
+        <translation>Zadnja izmjena</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -67,7 +67,7 @@
     </message>
     <message>
         <source>Modified</source>
-        <translation>Promijenjeno</translation>
+        <translation>Izmijenjeno</translation>
     </message>
     <message>
         <source>Objects</source>
@@ -10113,7 +10113,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Name of class</source>
-        <translation>Naziv klase</translation>
+        <translation>Ime klase</translation>
     </message>
     <message>
         <source>The creator of the datatype</source>
