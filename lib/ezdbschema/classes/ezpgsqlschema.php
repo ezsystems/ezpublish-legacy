@@ -896,9 +896,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 
     function escapeSQLString( $value )
     {
-        $value = str_replace( "'", "\'", $value );
-        $value = str_replace( "\"", "\\\"", $value );
-        return $value;
+        return pg_escape_string( $value );
     }
 
     function schemaType()
