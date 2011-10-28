@@ -7,6 +7,11 @@
  */
 
 /**
+ * Explicitely loaded here for the case index_cluster.php is used
+ */
+include_once 'autoload.php';
+
+/**
  * DFS/MySQLi cluster gateway
  */
 class ezpDfsMySQLiClusterGateway extends ezpClusterGateway
@@ -24,10 +29,40 @@ class ezpDfsMySQLiClusterGateway extends ezpClusterGateway
                 "(error #". mysqli_errno( $this->db ).": " . mysqli_error( $this->db ) );
     }
 
+    /**
+     * Returns the database table name to use for the specified file.
+     *
+     * For files detected as cache files the cache table is returned, if not
+     * the generic table is returned.
+     *
+     *
+     * @param string $filePath
+     * @return string The database table name
+     */
+     protected function dbTable( $filePath ) {
+         $cacheDir = "/cache/";
+         $storageDir = "/storage/";
+
+         if ( strpos( $filePath, $cacheDir ) !== false and strpos( $filePath, $storageDir ) === false )
+         {
+             if ( defined( 'CLUSTER_METADATA_TABLE_CACHE' ) )
+             {
+                 return CLUSTER_METADATA_TABLE_CACHE;
+             }
+             else
+             {
+                 return eZDFSFileHandlerMySQLiBackend::TABLE_METADATA_CACHE;
+             }
+         }
+
+         return eZDFSFileHandlerMySQLiBackend::TABLE_METADATA;
+     }
+
+
     public function fetchFileMetadata( $filepath )
     {
         $filePathHash = md5( $filepath );
-        $sql = "SELECT `datatype`, `size`, `mtime` FROM ezdfsfile WHERE name_hash='{$filePathHash}'" ;
+        $sql = "SELECT `datatype`, `size`, `mtime` FROM " . $this->dbTable( $filepath ) . " WHERE name_hash='{$filePathHash}'" ;
         if ( !$res = mysqli_query( $this->db, $sql ) )
             throw new RuntimeException( "Failed to fetch file metadata for '$filepath' " .
                 "(error #". mysqli_errno( $this->db ).": " . mysqli_error( $this->db ) );
