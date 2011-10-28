@@ -112,4 +112,16 @@
        spl_autoload_register( 'fooAutoload' );
    </code>
 */
+
+/*
+   CLUSTERING
+   -------------------------
+   Set EZP_DFS_SEPARATE_CACHE_TABLE to true to enable the usage of a separate
+   database table to store cache files when using ezdfs clustering. A separate
+   cache table enables faster cache clearing as it's possible to rename the
+   cache folder on disk and truncate the database table. Remember to clear
+   cache before turning on this setting or you will have many stale cache
+   entries in ezdfsfile.
+*/
+//define( 'EZP_DFS_SEPARATE_CACHE_TABLE', true );
 ?>
