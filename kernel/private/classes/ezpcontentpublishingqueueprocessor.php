@@ -47,7 +47,7 @@ class ezpContentPublishingQueueProcessor
         {
             self::$instance = new ezpContentPublishingQueueProcessor();
             // signal handler for children termination signal
-            self::$instance->setSignalHandler();
+            self::$instance->registerSignalHandler();
         }
 
         return self::$instance;
@@ -94,6 +94,7 @@ class ezpContentPublishingQueueProcessor
                     {
                         $this->out->write( "Processing item #" . $publishingItem->attribute( 'ezcontentobject_version_id' ), 'async.log' );
                         $pid = $publishingItem->publish();
+                        pcntl_signal( SIGINT, $this->signalHandler );
                         $this->currentJobs[$pid] = $publishingItem;
 
                         // In the event that a signal for this pid was caught before we get here, it will be in our
@@ -192,7 +193,7 @@ class ezpContentPublishingQueueProcessor
     /**
      * Set the process signal handler
      */
-    private function setSignalHandler()
+    private function registerSignalHandler()
     {
         pcntl_signal( SIGCHLD, array( $this, 'childSignalHandler' ) );
     }
@@ -237,6 +238,20 @@ class ezpContentPublishingQueueProcessor
     }
 
     /**
+     * Sets the signal handler to $signalHandler
+     * @param callback $signalHandler
+     * @param \
+     */
+    public function setSignalHandler( $signalHandler)
+    {
+        if ( !is_callable( $signalHandler) )
+        {
+            throw new InvalidArgumentException( "\$signalHandler is not callable" );
+        }
+        $this->signalHandler = $signalHandler;
+    }
+
+    /**
      * @var eZINI
      */
     private $contentINI;
@@ -266,5 +281,11 @@ class ezpContentPublishingQueueProcessor
      * @var ezpAsynchronousPublisherOutput
      */
     private $out;
+
+    /**
+     * Signal handler callback
+     * @var callback
+     */
+    private $signalHandler;
 }
 ?>

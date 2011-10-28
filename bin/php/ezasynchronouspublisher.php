@@ -171,6 +171,7 @@ else
 // actual daemon code
 $processor = ezpContentPublishingQueueProcessor::instance();
 $processor->setOutput( $output );
+$processor->setSignalHandler( 'daemonSignalHandler' );
 $processor->run();
 
 eZScript::instance()->shutdown( 0 );
