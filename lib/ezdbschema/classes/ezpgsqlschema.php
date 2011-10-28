@@ -339,42 +339,34 @@ class eZPgsqlSchema extends eZDBSchemaInterface
         switch ( $type )
         {
             case 'char':
-            {
                 return 'character';
-            } break;
+
             case 'int':
-            {
                 return 'integer';
-            } break;
+
             case 'bigint':
-            {
                 return 'bigint';
-            } break;
+
             case 'varchar':
-            {
                 return 'character varying';
-            } break;
+
             case 'longtext':
-            {
                 return 'text';
-            } break;
+
             case 'mediumtext':
-            {
                 return 'text';
-            } break;
+
             case 'text':
-            {
                 return 'text';
-            } break;
+
             case 'float':
+                return 'real';
+
             case 'double':
-            {
                 return 'double precision';
-            } break;
+
             case 'decimal':
-            {
                 return 'numeric';
-            } break;
 
             default:
                 die ( "ERROR UNHANDLED TYPE: $type\n" );
@@ -398,35 +390,30 @@ class eZPgsqlSchema extends eZDBSchemaInterface
         switch ( $type )
         {
             case 'bigint':
-            {
                 $length = 20;
                 return 'bigint';
-            } break;
+
             case 'integer':
-            {
                 $length = 11;
                 return 'int';
-            } break;
+
             case 'character varying':
-            {
                 return 'varchar';
-            } break;
+
             case 'text':
-            {
                 return 'longtext';
-            } break;
+
             case 'double precision':
-            {
+                return 'double';
+                
+            case 'real':
                 return 'float';
-            } break;
+
             case 'character':
-            {
                 return 'char';
-            } break;
+
             case 'numeric':
-            {
                 return 'decimal';
-            } break;
 
             default:
                 die ( "ERROR UNHANDLED TYPE: $type\n" );
@@ -642,6 +629,10 @@ class eZPgsqlSchema extends eZDBSchemaInterface
                     $sql_def .= "DEFAULT {$def['default']} ";
                 }
                 else if ( $def['type'] == 'float' )
+                {
+                    $sql_def .= "DEFAULT {$def['default']}::real ";
+                }
+                else if ( $def['type'] == 'double' )
                 {
                     $sql_def .= "DEFAULT {$def['default']}::double precision ";
                 }
