@@ -11,9 +11,9 @@
      $states_count        = $states|count
      $related_objects_count = fetch( 'content', 'related_objects_count', hash( 'object_id', $node.object.id , 'all_relations', true() ) )
      $reverse_related_objects_count = fetch( 'content', 'reverse_related_objects_count', hash( 'object_id', $node.object.id , 'all_relations', true() ) )
-     $aditional_tabs = array()
-     $aditional_tabs_count = 0
-     $valid_tabs = array( $default_tab, 'details', 'translations', 'locations', 'relations', 'states' )
+     $additional_tabs = array()
+     $additional_tabs_count = 0
+     $valid_tabs = array( $default_tab, 'details', 'translations', 'locations', 'relations', 'ordering', 'states' )
      $navigation_part_name = fetch( 'section', 'object', hash( 'section_id', $node.object.section_id ) ).navigation_part_identifier
 }
 
@@ -25,13 +25,13 @@
 {foreach ezini( 'WindowControlsSettings', 'AdditionalTabs', 'admininterface.ini' ) as $tab}
     {def $tab_navigation_part = ezini( concat( 'AdditionalTab_', $tab ), 'NavigationPartName', 'admininterface.ini' )}
     {if eq( $tab_navigation_part, $navigation_part_name )}
-        {set $aditional_tabs = $aditional_tabs|append( $tab )}
+        {set $additional_tabs = $additional_tabs|append( $tab )}
     {/if}
     {undef $tab_navigation_part}
 {/foreach}
 
 {set $valid_tabs = $valid_tabs|append( $additional_tabs )
-     $aditional_tabs_count = $aditional_tabs|count()}
+     $additional_tabs_count = $additional_tabs|count()}
 
 {if $tabs_disabled}
     <div class="button-left"><a id="maincontent-show" class="show-hide-tabs" href={'/user/preferences/set/admin_navigation_content/1'|ezurl} title="{'Enable &quot;Tabs&quot; by default while browsing content.'|i18n( 'design/admin/parts/my/menu' )}">+</a></div>
@@ -99,7 +99,7 @@
     </li>
 
     {* Ordering *}
-    <li id="node-tab-ordering" class="{if $aditional_tabs}middle{else}last{/if}{if $node_tab_index|eq('ordering')} selected{/if}">
+    <li id="node-tab-ordering" class="{if $additional_tabs}middle{else}last{/if}{if $node_tab_index|eq('ordering')} selected{/if}">
         {if $tabs_disabled}
             <span class="disabled" title="{'Tab is disabled, enable with toggler to the left of these tabs.'|i18n( 'design/admin/node/view/full' )}">{'Ordering'|i18n( 'design/admin/node/view/full' )}</span>
         {else}
