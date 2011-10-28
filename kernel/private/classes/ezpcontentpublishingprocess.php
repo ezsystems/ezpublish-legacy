@@ -158,6 +158,9 @@ class ezpContentPublishingProcess extends eZPersistentObject
         $this->setAttribute( 'status', self::STATUS_WORKING );
         $this->store( array( 'status' ) );
 
+        // prepare the cluster file handler for the fork
+        eZClusterFileHandler::preFork();
+
         $pid = pcntl_fork();
 
         // force the DB connection closed
@@ -168,9 +171,6 @@ class ezpContentPublishingProcess extends eZPersistentObject
 
         // Force the cluster DB connection closed if the cluster handler is DB based
         $cluster = eZClusterFileHandler::instance();
-
-        // prepare the cluster file handler for the fork
-        eZClusterFileHandler::preFork();
 
         // error, cancel
         if ( $pid == -1 )
