@@ -210,15 +210,16 @@ class ezpContentPublishingQueueProcessor
 
         $this->canProcess = false;
 
-        if ( empty( $this->currentJobs ) )
-        {
-            $this->out->write( 'No waiting children, bye' );
-        }
-
+        $this->out->write( "\n\n" );
         while( !empty( $this->currentJobs ) )
         {
-            $this->out->write( count( $this->currentJobs ) . ' jobs remaining' );
+            $this->out->write( count( $this->currentJobs ) . ' jobs remaining, waiting...' );
             sleep( 1 );
+        }
+
+        if ( empty( $this->currentJobs ) )
+        {
+            $this->out->write( 'No waiting children, exiting' );
         }
     }
 

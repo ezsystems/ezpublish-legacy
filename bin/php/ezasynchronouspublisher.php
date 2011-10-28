@@ -91,6 +91,9 @@ else
 
 // PID file IS locked after that point
 
+pcntl_signal( SIGTERM, 'daemonSignalHandler' );
+pcntl_signal( SIGINT, 'daemonSignalHandler' );
+
 if ( $options['daemon'] )
 {
     // Trap signals that we expect to recieve
@@ -195,6 +198,7 @@ function daemonSignalHandler( $signo )
     switch( $signo )
     {
         case SIGTERM:
+        case SIGINT:
             flock( $GLOBALS['pidFp'], LOCK_UN );
             fclose( $GLOBALS['pidFp'] );
 
