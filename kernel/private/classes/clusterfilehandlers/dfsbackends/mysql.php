@@ -1729,9 +1729,9 @@ class eZDFSFileHandlerMySQLBackend
 
         $res = $this->_query( $query, __METHOD__ );
         $filePathList = array();
-        while ( $row = mysqli_fetch_row( $res ) )
+        while ( $row = mysql_fetch_row( $res ) )
             $filePathList[] = $row[0];
-        mysqli_free_result( $res );
+        mysql_free_result( $res );
 
         return $filePathList;
     }
