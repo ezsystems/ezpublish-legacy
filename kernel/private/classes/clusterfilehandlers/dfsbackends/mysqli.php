@@ -1724,14 +1724,14 @@ class eZDFSFileHandlerMySQLiBackend
         $scopeString = $this->_sqlList( $scopes );
         foreach( $tables as $table )
         {
-            $query = "SELECT name FROM {$table} WHERE expired = 1 AND scope IN( $scopeString )";
+            $query = "( SELECT name FROM {$table} WHERE expired = 1 AND scope IN( $scopeString ) )";
             if ( $expiry !== false )
                 $query .= ' AND mtime < ' . (time() - $expiry);
             $queries[] = $query;
         }
 
         if ( count( $queries ) > 1 )
-            $query = "({$queries[0]}) UNION ($queries[1])";
+            $query = join( " UNION ", $queries );
         else
             $query = $queries[0];
 
