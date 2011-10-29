@@ -122,6 +122,12 @@
    cache folder on disk and truncate the database table. Remember to clear
    cache before turning on this setting or you will have many stale cache
    entries in ezdfsfile.
+
+   This setting should increase performance as there will be less contention on
+   the ezdfsfile table.
+
+   Note: Do not turn this setting on if you have customized the StorageDir and
+   CacheDir settings in site.ini.
 */
 //define( 'EZP_DFS_SEPARATE_CACHE_TABLE', true );
 ?>
