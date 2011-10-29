@@ -29,7 +29,8 @@ CREATE TABLE ezdfsfile (
   KEY ezdfsfile_mtime (mtime),
   KEY ezdfsfile_expired_name (expired,`name`(250))
 ) ENGINE=InnoDB;
-CREATE TABLE ezdfsfilecache (
+
+CREATE TABLE ezdfscachefile (
   `name` text NOT NULL,
   name_trunk text NOT NULL,
   name_hash varchar(34) NOT NULL DEFAULT '',
@@ -1799,7 +1800,7 @@ class eZDFSFileHandlerMySQLBackend
      * DB file table name for cache files
      * @var string
      */
-    const TABLE_METADATA_CACHE = 'ezdfsfilecache';
+    const TABLE_METADATA_CACHE = 'ezdfscachefile';
 
     /**
      * Distributed filesystem backend

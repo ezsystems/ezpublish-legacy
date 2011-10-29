@@ -7,7 +7,7 @@
  */
 
 define( 'TABLE_METADATA', 'ezdfsfile' );
-define( 'TABLE_METADATA_CACHE', 'ezdfsfilecache' );
+define( 'TABLE_METADATA_CACHE', 'ezdfscachefile' );
 
 function _die( $value )
 {
