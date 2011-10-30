@@ -1810,7 +1810,7 @@ class eZDFSFileHandlerMySQLiBackend
      * DB file table name for cache files
      * @var string
      */
-    const TABLE_METADATA_CACHE = 'ezdfsfilecache';
+    const TABLE_METADATA_CACHE = 'ezdfscachefile';
 
     /**
      * Distributed filesystem backend
