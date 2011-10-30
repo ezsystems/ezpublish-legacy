@@ -24,7 +24,7 @@ function _die( $value )
  * @param string $filePath
  * @return string The database table name
  **/
-function dbTable( $filePath )
+function getDbTable( $filePath )
 {
     if ( !defined( "EZP_DFS_SEPARATE_CACHE_TABLE" ) )
         return TABLE_METADATA;
@@ -76,7 +76,7 @@ if ( ( $queryPos = strpos( $filename, '?' ) ) !== false )
 
 // Fetch file metadata.
 $filePathHash = md5( $filename );
-$sql = "SELECT * FROM " . dbTable( $filename ) . " WHERE name_hash=('$filePathHash')" ;
+$sql = "SELECT * FROM " . getDbTable( $filename ) . " WHERE name_hash=('$filePathHash')" ;
 if ( !$res = mysql_query( $sql, $db ) )
     _die( "Failed to retrieve file metadata\n" );
 

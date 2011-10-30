@@ -191,7 +191,7 @@ class eZDFSFileHandlerMySQLiBackend
         $nameTrunk       = self::nameTrunk( $dstFilePath, $scope );
 
         // Copy file metadata.
-        if ( $this->_insertUpdate( $this->dbTable( $srcFilePath ),
+        if ( $this->_insertUpdate( $this->getDbTable( $srcFilePath ),
                                    array( 'datatype'=> $datatype,
                                           'name' => $dstFilePath,
                                           'name_trunk' => $nameTrunk,
@@ -232,7 +232,7 @@ class eZDFSFileHandlerMySQLiBackend
             $fname .= "::_purge($filePath)";
         else
             $fname = "_purge($filePath)";
-        $sql = "DELETE FROM " . $this->dbTable( $filePath ) . " WHERE name_hash=" . $this->_md5( $filePath );
+        $sql = "DELETE FROM " . $this->getDbTable( $filePath ) . " WHERE name_hash=" . $this->_md5( $filePath );
         if ( $expiry !== false )
         {
             $sql .= " AND mtime<" . (int)$expiry;
@@ -293,7 +293,7 @@ class eZDFSFileHandlerMySQLiBackend
         $this->_begin( $fname );
 
         // select query, in FOR UPDATE mode
-        $table = $this->dbTable( $like );
+        $table = $this->getDbTable( $like );
         $selectSQL = "SELECT name FROM {$table} {$where} {$sqlLimit} FOR UPDATE";
         if ( !$res = $this->_query( $selectSQL, $fname ) )
         {
@@ -381,7 +381,7 @@ class eZDFSFileHandlerMySQLiBackend
      */
     protected function _deleteInner( $filePath, $fname )
     {
-        if ( !$this->_query( "UPDATE " . $this->dbTable( $filePath ) . " SET mtime=-ABS(mtime), expired=1 WHERE name_hash=" . $this->_md5( $filePath ), $fname ) )
+        if ( !$this->_query( "UPDATE " . $this->getDbTable( $filePath ) . " SET mtime=-ABS(mtime), expired=1 WHERE name_hash=" . $this->_md5( $filePath ), $fname ) )
             return $this->_fail( "Deleting file $filePath failed" );
         return true;
     }
@@ -419,7 +419,7 @@ class eZDFSFileHandlerMySQLiBackend
      */
     private function _deleteByLikeInner( $like, $fname )
     {
-        $sql = "UPDATE " . $this->dbTable( $like ) . " SET mtime=-ABS(mtime), expired=1\nWHERE name like ". $this->_quote( $like );
+        $sql = "UPDATE " . $this->getDbTable( $like ) . " SET mtime=-ABS(mtime), expired=1\nWHERE name like ". $this->_quote( $like );
         if ( !$res = $this->_query( $sql, $fname ) )
         {
             return $this->_fail( "Failed to delete files by like: '$like'" );
@@ -455,7 +455,7 @@ class eZDFSFileHandlerMySQLiBackend
      */
     public function _deleteByRegexInner( $regex, $fname )
     {
-        $sql = "UPDATE " . $this->dbTable( $like ) . " SET mtime=-ABS(mtime), expired=1\nWHERE name like ". $this->_quote( $like );
+        $sql = "UPDATE " . $this->getDbTable( $like ) . " SET mtime=-ABS(mtime), expired=1\nWHERE name like ". $this->_quote( $like );
         if ( !$res = $this->_query( $sql, $fname ) )
         {
             return $this->_fail( "Failed to delete files by regex: '$regex'" );
@@ -502,7 +502,7 @@ class eZDFSFileHandlerMySQLiBackend
                               array( '.', '.*', '(', ')', '|' ),
                               $regex );
 
-        $sql = "UPDATE " . $this->dbTable( $regex ) . " SET mtime=-ABS(mtime), expired=1\nWHERE name REGEXP '$regex'";
+        $sql = "UPDATE " . $this->getDbTable( $regex ) . " SET mtime=-ABS(mtime), expired=1\nWHERE name REGEXP '$regex'";
         if ( !$res = $this->_query( $sql, $fname ) )
         {
             return $this->_fail( "Failed to delete files by wildcard: '$wildcard'" );
@@ -532,7 +532,7 @@ class eZDFSFileHandlerMySQLiBackend
             {
                 $where = "WHERE name LIKE '$commonPath/$dirItem/$commonSuffix%'";
             }
-            $sql = "UPDATE " . $this->dbTable( $commonPath ) . " SET mtime=-ABS(mtime), expired=1\n$where";
+            $sql = "UPDATE " . $this->getDbTable( $commonPath ) . " SET mtime=-ABS(mtime), expired=1\n$where";
             if ( !$res = $this->_query( $sql, $fname ) )
             {
                 eZDebug::writeError( "Failed to delete files in dir: '$commonPath/$dirItem/$commonSuffix%'", __METHOD__ );
@@ -547,7 +547,7 @@ class eZDFSFileHandlerMySQLiBackend
             $fname .= "::_exists($filePath)";
         else
             $fname = "_exists($filePath)";
-        $row = $this->_selectOneRow( "SELECT name, mtime FROM " . $this->dbTable( $filePath ) . " WHERE name_hash=" . $this->_md5( $filePath ),
+        $row = $this->_selectOneRow( "SELECT name, mtime FROM " . $this->getDbTable( $filePath ) . " WHERE name_hash=" . $this->_md5( $filePath ),
                                      $fname, "Failed to check file '$filePath' existance: ", true );
         if ( $row === false )
             return false;
@@ -686,7 +686,7 @@ class eZDFSFileHandlerMySQLiBackend
             $fname .= "::_fetchMetadata($filePath)";
         else
             $fname = "_fetchMetadata($filePath)";
-        $sql = "SELECT * FROM " . $this->dbTable( $filePath ) . " WHERE name_hash=" . $this->_md5( $filePath );
+        $sql = "SELECT * FROM " . $this->getDbTable( $filePath ) . " WHERE name_hash=" . $this->_md5( $filePath );
         return $this->_selectOneAssoc( $sql, $fname,
                                        "Failed to retrieve file metadata: $filePath",
                                        true );
@@ -754,7 +754,7 @@ class eZDFSFileHandlerMySQLiBackend
         $dstNameTrunkStr = mysqli_real_escape_string( $this->db, self::nameTrunk( $dstFilePath, $metaData['scope'] ) );
 
         // Mark entry for update to lock it
-        $table = $this->dbTable( $srcFilePath );
+        $table = $this->getDbTable( $srcFilePath );
         $sql = "SELECT * FROM {$table} WHERE name_hash=MD5('$srcFilePathStr') FOR UPDATE";
         if ( !$this->_query( $sql, "_rename($srcFilePath, $dstFilePath)" ) )
         {
@@ -844,7 +844,7 @@ class eZDFSFileHandlerMySQLiBackend
         $filePathHash = md5( $filePath );
         $nameTrunk = self::nameTrunk( $filePath, $scope );
 
-        if ( $this->_insertUpdate( $this->dbTable( $filePath ),
+        if ( $this->_insertUpdate( $this->getDbTable( $filePath ),
             array( 'datatype' => $datatype,
                    'name' => $filePath,
                    'name_trunk' => $nameTrunk,
@@ -899,7 +899,7 @@ class eZDFSFileHandlerMySQLiBackend
         if ( $curTime === false )
             $curTime = time();
 
-        if ( $this->_insertUpdate( $this->dbTable( $filePath ),
+        if ( $this->_insertUpdate( $this->getDbTable( $filePath ),
             array( 'datatype' => $datatype,
                    'name' => $filePath,
                    'name_trunk' => $nameTrunk,
@@ -1411,7 +1411,7 @@ class eZDFSFileHandlerMySQLiBackend
                              'datatype' => "''",
                              'mtime' => $mtime,
                              'expired' => 0 );
-        $table = $this->dbTable( $filePath );
+        $table = $this->getDbTable( $filePath );
         $query = 'INSERT INTO ' . $table . ' ( '. implode(', ', array_keys( $insertData ) ) . ' ) ' .
                  "VALUES(" . implode( ', ', $insertData ) . ")";
 
@@ -1482,7 +1482,7 @@ class eZDFSFileHandlerMySQLiBackend
         $fname = "_endCacheGeneration( $filePath )";
 
         // no rename: the .generating entry is just deleted
-        $table = $this->dbTable( $filePath );
+        $table = $this->getDbTable( $filePath );
         if ( $rename === false )
         {
             $this->_query( "DELETE FROM {$table} WHERE name_hash=MD5('$generatingFilePath')", $fname, true );
@@ -1582,7 +1582,7 @@ class eZDFSFileHandlerMySQLiBackend
         $newMtime = time();
 
         // The update query will only succeed if the mtime wasn't changed in between
-        $table = $this->dbTable( $generatingFilePath );
+        $table = $this->getDbTable( $generatingFilePath );
         $query = "UPDATE {$table} SET mtime = $newMtime WHERE name_hash = {$nameHash} AND mtime = $generatingFileMtime";
         $res = mysqli_query( $this->db, $query );
         if ( !$res )
@@ -1638,7 +1638,7 @@ class eZDFSFileHandlerMySQLiBackend
 
         $this->_begin( $fname );
 
-        $sql = "DELETE FROM " . $this->dbTable( $generatingFilePath ) . " WHERE name_hash = " . $this->_md5( $generatingFilePath );
+        $sql = "DELETE FROM " . $this->getDbTable( $generatingFilePath ) . " WHERE name_hash = " . $this->_md5( $generatingFilePath );
         $this->_query( $sql, "_abortCacheGeneration( '$generatingFilePath' )" );
         $this->dfsbackend->delete( $generatingFilePath );
 
@@ -1756,7 +1756,7 @@ class eZDFSFileHandlerMySQLiBackend
      * @param string $filePath
      * @return string The database table name
      **/
-    protected function dbTable( $filePath )
+    protected function getDbTable( $filePath )
     {
         if ( !defined( "EZP_DFS_SEPARATE_CACHE_TABLE" ) )
             return self::TABLE_METADATA;
