@@ -2143,7 +2143,7 @@
     </message>
     <message>
         <source>Publish the contents of the draft that is being edited. The draft will become the published version of the object.</source>
-        <translation>Publier le contenu du brouillon en court de modification. Ce brouillon sera la version publiée de l&apos;objet.</translation>
+        <translation>Publier le contenu du brouillon en cours de modification. Ce brouillon sera la version publiée de l&apos;objet.</translation>
     </message>
     <message>
         <source>Class identifier</source>
