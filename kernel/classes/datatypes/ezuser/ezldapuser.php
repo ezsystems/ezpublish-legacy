@@ -329,7 +329,7 @@ class eZLDAPUser extends eZUser
                         {
                             foreach ( array_keys( $LDAPUserGroup ) as $key )
                             {
-                                $groupName = $LDAPUserGroup[$key];
+                                $groupName = $db->escapeString( $LDAPUserGroup[$key] );
                                 $groupQuery = "SELECT ezcontentobject_tree.node_id
                                                  FROM ezcontentobject, ezcontentobject_tree
                                                 WHERE ezcontentobject.name like '$groupName'
@@ -348,7 +348,7 @@ class eZLDAPUser extends eZUser
                         }
                         else
                         {
-                            $groupName = $LDAPUserGroup;
+                            $groupName = $db->escapeString( $LDAPUserGroup );
                             $groupQuery = "SELECT ezcontentobject_tree.node_id
                                              FROM ezcontentobject, ezcontentobject_tree
                                             WHERE ezcontentobject.name like '$groupName'
@@ -495,7 +495,7 @@ class eZLDAPUser extends eZUser
                                     // remap group name and check that group exists
                                     if ( array_key_exists( $ldapGroupName, $LDAPUserGroupMap ) )
                                     {
-                                        $remmapedGroupName = $LDAPUserGroupMap[ $ldapGroupName ];
+                                        $remmapedGroupName = $db->escapeString( $LDAPUserGroupMap[ $ldapGroupName ] );
                                         $groupQuery = "SELECT ezcontentobject_tree.node_id
                                                          FROM ezcontentobject, ezcontentobject_tree
                                                         WHERE ezcontentobject.name like '$remmapedGroupName'
@@ -1342,9 +1342,10 @@ class eZLDAPUser extends eZUser
         $ini = eZINI::instance();
         $userGroupClassID = $ini->variable( "UserSettings", "UserGroupClassID" );
 
+        $groupNameEscaped = $db->escapeString( $groupName );
         $groupQuery = "SELECT ezcontentobject_tree.node_id
                        FROM ezcontentobject, ezcontentobject_tree
-                       WHERE ezcontentobject.name like '$groupName'
+                       WHERE ezcontentobject.name like '$groupNameEscaped'
                        AND ezcontentobject.id = ezcontentobject_tree.contentobject_id
                        AND ezcontentobject.contentclass_id = $userGroupClassID";
         $groupRows = $db->arrayQuery( $groupQuery );
