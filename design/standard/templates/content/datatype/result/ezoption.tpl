@@ -9,7 +9,7 @@
 
 {section name=Option loop=$:attribute.contentobject_attribute.content.option_list}
 <td>
-{$:item.value}
+{$:item.value|wash()}
 </td>
 <td>
 <table width="300">
