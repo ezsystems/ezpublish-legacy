@@ -231,7 +231,7 @@ class eZDBFileHandlerMysqliBackend
             $fname .= "::_purgeByLike($like, $onlyExpired)";
         else
             $fname = "_purgeByLike($like, $onlyExpired)";
-        $sql = "DELETE FROM " . TABLE_METADATA . " WHERE name LIKE " . $this->_quote( $like );
+        $sql = "DELETE FROM " . TABLE_METADATA . " WHERE name LIKE " . $this->_quote( $like, true );
         if ( $expiry !== false )
             $sql .= " AND mtime < " . (int)$expiry;
         elseif ( $onlyExpired )
@@ -281,7 +281,7 @@ class eZDBFileHandlerMysqliBackend
 
     function _deleteByLikeInner( $like, $fname )
     {
-        $sql = "UPDATE " . TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\nWHERE name like ". $this->_quote( $like );
+        $sql = "UPDATE " . TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\nWHERE name like ". $this->_quote( $like, true );
         if ( !$res = $this->_query( $sql, $fname ) )
         {
             return $this->_fail( "Failed to delete files by like: '$like'" );
@@ -360,7 +360,7 @@ class eZDBFileHandlerMysqliBackend
             }
             else
             {
-                $where = "WHERE name LIKE '$commonPath/$dirItem/$commonSuffix%'";
+                $where = "WHERE name LIKE ".$this->_quote("$commonPath/$dirItem/$commonSuffix%", true);
             }
             $sql = "UPDATE " . TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\n$where";
             if ( !$res = $this->_query( $sql, $fname ) )
@@ -1368,14 +1368,18 @@ class eZDBFileHandlerMysqliBackend
      Make sure that $value is escaped and qouted according to type and returned as a string.
      The returned value can directly be put into SQLs.
      */
-    function _quote( $value )
+    function _quote( $value, $like = false )
     {
         if ( $value === null )
             return 'NULL';
         elseif ( is_integer( $value ) )
             return (string)$value;
-        else
-            return "'" . mysqli_real_escape_string( $this->db, $value ) . "'";
+        else {
+           if ($like)
+                return "'".addcslashes(mysqli_real_escape_string( $this->db, $value ),"_")."'";
+           else
+                return "'".mysqli_real_escape_string( $this->db, $value )."'";
+        }
     }
 
     /*!
