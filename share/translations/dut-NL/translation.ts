@@ -2822,19 +2822,19 @@
     </message>
     <message>
         <source>Some of the locations that are about to be removed contain sub items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sommige van de locaties die u wilt verwijderen bevatten subitems.</translation>
     </message>
     <message>
         <source>Removing the locations will also result in the removal of the sub items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Als u de locaties verwijdert, worden de subitems ook verwijderd.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove the locations along with their contents?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wilt u de locaties en hun inhoud verwijderen?</translation>
     </message>
     <message>
         <source>Click the &quot;Cancel&quot; button and try removing only the locations that you are allowed to remove.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klik op de knop &quot;Annuleren&quot; en probeer alleen de locaties te verwijderen waarvoor u toestemming hebt.</translation>
     </message>
     <message>
         <source>Location</source>
@@ -2846,11 +2846,11 @@
     </message>
     <message>
         <source>%child_count item</source>
-        <translation type="unfinished"></translation>
+        <translation>%child_count item</translation>
     </message>
     <message>
         <source>%child_count items</source>
-        <translation type="unfinished"></translation>
+        <translation>%child_count items</translation>
     </message>
     <message>
         <source>OK</source>
@@ -2858,7 +2858,7 @@
     </message>
     <message>
         <source>Remove the locations along with all the sub items.</source>
-        <translation type="unfinished"></translation>
+        <translation>De locaties en alle subitems verwijderen.</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -2870,11 +2870,11 @@
     </message>
     <message>
         <source>The locations marked with red contain items that you do not have permission to remove.</source>
-        <translation type="unfinished"></translation>
+        <translation>De met rood gemarkeerde locaties bevatten items die u niet mag verwijderen.</translation>
     </message>
     <message>
         <source>You cannot continue because you do not have permission to remove some of the selected locations.</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt niet doorgaan omdat u geen rechten heeft om sommige van de geselecteerde locaties te verwijderen.</translation>
     </message>
 </context>
 <context>
