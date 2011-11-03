@@ -148,7 +148,7 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
     protected function runCustomFilters( $type, array $filterParams )
     {
         $filterName = $type . 'Filters';
-        $interfaceName = 'ezpRest' . $filterName . 'FilterInterface';
+        $interfaceName = 'ezpRest' . $type . 'FilterInterface';
         $definedCustomFilters = eZINI::instance( 'rest.ini' )->variable( $filterName , 'Filters' );
 
         if ( empty( $definedCustomFilters ) )
@@ -175,7 +175,7 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
                 break;
             }
 
-            if ( ! $filter instanceof $interfaceName )
+            if ( ! $filterObject instanceof $interfaceName )
                 throw new ezpRestFilterNotFoundException( $filter );
 
             $filterObject->filter();
