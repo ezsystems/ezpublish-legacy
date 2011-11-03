@@ -4649,7 +4649,7 @@ class eZContentObject extends eZPersistentObject
                  $user = eZUser::currentUser();
                  if ( $user->attribute( 'contentobject_id' ) === $this->attribute( 'id' ) )
                  {
-                     $access = $user->hasAccessTo( 'user', 'selfedit' );
+                     $access = $user->hasAccessTo( 'content', 'selfedit' );
                      if ( $access['accessWord'] == 'yes' )
                      {
                          $canEdit = 1;
@@ -4675,7 +4675,7 @@ class eZContentObject extends eZPersistentObject
                  $user = eZUser::currentUser();
                  if ( $user->id() == $this->attribute( 'id' ) )
                  {
-                     $access = $user->hasAccessTo( 'user', 'selfedit' );
+                     $access = $user->hasAccessTo( 'content', 'selfedit' );
                      if ( $access['accessWord'] == 'yes' )
                      {
                          $this->Permissions["can_translate"] = 1;

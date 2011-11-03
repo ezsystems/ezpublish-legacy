@@ -121,6 +121,5 @@ $FunctionList['login'] = array( 'SiteAccess' => $SiteAccess );
 $FunctionList['password'] = array();
 $FunctionList['preferences'] = array();
 $FunctionList['register'] = array();
-$FunctionList['selfedit'] = array();
 
 ?>
