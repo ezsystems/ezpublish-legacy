@@ -1364,9 +1364,13 @@ class eZDBFileHandlerMysqliBackend
         return $res;
     }
 
-    /*!
-     Make sure that $value is escaped and qouted according to type and returned as a string.
-     The returned value can directly be put into SQLs.
+    /**
+     * Make sure that $value is escaped and qouted according to type and returned
+     * as a string.
+     *
+     * @param string $value a SQL parameter to escape
+     * @param bool $like if we quote for a LIKE
+     * @return string a string that can safely be used in SQL queries
      */
     function _quote( $value, $like = false )
     {
@@ -1374,11 +1378,12 @@ class eZDBFileHandlerMysqliBackend
             return 'NULL';
         elseif ( is_integer( $value ) )
             return (string)$value;
-        else {
+        else
+        {
            if ($like)
-                return "'".addcslashes(mysqli_real_escape_string( $this->db, $value ),"_")."'";
+                return "'" . addcslashes( mysqli_real_escape_string( $this->db, $value ), "_" ) . "'";
            else
-                return "'".mysqli_real_escape_string( $this->db, $value )."'";
+                return "'" . mysqli_real_escape_string( $this->db, $value ) . "'";
         }
     }
 

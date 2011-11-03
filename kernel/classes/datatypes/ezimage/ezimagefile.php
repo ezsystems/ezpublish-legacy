@@ -105,8 +105,8 @@ class eZImageFile extends eZPersistentObject
         $contentObjectID = (int)( $rows[0]['contentobject_id'] );
         $contentClassAttributeID = (int)( $rows[0]['contentclassattribute_id'] );
         $filepath = $db->escapeString( $filepath );
-        // escape _ in like
-        $filepath = addcslashes($filepath, "_");
+        // escape _ in like !
+        $filepath = addcslashes( $filepath, "_" );
         $query = "SELECT id, version
                   FROM   ezcontentobject_attribute
                   WHERE  contentobject_id = $contentObjectID and

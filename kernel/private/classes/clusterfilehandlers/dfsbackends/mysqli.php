@@ -1297,9 +1297,10 @@ class eZDFSFileHandlerMySQLiBackend
             return 'NULL';
         elseif ( is_integer( $value ) )
             return (string)$value;
-        else {
+        else
+        {
            if ($like)
-                return "'".addcslashes(mysqli_real_escape_string( $this->db, $value ),"_")."'";
+                return "'" . addcslashes( mysqli_real_escape_string( $this->db, $value ), "_" ) . "'";
            else
                 return "'".mysqli_real_escape_string( $this->db, $value )."'";
         }
