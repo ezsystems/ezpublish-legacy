@@ -7,4 +7,8 @@
 {'Email'|i18n('design/standard/user/register')}: {$user.email}
 
 {'Link to user information'|i18n('design/standard/user/register')}:
-http://{$hostname}{concat('content/view/full/',$object.main_node_id)|ezurl(no)}
+{if ezini( 'UserSettings', 'VerifyUserType' )|compare( '' )}
+  http://{$hostname}{concat('content/view/full/',$object.main_node_id)|ezurl(no)}
+{else}
+	http://{$hostname}{concat( 'content/versionview/', $object.id, '/', $object.current.version )|ezurl( no )}
+{/if}
