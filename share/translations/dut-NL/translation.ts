@@ -3623,51 +3623,51 @@
     <name>design/admin/content/urlalias</name>
     <message>
         <source>The selected aliases were successfully removed.</source>
-        <translation type="unfinished"></translation>
+        <translation>De geselecteerde aliasses zijn verwijderd.</translation>
     </message>
     <message>
         <source>All aliases for this node were successfully removed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle aliassen voor deze locatie zijn verwijderd.</translation>
     </message>
     <message>
         <source>The specified language code &lt;%language&gt; is not valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>De opgegeven taalcode &lt;%language&gt; is ongeldig.</translation>
     </message>
     <message>
         <source>Text is missing for the URL alias</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekst voor de URL alias ontbreekt</translation>
     </message>
     <message>
         <source>Enter text in the input box to create a new alias.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer iets in het veld in om een nieuwe alias aan te maken.</translation>
     </message>
     <message>
         <source>The URL alias was successfully created, but was modified by the system to &lt;%new_alias&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>De URL alias is aangemaakt, maar is door het systeem veranderd in &lt;%new_alias&gt;</translation>
     </message>
     <message>
         <source>Invalid characters will be removed or transformed to valid characters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingeldige tekens worden verwijderd of veranderd in geldige tekens.</translation>
     </message>
     <message>
         <source>Existing objects or functionality with the same name take precedence on the name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestaande objecten of andere functionaliteit met dezelfde naam krijgen prioriteit.</translation>
     </message>
     <message>
         <source>The URL alias &lt;%new_alias&gt; was successfully created</source>
-        <translation type="unfinished"></translation>
+        <translation>De URL alias &lt;%new_alias&gt; is aangemaakt</translation>
     </message>
     <message>
         <source>The URL alias &amp;lt;%new_alias&amp;gt; already exists, and it points to &amp;lt;%action_url&amp;gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>De URL alias &amp;lt;%new_alias&amp;gt; bestaat al en verwijst naar &amp;lt;%action_url&amp;gt;</translation>
     </message>
     <message>
         <source>URL aliases for &lt;%node_name&gt; [%alias_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>URL aliassen voor &lt;%node_name&gt; [%alias_count]</translation>
     </message>
     <message>
         <source>The current item does not have any aliases associated with it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het huidige item heeft geen aliassen.</translation>
     </message>
     <message>
         <source>Invert selection.</source>
@@ -3675,7 +3675,7 @@
     </message>
     <message>
         <source>URL alias</source>
-        <translation type="unfinished"></translation>
+        <translation>URL alias</translation>
     </message>
     <message>
         <source>Language</source>
@@ -3683,7 +3683,7 @@
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type</translation>
     </message>
     <message>
         <source>Redirect</source>
@@ -3691,7 +3691,7 @@
     </message>
     <message>
         <source>Direct</source>
-        <translation type="unfinished"></translation>
+        <translation>Direct</translation>
     </message>
     <message>
         <source>Remove selected</source>
@@ -3699,11 +3699,11 @@
     </message>
     <message>
         <source>Remove selected alias from the list above.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geselecteerde alias uit de lijst verwijderen.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove the selected aliases?</source>
-        <translation type="unfinished"></translation>
+        <translation>Weet u zeker dat u de geselecteerde aliassen wilt verwijderen?</translation>
     </message>
     <message>
         <source>Remove all</source>
@@ -3711,55 +3711,55 @@
     </message>
     <message>
         <source>Remove all aliases for this node.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle aliassen voor deze locatie verwijderen.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove all aliases for this node?</source>
-        <translation type="unfinished"></translation>
+        <translation>Weet u zeker dat u alle aliassen voor deze locatie wilt verwijderen?</translation>
     </message>
     <message>
         <source>There are no removable aliases.</source>
-        <translation type="unfinished">Er zijn geen aliassen die kunnen worden verwijderd.</translation>
+        <translation>Er zijn geen aliassen die kunnen worden verwijderd.</translation>
     </message>
     <message>
         <source>You cannot remove any aliases because you do not have permission to edit the current item.</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt geen aliassen verwijderen omdat u geen toestemming heeft om het huidige item te bewerken.</translation>
     </message>
     <message>
         <source>Generated aliases [%count]</source>
-        <translation type="unfinished"></translation>
+        <translation>Gegenereerde aliassen [%count]</translation>
     </message>
     <message>
         <source>Note that these entries are automatically generated from the name of the object. To change these names you must edit the object in the specific language and publish the changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Deze aliassen worden automatisch gegenereerd op basis van de naam van het object. Om ze te wijzigen moet u het object in de betreffende taal bewerken en de aanpassingen publiceren.</translation>
     </message>
     <message>
         <source>Edit the contents for language %language.</source>
-        <translation type="unfinished"></translation>
+        <translation>De inhoud in %language bewerken.</translation>
     </message>
     <message>
         <source>You cannot edit the contents for language %language because you do not have permission to edit the object.</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt de inhoud in %language niet bewerken omdat u geen toestemming heeft om het object te bewerken.</translation>
     </message>
     <message>
         <source>Create new alias</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuwe alias aanmaken</translation>
     </message>
     <message>
         <source>URL alias name:</source>
-        <translation type="unfinished"></translation>
+        <translation>URL alias naam:</translation>
     </message>
     <message>
         <source>Enter the URL for the new alias. Use forward slashes (/) to create subentries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer de URL voor de nieuwe alias in. Gebruik slashes (/) om subentries aan te maken.</translation>
     </message>
     <message>
         <source>Destination:</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestemming:</translation>
     </message>
     <message>
         <source>Destination.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestemming.</translation>
     </message>
     <message>
         <source>Language:</source>
@@ -3767,7 +3767,7 @@
     </message>
     <message>
         <source>Choose the language for the new URL alias.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kies de taal voor de nieuwe URL alias.</translation>
     </message>
     <message>
         <source>Not available</source>
@@ -3775,47 +3775,47 @@
     </message>
     <message>
         <source>Alias should redirect to its destination</source>
-        <translation type="unfinished"></translation>
+        <translation>Doorsturen naar de bestemming (redirect)</translation>
     </message>
     <message>
         <source>With &lt;em&gt;Alias should redirect to its destination&lt;/em&gt; checked eZ Publish will redirect to the destination using a HTTP 301 response. Un-check it and the URL will stay the same &amp;#8212; no redirection will be performed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wanneer &lt;em&gt;Doorsturen naar bestemming&lt;/em&gt; is aangevinkt verwijst eZ Publish de bezoeker door naar de bestemming met behulp van een HTTP 301. Wanneer u het veld uitvinkt dan blijft het adres hetzelfde en wordt de bezoeker niet doorverwezen.</translation>
     </message>
     <message>
         <source>If checked the alias will start from the parent of the current node. If un-checked the aliases will start from the root of the site.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wanneer dit veld is aangevinkt wordt de alias onder de bovenliggende item geplaatst. Wanneer het veld is uitgevinkt dan wordt de alias onder de root van de site geplaatst.</translation>
     </message>
     <message>
         <source>Place alias on the site root</source>
-        <translation type="unfinished"></translation>
+        <translation>Alias onder site root plaatsen</translation>
     </message>
     <message>
         <source>The new alias be placed under %link</source>
-        <translation type="unfinished"></translation>
+        <translation>Plaats de nieuwe alias onder %link</translation>
     </message>
     <message>
         <source>&lt;em&gt;Un-check&lt;/em&gt; to create the new alias under %link. Leave it checked and the new alias will be created on &lt;em&gt;&lt;a href=&apos;/&apos;&gt;%siteroot&lt;/a&gt;&lt;/em&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vink dit veld &lt;em&gt;uit&lt;/em&gt; om de nieuwe alias onder %link toe te voegen. Wanneer u dit veld aangevinkt laat dan wordt de nieuwe alias onder &lt;em&gt;&lt;a href=&apos;/&apos;&gt;%siteroot&lt;/a&gt;&lt;/em&gt; toegevoegd.</translation>
     </message>
     <message>
         <source>Include in other languages</source>
-        <translation type="unfinished"></translation>
+        <translation>Toevoegen in andere talen</translation>
     </message>
     <message>
         <source>Create new URL forwarding with wildcard</source>
-        <translation type="unfinished"></translation>
+        <translation>Een nieuwe URL wildcard alias aanmaken.</translation>
     </message>
     <message>
         <source>Redirecting URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Doorverwijzende URL</translation>
     </message>
     <message>
         <source>URL aliases for &lt;%node_name&gt; (%alias_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>URL aliassen voor &lt;%node_name&gt; (%alias_count)</translation>
     </message>
     <message>
         <source>Generated aliases (%count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Gegenereerde aliassen (%count)</translation>
     </message>
 </context>
 <context>
@@ -9611,23 +9611,23 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     <name>design/admin/setup/cache</name>
     <message>
         <source>Content view cache was cleared</source>
-        <translation>Inhoudsweergave cache werd geleegd</translation>
+        <translation>Inhoudsweergave cache gewist</translation>
     </message>
     <message>
         <source>All caches were cleared</source>
-        <translation>Alle caches zijn geleegd</translation>
+        <translation>Alle caches gewist</translation>
     </message>
     <message>
         <source>Ini file cache was cleared</source>
-        <translation>Ini bestand cache werd geleegd</translation>
+        <translation>Ini bestand cache gewist</translation>
     </message>
     <message>
         <source>Template cache was cleared</source>
-        <translation>Template cache werd geleegd</translation>
+        <translation>Template cache gewist</translation>
     </message>
     <message>
         <source>%name was cleared</source>
-        <translation>%name is leeggemaakt</translation>
+        <translation>%name gewist</translation>
     </message>
     <message>
         <source>Template overrides and compiled templates</source>
@@ -9635,19 +9635,19 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     </message>
     <message>
         <source>Clear template caches</source>
-        <translation>Template cache legen</translation>
+        <translation>Template cache wissen</translation>
     </message>
     <message>
         <source>Content views and template blocks</source>
-        <translation>Content en template blokken</translation>
+        <translation>Inhoudsweergaven en sjabloonblokken</translation>
     </message>
     <message>
         <source>Clear content caches</source>
-        <translation>Inhoud cache legen</translation>
+        <translation>Inhoud cache wissen</translation>
     </message>
     <message>
         <source>Clear all caches</source>
-        <translation>Alle caches legen</translation>
+        <translation>Alle caches wissen</translation>
     </message>
     <message>
         <source>Name</source>
@@ -9659,23 +9659,23 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     </message>
     <message>
         <source>Clear selected</source>
-        <translation>Verwijder selectie</translation>
+        <translation>Selectie wissen</translation>
     </message>
     <message>
         <source>Clear caches</source>
-        <translation>Caches legen</translation>
+        <translation>Caches wissen</translation>
     </message>
     <message>
         <source>Configuration (ini) caches</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuratie (ini) caches</translation>
     </message>
     <message>
         <source>Everything</source>
-        <translation type="unfinished"></translation>
+        <translation>Alles</translation>
     </message>
     <message>
         <source>Fine-grained cache control</source>
-        <translation type="unfinished"></translation>
+        <translation>Fijnmazig cachebeheer</translation>
     </message>
     <message>
         <source>Invert selection.</source>
@@ -9683,27 +9683,27 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     </message>
     <message>
         <source>Clear the selected caches.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geselecteerde caches wissen.</translation>
     </message>
     <message>
         <source>The following caches were cleared</source>
-        <translation type="unfinished"></translation>
+        <translation>De volgende cacahes zijn gewist</translation>
     </message>
     <message>
         <source>Select the &lt;%cache_name&gt; for clearing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer de &lt;%cache_name&gt; om te wissen.</translation>
     </message>
     <message>
         <source>Static content cache was regenerated</source>
-        <translation type="unfinished"></translation>
+        <translation>Statische inhoudscache opnieuw opgebouwd</translation>
     </message>
     <message>
         <source>Static content cache</source>
-        <translation type="unfinished"></translation>
+        <translation>Statische inhoudscache</translation>
     </message>
     <message>
         <source>Regenerate static content cache</source>
-        <translation type="unfinished"></translation>
+        <translation>Statische inhoudscache opnieuw genereren</translation>
     </message>
     <message>
         <source>Create new</source>
@@ -9711,35 +9711,35 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     </message>
     <message>
         <source>This operation will clear all the template override caches and the compiled templates. It may lead to slower site performance until the caches are recreated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Deze bewerking wist alle vervangende sjablooncaches en de gecompileerde sjablonen. Dit kan ervoor zorgen dat de site trager is, totdat de caches opnieuw zijn aangemaakt.</translation>
     </message>
     <message>
         <source>This operation will clear all caches that are related to either template views or cache blocks inside the pagelayout template. Use it if you have modified templates or if you have made changes inside a cache block.</source>
-        <translation type="unfinished"></translation>
+        <translation>Deze bewerking wist alle caches die gerelateerd zijn aan sjabloonweergaven of cacheblokken in de paginalayout. gebruik dit wanneer u sjablonen heeft aangepast of wanneer u aanpassingen heeft gedaan in een cacheblok.</translation>
     </message>
     <message>
         <source>Clear Ini caches</source>
-        <translation type="unfinished"></translation>
+        <translation>Ini caches wissen</translation>
     </message>
     <message>
         <source>This operation will clear all the configuration caches. Use it to force the system to re-read the configuration files if you have changed settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Deze bewerking wist alle configuratie caches. Gebruik dit om het systeem de configuratie opnieuw te laten inlezen wanneer u instellingen heeft veranderd.</translation>
     </message>
     <message>
         <source>This operation will clear all the caches and may lead to slow site response times until the caches are recreated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Deze bewerking wist alle caches en kan ervoor zorgen dat de site langzamer wordt, totdat de caches opnieuw zijn opgebouwd.</translation>
     </message>
     <message>
         <source>The &lt;%cache_name&gt; is disabled and thus it cannot be marked for clearing.</source>
-        <translation type="unfinished"></translation>
+        <translation>De &lt;%cache_name&gt; is uitgeschakeld en kan niet worden gewist.</translation>
     </message>
     <message>
         <source>This operation will regenerate all the static content caches that are configured. This action can take  some time depending on the specifications of the server and the number of locations that are configured to be statically cached. If you encounter time-out problems, use the &amp;quot;bin/php/makestaticcache.php&amp;quot; shell script.</source>
-        <translation type="unfinished"></translation>
+        <translation>Deze bewerking wist alle statische inhoudscaches die zijn geconfigureerd. Deze handeling kan enige tijd duren, afhankelijk van de snelheid van de server en het aantal locaties dat in de configuratie is opgenomen. Als u problemen ondervindt wegens time-out, gebruik dan het shell script &amp;quot;bin/php/makestaticcache.php&amp;quot;.</translation>
     </message>
     <message>
         <source>Categories</source>
-        <translation type="unfinished"></translation>
+        <translation>Categorieen</translation>
     </message>
 </context>
 <context>
