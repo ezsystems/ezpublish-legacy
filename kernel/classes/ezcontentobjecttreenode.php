@@ -3796,7 +3796,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 continue;
 
             $class = $object->attribute( 'content_class' );
-            $canRemove = $object->attribute( 'can_remove' );
+            $canRemove = $node->attribute( 'can_remove' );
             $canRemoveSubtree = true;
 
             $nodeID = $node->attribute( 'node_id' );

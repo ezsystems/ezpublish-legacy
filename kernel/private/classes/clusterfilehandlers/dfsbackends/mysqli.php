@@ -53,7 +53,8 @@ class eZDFSFileHandlerMySQLiBackend
 
             self::$dbparams = array();
             self::$dbparams['host']       = $fileINI->variable( 'eZDFSClusteringSettings', 'DBHost' );
-            self::$dbparams['port']       = $fileINI->variable( 'eZDFSClusteringSettings', 'DBPort' );
+            $dbPort = $fileINI->variable( 'eZDFSClusteringSettings', 'DBPort' );
+            self::$dbparams['port']       = $dbPort !== '' ? $dbPort : null;
             self::$dbparams['socket']     = $fileINI->variable( 'eZDFSClusteringSettings', 'DBSocket' );
             self::$dbparams['dbname']     = $fileINI->variable( 'eZDFSClusteringSettings', 'DBName' );
             self::$dbparams['user']       = $fileINI->variable( 'eZDFSClusteringSettings', 'DBUser' );
@@ -77,7 +78,6 @@ class eZDFSFileHandlerMySQLiBackend
         $tries = 0;
         while ( $tries < $maxTries )
         {
-            /// @todo what if port is null, '' ??? to be tested
             if ( $this->db = mysqli_connect( self::$dbparams['host'], self::$dbparams['user'], self::$dbparams['pass'], self::$dbparams['dbname'], self::$dbparams['port'] ) )
                 break;
             ++$tries;
