@@ -171,9 +171,9 @@ class eZDebug
 
         $logfileIni = eZINI::instance( 'logfile.ini' );
         $subFoldersEnabled = $logfileIni->variable( 'LogFileSettings', 'UseSubFolders' );
-        if ( $subFoldersEnabled == 'true' )
+        if ( $subFoldersEnabled === 'enabled' )
         {
-            $this->LogSubFoldersEnabled = true;
+            $this->logSubFoldersEnabled = true;
         }
     }
 
@@ -882,7 +882,7 @@ class eZDebug
         $logDir = $logFileData[0];
         $logName = $logFileData[1];
 
-        if ( $this->LogSubFoldersEnabled )
+        if ( $this->logSubFoldersEnabled )
         {
             $currentSiteAccess = eZSiteAccess::current();
             if ( is_array( $currentSiteAccess ) && isset( $currentSiteAccess['name'] ) )
@@ -1917,7 +1917,7 @@ class eZDebug
     private $recursionFlag = false;
 
     // If set to true, logfiles are stored in subfolders with the name of the current siteaccess
-    public $LogSubFoldersEnabled = false;
+    public $logSubFoldersEnabled = false;
 }
 
 ?>
