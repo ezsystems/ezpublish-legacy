@@ -31,7 +31,7 @@
     </message>
     <message>
         <source>Last modified</source>
-        <translation>Laatst aangepast</translation>
+        <translation type="unfinished">Laatst aangepast</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -1325,11 +1325,11 @@
     </message>
     <message>
         <source>Thumbnail</source>
-        <translation>Thumbnail</translation>
+        <translation>Verkleinde weergave</translation>
     </message>
     <message>
         <source>Display sub items as thumbnails.</source>
-        <translation>Toon sub items als thumbnails.</translation>
+        <translation>Voorbeelden van onderliggende items tonen.</translation>
     </message>
     <message>
         <source>Search result</source>
@@ -1477,11 +1477,11 @@
     </message>
     <message>
         <source>Choose objects that you want to relate to &lt;%version_name&gt;</source>
-        <translation>Kies objecten welke u wilt relateren tot &lt;%version_name&gt;</translation>
+        <translation>Kies objecten die u aan &lt;%version_name&gt; wilt relateren</translation>
     </message>
     <message>
         <source>Use the checkboxes to choose the objects that you want to relate to &lt;%version_name&gt;.</source>
-        <translation>Gebruik de checkboxen om de objecten te kiezen welke u wilt relateren tot &lt;%version_name&gt;.</translation>
+        <translation>Gebruik de checkboxen om de objecten te kiezen die u aan &lt;%version_name&gt; wilt relateren.</translation>
     </message>
 </context>
 <context>
@@ -2822,19 +2822,19 @@
     </message>
     <message>
         <source>Some of the locations that are about to be removed contain sub items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sommige van de locaties die u wilt verwijderen bevatten subitems.</translation>
     </message>
     <message>
         <source>Removing the locations will also result in the removal of the sub items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Als u de locaties verwijdert, worden de subitems ook verwijderd.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove the locations along with their contents?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wilt u de locaties en hun inhoud verwijderen?</translation>
     </message>
     <message>
         <source>Click the &quot;Cancel&quot; button and try removing only the locations that you are allowed to remove.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klik op de knop &quot;Annuleren&quot; en probeer alleen de locaties te verwijderen waarvoor u toestemming hebt.</translation>
     </message>
     <message>
         <source>Location</source>
@@ -2846,11 +2846,11 @@
     </message>
     <message>
         <source>%child_count item</source>
-        <translation type="unfinished"></translation>
+        <translation>%child_count item</translation>
     </message>
     <message>
         <source>%child_count items</source>
-        <translation type="unfinished"></translation>
+        <translation>%child_count items</translation>
     </message>
     <message>
         <source>OK</source>
@@ -2858,7 +2858,7 @@
     </message>
     <message>
         <source>Remove the locations along with all the sub items.</source>
-        <translation type="unfinished"></translation>
+        <translation>De locaties en alle subitems verwijderen.</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -2870,11 +2870,11 @@
     </message>
     <message>
         <source>The locations marked with red contain items that you do not have permission to remove.</source>
-        <translation type="unfinished"></translation>
+        <translation>De met rood gemarkeerde locaties bevatten items die u niet mag verwijderen.</translation>
     </message>
     <message>
         <source>You cannot continue because you do not have permission to remove some of the selected locations.</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt niet doorgaan omdat u geen rechten heeft om sommige van de geselecteerde locaties te verwijderen.</translation>
     </message>
 </context>
 <context>
@@ -2905,7 +2905,7 @@
     </message>
     <message>
         <source>Confirm draft discard</source>
-        <translation type="unfinished"></translation>
+        <translation>Concept annuleren bevestigen</translation>
     </message>
     <message>
         <source>Are you sure you want to discard the draft?</source>
@@ -2936,11 +2936,11 @@
     <name>design/admin/content/removeobject</name>
     <message>
         <source>%child_count item</source>
-        <translation type="unfinished"></translation>
+        <translation>%child_count item</translation>
     </message>
     <message>
         <source>%child_count items</source>
-        <translation type="unfinished"></translation>
+        <translation>%child_count items</translation>
     </message>
 </context>
 <context>
@@ -3197,7 +3197,7 @@
     </message>
     <message>
         <source>Custom</source>
-        <translation>Aangepast</translation>
+        <translation>Aangepaste taal</translation>
     </message>
     <message>
         <source>Name of custom translation</source>
@@ -3252,15 +3252,15 @@
     </message>
     <message>
         <source>Remove selected languages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geselecteerde talen verwijderen.</translation>
     </message>
     <message>
         <source>Add a new language. The new language can then be used when translating content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuwe taal toevoegen. De nieuwe taal kan dan worden gebruikt bij het vertalen van inhoud.</translation>
     </message>
     <message>
         <source>Classes translations</source>
-        <translation type="unfinished"></translation>
+        <translation>Type vertalingen</translation>
     </message>
     <message>
         <source>Country/region</source>
@@ -3268,7 +3268,7 @@
     </message>
     <message>
         <source>The language cannot be removed because it is in use.</source>
-        <translation type="unfinished"></translation>
+        <translation>De taal kan niet worden verwijderd omdat deze in gebruik is.</translation>
     </message>
     <message>
         <source>Available languages for translation of content (%translations_count)</source>
@@ -3276,7 +3276,7 @@
     </message>
     <message>
         <source>Toggle all.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alles (de)selecteren.</translation>
     </message>
 </context>
 <context>
@@ -3411,23 +3411,23 @@
     </message>
     <message>
         <source>Sunday</source>
-        <translation type="unfinished"></translation>
+        <translation>Zondag</translation>
     </message>
     <message>
         <source>Country/region name</source>
-        <translation type="unfinished"></translation>
+        <translation>Land/regio</translation>
     </message>
     <message>
         <source>Country/region comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Land/regio opmerking</translation>
     </message>
     <message>
         <source>Country/region code</source>
-        <translation type="unfinished"></translation>
+        <translation>Land/regio code</translation>
     </message>
     <message>
         <source>Country/region variation</source>
-        <translation type="unfinished"></translation>
+        <translation>Land/regio variatie</translation>
     </message>
 </context>
 <context>
@@ -3537,7 +3537,7 @@
     </message>
     <message>
         <source>The following errors occurred</source>
-        <translation type="unfinished"></translation>
+        <translation>De volgende fouten zijn opgetreden</translation>
     </message>
     <message>
         <source>File upload</source>
@@ -3553,7 +3553,7 @@
     </message>
     <message>
         <source>The location where the uploaded file should be placed.</source>
-        <translation type="unfinished"></translation>
+        <translation>De locatie waar het geuploade bestand geplaatst moet worden.</translation>
     </message>
     <message>
         <source>Automatic</source>
@@ -3569,7 +3569,7 @@
     </message>
     <message>
         <source>Proceed with uploading the selected file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Doorgaan met het uploaden van het geselecteerde bestand.</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -3581,15 +3581,15 @@
     </message>
     <message>
         <source>Choose a file from your local machine then click the &quot;Upload&quot; button. An object will be created according to file type and placed in the specified location.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kies een bestand van uw lokale computer en klik vervolgens op de knop &quot;Uploaden&quot;. Er wordt dan een object op de gekozen locatie aangemaakt op basis van het bestandstype.</translation>
     </message>
     <message>
         <source>Select the file that you want to upload.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer het bestand dat u wilt uploaden.</translation>
     </message>
     <message>
         <source>Abort the upload operation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uploaden annuleren.</translation>
     </message>
 </context>
 <context>
@@ -4493,7 +4493,7 @@
     <name>design/admin/dashboard/all_latest_content</name>
     <message>
         <source>All latest content</source>
-        <translation>Laatste inhoud</translation>
+        <translation type="unfinished">Recent toegevoegde items</translation>
     </message>
     <message>
         <source>Name</source>
@@ -4548,7 +4548,7 @@
     </message>
     <message>
         <source>Modified</source>
-        <translation>Aangepast</translation>
+        <translation>Aangepast op</translation>
     </message>
     <message>
         <source>Edit &lt;%draft_name&gt;.</source>
@@ -4567,7 +4567,7 @@
     <name>design/admin/dashboard/latest_content</name>
     <message>
         <source>My latest content</source>
-        <translation>Mijn laatste inhoud</translation>
+        <translation>Mijn recent toegevoegde items</translation>
     </message>
     <message>
         <source>Name</source>
@@ -4614,14 +4614,14 @@
     </message>
     <message>
         <source>If your installation is not running eZ Publish Enterprise, it might not be up to date with the latest maintenance service packs. Contact eZ Systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Als uw installatie niet op eZ Publish Enterprise draait, dan is deze mogelijk niet up to date. Neem contact op met eZ Systems.</translation>
     </message>
 </context>
 <context>
     <name>design/admin/dashboard/pending_list</name>
     <message>
         <source>My pending items</source>
-        <translation>Mijn items ter afhandeling</translation>
+        <translation>Mijn wachtrij</translation>
     </message>
     <message>
         <source>Name</source>
@@ -4637,7 +4637,7 @@
     </message>
     <message>
         <source>Currently you do not have any pending items available.</source>
-        <translation>Op dit moment heeft u geen items ter afhandeling.</translation>
+        <translation>Op dit moment heeft u geen items in de wachtrij.</translation>
     </message>
 </context>
 <context>
@@ -4660,19 +4660,19 @@
     </message>
     <message>
         <source>Published</source>
-        <translation type="unfinished"></translation>
+        <translation>Gepubliceerd</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Bewerken</translation>
+        <translation>Bewerken</translation>
     </message>
     <message>
         <source>Edit &lt;%item_name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;%item_name&gt; bewerken.</translation>
     </message>
     <message>
         <source>You do not have permission to edit &lt;%item_name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>U heeft geen toestemming om &lt;%item_name&gt; te bewerken.</translation>
     </message>
 </context>
 <context>
@@ -4909,7 +4909,7 @@
     <name>design/admin/infocollector/collectionlist</name>
     <message>
         <source>Information collected by &lt;%object_name&gt; [%collection_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>Informatie verzameld met &lt;%object_name&gt; [%collection_count]</translation>
     </message>
     <message>
         <source>Invert selection.</source>
@@ -4917,7 +4917,7 @@
     </message>
     <message>
         <source>Collection ID</source>
-        <translation type="unfinished"></translation>
+        <translation>Verzameling ID</translation>
     </message>
     <message>
         <source>Created</source>
@@ -4925,15 +4925,15 @@
     </message>
     <message>
         <source>Modified</source>
-        <translation type="unfinished"></translation>
+        <translation>Aangepast</translation>
     </message>
     <message>
         <source>Select collected information for removal.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer de verzamelde informatie die u wilt verwijderen.</translation>
     </message>
     <message>
         <source>No information has been collected by this object.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er is geen informatie met dit object verzameld.</translation>
     </message>
     <message>
         <source>Remove selected</source>
@@ -4941,7 +4941,7 @@
     </message>
     <message>
         <source>Remove selected collection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geselecteerde verzameling verwijderen.</translation>
     </message>
     <message>
         <source>Creator</source>
@@ -4949,30 +4949,30 @@
     </message>
     <message>
         <source>Unknown user</source>
-        <translation type="unfinished"></translation>
+        <translation>Onbekende gebruiker</translation>
     </message>
     <message>
         <source>Information collected by &lt;%object_name&gt; (%collection_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Gegevens verzameld met &lt;%object_name&gt; (%collection_count)</translation>
     </message>
 </context>
 <context>
     <name>design/admin/infocollector/confirmremoval</name>
     <message>
         <source>Confirm information collection removal</source>
-        <translation type="unfinished"></translation>
+        <translation>Gegevensverzameling verwijderen bevestigen</translation>
     </message>
     <message>
         <source>Are you sure you want to remove the collected information?</source>
-        <translation type="unfinished"></translation>
+        <translation>Weet u zeker dat u de verzamelde gegevens wilt verwijderen?</translation>
     </message>
     <message>
         <source>%collections collection will be removed.</source>
-        <translation type="unfinished"></translation>
+        <translation>%collections verzameling zal worden verwijderd.</translation>
     </message>
     <message>
         <source>%collections collections will be removed.</source>
-        <translation type="unfinished"></translation>
+        <translation>%collections verzamelingen worden verwijderd.</translation>
     </message>
     <message>
         <source>OK</source>
@@ -4987,7 +4987,7 @@
     <name>design/admin/infocollector/overview</name>
     <message>
         <source>Objects that have collected information [%object_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>Objecten met verzamelde informatie [%object_count]</translation>
     </message>
     <message>
         <source>Invert selection.</source>
@@ -4999,23 +4999,23 @@
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type</translation>
     </message>
     <message>
         <source>First collection</source>
-        <translation type="unfinished"></translation>
+        <translation>Eerste verzameling</translation>
     </message>
     <message>
         <source>Last collection</source>
-        <translation type="unfinished"></translation>
+        <translation>Laatste verzameling</translation>
     </message>
     <message>
         <source>Collections</source>
-        <translation type="unfinished"></translation>
+        <translation>Verzamelingen</translation>
     </message>
     <message>
         <source>Select collections for removal.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer te verwijderen verzamelingen.</translation>
     </message>
     <message>
         <source>section</source>
@@ -5023,7 +5023,7 @@
     </message>
     <message>
         <source>There are no objects that have collected any information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn geen objecten waarmee informatie is verzameld.</translation>
     </message>
     <message>
         <source>Remove selected</source>
@@ -5031,18 +5031,18 @@
     </message>
     <message>
         <source>Remove all information that was collected by the selected objects.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle informatie die is verzameld met de selecteerde objecten verwijderen.</translation>
     </message>
     <message>
         <source>Objects that have collected information (%object_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Objecten met verzamelde informatie (%object_count)</translation>
     </message>
 </context>
 <context>
     <name>design/admin/infocollector/view</name>
     <message>
         <source>Collection #%collection_id for &lt;%object_name&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Verzameling #%collection_id voor &lt;%object_name&gt;</translation>
     </message>
     <message>
         <source>Last modified</source>
@@ -5050,15 +5050,15 @@
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>Remove collection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verzameling verwijderen.</translation>
     </message>
     <message>
         <source>Unknown user</source>
-        <translation type="unfinished"></translation>
+        <translation>Onbekende gebruiker</translation>
     </message>
 </context>
 <context>
@@ -5122,27 +5122,27 @@
     <name>design/admin/node/removeobject</name>
     <message>
         <source>Confirm location removal</source>
-        <translation type="unfinished">Verwijderen van locatie bevestigen</translation>
+        <translation>Verwijderen van locatie bevestigen</translation>
     </message>
     <message>
         <source>Insufficient permissions</source>
-        <translation type="unfinished">Onvoldoende bevoegdheden</translation>
+        <translation>Onvoldoende bevoegdheden</translation>
     </message>
     <message>
         <source>Some of the items that are about to be removed contain sub items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sommige items die op het punt staan om te worden verwijderd bevatten onderliggende items.</translation>
     </message>
     <message>
         <source>Removing the items will also result in the removal of their sub items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wanneer u deze items verwijdert worden ook de onderliggende items verwijderd.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove the items along with their contents?</source>
-        <translation type="unfinished"></translation>
+        <translation>Weet u zeker dat u de items wilt verwijderen?</translation>
     </message>
     <message>
         <source>Click the &quot;Cancel&quot; button and try removing only the locations that you are allowed to remove.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klik op de knop &quot;Annuleren&quot; en probeer alleen de locaties te verwijderen die u mag verwijderen.</translation>
     </message>
     <message>
         <source>Item</source>
@@ -5166,15 +5166,15 @@
     </message>
     <message>
         <source>Cancel the removal of locations.</source>
-        <translation type="unfinished">Annuleer het verwijderen van locaties.</translation>
+        <translation>Het verwijderen van locaties annuleren.</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type</translation>
     </message>
     <message>
         <source>If &quot;Move to trash&quot; is checked, the items will be moved to the trash instead of being permanently deleted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Als &quot;Naar prullenbak verplaatsen&quot; is aangevinkt dan worden de items naar de prullenbak verplaatst in plaats van permanent verwijderd.</translation>
     </message>
     <message>
         <source>Confirm translation removal</source>
@@ -5186,7 +5186,7 @@
     </message>
     <message>
         <source>Some of the subtrees or objects selected for removal are used by other objects. Select the menu from the content tree, and</source>
-        <translation type="unfinished"></translation>
+        <translation>Sommige van de substructuren of objecten die op het punt staan om te worden verwijderd worden door andere objecten gebruikt. Selecteer het menu in de boomstructuur, en</translation>
     </message>
     <message>
         <source>Advanced</source>
@@ -5194,57 +5194,57 @@
     </message>
     <message>
         <source>Reverse related for subtree</source>
-        <translation type="unfinished">Omgekeerde relaties bekijken</translation>
+        <translation>Omgekeerde relaties bekijken</translation>
     </message>
     <message>
         <source>Some of the objects selected for removal are used by other objects. Select the menu from the content tree, and</source>
-        <translation type="unfinished"></translation>
+        <translation>Sommige objecten die op het punt staan om te worden verwijderd worden door andere objecten gebruikt. Selecteer het menu in de boomstructuur, en</translation>
     </message>
     <message>
         <source>Specify the location where you want to restore &lt;%name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bepaal de locatie waar u &lt;%name&gt; wilt terugzetten.</translation>
     </message>
     <message>
         <source>The lines marked with red contain more than the maximum possible nodes for subtree removal and will not be deleted. You can remove this subtree using the ezsubtreeremove.php script.</source>
-        <translation type="unfinished"></translation>
+        <translation>De in rood gemarkeerde regels bevatten meer dan het maximum aantal locaties dat met substructuur verwijderen kan worden verwijderd, en zullen niet worden verwijderd. U kunt deze substructuur verwijderen met het ezsubtreeremote.php script.</translation>
     </message>
     <message>
         <source>The lines marked with red contain items that you do not have permission to remove.</source>
-        <translation type="unfinished"></translation>
+        <translation>De in rood gemarkeerde regels bevatten items die u niet mag verwijderen.</translation>
     </message>
     <message>
         <source>You cannot continue because you do not have permission to remove some of the selected locations.</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt niet verder gaan omdat u onvoldoende rechten heeft om de geselecteerde locaties te verwijderen.</translation>
     </message>
     <message>
         <source>The system will let you restore the object &lt;%name&gt;. Specify where you wish to restore it.</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt het object &lt;%name&gt; terugzetten. Bepaal waar u het terug wilt terugzetten.</translation>
     </message>
     <message>
         <source>Pending sub-object</source>
-        <translation type="unfinished"></translation>
+        <translation>Sub-objecten in de wachtrij.</translation>
     </message>
     <message>
         <source>Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het verwijderen is mislukt omdat er subobjecten onder de locatie in de wachtrij staan. Wacht tot het betreffende proces is afgelopen en probeer het opnieuw.</translation>
     </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
     <message>
         <source>Two-level index for &lt;%node_name&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Indexopgave met twee niveaus voor &lt;%node_name&gt;</translation>
     </message>
 </context>
 <context>
     <name>design/admin/node/view/embed</name>
     <message>
         <source> - You do not have permission to view this object</source>
-        <translation type="unfinished"></translation>
+        <translation> - U heeft geen toestemming om dit object te bekijken</translation>
     </message>
     <message>
         <source>You do not have permission to view this object</source>
-        <translation type="unfinished">U heeft geen toegang om dit object te bekijken</translation>
+        <translation>U heeft geen toestemming om dit object te bekijken</translation>
     </message>
 </context>
 <context>
@@ -5255,7 +5255,7 @@
     </message>
     <message>
         <source>Show preview of content.</source>
-        <translation>Voorbeeldweergave van content tonen.</translation>
+        <translation>Voorbeeldweergave van de inhoud tonen.</translation>
     </message>
     <message>
         <source>Hide location overview.</source>
@@ -5555,7 +5555,7 @@
     </message>
     <message>
         <source>Thumbnail</source>
-        <translation>Thumbnail</translation>
+        <translation>Verkleinde weergave</translation>
     </message>
     <message>
         <source>Detailed</source>
@@ -5627,7 +5627,7 @@
     </message>
     <message>
         <source>Display sub items as thumbnails.</source>
-        <translation>Subitems als thumbnails tonen.</translation>
+        <translation>Onderliggende items in verkleinde weergave tonen.</translation>
     </message>
     <message>
         <source>Use these controls to set the sorting method for the sub items of the current location.</source>
@@ -5663,7 +5663,7 @@
     </message>
     <message>
         <source>Make location and all sub items visible.</source>
-        <translation type="unfinished"></translation>
+        <translation>Deze locatie en alle onderliggende items zichtbaar maken.</translation>
     </message>
     <message>
         <source>Reveal</source>
@@ -5675,11 +5675,11 @@
     </message>
     <message>
         <source>Hide location and all sub items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Locatie en alle onderliggende items verbergen.</translation>
     </message>
     <message>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbergen</translation>
     </message>
     <message>
         <source>Visible</source>
@@ -5687,7 +5687,7 @@
     </message>
     <message>
         <source>Use these radio buttons to select the desired main location.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik deze radioknoppen om de gewenste hoofdlocatie te selecteren.</translation>
     </message>
     <message>
         <source>Add locations</source>
@@ -5695,11 +5695,11 @@
     </message>
     <message>
         <source>Add one or more new locations.</source>
-        <translation type="unfinished"></translation>
+        <translation>Een of meerdere nieuwe locaties toevoegen.</translation>
     </message>
     <message>
         <source>It is not possible to add locations to a top level node.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het is niet mogelijk om locaties aan een locatie op het hoogste niveau toe te voegen.</translation>
     </message>
     <message>
         <source>The &lt;%class_name&gt; class is not configured to contain any sub items.</source>
@@ -5715,7 +5715,7 @@
     </message>
     <message>
         <source>The information could not be collected.</source>
-        <translation type="unfinished"></translation>
+        <translation>De informatie kon niet worden verzameld.</translation>
     </message>
     <message>
         <source>Required data is either missing or is invalid</source>
@@ -5723,19 +5723,19 @@
     </message>
     <message>
         <source>There is no removable location.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er is geen locatie die kan worden verwijderd.</translation>
     </message>
     <message>
         <source>Available policies [%policy_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschikbare regels [%policy_count]</translation>
     </message>
     <message>
         <source>limited to %limitation_identifier %limitation_value</source>
-        <translation type="unfinished"></translation>
+        <translation>met beperking op %limitation_identifier %limitation_value</translation>
     </message>
     <message>
         <source>(disabled)</source>
-        <translation type="unfinished"></translation>
+        <translation>(uitgeschakeld)</translation>
     </message>
     <message>
         <source>Class</source>
@@ -5743,7 +5743,7 @@
     </message>
     <message>
         <source>Reverse related objects [%related_objects_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>Omgekeerde relaties [%related_objects_count]</translation>
     </message>
     <message>
         <source>Published at</source>
@@ -5783,11 +5783,11 @@
     </message>
     <message>
         <source>Use this button to store the value of the checkbox above.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik deze knop om de waarde van het selectievakje boven op te slaan.</translation>
     </message>
     <message>
         <source>(locked)</source>
-        <translation type="unfinished"></translation>
+        <translation>(vergrendeld)</translation>
     </message>
     <message>
         <source>Choose section</source>
@@ -5799,111 +5799,111 @@
     </message>
     <message>
         <source>You do not have permission to remove any of the items from the list above.</source>
-        <translation type="unfinished"></translation>
+        <translation>U heeft geen toestemming om een van de items in de lijst hierboven te verwijderen.</translation>
     </message>
     <message>
         <source>You cannot update the priorities because you do not have permission to edit the current item or because a non-priority sorting method is used.</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt de volgorde niet aanpassen omdat u geen toestemming hebt om het huidige item aan te passen, of omdat er een andere sorteermethode wordt gebruikt.</translation>
     </message>
     <message>
         <source>Use this menu to select the type of item you want to create then click the &quot;Create here&quot; button. The item will be created in the current location.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik dit menu om het type item te selecteren dat u wilt aanmaken en klik op de knop &quot;Hier aanmaken&quot;. Het item wordt onder de huidige locatie aangemaakt.</translation>
     </message>
     <message>
         <source>Use this menu to select the language you want to use for the creation then click the &quot;Create here&quot; button. The item will be created in the current location.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik dit menu om de taal te selecteren die u wilt gebruiken voor het nieuwe item en klik op de knop &quot;Hier aanmaken&quot;. Het item wordt onder de huidige locatie aangemaakt.</translation>
     </message>
     <message>
         <source>Create a new item in the current location. Use the menu on the left to select the type of  item.</source>
-        <translation type="unfinished"></translation>
+        <translation>Maak een nieuwe item op de huidige locatie aan. Gebruik het menu aan de linker kant om het type item te selecteren.</translation>
     </message>
     <message>
         <source>You do not have permission to create new items in the current location.</source>
-        <translation type="unfinished"></translation>
+        <translation>U heeft geen toestemming om nieuwe items op de huidige locatie aan te maken.</translation>
     </message>
     <message>
         <source>You cannot set the sorting method for the current location because you do not have permission to edit the current item.</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt de sorteermethode voor de huidige locatie niet instellen omdat u geen toestemming heeft om het huidige item te bewerken.</translation>
     </message>
     <message>
         <source>Use these checkboxes to select items for removal. Click the &quot;Remove selected&quot; button to remove the selected items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik deze checkboxen om de items te selecteren die u wilt verwijderen. Klik op de knop &quot;Selectie verwijderen&quot; om de selecteerde items te verwijderen.</translation>
     </message>
     <message>
         <source>You do not have permission to remove this item.</source>
-        <translation type="unfinished"></translation>
+        <translation>U heeft geen toestemming om dit item te verwijderen.</translation>
     </message>
     <message>
         <source>Use the priority fields to control the order in which the items appear. You can use both positive and negative integers. Click the &quot;Update priorities&quot; button to apply the changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>gebruik de prioriteitsvelden om de volgorde waarin de items worden getoond te bepalen. U kunt zowel positieve als negatieve waarden gebruiken. Klik op de knop &quot;Prioriteiten opslaan&quot; om de aanpassingen op te slaan.</translation>
     </message>
     <message>
         <source>You are not allowed to update the priorities because you do not have permission to edit &lt;%node_name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt de prioriteiten niet aanpassen omdat u geen toestemming heeft om &lt;%node_name&gt; te bewerken.</translation>
     </message>
     <message>
         <source>You cannot make a copy of &lt;%child_name&gt; because you do not have create permission for &lt;%node_name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt geen kopie van &lt;%child_name&gt; maken omdat u geen toestemming heeft om &lt;%node_name&gt; aan te maken.</translation>
     </message>
     <message>
         <source>You do not have permission to edit &lt;%child_name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>U heeft geen toestemming om &lt;%child_name&gt; te bewerken.</translation>
     </message>
     <message>
         <source>Use these checkboxes to select items for removal. Click the &quot;Remove selected&quot; button to  remove the selected items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik deze checkboxen om de items te selecteren die u wilt verwijderen. Klik op de knop &quot;Selectie verwijderen&quot; om de selecteerde items te verwijderen.</translation>
     </message>
     <message>
         <source>You do not have permission to edit %child_name.</source>
-        <translation type="unfinished"></translation>
+        <translation>U heeft geen toestemming om %child_name te bewerken.</translation>
     </message>
     <message>
         <source>This location cannot be removed either because you do not have permission to remove it or because it is currently being displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation>De locatie kan niet worden verwijderd omdat u geen toestemming heeft om deze te verwijderen, of omdat deze op dit moment wordt weergegeven.</translation>
     </message>
     <message>
         <source>The item being displayed has only one location, which is by default the main location.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het weergegeven item heeft maar 1 locatie, wat standaard de hoofdlocatie is.</translation>
     </message>
     <message>
         <source>You cannot set the main location because you do not have permission to edit the item being displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt de hoofdlocatie niet instellen omdat u geen toestemming heeft om het getoonde item te bewerken.</translation>
     </message>
     <message>
         <source>You cannot remove any locations because you do not have permission to edit the current item.</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt geen locaties verwijderen omdat u geen toestemming heeft om het huidige item te bewerken.</translation>
     </message>
     <message>
         <source>You cannot add new locations because you do not have permission to edit the current item.</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt geen nieuwe locaties toevoegen omdat u geen toestemming heeft om het huidige item te bewerken.</translation>
     </message>
     <message>
         <source>Select the desired main location using the radio buttons above then click this button to store the setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer de gewenste hoofdlocatie met de radioknoppen en klik op deze knop om de instelling op te slaan.</translation>
     </message>
     <message>
         <source>You cannot set the main location because there is only one location present.</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt de hoofdlocatie niet instellen omdat er maar 1 locatie is.</translation>
     </message>
     <message>
         <source>You cannot set the main location because you do not have permission to edit the current item.</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt de hoofdlocatie niet instellen omdat u geen toestemming heeft om het huidige item te bewerken.</translation>
     </message>
     <message>
         <source>You do not have permission to edit this item.</source>
-        <translation type="unfinished"></translation>
+        <translation>U heeft geen toestemming om dit item te bewerken.</translation>
     </message>
     <message>
         <source>You do not have permission to move this item to another location.</source>
-        <translation type="unfinished"></translation>
+        <translation>U heeft geen toestemming om dit item naar een andere locatie te verplaatsen.</translation>
     </message>
     <message>
         <source>The item being viewed is not used by any other objects.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het getoonde item wordt niet door andere objecten gebruikt.</translation>
     </message>
     <message>
         <source>You cannot remove any language because you do not have permission to edit the current item.</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt geen taal verwijderen omdat u geen toestemming heeft om het huidige item te bewerken.</translation>
     </message>
     <message>
         <source>Select the desired main language using the radio buttons above then click this button to store the setting.</source>
@@ -5915,11 +5915,11 @@
     </message>
     <message>
         <source>You cannot change the main language because you do not have permission to edit the current item.</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt de hoofdtaal niet veranderen omdat u geen toestemming heeft om het huidige item te bewerken.</translation>
     </message>
     <message>
         <source>You do not have permission to change this setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>U heeft geen toestemming om deze instelling te veranderen.</translation>
     </message>
     <message>
         <source>Move selected</source>
@@ -5927,11 +5927,11 @@
     </message>
     <message>
         <source>Move the selected items from the list above.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verplaats de geselecteerde items uit de lijst hierboven.</translation>
     </message>
     <message>
         <source>You do not have permission to move any of the items from the list above.</source>
-        <translation type="unfinished"></translation>
+        <translation>U heeft geen toestemming om de items in de lijst hierboven te verplaatsen.</translation>
     </message>
     <message>
         <source>Object states for object</source>
@@ -5939,39 +5939,39 @@
     </message>
     <message>
         <source>Content object state group</source>
-        <translation type="unfinished"></translation>
+        <translation>Inhoudsobject-standgroep</translation>
     </message>
     <message>
         <source>Available states</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschikbare standen</translation>
     </message>
     <message>
         <source>No content object state is configured. This can be done %urlstart here %urlend.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er is geen stand geconfigureerd. Dit kunt u %urlstart hier %urlend doen </translation>
     </message>
     <message>
         <source>Set states</source>
-        <translation type="unfinished"></translation>
+        <translation>Standen instellen</translation>
     </message>
     <message>
         <source>Apply states from the list above.</source>
-        <translation type="unfinished"></translation>
+        <translation>Standen in de bovenstaande lijst doorvoeren.</translation>
     </message>
     <message>
         <source>No state to be applied to this content object. You might need to be assigned a more permissive access policy.</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt geen standen voor dit object instellen. Hiervoor heeft u meer rechten nodig.</translation>
     </message>
     <message>
         <source>Object states</source>
-        <translation type="unfinished"></translation>
+        <translation>Objectstanden</translation>
     </message>
     <message>
         <source>Hide state assignment widget.</source>
-        <translation type="unfinished"></translation>
+        <translation>Widget voor het toewijzen van standen verbergen.</translation>
     </message>
     <message>
         <source>Show state assignment widget.</source>
-        <translation type="unfinished"></translation>
+        <translation>Widget voor het toewijzen van standen tonen.</translation>
     </message>
     <message>
         <source>Translations (%count)</source>
@@ -6011,27 +6011,27 @@
     </message>
     <message>
         <source>Node and object details like creator, when it was created, section it belongs to, number of versions and translations, Node ID and Object ID.</source>
-        <translation type="unfinished"></translation>
+        <translation>Informatie over de locatie en het object, zoals wanneer het is aangemaakt, bij welke sectie het hoort, het aantal versies en vertalingen, het locatie ID en het object ID.</translation>
     </message>
     <message>
         <source>Content state</source>
-        <translation type="unfinished"></translation>
+        <translation>Inhoudsstand</translation>
     </message>
     <message>
         <source>States and their states groups for current object.</source>
-        <translation type="unfinished"></translation>
+        <translation>Standen en standgroepen voor het huidige object.</translation>
     </message>
     <message>
         <source>State group</source>
-        <translation type="unfinished"></translation>
+        <translation>Standgroep</translation>
     </message>
     <message>
         <source>No content object state is configured. This can be done %urlstart here%urlend.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er is geen objectstand geconfigureerd. Dit kunt u %urlstart hier %urlend doen </translation>
     </message>
     <message>
         <source>Locations (aka Nodes) for current object.</source>
-        <translation type="unfinished"></translation>
+        <translation>Locaties van het huidige object.</translation>
     </message>
     <message>
         <source>New translation</source>
@@ -6039,19 +6039,19 @@
     </message>
     <message>
         <source>Policy list and the Role that are assignet to current node.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lijst met regels en rollen die aan de huidige locatie zijn toegekend.</translation>
     </message>
     <message>
         <source>Limited to</source>
-        <translation type="unfinished"></translation>
+        <translation>Beperkt tot</translation>
     </message>
     <message>
         <source>%limitation_identifier %limitation_value</source>
-        <translation type="unfinished"></translation>
+        <translation>%limitation_identifier %limitation_value</translation>
     </message>
     <message>
         <source>Object relation list from current object.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lijst met objectrelaties van het huidige object.</translation>
     </message>
     <message>
         <source>Related objects (%related_objects_count)</source>
@@ -6059,15 +6059,15 @@
     </message>
     <message>
         <source>Reverse object relation list to current object.</source>
-        <translation type="unfinished"></translation>
+        <translation>Omgekeerde relaties van het huidige object.</translation>
     </message>
     <message>
         <source>Reverse related objects (%related_objects_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Omgekeerde relaties (%related_objects_count)</translation>
     </message>
     <message>
         <source>List of roles assigned with and without limitations for current node.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lijst met rollen die met en zonder beperkingen aan de huidige locatie zijn toegekend.</translation>
     </message>
     <message>
         <source>Translations (%translations)</source>
@@ -6079,11 +6079,11 @@
     </message>
     <message>
         <source>Language list of translations for current object.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lijst met vertalingen voor het huidige object.</translation>
     </message>
     <message>
         <source>Tab is disabled, enable with toggler to the left of these tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Deze tab is uitgeschakeld. Schakel deze in met behulp van de knop links van de tabs.</translation>
     </message>
     <message>
         <source>View</source>
@@ -6091,7 +6091,7 @@
     </message>
     <message>
         <source>Show simplified view of content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vereenvoudigde weergave van de inhoud tonen.</translation>
     </message>
     <message>
         <source>Ordering</source>
@@ -6099,11 +6099,11 @@
     </message>
     <message>
         <source>Show published ordering overview.</source>
-        <translation type="unfinished"></translation>
+        <translation>Overzicht van gepubliceerde volgorde tonen.</translation>
     </message>
     <message>
         <source>Loading ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig met laden ...</translation>
     </message>
     <message>
         <source>Node remote ID</source>
@@ -6111,7 +6111,7 @@
     </message>
     <message>
         <source>Object remote ID</source>
-        <translation type="unfinished"></translation>
+        <translation>Object remote ID</translation>
     </message>
     <message>
         <source>Table options</source>
@@ -6123,7 +6123,7 @@
     </message>
     <message>
         <source>Visible table columns:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zichtbare kolommen:</translation>
     </message>
     <message>
         <source>Select</source>
@@ -6151,7 +6151,7 @@
     </message>
     <message>
         <source>first</source>
-        <translation type="unfinished"></translation>
+        <translation>eerste</translation>
     </message>
     <message>
         <source>prev</source>
@@ -6163,7 +6163,7 @@
     </message>
     <message>
         <source>last</source>
-        <translation type="unfinished"></translation>
+        <translation>laatste</translation>
     </message>
     <message>
         <source>Invert selection</source>
@@ -6171,11 +6171,11 @@
     </message>
     <message>
         <source>Path String</source>
-        <translation type="unfinished">Padreeks</translation>
+        <translation>Pad</translation>
     </message>
     <message>
         <source>Object state</source>
-        <translation type="unfinished"></translation>
+        <translation>Objectstand</translation>
     </message>
 </context>
 <context>
@@ -6813,7 +6813,7 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     </message>
     <message>
         <source>Design</source>
-        <translation type="unfinished">Design</translation>
+        <translation>Vormgeving</translation>
     </message>
     <message>
         <source>My account</source>
@@ -6849,7 +6849,7 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     </message>
     <message>
         <source>Search only from the current location.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alleen in de huidige locatie zoeken.</translation>
     </message>
     <message>
         <source>Advanced search.</source>
@@ -6861,15 +6861,15 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     </message>
     <message>
         <source>There is %basket_count item in the shopping basket.</source>
-        <translation type="unfinished"></translation>
+        <translation>%basket_count item in de winkelwagen.</translation>
     </message>
     <message>
         <source>Shopping basket (%basket_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Winkelwagen (%basket_count)</translation>
     </message>
     <message>
         <source>There are %basket_count items in the shopping basket.</source>
-        <translation type="unfinished"></translation>
+        <translation>%basket_count items in de winkelwagen.</translation>
     </message>
     <message>
         <source>Logout from the system.</source>
@@ -6897,19 +6897,19 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     </message>
     <message>
         <source>Hide clear cache menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>Menu om cache te legen verbergen.</translation>
     </message>
     <message>
         <source>Cache management page</source>
-        <translation type="unfinished"></translation>
+        <translation>Cachebeheer</translation>
     </message>
     <message>
         <source>Clear cache</source>
-        <translation type="unfinished"></translation>
+        <translation>Cache legen</translation>
     </message>
     <message>
         <source>Show clear cache menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>Menu om cache te legen tonen.</translation>
     </message>
     <message>
         <source>Quick settings</source>
@@ -6917,11 +6917,11 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     </message>
     <message>
         <source>Hide quick settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Snel instellen verbergen</translation>
     </message>
     <message>
         <source>Change name, email, password, etc.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dingen zoals naam, e-mailadres, wachtwoord aanpassen.</translation>
     </message>
     <message>
         <source>[%classname] Click on the icon to display a context-sensitive menu.</source>
@@ -6929,7 +6929,7 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     </message>
     <message>
         <source>Search in all content</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle inhoud doorzoeken.</translation>
     </message>
     <message>
         <source>Search in &apos;%node&apos;</source>
@@ -6937,27 +6937,27 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     </message>
     <message>
         <source>Manage the main content structure of the site.</source>
-        <translation type="unfinished"></translation>
+        <translation>Beheer van de inhoud van de site.</translation>
     </message>
     <message>
         <source>Manage images, files, documents, etc.</source>
-        <translation type="unfinished"></translation>
+        <translation>Beheer van afbeeldingen, bestanden, documenten, etc.</translation>
     </message>
     <message>
         <source>Manage users, user groups and permission settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Beheer van gebruikers, gebruikersgroepen en rechten.</translation>
     </message>
     <message>
         <source>Manage customers, orders, discounts and VAT types; view sales statistics.</source>
-        <translation type="unfinished"></translation>
+        <translation>Beheer van klanten, bestellingen, kortingen en BTW typen.</translation>
     </message>
     <message>
         <source>Manage templates, menus, toolbars and other things related to appearence.</source>
-        <translation type="unfinished"></translation>
+        <translation>Beheer sjablonen, menu&apos;s, toolbars en andere zaken die met de vormgeving temaken hebben.</translation>
     </message>
     <message>
         <source>Configure settings and manage advanced functionality.</source>
-        <translation type="unfinished"></translation>
+        <translation>Beheer instellingen en geavanceerde functionaliteit.</translation>
     </message>
     <message>
         <source>Dashboard</source>
@@ -6965,7 +6965,7 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     </message>
     <message>
         <source>Manage items and settings that belong to your account.</source>
-        <translation type="unfinished"></translation>
+        <translation>Beheer items en instellingen die bij uw gebruikersaccount horen.</translation>
     </message>
     <message>
         <source>User preferences</source>
@@ -6973,11 +6973,11 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Sluiten</translation>
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig met laden...</translation>
     </message>
 </context>
 <context>
@@ -7124,7 +7124,7 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     </message>
     <message>
         <source>My pending items</source>
-        <translation type="unfinished">Mijn items ter afhandeling</translation>
+        <translation>Mijn wachtrij</translation>
     </message>
     <message>
         <source>Edit mode settings</source>
@@ -7403,7 +7403,7 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     </message>
     <message>
         <source>Access control</source>
-        <translation type="unfinished"></translation>
+        <translation>Toegangsrechten</translation>
     </message>
 </context>
 <context>
@@ -7426,7 +7426,7 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     </message>
     <message>
         <source>Look and feel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">  </translation>
     </message>
 </context>
 <context>
@@ -9333,7 +9333,7 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     <name>design/admin/settings</name>
     <message>
         <source>View settings</source>
-        <translation>Bekijk instellingen</translation>
+        <translation>Instellingen bekijken</translation>
     </message>
     <message>
         <source>%ini_file consist of %blocks section(s) and %setting_count different setting(s)</source>
@@ -15753,7 +15753,7 @@ adres verzonden. Volg de instructies in deze e-mail om uw account te activeren.<
     </message>
     <message>
         <source>The content object %1 was not accepted but will be available as a draft for the author.</source>
-        <translation>Het inhoudsobject %1 werd niet geaccepteerd maar blijft beschikbaar voor de auteur als een draft. </translation>
+        <translation>Het object %1 is niet geaccepteerd maar blijft als concept beschikbaar voor de auteur.</translation>
     </message>
     <message>
         <source>[%sitename] Approval of &quot;%objectname&quot; awaits your attention</source>
@@ -16746,7 +16746,7 @@ Indien u aanvullende opmerkingen voor de goedkeurder heeft of de status wilt zie
     </message>
     <message>
         <source>The related objects will be edited in the same language as this object. If such translations do not exist they will be created, based on the source language of your choice.</source>
-        <translation type="unfinished"></translation>
+        <translation>De gerelateerde objecten worden in dezelfde taal als dit object bewerkt. Als deze vertalingen niet aanwezig zijn dan worden ze aangemaakt op basis van de taal waar u voor gekozen heeft.</translation>
     </message>
     <message>
         <source>Translation base</source>
@@ -16754,11 +16754,11 @@ Indien u aanvullende opmerkingen voor de goedkeurder heeft of de status wilt zie
     </message>
     <message>
         <source>This object is already translated, the existing translation will be used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dit object is al vertaald, de bestaande vertaling zal worden gebruikt,</translation>
     </message>
     <message>
         <source>This object is not translated, please select the language the new translation will be based on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dit object is niet vertaald, selecteer de taal waar de nieuwe vertaling op zal worden gebaseerd.</translation>
     </message>
     <message>
         <source>Your browser does not support html5 video.</source>
@@ -16774,35 +16774,35 @@ Indien u aanvullende opmerkingen voor de goedkeurder heeft of de status wilt zie
     </message>
     <message>
         <source>Add an object in the relation</source>
-        <translation type="unfinished"></translation>
+        <translation>Een object aan de relatie toevoegen</translation>
     </message>
     <message>
         <source>Add an existing object</source>
-        <translation type="unfinished"></translation>
+        <translation>Een bestaand object toevoegen</translation>
     </message>
     <message>
         <source>Browse to add an existing object in this relation</source>
-        <translation type="unfinished"></translation>
+        <translation>Bladeren om een bestaand object aan de lijst toe te voegen</translation>
     </message>
     <message>
         <source>Objects in the relation</source>
-        <translation type="unfinished"></translation>
+        <translation>Gerelateerde objecten</translation>
     </message>
     <message>
         <source>Remove selected elements from the relation</source>
-        <translation type="unfinished"></translation>
+        <translation>Geselecteerde objecten uit de relatie verwijderen</translation>
     </message>
     <message>
         <source>Add objects in the relation</source>
-        <translation type="unfinished"></translation>
+        <translation>Objecten aan de relatie toevoegen</translation>
     </message>
     <message>
         <source>Add existing objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestaande objecten toevoegen</translation>
     </message>
     <message>
         <source>Browse to add existing objects in this relation</source>
-        <translation type="unfinished"></translation>
+        <translation>Bladeren om bestaande objecten aan de lijst toe te voegen</translation>
     </message>
 </context>
 <context>
@@ -17020,7 +17020,7 @@ Indien u aanvullende opmerkingen voor de goedkeurder heeft of de status wilt zie
     </message>
     <message>
         <source>New draft</source>
-        <translation>Nieuwe draft</translation>
+        <translation>Nieuw concept</translation>
     </message>
     <message>
         <source>Created</source>
@@ -19506,8 +19506,8 @@ If unsure choose the siteaccess which reflects the user part of your site, i.e. 
     <message>
         <source>Please select a thumbnail file to be included in the package,
 if you do not want to have a thumbnail simply click Next.</source>
-        <translation>Selecteer een thumbnail om in het pakket toe te voegen.
-Als u geen thumbnail wilt, klik dan op Volgende.</translation>
+        <translation>Selecteer een afbeelding om aan het pakket toe te voegen.
+Klik dan op Volgende als u geen voorbeeldweergave wilt toevoegen.</translation>
     </message>
     <message>
         <source>Unhandled installation error has occurred.</source>
@@ -21451,7 +21451,7 @@ Sjabloonoperator.</translation>
     <name>design/standard/setup/init</name>
     <message>
         <source>Install demo data?</source>
-        <translation>Installeer de demo data?</translation>
+        <translation>Dummy inhoud installeren?</translation>
     </message>
     <message>
         <source>Cannot install demo data, the zlib extension is missing from your PHP installation.</source>
@@ -22435,7 +22435,7 @@ Probeer opnieuw-knop in de installatie</translation>
     </message>
     <message>
         <source>The database [%database_name] cannot be used, the setup wizard wants to create the site in [%req_charset] but the database has been created using character set [%charset]. You will have to choose a database having support for [%req_charset] or modify [%database_name] .</source>
-        <translation type="unfinished">De database (%database_name) kon niet gebruikt worden, de set-upwizard wil de site in (%req_charset) aanmaken, maar de database werd aangemaakt met het gebruik van tekenset (%charset). U zult een database moeten kiezen die (%req-charset) ondersteunt of (%database_name) wijzigen.</translation>
+        <translation>De database (%database_name) kan niet worden gebruikt, de installatiewizard wil de site in (%req_charset) aanmaken, maar de database is aangemaakt met de tekenset (%charset). U zult een database moeten kiezen die (%req-charset) ondersteunt of (%database_name) moeten aanpassen.</translation>
     </message>
     <message>
         <source>Failed to copy %url to local file %filename</source>
@@ -22816,11 +22816,11 @@ Deze functionaliteit is ook beschikbaar op een later tijdstip vanaf de beheerint
     </message>
     <message>
         <source>MySQL support was detected on your system. Please choose the database driver you would like to use.</source>
-        <translation type="unfinished"></translation>
+        <translation>MySQL ondersteuning gevonden. Kies het type database dat u wilt gebruiken.</translation>
     </message>
     <message>
         <source>PostgreSQL support was detected on your system. Please choose the database driver you would like to use.</source>
-        <translation type="unfinished"></translation>
+        <translation>PostgreSQL ondersteuning gevonden. Kies het type database dat u wilt gebruiken.</translation>
     </message>
 </context>
 <context>
@@ -25018,15 +25018,15 @@ adres verzonden. Volg de instructies in deze e-mail om uw account te activeren.<
     </message>
     <message>
         <source>Please note that your browser must use and support cookies to register a new user.</source>
-        <translation type="unfinished"></translation>
+        <translation>Let op! Om een nieuwe gebruiker te registreren moet uw browser cookies accepteren.</translation>
     </message>
     <message>
         <source>Your browser does not seem to support cookies, to register a new user, cookies need to be supported and enabled!</source>
-        <translation type="unfinished"></translation>
+        <translation>Uw browser lijkt geen cookies te accepteren. Om een nieuwe gebruiker te registreren moeten cookies worden ondersteund en zijn ingeschakeld!</translation>
     </message>
     <message>
         <source>Try again</source>
-        <translation type="unfinished"></translation>
+        <translation>Opnieuw proberen.</translation>
     </message>
     <message>
         <source>The new password must be at least %1 characters long. Please retype your new password.</source>
@@ -25034,7 +25034,7 @@ adres verzonden. Volg de instructies in deze e-mail om uw account te activeren.<
     </message>
     <message>
         <source>Your email address has been confirmed. An administrator needs to approve your sign up request, before your login becomes valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uw e-mailadres is bevestigd. Voordat u kunt inloggen moet een beheerder moet uw aanmelding nog goedkeuren.</translation>
     </message>
 </context>
 <context>
@@ -26846,21 +26846,21 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>Missing email input.</source>
-        <translation type="unfinished"></translation>
+        <translation>E-mail invoer ontbreekt.</translation>
     </message>
     <message>
         <source>Input required</source>
-        <translation type="unfinished"></translation>
+        <translation>Invoer vereist</translation>
     </message>
     <message>
         <source>The password cannot be empty.</source>
         <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Het wachtwoord mag niet leeg zijn.</translation>
     </message>
     <message>
         <source>The emails do not match.</source>
         <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
+        <translation>De e-mailadressen komen niet overeen.</translation>
     </message>
 </context>
 <context>
@@ -27170,7 +27170,7 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>You have already sent a tipafriend mail to this receiver regarding &apos;%1&apos; content</source>
-        <translation type="unfinished"></translation>
+        <translation>U heeft al een e-mail verstuurd naar deze ontvanger over %1</translation>
     </message>
     <message>
         <source>Publishing queue</source>
@@ -27527,7 +27527,7 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>Package thumbnail</source>
-        <translation>Pakketafbeelding</translation>
+        <translation>Afbeelding bij pakket</translation>
     </message>
     <message>
         <source>Package name</source>
