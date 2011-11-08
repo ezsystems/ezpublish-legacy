@@ -733,8 +733,8 @@ class eZDebug
         {
             $ini = eZINI::instance();
             $varDir = $ini->variable( 'FileSettings', 'VarDir' );
-            $logSubDir = $ini->variable( 'FileSettings', 'LogDir' );
-            $fileName = array( $varDir . DIRECTORY_SEPARATOR . $logSubDir . DIRECTORY_SEPARATOR,
+            $logDir = $ini->variable( 'FileSettings', 'LogDir' );
+            $fileName = array( eZDir::path( array( $varDir, $logDir ), true ),
                                $files[$verbosityLevel] );
         }
         if ( $this->MessageOutput & self::OUTPUT_MESSAGE_STORE or $alwaysLog )
