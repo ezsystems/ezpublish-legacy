@@ -696,6 +696,21 @@ class eZPgsqlSchema extends eZDBSchemaInterface
     }
 
     /*!
+     \private
+    */
+    function generateDropFieldSql( $table_name, $field_name, $params )
+    {
+        if ( in_array( $field_name, $this->reservedKeywordList() ) )
+        {
+            $field_name = '"' . $field_name . '"';
+        }
+
+        $sql = "ALTER TABLE $table_name DROP COLUMN $field_name";
+
+        return $sql . ";\n";
+    }
+
+    /*!
      * \private
      */
     function generateAlterFieldSql( $table_name, $field_name, $def, $params )
