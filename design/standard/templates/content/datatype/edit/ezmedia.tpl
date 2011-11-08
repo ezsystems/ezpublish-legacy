@@ -11,6 +11,8 @@
     {case match=real_player}{'RealPlayer'|i18n( 'design/standard/content/datatype' )}{/case}
     {case match=silverlight}{'Silverlight'|i18n( 'design/standard/content/datatype' )}{/case}
     {case match=windows_media_player}{'Windows Media Player'|i18n( 'design/standard/content/datatype' )}{/case}
+    {case match='html5_video'}{'Html5 Video'|i18n( 'design/standard/content/datatype' )}{/case}
+    {case match='html5_audio'}{'Html5 Audio'|i18n( 'design/standard/content/datatype' )}{/case}
     {case}{'Unknown'|i18n( 'design/standard/content/datatype' )}{/case}
     {/switch}
     </p>
