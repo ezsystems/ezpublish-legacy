@@ -118,16 +118,11 @@ class eZDebug
                                                               'style' => 'strict',
                                                               'xhtml-identifier' => 'ezdebug-first-strict',
                                                               'name' => 'Strict' ) );
-        $this->LogFiles = array( self::LEVEL_NOTICE => array( "var/log/",
-                                                           "notice.log" ),
-                                 self::LEVEL_WARNING => array( "var/log/",
-                                                            "warning.log" ),
-                                 self::LEVEL_ERROR => array( "var/log/",
-                                                          "error.log" ),
-                                 self::LEVEL_DEBUG => array( "var/log/",
-                                                          "debug.log" ),
-                                 self::LEVEL_STRICT => array( 'var/log/',
-                                                           'strict.log' ) );
+        $this->LogFiles = array( self::LEVEL_NOTICE => "notice.log",
+                                 self::LEVEL_WARNING => "warning.log",
+                                 self::LEVEL_ERROR => "error.log",
+                                 self::LEVEL_DEBUG => "debug.log",
+                                 self::LEVEL_STRICT => "strict.log" );
         $this->MessageTypes = array( self::LEVEL_NOTICE,
                                      self::LEVEL_WARNING,
                                      self::LEVEL_ERROR,
@@ -735,7 +730,13 @@ class eZDebug
         $files = $this->logFiles();
         $fileName = false;
         if ( isset( $files[$verbosityLevel] ) )
-            $fileName = $files[$verbosityLevel];
+        {
+            $ini = eZINI::instance();
+            $varDir = $ini->variable( 'FileSettings', 'VarDir' );
+            $logSubDir = $ini->variable( 'FileSettings', 'LogDir' );
+            $fileName = array( $varDir . DIRECTORY_SEPARATOR . $logSubDir . DIRECTORY_SEPARATOR,
+                               $files[$verbosityLevel] );
+        }
         if ( $this->MessageOutput & self::OUTPUT_MESSAGE_STORE or $alwaysLog )
         {
             if ( ! eZDebug::isLogOnlyEnabled() and $enabled )
