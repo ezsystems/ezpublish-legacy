@@ -1,19 +1,19 @@
 ezpRestRequest::__set_state(array(
-   'get' =>
+   'get' => 
   array (
   ),
-   'post' =>
+   'post' => 
   array (
     'foo' => 'bar',
   ),
    'originalProtocol' => 'http-post',
-   'contentVariables' =>
+   'contentVariables' => 
   array (
     'Translation' => NULL,
     'OutputFormat' => NULL,
   ),
    'isEncrypted' => false,
-   'date' =>
+   'date' => 
   DateTime::__set_state(array(
      'date' => '2010-11-30 04:13:59',
      'timezone_type' => 1,
@@ -24,36 +24,36 @@ ezpRestRequest::__set_state(array(
    'uri' => '/apitest/content/node/2',
    'requestId' => 'trunk/apitest/content/node/2',
    'referrer' => NULL,
-   'variables' =>
+   'variables' => 
   array (
-    'ResponseGroups' =>
+    'ResponseGroups' => 
     array (
     ),
   ),
    'body' => '',
    'files' => NULL,
-   'accept' =>
+   'accept' => 
   ezcMvcRequestAccept::__set_state(array(
-     'types' =>
+     'types' => 
     array (
       0 => '*/*',
     ),
-     'charsets' =>
+     'charsets' => 
     array (
     ),
-     'languages' =>
+     'languages' => 
     array (
     ),
-     'encodings' =>
+     'encodings' => 
     array (
     ),
   )),
-   'agent' =>
+   'agent' => 
   ezcMvcRequestUserAgent::__set_state(array(
      'agent' => 'curl/7.21.2 (x86_64-apple-darwin10.4.0) libcurl/7.21.2 OpenSSL/1.0.0a zlib/1.2.5 libidn/1.19',
   )),
    'authentication' => NULL,
-   'raw' =>
+   'raw' => 
   array (
     'SCRIPT_URL' => '/apitest/content/node/2',
     'SCRIPT_URI' => 'http://trunk/apitest/content/node/2',
@@ -84,7 +84,7 @@ ezpRestRequest::__set_state(array(
     'PHP_SELF' => '/apitest/content/node/2',
     'REQUEST_TIME' => 1291090439,
   ),
-   'cookies' =>
+   'cookies' => 
   array (
   ),
    'isFatal' => NULL,
