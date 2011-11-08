@@ -13928,7 +13928,7 @@ your account.</source>
     </message>
     <message>
         <source>Step 2/3: Choose a location for the new &apos;%class&apos; object</source>
-        <translation>Étape 2/3: Choississez un emplacement pour le nouvel object &apos;%class&apos;</translation>
+        <translation>Étape 2/3 : Choississez un emplacement pour le nouvel object &apos;%class&apos;</translation>
     </message>
     <message>
         <source>Please choose a location for the &apos;%class&apos; object that is going to be created from it.</source>
@@ -13944,7 +13944,7 @@ your account.</source>
     </message>
     <message>
         <source>Step 3/3: Preview of &apos;%name&apos; (%class)</source>
-        <translation>Étape 3/3: prévisualisation de &apos;%name&apos; (%class)</translation>
+        <translation>Étape 3/3 : Prévisualisation de &apos;%name&apos; (%class)</translation>
     </message>
     <message>
         <source>Add</source>
@@ -13983,11 +13983,11 @@ your account.</source>
     </message>
     <message>
         <source>Some required fields are empty.</source>
-        <translation>Certains champs requis sont vides.</translation>
+        <translation>Des champs requis sont vides.</translation>
     </message>
     <message>
         <source>Unable to parse the JSON response.</source>
-        <translation>Impossible de parcourir la réponse JSON.</translation>
+        <translation>Impossible d'analyser la réponse JSON.</translation>
     </message>
     <message>
         <source>Upload a file and add the resulting object in the relation</source>
@@ -26952,7 +26952,7 @@ your account.</source>
     </message>
     <message>
         <source>%count invalid character(s) have been found and replaced by a space</source>
-        <translation>%count caratère(s) invalide(s) a/ont été trouvé(s) et remplacé(s) par un espace</translation>
+        <translation>%count caratère(s) invalide(s) ont été trouvé(s) et remplacé(s) par un espace</translation>
     </message>
 </context>
 <context>
