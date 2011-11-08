@@ -46,7 +46,9 @@ class eZImageType extends eZDataType
     {
         $imageHandler = $contentObjectAttribute->attribute( "content" );
         $originalAlias = $imageHandler->imageAlias( "original" );
-        $imageHandler->updateAliasPath( "{$originalAlias["dirpath"]}/trashed", md5( $originalAlias["basename"] ) );
+        $basenameHashed = md5( $originalAlias["basename"] );
+        $trashedFolder = "{$originalAlias["dirpath"]}/trashed";
+        $imageHandler->updateAliasPath( $trashedFolder, $basenameHashed );
         if ( $imageHandler->isStorageRequired() )
         {
             $imageHandler->store( $contentObjectAttribute );
@@ -54,7 +56,7 @@ class eZImageType extends eZDataType
         }
 
         // Now clean all other aliases, not cleanly registered within the attribute content
-        // First get all remaining aliases full path to then safely remove them
+        // First get all remaining aliases full path to then safely move them to the trashed folder
         $aliasNames = array_keys( $imageHandler->aliasList() );
         $aliasesPath = array();
         foreach ( $aliasNames as $aliasName )
@@ -72,7 +74,7 @@ class eZImageType extends eZDataType
             return;
         }
         $conds = array(
-        	"contentobject_attribute_id" => $contentObjectAttribute->attribute( "id" ),
+            "contentobject_attribute_id" => $contentObjectAttribute->attribute( "id" ),
             "filepath"                   => array( $aliasesPath )
         );
         $remainingAliases = eZPersistentObject::fetchObjectList(
@@ -85,8 +87,22 @@ class eZImageType extends eZDataType
         {
             foreach ( $remainingAliases as $remainingAlias )
             {
-                eZClusterFileHandler::instance( $remainingAlias->attribute( "filepath" ) )->delete();
-                $remainingAlias->remove();
+                $filename = basename( $remainingAlias->attribute( "filepath" ) );
+                $newFilePath = $trashedFolder . "/" . $basenameHashed . substr( $filename, strrpos( $filename, '_' ) );
+                eZClusterFileHandler::instance( $remainingAlias->attribute( "filepath" ) )->move( $newFilePath );
+
+                // $newFilePath might have already been processed in eZImageFile
+                // If so, $remainingAlias is a duplicate. We can then remove it safely
+                $imageFile = eZImageFile::fetchByFilepath( false, $newFilePath, false );
+                if ( empty( $imageFile ) )
+                {
+                    $remainingAlias->setAttribute( "filepath", $newFilePath );
+                    $remainingAlias->store();
+                }
+                else
+                {
+                    $remainingAlias->remove();
+                }
             }
         }
     }
@@ -95,10 +111,9 @@ class eZImageType extends eZDataType
     {
         $imageHandler = $contentObjectAttribute->attribute( "content" );
         $originalAlias = $imageHandler->imageAlias( "original" );
-        $imageHandler->updateAliasPath(
-            str_replace( "/trashed", "", $originalAlias["dirpath"]),
-            $imageHandler->imageName( $contentObjectAttribute, $contentObjectAttribute->objectVersion() )
-        );
+        $originalPath = str_replace( "/trashed", "", $originalAlias["dirpath"]);
+        $originalName = $imageHandler->imageName( $contentObjectAttribute, $contentObjectAttribute->objectVersion() );
+        $imageHandler->updateAliasPath( $originalPath, $originalName );
 
         if ( $imageHandler->isStorageRequired() )
         {
@@ -138,8 +153,22 @@ class eZImageType extends eZDataType
         {
             foreach ( $remainingAliases as $remainingAlias )
             {
-                eZClusterFileHandler::instance( $remainingAlias->attribute( "filepath" ) )->delete();
-                $remainingAlias->remove();
+                $filename = basename( $remainingAlias->attribute( "filepath" ) );
+                $newFilePath = $originalPath . "/" . $originalName . substr( $filename, strrpos( $filename, '_' ) );
+                eZClusterFileHandler::instance( $remainingAlias->attribute( "filepath" ) )->move( $newFilePath );
+
+                // $newFilePath might have already been processed in eZImageFile
+                // If so, $remainingAlias is a duplicate. We can then remove it safely
+                $imageFile = eZImageFile::fetchByFilepath( false, $newFilePath, false );
+                if ( empty( $imageFile ) )
+                {
+                    $remainingAlias->setAttribute( "filepath", $newFilePath );
+                    $remainingAlias->store();
+                }
+                else
+                {
+                    $remainingAlias->remove();
+                }
             }
         }
     }
