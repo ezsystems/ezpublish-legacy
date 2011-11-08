@@ -1026,11 +1026,11 @@
     </message>
     <message>
         <source>Application name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome applicazione</translation>
     </message>
     <message>
         <source>Confirm removal</source>
-        <translation type="unfinished">Conferma eliminazione</translation>
+        <translation>Conferma eliminazione</translation>
     </message>
 </context>
 <context>
@@ -2255,11 +2255,11 @@
     </message>
     <message>
         <source>View the draft that is being edited.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza la bozza in fase di modifica.</translation>
     </message>
     <message>
         <source>Path String</source>
-        <translation type="unfinished">Stringa percorso</translation>
+        <translation>Stringa percorso</translation>
     </message>
 </context>
 <context>
@@ -3540,11 +3540,11 @@
     </message>
     <message>
         <source>File upload</source>
-        <translation>Upload file</translation>
+        <translation>Caricamento file</translation>
     </message>
     <message>
         <source>Upload file</source>
-        <translation>Upload file</translation>
+        <translation>Carica file</translation>
     </message>
     <message>
         <source>Location</source>
@@ -3564,11 +3564,11 @@
     </message>
     <message>
         <source>Upload</source>
-        <translation>Upload</translation>
+        <translation>Carica</translation>
     </message>
     <message>
         <source>Proceed with uploading the selected file.</source>
-        <translation>Procedi con l&apos;upload del file selezionato.</translation>
+        <translation>Procedi con lil caricamento del file selezionato.</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -3580,7 +3580,7 @@
     </message>
     <message>
         <source>Choose a file from your local machine then click the &quot;Upload&quot; button. An object will be created according to file type and placed in the specified location.</source>
-        <translation>Scegli un file dalla tua macchina locale e premi il pulsante &quot;Upload&quot;. Verrà creato un oggetto a seconda del tipo di file e messo nella collocazione scelta.</translation>
+        <translation>Scegli un file dalla tua macchina locale e premi il pulsante &quot;Carica&quot;. Verrà creato un oggetto a seconda del tipo di file e messo nella collocazione scelta.</translation>
     </message>
     <message>
         <source>Select the file that you want to upload.</source>
@@ -3588,7 +3588,7 @@
     </message>
     <message>
         <source>Abort the upload operation.</source>
-        <translation>Interrompi l&apos;operazione di upload.</translation>
+        <translation>Interrompi l&apos;operazione di caricamento.</translation>
     </message>
 </context>
 <context>
@@ -4497,7 +4497,7 @@
     </message>
     <message>
         <source>Dynamic tree menu is disabled for this siteaccess!</source>
-        <translation type="unfinished"></translation>
+        <translation>Il menu ad albero dinamico è disabilitato per questo SiteAccess!</translation>
     </message>
 </context>
 <context>
@@ -4667,19 +4667,19 @@
     </message>
     <message>
         <source>Published</source>
-        <translation type="unfinished">Pubblicato</translation>
+        <translation>Pubblicato</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Modifica</translation>
+        <translation>Modifica</translation>
     </message>
     <message>
         <source>Edit &lt;%item_name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica &lt;%item_name&gt;.</translation>
     </message>
     <message>
         <source>You do not have permission to edit &lt;%item_name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Non sei abilitato a modificare &lt;%item_name&gt;.</translation>
     </message>
 </context>
 <context>
@@ -6186,15 +6186,15 @@
     </message>
     <message>
         <source>Invert selection</source>
-        <translation type="unfinished">Inverti selezione</translation>
+        <translation>Inverti selezione</translation>
     </message>
     <message>
         <source>Path String</source>
-        <translation type="unfinished">Stringa percorso</translation>
+        <translation>Stringa percorso</translation>
     </message>
     <message>
         <source>Object state</source>
-        <translation type="unfinished"></translation>
+        <translation>Stato dell&apos; oggetto</translation>
     </message>
 </context>
 <context>
@@ -6999,11 +6999,11 @@ Nota: I pacchetti non verranno disinstallati.</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Chiudi</translation>
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Caricamento...</translation>
     </message>
 </context>
 <context>
@@ -7335,7 +7335,7 @@ Nota: I pacchetti non verranno disinstallati.</translation>
     </message>
     <message>
         <source>URL management</source>
-        <translation type="unfinished"></translation>
+        <translation>Gestione URL</translation>
     </message>
 </context>
 <context>
@@ -12684,15 +12684,15 @@ Nota: I pacchetti non verranno disinstallati.</translation>
     </message>
     <message>
         <source>Valid URLs [%url_list_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>URL (valide) [%url_list_count]</translation>
     </message>
     <message>
         <source>Invalid URLs [%url_list_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>URL non valide [%url_list_count]</translation>
     </message>
     <message>
         <source>All URLs [%url_list_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>Tutte le URL [%url_list_count]</translation>
     </message>
 </context>
 <context>
@@ -13495,11 +13495,11 @@ your account.</source>
     </message>
     <message>
         <source>Error : Could not load workflow event &quot;%eventtype&quot; (event type not available)</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore : Impossibile caricare l&apos;evento di workflow &quot;%eventtype&quot; (tipo evento non disponibile)</translation>
     </message>
     <message>
         <source>Hint : This can happen when a workflow extension has been disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Suggerimento: ciò può accadere quando un&apos;estensione di worflow è stata disabilitata</translation>
     </message>
 </context>
 <context>
@@ -13935,101 +13935,101 @@ your account.</source>
     <name>design/admin2/ajaxupload</name>
     <message>
         <source>&lt;em&gt;%file&lt;/em&gt; has successfully been uploaded.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;em&gt;%file&lt;/em&gt; è stato caricato con successo.</translation>
     </message>
 </context>
 <context>
     <name>design/admin2/ajaxuploader</name>
     <message>
         <source>Go to the parent level</source>
-        <translation type="unfinished"></translation>
+        <translation>Vai al nodo genitore</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Nome</translation>
+        <translation>Nome</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Tipo</translation>
+        <translation>Tipo</translation>
     </message>
     <message>
         <source>Section</source>
-        <translation type="unfinished">Sezione</translation>
+        <translation>Sezione</translation>
     </message>
     <message>
         <source>prev</source>
-        <translation type="unfinished">prec</translation>
+        <translation>prec</translation>
     </message>
     <message>
         <source>next</source>
-        <translation type="unfinished">succ</translation>
+        <translation>succ</translation>
     </message>
     <message>
         <source>Step 2/3: Choose a location for the new &apos;%class&apos; object</source>
-        <translation type="unfinished"></translation>
+        <translation>Passo 2/3: Scegli una nuova collocazione per il nuovo oggetto &apos;%class&apos;</translation>
     </message>
     <message>
         <source>Please choose a location for the &apos;%class&apos; object that is going to be created from it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Scegli una collocazione per il nuovo oggetto &apos;%class&apos; che ne viene creato.</translation>
     </message>
     <message>
         <source>Choose this location</source>
-        <translation type="unfinished"></translation>
+        <translation>Scegli questa collocazione</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Chiudi</translation>
     </message>
     <message>
         <source>Step 3/3: Preview of &apos;%name&apos; (%class)</source>
-        <translation type="unfinished"></translation>
+        <translation>Passo 3/3: Anteprima del &apos;%name&apos; (%class)</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi</translation>
     </message>
     <message>
         <source>File</source>
-        <translation type="unfinished">File</translation>
+        <translation>File</translation>
     </message>
     <message>
         <source>Required</source>
-        <translation type="unfinished">Obbligatorio</translation>
+        <translation>Obbligatorio</translation>
     </message>
     <message>
         <source>The name will be autogenerated</source>
-        <translation type="unfinished"></translation>
+        <translation>Il nome verrà generato automaticamente</translation>
     </message>
     <message>
         <source>Upload the file</source>
-        <translation type="unfinished"></translation>
+        <translation>Carica file</translation>
     </message>
 </context>
 <context>
     <name>design/admin2/content/datatype</name>
     <message>
         <source>Upload a file</source>
-        <translation type="unfinished"></translation>
+        <translation>Carica un file</translation>
     </message>
     <message>
         <source>Upload a file to create a new object and add it to the relation</source>
-        <translation type="unfinished"></translation>
+        <translation>Carica un file per creare un nuovo oggetto ed aggiungerlo alla relazione</translation>
     </message>
     <message>
         <source>Please choose a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Scegli una collocazione</translation>
     </message>
     <message>
         <source>Some required fields are empty.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alcuni campi richiesti sono vuoti.</translation>
     </message>
     <message>
         <source>Unable to parse the JSON response.</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile analizzare la risposta JSON.</translation>
     </message>
     <message>
         <source>Upload a file and add the resulting object in the relation</source>
-        <translation type="unfinished"></translation>
+        <translation>Carica un file ed aggiungi l&apos;oggetto risultante alla relazione</translation>
     </message>
 </context>
 <context>
@@ -14630,14 +14630,14 @@ your account.</source>
     <name>design/ezwebin/link</name>
     <message>
         <source>Printable version</source>
-        <translation type="unfinished">Versione stampabile</translation>
+        <translation>Versione stampabile</translation>
     </message>
 </context>
 <context>
     <name>design/ezwebin/node/removeobject</name>
     <message>
         <source>The items contain more than the maximum possible nodes for subtree removal and will not be deleted. You can remove this subtree using the ezsubtreeremove.php script.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gli elementi contengono più del massimo possibile di nodi da rimuovere dal sotto-albero e non verranno eliminati. Puoi eliminare questo sotto-albero usando lo script php ezsubtreeremove.</translation>
     </message>
 </context>
 <context>
@@ -15988,15 +15988,15 @@ Se vuoi inviare commenti all&apos;approvatore o vederne lo stato usa l&apos;URL 
     </message>
     <message>
         <source>Your content is being published</source>
-        <translation type="unfinished"></translation>
+        <translation>Il tuo contenuto sta per essere pubblicato</translation>
     </message>
     <message>
         <source>Publishing finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Pubblicazione completata</translation>
     </message>
     <message>
         <source>Your content is pending an external action</source>
-        <translation type="unfinished"></translation>
+        <translation>Il tuo contenuto attende un&apos;azione esterna</translation>
     </message>
 </context>
 <context>
@@ -16849,39 +16849,39 @@ Se vuoi inviare commenti all&apos;approvatore o vederne lo stato usa l&apos;URL 
     </message>
     <message>
         <source>Confirm email</source>
-        <translation type="unfinished"></translation>
+        <translation>Conferma email</translation>
     </message>
     <message>
         <source>Add an object in the relation</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi un oggetto alla relazione</translation>
     </message>
     <message>
         <source>Add an existing object</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi un oggetto esistente</translation>
     </message>
     <message>
         <source>Browse to add an existing object in this relation</source>
-        <translation type="unfinished"></translation>
+        <translation>Sfoglia per aggiungere un oggetto esistente a questa relazione</translation>
     </message>
     <message>
         <source>Objects in the relation</source>
-        <translation type="unfinished"></translation>
+        <translation>Oggetto nella relazione</translation>
     </message>
     <message>
         <source>Remove selected elements from the relation</source>
-        <translation type="unfinished"></translation>
+        <translation>Elimina gli elementi selezionati dalla relazione</translation>
     </message>
     <message>
         <source>Add objects in the relation</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi gli oggetti nella relazione</translation>
     </message>
     <message>
         <source>Add existing objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi oggetti esistenti</translation>
     </message>
     <message>
         <source>Browse to add existing objects in this relation</source>
-        <translation type="unfinished"></translation>
+        <translation>Sfoglia per aggiungere oggetti esistenti a questa relazione</translation>
     </message>
 </context>
 <context>
@@ -17817,7 +17817,7 @@ Puoi continuare a modificare una delle tue bozze oppure creare una nuova bozza.<
     <name>design/standard/content/upload</name>
     <message>
         <source>Upload file</source>
-        <translation>Upload file</translation>
+        <translation>Carica file</translation>
     </message>
     <message>
         <source>Some errors occurred</source>
@@ -18070,7 +18070,7 @@ Puoi continuare a modificare una delle tue bozze oppure creare una nuova bozza.<
     </message>
     <message>
         <source>Upload file</source>
-        <translation>Upload file</translation>
+        <translation>Carica file</translation>
     </message>
     <message>
         <source>Site Access</source>
@@ -18820,23 +18820,23 @@ Se procedi verranno anche eliminati i figli.</translation>
     </message>
     <message>
         <source>Please wait while your content is being published</source>
-        <translation type="unfinished"></translation>
+        <translation>Attendi la pubblicazione del tuo contenuto</translation>
     </message>
     <message>
         <source>Your content has been published successfully</source>
-        <translation type="unfinished"></translation>
+        <translation>Pubblicazione del tuo contenuto riuscita</translation>
     </message>
     <message>
         <source>View the published item</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza l&apos;elemento pubblicato</translation>
     </message>
     <message>
         <source>Publishing has been deferred to crontab and will be published when the operation resumes. The object is also listed in your dashboard under pending items.</source>
-        <translation type="unfinished"></translation>
+        <translation>La pubblicazione è stata rimandata al crontab e verrà pubblicata quando l&apos;operazione riprenderà. L&apos;oggetto è inoltre elencato nel tuo pannello di controllo tra gli elementi in attesa.</translation>
     </message>
     <message>
         <source>View your pending content</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza i tuoi contenuti in attesa</translation>
     </message>
 </context>
 <context>
@@ -24830,15 +24830,15 @@ To do this you need to change the %chown commands under Alternative shell comman
     </message>
     <message>
         <source>All URLs</source>
-        <translation type="unfinished"></translation>
+        <translation>Tutte le URL</translation>
     </message>
     <message>
         <source>Invalid URLs</source>
-        <translation type="unfinished"></translation>
+        <translation>URL non valide</translation>
     </message>
     <message>
         <source>Valid URLs</source>
-        <translation type="unfinished"></translation>
+        <translation>URL valide</translation>
     </message>
 </context>
 <context>
@@ -25067,7 +25067,7 @@ per attivare il tuo account.</translation>
     </message>
     <message>
         <source>Your email address has been confirmed. An administrator needs to approve your sign up request, before your login becomes valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il tuo indirizzo email è stato confermato. Un amministratore deve approvare la tua richiesta d&apos;iscrizione, prima che il tuo login diventi valido.</translation>
     </message>
 </context>
 <context>
@@ -25181,11 +25181,11 @@ per attivare il tuo account.</translation>
     </message>
     <message>
         <source>Your registration has been approved. You can login with your account %username.</source>
-        <translation type="unfinished"></translation>
+        <translation>La tua registrazione è stata approvata. Puoi effettuare il login con il tuo account %username.</translation>
     </message>
     <message>
         <source>Click the following URL to login:</source>
-        <translation type="unfinished"></translation>
+        <translation>Clicca la seguente URL per loggarti:</translation>
     </message>
 </context>
 <context>
@@ -25904,176 +25904,176 @@ per attivare il tuo account.</translation>
     <name>design/starndard/node</name>
     <message>
         <source>Are you sure you want to remove these items?</source>
-        <translation type="unfinished">Sei sicuro di voler rimuovere questi elementi?</translation>
+        <translation>Sei sicuro di voler rimuovere questi elementi?</translation>
     </message>
 </context>
 <context>
     <name>extension/oauth</name>
     <message>
         <source>Application authorization</source>
-        <translation type="unfinished"></translation>
+        <translation>Autorizzazione applicazione</translation>
     </message>
     <message>
         <source>The application %application_name% has requested access to this website on your behalf.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;applicazione %application_name% ha richiesto accesso a questo sito web per tuo conto.</translation>
     </message>
 </context>
 <context>
     <name>extension/oauth/authorize</name>
     <message>
         <source>Authorize</source>
-        <translation type="unfinished"></translation>
+        <translation>Autorizza</translation>
     </message>
     <message>
         <source>Deny</source>
-        <translation type="unfinished">Nega</translation>
+        <translation>Nega</translation>
     </message>
 </context>
 <context>
     <name>extension/oauthadmin</name>
     <message>
         <source>New REST application</source>
-        <translation type="unfinished"></translation>
+        <translation>Nuova applicazione REST</translation>
     </message>
     <message>
         <source>oAuth admin</source>
-        <translation type="unfinished"></translation>
+        <translation>oAuth admin</translation>
     </message>
     <message>
         <source>Confirm removal</source>
-        <translation type="unfinished">Conferma eliminazione</translation>
+        <translation>Conferma eliminazione</translation>
     </message>
     <message>
         <source>Application &lt;%application_name&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Applicazione &lt;%application_name&gt;</translation>
     </message>
     <message>
         <source>Last modified</source>
-        <translation type="unfinished">Ultima modifica</translation>
+        <translation>Ultima modifica</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Nome</translation>
+        <translation>Nome</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Descrizione</translation>
+        <translation>Descrizione</translation>
     </message>
     <message>
         <source>Client identifier</source>
-        <translation type="unfinished"></translation>
+        <translation>Identificatore del Client</translation>
     </message>
     <message>
         <source>Client secret</source>
-        <translation type="unfinished"></translation>
+        <translation>Segreto Client</translation>
     </message>
     <message>
         <source>Endpoint URI</source>
-        <translation type="unfinished"></translation>
+        <translation>Endpoint URI</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Modifica</translation>
+        <translation>Modifica</translation>
     </message>
     <message>
         <source>Edit this application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica questa applicazione.</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Cancella</translation>
+        <translation>Cancella</translation>
     </message>
     <message>
         <source>Delete this application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancella quest&apos;applicazione.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this application?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sei sicuro di voler rimuovere quest&apos;applicazione?</translation>
     </message>
     <message>
         <source>Are you sure you want to remove these applications?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sei sicuro di voler rimuovere queste applicazioni?</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished">Conferma</translation>
+        <translation>Conferma</translation>
     </message>
     <message>
         <source>Confirm removal of these applications.</source>
-        <translation type="unfinished"></translation>
+        <translation>Conferma l&apos;eliminazione di queste applicazioni.</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annulla</translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <source>Edit application &lt;%application_name&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica l&apos;applicazione &lt;%application_name&gt;</translation>
     </message>
     <message>
         <source>Use this field to set the application name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa questo campo per impostare il nome dell&apos;applicazione.</translation>
     </message>
     <message>
         <source>Use this field to set the informal application description.</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa questo campo per impostare la descrizione informale dell&apos;applicazione.</translation>
     </message>
     <message>
         <source>Use this field to set the application endpoint URI.</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa questo campo per impostare l&apos;endpoint URI dell&apos;applicazione.</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>REST applications (%applications_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>REST applications (%applications_count)</translation>
     </message>
     <message>
         <source>List of applications</source>
-        <translation type="unfinished"></translation>
+        <translation>Elenco delle applicazioni</translation>
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished">Inverti selezione.</translation>
+        <translation>Inverti selezione.</translation>
     </message>
     <message>
         <source>Modifier</source>
-        <translation type="unfinished">Modificato da</translation>
+        <translation>Modificato da</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation type="unfinished"></translation>
+        <translation>Modificato il</translation>
     </message>
     <message>
         <source>Select application for removal.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona l&apos;applicazione da eliminare.</translation>
     </message>
     <message>
         <source>Edit the &lt;%application_name&gt; application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica l&apos;applicazione &lt;%application_name&gt;.</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Elimina selezionate</translation>
     </message>
     <message>
         <source>Remove the selected applications.</source>
-        <translation type="unfinished"></translation>
+        <translation>Elimina le applicazioni selezionate.</translation>
     </message>
     <message>
         <source>New application</source>
-        <translation type="unfinished"></translation>
+        <translation>Nuova applicazione</translation>
     </message>
     <message>
         <source>Create a new application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea una nuova applicazione.</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Indietro</translation>
+        <translation>Indietro</translation>
     </message>
 </context>
 <context>
@@ -26893,7 +26893,7 @@ per attivare il tuo account.</translation>
     <message>
         <source>The emails do not match.</source>
         <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Le email non coincidono.</translation>
     </message>
 </context>
 <context>
@@ -26985,7 +26985,7 @@ per attivare il tuo account.</translation>
     </message>
     <message>
         <source>%count invalid character(s) have been found and replaced by a space</source>
-        <translation type="unfinished"></translation>
+        <translation>%count caratteri non validi sono stati sostituiti da uno spazio</translation>
     </message>
 </context>
 <context>
@@ -27207,7 +27207,7 @@ per attivare il tuo account.</translation>
     </message>
     <message>
         <source>Publishing queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Coda pubblicazione</translation>
     </message>
 </context>
 <context>
@@ -27377,11 +27377,11 @@ per attivare il tuo account.</translation>
     </message>
     <message>
         <source>The uploaded file size is above the maximum limit.</source>
-        <translation type="unfinished"></translation>
+        <translation>La grandezza del file caricato supera il limite massimo.</translation>
     </message>
     <message>
         <source>A system error occured while writing the uploaded file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore di sistema durante la scrittura del file caricato.</translation>
     </message>
 </context>
 <context>
@@ -27521,19 +27521,19 @@ per attivare il tuo account.</translation>
     <name>kernel/oauthadmin</name>
     <message>
         <source>oAuth admin</source>
-        <translation type="unfinished"></translation>
+        <translation>oAuth admin</translation>
     </message>
     <message>
         <source>Edit REST application</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica applicazione REST</translation>
     </message>
     <message>
         <source>Registered REST applications</source>
-        <translation type="unfinished"></translation>
+        <translation>Registra applicazione REST</translation>
     </message>
     <message>
         <source>REST application: %application_name%</source>
-        <translation type="unfinished"></translation>
+        <translation>Applicazione REST: %application_name%</translation>
     </message>
 </context>
 <context>
@@ -28502,11 +28502,11 @@ per attivare il tuo account.</translation>
     </message>
     <message>
         <source>oAuth</source>
-        <translation type="unfinished"></translation>
+        <translation>oAuth</translation>
     </message>
     <message>
         <source>authorization</source>
-        <translation type="unfinished"></translation>
+        <translation>autorizzazione</translation>
     </message>
 </context>
 <context>
@@ -28521,7 +28521,7 @@ per attivare il tuo account.</translation>
     </message>
     <message>
         <source>User registration approved</source>
-        <translation type="unfinished"></translation>
+        <translation>Registrazione utente approvata</translation>
     </message>
 </context>
 <context>
@@ -28614,7 +28614,7 @@ per attivare il tuo account.</translation>
     </message>
     <message>
         <source>Finish User Registration</source>
-        <translation type="unfinished"></translation>
+        <translation>Completa registrazione utente</translation>
     </message>
 </context>
 <context>
