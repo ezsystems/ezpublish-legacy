@@ -396,11 +396,11 @@
     </message>
     <message>
         <source>Edit &lt;%class_name&gt; (%object_count objects)</source>
-        <translation type="unfinished"></translation>
+        <translation>Edytuj &lt;%class_name&gt; (%object_count obiektów)</translation>
     </message>
     <message>
         <source>The draft of the class definition was successfully stored.</source>
-        <translation type="unfinished"></translation>
+        <translation>Szkic definicji klasy został pomyślnie zapisany.</translation>
     </message>
 </context>
 <context>
@@ -919,7 +919,7 @@
     </message>
     <message>
         <source>There is no removable language.</source>
-        <translation type="unfinished">Nie ma usuwalnych języków.</translation>
+        <translation>Nie ma języków do usunięcia.</translation>
     </message>
     <message>
         <source>Set main</source>
@@ -971,7 +971,7 @@
     </message>
     <message>
         <source>Select a group that the &lt;%class_name&gt; class should be added to.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz grupę, do której powinna zostać dodana klasa &lt;%class_name&gt;.</translation>
     </message>
     <message>
         <source>Select the desired main language using the radio buttons above then click this button to store the setting.</source>
@@ -991,11 +991,11 @@
     </message>
     <message>
         <source>Class storing deferred</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapis klasy odroczony</translation>
     </message>
     <message>
         <source>The storing of the class has been deferred because existing objects need to be updated. The process has been scheduled to run in the background and will be started automatically. Please do not edit the class again until the process has finished. You can monitor the progress of the background process here:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapis klasy został odroczony, ponieważ istniejące obiekty wymagają aktualizacji. Proces został zaplanowany do uruchomienia w tle i rozpocznie się automatycznie. Proszę nie edytować ponownie klasy aż do zakończenia działania procesu. Postęp działania procesu w tle możesz śledzić tutaj:</translation>
     </message>
     <message>
         <source>Background process monitor</source>
@@ -5904,23 +5904,23 @@
     </message>
     <message>
         <source>Available states</source>
-        <translation type="unfinished"></translation>
+        <translation>Dostępne stany</translation>
     </message>
     <message>
         <source>No content object state is configured. This can be done %urlstart here %urlend.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie skonfigurowano stanów obiektu. Można to zrobić %urlstart tutaj %urlend.</translation>
     </message>
     <message>
         <source>Set states</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw stany</translation>
     </message>
     <message>
         <source>Apply states from the list above.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zastosuj stany z powyższej listy.</translation>
     </message>
     <message>
         <source>No state to be applied to this content object. You might need to be assigned a more permissive access policy.</source>
-        <translation type="unfinished"></translation>
+        <translation>Do tego obiektu nie może zostać przpisany żaden stan. Być może potrzebujesz większych uprawnień.</translation>
     </message>
     <message>
         <source>Object states</source>
@@ -5976,27 +5976,27 @@
     </message>
     <message>
         <source>Node and object details like creator, when it was created, section it belongs to, number of versions and translations, Node ID and Object ID.</source>
-        <translation type="unfinished"></translation>
+        <translation>Szczegóły węzła i obiektu takie, jak twórca, czas utworzenia, sekcja do której należy, liczba wersji i tłumaczeń, ID węzła i ID obiektu.</translation>
     </message>
     <message>
         <source>Content state</source>
-        <translation type="unfinished"></translation>
+        <translation>Stany obiektu</translation>
     </message>
     <message>
         <source>States and their states groups for current object.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stany oraz ich grupy dla bieżącego obiektu.</translation>
     </message>
     <message>
         <source>State group</source>
-        <translation type="unfinished"></translation>
+        <translation>Grupa stanów</translation>
     </message>
     <message>
         <source>No content object state is configured. This can be done %urlstart here%urlend.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie skonfigurowano stanów obiektu. Można to zrobić %urlstart tutaj%urlend.</translation>
     </message>
     <message>
         <source>Locations (aka Nodes) for current object.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokalizacje (vel węzły) bieżącego obiektu.</translation>
     </message>
     <message>
         <source>New translation</source>
@@ -6012,11 +6012,11 @@
     </message>
     <message>
         <source>%limitation_identifier %limitation_value</source>
-        <translation type="unfinished"></translation>
+        <translation>%limitation_identifier %limitation_value</translation>
     </message>
     <message>
         <source>Object relation list from current object.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lista relacji wychodzących z bieżącego obiektu.</translation>
     </message>
     <message>
         <source>Related objects (%related_objects_count)</source>
@@ -6024,7 +6024,7 @@
     </message>
     <message>
         <source>Reverse object relation list to current object.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lista relacji elementów zależnych od bieżącego obiektu.</translation>
     </message>
     <message>
         <source>Reverse related objects (%related_objects_count)</source>
@@ -6032,7 +6032,7 @@
     </message>
     <message>
         <source>List of roles assigned with and without limitations for current node.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lista ról przydzielonych z oraz bez ograniczeń dla bieżącego węzła.</translation>
     </message>
     <message>
         <source>Translations (%translations)</source>
@@ -6048,99 +6048,99 @@
     </message>
     <message>
         <source>Tab is disabled, enable with toggler to the left of these tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Karta jest wyłączona, możesz ją włączyć za pomocą przełącznika znajdującego się po lewej stronie obok kart.</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Widok</translation>
+        <translation>Widok</translation>
     </message>
     <message>
         <source>Show simplified view of content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż uproszczony widok treści.</translation>
     </message>
     <message>
         <source>Ordering</source>
-        <translation type="unfinished">Porządek</translation>
+        <translation>Porządek</translation>
     </message>
     <message>
         <source>Show published ordering overview.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż metody sortowania.</translation>
     </message>
     <message>
         <source>Loading ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wczytywanie ...</translation>
     </message>
     <message>
         <source>Node remote ID</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdalne ID węzła</translation>
     </message>
     <message>
         <source>Object remote ID</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdalne ID obiektu</translation>
     </message>
     <message>
         <source>Table options</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabela opcji</translation>
     </message>
     <message>
         <source>Number of items per page:</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba pozycji na stronie</translation>
     </message>
     <message>
         <source>Visible table columns:</source>
-        <translation type="unfinished"></translation>
+        <translation>Widoczne kolumny tabeli:</translation>
     </message>
     <message>
         <source>Select</source>
-        <translation type="unfinished">Wybierz</translation>
+        <translation>Zaznacz</translation>
     </message>
     <message>
         <source>Select all visible</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaznacz wszystkie widoczne</translation>
     </message>
     <message>
         <source>Select none</source>
-        <translation type="unfinished"></translation>
+        <translation>Odznacz wszystkie</translation>
     </message>
     <message>
         <source>Create new</source>
-        <translation type="unfinished"></translation>
+        <translation>Utwórz nowy</translation>
     </message>
     <message>
         <source>More actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Więcej akcji</translation>
     </message>
     <message>
         <source>Use the checkboxes to select one or more items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj pól wyboru w celu zaznaczenia jednej lub kilku pozycji.</translation>
     </message>
     <message>
         <source>first</source>
-        <translation type="unfinished"></translation>
+        <translation>pierwsza</translation>
     </message>
     <message>
         <source>prev</source>
-        <translation type="unfinished"></translation>
+        <translation>poprzednia</translation>
     </message>
     <message>
         <source>next</source>
-        <translation type="unfinished"></translation>
+        <translation>następna</translation>
     </message>
     <message>
         <source>last</source>
-        <translation type="unfinished"></translation>
+        <translation>ostatnia</translation>
     </message>
     <message>
         <source>Invert selection</source>
-        <translation type="unfinished">Odwróć zaznaczenie</translation>
+        <translation>Odwróć zaznaczenie</translation>
     </message>
     <message>
         <source>Path String</source>
-        <translation type="unfinished">Ścieżka</translation>
+        <translation>Ścieżka</translation>
     </message>
     <message>
         <source>Object state</source>
-        <translation type="unfinished"></translation>
+        <translation>Stan obiektu</translation>
     </message>
 </context>
 <context>
