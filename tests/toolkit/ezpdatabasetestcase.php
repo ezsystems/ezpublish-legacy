@@ -42,10 +42,10 @@ class ezpDatabaseTestCase extends ezpTestCase
     protected function setUp()
     {
         parent::setUp();
-        $dsn = ezpTestRunner::dsn();
-        $this->sharedFixture = ezpTestDatabaseHelper::create( $dsn );
         if ( ezpTestRunner::dbPerTest() )
         {
+            $dsn = ezpTestRunner::dsn();
+            $this->sharedFixture = ezpTestDatabaseHelper::create( $dsn );
             if ( $this->insertDefaultData === true )
                 ezpTestDatabaseHelper::insertDefaultData( $this->sharedFixture );
 
