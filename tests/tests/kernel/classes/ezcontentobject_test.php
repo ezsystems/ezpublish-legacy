@@ -200,10 +200,10 @@ class eZContentObjectTest extends ezpDatabaseTestCase
             "Relation count after move to trash should be 13" );
 
         // Empty the trash
-        /*foreach( eZContentObjectTrashNode::trashList() as $node )
+        foreach( eZContentObjectTrashNode::trashList() as $node )
         {
             eZContentObjectTrashNode::purgeForObject( $node->attribute( 'contentobject_id' ) );
-        }*/
+        }
     }
 
     /**
