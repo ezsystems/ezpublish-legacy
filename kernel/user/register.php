@@ -119,7 +119,7 @@ if ( !$http->hasSessionVariable( "RegisterUserID" ) )
 
     $userCreatorID = $ini->variable( "UserSettings", "UserCreatorID" );
     $defaultSectionID = $ini->variable( "UserSettings", "DefaultSectionID" );
-    if ( $defaultSectionID == 0 )
+    if ( $defaultSectionID == 0 && $count > 0 )
     {
         $parentContentObject = eZContentObject::fetchByNodeID( $defaultUserPlacement );
         $defaultSectionID = $parentContentObject->attribute( 'section_id' );
