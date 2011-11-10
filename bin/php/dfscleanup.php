@@ -88,6 +88,7 @@ if ( $checkBase )
                 $fh->purge();
             }
         }
+        usleep( $pause );
     }
     $cli->output( 'Done' );
 }
