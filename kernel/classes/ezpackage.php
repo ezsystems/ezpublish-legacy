@@ -1767,21 +1767,21 @@ class eZPackage
 
                             if ( $requiredPriority !== null )
                             {
-                                $type = $package->attribute( 'priority' );
+                                $priority = $package->attribute( 'priority' );
                                 if ( $priority != $requiredPriority )
                                     continue;
                             }
 
                             if ( $requiredExtension !== null )
                             {
-                                $type = $package->attribute( 'extension' );
+                                $extension = $package->attribute( 'extension' );
                                 if ( $extension != $requiredExtension )
                                     continue;
                             }
 
                             if ( $requiredVendor !== null )
                             {
-                                $type = $package->attribute( 'vendor' );
+                                $vendor = $package->attribute( 'vendor' );
                                 if ( $vendor != $requiredVendor )
                                     continue;
                             }
