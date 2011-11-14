@@ -1251,6 +1251,12 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
      */
     function testURLAliasSplitParentTranslation()
     {
+        ezpINIHelper::setINISetting(
+            'site.ini', 'RegionalSettings',
+            'SiteLanguageList', array( 'eng-GB', 'nor-NO' )
+        );
+        eZContentLanguage::clearPrioritizedLanguages();
+
         $db = eZDB::instance();
 
         // STEP 1: Add test folder
@@ -1341,6 +1347,8 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         $translationChild = self::urlEntryForName( 'NorChildChanged-again' . __FUNCTION__, $result );
 
         self::assertEquals( (int)$initialTranslationChild['id'], (int)$translationChild['id'], "Current translations of the same node need to have the same id." );
+
+        ezpINIHelper::restoreINISettings();
     }
 }
 
