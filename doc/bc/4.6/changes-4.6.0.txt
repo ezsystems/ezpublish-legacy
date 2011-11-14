@@ -41,6 +41,12 @@ Change of behavior
   While removing a node, the content remove access is now checked at the node
   level instead of the content object.
 
+- #18258: Ensure that indexing succeeds
+
+  Search engine plugins, like eZ Find, must now implement the ezpSearchEngine interface
+  in order to be accepted as a search plugin. The native eZSearchEngine is of course
+  compatible in the 4.6 release, but eZ Find 2.6 is now required. Earlier versions
+  of eZ Find won't run with eZ Publish 4.6 or later.
 
 Removed features
 ----------------
