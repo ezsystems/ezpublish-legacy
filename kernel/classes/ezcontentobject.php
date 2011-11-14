@@ -3237,7 +3237,7 @@ class eZContentObject extends eZPersistentObject
         $objectID = $this->ID;
         if ( $version == false )
             $version = isset( $this->CurrentVersion ) ? $this->CurrentVersion : false;
-        $version == (int) $version;
+        $version = (int) $version;
 
         $db = eZDB::instance();
         $showInvisibleNodesCond = '';
