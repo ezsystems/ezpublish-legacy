@@ -119,6 +119,7 @@ function eZSetupRunTests( $testList, $client, &$givenPersistentList )
 
 function eZSetupCheckTestFunctions( $type )
 {
+    $extensionList = eZSetupConfigVariableArray( $type, 'Extensions' );
     $testList = eZSetupConfigVariableArray( $type, 'TestList' );
     $requireType = eZSetupConfigVariable( $type, 'Require' );
 
