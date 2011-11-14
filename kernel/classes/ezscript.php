@@ -999,7 +999,7 @@ class eZScript
                     else if ( $level == 'notice' )
                         $level = eZDebug::LEVEL_NOTICE;
                     else if ( $level == 'timing' )
-                        $level = eZDebug::EZ_LEVEL_TIMING;
+                        $level = eZDebug::LEVEL_TIMING_POINT;
                     $allowedDebugLevels[] = $level;
                 }
                 $this->setUseDebugOutput( true );
