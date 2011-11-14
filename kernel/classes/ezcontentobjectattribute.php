@@ -1248,7 +1248,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         $numargs = func_num_args();
         if ( $numargs < 1 )
         {
-            trigger_error( 'Function must take at least one parameter', WARNING );
+            trigger_error( 'Function must take at least one parameter', E_USER_WARNING );
             return;
         }
         $argList = func_get_args();
