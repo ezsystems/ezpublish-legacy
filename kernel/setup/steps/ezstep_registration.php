@@ -163,7 +163,7 @@ class eZStepRegistration extends eZStepInstaller
                 if ( $this->PersistenceList['email_info']['send'] )
                 {
                     $mailTpl = eZTemplate::factory();
-                    $bodyText = $this->generateRegistration( $mailTpl, $comments );
+                    $bodyText = $this->generateRegistration( $mailTpl, $this->PersistenceList['email_info']['comments'] );
                     $subject = $mailTpl->variable( 'subject' );
 
                     // Fill in E-Mail data and send it
