@@ -143,7 +143,7 @@ abstract class eZDatatypeAbstractTest extends ezpDatabaseTestCase
     public function dataSet( $dataSetName = 'default' )
     {
         if ( !isset( $this->dataSets[$dataSetName] ) )
-            throw new ezcBaseValueException( "No such dataset '$dataSetname'" );
+            throw new ezcBaseValueException( "No such dataset '$dataSetName'" );
 
         return $this->dataSets[$dataSetName];
     }
