@@ -215,7 +215,7 @@ class eZBenchmarkrunner
         $markName = $entry['name'];
         if ( !is_array( $this->CurrentResult ) )
         {
-             $this->CurrentResult = array( 'name' => $testName,
+             $this->CurrentResult = array( 'name' => $markName,
                                            'start' => false,
                                            'end' => false,
                                            'result' => false,
