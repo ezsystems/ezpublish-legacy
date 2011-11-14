@@ -1942,7 +1942,7 @@ class eZPackage
             return;
         if ( !$this->isInstalled() )
             return;
-        $uninstallItems = $this->uninstallItemsList();
+        $uninstallItems = $this->installItemsList();
         if ( !isset( $installParameters['path'] ) )
             $installParameters['path'] = false;
 
