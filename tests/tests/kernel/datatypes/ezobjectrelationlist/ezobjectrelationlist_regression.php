@@ -26,6 +26,7 @@ class eZObjectRelationListDatatypeRegression extends ezpDatabaseTestCase
             'site.ini', 'RegionalSettings',
             'SiteLanguageList', array( 'xxx-XX', 'eng-GB' )
         );
+        eZContentLanguage::clearPrioritizedLanguages();
     }
 
     public function tearDown()
