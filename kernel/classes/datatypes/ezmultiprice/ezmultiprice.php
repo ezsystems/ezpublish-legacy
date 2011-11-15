@@ -75,11 +75,6 @@ class eZMultiPrice extends eZSimplePrice
     function hasAttribute( $attr )
     {
         $hasAttribute = in_array( $attr, $this->attributes() );
-        if ( !$hasAttribute )
-        {
-            $hasAttribute = eZSimplePrice::attributes( $attr );
-        }
-
         return $hasAttribute;
     }
 
