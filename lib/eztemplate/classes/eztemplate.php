@@ -604,7 +604,7 @@ class eZTemplate
         {
             $variableData = $node[2];
             $variablePlacement = $node[3];
-            $rslt = $this->processVariable( $textElements, $variableData, $variablePlacement, $rootNamespace, $currentNamespace );
+            $this->processVariable( $textElements, $variableData, $variablePlacement, $rootNamespace, $currentNamespace );
             if ( !is_array( $textElements ) )
                 eZDebug::writeError( "Textelements is no longer array: '$textElements'", __METHOD__ . '::variable' );
         }
@@ -651,6 +651,7 @@ class eZTemplate
         else
         {
             $this->warning( "", "Function \"$functionName\" is not registered" );
+            return null;
         }
     }
 
