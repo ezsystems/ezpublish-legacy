@@ -872,7 +872,7 @@ class eZFileHandler
     */
     function doRewind()
     {
-        $this->doSeek( $offset, SEEK_SET );
+        $this->doSeek( 0, SEEK_SET );
     }
 
     /*!
