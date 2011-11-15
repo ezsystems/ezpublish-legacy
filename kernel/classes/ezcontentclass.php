@@ -1518,7 +1518,7 @@ You will need to change the class of the node by using the swap functionality.' 
 
      \return string with contentclass description.
     */
-    static function descriptionFromSerializedString( $serializedDescriptionList )
+    static function descriptionFromSerializedString( $serializedNameList )
     {
         return eZSerializedObjectNameList::nameFromSerializedString( $serializedNameList );
     }
