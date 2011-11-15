@@ -529,7 +529,7 @@ class eZFilePackageHandler extends eZPackageHandler
         return false;
     }
 
-    function iniMatch( $filePath, &$role, &$roleValue, &$file )
+    function iniMatch( $filePath, &$role, &$roleValue, &$file, &$triedFiles )
     {
         if ( preg_match( "#^settings/siteaccess/([^/]+)/([^/]+)$#", $filePath, $matches ) )
         {
