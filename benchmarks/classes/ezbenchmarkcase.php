@@ -90,7 +90,7 @@ class eZBenchmarkCase extends eZBenchmarkUnit
     {
         if ( !function_exists( $function ) )
         {
-            eZDebug::writeWarning( "Mark function $method does not exist, cannot add to mark " . $this->Name, __METHOD__ );
+            eZDebug::writeWarning( "Mark function $function does not exist, cannot add to mark " . $this->Name, __METHOD__ );
         }
         if ( !$name )
             $name = $function;
