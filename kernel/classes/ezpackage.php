@@ -2733,10 +2733,10 @@ class eZPackage
             $installNode->appendChild( $installItemNode );
 
             if ( $installItem['os'] )
-                $installItemNode->setAttribute( 'os', $installIItem['os'] );
+                $installItemNode->setAttribute( 'os', $installItem['os'] );
 
             if ( $installItem['name'] )
-                $installItemNode->setAttribute( 'name', $installIItem['name'] );
+                $installItemNode->setAttribute( 'name', $installItem['name'] );
 
             if ( $installItem['filename'] )
             {
