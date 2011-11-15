@@ -329,7 +329,7 @@ $param['expiration_filter'] = $expirationFilterType;
 $param['user_id'] = $userID;
 if ( isset( $viewParameters['sortby'] ) )
     $param['sortby'] = $viewParameters['sortby'];
-$sessionsActive = eZSession::countActive( $param );
+$sessionsActive = eZSession::countActive();
 $sessionsCount = eZFetchActiveSessionCount( $param );
 $sessionsList = eZFetchActiveSessions( $param );
 
