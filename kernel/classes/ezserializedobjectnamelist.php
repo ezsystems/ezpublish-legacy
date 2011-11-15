@@ -532,7 +532,7 @@ class eZSerializedObjectNameList
             {
                 $name = $nameList->nameByLanguageLocale( $fromLanguageLocale );
 
-                if ( $tolanguageLocale == 'skip_language' )
+                if ( $toLanguageLocale == 'skip_language' )
                 {
                     // do nothing;
                 }
