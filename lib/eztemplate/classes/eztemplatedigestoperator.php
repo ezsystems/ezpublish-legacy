@@ -166,7 +166,7 @@ class eZTemplateDigestOperator
             // Default case: something went wrong - unknown things...
             default:
             {
-                $tpl->warning( $operatorName, "Unknown input type '$type'", $placement );
+                $tpl->warning( $operatorName, "Unknown input type '$operatorName'", $placement );
             } break;
         }
     }
