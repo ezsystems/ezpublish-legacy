@@ -776,7 +776,7 @@ function browse( $Module, $srcNode )
 
     $viewMode = 'full';
     if ( $Module->hasActionParameter( 'ViewMode' ) )
-        $viewMode = $module->actionParameter( 'ViewMode' );
+        $viewMode = $Module->actionParameter( 'ViewMode' );
 
     eZContentBrowse::browse(
          array( 'action_name'          => 'CopySubtree',
@@ -840,7 +840,7 @@ function showNotificationAfterCopying( $http, $Module, &$Result, &$Notifications
         }
 
         if ( $Module->hasActionParameter( 'ViewMode' ) )
-            $viewMode = $module->actionParameter( 'ViewMode' );
+            $viewMode = $Module->actionParameter( 'ViewMode' );
         else
             $viewMode = 'full';
 
