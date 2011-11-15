@@ -68,3 +68,11 @@ Removed globals
 Deprecated
 ----------
 
+- eZSoap library
+
+  Deprecated in favour of native PHP functionality.
+
+- Method 'fileDeleteByRegex()' in various file handlers
+
+  Said methods are unused and have undesirable performance characteristics.
+
