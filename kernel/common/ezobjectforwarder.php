@@ -274,7 +274,7 @@ class eZObjectForwarder
                 $spacing = $acquisitionSpacing;
                 if ( $attributeAccessCount > 1 )
                 {
-                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "else " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . " if ( !$resourceFound )\n{\n", array( 'spacing' => $acquisitionSpacing ) );
+                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "else " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . " if ( !\$resourceFound )\n{\n", array( 'spacing' => $acquisitionSpacing ) );
                     $spacing += 4;
                 }
                 else if ( $attributeAccessCount > 0 )
