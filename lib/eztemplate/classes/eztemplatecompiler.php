@@ -2528,11 +2528,11 @@ else
                                 {
                                     $persistence = array();
                                     $knownTypes = array();
-                                    eZTemplateCompiler::generateVariableCode( $php, $tpl, $nameParameter, $knownTypes, $nameInspection,
-                                                                              $persistence,
-                                                                              array( 'variable' => 'name',
-                                                                                     'counter' => 0 ),
-                                                                              $resourceData );
+                                    eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $nameParameter, $knownTypes, $nameInspection,
+                                                                                  $persistence,
+                                                                                  array( 'variable' => 'name',
+                                                                                         'counter' => 0 ),
+                                                                                  $resourceData );
                                     $php->addCodePiece( "if " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( \$currentNamespace != '' )
 {
     if ( \$name != '' )
