@@ -145,7 +145,7 @@ class eZFS2FileHandler extends eZFSFileHandler
                     // generate the dynamic data without storage
                     if ( $this->nonExistantStaleCacheHandling[ $this->cacheType ] == 'generate' )
                     {
-                        eZDebugSetting::writeDebug( 'kernel-clustering', $this->filePath, "Generation is being processed, generating own version", __METHOD__ );
+                        eZDebugSetting::writeDebug( 'kernel-clustering', $this->filePath, "Generation is being processed, generating own version" );
                         break;
                     }
                     // wait for the generating process to be finished (or timedout)
