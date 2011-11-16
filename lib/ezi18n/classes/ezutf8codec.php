@@ -130,7 +130,7 @@ class eZUTF8Codec
                            (( ord( $multi_char[$offs + 1] ) & 0x3f )) );
             if ( $char_code < 128 ) // Illegal multibyte, should use less than 2 chars
             {
-                $char_code == false;
+                $char_code = false;
             }
         }
         else if ( ( ord( $multi_char[$offs + 0] ) & 0xf0 ) == 0xe0 ) // 16 bit, 3 chars
@@ -144,7 +144,7 @@ class eZUTF8Codec
                            (( ord( $multi_char[$offs + 2] ) & 0x3f )) );
             if ( $char_code < 2048 ) // Illegal multibyte, should use less than 3 chars
             {
-                $char_code == false;
+                $char_code = false;
             }
         }
         else if ( ( ord( $multi_char[$offs + 0] ) & 0xf8 ) == 0xf0 ) // 21 bit, 4 chars
@@ -160,7 +160,7 @@ class eZUTF8Codec
                            (( ord( $multi_char[$offs + 3] ) & 0x3f )) );
             if ( $char_code < 65536 ) // Illegal multibyte, should use less than 4 chars
             {
-                $char_code == false;
+                $char_code = false;
             }
         }
         else if ( ( ord( $multi_char[$offs + 0] ) & 0xfc ) == 0xf8 ) // 26 bit, 5 chars
@@ -178,7 +178,7 @@ class eZUTF8Codec
                            (( ord( $multi_char[$offs + 4] ) & 0x3f )) );
             if ( $char_code < 2097152 ) // Illegal multibyte, should use less than 5 chars
             {
-                $char_code == false;
+                $char_code = false;
             }
         }
         else if ( ( ord( $multi_char[$offs + 0] ) & 0xfe ) == 0xfc ) // 31 bit, 6 chars
@@ -198,7 +198,7 @@ class eZUTF8Codec
                            (( ord( $multi_char[$offs + 5] ) & 0x3f )) );
             if ( $char_code < 67108864 ) // Illegal multibyte, should use less than 6 chars
             {
-                $char_code == false;
+                $char_code = false;
             }
         }
         return $char_code;
