@@ -84,7 +84,7 @@ function eZFatalError()
     eZWebDAVContentBackend::appendLogEntry( "The execution of eZ Publish was abruptly ended, the debug output is present below." );
     eZWebDAVContentBackend::appendLogEntry( "****************************************" );
     // $templateResult = null;
-    // eZDisplayResult( $templateResult, eZDisplayDebug() );
+    // eZDisplayResult( $templateResult );
 }
 
 // Check and proceed only if WebDAV functionality is enabled:
