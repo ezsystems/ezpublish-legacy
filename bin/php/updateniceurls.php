@@ -656,7 +656,7 @@ if ( $urlCount > 0 )
                 if ( $nodeID == 1 )
                     continue; // Skip the root node
                 $pathIdentificationString = $row['path_identification_string'];
-                $pathIdentificationString = eZURLAliasML::sanitizeURL( $pathIdentificationString, true );
+                $pathIdentificationString = eZURLAliasML::sanitizeURL( $pathIdentificationString );
                 $languageMask = $row['language_mask'];
                 $alwaysAvailable = $languageMask & 1;
                 $action = 'eznode:' . $nodeID;
@@ -709,7 +709,7 @@ if ( $urlCount > 0 )
             {
                 $source = $row['source_url'];
                 $linkID = false;
-                $source = eZURLAliasML::sanitizeURL( $source, true );
+                $source = eZURLAliasML::sanitizeURL( $source );
                 $destination = $row['destination_url'];
                 $aliasRedirects = true;
 
@@ -802,7 +802,7 @@ if ( $urlCount > 0 )
             foreach ( $rows as $key => $row )
             {
                 $forwardFromURL = $row['source_url'];
-                $forwardFromURL = eZURLAliasML::sanitizeURL( $forwardFromURL, true );
+                $forwardFromURL = eZURLAliasML::sanitizeURL( $forwardFromURL );
                 $forwardToID = (int)$row['forward_to_id'];
                 $redirectedSource = false;
                 $linkID = false;
@@ -813,7 +813,7 @@ if ( $urlCount > 0 )
                 if ( count( $rows2 ) != 0 )
                 {
                     $redirectedSource = $rows2[0]['source_url'];
-                    $redirectedSource = eZURLAliasML::sanitizeURL( $redirectedSource, true );
+                    $redirectedSource = eZURLAliasML::sanitizeURL( $redirectedSource );
                 }
                 if ( $redirectedSource === false )
                 {
@@ -907,9 +907,9 @@ if ( $urlCount > 0 )
             {
                 $wildcardType        = (int)$row['is_wildcard']; // 1 is forward, 2 is direct (alias) for now they are both treated as forwarding/redirect
                 $sourceWildcard      = $row['source_url'];
-                $sourceWildcard = eZURLAliasML::sanitizeURL( $sourceWildcard, true );
+                $sourceWildcard = eZURLAliasML::sanitizeURL( $sourceWildcard );
                 $destinationWildcard = $row['destination_url'];
-                $destinationWildcard = eZURLAliasML::sanitizeURL( $destinationWildcard, true );
+                $destinationWildcard = eZURLAliasML::sanitizeURL( $destinationWildcard );
                 if ( $row['is_wildcard'] && $row['is_internal'] != 1 )
                 {
                     // If the wildcard is made by a user we import using the new wildcard system.
@@ -931,7 +931,7 @@ if ( $urlCount > 0 )
                         continue 2;
                     }
                     $fromPath = $matches[1];
-                    $fromPath = eZURLAliasML::sanitizeURL( $fromPath, true );
+                    $fromPath = eZURLAliasML::sanitizeURL( $fromPath );
                     if ( !preg_match( "#^(.*)\{1\}$#", $destinationWildcard, $matches ) )
                     {
                         logError( "Invalid destination wildcard '$destinationWildcard', item is skipped, URL entry ID is " . $row['id'] );
@@ -939,7 +939,7 @@ if ( $urlCount > 0 )
                         continue 2;
                     }
                     $toPath = $matches[1];
-                    $toPath = eZURLAliasML::sanitizeURL( $toPath, true );
+                    $toPath = eZURLAliasML::sanitizeURL( $toPath );
 
                     $newWildcard = $toPath . '/*';
                     $newWildcardSQL = $db->escapeString( $newWildcard );
