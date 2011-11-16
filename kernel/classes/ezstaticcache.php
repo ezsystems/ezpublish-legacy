@@ -293,7 +293,7 @@ class eZStaticCache implements ezpStaticCache
                 {
                     if ( !$quiet and $cli and $parentURL['glob'] )
                         $cli->output( "wildcard cache: " . $parentURL['url'] . '/' . $parentURL['glob'] . "*" );
-                    $elements = eZURLAliasML::fetchByPath( $parentURL['url'], $parentURL['glob'], true, true );
+                    $elements = eZURLAliasML::fetchByPath( $parentURL['url'], $parentURL['glob'] );
                     foreach ( $elements as $element )
                     {
                         $path = '/' . $element->getPath();
