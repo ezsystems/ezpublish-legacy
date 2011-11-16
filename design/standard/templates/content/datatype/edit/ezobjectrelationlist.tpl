@@ -413,7 +413,6 @@
         </div>
         <div class="right">
             <input type="text" class="halfbox hide ezobject-relation-search-text" />
-            <input type="hidden" name="{$attribute_base}_data_object_relation_list_ajax_filled_{$attribute.id}" value="0" />
             <input type="submit" class="button hide ezobject-relation-search-btn" name="CustomActionButton[{$attribute.id}_browse_objects]" value="{'Find objects'|i18n( 'design/standard/content/datatype' )}" />
         </div>
         <div class="break"></div>
