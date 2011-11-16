@@ -902,7 +902,7 @@ class eZFileHandler
     */
     function doPasstrough( $closeFile = true )
     {
-        $result = @fpasstru( $this->FileHandler );
+        $result = @fpassthru( $this->FileHandler );
         if ( $closeFile )
         {
             @fclose( $this->FileHandler );

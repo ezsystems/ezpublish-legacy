@@ -121,7 +121,7 @@ class eZGZIPZLIBCompressionHandler extends eZCompressionHandler
 
     function doPasstrough( $closeFile = true )
     {
-        $result = @gzpasstru( $this->File );
+        $result = @gzpassthru( $this->File );
         if ( !$closeFile )
         {
             // The file must be reopened because gzpasstru will close the file.
