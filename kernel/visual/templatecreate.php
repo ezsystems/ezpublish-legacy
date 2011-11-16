@@ -256,7 +256,7 @@ function generateNodeViewTemplate( $http, $template, $fileName )
                  "    page_uri=concat('/content/view','/full/',\$node.node_id)\n" .
                  "    item_count=\$list_count\n" .
                  "    view_parameters=\$view_parameters\n" .
-                 "    item_limit=\$page_limit}\n";
+                 "    item_limit=\$page_limit}\n" .
             "{/let}\n";
         }break;
 
