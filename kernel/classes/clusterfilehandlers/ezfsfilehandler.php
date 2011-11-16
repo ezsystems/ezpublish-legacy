@@ -914,7 +914,7 @@ class eZFSFileHandler
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
         eZFileHandler::copy( $srcPath, $dstPath );
-        eZDebug::accumulatorStop( 'dbfile', false, 'dbfile' );
+        eZDebug::accumulatorStop( 'dbfile' );
     }
 
     /**
@@ -929,7 +929,7 @@ class eZFSFileHandler
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
         eZFileHandler::linkCopy( $srcPath, $dstPath, $symLink );
-        eZDebug::accumulatorStop( 'dbfile', false, 'dbfile' );
+        eZDebug::accumulatorStop( 'dbfile' );
     }
 
     /**

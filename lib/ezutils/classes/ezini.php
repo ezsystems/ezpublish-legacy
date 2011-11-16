@@ -706,7 +706,7 @@ class eZINI
             {
                 eZDebug::accumulatorStart( 'ini_conversion', false, 'INI string conversion' );
                 $contents = $this->Codec->convertString( $contents );
-                eZDebug::accumulatorStop( 'ini_conversion', false, 'INI string conversion' );
+                eZDebug::accumulatorStop( 'ini_conversion' );
             }
         }
         else
