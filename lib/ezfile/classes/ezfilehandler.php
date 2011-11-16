@@ -558,7 +558,7 @@ class eZFileHandler
     /*!
      Tries to unlink the file from the file system.
     */
-    static function unlink( $filename = false )
+    function unlink( $filename = false )
     {
         if ( !$filename )
         {

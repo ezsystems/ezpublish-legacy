@@ -178,7 +178,7 @@ class eZStepSiteTypes extends eZStepInstaller
         $package = eZPackage::import( $archiveName, $packageName, false );
 
         // Remove downloaded ezpkg file
-        eZFileHandler::unlink( $archiveName );
+        eZFileHandler::doUnlink( $archiveName );
 
         if ( !$package instanceof eZPackage )
         {
