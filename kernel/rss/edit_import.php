@@ -211,7 +211,7 @@ function checkTimeout( $rssImport )
         $tpl = eZTemplate::factory();
 
         $tpl->setVariable( 'rss_import', $rssImport );
-        $tpl->setVariable( 'rss_import_id', $rssImportID );
+        $tpl->setVariable( 'rss_import_id', $rssImport->attribute( 'id' ) );
         $tpl->setVariable( 'lock_timeout', $timeOut );
 
         $Result = array();
