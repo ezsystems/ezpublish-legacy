@@ -1194,7 +1194,7 @@ class eZLocale
     */
     function formatCleanCurrency( $number )
     {
-        $text = $this->formatCurrencyWithSymbol( $number, '', true );
+        $text = $this->formatCurrencyWithSymbol( $number, '' );
         return trim( $text );
     }
 
