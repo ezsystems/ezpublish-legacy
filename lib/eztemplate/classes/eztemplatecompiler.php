@@ -1556,13 +1556,13 @@ class eZTemplateCompiler
     /*!
      Creates a variable data element for the data \a $staticData and returns it.
      The type of element depends on the type of the data, strings and booleans
-     are returned as EZ_TEMPLATE_TYPE_TEXT and eZTemplate::TYPE_NUMERIC while other
-     types are turned into text and returned as EZ_TEMPLATE_TYPE_TEXT.
+     are returned as eZTemplate::TYPE_STRING and eZTemplate::TYPE_NUMERIC while other
+     types are turned into text and returned as eZTemplate::TYPE_STRING.
     */
     static function createStaticVariableData( $tpl, $staticData, $variableItemPlacement )
     {
         if ( is_string( $staticData ) )
-            return array( EZ_TEMPLATE_TYPE_TEXT,
+            return array( eZTemplate::TYPE_STRING,
                           $staticData,
                           $variableItemPlacement );
         else if ( is_bool( $staticData ) )
@@ -1578,7 +1578,7 @@ class eZTemplateCompiler
                           $staticData,
                           $variableItemPlacement );
         else
-            return array( EZ_TEMPLATE_TYPE_TEXT,
+            return array( eZTemplate::TYPE_STRING,
                           "$staticData",
                           $variableItemPlacement );
     }
