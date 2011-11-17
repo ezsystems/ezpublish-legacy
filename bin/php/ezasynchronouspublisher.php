@@ -104,6 +104,7 @@ if ( $options['daemon'] )
     // close the PID file, and reopen it after forking
     fclose( $pidFp );
 
+    eZClusterFileHandler::preFork();
     $pid = pcntl_fork();
     if ( $pid < 0 )
     {
