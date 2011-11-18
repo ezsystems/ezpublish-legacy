@@ -963,7 +963,6 @@ class eZSys
      */
     public static function setServerVariable( $variableName, $variableValue )
     {
-        $_SERVER;
         $_SERVER[$variableName] = $variableValue;
     }
 
