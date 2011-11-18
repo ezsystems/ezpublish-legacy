@@ -220,7 +220,32 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function dataMap()
     {
-        return $this->object()->fetchDataMap( $this->attribute( 'contentobject_version' ) );
+        return $this->object()->fetchDataMap( $this->displayedVersion() );
+    }
+
+    /**
+     * Find what version of the content object to display
+     * for the current user
+     *
+     * @return int Version to display
+     */
+    protected function displayedVersion()
+    {
+        $contentINI = eZINI::instance( 'content.ini' );
+        $displayMode = $contentINI->variable( 'VersionManagement', 'DisplayMode' );
+
+        // Default behavior will always be to return the current contentobject_version
+        $version = $this->attribute( 'contentobject_version' );
+        switch ( $displayMode )
+        {
+            case 'latest':
+                $user = eZUser::currentUser();
+                $userDraft = eZContentObjectVersion::fetchUserDraft( $this->ContentObjectID, $user->id() );
+                if ( is_object( $userDraft ) && $draft = $userDraft->attribute( 'version' ) )
+                    $version = $draft;
+                break;
+        }
+        return $version;
     }
 
     /*!
