@@ -600,7 +600,7 @@ class eZAutoloadGenerator
                                 // NAMESPACE_TOKEN - WHITESPACE_TOKEN - TEXT_TOKENS (containing namespace name)
                                 $offset = $key + 2;
                                 $namespace = "";
-                                while ( $tokens[$offset] !== ";" )
+                                while ( $tokens[$offset] !== ";" && $tokens[$offset] !== "{" )
                                 {
                                     if ( is_array( $tokens[$offset] ) )
                                     {
