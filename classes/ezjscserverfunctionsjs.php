@@ -426,7 +426,8 @@ if ( window.XMLHttpRequest && window.ActiveXObject )
         // Prepare search parameters
         $params = array( 'SearchOffset' => $searchOffset,
                          'SearchLimit' => $searchLimit,
-                         'SortArray' => array( 'published', 0 )
+                         'SortArray' => array( 'published', 0 ), // Legacy search engine uses SortArray
+                         'SortBy' => array( 'published', 0 ) // eZ Find search method implementation uses SortBy
         );
 
         if ( self::hasPostValue( $http, 'SearchContentClassAttributeID' ) )
