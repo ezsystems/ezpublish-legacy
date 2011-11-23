@@ -237,7 +237,7 @@ class eZDBFileHandlerMysqlBackend
             $fname .= "::_purgeByLike($like, $onlyExpired)";
         else
             $fname = "_purgeByLike($like, $onlyExpired)";
-        $sql = "DELETE FROM " . TABLE_METADATA . " WHERE name LIKE " . $this->_quote( $like );
+        $sql = "DELETE FROM " . TABLE_METADATA . " WHERE name LIKE " . $this->_quote( $like, true );
         if ( $expiry !== false )
             $sql .= " AND mtime < " . (int)$expiry;
         elseif ( $onlyExpired )
@@ -287,7 +287,7 @@ class eZDBFileHandlerMysqlBackend
 
     function _deleteByLikeInner( $like, $fname )
     {
-        $sql = "UPDATE " . TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\nWHERE name like ". $this->_quote( $like );
+        $sql = "UPDATE " . TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\nWHERE name like ". $this->_quote( $like, true );
         if ( !$res = $this->_query( $sql, $fname ) )
         {
             return $this->_fail( "Failed to delete files by like: '$like'" );
@@ -366,7 +366,7 @@ class eZDBFileHandlerMysqlBackend
             }
             else
             {
-                $where = "WHERE name LIKE '$commonPath/$dirItem/$commonSuffix%'";
+                $where = "WHERE name LIKE ".$this->_quote("$commonPath/$dirItem/$commonSuffix%", true);
             }
             $sql = "UPDATE " . TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\n$where";
             if ( !$res = $this->_query( $sql, $fname ) )
@@ -1356,18 +1356,27 @@ class eZDBFileHandlerMysqlBackend
         return $res;
     }
 
-    /*!
-     Make sure that $value is escaped and qouted according to type and returned as a string.
-     The returned value can directly be put into SQLs.
+    /**
+     * Make sure that $value is escaped and qouted according to type and returned
+     * as a string.
+     *
+     * @param string $value a SQL parameter to escape
+     * @param bool $like if we quote for a LIKE
+     * @return string a string that can safely be used in SQL queries
      */
-    function _quote( $value )
+    function _quote( $value, $like = false )
     {
         if ( $value === null )
             return 'NULL';
         elseif ( is_integer( $value ) )
             return (string)$value;
         else
-            return "'" . mysql_real_escape_string( $value ) . "'";
+        {
+           if ($like)
+                return "'" . addcslashes( mysql_real_escape_string( $this->db, $value ), "_" ) . "'";
+           else
+                return "'" . mysql_real_escape_string( $this->db, $value ) . "'";
+        }
     }
 
     /*!
