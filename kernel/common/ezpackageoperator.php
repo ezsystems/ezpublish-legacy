@@ -45,7 +45,7 @@ class eZPackageOperator
                                        'default' => false ) );
     }
 
-    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters, $placement )
     {
         $package = $operatorValue;
         $class = $namedParameters['class'];

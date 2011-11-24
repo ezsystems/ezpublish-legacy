@@ -63,7 +63,7 @@ class eZModuleParamsOperator
     /*!
      Executes the PHP function for the operator cleanup and modifies \a $operatorValue.
     */
-    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters, $placement )
     {
         switch ( $operatorName )
         {
