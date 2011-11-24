@@ -43,7 +43,12 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     },
     tagCreator: function( ed, tag, customTag, selectedHtml )
     {
-        if ( !selectedHtml ) selectedHtml = customTag;
+        var hasSelection = true;
+        if ( !selectedHtml )
+        {
+            selectedHtml = customTag;
+            hasSelection = false;
+        }
 
         if ( customTag === 'underline' )
         {
@@ -67,7 +72,33 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
         }
         else
         {
-            return eZOEPopupUtils.insertTagCleanly( ed, 'div', '<p>' + selectedHtml + '<\/p>', {'type': 'custom' } );
+            var newEl;
+            if ( hasSelection
+                 && ed.selection.getNode().nodeName.toLowerCase() === 'body' )
+            {
+                // at least one descendant of body is fully selected
+                // so  we replace the selection with the HTML for the custom tag
+                // that will contain the whole initial selection
+                var id = ed.dom.uniqueId( 'ezoe' );
+
+                ed.selection.setContent(
+                    '<div type="custom" id="' + id + '">' + selectedHtml + '</div>'
+                );
+                newEl = ed.dom.get( id );
+                ed.dom.setAttrib( newEl, 'id', false );
+                eZOEPopupUtils.paragraphCleanup( ed, newEl );
+                return newEl;
+            }
+            newEl = eZOEPopupUtils.insertTagCleanly(
+                ed, 'div', '<p>' + selectedHtml + '<\/p>', { 'type': 'custom' }
+            );
+            if ( hasSelection )
+            {
+                // only a part of the content of a paragraph was selected,
+                // we remove the selected text since it was duplicated in the custom tag
+                ed.selection.setContent( '' );
+            }
+            return newEl;
         }
     },
     onTagGenerated:  function( el, ed, args )
