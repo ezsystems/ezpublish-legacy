@@ -7,7 +7,7 @@
 {'Username'|i18n('design/standard/user/register')}: {$user.login}
 {'Email'|i18n('design/standard/user/register')}: {$user.email}
 
-{if $password}
+{if and( is_set( $password ), ezini( 'UserSettings', 'PasswordInRegistrationEmail' )|eq( 'enabled' ) )}
 {'Password'|i18n('design/standard/user/register')}: {$password}
 {/if}
 
