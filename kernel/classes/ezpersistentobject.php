@@ -72,7 +72,7 @@ class eZPersistentObject
     public function fill( $row )
     {
         if ( !is_array( $row ) )
-            return false;
+            return;
         $def = $this->definition();
         $fields = $def["fields"];
         $intersectList = array_intersect_key( $fields,
@@ -165,7 +165,7 @@ class eZPersistentObject
         }
         $customFields = array( array( 'operation' => 'COUNT( ' . $field . ' )', 'name' => 'row_count' ) );
         $rows = eZPersistentObject::fetchObjectList( $def, array(), $conds, array(), null, false, false, $customFields );
-        return (int) $rows[0]['row_count'];
+        return $rows[0]['row_count'];
     }
 
     /**
@@ -867,7 +867,7 @@ class eZPersistentObject
         $grouping_text = "";
         if ( isset( $def["grouping"] ) or ( is_array( $grouping ) and count( $grouping ) > 0 ) )
         {
-            $grouping_list = isset( $def["grouping"] ) ? $def["grouping"] : array();
+            $grouping_list = $def["grouping"];
             if ( is_array( $grouping ) )
                 $grouping_list = $grouping;
             if ( count( $grouping_list ) > 0 )
@@ -992,11 +992,12 @@ class eZPersistentObject
     {
         $db = eZDB::instance();
         $table = $def["name"];
-        
+        $keys = $def["keys"];
+
         $cond_text = eZPersistentObject::conditionText( $conditions );
         $rows = $db->arrayQuery( "SELECT MAX($orderField) AS $orderField FROM $table $cond_text" );
         if ( count( $rows ) > 0 and isset( $rows[0][$orderField] ) )
-            return (int) $rows[0][$orderField] + 1;
+            return $rows[0][$orderField] + 1;
         else
             return 1;
     }
@@ -1168,12 +1169,14 @@ class eZPersistentObject
         $def = $parameters['definition'];
         $table = $def['name'];
         $fields = $def['fields'];
+        $keys = $def['keys'];
 
         $updateFields = $parameters['update_fields'];
         $conditions = $parameters['conditions'];
 
         $query = "UPDATE $table SET ";
         $i = 0;
+        $valueBound = false;
 
         foreach( $updateFields as $field => $value )
         {
