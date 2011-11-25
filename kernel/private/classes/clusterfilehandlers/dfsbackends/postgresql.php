@@ -133,8 +133,8 @@ class eZDFSFileHandlerPostgresqlBackend
                                           'scope' => $scope,
                                           'size' => $contentLength,
                                           'mtime' => $fileMTime,
-                                          'expired' => ($fileMTime < 0) ? 1 : 0 ),
-                                   "datatype=VALUES(datatype), scope=VALUES(scope), size=VALUES(size), mtime=VALUES(mtime), expired=VALUES(expired)",
+                                          'expired' => ( $fileMTime < 0 ) ? 1 : 0 ),
+                                   array( 'datatype', 'scope', 'size', 'mtime', 'expired' ),
                                    $fname ) === false )
         {
             return $this->_fail( $srcFilePath, "Failed to insert file metadata on copying." );
@@ -830,26 +830,21 @@ class eZDFSFileHandlerPostgresqlBackend
         $scope = pg_escape_string( $datatype );
 
 
-        // Check if a file with the same name already exists in db.
-        // If it doesn't, a new record is inserted. If it does, the existing record is updated.
-        if ( $row = $this->_fetchMetadata( $filePath ) )
-        {
-            $sql  = "UPDATE " . self::TABLE_METADATA . " SET " .
-                "datatype='$datatype', scope='$scope', " .
-                "size=$contentLength, mtime=$mtime, expired='$expired' " .
-                "WHERE name_hash='$filePathHash'";
-        }
-        else
-        {
-            // create file in db
-            $sql  = "INSERT INTO " . self::TABLE_METADATA . " (name, name_hash, name_trunk, datatype, scope, size, mtime, expired) " .
-                    "VALUES ('$filePathEscaped', '$filePathHash', '$nameTrunk', '$datatype', '$scope', " .
-                    "'$contentLength', $mtime, '$expired')";
-        }
-
-        /// @todo move to stored params convention
-        $result = $this->_query( $sql, $fname, true );
-        if ( !$result )
+        // Copy file metadata.
+        $result = $this->_insertUpdate(
+            self::TABLE_METADATA,
+            array( 'datatype'   => $datatype,
+                   'name'       => $filePathEscaped,
+                   'name_trunk' => $nameTrunk,
+                   'name_hash'  => $filePathHash,
+                   'scope'      => $scope,
+                   'size'       => $contentLength,
+                   'mtime'      => $mtime,
+                   'expired'    => ( $mtime < 0 ) ? 1 : 0 ),
+            array( 'datatype', 'scope', 'size', 'mtime', 'expired' ),
+            $fname
+        );
+        if ( $result === false )
         {
             return $this->_fail( "Failed to insert file metadata while storing contents. Possible race condition", $result );
         }
@@ -931,24 +926,44 @@ class eZDFSFileHandlerPostgresqlBackend
     }
 
     /**
-    * Performs an insert of the given items in $array.
+    * Performs an insert of the given items in $insert.
     *
-    * If entry specified already exists the $update SQL is executed to update
-    * the entry instead.
+    * If entry specified already exists, fields in $update are updated with the values from $insert
     *
     * @param string $table Name of table to execute insert on.
-    * @param array  array $array Associative array with data to insert, the keys
-    *                     are the field names and the values will be quoted
-    *                     according to type.
-    * @param string $update Partial update SQL which is executed when entry
-    *                       exists.
+    * @param array  $insert Associative array with data to insert, the keys
+    *                       are the field names and the values are the quoted field values
+    * @param string $update Array of fields that must be updated if an entry exists
     * @param string $fname Name of caller function (for logging purpuse)
+    * @throws InvalidArgumentException when either name or name_hash aren't provided in $insert
     **/
-    protected function _insertUpdate( $table, $array, $update, $fname, $reportError = true )
+    protected function _insertUpdate( $table, $insert, $update, $fname, $reportError = true )
     {
-        $keys = array_keys( $array );
-        $query = "INSERT INTO $table (" . join( ", ", $keys ) . ") VALUES (" . $this->_sqlList( $array ) . ")\nON DUPLICATE KEY UPDATE $update";
-        $res = $this->_query( $query, $fname, $reportError );
+        if ( !isset( $insert['name'] ) || !isset( $insert['name_hash'] ) )
+        {
+            throw new InvalidArgumentException( "Insert array must contain both name and name_hash" );
+        }
+
+        if ( $row = $this->_fetchMetadata( $insert['name'] ) )
+        {
+            $sql  = "UPDATE $table SET ";
+            $fields = array();
+            foreach( $update as $field => $value )
+            {
+                $inserts[] = "$field='$value'";
+            }
+            $sql .= implode( ', ', $inserts ) .
+                    "WHERE name_hash='{$inserts['name_hash']}'";
+        }
+        else
+        {
+            // create file in db
+            $sql  = "INSERT INTO $table (" .
+                    implode( ', ', array_keys( $insert ) ) .
+                    implode( "', '", array_values( $insert ) );
+        }
+
+        $res = $this->_query( $sql, $fname, $reportError );
         if ( !$res )
         {
             // @todo Throw an exception
@@ -1359,10 +1374,10 @@ class eZDFSFileHandlerPostgresqlBackend
         $query = 'INSERT INTO ' . self::TABLE_METADATA . ' ( '. implode(', ', array_keys( $insertData ) ) . ' ) ' .
                  "VALUES(" . implode( ', ', $insertData ) . ")";
 
-        if ( !$this->_query( $query, "_startCacheGeneration( $filePath )", false ) )
+        if ( !$result = $this->_query( $query, "_startCacheGeneration( $filePath )", false ) )
         {
             // @todo Investigate error handling
-            $errno = mysqli_errno( $this->db );
+            $errno = pg_last_error( $this->db );
             if ( $errno != 1062 )
             {
                 eZDebug::writeError( "Unexpected error #$errno when trying to start cache generation on $filePath (".mysqli_error( $this->db ).")", __METHOD__ );
