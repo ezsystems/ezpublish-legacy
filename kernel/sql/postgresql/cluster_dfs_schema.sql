@@ -1,6 +1,7 @@
 CREATE TABLE ezdfsfile (
     datatype    varchar(60)     DEFAULT 'application/octet-stream' NOT NULL,
     name        text            NOT NULL,
+    name_trunk  text            NOT NULL,
     name_hash   character(32)   DEFAULT '' NOT NULL PRIMARY KEY,
     scope       varchar(20)     DEFAULT '' NOT NULL,
     size        integer         DEFAULT 0 NOT NULL,

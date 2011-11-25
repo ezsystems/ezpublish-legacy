@@ -12,7 +12,7 @@
  * This class allows DFS based clustering using PostgreSQL
  * @package Cluster
  */
-    class eZDFSFileHandlerPostgresqlBackend
+class eZDFSFileHandlerPostgresqlBackend
 {
     /**
      * Connects to the database.
@@ -58,7 +58,6 @@
         $tries = 0;
         $connectString = eZPostgreSQLDB::connectString(
             self::$dbparams['host'], self::$dbparams['port'], self::$dbparams['dbname'], self::$dbparams['user'], self::$dbparams['pass'] );
-        echo "Connect string: $connectString\n";
         while ( $tries < $maxTries )
         {
             /// @todo what if port is null, '' ??? to be tested
@@ -176,11 +175,11 @@
         {
             $sql .= " AND expired=1";
         }
-        if ( !$this->_query( $sql, $fname ) )
+        if ( !$res = $this->_query( $sql, $fname ) )
         {
             return $this->_fail( "Purging file metadata for $filePath failed" );
         }
-        if ( pg_affected_rows( $this->db ) == 1 )
+        if ( pg_affected_rows( $res ) == 1 )
         {
             $this->dfsbackend->delete( $filePath );
         }
@@ -260,7 +259,7 @@
             $this->_rollback( $fname );
             return $this->_fail( "Purging file metadata by like statement $like failed" );
         }
-        $deletedDBFiles = pg_affected_rows( $this->db );
+        $deletedDBFiles = pg_affected_rows( $res );
         $this->dfsbackend->delete( $files );
 
         $this->_commit( $fname );
@@ -816,18 +815,20 @@
                          $filePath, $contents, $scope, $datatype, $mtime, $fname );
     }
 
-    function _storeContentsInner( $filePath, $contents, $scope, $datatype, $curTime, $fname )
+    function _storeContentsInner( $filePath, $contents, $scope, $datatype, $mtime, $fname )
     {
-        // Insert file metadata.
+        // File metadata.
         $contentLength = strlen( $contents );
         $filePathHash = md5( $filePath );
         $nameTrunk = self::nameTrunk( $filePath, $scope );
-        if ( $curTime === false )
-            $curTime = time();
+        if ( $mtime === false )
+            $mtime = time();
+        $expired = ( $mtime < 0 ) ? '1' : '0';
 
         $filePathEscaped = pg_escape_string( $filePath );
         $datatype = pg_escape_string( $datatype );
         $scope = pg_escape_string( $datatype );
+
 
         // Check if a file with the same name already exists in db.
         // If it doesn't, a new record is inserted. If it does, the existing record is updated.
@@ -835,22 +836,22 @@
         {
             $sql  = "UPDATE " . self::TABLE_METADATA . " SET " .
                 "datatype='$datatype', scope='$scope', " .
-                "filesize=$contentLength, mtime=$mtime, expired='$expired' " .
+                "size=$contentLength, mtime=$mtime, expired='$expired' " .
                 "WHERE name_hash='$filePathHash'";
         }
         else
         {
             // create file in db
-            $sql  = "INSERT INTO " . self::TABLE_METADATA . " (name, name_hash, datatype, scope, filesize, mtime, expired) " .
-                    "VALUES ('$filePathEscaped', '$filePathHash', '$datatype', '$scope', " .
+            $sql  = "INSERT INTO " . self::TABLE_METADATA . " (name, name_hash, name_trunk, datatype, scope, size, mtime, expired) " .
+                    "VALUES ('$filePathEscaped', '$filePathHash', '$nameTrunk', '$datatype', '$scope', " .
                     "'$contentLength', $mtime, '$expired')";
         }
 
         /// @todo move to stored params convention
-        $return = $this->_query( $sql, $fname, true );
-        if ( !$return )
+        $result = $this->_query( $sql, $fname, true );
+        if ( !$result )
         {
-            return $this->_fail( "Failed to insert file metadata while storing contents. Possible race condition" );
+            return $this->_fail( "Failed to insert file metadata while storing contents. Possible race condition", $result );
         }
 
         if ( !$this->dfsbackend->createFileOnDFS( $filePath, $contents ) )
@@ -1146,7 +1147,7 @@
             $result = call_user_func_array( $callback, $args );
 
             // @todo Investigate the right function
-            $errno = mysqli_errno( $this->db );
+            $errno = pg_result_error( $result, PGSQL_DIAG_SQLSTATE );
             if ( $errno == 1205 || // Error: 1205 SQLSTATE: HY000 (ER_LOCK_WAIT_TIMEOUT)
                  $errno == 1213 )  // Error: 1213 SQLSTATE: 40001 (ER_LOCK_DEADLOCK)
             {
@@ -1206,13 +1207,20 @@
     /**
     * Creates an error object which can be read by some backend functions.
     * @param mixed $value The value which is sent to the debug system.
-    * @param string $text The text/header for the value.
+    * @param resource $result The failed SQL result
     **/
-    protected function _fail( $value, $text = false )
+    protected function _fail( $message, $result = false)
     {
         // @todo Investigate the right function
-        $value .= "\n" . mysqli_errno( $this->db ) . ": " . mysqli_error( $this->db );
-        return new eZMySQLBackendError( $value, $text );
+        if ( $result !== false )
+        {
+            $message .= "\n" . pg_result_error( $result, PGSQL_DIAG_SQLSTATE ) . ": " . pg_result_error( $result, PGSQL_DIAG_MESSAGE_PRIMARY );
+        }
+        else
+        {
+            $message .= "\n" . pg_last_error( $this->db );
+        }
+        throw new Exception( $message );
     }
 
     /**
@@ -1228,17 +1236,20 @@
         $time = microtime( true );
 
         $res = pg_query( $this->db, $query );
-        if ( !$res && $reportError )
+        if ( $res == false && $reportError )
         {
-            $this->_error( $query, $fname );
+            $this->_error( $query, $res, $fname );
         }
 
-        $numRows = pg_affected_rows( $this->db );
+        if ( $res !== false )
+        {
+            $numRows = pg_affected_rows( $res );
 
-        $time = microtime( true ) - $time;
-        eZDebug::accumulatorStop( 'mysql_cluster_query' );
+            $time = microtime( true ) - $time;
+            eZDebug::accumulatorStop( 'mysql_cluster_query' );
 
-        $this->_report( $query, $fname, $time, $numRows );
+            $this->_report( $query, $fname, $time, $numRows );
+        }
         return $res;
     }
 
@@ -1272,6 +1283,7 @@
     * Prints error message $error to debug system.
     * @param string $query The query that was attempted, will be printed if
     *                      $error is \c false
+    * @param resource $res The result resource the error occured on
     * @param string $fname The function name that started the query, should
     *                      contain relevant arguments in the text.
     * @param string $error The error message, if this is an array the first
@@ -1279,7 +1291,7 @@
     *                      header (for eZDebug::writeNotice). If this is \c
     *                      false a generic message is shown.
      */
-    protected function _error( $query, $fname, $error = "Failed to execute SQL for function:" )
+    protected function _error( $query, $res, $fname, $error = "Failed to execute SQL for function:" )
     {
         if ( $error === false )
         {
@@ -1292,7 +1304,7 @@
         }
 
         // @todo Investigate error methods
-        eZDebug::writeError( "$error\n" . mysqli_errno( $this->db ) . ': ' . mysqli_error( $this->db ), $fname );
+        eZDebug::writeError( "$error\n" . pg_result_error_field( $res, PGSQL_DIAG_SQLSTATE ) . ': ' . pg_result_error_field( $res, PGSQL_DIAG_MESSAGE_PRIMARY ), $fname );
     }
 
     /**
@@ -1381,7 +1393,7 @@
                     // we run the query manually since the default _query won't
                     // report affected rows
                     $res = pg_query( $this->db, $updateQuery );
-                    if ( ( $res !== false ) and pg_affected_rows( $this->db ) == 1 )
+                    if ( ( $res !== false ) and pg_affected_rows( $res ) == 1 )
                     {
                         return array( 'result' => 'ok', 'mtime' => $mtime );
                     }
@@ -1522,7 +1534,7 @@
             $this->_error( $query, $fname );
             return false;
         }
-        $numRows = pg_affected_rows( $this->db );
+        $numRows = pg_affected_rows( $res );
 
         // reporting. Manual here since we don't use _query
         $time = microtime( true ) - $time;
