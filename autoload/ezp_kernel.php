@@ -123,6 +123,7 @@ return array(
       'eZDFSFileHandlerMySQLiBackend'                      => 'kernel/private/classes/clusterfilehandlers/dfsbackends/mysqli.php',
       'eZDFSFileHandlerNFSMountPointNotFoundException'     => 'kernel/private/classes/exceptions/cluster/mount_point_not_found.php',
       'eZDFSFileHandlerNFSMountPointNotWriteableException' => 'kernel/private/classes/exceptions/cluster/mount_point_not_writeable.php',
+      'eZDFSFileHandlerPostgresqlBackend'                  => 'kernel/private/classes/clusterfilehandlers/dfsbackends/postgresql.php',
       'eZDFSFileHandlerTableNotFoundException'             => 'kernel/private/classes/exceptions/cluster/table_not_found.php',
       'eZDFSMySQLBackendError'                             => 'kernel/private/classes/clusterfilehandlers/dfsbackends/mysqlbackenderror.php',
       'eZDataType'                                         => 'kernel/classes/ezdatatype.php',
