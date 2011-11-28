@@ -1005,7 +1005,7 @@ class eZDBFileHandlerMysqlBackend
      \param $debug If true it will display the fetched row in addition to the SQL.
      \param $fetchCall The callback to fetch the row.
      */
-    function _selectOne( $query, $fname, $error = false, $debug = false, $fetchCall )
+    function _selectOne( $query, $fname, $error, $debug, $fetchCall )
     {
         eZDebug::accumulatorStart( 'mysql_cluster_query', 'mysql_cluster_total', 'Mysql_cluster_queries' );
         $time = microtime( true );
