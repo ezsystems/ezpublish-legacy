@@ -159,7 +159,8 @@ function checkDir( $dirName )
 
 function installScriptDir( $packageRepository, $packageName = "" )
 {
-    return ( eZPackage::repositoryPath() . "/$packageRepository/$packageName" );
+    $dir = eZPackage::repositoryPath() . "/$packageRepository/$packageName";
+    return rtrim( $dir, '/' );
 }
 
 function defaultVendor()
