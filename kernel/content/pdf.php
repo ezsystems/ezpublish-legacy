@@ -231,7 +231,7 @@ function contentPDFPassthrough( $cacheFile )
     header( 'Cache-Control: ' );
     /* Set cache time out to 10 seconds, this should be good enough to work around an IE bug */
     header( "Expires: ". gmdate( 'D, d M Y H:i:s', time() + 10 ) . ' GMT' );
-    header( 'X-Powered-By: eZ Publish' );
+    header( 'X-Powered-By: eZ Publish ' . eZPublishSDK::version() );
 
     header( 'Content-Length: '. $file->size() );
     header( 'Content-Type: application/pdf' );
