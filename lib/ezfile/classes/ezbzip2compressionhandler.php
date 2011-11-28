@@ -23,7 +23,7 @@ class eZBZIP2Handler extends eZCompressionHandler
     */
     function eZBZIP2Handler()
     {
-        $this->eZCompressionHandler();
+        $this->eZCompressionHandler( 'BZIP2', 'bz2' );
     }
 
     function doOpen( $filename, $mode )
