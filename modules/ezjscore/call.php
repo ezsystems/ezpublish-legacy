@@ -43,9 +43,9 @@ else
     $callSeperator = '@SEPERATOR$';
 
 if ( $http->hasPostVariable( 'ezjscServer_stream_seperator' ) )
-    $stramSeperator = $http->postVariable( 'ezjscServer_stream_seperator' );
+    $streamSeperator = $http->postVariable( 'ezjscServer_stream_seperator' );
 else
-    $stramSeperator = '@END$';
+    $streamSeperator = '@END$';
 
 if ( $http->hasPostVariable( 'ezjscServer_function_arguments' ) )
     $callList = explode( $callSeperator, strip_tags( $http->postVariable( 'ezjscServer_function_arguments' ) ) );
@@ -91,7 +91,7 @@ if ( !$callList )
 }
 
 
-// prepere calls
+// prepare calls
 foreach( $callList as $call )
 {
     $temp = ezjscServerRouter::getInstance( explode( '::', $call ), true, true );
@@ -130,7 +130,7 @@ if ( $callType === 'stream' )
     // set_time_limit(65);
     while( time() < $endTime )
     {
-        echo $stramSeperator . implode( $callSeperator, multipleezjscServerCalls( $callFnList, $contentType ) );
+        echo $streamSeperator . implode( $callSeperator, multipleezjscServerCalls( $callFnList, $contentType ) );
         flush();
         usleep( $callInterval );
     }
