@@ -963,11 +963,12 @@ WHERE user_id = '" . $userID . "' AND
         // instance() when there is no ID passed to the function.
         $GLOBALS["eZUserGlobalInstance_"] = $user;
         eZSession::setUserID( $userID );
-        eZSession::set( 'eZUserLoggedInID', $userID );
-        self::cleanup();
 
         if ( !( $flags & self::NO_SESSION_REGENERATE) )
             eZSession::regenerate();
+
+        eZSession::set( 'eZUserLoggedInID', $userID );
+        self::cleanup();
     }
 
     /*!

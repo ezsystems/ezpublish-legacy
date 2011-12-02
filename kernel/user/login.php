@@ -28,7 +28,7 @@ if ( isset( $Params['SiteAccessName'] ) )
     $siteAccessName = $Params['SiteAccessName'];
 
 $postData = ''; // Will contain post data from previous page.
-if ( $http->hasSessionVariable( '$_POST_BeforeLogin' ) )
+if ( $http->hasSessionVariable( '$_POST_BeforeLogin', false ) )
 {
     $postData = $http->sessionVariable( '$_POST_BeforeLogin' );
     $http->removeSessionVariable( '$_POST_BeforeLogin' );
@@ -53,7 +53,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
             $userRedirectURI = $http->postVariable( 'RedirectURI', $http->sessionVariable( 'LastAccessesURI', '/' ) );
         }
 
-        if ( $http->hasSessionVariable( "RedirectAfterLogin" ) )
+        if ( $http->hasSessionVariable( "RedirectAfterLogin", false ) )
         {
             $userRedirectURI = $http->sessionVariable( "RedirectAfterLogin" );
         }
@@ -75,7 +75,10 @@ if ( $Module->isCurrentAction( 'Login' ) and
     $user = false;
     if ( $userLogin != '' )
     {
-        $http->removeSessionVariable( 'RedirectAfterLogin' );
+        if ( $http->hasSessionVariable( "RedirectAfterLogin", false ) )
+        {
+            $http->removeSessionVariable( 'RedirectAfterLogin' );
+        }
 
         $ini = eZINI::instance();
         if ( $ini->hasVariable( 'UserSettings', 'LoginHandler' ) )
@@ -87,6 +90,15 @@ if ( $Module->isCurrentAction( 'Login' ) and
             $loginHandlers = array( 'standard' );
         }
         $hasAccessToSite = true;
+
+        if ( $http->hasPostVariable( 'Cookie' )
+            && $ini->hasVariable( 'Session', 'RememberMeTimeout' )
+            && ( $rememberMeTimeout = $ini->variable( 'Session', 'RememberMeTimeout' ) )
+        )
+        {
+            eZSession::setCookieParams( $rememberMeTimeout );
+        }
+
         foreach ( array_keys ( $loginHandlers ) as $key )
         {
             $loginHandler = $loginHandlers[$key];
@@ -226,19 +238,6 @@ if ( $Module->isCurrentAction( 'Login' ) and
         $userID = $user->id();
     if ( $userID > 0 )
     {
-        if ( $http->hasPostVariable( 'Cookie' ) )
-        {
-            $ini = eZINI::instance();
-            $rememberMeTimeout = $ini->hasVariable( 'Session', 'RememberMeTimeout' )
-                                 ? $ini->variable( 'Session', 'RememberMeTimeout' )
-                                 : false;
-            if ( $rememberMeTimeout )
-            {
-                eZSession::stop();
-                eZSession::start( $rememberMeTimeout );
-            }
-
-        }
         $http->removeSessionVariable( 'eZUserLoggedInID' );
         $http->setSessionVariable( 'eZUserLoggedInID', $userID );
 
