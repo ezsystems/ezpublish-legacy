@@ -300,9 +300,9 @@ YUI( YUI3_config ).add('io-ez', function( Y )
     var _rootUrl = '$rootUrl', _serverUrl = _rootUrl + 'ezjscore/', _seperator = '@SEPERATOR$',
         _prefUrl = _rootUrl + 'user/preferences';
 
-// FIX: Ajax is broken on IE8 / IE7 on jQuery 1.4.x as it's trying to use the broken window.XMLHttpRequest object
-if ( window.XMLHttpRequest && window.ActiveXObject )
-    $.ajaxSettings.xhr = function() { try { return new window.ActiveXObject('Microsoft.XMLHTTP'); } catch(e) {} };
+    // FIX: Ajax is broken on IE8 / IE7 on jQuery 1.4.x as it's trying to use the broken window.XMLHttpRequest object
+    if ( window.XMLHttpRequest && window.ActiveXObject )
+        $.ajaxSettings.xhr = function() { try { return new window.ActiveXObject('Microsoft.XMLHTTP'); } catch(e) {} };
 
     // (static) jQuery.ez() uses jQuery.post() (Or jQuery.get() if post paramer is false)
     //
