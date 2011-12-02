@@ -69,6 +69,22 @@ class eZUserAccountKey extends eZPersistentObject
                                                 true );
     }
 
+    /**
+     * Return the eZUserAccountKey object associated to a user id
+     *
+     * @param int $userID
+     * @return eZUserAccountKey
+     */
+    static public function fetchByUserID( $userID )
+    {
+        return eZPersistentObject::fetchObject(
+            eZUserAccountKey::definition(),
+            null,
+            array( 'user_id' => $userID ),
+            true
+        );
+    }
+
     /*!
      Remove account keys belonging to user \a $userID
     */
