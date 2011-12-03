@@ -22,11 +22,23 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
      */
     protected $request;
 
+    /**
+     * Overload createRequestObject() to make sure ezpRestRequest is created.
+     *
+     * @return ezpRestRequest
+     */
     protected function createRequestObject()
     {
         return new ezpRestRequest();
     }
 
+    /**
+     * Overloads processVariables() to instead get ezpRest specific variables
+     *
+     * Note: ->variables is set with ezpRest specific variables instead of raw $_REQUEST.
+     *
+     * @return void
+     */
     protected function processVariables()
     {
         $this->request->variables = $this->fillVariables();
@@ -35,10 +47,16 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
         $this->request->post = $_POST;
     }
 
+    /**
+     * Overloads parent::processStandardHeaders() to also call processEncryption()
+     *
+     * @return void
+     */
     protected function processStandardHeaders()
     {
         $this->processEncryption();
         parent::processStandardHeaders( );
+        $this->processProtocolOverride();
     }
 
     /**
@@ -53,7 +71,21 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
     }
 
     /**
+     *  Overloads processBody() to add support for body on DELETE in addition to PUT
+     */
+    protected function processBody()
+    {
+        $req = $this->request;
+
+        if ( $req->protocol === 'http-put' ||  $req->protocol === 'http-delete' )
+        {
+            $req->body = file_get_contents( "php://input" );
+        }
+    }
+
+    /**
      * Extract variables to be used internally from GET
+     *
      * @return array
      */
     protected function fillVariables()
@@ -97,6 +129,7 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
 
     /**
      * Extract variables related to content from GET
+     *
      * @return array
      */
     protected function fillContentVariables()
@@ -125,5 +158,27 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
         }
 
         return $contentVariables;
+    }
+
+    /**
+     * Adds support for using POST for PUT and DELETE for legacy browsers that does not support these.
+     *
+     * If a post param "_method" is set to either PUT or DELETE, then ->protocol is changed to that.
+     * ( original protocol is kept on ->originalProtocol param  )
+     * Post is used as this is only meant for forms in legacy browsers.
+     */
+    protected function processProtocolOverride()
+    {
+        $req = $this->request;
+        $req->originalProtocol = $req->protocol;
+
+        if ( $req->protocol === 'http-post' && isset( $req->post['_method'] ) )
+        {
+            $method = strtolower( $req->post['_method'] );
+            if ( $method  === 'put' || $method === 'delete' )
+                $req->protocol = "http-{$method}";
+
+            unset( $req->post['_method'] );
+        }
     }
 }

@@ -190,21 +190,31 @@ class eZContentUpload
         }
     }
 
-    /*!
-     Fetches the local file, figures out its MIME-type and creates the proper content object out of it.
-
-     \param $filePath Path to file which should be stored.
-     \param $result Result data, will be filled with information which the client can examine, contains:
-                    - errors - An array with errors, each element is an array with \c 'description' containing the text
-     \param $location The node ID which the new object will be placed or the string \c 'auto' for automatic placement of type.
-     \param $existingNode Pass a contentobjecttreenode object to let the uploading be done to an existing object,
-                          if not it will create one from scratch.
-
-     \return \c false if something failed or \c true if succesful.
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
-    function handleLocalFile( &$result, $filePath, $location, $existingNode, $nameString = '' )
+    /**
+     * Fetches the local file, figures out its MIME-type and creates the
+     * proper content object out of it.
+     *
+     * @param array $result
+     *        Result data, will be filled with information which the client can
+     *        examine, contains: errors An array with errors, each element is
+     *        an array with a 'description' entry containing the text
+     * @param string $filePath
+     *        Path to file which should be stored
+     * @param mixed $location
+     *        The node ID which the new object will be placed or the string
+     *        'auto' for automatic placement of type.
+     * @param eZContentObjectTreeNode|false $existingNode
+     *        Pass a contentobjecttreenode object to let the uploading be done
+     *        to an existing object, if not it will create one from scratch.
+     * @param string $nameString
+     *        The name of the new object/new version
+     * @param string|false $localeCode
+     *        Locale code (eg eng-GB, fre-FR, ...) to use when creating the
+     *        object or the version.
+     *
+     * @return boolean
+     */
+    function handleLocalFile( &$result, $filePath, $location, $existingNode, $nameString = '', $localeCode = false )
     {
         $result = array( 'errors' => array(),
                          'notices' => array(),
@@ -360,20 +370,24 @@ class eZContentUpload
                                                     'Permission denied' ) );
                 return false;
             }
-            $version = $object->createNewVersion( false, true );
+            $version = $object->createNewVersion( false, true, $localeCode );
             unset( $dataMap );
             $dataMap = $version->dataMap();
             $publishVersion = $version->attribute( 'version' );
         }
         else
         {
-            $object = $class->instantiate();
+            $object = $class->instantiateIn( $localeCode );
             unset( $dataMap );
             $dataMap = $object->dataMap();
             $publishVersion = $object->attribute( 'current_version' );
         }
 
-        $status = $dataMap[$fileAttribute]->insertRegularFile( $object, $publishVersion, eZContentObject::defaultLanguage(),
+        if ( $localeCode === false )
+        {
+            $localeCode = eZContentObject::defaultLanguage();
+        }
+        $status = $dataMap[$fileAttribute]->insertRegularFile( $object, $publishVersion, $localeCode,
                                                                $filePath,
                                                                $storeResult );
         if ( $status === null )
@@ -392,7 +406,7 @@ class eZContentUpload
         if ( $storeResult['require_storage'] )
             $dataMap[$fileAttribute]->store();
 
-        $status = $dataMap[$nameAttribute]->insertSimpleString( $object, $publishVersion, eZContentObject::defaultLanguage(),
+        $status = $dataMap[$nameAttribute]->insertSimpleString( $object, $publishVersion, $localeCode,
                                                                 $nameString,
                                                                 $storeResult );
         if ( $status === null )

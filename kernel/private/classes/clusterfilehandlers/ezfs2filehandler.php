@@ -145,7 +145,7 @@ class eZFS2FileHandler extends eZFSFileHandler
                     // generate the dynamic data without storage
                     if ( $this->nonExistantStaleCacheHandling[ $this->cacheType ] == 'generate' )
                     {
-                        eZDebugSetting::writeDebug( 'kernel-clustering', $this->filePath, "Generation is being processed, generating own version", __METHOD__ );
+                        eZDebugSetting::writeDebug( 'kernel-clustering', $this->filePath, "Generation is being processed, generating own version" );
                         break;
                     }
                     // wait for the generating process to be finished (or timedout)
@@ -384,7 +384,7 @@ class eZFS2FileHandler extends eZFSFileHandler
                 // process in between. Not likely, though.
                 if ( !$fp = @fopen( $generatingFilePath, 'x' ) )
                 {
-                    $ret = $this->remainingCacheGenerationTime();
+                    $ret = $this->remainingCacheGenerationTime( $generatingFilePath );
                 }
             }
             // directory exists, we now check for timeout
@@ -451,7 +451,7 @@ class eZFS2FileHandler extends eZFSFileHandler
         // rename the file to its final name
         if ( $rename === true )
         {
-            if ( eZFile::rename( $this->filePath, $this->realFilePath ) )
+            if ( eZFile::rename( $this->filePath, $this->realFilePath, false, eZFile::CLEAN_ON_FAILURE ) )
             {
                 $this->filePath = $this->realFilePath;
                 $this->realFilePath = null;

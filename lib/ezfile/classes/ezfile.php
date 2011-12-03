@@ -24,6 +24,14 @@ class eZFile
     const READ_PACKET_SIZE = 16384;
 
     /**
+     * Flags for file manipulation
+     *
+     * @see rename()
+     */
+    const CLEAN_ON_FAILURE = 1,
+          APPEND_DEBUG_ON_FAILURE = 2;
+
+    /**
      * Reads the whole contents of the file \a $file and
      * splits it into lines which is collected into an array and returned.
      * It will handle Unix (\n), Windows (\r\n) and Mac (\r) style newlines.
@@ -82,11 +90,8 @@ class eZFile
 
             if ( $atomic )
             {
-                if ( !eZFile::rename( $filepath, $realpath ) )
-                {
-                    // If the renaming process fails, delete the temporary file
-                    unlink( $filepath );
-                }
+                // If the renaming process fails, delete the temporary file
+                eZFile::rename( $filepath, $realpath, false, eZFile::CLEAN_ON_FAILURE );
             }
             return true;
         }
@@ -160,17 +165,29 @@ class eZFile
         return TRUE;
     }
 
-    /*!
-    \static
-    Renames a file atomically on Unix, and provides a workaround for Windows
-
-    \param $srcFile from filename
-    \param $destFile to filename
-    \param $mkdir make directory for dest file if needed
-
-    \return rename status. ( true if successful, false if not )
-    */
-    static function rename( $srcFile, $destFile, $mkdir = false )
+    /**
+     * Renames $srcFile to $destFile atomically on Unix, and provides a workaround for Windows.
+     *
+     * Usage example:
+     * <code>
+     * $srcFile = '/path/to/src/file';
+     * $destFile = '/path/to/dest/file';
+     * eZFile::rename( $srcFile, $destFile );
+     *
+     * // Using flags
+     * // In following example, if rename operation fails, $srcFile will be deleted and a message will be appended in eZDebug
+     * eZFile::rename( $srcFile, $destFile, false, eZFile::APPEND_DEBUG_ON_FAILURE | eZFile::CLEAN_ON_FAILURE );
+     * </code>
+     *
+     * @param string $srcFile Source file path
+     * @param string $destFile Destination file path
+     * @param bool $mkdir Make directory for destination file if needed
+     * @param int $flags Supported flags are :
+     *                     - APPEND_DEBUG_ON_FAILURE (will append a message to the debug if operation fails
+     *                     - CLEAN_ON_FAILURE (Will remove $srcFile if operation fails)
+     * @return bool rename() status (true if successful, false if not)
+     */
+    static function rename( $srcFile, $destFile, $mkdir = false, $flags = 0 )
     {
         /* On windows we need to unlink the destination file first */
         if ( strtolower( substr( PHP_OS, 0, 3 ) ) == 'win' )
@@ -181,7 +198,19 @@ class eZFile
         {
             eZDir::mkdir( dirname( $destFile ), false, true );
         }
-        return rename( $srcFile, $destFile );
+
+        $status = rename( $srcFile, $destFile );
+        // Rename operation failed, check $flags to know what to do then
+        if ( $status === false )
+        {
+            if ( $flags & self::APPEND_DEBUG_ON_FAILURE )
+        	    eZDebug::writeWarning( "$srcFile could not be renamed to $destFile", __METHOD__ );
+
+            if ( $flags & self::CLEAN_ON_FAILURE )
+        	    unlink( $srcFile );
+        }
+
+        return $status;
     }
 
     /**
@@ -253,11 +282,11 @@ class eZFile
         header(
             "Content-Disposition: " .
             ( $isAttachedDownload ? 'attachment' : 'inline' ) .
-            ( $overrideFilename !== false ) ? "; filename={$overrideFilename}" : ''
+            ( $overrideFilename !== false ? "; filename={$overrideFilename}" : '' )
         );
 
         // partial download (HTTP 'Range' header)
-        if ( $startOffset !== 0 || $length !== false )
+        if ( $startOffset !== 0 )
         {
             $endOffset = ( $length !== false ) ? ( $length + $startOffset - 1 ) : $fileSize - 1;
             header( "Content-Range: bytes {$startOffset}-{$endOffset}/{$fileSize}" );
@@ -278,6 +307,11 @@ class eZFile
      */
     public static function downloadContent( $file, $startOffset = 0, $length = false )
     {
+        if ( !file_exists( $file ) )
+        {
+            eZDebug::writeError( "'$file' does not exist", __METHOD__ );
+            return false;
+        }
         if ( ( $fp = fopen( $file, 'rb' ) ) === false )
         {
             eZDebug::writeError( "An error occured opening '$file' for reading", __METHOD__ );

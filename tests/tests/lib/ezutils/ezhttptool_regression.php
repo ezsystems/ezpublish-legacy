@@ -22,7 +22,7 @@ class eZHTTPToolRegression extends ezpTestCase
         self::markTestSkipped( "Test disabled pending update." );
         $url = 'http://php-og.mgdm.net/';
 
-        $this->assertType(
+        $this->assertInternalType(
             PHPUnit_Framework_Constraint_IsType::TYPE_STRING,
             eZHTTPTool::sendHTTPRequest( $url, 80, false, 'eZ Publish', false )
         );

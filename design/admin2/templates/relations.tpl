@@ -1,5 +1,6 @@
 {* Relations windows. *}
-
+{def $page_limit = min( ezpreference( 'admin_list_limit' ), 3 )|choose( 10, 10, 25, 50 )
+     $offset = first_set( $view_parameters.offset, 0 )}
 {* Related objects list. *}
 {def $relation_type_names = hash( 'common',   'Common'|i18n( 'design/admin/content/edit' ),
                                   'xml_embed', 'Embedded'|i18n( 'design/admin/content/edit' ),
@@ -16,7 +17,7 @@
     {/if}
 </tr>
 {if $related_objects_count}
-    {def $related_objects_grouped = fetch( 'content', 'related_objects', hash( 'object_id', $node.object.id, 'all_relations', true(), 'group_by_attribute', true(), 'sort_by', array( array( 'class_identifier', true() ), array( 'name', true() ) ) ) )}
+    {def $related_objects_grouped = fetch( 'content', 'related_objects', hash( 'object_id', $node.object.id, 'all_relations', true(), 'group_by_attribute', true(), 'sort_by', array( array( 'class_identifier', true() ), array( 'name', true() ) ), 'offset', $offset, 'limit', $page_limit ) )}
     {def $related_objects_id_typed = fetch( 'content', 'related_objects_ids', hash( 'object_id', $node.object.id ) )}
 
     {def $tr_class='bglight'}
@@ -71,7 +72,7 @@
     {/if}
 </tr>
 {if $reverse_related_objects_count}
-    {def $reverse_related_objects_grouped = fetch( 'content', 'reverse_related_objects', hash( 'object_id', $node.object.id, 'all_relations', true(), 'group_by_attribute', true(), 'sort_by', array( array( 'class_identifier', true() ), array( 'name', true() ) ) ) )}
+    {def $reverse_related_objects_grouped = fetch( 'content', 'reverse_related_objects', hash( 'object_id', $node.object.id, 'all_relations', true(), 'group_by_attribute', true(), 'sort_by', array( array( 'class_identifier', true() ), array( 'name', true() ) ), 'limit', $page_limit, 'offset', $offset ) )}
     {def $reverse_related_objects_id_typed = fetch( 'content', 'reverse_related_objects_ids', hash( 'object_id', $node.object.id ) )}
 
     {def $tr_class='bglight'}
@@ -113,3 +114,10 @@
     <tr><td>{'The item being viewed is not used by any other objects.'|i18n( 'design/admin/node/view/full' )}</td></tr>
 {/if}
 </table>
+{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri=$node.url_alias
+         item_count=max( $related_objects_count, $reverse_related_objects_count )
+         view_parameters=$view_parameters
+         node_id=$node.node_id
+         item_limit=$page_limit}

@@ -498,6 +498,18 @@ class eZSubtreeNotificationRule extends eZPersistentObject
                         return array();
                     }
                 } break;
+                default:
+                {
+                    //check object state group limitation
+                    if ( strncmp( $key, 'StateGroup_', 11 ) === 0 )
+                    {
+                        if ( count( array_intersect( $limitationArray[$key],
+                                                     $contentObject->attribute( 'state_id_array' ) ) ) == 0 )
+                        {
+                            return array();
+                        }
+                    }
+                }
             }
         }
 

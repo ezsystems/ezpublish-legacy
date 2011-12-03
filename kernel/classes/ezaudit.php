@@ -59,7 +59,7 @@ class eZAudit
         if ( !isset( $auditNameSettings[$auditName] ) )
             return false;
 
-        $ip = eZSys::serverVariable( 'REMOTE_ADDR', true );
+        $ip = eZSys::clientIP();
         if ( !$ip )
             $ip = eZSys::serverVariable( 'HOSTNAME', true );
 

@@ -69,7 +69,7 @@ class eZURLType extends eZDataType
             $url = $http->PostVariable( $base . "_ezurl_url_" . $contentObjectAttribute->attribute( "id" ) );
             $text = $http->PostVariable( $base . "_ezurl_text_" . $contentObjectAttribute->attribute( "id" ) );
             if ( $contentObjectAttribute->validateIsRequired() )
-                if ( ( $url == "" ) or ( $text == "" ) )
+                if ( $url == "" )
                 {
                     $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                          'Input required.' ) );

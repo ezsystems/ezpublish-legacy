@@ -94,7 +94,7 @@ eZ setup:
 - sends (if wanted) register email to eZ szstems. Can use SMTP server (w/ login) to send email.
 
 eZ sys:
-- The functions serverVariable and enviromentVariable now takes an optional second parameter called
+- The functions serverVariable and environmentVariable now takes an optional second parameter called
   quiet, if true no debug error is shown, default is false.
 
 eZ execution:

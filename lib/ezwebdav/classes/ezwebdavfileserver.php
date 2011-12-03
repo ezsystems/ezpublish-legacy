@@ -158,7 +158,7 @@ function delDir( $dir )
 
     // Attempt to remove the target dir itself & return status (should be
     // OK as soon as we get this far...
-    $status = rmdir( ${dir} );
+    $status = rmdir( $dir );
 
     return $status;
 }
@@ -255,7 +255,7 @@ class eZWebDAVFileServer extends eZWebDAVServer
         append_to_log( "PUT: tempfile is $tempFile" );
 
         // Attempt to move the file from temp to desired location.
-        eZFile::rename( $tempFile, $realPath );
+        $status = eZFile::rename( $tempFile, $realPath );
 
         // Check status & return corresponding code:
         if ( $status )

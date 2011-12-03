@@ -199,6 +199,8 @@ if ( $lastSection !== null )
 
 function dumpToText( $nodes )
 {
+    global $cli, $script;
+
     $text = '';
     foreach ( $nodes as $node )
     {

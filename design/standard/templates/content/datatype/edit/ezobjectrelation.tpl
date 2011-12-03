@@ -51,27 +51,33 @@
     <p class="ezobject-relation-no-relation">{'There are no related object.'|i18n( 'design/standard/content/datatype' )}</p>
 {/if}
 
-<div class="block inline-block ezobject-relation-browse">
-<div class="left">
+<div class="block inline-block">
 {if $attribute.class_content.default_selection_node}
     <input type="hidden" name="{$attribute_base}_browse_for_object_start_node[{$attribute.id}]" value="{$attribute.class_content.default_selection_node|wash}" />
 {/if}
 {if $attribute.content}
     <input class="button ezobject-relation-remove-button" type="submit" name="CustomActionButton[{$attribute.id}_remove_object]" value="{'Remove object'|i18n( 'design/standard/content/datatype' )}" />
-    <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_browse_object]" value="{'Add object'|i18n( 'design/standard/content/datatype' )}" />
 {else}
     <input class="button-disabled ezobject-relation-remove-button" type="submit" name="CustomActionButton[{$attribute.id}_remove_object]" value="{'Remove object'|i18n( 'design/standard/content/datatype' )}" disabled="disabled" />
-    <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_browse_object]" value="{'Add object'|i18n( 'design/standard/content/datatype' )}" />
 {/if}
-
+</div>
+<h4>{'Add an object in the relation'|i18n( 'design/standard/content/datatype' )}</h4>
+<div class="left">
 <input type="hidden" name="{$attribute_base}_data_object_relation_id_{$attribute.id}" value="{$attribute.data_int}" />
+{if $attribute.content}
+    <input class="button-disabled ezobject-relation-add-button" type="submit" name="CustomActionButton[{$attribute.id}_browse_object]" value="{'Add an existing object'|i18n( 'design/standard/content/datatype' )}" title="{'Browse to add an existing object in this relation'|i18n( 'design/standard/content/datatype' )}" disabled="disabled" />
+    {include uri='design:content/datatype/edit/ezobjectrelation_ajaxuploader.tpl' enabled=false()}
+{else}
+    <input class="button ezobject-relation-add-button" type="submit" name="CustomActionButton[{$attribute.id}_browse_object]" value="{'Add an existing object'|i18n( 'design/standard/content/datatype' )}" title="{'Browse to add an existing object in this relation'|i18n( 'design/standard/content/datatype' )}" />
+    {include uri='design:content/datatype/edit/ezobjectrelation_ajaxuploader.tpl' enabled=true()}
+{/if}
 </div>
 <div class="right">
     <input type="text" class="halfbox hide ezobject-relation-search-text" />
     <input type="submit" class="button hide ezobject-relation-search-btn" name="CustomActionButton[{$attribute.id}_browse_object]" value="{'Find object'|i18n( 'design/standard/content/datatype' )}" />
 </div>
 <div class="break"></div>
-<div class="block inline-block ezobject-relation-search-browse"></div>
+<div class="block inline-block ezobject-relation-search-browse hide"></div>
 </div>
 {include uri='design:content/datatype/edit/ezobjectrelation_ajax_search.tpl'}
 </div>

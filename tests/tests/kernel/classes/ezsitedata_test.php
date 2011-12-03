@@ -49,7 +49,7 @@ class eZSiteDataTest extends ezpDatabaseTestCase
         unset( $obj );
 
         $res = eZSiteData::fetchByName( $name );
-        $this->assertType( 'eZSiteData', $res );
+        $this->assertInstanceOf( 'eZSiteData', $res );
 
         $res->remove();
     }

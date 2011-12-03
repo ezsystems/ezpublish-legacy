@@ -18,8 +18,20 @@ class eZImageManagerTest extends ezpTestCase
     public static function imageMagickIsEnabled()
     {
         $imageIni = eZINI::instance( 'image.ini' );
-        return ( in_array( 'ImageMagick', $imageIni->variable( 'ImageConverterSettings', 'ImageConverters' ) ) and
-                 $imageIni->variable( 'ImageMagick', 'IsEnabled' ) == 'true' );
+        if (
+            !(
+                in_array(
+                    'ImageMagick',
+                    $imageIni->variable( 'ImageConverterSettings', 'ImageConverters' )
+                )
+                && $imageIni->variable( 'ImageMagick', 'IsEnabled' ) == 'true'
+            )
+        )
+            return false;
+
+        // Check furthen that the executable can be run
+        exec( $imageIni->variable( "ImageMagick", "Executable" ) . " -version 2>&1", $output, $returnValue );
+        return $returnValue === 0;
     }
 
     public function setUp()

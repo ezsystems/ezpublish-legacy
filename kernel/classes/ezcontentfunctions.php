@@ -83,8 +83,7 @@ class eZContentFunctions
      *                      - 'storage_dir'      :
      *                      - 'remote_id'        : The value for the remoteID  (optional)
      *                      - 'section_id'       : The value for the sectionID (optional)
-     * @static
-     * @return an eZContentObject object if success, false otherwise
+     * @return eZContentObject|false An eZContentObject object if success, false otherwise
      */
     static function createAndPublishObject( $params )
     {
@@ -101,7 +100,7 @@ class eZContentFunctions
         if ( is_array( $parentNode ) )
         {
             $contentClass = eZContentClass::fetchByIdentifier( $classIdentifier );
-            if ( is_object( $contentClass ) )
+            if ( $contentClass instanceof eZContentClass )
             {
                 $db = eZDB::instance();
                 $db->begin();
@@ -129,7 +128,7 @@ class eZContentFunctions
                 $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
                 $version->store();
 
-                if ( is_array( $attributesData ) && count( $attributesData ) > 0 )
+                if ( is_array( $attributesData ) && !empty( $attributesData ) )
                 {
                     $attributes = $contentObject->attribute( 'contentobject_attributes' );
 

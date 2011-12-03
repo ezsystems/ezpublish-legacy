@@ -106,7 +106,7 @@ class eZHTTPHeader
             {
                 $path = '/' . eZURLAliasML::cleanURL( $path );
                 if ( strlen( $path ) == 1 &&
-                     !$contentView &&
+                     ( !$contentView && ( $ini->variable( 'HTTPHeaderSettings', 'OnlyForContent' ) === 'enabled' ) ) &&
                      $uriString != '/' )
                 {
                     continue;

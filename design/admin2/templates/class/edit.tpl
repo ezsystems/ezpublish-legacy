@@ -354,7 +354,7 @@ jQuery(function( $ )//called on document.ready
     {
         // Prevent form from being sent and make sure user is not able to duble click on button and causing issues
         e.preventDefault();
-        $('#ezcca-edit-list div.listbutton input[name^=Move]').attr( "disabled", "disabled" ).addClass('disabled');
+        $('#ezcca-edit-list div.listbutton input[name^=Move]').attr( "disabled", true ).addClass('disabled');
         var tr = $(this).closest('tr.ezcca-edit-list-item'), param = this.name.split('_'), up = param[0] === 'MoveUp';
 
         // swap items in dom, or skip if number is to high / low

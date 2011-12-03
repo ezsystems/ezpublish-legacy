@@ -827,7 +827,7 @@ function convertArray( $array, $inCharset, $outCharset )
             {
                 if( CommandLineArguments::logFilename() !== false )
                 {
-                    $logString = "ERROR: Unable to predict correct character set while converting array. Value is $value, inCharset : $inCharset, outCharSet : $outCharSet\n";
+                    $logString = "ERROR: Unable to predict correct character set while converting array. Value is $value, inCharset : $inCharset, outCharset : $outCharset\n";
                     file_put_contents( CommandLineArguments::logFilename(), $logString, FILE_APPEND );
                 }
             }

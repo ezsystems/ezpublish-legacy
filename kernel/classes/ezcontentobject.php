@@ -1124,9 +1124,14 @@ class eZContentObject extends eZPersistentObject
         }
     }
 
-    /*!
-      \return an array of versions for the current object.
-    */
+    /**
+     * Returns an array of eZContentObjectVersion for the current object
+     * according to the conditions in $parameters.
+     *
+     * @param boolean $asObject
+     * @param array $parameters
+     * @return array
+     */
     function versions( $asObject = true, $parameters = array() )
     {
         $conditions = array( "contentobject_id" => $this->ID );
@@ -1145,10 +1150,12 @@ class eZContentObject extends eZPersistentObject
                 $conditions['initial_language_id'] = $parameters['conditions']['initial_language_id'];
             }
         }
+        $sort = isset( $parameters['sort'] ) ? $parameters['sort'] : null;
+        $limit = isset( $parameters['limit'] ) ? $parameters['limit'] : null;
 
         return eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
                                                     null, $conditions,
-                                                    null, null,
+                                                    $sort, $limit,
                                                     $asObject );
     }
 
@@ -3230,7 +3237,7 @@ class eZContentObject extends eZPersistentObject
         $objectID = $this->ID;
         if ( $version == false )
             $version = isset( $this->CurrentVersion ) ? $this->CurrentVersion : false;
-        $version == (int) $version;
+        $version = (int) $version;
 
         $db = eZDB::instance();
         $showInvisibleNodesCond = '';

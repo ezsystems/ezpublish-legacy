@@ -217,6 +217,18 @@ class eZXMLInputParser
     {
         $text = str_replace( "\r", '', $text);
         $text = str_replace( "\t", ' ', $text);
+        // replace unicode chars that will break the XML validity
+        // see http://www.w3.org/TR/REC-xml/#charsets
+        $text = preg_replace( '/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', ' ', $text, -1, $count );
+        if ( $count > 0 )
+        {
+            $this->Messages[] = ezpI18n::tr(
+                'kernel/classes/datatypes/ezxmltext',
+                "%count invalid character(s) have been found and replaced by a space",
+                false,
+                array( '%count' => $count )
+            );
+        }
         if ( !$this->ParseLineBreaks )
         {
             $text = str_replace( "\n", '', $text);
@@ -589,7 +601,8 @@ class eZXMLInputParser
             {
                 // Value will always be at the last position
                 $value = trim( array_pop( $attribute ) );
-                if ( !empty( $value ) )
+                // Value of '0' is valid ( eg. border='0' )
+                if ( $value !== '' && $value !== false && $value !== null )
                 {
                     $attributes[strtolower( $attribute[1] )] = $value;
                 }

@@ -866,11 +866,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $sql = '';
             foreach ( $alphabet as $letter )
             {
-                $sql .= " AND ezcontentobject.name NOT LIKE '". $db->escapeString( $letter ) . "%' ";
+                $sql .= " AND ezcontentobject_name.name NOT LIKE '". $db->escapeString( $letter ) . "%' ";
             }
             return $sql;
         }
-        $objectNameFilterSQL =  " AND ezcontentobject.name LIKE '" . $db->escapeString( $filter ) ."%'";
+        $objectNameFilterSQL =  " AND ezcontentobject_name.name LIKE '" . $db->escapeString( $filter ) ."%'";
         return $objectNameFilterSQL;
     }
 
@@ -2759,7 +2759,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         foreach ( array_chunk( $objectSimpleIDArray, 100 ) as $pagedObjectIDs )
         {
             $db->query( "UPDATE ezcontentobject SET section_id='$sectionID' WHERE $filterPart " . $db->generateSQLINStatement( $pagedObjectIDs, 'id', false, true, 'int' ) );
-            $db->query( "UPDATE ezsearch_object_word_link SET section_id='$sectionID' WHERE $filterPart " . $db->generateSQLINStatement( $pagedObjectIDs, 'contentobject_id', false, true, 'int' ) );
+            eZSearch::updateObjectsSection( $pagedObjectIDs, $sectionID );
         }
         $db->commit();
 
@@ -2870,6 +2870,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $pathListArray;
     }
 
+    /**
+     * Get Main Node Id ( or Main Node if $asObject = true ) by Content Object Id.
+     *
+     * @param int $objectID
+     * @param boolean $asObject
+     * 
+     * @return int|null
+     */
     static function findMainNode( $objectID, $asObject = false )
     {
         $objectID = (int)$objectID;
@@ -3653,9 +3661,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
         // Remove static cache
         if ( $ini->variable( 'ContentSettings', 'StaticCache' ) == 'enabled' )
         {
-            $staticCache = new eZStaticCache();
-            $staticCache->removeURL( "/" . $urlAlias );
-            $staticCache->generateAlwaysUpdatedCache();
+            $optionArray = array( 'iniFile'      => 'site.ini',
+                                  'iniSection'   => 'ContentSettings',
+                                  'iniVariable'  => 'StaticCacheHandler' );
+
+            $options = new ezpExtensionOptions( $optionArray );
+
+            $staticCacheHandler = eZExtension::getHandlerClass( $options );
+        	
+            $staticCacheHandler->removeURL( "/" . $urlAlias );
+            $staticCacheHandler->generateAlwaysUpdatedCache();
 
             $parent = $this->fetchParent();
         }
@@ -3669,7 +3684,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             if ( $parent )
             {
-                $staticCache->cacheURL( "/" . $parent->urlAlias() );
+                $staticCacheHandler->cacheURL( "/" . $parent->urlAlias() );
             }
         }
 
@@ -3781,7 +3796,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 continue;
 
             $class = $object->attribute( 'content_class' );
-            $canRemove = $object->attribute( 'can_remove' );
+            $canRemove = $node->attribute( 'can_remove' );
             $canRemoveSubtree = true;
 
             $nodeID = $node->attribute( 'node_id' );
@@ -4015,10 +4030,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function removeNodeFromTree( $moveToTrash = true )
     {
         $nodeID = $this->attribute( 'node_id' );
+        $object = $this->object();
+        $assignedNodes = $object->attribute( 'assigned_nodes' );
         if ( $nodeID == $this->attribute( 'main_node_id' ) )
         {
-            $object = $this->object();
-            $assignedNodes = $object->attribute( 'assigned_nodes' );
             if ( count( $assignedNodes ) > 1 )
             {
                 $newMainNode = false;
@@ -4069,6 +4084,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         else
         {
             $this->removeThis();
+            if ( count( $assignedNodes ) > 1 )
+            {
+                eZSearch::addObject( $object );
+            }
         }
     }
 
@@ -4925,17 +4944,33 @@ class eZContentObjectTreeNode extends eZPersistentObject
      */
     protected function hasCurrentSubtreeLimitation( array $policy )
     {
-        if ( !isset( $policy['Subtree'] ) )
+        // No Subtree nor Node limitation, so we consider that it is potentially OK to create content under current subtree
+        if ( !isset( $policy['Subtree'] ) && !isset( $policy['Node'] ) )
         {
-            return false;
+            return true;
         }
 
-        $pathString = $this->attribute( 'path_string' );
-        foreach ( $policy['Subtree'] as $subtreeString )
+        // First check subtree limitations
+        if ( isset( $policy['Subtree'] ) )
         {
-            if ( strpos( $pathString, $subtreeString ) !== false )
+            foreach ( $policy['Subtree'] as $subtreeString )
             {
-                return true;
+                if ( strpos( $this->attribute( 'path_string' ), $subtreeString ) !== false )
+                {
+                    return true;
+                }
+            }
+        }
+
+        // Then check node limitations
+        if ( isset( $policy['Node'] ) )
+        {
+            foreach ( $policy['Node'] as $subtreeString )
+            {
+                if ( strpos( $this->attribute( 'path_string' ), $subtreeString ) !== false )
+                {
+                    return true;
+                }
             }
         }
 

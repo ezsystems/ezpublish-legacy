@@ -270,7 +270,7 @@ class eZTemplateFileResource
                 {
                     eZDebug::accumulatorStart( 'template_resource_conversion', 'template_total', 'String conversion in template resource' );
                     $text = $codec->convertString( $text );
-                    eZDebug::accumulatorStop( 'template_resource_conversion', 'template_total', 'String conversion in template resource' );
+                    eZDebug::accumulatorStop( 'template_resource_conversion' );
                 }
                 $result = true;
             }

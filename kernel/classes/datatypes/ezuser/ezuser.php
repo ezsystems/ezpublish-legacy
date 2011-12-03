@@ -37,6 +37,14 @@ class eZUser extends eZPersistentObject
 
     const AUTHENTICATE_ALL = 3; //EZ_USER_AUTHENTICATE_LOGIN | EZ_USER_AUTHENTICATE_EMAIL;
 
+    /**
+     * Flag used to prevent session regeneration
+     *
+     * @var int
+     * @see eZUser::setCurrentlyLoggedInUser()
+     */
+    const NO_SESSION_REGENERATE = 1;
+
     protected static $anonymousId = null;
 
     function eZUser( $row = array() )
@@ -833,7 +841,7 @@ WHERE user_id = '" . $userID . "' AND
     */
     static function isUserIPInList( $ipList )
     {
-        $ipAddress = eZSys::serverVariable( 'REMOTE_ADDR', true );
+        $ipAddress = eZSys::clientIP();
         if ( $ipAddress )
         {
             $result = false;
@@ -934,24 +942,33 @@ WHERE user_id = '" . $userID . "' AND
         return true;
     }
 
-    /*!
-     \protected
-     Makes sure the user \a $user is set as the currently logged in user by
-     updating the session and setting the necessary global variables.
-
-     All login handlers should use this function to ensure that the process
-     is executed properly.
-    */
-    static function setCurrentlyLoggedInUser( $user, $userID )
+    /**
+     * Makes sure the $user is set as the currently logged in user by
+     * updating the session and setting the necessary global variables.
+     *
+     * All login handlers should use this function to ensure that the process
+     * is executed properly.
+     *
+     * @access private
+     *
+     * @param eZUser $user User
+     * @param int $userID User ID
+     * @param int $flags Optional flag that can be set to:
+     *        eZUser::NO_SESSION_REGENERATE to avoid session to be regenerated
+     */
+    static function setCurrentlyLoggedInUser( $user, $userID, $flags = 0 )
     {
         $GLOBALS["eZUserGlobalInstance_$userID"] = $user;
         // Set/overwrite the global user, this will be accessed from
         // instance() when there is no ID passed to the function.
         $GLOBALS["eZUserGlobalInstance_"] = $user;
         eZSession::setUserID( $userID );
+
+        if ( !( $flags & self::NO_SESSION_REGENERATE) )
+            eZSession::regenerate();
+
         eZSession::set( 'eZUserLoggedInID', $userID );
         self::cleanup();
-        eZSession::regenerate();
     }
 
     /*!

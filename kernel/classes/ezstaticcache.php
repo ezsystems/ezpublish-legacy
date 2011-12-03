@@ -26,7 +26,7 @@
  *
  * @package kernel
  */
-class eZStaticCache
+class eZStaticCache implements ezpStaticCache
 {
     /**
      * User-Agent string
@@ -293,7 +293,7 @@ class eZStaticCache
                 {
                     if ( !$quiet and $cli and $parentURL['glob'] )
                         $cli->output( "wildcard cache: " . $parentURL['url'] . '/' . $parentURL['glob'] . "*" );
-                    $elements = eZURLAliasML::fetchByPath( $parentURL['url'], $parentURL['glob'], true, true );
+                    $elements = eZURLAliasML::fetchByPath( $parentURL['url'], $parentURL['glob'] );
                     foreach ( $elements as $element )
                     {
                         $path = '/' . $element->getPath();
@@ -538,7 +538,7 @@ class eZStaticCache
 
             fwrite( $fp, $content . $comment );
             fclose( $fp );
-            eZFile::rename( $tmpFileName, $file );
+            eZFile::rename( $tmpFileName, $file, false, eZFile::CLEAN_ON_FAILURE | eZFile::APPEND_DEBUG_ON_FAILURE );
 
             $perm = eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' );
             chmod( $file, octdec( $perm ) );

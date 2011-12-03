@@ -83,7 +83,7 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
         $this->assertSame( 'test/*', $wildcard->attribute( 'source_url' ), "Source URL doesn't match" );
         $this->assertSame( '/', $wildcard->attribute( 'destination_url' ), "Destination URL doens't match" );
         $this->assertEquals( eZURLWildcard::TYPE_DIRECT, $wildcard->attribute( 'type' ), "Type doesn't match" );
-        $this->assertType( 'int', $wildcard->attribute( 'id' ), "ID is not an integer" );
+        $this->assertInternalType( 'int', $wildcard->attribute( 'id' ), "ID is not an integer" );
     }
 
     /**
@@ -94,7 +94,7 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     {
         $array = $this->wildcards[0]->asArray();
 
-        $this->assertType( 'array', $array );
+        $this->assertInternalType( 'array', $array );
         $this->assertSame( 'test/*', $array['source_url'] );
         $this->assertSame( '/', $array['destination_url'] );
         $this->assertEquals( eZURLWildcard::TYPE_DIRECT, $array['type'] );
@@ -203,7 +203,7 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     {
         $fetchedWildcard = eZURLWildcard::fetchBySourceURL( 'testPair/0/*', false );
 
-        $this->assertType( 'array', $fetchedWildcard, "Failed fetching the wildcard object as an array" );
+        $this->assertInternalType( 'array', $fetchedWildcard, "Failed fetching the wildcard object as an array" );
         $this->assertSame( 'testPair/0/*', $fetchedWildcard['source_url'] );
         $this->assertSame( '/', $fetchedWildcard['destination_url'] );
         $this->assertEquals( eZURLWildcard::TYPE_DIRECT, $fetchedWildcard['type'] );

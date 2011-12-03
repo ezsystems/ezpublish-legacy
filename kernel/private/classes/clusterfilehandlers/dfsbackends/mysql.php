@@ -259,7 +259,7 @@ class eZDFSFileHandlerMySQLBackend
             $fname = "_purgeByLike($like, $onlyExpired)";
 
         // common query part used for both DELETE and SELECT
-        $where = " WHERE name LIKE " . $this->_quote( $like );
+        $where = " WHERE name LIKE " . $this->_quote( $like, true );
 
         if ( $expiry !== false )
             $where .= " AND mtime < " . (int)$expiry;
@@ -400,7 +400,7 @@ class eZDFSFileHandlerMySQLBackend
      */
     private function _deleteByLikeInner( $like, $fname )
     {
-        $sql = "UPDATE " . self::TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\nWHERE name like ". $this->_quote( $like );
+        $sql = "UPDATE " . self::TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\nWHERE name like ". $this->_quote( $like, true );
         if ( !$res = $this->_query( $sql, $fname ) )
         {
             return $this->_fail( "Failed to delete files by like: '$like'" );
@@ -511,7 +511,7 @@ class eZDFSFileHandlerMySQLBackend
             }
             else
             {
-                $where = "WHERE name LIKE '$commonPath/$dirItem/$commonSuffix%'";
+                $where = "WHERE name LIKE ".$this->_quote( "$commonPath/$dirItem/$commonSuffix%", true );
             }
             $sql = "UPDATE " . self::TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\n$where";
             if ( !$res = $this->_query( $sql, $fname ) )
@@ -522,7 +522,7 @@ class eZDFSFileHandlerMySQLBackend
         return true;
     }
 
-    public function _exists( $filePath, $fname = false, $ignoreExpiredFiles = true )
+    public function _exists( $filePath, $fname = false, $ignoreExpiredFiles = true, $checkOnDFS = false )
     {
         if ( $fname )
             $fname .= "::_exists($filePath)";
@@ -538,6 +538,10 @@ class eZDFSFileHandlerMySQLBackend
         else
             $rc = true;
 
+        if ( $checkOnDFS && $rc )
+        {
+            $rc = $this->dfsbackend->existsOnDFS( $filePath );
+        }
         return $rc;
     }
 
@@ -618,7 +622,7 @@ class eZDFSFileHandlerMySQLBackend
 
         if ( $uniqueName !== true )
         {
-            eZFile::rename( $tmpFilePath, $filePath );
+            eZFile::rename( $tmpFilePath, $filePath, false, eZFile::CLEAN_ON_FAILURE | eZFile::APPEND_DEBUG_ON_FAILURE );
         }
         else
         {
@@ -910,7 +914,7 @@ class eZDFSFileHandlerMySQLBackend
             $query .= "IN ('" . implode( "', '", $scopes ) . "')";
         }
 
-        $rslt = $this->_query( $query, "_getFileList( array( " . implode( ', ', $scopes ) . " ), $excludeScopes )" );
+        $rslt = $this->_query( $query, "_getFileList( array( " . implode( ', ', is_array( $scopes ) ? $scopes : array() ) . " ), $excludeScopes )" );
         if ( !$rslt )
         {
             eZDebug::writeDebug( 'Unable to get file list', __METHOD__ );
@@ -1274,16 +1278,27 @@ class eZDFSFileHandlerMySQLBackend
      * as a string.
      *
      * @param string $value a SQL parameter to escape
+     * @param bool $escapeUnderscoreWildcards Set to true to escape underscores as well to avoid them to act as wildcards
+     *                                        Highly recommended for LIKE statements !
      * @return string a string that can safely be used in SQL queries
      */
-    protected function _quote( $value )
+    protected function _quote( $value, $escapeUnderscoreWildcards = false )
     {
         if ( $value === null )
+        {
             return 'NULL';
+        }
         elseif ( is_integer( $value ) )
+        {
             return (string)$value;
+        }
         else
-            return "'" . mysql_real_escape_string( $value ) . "'";
+        {
+           if ( $escapeUnderscoreWildcards )
+                return "'" . addcslashes( mysql_real_escape_string( $value, $this->db ), "_" ) . "'";
+           else
+                return "'" . mysql_real_escape_string( $value, $this->db ) . "'";
+        }
     }
 
     /**

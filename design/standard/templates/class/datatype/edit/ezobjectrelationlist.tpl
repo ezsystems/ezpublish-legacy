@@ -3,7 +3,7 @@
      class_list=$content.class_constraint_list
      default_placement=$content.default_placement
      type=$content.type
-     all_class_list=fetch( class, list )}
+     all_class_list=fetch( class, list, hash( 'sort_by', array( 'name', true() ) ) )}
 
 <div class="block">
 <label for="eccaorl_selection_{$class_attribute.id}">{'Selection method'|i18n( 'design/standard/class/datatype' )}:</label>
@@ -33,14 +33,15 @@
 
 <div class="block">
     <label for="eccaorl_allowed_{$class_attribute.id}">{'Allowed classes'|i18n( 'design/standard/class/datatype' )}:</label>
-    <select id="eccaorl_allowed_{$class_attribute.id}" name="ContentClass_ezobjectrelationlist_class_list_{$class_attribute.id}[]" multiple="multiple" title="{'Select which classes user can create'|i18n( 'design/standard/class/datatype' )}">
+    <select id="eccaorl_allowed_{$class_attribute.id}" name="ContentClass_ezobjectrelationlist_class_list_{$class_attribute.id}[]" multiple="multiple" title="{'Select which classes user can create'|i18n( 'design/standard/class/datatype' )}" size="{min( 8, count( $all_class_list ) )}">
     <option value="" {if $class_list|lt(1)}selected="selected"{/if}>{'Any'|i18n( 'design/standard/class/datatype' )}</option>
     {section name=Class loop=$all_class_list}
-    <option value="{$:item.identifier|wash}" {if $class_list|contains($:item.identifier)}selected="selected"{/if}>{$:item.name}</option>
+    <option value="{$:item.identifier|wash}" {if $class_list|contains($:item.identifier)}selected="selected"{/if}>{$:item.name|wash}</option>
     {/section}
     </select>
 </div>
 
+{if eq( ezini( 'BackwardCompatibilitySettings', 'AdvancedObjectRelationList' ), 'enabled' )}
 <div class="block">
 <fieldset>
 <legend>{'New Objects'|i18n( 'design/standard/class/datatype' )}</legend>
@@ -51,12 +52,10 @@
      </td>
      <td>
          <select name="ContentClass_ezobjectrelation_object_class_{$class_attribute.id}">
-         {let classes=fetch( 'class', 'list' )}
          <option value="" {eq( $content.object_class, "" )|choose( '', 'selected="selected"' )}>{'(none)'|i18n('design/standard/class/datatype')}</option>
-         {section loop=$:classes}
-               <option value="{$:item.id}" {eq( $content.object_class, $:item.id )|choose( '', 'selected="selected"' )}>{$:item.name}</option>
+         {section loop=$:all_class_list}
+               <option value="{$:item.id}" {eq( $content.object_class, $:item.id )|choose( '', 'selected="selected"' )}>{$:item.name|wash}</option>
          {/section}
-         {/let}
          </select>
      </td>
   </tr>
@@ -76,6 +75,7 @@
 </table>
 </fieldset>
 </div>
+{/if}
 
 <div class="block">
 <fieldset>
@@ -98,7 +98,9 @@
 
 <input type="hidden" name="ContentClass_ezobjectrelationlist_placement_{$class_attribute.id}" value="{$default_placement.node_id}" />
 {section-else}
+    {if eq( ezini( 'BackwardCompatibilitySettings', 'AdvancedObjectRelationList' ), 'enabled' )}
 <p>{'New objects will not be placed in the content tree.'|i18n( 'design/standard/class/datatype' )}</p>
+    {/if}
 <input type="hidden" name="ContentClass_ezobjectrelationlist_placement_{$class_attribute.id}" value="" />
 {/section}
 

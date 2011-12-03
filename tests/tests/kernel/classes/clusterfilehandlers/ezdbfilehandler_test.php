@@ -36,6 +36,8 @@ class eZDBFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
             self::markTestSkipped( "Not running MySQL, skipping" );
 
         parent::setUp();
+        $this->db = eZDB::instance();
+        ezpTestDatabaseHelper::insertSqlData( $this->db,  array( 'tests/tests/kernel/classes/clusterfilehandlers/sql/cluster_dfs_schema.sql' ) );
 
         // We need to clear the existing handler if it was loaded before the INI
         // settings changes
@@ -72,9 +74,7 @@ class eZDBFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
         $fileINI->setVariable( 'ClusteringSettings', 'DBUser',     $dsn['user'] );
         $fileINI->setVariable( 'ClusteringSettings', 'DBPassword', $dsn['password'] );
 
-        // ezpTestDatabaseHelper::insertSqlData( $this->sharedFixture, $this->sqlFiles );
-
-        $this->db = $this->sharedFixture;
+        // ezpTestDatabaseHelper::insertSqlData( $this->db, $this->sqlFiles );
     }
 
     public function tearDown()

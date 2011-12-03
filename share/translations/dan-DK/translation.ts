@@ -4433,10 +4433,6 @@ Database bogstavkodning</translation>
         <source>Dynamic tree menu is disabled for this siteaccess!</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Internal errorD</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>design/admin/dashboard/all_latest_content</name>
@@ -4601,6 +4597,22 @@ Database bogstavkodning</translation>
     </message>
     <message>
         <source>Currently you do not have any products on your wish list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Published</source>
+        <translation type="unfinished">Publiceret</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit &lt;%item_name&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You do not have permission to edit &lt;%item_name&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6102,6 +6114,10 @@ Database bogstavkodning</translation>
         <source>Path String</source>
         <translation type="unfinished">Sti-streng</translation>
     </message>
+    <message>
+        <source>Object state</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view/line</name>
@@ -6910,6 +6926,14 @@ Navigeringsdel</translation>
         <source>User preferences</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/pagelayout/path</name>
@@ -7105,14 +7129,6 @@ Navigeringsdel</translation>
     </message>
     <message>
         <source>Dashboard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Disable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -12698,11 +12714,11 @@ Datatypenavn</translation>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation type="unfinished">Din konto er nu aktiveret.</translation>
+        <translation type="obsolete">Din konto er nu aktiveret.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation type="unfinished">Beklager. Den benyttede nøgle er ikke gyldig. Kontoen er ikke aktiveret.</translation>
+        <translation type="obsolete">Beklager. Den benyttede nøgle er ikke gyldig. Kontoen er ikke aktiveret.</translation>
     </message>
     <message>
         <source>Your account was successfully created.</source>
@@ -13818,6 +13834,107 @@ din konto.</translation>
     </message>
 </context>
 <context>
+    <name>design/admin2/ajaxupload</name>
+    <message>
+        <source>&lt;em&gt;%file&lt;/em&gt; has successfully been uploaded.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/ajaxuploader</name>
+    <message>
+        <source>Go to the parent level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Section</source>
+        <translation type="unfinished">Sektion</translation>
+    </message>
+    <message>
+        <source>prev</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Step 2/3: Choose a location for the new &apos;%class&apos; object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose a location for the &apos;%class&apos; object that is going to be created from it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose this location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Step 3/3: Preview of &apos;%name&apos; (%class)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File</source>
+        <translation type="unfinished">Fil</translation>
+    </message>
+    <message>
+        <source>Required</source>
+        <translation type="unfinished">Obligatorisk</translation>
+    </message>
+    <message>
+        <source>The name will be autogenerated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload the file</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/content/datatype</name>
+    <message>
+        <source>Upload a file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload a file to create a new object and add it to the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose a location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some required fields are empty.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unable to parse the JSON response.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload a file and add the resulting object in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/base</name>
     <message>
         <source>Back to poll</source>
@@ -14411,6 +14528,13 @@ Parametrene er link start og slut tags</translation>
     <message>
         <source>Minute</source>
         <translation type="obsolete">Minut</translation>
+    </message>
+</context>
+<context>
+    <name>design/ezwebin/link</name>
+    <message>
+        <source>Printable version</source>
+        <translation type="unfinished">Printervenlig version</translation>
     </message>
 </context>
 <context>
@@ -16351,7 +16475,7 @@ Hvis du ønsker at sende kommentarer til den, der godkender, eller hvis du ønsk
     </message>
     <message>
         <source>Add object</source>
-        <translation>Tilføj objekt</translation>
+        <translation type="obsolete">Tilføj objekt</translation>
     </message>
     <message>
         <source>Invert selection.</source>
@@ -16631,6 +16755,38 @@ Hvis du ønsker at sende kommentarer til den, der godkender, eller hvis du ønsk
     </message>
     <message>
         <source>Confirm email</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add an object in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add an existing object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse to add an existing object in this relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Objects in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected elements from the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add objects in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add existing objects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse to add existing objects in this relation</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -18494,7 +18650,7 @@ Knap</translation>
     </message>
     <message>
         <source>Printable version</source>
-        <translation>Printervenlig version</translation>
+        <translation type="obsolete">Printervenlig version</translation>
     </message>
     <message>
         <source>Advanced search</source>
@@ -23520,11 +23676,11 @@ For at gøre det skal du ændre %chown kommandoer under Alternative skal-kommand
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>PHP is currently not configured to register enviroment variables in the global variable $_ENV.</source>
+        <source>PHP is currently not configured to register environment variables in the global variable $_ENV.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Since some extensions might use $_ENV it is recomended to fix it unless you have full controll over all extensions you use!</source>
+        <source>Since some extensions might use $_ENV it is recommended to fix it unless you have full control over all extensions you use!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -26916,6 +27072,10 @@ hvis du valgte mulighed &quot;%3&quot; fra &quot;%4&quot;</translation>
     <message>
         <source>Object %1 can not be embeded to itself.</source>
         <translation type="unfinished">Objekt %1 kan ikke indsættes i sig selv.</translation>
+    </message>
+    <message>
+        <source>%count invalid character(s) have been found and replaced by a space</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -277,7 +277,7 @@ class eZSiteAccess
                     $type = eZSiteAccess::TYPE_HTTP_HOST_URI;
                     if ( $ini->hasVariable( 'SiteAccessSettings', 'HostUriMatchMapItems' ) )
                     {
-                        $match_item = $uri->element( 0 );
+                        $uriString = $uri->elements();
                         $matchMapItems = $ini->variableArray( 'SiteAccessSettings', 'HostUriMatchMapItems' );
                         $defaultHostMatchMethod = $ini->variable( 'SiteAccessSettings', 'HostUriMatchMethodDefault' );
 
@@ -288,7 +288,7 @@ class eZSiteAccess
                             $matchAccess     = $matchMapItem[2];
                             $matchHostMethod = isset( $matchMapItem[3] ) ? $matchMapItem[3] : $defaultHostMatchMethod;
 
-                            if ( $matchURI !== '' && $matchURI !== $match_item )
+                            if ( $matchURI !== '' && !preg_match( "@^$matchURI\b@", $uriString ) )
                                 continue;
 
                             switch( $matchHostMethod )
@@ -320,9 +320,10 @@ class eZSiteAccess
                             {
                                 if ( $matchURI !== '' )
                                 {
-                                    $uri->increase( 1 );
+                                    $matchURIFolders = explode( '/', $matchURI );
+                                    $uri->increase( count( $matchURIFolders ) );
                                     $uri->dropBase();
-                                    $access['uri_part'] = array( $matchURI );
+                                    $access['uri_part'] = $matchURIFolders;
                                 }
                                 $access['name'] = $matchAccess;
                                 $access['type'] = $type;

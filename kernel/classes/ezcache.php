@@ -71,7 +71,8 @@ class eZCache
                                        'enabled' => true,
                                        'path' => false,
                                        'is-clustered' => true,
-                                       'function' => array( 'eZCache', 'clearClassID' ) ),
+                                       'function' => array( 'eZCache', 'clearClassID' ),
+                                       'purge-function' => array( 'eZCache', 'clearClassID' ) ),
                                 array( 'name' => ezpI18n::tr( 'kernel/cache', 'Sort key cache' ),
                                        'id' => 'sortkey',
                                        'tag' => array( 'content' ),
@@ -79,6 +80,7 @@ class eZCache
                                        'enabled' => true,
                                        'path' => false,
                                        'function' => array( 'eZCache', 'clearSortKey' ),
+                                       'purge-function' => array( 'eZCache', 'clearSortKey' ),
                                        'is-clustered' => true ),
                                 array( 'name' => ezpI18n::tr( 'kernel/cache', 'URL alias cache' ),
                                        'id' => 'urlalias',
@@ -97,6 +99,7 @@ class eZCache
                                        'path' => false,
                                        'enabled' => true,
                                        'function' => array( 'eZCache', 'clearImageAlias' ),
+                                       'purge-function' => array( 'eZCache', 'purgeImageAlias' ),
                                        'is-clustered' => true ),
                                 array( 'name' => ezpI18n::tr( 'kernel/cache', 'Template cache' ),
                                        'id' => 'template',
@@ -144,7 +147,8 @@ class eZCache
                                        'tag' => array( 'content' ),
                                        'path' => false,
                                        'enabled' => true,
-                                       'function' => array( 'eZCache', 'clearContentTreeMenu' ) ),
+                                       'function' => array( 'eZCache', 'clearContentTreeMenu' ),
+                                       'purge-function' => array( 'eZCache', 'clearContentTreeMenu' ) ),
                                 array( 'name' => ezpI18n::tr( 'kernel/cache', 'State limitations cache' ),
                                        'is-clustered' => true,
                                        'id' => 'state_limitations',
@@ -152,13 +156,15 @@ class eZCache
                                        'expiry-key' => 'state-limitations',
                                        'enabled' => true,
                                        'path' => false,
-                                       'function' => array( 'eZCache', 'clearStateLimitations' ) ),
+                                       'function' => array( 'eZCache', 'clearStateLimitations' ),
+                                       'purge-function' => array( 'eZCache', 'clearStateLimitations' ) ),
                                 array( 'name' => ezpI18n::tr( 'kernel/cache', 'Design base cache' ),
                                        'id' => 'design_base',
                                        'tag' => array( 'template' ),
-                                       'enabled' => true,
+                                       'enabled' => $ini->variable( 'DesignSettings', 'DesignLocationCache' ) == 'enabled',
                                        'path' => false,
-                                       'function' => array( 'eZCache', 'clearDesignBaseCache' ) ),
+                                       'function' => array( 'eZCache', 'clearDesignBaseCache' ),
+                                       'purge-function' => array( 'eZCache', 'clearDesignBaseCache' ) ),
                                 /**
                                  * caches the list of active extensions (per siteaccess and global)
                                  * @see eZExtension::activeExtensions()
@@ -169,7 +175,8 @@ class eZCache
                                        'expiry-key' => 'active-extensions-cache',
                                        'enabled' => true,
                                        'path' => false,
-                                       'function' => array( 'eZCache', 'clearActiveExtensions' ) ),
+                                       'function' => array( 'eZCache', 'clearActiveExtensions' ),
+                                       'purge-function' => array( 'eZCache', 'clearActiveExtensions' ) ),
 
                                 array( 'name' => ezpI18n::tr( 'kernel/cache', 'TS Translation cache' ),
                                        'id' => 'translation',
@@ -515,6 +522,98 @@ class eZCache
     }
 
     /**
+     * Purges the image aliases of all ezimage attribute. The original image is
+     * kept.
+     *
+     * @param array $cacheItem
+     * @access public
+     */
+    static function purgeImageAlias( $cacheItem )
+    {
+        // 1. fetch ezcontentclass having an ezimage attribute
+        // 2. fetch objects of these classes
+        // 3. purge image alias for all version
+
+        $imageContentClassAttributes = eZContentClassAttribute::fetchList(
+            true,
+            array(
+                'data_type' => 'ezimage',
+                'version' => eZContentClass::VERSION_STATUS_DEFINED
+            )
+        );
+        $classIds = array();
+        $attributeIdentifiersByClass = array();
+        foreach ( $imageContentClassAttributes as $ccAttr )
+        {
+            $identifier = $ccAttr->attribute( 'identifier' );
+            $ccId = $ccAttr->attribute( 'contentclass_id' );
+            if ( !isset( $attributeIdentifiersByClass[$ccId] ) )
+            {
+                $attributeIdentifiersByClass[$ccId] = array();
+            }
+            $attributeIdentifiersByClass[$ccId][] = $identifier;
+            $classIds[] = $ccId;
+
+        }
+
+        $subTreeParams = array(
+            'ClassFilterType' => 'include',
+            'ClassFilterArray' => $classIds,
+            'MainNodeOnly' => true,
+            'IgnoreVisibility' => true,
+            'LoadDataMap' => false,
+            'Limit' => 100,
+            'Offset' => 0
+        );
+        $count = 0;
+        while ( true )
+        {
+            $nodes = eZContentObjectTreeNode::subTreeByNodeID( $subTreeParams, 1 );
+            if ( empty( $nodes ) )
+            {
+                break;
+            }
+            foreach ( $nodes as $node )
+            {
+                call_user_func( $cacheItem['reporter'], '', $count );
+                $object = $node->attribute( 'object' );
+                self::purgeImageAliasForObject(
+                    $cacheItem, $object, $attributeIdentifiersByClass[$object->attribute( 'contentclass_id' )]
+                );
+                $count++;
+            }
+            eZContentObject::clearCache();
+            $subTreeParams['Offset'] += $subTreeParams['Limit'];
+        }
+        self::clearImageAlias( $cacheItem );
+    }
+
+    /**
+     * The purge the image aliases in all versions of the content object.
+     *
+     * @param array $cacheItem
+     * @param eZContentObject $object
+     * @param array $imageIdentfiers array of ezimage attribute identifiers
+     */
+    private static function purgeImageAliasForObject( array $cacheItem, eZContentObject $object, array $imageIdentfiers )
+    {
+        $versions = $object->attribute( 'versions' );
+        foreach ( $versions as $version )
+        {
+            $dataMap = $version->attribute( 'data_map' );
+            foreach ( $imageIdentfiers as $identifier )
+            {
+                $attr = $dataMap[$identifier];
+                if ( $attr->attribute( 'has_content' ) )
+                {
+                    $attr->attribute( 'content' )->purgeAllAliases( $attr );
+                }
+            }
+        }
+
+    }
+
+    /**
      * Sets the content tree menu timestamp to the current date and time,
      * this is used as a GET parameter in the content/treemenu requests and thus
      * forces a browser to load the content tree menu from a server rather than
@@ -659,7 +758,14 @@ class eZCache
         $cachePath = eZSys::cacheDirectory();
 
         $fileHandler = eZClusterFileHandler::instance();
-        $fileHandler->fileDeleteByWildcard( $cachePath . '/' . eZTemplateDesignResource::DESIGN_BASE_CACHE_NAME . '*' );
+        if ( !$fileHandler instanceof eZDBFileHandler )
+        {
+            // design base cache is disabled with eZDBFileHandler cluster
+            // handler, see eZTemplateDesignResource::allDesignBases()
+            $fileHandler->fileDelete(
+                $cachePath, eZTemplateDesignResource::DESIGN_BASE_CACHE_NAME
+            );
+        }
     }
 
     /**

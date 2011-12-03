@@ -174,10 +174,11 @@ th.yui-dt-hidden, tr.yui-dt-odd .yui-dt-hidden, tr.yui-dt-even .yui-dt-hidden {
     border: none;
     border-bottom: 1px dotted #CBCBCB;
     text-align: left;
+    vertical-align:middle;
 }
 
 .yui-dt img {
-    vertical-align: text-bottom;
+    vertical-align: middle;
 }
 
 .yui-dt-last td {
@@ -552,11 +553,6 @@ span.yui-pg-first,span.yui-pg-previous,span.yui-pg-next,span.yui-pg-last
     visibility: hidden;
     color: black;
     text-decoration: none;
-}
-
-.thumbview span img {
-    border-width: 0;
-    padding: 2px;
 }
 
 .thumbview:hover span {

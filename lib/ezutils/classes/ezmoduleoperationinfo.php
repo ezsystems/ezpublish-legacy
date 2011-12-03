@@ -167,7 +167,6 @@ class eZModuleOperationInfo
             {
                 $keyArray = $this->makeOperationKeyArray( $operationDefinition, $operationParameters );
                 $http = eZHTTPTool::instance();
-                $keyArray['session_key'] = $http->getSessionKey();
                 $mainMemento = null;
                 if ( $this->UseTriggers )
                     $mainMemento = eZOperationMemento::fetchMain( $keyArray );
@@ -179,6 +178,7 @@ class eZModuleOperationInfo
                     if ( isset( $mementoOperationData['loop_run'] ) )
                         $bodyCallCount['loop_run'] = $mementoOperationData['loop_run'];
                 }
+
 
                 $mementoList = null;
                 if ( $this->UseTriggers )
@@ -649,7 +649,6 @@ class eZModuleOperationInfo
         {
             $keyArray = $this->makeKeyArray( $operationKeys, $operationParameterDefinitions, $operationParameters );
             $http = eZHTTPTool::instance();
-            $keyArray['session_key'] = $http->getSessionKey();
             $mementoData['loop_run'] = $bodyCallCount['loop_run'];
             $memento = eZOperationMemento::create( $keyArray, $mementoData, true );
             $this->Memento = $memento;

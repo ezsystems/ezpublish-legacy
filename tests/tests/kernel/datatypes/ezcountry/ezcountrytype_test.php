@@ -31,7 +31,7 @@ class eZCountryTypeTest extends ezpDatabaseTestCase
         ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'Locale', 'fre-FR' );
 
         $countries = eZCountryType::fetchCountryList();
-        $this->assertType( 'array', $countries, "eZCountryType::fetchCountryList() didn't return an array" );
+        $this->assertInternalType( 'array', $countries, "eZCountryType::fetchCountryList() didn't return an array" );
 
         $countryListIsSorted = true;
         foreach( $countries as $country )

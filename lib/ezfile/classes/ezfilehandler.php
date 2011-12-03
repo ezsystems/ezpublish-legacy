@@ -558,7 +558,7 @@ class eZFileHandler
     /*!
      Tries to unlink the file from the file system.
     */
-    static function unlink( $filename = false )
+    function unlink( $filename = false )
     {
         if ( !$filename )
         {
@@ -872,7 +872,7 @@ class eZFileHandler
     */
     function doRewind()
     {
-        $this->doSeek( $offset, SEEK_SET );
+        $this->doSeek( 0, SEEK_SET );
     }
 
     /*!
@@ -902,7 +902,7 @@ class eZFileHandler
     */
     function doPasstrough( $closeFile = true )
     {
-        $result = @fpasstru( $this->FileHandler );
+        $result = @fpassthru( $this->FileHandler );
         if ( $closeFile )
         {
             @fclose( $this->FileHandler );

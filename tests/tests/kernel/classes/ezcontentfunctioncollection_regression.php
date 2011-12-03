@@ -35,11 +35,11 @@ class eZContentFunctionCollectionRegression extends ezpDatabaseTestCase
             eZContentFunctionCollection::fetchRelatedObjects( $nonExistingArticleID, false, true, false, false ),
             "eZContentFunctionCollection::fetchRelatedObjects($nonExistingArticleID) should have returned false" );
         $this->assertFalse(
-            eZContentFunctionCollection::fetchRelatedObjectsCount( $nonExistingArticleID, false, true, false, false ),
+            eZContentFunctionCollection::fetchRelatedObjectsCount( $nonExistingArticleID, false, true ),
             "eZContentFunctionCollection::fetchRelatedObjectsCount($nonExistingArticleID) should have returned false" );
         $this->assertFalse( eZContentFunctionCollection::fetchReverseRelatedObjects( $nonExistingArticleID, false, true, false, false, false ),
             "eZContentFunctionCollection::fetchReverseRelatedObjects($nonExistingArticleID) should have returned false" );
-        $this->assertFalse( eZContentFunctionCollection::fetchReverseRelatedObjectsCount( $nonExistingArticleID, false, true, false, false, false ),
+        $this->assertFalse( eZContentFunctionCollection::fetchReverseRelatedObjectsCount( $nonExistingArticleID, false, true, false ),
             "eZContentFunctionCollection::fetchReverseRelatedObjectsCount($nonExistingArticleID) should have returned false" );
     }
 }

@@ -598,7 +598,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
                                  'koi8-r' => 'koi8r',
                                  'koi8-u' => 'koi8u' );
         $charset = strtolower( $charset );
-        if ( isset( $charsetMapping ) )
+        if ( isset( $charsetMapping[$charset] ) )
             return $charsetMapping[$charset];
         return $charset;
     }
@@ -661,12 +661,12 @@ class eZMysqlSchema extends eZDBSchemaInterface
 
     function escapeSQLString( $value )
     {
-        if ( $this->DBInstance instanceof eZDBInterface )
+        if ( $this->DBInstance instanceof eZMySQLiDB || $this->DBInstance instanceof eZMySQLDB )
         {
             return $this->DBInstance->escapeString( $value );
         }
 
-        return $value;
+        return mysql_escape_string( $value );
     }
 
     function schemaType()

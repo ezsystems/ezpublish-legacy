@@ -25,8 +25,13 @@ class eZSearchLog
         $db->begin();
 
         $trans = eZCharTransform::instance();
-        $phrase = $trans->transformByGroup( trim( $phrase ), 'lowercase' );
+        $phrase = $trans->transformByGroup( trim( $phrase ), 'search' );
 
+        // 250 is the numbers of characters accepted by the DB table, so shorten to fit
+        if ( strlen( $phrase ) > 250 )
+        {
+            $phrase = substr( $phrase , 0 , 247 ) . "...";
+        }
         $phrase = $db->escapeString( $phrase );
 
         // find or store the phrase

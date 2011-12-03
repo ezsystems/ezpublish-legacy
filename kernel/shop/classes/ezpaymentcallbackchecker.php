@@ -195,7 +195,7 @@ class eZPaymentCallbackChecker
     */
     function checkServerIP()
     {
-        $remoteHostIP   = eZSys::serverVariable( 'REMOTE_ADDR' );
+        $remoteHostIP   = eZSys::clientIP();
         $serverIPList   = $this->ini->variable( 'ServerSettings', 'ServerIP');
 
         if ( $serverIPList === false )

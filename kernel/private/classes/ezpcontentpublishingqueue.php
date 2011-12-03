@@ -79,6 +79,7 @@ class ezpContentPublishingQueue implements ezpContentPublishingQueueReaderInterf
      */
     public static function add( $objectId, $version )
     {
+        self::init();
         self::signals()->emit( 'preQueue', $version, $objectId );
         $processObject = ezpContentPublishingProcess::queue( eZContentObjectVersion::fetchVersion( $version, $objectId ) );
 

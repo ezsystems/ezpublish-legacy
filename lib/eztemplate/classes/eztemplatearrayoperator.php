@@ -1418,7 +1418,14 @@ class eZTemplateArrayOperator
                     $returnArray = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
                     for( $i = 0; $i < count( $staticArray ); ++$i )
                     {
-                        $returnArray = array_merge( $returnArray, $staticArray[$i] );
+                        if ( is_array( $staticArray[$i] ) )
+                        {
+                            $returnArray = array_merge( $returnArray, $staticArray[$i] );
+                        }
+                        else
+                        {
+                            $returnArray[] = $staticArray[$i];
+                        }
                     }
                     return array( eZTemplateNodeTool::createArrayElement( $returnArray ) );
                 }

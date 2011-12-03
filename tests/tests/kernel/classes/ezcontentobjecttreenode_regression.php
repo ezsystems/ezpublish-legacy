@@ -94,7 +94,7 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
         $filterSQL = eZContentObjectTreeNode::createAttributeFilterSQLStrings(
             $attributeFilter );
 
-        $this->assertType( 'array', $filterSQL );
+        $this->assertInternalType( 'array', $filterSQL );
         $this->assertArrayHasKey( 'from', $filterSQL );
         $this->assertArrayHasKey( 'where', $filterSQL );
     }
@@ -118,7 +118,7 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
 
         $sqlArray = eZContentObjectTreeNode::createPermissionCheckingSQL( $policyLimitationArray );
 
-        $this->assertType( 'array', $sqlArray );
+        $this->assertInternalType( 'array', $sqlArray );
         $this->assertArrayHasKey( 'from', $sqlArray );
 
         // we need to check that each identifier in the 'from' of this array
@@ -148,7 +148,7 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
         $node = eZContentObjectTreeNode::fetch( $nodeID, false, true,
             array( 'contentobject_version' => 1 ) );
 
-        $this->assertType( 'eZContentObjectTreeNode', $node);
+        $this->assertInstanceOf( 'eZContentObjectTreeNode', $node );
     }
 
 

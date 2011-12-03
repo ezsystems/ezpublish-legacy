@@ -850,7 +850,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         if ( self::LOCAL_CACHE )
         {
             eZDebugSetting::writeDebug( 'kernel-clustering',
-                "Creating local copy of the file", "dfs::storeCache( '{$this->filePath}' )", __METHOD__ );
+                "Creating local copy of the file", "dfs::storeCache( '{$this->filePath}' )" );
             eZFile::create( basename( $this->filePath ), dirname( $this->filePath ), $binaryData, true );
         }
 
@@ -1123,25 +1123,27 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
     /**
      * Check if given file/dir exists.
      * @param string $path File path to test existence for
+     * @param bool $checkDFSFile if true, also check on the DFS
      * @see eZDFSFileHandler::exists()
      * @return bool
      */
-    function fileExists( $path )
+    function fileExists( $path, $checkDFSFile = false )
     {
         $path = eZDBFileHandler::cleanPath( $path );
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileExists( '$path' )" );
-        return self::$dbbackend->_exists( $path );
+        return self::$dbbackend->_exists( $path, false, true, $checkDFSFile );
     }
 
     /**
      * Check if given file/dir exists.
+     * @param bool $checkDFSFile if true, also check on the DFS
      * @see eZDFSFileHandler::fileExists()
      * @return bool
      */
-    function exists()
+    function exists( $checkDFSFile = false )
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::exists( '$this->filePath' )" );
-        return self::$dbbackend->_exists( $this->filePath );
+        return self::$dbbackend->_exists( $this->filePath, false, true, $checkDFSFile );
     }
 
     /**
@@ -1227,7 +1229,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
     {
         eZDebugSetting::writeDebug( 'kernel-clustering',
                                     sprintf( "dfs::getFileList( array( %s ), %d )",
-                                             implode( ', ', $scopes ), (int) $excludeScopes ) );
+                                             is_array( $scopes ) ? implode( ', ', $scopes ) : '', (int) $excludeScopes ) );
         return self::$dbbackend->_getFileList( $scopes, $excludeScopes );
     }
 

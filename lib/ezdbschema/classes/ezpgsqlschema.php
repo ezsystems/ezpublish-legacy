@@ -339,49 +339,34 @@ class eZPgsqlSchema extends eZDBSchemaInterface
         switch ( $type )
         {
             case 'char':
-            {
-                if ( $length == 1 )
-                {
-                    return 'character';
-                }
-                else
-                {
-                    return 'character varying';
-                }
-            } break;
+                return 'character';
+
             case 'int':
-            {
                 return 'integer';
-            } break;
+
             case 'bigint':
-            {
                 return 'bigint';
-            } break;
+
             case 'varchar':
-            {
                 return 'character varying';
-            } break;
+
             case 'longtext':
-            {
                 return 'text';
-            } break;
+
             case 'mediumtext':
-            {
                 return 'text';
-            } break;
+
             case 'text':
-            {
                 return 'text';
-            } break;
+
             case 'float':
+                return 'real';
+
             case 'double':
-            {
                 return 'double precision';
-            } break;
+
             case 'decimal':
-            {
                 return 'numeric';
-            } break;
 
             default:
                 die ( "ERROR UNHANDLED TYPE: $type\n" );
@@ -405,36 +390,30 @@ class eZPgsqlSchema extends eZDBSchemaInterface
         switch ( $type )
         {
             case 'bigint':
-            {
                 $length = 20;
                 return 'bigint';
-            } break;
+
             case 'integer':
-            {
                 $length = 11;
                 return 'int';
-            } break;
+
             case 'character varying':
-            {
                 return 'varchar';
-            } break;
+
             case 'text':
-            {
                 return 'longtext';
-            } break;
+
             case 'double precision':
-            {
+                return 'double';
+                
+            case 'real':
                 return 'float';
-            } break;
+
             case 'character':
-            {
-                $length = 1;
                 return 'char';
-            } break;
+
             case 'numeric':
-            {
                 return 'decimal';
-            } break;
 
             default:
                 die ( "ERROR UNHANDLED TYPE: $type\n" );
@@ -560,7 +539,8 @@ class eZPgsqlSchema extends eZDBSchemaInterface
     {
         if ($def['type'] == 'primary' )
         {
-            $sql = "ALTER TABLE $table_name DROP CONSTRAINT $index_name";
+            $sql = "ALTER TABLE $table_name DROP CONSTRAINT "
+                 . $this->primaryKeyIndexName( $table_name, $index_name, $def['fields'] );
         }
         else
         {
@@ -651,6 +631,10 @@ class eZPgsqlSchema extends eZDBSchemaInterface
                 }
                 else if ( $def['type'] == 'float' )
                 {
+                    $sql_def .= "DEFAULT {$def['default']}::real ";
+                }
+                else if ( $def['type'] == 'double' )
+                {
                     $sql_def .= "DEFAULT {$def['default']}::double precision ";
                 }
                 else if ( $def['type'] == 'varchar' )
@@ -710,6 +694,21 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             $sql .= $nullSQL . ";\n";
         $sql .= "\n";
         return $sql;
+    }
+
+    /*!
+     \private
+    */
+    function generateDropFieldSql( $table_name, $field_name, $params )
+    {
+        if ( in_array( $field_name, $this->reservedKeywordList() ) )
+        {
+            $field_name = '"' . $field_name . '"';
+        }
+
+        $sql = "ALTER TABLE $table_name DROP COLUMN $field_name";
+
+        return $sql . ";\n";
     }
 
     /*!
@@ -904,9 +903,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 
     function escapeSQLString( $value )
     {
-        $value = str_replace( "'", "\'", $value );
-        $value = str_replace( "\"", "\\\"", $value );
-        return $value;
+        return pg_escape_string( $value );
     }
 
     function schemaType()

@@ -19,10 +19,11 @@ class eZDatatypeTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZStringTypeTest' );
         $this->addTestSuite( 'eZCountryTypeTest' );
         $this->addTestSuite( 'eZUserTest' );
-        $this->addTestSuite( 'eZLDAPUserTest' );
+//        $this->addTestSuite( 'eZLDAPUserTest' );
         $this->addTestSuite( 'eZTextFileUserTest' );
         $this->addTestSuite( 'eZEmailTypeTest' );
         $this->addTestSuite( 'eZXMLInputParserTest' );
+        $this->addTestSuite( 'eZSimplifiedXMLInputParserRegression' );
 
         $this->addTestSuite( 'eZBinaryFileTypeRegression' );
         $this->addTestSuite( 'eZImageTypeRegression' );
@@ -36,6 +37,8 @@ class eZDatatypeTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZUserTypeRegression' );
         $this->addTestSuite( 'eZXHTMLXMLOutputRegression' );
         $this->addTestSuite( 'eZXMLTextTest' );
+
+        $this->addTestSuite( 'eZObjectRelationListDatatypeRegression' );
     }
 
     public static function suite()

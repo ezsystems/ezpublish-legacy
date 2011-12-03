@@ -25,7 +25,7 @@ class eZRoleTest extends ezpDatabaseTestCase
     {
         // test with an empty array
         $roles = eZRole::fetchByUser( array() );
-        $this->assertType( 'array', $roles,
+        $this->assertInternalType( 'array', $roles,
             "eZRole::fetchByUser with an empty array should have returned an array" );
         $this->assertEquals( 0, count( $roles ),
             "eZRole::fetchByUser with an empty array should have returned an empty array" );
@@ -35,26 +35,26 @@ class eZRoleTest extends ezpDatabaseTestCase
         // by group
         $parameter = array( self::$anonymousUserID, self::$adminUserID );
         $roles = eZRole::fetchByUser( $parameter );
-        $this->assertType( 'array', $roles,
+        $this->assertInternalType( 'array', $roles,
             "eZRole::fetchByUser with admin & anonymous should have returned an array" );
         $this->assertEquals( 0, count( $roles ),
             "eZRole::fetchByUser with admin & anonymous should have returned an empty array" );
         foreach( $roles as $role )
         {
-            $this->assertType( 'eZRole', $role, "Returned items should be roles" );
+            $this->assertInstanceOf( 'eZRole', $role, "Returned items should be roles" );
         }
 
         // test with the same users, but recursively: should return anonymous
         // and administrator roles
         $parameter = array( self::$anonymousUserID, self::$adminUserID );
         $roles = eZRole::fetchByUser( $parameter, true );
-        $this->assertType( 'array', $roles,
+        $this->assertInternalType( 'array', $roles,
             "recursive eZRole::fetchByUser with admin & anonymous should have returned an array" );
         $this->assertEquals( 2, count( $roles ),
             "recursive eZRole::fetchByUser with admin & anonymous should have returned an empty array" );
         foreach( $roles as $role )
         {
-            $this->assertType( 'eZRole', $role, "Returned items should be roles" );
+            $this->assertInstanceOf( 'eZRole', $role, "Returned items should be roles" );
         }
     }
 
@@ -65,7 +65,7 @@ class eZRoleTest extends ezpDatabaseTestCase
     {
         // fetch roles ID for anonymous group
         $roles = eZRole::fetchIDListByUser( array( self::$anonymousGroupID ) );
-        $this->assertType( 'array', $roles, "The method should have returned an array" );
+        $this->assertInternalType( 'array', $roles, "The method should have returned an array" );
         $this->assertEquals( 1, count( $roles ), "The array should contain one item" );
         $this->assertEquals( 1, $roles[0], "The returned role ID should be 1 (anonymous role)" );
     }
@@ -85,7 +85,7 @@ class eZRoleTest extends ezpDatabaseTestCase
         // check that the role's policies all are final (not temporary)
         foreach( $role->policyList() as $policy )
         {
-            $this->assertType( 'eZPolicy', $policy );
+            $this->assertInstanceOf( 'eZPolicy', $policy );
             $this->assertEquals( 0, $policy->attribute( 'original_id' ) );
         }
     }

@@ -193,13 +193,16 @@ class eZURLAliasMLTest extends ezpDatabaseTestCase
 
         $action = "eznode:" . mt_rand();
         $name = __FUNCTION__ . mt_rand();
+        
+        $engGB = eZContentLanguage::fetchByLocale( 'eng-GB' );
+        $norNO = eZContentLanguage::fetchByLocale( 'nor-NO' );
 
         // Create an english entry
-        $url1 = eZURLAliasML::create( $name . " en", $action, 0, 2 );
+        $url1 = eZURLAliasML::create( $name . " en", $action, 0, $engGB->attribute( 'id' ) );
         $url1->store();
 
         // Create a norwegian entry
-        $url2 = eZURLAliasML::create( $name . " no", $action, 0, 4 );
+        $url2 = eZURLAliasML::create( $name . " no", $action, 0, $norNO->attribute( 'id' ) );
         $url2->store();
 
         // Fetch the created entries. choosePrioritizedRow() wants rows from the
@@ -218,8 +221,8 @@ class eZURLAliasMLTest extends ezpDatabaseTestCase
         eZContentLanguage::clearPrioritizedLanguages();
         $row = eZURLAliasML::choosePrioritizedRow( $rows );
 
-        // The prioritzed language should be 'eng-GB' (lang_mask = 2)
-        self::assertEquals( 2, $row["lang_mask"] );
+        // The prioritzed language should be 'eng-GB'
+        self::assertEquals( $engGB->attribute( 'id' ), $row["lang_mask"] );
         // -------------------------------------------------------------------
 
 
@@ -232,8 +235,8 @@ class eZURLAliasMLTest extends ezpDatabaseTestCase
         eZContentLanguage::clearPrioritizedLanguages();
         $row = eZURLAliasML::choosePrioritizedRow( $rows );
 
-        // The prioritzed language should be 'nor-NO' (lang_mask = 4)
-        self::assertEquals( 4, $row["lang_mask"] );
+        // The prioritzed language should be 'nor-NO'
+        self::assertEquals( $norNO->attribute( 'id' ), $row["lang_mask"] );
         // -------------------------------------------------------------------
 
 

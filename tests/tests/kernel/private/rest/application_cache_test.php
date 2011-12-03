@@ -379,7 +379,7 @@ class ezpRestApplicationCacheTest extends ezpRestTestCase
         $controller->setRestINI( $this->restINI );
 
         $res = $controller->createResult(); // Should generate some cache in the cluster
-        self::assertType( 'ezpRestMvcResult' , $res, 'REST action must return ezpRestMvcResult object' );
+        self::assertInstanceOf( 'ezpRestMvcResult' , $res, 'REST action must return ezpRestMvcResult object' );
         $cacheLocation = eZSys::cacheDirectory().'/rest/'.$controller->cacheLocation;
         $cacheFile = $controller->cacheId.'-.cache'; // FIXME, as file name generation depends on ezcCacheStorageFile class
         $clusterFile = eZClusterFileHandler::instance( $cacheLocation.'/'.$cacheFile );
@@ -387,7 +387,7 @@ class ezpRestApplicationCacheTest extends ezpRestTestCase
 
         // Generate the result a second time, to be sure that object coming from cache is the same
         $res2 = $controller->createResult();
-        self::assertType( 'ezpRestMvcResult', $res2, 'Result extracted from REST application cache must be the same type as the one generated without cache' );
+        self::assertInstanceOf( 'ezpRestMvcResult', $res2, 'Result extracted from REST application cache must be the same type as the one generated without cache' );
         self::assertEquals( $res, $res2, 'Result extracted from REST application cache must be the same than the one generated without cache' );
 
         // Now test expiry

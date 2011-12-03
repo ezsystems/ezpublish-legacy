@@ -132,7 +132,7 @@ table.list th, table.list td, table.special th, table.special td
 {
     padding: 0.25em;
     text-align: left;
-    vertical-align: top;
+    vertical-align: middle;
 }
 
 table.list th, table.special th
@@ -299,13 +299,15 @@ input.button, button, input.defaultbutton, input.button-disabled
     cursor: pointer;
     font-size: 0.9em;
     font-weight: normal;
-    padding: 0em 0.25em 0em 0.25em;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
 }
 
 input.defaultbutton
 {
 	font-weight: bold;
-	padding: 0em 0.45em 0em 0.45em;
+	padding-left: 0.45em;
+	padding-right: 0.45em;
 	color: #094564;
 }
 

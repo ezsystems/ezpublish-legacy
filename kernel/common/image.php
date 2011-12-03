@@ -17,6 +17,7 @@
 
 function imageInit()
 {
+    eZDebug::writeStrict( 'Function imageInit() has been deprecated in 4.3 in favor of eZImageManager::factory()', 'Deprecation' );
     return eZImageManager::factory();
 }
 

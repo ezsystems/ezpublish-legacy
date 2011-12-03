@@ -225,6 +225,27 @@ class eZDFSFileHandlerDFSBackend
     }
 
     /**
+     * Checks if a file exists on the DFS
+     *
+     * @param string $filePath
+     * @return bool
+     */
+    public function existsOnDFS( $filePath )
+    {
+        return file_exists( $this->makeDFSPath( $filePath ) );
+    }
+
+    /**
+     * Returns the mount point
+     *
+     * @return string
+     */
+    public function getMountPoint()
+    {
+        return $this->mountPointPath;
+    }
+
+    /**
      * Computes the DFS file path based on a relative file path
      * @param string $filePath
      * @return string the absolute DFS file path

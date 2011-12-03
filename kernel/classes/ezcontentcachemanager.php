@@ -658,11 +658,11 @@ class eZContentCacheManager
 
     /*!
      \static
-     Depreciated. Use 'clearObjectViewCache' instead
+     Deprecated. Use 'clearObjectViewCache' instead
     */
     static function clearViewCache( $objectID, $versionNum = true , $additionalNodeList = false )
     {
-        eZDebug::writeWarning( "'clearViewCache' function was depreciated. Use 'clearObjectViewCache' instead", __METHOD__ );
+        eZDebug::writeWarning( "'clearViewCache' function was deprecated. Use 'clearObjectViewCache' instead", __METHOD__ );
         eZContentCacheManager::clearObjectViewCache( $objectID, $versionNum, $additionalNodeList );
     }
 
@@ -709,9 +709,16 @@ class eZContentCacheManager
         $ini = eZINI::instance();
         if ( $ini->variable( 'ContentSettings', 'StaticCache' ) == 'enabled' )
         {
-            $staticCache = new eZStaticCache();
-            $staticCache->generateAlwaysUpdatedCache();
-            $staticCache->generateNodeListCache( $nodeList );
+            $optionArray = array( 'iniFile'      => 'site.ini',
+                                  'iniSection'   => 'ContentSettings',
+                                  'iniVariable'  => 'StaticCacheHandler' );
+
+            $options = new ezpExtensionOptions( $optionArray );
+
+            $staticCacheHandler = eZExtension::getHandlerClass( $options );
+
+            $staticCacheHandler->generateAlwaysUpdatedCache();
+            $staticCacheHandler->generateNodeListCache( $nodeList );
         }
 
         eZDebug::accumulatorStart( 'node_cleanup', '', 'Node cleanup' );
@@ -867,7 +874,7 @@ class eZContentCacheManager
 
                             // Before we generate the view cache we must change the currently logged in user to $previewCacheUser
                             // If not the templates might read in wrong personalized data (preferences etc.)
-                            eZUser::setCurrentlyLoggedInUser( $previewCacheUser, $previewCacheUser->attribute( 'contentobject_id' ) );
+                            eZUser::setCurrentlyLoggedInUser( $previewCacheUser, $previewCacheUser->attribute( 'contentobject_id' ), eZUser::NO_SESSION_REGENERATE );
 
                             // Cache the current node
                             $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $previewCacheUser, $node->attribute( 'node_id' ), 0, false, $language, $viewMode, $viewParameters, $cachedViewPreferences );
@@ -886,7 +893,7 @@ class eZContentCacheManager
                     }
                 }
                 // Restore the old user as the current one
-                eZUser::setCurrentlyLoggedInUser( $user, $user->attribute( 'contentobject_id' ) );
+                eZUser::setCurrentlyLoggedInUser( $user, $user->attribute( 'contentobject_id' ), eZUser::NO_SESSION_REGENERATE );
 
                 // restore siteaccess
                 eZSiteAccess::load( $currentSiteAccess );
@@ -897,9 +904,16 @@ class eZContentCacheManager
         {
             $nodes = array();
             $ini = eZINI::instance();
-            $staticCache = new eZStaticCache();
             $useURLAlias =& $GLOBALS['eZContentObjectTreeNodeUseURLAlias'];
             $pathPrefix = $ini->variable( 'SiteAccessSettings', 'PathPrefix' );
+            
+            // get staticCacheHandler instance
+            $optionArray = array( 'iniFile'      => 'site.ini',
+                                  'iniSection'   => 'ContentSettings',
+                                  'iniVariable'  => 'StaticCacheHandler' );
+
+            $options = new ezpExtensionOptions( $optionArray );
+            $staticCacheHandler = eZExtension::getHandlerClass( $options );
 
             if ( !isset( $useURLAlias ) )
             {
@@ -933,9 +947,9 @@ class eZContentCacheManager
                     {
                         $urlAlias = 'content/view/full/' . $nodeID;
                     }
-                    $staticCache->cacheURL( '/' . $urlAlias, $nodeID );
+                    $staticCacheHandler->cacheURL( '/' . $urlAlias, $nodeID );
                 }
-                $staticCache->generateAlwaysUpdatedCache();
+                $staticCacheHandler->generateAlwaysUpdatedCache();
             }
         }
         eZDebug::accumulatorStop( 'generate_cache' );

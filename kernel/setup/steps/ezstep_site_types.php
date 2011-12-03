@@ -80,6 +80,7 @@ class eZStepSiteTypes extends eZStepInstaller
             curl_setopt( $ch, CURLOPT_FILE, $fp );
             curl_setopt( $ch, CURLOPT_HEADER, 0 );
             curl_setopt( $ch, CURLOPT_FAILONERROR, 1 );
+            curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 3 );
             // Get proxy
             $ini = eZINI::instance();
             $proxy = $ini->hasVariable( 'ProxySettings', 'ProxyServer' ) ? $ini->variable( 'ProxySettings', 'ProxyServer' ) : false;
@@ -177,7 +178,8 @@ class eZStepSiteTypes extends eZStepInstaller
         $package = eZPackage::import( $archiveName, $packageName, false );
 
         // Remove downloaded ezpkg file
-        eZFileHandler::unlink( $archiveName );
+        $ezFileHandler = new eZFileHandler();
+        $ezFileHandler->unlink( $archiveName );
 
         if ( !$package instanceof eZPackage )
         {

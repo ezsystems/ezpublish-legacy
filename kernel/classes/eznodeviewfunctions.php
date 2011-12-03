@@ -539,11 +539,11 @@ class eZNodeviewfunctions
                           'store'   => false );
         }
 
-        if ( !$object->canRead() )
+        if ( !$node->canRead() )
         {
             return array( 'content' => $Module->handleError( eZError::KERNEL_ACCESS_DENIED,
                                                              'kernel',
-                                                             array( 'AccessList' => $object->accessList( 'read' ) ) ),
+                                                             array( 'AccessList' => $node->checkAccess( 'read', false, false, true ) ) ),
                           'store'   => false );
         }
 

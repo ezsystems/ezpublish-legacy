@@ -250,7 +250,7 @@ class eZDateType extends eZDataType
     */
     function metaData( $contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( 'data_int' );
+        return (int)$contentObjectAttribute->attribute( 'data_int' );
     }
 
     /*!

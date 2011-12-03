@@ -479,9 +479,9 @@ class eZImageAliasHandler
      The first this is called the XML data will be parsed into the internal
      structures. Subsequent calls will simply return the internal structure.
     */
-    function aliasList()
+    function aliasList( $checkValidity = true )
     {
-        if ( isset( $this->ContentObjectAttributeData['DataTypeCustom']['alias_list'] ) )
+        if ( $checkValidity && isset( $this->ContentObjectAttributeData['DataTypeCustom']['alias_list'] ) )
         {
             return $this->ContentObjectAttributeData['DataTypeCustom']['alias_list'];
         }
@@ -627,13 +627,14 @@ class eZImageAliasHandler
                         $aliasEntry['filesize'] = $aliasFile->size();
                 }
 
-                if ( $imageManager->isImageAliasValid( $aliasEntry ) )
+                if ( $imageManager->isImageAliasValid( $aliasEntry ) || !$checkValidity )
                 {
                     $aliasList[$aliasEntry['name']] = $aliasEntry;
                 }
             }
         }
-        $this->setAliasList( $aliasList );
+        if ( $checkValidity )
+            $this->setAliasList( $aliasList );
         eZDebug::accumulatorStop( 'imageparse' );
         return $aliasList;
     }
@@ -670,6 +671,45 @@ class eZImageAliasHandler
             eZDir::cleanupEmptyDirectories( $dirpath );
         }
         eZImageFile::removeForContentObjectAttribute( $attributeData['attribute_id'] );
+    }
+
+    /**
+     * Removes the images alias while keeping the original image.
+     * @see eZCache::purgeAllAliases()
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     */
+    public function purgeAllAliases( eZContentObjectAttribute $contentObjectAttribute )
+    {
+        $aliasList = $this->aliasList( false );
+        unset( $aliasList['original'] ); // keeping original
+
+        foreach ( $aliasList as $aliasName => $alias )
+        {
+            $filepath = $alias['url'];
+
+            $file = eZClusterFileHandler::instance( $filepath );
+            if ( $file->exists() )
+            {
+                $file->purge();
+                eZImageFile::removeFilepath( $this->ContentObjectAttributeData['id'], $filepath );
+                eZDir::cleanupEmptyDirectories( $alias['dirpath'] );
+            }
+            else
+            {
+                eZDebug::writeError( "Image file $filepath for alias $aliasName does not exist, could not remove from disk", __METHOD__ );
+            }
+        }
+
+        $doc = $this->ContentObjectAttributeData['DataTypeCustom']['dom_tree'];
+        foreach ( $doc->getElementsByTagName( 'alias' ) as $aliasNode )
+        {
+            $aliasNode->parentNode->removeChild( $aliasNode );
+        }
+        $this->ContentObjectAttributeData['DataTypeCustom']['dom_tree'] = $doc;
+        unset( $this->ContentObjectAttributeData['DataTypeCustom']['alias_list'] );
+
+        $this->storeDOMTree( $doc, true, $contentObjectAttribute );
     }
 
     /**
@@ -1559,8 +1599,7 @@ class eZImageAliasHandler
         {
             $this->setOriginalAttributeDataValues( $contentObjectAttribute->attribute( 'id' ),
                                                    $contentObjectAttribute->attribute( 'version' ),
-                                                   $contentObjectAttribute->attribute( 'language_code' ),
-                                                   false );
+                                                   $contentObjectAttribute->attribute( 'language_code' ) );
         }
     }
 

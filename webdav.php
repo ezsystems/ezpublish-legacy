@@ -58,12 +58,9 @@ require_once( 'kernel/common/ezincludefunctions.php' );
 eZExtension::activateExtensions( 'default' );
 // Extension check end
 
-// Make sure site.ini and template.ini reloads its cache incase
-// extensions override it
-$ini = eZINI::instance( 'site.ini' );
-$ini->loadCache();
-$tplINI = eZINI::instance( 'template.ini' );
-$tplINI->loadCache();
+// Now that all extensions are activated and siteaccess has been changed, reset
+// all eZINI instances as they may not take into account siteaccess specific settings.
+eZINI::resetAllInstances( false );
 
 // Grab the main WebDAV setting (enable/disable) from the WebDAV ini file.
 $webDavIni = eZINI::instance( 'webdav.ini' );
@@ -87,7 +84,7 @@ function eZFatalError()
     eZWebDAVContentBackend::appendLogEntry( "The execution of eZ Publish was abruptly ended, the debug output is present below." );
     eZWebDAVContentBackend::appendLogEntry( "****************************************" );
     // $templateResult = null;
-    // eZDisplayResult( $templateResult, eZDisplayDebug() );
+    // eZDisplayResult( $templateResult );
 }
 
 // Check and proceed only if WebDAV functionality is enabled:
@@ -110,6 +107,7 @@ if ( $enable === 'true' )
     eZWebDAVContentBackend::appendLogEntry( "========================================" );
     eZWebDAVContentBackend::appendLogEntry( "Requested URI is: " . $_SERVER['REQUEST_URI'], 'webdav.php' );
 
+    $ini = eZINI::instance( 'site.ini' );
     // Initialize/set the index file.
     eZSys::init( 'webdav.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) === 'true' );
 
