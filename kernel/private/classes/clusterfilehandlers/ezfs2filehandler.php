@@ -497,7 +497,14 @@ class eZFS2FileHandler extends eZFSFileHandler
      */
     public function checkCacheGenerationTimeout()
     {
-        clearstatcache();
+        if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 )
+        {
+            clearstatcache( false, $this->filePath );
+        }
+        else
+        {
+            clearstatcache();
+        }
         // file_exists = false: another process stole the lock and finished the generation
         // filemtime != stored one: another process is generating the file
         if ( !file_exists( $this->filePath ) or ( @filemtime( $this->filePath ) != $this->generationStartTimestamp ) )

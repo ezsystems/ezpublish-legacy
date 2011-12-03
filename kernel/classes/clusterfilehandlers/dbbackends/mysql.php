@@ -497,7 +497,14 @@ class eZDBFileHandlerMysqlBackend
         fclose( $fp );
 
         // Make sure all data is written correctly
-        clearstatcache();
+        if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 )
+        {
+            clearstatcache( false, $tmpFilePath );
+        }
+        else
+        {
+            clearstatcache();
+        }
         $tmpSize = filesize( $tmpFilePath );
         if ( $tmpSize != $metaData['size'] )
         {
@@ -751,7 +758,14 @@ class eZDBFileHandlerMysqlBackend
     function _storeInner( $filePath, $datatype, $scope, $fname )
     {
         // Insert file metadata.
-        clearstatcache();
+        if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 )
+        {
+            clearstatcache( false, $filePath );
+        }
+        else
+        {
+            clearstatcache();
+        }
         $fileMTime = filemtime( $filePath );
         $contentLength = filesize( $filePath );
         $filePathHash = md5( $filePath );

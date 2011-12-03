@@ -465,7 +465,15 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
                             $localmtime = @filemtime( $this->filePath );
                             $mtime = max( $mtime, $localmtime );
                             touch( $this->filePath, $mtime, $mtime );
-                            clearstatcache(); // Needed because of touch() call
+                            // Needed because of touch() call
+                            if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 )
+                            {
+                                clearstatcache( false, $this->filePath );
+                            }
+                            else
+                            {
+                                clearstatcache();
+                            }
 
                             $args = array( $this->filePath, $mtime );
                             if ( $extraData !== null )
@@ -711,7 +719,16 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
             // we write the generated cache to disk if it does not exist yet,
             // to speed up the next uncached operation
             // This file will be overwritten by the real file
-            clearstatcache();
+
+            if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 )
+            {
+                clearstatcache( true, $this->filePath );
+            }
+            else
+            {
+                clearstatcache();
+            }
+
             if ( !file_exists( $this->filePath ) )
             {
                 eZDebugSetting::writeDebug( 'kernel-clustering', "Writing stale file content to local file {$this->filePath}" );

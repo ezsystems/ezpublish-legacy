@@ -117,7 +117,14 @@ class eZFSFileHandler
             eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
             if ( $force )
             {
-                clearstatcache();
+                if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 )
+                {
+                    clearstatcache( true, $this->filePath );
+                }
+                else
+                {
+                    clearstatcache();
+                }
                 eZDebugSetting::writeDebug( 'kernel-clustering', ' clearstatcache called on ' . $this->filePath, __METHOD__ );
             }
 
@@ -381,7 +388,14 @@ class eZFSFileHandler
                 // This is where we perform a two-phase commit. If any other
                 // process or machine has generated the file data and it is valid
                 // we will retry the retrieval part and not do the generation.
-                clearstatcache();
+                if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 )
+                {
+                    clearstatcache( true, $fname );
+                }
+                else
+                {
+                    clearstatcache();
+                }
                 eZDebugSetting::writeDebug( 'kernel-clustering', "clearstatcache called on $fname", __METHOD__ );
                 if ( file_exists( $fname ) && !$this->isExpired( $expiry, $curtime, $ttl ) )
                 {

@@ -28,7 +28,14 @@ $exportPath = $package->exportToArchive( $exportPath );
 $fileName = $exportPath;
 if ( $fileName != "" and file_exists( $fileName ) )
 {
-    clearstatcache();
+    if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 )
+    {
+        clearstatcache( false, $fileName );
+    }
+    else
+    {
+        clearstatcache();
+    }
     $fileSize = filesize( $fileName );
     $mimeType =  'application/octet-stream';
     $originalFileName = $exportName;
