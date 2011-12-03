@@ -466,7 +466,6 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
                             $mtime = max( $mtime, $localmtime );
                             touch( $this->filePath, $mtime, $mtime );
                             // Needed because of touch() call
-                            // generates a warning on old php version
                             if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 )
                             {
                                 clearstatcache( false, $this->filePath );
@@ -721,7 +720,6 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
             // to speed up the next uncached operation
             // This file will be overwritten by the real file
 
-            // generates a warning on old php version
             if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 )
             {
                 clearstatcache( true, $this->filePath );

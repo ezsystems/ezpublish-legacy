@@ -117,7 +117,6 @@ class eZFSFileHandler
             eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
             if ( $force )
             {
-                // generates a warning on old php version
                 if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 )
                 {
                     clearstatcache( true, $this->filePath );
