@@ -1241,6 +1241,19 @@ class eZDebug
     }
 
     /*!
+       Sets the time of the stop of the script ot \a $time.
+       If \a $time is not supplied it gets the current \c microtime( true ).
+       This is used to calculate total execution time and percentages.
+    */
+    static function setScriptStop( $time = false )
+    {
+        if ( $time == false )
+            $time = microtime( true );
+        $debug = eZDebug::instance();
+        $debug->ScriptStop = $time;
+    }
+
+    /*!
       Creates an accumulator group with key \a $key and group name \a $name.
       If \a $name is not supplied name is taken from \a $key.
     */
@@ -1295,6 +1308,7 @@ class eZDebug
     {
         if ( !eZDebug::isDebugEnabled() )
             return;
+        $starttime = microtime( true );
         $debug = eZDebug::instance();
         $key = $key === false ? 'Default Debug-Accumulator' : $key;
         if ( ! array_key_exists( $key, $debug->TimeAccumulatorList ) )
@@ -1312,7 +1326,7 @@ class eZDebug
             $debug->TimeAccumulatorList[$key]['recursive_counter'] = 0;
         }
 
-        $debug->TimeAccumulatorList[$key]['temp_time'] = microtime( true );
+        $debug->TimeAccumulatorList[$key]['temp_time'] = $starttime;
     }
 
     /*!
@@ -1322,8 +1336,8 @@ class eZDebug
     {
         if ( !eZDebug::isDebugEnabled() )
             return;
-        $debug = eZDebug::instance();
         $stopTime = microtime( true );
+        $debug = eZDebug::instance();
         $key = $key === false ? 'Default Debug-Accumulator' : $key;
         if ( ! array_key_exists( $key, $debug->TimeAccumulatorList ) )
         {
@@ -1379,7 +1393,14 @@ class eZDebug
         if ( !$allowedDebugLevels )
             $allowedDebugLevels = array( self::LEVEL_NOTICE, self::LEVEL_WARNING, self::LEVEL_ERROR,
                                          self::LEVEL_DEBUG, self::LEVEL_TIMING_POINT, self::LEVEL_STRICT );
-        $endTime = microtime( true );
+        if ( $this->ScriptStop == null )
+        {
+            $endTime = microtime( true );
+        }
+        else
+        {
+            $endTime = $this->ScriptStop;
+        }
 
         if ( $returnReport )
         {
@@ -1461,7 +1482,7 @@ class eZDebug
             echo "<h3>Timing points:</h3>";
             echo "<table id='timingpoints' title='Tabel of timingpoint stats.'><tr><th>Checkpoint</th><th>Elapsed</th><th>Rel. Elapsed</th><th>Memory</th><th>Rel. Memory</th></tr>";
         }
-        $startTime = false;
+        $startTime = $this->ScriptStart;
         $elapsed = 0.00;
         $relElapsed = 0.00;
         if ( $useTiming )
@@ -1887,6 +1908,10 @@ class eZDebug
 
     /// The time when the script was started
     public $ScriptStart;
+
+    /// The time when the script was stopped (of course this is an approximation,
+    /// since the script must stop after printing debug info)
+    public $ScriptStop;
 
     /// A list of override directories
     public $OverrideList;

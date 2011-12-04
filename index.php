@@ -18,6 +18,8 @@ if ( version_compare( PHP_VERSION, '5.2' ) < 0 )
     exit;
 }
 
+$scriptStartTime = microtime( true );
+
 // Set a default time zone if none is given to avoid "It is not safe to rely
 // on the system's timezone settings" warnings. The time zone can be overriden
 // in config.php or php.ini.
@@ -30,7 +32,6 @@ require 'autoload.php';
 
 ignore_user_abort( true );
 
-$scriptStartTime = microtime( true );
 ob_start();
 
 $use_external_css = true;
@@ -209,6 +210,8 @@ function eZDisplayDebug()
     if ( $ini->variable( 'DebugSettings', 'DebugOutput' ) != 'enabled' )
         return null;
 
+    $scriptStopTime = microtime( true );
+
     $type = $ini->variable( "DebugSettings", "Debug" );
     //eZDebug::setHandleType( eZDebug::HANDLE_NONE );
     if ( $type == "inline" or $type == "popup" )
@@ -228,6 +231,7 @@ function eZDisplayDebug()
 
         eZDebug::appendBottomReport( 'Template Usage Statistics', eZTemplatesStatisticsReporter::generateStatistics( $as_html ) );
 
+        eZDebug::setScriptStop( $scriptStopTime );
         return eZDebug::printReport( $type == "popup", $as_html, true );
     }
     return null;
