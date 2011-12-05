@@ -232,7 +232,8 @@ function eZDisplayDebug()
         eZDebug::appendBottomReport( 'Template Usage Statistics', eZTemplatesStatisticsReporter::generateStatistics( $as_html ) );
 
         eZDebug::setScriptStop( $scriptStopTime );
-        return eZDebug::printReport( $type == "popup", $as_html, true );
+        return eZDebug::printReport( $type == "popup", $as_html, true, false, true,
+            true, $ini->variable( "DebugSettings", "DisplayIncludedFiles" ) == 'enabled' );
     }
     return null;
 }

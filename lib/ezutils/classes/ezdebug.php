@@ -1610,7 +1610,7 @@ class eZDebug
         {
             if ( $as_html )
             {
-                echo "<h3>Included files:</h3><table title='List of included php files used in the processing of this page'><tr><th>File</th></tr>";
+                echo "<h3>Included files:</h3><table id=\"debug_includes\" title='List of included php files used in the processing of this page'><tr><th>File</th></tr>";
             }
             else
             {
@@ -1633,6 +1633,7 @@ class eZDebug
             }
             if ( $as_html )
             {
+                echo "<tr><td><b>&nbsp;Number of files included: " . count( $phpFiles ) . "</b></td></tr>";
                 echo "</table>";
             }
         }
