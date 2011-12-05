@@ -111,27 +111,37 @@ else
  */
 function _die( $message, $errorCode = false, $filename = false)
 {
-    throw new Exception( print_r( func_get_args(), true ) );
     switch ( $errorCode )
     {
-        case 500:
-            header( $_SERVER['SERVER_PROTOCOL'] . " 500 Internal Server Error" );
-            exit( $dieMessage );
-            break;
-
         case 404:
             $filename = htmlspecialchars( $filename );
             header( $_SERVER['SERVER_PROTOCOL'] . " 404 Not Found" );
             echo <<<EOF
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-<HTML><HEAD>
-<TITLE>404 Not Found</TITLE>
-</HEAD><BODY>
+<html><head>
+<title>404 Not Found</title>
+</head><body>
 <H1>Not Found</H1>
-The requested URL {$filename} was not found on this server.<P>
-</BODY></HTML>
+<p>The requested URL {$filename} was not found on this server.<p>
+</body></html>
 EOF;
             exit( 1 );
             break;
+
+        case 500:
+        default:
+            echo <<<EOF
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>$dieMessage</h1>
+</body></html>
+EOF;
+            header( $_SERVER['SERVER_PROTOCOL'] . " 500 Internal Server Error" );
+            exit( $dieMessage );
+            break;
+
+
     }
 }
