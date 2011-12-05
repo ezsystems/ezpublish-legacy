@@ -1537,7 +1537,7 @@ class eZDebug
             else
             {
                 echo "Database Queries: " .
-                    $this->TimeAccumulatorList[$type]['count'] . " KB\n";
+                    $this->TimeAccumulatorList[$type]['count'] . "\n";
             }
         }
         if ( $as_html )
