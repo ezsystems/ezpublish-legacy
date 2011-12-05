@@ -46,3 +46,11 @@
 
 </fieldset>
 </div>
+
+{* Comment *}
+{if $order.account_information.comment}
+<div class="block">
+<label>{'Comment'|i18n( 'design/admin/shop/accounthandlers/html/ez' )}:</label>
+<p>{$order.account_information.comment|wash|nl2br}</p>
+</div>
+{/if}
