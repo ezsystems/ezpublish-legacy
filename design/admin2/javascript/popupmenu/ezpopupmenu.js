@@ -464,13 +464,15 @@ function _submitForm( formID, customSubstitute )
     if ( formElement )
     {
         // for all children do replacement
-        var children = formElement.childNodes;
+        var children = formElement.childNodes,
+            origValue = '', resetInputs = [];
         for ( var i = 0, l = children.length; i < l; i++)
         {
             if ( children[i].type == 'hidden' )
             {
                 for ( var substItem in CurrentSubstituteValues )
                 {
+                    origValue = children[i].value;
                     children[i].value = children[i].value.replace( substItem, CurrentSubstituteValues[substItem] );
                     if ( customSubstitute )
                     {
@@ -479,10 +481,23 @@ function _submitForm( formID, customSubstitute )
                             children[i].value = children[i].value.replace( '%'+customSubstitute[j]+'%', customSubstitute[j+1] );
                         }
                     }
+                    if ( origValue != children[i].value )
+                    {
+                        resetInputs.push(
+                            { 'input': children[i], 'originalValue': origValue }
+                        );
+                    }
                 }
             }
         }
         formElement.submit();
+
+        // restoring the form so that it gets correctly filled
+        // if another click from the user occurs
+        for( var i = 0; i != resetInputs.length; i++ )
+        {
+            resetInputs[i].input.value = resetInputs[i].originalValue;
+        }
     }
 }
 
