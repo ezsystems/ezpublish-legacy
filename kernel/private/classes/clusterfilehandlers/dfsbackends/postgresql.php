@@ -275,7 +275,8 @@ class eZDFSFileHandlerPostgresqlBackend
         }
 
         // delete query
-        $deleteSQL = "DELETE FROM " . self::TABLE_METADATA . " {$where} {$sqlLimit}";
+        $deleteSQL = "DELETE FROM " . self::TABLE_METADATA . " " . "WHERE name_hash IN " .
+                     "(SELECT name_hash FROM ". self::TABLE_METADATA . " $where $sqlLimit)";
         if ( !$stmt = $this->_query( $deleteSQL, $fname ) )
         {
             $this->_rollback( $fname );
@@ -1707,7 +1708,7 @@ class eZDFSFileHandlerPostgresqlBackend
         $query = "SELECT name FROM " . self::TABLE_METADATA . " WHERE expired = 1 AND scope IN( $scopeString )";
         if ( $limit !== false )
         {
-            $query .= " LIMIT {$limit[0]}, {$limit[1]}";
+            $query .= " LIMIT {$limit[1]} OFFSET {$limit[0]}";
         }
         $res = $this->_query( $query, __METHOD__ );
         $filePathList = array();
