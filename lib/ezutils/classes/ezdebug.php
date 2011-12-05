@@ -677,9 +677,10 @@ class eZDebug
             return;
         if ( !eZDebug::showMessage( self::SHOW_TIMING_POINT ) )
             return;
-        $debug = eZDebug::instance();
 
         $time = microtime( true );
+        $debug = eZDebug::instance();
+
         $usedMemory = 0;
         if ( function_exists( "memory_get_usage" ) )
             $usedMemory = memory_get_usage();
