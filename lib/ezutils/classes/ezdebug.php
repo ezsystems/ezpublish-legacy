@@ -1437,7 +1437,7 @@ class eZDebug
         {
             if ( !in_array( $debug['Level'], $allowedDebugLevels ) )
                 continue;
-            $time = strftime ("%b %d %Y %H:%M:%S", strtotime( "now" ) );
+            $time = strftime ("%b %d %Y %H:%M:%S", $debug['Time'] );
 
             $outputData = $this->OutputFormat[$debug["Level"]];
             if ( is_array( $outputData ) )
