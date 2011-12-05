@@ -1753,7 +1753,8 @@ class eZDebug
 
             if ( $as_html )
             {
-                echo "</table><p>Note: percentages do not add up to 100% because some accumulators overlap</p>";
+                echo "<tr><td colspan=\"5\">Note: percentages do not add up to 100% because some accumulators overlap</td></tr>";
+                echo "</table>";
             }
         }
 
