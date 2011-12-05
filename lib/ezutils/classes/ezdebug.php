@@ -1370,36 +1370,52 @@ class eZDebug
     function printReportInternal( $as_html = true, $returnReport = true, $allowedDebugLevels = false,
                                   $useAccumulators = true, $useTiming = true, $useIncludedFiles = false )
     {
-        $styles = array( 'strict' => false,
-                         'strict-end' => false,
-                         'warning' => false,
-                         'warning-end' => false,
-                         'error' => false,
-                         'error-end' => false,
-                         'debug' => false,
-                         'debug-end' => false,
-                         'notice' => false,
-                         'notice-end' => false,
-                         'timing' => false,
-                         'timing-end' => false,
-                         'mark' => false,
-                         'mark-end' => false,
-                         'emphasize' => false,
-                         'emphasize-end' => false,
-                         'bold' => false,
-                         'bold-end' => false );
+        $reportStart = microtime( true );
+
         if ( isset( $GLOBALS['eZDebugStyles'] ) )
+        {
             $styles = $GLOBALS['eZDebugStyles'];
+        }
+        else
+        {
+            $styles = array( 'strict' => false,
+                             'strict-end' => false,
+                             'warning' => false,
+                             'warning-end' => false,
+                             'error' => false,
+                             'error-end' => false,
+                             'debug' => false,
+                             'debug-end' => false,
+                             'notice' => false,
+                             'notice-end' => false,
+                             'timing' => false,
+                             'timing-end' => false,
+                             'mark' => false,
+                             'mark-end' => false,
+                             'emphasize' => false,
+                             'emphasize-end' => false,
+                             'bold' => false,
+                             'bold-end' => false );
+        }
         if ( !$allowedDebugLevels )
+        {
             $allowedDebugLevels = array( self::LEVEL_NOTICE, self::LEVEL_WARNING, self::LEVEL_ERROR,
                                          self::LEVEL_DEBUG, self::LEVEL_TIMING_POINT, self::LEVEL_STRICT );
+        }
+
+        $startTime = $this->ScriptStart;
         if ( $this->ScriptStop == null )
         {
-            $endTime = microtime( true );
+            $endTime = $reportStart;
         }
         else
         {
             $endTime = $this->ScriptStop;
+        }
+        $totalElapsed = $endTime - $startTime;
+        if ( function_exists( 'memory_get_peak_usage' ) )
+        {
+            $peakMemory = memory_get_peak_usage( true );
         }
 
         if ( $returnReport )
@@ -1421,7 +1437,7 @@ class eZDebug
 -->
 </style>";
             }
-            echo "<table title='Table for actual debug output, shows notices, warnings and errors.'>";
+            echo "<table title='Table for actual debug output, shows notices, warnings and errors'>";
         }
 
         $this->printTopReportsList();
@@ -1479,14 +1495,66 @@ class eZDebug
         {
             echo "</table>";
 
-            echo "<h3>Timing points:</h3>";
-            echo "<table id='timingpoints' title='Tabel of timingpoint stats.'><tr><th>Checkpoint</th><th>Elapsed</th><th>Rel. Elapsed</th><th>Memory</th><th>Rel. Memory</th></tr>";
+            // Resources we always print out, just like log messages
+
+            echo "<h3>Main resources:</h3>";
+            echo "<table id='debug_resources' title='Most important resource consumption indicators'>";
         }
-        $startTime = $this->ScriptStart;
-        $elapsed = 0.00;
-        $relElapsed = 0.00;
+        if ( $as_html )
+        {
+            echo "<tr class='data'><td>Total runtime</td><td>" .
+                number_format( ( $totalElapsed ), $this->TimingAccuracy ) . " sec</td></tr>";
+        }
+        else
+        {
+            echo "Total runtime: " .
+                number_format( ( $totalElapsed ), $this->TimingAccuracy ) . " sec\n";
+        }
+        if ( isset( $peakMemory ) )
+        {
+            if ( $as_html )
+            {
+                echo "<tr class='data'><td>Peak memory usage</td><td>" .
+                    number_format( $peakMemory / 1024, $this->TimingAccuracy ) . " KB</td></tr>";
+            }
+            else
+            {
+                echo "Peak memory usage: " .
+                    number_format( $peakMemory / 1024, $this->TimingAccuracy ) . " KB\n";
+            }
+        }
+        $dbini = eZINI::instance();
+        // note: we cannot use $db->databasename() because we get the same for mysql and mysqli
+        $type = preg_replace( '/^ez/', '', $dbini->variable( 'DatabaseSettings', 'DatabaseImplementation' ) );
+        $type .= '_query';
+        if ( isset( $this->TimeAccumulatorList[$type] ) )
+        {
+            if ( $as_html )
+            {
+                echo "<tr class='data'><td>Database Queries</td><td>" .
+                   $this->TimeAccumulatorList[$type]['count'] . "</td></tr>";
+            }
+            else
+            {
+                echo "Database Queries: " .
+                    $this->TimeAccumulatorList[$type]['count'] . " KB\n";
+            }
+        }
+        if ( $as_html )
+        {
+            echo "</table>";
+        }
+
         if ( $useTiming )
         {
+            if ( $as_html )
+            {
+                echo "<h3>Timing points:</h3>";
+                echo "<table id='timingpoints' title='Timing point stats'><tr><th>Checkpoint</th><th>Start (sec)</th><th>Duration (sec)</th><th>Memory at start (KB)</th><th>Memory used (KB)</th></tr>";
+            }
+
+            $elapsed = 0.00;
+            $relElapsed = 0.00;
             for ( $i = 0, $l = count( $this->TimePoints ); $i < $l; ++$i )
             {
                 $point = $this->TimePoints[$i];
@@ -1495,8 +1563,6 @@ class eZDebug
                     $nextPoint = $this->TimePoints[$i + 1];
                 $time = $point["Time"];
                 $nextTime = false;
-                if ( $startTime === false )
-                    $startTime = $time;
                 $elapsed = $time - $startTime;
 
                 $relMemory = 0;
@@ -1506,11 +1572,11 @@ class eZDebug
                 {
                     $nextTime = $nextPoint["Time"];
                     $relElapsed = $nextTime - $time;
-                    $relElapsed = number_format( $relElapsed, $this->TimingAccuracy ) . " sec";
+                    $relElapsed = number_format( $relElapsed, $this->TimingAccuracy );
 
                     $nextMemory = $nextPoint["MemoryUsage"];
                     $relMemory = $nextMemory - $memory;
-                    $relMemory = number_format( $relMemory / 1024, $this->TimingAccuracy ) . " KB";
+                    $relMemory = number_format( $relMemory / 1024, $this->TimingAccuracy );
                 }
                 else
                 {
@@ -1519,14 +1585,14 @@ class eZDebug
                 }
 
                 // Convert memory usage to human readable
-                $memory = number_format( $memory / 1024, $this->TimingAccuracy ) . " KB";
-                $elapsed = number_format( $elapsed, $this->TimingAccuracy ) . " sec";
+                $memory = number_format( $memory / 1024, $this->TimingAccuracy );
+                $elapsed = number_format( $elapsed, $this->TimingAccuracy );
 
                 if ( $as_html )
                 {
                     echo "<tr class='data'><td>" . $point["Description"] . "</td>
-                          <td>$elapsed</td><td>$relElapsed</td>
-                          <td>$memory</td><td>$relMemory</td></tr>";
+                          <td align=\"right\">$elapsed</td><td align=\"right\">$relElapsed</td>
+                          <td align=\"right\">$memory</td><td align=\"right\">$relMemory</td></tr>";
                 }
                 else
                 {
@@ -1534,55 +1600,22 @@ class eZDebug
                 }
             }
 
-            if ( isset( $this->TimePoints[0] ) )
+            if ( $as_html )
             {
-                $totalElapsed = $endTime - $startTime;
-
-                if ( $as_html )
-                {
-                    echo "<tr><td><b>Total runtime:</b></td><td colspan='4'><b>" .
-    number_format( ( $totalElapsed ), $this->TimingAccuracy ) . " sec</b></td></tr>";
-                }
-                else
-                {
-                    echo "Total runtime: " .
-    number_format( ( $totalElapsed ), $this->TimingAccuracy ) . " sec\n";
-                }
+                echo "</table>";
             }
-            else
-            {
-                if ( $as_html )
-                    echo "<tr><td colspan='5'> No timing points defined</td><td>";
-                else
-                    echo "No timing points defined\n";
-            }
-
-            if ( function_exists( 'memory_get_peak_usage' ) )
-            {
-                $peakMemory = memory_get_peak_usage();
-                if ( $as_html )
-                {
-                    echo "<tr><td><b>Peak memory usage:</b></td><td colspan='4'><b>" .
-                        number_format( $peakMemory / 1024, $this->TimingAccuracy ) . " KB</b></td></tr>";
-                }
-                else
-                {
-                    echo "Peak memory usage: " .
-                        number_format( $peakMemory / 1024, $this->TimingAccuracy ) . " KB\n";
-                }
-            }
-        }
-        if ( $as_html )
-        {
-            echo "</table>";
         }
 
         if ( $useIncludedFiles )
         {
             if ( $as_html )
-                echo "<h3>Included files:</h3><table title='Tabel list of included templates used in the processing of this page.'><tr><th>File</th></tr>";
+            {
+                echo "<h3>Included files:</h3><table title='List of included php files used in the processing of this page'><tr><th>File</th></tr>";
+            }
             else
+            {
                 echo $styles['emphasize'] . "Includes" . $styles['emphasize-end'] . "\n";
+            }
             $phpFiles = get_included_files();
             $currentPathReg = preg_quote( realpath( "." ) );
             foreach ( $phpFiles as $phpFile )
@@ -1599,53 +1632,52 @@ class eZDebug
                 }
             }
             if ( $as_html )
+            {
                 echo "</table>";
-        }
-
-        if ( $as_html )
-        {
-            echo "<h3>Time accumulators:</h3>";
-            echo "<table id='timeaccumulators' title='Table with detailed list of time accumulators'><tr><th>&nbsp;Accumulator</th><th>&nbsp;Elapsed</th><th>&nbsp;Percent</th><th>&nbsp;Count</th><th>&nbsp;Average</th></tr>";
-            $i = 0;
-        }
-
-        $scriptEndTime = microtime( true );
-        $totalElapsed = $scriptEndTime - $this->ScriptStart;
-        $timeList = $this->TimeAccumulatorList;
-        $groups = $this->TimeAccumulatorGroupList;
-        $groupList = array();
-        foreach ( $groups as $groupKey => $keyList )
-        {
-            if ( count( $keyList ) == 0 and
-                 !array_key_exists( $groupKey, $timeList ) )
-                continue;
-            $groupList[$groupKey] = array( 'name' => $groupKey );
-            if ( array_key_exists( $groupKey, $timeList ) )
-            {
-                if ( $timeList[$groupKey]['time'] != 0 )
-                    $groupList[$groupKey]['time_data'] = $timeList[$groupKey];
-                $groupList[$groupKey]['name'] = $timeList[$groupKey]['name'];
-                unset( $timeList[$groupKey] );
             }
-            $groupChildren = array();
-            foreach ( $keyList as $timeKey )
-            {
-                if ( array_key_exists( $timeKey, $timeList ) )
-                {
-                    $groupChildren[] = $timeList[$timeKey];
-                    unset( $timeList[$timeKey] );
-                }
-            }
-            $groupList[$groupKey]['children'] = $groupChildren;
-        }
-        if ( count( $timeList ) > 0 )
-        {
-            $groupList['general'] = array( 'name' => 'General',
-                                           'children' => $timeList );
         }
 
         if ( $useAccumulators )
         {
+            $timeList = $this->TimeAccumulatorList;
+            $groups = $this->TimeAccumulatorGroupList;
+            $groupList = array();
+            foreach ( $groups as $groupKey => $keyList )
+            {
+                if ( count( $keyList ) == 0 and
+                    !array_key_exists( $groupKey, $timeList ) )
+                    continue;
+                $groupList[$groupKey] = array( 'name' => $groupKey );
+                if ( array_key_exists( $groupKey, $timeList ) )
+                {
+                    if ( $timeList[$groupKey]['time'] != 0 )
+                        $groupList[$groupKey]['time_data'] = $timeList[$groupKey];
+                    $groupList[$groupKey]['name'] = $timeList[$groupKey]['name'];
+                    unset( $timeList[$groupKey] );
+                }
+                $groupChildren = array();
+                foreach ( $keyList as $timeKey )
+                {
+                    if ( array_key_exists( $timeKey, $timeList ) )
+                    {
+                        $groupChildren[] = $timeList[$timeKey];
+                        unset( $timeList[$timeKey] );
+                    }
+                }
+                $groupList[$groupKey]['children'] = $groupChildren;
+            }
+            if ( count( $timeList ) > 0 )
+            {
+                $groupList['general'] = array( 'name' => 'General',
+                                               'children' => $timeList );
+            }
+
+            if ( $as_html )
+            {
+                echo "<h3>Time accumulators:</h3>";
+                echo "<table id='timeaccumulators' title='Detailed list of time accumulators'><tr><th>&nbsp;Accumulator</th><th>&nbsp;Duration (sec)</th><th>&nbsp;Duration (%)</th><th>&nbsp;Count</th><th>&nbsp;Average (sec)</th></tr>";
+            }
+
             foreach ( $groupList as $group )
             {
                 $groupName = $group['name'];
@@ -1666,10 +1698,10 @@ class eZDebug
                     $groupAverage = number_format( ( $groupData['time'] / $groupData['count'] ), $this->TimingAccuracy );
                     if ( $as_html )
                     {
-                        echo ( "<td>$groupElapsed sec</td>".
-                                         "<td> $groupPercent%</td>".
-                                         "<td> $groupCount</td>".
-                                         "<td> $groupAverage sec</td>" );
+                        echo ( "<td align=\"right\"><i>$groupElapsed</i></td>".
+                               "<td align=\"right\"><i>$groupPercent</i></td>".
+                               "<td align=\"right\"><i>$groupCount</i></td>".
+                               "<td align=\"right\"><i>$groupAverage</i></td>" );
                     }
                     else
                     {
@@ -1679,9 +1711,9 @@ class eZDebug
                 else if ( $as_html )
                 {
                     echo ( "<td></td>".
-                                     "<td></td>".
-                                     "<td></td>".
-                                     "<td></td>" );
+                           "<td></td>".
+                           "<td></td>".
+                           "<td></td>" );
                 }
                 if ( $as_html )
                     echo "</tr>";
@@ -1705,10 +1737,10 @@ class eZDebug
                     {
                         echo ( "<tr class='data'>" .
                                          "<td>$childName</td>" .
-                                         "<td>$childElapsed sec</td>" .
-                                         "<td>$childPercent%</td>" .
-                                         "<td>$childCount</td>" .
-                                         "<td>$childAverage sec</td>" .
+                                         "<td align=\"right\">$childElapsed</td>" .
+                                         "<td align=\"right\">$childPercent</td>" .
+                                         "<td align=\"right\">$childCount</td>" .
+                                         "<td align=\"right\">$childAverage</td>" .
                                          "</tr>" );
                     }
                     else
@@ -1717,25 +1749,21 @@ class eZDebug
                     }
                 }
             }
-        }
-        if ( $as_html )
-        {
-            echo "<tr><td><b>Total script time:</b></td><td colspan='4'><b>" . number_format( ( $totalElapsed ), $this->TimingAccuracy ) . " sec</b></td></tr>";
-        }
-        else
-        {
-            echo "\nTotal script time: " . $styles['emphasize'] . number_format( ( $totalElapsed ), $this->TimingAccuracy ) . $styles['emphasize-end'] . " sec\n";
-        }
 
-        if ( $as_html )
-        {
-            echo "</table>";
+            if ( $as_html )
+            {
+                echo "</table><p>Note: percentages do not add up to 100% because some accumulators overlap</p>";
+            }
         }
 
         $this->printBottomReportsList( $as_html );
 
         if ( $as_html )
         {
+            $reportStop = microtime( true );
+            $reportTime = number_format( $reportStop - $reportStart, 4 );
+            echo "<p><b>Time used to render debug report: $reportTime secs</b></p>";
+
             echo "</div>";
         }
 

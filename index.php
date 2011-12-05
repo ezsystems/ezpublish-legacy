@@ -894,7 +894,7 @@ if ( $module->exitStatus() == eZModule::STATUS_REDIRECT )
         $tpl->setVariable( 'redirect_uri', eZURI::encodeURL( $redirectURI ) );
         $templateResult = $tpl->fetch( 'design:redirect.tpl' );
 
-        eZDebug::addTimingPoint( "End" );
+        eZDebug::addTimingPoint( "Script end" );
 
         eZDisplayResult( $templateResult );
     }
@@ -1086,7 +1086,7 @@ else
 }
 
 
-eZDebug::addTimingPoint( "End" );
+eZDebug::addTimingPoint( "Script end" );
 
 $out = ob_get_clean();
 echo trim( $out );
