@@ -762,10 +762,7 @@ class eZDebug
                         foreach ( $timePoints as $tp )
                         {
                             $desc = "Timing Point: " . $tp["Description"];
-                            if ( $this->isLogFileEnabled( $verbosityLevel ) )
-                            {
-                                $this->writeFile( $fileName, $desc, $verbosityLevel, $alwaysLog );
-                            }
+                            $this->writeFile( $fileName, $desc, $verbosityLevel, $alwaysLog );
                         }
                     }
                     $this->TmpTimePoints[$verbosityLevel] = false;
@@ -1504,12 +1501,12 @@ class eZDebug
         if ( $as_html )
         {
             echo "<tr class='data'><td>Total runtime</td><td>" .
-                number_format( ( $totalElapsed ), $this->TimingAccuracy ) . " sec</td></tr>";
+                number_format( $totalElapsed, $this->TimingAccuracy ) . " sec</td></tr>";
         }
         else
         {
             echo "Total runtime: " .
-                number_format( ( $totalElapsed ), $this->TimingAccuracy ) . " sec\n";
+                number_format( $totalElapsed, $this->TimingAccuracy ) . " sec\n";
         }
         if ( isset( $peakMemory ) )
         {
@@ -1554,8 +1551,6 @@ class eZDebug
                 echo "<table id='timingpoints' title='Timing point stats'><tr><th>Checkpoint</th><th>Start (sec)</th><th>Duration (sec)</th><th>Memory at start (KB)</th><th>Memory used (KB)</th></tr>";
             }
 
-            $elapsed = 0.00;
-            $relElapsed = 0.00;
             for ( $i = 0, $l = count( $this->TimePoints ); $i < $l; ++$i )
             {
                 $point = $this->TimePoints[$i];
