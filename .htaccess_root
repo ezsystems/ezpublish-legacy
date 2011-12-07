@@ -6,6 +6,10 @@ DirectoryIndex index.php
 RewriteEngine On
 RewriteRule ^api/ index_rest.php [L]
 RewriteRule ^index_rest\.php - [L]
+# Uncomment to speedup ajax calls
+# Howto install index_ajax.php:
+# https://github.com/ezsystems/ezjscore/blob/master/doc/INSTALL
+#RewriteRule ^([^/]+/)?ezjscore/call.* index_ajax.php [L]
 RewriteRule ^([^/]+/)?content/treemenu.* index_treemenu\.php [L]
 RewriteRule ^var/([^/]+/)?storage/images(-versioned)?/.* - [L]
 RewriteRule ^var/([^/]+/)?cache/(texttoimage|public)/.* - [L]
