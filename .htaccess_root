@@ -5,7 +5,6 @@ DirectoryIndex index.php
 
 RewriteEngine On
 RewriteRule ^api/ index_rest.php [L]
-RewriteRule ^index_rest\.php - [L]
 RewriteRule ^([^/]+/)?content/treemenu.* index_treemenu\.php [L]
 RewriteRule ^var/([^/]+/)?storage/images(-versioned)?/.* - [L]
 RewriteRule ^var/([^/]+/)?cache/(texttoimage|public)/.* - [L]
@@ -28,12 +27,12 @@ RewriteRule ^design/standard/images/favicon\.ico - [L]
 # Give direct access to robots.txt for use by crawlers (Google, Bing, Spammers..)
 RewriteRule ^robots\.txt - [L]
 
-# Uncomment the following lines when using popup style debug.
-# RewriteRule ^var/cache/debug\.html.* - [L]
-# RewriteRule ^var/[^/]+/cache/debug\.html.* - [L]
-
 # Platform for Privacy Preferences Project ( P3P ) related files for Internet Explorer
 # More info here : http://en.wikipedia.org/wiki/P3p
 RewriteRule ^w3c/p3p\.xml - [L]
+
+# Uncomment the following lines when using popup style debug.
+# RewriteRule ^var/cache/debug\.html.* - [L]
+# RewriteRule ^var/[^/]+/cache/debug\.html.* - [L]
 
 RewriteRule .* index\.php
