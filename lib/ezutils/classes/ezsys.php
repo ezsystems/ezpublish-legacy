@@ -578,6 +578,29 @@ class eZSys
         $ini = eZINI::instance();
         return eZDir::path( array( $ini->variable( 'FileSettings', 'VarDir' ) ) );
     }
+
+    /**
+     * Returns the path of the current temporary directory
+     *
+     * @return string
+     */
+    public static function tempDirectory()
+    {
+        if ( function_exists( 'sys_get_temp_dir' ) )
+        {
+            return realpath( sys_get_temp_dir() );
+        }
+
+        foreach( array( 'TMP', 'TEMP', 'TMPDIR' ) as $tempEnv )
+        {
+            if ( $temp = getenv( $tempEnv ) )
+            {
+                return $temp;
+            }
+        }
+
+        return null;
+    }
     
     /**
      * Returns the current storage directory
