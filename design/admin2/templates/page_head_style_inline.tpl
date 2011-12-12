@@ -9,4 +9,18 @@
 }
 </style>
 <![endif]-->
+<!--[if lte IE 8]>
+<style>
+#controlbar-top .box-bc
+{
+  filter:progid:DXImageTransform.Microsoft.Shadow(color='gray', Direction=180, Strength=8);
+  zoom: 1;
+}
+</style>
+<![endif]-->
+<!--[if IE 6]>
+<style>
+.scroll-to-top {display: none;}
+</style>
+<![endif]-->
 {/literal}

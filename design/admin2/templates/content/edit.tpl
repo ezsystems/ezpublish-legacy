@@ -18,16 +18,13 @@
 <div id="maincontent-design" class="float-break"><div id="fix">
 
 
-<div id="controlbar-top" class="controlbar">
+<div id="controlbar-top" class="controlbar controlbar-fixed">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="button-left">
     <input class="defaultbutton" type="submit" name="PublishButton" value="{'Send for publishing'|i18n( 'design/admin/content/edit' )}" title="{'Publish the contents of the draft that is being edited. The draft will become the published version of the object.'|i18n( 'design/admin/content/edit' )}" />
     <input class="button" type="submit" name="StoreButton" value="{'Store draft'|i18n( 'design/admin/content/edit' )}" title="{'Store the contents of the draft that is being edited and continue editing. Use this button to periodically save your work while editing.'|i18n( 'design/admin/content/edit' )}" />
     <input class="button" type="submit" name="StoreExitButton" value="{'Store draft and exit'|i18n( 'design/admin/content/edit' )}" title="{'Store the draft that is being edited and exit from edit mode. Use when you need to exit your work and return later to continue.'|i18n( 'design/admin/content/edit' )}" />
     <input class="button" type="submit" name="DiscardButton" value="{'Discard draft'|i18n( 'design/admin/content/edit' )}" onclick="return confirmDiscard( '{'Are you sure you want to discard the draft?'|i18n( 'design/admin/content/edit' )|wash(javascript)}' );" title="{'Discard the draft that is being edited. This will also remove the translations that belong to the draft (if any).'|i18n( 'design/admin/content/edit' ) }" />
-</div>
-<div class="button-right">
-    <a href="JavaScript:void(0);" onclick="jQuery('#page').toggleClass('main-column-only');" class="controlbar-top-full-screen-toggle" title="{'Toggle fullscreen editing!'|i18n( 'design/admin/content/edit' )}">&nbsp;</a>
 </div>
 <div class="float-break"></div>
 {* DESIGN: Control bar END *}</div></div>
@@ -124,6 +121,7 @@
 </div>
 
 </div>
+<a href="#path" class="scroll-to-top">&uarr;&nbsp;{'Go to the top'|i18n( 'design/admin2/content/edit' )}</a>
 
 
 {include uri='design:content/edit_relations.tpl'}
@@ -155,23 +153,6 @@
 
 {literal}
 <script type="text/javascript">
-jQuery(function( $ )//called on document.ready
-{
-    var docScrollTop = 0, el = $('#editform input:text:enabled:first');
-
-    if ( document.body.scrollTop !== undefined )
-    	docScrollTop = document.body.scrollTop;// DOM compliant
-    else if ( document.documentElement.scrollTop  !== undefined )
-    	docScrollTop = document.documentElement.scrollTop;// IE6 standards mode;
-
-    // Do not set focus if user has scrolled
-    if ( docScrollTop < 10 )
-    {
-    	window.scrollTo(0, Math.max( el.offset().top - 180, 0 ));
-        el.focus();
-    }
-});
-
 function confirmDiscard( question )
 {
     // Disable/bypass the reload-based (plain HTML) confirmation interface.
