@@ -427,7 +427,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
         $params = array( 'SearchOffset' => $searchOffset,
                          'SearchLimit' => $searchLimit,
                          'SortArray' => array( 'published', 0 ), // Legacy search engine uses SortArray
-                         'SortBy' => array( 'published', 0 ) // eZ Find search method implementation uses SortBy
+                         'SortBy' => array( 'published' => 'desc' ) // eZ Find search method implementation uses SortBy
         );
 
         if ( self::hasPostValue( $http, 'SearchContentClassAttributeID' ) )
