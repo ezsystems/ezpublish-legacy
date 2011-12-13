@@ -713,6 +713,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $sortingInfo['attributeFromSQL']    = $attributeFromSQL;
             $sortingInfo['attributeWhereSQL']   = $attributeWhereSQL;
         }
+        else if ( $sortList === array() )
+        {
+            $sortingInfo['sortingFields'] = '';
+        }
 
         return $sortingInfo;
     }
