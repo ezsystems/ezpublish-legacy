@@ -237,6 +237,8 @@ eZSiteAccess::load( $access );
 
 // Change content object default language
 $GLOBALS['eZContentObjectDefaultLanguage'] = $LanguageCode;
+eZTranslatorManager::resetTranslations();
+ezpI18n::reset();
 eZContentObject::clearCache();
 
 eZContentLanguage::expireCache();
