@@ -366,6 +366,42 @@ class eZRSSExportTest extends ezpDatabaseTestCase
         $expected = $this->cleanRSSFeed( file_get_contents( $this->test_data_folder . __FUNCTION__ . '.xml' ) );
 
         $this->assertEquals( $expected, $rssContent );
+        $this->removeObjects( $articles );
+    }
+
+    /**
+     * Test for issue #18474: RSS Export: problem when a title contains the "&"
+     *
+     * @link http://issues.ez.no/18479
+     */
+    public function testFeedWithSpecialCharacters()
+    {
+        $folderId = $this->createEZPFolder( __FUNCTION__ . ' like &' );
+        $articles = array();
+        for ( $i = 0; $i < 2; $i++ )
+        {
+            $articles[] = $this->createEZPArticle(
+                $folderId, "Test object #{$i} for " . __FUNCTION__ . ' like  &',
+                "Summary for Test object #{$i} for " . __FUNCTION__,
+                eZRemoteIdUtility::generate()
+            );
+        }
+
+        $types = array( '2.0', '1.0', 'ATOM' );
+        foreach ( $types as $type )
+        {
+            $rssExport = $this->createEZPRSSExport(
+                $type, $folderId,
+                'Feed ' . $type . ' with special characters like &',
+                'This feed contains special characters like &'
+            );
+            $xml = $rssExport->attribute( 'rss-xml-content' );
+            $dom = new DomDocument( '1.0' );
+            $valid = $dom->loadXML( $xml, LIBXML_NOERROR | LIBXML_NOWARNING );
+            $this->assertTrue( $valid, 'Feed ' . $type . ' is not valid' );
+        }
+
+        $this->removeObjects( $articles );
     }
 }
 ?>
