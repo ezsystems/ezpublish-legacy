@@ -516,9 +516,8 @@ class eZContentOperationCollection
      *       the calls within a db transaction; thus within db->begin and db->commit.
      *
      * @param int $objectID Id of the object.
-     * @param int $versionNum Version of the object.
      */
-    static public function registerSearchObject( $objectID, $versionNum )
+    static public function registerSearchObject( $objectID )
     {
         $objectID = (int)$objectID;
         eZDebug::createAccumulatorGroup( 'search_total', 'Search Total' );
@@ -853,7 +852,7 @@ class eZContentOperationCollection
         // when removing locations.
         if ( !eZSearch::getEngine() instanceof eZSearchEngine )
         {
-            eZContentOperationCollection::registerSearchObject( $objectID, $object->attribute( 'current_version' ) );
+            eZContentOperationCollection::registerSearchObject( $objectID );
         }
 
         $db->commit();
@@ -929,8 +928,8 @@ class eZContentOperationCollection
         // when removing locations.
         if ( !eZSearch::getEngine() instanceof eZSearchEngine )
         {
-            foreach ( $objectIdList as $objectId => $object )
-                eZContentOperationCollection::registerSearchObject( $objectId, $object->attribute( 'current_version' ) );
+            foreach ( array_keys( $objectIdList ) as $objectId )
+                eZContentOperationCollection::registerSearchObject( $objectId );
         }
 
         $db->commit();
@@ -1356,7 +1355,7 @@ class eZContentOperationCollection
             }
         }
 
-        eZContentOperationCollection::registerSearchObject( $object->attribute( 'id' ), $object->attribute( 'current_version' ) );
+        eZContentOperationCollection::registerSearchObject( $objectID );
 
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
