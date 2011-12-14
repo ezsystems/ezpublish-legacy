@@ -63,7 +63,7 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'ezpExtensionTest' );
 //        $this->addTestSuite( 'ezpAutoloadGeneratorTest' );
 
-//        $this->addTestSuite( 'eZRSSExportTest' );
+        $this->addTestSuite( 'eZRSSExportTest' );
         $this->addTestSuite( 'ezpEventTest' );
 
         $this->addTestSuite( 'eZSiteAccess_Test' );
