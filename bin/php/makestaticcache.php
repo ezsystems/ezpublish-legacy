@@ -49,7 +49,7 @@ if ( !$force )
     $staticCacheHandler->generateAlwaysUpdatedCache( false, $cli, false );
 }
 
-call_user_func(array($staticCacheHandler, 'executeActions'));
+call_user_func( array( $staticCacheHandler, 'executeActions' ) );
 $script->shutdown();
 
 ?>
