@@ -739,9 +739,10 @@ class eZFS2FileHandler extends eZFSFileHandler
         {
             case 'cacheType':
             {
-                if ( $this->cacheType === null )
-                    $this->cacheType = $this->_cacheType();
-                return $this->cacheType;
+                static $cacheType = null;
+                if ( $cacheType == null )
+                    $cacheType = $this->_cacheType();
+                return $cacheType;
             } break;
         }
     }
@@ -821,12 +822,5 @@ class eZFS2FileHandler extends eZFSFileHandler
      * @var int
      */
     protected $generationStartTimestamp = false;
-
-    /**
-     * Cached value of cache type
-     *
-     * @var string|null
-     */
-    protected $cacheType = null;
 }
 ?>
