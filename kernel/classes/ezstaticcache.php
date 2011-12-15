@@ -415,8 +415,7 @@ class eZStaticCache implements ezpStaticCache
                             }
                             if ( $content === false )
                             {
-                                eZDebug::writeError( "Could not grab content (from $fileName), is the hostname correct and Apache running?",
-                                                      'Static Cache' );
+                                eZDebug::writeError( "Could not grab content (from $fileName), is the hostname correct and Apache running?", 'Static Cache' );
                             }
                             else
                             {
@@ -624,7 +623,7 @@ class eZStaticCache implements ezpStaticCache
                         }
                         if ( $fileContentCache[$source] === false )
                         {
-                            eZDebug::writeError( 'Could not grab content, is the hostname correct and Apache running?', 'Static Cache' );
+                            eZDebug::writeError( "Could not grab content (from $source), is the hostname correct and Apache running?", 'Static Cache' );
                         }
                         else
                         {
