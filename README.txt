@@ -66,7 +66,3 @@ Where to get more help
 eZ Publish documentation: http://ez.no/doc
 eZ Publish forums: http://ez.no/developer/forum
 
-
-Live demo of eZ Publish
--------------------------
-http://ez.no/products/ez_publish/demo
