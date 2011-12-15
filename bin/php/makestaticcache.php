@@ -29,7 +29,6 @@ $force = $options['force'];
 
 $script->initialize();
 
-
 $ini = eZINI::instance();
 if ( $ini->variable( 'ContentSettings', 'StaticCache' ) != 'enabled' )
 {
@@ -42,9 +41,7 @@ $optionArray = array( 'iniFile'      => 'site.ini',
                       'iniVariable'  => 'StaticCacheHandler' );
 
 $options = new ezpExtensionOptions( $optionArray );
-
 $staticCacheHandler = eZExtension::getHandlerClass( $options );
-
 $staticCacheHandler->generateCache( $force, false, $cli, false );
 
 if ( !$force )
@@ -53,8 +50,6 @@ if ( !$force )
 }
 
 call_user_func(array($staticCacheHandler, 'executeActions'));
-
-
 $script->shutdown();
 
 ?>
