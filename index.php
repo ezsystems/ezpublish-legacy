@@ -246,6 +246,7 @@ function eZDisplayResult( $templateResult )
         {
             $templateResult = call_user_func( array ( $classname, 'filter' ), $templateResult );
         }
+        $templateResult = ezpEvent::getInstance()->filter( 'response/preoutput', $templateResult );
         $debugMarker = '<!--DEBUG_REPORT-->';
         $pos = strpos( $templateResult, $debugMarker );
         if ( $pos !== false )
