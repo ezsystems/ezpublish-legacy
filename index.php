@@ -238,7 +238,6 @@ function eZDisplayDebug()
 */
 function eZDisplayResult( $templateResult )
 {
-    ob_start();
     if ( $templateResult !== null )
     {
         $classname = eZINI::instance()->variable( "OutputSettings", "OutputFilterName" );//deprecated
@@ -246,6 +245,7 @@ function eZDisplayResult( $templateResult )
         {
             $templateResult = call_user_func( array ( $classname, 'filter' ), $templateResult );
         }
+        $templateResult = ezpEvent::getInstance()->filter( 'response/output', $templateResult );
         $debugMarker = '<!--DEBUG_REPORT-->';
         $pos = strpos( $templateResult, $debugMarker );
         if ( $pos !== false )
@@ -264,8 +264,6 @@ function eZDisplayResult( $templateResult )
     {
         eZDisplayDebug();
     }
-    $fullPage = ob_get_clean();
-    echo ezpEvent::getInstance()->filter( 'response/output', $fullPage );
 }
 
 function fetchModule( $uri, $check, &$module, &$module_name, &$function_name, &$params )
