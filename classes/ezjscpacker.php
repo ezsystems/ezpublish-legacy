@@ -566,7 +566,7 @@ class ezjscPacker
             }
             else
             {
-                $stats .= sprintf( "%-40s%-40s%-40s\n", $data['cache_hash'], extension, $data['pack_level'] );
+                $stats .= sprintf( "%-40s%-40s%-40s\n", $data['cache_hash'], $extension, $data['pack_level'] );
             }
         }
 
