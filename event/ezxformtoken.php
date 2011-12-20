@@ -28,8 +28,6 @@ class ezxFormToken
 
     const REPLACE_KEY = '@$ezxFormToken@';
     
-    static protected $protect = null;
-
     /**
      * request/input event listener
      * Checks if form token is valid if user is logged in.
@@ -128,7 +126,6 @@ class ezxFormToken
     static public function reset()
     {
         eZDebug::writeDebug( 'Reset form token', __METHOD__ );
-        self::$protect = null;
         eZSession::unsetkey( self::SESSION_KEY, false );
     }
 
@@ -151,23 +148,18 @@ class ezxFormToken
     /**
      * Figures out if current user should be protected or not
      * based on if (s)he has a session and is logged in.
-     * Result is stored on self::$protect and can be reset with
-     * {@link self::reset()}
      *
      * @return bool
      */
     static protected function shouldProtectUser()
     {
-        if ( self::$protect !== null )
-            return self::$protect;
-
         if ( !eZSession::hasStarted() )
-            return self::$protect = false;
+            return false;
 
         if ( !eZUser::currentUser()->isLoggedIn() )
-            return self::$protect = false;
+            return false;
 
-        return self::$protect = true;
+        return true;
     }
 }
 
