@@ -38,7 +38,7 @@ class ezjscJavascriptOptimizer
      * @param int $packLevel Level of packing, values: 2-3
      * @return string
      */
-    public static function optimize( $script, $packLevel )
+    public static function optimize( $script, $packLevel = 2 )
     {
         if ( $packLevel > 2 )
         {

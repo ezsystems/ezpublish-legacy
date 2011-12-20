@@ -37,7 +37,7 @@ class ezjscCssOptimizer
      * @param int $packLevel Level of packing, values: 2-3
      * @return string
      */
-    public static function optimize( $css, $packLevel )
+    public static function optimize( $css, $packLevel = 2 )
     {
         // Normalize line feeds
         $css = str_replace( array( "\r\n", "\r" ), "\n", $css );
