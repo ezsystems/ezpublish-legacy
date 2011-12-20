@@ -70,7 +70,8 @@ class eZDFSFileHandlerPostgresqlBackend
         }
         if ( !( $this->db instanceof PDO ) )
         {
-            return $this->_die( "Unable to connect to storage server" );
+            $this->_die( "Unable to connect to storage server" );
+            throw new eZClusterHandlerDBNoConnectionException( $connectString, self::$dbparams['user'], self::$dbparams['pass'] );
         }
 
 
