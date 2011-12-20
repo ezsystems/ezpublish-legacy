@@ -235,7 +235,7 @@ class eZContentOperationCollection
         // if parent doesn't exist, return. See issue #18320
         if ( !$parentNode instanceof eZContentObjectTreeNode )
         {
-            eZDebug::writeError( "Parent node doesn't exist. obejct id: $objectID, node_assignment id: " . $nodeAssignment->attribute( 'id' ), __METHOD__ );
+            eZDebug::writeError( "Parent node doesn't exist. object id: $objectID, node_assignment id: " . $nodeAssignment->attribute( 'id' ), __METHOD__ );
             return;
         }
         $parentNodeID     =  $parentNode->attribute( 'node_id' );
