@@ -334,6 +334,15 @@ eZExtension::activateExtensions( 'access' );
 // all eZINI instances as they may not take into account siteaccess specific settings.
 eZINI::resetAllInstances( false );
 
+$mobileDeviceDetect = new ezpMobileDeviceDetect( ezpMobileDeviceDetectFilter::getFilter() );
+if( $mobileDeviceDetect->isEnabled() )
+{
+    $mobileDeviceDetect->process();
+
+    if ( $mobileDeviceDetect->isMobileDevice() )
+        $mobileDeviceDetect->redirect();
+}
+
 // Initialize module loading
 $moduleRepositories = eZModule::activeModuleRepositories();
 eZModule::setGlobalPathList( $moduleRepositories );
@@ -951,6 +960,8 @@ if ( !isset( $moduleResult['ui_context'] ) )
     $moduleResult['ui_context'] = $module->uiContextName();
 }
 $moduleResult['ui_component'] = $module->uiComponentName();
+$moduleResult['is_mobile_device'] = $mobileDeviceDetect->isMobileDevice();
+$moduleResult['mobile_device_alias'] = $mobileDeviceDetect->getUserAgentAlias();
 
 $templateResult = null;
 
