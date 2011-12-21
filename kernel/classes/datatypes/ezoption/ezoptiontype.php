@@ -349,7 +349,7 @@ class eZOptionType extends eZDataType
 
         $optionArray = eZStringUtils::explodeStr( $string, '|' );
 
-        $option = new eZOption( );
+        $option = new eZOption( "" );
 
         $option->OptionCount = 0;
         $option->Options = array();
