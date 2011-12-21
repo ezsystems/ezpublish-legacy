@@ -268,7 +268,7 @@ class eZFile
             $fileSize = filesize( $file );
         }
 
-        header( 'X-Powered-By: eZ Publish ' . eZPublishSDK::version() );
+        header( 'X-Powered-By: eZ Publish' );
         header( "Content-Length: $fileSize" );
         $mimeinfo = eZMimeType::findByURL( $file );
         header( "Content-Type: {$mimeinfo['name']}" );

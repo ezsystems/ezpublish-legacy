@@ -35,7 +35,6 @@ if ( $fileName != "" and file_exists( $fileName ) )
     $contentLength = $fileSize;
     $fileOffset = false;
     $fileLength = false;
-    $version = eZPublishSDK::version();
     if ( isset( $_SERVER['HTTP_RANGE'] ) )
     {
         $httpRange = trim( $_SERVER['HTTP_RANGE'] );
@@ -52,7 +51,7 @@ if ( $fileName != "" and file_exists( $fileName ) )
     header( "Cache-Control: " );
     header( "Content-Length: $contentLength" );
     header( "Content-Type: $mimeType" );
-    header( "X-Powered-By: eZ Publish $version" );
+    header( "X-Powered-By: eZ Publish" );
     header( "Content-disposition: attachment; filename=$originalFileName" );
     header( "Content-Transfer-Encoding: binary" );
     header( "Accept-Ranges: bytes" );

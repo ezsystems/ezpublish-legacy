@@ -14,7 +14,7 @@ if ( !ini_get( 'date.timezone' ) )
 }
 
 define( 'MAX_AGE', 86400 );
-header( 'X-Powered-By: eZ Publish ' . eZPublishSDK::version() . ' (index_treemenu)' );
+header( 'X-Powered-By: eZ Publish (index_treemenu)' );
 
 if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
 {

@@ -85,14 +85,13 @@ if ( file_exists( $dfsFilePath ) )
     $mimeType = $metaData['datatype'];
     $mtime    = $metaData['mtime'];
     $mdate    = gmdate( 'D, d M Y H:i:s', $mtime ) . ' GMT';
-    $version  = eZPublishSDK::version();
 
     header( "Content-Length: $size" );
     header( "Content-Type: $mimeType" );
     header( "Last-Modified: $mdate" );
     header( "Expires: " . gmdate('D, d M Y H:i:s', time() + $expiry) . ' GMT' );
     header( "Connection: close" );
-    header( "X-Powered-By: eZ Publish $version" );
+    header( "X-Powered-By: eZ Publish" );
     header( "Accept-Ranges: none" );
     header( 'Served-by: ' . $_SERVER["SERVER_NAME"] );
 

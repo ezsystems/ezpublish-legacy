@@ -28,7 +28,6 @@ $config = eZINI::instance( 'site.ini' );
 $cacheTime = intval( $config->variable( 'RSSSettings', 'CacheTime' ) );
 
 $lastModified = gmdate( 'D, d M Y H:i:s', time() ) . ' GMT';
-$version = eZPublishSDK::version();
 
 eZURI::setTransformURIMode( 'full' );
 
@@ -79,7 +78,7 @@ else
             {
                 header( 'HTTP/1.1 304 Not Modified' );
                 header( 'Last-Modified: ' . $lastModified );
-                header( 'X-Powered-By: eZ Publish ' . $version );
+                header( 'X-Powered-By: eZ Publish' );
                 eZExecution::cleanExit();
            }
         }
@@ -97,7 +96,7 @@ else
     header( 'Content-Type: application/rss+xml; charset=' . $httpCharset );
 
 header( 'Content-Length: ' . strlen( $rssContent ) );
-header( 'X-Powered-By: eZ Publish ' . $version );
+header( 'X-Powered-By: eZ Publish' );
 
 for ( $i = 0, $obLevel = ob_get_level(); $i < $obLevel; ++$i )
 {
