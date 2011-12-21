@@ -610,7 +610,7 @@ class eZAutoloadGenerator
                                     $offset++;
                                 }
 
-                                $namespace = trim( $namespace );
+                                $namespace = trim( addcslashes( $namespace, '\\' ) );
                                 break;
 
                             case T_CLASS:
@@ -623,7 +623,7 @@ class eZAutoloadGenerator
                                 $className = $tokens[$key+2][1];
                                 if ( $namespace !== null )
                                 {
-                                    $className = $namespace . "\\" . $className;
+                                    $className = "$namespace\\\\$className";
                                 }
 
                                 $filePath = $file;
