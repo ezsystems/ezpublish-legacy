@@ -99,7 +99,7 @@ if ( !$application->isAuthorizedByUser( $pScope, eZUser::currentUser() ) )
     // authorization denied: redirect
     if ( $http->hasPostVariable( 'DenyButton' ) )
     {
-        error( 'access_denied' );
+        error( $pRedirectUri, 'access_denied' );
     }
 
     elseif ( $http->hasPostVariable( 'AuthorizeButton' ) )
