@@ -57,7 +57,7 @@
  *  0 = off
  *  1 = merge files
  *  2 = 1 + remove whitespace
- *  3 = 2 + remove more whitespace  (jsmin is used for scripts)
+ *  3 = 2 (deprecated)
  *  !Will be forced to 0 when site.ini[TemplateSettings]DevelopmentMode is enabled.
  *
  * In case of css files, relative image paths will be replaced by absolute paths.

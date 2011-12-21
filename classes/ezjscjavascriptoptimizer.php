@@ -31,8 +31,7 @@
 class ezjscJavascriptOptimizer
 {
     /**
-     * 'compress' javascript code by removing whitespace,
-     * uses JSMin if packing level is set to 3 or higher
+     * 'compress' javascript code by removing whitespace
      *
      * @param string $script Concated JavaScript string
      * @param int $packLevel Level of packing, values: 2-3
@@ -40,22 +39,16 @@ class ezjscJavascriptOptimizer
      */
     public static function optimize( $script, $packLevel = 2 )
     {
-        if ( $packLevel > 2 )
-        {
-            $script = JSMin::minify( $script );
-        }
-        else
-        {
-            // Normalize line feeds
-            $script = str_replace( array( "\r\n", "\r" ), "\n", $script );
+        // Normalize line feeds
+        $script = str_replace( array( "\r\n", "\r" ), "\n", $script );
 
-            // Remove multiline comments
-            $script = preg_replace( '!(?:\n|\s|^)/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $script );
-            $script = preg_replace( '!(?:;)/\*[^*]*\*+([^/][^*]*\*+)*/!', ';', $script );
+        // Remove multiline comments
+        $script = preg_replace( '!(?:\n|\s|^)/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $script );
+        $script = preg_replace( '!(?:;)/\*[^*]*\*+([^/][^*]*\*+)*/!', ';', $script );
 
-            // Remove whitespace from start & end of line + singelline comment + multiple linefeeds
-            $script = preg_replace( array( '/\n\s+/', '/\s+\n/', '#\n\s*//.*#', '/\n+/' ), "\n", $script );
-        }
+        // Remove whitespace from start & end of line + singelline comment + multiple linefeeds
+        $script = preg_replace( array( '/\n\s+/', '/\s+\n/', '#\n\s*//.*#', '/\n+/' ), "\n", $script );
+
         return $script;
     }
 }

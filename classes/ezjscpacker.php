@@ -37,7 +37,7 @@
  0 = off
  1 = merge files
  2 = 1 + remove whitespace & code comments
- 3 = 2 + remove more whitespace  (jsmin is used for scripts)
+ 3 = 2 + remove more whitespace
 
  In case of css files, relative image paths will be replaced
  by absolute paths.
