@@ -392,6 +392,14 @@ if ( $inputValidated == true )
             return;
     }
 }
+else if ( $http->hasPostVariable( 'PublishAfterConflict' ) )
+{
+    if ( $http->postVariable( 'PublishAfterConflict' ) == 1 )
+    {
+        if ( $Module->runHooks( 'action_check', array( $class, $object, $version, $contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage, &$Result  ) ) )
+            return;
+    }
+}
 
 if ( isset( $Params['TemplateObject'] ) )
     $tpl = $Params['TemplateObject'];

@@ -29,16 +29,27 @@ $force = $options['force'];
 
 $script->initialize();
 
-$staticCache = new eZStaticCache();
-$staticCache->generateCache( $force, false, $cli, false );
+$ini = eZINI::instance();
+if ( $ini->variable( 'ContentSettings', 'StaticCache' ) != 'enabled' )
+{
+    $cli->error( "You must first enable [ContentSettings] StaticCache in site.ini" );
+    $script->shutdown( 1 );
+}
+
+$optionArray = array( 'iniFile'      => 'site.ini',
+                      'iniSection'   => 'ContentSettings',
+                      'iniVariable'  => 'StaticCacheHandler' );
+
+$options = new ezpExtensionOptions( $optionArray );
+$staticCacheHandler = eZExtension::getHandlerClass( $options );
+$staticCacheHandler->generateCache( $force, false, $cli, false );
 
 if ( !$force )
 {
-    $staticCache->generateAlwaysUpdatedCache( false, $cli, false );
+    $staticCacheHandler->generateAlwaysUpdatedCache( false, $cli, false );
 }
 
-eZStaticCache::executeActions();
-
+call_user_func( array( $staticCacheHandler, 'executeActions' ) );
 $script->shutdown();
 
 ?>

@@ -898,11 +898,11 @@
     </message>
     <message>
         <source>Use these radio buttons to select the desired main language.</source>
-        <translation type="unfinished"></translation>
+        <translation>Använd radioknapparna för att välja önskat huvudspråk.</translation>
     </message>
     <message>
         <source>Edit in &lt;%language_name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigera på &lt;%language_name&gt;.</translation>
     </message>
     <message>
         <source>Remove selected</source>
@@ -914,11 +914,11 @@
     </message>
     <message>
         <source>There is no removable language.</source>
-        <translation type="unfinished"></translation>
+        <translation>Det finns inga språk som kan raderas.</translation>
     </message>
     <message>
         <source>Set main</source>
-        <translation type="unfinished">Sätt huvud</translation>
+        <translation>Sätt huvud</translation>
     </message>
     <message>
         <source>Another language</source>
@@ -938,15 +938,15 @@
     </message>
     <message>
         <source>Hide override templates.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dölj anpassade stilmallar.</translation>
     </message>
     <message>
         <source>Override templates</source>
-        <translation type="unfinished">Anpassad stilmall</translation>
+        <translation>Anpassade stilmallar</translation>
     </message>
     <message>
         <source>Show override templates.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visa anpassade stilmallar.</translation>
     </message>
     <message>
         <source>Hide available translations.</source>
@@ -962,15 +962,15 @@
     </message>
     <message>
         <source>Default sorting of children</source>
-        <translation type="unfinished">Skönssortering av underobjekt</translation>
+        <translation>Standardsortering underobjekt</translation>
     </message>
     <message>
         <source>Select a group that the &lt;%class_name&gt; class should be added to.</source>
-        <translation type="unfinished"></translation>
+        <translation>Välj en grupp som &lt;%class_name&gt; klassen ska läggas till i.</translation>
     </message>
     <message>
         <source>Select the desired main language using the radio buttons above then click this button to store the setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>Välj önskat huvudspråk genom att använda radioknapparna ovan, klicka sedan på denna knapp för att spara.</translation>
     </message>
     <message>
         <source>You cannot change the main language because the object is not translated to any other languages.</source>
@@ -982,7 +982,7 @@
     </message>
     <message>
         <source>Use this menu to select the language you want to use for editing then click the &quot;Edit&quot; button.</source>
-        <translation type="unfinished"></translation>
+        <translation>Använd den här menyn för att välja det språk du vill använda för redigering, klicka sedan på &quot;Redigera&quot;.</translation>
     </message>
     <message>
         <source>Class storing deferred</source>
@@ -998,7 +998,7 @@
     </message>
     <message>
         <source>Class name and number of objects</source>
-        <translation type="unfinished">Klass namn </translation>
+        <translation>Klass namn och antal objekt</translation>
     </message>
     <message>
         <source>Member of class groups (%group_count)</source>
@@ -1022,7 +1022,7 @@
     </message>
     <message>
         <source>Application name</source>
-        <translation type="unfinished"></translation>
+        <translation>Programmets namn</translation>
     </message>
     <message>
         <source>Confirm removal</source>
@@ -1472,11 +1472,11 @@
     </message>
     <message>
         <source>Choose objects that you want to relate to &lt;%version_name&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Välj de objekt du vill relatera till &lt;%version_name&gt;</translation>
     </message>
     <message>
         <source>Use the checkboxes to choose the objects that you want to relate to &lt;%version_name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Använd kryssrutorna för att välja de objekt du vill relatera till &lt;%version_name&gt;.</translation>
     </message>
 </context>
 <context>
@@ -1491,7 +1491,7 @@
     </message>
     <message>
         <source>Use the radio buttons to choose the node that you want to swap with &lt;%object_name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Använd radioknapparna för att välja noden som du vill byta till &lt;%object_name&gt;.</translation>
     </message>
 </context>
 <context>
@@ -2096,7 +2096,7 @@ Filtyp</translation>
     </message>
     <message>
         <source>Publish data</source>
-        <translation type="unfinished"></translation>
+        <translation>Publicera data</translation>
     </message>
     <message>
         <source>Back to edit</source>
@@ -2104,7 +2104,7 @@ Filtyp</translation>
     </message>
     <message>
         <source>Relation type</source>
-        <translation type="unfinished"></translation>
+        <translation>Relationtyp</translation>
     </message>
     <message>
         <source>Common</source>
@@ -2116,7 +2116,7 @@ Filtyp</translation>
     </message>
     <message>
         <source>Linked</source>
-        <translation type="unfinished"></translation>
+        <translation>Länkad</translation>
     </message>
     <message>
         <source>Attribute</source>
@@ -2128,15 +2128,15 @@ Filtyp</translation>
     </message>
     <message>
         <source>Copy this code and paste it into an XML field to link the object.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopiera noden och klistra in den i ett XML fält för att länka objektet.</translation>
     </message>
     <message>
         <source>Top node</source>
-        <translation type="unfinished">Huvudnod</translation>
+        <translation>Huvudnod</translation>
     </message>
     <message>
         <source>Publish the contents of the draft that is being edited. The draft will become the published version of the object.</source>
-        <translation type="unfinished"></translation>
+        <translation>Publicera det redigerade utkastets innehåll. Utkastet kommer bli den publicerade versionen av objektet.</translation>
     </message>
     <message>
         <source>Class identifier</source>
@@ -2148,43 +2148,43 @@ Filtyp</translation>
     </message>
     <message>
         <source>This location will remain unchanged when the object is published.</source>
-        <translation type="unfinished"></translation>
+        <translation>Den här platsen kommer förbli oförändrad när objektet är publicerat.</translation>
     </message>
     <message>
         <source>This location will be created when the object is published.</source>
-        <translation type="unfinished"></translation>
+        <translation>Den här platsen kommer skapas när objektet är publicerat.</translation>
     </message>
     <message>
         <source>This location will be moved when the object is published.</source>
-        <translation type="unfinished"></translation>
+        <translation>Den här platsen kommer flyttas när objektet är publicerat.</translation>
     </message>
     <message>
         <source>This location will be removed when the object is published.</source>
-        <translation type="unfinished"></translation>
+        <translation>Den här platsen kommer raderas när objektet är publicerat.</translation>
     </message>
     <message>
         <source>You do not have permission to remove this location.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du har inte behörighet att radera denna plats.</translation>
     </message>
     <message>
         <source>Use this menu to set the sorting method for the sub items in this location.</source>
-        <translation type="unfinished"></translation>
+        <translation>Radering av platserna kommer också resultera i att du radera underobjektetn.Använd denna meny för att välja sorteringsmetod för underobjekt på denna plats.</translation>
     </message>
     <message>
         <source>Use this menu to set the sorting direction for the sub items in this location.</source>
-        <translation type="unfinished"></translation>
+        <translation>Använd denna meny för att välja sorteringsriktning för underobjekt på den här platsen.</translation>
     </message>
     <message>
         <source>You cannot add or remove locations because the object being edited belongs to a top node.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du kan inte lägga till eller radera platser för att det redigerade objektet tillhör en huvudnod.</translation>
     </message>
     <message>
         <source>You cannot manage the versions of this object because there is only one version available (the one that is being edited).</source>
-        <translation type="unfinished"></translation>
+        <translation>Du kan inte hantera versionerna för det här objektet för att det finns endast en version tillgänglig. (Den som redigeras).</translation>
     </message>
     <message>
         <source>You do not have permission to view this object</source>
-        <translation type="unfinished"></translation>
+        <translation>Du har inte behörighet att se detta objekt</translation>
     </message>
     <message>
         <source>The following data is invalid according to the custom validation rules</source>
@@ -2192,7 +2192,7 @@ Filtyp</translation>
     </message>
     <message>
         <source>States</source>
-        <translation type="unfinished"></translation>
+        <translation>Stat</translation>
     </message>
     <message>
         <source>Toggle fullscreen editing!</source>
@@ -2204,7 +2204,7 @@ Filtyp</translation>
     </message>
     <message>
         <source>Store the draft that is being edited and exit from edit mode. Use when you need to exit your work and return later to continue.</source>
-        <translation type="unfinished"></translation>
+        <translation>Spara utkastet som redigeras och stäng från redigeringsläget. Använd när du behöver stänga ditt arbete och fortsätta vid senare tillfälle.</translation>
     </message>
     <message>
         <source>Edit &lt;%object_name&gt; (%class_name)</source>
@@ -2220,11 +2220,11 @@ Filtyp</translation>
     </message>
     <message>
         <source>Existing translations</source>
-        <translation type="unfinished"></translation>
+        <translation>Nuvarande översättningar</translation>
     </message>
     <message>
         <source>Base translation on</source>
-        <translation type="unfinished"></translation>
+        <translation>Basera översättning på</translation>
     </message>
     <message>
         <source>None</source>
@@ -2248,11 +2248,11 @@ Filtyp</translation>
     </message>
     <message>
         <source>View the draft that is being edited.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visa utkastet som håller på att redigeras.</translation>
     </message>
     <message>
         <source>Path String</source>
-        <translation type="unfinished">Sökvägsträng</translation>
+        <translation>Sökväg</translation>
     </message>
 </context>
 <context>
@@ -2390,11 +2390,11 @@ Filtyp</translation>
     </message>
     <message>
         <source>Publish data as it is (and overwriting the published data).</source>
-        <translation type="unfinished"></translation>
+        <translation>Publicera data som det är (och skriv över publicerad data).</translation>
     </message>
     <message>
         <source>Go back to editing and show the published data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gå tillbaka till redigering och visa publicerad data.</translation>
     </message>
     <message>
         <source>Status</source>
@@ -2406,23 +2406,23 @@ Filtyp</translation>
     </message>
     <message>
         <source>Conflicting versions [%draft_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>Motstridiga versioner [%draft_count]</translation>
     </message>
     <message>
         <source>Create a new draft. The contents of the new draft will be copied from the published version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skapa ett nytt utkast. Innehållet i det nya utkastet kommer kopieras från den publicerade versionen.</translation>
     </message>
     <message>
         <source>You cannot select draft version #%version for editing because it belongs to another user. Please select a draft that belongs to you or create a new draft and then edit it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du kan inte välja utkastversionen #%version för redigering därför den tillhör en annan användare. Välj ett utkast som tillhör dig eller skapa ett nytt utkast och redigera det sedan.</translation>
     </message>
     <message>
         <source>You cannot edit any of the drafts because none of them belong to you. You can create a new draft, select it and then edit it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du kan inte redigera något av utkasten för de tillhör inte dig. Du kan skapa ett nytt utkast, välj det och redigera det sedan.</translation>
     </message>
     <message>
         <source>Conflicting versions (%draft_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Motstridiga versioner (%draft_count)</translation>
     </message>
     <message>
         <source>Current drafts (%draft_count)</source>
@@ -2862,11 +2862,11 @@ Filtyp</translation>
     </message>
     <message>
         <source>The locations marked with red contain items that you do not have permission to remove.</source>
-        <translation type="unfinished"></translation>
+        <translation>De platser markerade med rött innehåller objekt du inte har behörighet att radera.</translation>
     </message>
     <message>
         <source>You cannot continue because you do not have permission to remove some of the selected locations.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du kan inte fortsätta för du har inte behörighet att radera några av de valda platserna.</translation>
     </message>
 </context>
 <context>
@@ -2939,15 +2939,15 @@ Filtyp</translation>
     <name>design/admin/content/restore</name>
     <message>
         <source>Object retrieval</source>
-        <translation type="unfinished"></translation>
+        <translation>Hämtning av objekt</translation>
     </message>
     <message>
         <source>The object will be restored at its original location.</source>
-        <translation type="unfinished">Objektet kommer återställas till sin ursprungliga plats.</translation>
+        <translation>Objektet kommer återställas på sin ursprungliga plats.</translation>
     </message>
     <message>
         <source>Restore at original location (below &lt;%nodeName&gt;).</source>
-        <translation type="unfinished"></translation>
+        <translation>Återställ på ursprunglig plats (below &lt;%nodeName&gt;).</translation>
     </message>
     <message>
         <source>Select a location.</source>
@@ -2955,7 +2955,7 @@ Filtyp</translation>
     </message>
     <message>
         <source>Restore at original location (unavailable).</source>
-        <translation type="unfinished"></translation>
+        <translation>Återställ på ursprunglig plats (unavailable).</translation>
     </message>
     <message>
         <source>OK</source>
@@ -2963,7 +2963,7 @@ Filtyp</translation>
     </message>
     <message>
         <source>Continue restoring &lt;%name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fortsätt att återställ &lt;%name&gt;.</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -2979,7 +2979,7 @@ Filtyp</translation>
     </message>
     <message>
         <source>The system will restore the original location of the object.</source>
-        <translation type="unfinished"></translation>
+        <translation>Systemet kommer återställa den utsprungliga platsen för objektet.</translation>
     </message>
     <message>
         <source>Restore original location &lt;%nodeName&gt;</source>
@@ -2987,15 +2987,15 @@ Filtyp</translation>
     </message>
     <message>
         <source>Browse for location</source>
-        <translation type="unfinished"></translation>
+        <translation>Sök efter plats</translation>
     </message>
     <message>
         <source>Restore original locations</source>
-        <translation type="unfinished"></translation>
+        <translation>Återställ ursprungliga platser</translation>
     </message>
     <message>
         <source>Restore &lt;%name&gt; to the specified location.</source>
-        <translation type="unfinished"></translation>
+        <translation>Återställ &lt;%name&gt; till angiven plats.</translation>
     </message>
     <message>
         <source>The system will prompt you to specify a location by browsing the tree.</source>
@@ -3010,7 +3010,7 @@ Filtyp</translation>
     <name>design/admin/content/reverserelatedlist</name>
     <message>
         <source>&quot;%contentObjectName&quot; [%children_count]: Sub items that are used by other objects </source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%contentObjectName&quot; [%children_count]: Underobjekt som används av andra objekt </translation>
     </message>
     <message>
         <source>This subtree/item has no external relations.</source>
@@ -3018,7 +3018,7 @@ Filtyp</translation>
     </message>
     <message>
         <source>&quot;%contentObjectName&quot; (%children_count): Sub items that are used by other objects </source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%contentObjectName&quot; (%children_count): Underobjekt som används av andra objekt</translation>
     </message>
 </context>
 <context>
@@ -3254,7 +3254,7 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Classes translations</source>
-        <translation type="unfinished"></translation>
+        <translation>Klassöversättningar</translation>
     </message>
     <message>
         <source>Country/region</source>
@@ -3270,7 +3270,7 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Toggle all.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dölj alla.</translation>
     </message>
 </context>
 <context>
@@ -3409,19 +3409,19 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Country/region name</source>
-        <translation type="unfinished"></translation>
+        <translation>Land/Namn på region</translation>
     </message>
     <message>
         <source>Country/region comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Land/region kommentar</translation>
     </message>
     <message>
         <source>Country/region code</source>
-        <translation type="unfinished"></translation>
+        <translation>Land/regionkod</translation>
     </message>
     <message>
         <source>Country/region variation</source>
-        <translation type="unfinished"></translation>
+        <translation>Land/region variation</translation>
     </message>
 </context>
 <context>
@@ -3480,7 +3480,7 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Use these checkboxes to mark items for removal. Click the &quot;Remove selected&quot; button to remove the selected items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Använd dessa kryssrutor för att välja objekt för borttagning. Klicka på &quot;Ta bort markerade&quot; för att ta bort valda objekt.</translation>
     </message>
     <message>
         <source>Trash (%list_count)</source>
@@ -3637,7 +3637,7 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>The URL alias was successfully created, but was modified by the system to &lt;%new_alias&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>URL alias har skapats, men var modifierat av systemet till &lt;%new_alias&gt;</translation>
     </message>
     <message>
         <source>Invalid characters will be removed or transformed to valid characters.</source>
@@ -3649,7 +3649,7 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>The URL alias &lt;%new_alias&gt; was successfully created</source>
-        <translation type="unfinished"></translation>
+        <translation>URL alias &lt;%new_alias&gt; har skapats</translation>
     </message>
     <message>
         <source>The URL alias &amp;lt;%new_alias&amp;gt; already exists, and it points to &amp;lt;%action_url&amp;gt;</source>
@@ -3657,7 +3657,7 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>URL aliases for &lt;%node_name&gt; [%alias_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>URL alias för &lt;%node_name&gt; [%alias_count]</translation>
     </message>
     <message>
         <source>The current item does not have any aliases associated with it.</source>
@@ -3665,7 +3665,7 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Invertera val.</translation>
     </message>
     <message>
         <source>URL alias</source>
@@ -3697,7 +3697,7 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove the selected aliases?</source>
-        <translation type="unfinished">Är du säker på att att du vill ta bort </translation>
+        <translation>Är du säker på att att du vill ta bort valda alias?</translation>
     </message>
     <message>
         <source>Remove all</source>
@@ -3737,11 +3737,11 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Create new alias</source>
-        <translation type="unfinished"></translation>
+        <translation>Skapa nytt alias</translation>
     </message>
     <message>
         <source>URL alias name:</source>
-        <translation type="unfinished"></translation>
+        <translation>URL alias namn:</translation>
     </message>
     <message>
         <source>Enter the URL for the new alias. Use forward slashes (/) to create subentries.</source>
@@ -3749,19 +3749,19 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Destination:</source>
-        <translation type="unfinished"></translation>
+        <translation>Destination:</translation>
     </message>
     <message>
         <source>Destination.</source>
-        <translation type="unfinished"></translation>
+        <translation>Destination.</translation>
     </message>
     <message>
         <source>Language:</source>
-        <translation type="unfinished"></translation>
+        <translation>Språk:</translation>
     </message>
     <message>
         <source>Choose the language for the new URL alias.</source>
-        <translation type="unfinished"></translation>
+        <translation>Välj språk för nytt URL alias.</translation>
     </message>
     <message>
         <source>Not available</source>
@@ -3785,7 +3785,7 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>The new alias be placed under %link</source>
-        <translation type="unfinished"></translation>
+        <translation>Det nya aliaset är placerat under %link</translation>
     </message>
     <message>
         <source>&lt;em&gt;Un-check&lt;/em&gt; to create the new alias under %link. Leave it checked and the new alias will be created on &lt;em&gt;&lt;a href=&apos;/&apos;&gt;%siteroot&lt;/a&gt;&lt;/em&gt;.</source>
@@ -3824,31 +3824,31 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Create a new global URL alias.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skapa ett nytt globalt URL alias.</translation>
     </message>
     <message>
         <source>The selected aliases were successfully removed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Valda alias har tagits bort.</translation>
     </message>
     <message>
         <source>All global aliases were successfully removed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alla globala alias har tagits bort.</translation>
     </message>
     <message>
         <source>The specified language code &lt;%language&gt; is not valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Den angivna språkkoden &lt;%language&gt; är inte giltig.</translation>
     </message>
     <message>
         <source>Text is missing for the URL alias</source>
-        <translation type="unfinished"></translation>
+        <translation>Text saknas för URL alias</translation>
     </message>
     <message>
         <source>Enter text in the input box to create a new alias.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ange text i textrutan för att skapa nytt alias.</translation>
     </message>
     <message>
         <source>Text is missing for the URL alias destination</source>
-        <translation type="unfinished"></translation>
+        <translation>Text saknas för URL alias platsen</translation>
     </message>
     <message>
         <source>Enter some text in the destination input box to create a new alias.</source>
@@ -3856,7 +3856,7 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>The specified destination URL %url does not exist in the system, cannot create alias for it</source>
-        <translation type="unfinished"></translation>
+        <translation>Den valda platsen URL %url finns inte i systemet, kan inte skapa ett alias för det</translation>
     </message>
     <message>
         <source>Ensure that the destination points to a valid entry, one of:</source>
@@ -3868,11 +3868,11 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Existing aliases for the content structure.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nuvarande alias för innehållsstrukturen.</translation>
     </message>
     <message>
         <source>The URL alias was successfully created, but was modified by the system to &lt;%new_alias&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>URL alias har skapats, men var modifierat av systemet till &lt;%new_alias&gt;</translation>
     </message>
     <message>
         <source>Note that the new alias points to a node and will not be displayed in the global list. It can be examined on the URL-Alias page of the node, %node_link.</source>
@@ -3888,7 +3888,7 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>The URL alias &lt;%new_alias&gt; was successfully created</source>
-        <translation type="unfinished"></translation>
+        <translation>URL alias &lt;%new_alias&gt; har skapats</translation>
     </message>
     <message>
         <source>The URL alias &amp;lt;%new_alias&amp;gt; already exists, and it points to &amp;lt;%action_url&amp;gt;</source>
@@ -3900,19 +3900,19 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Show %number_of items per page.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visa %number_of objekt per sida.</translation>
     </message>
     <message>
         <source>The global list does not contain any aliases.</source>
-        <translation type="unfinished"></translation>
+        <translation>Den globala listan innehåller inte några alias.</translation>
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Invertera val.</translation>
     </message>
     <message>
         <source>URL alias</source>
-        <translation type="unfinished"></translation>
+        <translation>URL alias</translation>
     </message>
     <message>
         <source>Destination</source>
@@ -3924,51 +3924,51 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Always available</source>
-        <translation type="unfinished"></translation>
+        <translation>Alltid tillgänglig</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Typ</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <source>Redirect</source>
-        <translation type="unfinished">Omdirigera</translation>
+        <translation>Omdirigera</translation>
     </message>
     <message>
         <source>Direct</source>
-        <translation type="unfinished"></translation>
+        <translation>Direkt</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished">Ta bort markerade</translation>
+        <translation>Ta bort markerade</translation>
     </message>
     <message>
         <source>Remove selected aliases from the list above.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ta bort valda alias från listan ovan.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove the selected aliases?</source>
-        <translation type="unfinished"></translation>
+        <translation>Är du säker på att du vill ta bort valda alias?</translation>
     </message>
     <message>
         <source>Remove all</source>
-        <translation type="unfinished">Radera alla</translation>
+        <translation>Radera alla</translation>
     </message>
     <message>
         <source>Remove all global aliases.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ta bort alla globala URL alias.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove all global aliases?</source>
-        <translation type="unfinished"></translation>
+        <translation>Är du säker på att du vill ta bort alla globala alias?</translation>
     </message>
     <message>
         <source>There are no removable aliases.</source>
-        <translation type="unfinished"></translation>
+        <translation>Det finns inga alias som kan raderas.</translation>
     </message>
     <message>
         <source>New URL alias</source>
-        <translation type="unfinished"></translation>
+        <translation>Nya URL alias</translation>
     </message>
     <message>
         <source>Enter the URL for the new alias. Use forward slashes (/) to create subentries.</source>
@@ -3980,7 +3980,7 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Choose the language for the new URL alias.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ange språk för nytt URL alias.</translation>
     </message>
     <message>
         <source>Makes the alias available in languages other than the one specified.</source>
@@ -3992,30 +3992,30 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Globally defined URL aliases (%alias_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Globala definierade URL alias (%alias_count)</translation>
     </message>
 </context>
 <context>
     <name>design/admin/content/urlalias_wildcard</name>
     <message>
         <source>The selected aliases were successfully removed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Utvalda alias har tagits bort.</translation>
     </message>
     <message>
         <source>All wildcard aliases were successfully removed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alla wildcard alias har tagits bort.</translation>
     </message>
     <message>
         <source>Text is missing for the URL alias</source>
-        <translation type="unfinished"></translation>
+        <translation>Text saknas för URL alias</translation>
     </message>
     <message>
         <source>Enter text in the input box to create a new alias.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ange text i textrutan för att skapa ett nytt alias.</translation>
     </message>
     <message>
         <source>Text is missing for the URL alias destination</source>
-        <translation type="unfinished"></translation>
+        <translation>Text saknas för URL alias platsen</translation>
     </message>
     <message>
         <source>Enter some text in the destination input box to create a new alias.</source>
@@ -4023,7 +4023,7 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>The URL alias &lt;%wildcard_src_url&gt; was successfully created</source>
-        <translation type="unfinished"></translation>
+        <translation>URL alias &lt;%wildcard_src_url&gt; har skapats</translation>
     </message>
     <message>
         <source>The URL alias &lt;%wildcard_src_url&gt; already exists, and it points to &lt;%wildcard_dst_url&gt;</source>
@@ -4031,23 +4031,23 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Defined URL aliases with wildcard[%wildcard_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>Definerade URL alias med wildcard[%wildcard_count]</translation>
     </message>
     <message>
         <source>Show %number_of items per page.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visa %number_of objekt per sida.</translation>
     </message>
     <message>
         <source>The URL wildcard list does not contain any aliases.</source>
-        <translation type="unfinished"></translation>
+        <translation>URL wildcardlistan innehåller inte några alias.</translation>
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Invertera val.</translation>
     </message>
     <message>
         <source>URL alias wildcard</source>
-        <translation type="unfinished"></translation>
+        <translation>URL wildcard-alias</translation>
     </message>
     <message>
         <source>Destination</source>
@@ -4055,7 +4055,7 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Typ</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <source>Forward</source>
@@ -4063,43 +4063,43 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Direct</source>
-        <translation type="unfinished"></translation>
+        <translation>Direkt</translation>
     </message>
     <message>
         <source>Undefined</source>
-        <translation type="unfinished">Odefinierad</translation>
+        <translation>Odefinierad</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished">Ta bort markerade</translation>
+        <translation>Ta bort markerade</translation>
     </message>
     <message>
         <source>Remove selected aliases from the list above.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ta bort valda alias från listan ovan.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove the selected wildcards?</source>
-        <translation type="unfinished"></translation>
+        <translation>Är du säker på att du vill ta bort valda wildcards?</translation>
     </message>
     <message>
         <source>Remove all</source>
-        <translation type="unfinished">Radera alla</translation>
+        <translation>Radera alla</translation>
     </message>
     <message>
         <source>Remove all wildcard aliases.</source>
-        <translation type="unfinished"></translation>
+        <translation>Radera alla wildcard alias.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove all wildcard aliases?</source>
-        <translation type="unfinished"></translation>
+        <translation>Är du säker på att du vill ta bort alla wildcard alias?</translation>
     </message>
     <message>
         <source>There are no removable aliases.</source>
-        <translation type="unfinished"></translation>
+        <translation>Det finns inga alias som kan tas bort.</translation>
     </message>
     <message>
         <source>New URL wildcard</source>
-        <translation type="unfinished"></translation>
+        <translation>Nytt URL wildcard</translation>
     </message>
     <message>
         <source>Perform redirecting.</source>
@@ -4107,15 +4107,15 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation type="unfinished">Skapa</translation>
+        <translation>Skapa</translation>
     </message>
     <message>
         <source>Create a new wildcard URL alias.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skapa nytt wildcard URL alias.</translation>
     </message>
     <message>
         <source>Enter the URL for the new wildcard. Example: developer/*</source>
-        <translation type="unfinished"></translation>
+        <translation>Ange URL för nytt wildcard. Till exempel: utvecklare/*</translation>
     </message>
     <message>
         <source>Enter the destination URL for the new wildcard. Example: dev/{1\}</source>
@@ -4123,7 +4123,7 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Defined URL aliases with wildcard(%wildcard_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Definerade URL alias med wildcard(%wildcard_count)</translation>
     </message>
 </context>
 <context>
@@ -4413,7 +4413,7 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Your selected translation does not match the language of your selected siteaccess. This may lead to unexpected results in the preview, however it may also be what you intended.</source>
-        <translation type="unfinished">Den valda översättningen passar inte det språk </translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Back to edit</source>
@@ -4432,7 +4432,7 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Click on the icon to display a context-sensitive menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klicka på ikonen för att visa en kontextkänslig meny.</translation>
     </message>
     <message>
         <source>Node ID</source>
@@ -4460,11 +4460,11 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Node does not exist</source>
-        <translation type="unfinished"></translation>
+        <translation>Noden finns inte</translation>
     </message>
     <message>
         <source>Internal error</source>
-        <translation type="unfinished"></translation>
+        <translation>Internt fel</translation>
     </message>
     <message>
         <source>[%classname] Click on the icon to display a context-sensitive menu.</source>
@@ -4483,7 +4483,7 @@ Parametrarna är länk start och sluttaggar.</translation>
     <name>design/admin/dashboard/all_latest_content</name>
     <message>
         <source>All latest content</source>
-        <translation type="unfinished"></translation>
+        <translation>Senaste innehållet</translation>
     </message>
     <message>
         <source>Name</source>
@@ -4515,77 +4515,77 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Latest content list is empty.</source>
-        <translation type="unfinished"></translation>
+        <translation>Senaste innehållslistan är tom. </translation>
     </message>
 </context>
 <context>
     <name>design/admin/dashboard/drafts</name>
     <message>
         <source>My drafts</source>
-        <translation type="unfinished">Mina utkast</translation>
+        <translation>Mina utkast</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Namn</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Typ</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished">Version</translation>
+        <translation>Version</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation type="unfinished">Modifierad</translation>
+        <translation>Modifierad</translation>
     </message>
     <message>
         <source>Edit &lt;%draft_name&gt;.</source>
-        <translation type="unfinished">Ändra &lt;%draft_name&gt;.</translation>
+        <translation>Redigera &lt;%draft_name&gt;.</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Redigera</translation>
+        <translation>Redigera</translation>
     </message>
     <message>
         <source>Currently you do not have any drafts available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Just nu har du inte några utkast tillgängliga.</translation>
     </message>
 </context>
 <context>
     <name>design/admin/dashboard/latest_content</name>
     <message>
         <source>My latest content</source>
-        <translation type="unfinished"></translation>
+        <translation>Mitt senaste innehåll</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Namn</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Typ</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation type="unfinished">Modifierad</translation>
+        <translation>Modifierad</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Redigera</translation>
+        <translation>Redigera</translation>
     </message>
     <message>
         <source>Edit &lt;%child_name&gt;.</source>
-        <translation type="unfinished">Redigera  &lt;%child_name&gt;.</translation>
+        <translation>Redigera &lt;%child_name&gt;.</translation>
     </message>
     <message>
         <source>You do not have permission to edit &lt;%child_name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du har inte behörighet att redigera &lt;%child_name&gt;.</translation>
     </message>
     <message>
         <source>Your latest content list is empty.</source>
-        <translation type="unfinished"></translation>
+        <translation>Din senaste innehållslista är tomt.</translation>
     </message>
 </context>
 <context>
@@ -4596,7 +4596,7 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Your installation: &lt;span id=&quot;ez-version&quot;&gt;%1&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Din installation: &lt;span id=&quot;ez-version&quot;&gt;%1&lt;/span&gt;</translation>
     </message>
     <message>
         <source>If your installation is not running eZ Publish Enterprise, it might not be up to date with the latest maintenance service packs. Contact eZ Systems.</source>
@@ -4623,42 +4623,42 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Currently you do not have any pending items available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Just nu har du inte några väntande objekt tillgängliga.</translation>
     </message>
 </context>
 <context>
     <name>design/admin/dashboard/wishlist</name>
     <message>
         <source>Wish list</source>
-        <translation type="unfinished">Önskelista</translation>
+        <translation>Önskelista</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Namn</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Typ</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <source>Currently you do not have any products on your wish list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Just nu har du inte några produkter i din önskelista.</translation>
     </message>
     <message>
         <source>Published</source>
-        <translation type="unfinished">Publicerad</translation>
+        <translation>Publicerad</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Redigera</translation>
+        <translation>Redigera</translation>
     </message>
     <message>
         <source>Edit &lt;%item_name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigera &lt;%item_name&gt;.</translation>
     </message>
     <message>
         <source>You do not have permission to edit &lt;%item_name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du har inte behörighet att redigera &lt;%item_name&gt;.</translation>
     </message>
 </context>
 <context>
@@ -4788,15 +4788,15 @@ Knapp</translation>
     </message>
     <message>
         <source>The draft could not be created. (5)</source>
-        <translation type="unfinished"></translation>
+        <translation>Utkastet kunde inte skapas. (5)</translation>
     </message>
     <message>
         <source>Invalid language code provided. The draft could not be created.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ogiltig språkkod anges. Kunde inte skapa utkastet.</translation>
     </message>
     <message>
         <source>You are not logged in to the system. Please log in.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du är inte inloggad i systemet. Var god logga in.</translation>
     </message>
     <message>
         <source>The site is using URL matching to determine which siteaccess to use, but the name of the siteaccess is missing from the URL. Try to add the name of the siteaccess; it should be specified before the name of the module.</source>
@@ -4812,7 +4812,7 @@ Knapp</translation>
     </message>
     <message>
         <source>The requested module cannot be accessed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Den efterfrågade modulen kan inte kommas åt.</translation>
     </message>
     <message>
         <source>The &lt;%module&gt; module is disabled and thus it cannot be accessed.</source>
@@ -4820,7 +4820,7 @@ Knapp</translation>
     </message>
     <message>
         <source>The ID number of the object is incorrect. Check the URL for spelling mistakes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Objektets ID nummer är inkorrekt. Kontrollera URL för stavfel.</translation>
     </message>
     <message>
         <source>If redirection fails, click on the following address: %url.</source>
@@ -4839,27 +4839,27 @@ Knapp</translation>
     </message>
     <message>
         <source>Incompatible product type. (2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Inkompatibel produkttyp. (2)</translation>
     </message>
     <message>
         <source>The requested object and current basket have incompatible price datatypes.</source>
-        <translation type="unfinished">Det efterfrågade objektet och den aktuella kundvagnen har inkompatibla prisdatatyper.</translation>
+        <translation>Det efterfrågade objektet och den aktuella kundvagnen har inkompatibla prisdatatyper.</translation>
     </message>
     <message>
         <source>Invalid preferred currency. (3)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ogiltig vald valuta. (3)</translation>
     </message>
     <message>
         <source>Invalid preferred currency. (4)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ogiltid vald valuta. (4)</translation>
     </message>
     <message>
         <source>&apos;%1&apos; currency does not exist.</source>
-        <translation type="unfinished">&apos;%1&apos; valuta finns inte.</translation>
+        <translation>&apos;%1&apos; valuta finns inte.</translation>
     </message>
     <message>
         <source>&apos;%1&apos; cannot be used because it is inactive.</source>
-        <translation type="unfinished">&apos;%1&apos; kan inte användas eftersom den är inaktiv.</translation>
+        <translation>&apos;%1&apos; kan inte användas eftersom den är inaktiv.</translation>
     </message>
 </context>
 <context>
@@ -5166,19 +5166,19 @@ Knapp</translation>
     </message>
     <message>
         <source>Confirm translation removal</source>
-        <translation type="unfinished">Bekräfta borttagning av översättning</translation>
+        <translation>Bekräfta borttagning av översättning</translation>
     </message>
     <message>
         <source>Cancel the removal of translations.</source>
-        <translation type="unfinished"></translation>
+        <translation>Avbryt borttagning av översättning.</translation>
     </message>
     <message>
         <source>Some of the subtrees or objects selected for removal are used by other objects. Select the menu from the content tree, and</source>
-        <translation type="unfinished"></translation>
+        <translation>Några av underträden eller objekten för borttagning används av andra objekt. Välj menyn från innehållsträdet, och</translation>
     </message>
     <message>
         <source>Advanced</source>
-        <translation type="unfinished">Avancerad</translation>
+        <translation>Avancerad</translation>
     </message>
     <message>
         <source>Reverse related for subtree</source>
@@ -5723,11 +5723,11 @@ Knapp</translation>
     </message>
     <message>
         <source>(disabled)</source>
-        <translation type="unfinished"></translation>
+        <translation>(inaktiverad)</translation>
     </message>
     <message>
         <source>Class</source>
-        <translation type="unfinished">Klass</translation>
+        <translation>Klass</translation>
     </message>
     <message>
         <source>Reverse related objects [%related_objects_count]</source>
@@ -5739,27 +5739,27 @@ Knapp</translation>
     </message>
     <message>
         <source>Another language</source>
-        <translation type="unfinished"></translation>
+        <translation>Annat språk</translation>
     </message>
     <message>
         <source>Existing languages</source>
-        <translation type="unfinished">Befintliga språk</translation>
+        <translation>Befintliga språk</translation>
     </message>
     <message>
         <source>Use these radio buttons to select the desired main language.</source>
-        <translation type="unfinished"></translation>
+        <translation>Använd radioknapparna för att välja önskat huvudspråk.</translation>
     </message>
     <message>
         <source>Edit in &lt;%language_name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigera på &lt;%language_name&gt;.</translation>
     </message>
     <message>
         <source>Remove selected languages from the list above.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ta bort valda språk från listan ovan.</translation>
     </message>
     <message>
         <source>There is no removable language.</source>
-        <translation type="unfinished"></translation>
+        <translation>Det finns inga språk som kan raderas.</translation>
     </message>
     <message>
         <source>Use the main language if there is no prioritized translation.</source>
@@ -5767,7 +5767,7 @@ Knapp</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation type="unfinished">Uppdatera</translation>
+        <translation>Uppdatera</translation>
     </message>
     <message>
         <source>Use this button to store the value of the checkbox above.</source>
@@ -5775,19 +5775,19 @@ Knapp</translation>
     </message>
     <message>
         <source>(locked)</source>
-        <translation type="unfinished"></translation>
+        <translation>(låst)</translation>
     </message>
     <message>
         <source>Choose section</source>
-        <translation type="unfinished"></translation>
+        <translation>Välj sektion</translation>
     </message>
     <message>
         <source>Relation type</source>
-        <translation type="unfinished"></translation>
+        <translation>Relationtyp</translation>
     </message>
     <message>
         <source>You do not have permission to remove any of the items from the list above.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du har inte behörighet att ta bort några objekt från listan ovan.</translation>
     </message>
     <message>
         <source>You cannot update the priorities because you do not have permission to edit the current item or because a non-priority sorting method is used.</source>
@@ -5819,7 +5819,7 @@ Knapp</translation>
     </message>
     <message>
         <source>You do not have permission to remove this item.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du har inte behörighet att ta bort detta objekt.</translation>
     </message>
     <message>
         <source>Use the priority fields to control the order in which the items appear. You can use both positive and negative integers. Click the &quot;Update priorities&quot; button to apply the changes.</source>
@@ -5835,7 +5835,7 @@ Knapp</translation>
     </message>
     <message>
         <source>You do not have permission to edit &lt;%child_name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du har inte behörighet att redigera &lt;%child_name&gt;.</translation>
     </message>
     <message>
         <source>Use these checkboxes to select items for removal. Click the &quot;Remove selected&quot; button to  remove the selected items.</source>
@@ -5843,7 +5843,7 @@ Knapp</translation>
     </message>
     <message>
         <source>You do not have permission to edit %child_name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du har inte behörighet att redigera %child_name.</translation>
     </message>
     <message>
         <source>This location cannot be removed either because you do not have permission to remove it or because it is currently being displayed.</source>
@@ -5963,7 +5963,7 @@ Knapp</translation>
     </message>
     <message>
         <source>Translations (%count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Översättningar (%count)</translation>
     </message>
     <message>
         <source>Locations (%count)</source>
@@ -5975,11 +5975,11 @@ Knapp</translation>
     </message>
     <message>
         <source>Roles (%count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Roller (%count)</translation>
     </message>
     <message>
         <source>Policies (%count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Policys (%count)</translation>
     </message>
     <message>
         <source>Sub items (%children_count)</source>
@@ -6031,11 +6031,11 @@ Knapp</translation>
     </message>
     <message>
         <source>Limited to</source>
-        <translation type="unfinished"></translation>
+        <translation>Begränsad till</translation>
     </message>
     <message>
         <source>%limitation_identifier %limitation_value</source>
-        <translation type="unfinished"></translation>
+        <translation>%limitation_identifier %limitation_value</translation>
     </message>
     <message>
         <source>Object relation list from current object.</source>
@@ -6063,7 +6063,7 @@ Knapp</translation>
     </message>
     <message>
         <source>Existing translations</source>
-        <translation type="unfinished"></translation>
+        <translation>Nuvarande översättningar</translation>
     </message>
     <message>
         <source>Language list of translations for current object.</source>
@@ -6075,7 +6075,7 @@ Knapp</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Visning</translation>
+        <translation>Visa</translation>
     </message>
     <message>
         <source>Show simplified view of content.</source>
@@ -6083,7 +6083,7 @@ Knapp</translation>
     </message>
     <message>
         <source>Ordering</source>
-        <translation type="unfinished">Ordning</translation>
+        <translation>Ordning</translation>
     </message>
     <message>
         <source>Show published ordering overview.</source>
@@ -6091,7 +6091,7 @@ Knapp</translation>
     </message>
     <message>
         <source>Loading ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Laddar...</translation>
     </message>
     <message>
         <source>Node remote ID</source>
@@ -6107,7 +6107,7 @@ Knapp</translation>
     </message>
     <message>
         <source>Number of items per page:</source>
-        <translation type="unfinished"></translation>
+        <translation>Antal objekt per sida:</translation>
     </message>
     <message>
         <source>Visible table columns:</source>
@@ -6115,11 +6115,11 @@ Knapp</translation>
     </message>
     <message>
         <source>Select</source>
-        <translation type="unfinished">Välj</translation>
+        <translation>Välj</translation>
     </message>
     <message>
         <source>Select all visible</source>
-        <translation type="unfinished"></translation>
+        <translation>Välj alla synliga</translation>
     </message>
     <message>
         <source>Select none</source>
@@ -6127,7 +6127,7 @@ Knapp</translation>
     </message>
     <message>
         <source>Create new</source>
-        <translation type="unfinished">Skapa ny</translation>
+        <translation>Skapa ny</translation>
     </message>
     <message>
         <source>More actions</source>
@@ -6135,7 +6135,7 @@ Knapp</translation>
     </message>
     <message>
         <source>Use the checkboxes to select one or more items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Använd kryssrutorna för att välja en eller fler objekt.</translation>
     </message>
     <message>
         <source>first</source>
@@ -6147,7 +6147,7 @@ Knapp</translation>
     </message>
     <message>
         <source>next</source>
-        <translation type="unfinished"></translation>
+        <translation>nästa</translation>
     </message>
     <message>
         <source>last</source>
@@ -6155,11 +6155,11 @@ Knapp</translation>
     </message>
     <message>
         <source>Invert selection</source>
-        <translation type="unfinished">Invertera val</translation>
+        <translation>Invertera val</translation>
     </message>
     <message>
         <source>Path String</source>
-        <translation type="unfinished">Sökvägsträng</translation>
+        <translation>Sökväg</translation>
     </message>
     <message>
         <source>Object state</source>
@@ -6174,7 +6174,7 @@ Knapp</translation>
     </message>
     <message>
         <source>Click on the icon to display a context-sensitive menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klicka på ikonen för att visa en kontextkänslig meny.</translation>
     </message>
 </context>
 <context>
@@ -6608,7 +6608,7 @@ Knapp</translation>
     </message>
     <message>
         <source>Provide some basic information for your package.</source>
-        <translation type="unfinished">Lämna generell information om ditt paket.</translation>
+        <translation>Lämna generell information om ditt paket.</translation>
     </message>
     <message>
         <source>License</source>
@@ -6616,46 +6616,47 @@ Knapp</translation>
     </message>
     <message>
         <source>Provide information about the maintainer of the package.</source>
-        <translation type="unfinished">Lämna information om driftansvarig för paketet.</translation>
+        <translation>Lämna information om driftansvarig för paketet.</translation>
     </message>
     <message>
         <source>Include templates related to exported objects.</source>
-        <translation type="unfinished">Inkludera mallar relaterade till exporterade objekt.</translation>
+        <translation>Inkludera mallar relaterade till exporterade objekt.</translation>
     </message>
     <message>
         <source>Choose the objects to include in the package.</source>
-        <translation type="unfinished">Välj objekt som ska inkluderas i paketet.</translation>
+        <translation>Välj objekt som ska inkluderas i paketet.</translation>
     </message>
     <message>
         <source>There are currently no objects selected for export</source>
-        <translation type="unfinished"></translation>
+        <translation>Det finns för tillfället inte några objekt för export</translation>
     </message>
     <message>
         <source>Select an image file to be included in the package then click Next.
 Click &quot;Next&quot; without choosing an image to continue to the next step.</source>
-        <translation type="unfinished"></translation>
+        <translation>Välj en bildfil som ska inkluderas i ditt paket och klicka Nästa. 
+Klicka på &quot;Nästa&quot; utan att välja en bild för att gå vidare till nästa steg.</translation>
     </message>
     <message>
         <source>The package can be installed on your system. Installing the package will copy files, create content classes etc., depending on the package.
 If you do not want to install the package at this time, you can do so later on the view page for the package.</source>
-        <translation type="unfinished">Paketet kan installeras på ditt system. Installationen av paketet kopierar filer, skapar innehållsklasser m.m. beroende av paketet.
+        <translation>Paketet kan installeras på ditt system. Installationen av paketet kopierar filer, skapar innehållsklasser m.m. beroende på paketet.
 Om du inte vill installera paketet just nu kan du göra det senare på visningssidan för paketet.</translation>
     </message>
     <message>
         <source>The package can be uninstalled from your system. Uninstalling the package will remove any installed files, content classes etc., depending on the package.
 If you do not want to uninstall the package at this time, you can do so later on the view page for the package.
 You can also remove the package without uninstalling it from the package list.</source>
-        <translation type="unfinished">Paketet kan avinstalleras från ditt system. Avinstallationen tar bort alla installerade filer, innehållsklasser m.m. beroende av paketet.
+        <translation>Paketet kan avinstalleras från ditt system. Avinstallationen tar bort alla installerade filer, innehållsklasser m.m. beroende på paketet.
 Om du inte vill avinstallera paketet just nu kan du göra det senare på paketets visningssida.
 Du kan även ta bort paketet utan att avinstallera det från paketlistan.</translation>
     </message>
     <message>
         <source>Select the file containing the package then click the upload button</source>
-        <translation type="unfinished">Välj filen som innehåller paketet och klicka därefter på uppladdningsknappen</translation>
+        <translation>Välj filen som innehåller paketet och klicka därefter på uppladdningsknappen</translation>
     </message>
     <message>
         <source>Regarding eZ Publish package &apos;%packagename&apos;</source>
-        <translation type="unfinished">Om eZ Publish paket &apos;%packagename&apos; </translation>
+        <translation>Om eZ Publish paket &apos;%packagename&apos; </translation>
     </message>
 </context>
 <context>
@@ -6781,27 +6782,27 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Content structure</source>
-        <translation type="unfinished">Innehållsstruktur</translation>
+        <translation>Innehållsstruktur</translation>
     </message>
     <message>
         <source>Media library</source>
-        <translation type="unfinished">Mediabibliotek</translation>
+        <translation>Mediabibliotek</translation>
     </message>
     <message>
         <source>User accounts</source>
-        <translation type="unfinished">Användarkonton</translation>
+        <translation>Användarkonton</translation>
     </message>
     <message>
         <source>Webshop</source>
-        <translation type="unfinished">Webshop</translation>
+        <translation>Webshop</translation>
     </message>
     <message>
         <source>Setup</source>
-        <translation type="unfinished">Installering</translation>
+        <translation>Inställningar</translation>
     </message>
     <message>
         <source>Design</source>
-        <translation type="unfinished">Design</translation>
+        <translation>Design</translation>
     </message>
     <message>
         <source>My account</source>
@@ -6845,31 +6846,31 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Manage the main content structure of the site.</source>
-        <translation type="unfinished">Hantera huvudinnehållsstruktur på sidan.</translation>
+        <translation>Hantera huvudinnehållsstruktur på sidan.</translation>
     </message>
     <message>
         <source>Manage images, files, documents, etc.</source>
-        <translation type="unfinished">Hantera bilder, filer, dokument mm.</translation>
+        <translation>Hantera bilder, filer, dokument mm.</translation>
     </message>
     <message>
         <source>Manage users, user groups and permission settings.</source>
-        <translation type="unfinished">Hantera användare, användargrupper och tilltåelseinställningar.</translation>
+        <translation>Hantera användare, användargrupper och rättighetsinställningar.</translation>
     </message>
     <message>
         <source>Manage customers, orders, discounts and VAT types; view sales statistics.</source>
-        <translation type="unfinished">Hantera kunder, ordrar, rabatter och skattetyper; se försäljningsstatestik.</translation>
+        <translation>Hantera kunder, ordrar, rabatter och skattetyper; se försäljningsstatistik.</translation>
     </message>
     <message>
         <source>Manage templates, menus, toolbars and other things related to appearence.</source>
-        <translation type="unfinished">Hantera stilmallar, menyer, verktygslådor och andra saker som är relaterade till utseendet.</translation>
+        <translation>Hantera stilmallar, menyer, verktygslådor och andra saker som är relaterade till utseendet.</translation>
     </message>
     <message>
         <source>Configure settings and manage advanced functionality.</source>
-        <translation type="unfinished">Konfigurera inställningar och hantera avancerade funktioner.</translation>
+        <translation>Konfigurera inställningar och hantera avancerade funktioner.</translation>
     </message>
     <message>
         <source>Manage items and settings that belong to your account.</source>
-        <translation type="unfinished">Hantera artiklar och inställningar som tillhör ditt konto.</translation>
+        <translation>Hantera artiklar och inställningar som tillhör ditt konto.</translation>
     </message>
     <message>
         <source>Change password for &lt;%username&gt;.</source>
@@ -6937,35 +6938,35 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Change name, email, password, etc.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ändra namn, email, lösenord, etc.</translation>
     </message>
     <message>
         <source>[%classname] Click on the icon to display a context-sensitive menu.</source>
-        <translation type="unfinished">[%classname] Klicka på ikonen för att visa en kontextkänslig meny.</translation>
+        <translation>[%classname] Klicka på ikonen för att visa en kontextkänslig meny.</translation>
     </message>
     <message>
         <source>Search in all content</source>
-        <translation type="unfinished"></translation>
+        <translation>Sök i allt innehåll</translation>
     </message>
     <message>
         <source>Search in &apos;%node&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Sök i &apos;%node&apos;</translation>
     </message>
     <message>
         <source>Dashboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Instrumentbräda</translation>
     </message>
     <message>
         <source>User preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Användarpreferenser</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Stäng</translation>
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Laddar...</translation>
     </message>
 </context>
 <context>
@@ -7026,15 +7027,15 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Hide content structure.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dölj innehållsstruktur.</translation>
     </message>
     <message>
         <source>Show content structure.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visa innehållsstruktur.</translation>
     </message>
     <message>
         <source>Site structure</source>
-        <translation type="unfinished"></translation>
+        <translation>Sidans struktur</translation>
     </message>
 </context>
 <context>
@@ -7152,11 +7153,11 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Edit profile</source>
-        <translation type="unfinished">Redigera profil</translation>
+        <translation>Redigera profil</translation>
     </message>
     <message>
         <source>Dashboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Instrumentbräda</translation>
     </message>
     <message>
         <source>Enable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
@@ -7261,15 +7262,15 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Languages</source>
-        <translation type="unfinished">Språk</translation>
+        <translation>Språk</translation>
     </message>
     <message>
         <source>Workflow processes</source>
-        <translation type="unfinished"></translation>
+        <translation>Workflowprocess</translation>
     </message>
     <message>
         <source>URL wildcards</source>
-        <translation type="unfinished"></translation>
+        <translation>URL wildcards</translation>
     </message>
     <message>
         <source>States</source>
@@ -7277,7 +7278,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>URL management</source>
-        <translation type="unfinished"></translation>
+        <translation>URL-hantering</translation>
     </message>
 </context>
 <context>
@@ -7522,11 +7523,11 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>The PDF export could not be stored.</source>
-        <translation type="unfinished"></translation>
+        <translation>PDF exporten kunde inte sparas.</translation>
     </message>
     <message>
         <source>Required data is either missing or is invalid</source>
-        <translation type="unfinished">Krävd information saknas eller är fel</translation>
+        <translation>Nödvändig information saknas eller är fel</translation>
     </message>
 </context>
 <context>
@@ -7688,31 +7689,31 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Edit in</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigera i</translation>
     </message>
     <message>
         <source>Another language</source>
-        <translation type="unfinished"></translation>
+        <translation>Annat språk</translation>
     </message>
     <message>
         <source>Create here</source>
-        <translation type="unfinished"></translation>
+        <translation>Skapa här</translation>
     </message>
     <message>
         <source>Manage versions</source>
-        <translation type="unfinished">Hantera versioner</translation>
+        <translation>Hantera versioner</translation>
     </message>
     <message>
         <source>Edit class in</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigera klass i</translation>
     </message>
     <message>
         <source>Copy subtree</source>
-        <translation type="unfinished">Kopiera underträd</translation>
+        <translation>Kopiera underträd</translation>
     </message>
     <message>
         <source>Manage URL aliases</source>
-        <translation type="unfinished"></translation>
+        <translation>Hantera URL alias</translation>
     </message>
     <message>
         <source>Choose siteaccess</source>
@@ -7728,7 +7729,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>New translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Ny översättning</translation>
     </message>
     <message>
         <source>Sitemap for subtree</source>
@@ -7736,7 +7737,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation type="unfinished">Förhandsgranska</translation>
+        <translation>Förhandsgranska</translation>
     </message>
 </context>
 <context>
@@ -7923,14 +7924,14 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Every function</source>
-        <translation type="unfinished"></translation>
+        <translation>Alla funktioner</translation>
     </message>
 </context>
 <context>
     <name>design/admin/role/createpolicystep2</name>
     <message>
         <source>Step one: select module [completed]</source>
-        <translation type="unfinished">Första steget: Välj modul (färdigt)</translation>
+        <translation>Första steget: Välj modul (färdigt)</translation>
     </message>
     <message>
         <source>Selected module</source>
@@ -7942,11 +7943,11 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Selected access method</source>
-        <translation type="unfinished">Välj tillgänglighetsmetod</translation>
+        <translation>Välj tillgänglighetsmetod</translation>
     </message>
     <message>
         <source>Limited</source>
-        <translation type="unfinished">Begränsad</translation>
+        <translation>Begränsad</translation>
     </message>
     <message>
         <source>Step two: select function</source>
@@ -7954,7 +7955,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Instructions</source>
-        <translation type="unfinished">Instruktioner</translation>
+        <translation>Instruktioner</translation>
     </message>
     <message>
         <source>Function</source>
@@ -7990,7 +7991,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Click on one of the &quot;Grant..&quot; buttons (explained below) in order to go to the next step.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klicka på en av &quot;Ge tillgång&quot;-knapparna (förklaras nedan) för att gå till nästa steg.</translation>
     </message>
     <message>
         <source>Welcome to the policy wizard. This three-step wizard will help you set up a new policy. The policy will be added to the role that is currently being edited. The wizard can be aborted at any stage by using the &quot;Cancel&quot; button.</source>
@@ -8017,27 +8018,27 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Step one: select module [completed]</source>
-        <translation type="unfinished">Första steget: Välj modul (färdigt)</translation>
+        <translation>Första steget: Välj modul (färdigt)</translation>
     </message>
     <message>
         <source>Selected module</source>
-        <translation type="unfinished">Välj modul</translation>
+        <translation>Välj modul</translation>
     </message>
     <message>
         <source>All modules</source>
-        <translation type="unfinished">Alla moduler</translation>
+        <translation>Alla moduler</translation>
     </message>
     <message>
         <source>Selected access method</source>
-        <translation type="unfinished">Välj tillgänglighetsmetod</translation>
+        <translation>Välj tillgänglighetsmetod</translation>
     </message>
     <message>
         <source>Limited</source>
-        <translation type="unfinished">Begränsad</translation>
+        <translation>Begränsad</translation>
     </message>
     <message>
         <source>Step two: select function [completed]</source>
-        <translation type="unfinished">Steg två: välj funktion (färdigt)</translation>
+        <translation>Steg två: välj funktion (färdigt)</translation>
     </message>
     <message>
         <source>Selected function</source>
@@ -8049,15 +8050,15 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Instructions</source>
-        <translation type="unfinished">Instruktioner</translation>
+        <translation>Instruktioner</translation>
     </message>
     <message>
         <source>Set the desired function limitations using the controls below.</source>
-        <translation type="unfinished">Välj önskad begränsning genom att använda kontrollerna nedan.</translation>
+        <translation>Välj önskad begränsning genom att använda kontrollerna nedan.</translation>
     </message>
     <message>
         <source>Click the &quot;OK&quot; button to finish the wizard. The policy will be added to the role that is currently being edited.</source>
-        <translation type="unfinished">Klicka på &quot;OK&quot;-knappen för att avsluta konfigurationen. Policyn kommer att läggas till i rollen som håller på att redigeras.</translation>
+        <translation>Klicka på &quot;OK&quot;-knappen för att slutföra konfigurationen. Policyn kommer att läggas till i rollen som håller på att redigeras.</translation>
     </message>
     <message>
         <source>Any</source>
@@ -8121,11 +8122,11 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Egenskaper</translation>
     </message>
     <message>
         <source>Nodes (%node_count)</source>
-        <translation type="unfinished">Noder (%node_count)</translation>
+        <translation>Noder (%node_count)</translation>
     </message>
     <message>
         <source>Subtrees (%subtree_count)</source>
@@ -8220,11 +8221,11 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished">Spara</translation>
+        <translation>Spara</translation>
     </message>
     <message>
         <source>Save policy changes to this role</source>
-        <translation type="unfinished"></translation>
+        <translation>Spara policyändringar för den här rollen</translation>
     </message>
 </context>
 <context>
@@ -8489,7 +8490,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Path: &apos;/%path_string&apos;, Class identifier: &apos;%class_identifier&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Sökväg: &apos;/%path_string&apos;, Klassidentifierare: &apos;%class_identifier&apos;</translation>
     </message>
     <message>
         <source>Users and groups using the &lt;%role_name&gt; role (%users_count)</source>
@@ -8508,7 +8509,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Use the radio buttons to choose a destination location for RSS import then click &quot;OK&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Använd radioknapparna för att välja en plats för RSS importen, klicka sedan på &quot;OK&quot;.</translation>
     </message>
 </context>
 <context>
@@ -8523,7 +8524,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Use the radio buttons to choose an image to use in the RSS export then click &quot;OK&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Använd radioknapparna för att välja en bild att använda i RSS exporten, klicka sedan på &quot;OK&quot;.</translation>
     </message>
 </context>
 <context>
@@ -8688,7 +8689,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Remove image</source>
-        <translation type="unfinished">Ta bort bild</translation>
+        <translation>Ta bort bild</translation>
     </message>
     <message>
         <source>Click to remove image from RSS export.</source>
@@ -8712,7 +8713,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Use this drop-down to select the maximum number of objects included in the RSS feed.</source>
-        <translation type="unfinished">Använd rullgardinsmenyn för att välja högsta antal objekt inkluderade i RSS-flödet.</translation>
+        <translation>Använd rullgardinsmenyn för att välja högsta antal objekt inkluderade i RSS-flödet.</translation>
     </message>
     <message>
         <source>Click this button to select the source node for the RSS export source. Objects of the type selected in the drop-down below published as sub items of the selected node will be included in the RSS export.</source>
@@ -8720,7 +8721,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Activate this checkbox if objects from the subnodes of the source should also be fed.</source>
-        <translation type="unfinished">Aktivera denna kryssruta om objekt från undernoderna av källan också ska vara med i flödet.</translation>
+        <translation>Aktivera denna kryssruta om objekt från undernoderna av källan också ska vara med i flödet.</translation>
     </message>
     <message>
         <source>Use this drop-down to select the type of object that triggers the export. Click the &quot;Set&quot; button to load the correct attribute types for the remaining fields.</source>
@@ -8740,11 +8741,11 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Category</source>
-        <translation type="unfinished">Kategori</translation>
+        <translation>Kategori</translation>
     </message>
     <message>
         <source>optional</source>
-        <translation type="unfinished">valfri</translation>
+        <translation>valfri</translation>
     </message>
     <message>
         <source>Use this drop-down to select the attribute that should be exported as the category of the RSS export entry.</source>
@@ -8752,7 +8753,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Skip</source>
-        <translation type="unfinished">Hoppa över</translation>
+        <translation>Hoppa över</translation>
     </message>
     <message>
         <source>Enclosure (media)</source>
@@ -8847,11 +8848,11 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation type="unfinished">Uppdatera</translation>
+        <translation>Uppdatera</translation>
     </message>
     <message>
         <source>RSS Version</source>
-        <translation type="unfinished"></translation>
+        <translation>RSS version</translation>
     </message>
     <message>
         <source>Use this drop-down menu to select the attribute that should bet set as information from the RSS stream.</source>
@@ -8879,7 +8880,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Class attributes</source>
-        <translation type="unfinished">Klassattribut</translation>
+        <translation>Klassattribut</translation>
     </message>
     <message>
         <source>Name of the RSS import. This name is used in the Administration Interface only to distinguish the different imports from each other.</source>
@@ -9048,7 +9049,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -9137,11 +9138,11 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Navigation part</source>
-        <translation type="unfinished">Navigeringsområde</translation>
+        <translation>Navigeringsområde</translation>
     </message>
     <message>
         <source>Identifier can not be empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Indentifierare kan inte vara tom</translation>
     </message>
     <message>
         <source>Identifier should consist of letters, numbers or &apos;_&apos; with letter prefix.</source>
@@ -9149,7 +9150,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>The identifier has been used in another section.</source>
-        <translation type="unfinished"></translation>
+        <translation>Identifieraren har använts i en annan sektion.</translation>
     </message>
     <message>
         <source>Section edit error</source>
@@ -9157,7 +9158,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Identifier</source>
-        <translation type="unfinished">Identifierare</translation>
+        <translation>ID</translation>
     </message>
 </context>
 <context>
@@ -9232,7 +9233,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Identifier</source>
-        <translation type="unfinished">Identifierare</translation>
+        <translation>Identifierare</translation>
     </message>
 </context>
 <context>
@@ -9315,11 +9316,11 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Assign subtree of objects to this section</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilldela underträd av objekt till denna sektion</translation>
     </message>
     <message>
         <source>Identifier</source>
-        <translation type="unfinished">Identifierare</translation>
+        <translation>Identifierare</translation>
     </message>
 </context>
 <context>
@@ -9502,7 +9503,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>No value</source>
-        <translation type="unfinished"></translation>
+        <translation>Inget värde</translation>
     </message>
     <message>
         <source>Ini File</source>
@@ -9510,7 +9511,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Siteaccess</source>
-        <translation type="unfinished"></translation>
+        <translation>Sidåtkomst</translation>
     </message>
     <message>
         <source>Values for each location setting are shown. The first values are lowest priority; the values toward the end have higher priority than the first ones.</source>
@@ -9526,7 +9527,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Make sure you have permission to %path and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Försäkra dig om att du har tillstånd till %path och försök igen.</translation>
     </message>
     <message>
         <source>Please select an ini file from the drop-down below</source>
@@ -9577,7 +9578,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Warning: it is not safe to upgrade without checking the modifications done to the following files</source>
-        <translation type="unfinished"></translation>
+        <translation>Varning: det är inte säkert att uppgradera utan att kontrollera modifieringar gjorda på följande filer</translation>
     </message>
     <message>
         <source>Before upgrading eZ Publish to a newer version, it is important to check that the current installation is ready for upgrading.</source>
@@ -9700,7 +9701,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Create new</source>
-        <translation type="unfinished">Skapa ny</translation>
+        <translation>Skapa ny</translation>
     </message>
     <message>
         <source>This operation will clear all the template override caches and the compiled templates. It may lead to slower site performance until the caches are recreated.</source>
@@ -9732,7 +9733,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Categories</source>
-        <translation type="unfinished"></translation>
+        <translation>Kategorier</translation>
     </message>
 </context>
 <context>
@@ -9774,11 +9775,11 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Regenerate autoload arrays for extensions</source>
-        <translation type="unfinished">Regenerera autoladdningssamlingar för tillägg</translation>
+        <translation>Regenerera autoladdningssamlingar för tillägg</translation>
     </message>
     <message>
         <source>Click this button to regenerate the autoload arrays used by the system for extensions.</source>
-        <translation type="unfinished">Klicka på knappen för att regenerera autoladdningssamlingar som används av systemet för tillägg.</translation>
+        <translation>Klicka på knappen för att regenerera autoladdningssamlingar som används av systemet för tillägg.</translation>
     </message>
     <message>
         <source>Problems detected during autoload generation:</source>
@@ -9790,7 +9791,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Invertera val.</translation>
     </message>
     <message>
         <source>Activate</source>
@@ -9802,7 +9803,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation type="unfinished">Uppdatera</translation>
+        <translation>Uppdatera</translation>
     </message>
 </context>
 <context>
@@ -9975,12 +9976,12 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>eZ Publish</source>
-        <translation type="unfinished">eZ Publish</translation>
+        <translation>eZ Publish</translation>
     </message>
     <message>
         <source>Version</source>
         <comment>eZ Publish version</comment>
-        <translation type="unfinished">Version</translation>
+        <translation>Version</translation>
     </message>
     <message>
         <source>SVN revision</source>
@@ -9990,7 +9991,7 @@ Obs: Paketen avinstalleras inte.</translation>
     <message>
         <source>Extensions</source>
         <comment>eZ Publish extensions</comment>
-        <translation type="unfinished">Tillägg</translation>
+        <translation>Tillägg</translation>
     </message>
     <message>
         <source>Script memory limit is unlimited.</source>
@@ -10008,17 +10009,17 @@ Obs: Paketen avinstalleras inte.</translation>
     <message>
         <source>Name</source>
         <comment>Web server name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Namn</translation>
     </message>
     <message>
         <source>Version</source>
         <comment>Web server version</comment>
-        <translation type="unfinished">Version</translation>
+        <translation>Version</translation>
     </message>
     <message>
         <source>Modules</source>
         <comment>Web server modules</comment>
-        <translation type="unfinished">Moduler</translation>
+        <translation>Moduler</translation>
     </message>
     <message>
         <source>The modules of the web server could not be detected.</source>
@@ -10036,7 +10037,7 @@ Obs: Paketen avinstalleras inte.</translation>
     <message>
         <source>Details</source>
         <comment>Detailed PHP information</comment>
-        <translation type="unfinished">Detaljer</translation>
+        <translation>Detaljer</translation>
     </message>
     <message>
         <source>PHP autoload functions</source>
@@ -10059,11 +10060,11 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>\\return an array with the template operator name.</source>
-        <translation type="unfinished">\\returnera en samling med malloperatorsnamnet.</translation>
+        <translation>\\returnera en samling med malloperatorsnamnet.</translation>
     </message>
     <message>
         <source>Example code. This code must be modified to do what the operator should do. Currently it only trims text.</source>
-        <translation type="unfinished">Exempelkod. Koden måste vara ändrad för att göra vad operatorn bör göra. För tillfället trimmar den bara text.</translation>
+        <translation>Exempelkod. Koden måste vara ändrad för att göra vad operatorn bör göra. För tillfället trimmar den bara text.</translation>
     </message>
 </context>
 <context>
@@ -10169,7 +10170,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Class constant name</source>
-        <translation type="unfinished">Klassens konstantnamn</translation>
+        <translation>Klassens konstantnamn</translation>
     </message>
 </context>
 <context>
@@ -10375,7 +10376,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Email</source>
-        <translation type="unfinished">Email</translation>
+        <translation>E-post</translation>
     </message>
     <message>
         <source>Not all timed out sessions were successfully removed.</source>
@@ -10383,7 +10384,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Your alternatives are to:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dina alternativ är att:</translation>
     </message>
     <message>
         <source>Repeat the operation several times to complete it.</source>
@@ -10434,11 +10435,11 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Email</source>
-        <translation type="unfinished">Email</translation>
+        <translation>Email</translation>
     </message>
     <message>
         <source>Country/region</source>
-        <translation type="unfinished">Land/region</translation>
+        <translation>Land/region</translation>
     </message>
 </context>
 <context>
@@ -10449,47 +10450,47 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Time</source>
-        <translation type="unfinished">Tid</translation>
+        <translation>Tid</translation>
     </message>
     <message>
         <source>Customer</source>
-        <translation type="unfinished">Kund</translation>
+        <translation>Kund</translation>
     </message>
     <message>
         <source>Ascending</source>
-        <translation type="unfinished">Stigande</translation>
+        <translation>Stigande</translation>
     </message>
     <message>
         <source>Descending</source>
-        <translation type="unfinished">Nedstigande</translation>
+        <translation>Nedstigande</translation>
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Invertera val.</translation>
     </message>
     <message>
         <source>ID</source>
-        <translation type="unfinished">ID</translation>
+        <translation>ID</translation>
     </message>
     <message>
         <source>Total (ex. VAT)</source>
-        <translation type="unfinished">Totalt (exkl. moms)</translation>
+        <translation>Totalt (exkl. moms)</translation>
     </message>
     <message>
         <source>Total (inc. VAT)</source>
-        <translation type="unfinished">Totalt (inkl. moms)</translation>
+        <translation>Totalt (inkl. moms)</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation type="unfinished">Status</translation>
+        <translation>Status</translation>
     </message>
     <message>
         <source>Select order for removal.</source>
-        <translation type="unfinished">Välj beställning för borttagning.</translation>
+        <translation>Välj beställning för borttagning.</translation>
     </message>
     <message>
         <source>The order list is empty.</source>
-        <translation type="unfinished">Orderlistan är tom.</translation>
+        <translation>Orderlistan är tom.</translation>
     </message>
     <message>
         <source>Unarchive selected</source>
@@ -10501,7 +10502,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Archived orders (%count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Arkiverade ordrar (%count)</translation>
     </message>
 </context>
 <context>
@@ -10608,11 +10609,11 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Order total</source>
-        <translation type="unfinished">Order totalt</translation>
+        <translation>Order totalt</translation>
     </message>
     <message>
         <source>VAT is unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Moms okänd</translation>
     </message>
     <message>
         <source>VAT percentage is not yet known for some of the items being purchased.</source>
@@ -10620,15 +10621,15 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>This probably means that some information about you is not yet available and will be obtained during checkout.</source>
-        <translation type="unfinished">Detta innebär antagligen att viss information om dig inte ännu är tillgänglig och kommer att samlas in i kassan.</translation>
+        <translation>Detta innebär antagligen att viss information om dig inte ännu är tillgänglig och kommer att samlas in i kassan.</translation>
     </message>
     <message>
         <source>unknown</source>
-        <translation type="unfinished">okänd</translation>
+        <translation>okänd</translation>
     </message>
     <message>
         <source>Total VAT</source>
-        <translation type="unfinished">Total moms</translation>
+        <translation>Total moms</translation>
     </message>
     <message>
         <source>You cannot remove any items because there are no items in the basket.</source>
@@ -10644,11 +10645,11 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Subtotal ex. VAT</source>
-        <translation type="unfinished">Delsumma exkl. moms</translation>
+        <translation>Delsumma exkl. moms</translation>
     </message>
     <message>
         <source>Shipping total ex. VAT</source>
-        <translation type="unfinished">Total frakt exkl. moms</translation>
+        <translation>Total frakt exkl. moms</translation>
     </message>
 </context>
 <context>
@@ -10760,31 +10761,31 @@ Obs: Paketen avinstalleras inte.</translation>
     <name>design/admin/shop/currencylist</name>
     <message>
         <source>Show 10 items per page.</source>
-        <translation type="unfinished">Visa 10 objekt per sida.</translation>
+        <translation>Visa 10 objekt per sida.</translation>
     </message>
     <message>
         <source>Show 50 items per page.</source>
-        <translation type="unfinished">Visa 50 objekt per sida.</translation>
+        <translation>Visa 50 objekt per sida.</translation>
     </message>
     <message>
         <source>Show 25 items per page.</source>
-        <translation type="unfinished">Visa 25 objekt per sida.</translation>
+        <translation>Visa 25 objekt per sida.</translation>
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Invertera val.</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Namn</translation>
     </message>
     <message>
         <source>Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Kod</translation>
     </message>
     <message>
         <source>Symbol</source>
-        <translation type="unfinished"></translation>
+        <translation>Symbol</translation>
     </message>
     <message>
         <source>Locale</source>
@@ -10792,7 +10793,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation type="unfinished">Status</translation>
+        <translation>Status</translation>
     </message>
     <message>
         <source>Auto rate</source>
@@ -10812,15 +10813,15 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Redigera</translation>
+        <translation>Redigera</translation>
     </message>
     <message>
         <source>Edit &apos;%currency_code&apos; currency.</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigera &apos;%currency_code&apos; valuta.</translation>
     </message>
     <message>
         <source>Unknown currency name</source>
-        <translation type="unfinished">Okänt valutanamn</translation>
+        <translation>Okänt valutanamn</translation>
     </message>
     <message>
         <source>Select status</source>
@@ -10828,11 +10829,11 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>The available currency list is empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Den aktuella valutalistan är tom</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished">Ta bort markerade</translation>
+        <translation>Ta bort markerade</translation>
     </message>
     <message>
         <source>Remove selected currencies from the list above.</source>
@@ -10848,7 +10849,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Preferred currency</source>
-        <translation type="unfinished">Föredragen valuta</translation>
+        <translation>Föredragen valuta</translation>
     </message>
     <message>
         <source>Update auto rates</source>
@@ -10868,7 +10869,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Apply changes</source>
-        <translation type="unfinished">Spara förändringar</translation>
+        <translation>Spara ändringar</translation>
     </message>
     <message>
         <source>Apply statuses, custom rates, factor values.</source>
@@ -10876,7 +10877,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Currencies</source>
-        <translation type="unfinished"></translation>
+        <translation>Valutor</translation>
     </message>
     <message>
         <source>Add new currency to the list above.</source>
@@ -11209,11 +11210,11 @@ Obs: Paketen avinstalleras inte.</translation>
     <name>design/admin/shop/editcurrency</name>
     <message>
         <source>Create currency</source>
-        <translation type="unfinished"></translation>
+        <translation>Skapa valuta</translation>
     </message>
     <message>
         <source>Edit &apos;%currency_code&apos; currency</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigera &apos;%currency_code&apos; valuta</translation>
     </message>
     <message>
         <source>Currency code</source>
@@ -11221,11 +11222,11 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>(Use three capital letters)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Använd tre versaler)</translation>
     </message>
     <message>
         <source>Currency symbol</source>
-        <translation type="unfinished">Symbol för valuta</translation>
+        <translation>Symbol för valuta</translation>
     </message>
     <message>
         <source>Formatting locale</source>
@@ -11249,7 +11250,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>Cancel creating new currency.</source>
@@ -11257,19 +11258,19 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation type="unfinished">Skapa</translation>
+        <translation>Skapa</translation>
     </message>
     <message>
         <source>Store changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Spara ändringar</translation>
     </message>
     <message>
         <source>Store changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Spara ändringar.</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Tillbaka</translation>
+        <translation>Tillbaka</translation>
     </message>
     <message>
         <source>Back to the currency list</source>
@@ -11284,43 +11285,43 @@ Obs: Paketen avinstalleras inte.</translation>
     <name>design/admin/shop/editvatrule</name>
     <message>
         <source>Edit VAT charging rule</source>
-        <translation type="unfinished">Redigera momsdebiteringsregel</translation>
+        <translation>Redigera momsdebiteringsregel</translation>
     </message>
     <message>
         <source>Create new VAT charging rule</source>
-        <translation type="unfinished">Skapa ny momsdebiteringsregel</translation>
+        <translation>Skapa ny momsdebiteringsregel</translation>
     </message>
     <message>
         <source>Any</source>
-        <translation type="unfinished"></translation>
+        <translation>Vilka som helst</translation>
     </message>
     <message>
         <source>Product categories</source>
-        <translation type="unfinished">Produktkategorier</translation>
+        <translation>Produktkategorier</translation>
     </message>
     <message>
         <source>VAT type</source>
-        <translation type="unfinished">Momstyp</translation>
+        <translation>Momstyp</translation>
     </message>
     <message>
         <source>Store changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Spara ändringar</translation>
     </message>
     <message>
         <source>Store changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Spara ändringar.</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation type="unfinished">Skapa</translation>
+        <translation>Skapa</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>Cancel creating new currency.</source>
-        <translation type="unfinished"></translation>
+        <translation>Avbryt att skapa ny valuta.</translation>
     </message>
     <message>
         <source>Finish creating currency.</source>
@@ -11328,7 +11329,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Country/region</source>
-        <translation type="unfinished">Land/region</translation>
+        <translation>Land/region</translation>
     </message>
 </context>
 <context>
@@ -11391,15 +11392,15 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Archive selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Arkivera valda</translation>
     </message>
     <message>
         <source>Archive selected orders.</source>
-        <translation type="unfinished"></translation>
+        <translation>Arkivera valda ordrar.</translation>
     </message>
     <message>
         <source>( removed )</source>
-        <translation type="unfinished"></translation>
+        <translation>( borttaget )</translation>
     </message>
     <message>
         <source>Orders (%count)</source>
@@ -11450,11 +11451,11 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Select the year for which you want to view statistics.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ange det år du vill se statistik för.</translation>
     </message>
     <message>
         <source>Select the month for which you want to view statistics.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ange den månad du vill se statistik för.</translation>
     </message>
     <message>
         <source>Update the list using the values specified by the menus to the left.</source>
@@ -11541,15 +11542,15 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Total price ex. VAT</source>
-        <translation type="unfinished">Totalt pris exkl. moms</translation>
+        <translation>Totalt pris exkl. moms</translation>
     </message>
     <message>
         <source>Total price inc. VAT</source>
-        <translation type="unfinished">Totalt pris inkl. moms</translation>
+        <translation>Totalt pris inkl. moms</translation>
     </message>
     <message>
         <source>This is the person who modified the status of the order. Click to view the user information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Detta är personen som har modifierat statusens order. Klicka för att visa användarinformation.</translation>
     </message>
     <message>
         <source>Status history (%status_count)</source>
@@ -11560,137 +11561,137 @@ Obs: Paketen avinstalleras inte.</translation>
     <name>design/admin/shop/preferredcurrency</name>
     <message>
         <source>The available currency list is empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Den aktuella valutalistan är tom</translation>
     </message>
 </context>
 <context>
     <name>design/admin/shop/productcategories</name>
     <message>
         <source>Product categories [%categories]</source>
-        <translation type="unfinished"></translation>
+        <translation>Produktkategorier [%categories]</translation>
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Invertera val.</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Namn</translation>
     </message>
     <message>
         <source>Select product category for removal.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ange produktkategori för borttagning.</translation>
     </message>
     <message>
         <source>There are no product categories.</source>
-        <translation type="unfinished"></translation>
+        <translation>Det finns inga produktkategorier.</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished">Ta bort markerade</translation>
+        <translation>Ta bort markerade</translation>
     </message>
     <message>
         <source>Remove selected product categories.</source>
-        <translation type="unfinished"></translation>
+        <translation>Radera valda produktkategorier.</translation>
     </message>
     <message>
         <source>New product category</source>
-        <translation type="unfinished"></translation>
+        <translation>Ny produktkategori</translation>
     </message>
     <message>
         <source>Create a new product category.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skapa en ny produktkategori.</translation>
     </message>
     <message>
         <source>Apply changes</source>
-        <translation type="unfinished">Spara förändringar</translation>
+        <translation>Spara ändringar</translation>
     </message>
     <message>
         <source>Click this button to store changes if you have modified any of the fields above.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klicka på den här knappen för att spara förändringar du eventuellt gjort i listan ovan.</translation>
     </message>
     <message>
         <source>Input did not validate</source>
-        <translation type="unfinished"></translation>
+        <translation>Inmatning validerades ej</translation>
     </message>
     <message>
         <source>Product categories (%categories)</source>
-        <translation type="unfinished"></translation>
+        <translation>Produkt kategorier (%categories)</translation>
     </message>
 </context>
 <context>
     <name>design/admin/shop/productsoverview</name>
     <message>
         <source>Products overview</source>
-        <translation type="unfinished">Produktöversikt</translation>
+        <translation>Produktöversikt</translation>
     </message>
     <message>
         <source>None</source>
-        <translation type="unfinished">Inga</translation>
+        <translation>Inga</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Namn</translation>
     </message>
     <message>
         <source>Price</source>
-        <translation type="unfinished">Pris</translation>
+        <translation>Pris</translation>
     </message>
     <message>
         <source>Show 10 items per page.</source>
-        <translation type="unfinished">Visa 10 objekt per sida.</translation>
+        <translation>Visa 10 objekt per sida.</translation>
     </message>
     <message>
         <source>Show 50 items per page.</source>
-        <translation type="unfinished">Visa 50 objekt per sida.</translation>
+        <translation>Visa 50 objekt per sida.</translation>
     </message>
     <message>
         <source>Show 25 items per page.</source>
-        <translation type="unfinished">Visa 25 objekt per sida.</translation>
+        <translation>Visa 25 objekt per sida.</translation>
     </message>
     <message>
         <source>The product list is empty.</source>
-        <translation type="unfinished">Produktlistan är tom.</translation>
+        <translation>Produktlistan är tom.</translation>
     </message>
     <message>
         <source>Select product class.</source>
-        <translation type="unfinished">Välj produktklass.</translation>
+        <translation>Välj produktklass.</translation>
     </message>
     <message>
         <source>Show products</source>
-        <translation type="unfinished">Visa produkter</translation>
+        <translation>Visa produkter</translation>
     </message>
     <message>
         <source>Show products of selected class.</source>
-        <translation type="unfinished">Visa produkter i vald klass.</translation>
+        <translation>Visa produkter i vald klass.</translation>
     </message>
     <message>
         <source>Sorting</source>
-        <translation type="unfinished">Sortering</translation>
+        <translation>Sortering</translation>
     </message>
     <message>
         <source>Select sorting field.</source>
-        <translation type="unfinished">Välj sorteringsfält.</translation>
+        <translation>Välj sorteringsfält.</translation>
     </message>
     <message>
         <source>Select sorting order.</source>
-        <translation type="unfinished">Välj sorteringsföljd.</translation>
+        <translation>Välj sorteringsföljd.</translation>
     </message>
     <message>
         <source>Descending</source>
-        <translation type="unfinished">Nedstigande</translation>
+        <translation>Nedstigande</translation>
     </message>
     <message>
         <source>Ascending</source>
-        <translation type="unfinished">Stigande</translation>
+        <translation>Stigande</translation>
     </message>
     <message>
         <source>Sort products</source>
-        <translation type="unfinished">Sortera produkter</translation>
+        <translation>Sortera produkter</translation>
     </message>
     <message>
         <source>Sort products.</source>
-        <translation type="unfinished">Sortera produkter.</translation>
+        <translation>Sortera produkter.</translation>
     </message>
 </context>
 <context>
@@ -11720,15 +11721,15 @@ Obs: Paketen avinstalleras inte.</translation>
     <name>design/admin/shop/removeproductcategories</name>
     <message>
         <source>Confirm removal of product categories</source>
-        <translation type="unfinished"></translation>
+        <translation>Bekräfta borttagning av produktkategorier</translation>
     </message>
     <message>
         <source>Are you sure you want to remove the categories?</source>
-        <translation type="unfinished"></translation>
+        <translation>Är du säker på att du vill radera kategorierna?</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this category?</source>
-        <translation type="unfinished"></translation>
+        <translation>Är du säker på att du vill radera denna kategori?</translation>
     </message>
     <message>
         <source>Removing category &lt;%1&gt; will result in modifying 1 VAT charging rule.</source>
@@ -11752,30 +11753,30 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
 </context>
 <context>
     <name>design/admin/shop/removevattypes</name>
     <message>
         <source>Confirm removal of the VAT types</source>
-        <translation type="unfinished"></translation>
+        <translation>Bekräfta borttagning av de här momstyperna</translation>
     </message>
     <message>
         <source>Confirm removal of this VAT type</source>
-        <translation type="unfinished"></translation>
+        <translation>Bekräfta borttagning av den här momstypen</translation>
     </message>
     <message>
         <source>Removing VAT types</source>
-        <translation type="unfinished"></translation>
+        <translation>Raderar momstyper</translation>
     </message>
     <message>
         <source>Removing VAT type</source>
-        <translation type="unfinished"></translation>
+        <translation>Raderar momstyp</translation>
     </message>
     <message>
         <source>Unable to remove the VAT types</source>
@@ -11791,7 +11792,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this VAT type?</source>
-        <translation type="unfinished"></translation>
+        <translation>Är du säker på att du vill radera den här momstypen?</translation>
     </message>
     <message>
         <source>VAT type &lt;%1&gt; is set as default for 1 product class.</source>
@@ -11815,15 +11816,15 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Tillbaka</translation>
+        <translation>Tillbaka</translation>
     </message>
     <message>
         <source>Removing VAT type &lt;%1&gt; will result in resetting VAT type for %2 products to their default value.</source>
@@ -11953,30 +11954,30 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Fill in the necessary information. Required fields are marked with a star.</source>
-        <translation type="unfinished">Fyll i nödvändig information. </translation>
+        <translation type="unfinished">Fyll i nödvändig information.</translation>
     </message>
     <message>
         <source>Country/region</source>
-        <translation type="unfinished">Land/region</translation>
+        <translation>Land/region</translation>
     </message>
 </context>
 <context>
     <name>design/admin/shop/vatrules</name>
     <message>
         <source>VAT charging rules [%rules]</source>
-        <translation type="unfinished"></translation>
+        <translation>Momsdebiteringsregler [%rules]</translation>
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Invertera val.</translation>
     </message>
     <message>
         <source>Product categories</source>
-        <translation type="unfinished">Produktkategorier</translation>
+        <translation>Produktkategorier</translation>
     </message>
     <message>
         <source>VAT type</source>
-        <translation type="unfinished">Momstyp</translation>
+        <translation>Momstyp</translation>
     </message>
     <message>
         <source>Select rule for removal.</source>
@@ -11984,7 +11985,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Redigera</translation>
+        <translation>Redigera</translation>
     </message>
     <message>
         <source>Edit rule.</source>
@@ -12000,7 +12001,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished">Ta bort markerade</translation>
+        <translation>Ta bort markerade</translation>
     </message>
     <message>
         <source>Remove selected VAT charging rules.</source>
@@ -12024,7 +12025,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Country/region</source>
-        <translation type="unfinished">Land/region</translation>
+        <translation>Land/region</translation>
     </message>
     <message>
         <source>VAT charging rules (%rules)</source>
@@ -12083,7 +12084,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Input did not validate</source>
-        <translation type="unfinished"></translation>
+        <translation>Inmatning validerades ej</translation>
     </message>
     <message>
         <source>VAT types (%vat_types)</source>
@@ -12177,7 +12178,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Required data is either missing or is invalid</source>
-        <translation type="unfinished">Krävd information saknas eller är fel</translation>
+        <translation>Krävd information saknas eller är fel</translation>
     </message>
     <message>
         <source>Edit content object state &quot;%state_name&quot;</source>
@@ -12189,31 +12190,31 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Identifier:</source>
-        <translation type="unfinished"></translation>
+        <translation>Identifierare:</translation>
     </message>
     <message>
         <source>Default language:</source>
-        <translation type="unfinished"></translation>
+        <translation>Standardspråk:</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Namn:</translation>
     </message>
     <message>
         <source>Description:</source>
-        <translation type="unfinished"></translation>
+        <translation>Beskrivning:</translation>
     </message>
     <message>
         <source>Save changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Spara ändringar</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>Cancel saving any changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Avbryt spara ändringar.</translation>
     </message>
     <message>
         <source>Save changes to this state.</source>
@@ -12224,19 +12225,19 @@ Obs: Paketen avinstalleras inte.</translation>
     <name>design/admin/state/group</name>
     <message>
         <source>ID</source>
-        <translation type="unfinished">ID</translation>
+        <translation>ID</translation>
     </message>
     <message>
         <source>Identifier</source>
-        <translation type="unfinished">Identifierare</translation>
+        <translation>Identifierare</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Namn</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Beskrivning</translation>
+        <translation>Beskrivning</translation>
     </message>
     <message>
         <source>Object states in this group [%state_count]</source>
@@ -12244,15 +12245,15 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Invertera val.</translation>
     </message>
     <message>
         <source>Object count</source>
-        <translation type="unfinished">Objektsantal</translation>
+        <translation>Objektsantal</translation>
     </message>
     <message>
         <source>Order</source>
-        <translation type="unfinished">Order</translation>
+        <translation>Order</translation>
     </message>
     <message>
         <source>Select content object state group for removal.</source>
@@ -12260,7 +12261,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished">Ta bort markerade</translation>
+        <translation>Ta bort markerade</translation>
     </message>
     <message>
         <source>Remove selected states.</source>
@@ -12268,7 +12269,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Create new</source>
-        <translation type="unfinished">Skapa ny</translation>
+        <translation>Skapa ny</translation>
     </message>
     <message>
         <source>Create a new state.</source>
@@ -12299,23 +12300,23 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Identifier:</source>
-        <translation type="unfinished"></translation>
+        <translation>Identifierare:</translation>
     </message>
     <message>
         <source>Default language:</source>
-        <translation type="unfinished"></translation>
+        <translation>Standardspråk:</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Namn:</translation>
     </message>
     <message>
         <source>Description:</source>
-        <translation type="unfinished"></translation>
+        <translation>Beskrivning:</translation>
     </message>
     <message>
         <source>Save changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Spara ändringar</translation>
     </message>
     <message>
         <source>Save changes to this state group.</source>
@@ -12323,15 +12324,15 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>Cancel saving any changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Avbryt spara ändringar.</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation type="unfinished">Skapa</translation>
+        <translation>Skapa</translation>
     </message>
     <message>
         <source>Create this state group.</source>
@@ -12354,31 +12355,31 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Required data is either missing or is invalid</source>
-        <translation type="unfinished">Krävd information saknas eller är fel</translation>
+        <translation>Krävd information saknas eller är fel</translation>
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Invertera val.</translation>
     </message>
     <message>
         <source>ID</source>
-        <translation type="unfinished">ID</translation>
+        <translation>ID</translation>
     </message>
     <message>
         <source>Identifier</source>
-        <translation type="unfinished">Identifierare</translation>
+        <translation>Identifierare</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Namn</translation>
     </message>
     <message>
         <source>Select content object state group for removal.</source>
-        <translation type="unfinished"></translation>
+        <translation>Välj innehållsobjektets gruppstatus för borttagning.</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished">Ta bort markerade</translation>
+        <translation>Ta bort markerade</translation>
     </message>
     <message>
         <source>Remove selected state groups.</source>
@@ -12386,7 +12387,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Create new</source>
-        <translation type="unfinished">Skapa ny</translation>
+        <translation>Skapa ny</translation>
     </message>
     <message>
         <source>Create a new state group.</source>
@@ -12397,30 +12398,30 @@ Obs: Paketen avinstalleras inte.</translation>
     <name>design/admin/state/view</name>
     <message>
         <source>ID</source>
-        <translation type="unfinished">ID</translation>
+        <translation>ID</translation>
     </message>
     <message>
         <source>Identifier</source>
-        <translation type="unfinished">Identifierare</translation>
+        <translation>Identifierare</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Namn</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Beskrivning</translation>
+        <translation>Beskrivning</translation>
     </message>
 </context>
 <context>
     <name>design/admin/state_groups</name>
     <message>
         <source>Content object state groups [%group_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>Innehållsobjekt statusgrupp [%group_count]</translation>
     </message>
     <message>
         <source>Content object state groups (%group_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Innehållsobjekt statusgrupp (%group_count)</translation>
     </message>
 </context>
 <context>
@@ -12593,15 +12594,15 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Valid URLs [%url_list_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>Fungerade URLer [%url_list_count]</translation>
     </message>
     <message>
         <source>Invalid URLs [%url_list_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>Ej fungerande URLer [%url_list_count]</translation>
     </message>
     <message>
         <source>All URLs [%url_list_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>Alla URLer [%url_list_count]</translation>
     </message>
 </context>
 <context>
@@ -12676,35 +12677,35 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Draft</source>
-        <translation type="unfinished">Utkast</translation>
+        <translation>Utkast</translation>
     </message>
     <message>
         <source>Published</source>
-        <translation type="unfinished">Publicerad</translation>
+        <translation>Publicerad</translation>
     </message>
     <message>
         <source>Pending</source>
-        <translation type="unfinished">Väntar</translation>
+        <translation>Väntar</translation>
     </message>
     <message>
         <source>Archived</source>
-        <translation type="unfinished">Arkiverad</translation>
+        <translation>Arkiverad</translation>
     </message>
     <message>
         <source>Rejected</source>
-        <translation type="unfinished">Avslagen</translation>
+        <translation>Avslagen</translation>
     </message>
     <message>
         <source> (in trash)</source>
-        <translation type="unfinished"></translation>
+        <translation> (i papperskorgen)</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished">Alla</translation>
+        <translation>Alla</translation>
     </message>
     <message>
         <source>View the contents of version #%version_number.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visa innehållet i version #%version_number.</translation>
     </message>
     <message>
         <source>Objects using URL #%url_id (%url_count)</source>
@@ -12804,7 +12805,7 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Remember me</source>
-        <translation type="unfinished"></translation>
+        <translation>Kom ihåg mig</translation>
     </message>
     <message>
         <source>&quot;%user_login&quot; is not allowed to log in because failed login attempts by this user exceeded allowable number of failed login attempts!</source>
@@ -12828,11 +12829,11 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Enter a valid username in this field.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ange ett giltigt användarnamn i detta fält.</translation>
     </message>
     <message>
         <source>Enter a valid password in this field.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ange ett giltigt lösenord i detta fält.</translation>
     </message>
 </context>
 <context>
@@ -12961,19 +12962,19 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Maximum number of failed login attempts</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximalt antal misslyckade inloggningsförsök</translation>
     </message>
     <message>
         <source>Number of failed login attempts for this user</source>
-        <translation type="unfinished"></translation>
+        <translation>Antal misslyckade inloggningsförsök för den här användaren</translation>
     </message>
     <message>
         <source>Reset</source>
-        <translation type="unfinished">Ställ om</translation>
+        <translation>Återställ</translation>
     </message>
     <message>
         <source>Account has been locked because the maximum number of failed login attempts was exceeded.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontot har låsts för maximalt antal misslyckade inloggningsförsök har överskridits.</translation>
     </message>
 </context>
 <context>
@@ -13000,7 +13001,7 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Siteaccess</source>
-        <translation type="unfinished"></translation>
+        <translation>Sajttillgång</translation>
     </message>
 </context>
 <context>
@@ -13090,7 +13091,7 @@ ditt konto.</translation>
     <name>design/admin/visual/templateedit</name>
     <message>
         <source>Edit template: &lt;%template&gt;</source>
-        <translation>Redigera stilmall: &lt;%template&gt;</translation>
+        <translation>Redigera mall: &lt;%template&gt;</translation>
     </message>
     <message>
         <source>Apply changes</source>
@@ -13102,11 +13103,11 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Back to overrides</source>
-        <translation>Tillbaka till stilmallar</translation>
+        <translation>Tillbaka till overrides</translation>
     </message>
     <message>
         <source>Back to override overview.</source>
-        <translation>Tillbaka till stilmallsöversikten.</translation>
+        <translation>Tillbaka till overrideöversikten.</translation>
     </message>
     <message>
         <source>The web server does not have write access to the requested template.</source>
@@ -13142,15 +13143,15 @@ ditt konto.</translation>
     </message>
     <message>
         <source>You do not have permission to save the contents of the text field above to the template file.</source>
-        <translation type="unfinished">Du har inte behörighet att spara innehållet i textfältet ovan i mallfilen.</translation>
+        <translation>Du har inte behörighet att spara innehållet i textfältet ovan i mallfilen.</translation>
     </message>
     <message>
         <source>The template cannot be edited.</source>
-        <translation type="unfinished">Mallen kunde inte redigeras.</translation>
+        <translation>Mallen kunde inte redigeras.</translation>
     </message>
     <message>
         <source>Override template</source>
-        <translation type="unfinished">Öppnad med endast läsrättigheter</translation>
+        <translation>Overridemall</translation>
     </message>
 </context>
 <context>
@@ -13402,7 +13403,7 @@ ditt konto.</translation>
     </message>
     <message>
         <source>The following information is either missing or invalid</source>
-        <translation type="unfinished">Följande information saknas eller är fel</translation>
+        <translation>Följande information saknas eller är fel</translation>
     </message>
     <message>
         <source>Error : Could not load workflow event &quot;%eventtype&quot; (event type not available)</source>
@@ -13485,27 +13486,27 @@ ditt konto.</translation>
     </message>
     <message>
         <source>User</source>
-        <translation type="unfinished">Användare</translation>
+        <translation>Användare</translation>
     </message>
     <message>
         <source>No users selected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Inga användare är valda.</translation>
     </message>
     <message>
         <source>Add users</source>
-        <translation type="unfinished"></translation>
+        <translation>Lägg till användare</translation>
     </message>
     <message>
         <source>Group</source>
-        <translation type="unfinished">Grupp</translation>
+        <translation>Grupp</translation>
     </message>
     <message>
         <source>No groups selected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Inga grupper är valda.</translation>
     </message>
     <message>
         <source>Add groups</source>
-        <translation type="unfinished"></translation>
+        <translation>Lägg till grupper</translation>
     </message>
     <message>
         <source>Excluded user groups ( users in these groups do not need to have their content approved )</source>
@@ -13513,15 +13514,15 @@ ditt konto.</translation>
     </message>
     <message>
         <source>User and user groups</source>
-        <translation type="unfinished"></translation>
+        <translation>Användare och användargrupper</translation>
     </message>
     <message>
         <source>Affected languages</source>
-        <translation type="unfinished">Berörda språk</translation>
+        <translation>Berörda språk</translation>
     </message>
     <message>
         <source>All languages</source>
-        <translation type="unfinished">Alla språk</translation>
+        <translation>Alla språk</translation>
     </message>
     <message>
         <source>You have to create a workflow before using this event.</source>
@@ -13529,7 +13530,7 @@ ditt konto.</translation>
     </message>
     <message>
         <source>All versions</source>
-        <translation type="unfinished">Alla versioner</translation>
+        <translation>Alla versioner</translation>
     </message>
     <message>
         <source>Publishing new object</source>
@@ -13634,14 +13635,14 @@ ditt konto.</translation>
     <name>design/admin/workflow/proccesslist</name>
     <message>
         <source>There are no workflow processes in progress.</source>
-        <translation type="unfinished"></translation>
+        <translation>Det finns inga pågående arbetsscheman.</translation>
     </message>
 </context>
 <context>
     <name>design/admin/workflow/processlist</name>
     <message>
         <source>Workflow processes [%trigger_count]</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Workflow  [%trigger_count]</translation>
     </message>
     <message>
         <source>[%process_count]</source>
@@ -13649,19 +13650,19 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Workflow</source>
-        <translation type="unfinished"></translation>
+        <translation>Workflow</translation>
     </message>
     <message>
         <source>User</source>
-        <translation type="unfinished">Användare</translation>
+        <translation>Användare</translation>
     </message>
     <message>
         <source>Created</source>
-        <translation type="unfinished">Skapad</translation>
+        <translation>Skapad</translation>
     </message>
     <message>
         <source>Process status</source>
-        <translation type="unfinished"></translation>
+        <translation>Processtatus</translation>
     </message>
     <message>
         <source>Last event</source>
@@ -13677,7 +13678,7 @@ ditt konto.</translation>
     </message>
     <message>
         <source>(%process_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>(%process_count)</translation>
     </message>
 </context>
 <context>
@@ -13846,7 +13847,7 @@ ditt konto.</translation>
     <name>design/admin2/ajaxupload</name>
     <message>
         <source>&lt;em&gt;%file&lt;/em&gt; has successfully been uploaded.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;em&gt;%file&lt;/em&gt; har laddats upp.</translation>
     </message>
 </context>
 <context>
@@ -13857,15 +13858,15 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Namn</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Typ</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <source>Section</source>
-        <translation type="unfinished"></translation>
+        <translation>Sektion</translation>
     </message>
     <message>
         <source>prev</source>
@@ -13901,11 +13902,11 @@ ditt konto.</translation>
     </message>
     <message>
         <source>File</source>
-        <translation type="unfinished">Fil</translation>
+        <translation>Fil</translation>
     </message>
     <message>
         <source>Required</source>
-        <translation type="unfinished">Obligatorisk</translation>
+        <translation>Obligatorisk</translation>
     </message>
     <message>
         <source>The name will be autogenerated</source>
@@ -13913,14 +13914,14 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Upload the file</source>
-        <translation type="unfinished"></translation>
+        <translation>Ladda upp filen</translation>
     </message>
 </context>
 <context>
     <name>design/admin2/content/datatype</name>
     <message>
         <source>Upload a file</source>
-        <translation type="unfinished"></translation>
+        <translation>Ladda upp en fil</translation>
     </message>
     <message>
         <source>Upload a file to create a new object and add it to the relation</source>
@@ -14541,14 +14542,14 @@ ditt konto.</translation>
     <name>design/ezwebin/link</name>
     <message>
         <source>Printable version</source>
-        <translation type="unfinished">Utskriftsvänlig version</translation>
+        <translation>Utskriftsbar version</translation>
     </message>
 </context>
 <context>
     <name>design/ezwebin/node/removeobject</name>
     <message>
         <source>The items contain more than the maximum possible nodes for subtree removal and will not be deleted. You can remove this subtree using the ezsubtreeremove.php script.</source>
-        <translation type="unfinished"></translation>
+        <translation>Objekten innehåller fler än maximalt antal noder för borttagning av underträd och kommer inte att raderas. Du kan radera underträd genom att använda ezsubtreeremove.php skriptet.</translation>
     </message>
 </context>
 <context>
@@ -15236,19 +15237,19 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Tag preset</source>
-        <translation type="unfinished"></translation>
+        <translation>Förinställd tagg</translation>
     </message>
     <message>
         <source>Html5 Video</source>
-        <translation type="unfinished"></translation>
+        <translation>Html5 Video</translation>
     </message>
     <message>
         <source>Html5 Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Html5 Audio</translation>
     </message>
     <message>
         <source>second(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>sekund(er)</translation>
     </message>
 </context>
 <context>
@@ -15422,18 +15423,18 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Beskrivning</translation>
+        <translation>Beskrivning</translation>
     </message>
     <message>
         <source>Use this field to set the informal description of the class. The description field can contain whitespaces and special characters.</source>
-        <translation type="unfinished">Använd detta fält för att ge klassen ett informellt namn. Fältet kan innehålla mellanslag och specialtecken.</translation>
+        <translation>Använd detta fält för att ge klassen ett informellt namn. Fältet kan innehålla mellanslag och specialtecken.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/class/edit_locked</name>
     <message>
         <source>Class locked</source>
-        <translation type="unfinished"></translation>
+        <translation>Klass låst</translation>
     </message>
     <message>
         <source>This class has pending modifications defered to cronjob and thus it cannot be edited.</source>
@@ -15449,11 +15450,11 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Edit &lt;%class_name&gt; [Class]</source>
-        <translation type="unfinished">Ändra &lt;%class_name&gt; [Klass]</translation>
+        <translation>Redigera &lt;%class_name&gt; [Klass]</translation>
     </message>
     <message>
         <source>Class</source>
-        <translation type="unfinished">Klass</translation>
+        <translation>Klass</translation>
     </message>
     <message>
         <source>Last modifier</source>
@@ -15469,11 +15470,11 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Retry</source>
-        <translation type="unfinished">Försök igen</translation>
+        <translation>Försök igen</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
 </context>
 <context>
@@ -15639,7 +15640,7 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Beskrivning</translation>
+        <translation>Beskrivning</translation>
     </message>
 </context>
 <context>
@@ -15901,11 +15902,11 @@ Om du vill skicka kommentarer till personen som godkänner eller visa statusen, 
     </message>
     <message>
         <source>Your content is being published</source>
-        <translation type="unfinished"></translation>
+        <translation>Ditt innehåll håller på att publiceras</translation>
     </message>
     <message>
         <source>Publishing finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Publicering färdig</translation>
     </message>
     <message>
         <source>Your content is pending an external action</source>
@@ -16726,27 +16727,27 @@ Om du vill skicka kommentarer till personen som godkänner eller visa statusen, 
     </message>
     <message>
         <source>There are no related object.</source>
-        <translation type="unfinished"></translation>
+        <translation>Det finns inga relaterade objekt.</translation>
     </message>
     <message>
         <source>Find object</source>
-        <translation type="unfinished"></translation>
+        <translation>Hitta objekt</translation>
     </message>
     <message>
         <source>Find objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Hitta objekt</translation>
     </message>
     <message>
         <source>The related objects will be edited in the same language as this object. If such translations do not exist they will be created, based on the source language of your choice.</source>
-        <translation type="unfinished"></translation>
+        <translation>De relaterade objekten kommer redigeras på samma språk som detta objekt. Om inte översättningarna finns kommer de skapas, baserade på det valda huvudspråket.</translation>
     </message>
     <message>
         <source>Translation base</source>
-        <translation type="unfinished"></translation>
+        <translation>Översättningsbas</translation>
     </message>
     <message>
         <source>This object is already translated, the existing translation will be used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Det här objektet är redan översatt, den nuvarande översättningen kommer att användas.</translation>
     </message>
     <message>
         <source>This object is not translated, please select the language the new translation will be based on.</source>
@@ -16762,7 +16763,7 @@ Om du vill skicka kommentarer till personen som godkänner eller visa statusen, 
     </message>
     <message>
         <source>Confirm email</source>
-        <translation type="unfinished"></translation>
+        <translation>Bekräfta e-post</translation>
     </message>
     <message>
         <source>Add an object in the relation</source>
@@ -16770,7 +16771,7 @@ Om du vill skicka kommentarer till personen som godkänner eller visa statusen, 
     </message>
     <message>
         <source>Add an existing object</source>
-        <translation type="unfinished"></translation>
+        <translation>Lägg till existerande objekt</translation>
     </message>
     <message>
         <source>Browse to add an existing object in this relation</source>
@@ -16790,7 +16791,7 @@ Om du vill skicka kommentarer till personen som godkänner eller visa statusen, 
     </message>
     <message>
         <source>Add existing objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Lägg till existerande objekt</translation>
     </message>
     <message>
         <source>Browse to add existing objects in this relation</source>
@@ -18751,15 +18752,15 @@ Om du gör det kommer också underobjekt att raderas.</translation>
     </message>
     <message>
         <source>Please wait while your content is being published</source>
-        <translation type="unfinished"></translation>
+        <translation>Vänligen vänta medan ditt innehåll håller på att publiceras</translation>
     </message>
     <message>
         <source>Your content has been published successfully</source>
-        <translation type="unfinished"></translation>
+        <translation>Ditt innehåll har publicerats</translation>
     </message>
     <message>
         <source>View the published item</source>
-        <translation type="unfinished"></translation>
+        <translation>Visa publicerat objekt</translation>
     </message>
     <message>
         <source>Publishing has been deferred to crontab and will be published when the operation resumes. The object is also listed in your dashboard under pending items.</source>
@@ -18767,7 +18768,7 @@ Om du gör det kommer också underobjekt att raderas.</translation>
     </message>
     <message>
         <source>View your pending content</source>
-        <translation type="unfinished"></translation>
+        <translation>Visa din avvaktande lista</translation>
     </message>
 </context>
 <context>
@@ -19584,7 +19585,7 @@ Du kan även ta bort paketet utan att avinstallera det från paketlistan.</trans
     </message>
     <message>
         <source>Use content object modification and publication dates from the package.</source>
-        <translation type="unfinished"></translation>
+        <translation>Använd modifiering av innehållsobjekt och publiceringsdatum från paketet.</translation>
     </message>
 </context>
 <context>
@@ -20320,7 +20321,7 @@ den övre menyn.</translation>
     </message>
     <message>
         <source>Enclosure (media)</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilaga (media)</translation>
     </message>
 </context>
 <context>
@@ -21768,23 +21769,23 @@ Standardkoden skapades från de grundläggande som du valde.</translation>
     </message>
     <message>
         <source>The database would not accept the connection, please review your settings and try again.</source>
-        <translation type="unfinished">Databasen vägrade kopplingen, kontrollera dina inställningar och försök igen.</translation>
+        <translation>Databasen vägrade kopplingen, kontrollera dina inställningar och försök igen.</translation>
     </message>
     <message>
         <source>Password entries did not match.</source>
-        <translation type="unfinished">Lösenordinläggen matchade inte.</translation>
+        <translation>Lösenordinläggen matchade inte.</translation>
     </message>
     <message>
         <source>The selected database was not empty, please choose from the alternatives below.</source>
-        <translation type="unfinished">Den valda databasen var inte tom, välj från alternativen nedan.</translation>
+        <translation>Den valda databasen var inte tom, välj från alternativen nedan.</translation>
     </message>
     <message>
         <source>Database initalization</source>
-        <translation type="unfinished">Databasinitialisering</translation>
+        <translation>Databasinitialisering</translation>
     </message>
     <message>
         <source>Email settings</source>
-        <translation type="unfinished">Email inställningar</translation>
+        <translation>Email inställningar</translation>
     </message>
     <message>
         <source>Finished</source>
@@ -21792,19 +21793,19 @@ Standardkoden skapades från de grundläggande som du valde.</translation>
     </message>
     <message>
         <source>Language options</source>
-        <translation type="unfinished">Språkinställningar</translation>
+        <translation>Språkinställningar</translation>
     </message>
     <message>
         <source>Registration</source>
-        <translation type="unfinished">Ragistrering</translation>
+        <translation>Registrering</translation>
     </message>
     <message>
         <source>Securing site</source>
-        <translation type="unfinished">Säkrar sida</translation>
+        <translation>Säkrar sida</translation>
     </message>
     <message>
         <source>Site access</source>
-        <translation type="unfinished">sajtingång</translation>
+        <translation>Sajttillgång</translation>
     </message>
     <message>
         <source>Site details</source>
@@ -21812,7 +21813,7 @@ Standardkoden skapades från de grundläggande som du valde.</translation>
     </message>
     <message>
         <source>Site template selection</source>
-        <translation type="unfinished">Sidmallsval</translation>
+        <translation>Sidmallsval</translation>
     </message>
     <message>
         <source>System check</source>
@@ -22236,7 +22237,7 @@ För att fixa dett måste du göra något av följande:</translation>
     </message>
     <message>
         <source>Site selection</source>
-        <translation type="unfinished">Sajtval</translation>
+        <translation>Sajtval</translation>
     </message>
     <message>
         <source>You need to fill in the first name.</source>
@@ -22325,11 +22326,11 @@ It is possible to change these settings at a later time.</source>
     </message>
     <message>
         <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the PHP documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.&lt;br&gt;Note that PostgreSQL 7.2 is not supported.</source>
-        <translation type="unfinished">Vänligen kontrollera lösenord och användarnamn. Bekräfta att din PostgreSQL databas är rätt konfigurerad. &lt;br&gt; Se PHP-dokumentationen för mer information om detta. &lt;b&gt; Kom i håg att starta postmaster med -i valet. &lt;br&gt; Notera att PostgreSQL 7.2 inte stöds.</translation>
+        <translation>Vänligen kontrollera  att lösenord och användarnamn är korrekt. Bekräfta att din PostgreSQL databas är rätt konfigurerad. &lt;br&gt; Se PHP-dokumentationen för mer information om detta. &lt;b&gt; Kom i håg att starta postmaster med -i valet. &lt;br&gt; Notera att PostgreSQL 7.2 inte stöds.</translation>
     </message>
     <message>
         <source>Your database version %version does not fit the minimum requirement which is %req_version.</source>
-        <translation type="unfinished">Din databasversion %version når inte de minimala kraven som är %req_version.</translation>
+        <translation>Din databasversion %version når inte de minimala kraven som är %req_version.</translation>
     </message>
     <message>
         <source>The setup wizard was not able to complete the creation of your selected sites.</source>
@@ -22362,23 +22363,23 @@ It is possible to change these settings at a later time.</source>
     </message>
     <message>
         <source>Cannot write to file</source>
-        <translation type="unfinished">Kan inte skriva till fil</translation>
+        <translation>Kan inte skriva till fil</translation>
     </message>
     <message>
         <source>Download of package &apos;%pkg&apos; failed. You may upload the package manually.</source>
-        <translation type="unfinished">Nedladdning av paket &apos;%pkg&apos; misslyckades. Du kan ladda upp paketet manuellt.</translation>
+        <translation>Nedladdning av paket &apos;%pkg&apos; misslyckades. Du kan ladda upp paketet manuellt.</translation>
     </message>
     <message>
         <source>Invalid package</source>
-        <translation type="unfinished">Ogiltigt paket</translation>
+        <translation>Ogiltigt paket</translation>
     </message>
     <message>
         <source>No package selected for upload</source>
-        <translation type="unfinished">Inget paket valt för uppladdning</translation>
+        <translation>Inget paket valt för uppladdning</translation>
     </message>
     <message>
         <source>Failed fetching upload package file</source>
-        <translation type="unfinished">Fel vid hämtning av uppladdninspaketfil</translation>
+        <translation>Fel vid hämtning av uppladdninspaketfil</translation>
     </message>
     <message>
         <source>Site package</source>
@@ -22402,11 +22403,11 @@ It is possible to change these settings at a later time.</source>
     </message>
     <message>
         <source>The database [%database_name] cannot be used, the setup wizard wants to create the site in [%req_charset] but the database has been created using character set [%charset]. You will have to choose a database having support for [%req_charset] or modify [%database_name] .</source>
-        <translation type="unfinished">Databasen [%database_name] kan inte användas, installationsguiden vill skapa sidan i [%req_charset] men databasen har skapats med teckenuppsättningen [%charset]. Du måste välja en databas som stöder  [%req_charset] eller ändra [%database_name].</translation>
+        <translation>Databasen [%database_name] kan inte användas, installationsguiden vill skapa sidan i [%req_charset] men databasen har skapats med teckenuppsättningen [%charset]. Du måste välja en databas som stöder  [%req_charset] eller ändra [%database_name].</translation>
     </message>
     <message>
         <source>Failed to copy %url to local file %filename</source>
-        <translation type="unfinished">Kunde inte kopiera %ur till lokal fil %filename</translation>
+        <translation>Kunde inte kopiera %ur till lokal fil %filename</translation>
     </message>
     <message>
         <source>Access method</source>
@@ -22430,7 +22431,7 @@ It is possible to change these settings at a later time.</source>
     </message>
     <message>
         <source>Package &apos;%packageName&apos; and it&apos;s dependencies have been downloaded successfully. Press &apos;Next&apos; to continue.</source>
-        <translation type="unfinished">Paket &apos;%packageName&apos; och dess beroenden har laddats ned. Klicka &apos;Nästa&apos; för att fortsätta. </translation>
+        <translation>Paket &apos;%packageName&apos; och dess beroenden har laddats ned. Klicka &apos;Nästa&apos; för att fortsätta. </translation>
     </message>
     <message>
         <source>Use the radio buttons to choose the default language, and the checkboxes to choose additional languages. You will be able to use any of the selected languages for translating your content. The default language will determine the locale settings and will be used as the most prioritized language for your site.</source>
@@ -22506,11 +22507,11 @@ It is possible to change these settings at a later time.</source>
     </message>
     <message>
         <source>The selected user has not got access to any databases. Change user or create a database for the user.</source>
-        <translation type="unfinished">Den valda användaren har inte tillgång till någon databas. Byt användare eller skapa en databas för användaren.</translation>
+        <translation>Den valda användaren har inte tillgång till någon databas. Byt användare eller skapa en databas för användaren.</translation>
     </message>
     <message>
         <source>The &apos;digest&apos; function is not available in your database, you cannot run eZ Publish without this. See the documentation for more information.</source>
-        <translation type="unfinished">Sammandragsfunktionen är inte tillgänglig i din databas, du kan inte använda eZ Publish utan den. Se dokumentationen för mer information.</translation>
+        <translation>Sammandragsfunktionen är inte tillgänglig i din databas, du kan inte använda eZ Publish utan den. Se dokumentationen för mer information.</translation>
     </message>
     <message>
         <source>Package language options</source>
@@ -22518,27 +22519,27 @@ It is possible to change these settings at a later time.</source>
     </message>
     <message>
         <source>No packages chosen.</source>
-        <translation type="unfinished">Inga paket har valts.</translation>
+        <translation>Inga paket har valts.</translation>
     </message>
     <message>
         <source>No templates chosen.</source>
-        <translation type="unfinished">Inga mallar har valts.</translation>
+        <translation>Inga mallar har valts.</translation>
     </message>
     <message>
         <source>Uploaded file is not an eZ Publish package</source>
-        <translation type="unfinished">Uppladdad fil är inte ett eZ Publish-paket</translation>
+        <translation>Uppladdad fil är inte ett eZ Publish-paket</translation>
     </message>
     <message>
         <source>No site package chosen.</source>
-        <translation type="unfinished">Inget sidpaket har valts.</translation>
+        <translation>Inget sidpaket har valts.</translation>
     </message>
     <message>
         <source>Retrieving remote site packages list failed. You may upload packages manually.</source>
-        <translation type="unfinished">Hämtning av paket från fjärrsidan misslyckades. Du kan ladda upp paket manuellt.</translation>
+        <translation>Hämtning av paket från fjärrsidan misslyckades. Du kan ladda upp paket manuellt.</translation>
     </message>
     <message>
         <source>Welcome to eZ Publish</source>
-        <translation type="unfinished">Välkommen till eZ Publish</translation>
+        <translation>Välkommen till eZ Publish</translation>
     </message>
     <message>
         <source>If you think you have fixed the errors you can try then click the &quot;Retry&quot; button.</source>
@@ -22923,7 +22924,7 @@ Denna funktionalitet finns också tillgänglig senare via Administrationsgränss
     </message>
     <message>
         <source>Your alternatives are to:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dina alternativ är att:</translation>
     </message>
     <message>
         <source>Repeat the operation several times to complete it.</source>
@@ -24426,64 +24427,64 @@ För att göra detta måste du ändra %chown kommandona under Alternativa shell-
     <name>design/standard/state/edit</name>
     <message>
         <source>Identifier:</source>
-        <translation type="unfinished"></translation>
+        <translation>Identifierare:</translation>
     </message>
     <message>
         <source>Default language:</source>
-        <translation type="unfinished"></translation>
+        <translation>Standardspråk:</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Namn:</translation>
     </message>
     <message>
         <source>Description:</source>
-        <translation type="unfinished"></translation>
+        <translation>Beskrivning:</translation>
     </message>
 </context>
 <context>
     <name>design/standard/state/group</name>
     <message>
         <source>ID</source>
-        <translation type="unfinished">ID</translation>
+        <translation>ID</translation>
     </message>
     <message>
         <source>Identifier</source>
-        <translation type="unfinished">Identifierare</translation>
+        <translation>Identifierare</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Namn</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Beskrivning</translation>
+        <translation>Beskrivning</translation>
     </message>
 </context>
 <context>
     <name>design/standard/state/group_edit</name>
     <message>
         <source>Identifier:</source>
-        <translation type="unfinished"></translation>
+        <translation>Identifierare:</translation>
     </message>
     <message>
         <source>Default language:</source>
-        <translation type="unfinished"></translation>
+        <translation>Standardspråk:</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Namn:</translation>
     </message>
     <message>
         <source>Description:</source>
-        <translation type="unfinished"></translation>
+        <translation>Beskrivning:</translation>
     </message>
 </context>
 <context>
     <name>design/standard/toolbar</name>
     <message>
         <source>Toolbar management</source>
-        <translation type="unfinished">Verktygshantering</translation>
+        <translation>Verktygshantering</translation>
     </message>
     <message>
         <source>There are %logged_in_count registered and %anonymous_count anonymous users online.</source>
@@ -24680,7 +24681,7 @@ För att göra detta måste du ändra %chown kommandona under Alternativa shell-
     </message>
     <message>
         <source>The URL points to %1.</source>
-        <translation>URL:en pekar på %.</translation>
+        <translation>URL:en pekar på %1.</translation>
     </message>
     <message>
         <source>Last modified at %1</source>
@@ -24768,15 +24769,15 @@ För att göra detta måste du ändra %chown kommandona under Alternativa shell-
     </message>
     <message>
         <source>All URLs</source>
-        <translation type="unfinished"></translation>
+        <translation>All URL</translation>
     </message>
     <message>
         <source>Invalid URLs</source>
-        <translation type="unfinished"></translation>
+        <translation>Ogiltiga URL</translation>
     </message>
     <message>
         <source>Valid URLs</source>
-        <translation type="unfinished"></translation>
+        <translation>Giltiga URL</translation>
     </message>
 </context>
 <context>
@@ -24965,7 +24966,7 @@ För att göra detta måste du ändra %chown kommandona under Alternativa shell-
     </message>
     <message>
         <source>The node (%1) specified in [UserSettings].DefaultUserPlacement setting in site.ini does not exist!</source>
-        <translation type="unfinished">Noden (%1) specificerad i [UserSettings].DefaultUserPlacement inställning i sidans .ini existerar inte!</translation>
+        <translation>Noden (%1) specificerad i [UserSettings].DefaultUserPlacement inställning i sidans .ini existerar inte!</translation>
     </message>
     <message>
         <source>Email</source>
@@ -24997,11 +24998,11 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Try again</source>
-        <translation type="unfinished"></translation>
+        <translation>Försök igen</translation>
     </message>
     <message>
         <source>The new password must be at least %1 characters long. Please retype your new password.</source>
-        <translation type="unfinished">Det nya lösenordet måste vara minst %1 tecken långt. Var god skriv ditt nya lösenord igen.</translation>
+        <translation>Det nya lösenordet måste vara minst %1 tecken långt. Var god skriv ditt nya lösenord igen.</translation>
     </message>
     <message>
         <source>Your email address has been confirmed. An administrator needs to approve your sign up request, before your login becomes valid.</source>
@@ -25119,11 +25120,11 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Your registration has been approved. You can login with your account %username.</source>
-        <translation type="unfinished"></translation>
+        <translation>Din registrering har godkänts. Du kan logga in med ditt konto %username.</translation>
     </message>
     <message>
         <source>Click the following URL to login:</source>
-        <translation type="unfinished"></translation>
+        <translation>Klicka på följande URL för att logga in:</translation>
     </message>
 </context>
 <context>
@@ -25342,7 +25343,7 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Overrides for &lt;%template_name&gt; template in &lt;%current_siteaccess&gt; siteaccess [%override_count]</source>
-        <translation>Anpassade mallar för &lt;%template_name&gt; i sajtingången &lt;%current_siteaccess&gt; [%override_count]</translation>
+        <translation>Overrides för &lt;%template_name&gt; i sajtingången &lt;%current_siteaccess&gt; [%override_count]</translation>
     </message>
     <message>
         <source>Default template resource</source>
@@ -25382,7 +25383,7 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Edit override template.</source>
-        <translation>Redigera anpassad stilmall.</translation>
+        <translation>Redigera overridemall.</translation>
     </message>
     <message>
         <source>Remove selected</source>
@@ -25390,7 +25391,7 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Remove selected template overrides.</source>
-        <translation>Radera valda anpassade stilmallar.</translation>
+        <translation>Radera valda overridemallar.</translation>
     </message>
     <message>
         <source>New override</source>
@@ -25398,7 +25399,7 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Create a new template override.</source>
-        <translation>Skapa ny mall för anpassad stilmall.</translation>
+        <translation>Skapa ny overridemall.</translation>
     </message>
     <message>
         <source>Update priorities</source>
@@ -25406,7 +25407,7 @@ ditt konto.</translation>
     </message>
     <message>
         <source>There are no overrides for the &lt;%template_name&gt; template.</source>
-        <translation>Det finns inga anpassningar för mallen &lt;%template_name&gt;.</translation>
+        <translation>Det finns inga overrides för mallen &lt;%template_name&gt;.</translation>
     </message>
     <message>
         <source>The override.ini file could not be modified because of insufficient permission.</source>
@@ -25842,14 +25843,14 @@ ditt konto.</translation>
     <name>design/starndard/node</name>
     <message>
         <source>Are you sure you want to remove these items?</source>
-        <translation type="unfinished">Är du säker att du vill radera dessa objekt?</translation>
+        <translation>Är du säker att du vill radera dessa objekt?</translation>
     </message>
 </context>
 <context>
     <name>extension/oauth</name>
     <message>
         <source>Application authorization</source>
-        <translation type="unfinished"></translation>
+        <translation>Applikationstillstånd</translation>
     </message>
     <message>
         <source>The application %application_name% has requested access to this website on your behalf.</source>
@@ -25864,7 +25865,7 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Deny</source>
-        <translation type="unfinished">Neka</translation>
+        <translation>Neka</translation>
     </message>
 </context>
 <context>
@@ -25879,23 +25880,23 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Confirm removal</source>
-        <translation type="unfinished">Bekräfta borttagning</translation>
+        <translation>Bekräfta borttagning</translation>
     </message>
     <message>
         <source>Application &lt;%application_name&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Applikation &lt;%application_name&gt;</translation>
     </message>
     <message>
         <source>Last modified</source>
-        <translation type="unfinished">Senast modifierad</translation>
+        <translation>Senast modifierad</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Namn</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Beskrivning</translation>
+        <translation>Beskrivning</translation>
     </message>
     <message>
         <source>Client identifier</source>
@@ -25911,43 +25912,43 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Redigera</translation>
+        <translation>Redigera</translation>
     </message>
     <message>
         <source>Edit this application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigera denna applikation.</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Ta bort</translation>
+        <translation>Ta bort</translation>
     </message>
     <message>
         <source>Delete this application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ta bort denna applikation.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this application?</source>
-        <translation type="unfinished"></translation>
+        <translation>Är du säker på att du vill ta bort denna applikation?</translation>
     </message>
     <message>
         <source>Are you sure you want to remove these applications?</source>
-        <translation type="unfinished"></translation>
+        <translation>Är du säker på att du vill ta bort dessa applikationer?</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished">Bekräfta</translation>
+        <translation>Bekräfta</translation>
     </message>
     <message>
         <source>Confirm removal of these applications.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bekräfta borttagning av dessa applikationer.</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>Edit application &lt;%application_name&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigera applikation &lt;%application_name&gt;</translation>
     </message>
     <message>
         <source>Use this field to set the application name.</source>
@@ -25963,7 +25964,7 @@ ditt konto.</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>REST applications (%applications_count)</source>
@@ -25975,86 +25976,86 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Invertera val.</translation>
     </message>
     <message>
         <source>Modifier</source>
-        <translation type="unfinished">Modifierare</translation>
+        <translation>Modifierare</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation type="unfinished">Modifierad</translation>
+        <translation>Modifierad</translation>
     </message>
     <message>
         <source>Select application for removal.</source>
-        <translation type="unfinished"></translation>
+        <translation>Välj applikation för borttagning.</translation>
     </message>
     <message>
         <source>Edit the &lt;%application_name&gt; application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigera &lt;%application_name&gt;applikationen.</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished">Ta bort markerade</translation>
+        <translation>Ta bort markerade</translation>
     </message>
     <message>
         <source>Remove the selected applications.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ta bort valda applikationer.</translation>
     </message>
     <message>
         <source>New application</source>
-        <translation type="unfinished"></translation>
+        <translation>Ny applikation</translation>
     </message>
     <message>
         <source>Create a new application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skapa en ny applikation.</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Tillbaka</translation>
+        <translation>Tillbaka</translation>
     </message>
 </context>
 <context>
     <name>kernel/cache</name>
     <message>
         <source>Content view cache</source>
-        <translation type="unfinished">Innehållsvy-cache</translation>
+        <translation>Innehållsvy-cache</translation>
     </message>
     <message>
         <source>Global INI cache</source>
-        <translation type="unfinished">Övergripande ini-cache</translation>
+        <translation>Övergripande ini-cache</translation>
     </message>
     <message>
         <source>INI cache</source>
-        <translation type="unfinished">Ini-cache</translation>
+        <translation>Ini-cache</translation>
     </message>
     <message>
         <source>Codepage cache</source>
-        <translation type="unfinished">Cache för sidkod</translation>
+        <translation>Cache för sidkod</translation>
     </message>
     <message>
         <source>Class identifier cache</source>
-        <translation type="unfinished">Cache för klassidentifierare</translation>
+        <translation>Cache för klassidentifierare</translation>
     </message>
     <message>
         <source>Sort key cache</source>
-        <translation type="unfinished">Cache för sorteringsnycklar</translation>
+        <translation>Cache för sorteringsnycklar</translation>
     </message>
     <message>
         <source>URL alias cache</source>
-        <translation type="unfinished">Cache för URL-alias</translation>
+        <translation>Cache för URL-alias</translation>
     </message>
     <message>
         <source>Image alias</source>
-        <translation type="unfinished">Bildalias</translation>
+        <translation>Bildalias</translation>
     </message>
     <message>
         <source>Template cache</source>
-        <translation type="unfinished">Mall-cache</translation>
+        <translation>Mall-cache</translation>
     </message>
     <message>
         <source>Template block cache</source>
-        <translation type="unfinished">Template-block-cache</translation>
+        <translation>Template-block-cache</translation>
     </message>
     <message>
         <source>Template override cache</source>
@@ -26062,19 +26063,19 @@ ditt konto.</translation>
     </message>
     <message>
         <source>RSS cache</source>
-        <translation type="unfinished">RSS-cache</translation>
+        <translation>RSS-cache</translation>
     </message>
     <message>
         <source>Character transformation cache</source>
-        <translation type="unfinished">Cache för teckentransformation</translation>
+        <translation>Cache för teckentransformation</translation>
     </message>
     <message>
         <source>User info cache</source>
-        <translation type="unfinished">Cache för användarinfo</translation>
+        <translation>Cache för användarinfo</translation>
     </message>
     <message>
         <source>Content tree menu (browser cache)</source>
-        <translation type="unfinished">Innehållsträdmeny (browser cache)</translation>
+        <translation>Innehållsträdmeny (browser cache)</translation>
     </message>
     <message>
         <source>Text to image cache</source>
@@ -26101,15 +26102,15 @@ ditt konto.</translation>
     <name>kernel/class</name>
     <message>
         <source>Class list of group</source>
-        <translation type="unfinished">Klasslista för grupp</translation>
+        <translation>Klasslista för grupp</translation>
     </message>
     <message>
         <source>Class group list</source>
-        <translation type="unfinished">Klassgrupplista</translation>
+        <translation>Klassgrupplista</translation>
     </message>
     <message>
         <source>Remove class</source>
-        <translation type="unfinished">Ta bort klass</translation>
+        <translation>Ta bort klass</translation>
     </message>
     <message>
         <source>Class edit</source>
@@ -26121,27 +26122,27 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Class list</source>
-        <translation type="unfinished">Klasslista</translation>
+        <translation>Klasslista</translation>
     </message>
     <message>
         <source>(no classes)</source>
-        <translation type="unfinished">(inga klasser)</translation>
+        <translation>(inga klasser)</translation>
     </message>
     <message>
         <source>Remove class groups</source>
-        <translation type="unfinished">Ta bort klassgrupper</translation>
+        <translation>Ta bort klassgrupper</translation>
     </message>
     <message>
         <source>You have to have at least one group that the class belongs to!</source>
-        <translation type="unfinished">Du måste ha minst en grupp som klassen tillhör!</translation>
+        <translation>Du måste ha minst en grupp som klassen tillhör!</translation>
     </message>
     <message>
         <source>Remove classes %class_id</source>
-        <translation type="unfinished">Radera klasser %class_id</translation>
+        <translation>Radera klasser %class_id</translation>
     </message>
     <message>
         <source>Copy of %class_name</source>
-        <translation type="unfinished">Koia av %class_name</translation>
+        <translation>Kopia av %class_name</translation>
     </message>
     <message>
         <source>The class should have nonempty &apos;Name&apos; attribute.</source>
@@ -26149,47 +26150,47 @@ ditt konto.</translation>
     </message>
     <message>
         <source>The class should have at least one attribute.</source>
-        <translation type="unfinished">Klassen bör ha mins ett attribut.</translation>
+        <translation>Klassen bör ha mins ett attribut.</translation>
     </message>
     <message>
         <source>There is a class already having the same identifier.</source>
-        <translation type="unfinished">Det finns redan en klass som använder samma identifierare.</translation>
+        <translation>Det finns redan en klass som använder samma identifierare.</translation>
     </message>
     <message>
         <source>Remove translation</source>
-        <translation type="unfinished">Ta bort översättning</translation>
+        <translation>Ta bort översättning</translation>
     </message>
     <message>
         <source>Could not load datatype: </source>
-        <translation type="unfinished">Kunde inte ladda datatyp:</translation>
+        <translation>Kunde inte ladda datatyp:</translation>
     </message>
     <message>
         <source>Editing this content class may cause data corruption in your system.</source>
-        <translation type="unfinished">Redigering av detta innehåll kan korrumpera datan i ditt system.</translation>
+        <translation>Redigering av detta innehåll kan korrumpera datan i ditt system.</translation>
     </message>
     <message>
         <source>duplicate attribute placement</source>
-        <translation type="unfinished">kopiera attributplacering</translation>
+        <translation>kopiera attributplacering</translation>
     </message>
     <message>
         <source>duplicate attribute identifier</source>
-        <translation type="unfinished">kopiera attributidentifierare</translation>
+        <translation>kopiera attributidentifierare</translation>
     </message>
     <message>
         <source>Press &quot;Cancel&quot; to safely exit this operation.</source>
-        <translation type="unfinished">Klicka &quot;Avbryt&quot; för att stänga denna operation.</translation>
+        <translation>Klicka &quot;Avbryt&quot; för att stänga denna operation.</translation>
     </message>
     <message>
         <source>Please contact your eZ Publish administrator to solve this problem.</source>
-        <translation type="unfinished">Var god kontakta din eZ Publish-administratör för att lösa detta problem.</translation>
+        <translation>Var god kontakta din eZ Publish-administratör för att lösa detta problem.</translation>
     </message>
     <message>
         <source>Class groups</source>
-        <translation type="unfinished">Klassgrupper</translation>
+        <translation>Klassgrupper</translation>
     </message>
     <message>
         <source>Remove classes</source>
-        <translation type="unfinished"></translation>
+        <translation>Ta bort klasser</translation>
     </message>
 </context>
 <context>
@@ -26254,672 +26255,672 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Workflow failed an event</source>
-        <translation type="unfinished">Workflow misslyckades med en händelse</translation>
+        <translation>Workflow misslyckades med en händelse</translation>
     </message>
     <message>
         <source>Workflow event deferred to cron job</source>
-        <translation type="unfinished">Workflowhändelse fördröjd till cronjobb</translation>
+        <translation>Workflowhändelse fördröjd till cronjobb</translation>
     </message>
     <message>
         <source>Workflow was reset for reuse</source>
-        <translation type="unfinished">Workflow ställdes om för återanvändning</translation>
+        <translation>Workflow ställdes om för återanvändning</translation>
     </message>
     <message>
         <source>Accepted event</source>
-        <translation type="unfinished">Accepterade händelse</translation>
+        <translation>Accepterad händelse</translation>
     </message>
     <message>
         <source>Rejected event</source>
-        <translation type="unfinished">Avslog händelse</translation>
+        <translation>Avvisad händelse</translation>
     </message>
     <message>
         <source>Event deferred to cron job</source>
-        <translation type="unfinished">Händelse fördröjd till cronjobb</translation>
+        <translation>Händelse fördröjd till cronjobb</translation>
     </message>
     <message>
         <source>Event deferred to cron job, event will be rerun</source>
-        <translation type="unfinished">Händelse fördröjd till cronjobb, kommer att köras om</translation>
+        <translation>Händelse fördröjd till cronjobb, kommer att köras om</translation>
     </message>
     <message>
         <source>Event runs a sub event</source>
-        <translation type="unfinished">Händelse körs som en underhändelse</translation>
+        <translation>Händelse körs som en underhändelse</translation>
     </message>
     <message>
         <source>Workflow fetches template</source>
-        <translation type="unfinished">Workflow hämtar mall</translation>
+        <translation>Workflow hämtar mall</translation>
     </message>
     <message>
         <source>Workflow redirects user view</source>
-        <translation type="unfinished">Workflow omdirigerar användarvy</translation>
+        <translation>Workflow omdirigerar användarvy</translation>
     </message>
     <message>
         <source>New RSS Export</source>
-        <translation type="unfinished">Ny RSS-exportering</translation>
+        <translation>Ny RSS-exportering</translation>
     </message>
     <message>
         <source>Workflow was canceled</source>
-        <translation type="unfinished">Arbetsflödet avbröts</translation>
+        <translation>Arbetsflödet avbröts</translation>
     </message>
     <message>
         <source>Canceled whole workflow</source>
-        <translation type="unfinished">Avbröt hela arbetsflödet</translation>
+        <translation>Avbröt hela arbetsflödet</translation>
     </message>
     <message>
         <source>Keep existing and create a new one</source>
-        <translation type="unfinished">Behåll befintlig och skapa en ny</translation>
+        <translation>Behåll befintlig och skapa en ny</translation>
     </message>
     <message>
         <source>Replace existing object</source>
-        <translation type="unfinished"></translation>
+        <translation>Ersätt nuvarande objekt</translation>
     </message>
     <message>
         <source>Skip object</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoppa över objekt</translation>
     </message>
     <message>
         <source>Update existing object</source>
-        <translation type="unfinished"></translation>
+        <translation>Uppdatera nuvarande objekt</translation>
     </message>
 </context>
 <context>
     <name>kernel/classes/datatypes</name>
     <message>
         <source>Missing date input.</source>
-        <translation type="unfinished">Saknar datuminmatning.</translation>
+        <translation>Saknar datuminmatning.</translation>
     </message>
     <message>
         <source>Missing datetime input.</source>
-        <translation type="unfinished">Saknar datumtid-inmatning.</translation>
+        <translation>Saknar datumtid-inmatning.</translation>
     </message>
     <message>
         <source>At least one author is required.</source>
-        <translation type="unfinished">Minst en författare krävs.</translation>
+        <translation>Minst en författare krävs.</translation>
     </message>
     <message>
         <source>A valid file is required.</source>
-        <translation type="unfinished">En giltig fil krävs.</translation>
+        <translation>En giltig fil krävs.</translation>
     </message>
     <message>
         <source>Checkbox</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Kryssruta</translation>
+        <translation>Kryssruta</translation>
     </message>
     <message>
         <source>Enum</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Enum</translation>
+        <translation>Enum</translation>
     </message>
     <message>
         <source>At least one field should be chosen.</source>
-        <translation type="unfinished">Minst ett fält bör vara valt.</translation>
+        <translation>Minst ett fält bör vara valt.</translation>
     </message>
     <message>
         <source>Float</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Float</translation>
+        <translation>Float</translation>
     </message>
     <message>
         <source>Image</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Bild</translation>
+        <translation>Bild</translation>
     </message>
     <message>
         <source>Integer</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Heltal</translation>
+        <translation>Heltal</translation>
     </message>
     <message>
         <source>ISBN</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">ISBN</translation>
+        <translation>ISBN</translation>
     </message>
     <message>
         <source>Matrix</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Matrix</translation>
+        <translation>Matrix</translation>
     </message>
     <message>
         <source>Media</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Media</translation>
+        <translation>Media</translation>
     </message>
     <message>
         <source>Object relation</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Objektrelation</translation>
+        <translation>Objektrelation</translation>
     </message>
     <message>
         <source>Option</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Val</translation>
+        <translation>Val</translation>
     </message>
     <message>
         <source>At least one option is required.</source>
-        <translation type="unfinished">Minst ett val krävs.</translation>
+        <translation>Minst ett val krävs.</translation>
     </message>
     <message>
         <source>Price</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Pris</translation>
+        <translation>Pris</translation>
     </message>
     <message>
         <source>Add to basket</source>
-        <translation type="unfinished">Lägg till kundvagnen</translation>
+        <translation>Lägg till i kundvagnen</translation>
     </message>
     <message>
         <source>Add to wish list</source>
-        <translation type="unfinished">Lägg till önskelistan</translation>
+        <translation>Lägg till i önskelistan</translation>
     </message>
     <message>
         <source>Range option</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Omfångsval</translation>
+        <translation>Omfångsval</translation>
     </message>
     <message>
         <source>Selection</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Val</translation>
+        <translation>Val</translation>
     </message>
     <message>
         <source>Text line</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Textrad</translation>
+        <translation>Textrad</translation>
     </message>
     <message>
         <source>Subtree subscription</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Underträdsbeskrivning</translation>
+        <translation>Underträdsbeskrivning</translation>
     </message>
     <message>
         <source>URL</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">URL</translation>
+        <translation>URL</translation>
     </message>
     <message>
         <source>User account</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Användarkonto</translation>
+        <translation>Användarkonto</translation>
     </message>
     <message>
         <source>A user with this email already exists.</source>
-        <translation type="unfinished">En användare med den här emailadressen finns redan.</translation>
+        <translation>En användare med den här emailadressen finns redan.</translation>
     </message>
     <message>
         <source>Identifier</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Identifierare</translation>
+        <translation>Identifierare</translation>
     </message>
     <message>
         <source>image</source>
         <comment>Default image name</comment>
-        <translation type="unfinished">bild</translation>
+        <translation>bild</translation>
     </message>
     <message>
         <source>Ini Setting</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">INI Inställning</translation>
+        <translation>INI Inställning</translation>
     </message>
     <message>
         <source>Package</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Paket</translation>
+        <translation>Paket</translation>
     </message>
     <message>
         <source>Send</source>
         <comment>Datatype information collector action</comment>
-        <translation type="unfinished">Skicka</translation>
+        <translation>Skicka</translation>
     </message>
     <message>
         <source>Missing objectrelation input.</source>
-        <translation type="unfinished">Saknar objektsrelaterings-inmatning.</translation>
+        <translation>Saknar objektsrelaterings-inmatning.</translation>
     </message>
     <message>
         <source>Invalid time.</source>
-        <translation type="unfinished">Ogiltig tid.</translation>
+        <translation>Ogiltig tid.</translation>
     </message>
     <message>
         <source>The author name must be provided.</source>
-        <translation type="unfinished">Författarnamn krävs.</translation>
+        <translation>Författarnamn krävs.</translation>
     </message>
     <message>
         <source>The email address is not valid.</source>
-        <translation type="unfinished">Mailadressen är ogiltig.</translation>
+        <translation>Mailadressen är ogiltig.</translation>
     </message>
     <message>
         <source>File uploading is not enabled. Please contact the site administrator to enable it.</source>
-        <translation type="unfinished">Filuppladning är inte igång. Kontakta sajtadministratör för att starta det.</translation>
+        <translation>Filuppladning är inte igång. Kontakta sajtadministratör för att starta det.</translation>
     </message>
     <message>
         <source>The size of the uploaded file exceeds the limit set by the upload_max_filesize directive in php.ini.</source>
-        <translation type="unfinished">Storleken på filen som laddats upp är för stor (def. i php.ini).</translation>
+        <translation>Filstorleken för den uppladdade filen bestäms av upload_max_filesize i php.ini.</translation>
     </message>
     <message>
         <source>The size of the uploaded file exceeds the maximum upload size: %1 bytes.</source>
-        <translation type="unfinished">Filen är störren än max uppladdningsstorlek på : %1 bytes.</translation>
+        <translation>Filen är störren än max uppladdningsstorlek på : %1 bytes.</translation>
     </message>
     <message>
         <source>The email address is empty.</source>
-        <translation type="unfinished">Emailadressen är tom.</translation>
+        <translation>Emailadressen är tom.</translation>
     </message>
     <message>
         <source>The given input is not a floating point number.</source>
-        <translation type="unfinished">Informationen är inte ett flytande punkt nummer.</translation>
+        <translation>Informationen är inte ett flytande punkt nummer.</translation>
     </message>
     <message>
         <source>The input must be greater than %1</source>
-        <translation type="unfinished">Informationen som är ifylld måste vara större än %1</translation>
+        <translation>Informationen som är ifylld måste vara större än %1</translation>
     </message>
     <message>
         <source>The input must be less than %1</source>
-        <translation type="unfinished">Informationen som är ifylld måste vara mindre än %1</translation>
+        <translation>Informationen som är ifylld måste vara mindre än %1</translation>
     </message>
     <message>
         <source>The input is not in defined range %1 - %2</source>
-        <translation type="unfinished">Informationen är inte definierad mellan %1 - %2</translation>
+        <translation>Informationen är inte definierad mellan %1 - %2</translation>
     </message>
     <message>
         <source>A valid image file is required.</source>
-        <translation type="unfinished">Det krävs en tillåten bildfil.</translation>
+        <translation>Det krävs en tillåten bildfil.</translation>
     </message>
     <message>
         <source>The size of the uploaded image exceeds limit set by upload_max_filesize directive in php.ini. Please contact the site administrator.</source>
-        <translation type="unfinished">Filstorleken för den uppladdade bilden bestäms av upload_max_filesize i php.ini. Vänligen kontakta sajtadministratören.</translation>
+        <translation>Filstorleken för den uppladdade bilden bestäms av upload_max_filesize i php.ini. Vänligen kontakta sajtadministratören.</translation>
     </message>
     <message>
         <source>The size of the uploaded file exceeds the limit set for this site: %1 bytes.</source>
-        <translation type="unfinished">Filen är störren än max uppladdningsstorlek på : %1 bytes.</translation>
+        <translation>Filen är störren än max uppladdningsstorlek på : %1 bytes.</translation>
     </message>
     <message>
         <source>Could not locate the ini file.</source>
-        <translation type="unfinished">Kunde inte hitta ini-filen.</translation>
+        <translation>Kunde inte hitta ini-filen.</translation>
     </message>
     <message>
         <source>The input is not a valid integer.</source>
-        <translation type="unfinished">Ifylld information är inte en iteger.</translation>
+        <translation>Ifylld information är inte en iteger.</translation>
     </message>
     <message>
         <source>The number must be greater than %1</source>
-        <translation type="unfinished">Informationen som är ifylld måste vara större än %1</translation>
+        <translation>Informationen som är ifylld måste vara större än %1</translation>
     </message>
     <message>
         <source>The number must be less than %1</source>
-        <translation type="unfinished">Informationen som är ifylld måste vara mindre än %1</translation>
+        <translation>Informationen som är ifylld måste vara mindre än %1</translation>
     </message>
     <message>
         <source>The number is not within the required range %1 - %2</source>
-        <translation type="unfinished">Informationen är inte definierad mellan %1 - %2</translation>
+        <translation>Informationen är inte definierad mellan %1 - %2</translation>
     </message>
     <message>
         <source>The ISBN number is not correct. Please check the input for mistakes.</source>
-        <translation type="unfinished">ISBN nummer inte korret. Kontrollera igen.</translation>
+        <translation>ISBN nummer inte korret. Kontrollera igen.</translation>
     </message>
     <message>
         <source>A valid media file is required.</source>
-        <translation type="unfinished">En fungerande mediafil krävs.</translation>
+        <translation>En fungerande mediafil krävs.</translation>
     </message>
     <message>
         <source>The size of the uploaded file exceeds the limit set by upload_max_filesize directive in php.ini. Please contact the site administrator.</source>
-        <translation type="unfinished">Filstorleken för den uppladdade filen bestäms av upload_max_filesize i php.ini. Vänligen kontakta sidadministratören.</translation>
+        <translation>Filstorleken för den uppladdade filen bestäms av upload_max_filesize i php.ini. Vänligen kontakta sidadministratören.</translation>
     </message>
     <message>
         <source>The size of the uploaded file exceeds site maximum: %1 bytes.</source>
-        <translation type="unfinished">Filen är störren än max uppladdningsstorlek på : %1 bytes.</translation>
+        <translation>Filen är störren än max uppladdningsstorlek på : %1 bytes.</translation>
     </message>
     <message>
         <source>The option value must be provided.</source>
-        <translation type="unfinished">Valet måste ges.</translation>
+        <translation>Valet måste ges.</translation>
     </message>
     <message>
         <source>The additional price for the multioption value is not valid.</source>
-        <translation type="unfinished">Tilläggs prisen för multivalet är inte tillåtet.</translation>
+        <translation>Tilläggs prisen för multivalet är inte tillåtet.</translation>
     </message>
     <message>
         <source>The Additional price value is not valid.</source>
-        <translation type="unfinished">Tilläggs prisen är inte tillåtet.</translation>
+        <translation>Tilläggs priset är inte tillåtet.</translation>
     </message>
     <message>
         <source>Input required.</source>
-        <translation type="unfinished">Det krävs ifyllnad.</translation>
+        <translation>Det krävs ifyllnad.</translation>
     </message>
     <message>
         <source>The input text is too long. The maximum number of characters allowed is %1.</source>
-        <translation type="unfinished">Ifylld text är för läng. Maxlängd på tecken är tillåten till %1.</translation>
+        <translation>Ifylld text är för lång. Maxlängd på tecken är tillåten till %1.</translation>
     </message>
     <message>
         <source>Time input required.</source>
-        <translation type="unfinished">Tid krävd.</translation>
+        <translation>Tid krävs.</translation>
     </message>
     <message>
         <source>The username must be specified.</source>
-        <translation type="unfinished">Användarnamnet måste specifieras.</translation>
+        <translation>Användarnamnet måste specifieras.</translation>
     </message>
     <message>
         <source>The username already exists, please choose another one.</source>
-        <translation type="unfinished">Användarnamnet finns redan, välj en annan.</translation>
+        <translation>Användarnamnet finns redan, välj ett annat.</translation>
     </message>
     <message>
         <source>The passwords do not match.</source>
         <comment>eZUserType</comment>
-        <translation type="unfinished">Lösenordinläggen matchade inte.</translation>
+        <translation>Lösenorden matchade inte.</translation>
     </message>
     <message>
         <source>Cannot remove the account:</source>
-        <translation type="unfinished">Kan inte radera kontot:</translation>
+        <translation>Kan inte radera kontot:</translation>
     </message>
     <message>
         <source>The account owner is currently logged in.</source>
-        <translation type="unfinished">Ägaren till kontot är för tillfället inloggad.</translation>
+        <translation>Ägaren till kontot är för tillfället inloggad.</translation>
     </message>
     <message>
         <source>The account is currently used by the anonymous user.</source>
-        <translation type="unfinished">Kontot används av en anonym användare.</translation>
+        <translation>Kontot används av en anonym användare.</translation>
     </message>
     <message>
         <source>Multi-option</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Mulit-val</translation>
+        <translation>Mulit-val</translation>
     </message>
     <message>
         <source>Authors</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Författare</translation>
+        <translation>Författare</translation>
     </message>
     <message>
         <source>File</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Fil</translation>
+        <translation>Fil</translation>
     </message>
     <message>
         <source>Date</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Datum</translation>
+        <translation>Datum</translation>
     </message>
     <message>
         <source>Date and time</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Datum och tid</translation>
+        <translation>Datum och tid</translation>
     </message>
     <message>
         <source>Keywords</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Nyckelord</translation>
+        <translation>Nyckelord</translation>
     </message>
     <message>
         <source>Object relations</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Objektrelation</translation>
+        <translation>Objektrelation</translation>
     </message>
     <message>
         <source>Text block</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Text block</translation>
+        <translation>Text block</translation>
     </message>
     <message>
         <source>Time</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Tid</translation>
+        <translation>Tid</translation>
     </message>
     <message>
         <source>XML block</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">XML-block</translation>
+        <translation>XML-block</translation>
     </message>
     <message>
         <source>Object %1 can not be embeded to itself.</source>
-        <translation type="unfinished">Objektet %1 kan inte läggas till sig själv.</translation>
+        <translation>Objektet %1 kan inte läggas till sig själv.</translation>
     </message>
     <message>
         <source>Country</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Land</translation>
+        <translation>Land</translation>
     </message>
     <message>
         <source>Date is not valid.</source>
-        <translation type="unfinished">Ogiltigt datum.</translation>
+        <translation>Ogiltigt datum.</translation>
     </message>
     <message>
         <source>Time is not valid.</source>
-        <translation type="unfinished">Ogiltig tid.</translation>
+        <translation>Ogiltig tid.</translation>
     </message>
     <message>
         <source>The image file must have non-zero size.</source>
-        <translation type="unfinished">Storleken på bildfilen får inte vara noll.</translation>
+        <translation>Storleken på bildfilen får inte vara noll.</translation>
     </message>
     <message>
         <source>Wrong text field value.</source>
-        <translation type="unfinished">Fel textfältvärde.</translation>
+        <translation>Fel textfältvärde.</translation>
     </message>
     <message>
         <source>Missing matrix input.</source>
-        <translation type="unfinished">Matrisinmatning saknas.</translation>
+        <translation>Matrisinmatning saknas.</translation>
     </message>
     <message>
         <source>Multi-price</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Multi-pris</translation>
+        <translation>Multi-pris</translation>
     </message>
     <message>
         <source>Invalid price for &apos;%currencyCode&apos; currency </source>
-        <translation type="unfinished">Ogiltigt pris för &apos;%currencyCode&apos;-valuta</translation>
+        <translation>Ogiltigt pris för &apos;%currencyCode&apos;-valuta</translation>
     </message>
     <message>
         <source>Missing objectrelation list input.</source>
-        <translation type="unfinished">Inmatning i objektrelationslistan saknas.</translation>
+        <translation>Inmatning i objektrelationslistan saknas.</translation>
     </message>
     <message>
         <source>NAME is required.</source>
-        <translation type="unfinished">NAMN är obligatoriskt.</translation>
+        <translation>NAMN är obligatoriskt.</translation>
     </message>
     <message>
         <source>Invalid price.</source>
-        <translation type="unfinished">Ogiltigt pris.</translation>
+        <translation>Ogiltigt pris.</translation>
     </message>
     <message>
         <source>Product category</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Produktkategori</translation>
+        <translation>Produktkategori</translation>
     </message>
     <message>
         <source>Content required</source>
-        <translation type="unfinished">Innehåll krävs</translation>
+        <translation>Innehåll krävs</translation>
     </message>
     <message>
         <source>Dynamic VAT cannot be included.</source>
-        <translation type="unfinished">Dynamisk moms kan inte inkluderas.</translation>
+        <translation>Dynamisk moms kan inte inkluderas.</translation>
     </message>
     <message>
         <source>Missing range option input.</source>
-        <translation type="unfinished">Omfångsalternativsinmatning saknas.</translation>
+        <translation>Omfångsalternativsinmatning saknas.</translation>
     </message>
     <message>
         <source>Option set name is required.</source>
-        <translation type="unfinished">Alternativuppsättningsnamn krävs.</translation>
+        <translation>Alternativuppsättningsnamn krävs.</translation>
     </message>
     <message>
         <source>The password must be at least %1 characters long.</source>
-        <translation type="unfinished">Lösenordet måste vara minst %1 tecken.</translation>
+        <translation>Lösenordet måste vara minst %1 tecken.</translation>
     </message>
     <message>
         <source>Invalid reference in &amp;lt;embed&amp;gt; tag. Note that &lt;embed&gt; tag supports only &apos;eznode&apos; and &apos;ezobject&apos; protocols.</source>
-        <translation type="unfinished">Ogiltig referens i &amp;lt;embed&amp;gt; taggen. Notera att &lt;embed&gt; tag bara stöder &apos;eznode&apos; och &apos;ezobject&apos;-protokoll.</translation>
+        <translation>Ogiltig referens i &amp;lt;embed&amp;gt; taggen. Notera att &lt;embed&gt; tag bara stödjer &apos;eznode&apos; och &apos;ezobject&apos;-protokoll.</translation>
     </message>
     <message>
         <source>The ISBN number is not correct. </source>
-        <translation type="unfinished">ISBN-numret är inte korrekt.</translation>
+        <translation>ISBN-numret är inte korrekt.</translation>
     </message>
     <message>
         <source>13 digit ISBN must start with 978 or 979</source>
-        <translation type="unfinished">13-siffrigt ISBN måste starta med 978 eller 979</translation>
+        <translation>13-siffrigt ISBN måste starta med 978 eller 979</translation>
     </message>
     <message>
         <source>ISBN length is invalid</source>
-        <translation type="unfinished">Ogiltig längd på ISBN</translation>
+        <translation>Ogiltig längd på ISBN</translation>
     </message>
     <message>
         <source>Email</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">E-post</translation>
+        <translation>E-post</translation>
     </message>
     <message>
         <source>The registrant element of the ISBN number does not exist.</source>
-        <translation type="unfinished">Elementet som registrerar ISBN-numret finns inte.</translation>
+        <translation>Elementet som registrerar ISBN-numret finns inte.</translation>
     </message>
     <message>
         <source>The ISBN number has a incorrect registration group number.</source>
-        <translation type="unfinished">ISBN-numret har fel registreringsgruppnummer.</translation>
+        <translation>ISBN-numret har fel registreringsgruppnummer.</translation>
     </message>
     <message>
         <source>The group element of the ISBN number does not exist.</source>
-        <translation type="unfinished">ISBN-numrets gruppelement finns inte.</translation>
+        <translation>ISBN-numrets gruppelement finns inte.</translation>
     </message>
     <message>
         <source>%1 is not a valid prefix of the ISBN number.</source>
-        <translation type="unfinished">%1 är inte ett giltigt prefix för ISBN-numret.</translation>
+        <translation>%1 är inte ett giltigt prefix för ISBN-numret.</translation>
     </message>
     <message>
         <source>All ISBN 13 characters need to be numeric</source>
-        <translation type="unfinished">Alla ISBN 13 tecken måste vara numeriska</translation>
+        <translation>Alla ISBN 13 tecken måste vara numeriska</translation>
     </message>
     <message>
         <source>Bad checksum, last digit should be %1</source>
-        <translation type="unfinished">Ogiltig checksumma, sista siffran bör vara %1</translation>
+        <translation>Ogiltig checksumma, sista siffran bör vara %1</translation>
     </message>
     <message>
         <source>The ISBN number should be ISBN13, but seems to be ISBN10.</source>
-        <translation type="unfinished">ISBN-numret bör vara ISBN13, men tycks vara ISBN10.</translation>
+        <translation>ISBN-numret bör vara ISBN13, men tycks vara ISBN10.</translation>
     </message>
     <message>
         <source>Multi-option2</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Multi-val2</translation>
+        <translation>Multi-val2</translation>
     </message>
     <message>
         <source>You cannot choose option value &quot;%1&quot; from &quot;%2&quot; because it is unselectable </source>
-        <translation type="unfinished">Du kan inte välja alternativsvärde &quot;%1&quot; från &quot;%2&quot; eftersom det inte kan väljas</translation>
+        <translation>Du kan inte välja alternativsvärde &quot;%1&quot; från &quot;%2&quot; eftersom det inte kan väljas</translation>
     </message>
     <message>
         <source>You cannot choose option value &quot;%1&quot; from &quot;%2&quot;  
  if you selected option &quot;%3&quot; from &quot;%4&quot; </source>
-        <translation type="unfinished">Du kan inte välja alternativsvärde &quot;%1&quot; från &quot;%2&quot;  
+        <translation>Du kan inte välja alternativsvärde &quot;%1&quot; från &quot;%2&quot;  
 om du valde alternativ &quot;%3&quot; från &quot;%4&quot;</translation>
     </message>
     <message>
         <source>The password must not be &quot;password&quot;.</source>
-        <translation type="unfinished">Lösenordet får inte vara &quot;lösenord&quot;.</translation>
+        <translation>Lösenordet får inte vara &quot;lösenord&quot;.</translation>
     </message>
     <message>
         <source>The account is currently used the administrator user.</source>
-        <translation type="unfinished">Kontot används av administratörsanvändaren.</translation>
+        <translation>Kontot används av administratörsanvändaren.</translation>
     </message>
     <message>
         <source>You cannot remove the last class holding user accounts.</source>
-        <translation type="unfinished">Du kan inte ta bort sista klassen som innehåller användarkonton.</translation>
+        <translation>Du kan inte ta bort sista klassen som innehåller användarkonton.</translation>
     </message>
     <message>
         <source>Missing email input.</source>
-        <translation type="unfinished"></translation>
+        <translation>Saknar e-postinmatning.</translation>
     </message>
     <message>
         <source>Input required</source>
-        <translation type="unfinished"></translation>
+        <translation>Ifyllnad krävs</translation>
     </message>
     <message>
         <source>The password cannot be empty.</source>
         <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Lösenordet får inte vara tomt.</translation>
     </message>
     <message>
         <source>The emails do not match.</source>
         <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
+        <translation>E-posten matchar inte.</translation>
     </message>
 </context>
 <context>
     <name>kernel/classes/datatypes/ezbinaryfile</name>
     <message>
         <source>Failed to store file %filename. Please contact the site administrator.</source>
-        <translation type="unfinished">Misslyckades att spara filen %filename. Vänligen kontakta sidadministratören.</translation>
+        <translation>Misslyckades att spara filen %filename. Vänligen kontakta webbadministratören.</translation>
     </message>
 </context>
 <context>
     <name>kernel/classes/datatypes/ezimage</name>
     <message>
         <source>Failed to fetch Image Handler. Please contact the site administrator.</source>
-        <translation type="unfinished">Misslyckades att hämta bildhanterare. Vänligen kontakta administratören.</translation>
+        <translation>Misslyckades att hämta bildhanterare. Vänligen kontakta webbadministratören.</translation>
     </message>
 </context>
 <context>
     <name>kernel/classes/datatypes/ezmedia</name>
     <message>
         <source>Failed to store media file %filename. Please contact the site administrator.</source>
-        <translation type="unfinished">Misslyckades att spara mediafilen %filename. Vänligen kontakta adminstratören.</translation>
+        <translation>Misslyckades att spara mediafilen %filename. Vänligen kontakta webbadminstratören.</translation>
     </message>
 </context>
 <context>
     <name>kernel/classes/datatypes/ezxmltext</name>
     <message>
         <source>Wrong closing tag : &amp;lt;/%1&amp;gt;.</source>
-        <translation type="unfinished">Fel sluttagg: &amp;lt;/%1&amp;gt;.</translation>
+        <translation>Fel sluttagg: &amp;lt;/%1&amp;gt;.</translation>
     </message>
     <message>
         <source>Unknown tag: &amp;lt;%1&amp;gt;.</source>
-        <translation type="unfinished">Okänd tagg: &amp;lt;%1&amp;gt;.</translation>
+        <translation>Okänd tagg: &amp;lt;%1&amp;gt;.</translation>
     </message>
     <message>
         <source>Can&apos;t convert tag&apos;s name: &amp;lt;%1&amp;gt;.</source>
-        <translation type="unfinished">Kan inte konvertera taggnamn: &amp;lt;%1&amp;gt;.</translation>
+        <translation>Kan inte konvertera taggnamn: &amp;lt;%1&amp;gt;.</translation>
     </message>
     <message>
         <source>Required attribute &apos;%1&apos; is not presented in tag &amp;lt;%2&amp;gt;.</source>
-        <translation type="unfinished">Obligatoriska attributen &apos;%1&apos; presenteras inte i taggen &amp;lt;%2&amp;gt;.</translation>
+        <translation>Obligatoriska attributen &apos;%1&apos; presenteras inte i taggen &amp;lt;%2&amp;gt;.</translation>
     </message>
     <message>
         <source>%1 is not allowed to be a child of &amp;lt;%2&amp;gt;.</source>
-        <translation type="unfinished">%1 får inte vara ett underobjekt till &amp;lt;%2&amp;gt;.</translation>
+        <translation>%1 får inte vara ett underobjekt till &amp;lt;%2&amp;gt;.</translation>
     </message>
     <message>
         <source>Attribute &apos;%1&apos; is not allowed in &amp;lt;%2&amp;gt; element.</source>
-        <translation type="unfinished">Attribut &apos;%1&apos; får inte finnas i &amp;lt;%2&amp;gt; -element.</translation>
+        <translation>Attribut &apos;%1&apos; får inte finnas i &amp;lt;%2&amp;gt; -element.</translation>
     </message>
     <message>
         <source>Class &apos;%1&apos; is not allowed for element &amp;lt;%2&amp;gt; (check content.ini).</source>
-        <translation type="unfinished">Klass &apos;%1&apos; är inte tillåten för element &amp;lt;%2&amp;gt; (kontrollera content.ini).</translation>
+        <translation>Klass &apos;%1&apos; är inte tillåten för element &amp;lt;%2&amp;gt; (kontrollera content.ini).</translation>
     </message>
     <message>
         <source>Wrong closing tag</source>
-        <translation type="unfinished">Fel sluttagg</translation>
+        <translation>Fel sluttagg</translation>
     </message>
     <message>
         <source>Wrong opening tag</source>
-        <translation type="unfinished">Fel inledande tagg</translation>
+        <translation>Fel inledande tagg</translation>
     </message>
     <message>
         <source>Custom tag &apos;%1&apos; is not allowed.</source>
-        <translation type="unfinished">Special tagg &apos;%1&apos; är inte tillåten.</translation>
+        <translation>Special tagg &apos;%1&apos; är inte tillåten.</translation>
     </message>
     <message>
         <source>&amp;lt;%1&amp;gt; tag can&apos;t be empty.</source>
-        <translation type="unfinished">&amp;lt;%1&amp;gt; -taggen får inte vara tom.</translation>
+        <translation>&amp;lt;%1&amp;gt; -taggen får inte vara tom.</translation>
     </message>
     <message>
         <source>Incorrect headers nesting</source>
-        <translation type="unfinished">Felaktig sidhuvudinkapsling</translation>
+        <translation>Felaktig sidhuvudinkapsling</translation>
     </message>
     <message>
         <source>Node &apos;%1&apos; does not exist.</source>
-        <translation type="unfinished">Noden &apos;%1&apos; existerar inte.</translation>
+        <translation>Noden &apos;%1&apos; existerar inte.</translation>
     </message>
     <message>
         <source>Using scripts in links is not allowed, link &apos;%1&apos; has been removed</source>
-        <translation type="unfinished">Förbjudet att använda scripts i länkar. Länken &apos;%1&apos; har tagits bort</translation>
+        <translation>Förbjudet att använda scripts i länkar. Länken &apos;%1&apos; har tagits bort</translation>
     </message>
     <message>
         <source>Invalid e-mail address: &apos;%1&apos;</source>
-        <translation type="unfinished">Ogiltig e-postadress: &apos;%1&apos;</translation>
+        <translation>Ogiltig e-postadress: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Object %1 can not be embeded to itself.</source>
-        <translation type="unfinished">Objektet %1 kan inte läggas till sig själv.</translation>
+        <translation>Objektet %1 kan inte läggas till sig själv.</translation>
     </message>
     <message>
         <source>%count invalid character(s) have been found and replaced by a space</source>
@@ -26930,7 +26931,7 @@ om du valde alternativ &quot;%3&quot; från &quot;%4&quot;</translation>
     <name>kernel/collaboration</name>
     <message>
         <source>Collaboration custom action</source>
-        <translation type="unfinished">Egen handling</translation>
+        <translation>Egen handling</translation>
     </message>
     <message>
         <source>Collaboration</source>
@@ -26945,59 +26946,59 @@ om du valde alternativ &quot;%3&quot; från &quot;%4&quot;</translation>
     </message>
     <message>
         <source>Advanced</source>
-        <translation type="unfinished">Avancerad</translation>
+        <translation>Avancerat</translation>
     </message>
     <message>
         <source>No main node selected, please select one.</source>
-        <translation type="unfinished">Ingen huvudnod vald, var god välj en.</translation>
+        <translation>Ingen huvudnod vald, var god välj en.</translation>
     </message>
     <message>
         <source>Content</source>
-        <translation type="unfinished">Innehåll</translation>
+        <translation>Innehåll</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Kopiera</translation>
+        <translation>Kopiera</translation>
     </message>
     <message>
         <source>My drafts</source>
-        <translation type="unfinished">Mina utkast</translation>
+        <translation>Mina utkast</translation>
     </message>
     <message>
         <source>Remove editing version</source>
-        <translation type="unfinished">Ta bort redigeringsversion</translation>
+        <translation>Ta bort redigeringsversion</translation>
     </message>
     <message>
         <source>Remove object</source>
-        <translation type="unfinished">Ta bort objekt</translation>
+        <translation>Ta bort objekt</translation>
     </message>
     <message>
         <source>Tip from %1: %2</source>
-        <translation type="unfinished">Tips från %1:%2</translation>
+        <translation>Tips från %1:%2</translation>
     </message>
     <message>
         <source>The email address of the sender is not valid</source>
-        <translation type="unfinished">Sändarens emailadress är ogiltig</translation>
+        <translation>Sändarens emailadress är ogiltig</translation>
     </message>
     <message>
         <source>The email address of the receiver is not valid</source>
-        <translation type="unfinished">Mottagarens emailadress är ogiltig</translation>
+        <translation>Mottagarens emailadress är ogiltig</translation>
     </message>
     <message>
         <source>Tip a friend</source>
-        <translation type="unfinished">Tips en vän</translation>
+        <translation>Tips en vän</translation>
     </message>
     <message>
         <source>Translation</source>
-        <translation type="unfinished">Översättning</translation>
+        <translation>Översättning</translation>
     </message>
     <message>
         <source>Content translations</source>
-        <translation type="unfinished">Innehållsöversättningar</translation>
+        <translation>Innehållsöversättningar</translation>
     </message>
     <message>
         <source>Trash</source>
-        <translation type="unfinished">Skräp</translation>
+        <translation>Papperskorg</translation>
     </message>
     <message>
         <source>Versions</source>
@@ -27005,55 +27006,55 @@ om du valde alternativ &quot;%3&quot; från &quot;%4&quot;</translation>
     </message>
     <message>
         <source>My bookmarks</source>
-        <translation type="unfinished">Mina bokmärken</translation>
+        <translation>Mina bokmärken</translation>
     </message>
     <message>
         <source>My pending list</source>
-        <translation type="unfinished">Min avvaktande-lista</translation>
+        <translation>Min avvaktande-lista</translation>
     </message>
     <message>
         <source>Keywords</source>
-        <translation type="unfinished">Nyckelord</translation>
+        <translation>Nyckelord</translation>
     </message>
     <message>
         <source>Media</source>
-        <translation type="unfinished">Media</translation>
+        <translation>Media</translation>
     </message>
     <message>
         <source>New content</source>
-        <translation type="unfinished">Nytt innehåll</translation>
+        <translation>Nytt innehåll</translation>
     </message>
     <message>
         <source>Remove location</source>
-        <translation type="unfinished">Radera plats</translation>
+        <translation>Radera plats</translation>
     </message>
     <message>
         <source>You are not allowed to place this object under: %1</source>
-        <translation type="unfinished">Du har inte rättigheter att lägga detta objekt under %1</translation>
+        <translation>Du är inte behörig att lägga detta objekt under %1</translation>
     </message>
     <message>
         <source>Top Level Nodes</source>
-        <translation type="unfinished">ToppnivåNoder</translation>
+        <translation>ToppnivåNoder</translation>
     </message>
     <message>
         <source>Hidden</source>
-        <translation type="unfinished">Dold</translation>
+        <translation>Dold</translation>
     </message>
     <message>
         <source>Hidden by superior</source>
-        <translation type="unfinished">Dold genom överordnad</translation>
+        <translation>Dold genom överordnad</translation>
     </message>
     <message>
         <source>Visible</source>
-        <translation type="unfinished">Synlig</translation>
+        <translation>Synlig</translation>
     </message>
     <message>
         <source>A node in the node assignment list has been deleted.</source>
-        <translation type="unfinished">En nod i nodtilldelningslistan har raderats.</translation>
+        <translation>En nod i nodtilldelningslistan har raderats.</translation>
     </message>
     <message>
         <source>&quot;$contentObjectName&quot;: Sub items that are used by other objects</source>
-        <translation type="unfinished">&quot;$contentObjectName&quot;: Underobjekt som används av andra objekt</translation>
+        <translation>&quot;$contentObjectName&quot;: Underobjekt som används av andra objekt</translation>
     </message>
     <message>
         <source>Differences</source>
@@ -27061,75 +27062,75 @@ om du valde alternativ &quot;%3&quot; från &quot;%4&quot;</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Redigera</translation>
+        <translation>Redigera</translation>
     </message>
     <message>
         <source>Remove translation</source>
-        <translation type="unfinished">Ta bort översättning</translation>
+        <translation>Ta bort översättning</translation>
     </message>
     <message>
         <source>Languages</source>
-        <translation type="unfinished">Språk</translation>
+        <translation>Språk</translation>
     </message>
     <message>
         <source>Class identifier</source>
-        <translation type="unfinished">Klassidentifierare</translation>
+        <translation>Klassidentifierare</translation>
     </message>
     <message>
         <source>Class name</source>
-        <translation type="unfinished">Klassnamn</translation>
+        <translation>Klassnamn</translation>
     </message>
     <message>
         <source>Depth</source>
-        <translation type="unfinished">Djup</translation>
+        <translation>Djup</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation type="unfinished">Modifierad</translation>
+        <translation>Modifierad</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Namn</translation>
+        <translation>Namn</translation>
     </message>
     <message>
         <source>Path String</source>
-        <translation type="unfinished">Sökvägsträng</translation>
+        <translation>Sökväg</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation type="unfinished">Prioritet</translation>
+        <translation>Prioritet</translation>
     </message>
     <message>
         <source>Published</source>
-        <translation type="unfinished">Publicerad</translation>
+        <translation>Publicerad</translation>
     </message>
     <message>
         <source>Section</source>
-        <translation type="unfinished">Sektion</translation>
+        <translation>Sektion</translation>
     </message>
     <message>
         <source>History</source>
-        <translation type="unfinished">Historik</translation>
+        <translation>Historik</translation>
     </message>
     <message>
         <source>Version preview</source>
-        <translation type="unfinished">Förhandsgranska version</translation>
+        <translation>Förhandsgranska version</translation>
     </message>
     <message>
         <source>Copy subtree</source>
-        <translation type="unfinished">Kopiera underträd</translation>
+        <translation>Kopiera underträd</translation>
     </message>
     <message>
         <source>The receiver has already received the maximum number of tipafriend mails the last hours</source>
-        <translation type="unfinished">Mottagaren har redan mottagit maximalt antal &quot;tipsa-en-vän&quot;-e-poster de senaste timmarna</translation>
+        <translation>Mottagaren har redan mottagit maximalt antal &quot;tipsa-en-vän&quot; e-poster de senaste timmarna</translation>
     </message>
     <message>
         <source>You do not have enough rights to access the requested node</source>
-        <translation type="unfinished">Du är inte behörig att få tillgång till den valda noden</translation>
+        <translation>Du är inte behörig att få tillgång till den valda noden</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished">Fel</translation>
+        <translation>Fel</translation>
     </message>
     <message>
         <source>The request sent to the server was too big to be accepted. This probably means that you uploaded a file which was too big. The maximum allowed request size is %max_size_string.</source>
@@ -27137,7 +27138,7 @@ om du valde alternativ &quot;%3&quot; från &quot;%4&quot;</translation>
     </message>
     <message>
         <source>Dashboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Instrumentbräda</translation>
     </message>
     <message>
         <source>You have already sent a tipafriend mail to this receiver regarding &apos;%1&apos; content</source>
@@ -27156,63 +27157,63 @@ om du valde alternativ &quot;%3&quot; från &quot;%4&quot;</translation>
     </message>
     <message>
         <source>Fatal error: cannot get subtree main node (ID = %1).</source>
-        <translation type="unfinished">Ett allvarligt fel: kan inte ta fram underkategori för huvudnod (ID = %1).</translation>
+        <translation>Ett allvarligt fel: kan inte ta fram underkategori för huvudnod (ID = %1).</translation>
     </message>
     <message>
         <source>Fatal error: cannot get destination node (ID = %1).</source>
-        <translation type="unfinished">Ett allvarligt fel: kan inte ta fram målnod (ID = %1).</translation>
+        <translation>Ett allvarligt fel: kan inte ta fram målnod (ID = %1).</translation>
     </message>
     <message>
         <source>Number of nodes of source subtree - %1</source>
-        <translation type="unfinished">Antal noder på källträdet - %1</translation>
+        <translation>Antal noder på källträdet - %1</translation>
     </message>
     <message>
         <source>Subtree was not copied.</source>
-        <translation type="unfinished">Underträd kopierades inte.</translation>
+        <translation>Underträd kopierades inte.</translation>
     </message>
     <message>
         <source>Number of copied nodes - %1</source>
-        <translation type="unfinished">Antal kopierade noder - %1</translation>
+        <translation>Antal kopierade noder - %1</translation>
     </message>
     <message>
         <source>Number of copied contentobjects - %1</source>
-        <translation type="unfinished">Antal kopierade innehållsobjekt -  %1</translation>
+        <translation>Antal kopierade innehållsobjekt -  %1</translation>
     </message>
     <message>
         <source>Cannot create instance of eZDB to fix local links (related objects).</source>
-        <translation type="unfinished">Kan inte skapa instansen eZDB för att fixa lokala länkar (relaterade objekt).</translation>
+        <translation>Kan inte skapa instansen eZDB för att fixa lokala länkar (relaterade objekt).</translation>
     </message>
     <message>
         <source>You are trying to copy a subtree that contains more than the maximum possible nodes for subtree copying. You can copy this subtree using Subtree Copy script.</source>
-        <translation type="unfinished">Du försöker kopiera ett underträd som innehåller fler noder än möjligt för kopiering. Du kan kopiera det här underträdet geno att använda Underträds Kopiers skriptet.</translation>
+        <translation>Du försöker kopiera ett underträd som innehåller fler noder än möjligt för kopiering. Du kan kopiera det här underträdet genom att använda Underträds Kopiers skriptet.</translation>
     </message>
     <message>
         <source>Object (ID = %1) was not copied: you do not have permission to read the object.</source>
-        <translation type="unfinished">Objekt (ID = %1) kopierades inte: du är inte behörig att läsa objektet.</translation>
+        <translation>Objekt (ID = %1) kopierades inte: du är inte behörig att läsa objektet.</translation>
     </message>
     <message>
         <source>Node (ID = %1) was not copied: you do not have permission to read object (ID = %2).</source>
-        <translation type="unfinished">Noden (ID = %1) kopierades inte: du är inte behörig att läsa objekt (ID = %2).</translation>
+        <translation>Noden (ID = %1) kopierades inte: du är inte behörig att läsa objekt (ID = %2).</translation>
     </message>
     <message>
         <source>Node (ID = %1) was not copied: parent node (ID = %2) was not copied.</source>
-        <translation type="unfinished">Noden (ID = %1) kopierades inte: övernoden (ID = %2) kopierades inte.</translation>
+        <translation>Noden (ID = %1) kopierades inte: övernoden (ID = %2) kopierades inte.</translation>
     </message>
     <message>
         <source>Node (ID = %1) was not copied: you do not have permission to create.</source>
-        <translation type="unfinished">Noden (ID = %1) kopierades inte: du är inte behörig att skapa.</translation>
+        <translation>Noden (ID = %1) kopierades inte: du är inte behörig att skapa.</translation>
     </message>
     <message>
         <source>Object (ID = %1) was not copied: no one nodes of object was not copied.</source>
-        <translation type="unfinished">Objekt (ID = %1) kopierades inte: en nod av objektet kopierades inte.</translation>
+        <translation>Objekt (ID = %1) kopierades inte: en nod av objektet kopierades inte.</translation>
     </message>
     <message>
         <source>Successfully DONE.</source>
-        <translation type="unfinished">FÄRDIG utan fel.</translation>
+        <translation>FÄRDIG utan fel.</translation>
     </message>
     <message>
         <source>Cannot publish object (Name: %1, ID: %2).</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan inte publicera objekt (Name: %1, ID: %2).</translation>
     </message>
 </context>
 <context>
@@ -27239,101 +27240,101 @@ om du valde alternativ &quot;%3&quot; från &quot;%4&quot;</translation>
     <name>kernel/content/upload</name>
     <message>
         <source>The file %filename does not exist, cannot insert file.</source>
-        <translation type="unfinished">Filen %filename existerar inte, kan inte infoga fil.</translation>
+        <translation>Filen %filename existerar inte, kan inte infoga fil.</translation>
     </message>
     <message>
         <source>No matching class identifier found.</source>
-        <translation type="unfinished">Matchande klassidentifierare ej funnen.</translation>
+        <translation>Matchande klassidentifierare ej funnen.</translation>
     </message>
     <message>
         <source>The class %class_identifier does not exist.</source>
-        <translation type="unfinished">Klassen %class_dientifier existerar inte.</translation>
+        <translation>Klassen %class_dientifier existerar inte.</translation>
     </message>
     <message>
         <source>Was not able to figure out placement of object.</source>
-        <translation type="unfinished">Kunde inte hitta platsen på objektet.</translation>
+        <translation>Kunde inte hitta platsen på objektet.</translation>
     </message>
     <message>
         <source>No configuration group in upload.ini for class identifier %class_identifier.</source>
-        <translation type="unfinished">Ingen konfigurationsgrupp i upload.ini för klassidentifierare %class_identifier.</translation>
+        <translation>Ingen konfigurationsgrupp i upload.ini för klassidentifierare %class_identifier.</translation>
     </message>
     <message>
         <source>No matching file attribute found, cannot create content object without this.</source>
-        <translation type="unfinished">Inget matchande fil attribut hittat, kan inte skapa innehållsobjekt utan detta.</translation>
+        <translation>Inget matchande fil attribut hittat, kan inte skapa innehållsobjekt utan detta.</translation>
     </message>
     <message>
         <source>No matching name attribute found, cannot create content object without this.</source>
-        <translation type="unfinished">Ingen matchande namnattribut hittat, kan inte skapa innehållsobjekt utan detta.</translation>
+        <translation>Ingen matchande namnattribut hittat, kan inte skapa innehållsobjekt utan detta.</translation>
     </message>
     <message>
         <source>The attribute %class_identifier does not support regular file storage.</source>
-        <translation type="unfinished">Attributet %class_identifier kan inte användas vid vanlig filsparning.</translation>
+        <translation>Attributet %class_identifier kan inte användas vid vanlig filsparning.</translation>
     </message>
     <message>
         <source>The attribute %class_identifier does not support simple string storage.</source>
-        <translation type="unfinished">Attributet %class_identifier klarar inte av enkla strängar (simple string).</translation>
+        <translation>Attributet %class_identifier klarar inte av enkla strängar (simple string).</translation>
     </message>
     <message>
         <source>The attribute %class_identifier does not support HTTP file storage.</source>
-        <translation type="unfinished">Klassattributet %class_identifier kan inte spara HTTP filer.</translation>
+        <translation>Klassattributet %class_identifier kan inte spara HTTP filer.</translation>
     </message>
     <message>
         <source>Publishing of content object was halted.</source>
-        <translation type="unfinished">Publicering av innehållsobjektet avbröts.</translation>
+        <translation>Publicering av innehållsobjektet avbröts.</translation>
     </message>
     <message>
         <source>Publish process was cancelled.</source>
-        <translation type="unfinished">Publiceringen är avbruteten.</translation>
+        <translation>Publiceringen är avbruteten.</translation>
     </message>
     <message>
         <source>A file is required for upload, no file were found.</source>
-        <translation type="unfinished">Det krävs en fil för att ladda upp, ingen fil hittades.</translation>
+        <translation>Det krävs en fil för att ladda upp, ingen fil hittades.</translation>
     </message>
     <message>
         <source>Expected a eZHTTPFile object but got nothing.</source>
-        <translation type="unfinished">Förväntades ett eZHTTPFile objekt men fick ingenting.</translation>
+        <translation>Förväntades ett eZHTTPFile objekt men fick ingenting.</translation>
     </message>
     <message>
         <source>No HTTP file found, cannot fetch uploaded file.</source>
-        <translation type="unfinished">Ingen HTTP fil hittad, kan inte hämta uppladad fil.</translation>
+        <translation>Ingen HTTP fil hittad, kan inte hämta uppladad fil.</translation>
     </message>
     <message>
         <source>Permission denied</source>
-        <translation type="unfinished">Åtkomst nekad</translation>
+        <translation>Åtkomst nekad</translation>
     </message>
     <message>
         <source>There was an error trying to instantiate content upload handler.</source>
-        <translation type="unfinished">Det blev ett fel när exemplifieringen av uppladdningshanteringen skulle göras.</translation>
+        <translation>Det blev ett fel när exemplifieringen av uppladdningshanteringen skulle göras.</translation>
     </message>
     <message>
         <source>Could not find content upload handler &apos;%handler_name&apos;</source>
-        <translation type="unfinished">Kunde inte hitta innehållsuplladdningshaterare &apos;%handler_name&apos;</translation>
+        <translation>Kunde inte hitta innehållsuplladdningshaterare &apos;%handler_name&apos;</translation>
     </message>
     <message>
         <source>The size of the uploaded file exceeds the limit set for this site: %1 bytes.</source>
-        <translation type="unfinished">Den uppladdade filen överstiger gränsen för denna sida: %1 bytes.</translation>
+        <translation>Den uppladdade filen överstiger gränsen för denna sida: %1 bytes.</translation>
     </message>
     <message>
         <source>The uploaded file size is above the maximum limit.</source>
-        <translation type="unfinished"></translation>
+        <translation>Den uppladdade filen är större än maximal gräns.</translation>
     </message>
     <message>
         <source>A system error occured while writing the uploaded file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ett systemfel inträffade medan den uppladdade filen skrevs.</translation>
     </message>
 </context>
 <context>
     <name>kernel/content/urlalias_global</name>
     <message>
         <source>Global URL aliases</source>
-        <translation type="unfinished">Global URL-alias</translation>
+        <translation>Globala URL-alias</translation>
     </message>
 </context>
 <context>
     <name>kernel/content/urlalias_wildcard</name>
     <message>
         <source>URL wildcard aliases</source>
-        <translation type="unfinished">URL wildcard-alias</translation>
+        <translation>URL wildcard-alias</translation>
     </message>
 </context>
 <context>
@@ -27478,334 +27479,334 @@ om du valde alternativ &quot;%3&quot; från &quot;%4&quot;</translation>
     <name>kernel/package</name>
     <message>
         <source>Packages</source>
-        <translation type="unfinished">Paket</translation>
+        <translation>Paket</translation>
     </message>
     <message>
         <source>Upload</source>
-        <translation type="unfinished">Ladda upp</translation>
+        <translation>Ladda upp</translation>
     </message>
     <message>
         <source>Package information</source>
-        <translation type="unfinished">Paketsinformation</translation>
+        <translation>Paketsinformation</translation>
     </message>
     <message>
         <source>Package maintainer</source>
-        <translation type="unfinished">Pakets underhållare</translation>
+        <translation>Pakets underhållare</translation>
     </message>
     <message>
         <source>Package changelog</source>
-        <translation type="unfinished">Paketslogg</translation>
+        <translation>Paketslogg</translation>
     </message>
     <message>
         <source>Package thumbnail</source>
-        <translation type="unfinished">Paket miniatyr</translation>
+        <translation>Paket miniatyr</translation>
     </message>
     <message>
         <source>Package name</source>
-        <translation type="unfinished">Paketnamn</translation>
+        <translation>Paketnamn</translation>
     </message>
     <message>
         <source>Package name is missing</source>
-        <translation type="unfinished">Paketet saknar namn</translation>
+        <translation>Paketet saknar namn</translation>
     </message>
     <message>
         <source>A package named %packagename already exists, please give another name</source>
-        <translation type="unfinished">Ett paket med namnet %packagename finns redan, vänligen välj ett annat</translation>
+        <translation>Ett paket med namnet %packagename finns redan, vänligen välj ett annat</translation>
     </message>
     <message>
         <source>Summary</source>
-        <translation type="unfinished">Sammanfattning</translation>
+        <translation>Sammanfattning</translation>
     </message>
     <message>
         <source>Summary is missing</source>
-        <translation type="unfinished">Saknar summering</translation>
+        <translation>Saknar sammanfattning</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished">Version</translation>
+        <translation>Version</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Namn</translation>
+        <translation>Namn</translation>
     </message>
     <message>
         <source>You must enter a name for the changelog</source>
-        <translation type="unfinished">Du måste fylla i ett namn för ändringsloggen</translation>
+        <translation>Du måste fylla i ett namn för ändringsloggen</translation>
     </message>
     <message>
         <source>Changelog</source>
-        <translation type="unfinished">Ändringslogg</translation>
+        <translation>Ändringslogg</translation>
     </message>
     <message>
         <source>You must supply some text for the changelog entry</source>
-        <translation type="unfinished">Du måste fylla i en text för ändringsloggens inlägg</translation>
+        <translation>Du måste fylla i en text för ändringsloggens ingång</translation>
     </message>
     <message>
         <source>You must enter a name of the maintainer</source>
-        <translation type="unfinished">Du måste fylla i en e-postadress till administratören</translation>
+        <translation>Du måste fylla i en e-postadress till administratören</translation>
     </message>
     <message>
         <source>Content classes to include</source>
-        <translation type="unfinished">Innehållsklasser att inkludera</translation>
+        <translation>Innehållsklasser att inkludera</translation>
     </message>
     <message>
         <source>Content class export</source>
-        <translation type="unfinished">Innehållsklass exportering</translation>
+        <translation>Innehållsklass exportering</translation>
     </message>
     <message>
         <source>Class list</source>
-        <translation type="unfinished">Klasslista</translation>
+        <translation>Klasslista</translation>
     </message>
     <message>
         <source>You must select at least one class for inclusion</source>
-        <translation type="unfinished">Du måste minst välja en klass att inkludera</translation>
+        <translation>Du måste minst välja en klass att inkludera</translation>
     </message>
     <message>
         <source>CSS file</source>
-        <translation type="unfinished">CSS-fil</translation>
+        <translation>CSS-fil</translation>
     </message>
     <message>
         <source>Image files</source>
-        <translation type="unfinished">Bildfiler</translation>
+        <translation>Bildfiler</translation>
     </message>
     <message>
         <source>Site style</source>
-        <translation type="unfinished">Sajtstil</translation>
+        <translation>Sajtstil</translation>
     </message>
     <message>
         <source>File did not have a .css suffix, this is most likely not a CSS file</source>
-        <translation type="unfinished">Filen hade inte ändelsen .css, det är antagligen inte en CSS-fil</translation>
+        <translation>Filen hade inte ändelsen .css, det är antagligen inte en CSS-fil</translation>
     </message>
     <message>
         <source>Create package</source>
-        <translation type="unfinished">Skapa paket</translation>
+        <translation>Skapa paket</translation>
     </message>
     <message>
         <source>Install</source>
-        <translation type="unfinished">Installera</translation>
+        <translation>Installera</translation>
     </message>
     <message>
         <source>Uninstall</source>
-        <translation type="unfinished">Avinstallera</translation>
+        <translation>Avinstallera</translation>
     </message>
     <message>
         <source>Package %packagename already exists, cannot import the package</source>
-        <translation type="unfinished">Ett paket med namnet %packagename finns redan, kan därför inte importera paket</translation>
+        <translation>Ett paket med namnet %packagename finns redan, kan därför inte importera paket</translation>
     </message>
     <message>
         <source>Local</source>
-        <translation type="unfinished">Lokal</translation>
+        <translation>Lokal</translation>
     </message>
     <message>
         <source>The version must only contain numbers (optionally followed by text) and must be delimited by dots (.), e.g. 1.0, 3.4.0beta1</source>
-        <translation type="unfinished">Versionen måste innehålla nummer (och om så önskas av text) och måste separeras av punkter (.) ex. 1.0, 3.4.0beta1</translation>
+        <translation>Versionen måste innehålla nummer (och om så önskas av text) och måste separeras av punkter (.) ex. 1.0, 3.4.0beta1</translation>
     </message>
     <message>
         <source>Content objects to include</source>
-        <translation type="unfinished">Innehållsklasser att inkludera</translation>
+        <translation>Innehållsklasser att inkludera</translation>
     </message>
     <message>
         <source>Content object limits</source>
-        <translation type="unfinished">Innehållobjektsbegränsningar</translation>
+        <translation>Innehållobjektsbegränsningar</translation>
     </message>
     <message>
         <source>Content object export</source>
-        <translation type="unfinished">Innehållobjektsexportering</translation>
+        <translation>Innehållobjektsexportering</translation>
     </message>
     <message>
         <source>Selected nodes</source>
-        <translation type="unfinished">Valda noder</translation>
+        <translation>Valda noder</translation>
     </message>
     <message>
         <source>You must select one or more node(s)/subtree(s) for export.</source>
-        <translation type="unfinished">Du måste välja en eller fler nod(er)/underträd för exportering.</translation>
+        <translation>Du måste välja en eller fler nod(er)/underträd för exportering.</translation>
     </message>
     <message>
         <source>You must choose one or more languages.</source>
-        <translation type="unfinished">Du måste välja ett eller fler språk.</translation>
+        <translation>Du måste välja ett eller fler språk.</translation>
     </message>
     <message>
         <source>You must choose one or more site access.</source>
-        <translation type="unfinished">Du måste välja en eller fler sajtingångar.</translation>
+        <translation>Du måste välja en eller fler sajtingångar.</translation>
     </message>
     <message>
         <source>CSS files</source>
-        <translation type="unfinished">CSS-filer</translation>
+        <translation>CSS-filer</translation>
     </message>
     <message>
         <source>You must upload both CSS files</source>
-        <translation type="unfinished">Du måste ladda upp båda CSS-filerna</translation>
+        <translation>Du måste ladda upp båda CSS-filerna</translation>
     </message>
     <message>
         <source>Content object %objectname</source>
-        <translation type="unfinished">Innehållsobjekt %objectname</translation>
+        <translation>Innehållsobjekt %objectname</translation>
     </message>
     <message>
         <source>Site access mapping</source>
-        <translation type="unfinished">Sajtingångskartläggning</translation>
+        <translation>Sajtingångskartläggning</translation>
     </message>
     <message>
         <source>Top node placements</source>
-        <translation type="unfinished">Placering av toppnoder</translation>
+        <translation>Placering av toppnoder</translation>
     </message>
     <message>
         <source>Content object import</source>
-        <translation type="unfinished">Import av innehållsobjekt</translation>
+        <translation>Import av innehållsobjekt</translation>
     </message>
     <message>
         <source>Select parent nodes</source>
-        <translation type="unfinished">Välj övernoder</translation>
+        <translation>Välj övernoder</translation>
     </message>
     <message>
         <source>You must assign all nodes to new parent nodes.</source>
-        <translation type="unfinished">Du måste tilldela alla noder till övernoderna.</translation>
+        <translation>Du måste tilldela alla noder till övernoderna.</translation>
     </message>
     <message>
         <source>Lead</source>
-        <translation type="unfinished">Ledare</translation>
+        <translation>Ledare</translation>
     </message>
     <message>
         <source>Developer</source>
-        <translation type="unfinished">Utvecklare</translation>
+        <translation>Utvecklare</translation>
     </message>
     <message>
         <source>Designer</source>
-        <translation type="unfinished">Designer</translation>
+        <translation>Designer</translation>
     </message>
     <message>
         <source>Contributor</source>
-        <translation type="unfinished">Bidragsgivare</translation>
+        <translation>Bidragsgivare</translation>
     </message>
     <message>
         <source>Tester</source>
-        <translation type="unfinished">Testare</translation>
+        <translation>Testare</translation>
     </message>
     <message>
         <source>The package name %packagename is not valid, it can only contain characters in the range a-z, 0-9 and underscore.</source>
-        <translation type="unfinished">Paketnamnet %packagename är inte giltigt, namnet kan bara innehålla tecken mellan a-z, 0-9 och understreck.</translation>
+        <translation>Paketnamnet %packagename är inte giltigt, namnet kan bara innehålla tecken mellan a-z, 0-9 och understreck.</translation>
     </message>
     <message>
         <source>Extension export</source>
-        <translation type="unfinished">Tilläggsexport</translation>
+        <translation>Tilläggsexport</translation>
     </message>
     <message>
         <source>%number content objects</source>
-        <translation type="unfinished">%number innehållsobjekt</translation>
+        <translation>%number innehållsobjekt</translation>
     </message>
     <message>
         <source>Extension &apos;%extensionname&apos;</source>
-        <translation type="unfinished">Tillägg &apos;%extensionname&apos;</translation>
+        <translation>Tillägg &apos;%extensionname&apos;</translation>
     </message>
     <message>
         <source>Removing class &apos;%classname&apos; will result in the removal of %objectscount object(s) of this class and all their sub-items. Are you sure you want to uninstall it?</source>
-        <translation type="unfinished">Borttagning av klassen &apos;%classname&apos; innebär borttagning av %objectscount objekt i denna klass och dess underobjekt. Är du säker på att du vill avinstallera den?</translation>
+        <translation>Borttagning av klassen &apos;%classname&apos; innebär borttagning av %objectscount objekt i denna klass och dess underobjekt. Är du säker på att du vill avinstallera den?</translation>
     </message>
     <message>
         <source>Class &apos;%classname&apos; already exists.</source>
-        <translation type="unfinished">Klassen &apos;%classname&apos; finns redan.</translation>
+        <translation>Klassen &apos;%classname&apos; finns redan.</translation>
     </message>
     <message>
         <source>Replace existing class</source>
-        <translation type="unfinished">Ersätt befintlig klass</translation>
+        <translation>Ersätt befintlig klass</translation>
     </message>
     <message>
         <source>(Warning! $objectsCount content object(s) and their sub-items will be removed)</source>
-        <translation type="unfinished">(Varning! $objectsCount innehållsobjekt med tillhörande underobjekt tas bort)</translation>
+        <translation>(Varning! $objectsCount innehållsobjekt med tillhörande underobjekt tas bort)</translation>
     </message>
     <message>
         <source>Skip installing this class</source>
-        <translation type="unfinished">Hoppa över denna klass</translation>
+        <translation>Hoppa över installation av denna klass</translation>
     </message>
     <message>
         <source>Keep existing and create a new one</source>
-        <translation type="unfinished">Behåll befintlig och skapa en ny</translation>
+        <translation>Behåll befintlig och skapa en ny</translation>
     </message>
     <message>
         <source>Object &apos;%objectname&apos; has been modified since installation. Are you sure you want to remove it?</source>
-        <translation type="unfinished">Objektet &apos;%objectname&apos; har ändrats sedan installationen. Är du säker på att du vill ta bort det?</translation>
+        <translation>Objektet &apos;%objectname&apos; har ändrats sedan installationen. Är du säker på att du vill ta bort det?</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Ta bort</translation>
+        <translation>Ta bort</translation>
     </message>
     <message>
         <source>Keep object</source>
-        <translation type="unfinished">Behåll objekt</translation>
+        <translation>Behåll objekt</translation>
     </message>
     <message>
         <source>Object &apos;%objectname&apos; has %childrencount sub-item(s) that will be removed.</source>
-        <translation type="unfinished">Objektet &apos;%objectname&apos; har %childrencount underobjekt som tas bort.</translation>
+        <translation>Objektet &apos;%objectname&apos; har %childrencount underobjekt som tas bort.</translation>
     </message>
     <message>
         <source>Extension &apos;%extensionname&apos; already exists.</source>
-        <translation type="unfinished">Tillägget &apos;%extensionname&apos; finns redan.</translation>
+        <translation>Tillägget &apos;%extensionname&apos; finns redan.</translation>
     </message>
     <message>
         <source>Replace extension</source>
-        <translation type="unfinished">Ersätt tillägg</translation>
+        <translation>Ersätt tillägg</translation>
     </message>
     <message>
         <source>Skip</source>
-        <translation type="unfinished">Hoppa över</translation>
+        <translation>Hoppa över</translation>
     </message>
     <message>
         <source>Install script: %description</source>
-        <translation type="unfinished">Installera script: %description</translation>
+        <translation>Installera script: %description</translation>
     </message>
     <message>
         <source>Content class &apos;%classname&apos; (%classidentifier)</source>
-        <translation type="unfinished">Innehållsklassen &apos;%classname&apos; (%classidentifier)</translation>
+        <translation>Innehållsklassen &apos;%classname&apos; (%classidentifier)</translation>
     </message>
     <message>
         <source>Email</source>
-        <translation type="unfinished">E-post</translation>
+        <translation>E-post</translation>
     </message>
     <message>
         <source>You must enter an email for the changelog</source>
-        <translation type="unfinished">Du måst ange en e-post för ändringsloggen</translation>
+        <translation>Du måst ange en e-post för ändringsloggen</translation>
     </message>
     <message>
         <source>You must enter an email address of the maintainer</source>
-        <translation type="unfinished">Du måste fylla i en e-postadress till administratören</translation>
+        <translation>Du måste fylla i en e-postadress till administratören</translation>
     </message>
     <message>
         <source>Extensions to include</source>
-        <translation type="unfinished">Tillägg att inkludera</translation>
+        <translation>Tillägg att inkludera</translation>
     </message>
     <message>
         <source>Extension list</source>
-        <translation type="unfinished">Tilläggslista</translation>
+        <translation>Tilläggslista</translation>
     </message>
     <message>
         <source>You must select at least one extension</source>
-        <translation type="unfinished">Du måste välja minst ett tillägg</translation>
+        <translation>Du måste välja minst ett tillägg</translation>
     </message>
     <message>
         <source>Remove object and its sub-item(s)</source>
-        <translation type="unfinished">Ta bort objekt och dess underobjekt</translation>
+        <translation>Ta bort objekt och dess underobjekt</translation>
     </message>
     <message>
         <source>Package contains an invalid extension name: %extensionname</source>
-        <translation type="unfinished"></translation>
+        <translation>Paketet innehåller ett ogiltigt tilläggsnamn: %extensionname</translation>
     </message>
     <message>
         <source>Advanced options</source>
-        <translation type="unfinished"></translation>
+        <translation>Avancerade alternativ</translation>
     </message>
     <message>
         <source>The package name %packagename is invalid, cannot import the package</source>
-        <translation type="unfinished"></translation>
+        <translation>Paketnamnet %packagename är ogiltigt, kan inte importera paketet</translation>
     </message>
 </context>
 <context>
     <name>kernel/pdf</name>
     <message>
         <source>PDF Export</source>
-        <translation type="unfinished">PDF-export</translation>
+        <translation>PDF-exportering</translation>
     </message>
     <message>
         <source>An export with such filename already exists.</source>
-        <translation type="unfinished">En export med samma filnamn finns redan.</translation>
+        <translation>En export med samma filnamn finns redan.</translation>
     </message>
 </context>
 <context>
@@ -27850,52 +27851,52 @@ om du valde alternativ &quot;%3&quot; från &quot;%4&quot;</translation>
     </message>
     <message>
         <source>Limit on section</source>
-        <translation type="unfinished"></translation>
+        <translation>Begränsning av val</translation>
     </message>
 </context>
 <context>
     <name>kernel/role/edit</name>
     <message>
         <source>New role</source>
-        <translation type="unfinished">Ny roll</translation>
+        <translation>Ny roll</translation>
     </message>
     <message>
         <source>Copy of %rolename</source>
-        <translation type="unfinished">Kopia av %rolename</translation>
+        <translation>Kopia av %rolename</translation>
     </message>
 </context>
 <context>
     <name>kernel/rss</name>
     <message>
         <source>Really Simple Syndication</source>
-        <translation type="unfinished">Really Simple Syndication</translation>
+        <translation>Really Simple Syndication</translation>
     </message>
     <message>
         <source>New RSS Export</source>
-        <translation type="unfinished">Ny RSS-exportering</translation>
+        <translation>Ny RSS-exportering</translation>
     </message>
     <message>
         <source>New RSS Import</source>
-        <translation type="unfinished">Ny RSS-importering</translation>
+        <translation>Ny RSS-importering</translation>
     </message>
 </context>
 <context>
     <name>kernel/rss/edit_export</name>
     <message>
         <source>Invalid selection for title class %1 does not have attribute &quot;%2&quot;</source>
-        <translation type="unfinished">Ogiltigt urval för titelklassen %1 har inte attributen &quot;%2&quot;</translation>
+        <translation>Ogiltigt urval för titelklassen %1 har inte attributen &quot;%2&quot;</translation>
     </message>
     <message>
         <source>Invalid selection for description class %1 does not have attribute &quot;%2&quot;</source>
-        <translation type="unfinished">Ogiltigt urval för beskrivningsklassen %1 har inte attributen &quot;%2&quot;</translation>
+        <translation>Ogiltigt urval för beskrivningsklassen %1 har inte attributen &quot;%2&quot;</translation>
     </message>
     <message>
         <source>Selected class does not exist</source>
-        <translation type="unfinished">Vald klass finns inte</translation>
+        <translation>Vald klass finns inte</translation>
     </message>
     <message>
         <source>Invalid selection for category class %1 does not have attribute &quot;%2&quot;</source>
-        <translation type="unfinished">Ogiltigt urval för kategorilklassen %1 har inte attributen &quot;%2&quot;</translation>
+        <translation>Ogiltigt urval för kategoriklassen %1 har inte attributen &quot;%2&quot;</translation>
     </message>
 </context>
 <context>
@@ -28147,35 +28148,35 @@ om du valde alternativ &quot;%3&quot; från &quot;%4&quot;</translation>
     </message>
     <message>
         <source>eZExchangeRatesUpdateHandler: you should reimplement &apos;requestRates&apos; method</source>
-        <translation type="unfinished">eZExchangeRatesUpdateHandler: du bör implementera &apos;requestRates&apos;-metod igen</translation>
+        <translation>eZExchangeRatesUpdateHandler: du bör implementera &apos;requestRates&apos;-metod igen</translation>
     </message>
     <message>
         <source>&apos;Auto&apos; prices were updated successfully.</source>
-        <translation type="unfinished">&apos;Auto&apos;-priser har uppdaterats.</translation>
+        <translation>&apos;Auto&apos;-priser har uppdaterats.</translation>
     </message>
     <message>
         <source>&apos;Auto&apos; rates were updated successfully.</source>
-        <translation type="unfinished">&apos;Auto&apos;-priser har uppdaterats.</translation>
+        <translation>&apos;Auto&apos;-priser har uppdaterats.</translation>
     </message>
     <message>
         <source>Unable to calculate cross-rate for currency-pair &apos;%1&apos;/&apos;%2&apos;</source>
-        <translation type="unfinished">Kunde inte korskalkylera kurser för valutapar &apos;%1&apos;/&apos;%2&apos;</translation>
+        <translation>Kunde inte korskalkylera kurser för valutapar &apos;%1&apos;/&apos;%2&apos;</translation>
     </message>
     <message>
         <source>Unable to determine currency for retrieved rates.</source>
-        <translation type="unfinished">Kunde inte fastställa valuta för hämtade kurser.</translation>
+        <translation>Kunde inte fastställa valuta för hämtade kurser.</translation>
     </message>
     <message>
         <source>Retrieved empty list of rates.</source>
-        <translation type="unfinished">Hämtade tom kurslista.</translation>
+        <translation>Hämtade tom kurslista.</translation>
     </message>
     <message>
         <source>Unable to create handler to update auto rates.</source>
-        <translation type="unfinished">Kunde inte skapa hanterare för uppdatering av autokurser.</translation>
+        <translation>Kunde inte skapa hanterare för uppdatering av autokurser.</translation>
     </message>
     <message>
         <source>Changes were stored successfully.</source>
-        <translation type="unfinished">Ändringarna har sparats.</translation>
+        <translation>Ändringarna har sparats.</translation>
     </message>
     <message>
         <source>&apos;%value&apos; is not a valid custom rate value (positive number expected)</source>
@@ -28312,14 +28313,14 @@ om du valde alternativ &quot;%3&quot; från &quot;%4&quot;</translation>
     </message>
     <message>
         <source>State</source>
-        <translation type="unfinished"></translation>
+        <translation>status</translation>
     </message>
 </context>
 <context>
     <name>kernel/state/edit</name>
     <message>
         <source>Identifier: input required</source>
-        <translation type="unfinished"></translation>
+        <translation>Identifierare: ifyllnad krävs</translation>
     </message>
     <message>
         <source>Identifier: invalid, it can only consist of characters in the range a-z, 0-9 and underscore.</source>
@@ -28351,11 +28352,11 @@ om du valde alternativ &quot;%3&quot; från &quot;%4&quot;</translation>
     </message>
     <message>
         <source>Name in %language_name is too long. Maximum 45 characters allowed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Namn på %language_name är för långt. Max 45 tecken tillåts.</translation>
     </message>
     <message>
         <source>Name in %language_name: input required</source>
-        <translation type="unfinished"></translation>
+        <translation>Namn på %language_name: ifyllnad krävs</translation>
     </message>
 </context>
 <context>

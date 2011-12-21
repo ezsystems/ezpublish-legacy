@@ -360,8 +360,6 @@ class eZStaticCache implements ezpStaticCache
      */
     private function storeCache( $url, $staticStorageDir, $alternativeStaticLocations = array(), $skipUnlink = false, $delay = true )
     {
-        $http = eZHTTPTool::instance();
-
         $dirs = array();
 
         foreach ( $this->cachedSiteAccesses as $cachedSiteAccess )
@@ -410,8 +408,8 @@ class eZStaticCache implements ezpStaticCache
                             // Generate content, if required
                             if ( $content === false )
                             {
-                                if ( $http->getDataByURL( $fileName, true, eZStaticCache::USER_AGENT ) )
-                                    $content = $http->getDataByURL( $fileName, false, eZStaticCache::USER_AGENT );
+                                if ( eZHTTPTool::getDataByURL( $fileName, true, eZStaticCache::USER_AGENT ) )
+                                    $content = eZHTTPTool::getDataByURL( $fileName, false, eZStaticCache::USER_AGENT );
                             }
                             if ( $content === false )
                             {
@@ -594,8 +592,6 @@ class eZStaticCache implements ezpStaticCache
             $db = eZDB::instance();
         }
 
-        $http = eZHTTPTool::instance();
-
         foreach ( self::$actionList as $action )
         {
             list( $action, $parameters ) = $action;
@@ -617,8 +613,8 @@ class eZStaticCache implements ezpStaticCache
                     {
                         if ( !isset( $fileContentCache[$source] ) )
                         {
-                            if ( $http->getDataByURL( $source, true, eZStaticCache::USER_AGENT ) )
-                                $fileContentCache[$source] = $http->getDataByURL( $source, false, eZStaticCache::USER_AGENT );
+                            if ( eZHTTPTool::getDataByURL( $source, true, eZStaticCache::USER_AGENT ) )
+                                $fileContentCache[$source] = eZHTTPTool::getDataByURL( $source, false, eZStaticCache::USER_AGENT );
                             else
                                 $fileContentCache[$source] = false;
                         }

@@ -1,0 +1,22 @@
+Event system
+============
+
+Intro
+-----
+See 4.5/event.txt for full information on this feature
+
+
+Signature of filters
+-------------------
+{@see ezpEvent->filter()}
+
+New filter added:
+
+response/preoutput  ( string $templateResult )
+
+Note: this filter 'response/preoutput' is triggered before the report,
+which is printed at the end of the page, when debug is activated.
+That way, you can use accumulator or append debug report
+in your callback, they will appear in the final debug report
+(at the opposite of response/output filter which is triggered at the very end,
+after the report...)

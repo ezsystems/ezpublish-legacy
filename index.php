@@ -176,17 +176,17 @@ function eZDBCleanup()
 function eZFatalError()
 {
     header("HTTP/1.1 500 Internal Server Error");
-    print( "<b>Fatal error</b>: eZ Publish did not finish its request<br/>" );
+    print( "<b>Fatal error</b>: The web server did not finish its request<br/>" );
     if ( ini_get('display_errors') == 1 )
     {
         if ( eZDebug::isDebugEnabled() )
             print( "<p>The execution of eZ Publish was abruptly ended, the debug output is present below.</p>" );
         else
-            print( "<p>The execution of eZ Publish was abruptly ended, debug information can be found in the log files normally placed in var/log/* or by enabling 'DebugOutput'</p>" );
+            print( "<p>Debug information can be found in the log files normally placed in var/log/* or by enabling 'DebugOutput' in site.ini</p>" );
     }
     else
     {
-        print( "<p>The execution of eZ Publish was abruptly ended. Contact website owner with current url and what you did, and owner will be able to debug the issue further(by enabling 'display_errors' and optionally 'DebugOutput').</p>" );
+        print( "<p>Contact website owner with current url and info on what you did, and owner will be able to debug the issue further (by enabling 'display_errors' in php.ini).</p>" );
     }
     $templateResult = null;
     eZDisplayResult( $templateResult );
@@ -246,6 +246,7 @@ function eZDisplayResult( $templateResult )
         {
             $templateResult = call_user_func( array ( $classname, 'filter' ), $templateResult );
         }
+        $templateResult = ezpEvent::getInstance()->filter( 'response/preoutput', $templateResult );
         $debugMarker = '<!--DEBUG_REPORT-->';
         $pos = strpos( $templateResult, $debugMarker );
         if ( $pos !== false )

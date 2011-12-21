@@ -82,6 +82,7 @@ class eZUser extends eZPersistentObject
                       'keys' => array( 'contentobject_id' ),
                       'sort' => array( 'contentobject_id' => 'asc' ),
                       'function_attributes' => array( 'contentobject' => 'contentObject',
+                                                      'account_key' => 'accountKey',
                                                       'groups' => 'groups',
                                                       'has_stored_login' => 'hasStoredLogin',
                                                       'original_password' => 'originalPassword',
@@ -284,6 +285,31 @@ class eZUser extends eZPersistentObject
                                                   null,
                                                   array( 'LOWER( email )' => strtolower( $email ) ),
                                                   $asObject );
+    }
+
+    /**
+     * Return an array of unactivated eZUser object
+     *
+     * @param array|false|null An associative array of sorting conditions,
+     *        if set to false ignores settings in $def, if set to null uses
+     *        settingss in $def.
+     * @param int $limit
+     * @param int $offset
+     * @return array( eZUser )
+     */
+    static public function fetchUnactivated( $sort = false, $limit = 10, $offset = 0 )
+    {
+        $accountDef = eZUserAccountKey::definition();
+
+        return eZPersistentObject::fetchObjectList(
+            eZUser::definition(), null, null, $sort,
+            array(
+                'limit' => $limit,
+                'offset' => $offset
+            ),
+            true, false, null, array( $accountDef['name'] ),
+            " WHERE contentobject_id = user_id"
+        );
     }
 
     /*!
@@ -963,11 +989,12 @@ WHERE user_id = '" . $userID . "' AND
         // instance() when there is no ID passed to the function.
         $GLOBALS["eZUserGlobalInstance_"] = $user;
         eZSession::setUserID( $userID );
-        eZSession::set( 'eZUserLoggedInID', $userID );
-        self::cleanup();
 
         if ( !( $flags & self::NO_SESSION_REGENERATE) )
             eZSession::regenerate();
+
+        eZSession::set( 'eZUserLoggedInID', $userID );
+        self::cleanup();
     }
 
     /*!
@@ -2302,6 +2329,16 @@ WHERE user_id = '" . $userID . "' AND
             return eZContentObject::fetch( $this->ContentObjectID );
         }
         return null;
+    }
+
+    /**
+     * Returns the eZUserAccountKey associated with this user
+     *
+     * @return eZUserAccountKey
+     */
+    public function accountKey()
+    {
+        return eZUserAccountKey::fetchByUserID( $this->ContentObjectID );
     }
 
     /*!

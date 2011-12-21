@@ -13,20 +13,12 @@
  */
 class eZMySQLDBFKTest extends ezpDatabaseTestCase
 {
-    function __construct()
-    {
-        $this->db = $this->sharedFixture;
-    }
-
     protected function setUp()
     {
         if ( !in_array( ezpTestRunner::dsn()->dbsyntax, array( 'mysql', 'mysqli' ) ) )
             self::markTestSkipped( "Not running MySQL nor MysQLi, skipping" );
 
         parent::setUp();
-
-        // clean up the database so that the tests are independant from the ezp database
-        ezpTestDatabaseHelper::clean( eZDB::instance() );
     }
 
     /**

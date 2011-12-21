@@ -31,11 +31,18 @@ class ezpDatabaseTestSuite extends ezpTestSuite
     protected $insertDefaultData = true;
 
     /**
+     * Flag controlling that database is only setup once
+     *
+     * @var bool
+     */
+    protected static $isDatabaseSetup = false;
+
+    /**
      * Sets up the database environment
      */
     protected function setUp()
     {
-        if ( !ezpTestRunner::dbPerTest() )
+        if ( !ezpTestRunner::dbPerTest() && !self::$isDatabaseSetup )
         {
             $dsn = ezpTestRunner::dsn();
             $this->sharedFixture = ezpTestDatabaseHelper::create( $dsn );
@@ -47,6 +54,7 @@ class ezpDatabaseTestSuite extends ezpTestSuite
                 ezpTestDatabaseHelper::insertSqlData( $this->sharedFixture, $this->sqlFiles );
 
             eZDB::setInstance( $this->sharedFixture );
+            self::$isDatabaseSetup = true;
         }
     }
 }

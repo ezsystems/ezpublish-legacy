@@ -51,6 +51,7 @@
     {include uri='design:parts/ini_menu.tpl' ini_section='Leftmenu_user' i18n_hash=hash(
         'access_controll',    'Access control'|i18n( 'design/admin/parts/user/menu' ),
         'roles_and_policies', 'Roles and policies'|i18n( 'design/admin/parts/user/menu' ),
+        'unactivated',        'Unactivated users'|i18n( 'design/admin/parts/user/menu' ),
     )}
 
 {/if}

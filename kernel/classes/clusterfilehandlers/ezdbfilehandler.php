@@ -49,7 +49,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
 
             // connection failed
             if( self::$dbbackend->db === false )
-                throw new eZDBNoConnectionException( self::$dbbackend->dbparams['host'] );
+                throw new eZClusterHandlerDBNoConnectionException( self::$dbbackend->dbparams['host'], self::$dbbackend->dbparams['user'], self::$dbbackend->dbparams['pass'] );
         }
 
         $this->filePath = $filePath;

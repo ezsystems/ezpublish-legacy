@@ -28,7 +28,7 @@ if ( isset( $Params['SiteAccessName'] ) )
     $siteAccessName = $Params['SiteAccessName'];
 
 $postData = ''; // Will contain post data from previous page.
-if ( $http->hasSessionVariable( '$_POST_BeforeLogin' ) )
+if ( $http->hasSessionVariable( '$_POST_BeforeLogin', false ) )
 {
     $postData = $http->sessionVariable( '$_POST_BeforeLogin' );
     $http->removeSessionVariable( '$_POST_BeforeLogin' );
@@ -53,7 +53,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
             $userRedirectURI = $http->postVariable( 'RedirectURI', $http->sessionVariable( 'LastAccessesURI', '/' ) );
         }
 
-        if ( $http->hasSessionVariable( "RedirectAfterLogin" ) )
+        if ( $http->hasSessionVariable( "RedirectAfterLogin", false ) )
         {
             $userRedirectURI = $http->sessionVariable( "RedirectAfterLogin" );
         }
@@ -75,9 +75,11 @@ if ( $Module->isCurrentAction( 'Login' ) and
     $user = false;
     if ( $userLogin != '' )
     {
-        $http->removeSessionVariable( 'RedirectAfterLogin' );
+        if ( $http->hasSessionVariable( "RedirectAfterLogin", false ) )
+        {
+            $http->removeSessionVariable( 'RedirectAfterLogin' );
+        }
 
-        $ini = eZINI::instance();
         if ( $ini->hasVariable( 'UserSettings', 'LoginHandler' ) )
         {
             $loginHandlers = $ini->variable( 'UserSettings', 'LoginHandler' );
@@ -87,6 +89,15 @@ if ( $Module->isCurrentAction( 'Login' ) and
             $loginHandlers = array( 'standard' );
         }
         $hasAccessToSite = true;
+
+        if ( $http->hasPostVariable( 'Cookie' )
+            && $ini->hasVariable( 'Session', 'RememberMeTimeout' )
+            && ( $rememberMeTimeout = $ini->variable( 'Session', 'RememberMeTimeout' ) )
+        )
+        {
+            eZSession::setCookieParams( $rememberMeTimeout );
+        }
+
         foreach ( array_keys ( $loginHandlers ) as $key )
         {
             $loginHandler = $loginHandlers[$key];
@@ -144,7 +155,6 @@ if ( $Module->isCurrentAction( 'Login' ) and
         // First, let's determine which attributes we should search redirection URI in.
         $userUriAttrName  = '';
         $groupUriAttrName = '';
-        $ini = eZINI::instance();
         if ( $ini->hasVariable( 'UserSettings', 'LoginRedirectionUriAttribute' ) )
         {
             $uriAttrNames = $ini->variable( 'UserSettings', 'LoginRedirectionUriAttribute' );
@@ -226,19 +236,6 @@ if ( $Module->isCurrentAction( 'Login' ) and
         $userID = $user->id();
     if ( $userID > 0 )
     {
-        if ( $http->hasPostVariable( 'Cookie' ) )
-        {
-            $ini = eZINI::instance();
-            $rememberMeTimeout = $ini->hasVariable( 'Session', 'RememberMeTimeout' )
-                                 ? $ini->variable( 'Session', 'RememberMeTimeout' )
-                                 : false;
-            if ( $rememberMeTimeout )
-            {
-                eZSession::stop();
-                eZSession::start( $rememberMeTimeout );
-            }
-
-        }
         $http->removeSessionVariable( 'eZUserLoggedInID' );
         $http->setSessionVariable( 'eZUserLoggedInID', $userID );
 
@@ -273,7 +270,6 @@ $maxNumOfFailedLogin = !eZUser::isTrusted() ? eZUser::maxNumberOfFailedLogin() :
 // Should we show message about failed login attempt and max number of failed login
 if ( $loginWarning and isset( $GLOBALS['eZFailedLoginAttemptUserID'] ) )
 {
-    $ini = eZINI::instance();
     $showMessageIfExceeded = $ini->hasVariable( 'UserSettings', 'ShowMessageIfExceeded' ) ? $ini->variable( 'UserSettings', 'ShowMessageIfExceeded' ) == 'true' : false;
 
     $failedUserID = $GLOBALS['eZFailedLoginAttemptUserID'];
