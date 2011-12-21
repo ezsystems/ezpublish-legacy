@@ -31,7 +31,7 @@
     </message>
     <message>
         <source>Last modified</source>
-        <translation type="unfinished">Laatst aangepast</translation>
+        <translation>Laatst aangepast</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -17626,7 +17626,7 @@ Neem contact op met deze persoon over het concept of maak een nieuw concept aan 
     </message>
     <message>
         <source>The message was sent.</source>
-        <translation>Het bericht werd verzonden.</translation>
+        <translation>Het bericht is verstuurd.</translation>
     </message>
     <message>
         <source>Click here to return to the original page.</source>
@@ -17634,11 +17634,11 @@ Neem contact op met deze persoon over het concept of maak een nieuw concept aan 
     </message>
     <message>
         <source>The message was not sent.</source>
-        <translation>Het bericht werd niet verzonden.</translation>
+        <translation>Het bericht is niet verstuurd.</translation>
     </message>
     <message>
         <source>The message was not sent due to an unknown error. Please notify the site administrator about this error.</source>
-        <translation>Het bericht werd niet verzonden wegens een onbekende fout. Stel a.u.b. de sitebeheerder in kennis van deze fout.</translation>
+        <translation>Het bericht is niet verstuurd door een onbekende fout. Neem contact op met de beheerder.</translation>
     </message>
     <message>
         <source>Your name</source>
@@ -18017,11 +18017,11 @@ Neem contact op met deze persoon over het concept of maak een nieuw concept aan 
     Select the placement then click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation>Gelieve te kiezen vanwaar de standaardselectie van de objectrelatie dient te starten.
+        <translation>Kies de standaardlocatie voor het selecteren van objectrelaties.
 
-    Selecteer de plaatsing, klik vervolgens op de %buttonname-knop.
-    Het gebruik van de recente en de bladwijzer-items voor een snelle plaatsing is ook mogelijk.
-    Klik op de plaatsingsnamen om de lijst van het bladeren te wijzigen.</translation>
+    Selecteer de plaats en klik vervolgens op de %buttonname-knop.
+    Ook het gebruik van de favorieten is mogelijk.
+    Klik op de items in de lijst om te navigeren.</translation>
     </message>
     <message>
         <source>Please choose where you want to place the new %classname.
@@ -19545,7 +19545,7 @@ De wijziging blijft behouden tot de volgende wijziging van markering.</translati
     </message>
     <message>
         <source>Please select the extensions to be exported.</source>
-        <translation>GElieve de te exporteren extensies te kiezen.</translation>
+        <translation>Kies de te exporteren extensies.</translation>
     </message>
     <message>
         <source>Select an image file to be included in the package then click Next.
@@ -22455,7 +22455,7 @@ Probeer opnieuw-knop in de installatie</translation>
     </message>
     <message>
         <source>&apos;User hostname&apos; and &apos;Admin hostname&apos; should only contain letters (&apos;a-zA-Z&apos;), digits (&apos;0-9&apos;), dashes (&apos;-&apos;), dots (&apos;.&apos;) and colons (&apos;:&apos;). Please change invalid values on site indicated by *</source>
-        <translation>&apos;Gebruikerhostnaam&apos; en &apos;Beheerhostnaam&apos; mogen enkel letters (&apos;a-zA-Z&apos;), cijfers (&apos;0-9&apos;), streepjes(&apos;-&apos;), punten (&apos;.&apos;) en dubbelpunten(&apos;:&apos;) bevatten. Gelieve de ongeldige waarden op de site aangeduid met * te wijzigen</translation>
+        <translation>&apos;Gebruikerhostnaam&apos; en &apos;Beheerhostnaam&apos; mogen enkel letters (&apos;a-zA-Z&apos;), cijfers (&apos;0-9&apos;), streepjes(&apos;-&apos;), punten (&apos;.&apos;) en dubbelpunten(&apos;:&apos;) bevatten. Verander de ongeldige waarden op de site die zijn aangeduid met *</translation>
     </message>
     <message>
         <source>Upload package</source>
@@ -24426,11 +24426,11 @@ Om dit te doen, moet u de %chown commando&apos;s bij de alternatieve shellcomman
     Select your customers then click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on object names to change the browse listing.</source>
-        <translation>Gelieve de klanten te kiezen die u wilt toevoegen aan de kortingsgroep %groupname.
+        <translation>Kies de klanten die u aan de kortingsgroep %groupname wilt toevoegen.
 
-    Selecteer uw klanten, klik vervolgens op de %buttonname-knop.
-    Gebruik van de recente en de bladwijzer-items voor een snelle selectie is ook mogelijk.
-    Klik op de objectnamen om de lijst van het bladeren te wijzigen.</translation>
+    Selecteer de klanten en klik vervolgens op de %buttonname-knop.
+    Ook het gebruik van de favorieten is mogelijk.
+    Klik op de items in de lijst om te navigeren.</translation>
     </message>
     <message>
         <source>Please choose the products you want to add to discount rule %discountname in discount group %groupname.
@@ -26952,7 +26952,7 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>%count invalid character(s) have been found and replaced by a space</source>
-        <translation type="unfinished"></translation>
+        <translation>%count ongeldige tekens gevonden en vervangen door een spatie</translation>
     </message>
 </context>
 <context>
@@ -27241,7 +27241,7 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>Cannot publish object (Name: %1, ID: %2).</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan object (Name: %1, ID: %2) niet publiceren.</translation>
     </message>
 </context>
 <context>
@@ -27488,19 +27488,19 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     <name>kernel/oauthadmin</name>
     <message>
         <source>oAuth admin</source>
-        <translation type="unfinished">oAuth beheer</translation>
+        <translation>oAuth beheer</translation>
     </message>
     <message>
         <source>Edit REST application</source>
-        <translation type="unfinished"></translation>
+        <translation>REST applicatie bewerken</translation>
     </message>
     <message>
         <source>Registered REST applications</source>
-        <translation type="unfinished"></translation>
+        <translation>Geregistreerde REST applicaties</translation>
     </message>
     <message>
         <source>REST application: %application_name%</source>
-        <translation type="unfinished"></translation>
+        <translation>REST applicatie: %application_name%</translation>
     </message>
 </context>
 <context>
@@ -27539,39 +27539,39 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>A package named %packagename already exists, please give another name</source>
-        <translation type="unfinished">Een pakket met de naam %packagename is reeds in gebruik, geef een andere naam</translation>
+        <translation>Een pakket met de naam %packagename bestaat al, kies een andere naam</translation>
     </message>
     <message>
         <source>Summary</source>
-        <translation type="unfinished">Samenvatting</translation>
+        <translation>Samenvatting</translation>
     </message>
     <message>
         <source>Summary is missing</source>
-        <translation type="unfinished">Geen samenvatting</translation>
+        <translation>De samenvatting ontbreekt</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished">Versie</translation>
+        <translation>Versie</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Naam</translation>
+        <translation>Naam</translation>
     </message>
     <message>
         <source>You must enter a name for the changelog</source>
-        <translation type="unfinished">U dient een naam aan de changelog te geven</translation>
+        <translation>Kies een naam voor de changelog</translation>
     </message>
     <message>
         <source>Changelog</source>
-        <translation type="unfinished">Changelog</translation>
+        <translation>Changelog</translation>
     </message>
     <message>
         <source>You must supply some text for the changelog entry</source>
-        <translation type="unfinished">U dient tekst aan te maken voor het changelog bericht</translation>
+        <translation>Vul het changelog bericht in</translation>
     </message>
     <message>
         <source>You must enter a name of the maintainer</source>
-        <translation type="unfinished">U dient de naam van de beheerder in te vullen</translation>
+        <translation>Vul de naam van de beheerder in</translation>
     </message>
     <message>
         <source>Content classes to include</source>
@@ -27591,43 +27591,43 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>CSS file</source>
-        <translation type="unfinished">CSS bestand</translation>
+        <translation>CSS bestand</translation>
     </message>
     <message>
         <source>Image files</source>
-        <translation type="unfinished">Beeldbestanden</translation>
+        <translation>Afbeeldingen</translation>
     </message>
     <message>
         <source>Site style</source>
-        <translation type="unfinished">Site-opmaak</translation>
+        <translation>Site-opmaak</translation>
     </message>
     <message>
         <source>File did not have a .css suffix, this is most likely not a CSS file</source>
-        <translation type="unfinished">Dit is waarschijnlijk geen CSS bestand; het heeft geen .css extensie</translation>
+        <translation>Het bestand heeft niet de extensie .css. Waarschijnlijk is dit geen CSS bestand</translation>
     </message>
     <message>
         <source>Create package</source>
-        <translation type="unfinished">Maak pakket aan</translation>
+        <translation>Pakket aanmaken</translation>
     </message>
     <message>
         <source>Install</source>
-        <translation type="unfinished">Installeren</translation>
+        <translation>Installeren</translation>
     </message>
     <message>
         <source>Uninstall</source>
-        <translation type="unfinished">Verwijderen</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>Package %packagename already exists, cannot import the package</source>
-        <translation type="unfinished">Het pakket met de naam %packagename is reeds in gebruik en kan niet worden geïmporeerd</translation>
+        <translation>Het pakket met de naam %packagename bestaat al en kan niet worden geïmporeerd</translation>
     </message>
     <message>
         <source>Local</source>
-        <translation type="unfinished">Lokaal</translation>
+        <translation>Lokaal</translation>
     </message>
     <message>
         <source>The version must only contain numbers (optionally followed by text) and must be delimited by dots (.), e.g. 1.0, 3.4.0beta1</source>
-        <translation type="unfinished">Het versienummer mag alleen maar nummers bevatten (optioneel gevolgd door tekst) en dient gescheiden to worden door punten (.), bijvoorbeeld: 1.0 en 3.4.0beta1</translation>
+        <translation>Het versienummer kan uitsluitend nummers bevatten (optioneel gevolgd door tekst) en dient gescheiden to worden door punten (.), bijvoorbeeld: 1.0 en 3.4.0beta1</translation>
     </message>
     <message>
         <source>Content objects to include</source>
@@ -27643,27 +27643,27 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>Selected nodes</source>
-        <translation type="unfinished">Geselecteerde nodes</translation>
+        <translation>Geselecteerde nodes</translation>
     </message>
     <message>
         <source>You must select one or more node(s)/subtree(s) for export.</source>
-        <translation type="unfinished">U dient één of meerdere kno(o)p(en)/subtree(s) te selecteren voor export.</translation>
+        <translation>Selecteer één of meerdere node(s)/subtree(s) voor export.</translation>
     </message>
     <message>
         <source>You must choose one or more languages.</source>
-        <translation type="unfinished">U dient een of meerdere talen te kiezen.</translation>
+        <translation>Kies één of meerdere talen.</translation>
     </message>
     <message>
         <source>You must choose one or more site access.</source>
-        <translation type="unfinished">U dient een of meerdere sitetoegangen te kiezen.</translation>
+        <translation>Kies één of meerdere sitetoegangen.</translation>
     </message>
     <message>
         <source>CSS files</source>
-        <translation type="unfinished">CSS bestanden</translation>
+        <translation>CSS bestanden</translation>
     </message>
     <message>
         <source>You must upload both CSS files</source>
-        <translation type="unfinished">U dient beide CSS bestanden te uploaden</translation>
+        <translation>U dient beide CSS bestanden te uploaden</translation>
     </message>
     <message>
         <source>Content object %objectname</source>
@@ -27671,7 +27671,7 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>Site access mapping</source>
-        <translation type="unfinished">sitetoegang verwijzingen</translation>
+        <translation>Sitetoegang mapping</translation>
     </message>
     <message>
         <source>Top node placements</source>
@@ -27691,39 +27691,39 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>Lead</source>
-        <translation type="unfinished">Potentiële klant</translation>
+        <translation>Potentiële klant</translation>
     </message>
     <message>
         <source>Developer</source>
-        <translation type="unfinished">Ontwikkelaar</translation>
+        <translation>Ontwikkelaar</translation>
     </message>
     <message>
         <source>Designer</source>
-        <translation type="unfinished">Ontwerper</translation>
+        <translation>Ontwerper</translation>
     </message>
     <message>
         <source>Contributor</source>
-        <translation type="unfinished">Bijdrager</translation>
+        <translation>Bijdrager</translation>
     </message>
     <message>
         <source>Tester</source>
-        <translation type="unfinished">Tester</translation>
+        <translation>Tester</translation>
     </message>
     <message>
         <source>The package name %packagename is not valid, it can only contain characters in the range a-z, 0-9 and underscore.</source>
-        <translation type="unfinished">De pakketnaam %packagename is niet geldig, de naam kan enkel tekens in het bereik a-z, 0-9 en underscore bevatten.</translation>
+        <translation>De pakketnaam %packagename is ongeldig, de naam kan enkel tekens in het bereik a-z, 0-9 en underscore bevatten.</translation>
     </message>
     <message>
         <source>Extension export</source>
-        <translation type="unfinished">Extensie-export</translation>
+        <translation>Extensie-export</translation>
     </message>
     <message>
         <source>%number content objects</source>
-        <translation type="unfinished">%aantal inhoudsobjecten</translation>
+        <translation>%aantal inhoudsobjecten</translation>
     </message>
     <message>
         <source>Extension &apos;%extensionname&apos;</source>
-        <translation type="unfinished">Extensie &apos;%extensionname&apos;</translation>
+        <translation>Extensie &apos;%extensionname&apos;</translation>
     </message>
     <message>
         <source>Removing class &apos;%classname&apos; will result in the removal of %objectscount object(s) of this class and all their sub-items. Are you sure you want to uninstall it?</source>
@@ -27739,7 +27739,7 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>(Warning! $objectsCount content object(s) and their sub-items will be removed)</source>
-        <translation type="unfinished">(Waarschuwing! $objectsCount inhoudsobject(en) en hun sub-items worden verwijderd)</translation>
+        <translation>(Waarschuwing! $objectsCount inhoudsobject(en) en hun sub-items worden verwijderd)</translation>
     </message>
     <message>
         <source>Skip installing this class</source>
@@ -27747,39 +27747,39 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>Keep existing and create a new one</source>
-        <translation type="unfinished">Behoud het bestaande en maak een nieuwe aan</translation>
+        <translation>Bewaar bestaande en maak een nieuwe aan</translation>
     </message>
     <message>
         <source>Object &apos;%objectname&apos; has been modified since installation. Are you sure you want to remove it?</source>
-        <translation type="unfinished">Object &apos;%objectname&apos; werd gewijzigd sinds de installatie. Bent u zeker dat u deze wilt verwijderen?</translation>
+        <translation>Object &apos;%objectname&apos; is sinds de installatie gewijzigd. Bent u zeker dat u deze wilt verwijderen?</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Verwijderen</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>Keep object</source>
-        <translation type="unfinished">Object behouden</translation>
+        <translation>Object bewaren</translation>
     </message>
     <message>
         <source>Object &apos;%objectname&apos; has %childrencount sub-item(s) that will be removed.</source>
-        <translation type="unfinished">Object &apos;%objectname&apos; heeft %childrencount sub-items(s) die zullen worden verwijderd.</translation>
+        <translation>Object &apos;%objectname&apos; heeft %childrencount sub-items(s) die zullen worden verwijderd.</translation>
     </message>
     <message>
         <source>Extension &apos;%extensionname&apos; already exists.</source>
-        <translation type="unfinished">Extensie &apos;%extensionname&apos; bestaat reeds.</translation>
+        <translation>Extensie &apos;%extensionname&apos; bestaat al.</translation>
     </message>
     <message>
         <source>Replace extension</source>
-        <translation type="unfinished">Extensie vervangen</translation>
+        <translation>Extensie vervangen</translation>
     </message>
     <message>
         <source>Skip</source>
-        <translation type="unfinished">Overslaan</translation>
+        <translation>Overslaan</translation>
     </message>
     <message>
         <source>Install script: %description</source>
-        <translation type="unfinished">Installeer script: %description</translation>
+        <translation>Installeer script: %description</translation>
     </message>
     <message>
         <source>Content class &apos;%classname&apos; (%classidentifier)</source>
@@ -27787,11 +27787,11 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>Email</source>
-        <translation type="unfinished">E-mail</translation>
+        <translation>E-mail</translation>
     </message>
     <message>
         <source>You must enter an email for the changelog</source>
-        <translation type="unfinished">U dient een e-mail voor de changelog in te vullen</translation>
+        <translation>Vul een e-mailadres voor in de changelog in</translation>
     </message>
     <message>
         <source>You must enter an email address of the maintainer</source>
@@ -27799,31 +27799,31 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>Extensions to include</source>
-        <translation type="unfinished">Te includeren extensies</translation>
+        <translation>Opgenomen extensies</translation>
     </message>
     <message>
         <source>Extension list</source>
-        <translation type="unfinished">Extensielijst</translation>
+        <translation>Lijst met extensies</translation>
     </message>
     <message>
         <source>You must select at least one extension</source>
-        <translation type="unfinished">U dient tenminste één extensie te selecteren</translation>
+        <translation>U dient tenminste één extensie te selecteren</translation>
     </message>
     <message>
         <source>Remove object and its sub-item(s)</source>
-        <translation type="unfinished">Object en zijn sub-items(s) verwijderen</translation>
+        <translation>Object inclusief sub-items(s) verwijderen</translation>
     </message>
     <message>
         <source>Package contains an invalid extension name: %extensionname</source>
-        <translation type="unfinished"></translation>
+        <translation>Pakket bevat een ongeldige extensienaam: %extensionname</translation>
     </message>
     <message>
         <source>Advanced options</source>
-        <translation type="unfinished"></translation>
+        <translation>Geavanceerde opties</translation>
     </message>
     <message>
         <source>The package name %packagename is invalid, cannot import the package</source>
-        <translation type="unfinished"></translation>
+        <translation>De pakketnaam %packagename is ongeldig en kan niet worden geïmporeerd</translation>
     </message>
 </context>
 <context>
@@ -28004,7 +28004,7 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     <name>kernel/shop</name>
     <message>
         <source>Basket</source>
-        <translation type="unfinished">Boodschappenmandje</translation>
+        <translation>Winkelwagen</translation>
     </message>
     <message>
         <source>Confirm order</source>
@@ -28012,35 +28012,35 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>Discount group</source>
-        <translation type="unfinished">Kortingsgroep</translation>
+        <translation>Kortingsgroep</translation>
     </message>
     <message>
         <source>Group view of discount rule</source>
-        <translation type="unfinished">Groepsweergave van koritngsregel</translation>
+        <translation>Groepsweergave van kortingsregel</translation>
     </message>
     <message>
         <source>Editing rule</source>
-        <translation type="unfinished">Regel wordt bewerkt</translation>
+        <translation>Kortingsregel bewerken</translation>
     </message>
     <message>
         <source>Order list</source>
-        <translation type="unfinished">Bestellijst</translation>
+        <translation>Bestellijst</translation>
     </message>
     <message>
         <source>Enter account information</source>
-        <translation type="unfinished">Voer uw accountinformatie in</translation>
+        <translation>Voer uw accountinformatie in</translation>
     </message>
     <message>
         <source>VAT types</source>
-        <translation type="unfinished">BTW soorten</translation>
+        <translation>BTW soorten</translation>
     </message>
     <message>
         <source>Checkout</source>
-        <translation type="unfinished">Checkout</translation>
+        <translation>Checkout</translation>
     </message>
     <message>
         <source>Customer list</source>
-        <translation type="unfinished">Klanten lijst</translation>
+        <translation>Klantenlijst</translation>
     </message>
     <message>
         <source>Remove order</source>
@@ -28048,11 +28048,11 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>Statistics</source>
-        <translation type="unfinished">Statistieken</translation>
+        <translation>Statistieken</translation>
     </message>
     <message>
         <source>VAT type</source>
-        <translation type="unfinished">Soort BTW</translation>
+        <translation>Soort BTW</translation>
     </message>
     <message>
         <source>Classes</source>
@@ -28064,91 +28064,91 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>in sections</source>
-        <translation type="unfinished">in secties</translation>
+        <translation>in secties</translation>
     </message>
     <message>
         <source>in any section</source>
-        <translation type="unfinished">in om het even welke sectie</translation>
+        <translation>in alle secties</translation>
     </message>
     <message>
         <source>Products</source>
-        <translation type="unfinished">Producten</translation>
+        <translation>Producten</translation>
     </message>
     <message>
         <source>Any product</source>
-        <translation type="unfinished">Om het even welk product</translation>
+        <translation>Ieder product</translation>
     </message>
     <message>
         <source>Order status</source>
-        <translation type="unfinished">Orderstatus</translation>
+        <translation>Orderstatus</translation>
     </message>
     <message>
         <source>Undefined</source>
-        <translation type="unfinished">Niet-gedefinieerd</translation>
+        <translation>Niet-gedefinieerd</translation>
     </message>
     <message>
         <source>The confirm order operation was canceled. Try to checkout again.</source>
-        <translation type="unfinished">De operatie om de order te bevestigen was geannuleerd. Probeer het ophalen opnieuw.</translation>
+        <translation>De orderbevestigen is geannuleerd. Probeer de checkout opnieuw.</translation>
     </message>
     <message>
         <source>Order #%order_id</source>
-        <translation type="unfinished">Bestelling nr. %order_id</translation>
+        <translation>Bestelling nr. %order_id</translation>
     </message>
     <message>
         <source>New order status was successfully added.</source>
-        <translation type="unfinished">Nieuw orderstatus werd succesvol toegevoegd.</translation>
+        <translation>Nieuw orderstatus toegevoegd.</translation>
     </message>
     <message>
         <source>Changes to order status were successfully stored.</source>
-        <translation type="unfinished">Wijzigingen aan de orderstatus werden succesvol opgeslagen.</translation>
+        <translation>Wijzigingen aan de orderstatus opgeslagen.</translation>
     </message>
     <message>
         <source>Selected order statuses were successfully removed.</source>
-        <translation type="unfinished">De geselecteerde orderstatussen werden succesvol verwijderd.</translation>
+        <translation>Geselecteerde orderstatussen verwijderd.</translation>
     </message>
     <message>
         <source>Internal orders cannot be removed.</source>
-        <translation type="unfinished">Interne orders kunnen niet verwijderd worden.</translation>
+        <translation>Interne orders kunnen niet worden verwijderd.</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation type="unfinished">Status</translation>
+        <translation>Status</translation>
     </message>
     <message>
         <source>Customer order view</source>
-        <translation type="unfinished">Weergave van klantorder</translation>
+        <translation>Weergave van klantorder</translation>
     </message>
     <message>
         <source>Any</source>
-        <translation type="unfinished">Alle</translation>
+        <translation>Alle</translation>
     </message>
     <message>
         <source>Available currency list</source>
-        <translation type="unfinished">Beschikbare valutalijst</translation>
+        <translation>Beschikbare valutalijst</translation>
     </message>
     <message>
         <source>Edit currency</source>
-        <translation type="unfinished">Valuta bewerken</translation>
+        <translation>Valuta bewerken</translation>
     </message>
     <message>
         <source>Create new currency</source>
-        <translation type="unfinished">Nieuwe valuta aanmaken</translation>
+        <translation>Nieuwe valuta aanmaken</translation>
     </message>
     <message>
         <source>Preferred currency</source>
-        <translation type="unfinished">Voorkeursvaluta</translation>
+        <translation>Voorkeursvaluta</translation>
     </message>
     <message>
         <source>Products overview</source>
-        <translation type="unfinished">Productenoverzicht</translation>
+        <translation>Productenoverzicht</translation>
     </message>
     <message>
         <source>None</source>
-        <translation type="unfinished">Geen</translation>
+        <translation>Geen</translation>
     </message>
     <message>
         <source>Error checking out</source>
-        <translation type="unfinished">Fout bij ophalen</translation>
+        <translation>Fout bij ophalen</translation>
     </message>
     <message>
         <source>Unable to calculate VAT percentage because your country is unknown. You can either fill country manually in your account information (if you are a registered user) or contact site administrator.</source>
@@ -28223,72 +28223,72 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>Currency already exists.</source>
-        <translation type="unfinished">De valuta bestaat reeds.</translation>
+        <translation>De valuta bestaat al.</translation>
     </message>
     <message>
         <source>Unknown error.</source>
-        <translation type="unfinished">Onbekende fout.</translation>
+        <translation>Onbekende fout.</translation>
     </message>
 </context>
 <context>
     <name>kernel/shop/discountgroup</name>
     <message>
         <source>New discount group</source>
-        <translation type="unfinished">Nieuwe kortingsgroep</translation>
+        <translation>Nieuwe kortingsgroep</translation>
     </message>
     <message>
         <source>New Discount Rule</source>
-        <translation type="unfinished">Niewe kortingsregel</translation>
+        <translation>Niewe kortingsregel</translation>
     </message>
 </context>
 <context>
     <name>kernel/shop/editvatrule</name>
     <message>
         <source>Choose a country.</source>
-        <translation type="unfinished">Kies een land.</translation>
+        <translation>Kies een land.</translation>
     </message>
     <message>
         <source>Choose a VAT type.</source>
-        <translation type="unfinished">Kies een btw-type.</translation>
+        <translation>Kies een btw-type.</translation>
     </message>
     <message>
         <source>Rule not found</source>
-        <translation type="unfinished">Regel niet gevonden</translation>
+        <translation>Regel niet gevonden</translation>
     </message>
     <message>
         <source>Edit VAT charging rule</source>
-        <translation type="unfinished">Wijzig regel voor btw in rekening brengen</translation>
+        <translation>BTW-regel wijzigen</translation>
     </message>
     <message>
         <source>Create new VAT charging rule</source>
-        <translation type="unfinished">Maak een nieuwe regel voor btw in rekening brengen aan</translation>
+        <translation>Maak een nieuwe BTW-regel aan</translation>
     </message>
     <message>
         <source>Invalid data entered</source>
-        <translation type="unfinished">Ongeldige gevens ingevoerd</translation>
+        <translation>Ongeldige gevens ingevoerd</translation>
     </message>
     <message>
         <source>Conflicting rule</source>
-        <translation type="unfinished">Conflicterende regel</translation>
+        <translation>Conflicterende regel</translation>
     </message>
     <message>
         <source>Default rule for any country already exists.</source>
-        <translation type="unfinished">Standaardregel voor om het even welk land dat reeds bestaat.</translation>
+        <translation>Standaard regel voor ieder land bestaat al.</translation>
     </message>
 </context>
 <context>
     <name>kernel/shop/productcategories</name>
     <message>
         <source>Product categories</source>
-        <translation type="unfinished">Productcategorieën</translation>
+        <translation>Productcategorieën</translation>
     </message>
     <message>
         <source>Product category</source>
-        <translation type="unfinished">Productcategorie</translation>
+        <translation>Productcategorie</translation>
     </message>
     <message>
         <source>Empty category names are not allowed (corrected).</source>
-        <translation type="unfinished">Lege categorienamen zijn niet toegestaan (verbeterd).</translation>
+        <translation>Lege categorienamen zijn niet toegestaan (verbeterd).</translation>
     </message>
 </context>
 <context>
@@ -28306,11 +28306,11 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     <name>kernel/shop/vattype</name>
     <message>
         <source>Empty VAT type names are not allowed (corrected).</source>
-        <translation type="unfinished">Lege btw-typenamen zijn niet toegestaan (verbeterd).</translation>
+        <translation>Lege BTW-typenamen zijn niet toegestaan (verbeterd).</translation>
     </message>
     <message>
         <source>Wrong VAT percentage (corrected).</source>
-        <translation type="unfinished">Verkeerde btw-percentage (verbeterd).</translation>
+        <translation>Verkeerde BTW-percentage (verbeterd).</translation>
     </message>
 </context>
 <context>
@@ -28457,11 +28457,11 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>oAuth</source>
-        <translation type="unfinished"></translation>
+        <translation>oAuth</translation>
     </message>
     <message>
         <source>authorization</source>
-        <translation type="unfinished"></translation>
+        <translation>authorisatie</translation>
     </message>
 </context>
 <context>
