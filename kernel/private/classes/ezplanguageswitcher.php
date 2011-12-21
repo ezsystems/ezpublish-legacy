@@ -202,7 +202,7 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
 
             default:
                 $host = $saIni->variable( 'SiteSettings', 'SiteURL' );
-                $host = "http://{$host}/";
+                $host = eZSys::serverProtocol()."://".$host;
                 break;
         }
         $this->baseDestinationUrl = "{$host}{$indexFile}";
