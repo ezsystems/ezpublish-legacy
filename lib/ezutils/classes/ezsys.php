@@ -763,7 +763,7 @@ class eZSys
             $hostName = trim( $forwardedHosts[0] );
         }
 
-        if ( !$hostName && self::serverVariable( 'HTTP_HOST' ) )
+        if ( !$hostName && self::serverVariable( 'HTTP_HOST', true ) )
         {
             $hostName = self::serverVariable( 'HTTP_HOST' );
         }
@@ -912,7 +912,7 @@ class eZSys
             }
             else
             {
-                $port = (int) self::serverVariable( 'SERVER_PORT' );
+                $port = (int) self::serverVariable( 'SERVER_PORT', true );
             }
 
             if ( !$port )
