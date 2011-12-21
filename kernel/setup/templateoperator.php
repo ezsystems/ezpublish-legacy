@@ -252,7 +252,7 @@ function templateOperatorDownload( $tpl, &$persistentData, $stepData )
     header( "Content-Transfer-Encoding: binary" );
     ob_end_clean();
     print( $content );
-    fflush();
+    flush();
     eZExecution::cleanExit();
 }
 

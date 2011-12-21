@@ -10,3 +10,9 @@
 {$order.account_information.zip} {$order.account_information.place}
 
 {if $order.account_information.state}{$order.account_information.state} {/if}{$order.account_information.country}
+{if $order.account_information.comment}
+
+
+{'Comment'|i18n( 'design/standard/shop' )}:
+{$order.account_information.comment}
+{/if}

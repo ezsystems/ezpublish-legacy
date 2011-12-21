@@ -709,7 +709,7 @@ function handleNodeTemplate( $module, $class, $object, $version, $contentObjectA
 
     $db = eZDB::instance();
     $db->begin();
-    foreach ( $assignedNodeArray as $assignedNode )
+    foreach ( $assignedNodeArray as $assignedNodeKey => $assignedNode )
     {
         $node = $assignedNode->getParentNode();
         if ( $node !== null )

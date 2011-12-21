@@ -109,7 +109,8 @@ class eZXMLOutputHandler
     function &viewTemplateName()
     {
         $name = 'ezxmltext';
-        $suffix = $this->viewTemplateSuffix();
+        $contentobjectAttribute = false;
+        $suffix = $this->viewTemplateSuffix( $contentobjectAttribute );
         if ( $suffix !== false )
         {
             $name .= '_' . $suffix;

@@ -27,3 +27,12 @@
 </td>
 </tr>
 </table>
+
+{if $order.account_information.comment}
+<p>
+<b>{'Comment'|i18n( 'design/standard/shop' )}</b>
+</p>
+<p>
+{$order.account_information.comment|wash|nl2br}
+</p>
+{/if}

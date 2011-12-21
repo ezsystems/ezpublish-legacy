@@ -112,12 +112,12 @@ class eZModuleFunctionInfo
             return false;
         }
         $functionDefinition = $this->FunctionList[$functionName];
-        if ( !isset( $functionName['call_method'] ) )
+        if ( !isset( $functionDefinition['call_method'] ) )
         {
             eZDebug::writeError( "No call method defined for function '$functionName' in module '$moduleName'", __METHOD__ );
             return false;
         }
-        if ( !isset( $functionName['parameters'] ) )
+        if ( !isset( $functionDefinition['parameters'] ) )
         {
             eZDebug::writeError( "No parameters defined for function '$functionName' in module '$moduleName'", __METHOD__ );
             return false;
@@ -154,12 +154,12 @@ class eZModuleFunctionInfo
             return null;
         }
         $functionDefinition = $this->FunctionList[$functionName];
-        if ( !isset( $functionName['call_method'] ) )
+        if ( !isset( $functionDefinition['call_method'] ) )
         {
             eZDebug::writeError( "No call method defined for function '$functionName' in module '$moduleName'", __METHOD__ );
             return null;
         }
-        if ( !isset( $functionName['parameters'] ) )
+        if ( !isset( $functionDefinition['parameters'] ) )
         {
             eZDebug::writeError( "No parameters defined for function '$functionName' in module '$moduleName'", __METHOD__ );
             return null;

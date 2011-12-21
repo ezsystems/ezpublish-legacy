@@ -13907,6 +13907,10 @@ your account.</source>
         <translation>Aller au niveau parent</translation>
     </message>
     <message>
+        <source>Step 1/3: Upload a file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Name</source>
         <translation>Nom</translation>
     </message>

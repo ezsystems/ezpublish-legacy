@@ -73,8 +73,6 @@
                     priority = tds.item(5).one('input');
                     priority.set('value', parseInt(priority.get('value')) + 1);
 
-                    box.one('input[name*=_data_object_relation_list_ajax_filled_]').set('value', 1);
-
                     box.one('.ezobject-relation-remove-button').removeClass('button-disabled').addClass('button').set('disabled', false);
                     box.all('.ezobject-relation-no-relation').addClass('hide');
 
