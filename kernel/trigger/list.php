@@ -143,12 +143,6 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
     }
 }
 
-if ( $http->hasPostVariable( 'NewButton' )  )
-{
-    $trigger = eZTrigger::createNew( );
-}
-
-
 $tpl = eZTemplate::factory();
 
 $triggers = eZTrigger::fetchList( array(
