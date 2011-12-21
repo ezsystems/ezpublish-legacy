@@ -181,4 +181,16 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
             unset( $req->post['_method'] );
         }
     }
+
+    /**
+     * Processes the request date.
+     *
+     * @see http://issues.ez.no/19027
+     */
+    protected function processDate()
+    {
+        $this->request->date = isset( $_SERVER['REQUEST_TIME'] )
+            ? new DateTime( '@' . (int)$_SERVER['REQUEST_TIME'] )
+            : new DateTime();
+    }
 }

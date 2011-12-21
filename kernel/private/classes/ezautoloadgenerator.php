@@ -576,6 +576,9 @@ class eZAutoloadGenerator
             // 377 is the value for T_NAMESPACE in PHP 5.3.x
             $tNamespace = defined( 'T_NAMESPACE' ) ? T_NAMESPACE : 377;
 
+            // Traits support, see http://issues.ez.no/19028
+            $tTrait = defined( 'T_TRAIT' ) ? T_TRAIT : 355;
+
             foreach( $fileList as $file )
             {
                 $this->updateProgressOutput( self::OUTPUT_PROGRESS_PHASE2 );
@@ -597,7 +600,7 @@ class eZAutoloadGenerator
                                 // NAMESPACE_TOKEN - WHITESPACE_TOKEN - TEXT_TOKENS (containing namespace name)
                                 $offset = $key + 2;
                                 $namespace = "";
-                                while ( $tokens[$offset] !== ";" )
+                                while ( $tokens[$offset] !== ";" && $tokens[$offset] !== "{" )
                                 {
                                     if ( is_array( $tokens[$offset] ) )
                                     {
@@ -612,6 +615,7 @@ class eZAutoloadGenerator
 
                             case T_CLASS:
                             case T_INTERFACE:
+                            case $tTrait:
                                 // Increment stat for found class.
                                 $this->incrementProgressStat( self::OUTPUT_PROGRESS_PHASE2, 'classCount' );
 

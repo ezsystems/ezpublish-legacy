@@ -80,7 +80,6 @@ if ( $Module->isCurrentAction( 'Login' ) and
             $http->removeSessionVariable( 'RedirectAfterLogin' );
         }
 
-        $ini = eZINI::instance();
         if ( $ini->hasVariable( 'UserSettings', 'LoginHandler' ) )
         {
             $loginHandlers = $ini->variable( 'UserSettings', 'LoginHandler' );
@@ -156,7 +155,6 @@ if ( $Module->isCurrentAction( 'Login' ) and
         // First, let's determine which attributes we should search redirection URI in.
         $userUriAttrName  = '';
         $groupUriAttrName = '';
-        $ini = eZINI::instance();
         if ( $ini->hasVariable( 'UserSettings', 'LoginRedirectionUriAttribute' ) )
         {
             $uriAttrNames = $ini->variable( 'UserSettings', 'LoginRedirectionUriAttribute' );
@@ -272,7 +270,6 @@ $maxNumOfFailedLogin = !eZUser::isTrusted() ? eZUser::maxNumberOfFailedLogin() :
 // Should we show message about failed login attempt and max number of failed login
 if ( $loginWarning and isset( $GLOBALS['eZFailedLoginAttemptUserID'] ) )
 {
-    $ini = eZINI::instance();
     $showMessageIfExceeded = $ini->hasVariable( 'UserSettings', 'ShowMessageIfExceeded' ) ? $ini->variable( 'UserSettings', 'ShowMessageIfExceeded' ) == 'true' : false;
 
     $failedUserID = $GLOBALS['eZFailedLoginAttemptUserID'];

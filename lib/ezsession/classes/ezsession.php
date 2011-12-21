@@ -200,7 +200,7 @@ class eZSession
      */
     static public function garbageCollector()
     {
-        return self::getHandlerInstance()->gc( $_SERVER['REQUEST_TIME'] );
+        return self::getHandlerInstance()->gc( (int)$_SERVER['REQUEST_TIME'] );
     }
 
     /**

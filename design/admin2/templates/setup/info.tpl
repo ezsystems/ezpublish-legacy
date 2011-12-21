@@ -142,7 +142,11 @@
     <ol>
     {foreach $autoload_functions as $key => $function}
         {if is_array( $function )}
-            {set $function=$function|implode( '::' )}
+            {if $function[0]|is_object()}
+                {set $function = concat( $function[0]|get_class(), '::', $function[1] )}
+            {else}
+                {set $function=$function|implode( '::' )}
+            {/if}
         {/if}
         <li>{$function}</li>
     {/foreach}
