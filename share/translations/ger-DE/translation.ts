@@ -16373,6 +16373,10 @@ Bitte folgen Sie den Instruktionen in der Email um Ihr Konto zu aktivieren.</tra
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Step 1/3: Upload a file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Name</source>
         <translation type="unfinished">Name</translation>
     </message>
