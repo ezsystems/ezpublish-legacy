@@ -1,5 +1,6 @@
 {literal}
 <script type="text/javascript">
+//<![CDATA[
 function toggleInputs( selection )
 {
     var nameField = document.getElementById( "field1" );
@@ -15,6 +16,7 @@ function toggleInputs( selection )
         nameField.value = localeField.value = "";
     }
 }
+//]]>
 </script>
 {/literal}
 

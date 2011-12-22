@@ -2,9 +2,9 @@
 
 <!-- Site access for override popup menu -->
 <script type="text/javascript">
-<!--
+//<![CDATA[
 menuArray['OverrideSiteAccess'] = {ldelim} 'depth': 1 {rdelim};
-// -->
+//]]>
 </script>
 
 <div class="popupmenu" id="OverrideSiteAccess">
@@ -23,9 +23,9 @@ menuArray['OverrideSiteAccess'] = {ldelim} 'depth': 1 {rdelim};
 
 <!-- Site access for override by class popup menu -->
 <script type="text/javascript">
-<!--
+//<![CDATA[
 menuArray['OverrideByClassSiteAccess'] = {ldelim} 'depth': 1 {rdelim};
-// -->
+//]]>
 </script>
 <div class="popupmenu" id="OverrideByClassSiteAccess">
     <div class="popupmenuheader"><h3 class="override-site-access-menu-header">{"Choose siteaccess"|i18n("design/admin/popupmenu")}</h3>
@@ -44,9 +44,9 @@ menuArray['OverrideByClassSiteAccess'] = {ldelim} 'depth': 1 {rdelim};
 
 <!-- Site access for override by node popup menu -->
 <script type="text/javascript">
-<!--
+//<![CDATA[
 menuArray['OverrideByNodeSiteAccess'] = {ldelim} 'depth': 1 {rdelim};
-// -->
+//]]>
 </script>
 <div class="popupmenu" id="OverrideByNodeSiteAccess">
     <div class="popupmenuheader"><h3 class="override-site-access-menu-header">{"Choose siteaccess"|i18n("design/admin/popupmenu")}</h3>

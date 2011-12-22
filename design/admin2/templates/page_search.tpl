@@ -27,6 +27,7 @@
 </div>
 
 <script type="text/javascript">
+//<![CDATA[
 {literal}
 (function($){
   if ( !document.getElementById('searchbuttonfield') )return;
@@ -37,5 +38,6 @@
   });
 })( jQuery );
 {/literal}
+//]]>
 </script>
 {undef $search_node_id}

@@ -17,6 +17,7 @@
         <div class="window-content"></div>
     </div>
     <script type="text/javascript">
+    //<![CDATA[
     {literal}
     (function () {
         var uploaderConf = {
@@ -122,6 +123,7 @@
 
     })();
     {/literal}
+    //]]>
     </script>
     {/run-once}
 {/if}

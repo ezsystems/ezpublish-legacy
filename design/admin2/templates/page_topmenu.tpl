@@ -7,7 +7,9 @@
 </div>
 
 <script type="text/javascript">
+//<![CDATA[
 {literal}
 jQuery( '#header-topmenu ul li' ).click(function(){ jQuery(this).addClass('active'); });
 {/literal}
+//]]>
 </script>

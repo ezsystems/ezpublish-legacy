@@ -2,6 +2,7 @@
 {default attribute_base=ContentObjectAttribute}
 <script type="text/javascript" src={"javascript/ezmultioption/ezmultioption.js"|ezdesign} charset="iso-8859-1"></script>
 <script type="text/javascript">
+//<![CDATA[
 var tmpArray;
 var tmpArray1;
 var tmpArray2;
@@ -26,12 +27,15 @@ var rules{$attribute.id} = new Array(); //all rules [i]
   tmpArray[1] = tmpArray2;
   rules{$attribute.id}[{$Rules.index}] = tmpArray;
 {/section}
+//]]>
 </script>
 {section var=GroupList loop=$attribute.content.optiongroup_list}
 {include uri='design:content/datatype/view/multioption2/multioption2.tpl' name=ChildGroup1 attribute=$attribute group=$GroupList.item parent_group_id=$attribute.content.group_id depth=1}
 {/section}
 <script type="text/javascript">
+//<![CDATA[
 initSelects();
 init_options(rules{$attribute.id},{$attribute.id});
+//]]>
 </script>
 {/default}

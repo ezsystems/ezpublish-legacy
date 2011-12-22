@@ -32,12 +32,12 @@
 
 {literal}
 <script type="text/javascript">
-<!--
+//<![CDATA[
 jQuery(function( $ )//called on document.ready
 {
     document.getElementById('address').select();
     document.getElementById('address').focus();
 });
--->
+//]]>
 </script>
 {/literal}

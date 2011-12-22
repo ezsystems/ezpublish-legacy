@@ -130,6 +130,7 @@
 {if $assignment_count|gt( 1 )}
     <input id="tab-locations-list-set-main" class="button" type="submit" name="UpdateMainAssignmentButton" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" title="{'Select the desired main location using the radio buttons above then click this button to store the setting.'|i18n( 'design/admin/node/view/full' )}" />
     <script type="text/javascript">
+    //<![CDATA[
     {literal}
     (function( $ )
     {
@@ -142,6 +143,7 @@
         });
     })( jQuery );
     {/literal}
+    //]]>
     </script>
 {else}
     <input class="button-disabled" type="submit" name="UpdateMainAssignmentButton" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You cannot set the main location because there is only one location present.'|i18n( 'design/admin/node/view/full' )}" />

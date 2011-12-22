@@ -1,6 +1,6 @@
 <!-- Subitems icon click popup menu -->
 <script type="text/javascript">
-<!--
+//<![CDATA[
 menuArray['SubitemsContextMenu'] = {ldelim} 'depth': 0, 'headerID': 'child-menu-header' {rdelim};
 menuArray['SubitemsContextMenu']['elements'] = {ldelim}{rdelim};
 //menuArray['SubitemsContextMenu']['elements']['child-menu-view'] = {ldelim} 'url': {"/content/view/full/%nodeID%"|ezurl} {rdelim};
@@ -9,7 +9,7 @@ menuArray['SubitemsContextMenu']['elements']['child-menu-edit'] = {ldelim} 'url'
 menuArray['SubitemsContextMenu']['elements']['child-menu-copy'] = {ldelim} 'url': {"/content/copy/%objectID%"|ezurl} {rdelim};
 menuArray['SubitemsContextMenu']['elements']['child-menu-copy-subtree'] = {ldelim} 'url': {"/content/copysubtree/%nodeID%"|ezurl} {rdelim};
 menuArray['SubitemsContextMenu']['elements']['child-menu-create-here'] = {ldelim} 'disabled_class': 'menu-item-disabled' {rdelim};
-// -->
+//]]>
 </script>
 
 <div class="popupmenu" id="SubitemsContextMenu">

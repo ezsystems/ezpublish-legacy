@@ -5,6 +5,7 @@
 {/if}
 
 <style type="text/css">
+/*<![CDATA[*/
     @import url({'stylesheets/core.css'|ezdesign});
     @import url({'stylesheets/site.css'|ezdesign});
     @import url({'stylesheets/debug.css'|ezdesign});
@@ -17,6 +18,7 @@
         @import url({concat( 'stylesheets/',$css_file )|ezdesign});
     {/foreach *}
 {/if}
+/*]]>*/
 </style>
 
 {include uri='design:page_head_style_inline.tpl'}

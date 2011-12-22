@@ -270,12 +270,12 @@
 
 {literal}
 <script type="text/javascript">
-<!--
+//<![CDATA[
     window.onload=function()
     {
         document.getElementById('className').select();
         document.getElementById('className').focus();
     }
--->
+//]]>
 </script>
 {/literal}

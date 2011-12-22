@@ -67,7 +67,7 @@
 
 {literal}
 <script type="text/javascript">
-<!--
+//<![CDATA[
     window.onload=function()
     {
         with( registerform )
@@ -88,6 +88,6 @@
         document.getElementById( 'PublishButton' ).disabled = true;
         document.getElementById( 'CancelButton' ).disabled = true;
     }
--->
+//]]>
 </script>
 {/literal}

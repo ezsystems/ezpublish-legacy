@@ -131,12 +131,12 @@
 
 {literal}
 <script type="text/javascript">
-<!--
+//<![CDATA[
     window.onload=function()
     {
         document.getElementById('importName').select();
         document.getElementById('importName').focus();
     }
--->
+//]]>
 </script>
 {/literal}

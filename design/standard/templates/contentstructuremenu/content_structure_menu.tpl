@@ -32,8 +32,8 @@
              defaultIcon        = $:iconInfo.default
              iconSizePath       = $:iconInfo.size_path_list[$:classIconsSize] }
 
-            <script type="text/javascript"><!--
-
+            <script type="text/javascript">
+            //<![CDATA[
                 var iconsList       = new Array();
                 var wwwDirPrefix    = "{ezsys('wwwdir')}";
                 var iconPath        = "";
@@ -50,8 +50,7 @@
 
                 // load them all!!
                 ezjslib_preloadImageList( iconsList );
-
-            // -->
+            //]]>
             </script>
         {/let}
     {/section}
@@ -92,8 +91,8 @@
     {/default}
 
     {* initialize menu *}
-    <script type="text/javascript"><!--
-
+    <script type="text/javascript">
+    //<![CDATA[
         {* get path to current node which consists of nodes ids *}
         var nodesList = new Array();
 
@@ -107,7 +106,7 @@
 
         ezcst_setFoldUnfoldIcons( {"images/content_tree-open.gif"|ezdesign}, {"images/content_tree-close.gif"|ezdesign}, {"images/1x1.gif"|ezdesign} );
         ezcst_initializeMenuState( nodesList, "{$:menuID}", "{$:autoopenCurrentNode}" );
-    // -->
+    //]]>
     </script>
 {/let}
 

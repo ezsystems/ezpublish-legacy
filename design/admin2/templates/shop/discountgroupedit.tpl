@@ -35,12 +35,12 @@
 
 {literal}
 <script type="text/javascript">
-<!--
+//<![CDATA[
 jQuery(function( $ )//called on document.ready
 {
     document.getElementById('discountgroupName').select();
     document.getElementById('discountgroupName').focus();
 });
--->
+//]]>
 </script>
 {/literal}

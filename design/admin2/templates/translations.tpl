@@ -91,6 +91,7 @@
     {if $translations_count|gt( 1 )}
     <input id="tab-translations-list-set-main" class="button" type="submit" name="UpdateInitialLanguageButton" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" title="{'Select the desired main language using the radio buttons above then click this button to store the setting.'|i18n( 'design/admin/node/view/full' )}" />
     <script type="text/javascript">
+    //<![CDATA[
     {literal}
     (function( $ )
     {
@@ -103,6 +104,7 @@
         });
     })( jQuery );
     {/literal}
+    //]]>
     </script>
     {else}
     <input class="button-disabled" type="submit" name="UpdateInitialLanguageButton" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You cannot change the main language because the object is not translated to any other languages.'|i18n( 'design/admin/node/view/full' )}" />
@@ -128,6 +130,7 @@
 {if $object_can_edit}
     <input id="tab-translations-alwaysavailable-btn" class="button" type="submit" name="UpdateAlwaysAvailableButton" value="{'Update'|i18n( 'design/admin/node/view/full' )}" title="{'Use this button to store the value of the checkbox above.'|i18n( 'design/admin/node/view/full' )}" />
     <script type="text/javascript">
+    //<![CDATA[
     {literal}
     (function( $ )
     {
@@ -137,6 +140,7 @@
         });
     })( jQuery );
     {/literal}
+    //]]>
     </script>
 {else}
     <input class="button-disabled" disabled="disabled" type="submit" name="UpdateAlwaysAvailableButton" value="{'Update'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to change this setting.'|i18n( 'design/admin/node/view/full' )}" />

@@ -76,6 +76,7 @@
 </form>
 </div>
 <script type="text/javascript">
+//<![CDATA[
 {literal}
 (function( $ )
 {
@@ -89,4 +90,5 @@
     });
 })( jQuery );
 {/literal}
+//]]>
 </script>

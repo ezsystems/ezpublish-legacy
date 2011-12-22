@@ -120,12 +120,12 @@
 
 {literal}
 <script type="text/javascript">
-<!--
+//<![CDATA[
 jQuery(function( $ )//called on document.ready
 {
     document.getElementById('discountruleName').select();
     document.getElementById('discountruleName').focus();
 });
--->
+//]]>
 </script>
 {/literal}

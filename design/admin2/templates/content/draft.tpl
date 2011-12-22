@@ -107,11 +107,13 @@
 {/let}
 {literal}
 <script type="text/javascript">
+//<![CDATA[
     function confirmDiscard( question )
     {
         // Ask user if he really wants to do it.
         return confirm( question );
     }
+//]]>
 </script>
 {/literal}
 

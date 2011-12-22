@@ -315,6 +315,7 @@
 
 {literal}
 <script type="text/javascript">
+//<![CDATA[
 jQuery(function( $ )//called on document.ready
 {
     with( document.aliasform )
@@ -330,5 +331,6 @@ jQuery(function( $ )//called on document.ready
         }
     }
 });
+//]]>
 </script>
 {/literal}

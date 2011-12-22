@@ -7,6 +7,7 @@
 <head>
 
 <style type="text/css">
+/*<![CDATA[*/
     @import url({"stylesheets/core.css"|ezdesign});
 {*    @import url({ezini('StylesheetSettings','MainCSS','design.ini')|ezdesign}); *}
     @import url({"stylesheets/site.css"|ezdesign});
@@ -16,6 +17,7 @@
  {*    @import url({"stylesheets/t1/classes-colors.css"|ezdesign}); todo -> read from design settings  *}
     @import url({ezini('StylesheetSettings','ClassesCSS','design.ini')|ezroot});
     @import url({"stylesheets/debug.css"|ezdesign});
+/*]]>*/
 </style>
 
 {literal}

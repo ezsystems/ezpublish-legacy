@@ -126,12 +126,12 @@
 
 {literal}
 <script type="text/javascript">
-<!--
+//<![CDATA[
     window.onload=function()
     {
         document.getElementById('pdfTitle').select();
         document.getElementById('pdfTitle').focus();
     }
--->
+//]]>
 </script>
 {/literal}

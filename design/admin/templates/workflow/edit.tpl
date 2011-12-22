@@ -149,12 +149,12 @@
 
 {literal}
 <script type="text/javascript">
-<!--
+//<![CDATA[
     window.onload=function()
     {
         document.getElementById('workflowName').select();
         document.getElementById('workflowName').focus();
     }
--->
+//]]>
 </script>
 {/literal}

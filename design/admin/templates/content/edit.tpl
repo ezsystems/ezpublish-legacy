@@ -121,7 +121,7 @@
 
 {literal}
 <script type="text/javascript">
-<!--
+//<![CDATA[
     window.onload=function()
     {
         with( document.editform )
@@ -146,6 +146,6 @@
         // Ask user if she really wants do it, return this to the handler.
         return confirm( question );
     }
--->
+//]]>
 </script>
 {/literal}

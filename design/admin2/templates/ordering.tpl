@@ -45,6 +45,7 @@
 {* Highlight "SetSorting" button on change *}
 {literal}
 <script type="text/javascript">
+//<![CDATA[
 jQuery('#ezasi-sort-field, #ezasi-sort-order').each( function(){
     jQuery( this ).attr( 'initial', this.value );
 } ).change(function(){
@@ -55,5 +56,6 @@ jQuery('#ezasi-sort-field, #ezasi-sort-order').each( function(){
     else
         s.removeClass('button').addClass('defaultbutton');
 });
+//]]>
 </script>
 {/literal}
