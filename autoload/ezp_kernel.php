@@ -603,6 +603,7 @@ return array(
       'ezpLanguageSwitcherFunctionCollection'              => 'kernel/private/modules/switchlanguage/ezpLanguageSwitcherFunctionCollection.php',
       'ezpLanguageSwitcherOperator'                        => 'kernel/private/eztemplate/ezplanguageswitcheroperator.php',
       'ezpLocation'                                        => 'kernel/private/api/location.php',
+      'ezpMail'                                            => 'kernel/private/classes/ezpmail.php',
       'ezpMobileDeviceDetect'                              => 'kernel/private/classes/ezpmobiledevicedetect.php',
       'ezpMobileDeviceDetectFilter'                        => 'kernel/private/classes/ezpmobiledevicedetectfilter.php',
       'ezpMobileDeviceDetectFilterInterface'               => 'kernel/private/classes/ezpmobiledevicedetectfilterinterface.php',
