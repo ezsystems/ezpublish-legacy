@@ -148,7 +148,7 @@ class eZi18nOperator
         return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 3 ) );
     }
 
-    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$value, $namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$value, $namedParameters, $placement )
     {
         switch ( $operatorName )
         {

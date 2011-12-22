@@ -48,7 +48,7 @@ class eZDateOperatorCollection
                                                                       'default' => false ) ) );
     }
 
-    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters, $placement )
     {
         $locale = eZLocale::instance();
         if ( $operatorName == $this->MonthOverviewName )

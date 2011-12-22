@@ -42,7 +42,7 @@ class eZModuleOperator
                                       'required' => false,
                                       'default' => false ) );
     }
-    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters, $placement )
     {
         $uri = new eZURI( $namedParameters[ 'uri' ] );
         $moduleName = $uri->element( 0 );
