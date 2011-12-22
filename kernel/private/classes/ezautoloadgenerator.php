@@ -249,7 +249,7 @@ class eZAutoloadGenerator
             $filename = $this->nameTable( $location );
             $filePath = $targetBasedir . DIRECTORY_SEPARATOR . $filename;
 
-             $file = fopen( $filePath, "w+" );
+             $file = @fopen( $filePath, "w+" );
              if ( $file )
              {
                  fwrite( $file, $this->dumpArrayStart( $location ) );
