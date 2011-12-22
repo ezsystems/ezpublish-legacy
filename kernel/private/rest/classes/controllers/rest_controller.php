@@ -216,7 +216,7 @@ abstract class ezpRestMvcController extends ezcMvcController
         $routingInfos = $this->getRouter()->getRoutingInformation();
         return ezpRestPrefixFilterInterface::getApiProviderName() .
             '/v' . ezpRestPrefixFilterInterface::getApiVersion() .
-            '/' . $routingInfos->controllerClass .
+            '/' . str_replace( "\\", ".", $routingInfos->controllerClass ) .
             '/' . $routingInfos->action;
     }
 
