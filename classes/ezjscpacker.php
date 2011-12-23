@@ -94,7 +94,7 @@ class ezjscPacker
             }
             else
             {
-                $ret .=  $packedFile ? "<script$lang type=\"$type\">\r\n//<![CDATA[\r\n$packedFile\r\n//]]>\r\n</script>\r\n" : '';
+                $ret .=  $packedFile ? "<script$lang type=\"$type\">\r\n$packedFile\r\n</script>\r\n" : '';
             }
         }
         return $ret;
