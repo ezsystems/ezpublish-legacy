@@ -84,7 +84,37 @@
         {tool_bar name='admin_developer' view='full'}
     </div>
     <script type="text/javascript">
-        rightMenuWidthControl();
+    {literal}
+
+    YUI(YUI3_config).use('ezcollapsiblemenu', 'event', 'io-ez', function (Y) {
+
+        Y.on('domready', function () {
+            var rightmenu = new Y.eZ.CollapsibleMenu({
+                link: '#rightmenu-showhide',
+                content: ['&raquo;', '&laquo;'],
+                collapsed: 0,
+                elements:[{
+                    selector: '#rightmenu',
+                    duration: 0.4,
+                    fullStyle: {width: '181px'},
+                    collapsedStyle: {width: '18px'}
+                },{
+                    selector: '#maincolumn',
+                    duration: 0.4,
+                    fullStyle: {marginRight: '180px'},
+                    collapsedStyle: {marginRight: '17px'}
+                }],
+                callback: function () {
+                    var p = 1;
+                    if ( this.conf.collapsed )
+                        p = 0;
+                    Y.io.ez.setPreference('admin_right_menu_show', p);
+                }
+            });
+        });
+    });
+
+    {/literal}
     </script>
 {/if}
 </div>

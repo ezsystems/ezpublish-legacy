@@ -7,12 +7,44 @@
 {def $content_language = ezini( 'RegionalSettings', 'Locale' )}
 
 <div id="leftmenu">
+<a id="objectinfo-showhide" class="show-hide-control" title="{'Show / Hide leftmenu'|i18n( 'design/admin/pagelayout/leftmenu' )}" href="#">&laquo;</a>
 <div id="leftmenu-design">
 
 {include uri='design:content/edit_menu.tpl'}
 
 </div>
 </div>
+<script type="text/javascript">
+{literal}
+
+YUI(YUI3_config).use('ezcollapsiblemenu', 'event', function (Y) {
+
+    Y.on('domready', function () {
+        var leftmenu = new Y.eZ.CollapsibleMenu({
+            link: '#objectinfo-showhide',
+            content: ['&laquo;', '&raquo;'],
+            collapsed: 0,
+            elements:[{
+                selector: '#leftmenu',
+                duration: 0.4,
+                fullStyle: {marginLeft: '0'},
+                collapsedStyle: {marginLeft: '-13.5em'}
+            },{
+                selector: '#maincontent',
+                duration: 0.4,
+                // workaround to http://yuilibrary.com/projects/yui3/ticket/2531641
+                // for IE, margin has to be set in px
+                fullStyle: {marginLeft: Y.one('#maincontent').getStyle('marginLeft')},
+                collapsedStyle: {marginLeft: '20px'}
+            }]
+        });
+    });
+
+});
+
+{/literal}
+</script>
+
 
 <div id="maincontent">
 <div id="maincontent-design" class="float-break"><div id="fix">

@@ -22,6 +22,18 @@ span.vertical-seperator
 
 label.inline { padding-right: 0.1em; }
 
+#leftmenu a.show-hide-control
+{
+    display:none;
+    float:right;
+    margin-top:1.5em;
+}
+
+.yui3-js-enabled #leftmenu a.show-hide-control
+{
+    display:block;
+}
+
 a.show-hide-control
 {
     float: left;

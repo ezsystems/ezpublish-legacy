@@ -146,6 +146,16 @@ a.show-hide-control
     background-clip: padding-box;
 }
 
+
+#leftmenu a.show-hide-control
+{
+    border:1px solid #999;
+    border-right: 0;
+    border-radius:0;
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
+}
+
 a.show-hide-control:hover
 {
     border-color: #666;
