@@ -131,12 +131,10 @@
 
 {literal}
 <script type="text/javascript">
-<!--
     window.onload=function()
     {
         document.getElementById('importName').select();
         document.getElementById('importName').focus();
     }
--->
 </script>
 {/literal}
