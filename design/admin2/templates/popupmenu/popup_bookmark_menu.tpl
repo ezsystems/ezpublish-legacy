@@ -1,11 +1,9 @@
 <!-- Bookmark popup menu -->
 <script type="text/javascript">
-<!--
 menuArray['BookmarkMenu'] = {ldelim} 'depth': 0, 'headerID': 'bookmark-header' {rdelim};
 menuArray['BookmarkMenu']['elements'] = {ldelim}{rdelim};
 menuArray['BookmarkMenu']['elements']['bookmark-view'] = {ldelim} 'url': {"/content/view/full/%nodeID%"|ezurl} {rdelim};
 menuArray['BookmarkMenu']['elements']['bookmark-edit'] = {ldelim} 'url': {"/content/edit/%objectID%"|ezurl} {rdelim};
-// -->
 </script>
 
 <div class="popupmenu" id="BookmarkMenu">

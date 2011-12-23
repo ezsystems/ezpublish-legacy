@@ -83,8 +83,6 @@
 </form>
 
 <script type="text/javascript">
-<!--
-
 jQuery(function( $ )
 {ldelim}
     var moduleList = {ldelim}{rdelim}, everyFunction = "{'Every function'|i18n( 'design/admin/role/createpolicystep1' )}";
@@ -117,6 +115,4 @@ jQuery(function( $ )
     }
 });
 {/literal}
-
-//-->
 </script>

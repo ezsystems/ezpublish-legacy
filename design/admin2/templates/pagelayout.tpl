@@ -149,8 +149,6 @@
 {/cache-block}
 
 <script type="text/javascript">
-<!--
-
 document.getElementById('header-usermenu-logout').innerHTML += '<span class="header-usermenu-name">{$current_user.login|wash}<\/span>';
 
 {literal}
@@ -175,8 +173,6 @@ document.getElementById('header-usermenu-logout').innerHTML += '<span class="hea
     });
 })( jQuery );
 {/literal}
-
-// -->
 </script>
 
 {* This comment will be replaced with actual debug report (if debug is on). *}
