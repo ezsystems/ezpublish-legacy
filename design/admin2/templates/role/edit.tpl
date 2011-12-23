@@ -119,12 +119,10 @@
 
 {literal}
 <script type="text/javascript">
-<!--
 jQuery(function( $ )//called on document.ready
 {
     document.getElementById('roleName').select();
     document.getElementById('roleName').focus();
 });
--->
 </script>
 {/literal}

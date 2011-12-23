@@ -126,12 +126,10 @@
 
 {literal}
 <script type="text/javascript">
-<!--
     window.onload=function()
     {
         document.getElementById('pdfTitle').select();
         document.getElementById('pdfTitle').focus();
     }
--->
 </script>
 {/literal}

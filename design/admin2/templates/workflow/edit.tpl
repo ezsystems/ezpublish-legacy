@@ -158,12 +158,10 @@
 
 {literal}
 <script type="text/javascript">
-<!--
 jQuery(function( $ )//called on document.ready
 {
     document.getElementById('workflowName').select();
     document.getElementById('workflowName').focus();
 });
--->
 </script>
 {/literal}

@@ -90,11 +90,9 @@
 
 {literal}
 <script type="text/javascript">
-<!--
 jQuery(function( $ )//called on document.ready
 {
     document.getElementById('id1').focus();
 });
--->
 </script>
 {/literal}
