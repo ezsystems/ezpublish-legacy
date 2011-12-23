@@ -4,7 +4,6 @@
                                            'css', array()
                                            )}
 <script type="text/javascript">
-<!--
 {literal}
 
 function mergeCells()
@@ -34,7 +33,6 @@ tinyMCEPopup.onInit.add(function()
 });
 
 {/literal}
--->
 </script>
 
 <div class="merge-cell-view">

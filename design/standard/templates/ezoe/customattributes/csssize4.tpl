@@ -88,8 +88,6 @@
 <tbody>
 </table>
 <script type="text/javascript">
-<!--
-
 eZOEPopupUtils.settings.customAttributeInitHandler['{$custom_attribute_id}_source'] = {literal} function( el, value )
 {
     if ( jQuery.trim( value ) === '' ) return;
@@ -119,6 +117,4 @@ eZOEPopupUtils.settings.customAttributeSaveHandler['{$custom_attribute_id}_sourc
     }
     return hasValue ? tempval.join(' ') : '';
 };{/literal}
-
-//-->
 </script>

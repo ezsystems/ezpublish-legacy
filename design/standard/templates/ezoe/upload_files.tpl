@@ -6,7 +6,6 @@
                                            'css', array()
                                            )}
 <script type="text/javascript">
-<!--
 var contentType = '{$content_type}', classFilter = [];
 
 {foreach $class_filter_array as $class_filter}
@@ -34,8 +33,6 @@ tinyMCEPopup.onInit.add( function(){
         return tag;
     };
 });
-
--->
 </script>
 {/literal}
 

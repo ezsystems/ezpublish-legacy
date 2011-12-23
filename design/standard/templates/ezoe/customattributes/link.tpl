@@ -26,8 +26,6 @@
 
 {run-once}
 <script type="text/javascript">
-<!--
-
 {literal}
 
 // register function to be called on end of init
@@ -198,7 +196,6 @@ var ezoeLinkAttribute = {
 };
 
 {/literal}
-//-->
 </script>
 
 {append-block scope=global variable=$attribute_panel_output}
