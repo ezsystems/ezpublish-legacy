@@ -6,7 +6,6 @@
                                            'css', array()
                                            )}
 <script type="text/javascript">
-<!--
 var contentType = '{$content_type}', classFilter = [];
 
 {foreach $class_filter_array as $class_filter}
@@ -42,8 +41,6 @@ eZOEPopupUtils.settings.browseClassGenerator = function( n, hasImage ){
         return 'node_not_image';
     return 'node_not_image node_fadeout';
 };
-
--->
 </script>
 {/literal}
 

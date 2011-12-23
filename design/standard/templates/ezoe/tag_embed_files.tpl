@@ -7,8 +7,6 @@
                                            )}
 
 <script type="text/javascript">
-<!--
-
 eZOEPopupUtils.embedObject = {$embed_data};
 eZOEPopupUtils.settings.customAttributeStyleMap = {$custom_attribute_style_map};
 eZOEPopupUtils.settings.tagEditTitleText = "{'Edit %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name_alias, '&gt;') ))|wash('javascript')}";
@@ -144,8 +142,6 @@ function loadEmbedPreview( )
         jQuery('#embed_preview').html( data );
     });
 }
-
-// -->
 </script>
 {/literal}
 

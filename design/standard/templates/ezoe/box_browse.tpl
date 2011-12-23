@@ -35,10 +35,6 @@
     </div>
 {/default}
 <script type="text/javascript">
-<!--
-
 eZOEPopupUtils.browse( {ezini( 'NodeSettings', 'RootNode', 'content.ini' )} );
 // UserRootNode MediaRootNode
-
-//-->
 </script>

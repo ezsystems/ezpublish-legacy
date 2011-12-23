@@ -66,8 +66,6 @@
     {ezscript( $dependency_js_list )}
     <!-- Init TinyMCE script -->
     <script type="text/javascript">
-    <!--
-
     var eZOeAttributeSettings, eZOeGlobalSettings = {ldelim}
         mode : "none",
         theme : "ez",
@@ -173,7 +171,6 @@
     }
 
     {/literal}
-    //-->
     </script>
     {/run-once}
 
@@ -188,8 +185,6 @@
             <input class="button{if $layout_settings['buttons']|contains('disable')} hide{/if}" type="submit" name="CustomActionButton[{$attribute.id}_disable_editor]" value="{'Disable editor'|i18n('design/standard/content/datatype')}" />
         {/if}
         <script type="text/javascript">
-        <!--
-
         eZOeAttributeSettings = eZOeGlobalSettings;
         eZOeAttributeSettings['ez_attribute_id'] = {$attribute.id};
         eZOeAttributeSettings['theme_advanced_buttons1'] = "{$layout_settings['buttons']|implode(',')}";
@@ -197,8 +192,6 @@
         eZOeAttributeSettings['theme_advanced_toolbar_location'] = "{$layout_settings['toolbar_location']}";
 
         eZOeToggleEditor( '{$attribute_base}_data_text_{$attribute.id}', eZOeAttributeSettings );
-
-        -->
         </script>
     </div>
 <!-- End editor -->

@@ -18,8 +18,6 @@
     <option value="%"{if $custom_attribute_default_type|eq('%')} selected="selected"{/if}>%</option>
 </select>
 <script type="text/javascript">
-<!--
-
 eZOEPopupUtils.settings.customAttributeInitHandler['{$custom_attribute_id}_source'] = {literal} function( el, value )
 {
     el.value = eZOEPopupUtils.Int( value );
@@ -33,6 +31,4 @@ eZOEPopupUtils.settings.customAttributeSaveHandler['{$custom_attribute_id}_sourc
         return '0';// Ignore % if 0 so TinyMCE shows a dotted border
     return value !== '' ? (value + sizetype.options[sizetype.selectedIndex].value) : '';
 };{/literal}
-
-//-->
 </script>

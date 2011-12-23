@@ -25,8 +25,6 @@
 {/if}
 </select>
 <script type="text/javascript">
-<!--
-
 eZOEPopupUtils.settings.customAttributeInitHandler['{$custom_attribute_id}_source'] = {literal} function( el, value )
 {
     el.value = eZOEPopupUtils.Int( value );
@@ -42,6 +40,4 @@ eZOEPopupUtils.settings.customAttributeSaveHandler['{$custom_attribute_id}_sourc
     var sel = document.getElementById( el.id.replace('_source', '_sizetype') );
     return value !== '' ? (value + ( sel.selectedIndex !== -1 ? sel.options[sel.selectedIndex].value : '' )) : '';
 };{/literal}
-
-//-->
 </script>

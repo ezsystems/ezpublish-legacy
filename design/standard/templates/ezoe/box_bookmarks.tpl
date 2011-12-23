@@ -24,8 +24,6 @@
     </div>
 {/default}
 <script type="text/javascript">
-<!--
-
 {literal}
 
 eZOEPopupUtils.bookmarks = function( offset )
@@ -54,5 +52,4 @@ eZOEPopupUtils.bookmarksCallBack = function( bookmarkData )
 eZOEPopupUtils.bookmarks();
 
 {/literal}
-//-->
 </script>

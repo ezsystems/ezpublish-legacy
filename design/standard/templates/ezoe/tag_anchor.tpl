@@ -7,8 +7,6 @@
                                            )}
 
 <script type="text/javascript">
-<!--
-
 tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {ldelim}
     tagName: '{$tag_name|wash}',
     form: 'EditForm',
@@ -34,8 +32,6 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {ldel
     }
 {/literal}
 {rdelim} ) );
-
-// -->
 </script>
 
 

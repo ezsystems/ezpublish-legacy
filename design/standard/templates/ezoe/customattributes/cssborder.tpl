@@ -59,8 +59,6 @@
 </tr>
 </table>
 <script type="text/javascript">
-<!--
-
 eZOEPopupUtils.settings.customAttributeInitHandler['{$custom_attribute_id}_source'] = {literal} function( el, value )
 {
     
@@ -86,6 +84,4 @@ eZOEPopupUtils.settings.customAttributeSaveHandler['{$custom_attribute_id}_sourc
         return '';
     return value + ( size.selectedIndex !== -1 ? size.options[size.selectedIndex].value : '' ) + ( border.selectedIndex !== -1 ? ' ' + border.options[border.selectedIndex].value : '' ) + ' ' + color.value;
 };{/literal}
-
-//-->
 </script>
