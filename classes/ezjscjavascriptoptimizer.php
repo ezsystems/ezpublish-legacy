@@ -42,12 +42,12 @@ class ezjscJavascriptOptimizer
         // Normalize line feeds
         $script = str_replace( array( "\r\n", "\r" ), "\n", $script );
 
+        // Remove whitespace from start & end of line + singelline comment + multiple linefeeds
+        $script = preg_replace( array( '/\n\s+/', '/\s+\n/', '#\n\s*//.*#', '/\n+/' ), "\n", $script );
+
         // Remove multiline comments
         $script = preg_replace( '!(?:\n|\s|^)/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $script );
         $script = preg_replace( '!(?:;)/\*[^*]*\*+([^/][^*]*\*+)*/!', ';', $script );
-
-        // Remove whitespace from start & end of line + singelline comment + multiple linefeeds
-        $script = preg_replace( array( '/\n\s+/', '/\s+\n/', '#\n\s*//.*#', '/\n+/' ), "\n", $script );
 
         return $script;
     }
