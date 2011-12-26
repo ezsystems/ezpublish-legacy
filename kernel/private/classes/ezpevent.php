@@ -112,6 +112,11 @@ class ezpEvent
             return false;
         }
 
+        if ( $name != 'alter/events' )
+        {
+            $this->listeners = self::getInstance()->filter( 'alter/events', $this->listeners );
+        }
+
         foreach ( $this->listeners[$name] as $listener )
         {
             call_user_func_array( $listener, $params );
@@ -131,6 +136,11 @@ class ezpEvent
         if ( empty( $this->listeners[$name] ) )
         {
             return $value;
+        }
+
+        if ( $name != 'alter/events' )
+        {
+            $this->listeners = self::getInstance()->filter( 'alter/events', $this->listeners );
         }
 
         foreach ( $this->listeners[$name] as $listener )
