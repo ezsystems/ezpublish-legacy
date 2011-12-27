@@ -74,12 +74,7 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
      */
     protected function processBody()
     {
-        $req = $this->request;
-
-        if ( $req->protocol === 'http-put' ||  $req->protocol === 'http-delete' )
-        {
-            $req->body = file_get_contents( "php://input" );
-        }
+        $this->request->body = file_get_contents( "php://input" );
     }
 
     /**
