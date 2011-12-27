@@ -56,7 +56,6 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
     {
         $this->processEncryption();
         parent::processStandardHeaders( );
-        $this->processProtocolOverride();
     }
 
     /**
@@ -161,17 +160,17 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
     }
 
     /**
-     * Adds support for using POST for PUT and DELETE for legacy browsers that does not support these.
-     *
-     * If a post param "_method" is set to either PUT or DELETE, then ->protocol is changed to that.
-     * ( original protocol is kept on ->originalProtocol param  )
-     * Post is used as this is only meant for forms in legacy browsers.
+     * Processes the request protocol.
      */
-    protected function processProtocolOverride()
+    protected function processProtocol()
     {
         $req = $this->request;
-        $req->originalProtocol = $req->protocol;
+        $req->originalProtocol = $req->protocol = 'http-' . ( isset( $_SERVER['REQUEST_METHOD'] ) ? strtolower( $_SERVER['REQUEST_METHOD'] ) : "get" );
 
+        // Adds support for using POST for PUT and DELETE for legacy browsers that does not support these.
+        // If a post param "_method" is set to either PUT or DELETE, then ->protocol is changed to that.
+        // (original protocol is kept on ->originalProtocol param)
+        // Post is used as this is only meant for forms in legacy browsers.
         if ( $req->protocol === 'http-post' && isset( $req->post['_method'] ) )
         {
             $method = strtolower( $req->post['_method'] );
