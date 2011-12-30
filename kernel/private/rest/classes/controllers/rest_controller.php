@@ -39,6 +39,25 @@ abstract class ezpRestMvcController extends ezcMvcController
      */
     public static $isCacheCreated = false;
 
+    /**
+     * Map with the supported protocols for each action.
+     *
+     * Example:
+     *     $supportedProtocols = array(
+     *         'viewContent' => array(
+     *             'http-get' => true,
+     *         ),
+     *         'publishContent' => array(
+     *             'http-put' => true,
+     *             'http-publish' => true,
+     *         ),
+     *         'changeField' => array(
+     *             'http-post' => true,
+     *         ),
+     *     );
+     *
+     * @var array
+     */
     protected $supportedProtocols = array(
     );
 
