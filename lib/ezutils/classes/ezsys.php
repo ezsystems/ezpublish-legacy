@@ -150,11 +150,12 @@ class eZSys
      */
     public function __construct( array $serverParams = array() )
     {
-        $this->Params = array_merge( array( 'PHP_OS' => PHP_OS,
-                                            'DIRECTORY_SEPARATOR' => DIRECTORY_SEPARATOR,
-                                            'PATH_SEPARATOR' => PATH_SEPARATOR,
-                                            '_SERVER' => $_SERVER, ),
-                                     $serverParams );
+        $this->Params = $serverParams + array(
+            'PHP_OS' => PHP_OS,
+            'DIRECTORY_SEPARATOR' => DIRECTORY_SEPARATOR,
+            'PATH_SEPARATOR' => PATH_SEPARATOR,
+            '_SERVER' => $_SERVER,
+        );
 
         if ( isset( $this->Params['_SERVER']['REQUEST_TIME'] ) )
         {

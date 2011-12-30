@@ -273,7 +273,7 @@ abstract class ezpRestMvcController extends ezcMvcController
         );
         // Add internal variables, caught in the URL. See ezpRestHttpRequestParser::fillVariables()
         // Also add content variables
-        foreach ( array_merge( $this->request->variables, $this->getAllContentVariables() ) as $name => $val )
+        foreach ( $this->request->contentVariables + $this->request->variables as $name => $val )
         {
             $aCacheId[] = $name . '=' . ( is_array( $val ) ? implode( ',', $val ) : $val );
         }

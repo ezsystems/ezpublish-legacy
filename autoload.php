@@ -71,15 +71,15 @@ class ezpAutoloader
 
             if ( $ezpExtensionClasses and $ezpTestClasses )
             {
-                self::$ezpClasses = array_merge( $ezpKernelClasses, $ezpExtensionClasses, $ezpTestClasses );
+                self::$ezpClasses = $ezpTestClasses + $ezpExtensionClasses + $ezpKernelClasses;
             }
             else if ( $ezpExtensionClasses )
             {
-                self::$ezpClasses = array_merge( $ezpKernelClasses, $ezpExtensionClasses );
+                self::$ezpClasses = $ezpExtensionClasses + $ezpKernelClasses;
             }
             else if ( $ezpTestClasses )
             {
-                self::$ezpClasses = array_merge( $ezpKernelClasses, $ezpTestClasses );
+                self::$ezpClasses = $ezpTestClasses + $ezpKernelClasses;
             }
             else
             {

@@ -74,8 +74,7 @@ class eZExtension
         $activeExtensions = array();
         if ( !$extensionType || $extensionType === 'default' )
         {
-            $activeExtensions = array_merge( $activeExtensions,
-                                             $siteINI->variable( 'ExtensionSettings', 'ActiveExtensions' ) );
+            $activeExtensions = $siteINI->variable( 'ExtensionSettings', 'ActiveExtensions' );
         }
 
         if ( !$extensionType || $extensionType === 'access' )

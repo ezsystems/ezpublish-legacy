@@ -1226,7 +1226,7 @@ class eZINI
         else
         {
             if ( $identifier )
-                $dirs[$scope] = array_merge( array( $identifier => array( $dir, $globalDir ) ), $dirs[$scope] );
+                $dirs[$scope][$identifier] = array( $dir, $globalDir );
             else
                 $dirs[$scope] = array_merge( array( array( $dir, $globalDir ) ), $dirs[$scope] );
         }
