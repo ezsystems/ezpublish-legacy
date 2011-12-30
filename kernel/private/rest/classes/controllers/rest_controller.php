@@ -39,6 +39,9 @@ abstract class ezpRestMvcController extends ezcMvcController
      */
     public static $isCacheCreated = false;
 
+    protected $supportedProtocols = array(
+    );
+
     /**
      * Constructor
      *
@@ -169,6 +172,14 @@ abstract class ezpRestMvcController extends ezcMvcController
             {
                 $debug->log( 'Generating cache', ezcLog::DEBUG );
                 $debug->switchTimer( 'GeneratingCache', 'GeneratingRestResult' );
+
+                if ( !isset( $this->supportedProtocols[$this->action][$this->request->protocol] ) )
+                {
+                    $res = new ezcMvcResult();
+                    // creates a 405 message
+                    $res->status = new ezpMvcUnsupportedMethodStatus( array_keys( $this->supportedProtocols[$this->action] ) );
+                    return $res;
+                }
 
                 $res = parent::createResult();
                 $resGroups = $this->getResponseGroups();
