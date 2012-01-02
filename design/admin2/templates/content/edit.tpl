@@ -95,6 +95,10 @@
 <div class="content-translation">
 {/if}
 
+{foreach ezini( 'EditSettings', 'AdditionalTemplates', 'content.ini' ) as $additional_tpl}
+    {include uri=concat( 'design:', $additional_tpl )}
+{/foreach}
+
 <div class="context-attributes">
     {include uri='design:content/edit_attribute.tpl' view_parameters=$view_parameters}
 </div>
