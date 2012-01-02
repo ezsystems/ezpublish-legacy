@@ -33,18 +33,11 @@ class ezpRestRequest extends ezcMvcRequest
     public $post;
 
     /**
-     * PUT & DELETE variables
-     *
-     * @var array
-     */
-    public $inputVariables;
-
-    /**
      * Original request method
      *
      * @var string
      */
-    public $originalMethod;
+    public $originalProtocol;
 
     /**
      * Variables related to content, extracted from GET
@@ -72,8 +65,6 @@ class ezpRestRequest extends ezcMvcRequest
      * @param array $variables Containing request variables set by the router
      * @param array $get The GET variables which are available in the request
      * @param array $post The POST variables that are available in the request
-     * @param array $inputVariables The PUT & DELETE input variables that are available in the request
-     * @param string $originalMethod
      * @param array $contentVariables GET variables related to eZ Publish content
      * @param bool $isEncrypted Is the request made over an encrypted connection
      * @param string $body
@@ -84,13 +75,16 @@ class ezpRestRequest extends ezcMvcRequest
      * @param ezcMvcRawRequest $raw
      * @param array(ezcMvcRequestCookie) $cookies
      * @param bool $isFatal
+     * @param string|null $originalProtocol Uses $protocol if null
+     * @return ezpRestRequest
+     *
      */
     public function __construct( $date = null, $protocol = '',
         $host = '', $uri = '', $requestId = '', $referrer = '',
-        $variables = array(), $get = array(), $post = array(), $inputVariables = array(),
-        $originalMethod = '', $contentVariables = array(), $isEncrypted = false, $body = '',
+        $variables = array(), $get = array(), $post = array(),
+        $contentVariables = array(), $isEncrypted = false, $body = '',
         $files = null, $accept = null, $agent = null, $authentication = null,
-        $raw = null, $cookies = array(), $isFatal = false )
+        $raw = null, $cookies = array(), $isFatal = false, $originalProtocol = null )
     {
         $this->date = $date;
         $this->protocol = $protocol;
@@ -101,8 +95,6 @@ class ezpRestRequest extends ezcMvcRequest
         $this->variables = $variables;
         $this->get = $get;
         $this->post = $post;
-        $this->inputVariables = $inputVariables;
-        $this->originalMethod = $originalMethod;
         $this->contentVariables = $contentVariables;
         $this->isEncrypted = $isEncrypted;
         $this->body = $body;
@@ -112,6 +104,7 @@ class ezpRestRequest extends ezcMvcRequest
         $this->authentication = $authentication;
         $this->raw = $raw;
         $this->cookies = $cookies;
+        $this->originalProtocol = ( $originalProtocol === null ? $protocol : $originalProtocol );
     }
 
     /**
@@ -132,14 +125,15 @@ class ezpRestRequest extends ezcMvcRequest
         return new ezpRestRequest( $array['date'], $array['protocol'],
             $array['host'], $array['uri'], $array['requestId'],
             $array['referrer'], $array['variables'], $array['get'],
-            $array['post'], $array['inputVariables'], $array['originalMethod'], $array['contentVariables'],
-            $array['isEncrypted'], $array['body'], $array['files'], $array['accept'], $array['agent'],
+            $array['post'], $array['contentVariables'], $array['isEncrypted'],
+            $array['body'], $array['files'], $array['accept'], $array['agent'],
             $array['authentication'], $array['raw'], $array['cookies'],
-            $array['isFatal'] );
+            $array['isFatal'], $array['originalProtocol'] );
     }
 
     /**
      * Returns base URI with protocol and host (e.g. http://myhost.com/foo/bar)
+     *
      * @return string
      */
     public function getBaseURI()
@@ -155,6 +149,7 @@ class ezpRestRequest extends ezcMvcRequest
 
     /**
      * Returns the host with the protocol
+     *
      * @return string
      */
     public function getHostURI()
@@ -168,6 +163,7 @@ class ezpRestRequest extends ezcMvcRequest
 
     /**
      * Returns current content variables as a regular query string (e.g. "foo=bar&this=that")
+     *
      * @param bool $withQuestionMark If true, the question mark ("?") will be added
      * @return string
      */
@@ -187,6 +183,42 @@ class ezpRestRequest extends ezcMvcRequest
             $queryString .= implode( '&', $aParams );
         }
         return $queryString;
+    }
+
+    /**
+     * Get parsed request body based on content type as a php hash.
+     *
+     * In PUT / DELETE currently only supports application/x-www-form-urlencoded and application/json,
+     * for anything else use ->body atm. If POST then ->post is returned.
+     *
+     * @todo Add some sort of configurable lazy loaded request body handler for parsing misc content type.
+     * @return array|null Null on unsupported protocol or content type.
+     */
+    public function getParsedBody()
+    {
+        if ( $this->originalProtocol === 'http-put' ||  $this->originalProtocol === 'http-delete' )
+        {
+            if ( !isset( $this->raw['CONTENT_TYPE'] ) )
+                return null;
+
+            if ( empty( $this->body ) )
+                return array();
+
+            if ( strpos( $this->raw['CONTENT_TYPE'], 'application/x-www-form-urlencoded' ) === 0 )
+            {
+                parse_str( $this->body, $parsedBody );
+                return $parsedBody;
+            }
+            else if ( strpos( $this->raw['CONTENT_TYPE'], 'application/json' ) === 0 )
+            {
+                return json_decode( $this->body, true );
+            }
+        }
+        else if ( $this->originalProtocol === 'http-post' )
+        {
+            return $this->post;
+        }
+        return null;
     }
 }
 ?>

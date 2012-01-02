@@ -158,7 +158,7 @@ function delDir( $dir )
 
     // Attempt to remove the target dir itself & return status (should be
     // OK as soon as we get this far...
-    $status = rmdir( ${dir} );
+    $status = rmdir( $dir );
 
     return $status;
 }

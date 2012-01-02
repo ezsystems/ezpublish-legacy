@@ -713,6 +713,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $sortingInfo['attributeFromSQL']    = $attributeFromSQL;
             $sortingInfo['attributeWhereSQL']   = $attributeWhereSQL;
         }
+        else if ( $sortList === array() )
+        {
+            $sortingInfo['sortingFields'] = '';
+        }
 
         return $sortingInfo;
     }
@@ -2875,7 +2879,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      *
      * @param int $objectID
      * @param boolean $asObject
-     * 
+     *
      * @return int|null
      */
     static function findMainNode( $objectID, $asObject = false )
@@ -3668,7 +3672,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $options = new ezpExtensionOptions( $optionArray );
 
             $staticCacheHandler = eZExtension::getHandlerClass( $options );
-        	
+
             $staticCacheHandler->removeURL( "/" . $urlAlias );
             $staticCacheHandler->generateAlwaysUpdatedCache();
 
@@ -3796,7 +3800,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 continue;
 
             $class = $object->attribute( 'content_class' );
-            $canRemove = $object->attribute( 'can_remove' );
+            $canRemove = $node->attribute( 'can_remove' );
             $canRemoveSubtree = true;
 
             $nodeID = $node->attribute( 'node_id' );
@@ -5865,6 +5869,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $nodePath = $node->attribute( 'path_string' );
         $nodeInvisible = $node->attribute( 'is_invisible' );
         $parentNode = $node->attribute( 'parent' );
+        if ( !$parentNode instanceof eZContentObjectTreeNode )
+        {
+            eZDebug::writeError( "Parent of Node #$nodeId doesn't exist or inaccesible.", __METHOD__ );
+            return;
+        }
+
         $time = time();
 
         if ( eZAudit::isAuditEnabled() )

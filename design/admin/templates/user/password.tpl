@@ -95,11 +95,9 @@
 
 {literal}
 <script type="text/javascript">
-<!--
     window.onload=function()
     {
         document.getElementById('pass').focus();
     }
--->
 </script>
 {/literal}

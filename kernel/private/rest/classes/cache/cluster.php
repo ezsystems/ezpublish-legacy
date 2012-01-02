@@ -11,14 +11,17 @@ abstract class ezpRestCacheStorageCluster extends ezpRestCacheStorageFile implem
 {
     /**
      * Flag indicating if cache is enabled or not.
+     *
      * This flag should be set by the cache caller.
      * Default is true
+     *
      * @var bool
      */
     public $isCacheEnabled = true;
 
     /**
      * Cluster file handler instance for cache file
+     *
      * @var eZClusterFileHandlerInterface
      */
     protected $clusterCacheFile;
@@ -27,27 +30,26 @@ abstract class ezpRestCacheStorageCluster extends ezpRestCacheStorageFile implem
      * Creates a new cache storage for a given location through eZ Publish cluster mechanism
      * Options can contain the 'ttl' ( Time-To-Life ). This is per default set
      * to 1 day.
+     *
      * @param string $location Path to the cache location inside the cluster
      * @param array(string=>string) $options Options for the cache.
      */
     public function __construct( $location, $options = array() )
     {
-        $apiName = ezpRestPrefixFilterInterface::getApiProviderName();
-        $apiVersion = ezpRestPrefixFilterInterface::getApiVersion();
-        $location = eZSys::cacheDirectory().'/rest/'.$location;
-        if( !file_exists( $location ) )
+        $path = eZSys::cacheDirectory() . '/rest/' . $location;
+        if( !file_exists( $path ) )
         {
-            if( !eZDir::mkdir( $location, false, true ) )
+            if( !eZDir::mkdir( $path, false, true ) )
             {
                 throw new ezcBaseFilePermissionException(
-                    $location,
+                    $path,
                     ezcBaseFileException::WRITE,
                     'Cache location is not writeable.'
                 );
             }
         }
 
-        parent::__construct( $location );
+        parent::__construct( $path );
         $this->properties['options'] = new ezpCacheStorageClusterOptions( $options );
     }
 
@@ -57,24 +59,26 @@ abstract class ezpRestCacheStorageCluster extends ezpRestCacheStorageFile implem
      */
     public function store( $id, $data, $attributes = array() )
     {
-        $fileName = $this->properties['location']
-                  . $this->generateIdentifier( $id, $attributes );
+        if ( !isset( $this->clusterCacheFile ) )
+        {
+            $this->clusterCacheFile = eZClusterFileHandler::instance(
+                $this->properties['location'] . $this->generateIdentifier( $id, $attributes )
+            );
+        }
 
-        if( !isset( $this->clusterCacheFile ) )
-            $this->clusterCacheFile = eZClusterFileHandler::instance( $fileName );
-
-        $dataStr = $this->prepareData( $data );
-        $aFileData = array(
-            'scope'        => 'rest-cluster-cache',
-            'binarydata'   => $dataStr
+        $this->clusterCacheFile->storeCache(
+            array(
+                'scope'        => 'rest-cluster-cache',
+                'binarydata'   => $this->prepareData( $data )
+            )
         );
-        $this->clusterCacheFile->storeCache( $aFileData );
 
         return $id;
     }
 
     /**
      * Restore data from the cache.
+     *
      * Restores the data associated with the given cache and
      * returns it. Please see {@link ezcCacheStorage::store()}
      * for more detailed information of cachable datatypes.
@@ -106,10 +110,9 @@ abstract class ezpRestCacheStorageCluster extends ezpRestCacheStorageFile implem
             return false;
         }
 
-        $fileName = $this->properties['location']
-                  . $this->generateIdentifier( $id, $attributes );
-
-        $this->clusterCacheFile = eZClusterFileHandler::instance( $fileName );
+        $this->clusterCacheFile = eZClusterFileHandler::instance(
+            $this->properties['location'] . $this->generateIdentifier( $id, $attributes )
+        );
         $result = $this->clusterCacheFile->processCache(
             array( $this, 'clusterRetrieve' ),
             null, // We won't call any generate callback as we're using ezcCache mechanism, so it's up to the cache caller to generate
@@ -128,9 +131,11 @@ abstract class ezpRestCacheStorageCluster extends ezpRestCacheStorageFile implem
 
     /**
      * Retrieve callback for cluster processCache() method
+     *
      * @param string $file Filepath
      * @param int $mtime File modification time
      * @param array $args Extra args passed to the cluster processCache() method
+     *
      * @return string
      */
     public function clusterRetrieve( $file, $mtime, $args )
@@ -140,6 +145,7 @@ abstract class ezpRestCacheStorageCluster extends ezpRestCacheStorageFile implem
 
     /**
      * Delete data from the cache.
+     *
      * Purges the cached data for a given ID and or attributes. Using an ID
      * purges only the cache data for just this ID.
      *
@@ -159,11 +165,12 @@ abstract class ezpRestCacheStorageCluster extends ezpRestCacheStorageFile implem
      */
     public function delete( $id = null, $attributes = array(), $search = false )
     {
-        $fileName = $this->properties['location']
-                  . $this->generateIdentifier( $id, $attributes );
-
-        if( !isset( $this->clusterCacheFile ) )
-            $this->clusterCacheFile = eZClusterFileHandler::instance( $fileName );
+        if ( !isset( $this->clusterCacheFile ) )
+        {
+            $this->clusterCacheFile = eZClusterFileHandler::instance(
+                $this->properties['location'] . $this->generateIdentifier( $id, $attributes )
+            );
+        }
 
         $this->clusterCacheFile->purge();
 
@@ -172,28 +179,25 @@ abstract class ezpRestCacheStorageCluster extends ezpRestCacheStorageFile implem
 
     /**
      * Return the number of items in the cache matching a certain criteria.
+     *
      * This method determines if cache data described by the given ID and/or
      * attributes exists. It returns the number of cache data items found.
      *
      * @param string $id                        The item ID.
      * @param array(string=>string) $attributes Attributes that describe the item
+     *
      * @return int The number of cache data items found matching the criteria
      */
     public function countDataItems( $id = null, $attributes = array() )
     {
-        $fileName = $this->properties['location']
-                  . $this->generateIdentifier( $id, $attributes );
-
-        if( !isset( $this->clusterCacheFile ) )
-            $this->clusterCacheFile = eZClusterFileHandler::instance( $fileName );
-
-        $count = 0;
-        if( $this->clusterCacheFile->exists() )
+        if ( !isset( $this->clusterCacheFile ) )
         {
-            $count = 1;
+            $this->clusterCacheFile = eZClusterFileHandler::instance(
+                $this->properties['location'] . $this->generateIdentifier( $id, $attributes )
+            );
         }
 
-        return $count;
+        return $this->clusterCacheFile->exists() ? 1 : 0;
     }
 
     /**
@@ -204,36 +208,34 @@ abstract class ezpRestCacheStorageCluster extends ezpRestCacheStorageFile implem
      * @param string $id                        The item ID.
      * @param array(string=>string) $attributes Attributes that describe the
      * @access public
+     *
      * @return int The remaining lifetime ( 0 if nonexists or outdated ).
      */
     public function getRemainingLifetime( $id, $attributes = array() )
     {
-        $fileName = $this->properties['location']
-                  . $this->generateIdentifier( $id, $attributes );
-
-        if( !isset( $this->clusterCacheFile ) )
-            $this->clusterCacheFile = eZClusterFileHandler::instance( $fileName );
-
-        $ttl = $this->options->ttl;
-        $remaining = 0;
-        $curTime = time();
-        if( $this->clusterCacheFile->exists() && !$this->clusterCacheFile->isExpired( -1, $curTime, $ttl) )
+        if ( !isset( $this->clusterCacheFile ) )
         {
-            if( $ttl !== false )
-            {
-                $lifetime = $curTime - $this->clusterCacheFile->mtime();
-                if( $lifetime < $ttl )
-                    $remaining = $ttl - $lifetime;
-            }
+            $this->clusterCacheFile = eZClusterFileHandler::instance(
+                $this->properties['location'] . $this->generateIdentifier( $id, $attributes )
+            );
         }
 
-        return $remaining;
+        $ttl = $this->options->ttl;
+        $curTime = time();
+        if ( $ttl !== false && $this->clusterCacheFile->exists() && !$this->clusterCacheFile->isExpired( -1, $curTime, $ttl) )
+        {
+            $lifetime = $curTime - $this->clusterCacheFile->mtime();
+            if ( $lifetime < $ttl )
+                return $ttl - $lifetime;
+        }
+
+        return 0;
     }
 
     /**
      * Aborts current cache generation
      * Useful in case of a problem during generation of content (ie. exception)
-     * @return void
+     *
      * @throws ezpCacheClusterException
      */
     public function abortCacheGeneration()

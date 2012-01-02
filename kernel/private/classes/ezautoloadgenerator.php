@@ -145,6 +145,11 @@ class eZAutoloadGenerator
     const DEFAULT_EXCLUDE_FILE = '.autoloadignore';
 
     /**
+     * Undefined token value
+     */
+    const UNDEFINED_TOKEN = -1;
+
+    /**
      * Constructs class to generate autoload arrays.
      */
     function __construct( ezpAutoloadGeneratorOptions $options = null )
@@ -574,7 +579,10 @@ class eZAutoloadGenerator
             // Compatibility with PHP 5.2 where T_NAMESPACE constant is not available
             // Assigning the constant value to $tNamespace
             // 377 is the value for T_NAMESPACE in PHP 5.3.x
-            $tNamespace = defined( 'T_NAMESPACE' ) ? T_NAMESPACE : 377;
+            $tNamespace = defined( 'T_NAMESPACE' ) ? T_NAMESPACE : self::UNDEFINED_TOKEN;
+
+            // Traits support, see http://issues.ez.no/19028
+            $tTrait = defined( 'T_TRAIT' ) ? T_TRAIT : self::UNDEFINED_TOKEN;
 
             foreach( $fileList as $file )
             {
@@ -592,12 +600,16 @@ class eZAutoloadGenerator
                     {
                         switch( $token[0] )
                         {
+                            case self::UNDEFINED_TOKEN:
+                                // Unsupported token, do nothing
+                                break;
+
                             // Store namespace name, if applicable, to concatenate with class name
                             case $tNamespace:
                                 // NAMESPACE_TOKEN - WHITESPACE_TOKEN - TEXT_TOKENS (containing namespace name)
                                 $offset = $key + 2;
                                 $namespace = "";
-                                while ( $tokens[$offset] !== ";" )
+                                while ( $tokens[$offset] !== ";" && $tokens[$offset] !== "{" )
                                 {
                                     if ( is_array( $tokens[$offset] ) )
                                     {
@@ -607,11 +619,12 @@ class eZAutoloadGenerator
                                     $offset++;
                                 }
 
-                                $namespace = trim( $namespace );
+                                $namespace = trim( addcslashes( $namespace, '\\' ) );
                                 break;
 
                             case T_CLASS:
                             case T_INTERFACE:
+                            case $tTrait:
                                 // Increment stat for found class.
                                 $this->incrementProgressStat( self::OUTPUT_PROGRESS_PHASE2, 'classCount' );
 
@@ -619,7 +632,7 @@ class eZAutoloadGenerator
                                 $className = $tokens[$key+2][1];
                                 if ( $namespace !== null )
                                 {
-                                    $className = $namespace . "\\" . $className;
+                                    $className = "$namespace\\\\$className";
                                 }
 
                                 $filePath = $file;
@@ -1297,7 +1310,7 @@ END;
     }
 
     /**
-     * Create phpunit configuration file adding whitelist from kernel autoload file
+     * Create phpunit configuration file adding blacklist from tests/ and extension tests
      *
      * It writes file phpunit.xml in ./tests directory
      *
@@ -1305,42 +1318,63 @@ END;
      */
     public function buildPHPUnitConfigurationFile()
     {
+        if ( $this->mask & self::MODE_TESTS )
+        {
+            $this->log( 'Creating phpunit configuration file.' );
 
-          if ( $this->mask == self::MODE_KERNEL )
-          {
-              $this->log('Creating phpunit configuration file.');
 
-              $autoloadArray = @include 'autoload/ezp_kernel.php';
 
-              $baseDir = getcwd();
+            $dom = new DOMDocument( '1.0', 'utf-8' );
+            $dom->formatOutput = true;
 
-              $dom = new DOMDocument( '1.0', 'utf-8' );
-              $dom->formatOutput = true;
+            $baseDir = getcwd();
+            $root = $dom->createElement( 'phpunit' );
+            $filter = $dom->createElement( 'filter' );
+            $blacklist = $dom->createElement( 'blacklist' );
+            $directory = $dom->createElement( 'directory', $baseDir . DIRECTORY_SEPARATOR . 'tests' );
 
-              $root = $dom->createElement( 'phpunit' );
-              $filter = $dom->createElement( 'filter' );
-              $blacklist = $dom->createElement( 'blacklist' );
-              $whitelist = $dom->createElement( 'whitelist' );
-              $directory = $dom->createElement('directory', $baseDir . DIRECTORY_SEPARATOR . 'tests');
+            /* PHPUnit docs says we should either use whitelist or blacklist ( if a whitelist exists, the blacklsit will be ignored )
+             * Since whitelisting only works on source files containing classes, we base this on blacklisting
+             */
+            /*
+            $whitelist = $dom->createElement( 'whitelist' );
+            $autoloadArray = @include 'autoload/ezp_kernel.php';
+            foreach ( $autoloadArray as $class => $filename )
+            {
+                $file = $dom->createElement( 'file', $baseDir . DIRECTORY_SEPARATOR . $filename );
+                $whitelist->appendChild($file);
+            }
+            $filter->appendChild($whitelist);
+            */
 
-              foreach ( $autoloadArray as $class => $filename )
-              {
-                  $file = $dom->createElement( 'file', $baseDir . DIRECTORY_SEPARATOR . $filename );
-                  $whitelist->appendChild($file);
-              }
+            //Blacklist tests in extension/
+            $directoryEntries = scandir( $this->options->basePath . DIRECTORY_SEPARATOR . 'extension' );
+            foreach( $directoryEntries as $file )
+            {
+                if( ( $file === '.' ) or ( $file === '..' ) )
+                    continue;
+                $testDirectory = $this->options->basePath . DIRECTORY_SEPARATOR . 'extension' . DIRECTORY_SEPARATOR . $file . DIRECTORY_SEPARATOR . 'tests';
+                if( file_exists( $testDirectory ) )
+                {
+                    if( is_dir ( $testDirectory ) )
+                    {
+                        $directoryElement = $dom->createElement( 'directory', $testDirectory );
+                        $blacklist->appendChild( $directoryElement );
 
-              $blacklist->appendChild($directory);
-              $filter->appendChild($blacklist);
-              $filter->appendChild($whitelist);
-              $root->appendChild($filter);
-              $dom->appendChild($root);
+                    }
+                }
+            }
 
-              file_put_contents($baseDir . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'phpunit.xml', $dom->saveXML());
+            $blacklist->appendChild( $directory );
+            $filter->appendChild( $blacklist );
+            $root->appendChild( $filter );
+            $dom->appendChild( $root );
 
-              return $dom;
-          }
+            file_put_contents( $baseDir . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'phpunit.xml', $dom->saveXML() );
 
-     }
+            return $dom;
+        }
+    }
 
 }
 ?>

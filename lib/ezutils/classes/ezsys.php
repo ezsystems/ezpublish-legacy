@@ -138,7 +138,7 @@ class eZSys
     /**
      * Query string for the current request
      * In the form of "?param1=value1&param2=value2
-     * 
+     *
      * @var string
      */
     protected $QueryString;
@@ -155,7 +155,14 @@ class eZSys
                                             'PATH_SEPARATOR' => PATH_SEPARATOR,
                                             '_SERVER' => $_SERVER, ),
                                      $serverParams );
-        
+
+        if ( isset( $this->Params['_SERVER']['REQUEST_TIME'] ) )
+        {
+            // REQUEST_TIME is a float and includes microseconds in PHP > 5.4.0
+            // It should be casted to int in order to keep BC
+            $this->Params['_SERVER']['REQUEST_TIME'] = (int)$this->Params['_SERVER']['REQUEST_TIME'];
+        }
+
         $this->Attributes = array( 'magickQuotes' => true,
                                    'hostname'     => true );
         $this->FileSeparator = $this->Params['DIRECTORY_SEPARATOR'];
@@ -324,7 +331,7 @@ class eZSys
             if ( (int) $phpVersion[$i] < (int) $requiredVersion[$i] )
                 return false;
         }
-        
+
         return true;
     }
 
@@ -507,7 +514,7 @@ class eZSys
                 }
             }
         }
-        
+
         return $argumentElements;
     }
 
@@ -578,7 +585,7 @@ class eZSys
         $ini = eZINI::instance();
         return eZDir::path( array( $ini->variable( 'FileSettings', 'VarDir' ) ) );
     }
-    
+
     /**
      * Returns the current storage directory
      *
@@ -670,7 +677,7 @@ class eZSys
 
     /**
      * Returns the query string for the current request.
-     * 
+     *
      * <code>
      * ?param1=value1&param2=value2
      * </code>
@@ -756,7 +763,7 @@ class eZSys
             $hostName = trim( $forwardedHosts[0] );
         }
 
-        if ( !$hostName && self::serverVariable( 'HTTP_HOST' ) )
+        if ( !$hostName && self::serverVariable( 'HTTP_HOST', true ) )
         {
             $hostName = self::serverVariable( 'HTTP_HOST' );
         }
@@ -905,7 +912,7 @@ class eZSys
             }
             else
             {
-                $port = (int) self::serverVariable( 'SERVER_PORT' );
+                $port = (int) self::serverVariable( 'SERVER_PORT', true );
             }
 
             if ( !$port )
@@ -963,7 +970,6 @@ class eZSys
      */
     public static function setServerVariable( $variableName, $variableValue )
     {
-        $_SERVER;
         $_SERVER[$variableName] = $variableValue;
     }
 

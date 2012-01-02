@@ -45,7 +45,7 @@ if ( !$fileHandler instanceof eZDFSFileHandler )
 $delete = isset( $options['D'] );
 $checkBase = isset( $options['S'] );
 $checkDFS = isset( $options['B'] );
-$pause = 10000; // microseconds, time to wait between heavy operations
+$pause = 1000; // microseconds, time to wait between heavy operations
 
 if ( !$checkBase && !$checkDFS )
 {
@@ -82,7 +82,9 @@ if ( $checkBase )
         {
             $cli->output( '  - ' . $fh->name() );
             if ( $delete );
+            // expire the file, and purge it
             {
+                $fh->delete();
                 $fh->purge();
             }
         }

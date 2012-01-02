@@ -36,8 +36,8 @@ class eZContentObjectTest2 extends ezpDatabaseTestCase
     {
         $versions = $this->article->object->versions();
         $this->assertEquals( 2, count( $versions ) );
-        $this->assertType( 'eZContentObjectVersion' , $versions[0] );
-        $this->assertType( 'eZContentObjectVersion' , $versions[1] );
+        $this->assertInstanceOf( 'eZContentObjectVersion' , $versions[0] );
+        $this->assertInstanceOf( 'eZContentObjectVersion' , $versions[1] );
     }
 
     /**
@@ -47,8 +47,8 @@ class eZContentObjectTest2 extends ezpDatabaseTestCase
     {
         $versions = $this->article->object->versions( false );
         $this->assertEquals( 2, count( $versions ) );
-        $this->assertType( 'array' , $versions[0] );
-        $this->assertType( 'array' , $versions[1] );
+        $this->assertInternalType( 'array' , $versions[0] );
+        $this->assertInternalType( 'array' , $versions[1] );
     }
 
     /**
@@ -108,7 +108,7 @@ class eZContentObjectTest2 extends ezpDatabaseTestCase
             )
         );
         $this->assertSame( 1, count( $objects ) );
-        $this->assertType( 'eZContentObject' , $objects[0] );
+        $this->assertInstanceOf( 'eZContentObject' , $objects[0] );
         $this->assertEquals( $this->article->id, $objects[0]->attribute( 'id' )  );
     }
 
@@ -125,7 +125,7 @@ class eZContentObjectTest2 extends ezpDatabaseTestCase
             )
         );
         $this->assertSame( 1, count( $objects ) );
-        $this->assertType( 'array' , $objects[0] );
+        $this->assertInternalType( 'array' , $objects[0] );
         $this->assertEquals( $this->article->id, $objects[0]['id'] );
     }
 
@@ -143,7 +143,7 @@ class eZContentObjectTest2 extends ezpDatabaseTestCase
             )
         );
         $this->assertSame( 1, count( $objects ) );
-        $this->assertType( 'eZContentObject' , $objects[0] );
+        $this->assertInstanceOf( 'eZContentObject' , $objects[0] );
         $this->assertEquals( $this->article->id, $objects[0]->attribute( 'id' )  );
     }
 

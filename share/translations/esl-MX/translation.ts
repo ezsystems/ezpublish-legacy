@@ -14243,11 +14243,11 @@ Nota: los paquetes no se desinstalarán.</translation>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>Tu cuenta se encuentra activada.</translation>
+        <translation type="obsolete">Tu cuenta se encuentra activada.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>Perdón, la clave enviada no es válida. No se ha activado la cuenta.</translation>
+        <translation type="obsolete">Perdón, la clave enviada no es válida. No se ha activado la cuenta.</translation>
     </message>
     <message>
         <source>User registered</source>
@@ -15472,6 +15472,10 @@ especificada. Sigua las instrucciones de ese correo para activar su cuenta.</tra
     <name>design/admin2/ajaxuploader</name>
     <message>
         <source>Go to the parent level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Step 1/3: Upload a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

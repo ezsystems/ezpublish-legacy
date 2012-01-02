@@ -88,10 +88,9 @@ class eZMatrix
     }
 
     /*!
-        Searches in matrix columns with identifiers that in \a $matrixColumnDefinition an
-        a) if column exists and \a $updateColumnsAttributesAllowed is true then modification of
-           column attributes is performed( index, name, etc.);
-        b) if column doesn't exists and \a $addNewColumnsAllowed then new column will be created.
+        Searches in matrix columns with identifiers that in \a $matrixColumnDefinition and
+        a) if column exists then modification of column attributes is performed ( index, name, etc. );
+        b) if column doesn't exist then new column will be created.
     */
     protected function updateColumns( $matrixColumnDefinition )
     {
@@ -201,7 +200,7 @@ class eZMatrix
         $matrixWasModified = false;
 
         $matrixWasModified |= $this->removeUselessColumns( $classColumnsDefinition );
-        $matrixWasModified |= $this->updateColumns( $classColumnsDefinition, true, true );
+        $matrixWasModified |= $this->updateColumns( $classColumnsDefinition );
 
         if ( $matrixWasModified )
         {

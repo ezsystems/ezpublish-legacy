@@ -91,6 +91,9 @@ else
 
 // PID file IS locked after that point
 
+pcntl_signal( SIGTERM, 'daemonSignalHandler' );
+pcntl_signal( SIGINT, 'daemonSignalHandler' );
+
 if ( $options['daemon'] )
 {
     // Trap signals that we expect to recieve
@@ -101,6 +104,7 @@ if ( $options['daemon'] )
     // close the PID file, and reopen it after forking
     fclose( $pidFp );
 
+    eZClusterFileHandler::preFork();
     $pid = pcntl_fork();
     if ( $pid < 0 )
     {
@@ -168,6 +172,7 @@ else
 // actual daemon code
 $processor = ezpContentPublishingQueueProcessor::instance();
 $processor->setOutput( $output );
+$processor->setSignalHandler( 'daemonSignalHandler' );
 $processor->run();
 
 eZScript::instance()->shutdown( 0 );
@@ -195,6 +200,7 @@ function daemonSignalHandler( $signo )
     switch( $signo )
     {
         case SIGTERM:
+        case SIGINT:
             flock( $GLOBALS['pidFp'], LOCK_UN );
             fclose( $GLOBALS['pidFp'] );
 

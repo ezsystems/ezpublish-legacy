@@ -99,7 +99,7 @@ class eZContentObjectTreeNodeTest extends ezpDatabaseTestCase
         {
             $mainNodeContentObjectID = $mainNode->attribute( 'contentobject_id' );
 
-            $this->assertType( 'eZContentObjectTreeNode', $mainNode );
+            $this->assertInstanceOf( 'eZContentObjectTreeNode', $mainNode );
             $this->assertTrue( $mainNode->attribute( 'is_main' ) );
             $this->assertTrue( in_array( $mainNodeContentObjectID, $objectsIDArray ),
                 "A returned node's contentobject_id isn't part of the original parameters" );

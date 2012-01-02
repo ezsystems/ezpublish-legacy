@@ -225,18 +225,24 @@ class eZContentOperationCollection
         $nodeAssignment = eZNodeAssignment::fetch( $objectID, $versionNum, $parentNodeID );
         $version = $object->version( $versionNum );
 
-        $db = eZDB::instance();
-        $db->begin();
-
         $fromNodeID       = $nodeAssignment->attribute( 'from_node_id' );
         $originalObjectID = $nodeAssignment->attribute( 'contentobject_id' );
 
         $nodeID           =  $nodeAssignment->attribute( 'parent_node' );
         $opCode           =  $nodeAssignment->attribute( 'op_code' );
         $parentNode       = eZContentObjectTreeNode::fetch( $nodeID );
+
+        // if parent doesn't exist, return. See issue #18320
+        if ( !$parentNode instanceof eZContentObjectTreeNode )
+        {
+            eZDebug::writeError( "Parent node doesn't exist. object id: $objectID, node_assignment id: " . $nodeAssignment->attribute( 'id' ), __METHOD__ );
+            return;
+        }
         $parentNodeID     =  $parentNode->attribute( 'node_id' );
         $existingNode     =  null;
 
+        $db = eZDB::instance();
+        $db->begin();
         if ( strlen( $nodeAssignment->attribute( 'parent_remote_id' ) ) > 0 )
         {
             $existingNode = eZContentObjectTreeNode::fetchByRemoteID( $nodeAssignment->attribute( 'parent_remote_id' ) );
@@ -516,9 +522,8 @@ class eZContentOperationCollection
      *       the calls within a db transaction; thus within db->begin and db->commit.
      *
      * @param int $objectID Id of the object.
-     * @param int $versionNum Version of the object.
      */
-    static public function registerSearchObject( $objectID, $versionNum )
+    static public function registerSearchObject( $objectID )
     {
         $objectID = (int)$objectID;
         eZDebug::createAccumulatorGroup( 'search_total', 'Search Total' );
@@ -853,7 +858,7 @@ class eZContentOperationCollection
         // when removing locations.
         if ( !eZSearch::getEngine() instanceof eZSearchEngine )
         {
-            eZContentOperationCollection::registerSearchObject( $objectID, $object->attribute( 'current_version' ) );
+            eZContentOperationCollection::registerSearchObject( $objectID );
         }
 
         $db->commit();
@@ -929,8 +934,8 @@ class eZContentOperationCollection
         // when removing locations.
         if ( !eZSearch::getEngine() instanceof eZSearchEngine )
         {
-            foreach ( $objectIdList as $objectId => $object )
-                eZContentOperationCollection::registerSearchObject( $objectId, $object->attribute( 'current_version' ) );
+            foreach ( array_keys( $objectIdList ) as $objectId )
+                eZContentOperationCollection::registerSearchObject( $objectId );
         }
 
         $db->commit();
@@ -1356,7 +1361,7 @@ class eZContentOperationCollection
             }
         }
 
-        eZContentOperationCollection::registerSearchObject( $object->attribute( 'id' ), $object->attribute( 'current_version' ) );
+        eZContentOperationCollection::registerSearchObject( $objectID );
 
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 

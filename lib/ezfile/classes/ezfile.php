@@ -307,6 +307,11 @@ class eZFile
      */
     public static function downloadContent( $file, $startOffset = 0, $length = false )
     {
+        if ( !file_exists( $file ) )
+        {
+            eZDebug::writeError( "'$file' does not exist", __METHOD__ );
+            return false;
+        }
         if ( ( $fp = fopen( $file, 'rb' ) ) === false )
         {
             eZDebug::writeError( "An error occured opening '$file' for reading", __METHOD__ );

@@ -80,7 +80,7 @@ class eZStepSiteTemplates extends eZStepInstaller
         $site_templates = array();
 
         $packages = eZPackage::fetchPackages( array( 'path' => 'kernel/setup/packages' ) );
-        foreach( $packages as $key => $packages )
+        foreach( $packages as $key => $package )
         {
             $site_templates[$key]['name'] = $package->attribute( 'summary' );
             $site_templates[$key]['identifier'] = $package->attribute( 'name' );

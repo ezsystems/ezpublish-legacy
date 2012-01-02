@@ -13712,11 +13712,11 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>您的帐户已激活。</translation>
+        <translation type="obsolete">您的帐户已激活。</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>对不起， 提交键无效。不能激活帐户。</translation>
+        <translation type="obsolete">对不起， 提交键无效。不能激活帐户。</translation>
     </message>
     <message>
         <source>Your account was successfully created. An e-mail will be sent to the specified
@@ -14886,6 +14886,10 @@ your account.</source>
     <name>design/admin2/ajaxuploader</name>
     <message>
         <source>Go to the parent level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Step 1/3: Upload a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

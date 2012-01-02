@@ -1,6 +1,5 @@
 <!-- Class popup menu -->
 <script type="text/javascript">
-<!--
 menuArray['ClassMenu'] = {ldelim} 'depth': 0, 'headerID': 'class-header' {rdelim};
 menuArray['ClassMenu']['elements'] = {ldelim}{rdelim};
 menuArray['ClassMenu']['elements']['class-view'] = {ldelim} 'url': {"/class/view/%classID%"|ezurl} {rdelim};
@@ -15,7 +14,6 @@ menuArray['ClassMenu']['elements']['class-removenodefeed']['disabled_class'] = '
 menuArray['ClassMenu']['elements']['class-removenodefeed']['disabled_for'] = {ldelim} 'class-removenodefeed': 'yes' {rdelim};
 menuArray['ClassMenu']['elements']['class-history'] = {ldelim} 'url': {"content/history/%objectID%"|ezurl} {rdelim};
 menuArray['ClassMenu']['elements']['url-alias'] = {ldelim} 'url': {"content/urlalias/%nodeID%"|ezurl} {rdelim};
-// -->
 </script>
 
 <div class="popupmenu" id="ClassMenu">

@@ -12463,14 +12463,6 @@ Note: The packages will not be uninstalled.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Your account is now activated.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Your account was successfully created.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -13592,6 +13584,10 @@ your account.</source>
     <name>design/admin2/ajaxuploader</name>
     <message>
         <source>Go to the parent level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Step 1/3: Upload a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

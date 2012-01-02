@@ -372,7 +372,7 @@ class eZFSFileHandler
             {
                 // Lock the entry for exclusive access, if the entry does not exist
                 // it will be inserted with mtime=-1
-                if ( !$this->_exclusiveLock( $fname, 'processCache' ) )
+                if ( !$this->_exclusiveLock( $fname ) )
                 {
                     // Cannot get exclusive lock, so return null.
                     return null;
@@ -558,7 +558,7 @@ class eZFSFileHandler
      */
     function stat()
     {
-        eZDebugSetting::writeDebug( 'kernel-clustering', $this->metaData, "fs::stat( {$this->filePath} )", __METHOD__ );
+        eZDebugSetting::writeDebug( 'kernel-clustering', $this->metaData, "fs::stat( {$this->filePath} )" );
         return $this->metaData;
     }
 
@@ -914,7 +914,7 @@ class eZFSFileHandler
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
         eZFileHandler::copy( $srcPath, $dstPath );
-        eZDebug::accumulatorStop( 'dbfile', false, 'dbfile' );
+        eZDebug::accumulatorStop( 'dbfile' );
     }
 
     /**
@@ -929,7 +929,7 @@ class eZFSFileHandler
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
         eZFileHandler::linkCopy( $srcPath, $dstPath, $symLink );
-        eZDebug::accumulatorStop( 'dbfile', false, 'dbfile' );
+        eZDebug::accumulatorStop( 'dbfile' );
     }
 
     /**

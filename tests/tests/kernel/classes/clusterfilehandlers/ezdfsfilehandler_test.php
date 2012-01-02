@@ -19,11 +19,6 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
     protected $haveToRemoveDFSPath = false;
 
-    /**
-     * @var array
-     */
-    protected $sqlFiles = array( 'tests/tests/kernel/classes/clusterfilehandlers/sql/cluster_dfs_schema.sql' );
-
     protected $previousFileHandler;
 
     protected $clusterClass = 'eZDFSFileHandler';
@@ -47,6 +42,8 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
             self::markTestSkipped( "Not running MySQL, skipping" );
 
         parent::setUp();
+        $this->db = eZDB::instance();
+        ezpTestDatabaseHelper::insertSqlData( $this->db,  array( 'tests/tests/kernel/classes/clusterfilehandlers/sql/cluster_dfs_schema.sql' ) );
 
         // We need to clear the existing handler if it was loaded before the INI
         // settings changes
@@ -89,8 +86,6 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
             eZDir::doMkdir( $this->DFSPath, 0755 );
             $this->haveToRemoveDFSPath = true;
         }
-
-        $this->db = $this->sharedFixture;
     }
 
     public function tearDown()
@@ -252,7 +247,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
     public function testConstructor()
     {
         $clusterHandler = eZClusterFileHandler::instance();
-        $this->assertType( 'object', $clusterHandler,
+        $this->assertInternalType( 'object', $clusterHandler,
             "eZClusterFileHandler::instance() didn't return an object" );
         $this->assertTrue( $clusterHandler instanceof eZDFSFileHandler,
             "eZClusterFileHandler::instance() didn't return an eZDFSFileHandler" );
@@ -632,7 +627,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
         $clusterHandler = eZClusterFileHandler::instance( $testFile );
         $stat = $clusterHandler->stat();
-        $this->assertType( PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $stat );
+        $this->assertInternalType( PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $stat );
         $this->assertArrayHasKey( 'name', $stat );
 
         $this->removeFile( $testFile );
@@ -659,7 +654,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
         $clusterHandler = eZClusterFileHandler::instance( $testFile );
         $size = $clusterHandler->size();
-        $this->assertType( PHPUnit_Framework_Constraint_IsType::TYPE_INT, $size );
+        $this->assertInternalType( PHPUnit_Framework_Constraint_IsType::TYPE_INT, $size );
         $this->assertEquals( strlen( $contents ), $size );
 
         $this->removeFile( $testFile );
@@ -686,7 +681,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
         $clusterHandler = eZClusterFileHandler::instance( $testFile );
         $mtime = $clusterHandler->mtime();
-        $this->assertType( PHPUnit_Framework_Constraint_IsType::TYPE_INT, $mtime );
+        $this->assertInternalType( PHPUnit_Framework_Constraint_IsType::TYPE_INT, $mtime );
         $this->assertEquals( $curtime, $mtime );
 
         $this->removeFile( $testFile );
@@ -711,7 +706,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
         $clusterHandler = eZClusterFileHandler::instance( $testFile );
         $name = $clusterHandler->name();
-        $this->assertType( PHPUnit_Framework_Constraint_IsType::TYPE_STRING, $name );
+        $this->assertInternalType( PHPUnit_Framework_Constraint_IsType::TYPE_STRING, $name );
         $this->assertEquals( $testFile, $name );
 
         $this->removeFile( $testFile );

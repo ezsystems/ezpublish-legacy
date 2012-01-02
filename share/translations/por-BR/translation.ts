@@ -13355,11 +13355,11 @@ Clique em um dos botões &quot;Conceder..&quot; (explicado abaixo), para prosseg
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>Sua conta foi ativada com sucesso.</translation>
+        <translation type="obsolete">Sua conta foi ativada com sucesso.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>Desculpe, a chave utilizada não é uma chave válida. A conta não foi ativada.</translation>
+        <translation type="obsolete">Desculpe, a chave utilizada não é uma chave válida. A conta não foi ativada.</translation>
     </message>
     <message>
         <source>Your account was successfully created.</source>
@@ -14483,6 +14483,10 @@ your account.</source>
     <name>design/admin2/ajaxuploader</name>
     <message>
         <source>Go to the parent level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Step 1/3: Upload a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

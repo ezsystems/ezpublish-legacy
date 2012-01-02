@@ -333,7 +333,7 @@ class eZTemplateDebugFunction
                     }
                 }
 
-                eZDebug::accumulatorStop( $id, 'Debug-Accumulator', $name );
+                eZDebug::accumulatorStop( $id );
 
             } break;
 

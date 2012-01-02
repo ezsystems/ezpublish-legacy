@@ -157,9 +157,10 @@ function checkDir( $dirName )
     return true;
 }
 
-function installScriptDir( $packageRepository, $packageName )
+function installScriptDir( $packageRepository, $packageName = "" )
 {
-    return ( eZPackage::repositoryPath() . "/$packageRepository/$packageName" );
+    $dir = eZPackage::repositoryPath() . "/$packageRepository/$packageName";
+    return rtrim( $dir, '/' );
 }
 
 function defaultVendor()

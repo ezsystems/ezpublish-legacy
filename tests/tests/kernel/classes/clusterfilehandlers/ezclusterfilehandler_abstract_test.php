@@ -78,7 +78,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         $this->createFile( $file, md5( time() ) );
         $ch = eZClusterFileHandler::instance( $file );
         $this->assertEquals( 32,    $ch->size() );
-        $this->assertType( 'integer', $ch->mtime() );
+        $this->assertInternalType( 'integer', $ch->mtime() );
     }
 
     /**

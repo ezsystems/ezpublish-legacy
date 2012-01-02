@@ -392,6 +392,14 @@ if ( $inputValidated == true )
             return;
     }
 }
+else if ( $http->hasPostVariable( 'PublishAfterConflict' ) )
+{
+    if ( $http->postVariable( 'PublishAfterConflict' ) == 1 )
+    {
+        if ( $Module->runHooks( 'action_check', array( $class, $object, $version, $contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage, &$Result  ) ) )
+            return;
+    }
+}
 
 if ( isset( $Params['TemplateObject'] ) )
     $tpl = $Params['TemplateObject'];
@@ -448,9 +456,15 @@ if ( !isset( $OmitSectionSetting ) )
 if ( $OmitSectionSetting !== true )
 {
     $sectionID = $object->attribute( 'section_id' );
+    $sectionIdentifier = '';
     $section = eZSection::fetch( $sectionID );
+    if ( $section instanceof eZSection )
+    {
+        $sectionIdentifier = $section->attribute( 'identifier' );
+    }
+
     $res->setKeys( array( array( 'section', $object->attribute( 'section_id' ) ),
-                          array( 'section_identifier', $section->attribute( 'identifier' ) ) ) );
+                          array( 'section_identifier', $sectionIdentifier ) ) );
 }
 
 $object->setCurrentLanguage( $EditLanguage );

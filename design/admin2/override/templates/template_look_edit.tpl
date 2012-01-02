@@ -123,7 +123,6 @@
 
 {literal}
 <script type="text/javascript">
-<!--
 jQuery(function( $ )//called on document.ready
 {
     with( document.editform )
@@ -148,7 +147,6 @@ function confirmDiscard( question )
     // Ask user if she really wants do it, return this to the handler.
     return confirm( question );
 }
--->
 </script>
 {/literal}
 

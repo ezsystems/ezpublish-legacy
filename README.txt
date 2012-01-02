@@ -58,15 +58,11 @@ eZ Publish features
 
 Installation
 ------------
-Read doc/INSTALL or go to http://ez.no/doc
+Read doc/INSTALL or go to http://doc.ez.no/eZ-Publish
 
 
 Where to get more help
 ----------------------
-eZ Publish documentation: http://ez.no/doc
-eZ Publish forums: http://ez.no/developer/forum
+eZ Publish documentation: http://doc.ez.no/eZ-Publish
+eZ Publish forums: http://share.ez.no/forums/
 
-
-Live demo of eZ Publish
--------------------------
-http://ez.no/products/ez_publish/demo

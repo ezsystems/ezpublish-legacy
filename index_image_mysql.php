@@ -55,7 +55,7 @@ if ( !( $metaData = mysql_fetch_array( $res, MYSQL_ASSOC ) ) ||
 {
     header( $_SERVER['SERVER_PROTOCOL'] . " 404 Not Found" );
 ?>
-<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!DOCTYPE html>
 <HTML><HEAD>
 <TITLE>404 Not Found</TITLE>
 </HEAD><BODY>

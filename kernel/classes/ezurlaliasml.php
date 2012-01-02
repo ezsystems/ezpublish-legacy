@@ -1211,7 +1211,7 @@ class eZURLAliasML extends eZPersistentObject
             $table     = "e" . $i;
             $langMask  = trim( eZContentLanguage::languagesSQLFilter( $table, 'lang_mask' ) );
 
-            $selects[] = eZURLAliasML::generateFullSelect( $table, $i, $len );
+            $selects[] = eZURLAliasML::generateFullSelect( $table );
             $tables[]  = "ezurlalias_ml " . $table;
             $conds[]   = eZURLAliasML::generateGlobCond( $table, $prevTable, $i, $langMask, $glob );
             $prevTable = $table;

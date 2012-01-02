@@ -13,20 +13,12 @@
  */
 class eZMySQLDBFKTest extends ezpDatabaseTestCase
 {
-    function __construct()
-    {
-        $this->db = $this->sharedFixture;
-    }
-
     protected function setUp()
     {
         if ( !in_array( ezpTestRunner::dsn()->dbsyntax, array( 'mysql', 'mysqli' ) ) )
             self::markTestSkipped( "Not running MySQL nor MysQLi, skipping" );
 
         parent::setUp();
-
-        // clean up the database so that the tests are independant from the ezp database
-        ezpTestDatabaseHelper::clean( $this->sharedFixture );
     }
 
     /**
@@ -34,7 +26,7 @@ class eZMySQLDBFKTest extends ezpDatabaseTestCase
      */
     public function testForeignKeyRelations()
     {
-        $db = $this->sharedFixture;
+        $db = eZDB::instance();
         // This create 3 tables and 3 FK
         $this->createFKTables();
 
@@ -68,7 +60,7 @@ class eZMySQLDBFKTest extends ezpDatabaseTestCase
      */
     public function createFKTables()
     {
-        $db = $this->sharedFixture;
+        $db = eZDB::instance();
         $db->query( "CREATE TABLE eztestfk_1 (
 id1 INT NOT NULL,
 id2 INT NOT NULL,

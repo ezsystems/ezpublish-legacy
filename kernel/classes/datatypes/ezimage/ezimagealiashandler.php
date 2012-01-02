@@ -1599,8 +1599,7 @@ class eZImageAliasHandler
         {
             $this->setOriginalAttributeDataValues( $contentObjectAttribute->attribute( 'id' ),
                                                    $contentObjectAttribute->attribute( 'version' ),
-                                                   $contentObjectAttribute->attribute( 'language_code' ),
-                                                   false );
+                                                   $contentObjectAttribute->attribute( 'language_code' ) );
         }
     }
 

@@ -47,7 +47,7 @@ class ezpContentPublishingQueueProcessor
         {
             self::$instance = new ezpContentPublishingQueueProcessor();
             // signal handler for children termination signal
-            self::$instance->setSignalHandler();
+            self::$instance->registerSignalHandler();
         }
 
         return self::$instance;
@@ -94,6 +94,7 @@ class ezpContentPublishingQueueProcessor
                     {
                         $this->out->write( "Processing item #" . $publishingItem->attribute( 'ezcontentobject_version_id' ), 'async.log' );
                         $pid = $publishingItem->publish();
+                        pcntl_signal( SIGINT, $this->signalHandler );
                         $this->currentJobs[$pid] = $publishingItem;
 
                         // In the event that a signal for this pid was caught before we get here, it will be in our
@@ -192,7 +193,7 @@ class ezpContentPublishingQueueProcessor
     /**
      * Set the process signal handler
      */
-    private function setSignalHandler()
+    private function registerSignalHandler()
     {
         pcntl_signal( SIGCHLD, array( $this, 'childSignalHandler' ) );
     }
@@ -210,15 +211,16 @@ class ezpContentPublishingQueueProcessor
 
         $this->canProcess = false;
 
-        if ( empty( $this->currentJobs ) )
-        {
-            $this->out->write( 'No waiting children, bye' );
-        }
-
+        $this->out->write( "\n\n" );
         while( !empty( $this->currentJobs ) )
         {
-            $this->out->write( count( $this->currentJobs ) . ' jobs remaining' );
+            $this->out->write( count( $this->currentJobs ) . ' jobs remaining, waiting...' );
             sleep( 1 );
+        }
+
+        if ( empty( $this->currentJobs ) )
+        {
+            $this->out->write( 'No waiting children, exiting' );
         }
     }
 
@@ -233,6 +235,20 @@ class ezpContentPublishingQueueProcessor
         if ( !$output instanceof ezpAsynchronousPublisherOutput )
             throw new Exception( "Invalid output handler" );
         $this->out = $output;
+    }
+
+    /**
+     * Sets the signal handler to $signalHandler
+     * @param callback $signalHandler
+     * @param \
+     */
+    public function setSignalHandler( $signalHandler)
+    {
+        if ( !is_callable( $signalHandler) )
+        {
+            throw new InvalidArgumentException( "\$signalHandler is not callable" );
+        }
+        $this->signalHandler = $signalHandler;
     }
 
     /**
@@ -265,5 +281,11 @@ class ezpContentPublishingQueueProcessor
      * @var ezpAsynchronousPublisherOutput
      */
     private $out;
+
+    /**
+     * Signal handler callback
+     * @var callback
+     */
+    private $signalHandler;
 }
 ?>

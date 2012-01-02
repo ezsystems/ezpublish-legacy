@@ -5,4 +5,4 @@
 <p></p>
 {"No data will be stored in the database until the final step of the setup."|i18n("design/standard/setup/init")}
 <p></p>
-{"Information about how to set up eZ Publish manually is available %1."|i18n("design/standard/setup/init",,array( concat( '<a href="http://ez.no/ez_publish/documentation/installation/manual_installation" target="_blank">', "here"|i18n("design/standard/setup/init",'manual installation link'), '</a>' ) ) )}
+{"Information about how to set up eZ Publish manually is available %1."|i18n("design/standard/setup/init",,array( concat( '<a href="http://doc.ez.no/eZ-Publish/Technical-manual/4.x/Installation/Manual-installation" target="_blank">', "here"|i18n("design/standard/setup/init",'manual installation link'), '</a>' ) ) )}

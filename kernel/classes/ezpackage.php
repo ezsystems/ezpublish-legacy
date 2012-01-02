@@ -1767,21 +1767,21 @@ class eZPackage
 
                             if ( $requiredPriority !== null )
                             {
-                                $type = $package->attribute( 'priority' );
+                                $priority = $package->attribute( 'priority' );
                                 if ( $priority != $requiredPriority )
                                     continue;
                             }
 
                             if ( $requiredExtension !== null )
                             {
-                                $type = $package->attribute( 'extension' );
+                                $extension = $package->attribute( 'extension' );
                                 if ( $extension != $requiredExtension )
                                     continue;
                             }
 
                             if ( $requiredVendor !== null )
                             {
-                                $type = $package->attribute( 'vendor' );
+                                $vendor = $package->attribute( 'vendor' );
                                 if ( $vendor != $requiredVendor )
                                     continue;
                             }
@@ -1942,7 +1942,7 @@ class eZPackage
             return;
         if ( !$this->isInstalled() )
             return;
-        $uninstallItems = $this->uninstallItemsList();
+        $uninstallItems = $this->installItemsList();
         if ( !isset( $installParameters['path'] ) )
             $installParameters['path'] = false;
 
@@ -2733,10 +2733,10 @@ class eZPackage
             $installNode->appendChild( $installItemNode );
 
             if ( $installItem['os'] )
-                $installItemNode->setAttribute( 'os', $installIItem['os'] );
+                $installItemNode->setAttribute( 'os', $installItem['os'] );
 
             if ( $installItem['name'] )
-                $installItemNode->setAttribute( 'name', $installIItem['name'] );
+                $installItemNode->setAttribute( 'name', $installItem['name'] );
 
             if ( $installItem['filename'] )
             {

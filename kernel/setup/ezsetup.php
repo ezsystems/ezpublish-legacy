@@ -54,7 +54,7 @@ if ( file_exists( $stepDataFile ) )
 if ( $stepData == null )
 {
     print "<h1>Setup step data file not found. Setup is exiting...</h1>"; //TODO : i18n translate
-    eZDisplayResult( $templateResult, eZDisplayDebug() );
+    eZDisplayResult( $templateResult );
     eZExecution::cleanExit();
 }
 
@@ -198,7 +198,7 @@ while( !$done && $step != null )
     else
     {
         print( '<h1>Step '.$step['class'].' is not valid, no such file '.$includeFile.'. I\'m exiting...</h1>' ); //TODO : i18n
-        eZDisplayResult( $templateResult, eZDisplayDebug() );
+        eZDisplayResult( $templateResult );
         eZExecution::cleanExit();
     }
 }
@@ -215,7 +215,7 @@ eZDebug::addTimingPoint( "End" );
 
 return $result;
 
-//eZDisplayResult( $templateResult, eZDisplayDebug() );
+//eZDisplayResult( $templateResult );
 
 //eZExecution::cleanExit();
 ?>

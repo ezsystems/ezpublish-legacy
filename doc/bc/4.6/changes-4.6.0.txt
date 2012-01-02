@@ -36,7 +36,17 @@ Change of behavior
   Content read access is now checked at the node level instead of content object.
   For the record, this access is checked in eZNodeViewFunctions::contentViewGenerate()
 
+- #18703: A user can remove any locations if he has right to delete one of them
 
+  While removing a node, the content remove access is now checked at the node
+  level instead of the content object.
+
+- #18258: Ensure that indexing succeeds
+
+  Search engine plugins, like eZ Find, must now implement the ezpSearchEngine interface
+  in order to be accepted as a search plugin. The native eZSearchEngine is of course
+  compatible in the 4.6 release, but eZ Find 2.6 is now required. Earlier versions
+  of eZ Find won't run with eZ Publish 4.6 or later.
 
 Removed features
 ----------------
@@ -57,4 +67,12 @@ Removed globals
 
 Deprecated
 ----------
+
+- eZSoap library
+
+  Deprecated in favour of native PHP functionality.
+
+- Method 'fileDeleteByRegex()' in various file handlers
+
+  Said methods are unused and have undesirable performance characteristics.
 

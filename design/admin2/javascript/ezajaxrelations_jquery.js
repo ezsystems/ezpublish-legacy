@@ -87,7 +87,6 @@ jQuery(function( $ )
         $( boxID + ' table' ).removeClass('hide');
         $(boxID + ' .ezobject-relation-remove-button').removeClass('button-disabled').addClass('button').attr('disabled', false);
         $(boxID + ' .ezobject-relation-no-relation').addClass('hide');
-        $(boxID + ' input[name*=_data_object_relation_list_ajax_filled_]').val(1);
     }
 
     // register searchAdd gloablly as it is used on search links

@@ -131,7 +131,7 @@ function browse( $Module, $object )
 
     $viewMode = 'full';
     if ( $Module->hasActionParameter( 'ViewMode' ) )
-        $viewMode = $module->actionParameter( 'ViewMode' );
+        $viewMode = $Module->actionParameter( 'ViewMode' );
 
 
     $sourceParentNodeID = $node->attribute( 'parent_node_id' );

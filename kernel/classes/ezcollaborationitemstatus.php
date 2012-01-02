@@ -72,9 +72,9 @@ class eZCollaborationItemStatus extends eZPersistentObject
 
     function store( $fieldFilters = null )
     {
-        $stored = eZPersistentObject::store( $fieldFilters );
+        eZPersistentObject::store( $fieldFilters );
         $this->updateCache();
-        return $stored;
+        return true;
     }
 
     function updateCache()

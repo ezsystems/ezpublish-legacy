@@ -48,20 +48,20 @@ class eZMultiPriceTypeRegression extends ezpDatabaseTestCase
         $currency->store();
 
         $currencyID = $currency->attribute( 'id' );
-        $this->assertType( 'integer', $currencyID );
+        $this->assertInternalType( 'integer', $currencyID );
 
         // create VAT type
         $row = array( 'name' => 'Test', 'percentage' => 10.0 );
         $vatType = new eZVatType( $row );
         $vatType->store();
         $vatTypeID = $vatType->attribute( 'id' );
-        $this->assertType( 'integer', $vatTypeID );
+        $this->assertInternalType( 'integer', $vatTypeID );
 
         $class = eZContentClass::create( false, array( 'name' => 'eZMultiPrice::testMultipleCallsToCalculatedPrice',
                                                        'identifier' => 'ezmultiprice_test' ) );
         $class->store();
         $classID = $class->attribute( 'id' );
-        $this->assertType( 'integer', $classID );
+        $this->assertInternalType( 'integer', $classID );
 
         $attributes = $class->fetchAttributes();
 

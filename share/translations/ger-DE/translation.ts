@@ -15105,11 +15105,11 @@ Hinweis: Die Pakete werden nicht deinstalliert.</translation>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>Ihr Konto ist nun aktiviert.</translation>
+        <translation type="obsolete">Ihr Konto ist nun aktiviert.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>Der übertragene Schlüssel konnte nicht validiert werden. Ihr Konto wurde nicht aktiviert.</translation>
+        <translation type="obsolete">Der übertragene Schlüssel konnte nicht validiert werden. Ihr Konto wurde nicht aktiviert.</translation>
     </message>
     <message>
         <source>Your account was successfully created. An e-mail will be sent to the specified
@@ -16370,6 +16370,10 @@ Bitte folgen Sie den Instruktionen in der Email um Ihr Konto zu aktivieren.</tra
     <name>design/admin2/ajaxuploader</name>
     <message>
         <source>Go to the parent level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Step 1/3: Upload a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -288,15 +288,13 @@ class eZOrder extends eZPersistentObject
         }
         else if ( $year != false and $month == false )
         {
-            $nextYear = $year + 1;
             $startDate = mktime( 0, 0, 0, 1, 1, $year );
-            $stopDate = mktime( 0, 0, 0, 1, 1, $nextYear );
+            $stopDate = mktime( 0, 0, 0, 1, 1, $year + 1 );
         }
         else if ( $year != false and $month != false )
         {
-            $nextMonth = $month + 1;
             $startDate = mktime( 0, 0, 0, $month, 1, $year );
-            $stopDate = mktime( 23, 59, 59, $nextMonth, 0, $year );
+            $stopDate = mktime( 23, 59, 59, $month + 1, 0, $year );
         }
 
         $db = eZDB::instance();
@@ -308,36 +306,37 @@ class eZOrder extends eZPersistentObject
                                              ORDER BY contentobject_id, currency_code" );
         $currentContentObjectID = 0;
         $productItemArray = array();
-        $statisticArray = array();
-        $productObject = null;
         $itemCount = 0;
-        $totalSumIncVAT = array();
-        $totalSumExVAT = array();
         $name = false;
-        $productCount = count( $productArray );
         $productInfo = array();
         $totalSumInfo = array();
+        $firstPass = true;
+        // Hash of ContentObject ID, the value will be replaced by the correct object once all IDs are known.
+        $contentObjectIDHash = array();
         foreach( $productArray as $productItem )
         {
             $itemCount++;
             $contentObjectID = $productItem['contentobject_id'];
 
-            if (  $productObject == null )
+            if ( $firstPass )
             {
-                $productObject = eZContentObject::fetch( $contentObjectID );
+                $contentObjectIDHash[$currentContentObjectID] = true;
                 $currentContentObjectID = $contentObjectID;
+                $firstPass = false;
             }
 
             if ( $currentContentObjectID != $contentObjectID && $itemCount != 1 )
             {
-                $productItemArray[] = array( 'name' => $name,
-                                             'product' => $productObject,
-                                             'product_info' => $productInfo );
+                $productItemArray[] = array(
+                    'name' => $name,
+                    // Reference to the entry that will contain the ContentObject at the end
+                    'product' => &$contentObjectIDHash[$currentContentObjectID],
+                    'product_info' => $productInfo
+                );
                 $productInfo = array();
-                unset( $productObject );
                 $name = $productItem['name'];
                 $currentContentObjectID = $contentObjectID;
-                $productObject = eZContentObject::fetch( $currentContentObjectID );
+                $contentObjectIDHash[$currentContentObjectID] = true;
             }
 
             $currencyCode = $productItem['currency_code'];
@@ -358,12 +357,6 @@ class eZOrder extends eZPersistentObject
                                                       'sum_inc_vat' => 0 );
             }
 
-            if ( !isset( $totalSumIncVAT[$currencyCode] ) )
-                $totalSumIncVAT[$currencyCode] = 0;
-
-            if ( !isset( $totalSumExVAT[$currencyCode] ) )
-                $totalSumExVAT[$currencyCode] = 0;
-
             if ( $productItem['ignore_vat']== true )
             {
                 $vatValue = 0;
@@ -373,34 +366,26 @@ class eZOrder extends eZPersistentObject
                 $vatValue = $productItem['vat_value'];
             }
 
-            $count = $productItem['item_count'];
-            $discountPercent = $productItem['discount'];
-
-            $isVATIncluded = $productItem['is_vat_inc'];
             $price = $productItem['price'];
 
-            if ( $isVATIncluded )
+            if ( $productItem['is_vat_inc'] )
             {
                 $priceExVAT = $price / ( 100 + $vatValue ) * 100;
                 $priceIncVAT = $price;
-                $totalPriceExVAT = $count * $priceExVAT * ( 100 - $discountPercent ) / 100;
-                $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                $totalPriceExVAT = round( $totalPriceExVAT, 2 );
-                $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
-                $totalSumInfo[$currencyCode]['sum_ex_vat'] += $totalPriceExVAT;
-                $totalSumInfo[$currencyCode]['sum_inc_vat'] += $totalPriceIncVAT;
+                
             }
             else
             {
                 $priceExVAT = $price;
                 $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
-                $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
-                $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                $totalPriceExVAT = round( $totalPriceExVAT, 2 );
-                $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
-                $totalSumInfo[$currencyCode]['sum_ex_vat'] += $totalPriceExVAT;
-                $totalSumInfo[$currencyCode]['sum_inc_vat'] += $totalPriceIncVAT;
             }
+            
+            $count = $productItem['item_count'];
+            $realPricePercent = ( 100 - $productItem['discount'] ) / 100;
+            $totalPriceExVAT = round( $count * $priceExVAT * $realPricePercent, 2 );
+            $totalPriceIncVAT = round( $count * $priceIncVAT * $realPricePercent, 2 );
+            $totalSumInfo[$currencyCode]['sum_ex_vat'] += $totalPriceExVAT;
+            $totalSumInfo[$currencyCode]['sum_inc_vat'] += $totalPriceIncVAT;
 
             $productInfo[$currencyCode]['sum_count'] += $count;
             $productInfo[$currencyCode]['sum_ex_vat'] += $totalPriceExVAT;
@@ -408,14 +393,26 @@ class eZOrder extends eZPersistentObject
         }
 
         // add last product info
-        if ( $productCount != 0 )
-            $productItemArray[] = array( 'name' => $name,
-                                         'product' => $productObject,
-                                         'product_info' => $productInfo );
+        if ( !empty( $productArray ) )
+            $productItemArray[] = array(
+                'name' => $name,
+                // Reference to the entry that will contain the ContentObject at the end
+                'product' => &$contentObjectIDHash[$currentContentObjectID],
+                'product_info' => $productInfo
+            );
+        
+        // Fetching all ContentObject ids in one query, filling the hash with the corresponding ContentObject
+        foreach ( eZContentObject::fetchList( true, array( "id" => array( array_keys( $contentObjectIDHash ) ) ) ) as $contentObject )
+        {
+            $contentObjectIDHash[$contentObject->ID] = $contentObject;
+        }
 
-        $statisticArray[] = array( 'product_list' => $productItemArray,
-                                   'total_sum_info' => $totalSumInfo );
-        return $statisticArray;
+        return array(
+            array(
+                'product_list' => $productItemArray,
+                'total_sum_info' => $totalSumInfo
+            )
+        );
     }
 
     /*!
@@ -545,34 +542,25 @@ class eZOrder extends eZPersistentObject
                 $vatValue = $productItem['vat_value'];
             }
 
-            $count = $productItem['item_count'];
-            $discountPercent = $productItem['discount'];
-
-            $isVATIncluded = $productItem['is_vat_inc'];
             $price = $productItem['price'];
 
-            if ( $isVATIncluded )
+            if ( $productItem['is_vat_inc'] )
             {
                 $priceExVAT = $price / ( 100 + $vatValue ) * 100;
                 $priceIncVAT = $price;
-                $totalPriceExVAT = $count * $priceExVAT * ( 100 - $discountPercent ) / 100;
-                $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                $totalPriceExVAT = round( $totalPriceExVAT, 2 );
-                $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
             }
             else
             {
                 $priceExVAT = $price;
                 $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
-                $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
-                $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                $totalPriceExVAT = round( $totalPriceExVAT, 2 );
-                $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
             }
 
+            $count = $productItem['item_count'];
+            $realPricePercent = ( 100 - $productItem['discount'] ) / 100;
+
             $productInfo[$currencyCode]['sum_count'] += $count;
-            $productInfo[$currencyCode]['sum_ex_vat'] += $totalPriceExVAT;
-            $productInfo[$currencyCode]['sum_inc_vat'] += $totalPriceIncVAT;
+            $productInfo[$currencyCode]['sum_ex_vat'] += round( $count * $priceExVAT * $realPricePercent, 2 );
+            $productInfo[$currencyCode]['sum_inc_vat'] += round( $count * $priceIncVAT * $realPricePercent, 2 );
         }
         if ( count( $productArray ) != 0 )
         {
@@ -721,33 +709,23 @@ class eZOrder extends eZPersistentObject
                 $vatValue = $productItem['vat_value'];
             }
 
-            $count = $productItem['item_count'];
-            $discountPercent = $productItem['discount'];
-
-            $isVATIncluded = $productItem['is_vat_inc'];
             $price = $productItem['price'];
 
-            if ( $isVATIncluded )
+            if ( $productItem['is_vat_inc'] )
             {
                 $priceExVAT = $price / ( 100 + $vatValue ) * 100;
                 $priceIncVAT = $price;
-                $totalPriceExVAT = $count * $priceExVAT * ( 100 - $discountPercent ) / 100;
-                $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                $totalPriceExVAT = round( $totalPriceExVAT, 2 );
-                $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
             }
             else
             {
                 $priceExVAT = $price;
                 $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
-                $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
-                $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                $totalPriceExVAT = round( $totalPriceExVAT, 2 );
-                $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
             }
 
-            $ordersInfo[$currencyCode]['sum_ex_vat'] += $totalPriceExVAT;
-            $ordersInfo[$currencyCode]['sum_inc_vat'] += $totalPriceIncVAT;
+            $count = $productItem['item_count'];
+            $realPricePercent = ( 100 - $productItem['discount'] ) / 100;
+            $ordersInfo[$currencyCode]['sum_ex_vat'] += round( $count * $priceExVAT * $realPricePercent, 2 );
+            $ordersInfo[$currencyCode]['sum_inc_vat'] += round( $count * $priceIncVAT * $realPricePercent, 2 );
         }
         if ( count( $productItemArray ) != 0 )
             $customArray[] = array( 'account_name' => $accountName,
@@ -762,11 +740,14 @@ class eZOrder extends eZPersistentObject
     */
     static function discount( $userID, $object )
     {
-        $user = eZUser::fetch( $userID );
-        $bestMatch = eZDiscount::discountPercent( $user, array( 'contentclass_id' => $object->attribute( 'contentclass_id'),
-                                                                'contentobject_id' => $object->attribute( 'id' ),
-                                                                'section_id' => $object->attribute( 'section_id') ) );
-        return $bestMatch;
+        return eZDiscount::discountPercent(
+            eZUser::fetch( $userID ),
+            array(
+                'contentclass_id' => $object->attribute( 'contentclass_id'),
+                'contentobject_id' => $object->attribute( 'id' ),
+                'section_id' => $object->attribute( 'section_id')
+            )
+        );
     }
 
     /**
@@ -787,9 +768,6 @@ class eZOrder extends eZPersistentObject
         $addedProducts = array();
         foreach ( $productItems as  $productItem )
         {
-            $discountPercent = 0.0;
-            $isVATIncluded = true;
-            $id = $productItem->attribute( 'id' );
             $contentObject = $productItem->attribute( 'contentobject' );
 
             if ( $this->IgnoreVAT == true )
@@ -800,8 +778,6 @@ class eZOrder extends eZPersistentObject
             {
                 $vatValue = $productItem->attribute( 'vat_value' );
             }
-            $count = $productItem->attribute( 'item_count' );
-            $discountPercent = $productItem->attribute( 'discount' );
             if ( $contentObject )
             {
                 $nodeID = $contentObject->attribute( 'main_node_id' );
@@ -813,29 +789,23 @@ class eZOrder extends eZPersistentObject
                 $objectName = $productItem->attribute( 'name' );
             }
 
-            $isVATIncluded = $productItem->attribute( 'is_vat_inc' );
             $price = $productItem->attribute( 'price' );
 
-            if ( $isVATIncluded )
+            if ( $productItem->attribute( 'is_vat_inc' ) )
             {
                 $priceExVAT = $price / ( 100 + $vatValue ) * 100;
                 $priceIncVAT = $price;
-                $totalPriceExVAT = $count * $priceExVAT * ( 100 - $discountPercent ) / 100;
-                $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                $totalPriceExVAT = round( $totalPriceExVAT, 2 );
-                $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
             }
             else
             {
                 $priceExVAT = $price;
                 $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
-                $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
-                $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                $totalPriceExVAT = round( $totalPriceExVAT, 2 );
-                $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
             }
-
-            $addedProduct = array( "id" => $id,
+            
+            $count = $productItem->attribute( 'item_count' );
+            $discountPercent = $productItem->attribute( 'discount' );
+            $realPricePercent = ( 100 - $discountPercent ) / 100;
+            $addedProducts[] = array( "id" => $productItem->attribute( 'id' ),
                                    "vat_value" => $vatValue,
                                    "item_count" => $count,
                                    "node_id" => $nodeID,
@@ -843,10 +813,9 @@ class eZOrder extends eZPersistentObject
                                    "price_ex_vat" => $priceExVAT,
                                    "price_inc_vat" => $priceIncVAT,
                                    "discount_percent" => $discountPercent,
-                                   "total_price_ex_vat" => $totalPriceExVAT,
-                                   "total_price_inc_vat" => $totalPriceIncVAT,
+                                   "total_price_ex_vat" => round( $count * $priceExVAT * $realPricePercent, 2 ),
+                                   "total_price_inc_vat" => round( $count * $priceIncVAT * $realPricePercent, 2 ),
                                    'item_object' => $productItem );
-            $addedProducts[] = $addedProduct;
         }
         return $addedProducts;
     }

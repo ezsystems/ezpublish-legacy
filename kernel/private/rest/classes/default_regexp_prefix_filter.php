@@ -34,7 +34,7 @@ class ezpRestDefaultRegexpPrefixFilter extends ezpRestPrefixFilterInterface
 
     protected function getPrefixPattern()
     {
-        return "@^{$this->apiPart}/(?:(?P<provider>[^(v\d+|/)]+)/)?(?:(?P<version>v\d+))?@";
+        return "@^{$this->apiPart}/(?:(?P<provider>[^/]+)/)(?:(?P<version>v\d+))?@";
     }
 
     /**

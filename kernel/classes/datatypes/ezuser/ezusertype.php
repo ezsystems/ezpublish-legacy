@@ -37,7 +37,8 @@ class eZUserType extends eZDataType
         $res = $db->arrayQuery( "SELECT COUNT(*) AS version_count FROM ezcontentobject_version WHERE contentobject_id = $userID" );
         $versionCount = $res[0]['version_count'];
 
-        if ( $version == null || $versionCount <= 1 )
+        if ( ( $version == null || $versionCount <= 1 )
+                && eZUser::fetch( $userID ) !== null )
         {
             eZUser::removeUser( $userID );
             $db->query( "DELETE FROM ezuser_role WHERE contentobject_id = '$userID'" );

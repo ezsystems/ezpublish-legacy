@@ -661,12 +661,12 @@ class eZMysqlSchema extends eZDBSchemaInterface
 
     function escapeSQLString( $value )
     {
-        if ( $this->DBInstance instanceof eZDBInterface )
+        if ( $this->DBInstance instanceof eZMySQLiDB || $this->DBInstance instanceof eZMySQLDB )
         {
             return $this->DBInstance->escapeString( $value );
         }
 
-        return $value;
+        return mysql_escape_string( $value );
     }
 
     function schemaType()

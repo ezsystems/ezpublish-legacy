@@ -50,7 +50,7 @@ class ezpRestVersionRouteTest extends ezpTestCase
 
         self::assertSame( null, $versionRoute->matches( $request ), 'The request should not match without a prefix.' );
         $request->uri = '/api/foo';
-        self::assertType( 'ezcMvcRoutingInformation', $versionRoute->matches( $request ), 'The request with api prefix, did not match the route as expected.' );
+        self::assertInstanceOf( 'ezcMvcRoutingInformation', $versionRoute->matches( $request ), 'The request with api prefix, did not match the route as expected.' );
     }
 
     /**

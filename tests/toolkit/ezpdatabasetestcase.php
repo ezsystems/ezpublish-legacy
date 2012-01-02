@@ -52,8 +52,9 @@ class ezpDatabaseTestCase extends ezpTestCase
 
             if ( count( $this->sqlFiles > 0 ) )
                 ezpTestDatabaseHelper::insertSqlData( $this->sharedFixture, $this->sqlFiles );
+
+            eZDB::setInstance( $this->sharedFixture );
         }
-        eZDB::setInstance( $this->sharedFixture );
     }
 
     protected function tearDown()

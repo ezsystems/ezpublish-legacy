@@ -14088,11 +14088,11 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>Ваш је рачун активиран.</translation>
+        <translation type="obsolete">Ваш је рачун активиран.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>Нажалост, унесени кључ није одговарајући кључ. Рачун није активиран.</translation>
+        <translation type="obsolete">Нажалост, унесени кључ није одговарајући кључ. Рачун није активиран.</translation>
     </message>
     <message>
         <source>Your account was successfully created. An e-mail will be sent to the specifiede-mail address. You need to follow the instructions in that mail to activateyour account.</source>
@@ -15298,6 +15298,10 @@ your account.</source>
     <name>design/admin2/ajaxuploader</name>
     <message>
         <source>Go to the parent level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Step 1/3: Upload a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -21,6 +21,7 @@
 <div class="context-block">
 <form name="children" method="post" action={'content/action'|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
+<input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
 
 {if $children_count}
     {set $children = fetch( 'content', 'list', hash( 'parent_node_id', $node.node_id,

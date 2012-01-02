@@ -186,7 +186,19 @@ class eZContentLanguage extends eZPersistentObject
             $clusterFileHandler->fileStoreContents( $cachePath, serialize( $languages ), 'content', 'php' );
         }
         else
+        {
             $languages = unserialize( $clusterFileHandler->fetchContents() );
+            // If for some reason unserialize operation fails, we force the cache file to regenerate
+            // See http://issues.ez.no/18613
+            if ( $languages === false )
+            {
+                eZDebug::writeError(
+                    "An error occurred while reading content language cache file $cachePath. File is being re-generated",
+                    __METHOD__
+                );
+                return self::fetchList( true );
+            }
+        }
 
         unset( $GLOBALS['eZContentLanguageList'] );
         unset( $GLOBALS['eZContentLanguageMask'] );

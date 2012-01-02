@@ -219,7 +219,7 @@ class eZContentObjectRegression extends ezpDatabaseTestCase
                 'object_id' => $folder->id,
                 'sort_by' => array( array( 'name', true ), array( 'foo', false ) ) ) );
 
-        self::assertType( 'array', $result );
+        self::assertInternalType( 'array', $result );
         self::assertEquals( 4, count( $result ), "Expecting 4 objects fetched" );
 
         // Sort by name:
@@ -236,7 +236,7 @@ class eZContentObjectRegression extends ezpDatabaseTestCase
             array(
                 'object_id' => $folder->id,
                 'sort_by' => array( 'foo', false ) ) );
-        self::assertType( 'array', $result );
+        self::assertInternalType( 'array', $result );
         self::assertEquals( 4, count( $result ), "Expecting 4 objects fetched" );
 
         // Call the fetch reverse_related_objects fetch function
@@ -247,7 +247,7 @@ class eZContentObjectRegression extends ezpDatabaseTestCase
         array(
             'object_id' => $folder->id,
             'sort_by' => array( 'class_identifier', true ) ) );
-        self::assertType( 'array', $result );
+        self::assertInternalType( 'array', $result );
         self::assertEquals( 4, count( $result ), "Expecting 4 objects fetched" );
     }
 
@@ -265,7 +265,7 @@ class eZContentObjectRegression extends ezpDatabaseTestCase
         $folder->publish();
 
         $nameNorNO = $folder->object->versionLanguageName( 1, 'nor-NO' );
-        self::assertType( 'string', $nameNorNO, 'Expecting to get a string (not false)' );
+        self::assertInternalType( 'string', $nameNorNO, 'Expecting to get a string (not false)' );
         self::assertEquals( __FUNCTION__, $nameNorNO );
     }
 }

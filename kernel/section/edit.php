@@ -47,7 +47,7 @@ if ( $http->hasPostVariable( "StoreButton" ) )
     else
     {
         $conditions = array( 'identifier' => $sectionIdentifier,
-                             'id' => array( '!=', $SectionID ) );
+                             'id' => array( '!=', !empty( $SectionID ) ? $SectionID : 0 ) );
         $existingSection = eZSection::fetchFilteredList( $conditions );
         if( count( $existingSection ) > 0 )
         {

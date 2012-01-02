@@ -8,9 +8,22 @@
  * @package tests
  */
 
+/**
+ * @group urlaliasml
+ */
 class eZURLAliasMLRegression extends ezpDatabaseTestCase
 {
     protected $backupGlobals = FALSE;
+
+    /**
+     * @var eZContentLanguage
+     */
+    private $norskLanguage;
+
+    /**
+     * @var eZContentLanguage
+     */
+    private $englishLanguage;
 
     public function __construct()
     {
@@ -21,7 +34,8 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->language = eZContentLanguage::addLanguage( "nor-NO", "Norsk" );
+        $this->norskLanguage = eZContentLanguage::addLanguage( "nor-NO", "Norsk" );
+        $this->englishLanguage = eZContentLanguage::fetchByLocale( "eng-GB" );
     }
 
     /**
@@ -242,8 +256,8 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         // Without unique URLs we cannot predict what the URL for the name
         // will be.
         $randomNumber = mt_rand();
-        $nonAsciiName = "Noñ äcsíí ©ha®ß ïn ñámé ウ… " . $randomNumber;
-        $nonAsciiNameURL = "Noñ-äcsíí-©ha®ß-ïn-ñámé-ウ…-" . $randomNumber;
+        $nonAsciiName = "Noñ äcsíí ©ha®ß ïn ñámé… " . $randomNumber;
+        $nonAsciiNameURL = "Noñ-äcsíí-©ha®ß-ïn-ñámé…-" . $randomNumber;
 
         // Before we start set the correct URL transformation settings.
         ezpINIHelper::setINISetting( 'site.ini', 'URLTranslator', 'WordSeparator', 'dash' );
@@ -493,8 +507,7 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
      * 1. Add folder
      * 2. Add ChildNode of folder
      * 3. Add translation Child (nor-NO) to ChildNode with same name as ChildNode
-     * 4. ChildNode entry reused and its lang_mask updated to 6
-     *    ( = 2 + 4; eng + nor )
+     * 4. ChildNode entry reused and its lang_mask updated to ( eng + nor )
      */
     public function testTranslatedURLAliasElementWithExistingName()
     {
@@ -518,7 +531,10 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         $query = self::buildSql( array( $child->mainNode->node_id ) );
         $result = $db->arrayQuery( $query );
 
-        self::assertEquals( 6, (int) $result[0]['lang_mask'] );
+        self::assertEquals(
+            $this->englishLanguage->attribute( 'id' ) + $this->norskLanguage->attribute( 'id' ),
+            (int)$result[0]['lang_mask']
+        );
     }
 
     /**
@@ -1210,7 +1226,10 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         $childRawData = self::urlEntryForName( 'Child', $result );
 
         // Assert that language has been set back to main translation only
-        self::assertEquals( 2, (int)$childRawData['lang_mask'], "Pre-existing URL entry did not have its language mask updated to remove changed translation." );
+        self::assertEquals(
+            $this->englishLanguage->attribute( 'id' ),
+            (int)$childRawData['lang_mask'], "Pre-existing URL entry did not have its language mask updated to remove changed translation."
+        );
 
         // Assert that the already existing url entry wasn't marked as a hitory element.
         self::assertEquals( 1, (int)$childRawData['is_original'], "Pre-existing URL entry has incorrectly been marked as a history entry, while it still represents valid URLs." );
@@ -1219,7 +1238,7 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         $newTranslatedChildData = self::urlEntryForName( 'NorChildChanged', $result );
         self::assertEquals( (int)$childRawData['id'], (int)$newTranslatedChildData['id'], "Newly created translation of existing action should have same id." );
 
-        self::assertEquals( 4, (int)$newTranslatedChildData['lang_mask'] );
+        self::assertEquals( $this->norskLanguage->attribute( 'id' ), (int)$newTranslatedChildData['lang_mask'] );
     }
 
     /**
@@ -1227,9 +1246,17 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
      * representing several translations are split up, by one translation being
      * changed to to an earlier history entry, of that same entry.
      *
+     * Note: __FUNCTION__ will be appended to every name/title attribute in order
+     * to ensure they will be unique to this test
      */
     function testURLAliasSplitParentTranslation()
     {
+        ezpINIHelper::setINISetting(
+            'site.ini', 'RegionalSettings',
+            'SiteLanguageList', array( 'eng-GB', 'nor-NO' )
+        );
+        eZContentLanguage::clearPrioritizedLanguages();
+
         $db = eZDB::instance();
 
         // STEP 1: Add test folder
@@ -1239,7 +1266,7 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
 
         // STEP 2: Add child below folder
         $child = new ezpObject( "folder", $folder->mainNode->node_id );
-        $child->name = "Child";
+        $child->name = "Child" . __FUNCTION__;
         $child->publish();
 
         // Sub-sub children disabled for now, might be used in future, for
@@ -1268,32 +1295,32 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         // $subChild3->addTranslation( "nor-NO", $norSubChild3Trans );
 
         // STEP 3: Add translation to child with the same name
-        $translationAttributes = array( "name" => "Child" );
+        $translationAttributes = array( "name" => "Child" . __FUNCTION__ );
         $child->addTranslation( "nor-NO", $translationAttributes );
 
         // STEP 4: Update the translation
         $child->refresh();
         $newVersion = $child->createNewVersion( false, true, 'nor-NO' );
         $norDataMap = $child->fetchDataMap( $newVersion->attribute( 'version' ), "nor-NO" );
-        $norDataMap['name']->setAttribute( 'data_text', 'NorChildChanged' );
+        $norDataMap['name']->setAttribute( 'data_text', 'NorChildChanged' . __FUNCTION__ );
         $norDataMap['name']->store();
         ezpObject::publishContentObject( $child->object, $newVersion );
 
         // STEP 5:
         $child->refresh();
-        $child->name = "Renamed child";
+        $child->name = "Renamed child" . __FUNCTION__;
         $child->publish();
 
         // STEP 6:
         $child->refresh();
-        $child->name = "Child changed";
+        $child->name = "Child changed" . __FUNCTION__;
         $child->publish();
 
         // STEP 7:
         $child->refresh();
         $newVersion = $child->createNewVersion( false, true, 'nor-NO' );
         $norDataMap = $child->fetchDataMap( $newVersion->attribute( 'version' ), "nor-NO" );
-        $norDataMap['name']->setAttribute( 'data_text', 'NorChildChanged again' );
+        $norDataMap['name']->setAttribute( 'data_text', 'NorChildChanged again' . __FUNCTION__ );
         $norDataMap['name']->store();
         ezpObject::publishContentObject( $child->object, $newVersion );
 
@@ -1301,7 +1328,7 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         $child->refresh();
         $newVersion = $child->createNewVersion( false, true, 'nor-NO' );
         $norDataMap = $child->fetchDataMap( $newVersion->attribute( 'version' ), "nor-NO" );
-        $norDataMap['name']->setAttribute( 'data_text', 'Child changed' );
+        $norDataMap['name']->setAttribute( 'data_text', 'Child changed' . __FUNCTION__ );
         $norDataMap['name']->store();
         ezpObject::publishContentObject( $child->object, $newVersion );
 
@@ -1309,17 +1336,19 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         $child->refresh();
         $newVersion = $child->createNewVersion( false, true, 'nor-NO' );
         $norDataMap = $child->fetchDataMap( $newVersion->attribute( 'version' ), "nor-NO" );
-        $norDataMap['name']->setAttribute( 'data_text', 'NorChildChanged again' );
+        $norDataMap['name']->setAttribute( 'data_text', 'NorChildChanged again' . __FUNCTION__ );
         $norDataMap['name']->store();
         ezpObject::publishContentObject( $child->object, $newVersion );
 
         $query = self::buildSql( array( $child->mainNode->node_id ) );
         $result = $db->arrayQuery( $query );
 
-        $initialTranslationChild = self::urlEntryForName( "Child-changed", $result );
-        $translationChild = self::urlEntryForName( 'NorChildChanged-again', $result );
+        $initialTranslationChild = self::urlEntryForName( "Child-changed" . __FUNCTION__, $result );
+        $translationChild = self::urlEntryForName( 'NorChildChanged-again' . __FUNCTION__, $result );
 
         self::assertEquals( (int)$initialTranslationChild['id'], (int)$translationChild['id'], "Current translations of the same node need to have the same id." );
+
+        ezpINIHelper::restoreINISettings();
     }
 }
 

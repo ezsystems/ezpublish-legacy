@@ -288,7 +288,7 @@ class eZSiteAccess
                             $matchAccess     = $matchMapItem[2];
                             $matchHostMethod = isset( $matchMapItem[3] ) ? $matchMapItem[3] : $defaultHostMatchMethod;
 
-                            if ( $matchURI !== '' && strpos($uriString, $matchURI) !== 0 )
+                            if ( $matchURI !== '' && !preg_match( "@^$matchURI\b@", $uriString ) )
                                 continue;
 
                             switch( $matchHostMethod )

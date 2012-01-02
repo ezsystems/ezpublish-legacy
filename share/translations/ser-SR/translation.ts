@@ -12636,11 +12636,11 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>Vaš je račun aktiviran.</translation>
+        <translation type="obsolete">Vaš je račun aktiviran.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>Nažalost, uneseni ključ nije odgovarajući ključ. Račun nije aktiviran.</translation>
+        <translation type="obsolete">Nažalost, uneseni ključ nije odgovarajući ključ. Račun nije aktiviran.</translation>
     </message>
     <message>
         <source>Your account was successfully created.</source>
@@ -13764,6 +13764,10 @@ your account.</source>
     <name>design/admin2/ajaxuploader</name>
     <message>
         <source>Go to the parent level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Step 1/3: Upload a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -184,7 +184,6 @@ class eZDbSchemaChecker
         if ( $field1['type'] != $field2['type'] )
         {
             return array( 'different-options' => array( 'type' ), 'field-def' => $field2 );
-            return $field2;
         }
 
         $test_fields = array( 'default', 'not_null' );

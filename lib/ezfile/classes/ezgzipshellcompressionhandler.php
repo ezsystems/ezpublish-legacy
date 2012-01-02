@@ -114,7 +114,7 @@ class eZGZIPShellCompressionHandler extends eZCompressionHandler
 
     function doPasstrough( $closeFile = true )
     {
-        return @gzpasstru( $this->File );
+        return @gzpassthru( $this->File );
     }
 
     function compress( $source )

@@ -12714,11 +12714,11 @@ Datatypenavn</translation>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation type="unfinished">Din konto er nu aktiveret.</translation>
+        <translation type="obsolete">Din konto er nu aktiveret.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation type="unfinished">Beklager. Den benyttede nøgle er ikke gyldig. Kontoen er ikke aktiveret.</translation>
+        <translation type="obsolete">Beklager. Den benyttede nøgle er ikke gyldig. Kontoen er ikke aktiveret.</translation>
     </message>
     <message>
         <source>Your account was successfully created.</source>
@@ -13844,6 +13844,10 @@ din konto.</translation>
     <name>design/admin2/ajaxuploader</name>
     <message>
         <source>Go to the parent level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Step 1/3: Upload a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

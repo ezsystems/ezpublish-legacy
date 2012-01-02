@@ -8,41 +8,49 @@
  * @package kernel
  */
 
-/*!
-  \defgroup eZKernel Kernel system
-*/
-
-/*!
-  \class eZPersistentObject ezpersistentobject.php
-  \ingroup eZKernel
-  \brief Allows for object persistence in a database
-
-  Classes which stores simple types in databases should inherit from this
-  and implement the definition() function. The class will then get initialization,
-  fetching, listing, moving, storing and deleting for free as well as attribute
-  access. The new class must have a constructor which takes one parameter called
-  \c $row and pass that this constructor.
-
-\code
-class MyClass extends eZPersistentObject
-{
-    function MyClass( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-}
-\endcode
-
-*/
+/**
+ * Allows for object persistence in a database
+ *
+ * Classes which stores simple types in databases should inherit from this
+ * and implement the definition() function. The class will then get initialization,
+ * fetching, listing, moving, storing and deleting for free as well as attribute
+ * access. The new class must have a constructor which takes one parameter called
+ * $row and pass that this constructor.
+ *
+ * <code>
+ * class MyClass extends eZPersistentObject
+ * {
+ *     public function __construct( $row )
+ *     {
+ *         parent::__construct( $row );
+ *     }
+ * }
+ * </code>
+ * 
+ * @package eZKernel
+ * @method fetch
+ */
 class eZPersistentObject
 {
-    /*!
-     Initializes the object with the row \a $row. It will try to set
-     each field taken from the database row. Calls fill to do the job.
-     If the parameter \a $row is an integer it will try to fetch it
-     from the database using it as the unique ID.
-    */
-    function eZPersistentObject( $row )
+    /**
+     * Whether the data is dirty, ie needs to be stored, or not.
+     *
+     * @todo Change the actual access to protected instead of just marking it as such
+     * @access protected
+     * @var bool
+     */
+    public $PersistentDataDirty;
+
+    /**
+     * Initializes the object with the $row.
+     *
+     * It will try to set each field taken from the database row. Calls fill
+     * to do the job. If $row is an integer, it will try to fetch it from the
+     * database using it as the unique ID.
+     *
+     * @param int|array $row
+     */
+    public function eZPersistentObject( $row )
     {
         $this->PersistentDataDirty = false;
         if ( is_numeric( $row ) )
@@ -50,13 +58,18 @@ class eZPersistentObject
         $this->fill( $row );
     }
 
-    /*!
-     Tries to fill in the data in the object by using the object definition
-     which is returned by the function definition() and the database row
-     data \a $row. Each field will be fetch from the definition and then
-     use that fieldname to fetch from the row and set the data.
-    */
-    function fill( $row )
+    /**
+     * Tries to fill in the data in the object by using the object definition
+     * which is returned by the function definition() and the database row
+     * data $row. Each field will be fetch from the definition and then
+     * use that fieldname to fetch from the row and set the data.
+     *
+     * @todo Change the actual access to protected instead of just marking it as such
+     * @access protected
+     * @param array $row
+     * @return bool
+     */
+    public function fill( $row )
     {
         if ( !is_array( $row ) )
             return;
@@ -82,16 +95,23 @@ class eZPersistentObject
             }
             $this->$item = null;
         }
-    }
 
-    /*!
-    \private
-    \static
-    For the given array \a fields treats its keys (for associative array) or
-    values (for non-associative array) as table fields names and replaces them
-    with short names (aliases) found in \a fieldDefs.
-    */
-    static function replaceFieldsWithShortNames( $db, $fieldDefs, &$fields )
+        return true;
+    }
+    
+    /**
+     * For the given array $fields treats its keys (for associative array) or
+     * values (for non-associative array) as table fields names and replaces them
+     * with short names (aliases) found in $fieldDefs.
+     *
+     * @todo Change the actual access to protected instead of just marking it as such
+     * @access protected
+     * @param eZDBInterface $db
+     * @param array $fieldDefs
+     * @param array $fields
+     * @return void
+     */
+    public static function replaceFieldsWithShortNames( $db, $fieldDefs, &$fields )
     {
         if ( !$db->useShortNames() || !$fields )
             return;
@@ -125,13 +145,19 @@ class eZPersistentObject
         $fields = $short_fields_names;
     }
 
-    /*!
-     Fetches the number of rows by using the object definition.
-     Uses fetchObjectList for the actual SQL handling.
-
-     See fetchObjectList() for a full description of the input parameters.
-    */
-    static function count( $def, $conds = null, $field = null )
+    /**
+     * Fetches the number of rows by using the object definition.
+     *
+     * Uses fetchObjectList for the actual SQL handling.
+     * See {@link eZPersistentObject::fetchObjectList()} for a full description
+     * of the input parameters.
+     *
+     * @param array $def A definition array of all fields, table name and sorting (see {@link eZPersistentObject::definition()} for more info)
+     * @param array|null $conds
+     * @param string|null $field
+     * @return int
+     */
+    public static function count( $def, $conds = null, $field = null )
     {
         if ( !isset( $field ) )
         {
@@ -142,24 +168,22 @@ class eZPersistentObject
         return $rows[0]['row_count'];
     }
 
-    /*!
-     Creates an SQL query out of the different parameters and returns an object with the result.
-     If \a $asObject is true the returned item is an object otherwise a db row.
-     Uses fetchObjectList for the actual SQL handling and just returns the first row item.
-
-     See fetchObjectList() for a full description of the input parameters.
-    */
-    static function fetchObject( /*! The definition structure */
-                               $def,
-                               /*! If defined determines the fields which are extracted, if not all fields are fetched */
-                               $field_filters,
-                               /*! An array of conditions which determines which rows are fetched*/
-                               $conds,
-                               $asObject = true,
-                               /*! An array of elements to group by */
-                               $grouping = null,
-                               /*! An array of extra fields to fetch, each field may be a SQL operation */
-                               $custom_fields = null )
+    /**
+     * Fetches and returns an object based on the given parameters and returns
+     * is either as an object or as an array
+     *
+     * See {@link eZPersistentObject::fetchObjectList()} for a full description
+     * of the input parameters.
+     *
+     * @param array $def A definition array of all fields, table name and sorting (see {@link eZPersistentObject::definition()} for more info)
+     * @param array $field_filters If defined determines the fields which are extracted, if not all fields are fetched
+     * @param array $conds An array of conditions which determines which rows are fetched
+     * @param bool $asObject If true the returned item is an object otherwise a db row (array).
+     * @param array|null $grouping An array of elements to group by
+     * @param array $custom_fields|null An array of extra fields to fetch, each field may be a SQL operation
+     * @return eZPersistentObject|array|null
+     */
+    public static function fetchObject( $def, $field_filters, $conds, $asObject = true, $grouping = null, $custom_fields = null )
     {
         $rows = eZPersistentObject::fetchObjectList( $def, $field_filters, $conds,
                                                       array(), null, $asObject,
@@ -169,16 +193,23 @@ class eZPersistentObject
         return null;
     }
 
-    /*!
-     Removes the object from the database, it will use the keys in the object
-     definition to figure out which table row should be removed unless \a $conditions
-     is defined as an array with fieldnames.
-     It uses removeObject to do the real job and passes the object defintion,
-     conditions and extra conditions \a $extraConditions to this function.
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
-    function remove( $conditions = null, $extraConditions = null )
+    /**
+     * Removes the object from the database, it will use the keys in the object
+     * definition to figure out which table row should be removed unless
+     * $conditions is defined as an array with fieldnames.
+     *
+     * It uses removeObject to do the real job and passes the object defintion,
+     * conditions and extra conditions \a $extraConditions to this function.
+     *
+     * Note: Transaction unsafe. If you call several transaction unsafe methods
+     * you must enclose the calls within a db transaction; thus within db->begin
+     * and db->commit.
+     *
+     * @param array|null $conditions
+     * @param array|null $extraConditions
+     * @return void
+     */
+    public function remove( $conditions = null, $extraConditions = null )
     {
         $def = $this->definition();
         $keys = $def["keys"];
@@ -194,15 +225,23 @@ class eZPersistentObject
         eZPersistentObject::removeObject( $def, $conditions, $extraConditions );
     }
 
-    /*!
-     Deletes the object from the table defined in \a $def with conditions \a $conditions
-     and extra conditions \a $extraConditions. The extra conditions will either be
-     appended to the existing conditions or overwrite existing fields.
-     Uses conditionText() to create the condition SQL.
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
-    static function removeObject( $def, $conditions = null, $extraConditions = null )
+    /**
+     * Deletes the object from the table defined in $def with conditions $conditions
+     * and extra conditions \a $extraConditions. The extra conditions will either be
+     * appended to the existing conditions or overwrite existing fields.
+     *
+     * Uses conditionText() to create the condition SQL.
+     *
+     * Note: Transaction unsafe. If you call several transaction unsafe methods
+     * you must enclose the calls within a db transaction; thus within db->begin
+     * and db->commit.
+     *
+     * @param array $def A definition array of all fields, table name and sorting (see {@link eZPersistentObject::definition()} for more info)
+     * @param array|null $conditions
+     * @param array|null $extraConditions
+     * @return void
+     */
+    public static function removeObject( $def, $conditions = null, $extraConditions = null )
     {
         $db = eZDB::instance();
 
@@ -215,9 +254,7 @@ class eZPersistentObject
             }
         }
 
-        /* substitute fields mentioned the conditions whith their
-           short names (if any)
-         */
+        // substitute fields mentioned the conditions whith their short names (if any)
         $fields = $def['fields'];
         eZPersistentObject::replaceFieldsWithShortNames( $db, $fields, $conditions );
 
@@ -225,38 +262,53 @@ class eZPersistentObject
 
         $db->query( "DELETE FROM $table $cond_text" );
     }
-
-    /*!
-     Stores the object in the database, uses storeObject() to do the actual
-     job and passes \a $fieldFilters to it.
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
-    function store( $fieldFilters = null )
+    
+    /**
+     * Stores the object in the database, uses storeObject() to do the actual
+     * job and passes $fieldFilters to it.
+     *
+     * Note: Transaction unsafe. If you call several transaction unsafe methods
+     * you must enclose the calls within a db transaction; thus within db->begin
+     * and db->commit.
+     *
+     * @param array|null $fieldFilters
+     * @return void
+     */
+    public function store( $fieldFilters = null )
     {
         eZPersistentObject::storeObject( $this, $fieldFilters );
     }
 
-    /*!
-     Makes sure data is stored if the data is considered dirty.
-     \sa hasDirtyData
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
-    function sync( $fieldFilters = null )
+    /**
+     * Makes sure data is stored if the data is considered dirty.
+     *
+     * Note: Transaction unsafe. If you call several transaction unsafe methods
+     * you must enclose the calls within a db transaction; thus within db->begin
+     * and db->commit.
+     *
+     * @param array|null $fieldFilters
+     * @return void
+     */
+    public function sync( $fieldFilters = null )
     {
         if ( $this->hasDirtyData() )
             $this->store( $fieldFilters );
     }
 
-    /*!
-     \private
-     Stores the data in \a $obj to database.
-     \param fieldFilters If specified only certain fields will be stored.
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
-    static function storeObject( $obj, $fieldFilters = null )
+    /**
+     * Stores the data in $obj to database.
+     *
+     * Note: Transaction unsafe. If you call several transaction unsafe methods
+     * you must enclose the calls within a db transaction; thus within db->begin
+     * and db->commit.
+     *
+     * @todo Change the actual access to protected instead of just marking it as such
+     * @access protected
+     * @param eZPersistentObject $obj
+     * @param array|null $fieldFilters If specified only certain fields will be stored.
+     * @return void
+     */
+    public static function storeObject( $obj, $fieldFilters = null )
     {
         $db = eZDB::instance();
         $useFieldFilters = ( isset( $fieldFilters ) && is_array( $fieldFilters ) && $fieldFilters );
@@ -534,20 +586,29 @@ class eZPersistentObject
         }
         $obj->setHasDirtyData( false );
     }
-
-    /*!
-     Calls conditionTextByRow with an empty row and \a $conditions.
-    */
-    static function conditionText( $conditions )
+    
+    /**
+     * Calls conditionTextByRow with an empty row and $conditions.
+     *
+     * @param array $conditions
+     * @return string
+     */
+    public static function conditionText( $conditions )
     {
         return eZPersistentObject::conditionTextByRow( $conditions, null );
     }
 
-    /*!
-     Generates an SQL sentence from the conditions \a $conditions and row data \a $row.
-     If \a $row is empty (null) it uses the condition data instead of row data.
-    */
-    static function conditionTextByRow( $conditions, $row )
+    /**
+     * Generates an SQL sentence from the conditions \a $conditions and
+     * row data $row.
+     *
+     * If $row is empty (or null) it uses the condition data instead of row data.
+     *
+     * @param array $conditions
+     * @param array|null $row
+     * @return string
+     */
+    public static function conditionTextByRow( $conditions, $row )
     {
         $db = eZDB::instance();
 
@@ -619,108 +680,98 @@ class eZPersistentObject
         return $where_text;
     }
 
-
-    /*!
-     Creates an SQL query out of the different parameters and returns an array with the result.
-     If \a $asObject is true the array contains objects otherwise a db row.
-
-
-     \param $def A definition array of all fields, table name and sorting
-     \param $field_filters If defined determines the fields which are extracted (array of field names), if not all fields are fetched
-     \param $conds \c null for no special condition or an associative array of fields to filter on.
-                   Syntax is \c FIELD => \c CONDITION, \c CONDITION can be one of:
-                   - Scalar value - Creates a condition where \c FIELD must match the value, e.g
-                                    \code array( 'id' => 5 ) \endcode
-                                    generates SQL
-                                    \code id = 5 \endcode
-                   - Array with two scalar values - Element \c 0 is the match operator and element \c 1 is the scalar value
-                                    \code array( 'priority' => array( '>', 5 ) ) \endcode
-                                    generates SQL
-                                    \code priority > 5 \endcode
-                   - Array with range - Element \c 1 is an array with start and stop of range in array
-                                    \code array( 'type' => array( false, array( 1, 5 ) ) ) \endcode
-                                    generates SQL
-                                    \code type BETWEEN 1 AND 5 \endcode
-                   - Array with multiple elements - Element \c 0 is an array with scalar values
-                                    \code array( 'id' => array( array( 1, 5, 7 ) ) ) \endcode
-                                    generates SQL
-                                    \code id IN ( 1, 5, 7 ) \endcode
-     \param $sorts An associative array of sorting conditions, if set to \c false ignores settings in \a $def,
-                   if set to \c null uses settingss in \a $def.
-                   Syntax is \c FIELD => \c DIRECTION. \c DIRECTION must either be string \c 'asc'
-                   for ascending or \c 'desc' for descending.
-     \param $limit An associative array with limitiations, can contain
-                   - offset - Numerical value defining the start offset for the fetch
-                   - length - Numerical value defining the max number of items to return
-     \param $asObject If \c true then it will return an array with objects, objects are created from class defined in \a $def.
-                      If \c false it will just return the rows fetch from database.
-     \param $grouping An array of fields to group by or \c null to use grouping in defintion \a $def.
-     \param $custom_fields Array of \c FIELD elements to add to SQL, can be used to perform custom fetches, e.g counts.
-                           \c FIELD is an associative array containing:
-                           - operation - A text field which is included in the field list
-                           - name - If present it adds 'AS name' to the operation.
-     \param $custom_tables Array of additional tables.
-     \param $custom_conds String with sql conditions for 'WHERE' clause.
-
-     A full example:
-     \code
-     $filter = array( 'id', 'name' );
-     $conds = array( 'type' => 5,
-                     'size' => array( false, array( 200, 500 ) ) );
-     $sorts = array( 'name' => 'asc' );
-     $limit = array( 'offset' => 50, 'length' => 10 );
-     eZPersistentObject::fetchObjectList( $def, $filter, $conds, $sorts, $limit, true, false, null )
-     \endcode
-
-     Counting number of elements.
-     \code
-     $custom = array( array( 'operation' => 'count( id )',
-                             'name' => 'count' ) );
-     // Here $field_filters is set to an empty array, that way only count is used in fields
-     $rows = eZPersistentObject::fetchObjectList( $def, array(), null, null, null, false, false, $custom );
-     return $rows[0]['count'];
-     \endcode
-
-     Counting elements per type using grouping
-     \code
-     $custom = array( array( 'operation' => 'count( id )',
-                             'name' => 'count' ) );
-     $group = array( 'type' );
-     $rows = eZPersistentObject::fetchObjectList( $def, array(), null, null, null, false, $group, $custom );
-     return $rows[0]['count'];
-     \endcode
-
-     Example to fetch a result with custom conditions. The following example will fetch the attributes to
-     the contentobject with id 1 and add the contentobject.name in each attribute row with the array key
-     contentobject_name.
-     \code
-     $objectDef = eZContentObject::definition();
-     $objectAttributeDef = eZContentObjectAttribute::definition();
-
-     $fields = array();
-     $conds = array( $objectDef['name'] . '.id' => 1 );
-     $sorts = array( $objectAttributeDef['name'] . '.sort_key_string' => 'asc' );
-
-     $limit = null;
-     $asObject = false;
-     $group = false;
-
-     $customFields = array( $objectAttributeDef['name'] . '.*',
-                             array( 'operation' => $objectDef['name'] . '.name',
-                                    'name' => 'contentobject_name' ) );
-
-     $customTables = array( $objectDef['name'] );
-
-     $languageCode = 'eng-GB';
-     $customConds = ' AND ' . $objectDef['name'] . '.current_version=' . $objectAttributeDef['name'] . '.version' .
-                     ' AND ' . $objectDef['name'] . '.id=' . $objectAttributeDef['name'] . '.contentobject_id' .
-                     ' AND ' . $objectAttributeDef['name'] . '.language_code=\'' . $languageCode . '\'';
-
-     $rows = eZPersistentObject::fetchObjectList( $objectAttributeDef, $fields, $conds, $sorts, $limit, $asObject,
-                                                  $group, $customFields, $customTables, $customConds );
-     \endcode
-    */
-    static function fetchObjectList( $def,
+    /**
+     * Creates an SQL query out of the different parameters and returns an array with the result.
+     *
+     * A full example:
+     * <code>
+     * $filter = array( 'id', 'name' );
+     * $conds = array( 'type' => 5,
+     *                 'size' => array( false, array( 200, 500 ) ) );
+     * $sorts = array( 'name' => 'asc' );
+     * $limit = array( 'offset' => 50, 'length' => 10 );
+     * eZPersistentObject::fetchObjectList( $def, $filter, $conds, $sorts, $limit, true, false, null )
+     * </code>
+     *
+     * Counting number of elements.
+     * <code>
+     * $custom = array( array( 'operation' => 'count( id )',
+     *                         'name' => 'count' ) );
+     * // Here $field_filters is set to an empty array, that way only count is used in fields
+     * $rows = eZPersistentObject::fetchObjectList( $def, array(), null, null, null, false, false, $custom );
+     * return $rows[0]['count'];
+     * </code>
+     *
+     * Counting elements per type using grouping
+     * <code>
+     * $custom = array( array( 'operation' => 'count( id )',
+     *                         'name' => 'count' ) );
+     * $group = array( 'type' );
+     * $rows = eZPersistentObject::fetchObjectList( $def, array(), null, null, null, false, $group, $custom );
+     * return $rows[0]['count'];
+     * </code>
+     *
+     * Example to fetch a result with custom conditions. The following example will fetch the attributes to
+     * the contentobject with id 1 and add the contentobject.name in each attribute row with the array key
+     * contentobject_name.
+     * <code>
+     * $objectDef = eZContentObject::definition();
+     * $objectAttributeDef = eZContentObjectAttribute::definition();
+     *
+     * $fields = array();
+     * $conds = array( $objectDef['name'] . '.id' => 1 );
+     * $sorts = array( $objectAttributeDef['name'] . '.sort_key_string' => 'asc' );
+     *
+     * $limit = null;
+     * $asObject = false;
+     * $group = false;
+     *
+     * $customFields = array( $objectAttributeDef['name'] . '.*',
+     *                        array( 'operation' => $objectDef['name'] . '.name',
+     *                               'name' => 'contentobject_name' ) );
+     *
+     * $customTables = array( $objectDef['name'] );
+     *
+     * $languageCode = 'eng-GB';
+     * $customConds = ' AND ' . $objectDef['name'] . '.current_version=' . $objectAttributeDef['name'] . '.version' .
+     *                ' AND ' . $objectDef['name'] . '.id=' . $objectAttributeDef['name'] . '.contentobject_id' .
+     *                ' AND ' . $objectAttributeDef['name'] . '.language_code=\'' . $languageCode . '\'';
+     *
+     * $rows = eZPersistentObject::fetchObjectList( $objectAttributeDef, $fields, $conds, $sorts, $limit, $asObject,
+     *                                              $group, $customFields, $customTables, $customConds );
+     * </code>
+     * 
+     * @param array $def                    A definition array of all fields, table name and sorting (see {@link eZPersistentObject::definition()} for more info)
+     * @param array|null $field_filters     If defined determines the fields which are extracted (array of field names), if not all fields are fetched
+     * @param array|null $conds             null for no special condition or an associative array of fields to filter on.
+     *                                      Syntax is FIELD => CONDITION
+     *                                      CONDITION can be one of:
+     *                                      - Scalar value: Creates a condition where FIELD must match the value, e.g
+     *                                      <code>array( 'id' => 5 )</code> generates <code>SQL id = 5</code>
+     *                                      - Array with two scalar values: The first value is the match operator, the second is the scalar value
+     *                                      <code>array( 'priority' => array( '>', 5 ) )</code> generates SQL <code>priority > 5</code>
+     *                                      - Array with range: The first value is <code>false</code>, the second value is an array with start and stop of range in array
+     *                                      <code>array( 'type' => array( false, array( 1, 5 ) ) )</code> generates SQL <code>type BETWEEN 1 AND 5</code>
+     *                                      - Array with multiple elements: The first value is the field identifier, the second is an array with scalar values
+     *                                       <code>array( 'id' => array( array( 1, 5, 7 ) ) )</code> generates SQL <code>id IN ( 1, 5, 7 )</code>
+     * @param array|null|bool $sorts        An associative array of sorting conditions, if set to false ignores settings in $def, if set to null uses settingss in $def.
+     *                                      Syntax is FIELD => DIRECTION.
+     *                                      DIRECTION must either be 'asc' for ascending or 'desc' for descending.
+     * @param array|null $limit             An associative array with limitiations, can contain
+     *                                      - 'offset': Numerical value defining the start offset for the fetch
+     *                                      - 'length': Numerical value defining the max number of items to return
+     * @param bool $asObject                If true then it will return an array with objects, objects are created from class defined in $def.
+     *                                      If falseit will just return the rows fetch from database.
+     * @param array|null|bool $grouping     An array of fields to group by or null to use grouping in defintion $def.
+     * @param null $custom_fields           Array of FIELD elements to add to SQL, can be used to perform custom fetches, e.g counts.
+     *                                      FIELD is an associative array containing:
+     *                                      - 'operation': A text field which is included in the field list
+     *                                      - 'name': If present it adds <code>AS name</code> to the operation.
+     * @param array|null $custom_tables     Array of additional tables
+     * @param string|null $custom_conds     String with sql conditions for 'WHERE' clause.
+     * @return eZPersistentObject[]|array|null                   An array of objects or rows, null on error
+     */
+    public static function fetchObjectList( $def,
                               $field_filters = null,
                               $conds = null,
                               $sorts = null,
@@ -816,7 +867,7 @@ class eZPersistentObject
         $grouping_text = "";
         if ( isset( $def["grouping"] ) or ( is_array( $grouping ) and count( $grouping ) > 0 ) )
         {
-            $grouping_list = $def["grouping"];
+            $grouping_list = isset( $def["grouping"] ) ? $def["grouping"] : array();
             if ( is_array( $grouping ) )
                 $grouping_list = $grouping;
             if ( count( $grouping_list ) > 0 )
@@ -865,16 +916,19 @@ class eZPersistentObject
         $objectList = eZPersistentObject::handleRows( $rows, $class_name, $asObject );
         return $objectList;
     }
-
-    /*!
-     Creates PHP objects out of the database rows \a $rows.
-     Each object is created from class \$ class_name and is passed
-     as a row array as parameter.
-
-     \param $asObject If \c true then objects will be created,
-                      if not it just returns \a $rows as it is.
-    */
-    static function handleRows( $rows, $class_name, $asObject )
+    
+    /**
+     * Creates PHP objects out of the database rows $rows.
+     *
+     * Each object is created from class \$ class_name and is passed
+     * as a row array as parameter.
+     *
+     * @param array $rows
+     * @param string $class_name
+     * @param bool $asObject If true then objects will be created, if not it just returns $rows as it is.
+     * @return eZPersistentObject[]|array
+     */
+    public static function handleRows( $rows, $class_name, $asObject )
     {
         if ( $asObject )
         {
@@ -891,13 +945,23 @@ class eZPersistentObject
         else
             return $rows;
     }
-
-    /*!
-     Sets row id \a $id2 to have the placement of row id \a $id1.
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
-    static function swapRow( $table, $keys, $order_id, $rows, $id1, $id2 )
+    
+    /**
+     * Sets row id $id2 to have the placement of row id $id1.
+     *
+     * Note: Transaction unsafe. If you call several transaction unsafe methods
+     * you must enclose the calls within a db transaction; thus within db->begin
+     * and db->commit.
+     *
+     * @param string $table
+     * @param array $keys
+     * @param int $order_id
+     * @param array $rows
+     * @param int $id1
+     * @param int $id2
+     * @return string
+     */
+    public static function swapRow( $table, $keys, $order_id, $rows, $id1, $id2 )
     {
         $db = eZDB::instance();
         $text = $order_id . "='" . $db->escapeString( $rows[$id1][$order_id] ) . "' WHERE ";
@@ -911,17 +975,25 @@ class eZPersistentObject
         }
         return "UPDATE $table SET $text";
     }
-
-    /*!
-     Returns an order value which can be used for new items in table, for instance placement.
-     Uses \a $def, \a $orderField and \a $conditions to figure out the currently maximum order value
-     and returns one that is larger.
-    */
-    static function newObjectOrder( $def, $orderField, $conditions )
+    
+    /**
+     * Returns an order value which can be used for new items in table,
+     * for instance placement.
+     *
+     * Uses $def, $orderField and $conditions to figure out the currently maximum
+     * order value and returns one that is larger.
+     *
+     * @param array $def A definition array of all fields, table name and sorting (see {@link eZPersistentObject::definition()} for more info)
+     * @param string $orderField
+     * @param array $conditions
+     * @return int
+     */
+    public static function newObjectOrder( $def, $orderField, $conditions )
     {
         $db = eZDB::instance();
         $table = $def["name"];
         $keys = $def["keys"];
+
         $cond_text = eZPersistentObject::conditionText( $conditions );
         $rows = $db->arrayQuery( "SELECT MAX($orderField) AS $orderField FROM $table $cond_text" );
         if ( count( $rows ) > 0 and isset( $rows[0][$orderField] ) )
@@ -930,23 +1002,28 @@ class eZPersistentObject
             return 1;
     }
 
-    /*!
-     Moves a row in a database table. \a $def is the object definition.
-     Uses \a $orderField to determine the order of objects in a table, usually this
-     is a placement of some kind. It uses this order field to figure out how move
-     the row, the row is either swapped with another row which is either above or
-     below according to whether \a $down is true or false, or it is swapped
-     with the first item or the last item depending on whether this row is first or last.
-     Uses \a $conditions to figure out unique rows.
-     \sa swapRow
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
-    static function reorderObject( $def,
-                            /*! Associative array with one element, the key is the order id and values is order value. */
-                            $orderField,
-                            $conditions,
-                            $down = true )
+    /**
+     * Moves a row in a database table.
+     *
+     * Uses $orderField to determine the order of objects in a table, usually this
+     * is a placement of some kind. It uses this order field to figure out how move
+     * the row, the row is either swapped with another row which is either above or
+     * below according to whether $down is true or false, or it is swapped
+     * with the first item or the last item depending on whether this row
+     * is first or last.
+     * Uses $conditions to figure out unique rows.
+     *
+     * Note: Transaction unsafe. If you call several transaction unsafe methods
+     * you must enclose the calls within a db transaction; thus within db->begin
+     * and db->commit.
+     *
+     * @param array $def A definition array of all fields, table name and sorting (see {@link eZPersistentObject::definition()} for more info)
+     * @param array $orderField Associative array with one element, the key is the order id and values is order value.
+     * @param array $conditions
+     * @param bool $down
+     * @return void
+     */
+    public static function reorderObject( $def, $orderField, $conditions, $down = true )
     {
         $db = eZDB::instance();
         $table = $def["name"];
@@ -999,47 +1076,62 @@ class eZPersistentObject
         }
     }
 
-    /*!
-     \return the definition for the object, the default implementation
-             is to return an empty array. It's upto each inheriting class
-             to return a proper definition array.
-
-     The definition array is an associative array consists of these keys:
-     - fields - an associative array of fields which defines which database field (the key) is to fetched and how they map
-                to object member variables (the value).
-     - keys - an array of fields which is used for uniquely identifying the object in the table.
-     - function_attributes - an associative array of attributes which maps to member functions, used for fetching data with functions.
-     - set_functions - an associative array of attributes which maps to member functions, used for setting data with functions.
-     - increment_key - the field which is incremented on table inserts.
-     - class_name - the classname which is used for instantiating new objecs when fetching from the
-                    database.
-     - sort - an associative array which defines the default sorting of lists, the key is the table field while the value
-              is the sorting method which is either \c asc or \c desc.
-     - name - the name of the database table
-
-     Example:
-\code
-static function definition()
-{
-    return array( "fields" => array( "id" => "ID",
-                                     "version" => "Version",
-                                     "name" => "Name" ),
-                  "keys" => array( "id", "version" ),
-                  "function_attributes" => array( "current" => "currentVersion",
-                                                  "class_name" => "className" ),
-                  "increment_key" => "id",
-                  "class_name" => "eZContentClass",
-                  "sort" => array( "id" => "asc" ),
-                  "name" => "ezcontentclass" );
-}
-\endcode
-    */
-    static function definition()
+    /**
+     * Returns the definition for the object, the default implementation
+     * is to return an empty array. It's upto each inheriting class
+     * to return a proper definition array.
+     *
+     * The definition array is an associative array consists of these keys:
+     * - fields:    an associative array of fields which defines which database
+     *              field (the key) is to fetched and how they map to object
+     *              member variables (the value).
+     * - keys:      an array of fields which is used for uniquely identifying
+     *              the object in the table.
+     * - function_attributes:   an associative array of attributes which maps
+     *                          to member functions, used for fetching
+     *                          data with functions.
+     *
+     * - set_functions: an associative array of attributes which maps to member
+     *                  functions, used for setting data with functions.
+     * - increment_key: the field which is incremented on table inserts.
+     * - class_name:    the classname which is used for instantiating new objecs
+     *                  when fetching from the database.
+     * - sort:  an associative array which defines the default sorting of lists,
+     *          the key is the table field while the value is the sorting method
+     *          which is either 'asc' or 'desc'.
+     * - name:  the name of the database table
+     *
+     * Example:
+     * <code>
+     * public static function definition()
+     * {
+     *     return array(    "fields" => array( "id" => "ID",
+     *                                         "version" => "Version",
+     *                                         "name" => "Name" ),
+     *                      "keys" => array( "id", "version" ),
+     *                      "function_attributes" => array( "current" => "currentVersion",
+     *                                                      "class_name" => "className" ),
+     *                      "increment_key" => "id",
+     *                      "class_name" => "eZContentClass",
+     *                      "sort" => array( "id" => "asc" ),
+     *                      "name" => "ezcontentclass" );
+     * }
+     * </code>
+     *
+     * @return array
+     */
+    public static function definition()
     {
         return array();
     }
 
-    static function escapeArray( $array )
+    /**
+     * Escapes strings in an array with the help of {@link eZDBInterface::escapeString()}
+     *
+     * @param array $array
+     * @return array
+     */
+    public static function escapeArray( $array )
     {
         $db = eZDB::instance();
         $out = array();
@@ -1061,11 +1153,17 @@ static function definition()
         return $out;
     }
 
-    /*!
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
+    /**
+     * Updates rows matching the given parameters
+     *
+     * Note: Transaction unsafe. If you call several transaction unsafe methods
+     * you must enclose the calls within a db transaction; thus within db->begin
+     * and db->commit.
+     *
+     * @param array $parameters
+     * @return void
      */
-    static function updateObjectList( $parameters )
+    public static function updateObjectList( $parameters )
     {
         $db = eZDB::instance();
         $def = $parameters['definition'];
@@ -1140,11 +1238,15 @@ static function definition()
         $db->query( $query );
     }
 
-    /*!
-     \return the attributes for this object, taken from the definition fields and
-             function attributes.
-    */
-    function attributes()
+    /**
+     * Returns the attributes for this object, taken from the definition fields
+     * and function attributes.
+     *
+     * @see eZPersistentObject::definition()
+     *
+     * @return array
+     */
+    public function attributes()
     {
         $def = $this->definition();
         $attrs = array_keys( $def["fields"] );
@@ -1154,11 +1256,14 @@ static function definition()
             $attrs = array_unique( array_merge( $attrs, array_keys( $def["functions"] ) ) );
         return $attrs;
     }
-
-    /*!
-     \return true if the attribute \a $attr is part of the definition fields or function attributes.
-    */
-    function hasAttribute( $attr )
+    
+    /**
+     * Checks if $attr is part of the definition fields or function attributes.
+     *
+     * @param string $attr
+     * @return bool
+     */
+    public function hasAttribute( $attr )
     {
         $def = $this->definition();
         $has_attr = isset( $def["fields"][$attr] );
@@ -1169,11 +1274,16 @@ static function definition()
         return $has_attr;
     }
 
-    /*!
-     \return the attribute data for \a $attr, this is either returned from the member variables
-             or a member function depending on whether the definition field or function attributes matched.
-    */
-    function attribute( $attr, $noFunction = false )
+    /**
+     * Returns the attribute data for $attr, this is either returned from the
+     * member variables or a member function depending on whether the definition
+     * field or function attributes matched.
+     *
+     * @param string $attr
+     * @param bool $noFunction
+     * @return mixed
+     */
+    public function attribute( $attr, $noFunction = false )
     {
         $def = $this->definition();
         $fields = $def["fields"];
@@ -1215,11 +1325,16 @@ static function definition()
         }
     }
 
-    /*!
-     Sets the attribute \a $attr to the value \a $val. The attribute must be present in the
-     objects definition fields or set functions.
-    */
-    function setAttribute( $attr, $val )
+    /**
+     * Sets the attribute $attr to the value $val.
+     *
+     * The attribute must be present in the objects definition fields or set functions.
+     *
+     * @param string $attr
+     * @param mixed $val
+     * @return void
+     */
+    public function setAttribute( $attr, $val )
     {
         $def = $this->definition();
         $fields = $def["fields"];
@@ -1253,29 +1368,37 @@ static function definition()
                                  $def['class_name'] );
         }
     }
-
-    /*!
-     \return true if the data is considered dirty and needs to be stored.
-     \sa sync
-    */
-    function hasDirtyData()
+    
+    /**
+     * Returns true if the data is considered dirty and needs to be stored.
+     *
+     * @return bool
+     */
+    public function hasDirtyData()
     {
         return $this->PersistentDataDirty;
     }
 
-    /*!
-     Sets whether the object has dirty data or not.
-     \sa hasDirtyData, sync
-    */
-    function setHasDirtyData( $hasDirtyData )
+    /**
+     * Sets whether the object has dirty data or not.
+     *
+     * @param bool $hasDirtyData
+     * @return void
+     */
+    public function setHasDirtyData( $hasDirtyData )
     {
         $this->PersistentDataDirty = $hasDirtyData;
     }
 
-    /*!
-     \return short attribute name (alias) if it's defined, given attribute name otherwise
-    */
-    static function getShortAttributeName( $db, $def, $attrName )
+    /**
+     * Returns the short attribute name (alias) if it's defined, given attribute name otherwise
+     *
+     * @param eZDBInterface $db
+     * @param array $def A definition array of all fields, table name and sorting (see {@link eZPersistentObject::definition()} for more info)
+     * @param string $attrName
+     * @return string
+     */
+    public static function getShortAttributeName( $db, $def, $attrName )
     {
         $fields = $def['fields'];
 
@@ -1284,10 +1407,6 @@ static function definition()
 
         return $attrName;
     }
-
-    /// \privatesection
-    /// Whether the data is dirty, ie needs to be stored, or not.
-    public $PersistentDataDirty;
 }
 
 ?>
