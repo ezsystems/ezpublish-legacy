@@ -1572,11 +1572,13 @@ class eZSiteInstaller
     function solutionVersion()
     {
         eZDebug::writeWarning( "Your installer doesn't implement 'solutionVersion' function", __METHOD__ );
+        return false;
     }
 
     function solutionName()
     {
         eZDebug::writeWarning( "Your installer doesn't implement 'solutionName' function", __METHOD__ );
+        return false;
     }
 
     /*!

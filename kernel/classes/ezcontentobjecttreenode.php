@@ -2879,7 +2879,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      *
      * @param int $objectID
      * @param boolean $asObject
-     * 
+     *
      * @return int|null
      */
     static function findMainNode( $objectID, $asObject = false )
@@ -3672,7 +3672,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $options = new ezpExtensionOptions( $optionArray );
 
             $staticCacheHandler = eZExtension::getHandlerClass( $options );
-        	
+
             $staticCacheHandler->removeURL( "/" . $urlAlias );
             $staticCacheHandler->generateAlwaysUpdatedCache();
 
@@ -5869,6 +5869,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $nodePath = $node->attribute( 'path_string' );
         $nodeInvisible = $node->attribute( 'is_invisible' );
         $parentNode = $node->attribute( 'parent' );
+        if ( !$parentNode instanceof eZContentObjectTreeNode )
+        {
+            eZDebug::writeError( "Parent of Node #$nodeId doesn't exist or inaccesible.", __METHOD__ );
+            return;
+        }
+
         $time = time();
 
         if ( eZAudit::isAuditEnabled() )

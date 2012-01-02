@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{$site.http_equiv.Content-language|wash}" lang="{$site.http_equiv.Content-language|wash}">
+<!DOCTYPE html>
+<html lang="{$site.http_equiv.Content-language|wash}">
 <head>
 {* Do some uncacheable left + right menu stuff before cache-block's *}
 {def $ui_context_edit      = eq( $ui_context, 'edit' )
@@ -149,8 +149,6 @@
 {/cache-block}
 
 <script type="text/javascript">
-<!--
-
 document.getElementById('header-usermenu-logout').innerHTML += '<span class="header-usermenu-name">{$current_user.login|wash}<\/span>';
 
 {literal}
@@ -175,8 +173,6 @@ document.getElementById('header-usermenu-logout').innerHTML += '<span class="hea
     });
 })( jQuery );
 {/literal}
-
-// -->
 </script>
 
 {* This comment will be replaced with actual debug report (if debug is on). *}

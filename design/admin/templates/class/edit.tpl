@@ -270,12 +270,10 @@
 
 {literal}
 <script type="text/javascript">
-<!--
     window.onload=function()
     {
         document.getElementById('className').select();
         document.getElementById('className').focus();
     }
--->
 </script>
 {/literal}

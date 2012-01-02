@@ -13857,6 +13857,10 @@ ditt konto.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Step 1/3: Upload a file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Name</source>
         <translation>Namn</translation>
     </message>

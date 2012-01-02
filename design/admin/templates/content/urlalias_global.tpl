@@ -286,7 +286,6 @@
 
 {literal}
 <script type="text/javascript">
-<!--
     window.onload=function()
     {
         with( document.aliasform )
@@ -302,6 +301,5 @@
             }
         }
     }
--->
 </script>
 {/literal}

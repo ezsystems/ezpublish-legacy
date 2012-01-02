@@ -228,12 +228,10 @@
 
 {literal}
 <script type="text/javascript">
-<!--
     window.onload=function()
     {
         document.getElementById('exportName').select();
         document.getElementById('exportName').focus();
     }
--->
 </script>
 {/literal}

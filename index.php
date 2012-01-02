@@ -246,6 +246,7 @@ function eZDisplayResult( $templateResult )
         {
             $templateResult = call_user_func( array ( $classname, 'filter' ), $templateResult );
         }
+        $templateResult = ezpEvent::getInstance()->filter( 'response/preoutput', $templateResult );
         $debugMarker = '<!--DEBUG_REPORT-->';
         $pos = strpos( $templateResult, $debugMarker );
         if ( $pos !== false )
@@ -332,6 +333,15 @@ eZExtension::activateExtensions( 'access' );
 // Now that all extensions are activated and siteaccess has been changed, reset
 // all eZINI instances as they may not take into account siteaccess specific settings.
 eZINI::resetAllInstances( false );
+
+$mobileDeviceDetect = new ezpMobileDeviceDetect( ezpMobileDeviceDetectFilter::getFilter() );
+if( $mobileDeviceDetect->isEnabled() )
+{
+    $mobileDeviceDetect->process();
+
+    if ( $mobileDeviceDetect->isMobileDevice() )
+        $mobileDeviceDetect->redirect();
+}
 
 // Initialize module loading
 $moduleRepositories = eZModule::activeModuleRepositories();
@@ -950,6 +960,8 @@ if ( !isset( $moduleResult['ui_context'] ) )
     $moduleResult['ui_context'] = $module->uiContextName();
 }
 $moduleResult['ui_component'] = $module->uiComponentName();
+$moduleResult['is_mobile_device'] = $mobileDeviceDetect->isMobileDevice();
+$moduleResult['mobile_device_alias'] = $mobileDeviceDetect->getUserAgentAlias();
 
 $templateResult = null;
 

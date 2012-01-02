@@ -225,18 +225,24 @@ class eZContentOperationCollection
         $nodeAssignment = eZNodeAssignment::fetch( $objectID, $versionNum, $parentNodeID );
         $version = $object->version( $versionNum );
 
-        $db = eZDB::instance();
-        $db->begin();
-
         $fromNodeID       = $nodeAssignment->attribute( 'from_node_id' );
         $originalObjectID = $nodeAssignment->attribute( 'contentobject_id' );
 
         $nodeID           =  $nodeAssignment->attribute( 'parent_node' );
         $opCode           =  $nodeAssignment->attribute( 'op_code' );
         $parentNode       = eZContentObjectTreeNode::fetch( $nodeID );
+
+        // if parent doesn't exist, return. See issue #18320
+        if ( !$parentNode instanceof eZContentObjectTreeNode )
+        {
+            eZDebug::writeError( "Parent node doesn't exist. object id: $objectID, node_assignment id: " . $nodeAssignment->attribute( 'id' ), __METHOD__ );
+            return;
+        }
         $parentNodeID     =  $parentNode->attribute( 'node_id' );
         $existingNode     =  null;
 
+        $db = eZDB::instance();
+        $db->begin();
         if ( strlen( $nodeAssignment->attribute( 'parent_remote_id' ) ) > 0 )
         {
             $existingNode = eZContentObjectTreeNode::fetchByRemoteID( $nodeAssignment->attribute( 'parent_remote_id' ) );

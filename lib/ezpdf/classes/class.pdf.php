@@ -3315,7 +3315,7 @@ class Cpdf
         $this->setCurrentFont();
         if ( !$test )
         {
-            $addTextArray = $this->addText( $x, $y, $size, $text, $angle, $adjust, $angle );
+            $addTextArray = $this->addText( $x, $y, $size, $text, $angle, $adjust );
             if ( isset( $directive ) && $directive == $len )
             {
                 return array( 'only_directive' => true );

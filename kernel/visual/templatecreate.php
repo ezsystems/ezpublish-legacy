@@ -378,9 +378,8 @@ function generatePagelayoutTemplate( $http, $template, $fileName )
         case 'EmptyFile' :
         {
             $templateCode = '{*?template charset=latin1?*}' .
-                 '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" ' .
-                 '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">' . "\n" .
-                 '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">' .
+                 '<!DOCTYPE html>' . "\n" .
+                 '<html lang="en">' .
                  '<head>' . "\n" .
                  '    <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />' . "\n" .
                  '    <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />' . "\n" .
@@ -426,9 +425,8 @@ function generateDefaultTemplate( $http, $template, $fileName )
         case 'EmptyFile' :
         {
             $templateCode = '{*?template charset=latin1?*}' .
-                 '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" ' .
-                 '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">' . "\n" .
-                 '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">' .
+                 '<!DOCTYPE html>' . "\n" .
+                 '<html lang="en">' .
                  '<head>' . "\n" .
                  '    <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />' . "\n" .
                  '    <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />' . "\n" .

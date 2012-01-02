@@ -145,6 +145,11 @@ class eZAutoloadGenerator
     const DEFAULT_EXCLUDE_FILE = '.autoloadignore';
 
     /**
+     * Undefined token value
+     */
+    const UNDEFINED_TOKEN = -1;
+
+    /**
      * Constructs class to generate autoload arrays.
      */
     function __construct( ezpAutoloadGeneratorOptions $options = null )
@@ -574,7 +579,10 @@ class eZAutoloadGenerator
             // Compatibility with PHP 5.2 where T_NAMESPACE constant is not available
             // Assigning the constant value to $tNamespace
             // 377 is the value for T_NAMESPACE in PHP 5.3.x
-            $tNamespace = defined( 'T_NAMESPACE' ) ? T_NAMESPACE : 377;
+            $tNamespace = defined( 'T_NAMESPACE' ) ? T_NAMESPACE : self::UNDEFINED_TOKEN;
+
+            // Traits support, see http://issues.ez.no/19028
+            $tTrait = defined( 'T_TRAIT' ) ? T_TRAIT : self::UNDEFINED_TOKEN;
 
             foreach( $fileList as $file )
             {
@@ -592,12 +600,16 @@ class eZAutoloadGenerator
                     {
                         switch( $token[0] )
                         {
+                            case self::UNDEFINED_TOKEN:
+                                // Unsupported token, do nothing
+                                break;
+
                             // Store namespace name, if applicable, to concatenate with class name
                             case $tNamespace:
                                 // NAMESPACE_TOKEN - WHITESPACE_TOKEN - TEXT_TOKENS (containing namespace name)
                                 $offset = $key + 2;
                                 $namespace = "";
-                                while ( $tokens[$offset] !== ";" )
+                                while ( $tokens[$offset] !== ";" && $tokens[$offset] !== "{" )
                                 {
                                     if ( is_array( $tokens[$offset] ) )
                                     {
@@ -607,11 +619,12 @@ class eZAutoloadGenerator
                                     $offset++;
                                 }
 
-                                $namespace = trim( $namespace );
+                                $namespace = trim( addcslashes( $namespace, '\\' ) );
                                 break;
 
                             case T_CLASS:
                             case T_INTERFACE:
+                            case $tTrait:
                                 // Increment stat for found class.
                                 $this->incrementProgressStat( self::OUTPUT_PROGRESS_PHASE2, 'classCount' );
 
@@ -619,7 +632,7 @@ class eZAutoloadGenerator
                                 $className = $tokens[$key+2][1];
                                 if ( $namespace !== null )
                                 {
-                                    $className = $namespace . "\\" . $className;
+                                    $className = "$namespace\\\\$className";
                                 }
 
                                 $filePath = $file;
