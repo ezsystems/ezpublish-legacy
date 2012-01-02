@@ -140,9 +140,9 @@ class ezpEvent
 
         foreach ( $this->listeners[$name] as $listener )
         {
-            $value = call_user_func_array( $listener, $params );
+            $params[0] = call_user_func_array( $listener, $params );
         }
-        return $value;
+        return $params[0];
     }
 
     /**
