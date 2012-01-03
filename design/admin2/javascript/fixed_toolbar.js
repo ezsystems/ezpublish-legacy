@@ -19,11 +19,7 @@ YUI().use('event', 'node-screen', 'node-style', 'selector-css3', 'transition', f
         }
 
         if ( toTop ) {
-<<<<<<< HEAD
             toTop.setStyle('opacity', 0);
-=======
-            toTop.setStyles('opacity', 0);
->>>>>>> Implemented the fixed toolbar depending on user scroll
             toTop.on('click', function (e) {
                 toTop.hide('fadeOut', {opacity: 0, duration: 0.5});
             });
