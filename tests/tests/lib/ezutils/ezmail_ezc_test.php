@@ -8,6 +8,9 @@
  * @package tests
  */
 
+/**
+ * @group ezmail
+ */
 class eZMailEzcTest extends ezpTestCase
 {
     public $adminEmail = 'ezp-unittests-01@ez.no';
@@ -73,7 +76,7 @@ class eZMailEzcTest extends ezpTestCase
         $ezpResult = $mail->receiverText();
         $ezcResult = $mail->Mail->to;
         $ezpExpected = $mail->composeEmailItems( array( array( 'email' => $this->adminEmail, 'name' => $this->adminName ) ), true, false, true );
-        $ezcExpected = array( new ezcMailAddress( $this->adminEmail, $this->adminName ) );
+        $ezcExpected = array( new ezcMailAddress( $this->adminEmail, $this->adminName, $mail->usedCharset() ) );
 
         $this->assertEquals( $ezpExpected, $ezpResult );
         $this->assertEquals( $ezcExpected, $ezcResult );
@@ -99,7 +102,7 @@ class eZMailEzcTest extends ezpTestCase
         $ezcResult = $mail->Mail->cc;
         $ezpExpected =
         array( array( 'email' => $this->adminEmail, 'name' => $this->adminName ) );
-        $ezcExpected = array( new ezcMailAddress( $this->adminEmail, $this->adminName ) );
+        $ezcExpected = array( new ezcMailAddress( $this->adminEmail, $this->adminName, $mail->usedCharset() ) );
 
         $this->assertEquals( $ezpExpected, $ezpResult );
         $this->assertEquals( $ezcExpected, $ezcResult );
@@ -125,7 +128,7 @@ class eZMailEzcTest extends ezpTestCase
         $ezcResult = $mail->Mail->bcc;
         $ezpExpected =
         array( array( 'email' => $this->adminEmail, 'name' => $this->adminName ) );
-        $ezcExpected = array( new ezcMailAddress( $this->adminEmail, $this->adminName ) );
+        $ezcExpected = array( new ezcMailAddress( $this->adminEmail, $this->adminName, $mail->usedCharset() ) );
 
         $this->assertEquals( $ezpExpected, $ezpResult );
         $this->assertEquals( $ezcExpected, $ezcResult );
