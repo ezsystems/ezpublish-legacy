@@ -171,13 +171,13 @@ abstract class ezpRegressionTest extends ezpTestCase
     abstract protected function testRunRegression( $file );
 
     /**
-     * Needs to be re implemented by child
+     * Needs to be re implemented by child if PHP < 5.3
      *
      * @return ezpTestRegressionSuite
      */
-    abstract public static function suite();
-    /*{
-        return new ezpTestRegressionSuite( __CLASS__ );
-    }*/
+    public static function suite()
+    {
+        return new ezpTestRegressionSuite( get_called_class() );
+    }
 }
 ?>
