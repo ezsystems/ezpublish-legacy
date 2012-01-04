@@ -64,8 +64,16 @@ PHP_CodeCoverage::getInstance()->filter()->addFileToBlacklist( __FILE__, 'PHPUNI
 
 //require_once 'bootstrap.php';
 
-$runner = ezpTestRunner::instance();
-$runner->run($_SERVER['argv']);
+try
+{
+    $runner = ezpTestRunner::instance();
+    $runner->run($_SERVER['argv']);
+}
+catch ( Exception $e )
+{
+    $cli->error( $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine() );
+    $cli->error( $e->getTraceAsString() );
+}
 
 $script->shutdown();
 
