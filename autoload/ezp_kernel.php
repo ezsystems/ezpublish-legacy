@@ -109,6 +109,7 @@ return array(
       'eZDB'                                               => 'lib/ezdb/classes/ezdb.php',
       'eZDBException'                                      => 'kernel/private/classes/exceptions/database/exception.php',
       'eZDBFileHandler'                                    => 'kernel/classes/clusterfilehandlers/ezdbfilehandler.php',
+      'eZDBFileHandlerBackend'                             => 'kernel/interfaces/dbfilehandlerbackend.php',
       'eZDBFileHandlerMysqlBackend'                        => 'kernel/classes/clusterfilehandlers/dbbackends/mysql.php',
       'eZDBFileHandlerMysqliBackend'                       => 'kernel/classes/clusterfilehandlers/dbbackends/mysqli.php',
       'eZDBGarbageCollector'                               => 'kernel/classes/ezdbgarbagecollector.php',
