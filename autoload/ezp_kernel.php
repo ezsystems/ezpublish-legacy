@@ -610,7 +610,6 @@ return array(
       'ezpMvcConfiguration'                                => 'kernel/private/rest/classes/mvc_configuration.php',
       'ezpMvcRailsRoute'                                   => 'kernel/private/rest/classes/routes/rails.php',
       'ezpMvcRegexpRoute'                                  => 'kernel/private/rest/classes/routes/regexp.php',
-      'ezpMvcUnsupportedMethodStatus'                      => 'kernel/private/rest/classes/status/mvc_unsupported_status.php',
       'ezpNativeUserAuthFilter'                            => 'kernel/private/rest/classes/auth/native_user_authfilter.php',
       'ezpOauthBadRequestException'                        => 'kernel/private/rest/classes/exceptions/bad_request.php',
       'ezpOauthErrorType'                                  => 'kernel/private/rest/classes/outh_error_type.php',
