@@ -33,6 +33,7 @@ class eZDFSClusterStaleCacheTest extends eZClusterStaleCacheTest
     {
         parent::setUp();
 
+        $this->previousFileHandler = eZINI::instance( 'file.ini' )->variable( 'ClusteringSettings', 'FileHandler' );
         eZDFSFileHandlerTest::setUpDatabase();
 
         if ( !file_exists( $this->DFSPath ) )

@@ -49,6 +49,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
     {
         parent::setUp();
 
+        $this->previousFileHandler = eZINI::instance()->variable( 'ClusteringSettings', 'FileHandler' );
         self::setUpDatabase();
 
         if ( !file_exists( $this->DFSPath ) )
@@ -93,7 +94,6 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
         // Load database parameters for cluster
         // The same DSN than the relational database is used
         $fileINI = eZINI::instance( 'file.ini' );
-        $this->previousFileHandler = $fileINI->variable( 'ClusteringSettings', 'FileHandler' );
         $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', 'eZDFSFileHandler' );
 
         $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBHost',         $dsn['host'] );
