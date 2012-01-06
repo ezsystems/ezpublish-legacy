@@ -14,6 +14,7 @@
  */
 class eZDFSFileHandlerPostgresqlBackend
 {
+
     /**
      * Connects to the database.
      *
