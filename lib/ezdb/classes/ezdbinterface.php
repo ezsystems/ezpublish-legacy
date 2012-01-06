@@ -282,6 +282,11 @@ class eZDBInterface
             $sqlFileName = eZDir::path( array( $path, $type, $sqlFile ) );
         else
             $sqlFileName = eZDir::path( array( $path, $sqlFile ) );
+        if ( !file_exists( $sqlFileName ) )
+        {
+            eZDebug::writeError( "File not found: $sqlFileName", __METHOD__ );
+            return false;
+        }
         $sqlFileHandler = fopen( $sqlFileName, 'rb' );
         $buffer = '';
         $done = false;

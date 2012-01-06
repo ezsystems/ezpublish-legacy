@@ -106,7 +106,7 @@ class ezpTestDatabaseHelper
 
             if ( !$success )
             {
-                return false;
+                eZDebug::writeWarning( "Failed inserting SQL file $sqlFile[0] ... $sqlFile[1]", __METHOD__ );
             }
         }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the eZKernelTestSuite class
+ * File containing the eZClusterTestSuite class
  *
  * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
@@ -13,6 +13,12 @@ class eZClusterTestSuite extends ezpDatabaseTestSuite
         array( 'kernel/sql/', 'cluster_db_schema.sql' ),
         array( 'kernel/sql/', 'cluster_dfs_schema.sql' ),
     );
+
+    public function setUp()
+    {
+        self::$isDatabaseSetup = false;
+        parent::setUp();
+    }
 
     public function __construct()
     {
