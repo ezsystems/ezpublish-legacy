@@ -1,50 +1,50 @@
 <?php
 /**
- * File containing the eZFSFileHandlerTest class
+ * File containing the eZFS2FileHandlerTest class
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
- * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
- * @version //autogentag//
+ * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
  * @package tests
  */
 
 /**
- * eZFSFileHandler tests
+ * eZFS2FileHandler tests
  * @group cluster
- * @group eZFS
+ * @group eZFS2
  */
-class eZFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
+class eZFS2FileHandlerTest extends eZClusterFileHandlerAbstractTest
 {
     /**
      * @var eZINI
-     */
+     **/
     protected $fileINI;
 
     protected $backupGlobals = false;
 
     protected $previousFileHandler;
 
-    protected $clusterClass = 'eZFSFileHandler';
+    protected $clusterClass = 'eZFS2FileHandler';
 
     /**
      * Test setup
      *
      * Load an instance of file.ini
-     */
+     **/
     public function setUp()
     {
         parent::setUp();
 
         // We need to clear the existing handler if it was loaded before the INI
         // settings changes
-        if ( !eZClusterFileHandler::$globalHandler instanceof eZFSFileHandler )
-            eZClusterFileHandler::$globalHandler = null;
+        if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) and
+            !$GLOBALS['eZClusterFileHandler_chosen_handler'] instanceof $this->clusterClass )
+            unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
 
         // Load database parameters for cluster
         // The same DSN than the relational database is used
         $fileINI = eZINI::instance( 'file.ini' );
         $this->previousFileHandler = $fileINI->variable( 'ClusteringSettings', 'FileHandler' );
-        $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', 'eZFSFileHandler' );
+        $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', $this->clusterClass );
     }
 
     public function tearDown()
@@ -55,7 +55,8 @@ class eZFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
             $fileINI = eZINI::instance( 'file.ini' );
             $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', $this->previousFileHandler );
             $this->previousFileHandler = null;
-            eZClusterFileHandler::$globalHandler = null;
+            if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) )
+                unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
         }
 
         parent::tearDown();
@@ -80,29 +81,24 @@ class eZFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
         self::deleteLocalFiles( $testFile, $fetchedFile );
     }
 
-    public function testStartCacheGeneration()
+    /*public function testStartCacheGeneration()
     {
         self::assertTrue( eZClusterFileHandler::instance()->startCacheGeneration() );
-    }
+    }*/
 
-    public function testEndCacheGeneration()
+    /*public function testEndCacheGeneration()
     {
         self::assertTrue( eZClusterFileHandler::instance()->endCacheGeneration() );
-    }
+    }*/
 
-    public function testAbortCacheGeneration()
+    /*public function testAbortCacheGeneration()
     {
         self::assertTrue( eZClusterFileHandler::instance()->abortCacheGeneration() );
-    }
+    }*/
 
-    public function testCheckCacheGenerationTimeout()
+    /*public function testCheckCacheGenerationTimeout()
     {
         self::assertTrue( eZClusterFileHandler::instance()->abortCacheGeneration() );
-    }
-
-    public function testPrefork()
-    {
-        self::markTestSkipped( "preFork does nothing on non DB based handlers" );
-    }
+    }*/
 }
 ?>

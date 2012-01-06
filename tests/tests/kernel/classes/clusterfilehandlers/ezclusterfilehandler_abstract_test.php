@@ -1,10 +1,9 @@
 <?php
 /**
- * File containing the eZClusterFileHandlerAbstractTest class
+ * File containing the eZClusterFileHandlerTest class
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
- * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
- * @version //autogentag//
+ * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
  * @package tests
  */
 
@@ -26,7 +25,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
 
     /**
      * @var eZINI
-     */
+     **/
     protected $fileINI;
 
     public function setUp()
@@ -35,28 +34,48 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         if ( $this->clusterClass === false )
             $this->markTestSkipped( "Test class " . get_class( $this ) . " does not provide the clusterClass property" );
 
-        return parent::setUp();
+        return parent::setup();
     }
 
     /**
      * Helper function that creates a cluster file
+     * @param string $path
+     * @param mixed $contents
+     * @param array $params Extra parameters. Possible keys: scope, datatype.
      */
-    protected function createFile( $path, $contents, $params = array() )
+    protected function createFile( $path, $contents = false, $params = array() )
     {
+        if ( $contents === false )
+            $contents = md5( time() );
+
+        $scope = isset( $params['scope'] ) ? $params['scope'] : false;
+        $datatype = isset( $params['datatype'] ) ? $params['datatype'] : false;
+
         $ch = eZClusterFileHandler::instance( $path );
-        $ch->storeContents( $contents );
+        $ch->storeContents( $contents, $scope, $datatype );
         $ch->loadMetaData( true );
+
+        return $ch;
     }
 
     /**
      * Deletes one or more local files
-     * @param mixed $path Path to the local file. Give as many as you like (variable params)
+     * @param mixed $path
+     *        Path to the local file. Give as many as you like (variable params)
+     *        Can also be an array of path
      */
     protected static function deleteLocalFiles( $path )
     {
-        foreach( func_get_args() as $path )
-            if ( file_exists( $path ) )
-                unlink( $path );
+        foreach( func_get_args() as $item )
+        {
+            if ( !is_array( $item ) )
+                $item = array( $item );
+            foreach( $item as $path )
+            {
+                if ( file_exists( $path ) )
+                    unlink( $path );
+            }
+        }
     }
 
     /**
@@ -78,7 +97,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         $this->createFile( $file, md5( time() ) );
         $ch = eZClusterFileHandler::instance( $file );
         $this->assertEquals( 32,    $ch->size() );
-        $this->assertInternalType( 'integer', $ch->mtime() );
+        $this->assertType( 'integer', $ch->mtime() );
     }
 
     /**
@@ -90,6 +109,9 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
     public function testInstance()
     {
         // no parameter
+        $ch = eZClusterFileHandler::instance();
+        self::assertFalse( $ch->filePath, "Path to empty instance should have been null" );
+        // call two times to cover the GLOBALS copy
         $ch = eZClusterFileHandler::instance();
         self::assertFalse( $ch->filePath, "Path to empty instance should have been null" );
         unset( $ch );
@@ -111,6 +133,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         self::assertTrue( $ch->exists(), "File should exist" );
         if ( file_exists( $path ) )
             unlink( $path );
+        $ch = eZClusterFileHandler::instance( $path );
     }
 
     /**
@@ -195,7 +218,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         // 2. Check that the created file exists
         $ch2 = eZClusterFileHandler::instance( $localFile );
         self::assertTrue( $ch2->exists() );
-        if ( !$this instanceof eZFSFileHandlerTest )
+        if ( !$ch instanceof eZFSFileHandler )
         {
             self::assertEquals( 'text/plain', $ch2->metaData['datatype'] );
             self::assertEquals( 'test', $ch2->metaData['scope'] );
@@ -220,7 +243,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         // 2. Check that the created file exists
         $ch2 = eZClusterFileHandler::instance( $localFile );
         self::assertTrue( $ch2->exists() );
-        if ( !$this instanceof eZFSFileHandlerTest )
+        if ( !$ch instanceof eZFSFileHandler )
         {
             self::assertEquals( 'text/plain', $ch2->metaData['datatype'] );
             self::assertEquals( 'test', $ch2->metaData['scope'] );
@@ -257,6 +280,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         $ch->storeContents( $contents, 'test', 'plain/text', false );
         $ch->loadMetaData( true );
         self::assertTrue( $ch->exists() );
+        self::assertEquals( $contents, $ch->fetchContents() );
     }
 
     /**
@@ -293,11 +317,17 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         self::assertEquals( $extradata['content'], $result );
         self::assertTrue( $ch->exists(), "Cache file '$path' doesn't exist" );
 
+        // expire it
+        $ch->delete();
+        $ch->loadMetaData( true );
+        self::assertFalse( $ch->exists(), "Cache file exists #2" );
+        unset( $ch );
+
         self::deleteLocalFiles( $path );
     }
 
     /**
-     * Test for the processCache() method
+     * processCache() test: cache doesn't exist and no generate callback
      */
     public function testProcessCacheTwo()
     {
@@ -312,7 +342,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
             null, null, array() );
         $ch->loadMetaData( true );
         self::assertEquals( $expected, $result );
-        // self::assertTrue( $ch->exists(), "Cache file '$path' doesn't exist" );
+        $ch->abortCacheGeneration();
 
         self::deleteLocalFiles( $path );
     }
@@ -325,9 +355,14 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
     public function processCacheGenerateCallback( $path, $extraData )
     {
         /** Add random content ?
-         * Idea: use extra data to carry options around from {@link testProcessCache}
-         */
-        return array( 'content' => $extraData['content'], 'scope' => 'test', 'datatype' => 'text/plain' );
+        * Idea: use extra data to carry options around from {@link testProcessCache}
+        */
+        return array(
+            'content' => $extraData['content'],
+            'scope' => 'test',
+            'datatype' => 'text/plain',
+            'store' => true // required because eZFS2 doesn't store by default. See the todo at the end of the processCache method.
+        );
     }
 
     /**
@@ -519,7 +554,9 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
      */
     public function testStat()
     {
-        self::markTestIncomplete();
+        $ch = $this->createFile( 'var/tests/' . __FUNCTION__ . '/file.txt' );
+        self::assertEquals( $ch->metaData, $ch->stat(), "stat didn't return the metadata" );
+        self::deleteLocalFiles( $ch->filePath );
     }
 
     /**
@@ -543,7 +580,9 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
      */
     public function testName()
     {
-        self::markTestIncomplete();
+        $path = 'var/test/' . __FUNCTION__ . '/file.txt';
+        $ch = $this->createFile( $path );
+        self::assertEquals( $path, $ch->name() );
     }
 
     /**
@@ -551,7 +590,43 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
      */
     public function testFileDeleteByDirList()
     {
-        self::markTestIncomplete();
+        // Create a set of files in 3 different folders that will be deleted
+        $folders = array( 'folder1', 'folder2', 'folder3' );
+        $prefix = 'var/tests/' . __FUNCTION__;
+        $deleteSuffix = 'fileToDelete';
+        $keepSuffix = 'fileToKeep';
+        $deleteFiles = $keepFiles = array();
+
+        foreach( $folders as $folder )
+        {
+            for( $i = 0; $i < 5; $i++ )
+            {
+                $path = "{$prefix}/{$folder}/{$deleteSuffix}-" . uniqid();
+                self::createFile( $path );
+                $deleteFiles[] = $path;
+
+                $path = "{$prefix}/{$folder}/{$keepSuffix}-" . uniqid();
+                self::createFile( $path );
+                $keepFiles[] = $path;
+            }
+        }
+
+        $ch = eZClusterFileHandler::instance();
+        $ch->fileDeleteByDirList( $folders, $prefix, $deleteSuffix );
+
+        // check if all the deleteFiles were deleted
+        foreach ( $deleteFiles as $file )
+        {
+            self::assertFalse( $ch->fileExists( $file ), "deleteFile $file SHOULD have been deleted" );
+        }
+
+        // check if all the keepFiles were kept
+        foreach ( $keepFiles as $file )
+        {
+            self::assertTrue( $ch->fileExists( $file ), "deleteFile $file SHOULD NOT have been deleted" );
+        }
+
+        self::deleteLocalFiles( $keepFiles, $deleteFiles );
     }
 
     /**
@@ -566,15 +641,92 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         $ch = eZClusterFileHandler::instance();
 
         // Check if it exists
-        self::assertTrue( $ch->fileExists( $path ) );
+        self::assertTrue( $ch->fileExists( $path ), "$path does not exist" );
 
         // Delete the file
         $ch->fileDelete( $path );
 
         // Re-check the file
-        self::assertFalse( $ch->fileExists( $path ) );
+        clearstatcache( $path );
+        self::assertFalse( $ch->fileExists( $path ), "$path still exists" );
     }
 
+    /**
+     * Test for the delete() method
+     */
+    public function testFileDeleteDirectory()
+    {
+        // Create a set of files in a directory
+        $directory = 'var/tests/' . __FUNCTION__;
+        $files = array();
+
+        for( $i = 0; $i < 20; $i++ )
+        {
+            $path = "{$directory}/{$i}.txt";
+            $this->createFile( $path );
+            $files[] = $path;
+        }
+
+        eZClusterFileHandler::instance()->fileDelete( $directory, '' );
+
+        foreach( $files as $file )
+        {
+            $ch = eZClusterFileHandler::instance( $file );
+            $ch->loadMetadata( true );
+            self::assertFalse( $ch->exists(), "$file still exists after deletion" );
+        }
+    }
+
+    /**
+     * Test for the fileDelete() method with a prefix + wildcard
+     */
+    public function testFileDeleteWithWildcard()
+    {
+        $prefix = 'var/tests/' . __FUNCTION__;
+        $suffix1 = 'file';
+        $suffix2 = 'otherfile';
+        $prefix1 = "{$prefix}/{$suffix1}";
+        $prefix2 = "{$prefix}/{$suffix2}";
+        $fileset1 = array();
+        $fileset2 = array();
+
+        // Create a set of files
+        for( $i = 1; $i <= 10; $i++ )
+        {
+            $path = "{$prefix1}-{$i}.txt";
+            $this->createFile( $path );
+            $fileset1[] = $path;
+        }
+
+        // create a set of files we won't delete
+        for( $i = 1; $i <= 10; $i++ )
+        {
+            $path = "{$prefix2}-{$i}.txt";
+            $this->createFile( $path );
+            $fileset2[] = $path;
+        }
+
+        $ch = eZClusterFileHandler::instance();
+
+        // delete the files from fileset1
+        $ch->fileDelete( $prefix, $suffix1 );
+
+        // Check that the files in $fileset1 were deleted
+        foreach( $fileset1 as $file )
+        {
+            clearstatcache( $file );
+            self::assertFalse( $ch->fileExists( $file ), "$file still exists" );
+        }
+
+        // Check that the files in $fileset2 haven't been deleted
+        foreach( $fileset2 as $file )
+        {
+            clearstatcache( $file );
+            self::assertTrue( $ch->fileExists( $file ), "$file no longer exists" );
+        }
+
+        $this->deleteLocalFiles( $fileset1, $fileset2 );
+    }
 
     /**
      * Test for the delete() method
@@ -588,22 +740,38 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         $ch = eZClusterFileHandler::instance( $path );
 
         // Check if it exists
-        self::assertTrue( $ch->exists(), "File doesn't exist after creation"  );
+        self::assertTrue( $ch->exists(), "$path doesn't exist after creation"  );
 
         // Delete the file
         $ch->delete();
 
         // Re-check the file
-        self::assertFalse( $ch->exists(), "File still exists after deletion" );
+        $ch->loadMetadata( true );
+        self::assertFalse( $ch->exists(), "$path still exists after deletion" );
     }
 
-
-    /**
-     * Test for the purge() method
-     */
-    public function testPurge()
+    public function testDeleteMultipleFiles()
     {
-        self::markTestIncomplete();
+        // Create a set of files in a directory
+        $directory = 'var/tests/' . __FUNCTION__;
+        $files = array();
+
+        for( $i = 0; $i < 20; $i++ )
+        {
+            $path = "{$directory}/{$i}.txt";
+            $this->createFile( $path );
+            $files[] = $path;
+        }
+
+        $ch = eZClusterFileHandler::instance( $directory );
+        $ch->delete();
+
+        foreach( $files as $file )
+        {
+            $ch = eZClusterFileHandler::instance( $file );
+            $ch->loadMetadata( true );
+            self::assertFalse( $ch->exists(), "$file still exists after deletion" );
+        }
     }
 
     /**
@@ -622,6 +790,8 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         $ch->loadMetaData( true );
 
         self::assertTrue( $ch->exists(), "The  file been created, exists() should have returned true" );
+
+        self::deleteLocalFiles( $path );
     }
 
     /**
@@ -640,6 +810,8 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         $ch->loadMetaData( true );
 
         self::assertTrue( $ch->fileExists( $path ), "The  file been created, exists() should have returned true" );
+
+        self::deleteLocalFiles( $path );
     }
 
     /**
@@ -677,7 +849,6 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         self::deleteLocalFiles( $sourcePath, $destinationPath );
     }
 
-
     /**
      * Test for the fileLinkCopy() method
      */
@@ -707,7 +878,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         $ch->fileMove( $sourcePath, $destinationPath );
 
         // check existence on both
-        self::assertFalse( $ch->fileExists( $sourcePath ), "Source file still longer exists" );
+        self::assertFalse( $ch->fileExists( $sourcePath ), "Source file still exists" );
         self::assertTrue( $ch->fileExists( $destinationPath ), "Destination file doesn't exist" );
 
         self::deleteLocalFiles( $sourcePath, $destinationPath );
@@ -734,15 +905,131 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         $ch->move( $destinationPath );
 
         // check existence on both
-        self::assertFalse( $ch->fileExists( $sourcePath ), "Source file still longer exists" );
+        self::assertFalse( $ch->fileExists( $sourcePath ), "Source file still exists" );
         self::assertTrue( $ch->fileExists( $destinationPath ), "Destination file doesn't exist" );
 
         self::deleteLocalFiles( $sourcePath, $destinationPath );
     }
 
     /**
-     * Test for the eZClusterFileHandler::preFork() global method
+     * Test for the fetch() function
      */
-    public function testPreFork(){}
+    public function testFetch()
+    {
+        // fetch file1.txt, a non existing file
+        $path1 = 'var/tests/' . __FUNCTION__ . '/file1.txt';
+        $ch1 = eZClusterFileHandler::instance( $path1 );
+        $ch1->fetch();
+        self::assertFalse( $ch1->exists() );
+
+        // create file2.txt file and fetch it
+        $path2 = 'var/tests/' . __FUNCTION__ . '/file2.txt';
+        $this->createFile( $path2 );
+        $ch2 = eZClusterFileHandler::instance( $path2 );
+        unset( $ch2 );
+
+        // reload the file from scratch
+        $ch2 = eZClusterFileHandler::instance( $path2 );
+        $ch2->fetch();
+        self::assertFileExists( $path2, "$path2 doesn't exist (\$noLocalCache=true) locally" );
+        unset( $ch2 );
+
+        // reload the file from scratch, and fetch with noLocalCache = true
+        $ch2 = eZClusterFileHandler::instance( $path2 );
+        $ch2->fetch( true );
+        self::assertFileExists( $path2, "$path2 doesn't exist (\$noLocalCache=true) locally" );
+    }
+
+    public function testRequiresClusterizing()
+    {
+        self::assertFalse( eZClusterFileHandler::instance()->requiresClusterizing() );
+    }
+
+    public function testRequiresBinaryPurge()
+    {
+        self::assertFalse( eZClusterFileHandler::instance()->requiresBinaryPurge() );
+    }
+
+    public function testPurgeSingleFile()
+    {
+        $path = 'var/tests/' . __FUNCTION__ . '/file.txt';
+        $ch = self::createFile( $path, false );
+        $ch->delete();
+        $ch->purge();
+
+        $chValidate = eZClusterFileHandler::instance( $path );
+        $chValidate->loadMetadata( true );
+
+        self::assertFileNotExists( $path );
+        self::assertFalse( $chValidate->metaData );
+
+        self::deleteLocalFiles( $path );
+    }
+
+    public function testPurgeMultipleFiles()
+    {
+        $basePath = 'var/tests/' . __FUNCTION__;
+
+        // create multiple files in a folder for deletion
+        for( $i = 0; $i < 10; $i++ )
+        {
+            $files[$i] = "$basePath/set1/{$i}.txt";
+            self::createFile( $files[$i] )->delete();
+        }
+        // and a few other files to check if we don't delete anything that shouldn't be
+        for( $i = 0; $i < 5; $i++ )
+        {
+            $otherFiles[$i] = "$basePath/set2/{$i}.txt";
+            self::createFile( $otherFiles[$i] );
+        }
+
+        $clusterHandler = eZClusterFileHandler::instance( "$basePath/set1/" );
+        $clusterHandler->purge();
+
+        // check if files supposed to be deleted were
+        foreach( $files as $file )
+        {
+            $ch = eZClusterFileHandler::instance( $file );
+            $ch->loadMetaData( true );
+            self::assertFileNotExists( $file );
+            $this->assertFalse( $ch->metaData, "File $file still exists" );
+        }
+
+        // and if files not supposed to be deleted weren't
+        foreach( $otherFiles as $file )
+        {
+            $ch = eZClusterFileHandler::instance( $file );
+            $ch->loadMetaData( true );
+            $this->assertType( 'array', $ch->metaData, "File $file no longer exists" );
+        }
+
+        self::deleteLocalFiles( $files, $otherFiles);
+    }
+
+    /**
+     * fileDeleteLocal has no effect on FS based handlers (no remote copy)
+     */
+    public function testFileDeleteLocal()
+    {
+        $path = 'var/tests/'.__FUNCTION__.'/file.txt';
+
+        $ch = self::createFile( $path );
+        self::assertFileExists( $path );
+        eZClusterFileHandler::instance()->fileDeleteLocal( $path );
+        self::assertFileExists( $path );
+    }
+
+    /**
+     * deleteLocal has no effect on FS based handlers (no remote copy)
+     */
+    public function testDeleteLocal()
+    {
+        $path = 'var/tests/'.__FUNCTION__.'/file.txt';
+
+        $ch = self::createFile( $path );
+        self::assertFileExists( $path );
+        $ch->deleteLocal();
+        self::assertFileExists( $path );
+    }
 }
 ?>

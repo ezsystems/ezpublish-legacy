@@ -2,22 +2,31 @@
 /**
  * File containing the eZDFSFileHandlerTest class
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
- * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
- * @version //autogentag//
+ * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
  * @package tests
  */
 
+/**
+ * eZDFSFileHandler tests
+ * @group cluster
+ * @group eZDFS
+ */
 class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 {
     /**
      * @var string
-     */
+     **/
     protected $DFSPath = 'var/dfsmount/';
 
     protected $backupGlobals = false;
 
     protected $haveToRemoveDFSPath = false;
+
+    /**
+     * @var array
+     **/
+    protected $sqlFiles = array( 'kernel/sql/', 'cluster_dfs_schema.sql' );
 
     protected $previousFileHandler;
 
@@ -35,28 +44,10 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
      *
      * Load an instance of file.ini
      * Assigns DB parameters for cluster
-     */
+     **/
     public function setUp()
     {
-        if ( ezpTestRunner::dsn()->dbsyntax !== 'mysql' && ezpTestRunner::dsn()->dbsyntax !== 'mysqli' )
-            self::markTestSkipped( "Not running MySQL, skipping" );
-
         parent::setUp();
-        $this->db = eZDB::instance();
-        ezpTestDatabaseHelper::insertSqlData( $this->db,  array( 'tests/tests/kernel/classes/clusterfilehandlers/sql/cluster_dfs_schema.sql' ) );
-
-        // We need to clear the existing handler if it was loaded before the INI
-        // settings changes
-        if ( !eZClusterFileHandler::$globalHandler instanceof eZDFSFileHandler )
-            eZClusterFileHandler::$globalHandler = null;
-
-        unset( $GLOBALS['eZClusterInfo'] );
-
-        // Load database parameters for cluster
-        // The same DSN than the relational database is used
-        $fileINI = eZINI::instance( 'file.ini' );
-        $this->previousFileHandler = $fileINI->variable( 'ClusteringSettings', 'FileHandler' );
-        $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', 'eZDFSFileHandler' );
 
         $dsn = ezpTestRunner::dsn()->parts;
         switch ( $dsn['phptype'] )
@@ -69,23 +60,44 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
                 $backend = 'eZDFSFileHandlerMySQLiBackend';
                 break;
 
+            case 'postgresql':
+                $backend = 'eZDFSFileHandlerPostgresqlBackend';
+                break;
+
             default:
                 $this->markTestSkipped( "Unsupported database type '{$dsn['phptype']}'" );
         }
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBBackend', $backend );
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBHost',    $dsn['host'] );
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBPort',    $dsn['port'] );
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBSocket',  $dsn['socket'] );
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBName',    $dsn['database'] );
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBUser',    $dsn['user'] );
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBPassword', $dsn['password'] );
+
+        // We need to clear the existing handler if it was loaded before the INI
+        // settings changes
+        if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) and
+            !$GLOBALS['eZClusterFileHandler_chosen_handler'] instanceof eZDFSFileHandler )
+            unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
+
+        unset( $GLOBALS['eZClusterInfo'] );
+
+        // Load database parameters for cluster
+        // The same DSN than the relational database is used
+        $fileINI = eZINI::instance( 'file.ini' );
+        $this->previousFileHandler = $fileINI->variable( 'ClusteringSettings', 'FileHandler' );
+        $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', 'eZDFSFileHandler' );
+
+        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBHost',         $dsn['host'] );
+        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBPort',         $dsn['port'] );
+        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBSocket',       $dsn['socket'] );
+        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBName',         $dsn['database'] );
+        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBUser',         $dsn['user'] );
+        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBPassword',     $dsn['password'] );
         $fileINI->setVariable( 'eZDFSClusteringSettings', 'MountPointPath', $this->DFSPath );
+        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBBackend',      $backend );
 
         if ( !file_exists( $this->DFSPath ) )
         {
             eZDir::doMkdir( $this->DFSPath, 0755 );
             $this->haveToRemoveDFSPath = true;
         }
+
+        $this->db = eZDB::instance();
     }
 
     public function tearDown()
@@ -96,7 +108,8 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
             $fileINI = eZINI::instance( 'file.ini' );
             $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', $this->previousFileHandler );
             $this->previousFileHandler = null;
-            eZClusterFileHandler::$globalHandler = null;
+            if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) )
+                unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
         }
 
         if ( $this->haveToRemoveDFSPath )
@@ -126,7 +139,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
      */
     protected function DBFileExists( $filePath )
     {
-        $escapedFilePath = $this->db->escapeString( $filePath );
+        $escapedFilePath = mysql_real_escape_string( $filePath );
         $sql = "SELECT * FROM " . eZDFSFileHandlerMySQLBackend::TABLE_METADATA .
                " WHERE name_hash = MD5('{$escapedFilePath}')";
         $rows = $this->db->arrayQuery( $sql );
@@ -143,7 +156,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
      */
     protected function DBFileExistsAndIsValid( $filePath )
     {
-        $escapedFilePath = $this->db->escapeString( $filePath );
+        $escapedFilePath = mysql_real_escape_string( $filePath );
         $sql = "SELECT * FROM " . eZDFSFileHandlerMySQLBackend::TABLE_METADATA .
                " WHERE name LIKE '{$escapedFilePath}'";
         $rows = $this->db->arrayQuery( $sql );
@@ -161,17 +174,12 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
     protected function DFSFileExists( $filePath )
     {
         clearstatcache();
-        $path = $this->makeDFSPath( $filePath );
-
-        if ( is_dir( $path ) )
-            return true;
-        else
-            return file_exists( $path );
+        return file_exists( $this->makeDFSPath( $filePath ) );
     }
 
     /**
      * Removes the test file $filePath on FS, DFS and DB
-     */
+     **/
     protected function removeFile( $filePath )
     {
         $DFSPath = $this->makeDFSPath( $filePath );
@@ -196,7 +204,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
      *        if remove is set to true, the file will be removed before it is
      *        created
      * @return void
-     */
+     **/
     protected function createFile( $filePath, $fileContents = 'foobar', $params = array() )
     {
         $datatype = isset( $params['datatype'] ) ? $params['datatype'] : 'text/test';
@@ -228,13 +236,15 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
         // create local file
         if ( $createLocalFile )
             eZFile::create( basename( $filePath ), dirname( $filePath ), $fileContents );
+
+        return eZClusterFileHandler::instance( $filePath );
     }
 
     /**
      * Returns the DFS path for a given file
      * @param string $filePath local file path
      * @return string DFS file path
-     */
+     **/
     protected function makeDFSPath( $filePath )
     {
         return $this->DFSPath . $filePath;
@@ -243,11 +253,11 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
     /**
      * Constructor test
      * Will test if the constructor returns the correct instance
-     */
+     **/
     public function testConstructor()
     {
         $clusterHandler = eZClusterFileHandler::instance();
-        $this->assertInternalType( 'object', $clusterHandler,
+        $this->assertType( 'object', $clusterHandler,
             "eZClusterFileHandler::instance() didn't return an object" );
         $this->assertTrue( $clusterHandler instanceof eZDFSFileHandler,
             "eZClusterFileHandler::instance() didn't return an eZDFSFileHandler" );
@@ -255,7 +265,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
     /**
      * Tests storage of a new, non existent file to cluster
-     */
+     **/
     public function testFileStore()
     {
         $testFile = 'var/testStore.txt';
@@ -278,8 +288,8 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
     }
 
     /**
-     * Tests the fileStore() method, removing the local file afterwards
-     */
+    * Tests the fileStore() method, removing the local file afterwards
+    **/
     public function testFileStoreDeleteFile()
     {
         $testFile = 'var/testStore.txt';
@@ -303,7 +313,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
     /**
      * Tests storage of a new file given a filename and binary content
-     */
+     **/
     public function testFileStoreContents()
     {
         $testFile = "var/testStoreContents.txt";
@@ -320,8 +330,8 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
     }
 
     /**
-     * Tests the non cluster-static method that stores a file's content
-     */
+    * Tests the non cluster-static method that stores a file's content
+    **/
     public function testStoreContentsWithoutLocalStore()
     {
         $testFile = "var/testStoreContents.txt";
@@ -340,7 +350,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
     /**
      * Tests the non cluster-static method that stores a file's content
-     */
+     **/
     public function testStoreContentsWithLocalStore()
     {
         $testFile = "var/testStoreContents.txt";
@@ -358,84 +368,8 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
     }
 
     /**
-     * Tests the fileFetch method.
-     *
-     * Should locally fetch a file located on DB+DFS
-     */
-    public function _testFileFetchExistingFile()
-    {
-        $testFile = 'var/testFileForTestFileFetch.txt';
-
-        $this->createFile( $testFile, 'This is the content' );
-
-        // after fetching the file, it should exist locally
-        $clusterHandler = eZClusterFileHandler::instance();
-        $fetchedFile = $clusterHandler->fileFetch( $testFile );
-
-        $this->assertSame( $testFile, $fetchedFile, "Fetched filename mismatch" );
-        $this->assertTrue( $this->localFileExists( $testFile ), "Local file $testFile could not be found" );
-
-        $this->removeFile( $testFile );
-    }
-
-    /**
-     * Tests the fileFetch method on a non existing file
-     *
-     * Should locally fetch a file located on DB+DFS
-     *
-     * @deprecated See {@link eZCluserFileHandlerAbstractTest}
-     */
-    public function _testFileFetchNonExistingFile()
-    {
-        $testFile = 'var/testFileForTestFileFetchNonExistingFile.txt';
-
-        $this->removeFile( $testFile );
-
-        // fileFetch() should return false as the file doesn't exist
-        $clusterHandler = eZClusterFileHandler::instance();
-        $fetchedFile = $clusterHandler->fileFetch( $testFile );
-
-        $this->assertFalse( $fetchedFile, "eZDFS told that the file exists. It sure doesn't" );
-        $this->assertFalse( $this->localFileExists( $testFile ), "FS file exists" );
-    }
-
-    /**
-     * Tests eZDFSFileHandler->fetch() on an existing file
-     * @deprecated See {@link eZCluserFileHandlerAbstractTest}
-     */
-    public function _testFetchExistingFile()
-    {
-        $testFile = 'var/testFileForTestFetchExistingFile.txt';
-        $this->createFile( $testFile, 'This is the content' );
-
-        $clusterHandler = eZClusterFileHandler::instance( $testFile );
-        $fetchedFile = $clusterHandler->fetch();
-        $this->assertSame( $testFile, $fetchedFile, "Fetched filename was not returned" );
-        $this->assertTrue( $this->localFileExists( $testFile ), "Local file doesn't exist" );
-
-        $this->removeFile( $testFile );
-    }
-
-    /**
-     * Tests eZDFSFileHandler->fetch() on a non-existing file
-     * @deprecated See {@link eZCluserFileHandlerAbstractTest}
-     */
-    public function _testFetchNonExistingFile()
-    {
-        $testFile = 'var/testFileForTestFetchExistingFile.txt';
-        $this->removeFile( $testFile );
-
-        $clusterHandler = eZClusterFileHandler::instance( $testFile );
-        $fetchedFile = $clusterHandler->fetch();
-        $this->assertFalse( $fetchedFile, "Fetching should have failed" );
-        $this->assertFalse( $this->localFileExists( $testFile ), "Local file does exist" );
-
-        $this->removeFile( $testFile );
-    }
-
-    /**
      * Tests fileExists on an existing file
-     */
+     **/
     public function testFileExistsExistingFile()
     {
         $testFile = 'var/testFileForTestExistsExistingFile.txt';
@@ -450,7 +384,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
     /**
      * Tests eZDFSFileHandler::fileExists() on a non-existing file
-     */
+     **/
     public function testFileExistsNonExistingFile()
     {
         $testFile = 'var/testFileForTestExistsExistingFile.txt';
@@ -465,7 +399,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
     /**
      * Tests fileExists on an existing file
-     */
+     **/
     public function testExistsExistingFile()
     {
         $testFile = 'var/testFileForTestExistsExistingFile.txt';
@@ -481,7 +415,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
     /**
      * Tests eZDFSFileHandler::fileExists() on a non-existing file
-     */
+     **/
     public function testExistsNonExistingFile()
     {
         $testFile = 'var/testFileForTestExistsExistingFile.txt';
@@ -627,7 +561,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
         $clusterHandler = eZClusterFileHandler::instance( $testFile );
         $stat = $clusterHandler->stat();
-        $this->assertInternalType( PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $stat );
+        $this->assertType( 'array', $stat );
         $this->assertArrayHasKey( 'name', $stat );
 
         $this->removeFile( $testFile );
@@ -654,7 +588,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
         $clusterHandler = eZClusterFileHandler::instance( $testFile );
         $size = $clusterHandler->size();
-        $this->assertInternalType( PHPUnit_Framework_Constraint_IsType::TYPE_INT, $size );
+        $this->assertType( PHPUnit_Framework_Constraint_IsType::TYPE_INT, $size );
         $this->assertEquals( strlen( $contents ), $size );
 
         $this->removeFile( $testFile );
@@ -681,7 +615,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
         $clusterHandler = eZClusterFileHandler::instance( $testFile );
         $mtime = $clusterHandler->mtime();
-        $this->assertInternalType( PHPUnit_Framework_Constraint_IsType::TYPE_INT, $mtime );
+        $this->assertType( PHPUnit_Framework_Constraint_IsType::TYPE_INT, $mtime );
         $this->assertEquals( $curtime, $mtime );
 
         $this->removeFile( $testFile );
@@ -706,92 +640,15 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
         $clusterHandler = eZClusterFileHandler::instance( $testFile );
         $name = $clusterHandler->name();
-        $this->assertInternalType( PHPUnit_Framework_Constraint_IsType::TYPE_STRING, $name );
+        $this->assertType( PHPUnit_Framework_Constraint_IsType::TYPE_STRING, $name );
         $this->assertEquals( $testFile, $name );
 
         $this->removeFile( $testFile );
     }
 
-    public function _testFileDelete()
-    {
-        $testFile = 'var/testFileDelete.txt';
-
-        $this->createFile( $testFile );
-
-        // the file should exist on DFS
-        $this->assertTrue( $this->DFSFileExists( $testFile ), "File no longer exists on DFS" );
-
-        // the file should be valid in DB
-        $this->assertTrue( $this->DBFileExistsAndIsValid( $testFile ), "File is still valid in DB" );
-
-        $clusterHandler = eZClusterFileHandler::instance();
-        $clusterHandler->fileDelete( $testFile );
-
-        // the file should still be on DFS
-        $this->assertTrue( $this->DFSFileExists( $testFile ), "File no longer exists on DFS" );
-
-        // the file should not longer be valid on DB (expired)
-        $this->assertFalse( $this->DBFileExistsAndIsValid( $testFile ), "File is still valid in DB" );
-    }
-
-    public function _testDelete()
-    {
-        $testFile = 'var/testDelete.txt';
-
-        $this->createFile( $testFile );
-
-        // the file should exist on DFS
-        $this->assertTrue( $this->DFSFileExists( $testFile ), "File no longer exists on DFS" );
-
-        // the file should be valid in DB
-        $this->assertTrue( $this->DBFileExistsAndIsValid( $testFile ), "File is still valid in DB" );
-
-        $clusterHandler = eZClusterFileHandler::instance( $testFile );
-        $clusterHandler->delete();
-
-        // the file should still be on DFS
-        $this->assertTrue( $this->DFSFileExists( $testFile ), "File no longer exists on DFS" );
-
-        // the file should not longer be valid on DB (expired)
-        $this->assertFalse( $this->DBFileExistsAndIsValid( $testFile ), "File is still valid in DB" );
-    }
-
-    public function testFileDeleteLocal()
-    {
-        $testFile = 'var/testFileDeleteLocal.txt';
-
-        $clusterHandler = eZClusterFileHandler::instance();
-        $clusterHandler->fileStoreContents( $testFile, 'contents', 'text/test', 'test' );
-        $clusterHandler->fileFetch( $testFile );
-
-        // test if the local file was correctly fetched
-        $this->assertTrue( $this->localFileExists( $testFile ), "Local file should exist" );
-
-        // delete the locally fetched file
-        $clusterHandler->fileDeleteLocal( $testFile );
-
-        $this->assertFalse( $this->localFileExists( $testFile ), "Local file should no longer exist" );
-    }
-
-    public function testDeleteLocal()
-    {
-        $testFile = 'var/testDeleteLocal.txt';
-
-        $clusterHandler = eZClusterFileHandler::instance( $testFile );
-        $clusterHandler->storeContents( 'contents', 'text/test', 'test', $storeLocally = true );
-
-        // test if the local file was correctly fetched
-        $this->assertTrue( $this->localFileExists( $testFile ), "Local file should exist" );
-
-        // delete the locally fetched file
-        $clusterHandler->deleteLocal( $testFile );
-
-        $this->assertFalse( $this->localFileExists( $testFile ), "Local file should no longer exist" );
-    }
-
     /**
-     * Expects the file we copy to to exists
-     */
+    * Expects the file we copy to to exists
+    **/
     public function testFileCopy()
     {
         $testFile = 'var/testFileCopy.txt';
@@ -806,145 +663,6 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
         $this->removeFile( $testFile );
         $this->removeFile( $testFileCopy );
-    }
-
-    /**
-     * Expects the old name to no longer exist and the new one to exist
-     */
-    public function testFileMove()
-    {
-        $testFile = 'var/testFileMove.txt';
-        $testFileMoved = 'var/testFileMoveMoved.txt';
-        $this->createFile( $testFile );
-
-        $clusterHandler = eZClusterFileHandler::instance();
-        $clusterHandler->fileMove( $testFile, $testFileMoved );
-
-        $this->assertFalse( $this->DBFileExists( $testFile ), "old DB file should no longer exist" );
-        $this->assertTrue( $this->DBFileExists( $testFileMoved ), "new DB file should exist" );
-        $this->assertFalse( $this->DFSFileExists( $testFile ), "old DFS file should exist" );
-        $this->assertTrue( $this->DFSFileExists( $testFileMoved ), "new DFS file should exist" );
-
-        $this->removeFile( $testFile );
-        $this->removeFile( $testFileMoved );
-    }
-
-    public function testMove()
-    {
-        $testFile = 'var/testMove.txt';
-        $testFileMoved = 'var/testMoveMoved.txt';
-        $this->createFile( $testFile );
-
-        $clusterHandler = eZClusterFileHandler::instance( $testFile );
-        $clusterHandler->move( $testFileMoved );
-
-        $this->assertFalse( $this->DBFileExists( $testFile ), "old DB file should no longer exist" );
-        $this->assertTrue( $this->DBFileExists( $testFileMoved ), "new DB file should exist" );
-        $this->assertFalse( $this->DFSFileExists( $testFile ), "old DFS file should exist" );
-        $this->assertTrue( $this->DFSFileExists( $testFileMoved ), "new DFS file should exist" );
-
-        $this->removeFile( $testFile );
-        $this->removeFile( $testFileMoved );
-    }
-
-    public function testPurgeSingleFile()
-    {
-        $this->createFile( $testFile = 'var/testPurge.txt',
-                           'contents',
-                           array( 'expired' => 1 ) );
-
-        $clusterHandler = eZClusterFileHandler::instance( $testFile );
-        $clusterHandler->purge();
-
-        $this->assertFalse( $this->DBFileExists( $testFile ), "DB file still exists" );
-        $this->assertFalse( $this->DFSFileExists( $testFile ), "DFS file still exists" );
-        $this->assertFalse( $this->localFileExists( $testFile ), "local file still exists" );
-
-        $this->removeFile( $testFile );
-    }
-
-    public function testPurgeMultipleFiles()
-    {
-        $createParams = array( 'expired' => 1, 'create_local_file' => 1 );
-
-        // create multiple files in a folder for deletion
-        for( $i = 0; $i < 10; $i++ )
-        {
-            $files[$i] = "var/testPurge/MultipleFiles-{$i}";
-            $this->createFile( $files[$i], 'foocontent', $createParams );
-        }
-        // and a few other files to check if we don't delete anything that shouldn't be
-        for( $i = 0; $i < 5; $i++ )
-        {
-            $otherFiles[$i] = "var/testOtherFiles/File-{$i}";
-            $this->createFile( $otherFiles[$i], 'foocontent', $createParams );
-        }
-
-        $clusterHandler = eZClusterFileHandler::instance( 'var/testPurge' );
-        $clusterHandler->purge();
-
-        // check if files supposed to be deleted were
-        foreach( $files as $file )
-        {
-            $this->assertFalse( $this->DBFileExists( $file ), "DB file $file still exists" );
-            $this->assertFalse( $this->DFSFileExists( $file ), "DFS file $file still exists" );
-            $this->assertFalse( $this->localFileExists( $file ), "local file $file still exists" );
-        }
-        $this->assertFalse( $this->DFSFileExists( "var/testPurge/" ) );
-        $this->assertFalse( $this->localFileExists( "var/testPurge/" ) );
-
-        // and if files not supposed to be deleted weren't
-        foreach( $otherFiles as $file )
-        {
-            $this->assertTrue( $this->DBFileExists( $file ), "DB file $file has been removed" );
-            $this->assertTrue( $this->DFSFileExists( $file ), "DFS file $file has been removed" );
-            $this->assertTrue( $this->localFileExists( $file ), "local file $file has been removed" );
-        }
-
-        // remove all of 'em
-        foreach( array_merge( $files, $otherFiles ) as $file )
-        {
-            $this->removeFile( $file );
-        }
-    }
-
-    public function testRequiresClusterizing()
-    {
-        $handler = eZClusterFileHandler::instance();
-        $this->assertTrue( $handler->requiresClusterizing() );
-    }
-
-    public function testDisconnect()
-    {
-        $handler = eZClusterFileHandler::instance();
-
-        $refHandler = new ReflectionObject( $handler );
-        $refBackendProperty = $refHandler->getProperty( 'dbbackend' );
-        $refBackendProperty->setAccessible( true );
-
-        self::assertNotNull( $refBackendProperty->getValue( $handler ) );
-
-        $handler->disconnect();
-
-        self::assertNull( $refBackendProperty->getValue( $handler ) );
-    }
-
-    /**
-     * Test for the global {@see eZClusterFilehandler::preFork()} method
-     */
-    public function testPreFork()
-    {
-        $handler = eZClusterFileHandler::instance();
-
-        $refHandler = new ReflectionObject( $handler );
-        $refBackendProperty = $refHandler->getProperty( 'dbbackend' );
-        $refBackendProperty->setAccessible( true );
-
-        self::assertNotNull( $refBackendProperty->getValue( $handler ) );
-
-        eZClusterFileHandler::preFork();
-
-        self::assertNull( $refBackendProperty->getValue( $handler ) );
     }
 }
 ?>
