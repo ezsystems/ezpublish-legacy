@@ -18,9 +18,11 @@
 class eZDFSClusterStaleCacheTest extends eZClusterStaleCacheTest
 {
     /**
+     * Path to the DFS mount
+     * Obtained via eZDFSFileHandlerTest::getDfsPath
      * @var string
-     **/
-    protected $DFSPath = 'var/dfsmount/';
+     */
+    protected $DFSPath;
 
     /**
      * @var array
@@ -34,6 +36,8 @@ class eZDFSClusterStaleCacheTest extends eZClusterStaleCacheTest
         parent::setUp();
 
         $this->previousFileHandler = eZINI::instance( 'file.ini' )->variable( 'ClusteringSettings', 'FileHandler' );
+
+        $this->DFSPath = eZDFSFileHandlerTest::getDfsPath();
         eZDFSFileHandlerTest::setUpDatabase();
 
         if ( !file_exists( $this->DFSPath ) )

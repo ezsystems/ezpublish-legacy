@@ -17,7 +17,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
     /**
      * @var string
      **/
-    protected $DFSPath = 'var/dfsmount/';
+    protected static $DFSPath = 'var/dfsmount/';
 
     protected $backupGlobals = false;
 
@@ -52,9 +52,9 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
         $this->previousFileHandler = eZINI::instance()->variable( 'ClusteringSettings', 'FileHandler' );
         self::setUpDatabase();
 
-        if ( !file_exists( $this->DFSPath ) )
+        if ( !file_exists( self::$DFSPath ) )
         {
-            eZDir::doMkdir( $this->DFSPath, 0755 );
+            eZDir::doMkdir( self::$DFSPath, 0755 );
             $this->haveToRemoveDFSPath = true;
         }
 
@@ -102,7 +102,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
         $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBName',         $dsn['database'] );
         $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBUser',         $dsn['user'] );
         $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBPassword',     $dsn['password'] );
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'MountPointPath', $this->DFSPath );
+        $fileINI->setVariable( 'eZDFSClusteringSettings', 'MountPointPath', self::getDfsPath() );
         $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBBackend',      $backend );
     }
 
@@ -120,7 +120,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
         if ( $this->haveToRemoveDFSPath )
         {
-            eZDir::recursiveDelete( $this->DFSPath );
+            eZDir::recursiveDelete( self::$DFSPath );
         }
         parent::tearDown();
     }
@@ -252,7 +252,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
      **/
     protected function makeDFSPath( $filePath )
     {
-        return $this->DFSPath . $filePath;
+        return self::$DFSPath . $filePath;
     }
 
     /**
@@ -668,6 +668,11 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
         $this->removeFile( $testFile );
         $this->removeFile( $testFileCopy );
+    }
+
+    public static function getDfsPath()
+    {
+        return self::$DFSPath;
     }
 }
 ?>
