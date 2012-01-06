@@ -1269,7 +1269,12 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         eZDebugSetting::writeDebug( 'kernel-clustering', "Starting cache generation", "dfs::startCacheGeneration( '{$this->filePath}' )" );
 
         $generatingFilePath = $this->filePath . '.generating';
-        $ret = self::$dbbackend->_startCacheGeneration( $this->filePath, $generatingFilePath );
+        try {
+            $ret = self::$dbbackend->_startCacheGeneration( $this->filePath, $generatingFilePath );
+        } catch( RuntimeException $e ) {
+            eZDebug::writeError( $e->getMessage() );
+            return false;
+        }
 
         // generation granted
         if ( $ret['result'] == 'ok' )
@@ -1298,17 +1303,27 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      */
     public function endCacheGeneration( $rename = true )
     {
-        eZDebugSetting::writeDebug( 'kernel-clustering', 'Ending cache generation', "dfs::endCacheGeneration( '{$this->realFilePath}' )" );
-        if ( self::$dbbackend->_endCacheGeneration( $this->realFilePath, $this->filePath, $rename ) )
+        if ( $this->realFilePath === null )
         {
-            $this->filePath = $this->realFilePath;
-            $this->realFilePath = null;
-            eZClusterFileHandler::removeGeneratingFile( $this );
-            return true;
-        }
-        else
-        {
+            eZDebugSetting::writeDebug( 'kernel-clustering', "$this->filePath is not generating", "dfs::endCacheGeneration( '{$this->filePath}' )" );
             return false;
+        }
+
+        eZDebugSetting::writeDebug( 'kernel-clustering', 'Ending cache generation', "dfs::endCacheGeneration( '{$this->realFilePath}' )" );
+        try {
+            if ( self::$dbbackend->_endCacheGeneration( $this->realFilePath, $this->filePath, $rename ) )
+            {
+                $this->filePath = $this->realFilePath;
+                $this->realFilePath = null;
+                eZClusterFileHandler::removeGeneratingFile( $this );
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        } catch( RuntimeException $e ) {
+            eZDebug::writeError( "An error occured ending cache generation on '$this->realFilePath'", 'cluster.log' );
         }
     }
 

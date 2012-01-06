@@ -1389,6 +1389,7 @@ class eZDFSFileHandlerPostgresqlBackend
     *           file's mtime
     *         - if result == 'ko', the 'remaining' index contains the remaining
     *           generation time (time until timeout) in seconds
+    * @throws RuntimeException
     **/
     public function _startCacheGeneration( $filePath, $generatingFilePath )
     {
@@ -1410,18 +1411,12 @@ class eZDFSFileHandlerPostgresqlBackend
         try {
             $stmt = $this->_query( $query, "_startCacheGeneration( $filePath )", false );
         } catch( PDOException $e ) {
-            eZDebug::writeError( print_r( $e, true ), __METHOD__ );
-
             $errno = $e->getCode();
-            if ( $errno != 23305 )
+            if ( $errno != self::ERROR_UNIQUE_VIOLATION )
             {
-                echo "Unexpected error !\n";
-                eZDebug::writeError( "Unexpected error #$errno when trying to start cache generation on $filePath (" . $e->getMessage(), __METHOD__ );
-
-                // @todo Make this an actual error, maybe an exception
-                return array( 'result' => 'ko' );
+                throw new RuntimeException( "Unexpected error #$errno when trying to start cache generation on $filePath (" . $e->getMessage() . ')' );
             }
-            // error 23305 is expected, since it means duplicate key (file is being generated)
+            // error self::ERROR_UNIQUE_VIOLATION is expected, since it means duplicate key (file is being generated)
             else
             {
                 // generation timout check
@@ -1449,8 +1444,7 @@ class eZDFSFileHandlerPostgresqlBackend
                     }
                     else
                     {
-                        // @todo This would require an actual error handling
-                        eZDebug::writeError( "An error occured taking over timedout generating cache file $generatingFilePath (ERROR HERE)", __METHOD__ );
+                        throw new RuntimeException( "An error occured taking over timedout generating cache file $generatingFilePath" );
                         return array( 'result' => 'error' );
                     }
                 }
@@ -1469,7 +1463,8 @@ class eZDFSFileHandlerPostgresqlBackend
     * the .generating file to the actual file, and removed the .generating
     * @param string $filePath
     * @return bool
-    **/
+     * @throws RuntimeException
+     **/
     public function _endCacheGeneration( $filePath, $generatingFilePath, $rename )
     {
         $fname = "_endCacheGeneration( $filePath )";
@@ -1491,8 +1486,7 @@ class eZDFSFileHandlerPostgresqlBackend
             if ( !$stmt = $this->_query( "SELECT * FROM " . self::TABLE_METADATA . " WHERE name_hash=MD5('$generatingFilePath') FOR UPDATE", $fname, true ) )
             {
                 $this->_rollback( $fname );
-                // @todo Throw an exception
-                return false;
+                throw new RuntimeException( "An error occcured getting a lock on $generatingFilePath" );
             }
             $generatingMetaData = $stmt->fetch( PDO::FETCH_ASSOC );
 
@@ -1508,19 +1502,15 @@ class eZDFSFileHandlerPostgresqlBackend
                              "VALUES( " . $this->_sqlList( $metaData ) . ")";
                 if ( !$this->_query( $insertSQL, $fname, true ) )
                 {
-                    eZDebug::writeError("An error occured creating the metadata entry for $filePath", $fname );
                     $this->_rollback( $fname );
-                    // @todo Throw an exception
-                    return false;
+                    throw new RuntimeException( "An error occured creating the metadata entry for $filePath" );
                 }
                 // here we rename the actual FILE. The .generating file has been
                 // created on DFS, and should be renamed
                 if ( !$this->dfsbackend->renameOnDFS( $generatingFilePath, $filePath ) )
                 {
-                    eZDebug::writeError("An error occured renaming DFS://$generatingFilePath to DFS://$filePath", $fname );
                     $this->_rollback( $fname );
-                    // @todo Throw an exception
-                    return false;
+                    throw new RuntimeException("An error occured renaming DFS://$generatingFilePath to DFS://$filePath" );
                 }
                 $this->_query( "DELETE FROM " . self::TABLE_METADATA . " WHERE name_hash=MD5('$generatingFilePath')", $fname, true );
             }
@@ -1530,10 +1520,8 @@ class eZDFSFileHandlerPostgresqlBackend
             {
                 if ( !$this->dfsbackend->renameOnDFS( $generatingFilePath, $filePath ) )
                 {
-                    eZDebug::writeError("An error occured renaming DFS://$generatingFilePath to DFS://$filePath", $fname );
                     $this->_rollback( $fname );
-                    // @todo Throw an exception
-                    return false;
+                    throw new RuntimeException( "An error occured renaming DFS://$generatingFilePath to DFS://$filePath" );
                 }
 
                 $mtime = $generatingMetaData['mtime'];
@@ -1541,8 +1529,7 @@ class eZDFSFileHandlerPostgresqlBackend
                 if ( !$this->_query( "UPDATE " . self::TABLE_METADATA . " SET mtime = '{$mtime}', expired = 0, size = '{$filesize}' WHERE name_hash=MD5('$filePath')", $fname, true ) )
                 {
                     $this->_rollback( $fname );
-                    // @todo Throw an exception
-                    return false;
+                    throw new RuntimeException( "An error marking '$filePath' as not expired in the database" );
                 }
                 $this->_query( "DELETE FROM " . self::TABLE_METADATA . " WHERE name_hash=MD5('$generatingFilePath')", $fname, true );
             }
@@ -1721,6 +1708,7 @@ class eZDFSFileHandlerPostgresqlBackend
         return $filePathList;
     }
 
+
     /**
      * DB connection handle
      * @var PDO
@@ -1758,6 +1746,12 @@ class eZDFSFileHandlerPostgresqlBackend
      * @var eZDFSFileHandlerDFSBackend
      **/
     protected $dfsbackend = null;
+
+    /**
+     * Unique constraint violation error, used for stale cache management
+     * @var int
+     */
+    const ERROR_UNIQUE_VIOLATION = 23505;
 }
 
 ?>
