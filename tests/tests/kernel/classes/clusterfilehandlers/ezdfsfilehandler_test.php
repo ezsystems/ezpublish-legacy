@@ -49,6 +49,19 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
     {
         parent::setUp();
 
+        self::setUpDatabase();
+
+        if ( !file_exists( $this->DFSPath ) )
+        {
+            eZDir::doMkdir( $this->DFSPath, 0755 );
+            $this->haveToRemoveDFSPath = true;
+        }
+
+        $this->db = eZDB::instance();
+    }
+
+    public function setUpDatabase()
+    {
         $dsn = ezpTestRunner::dsn()->parts;
         switch ( $dsn['phptype'] )
         {
@@ -70,6 +83,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
         // We need to clear the existing handler if it was loaded before the INI
         // settings changes
+        eZClusterFileHandler::resetHandler();
         if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) and
             !$GLOBALS['eZClusterFileHandler_chosen_handler'] instanceof eZDFSFileHandler )
             unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
@@ -90,14 +104,6 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
         $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBPassword',     $dsn['password'] );
         $fileINI->setVariable( 'eZDFSClusteringSettings', 'MountPointPath', $this->DFSPath );
         $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBBackend',      $backend );
-
-        if ( !file_exists( $this->DFSPath ) )
-        {
-            eZDir::doMkdir( $this->DFSPath, 0755 );
-            $this->haveToRemoveDFSPath = true;
-        }
-
-        $this->db = eZDB::instance();
     }
 
     public function tearDown()

@@ -33,46 +33,7 @@ class eZDFSClusterStaleCacheTest extends eZClusterStaleCacheTest
     {
         parent::setUp();
 
-        if ( !( $this->sharedFixture instanceof eZMySQLDB ) and !( $this->sharedFixture instanceof eZMySQLiDB ) )
-        {
-            self::markTestSkipped( "Not using mysql interface, skipping" );
-        }
-
-        // We need to clear the existing handler if it was loaded before the INI
-        // settings changes
-        if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) and
-            !$GLOBALS['eZClusterFileHandler_chosen_handler'] instanceof eZDFSFileHandler )
-            unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
-
-        unset( $GLOBALS['eZClusterInfo'] );
-
-        // Load database parameters for cluster
-        // The same DSN than the relational database is used
-        $fileINI = eZINI::instance( 'file.ini' );
-        $this->previousFileHandler = $fileINI->variable( 'ClusteringSettings', 'FileHandler' );
-        $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', 'eZDFSFileHandler' );
-
-        $dsn = ezpTestRunner::dsn()->parts;
-        switch ( $dsn['phptype'] )
-        {
-            case 'mysql':
-                $backend = 'eZDFSFileHandlerMySQLBackend';
-                break;
-
-            case 'mysqli':
-                $backend = 'eZDFSFileHandlerMySQLiBackend';
-                break;
-
-            default:
-                $this->markTestSkipped( "Unsupported database type '{$dsn['phptype']}'" );
-        }
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBHost',    $dsn['host'] );
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBPort',    $dsn['port'] );
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBSocket',  $dsn['socket'] );
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBName',    $dsn['database'] );
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBUser',    $dsn['user'] );
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBPassword', $dsn['password'] );
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'MountPointPath', $this->DFSPath );
+        eZDFSFileHandlerTest::setUpDatabase();
 
         if ( !file_exists( $this->DFSPath ) )
         {
