@@ -206,7 +206,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
      * @param string $fileContents file's content
      * @param array  $params
      *        Optional parameters for creation.
-     *        Valid keys:datatype, scope, mtime, status, expired and remove
+     *        Valid keys:datatype, scope, mtime, expired and remove
      *        if remove is set to true, the file will be removed before it is
      *        created
      * @return void
@@ -216,7 +216,6 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
         $datatype = isset( $params['datatype'] ) ? $params['datatype'] : 'text/test';
         $scope = isset( $params['scope'] ) ? $params['scope'] : 'test';
         $mtime = isset( $params['mtime'] ) ? $params['mtime'] : time();
-        $status = isset( $params['status'] ) ? $params['status'] : 0;
         $expired = isset( $params['expired'] ) ? $params['expired'] : 0;
         $createLocalFile = isset( $params['create_local_file'] ) ? $params['create_local_file'] : false;
         $remove = isset( $params['remove'] ) ? $params['remove'] : true;
@@ -231,8 +230,8 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
         // create DB file
         $sql = "INSERT INTO " . eZDFSFileHandlerMySQLBackend::TABLE_METADATA .
-               "      ( name,        name_trunk,  name_hash,   datatype,    scope,    size,    mtime,    expired,    status )" .
-               "VALUES( '$filePath', '$filePath', '$nameHash', '$datatype', '$scope', '$size', '$mtime', '$expired', '$status' )";
+               "      ( name,        name_trunk,  name_hash,   datatype,    scope,    size,    mtime,    expired )" .
+               "VALUES( '$filePath', '$filePath', '$nameHash', '$datatype', '$scope', '$size', '$mtime', '$expired' )";
         $this->db->query( $sql );
 
         // create DFS file
