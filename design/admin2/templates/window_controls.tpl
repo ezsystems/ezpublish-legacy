@@ -30,7 +30,7 @@
     {undef $tab_navigation_part}
 {/foreach}
 
-{set $valid_tabs = $valid_tabs|append( $additional_tabs )
+{set $valid_tabs = $valid_tabs|append( $aditional_tabs )
      $aditional_tabs_count = $aditional_tabs|count()}
 
 {if $tabs_disabled}
