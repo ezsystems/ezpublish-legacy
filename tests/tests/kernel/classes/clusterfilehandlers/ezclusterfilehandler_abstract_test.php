@@ -89,15 +89,15 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
     {
         // non existing file
         $clusterFileHandler = eZClusterFileHandler::instance( 'var/tests/' . __FUNCTION__ . '/non-existing.txt' );
-        $this->assertNull( $clusterFileHandler->size() );
-        $this->assertNull( $clusterFileHandler->mtime() );
+        self::assertNull( $clusterFileHandler->size() );
+        self::assertNull( $clusterFileHandler->mtime() );
 
         // existing file
         $file =  'var/tests/' . __FUNCTION__ . '/existing-file.txt';
         $this->createFile( $file, md5( time() ) );
         $ch = eZClusterFileHandler::instance( $file );
-        $this->assertEquals( 32,    $ch->size() );
-        $this->assertType( 'integer', $ch->mtime() );
+        self::assertEquals( 32,    $ch->size() );
+        self::assertInternalType( 'integer', $ch->mtime() );
     }
 
     /**
@@ -154,7 +154,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         $ch->fileFetch( $path );
 
         // 3. Check that the local file exists
-        $this->assertFileExists( $path );
+        self::assertFileExists( $path );
         unlink( $path );
     }
 
@@ -168,8 +168,8 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
     {
         $path = 'var/tests/' . __FUNCTION__ . '/nofile.txt';
         $ch = eZClusterFileHandler::instance();
-        $this->assertFalse( $ch->fileFetch( $path ) );
-        $this->assertFileNotExists( $path );
+        self::assertFalse( $ch->fileFetch( $path ) );
+        self::assertFileNotExists( $path );
     }
 
     /**
@@ -992,7 +992,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
             $ch = eZClusterFileHandler::instance( $file );
             $ch->loadMetaData( true );
             self::assertFileNotExists( $file );
-            $this->assertFalse( $ch->metaData, "File $file still exists" );
+            self::assertFalse( $ch->metaData, "File $file still exists" );
         }
 
         // and if files not supposed to be deleted weren't
@@ -1000,7 +1000,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         {
             $ch = eZClusterFileHandler::instance( $file );
             $ch->loadMetaData( true );
-            $this->assertType( 'array', $ch->metaData, "File $file no longer exists" );
+            self::assertInternalType( 'array', $ch->metaData, "File $file no longer exists" );
         }
 
         self::deleteLocalFiles( $files, $otherFiles);
