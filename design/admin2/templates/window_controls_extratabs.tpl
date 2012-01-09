@@ -1,12 +1,12 @@
     {def $counter = 0}
-    {foreach $aditional_tabs as $tab}
+    {foreach $additional_tabs as $tab}
     {def $tab_title = ezini( concat( 'AdditionalTab_', $tab ), 'Title', 'admininterface.ini' )|wash()
          $tab_description = ezini( concat( 'AdditionalTab_', $tab ), 'Description', 'admininterface.ini' )|wash()
          $tab_header_template = ezini( concat( 'AdditionalTab_', $tab ), 'HeaderTemplate', 'admininterface.ini' )
          $last = false()}
     {set $counter = $counter|inc()}
 
-    {if eq( $counter, $aditional_tabs_count )}
+    {if eq( $counter, $additional_tabs_count )}
         {set $last = true()}
     {/if}
 
