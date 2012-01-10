@@ -231,7 +231,7 @@ class eZDBInterface
     /**
      * Prepare the sql file so we can create the database.
      *
-     * @private
+     * @access private
      * @param resource $fd The file descriptor
      * @param string $buffer Reference to string buffer for SQL queries.
      * @return array
@@ -335,7 +335,7 @@ class eZDBInterface
     /**
      * Writes a debug notice with query information.
      *
-     * @private
+     * @access private
      * @param string $class
      * @param string $sql
      * @param int|string $numRows
@@ -367,7 +367,7 @@ class eZDBInterface
     /**
      * Records the current micro time. End the timer with endTimer() and fetch the result with timeTaken();
      *
-     * @private
+     * @access private
      */
     function startTimer()
     {
@@ -377,7 +377,7 @@ class eZDBInterface
     /**
      * Stops the current timer and calculates the time taken.
      *
-     * @private
+     * @access private
      */
     function endTimer()
     {
@@ -390,7 +390,7 @@ class eZDBInterface
     /**
      * Returns the micro time when the timer was start or false if no timer.
      *
-     * @private
+     * @access private
      * @return bool|float
      */
     function startTime()
@@ -401,7 +401,7 @@ class eZDBInterface
     /**
      * Returns the micro time when the timer was ended or false if no timer.
      *
-     * @private
+     * @access private
      * @return bool|float
      */
     function endTime()
@@ -412,7 +412,7 @@ class eZDBInterface
     /**
      * Returns the number of milliseconds the last operation took or false if no value.
      *
-     * @private
+     * @access private
      * @return bool|float
      */
     function timeTaken()
@@ -903,7 +903,7 @@ class eZDBInterface
     /**
      * Recursive helper function for generating stack tree output.
      *
-     * @private
+     * @access private
      * @param array $stack
      * @param int $indentCount
      * @return string The generated string
@@ -953,7 +953,7 @@ class eZDBInterface
     /**
      * Helper function for generating output for one stack-trace entry.
      *
-     * @private
+     * @access private
      * @param array $entry
      * @return string The generated string
      */
@@ -1028,7 +1028,7 @@ class eZDBInterface
      *
      * If a transaction is active it will be invalidated as well.
      *
-     * @protected
+     * @access protected
      * @throws eZDBException
      */
     function reportError()
@@ -1195,7 +1195,7 @@ class eZDBInterface
      *
      * This function can be used by some database handlers which can operate on relation types using SQL.
      *
-     * @protected
+     * @access protected
      * @param int $relationType
      * @return bool
      */
@@ -1293,7 +1293,7 @@ class eZDBInterface
     /**
      * Returns true if we're connected to the database backend.
      *
-     * @protected
+     * @access protected
      * @return bool
      */
     function isConnected()
@@ -1519,7 +1519,7 @@ class eZDBInterface
     /**
      * Contains the current server
      *
-     * @protected
+     * @access protected
      * @var string
      */
     public $Server;
@@ -1527,7 +1527,7 @@ class eZDBInterface
     /**
      * Contains the current port
      *
-     * @protected
+     * @access protected
      * @var int
      */
     public $Port;
@@ -1535,7 +1535,7 @@ class eZDBInterface
     /**
      * The socket path, used by MySQL
      *
-     * @protected
+     * @access protected
      * @var string
      */
     public $SocketPath;
@@ -1543,7 +1543,7 @@ class eZDBInterface
     /**
      * The current database name
      *
-     * @protected
+     * @access protected
      * @var string
      */
     public $DB;
@@ -1551,7 +1551,7 @@ class eZDBInterface
     /**
      * The current connection, \c false if not connection has been made
      *
-     * @protected
+     * @access protected
      * @var resource|bool
      */
     public $DBConnection;
@@ -1559,7 +1559,7 @@ class eZDBInterface
     /**
      * Contains the write database connection if used
      *
-     * @protected
+     * @access protected
      * @var resource|bool
      */
     public $DBWriteConnection;
@@ -1567,7 +1567,7 @@ class eZDBInterface
     /**
      * Stores the database connection user
      *
-     * @protected
+     * @access protected
      * @var string
      */
     public $User;
@@ -1575,7 +1575,7 @@ class eZDBInterface
     /**
      * Stores the database connection password
      *
-     * @protected
+     * @access protected
      * @var string
      */
     public $Password;
@@ -1583,7 +1583,7 @@ class eZDBInterface
     /**
      * The charset used for the current database
      *
-     * @protected
+     * @access protected
      * @var string
      */
     public $Charset;
@@ -1591,7 +1591,7 @@ class eZDBInterface
     /**
      * The number of times to retry a connection if it fails
      *
-     * @protected
+     * @access protected
      * @var int
      */
     public $ConnectRetries;
@@ -1599,7 +1599,7 @@ class eZDBInterface
     /**
      * Instance of a textcodec which handles text conversion, may not be set if no builtin encoding is used
      *
-     * @protected
+     * @access protected
      * @var eZTextCodec|null|bool
      */
     public $OutputTextCodec;
@@ -1607,7 +1607,7 @@ class eZDBInterface
     /**
      * Instance of a textcodec which handles text conversion, may not be set if no builtin encoding is used
      *
-     * @protected
+     * @access protected
      * @var eZTextCodec|null|bool
      */
     public $InputTextCodec;
@@ -1615,7 +1615,7 @@ class eZDBInterface
     /**
      * True if a builtin encoder is to be used, this means that all input/output text is converted
      *
-     * @protected
+     * @access protected
      * @var bool
      */
     public $UseBuiltinEncoding;
@@ -1623,7 +1623,7 @@ class eZDBInterface
     /**
      * Setting if SQL queries should be sent to debug output
      *
-     * @protected
+     * @access protected
      * @var bool
      */
     public $OutputSQL;
@@ -1631,7 +1631,7 @@ class eZDBInterface
     /**
      * Contains true if we're connected to the database backend
      *
-     * @protected
+     * @access protected
      * @var bool
      */
     public $IsConnected = false;
@@ -1639,7 +1639,7 @@ class eZDBInterface
     /**
      * Contains number of queries sended to DB
      *
-     * @protected
+     * @access protected
      * @var int
      */
     public $NumQueries = 0;
@@ -1647,7 +1647,7 @@ class eZDBInterface
     /**
      * The start time of the timer
      *
-     * @protected
+     * @access protected
      * @var bol|float
      */
     public $StartTime;
@@ -1655,7 +1655,7 @@ class eZDBInterface
     /**
      * The end time of the timer
      *
-     * @protected
+     * @access protected
      * @var bool|float
      */
     public $EndTime;
@@ -1663,7 +1663,7 @@ class eZDBInterface
     /**
      * The total number of milliseconds the timer took
      *
-     * @protected
+     * @access protected
      * @var bool|float
      */
     public $TimeTaken;
@@ -1671,7 +1671,7 @@ class eZDBInterface
     /**
      * The database error message of the last executed function
      *
-     * @protected
+     * @access protected
      * @var string
      */
     public $ErrorMessage;
@@ -1679,7 +1679,7 @@ class eZDBInterface
     /**
      * The database error message number of the last executed function
      *
-     * @protected
+     * @access protected
      * @var int
      */
     public $ErrorNumber = 0;
@@ -1687,7 +1687,7 @@ class eZDBInterface
     /**
      * If true then ErrorMessage and ErrorNumber get filled
      *
-     * @protected
+     * @access protected
      * @var bool
      */
     public $RecordError = true;
@@ -1695,7 +1695,7 @@ class eZDBInterface
     /**
      * If true then the database connection should be persistent
      *
-     * @protected
+     * @access protected
      * @var bool
      */
     public $UsePersistentConnection = false;
@@ -1703,7 +1703,7 @@ class eZDBInterface
     /**
      * True if slave servers are enabled
      *
-     * @protected
+     * @access protected
      * @var bool
      */
     public $UseSlaveServer;
@@ -1711,7 +1711,7 @@ class eZDBInterface
     /**
      * The slave database name
      *
-     * @protected
+     * @access protected
      * @var string
      */
     public $SlaveDB;
@@ -1719,7 +1719,7 @@ class eZDBInterface
     /**
      * The slave server name
      *
-     * @protected
+     * @access protected
      * @var string
      */
     public $SlaveServer;
@@ -1727,7 +1727,7 @@ class eZDBInterface
     /**
      * The slave server port
      *
-     * @protected
+     * @access protected
      * @var int
      */
     public $SlavePort;
@@ -1735,7 +1735,7 @@ class eZDBInterface
     /**
      * The slave database user
      *
-     * @protected
+     * @access protected
      * @var string
      */
     public $SlaveUser;
@@ -1743,7 +1743,7 @@ class eZDBInterface
     /**
      * The slave database user password
      *
-     * @protected
+     * @access protected
      * @var string
      */
     public $SlavePassword;
@@ -1751,7 +1751,7 @@ class eZDBInterface
     /**
      * The transaction counter, 0 means no transaction
      *
-     * @protected
+     * @access protected
      * @var int
      */
     public $TransactionCounter;
@@ -1759,7 +1759,7 @@ class eZDBInterface
     /**
      * Flag which tells if a transaction is considered valid or not. A transaction will be made invalid if SQL errors occur
      *
-     * @protected
+     * @access protected
      * @var bool
      */
     public $TransactionIsValid;
@@ -1767,7 +1767,7 @@ class eZDBInterface
     /**
      * Holds the transactions
      *
-     * @protected
+     * @access protected
      * @var array|bool
      */
     public $TransactionStackTree;
