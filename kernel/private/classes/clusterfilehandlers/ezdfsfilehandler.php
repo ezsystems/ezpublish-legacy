@@ -1527,6 +1527,10 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      */
     protected static $nonExistantStaleCacheHandling = null;
 
+    /**
+     * Type of cache file, used by the nameTrunk feature to determine how nametrunk is computed
+     * @var string
+     */
     protected $_cacheType = null;
 }
 ?>
