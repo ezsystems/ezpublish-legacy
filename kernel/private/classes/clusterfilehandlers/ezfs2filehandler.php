@@ -780,6 +780,10 @@ class eZFS2FileHandler extends eZFSFileHandler
         return false;
     }
 
+    public function hasStaleCacheSupport()
+    {
+        return true;
+    }
     /**
      * holds the real file path. This is only used when we are generating a cache
      * file, in which case $filePath holds the generating cache file name,

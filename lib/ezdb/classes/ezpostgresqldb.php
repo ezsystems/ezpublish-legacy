@@ -47,19 +47,7 @@ class eZPostgreSQLDB extends eZDBInterface
         $user = $this->User;
         $password = $this->Password;
 
-        $connectParams = array();
-        if ( $server !== false and $server !== null )
-            $connectParams[] = "host='$server'";
-        if ( $db !== false and $db !== null )
-            $connectParams[] = "dbname='$db'";
-        if ( $user !== false and $user !== null )
-            $connectParams[] = "user='$user'";
-        if ( $password !== false and $password !== null )
-            $connectParams[] = "password='$password'";
-        if ( $port )
-            $connectParams[] = "port='$port'";
-
-        $connectString = implode( " ", $connectParams );
+        $connectString = self::connectString( $this->Server, $this->Port, $this->DB, $this->User, $this->Password );
 
         if ( $ini->variable( "DatabaseSettings", "UsePersistentConnection" ) == "enabled" &&  function_exists( "pg_pconnect" ))
         {
@@ -133,6 +121,23 @@ class eZPostgreSQLDB extends eZDBInterface
             eZDebug::writeError( "PostgreSQL support not compiled into PHP, contact your system administrator", "eZPostgreSQLDB" );
 
         }
+    }
+
+    public static function connectString( $server = null, $port = null, $db = null, $user = null, $password = null )
+    {
+        $connectParams = array();
+        if ( $server !== false and $server !== null )
+            $connectParams[] = "host='$server'";
+        if ( $db !== false and $db !== null )
+            $connectParams[] = "dbname='$db'";
+        if ( $user !== false and $user !== null )
+            $connectParams[] = "user='$user'";
+        if ( $password !== false and $password !== null )
+            $connectParams[] = "password='$password'";
+        if ( $port )
+            $connectParams[] = "port='$port'";
+
+        return implode( " ", $connectParams );
     }
 
     function availableDatabases()

@@ -50,8 +50,10 @@ class ezpDatabaseTestSuite extends ezpTestSuite
             if ( $this->insertDefaultData === true )
                 ezpTestDatabaseHelper::insertDefaultData( $this->sharedFixture );
 
-            if ( count( $this->sqlFiles > 0 ) )
+            if ( count( $this->sqlFiles ) > 0 )
+            {
                 ezpTestDatabaseHelper::insertSqlData( $this->sharedFixture, $this->sqlFiles );
+            }
 
             eZDB::setInstance( $this->sharedFixture );
             self::$isDatabaseSetup = true;

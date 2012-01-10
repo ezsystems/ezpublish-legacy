@@ -31,7 +31,7 @@ class ezpDatabaseTestCase extends ezpTestCase
 
     /**
      * Hold shared fixtures
-     * 
+     *
      * @var mixed
      */
     protected $sharedFixture;
@@ -50,7 +50,7 @@ class ezpDatabaseTestCase extends ezpTestCase
             if ( $this->insertDefaultData === true )
                 ezpTestDatabaseHelper::insertDefaultData( $this->sharedFixture );
 
-            if ( count( $this->sqlFiles > 0 ) )
+            if ( count( $this->sqlFiles ) > 0 )
                 ezpTestDatabaseHelper::insertSqlData( $this->sharedFixture, $this->sqlFiles );
 
             eZDB::setInstance( $this->sharedFixture );

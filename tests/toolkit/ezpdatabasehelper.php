@@ -89,7 +89,6 @@ class ezpDatabaseHelper
     static function dbAsRootInstance( ezpDsn $dsn )
     {
         $dbParams = $dsn->parts;
-        $dbParams['database'] = "";
         $dbParams['use_defaults'] = false;
 
         $db = eZDB::instance( $dsn->phptype, $dbParams, true );
