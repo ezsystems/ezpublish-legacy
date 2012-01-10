@@ -6137,6 +6137,10 @@
         <translation>Colonnes visibles :</translation>
     </message>
     <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Select</source>
         <translation>Sélectionner</translation>
     </message>

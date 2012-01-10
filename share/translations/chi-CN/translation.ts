@@ -6856,6 +6856,10 @@
         <translation>列表中显示的栏目:</translation>
     </message>
     <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Select</source>
         <translation>选择</translation>
     </message>

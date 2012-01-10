@@ -7724,6 +7724,10 @@
         <translation>Sichtbare Tabellenspalten:</translation>
     </message>
     <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Select</source>
         <translation>Auswählen</translation>
     </message>

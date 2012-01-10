@@ -6156,6 +6156,10 @@
         <translation>表示されているテーブルのコラム:</translation>
     </message>
     <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Select</source>
         <translation>選択</translation>
     </message>

@@ -7066,6 +7066,10 @@
         <translation>Columnas visibles de la tabla:</translation>
     </message>
     <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Select</source>
         <translation>Seleccionar</translation>
     </message>

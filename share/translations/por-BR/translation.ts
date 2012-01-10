@@ -6710,6 +6710,10 @@ Tem certeza de que deseja remover a informação coletada?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Select</source>
         <translation type="unfinished">Selecionar</translation>
     </message>
