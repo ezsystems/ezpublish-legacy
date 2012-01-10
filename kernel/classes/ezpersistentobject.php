@@ -74,26 +74,14 @@ class eZPersistentObject
         if ( !is_array( $row ) )
             return;
         $def = $this->definition();
-        $fields = $def["fields"];
-        $intersectList = array_intersect_key( $fields,
-                                              $row );
 
-        foreach ( $intersectList as $key => $item )
+        foreach ( $def["fields"] as $key => $item )
         {
-            if ( is_array( $item ) )
+            if ( isset( $item['name'] ) )
             {
                 $item = $item['name'];
             }
-            $this->$item = $row[$key];
-        }
-
-        foreach( array_diff_key( $fields, $intersectList ) as $item )
-        {
-            if ( is_array( $item ) )
-            {
-                $item = $item['name'];
-            }
-            $this->$item = null;
+            $this->$item = isset( $row[$key] ) ? $row[$key] : null;
         }
 
         return true;
