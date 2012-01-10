@@ -6145,6 +6145,10 @@
         <translation>Colonne tabella visibili:</translation>
     </message>
     <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Select</source>
         <translation>Seleziona</translation>
     </message>
