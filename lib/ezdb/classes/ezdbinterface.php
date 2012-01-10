@@ -195,7 +195,7 @@ class eZDBInterface
     }
 
     /**
-     * Returns the value of the attribute \a $name if it exists, otherwise \c null.
+     * Returns the value of the attribute $name if it exists, otherwise null.
      *
      * @param string $name
      * @return null
@@ -556,7 +556,7 @@ class eZDBInterface
      * Will also check if the database type is correct if $name is set.
      *
      * @param string $minVersion A string denoting the min. required version.
-     * @param string|bool $name The name of the database type it requires or \c false if it does not matter.
+     * @param string|bool $name The name of the database type it requires or false if it does not matter.
      * @return bool true if the server fulfills the requirements.
      */
     function hasRequiredServerVersion( $minVersion, $name = false )
@@ -580,7 +580,7 @@ class eZDBInterface
     }
 
     /**
-     * Returns the version of the database client or \c false if no version could be retrieved/
+     * Returns the version of the database client or false if no version could be retrieved/
      *
      * @return string|bool
      */
@@ -1459,7 +1459,7 @@ class eZDBInterface
      *        Column name of the database table the IN statement should be
      *        created for
      * @param bool $not
-     *        Will generate a "NOT IN" ( if set to \c true ) statement instead
+     *        Will generate a "NOT IN" ( if set to true ) statement instead
      *        of an "IN" ( if set to false , default )
      * @param $unique
      *        Wether or not to make the array unique. Not implemented in this
@@ -1549,7 +1549,7 @@ class eZDBInterface
     public $DB;
 
     /**
-     * The current connection, \c false if not connection has been made
+     * The current connection, false if not connection has been made
      *
      * @access protected
      * @var resource|bool
