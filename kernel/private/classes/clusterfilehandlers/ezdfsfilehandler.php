@@ -1359,9 +1359,9 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      */
     protected function _cacheType()
     {
-        if ( strstr( $this->filePath, 'cache/content' ) !== false )
+        if ( strpos( $this->filePath, '/cache/content/' ) !== false )
             return 'viewcache';
-        elseif ( strstr( $this->filePath, 'cache/template-block' ) !== false )
+        elseif ( strpos( $this->filePath, '/cache/template-block/' ) !== false )
             return 'cacheblock';
         else
             return 'misc';
@@ -1376,10 +1376,9 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         {
             case 'cacheType':
             {
-                static $cacheType = null;
-                if ( $cacheType == null )
-                    $cacheType = $this->_cacheType();
-                return $cacheType;
+                if ( $this->_cacheType === null )
+                    $this->_cacheType = $this->_cacheType();
+                return $this->_cacheType;
             } break;
 
             // we only fetch metadata when the status of _metadata is unknown.
@@ -1527,5 +1526,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      * @var array
      */
     protected static $nonExistantStaleCacheHandling = null;
+
+    protected $_cacheType = null;
 }
 ?>
