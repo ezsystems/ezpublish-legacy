@@ -750,30 +750,6 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         self::assertFalse( $ch->exists(), "$path still exists after deletion" );
     }
 
-    public function testDeleteMultipleFiles()
-    {
-        // Create a set of files in a directory
-        $directory = 'var/tests/' . __FUNCTION__;
-        $files = array();
-
-        for( $i = 0; $i < 20; $i++ )
-        {
-            $path = "{$directory}/{$i}.txt";
-            $this->createFile( $path );
-            $files[] = $path;
-        }
-
-        $ch = eZClusterFileHandler::instance( $directory );
-        $ch->delete();
-
-        foreach( $files as $file )
-        {
-            $ch = eZClusterFileHandler::instance( $file );
-            $ch->loadMetadata( true );
-            self::assertFalse( $ch->exists(), "$file still exists after deletion" );
-        }
-    }
-
     /**
      * Test for the exists() method
      */

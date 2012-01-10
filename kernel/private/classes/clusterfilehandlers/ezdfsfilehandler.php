@@ -1021,7 +1021,6 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::delete( '$path' )" );
 
         self::$dbbackend->_delete( $path );
-        self::$dbbackend->_deleteByLike( $path . '/%' );
 
         $this->metaData = null;
     }
