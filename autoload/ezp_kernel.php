@@ -679,6 +679,7 @@ return array(
       'ezpRestRouteSecurityFilterNotFoundException'        => 'kernel/private/rest/classes/exceptions/route_security_filter_not_found.php',
       'ezpRestRouter'                                      => 'kernel/private/rest/classes/router.php',
       'ezpRestRoutesCacheClear'                            => 'kernel/private/rest/classes/cache/clear_routes.php',
+      'ezpRestStatusResponse'                              => 'kernel/private/rest/classes/status/response.php',
       'ezpRestToken'                                       => 'kernel/private/rest/classes/models/ezprest_token.php',
       'ezpRestTokenManager'                                => 'kernel/private/oauth/classes/tokenmanager.php',
       'ezpRestVersionedRoute'                              => 'kernel/private/rest/classes/routes/versioned_route.php',
