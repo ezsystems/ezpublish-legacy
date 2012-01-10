@@ -52,6 +52,10 @@ class eZDBFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
         // We need to clear the existing handler if it was loaded before the INI
         // settings changes
+        eZClusterFileHandler::resetHandler();
+
+        // We need to clear the existing handler if it was loaded before the INI
+        // settings changes
         if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) and
             !$GLOBALS['eZClusterFileHandler_chosen_handler'] instanceof eZDBFileHandler )
             unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
@@ -62,6 +66,7 @@ class eZDBFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
         // The same DSN than the relational database is used
         $fileINI = eZINI::instance( 'file.ini' );
         $this->previousFileHandler = $fileINI->variable( 'ClusteringSettings', 'FileHandler' );
+
         $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', 'eZDBFileHandler' );
         $fileINI->setVariable( 'ClusteringSettings', 'DBBackend',  $backend );
         $fileINI->setVariable( 'ClusteringSettings', 'DBHost',     $dsn['host'] );
