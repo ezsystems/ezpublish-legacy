@@ -47,17 +47,17 @@ abstract class eZClusterStaleCacheTest extends ezpDatabaseTestCase
         $file2->endCacheGeneration();
 
         // check that the generating status is as expected
-        $this->assertStringEndsWith(    '.generating', $file1->filePath, '$file1 is not generating' );
-        $this->assertStringEndsNotWith( '.generating', $file2->filePath, '$file2 is generating' );
-        $this->assertStringEndsWith(    '.generating', $file3->filePath, '$file3 is not generating' );
+        self::assertStringEndsWith(    '.generating', $file1->filePath, '$file1 is not generating' );
+        self::assertStringEndsNotWith( '.generating', $file2->filePath, '$file2 is generating' );
+        self::assertStringEndsWith(    '.generating', $file3->filePath, '$file3 is not generating' );
 
         // Call the cleanup handler called by eZExecution::cleanExit()
         self::assertTrue( eZClusterFileHandler::cleanupGeneratingFiles(), 'eZClusterFileHandler::cleanupGeneratingFiles() returned false' );
 
         // Check that all files are no longer marked as generating
-        $this->assertStringEndsNotWith( '.generating', $file1->filePath, '$file1 is still generating' );
-        $this->assertStringEndsNotWith( '.generating', $file2->filePath, '$file2 is still generating' );
-        $this->assertStringEndsNotWith( '.generating', $file3->filePath, '$file3 is still generating' );
+        self::assertStringEndsNotWith( '.generating', $file1->filePath, '$file1 is still generating' );
+        self::assertStringEndsNotWith( '.generating', $file2->filePath, '$file2 is still generating' );
+        self::assertStringEndsNotWith( '.generating', $file3->filePath, '$file3 is still generating' );
     }
 
     /**
@@ -77,7 +77,7 @@ abstract class eZClusterStaleCacheTest extends ezpDatabaseTestCase
         self::assertEquals( "$path.generating", $ch->filePath );
 
         $res = $ch2->startCacheGeneration();
-        self::assertType( 'integer', $res, "Calling startCacheGeneration for the second time should have returned the remaining cache generation time" );
+        self::assertInternalType( 'integer', $res, "Calling startCacheGeneration for the second time should have returned the remaining cache generation time" );
         self::assertStringEndsNotWith( ".generating.generating", $ch->filePath );
 
         $ch->abortCacheGeneration();
@@ -184,7 +184,7 @@ abstract class eZClusterStaleCacheTest extends ezpDatabaseTestCase
             null,
             null, null, $extradata );
         self::assertNotEquals( $content, $result, "Generation start" );
-        self::assertType( 'eZClusterFileFailure', $result, "Generation start" );
+        self::assertInstanceOf( 'eZClusterFileFailure', $result, "Generation start" );
 
         // call the same function another time to trigger stalecache
         $ch = eZClusterFileHandler::instance( $path );
