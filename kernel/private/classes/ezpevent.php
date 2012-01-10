@@ -133,11 +133,16 @@ class ezpEvent
             return $value;
         }
 
+        $params = func_get_args();
+        // We delete the first param, which is the name of the filter
+        // in order to retrieve only params for the listener
+        array_shift( $params );
+
         foreach ( $this->listeners[$name] as $listener )
         {
-            $value = call_user_func( $listener, $value );
+            $params[0] = call_user_func_array( $listener, $params );
         }
-        return $value;
+        return $params[0];
     }
 
     /**
