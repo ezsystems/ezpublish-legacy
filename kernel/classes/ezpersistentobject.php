@@ -1274,43 +1274,37 @@ class eZPersistentObject
     public function attribute( $attr, $noFunction = false )
     {
         $def = $this->definition();
-        $fields = $def["fields"];
-        $functions = isset( $def["functions"] ) ? $def["functions"] : null;
         $attrFunctions = isset( $def["function_attributes"] ) ? $def["function_attributes"] : null;
-        if ( $noFunction === false and isset( $attrFunctions[$attr] ) )
+        if ( $noFunction === false && isset( $attrFunctions[$attr] ) )
         {
             $functionName = $attrFunctions[$attr];
-            $retVal = null;
             if ( method_exists( $this, $functionName ) )
             {
-                $retVal = $this->$functionName();
+                return $this->$functionName();
             }
-            else
-            {
-                eZDebug::writeError( 'Could not find function : "' . get_class( $this ) . '::' . $functionName . '()".', __METHOD__ );
-            }
-            return $retVal;
+
+            eZDebug::writeError( 'Could not find function : "' . get_class( $this ) . '::' . $functionName . '()".', __METHOD__ );
+            return null;
         }
-        else if ( isset( $fields[$attr] ) )
+
+        $fields = $def["fields"];
+        if ( isset( $fields[$attr] ) )
         {
             $attrName = $fields[$attr];
-            if ( is_array( $attrName ) )
+            if ( isset( $attrName['name'] ) )
             {
                 $attrName = $attrName['name'];
             }
             return $this->$attrName;
         }
-        else if ( isset( $functions[$attr] ) )
+
+        if ( isset( $def["functions"][$attr] ) )
         {
-            $functionName = $functions[$attr];
-            return $this->$functionName();
+            return $this->$functions[$attr]();
         }
-        else
-        {
-            eZDebug::writeError( "Attribute '$attr' does not exist", $def['class_name'] . '::attribute' );
-            $attrValue = null;
-            return $attrValue;
-        }
+
+        eZDebug::writeError( "Attribute '$attr' does not exist", $def['class_name'] . '::attribute' );
+        return null;
     }
 
     /**
