@@ -6130,6 +6130,10 @@ Parametry jsou pojeny počátečními a koncovými tags.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Select</source>
         <translation type="unfinished">Vybrat</translation>
     </message>
