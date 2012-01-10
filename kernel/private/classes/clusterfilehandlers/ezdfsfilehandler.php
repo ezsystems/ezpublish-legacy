@@ -1462,6 +1462,11 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         return self::$dbbackend->expiredFilesList( $scopes, $limit, $expiry );
     }
 
+    public function hasStaleCacheSupport()
+    {
+        return true;
+    }
+
     /**
      * Database backend class
      * Provides metadata operations

@@ -391,5 +391,11 @@ interface eZClusterFileHandlerInterface
      * @return bool
      */
     public function requiresPurge();
+
+    /**
+     * Indicates if the handler supports the stalecache feature
+     * @return bool true if it does, false otherwise
+     */
+    public function hasStaleCacheSupport();
 }
 ?>
