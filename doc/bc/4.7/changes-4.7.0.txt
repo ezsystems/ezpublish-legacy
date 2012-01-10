@@ -1,0 +1,39 @@
+Changes to BC and behavior in version 4.7.0
+===========================================
+
+INI setting changes
+-------------------
+
+
+
+
+Change of behavior
+------------------
+
+
+
+
+Removed features
+----------------
+
+
+
+
+Removed constants
+-----------------
+
+
+
+
+Removed globals
+---------------
+
+
+
+
+Deprecated
+----------
+
+- eZJScore extension
+
+  Deprecated JavaScriptOptimizer and CssOptimizer in favour of new events optimize/javascript and optimize/css.
