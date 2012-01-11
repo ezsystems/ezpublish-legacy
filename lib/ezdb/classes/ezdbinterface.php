@@ -1648,7 +1648,7 @@ class eZDBInterface
      * The start time of the timer
      *
      * @access protected
-     * @var bol|float
+     * @var bool|float
      */
     public $StartTime;
 
