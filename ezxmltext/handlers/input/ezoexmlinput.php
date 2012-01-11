@@ -1835,7 +1835,7 @@ class eZOEXMLInput extends eZXMLInputHandler
      * Figgure out if a custom tag is inline or not based on content.ini settings
      *
      * @param string $name Tag name
-     * @return bool|string Return 'image' if tag is inline image, otherwise true/false.
+     * @return bool|string Return 'image' path if tag is inline image, otherwise true/false.
      */
     public static function customTagIsInline( $name )
     {
