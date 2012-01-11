@@ -2,7 +2,7 @@
 /**
  * File containing the eZAutoloadGenerator class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -143,6 +143,11 @@ class eZAutoloadGenerator
      * autoload generator.
      */
     const DEFAULT_EXCLUDE_FILE = '.autoloadignore';
+
+    /**
+     * Undefined token value
+     */
+    const UNDEFINED_TOKEN = -1;
 
     /**
      * Constructs class to generate autoload arrays.
@@ -574,10 +579,10 @@ class eZAutoloadGenerator
             // Compatibility with PHP 5.2 where T_NAMESPACE constant is not available
             // Assigning the constant value to $tNamespace
             // 377 is the value for T_NAMESPACE in PHP 5.3.x
-            $tNamespace = defined( 'T_NAMESPACE' ) ? T_NAMESPACE : 377;
+            $tNamespace = defined( 'T_NAMESPACE' ) ? T_NAMESPACE : self::UNDEFINED_TOKEN;
 
             // Traits support, see http://issues.ez.no/19028
-            $tTrait = defined( 'T_TRAIT' ) ? T_TRAIT : 355;
+            $tTrait = defined( 'T_TRAIT' ) ? T_TRAIT : self::UNDEFINED_TOKEN;
 
             foreach( $fileList as $file )
             {
@@ -595,6 +600,10 @@ class eZAutoloadGenerator
                     {
                         switch( $token[0] )
                         {
+                            case self::UNDEFINED_TOKEN:
+                                // Unsupported token, do nothing
+                                break;
+
                             // Store namespace name, if applicable, to concatenate with class name
                             case $tNamespace:
                                 // NAMESPACE_TOKEN - WHITESPACE_TOKEN - TEXT_TOKENS (containing namespace name)
@@ -610,7 +619,7 @@ class eZAutoloadGenerator
                                     $offset++;
                                 }
 
-                                $namespace = trim( $namespace );
+                                $namespace = trim( addcslashes( $namespace, '\\' ) );
                                 break;
 
                             case T_CLASS:
@@ -623,7 +632,7 @@ class eZAutoloadGenerator
                                 $className = $tokens[$key+2][1];
                                 if ( $namespace !== null )
                                 {
-                                    $className = $namespace . "\\" . $className;
+                                    $className = "$namespace\\\\$className";
                                 }
 
                                 $filePath = $file;
@@ -890,7 +899,7 @@ class eZAutoloadGenerator
 /**
  * Autoloader definition for eZ Publish $description files.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel

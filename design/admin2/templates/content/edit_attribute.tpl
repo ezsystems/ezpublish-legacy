@@ -80,7 +80,6 @@
 {run-once}
 {* if is_set( $content_attributes_grouped_data_map[1] ) *}
 <script type="text/javascript">
-<!--
 {literal}
 
 jQuery(function( $ )
@@ -110,7 +109,6 @@ jQuery(function( $ )
 });
 
 {/literal}
--->
 </script>
 {* /if *}
 {/run-once}

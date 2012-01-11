@@ -1,3 +1,30 @@
+
+
+{* Main window *}
+<form action={concat( $module.functions.edit.uri, '/', $class.id, '/(language)/', $language_code )|ezurl} method="post" id="ClassEdit" name="ClassEdit">
+<input type="hidden" name="ContentClassHasInput" value="1" />
+
+<div id="controlbar-top" class="controlbar controlbar-fixed">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
+<div class="block">
+<div class="element">
+    <input class="defaultbutton" type="submit" name="StoreButton"   value="{'OK'|i18n( 'design/admin/class/edit' )}" title="{'Store changes and exit from edit mode.'|i18n( 'design/admin/class/edit' )|wash}" />
+
+    {if eq( ezini( 'ClassSettings', 'ApplyButton', 'content.ini' ), 'enabled' )}
+    <input class="button" type="submit" name="ApplyButton"   value="{'Apply'|i18n( 'design/admin/class/edit' )}" title="{'Store changes and continue editing.'|i18n( 'design/admin/class/edit' )|wash}" />
+    {/if}
+
+    <input class="button" type="submit" name="DiscardButton" value="{'Cancel'|i18n( 'design/admin/class/edit' )}" title="{'Discard all changes and exit from edit mode.'|i18n( 'design/admin/class/edit' )|wash}" />
+</div>
+<div class="element">
+    {include uri="design:class/datatypes.tpl" name='DataTypes' id_name='DataTypeStringTop' selection_name='DataTypeString' datatypes=$datatypes current=$datatype}
+    <input class="button" type="submit" name="NewButton" id="NewButtonTop" value="{'Add attribute'|i18n( 'design/admin/class/edit' )}" title="{'Add a new attribute to the class. Use the menu on the left to select the attribute type.'|i18n( 'design/admin/class/edit' )|wash}" />
+</div>
+<div class="float-break"></div>
+</div>
+{* DESIGN: Control bar END *}</div></div>
+</div>
+
 {* Warnings *}
 
 {section show=$validation.processed}
@@ -43,34 +70,6 @@
     </div>
     {/section}
 {/section}
-
-{* Main window *}
-<form action={concat( $module.functions.edit.uri, '/', $class.id, '/(language)/', $language_code )|ezurl} method="post" id="ClassEdit" name="ClassEdit">
-<input type="hidden" name="ContentClassHasInput" value="1" />
-
-<div id="controlbar-top" class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
-<div class="block">
-<div class="element">
-    <input class="defaultbutton" type="submit" name="StoreButton"   value="{'OK'|i18n( 'design/admin/class/edit' )}" title="{'Store changes and exit from edit mode.'|i18n( 'design/admin/class/edit' )|wash}" />
-
-    {if eq( ezini( 'ClassSettings', 'ApplyButton', 'content.ini' ), 'enabled' )}
-    <input class="button" type="submit" name="ApplyButton"   value="{'Apply'|i18n( 'design/admin/class/edit' )}" title="{'Store changes and continue editing.'|i18n( 'design/admin/class/edit' )|wash}" />
-    {/if}
-
-    <input class="button" type="submit" name="DiscardButton" value="{'Cancel'|i18n( 'design/admin/class/edit' )}" title="{'Discard all changes and exit from edit mode.'|i18n( 'design/admin/class/edit' )|wash}" />
-</div>
-<div class="element">
-    {include uri="design:class/datatypes.tpl" name='DataTypes' id_name='DataTypeStringTop' selection_name='DataTypeString' datatypes=$datatypes current=$datatype}
-    <input class="button" type="submit" name="NewButton" id="NewButtonTop" value="{'Add attribute'|i18n( 'design/admin/class/edit' )}" title="{'Add a new attribute to the class. Use the menu on the left to select the attribute type.'|i18n( 'design/admin/class/edit' )|wash}" />
-</div>
-<div class="button-right">
-    <a href="JavaScript:void(0);" onclick="jQuery('#page').toggleClass('main-column-only');" class="controlbar-top-full-screen-toggle" title="{'Toggle fullscreen editing!'|i18n( 'design/admin/content/edit' )}">&nbsp;</a>
-</div>
-<div class="float-break"></div>
-</div>
-{* DESIGN: Control bar END *}</div></div>
-</div>
 
 
 <div class="context-block">
@@ -334,19 +333,19 @@
 
 </div>
 
+<a href="#path" class="scroll-to-top">&uarr;&nbsp;{'Go to the top'|i18n( 'design/admin2/content/edit' )}</a>
 </form>
 
 
 {literal}
 <script type="text/javascript">
-<!--
 jQuery(function( $ )//called on document.ready
 {
     var el = $('#LastChangedID input[name^=ContentAttribute_name]');
-    if ( !el.size() )
-        el = $('#className');
-    window.scrollTo(0, Math.max( el.offset().top - 180, 0 ));
-    el.focus();
+    if ( el.size() ) {
+        window.scrollTo(0, Math.max( el.offset().top - 180, 0 ));
+        el.focus();
+    }
 
     // Axaify all move up/down buttons
     var moveButtons = $('#ezcca-edit-list div.listbutton input[name^=Move]');
@@ -399,6 +398,5 @@ jQuery(function( $ )//called on document.ready
         jQuery('#DataTypeString').attr('disabled', true);
     });
 });
--->
 </script>
 {/literal}

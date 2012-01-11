@@ -78,7 +78,6 @@
 
 {literal}
 <script type="text/javascript">
-<!--
 jQuery(function( $ )//called on document.ready
 {
     var lastAddedItem = document.getElementById('LastAdded');
@@ -89,7 +88,6 @@ jQuery(function( $ )//called on document.ready
         lastAddedItem.focus();
     }
 });
--->
 </script>
 {/literal}
 

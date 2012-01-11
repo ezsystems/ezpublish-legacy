@@ -6090,6 +6090,10 @@
         <translation>Widoczne kolumny tabeli:</translation>
     </message>
     <message>
+        <source>Close</source>
+        <translation>Zamknij</translation>
+    </message>
+    <message>
         <source>Select</source>
         <translation>Zaznacz</translation>
     </message>

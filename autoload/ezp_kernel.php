@@ -2,7 +2,7 @@
 /**
  * Autoloader definition for eZ Publish Kernel files.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -603,6 +603,7 @@ return array(
       'ezpLanguageSwitcherFunctionCollection'              => 'kernel/private/modules/switchlanguage/ezpLanguageSwitcherFunctionCollection.php',
       'ezpLanguageSwitcherOperator'                        => 'kernel/private/eztemplate/ezplanguageswitcheroperator.php',
       'ezpLocation'                                        => 'kernel/private/api/location.php',
+      'ezpMail'                                            => 'kernel/private/classes/ezpmail.php',
       'ezpMobileDeviceDetect'                              => 'kernel/private/classes/ezpmobiledevicedetect.php',
       'ezpMobileDeviceDetectFilter'                        => 'kernel/private/classes/ezpmobiledevicedetectfilter.php',
       'ezpMobileDeviceDetectFilterInterface'               => 'kernel/private/classes/ezpmobiledevicedetectfilterinterface.php',
@@ -625,9 +626,6 @@ return array(
       'ezpOauthTokenEndpointErrorType'                     => 'kernel/private/rest/classes/oauth_token_endpoint_error.php',
       'ezpOauthTokenNotFoundException'                     => 'kernel/private/rest/classes/exceptions/oauth_token_not_found.php',
       'ezpOauthUtility'                                    => 'kernel/private/rest/classes/oauth/utility.php',
-      'ezpRestAtomController'                              => 'kernel/private/rest/classes/controllers/atom.php',
-      'ezpRestAtomDecorator'                               => 'kernel/private/rest/classes/views/atom_decorator.php',
-      'ezpRestAtomView'                                    => 'kernel/private/rest/classes/views/atom.php',
       'ezpRestAuthConfiguration'                           => 'kernel/private/rest/classes/auth/auth_configuration.php',
       'ezpRestAuthController'                              => 'kernel/private/rest/classes/controllers/auth.php',
       'ezpRestAuthProvider'                                => 'kernel/private/rest/classes/auth/auth_provider.php',
@@ -681,6 +679,7 @@ return array(
       'ezpRestRouteSecurityFilterNotFoundException'        => 'kernel/private/rest/classes/exceptions/route_security_filter_not_found.php',
       'ezpRestRouter'                                      => 'kernel/private/rest/classes/router.php',
       'ezpRestRoutesCacheClear'                            => 'kernel/private/rest/classes/cache/clear_routes.php',
+      'ezpRestStatusResponse'                              => 'kernel/private/rest/classes/status/response.php',
       'ezpRestToken'                                       => 'kernel/private/rest/classes/models/ezprest_token.php',
       'ezpRestTokenManager'                                => 'kernel/private/oauth/classes/tokenmanager.php',
       'ezpRestVersionedRoute'                              => 'kernel/private/rest/classes/routes/versioned_route.php',

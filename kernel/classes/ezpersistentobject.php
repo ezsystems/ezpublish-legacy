@@ -2,7 +2,7 @@
 /**
  * File containing the eZPersistentObject class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -74,26 +74,14 @@ class eZPersistentObject
         if ( !is_array( $row ) )
             return;
         $def = $this->definition();
-        $fields = $def["fields"];
-        $intersectList = array_intersect_key( $fields,
-                                              $row );
 
-        foreach ( $intersectList as $key => $item )
+        foreach ( $def["fields"] as $key => $item )
         {
-            if ( is_array( $item ) )
+            if ( isset( $item['name'] ) )
             {
                 $item = $item['name'];
             }
-            $this->$item = $row[$key];
-        }
-
-        foreach( array_diff_key( $fields, $intersectList ) as $item )
-        {
-            if ( is_array( $item ) )
-            {
-                $item = $item['name'];
-            }
-            $this->$item = null;
+            $this->$item = isset( $row[$key] ) ? $row[$key] : null;
         }
 
         return true;
@@ -1286,43 +1274,37 @@ class eZPersistentObject
     public function attribute( $attr, $noFunction = false )
     {
         $def = $this->definition();
-        $fields = $def["fields"];
-        $functions = isset( $def["functions"] ) ? $def["functions"] : null;
         $attrFunctions = isset( $def["function_attributes"] ) ? $def["function_attributes"] : null;
-        if ( $noFunction === false and isset( $attrFunctions[$attr] ) )
+        if ( $noFunction === false && isset( $attrFunctions[$attr] ) )
         {
             $functionName = $attrFunctions[$attr];
-            $retVal = null;
             if ( method_exists( $this, $functionName ) )
             {
-                $retVal = $this->$functionName();
+                return $this->$functionName();
             }
-            else
-            {
-                eZDebug::writeError( 'Could not find function : "' . get_class( $this ) . '::' . $functionName . '()".', __METHOD__ );
-            }
-            return $retVal;
+
+            eZDebug::writeError( 'Could not find function : "' . get_class( $this ) . '::' . $functionName . '()".', __METHOD__ );
+            return null;
         }
-        else if ( isset( $fields[$attr] ) )
+
+        $fields = $def["fields"];
+        if ( isset( $fields[$attr] ) )
         {
             $attrName = $fields[$attr];
-            if ( is_array( $attrName ) )
+            if ( isset( $attrName['name'] ) )
             {
                 $attrName = $attrName['name'];
             }
             return $this->$attrName;
         }
-        else if ( isset( $functions[$attr] ) )
+
+        if ( isset( $def["functions"][$attr] ) )
         {
-            $functionName = $functions[$attr];
-            return $this->$functionName();
+            return $this->$functions[$attr]();
         }
-        else
-        {
-            eZDebug::writeError( "Attribute '$attr' does not exist", $def['class_name'] . '::attribute' );
-            $attrValue = null;
-            return $attrValue;
-        }
+
+        eZDebug::writeError( "Attribute '$attr' does not exist", $def['class_name'] . '::attribute' );
+        return null;
     }
 
     /**

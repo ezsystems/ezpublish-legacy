@@ -1,6 +1,5 @@
 <!-- Advanced menu -->
 <script type="text/javascript">
-<!--
 menuArray['Advanced'] = {ldelim} 'depth': 1 {rdelim};
 menuArray['Advanced']['elements'] = {ldelim}{rdelim};
 menuArray['Advanced']['elements']['menu-hide'] = {ldelim} 'url': {"/content/hide/%nodeID%"|ezurl} {rdelim};
@@ -8,7 +7,6 @@ menuArray['Advanced']['elements']['menu-list'] = {ldelim} 'url': {"content/view/
 menuArray['Advanced']['elements']['reverse-related'] = {ldelim} 'url': {"content/reverserelatedlist/%nodeID%"|ezurl} {rdelim};
 menuArray['Advanced']['elements']['menu-history'] = {ldelim} 'url': {"content/history/%objectID%"|ezurl} {rdelim};
 menuArray['Advanced']['elements']['menu-url-alias'] = {ldelim} 'url': {"content/urlalias/%nodeID%"|ezurl} {rdelim};
-// -->
 </script>
 
 <div class="popupmenu" id="Advanced">

@@ -1,6 +1,5 @@
 {literal}
 <script language="JavaScript1.2" type="text/javascript">
-<!--
 function toggleInputs( selection )
 {
     nameField = document.getElementById( "field1" );
@@ -19,7 +18,6 @@ function toggleInputs( selection )
         localeField.value="";
     }
 }
-//-->
 </script>
 {/literal}
 

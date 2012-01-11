@@ -1,4 +1,8 @@
 
+{foreach ezini( 'ContentEditSettings', 'LeftMenuParts', 'admininterface.ini' ) as $tpl}
+    {include uri=concat( 'design:', $tpl ) object=$object}
+{/foreach}
+
 {include uri="design:content/parts/object_information.tpl" object=$object manage_version_button=true()}
 
 <div class="drafts">
