@@ -112,4 +112,88 @@
        spl_autoload_register( 'fooAutoload' );
    </code>
 */
+
+
+
+/*
+   CLUSTERING
+   ----------
+
+   In order to serve binary files over HTTP, eZ Publish needs informations about your cluster backend.
+   Most of these settings will duplicate those found in your file.ini.append.php.
+*/
+
+/**
+ * Storage backend. Possible values: mysqli, dfsmysqli, dfspostgres, dboracle (with appropriate extension), dfsoracle
+ * (with appropriate extension).
+ */
+// define( 'CLUSTER_STORAGE_BACKEND',       'dfsmysqli'  );
+
+/**
+ * Cluster storage host.
+ * Required.
+ */
+define( 'CLUSTER_STORAGE_HOST', 'localhost' );
+
+/**
+ * Cluster storage port.
+ * Optional: the default RDBMS port will be used if set to false
+ */
+// define( 'CLUSTER_STORAGE_PORT', 3306 );
+
+/**
+ * Cluster storage user
+ * Required
+ */
+// define( 'CLUSTER_STORAGE_USER', 'dbuser' );
+
+/**
+ * Cluster storage password
+ * Required
+ */
+define( 'CLUSTER_STORAGE_PASS', 'dbpassword' );
+
+/**
+ * Database name
+ * Required for most RDBMS
+ */
+// define( 'CLUSTER_STORAGE_DB', 'ezpcluster' );
+
+/**
+ * Charset to use when communicating with the database.
+ * Must match the value in file.ini
+ */
+// define( 'CLUSTER_STORAGE_CHARSET', 'utf8' );
+
+/**
+ * NFS share path.
+ * Required ONLY for DFS based clusters
+ */
+// define( 'CLUSTER_MOUNT_POINT_PATH', '/media/nfs' );
+
+/**
+ * Enable persistent database connections, for backends with support
+ * Optional. Defaults to false.
+ */
+// define( 'CLUSTER_PERSISTENT_CONNECTION', false );
+
+/**
+ * Allow cluster index debugging.
+ * This MAY reveal internal details, and should not be used in a production environnement.
+ * Optional. Defaults to false.
+ */
+// define( 'CLUSTER_ENABLE_DEBUG', true );
+
+/**
+ * Enable HTTP cache features: if-modified-since & eTags
+ * Optional. Defaults to true.
+ */
+// define( 'CLUSTER_ENABLE_HTTP_CACHE', false );
+
+/**
+ * Enable HTTP range support (partial HTTP downloads)
+ * Optional. Defaults to true.
+ */
+// define( 'CLUSTER_ENABLE_HTTP_RANGE', true );
+
 ?>
