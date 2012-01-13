@@ -128,7 +128,7 @@ class ezjscServerFunctionsJs extends ezjscServerFunctions
     public static function yui3conf( $args )
     {
         if ( isset( $args[0] ) )
-            return 'var YUI3_config = { \'base\' : \'' . self::getDesignFile( $args[0] ) . '\', modules: {} };';
+            return 'var YUI3_config = { \'base\' : \'' . self::getDesignFile( $args[0] ) . '\', modules: {}, combine: false };';
 
         return 'var YUI3_config = { modules: {} };';
     }
