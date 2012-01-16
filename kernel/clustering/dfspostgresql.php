@@ -24,7 +24,7 @@ class ezpDfsPostgresqlClusterGateway extends ezpClusterGateway
             $this->db = new PDO( $connectString, $user, $pass );
             if ( $this->db->exec( "SET NAMES '$charset'" ) === false )
             {
-                throw new RuntimeException( "Failed to set database charset to '$charset'");
+                throw new RuntimeException( "Failed to set database charset to '$charset' " );
             }
         } catch( PDOException $e ) {
             throw new RuntimeException( $e->getMessage );

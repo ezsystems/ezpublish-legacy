@@ -19,10 +19,12 @@ class ezpDfsMySQLiClusterGateway extends ezpClusterGateway
     public function connect( $host, $port, $user, $password, $database, $charset = 'utf8' )
     {
         if ( !$this->db = mysqli_connect( $host, $user, $password, $database, $port ) )
-            throw new RuntimeException( "Failed connecting to the MySQL database" );
+            throw new RuntimeException( "Failed connecting to the MySQL database " .
+                "(error #". mysqli_errno( $this->db ).": " . mysql_error( $this->db ) );
 
         if ( !mysqli_set_charset( $this->db, $charset ) )
-            throw new RuntimeException( "Failed to set database charset to '$charset'");
+            throw new RuntimeException( "Failed to set database charset to '$charset' " .
+                "(error #". mysqli_errno( $this->db ).": " . mysqli_error( $this->db ) );
     }
 
     public function fetchFileMetadata( $filepath )
@@ -30,7 +32,8 @@ class ezpDfsMySQLiClusterGateway extends ezpClusterGateway
         $filePathHash = md5( $filepath );
         $sql = "SELECT * FROM ezdfsfile WHERE name_hash='$filePathHash'" ;
         if ( !$res = mysqli_query( $this->db, $sql ) )
-            throw new RuntimeException( "Failed to fetch file metadata for '$filepath'" );
+            throw new RuntimeException( "Failed to fetch file metadata for '$filepath' " .
+                "(error #". mysqli_errno( $this->db ).": " . mysql_error( $this->db ) );
 
         if ( mysqli_num_rows( $res ) == 0 )
         {
@@ -47,7 +50,8 @@ class ezpDfsMySQLiClusterGateway extends ezpClusterGateway
         $dfsFilePath = CLUSTER_MOUNT_POINT_PATH . '/' . $filepath;
 
         if ( !file_exists( $dfsFilePath ) )
-            throw new RuntimeException( "Unable to open DFS file '$dfsFilePath'" );
+            throw new RuntimeException( "Unable to open DFS file '$dfsFilePath' " .
+                "(error #". mysqli_errno( $this->db ).": " . mysql_error( $this->db ) );
 
         $fp = fopen( $dfsFilePath, 'r' );
         fpassthru( $fp );
