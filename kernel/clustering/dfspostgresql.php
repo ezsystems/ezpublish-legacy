@@ -1,15 +1,11 @@
 <?php
-class ezpPostgresqlClusterGateway extends ezpClusterGateway
+class ezpDfsPostgresqlClusterGateway extends ezpClusterGateway
 {
     public function getDefaultPort()
     {
         return 5433;
     }
 
-    /**
-    *
-     * @return \PDO|false
-     */
     public function connect( $host, $port, $user, $password, $database, $charset )
     {
         $connectString = sprintf( 'pgsql:host=%s;dbname=%s;port=%s', $host, $database, $port );
@@ -59,4 +55,4 @@ class ezpPostgresqlClusterGateway extends ezpClusterGateway
 }
 
 // return the class name for easier instanciation
-return 'ezpPostgresqlClusterGateway';
+return 'ezpDfsPostgresqlClusterGateway';
