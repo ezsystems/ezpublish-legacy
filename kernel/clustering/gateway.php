@@ -1,8 +1,15 @@
 <?php
 /**
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
+
+/**
  * Basis for a cluster gateway.
  *
- * This class features the required set of cluster access functions for a specific backend
+ * Inherited by cluster index gateways
  */
 abstract class ezpClusterGateway
 {

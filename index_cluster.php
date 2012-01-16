@@ -1,4 +1,17 @@
 <?php
+/**
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
+
+/**
+ * Cluster index file.
+ *
+ * Used to serve eZ Publish binary files through HTTP when using one of the eZ Publish clustering implementations.
+ * Configuration is made in config.php, using the CLUSTER_* constants.
+ */
 include 'config.php';
 
 if ( defined( 'CLUSTER_DEBUG' ) || CLUSTER_DEBUG === true )

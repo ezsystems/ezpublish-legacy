@@ -124,10 +124,16 @@
 */
 
 /**
- * Storage backend. Possible values: mysqli, dfsmysqli, dfspostgres, dboracle (with appropriate extension), dfsoracle
- * (with appropriate extension).
+ * Storage backend. Possible values:
+ * - dbmysqli (DB cluster, mysqli based)
+ * - dbmysql (DB cluster, mysql based) DEPRECATED as of 4.7
+ * - dfsmysqli (DFS cluster, mysqli based)
+ * - dfsmysql (DFS cluster, mysql based) DEPRECATED as of 4.7)
+ * - dfspostgres (DFS cluster, postgresql based)
+ * - dboracle (with appropriate extension),
+ * - dfsoracle (with appropriate extension)
  */
-// define( 'CLUSTER_STORAGE_BACKEND',       'dfsmysqli'  );
+// define( 'CLUSTER_STORAGE_BACKEND', 'dfsmysqli'  );
 
 /**
  * Cluster storage host.
