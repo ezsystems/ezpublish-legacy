@@ -34,12 +34,17 @@ if ( !defined( 'CLUSTER_STORAGE_PASS' ) )          define( 'CLUSTER_STORAGE_PASS
 if ( !defined( 'CLUSTER_STORAGE_DB' ) )            define( 'CLUSTER_STORAGE_DB', '' );
 
 include "kernel/clustering/gateway.php";
-$clusterFunctionsFile = "kernel/clustering/" . CLUSTER_STORAGE_BACKEND . ".php";
-if ( !file_exists( $clusterFunctionsFile ) )
+
+if ( defined( 'CLUSTER_STORAGE_GATEWAY_PATH' ) && CLUSTER_STORAGE_GATEWAY_PATH )
+    $clusterGatewayFile = CLUSTER_STORAGE_GATEWAY_PATH;
+else
+    $clusterGatewayFile = "kernel/clustering/" . CLUSTER_STORAGE_BACKEND . ".php";
+
+if ( !file_exists( $clusterGatewayFile ) )
 {
-    _die( "Unable to open storage backend functions file '$clusterFunctionsFile'" );
+    _die( "Unable to open storage backend gateway class definition file '$clusterGatewayFile'" );
 }
-$gatewayClass = require $clusterFunctionsFile;
+$gatewayClass = require $clusterGatewayFile;
 $gateway = new $gatewayClass;
 
 if ( !defined( 'STORAGE_PORT' ) )

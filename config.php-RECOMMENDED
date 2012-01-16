@@ -136,6 +136,15 @@
 // define( 'CLUSTER_STORAGE_BACKEND', 'dfsmysqli'  );
 
 /**
+ * Custom cluster storage backend
+ * Root relative path to the custom clustering backend. When provided, the gateway filename won't be built based
+ * on the default path + CLUSTER_STORAGE_BACKEND.
+ *
+ * Example: define( 'CLUSTER_STORAGE_GATEWAY_PATH', 'extension/ezoracle/clusterfilehandlers/gateway/dfs.php' );
+ */
+// define( 'CLUSTER_STORAGE_GATEWAY_PATH', 'extension/name/path/to/gateway.php' );
+
+/**
  * Cluster storage host.
  * Required.
  */
