@@ -89,7 +89,6 @@ header( "Last-Modified: $mdate" );
 header( "Connection: close" );
 header( "Accept-Ranges: none" );
 header( 'Served-by: ' . $_SERVER["SERVER_NAME"] );
-header( "ETag: $mtime-$size" );
 
 if ( CLUSTER_EXPIRY_TIMEOUT !== false )
     header( "Expires: " . gmdate( 'D, d M Y H:i:s', time() + CLUSTER_EXPIRY_TIMEOUT ) . ' GMT' );
@@ -100,6 +99,7 @@ if ( CLUSTER_HEADER_X_POWERED_BY !== false)
 // Request headers: eTag  + IF-MODIFIED-SINCE
 if ( CLUSTER_ENABLE_HTTP_CACHE )
 {
+    header( "ETag: $mtime-$size" );
     foreach ( $_SERVER as $header => $value )
     {
         $header = strtoupper( $header );
