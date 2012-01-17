@@ -46,15 +46,21 @@ class ezpDfsPostgresqlClusterGateway extends ezpClusterGateway
         return $stmt->fetch( PDO::FETCH_ASSOC );
     }
 
-    public function passthrough( $filepath, $offset = false, $length = false)
+    public function passthrough( $filepath, $filesize, $offset = false, $length = false )
     {
         $dfsFilePath = CLUSTER_MOUNT_POINT_PATH . '/' . $filepath;
 
         if ( !file_exists( $dfsFilePath ) )
             throw new RuntimeException( "Unable to open DFS file '$dfsFilePath'" );
 
-        $fp = fopen( $dfsFilePath, 'r' );
-        fpassthru( $fp );
+        $fp = fopen( $dfsFilePath, 'rb' );
+        if ( $offset !== false && @fseek( $fp, $offset ) === -1 )
+            throw new RuntimeException( "Failed to seek offset $offset on file '$filepath'" );
+        if ( $offset === false && $length === false )
+            fpassthru( $fp );
+        else
+            echo fread( $fp, $length );
+
         fclose( $fp );
     }
 

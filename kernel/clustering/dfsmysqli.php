@@ -45,14 +45,12 @@ class ezpDfsMySQLiClusterGateway extends ezpClusterGateway
         return $metadata;
     }
 
-    public function passthrough( $filepath, $size, $offset = false, $length = false )
+    public function passthrough( $filepath, $filesize, $offset = false, $length = false )
     {
         $dfsFilePath = CLUSTER_MOUNT_POINT_PATH . '/' . $filepath;
 
         if ( !file_exists( $dfsFilePath ) )
-            throw new RuntimeException( "Unable to open DFS file '$dfsFilePath' " .
-                "(error #". mysqli_errno( $this->db ).": " . mysql_error( $this->db ) );
-
+            throw new RuntimeException( "Unable to open DFS file '$dfsFilePath'" );
 
         $fp = fopen( $dfsFilePath, 'rb' );
         if ( $offset !== false && @fseek( $fp, $offset ) === -1 )
