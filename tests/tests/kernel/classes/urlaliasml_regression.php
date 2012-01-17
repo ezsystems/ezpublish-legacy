@@ -25,6 +25,11 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
      */
     private $englishLanguage;
 
+    /**
+     * @var eZContentLanguage
+     */
+    private $frenchLanguage;
+
     public function __construct()
     {
         parent::__construct();
@@ -36,6 +41,7 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         parent::setUp();
         $this->norskLanguage = eZContentLanguage::addLanguage( "nor-NO", "Norsk" );
         $this->englishLanguage = eZContentLanguage::fetchByLocale( "eng-GB" );
+        $this->frenchLanguage = eZContentLanguage::addLanguage( "fre-FR", "Français" );
     }
 
     /**
@@ -1349,6 +1355,51 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         self::assertEquals( (int)$initialTranslationChild['id'], (int)$translationChild['id'], "Current translations of the same node need to have the same id." );
 
         ezpINIHelper::restoreINISettings();
+    }
+
+    /**
+     * Ensures that eZURLAliasML::fetchPathByActionList() always uses prioritized languages,
+     * even if a locale is enforced (3rd param) and always available flag is false.
+     *
+     * @see http://issues.ez.no/19055
+     * @group issue19055
+     * @covers eZURLAliasML::fetchPathByActionList
+     */
+    public function testFetchPathByActionListWithFallback()
+    {
+        $frenchLocale = $this->frenchLanguage->attribute( 'locale' );
+        ezpINIHelper::setINISettings(
+            array(
+                array( 'site.ini', 'RegionalSettings', 'ContentObjectLocale', $frenchLocale ),
+                array( 'site.ini', 'RegionalSettings', 'Locale', $frenchLocale ),
+                array( 'site.ini', 'RegionalSettings', 'SiteLanguageList', array( $frenchLocale, 'eng-GB' ) ),
+                // ShowUntranslatedObjects setting AlwaysAvailable flags must be disabled
+                array( 'site.ini', 'RegionalSettings', 'ShowUntranslatedObjects', 'disabled' )
+            )
+        );
+        eZContentOperationCollection::updateAlwaysAvailable( 1, false );
+
+        /*
+         * - Create a content object in Norsk
+         * - Remove AlwaysAvailable flag
+         * - Add a translation in english
+         * - Try to fetch path for this content in French (fallback is eng-GB as configured above)
+         */
+        $folder = new ezpObject( 'folder', 2, 14, 1, $this->norskLanguage->attribute( 'locale' ) );
+        $folder->name = 'norsk folder';
+        $folder->publish();
+        eZContentOperationCollection::updateAlwaysAvailable( $folder->object->attribute( 'id' ), false );
+        $folder->refresh();
+        $folder->addTranslation( 'eng-GB', array( 'name' => 'english translation' ) );
+        $folder->publish();
+
+        $generatedPath = eZURLAliasML::fetchPathByActionList( 'eznode', array( $folder->mainNode->node_id ), $frenchLocale );
+        self::assertNotNull( $generatedPath );
+        self::assertEquals( 'english-translation' , $generatedPath );
+
+        eZContentOperationCollection::updateAlwaysAvailable( 1, true );
+        ezpINIHelper::restoreINISettings();
+        $folder->remove();
     }
 }
 

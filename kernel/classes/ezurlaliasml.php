@@ -1059,7 +1059,10 @@ class eZURLAliasML extends eZPersistentObject
         if ( $locale !== null && is_string( $locale ) && !empty( $locale ) )
         {
             $selectedLanguage = eZContentLanguage::fetchByLocale( $locale );
-            $prioritizedLanguages = $selectedLanguage !== false ? array( $selectedLanguage ): eZContentLanguage::prioritizedLanguages();
+            $prioritizedLanguages = eZContentLanguage::prioritizedLanguages();
+            // Add $selectedLanguage on top of $prioritizedLanguages to take it into account with the highest priority
+            if ( $selectedLanguage instanceof eZContentLanguage )
+                array_unshift( $prioritizedLanguages, $selectedLanguage );
         }
         else
         {
