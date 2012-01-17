@@ -97,7 +97,7 @@ if ( $metaData === false || $metaData['mtime'] < 0 )
 
 // Output HTTP headers.
 $path     = $metaData['name'];
-$size     = $metaData['size'];
+$filesize     = $metaData['size'];
 $mimeType = $metaData['datatype'];
 $mtime    = $metaData['mtime'];
 $mdate    = gmdate( 'D, d M Y H:i:s', $mtime ) . ' GMT';
@@ -117,14 +117,14 @@ if ( CLUSTER_HEADER_X_POWERED_BY !== false)
 // Request headers: eTag  + IF-MODIFIED-SINCE
 if ( CLUSTER_ENABLE_HTTP_CACHE )
 {
-    header( "ETag: $mtime-$size" );
+    header( "ETag: $mtime-$filesize" );
     foreach ( $_SERVER as $header => $value )
     {
         $header = strtoupper( $header );
         switch( $header )
         {
             case 'HTTP_IF_NONE_MATCH':
-                if ( trim( $value ) != "$mtime-$size" )
+                if ( trim( $value ) != "$mtime-$filesize" )
                 {
                     trigger_error( "etag", E_USER_ERROR );
                     _304();
@@ -141,32 +141,29 @@ if ( CLUSTER_ENABLE_HTTP_CACHE )
 }
 
 // Request headers:  HTTP Range
-$contentLength = $size;
-if ( CLUSTER_ENABLE_HTTP_RANGE && isset( $_SERVER['HTTP_RANGE'] ) )
+$contentLength = $filesize;
+if ( CLUSTER_ENABLE_HTTP_RANGE )
 {
-    $httpRange = trim( $_SERVER['HTTP_RANGE'] );
-    if ( preg_match( "/^bytes=(\d+)-(\d+)?$/", $httpRange, $matches ) )
+    // let the client know we do accept range by bytes
+    header( 'Accept-Ranges: bytes' );
+
+    if ( isset( $_SERVER['HTTP_RANGE'] ) )
     {
-        $contentOffset = $matches[1];
-        if ( isset( $matches[2] ) )
+        if ( preg_match( "/^bytes=(\d+)-(\d+)?$/", trim( $_SERVER['HTTP_RANGE'] ), $matches ) )
         {
-            $contentLength = $matches[2] - $matches[1] + 1;
-            $lastPos  = $matches[2];
+            $startOffset = $matches[1];
+            $endOffset = isset( $matches[2] ) ? $matches[2] : false;
+            $contentLength = $endOffset ? $endOffset - $startOffset + 1 : $filesize - $startOffset;
+            header( "Content-Range: bytes $startOffset-$endOffset/$filesize" );
+            header( "HTTP/1.1 206 Partial Content" );
         }
-        else
-        {
-            $contentLength = $fileSize - $matches[1];
-            $lastPos = $fileSize -1;
-        }
-        header( "Content-Range: bytes $matches[1]-$lastPos/$fileSize" );
-        header( "HTTP/1.1 206 Partial Content" );
     }
 }
 header( "Content-Length: $contentLength" );
 
 // Output file data
 try {
-    $gateway->passthrough( $filename, $contentOffset, $contentLength );
+    $gateway->passthrough( $filename, $filesize, $startOffset, $contentLength );
 } catch( RuntimeException $e ) {
     _die( $e->getMessage );
 }

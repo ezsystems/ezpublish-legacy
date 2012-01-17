@@ -66,11 +66,12 @@ abstract class ezpClusterGateway
      * Passes the $filepath data through
      * @param mixed $db
      * @param string $filepath
+     * @param int $filesize
      * @param int $offset
      * @param int $length
      * @return void
      */
-    abstract function passthrough( $filepath, $offset = false, $length = false );
+    abstract function passthrough( $filepath, $filesize, $offset = false, $length = false );
 
     /**
      * Closes any connection that should be closed
