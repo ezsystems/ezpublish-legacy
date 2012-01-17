@@ -124,32 +124,22 @@ class eZTemplateAttributeOperator
         $showValues = $namedParameters[ 'show_values' ] == 'show';
         $max        = $namedParameters[ 'max_val' ];
         $format     = $namedParameters[ 'format' ];
+
+        $formatter = ezpAttributeOperatorManager::getOutputFormatter( $format );
         
-        switch( $operatorName )
+        // check for an object or an array that is not empty
+        if( is_object( $operatorValue ) || ( is_array( $operatorValue ) && !empty( $operatorValue ) ) )
         {
-            case 'dump':
-            {
-            	// check for an object or an array that is not empty
-                if( is_object( $operatorValue ) || ( is_array( $operatorValue ) && !empty( $operatorValue ) ) )
-                {
-                    $this->modify( $tpl, 'attribute', $operatorParameters, $rootNamespace, $currentNamespace, $operatorValue, $namedParameters );
-                }
-                else
-                {
-                    $operatorValue = var_export( $operatorValue, true );
-                }
-            }
-            break;
+            $outputString = "";
+            $this->displayVariable( $operatorValue, $formatter, $showValues, $max, 0, $outputString );
             
-            // attribute operator
-            default:
-                $formatter = ezpAttributeOperatorManager::getOutputFormatter( $format );
-                
-                $outputString = "";
-                $this->displayVariable( $operatorValue, $formatter, $showValues, $max, 0, $outputString );
-                
-                if ( $formatter instanceof ezpAttributeOperatorFormatterInterface )
-                        $operatorValue = $formatter->header( $outputString, $showValues );
+            if ( $formatter instanceof ezpAttributeOperatorFormatterInterface )
+                    $operatorValue = $formatter->header( $outputString, $showValues );
+        }
+        else
+        {
+        	    if ( $formatter instanceof ezpAttributeOperatorFormatterInterface )
+                    $operatorValue = $formatter->exportScalar( $operatorValue );
         }
     }
 
