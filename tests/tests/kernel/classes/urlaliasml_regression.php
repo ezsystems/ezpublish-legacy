@@ -1401,6 +1401,39 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         ezpINIHelper::restoreINISettings();
         $folder->remove();
     }
+
+    /**
+     * @see http://issues.ez.no/19062
+     * @group issue19062
+     * @covers eZURLAliasML::translate
+     */
+    public function testTranslateWildcardNopUri()
+    {
+        $folder = new ezpObject( 'folder' , 2 );
+        $folder->name = 'foo';
+        $folder->publish();
+
+        // By creating following URL alias, "test/single-page" will be registered as a NOP URI segment
+        $uriFirstSegment = 'test19062';
+        $uriWildcard = "$uriFirstSegment/single-page";
+        $res = eZURLAliasML::storePath(
+            "$uriWildcard/article.html",
+            "eznode:{$folder->mainNode->node_id}",
+            $this->englishLanguage,
+            0,
+            true
+        );
+        $wildcard = eZURLWildcardTest::createWildcard( $uriWildcard, 'foo', eZURLWildcard::TYPE_FORWARD );
+
+        // Translating the wildcard URL should return false in order to be then translated by eZURLWildcard in index.php
+        self::assertFalse( eZURLAliasML::translate( $uriWildcard ) );
+        // Here no wildcard and test19062 should be a nop segment (points to nothing.
+        // Default behaviour is to return true and redirect to root ("/")
+        self::assertTrue( eZURLAliasML::translate( $uriFirstSegment ) );
+
+        $folder->remove();
+        $wildcard->remove();
+    }
 }
 
 ?>

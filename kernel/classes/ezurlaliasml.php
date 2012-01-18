@@ -1632,8 +1632,20 @@ class eZURLAliasML extends eZPersistentObject
             }
             else
             {
-                $uriString = eZURLAliasML::actionToUrl( $action );
-                $return = true;
+                // See http://issues.ez.no/19062
+                // If $uriString matches a nop action, we need to check if we also match a wildcard
+                // since we might want to translate it.
+                // Default action for nop actions is to display the root node "/" (see eZURLAliasML::actionToURL())
+                if ( strpos( $action, 'nop') !== false && eZURLWildcard::wildcardExists( $uriString ) )
+                {
+                    $return = false;
+                }
+                else
+                {
+                    $uriString = eZURLAliasML::actionToUrl( $action );
+                    $return = true;
+                }
+
             }
 
             if ( $uri instanceof eZURI )
