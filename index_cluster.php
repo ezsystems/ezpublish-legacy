@@ -60,24 +60,21 @@ if ( !defined( 'STORAGE_SOCKET' ) )
 // connection
 $errorMessage = "No error specified";
 $tries = 0; $maxTries = 3;
-/*while ( $tries < $maxTries )
+while ( $tries < $maxTries )
 {
-    echo "Try: " . $tries . "<br />";*/
     try {
         $gateway->connect(
             CLUSTER_STORAGE_HOST, CLUSTER_STORAGE_PORT, CLUSTER_STORAGE_USER,
             CLUSTER_STORAGE_PASS, CLUSTER_STORAGE_DB, CLUSTER_STORAGE_CHARSET );
+        break;
     } catch( RuntimeException $e ) {
-        echo "RuntimeException:\n";
-        var_dump( $e );
         $tries++;
-        trigger_error( $errorMessage = $e->getMessage(), E_USER_WARNING );
     }
-// }
+}
 
-if ( $tries >= $maxTries )
+if ( $tries == $maxTries )
 {
-    _die( "Unable to connect to storage server: $errorMessage" );
+    _die( "Unable to connect to storage server" );
 }
 
 $filename = ltrim( $_SERVER['REQUEST_URI'], '/' );
@@ -167,6 +164,8 @@ try {
 } catch( RuntimeException $e ) {
     _die( $e->getMessage );
 }
+
+$gateway->close();
 
 /**
  * Error termination
