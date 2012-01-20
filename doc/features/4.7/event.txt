@@ -10,7 +10,7 @@ Signature of filters
 -------------------
 {@see ezpEvent->filter()}
 
-New filter added:
+New filters added:
 
 response/preoutput  ( string $templateResult )
 
@@ -20,3 +20,6 @@ That way, you can use accumulator or append debug report
 in your callback, they will appear in the final debug report
 (at the opposite of response/output filter which is triggered at the very end,
 after the report...)
+
+optimize/css        ( string $cssResult, int $packLevel )
+optimize/javascript ( string $javascriptResult, int $packLevel )
