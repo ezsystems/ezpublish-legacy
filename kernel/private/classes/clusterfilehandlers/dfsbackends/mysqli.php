@@ -1764,7 +1764,7 @@ class eZDFSFileHandlerMySQLiBackend
         $cacheDir = "/cache/";
         $storageDir = "/storage/";
 
-        if ( strpos( $filePath, $cacheDir ) !== false and strpos( $filePath, $storageDir ) === false )
+        if ( strpos( $filePath, $cacheDir ) !== false && strpos( $filePath, $storageDir ) === false )
         {
             eZDebugSetting::writeDebug( 'kernel-clustering', __METHOD__ . " " . $filePath . " CACHE" );
             return self::TABLE_METADATA_CACHE;

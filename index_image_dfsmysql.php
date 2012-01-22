@@ -32,7 +32,7 @@ function getDbTable( $filePath )
     $cacheDir = "/cache/";
     $storageDir = "/storage/";
 
-    if ( strpos( $filePath, $cacheDir ) !== false and strpos( $filePath, $storageDir ) === false )
+    if ( strpos( $filePath, $cacheDir ) !== false && strpos( $filePath, $storageDir ) === false )
     {
         return TABLE_METADATA_CACHE;
     }
