@@ -36,6 +36,13 @@ Change of behavior
   Content read access is now checked at the node level instead of content object.
   For the record, this access is checked in eZNodeViewFunctions::contentViewGenerate()
 
+- #18865 Faster cache clearing with eZDFS
+
+  When using eZDFS cache files are now split out from binaries and stored in a
+  separate table (ezdfscachefile). Previously both cache files and binaries
+  were stored in the same table 'ezdfsfile'. This change was made to reduce the
+  contention on the ezfsfile table and to allow faster cache clearing by being
+  able to truncate the cache table.
 
 
 Removed features
