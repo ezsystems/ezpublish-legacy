@@ -2,7 +2,7 @@
 /**
  * File containing the eZFS2FileHandler class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -145,7 +145,7 @@ class eZFS2FileHandler extends eZFSFileHandler
                     // generate the dynamic data without storage
                     if ( $this->nonExistantStaleCacheHandling[ $this->cacheType ] == 'generate' )
                     {
-                        eZDebugSetting::writeDebug( 'kernel-clustering', $this->filePath, "Generation is being processed, generating own version", __METHOD__ );
+                        eZDebugSetting::writeDebug( 'kernel-clustering', $this->filePath, "Generation is being processed, generating own version" );
                         break;
                     }
                     // wait for the generating process to be finished (or timedout)
@@ -780,6 +780,10 @@ class eZFS2FileHandler extends eZFSFileHandler
         return false;
     }
 
+    public function hasStaleCacheSupport()
+    {
+        return true;
+    }
     /**
      * holds the real file path. This is only used when we are generating a cache
      * file, in which case $filePath holds the generating cache file name,

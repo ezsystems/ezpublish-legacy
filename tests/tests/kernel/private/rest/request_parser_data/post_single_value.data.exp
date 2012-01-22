@@ -6,6 +6,7 @@ ezpRestRequest::__set_state(array(
   array (
     'foo' => 'bar',
   ),
+   'originalProtocol' => 'http-post',
    'contentVariables' => 
   array (
     'Translation' => NULL,

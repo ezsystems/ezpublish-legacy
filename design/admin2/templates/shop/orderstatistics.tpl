@@ -14,6 +14,7 @@
 {section show=$statistic_result[0].product_list}
 
 {def $currency = false()
+     $currencies = hash()
      $locale = false()
      $symbol = false()
      $quantity_text = ''
@@ -36,10 +37,15 @@
          br_tag = ''}
 
     {foreach $Products.product_info as $currency_code => $info}
-        {if $currency_code}
-            {set currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) )}
+        {if is_set( $currencies[$currency_code] )}
+            {set currency = $currencies[$currency_code]}
         {else}
-            {set currency = false()}
+            {if $currency_code}
+                {set currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) )}
+            {else}
+                {set currency = false()}
+            {/if}
+            {set currencies = $currencies|merge( hash( $currency_code, $currency ) )}
         {/if}
 
         {if $currency}
@@ -61,13 +67,15 @@
     {/foreach}
 
     <tr class="{$Products.sequence}">
-        {if and( $Products.product, $Products.product.main_node )}
-            {let node_url=$Products.product.main_node.url_alias}
-                <td class="name">{$Products.product.class_identifier|class_icon( small, $Products.product.class_name )}&nbsp;{if $node_url}<a href={$node_url|ezurl}>{/if}{$Products.product.name|wash}{if $node_url}</a>{/if}</td>
-            {/let}
-        {else}
-            <td class="name">{false()|class_icon( small )}&nbsp;{$Products.name|wash}</td>
-        {/if}
+        {def $product_node=$Products.product.main_node}
+            {if and( $Products.product, $product_node )}
+                {let node_url=$product_node.url_alias}
+                    <td class="name">{$Products.product.class_identifier|class_icon( small, $Products.product.class_name )}&nbsp;{if $node_url}<a href={$node_url|ezurl}>{/if}{$Products.product.name|wash}{if $node_url}</a>{/if}</td>
+                {/let}
+            {else}
+                <td class="name">{false()|class_icon( small )}&nbsp;{$Products.name|wash}</td>
+            {/if}
+        {undef $product_node}
         <td class="number" align="right">{$quantity_text}</td>
         <td class="number" align="right">{$sum_ex_vat_text}</td>
         <td class="number" align="right">{$sum_inc_vat_text}</td>
@@ -80,11 +88,15 @@
      br_tag = ''}
 
 {foreach $statistic_result[0].total_sum_info as $currency_code => $info}
-
-    {if $currency_code}
-        {set currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) )}
+    {if is_set( $currencies[$currency_code] )}
+        {set currency = $currencies[$currency_code]}
     {else}
-        {set currency = false()}
+        {if $currency_code}
+            {set currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) )}
+        {else}
+            {set currency = false()}
+        {/if}
+        {set currencies = $currencies|merge( hash( $currency_code, $currency ) )}
     {/if}
     {if $currency}
         {set locale = $currency.locale

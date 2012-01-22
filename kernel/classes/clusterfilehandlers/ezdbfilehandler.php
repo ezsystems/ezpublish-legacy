@@ -2,7 +2,7 @@
 /**
  * File containing the eZDBFileHandler class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -49,7 +49,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
 
             // connection failed
             if( self::$dbbackend->db === false )
-                throw new eZDBNoConnectionException( self::$dbbackend->dbparams['host'] );
+                throw new eZClusterHandlerDBNoConnectionException( self::$dbbackend->dbparams['host'], self::$dbbackend->dbparams['user'], self::$dbbackend->dbparams['pass'] );
         }
 
         $this->filePath = $filePath;
@@ -1271,11 +1271,11 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
      * Determines the cache type based on the path
      * @return string viewcache, cacheblock or misc
      */
-    protected function _cacheType()
+    protected function computeCacheType()
     {
-        if ( strstr( $this->filePath, 'cache/content' ) !== false )
+        if ( strpos( $this->filePath, 'cache/content' ) !== false )
             return 'viewcache';
-        elseif ( strstr( $this->filePath, 'cache/template-block' ) !== false )
+        elseif ( strpos( $this->filePath, 'cache/template-block' ) !== false )
             return 'cacheblock';
         else
             return 'misc';
@@ -1291,9 +1291,9 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
             case 'cacheType':
             {
                 static $cacheType = null;
-                if ( $cacheType == null )
-                    $cacheType = $this->_cacheType();
-                return $cacheType;
+                if ( $this->_cacheType == null )
+                    $this->_cacheType = $this->computeCacheType();
+                return $this->_cacheType;
             } break;
 
             case 'metaData':
@@ -1372,6 +1372,11 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
         return self::$dbbackend->expiredFilesList( $scopes, $limit, $expiry );
     }
 
+    public function hasStaleCacheSupport()
+    {
+        return true;
+    }
+
     /**
      * Database backend class
      * @var eZDBFileHandlerMysqlBackend
@@ -1433,6 +1438,12 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
      * @var int
      */
     protected $generationStartTimestamp = false;
+
+    /**
+     * Type of cache file, used by the nameTrunk feature to determine how nametrunk is computed
+     * @var string
+     */
+    protected $_cacheType;
 
 }
 ?>

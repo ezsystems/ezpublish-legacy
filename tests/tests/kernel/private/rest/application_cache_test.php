@@ -2,7 +2,7 @@
 /**
  * File containing ezpRestApplicationCacheTest class
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -311,31 +311,31 @@ class ezpRestApplicationCacheTest extends ezpRestTestCase
          *  - Internal variables (passed parameters, ResponseGroups...)
          *  - Content variables (Translation...)
          */
-        $uri = $this->restINI->variable( 'System', 'ApiPrefix' ).'/test/rest/foo';
         $request = new ezpRestRequest();
-        $request->uri = $uri;
+        $request->uri = $this->restINI->variable( 'System', 'ApiPrefix' ) . '/test/rest/foo';
         $request->variables = $internalVariables;
         $request->contentVariables = $contentVariables;
         $controller = $this->getTestControllerFromRequest( $request );
         $routingInfos = $controller->getRouter()->getRoutingInformation();
-        $apiName = ezpRestPrefixFilterInterface::getApiProviderName();
-        $apiVersion = ezpRestPrefixFilterInterface::getApiVersion();
 
         /*
          * Reproduce the hash algorythm
          */
-        $allInternalVariables = array_merge( $internalVariables, $contentVariables );
-        $aCacheId = array( $apiName, $apiVersion, $routingInfos->controllerClass, $routingInfos->action );
-        foreach( $allInternalVariables as $name => $val )
+        $aCacheId = array(
+            ezpRestPrefixFilterInterface::getApiProviderName(),
+            ezpRestPrefixFilterInterface::getApiVersion(),
+            $routingInfos->controllerClass,
+            $routingInfos->action
+        );
+        foreach ( $contentVariables + $internalVariables as $name => $val )
         {
-            if( is_array( $val ) )
-                $aCacheId[] = $name.'='.implode( ',', $val );
+            if ( is_array( $val ) )
+                $aCacheId[] = $name . '=' . implode( ',', $val );
             else
-                $aCacheId[] = $name.'='.$val;
+                $aCacheId[] = $name . '=' . $val;
         }
 
-        $cacheId = implode( '-', $aCacheId );
-        $hashedCacheId = md5( $cacheId );
+        $hashedCacheId = md5( implode( '-', $aCacheId ) );
 
         $refObj = new ReflectionObject( $controller );
         $refMethod = $refObj->getMethod( 'generateCacheId' );

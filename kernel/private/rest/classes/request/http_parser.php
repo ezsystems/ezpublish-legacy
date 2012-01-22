@@ -2,7 +2,7 @@
 /**
  * File containing the ezpRestHttpRequestParser class
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -22,25 +22,39 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
      */
     protected $request;
 
-
+    /**
+     * Overload createRequestObject() to make sure ezpRestRequest is created.
+     *
+     * @return ezpRestRequest
+     */
     protected function createRequestObject()
     {
         return new ezpRestRequest();
     }
 
+    /**
+     * Overloads processVariables() to instead get ezpRest specific variables
+     *
+     * Note: ->variables is set with ezpRest specific variables instead of raw $_REQUEST.
+     *
+     * @return void
+     */
     protected function processVariables()
     {
         $this->request->variables = $this->fillVariables();
         $this->request->contentVariables = $this->fillContentVariables();
-        $this->request->inputVariables = $this->fillInputVariables();
         $this->request->get = $_GET;
         $this->request->post = $_POST;
     }
 
+    /**
+     * Overloads parent::processStandardHeaders() to also call processEncryption()
+     *
+     * @return void
+     */
     protected function processStandardHeaders()
     {
         $this->processEncryption();
-        $this->processMethodOverride();
         parent::processStandardHeaders( );
     }
 
@@ -56,7 +70,16 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
     }
 
     /**
+     *  Overloads processBody() to add support for body on DELETE in addition to PUT
+     */
+    protected function processBody()
+    {
+        $this->request->body = file_get_contents( "php://input" );
+    }
+
+    /**
      * Extract variables to be used internally from GET
+     *
      * @return array
      */
     protected function fillVariables()
@@ -100,6 +123,7 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
 
     /**
      * Extract variables related to content from GET
+     *
      * @return array
      */
     protected function fillContentVariables()
@@ -131,44 +155,36 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
     }
 
     /**
-     * Creates PUT & DELETE variables based on the protocol information
-     *
-     * @return array
+     * Processes the request protocol.
      */
-    protected function fillInputVariables()
+    protected function processProtocol()
     {
-        $inputVariables = array();
+        $req = $this->request;
+        $req->originalProtocol = $req->protocol = 'http-' . ( isset( $_SERVER['REQUEST_METHOD'] ) ? strtolower( $_SERVER['REQUEST_METHOD'] ) : "get" );
 
-        switch ( $this->request->protocol )
+        // Adds support for using POST for PUT and DELETE for legacy browsers that does not support these.
+        // If a post param "_method" is set to either PUT or DELETE, then ->protocol is changed to that.
+        // (original protocol is kept on ->originalProtocol param)
+        // Post is used as this is only meant for forms in legacy browsers.
+        if ( $req->protocol === 'http-post' && isset( $req->post['_method'] ) )
         {
-            case 'http-put':
-            case 'http-delete':
-                parse_str( file_get_contents('php://input'), $inputVariables );
-                break;
+            $method = strtolower( $req->post['_method'] );
+            if ( $method  === 'put' || $method === 'delete' )
+                $req->protocol = "http-{$method}";
+
+            unset( $req->post['_method'] );
         }
-
-        if ( $this->request->originalMethod === 'POST' )
-            $inputVariables = $_POST;
-
-        return $inputVariables;
     }
 
     /**
-     * Overrides HTTP request method with POST _method value
+     * Processes the request date.
      *
-     * @return void
+     * @see http://issues.ez.no/19027
      */
-    protected function processMethodOverride()
+    protected function processDate()
     {
-        if ( isset( $_SERVER['REQUEST_METHOD'] )
-             && ( $_SERVER['REQUEST_METHOD'] === 'POST' ) )
-        {
-            if ( isset( $_POST['_method'] )
-                 && in_array( $method = strtoupper( $_POST['_method'] ), array( 'GET', 'POST', 'PUT', 'DELETE' ) ) )
-            {
-                $this->request->originalMethod = $_SERVER['REQUEST_METHOD'];
-                $_SERVER['REQUEST_METHOD'] = $method;
-            }
-        }
+        $this->request->date = isset( $_SERVER['REQUEST_TIME'] )
+            ? new DateTime( '@' . (int)$_SERVER['REQUEST_TIME'] )
+            : new DateTime();
     }
 }

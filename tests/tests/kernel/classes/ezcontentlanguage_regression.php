@@ -2,19 +2,22 @@
 /**
  * File containing the eZContentLanguageRegression class
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
  */
 
+/**
+ * @group ezcontentlanguage
+ */
 class eZContentLanguageRegression extends ezpDatabaseTestCase
 {
     protected $backupGlobals = false;
 
-    public function __construct()
+    public function __construct( $name = NULL, array $data = array(), $dataName = '' )
     {
-        parent::__construct();
+        parent::__construct( $name, $data, $dataName );
         $this->setName( "eZContentLanguage Regression Tests" );
     }
 
@@ -72,5 +75,29 @@ END;
         self::assertEquals( $langId, $newLangId, "New language not mapped to existing language" );
     }
 
+    /**
+     * Regression test for issue #18613 :
+     * Empty ezcontentlanguage_cache.php not being regenerated.
+     * This cache file should always exist, but if for some reason it's empty (lost sync with cluster for instance),
+     * it should be at least properly regenerated
+     *
+     * @link http://issues.ez.no/18613
+     * @group issue18613
+     */
+    public function testFetchListWithBlankCacheFile()
+    {
+        // First simulate a problem generating the language cache file (make it blank)
+        $cachePath = eZSys::cacheDirectory() . '/ezcontentlanguage_cache.php';
+        $clusterFileHandler = eZClusterFileHandler::instance( $cachePath );
+        $clusterFileHandler->storeContents( '', 'content', 'php' );
+        unset( $GLOBALS['eZContentLanguageList'] );
+
+        // Language list should never be empty
+        self::assertNotEmpty( eZContentLanguage::fetchList() );
+
+        // Remove the test language cache file
+        $clusterFileHandler->delete();
+        $clusterFileHandler->purge();
+    }
 }
 ?>

@@ -146,6 +146,16 @@ a.show-hide-control
     background-clip: padding-box;
 }
 
+
+#leftmenu a.show-hide-control
+{
+    border:1px solid #999;
+    border-right: 0;
+    border-radius:0;
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
+}
+
 a.show-hide-control:hover
 {
     border-color: #666;
@@ -186,14 +196,17 @@ a.show-hide-tabs:hover
 #controlbar-top .box-bc
 {
     border: 1px solid #ccc;
-    background: #fefefe;
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f5f5f5), to(#fff));
-    background-image: -moz-linear-gradient(top,  #f5f5f5,  #fff);
-    background-image: -ms-linear-gradient(top,  #f5f5f5,  #fff);
-    background-image: -o-linear-gradient(top,  #f5f5f5,  #fff);
-    background-image: linear-gradient(top,  #f5f5f5,  #fff);
+    background: #f4f4f4;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
+    background-image: -moz-linear-gradient(top,  #fdfdfd, #e4e3e4);
+    background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
     border-radius: 3px;
     background-clip: padding-box;
+    -moz-box-shadow: 0 4px 4px #aaa;
+    -webkit-box-shadow: 0 4px 4px #aaa;
+    box-shadow: 0 4px 4px #aaa;
 }
 
 .box-bc .box-ml, .box-header .box-ml
@@ -464,6 +477,13 @@ table.list th, table.special th
 #leftmenu-design ul
 {
     color: #333;
+}
+
+#editform #leftmenu
+{
+    border:1px solid #ccc;
+    border-radius:3px;
+    background:#f5f5f5;
 }
 
 .settings .current

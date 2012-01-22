@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS ezdfsfile;
 CREATE TABLE ezdfsfile (
   `name` text NOT NULL,
   name_trunk text NOT NULL,

@@ -2,7 +2,7 @@
 /**
  * File containing the eZFile class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -307,6 +307,11 @@ class eZFile
      */
     public static function downloadContent( $file, $startOffset = 0, $length = false )
     {
+        if ( !file_exists( $file ) )
+        {
+            eZDebug::writeError( "'$file' does not exist", __METHOD__ );
+            return false;
+        }
         if ( ( $fp = fopen( $file, 'rb' ) ) === false )
         {
             eZDebug::writeError( "An error occured opening '$file' for reading", __METHOD__ );

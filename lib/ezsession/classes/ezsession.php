@@ -2,7 +2,7 @@
 /**
  * File containing session interface
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -200,7 +200,7 @@ class eZSession
      */
     static public function garbageCollector()
     {
-        return self::getHandlerInstance()->gc( $_SERVER['REQUEST_TIME'] );
+        return self::getHandlerInstance()->gc( (int)$_SERVER['REQUEST_TIME'] );
     }
 
     /**
@@ -282,7 +282,7 @@ class eZSession
      * @since 4.4
      * @param int|false $lifetime Cookie timeout of session cookie, will read from ini if not set
     */
-    static protected function setCookieParams( $lifetime = false )
+    static public function setCookieParams( $lifetime = false )
     {
         $ini      = eZINI::instance();
         $params   = session_get_cookie_params();

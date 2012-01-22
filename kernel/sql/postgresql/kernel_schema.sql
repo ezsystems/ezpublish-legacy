@@ -1280,9 +1280,9 @@ CREATE TABLE ezcollab_group (
 CREATE TABLE ezcollab_item (
     created integer DEFAULT 0 NOT NULL,
     creator_id integer DEFAULT 0 NOT NULL,
-    data_float1 double precision DEFAULT 0::double precision NOT NULL,
-    data_float2 double precision DEFAULT 0::double precision NOT NULL,
-    data_float3 double precision DEFAULT 0::double precision NOT NULL,
+    data_float1 real DEFAULT 0::real NOT NULL,
+    data_float2 real DEFAULT 0::real NOT NULL,
+    data_float3 real DEFAULT 0::real NOT NULL,
     data_int1 integer DEFAULT 0 NOT NULL,
     data_int2 integer DEFAULT 0 NOT NULL,
     data_int3 integer DEFAULT 0 NOT NULL,
@@ -1396,9 +1396,9 @@ CREATE TABLE ezcollab_profile (
 CREATE TABLE ezcollab_simple_message (
     created integer DEFAULT 0 NOT NULL,
     creator_id integer DEFAULT 0 NOT NULL,
-    data_float1 double precision DEFAULT 0::double precision NOT NULL,
-    data_float2 double precision DEFAULT 0::double precision NOT NULL,
-    data_float3 double precision DEFAULT 0::double precision NOT NULL,
+    data_float1 real DEFAULT 0::real NOT NULL,
+    data_float2 real DEFAULT 0::real NOT NULL,
+    data_float3 real DEFAULT 0::real NOT NULL,
     data_int1 integer DEFAULT 0 NOT NULL,
     data_int2 integer DEFAULT 0 NOT NULL,
     data_int3 integer DEFAULT 0 NOT NULL,
@@ -1487,10 +1487,10 @@ CREATE TABLE ezcontentclass_attribute (
     can_translate integer DEFAULT 1,
     category character varying(25) DEFAULT ''::character varying NOT NULL,
     contentclass_id integer DEFAULT 0 NOT NULL,
-    data_float1 double precision,
-    data_float2 double precision,
-    data_float3 double precision,
-    data_float4 double precision,
+    data_float1 real,
+    data_float2 real,
+    data_float3 real,
+    data_float4 real,
     data_int1 integer,
     data_int2 integer,
     data_int3 integer,
@@ -1586,7 +1586,7 @@ CREATE TABLE ezcontentobject_attribute (
     attribute_original_id integer DEFAULT 0,
     contentclassattribute_id integer DEFAULT 0 NOT NULL,
     contentobject_id integer DEFAULT 0 NOT NULL,
-    data_float double precision,
+    data_float real,
     data_int integer,
     data_text text,
     data_type_string character varying(50) DEFAULT ''::character varying,
@@ -1733,7 +1733,7 @@ CREATE TABLE ezdiscountrule (
 
 
 CREATE TABLE ezdiscountsubrule (
-    discount_percent double precision,
+    discount_percent real,
     discountrule_id integer DEFAULT 0 NOT NULL,
     id integer DEFAULT nextval('ezdiscountsubrule_s'::text) NOT NULL,
     limitation character(1),
@@ -1846,7 +1846,7 @@ CREATE TABLE ezinfocollection_attribute (
     contentclass_attribute_id integer DEFAULT 0 NOT NULL,
     contentobject_attribute_id integer,
     contentobject_id integer,
-    data_float double precision,
+    data_float real,
     data_int integer,
     data_text text,
     id integer DEFAULT nextval('ezinfocollection_attribute_s'::text) NOT NULL,
@@ -2116,9 +2116,9 @@ CREATE TABLE ezorder_item (
     id integer DEFAULT nextval('ezorder_item_s'::text) NOT NULL,
     is_vat_inc integer DEFAULT 0 NOT NULL,
     order_id integer DEFAULT 0 NOT NULL,
-    price double precision,
+    price real,
     "type" character varying(30),
-    vat_value double precision DEFAULT 0::double precision NOT NULL
+    vat_value real DEFAULT 0::real NOT NULL
 );
 
 
@@ -2355,14 +2355,14 @@ CREATE TABLE ezproductcollection (
 
 CREATE TABLE ezproductcollection_item (
     contentobject_id integer DEFAULT 0 NOT NULL,
-    discount double precision,
+    discount real,
     id integer DEFAULT nextval('ezproductcollection_item_s'::text) NOT NULL,
     is_vat_inc integer,
     item_count integer DEFAULT 0 NOT NULL,
     name character varying(255) DEFAULT ''::character varying NOT NULL,
-    price double precision DEFAULT 0::double precision,
+    price real DEFAULT 0::real,
     productcollection_id integer DEFAULT 0 NOT NULL,
-    vat_value double precision
+    vat_value real
 );
 
 
@@ -2377,7 +2377,7 @@ CREATE TABLE ezproductcollection_item_opt (
     name character varying(255) DEFAULT ''::character varying NOT NULL,
     object_attribute_id integer,
     option_item_id integer DEFAULT 0 NOT NULL,
-    price double precision DEFAULT 0::double precision NOT NULL,
+    price real DEFAULT 0::real NOT NULL,
     value character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
@@ -2506,7 +2506,7 @@ CREATE TABLE ezsearch_object_word_link (
     contentclass_attribute_id integer DEFAULT 0 NOT NULL,
     contentclass_id integer DEFAULT 0 NOT NULL,
     contentobject_id integer DEFAULT 0 NOT NULL,
-    frequency double precision DEFAULT 0::double precision NOT NULL,
+    frequency real DEFAULT 0::real NOT NULL,
     id integer DEFAULT nextval('ezsearch_object_word_link_s'::text) NOT NULL,
     identifier character varying(255) DEFAULT ''::character varying NOT NULL,
     integer_value integer DEFAULT 0 NOT NULL,
@@ -2846,7 +2846,7 @@ CREATE TABLE ezvatrule_product_category (
 CREATE TABLE ezvattype (
     id integer DEFAULT nextval('ezvattype_s'::text) NOT NULL,
     name character varying(255) DEFAULT ''::character varying NOT NULL,
-    percentage double precision
+    percentage real
 );
 
 

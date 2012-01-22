@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{$site.http_equiv.Content-language|wash}" lang="{$site.http_equiv.Content-language|wash}">
+<!DOCTYPE html>
+<html lang="{$site.http_equiv.Content-language|wash}">
 <head>
 {* Do some uncacheable left + right menu stuff before cache-block's *}
 {def $ui_context_edit      = eq( $ui_context, 'edit' )
@@ -84,7 +84,37 @@
         {tool_bar name='admin_developer' view='full'}
     </div>
     <script type="text/javascript">
-        rightMenuWidthControl();
+    {literal}
+
+    YUI(YUI3_config).use('ezcollapsiblemenu', 'event', 'io-ez', function (Y) {
+
+        Y.on('domready', function () {
+            var rightmenu = new Y.eZ.CollapsibleMenu({
+                link: '#rightmenu-showhide',
+                content: ['&raquo;', '&laquo;'],
+                collapsed: 0,
+                elements:[{
+                    selector: '#rightmenu',
+                    duration: 0.4,
+                    fullStyle: {width: '181px'},
+                    collapsedStyle: {width: '18px'}
+                },{
+                    selector: '#maincolumn',
+                    duration: 0.4,
+                    fullStyle: {marginRight: '180px'},
+                    collapsedStyle: {marginRight: '17px'}
+                }],
+                callback: function () {
+                    var p = 1;
+                    if ( this.conf.collapsed )
+                        p = 0;
+                    Y.io.ez.setPreference('admin_right_menu_show', p);
+                }
+            });
+        });
+    });
+
+    {/literal}
     </script>
 {/if}
 </div>
@@ -149,8 +179,6 @@
 {/cache-block}
 
 <script type="text/javascript">
-<!--
-
 document.getElementById('header-usermenu-logout').innerHTML += '<span class="header-usermenu-name">{$current_user.login|wash}<\/span>';
 
 {literal}
@@ -175,8 +203,6 @@ document.getElementById('header-usermenu-logout').innerHTML += '<span class="hea
     });
 })( jQuery );
 {/literal}
-
-// -->
 </script>
 
 {* This comment will be replaced with actual debug report (if debug is on). *}

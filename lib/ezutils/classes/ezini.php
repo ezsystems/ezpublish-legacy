@@ -2,7 +2,7 @@
 /**
  * File containing the eZINI class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -706,7 +706,7 @@ class eZINI
             {
                 eZDebug::accumulatorStart( 'ini_conversion', false, 'INI string conversion' );
                 $contents = $this->Codec->convertString( $contents );
-                eZDebug::accumulatorStop( 'ini_conversion', false, 'INI string conversion' );
+                eZDebug::accumulatorStop( 'ini_conversion' );
             }
         }
         else
@@ -1226,7 +1226,7 @@ class eZINI
         else
         {
             if ( $identifier )
-                $dirs[$scope] = array_merge( array( $identifier => array( $dir, $globalDir ) ), $dirs[$scope] );
+                $dirs[$scope][$identifier] = array( $dir, $globalDir );
             else
                 $dirs[$scope] = array_merge( array( array( $dir, $globalDir ) ), $dirs[$scope] );
         }

@@ -2,7 +2,7 @@
 /**
  * File containing the eZModuleFunctionInfo class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -112,12 +112,12 @@ class eZModuleFunctionInfo
             return false;
         }
         $functionDefinition = $this->FunctionList[$functionName];
-        if ( !isset( $functionName['call_method'] ) )
+        if ( !isset( $functionDefinition['call_method'] ) )
         {
             eZDebug::writeError( "No call method defined for function '$functionName' in module '$moduleName'", __METHOD__ );
             return false;
         }
-        if ( !isset( $functionName['parameters'] ) )
+        if ( !isset( $functionDefinition['parameters'] ) )
         {
             eZDebug::writeError( "No parameters defined for function '$functionName' in module '$moduleName'", __METHOD__ );
             return false;
@@ -154,12 +154,12 @@ class eZModuleFunctionInfo
             return null;
         }
         $functionDefinition = $this->FunctionList[$functionName];
-        if ( !isset( $functionName['call_method'] ) )
+        if ( !isset( $functionDefinition['call_method'] ) )
         {
             eZDebug::writeError( "No call method defined for function '$functionName' in module '$moduleName'", __METHOD__ );
             return null;
         }
-        if ( !isset( $functionName['parameters'] ) )
+        if ( !isset( $functionDefinition['parameters'] ) )
         {
             eZDebug::writeError( "No parameters defined for function '$functionName' in module '$moduleName'", __METHOD__ );
             return null;

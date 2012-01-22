@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -107,6 +107,22 @@ $ViewList['success'] = array(
     'default_navigation_part' => 'ezmynavigationpart',
     'params' => array( ) );
 
+$ViewList['unactivated'] = array(
+    'functions' => array( 'activation' ),
+    'script' => 'unactivated.php',
+    'ui_context' => 'administration',
+    'default_navigation_part' => 'ezusernavigationpart',
+    'unordered_params' => array( 'offset' => 'Offset' ),
+    'single_post_actions' => array(
+        'ActivateButton' => 'ActivateUsers',
+        'RemoveButton' => 'RemoveUsers'
+    ),
+    'post_action_parameters' => array(
+        'ActivateUsers' => array( 'UserIDs' => 'DeleteIDArray' ),
+        'RemoveUsers' => array( 'UserIDs' => 'DeleteIDArray' ),
+    ),
+    'params' => array( 'SortField', 'SortOrder' ),
+);
 
 $SiteAccess = array(
     'name'=> 'SiteAccess',
@@ -122,5 +138,6 @@ $FunctionList['password'] = array();
 $FunctionList['preferences'] = array();
 $FunctionList['register'] = array();
 $FunctionList['selfedit'] = array();
+$FunctionList['activation'] = array();
 
 ?>

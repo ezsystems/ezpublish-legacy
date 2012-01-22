@@ -2,7 +2,7 @@
 /**
  * Autoloader definition for eZ Publish Kernel files.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -109,6 +109,7 @@ return array(
       'eZDB'                                               => 'lib/ezdb/classes/ezdb.php',
       'eZDBException'                                      => 'kernel/private/classes/exceptions/database/exception.php',
       'eZDBFileHandler'                                    => 'kernel/classes/clusterfilehandlers/ezdbfilehandler.php',
+      'eZDBFileHandlerBackend'                             => 'kernel/interfaces/dbfilehandlerbackend.php',
       'eZDBFileHandlerMysqlBackend'                        => 'kernel/classes/clusterfilehandlers/dbbackends/mysql.php',
       'eZDBFileHandlerMysqliBackend'                       => 'kernel/classes/clusterfilehandlers/dbbackends/mysqli.php',
       'eZDBGarbageCollector'                               => 'kernel/classes/ezdbgarbagecollector.php',
@@ -123,6 +124,7 @@ return array(
       'eZDFSFileHandlerMySQLiBackend'                      => 'kernel/private/classes/clusterfilehandlers/dfsbackends/mysqli.php',
       'eZDFSFileHandlerNFSMountPointNotFoundException'     => 'kernel/private/classes/exceptions/cluster/mount_point_not_found.php',
       'eZDFSFileHandlerNFSMountPointNotWriteableException' => 'kernel/private/classes/exceptions/cluster/mount_point_not_writeable.php',
+      'eZDFSFileHandlerPostgresqlBackend'                  => 'kernel/private/classes/clusterfilehandlers/dfsbackends/postgresql.php',
       'eZDFSFileHandlerTableNotFoundException'             => 'kernel/private/classes/exceptions/cluster/table_not_found.php',
       'eZDFSMySQLBackendError'                             => 'kernel/private/classes/clusterfilehandlers/dfsbackends/mysqlbackenderror.php',
       'eZDataType'                                         => 'kernel/classes/ezdatatype.php',
@@ -603,6 +605,11 @@ return array(
       'ezpLanguageSwitcherFunctionCollection'              => 'kernel/private/modules/switchlanguage/ezpLanguageSwitcherFunctionCollection.php',
       'ezpLanguageSwitcherOperator'                        => 'kernel/private/eztemplate/ezplanguageswitcheroperator.php',
       'ezpLocation'                                        => 'kernel/private/api/location.php',
+      'ezpMail'                                            => 'kernel/private/classes/ezpmail.php',
+      'ezpMobileDeviceDetect'                              => 'kernel/private/classes/ezpmobiledevicedetect.php',
+      'ezpMobileDeviceDetectFilter'                        => 'kernel/private/classes/ezpmobiledevicedetectfilter.php',
+      'ezpMobileDeviceDetectFilterInterface'               => 'kernel/private/classes/ezpmobiledevicedetectfilterinterface.php',
+      'ezpMobileDeviceRegexpFilter'                        => 'kernel/private/classes/ezpmobiledeviceregexpfilter.php',
       'ezpMvcConfiguration'                                => 'kernel/private/rest/classes/mvc_configuration.php',
       'ezpMvcRailsRoute'                                   => 'kernel/private/rest/classes/routes/rails.php',
       'ezpMvcRegexpRoute'                                  => 'kernel/private/rest/classes/routes/regexp.php',
@@ -621,9 +628,6 @@ return array(
       'ezpOauthTokenEndpointErrorType'                     => 'kernel/private/rest/classes/oauth_token_endpoint_error.php',
       'ezpOauthTokenNotFoundException'                     => 'kernel/private/rest/classes/exceptions/oauth_token_not_found.php',
       'ezpOauthUtility'                                    => 'kernel/private/rest/classes/oauth/utility.php',
-      'ezpRestAtomController'                              => 'kernel/private/rest/classes/controllers/atom.php',
-      'ezpRestAtomDecorator'                               => 'kernel/private/rest/classes/views/atom_decorator.php',
-      'ezpRestAtomView'                                    => 'kernel/private/rest/classes/views/atom.php',
       'ezpRestAuthConfiguration'                           => 'kernel/private/rest/classes/auth/auth_configuration.php',
       'ezpRestAuthController'                              => 'kernel/private/rest/classes/controllers/auth.php',
       'ezpRestAuthProvider'                                => 'kernel/private/rest/classes/auth/auth_provider.php',
@@ -677,6 +681,7 @@ return array(
       'ezpRestRouteSecurityFilterNotFoundException'        => 'kernel/private/rest/classes/exceptions/route_security_filter_not_found.php',
       'ezpRestRouter'                                      => 'kernel/private/rest/classes/router.php',
       'ezpRestRoutesCacheClear'                            => 'kernel/private/rest/classes/cache/clear_routes.php',
+      'ezpRestStatusResponse'                              => 'kernel/private/rest/classes/status/response.php',
       'ezpRestToken'                                       => 'kernel/private/rest/classes/models/ezprest_token.php',
       'ezpRestTokenManager'                                => 'kernel/private/oauth/classes/tokenmanager.php',
       'ezpRestVersionedRoute'                              => 'kernel/private/rest/classes/routes/versioned_route.php',

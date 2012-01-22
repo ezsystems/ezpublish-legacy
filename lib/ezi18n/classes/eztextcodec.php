@@ -2,7 +2,7 @@
 /**
  * File containing the eZTextCodec class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -353,7 +353,7 @@ class eZTextCodec
     {
         eZDebug::accumulatorStart( 'textcodec_codepage', false, 'String conversion w/ codepage' );
         $tmp = $this->Codepage->convertString( $str );
-        eZDebug::accumulatorStop( 'textcodec_codepage', false, 'String conversion w/ codepage' );
+        eZDebug::accumulatorStop( 'textcodec_codepage' );
         return $tmp;
     }
 
@@ -361,7 +361,7 @@ class eZTextCodec
     {
         eZDebug::accumulatorStart( 'textcodec_codepage_rev', false, 'String conversion w/ codepage reverse' );
         $tmp = $this->Codepage->convertStringFromUTF8( $str );
-        eZDebug::accumulatorStop( 'textcodec_codepage_rev', false, 'String conversion w/ codepage reverse' );
+        eZDebug::accumulatorStop( 'textcodec_codepage_rev' );
         return $tmp;
     }
 
@@ -369,7 +369,7 @@ class eZTextCodec
     {
         eZDebug::accumulatorStart( 'textcodec_codepage_mapper', false, 'String conversion w/ codepage mapper' );
         $tmp = $this->CodepageMapper->convertString( $str );
-        eZDebug::accumulatorStop( 'textcodec_codepage_mapper', false, 'String conversion w/ codepage mapper' );
+        eZDebug::accumulatorStop( 'textcodec_codepage_mapper' );
         return $tmp;
     }
 
@@ -380,7 +380,7 @@ class eZTextCodec
         // NOTE:
         // Uses the mbstring function directly instead of going trough the class
         $tmp = mb_convert_encoding( $str, $this->OutputCharsetCode, $this->InputCharsetCode );
-        eZDebug::accumulatorStop( 'textcodec_mbstring', false, 'String conversion w/ mbstring' );
+        eZDebug::accumulatorStop( 'textcodec_mbstring' );
         return $tmp;
     }
 

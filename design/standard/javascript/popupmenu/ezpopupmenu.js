@@ -4,7 +4,7 @@
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Publish
 // SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
+// COPYRIGHT NOTICE: Copyright (C) 1999-2012 eZ Systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
 //   This program is free software; you can redistribute it and/or
@@ -451,13 +451,15 @@ function ezpopmenu_submitForm( formID, customSubstitute )
     if ( formElement )
     {
         // for all children do replacement
-        var children = formElement.childNodes;
+        var children = formElement.childNodes,
+            origValue = '', resetInputs = [];
         for ( var i = 0; i < children.length; i++)
         {
             if ( children[i].type == 'hidden' )
             {
                 for ( var substItem in CurrentSubstituteValues )
                 {
+                    origValue = children[i].value;
                     children[i].value = children[i].value.replace( substItem, CurrentSubstituteValues[substItem] );
                     if ( customSubstitute )
                     {
@@ -466,11 +468,24 @@ function ezpopmenu_submitForm( formID, customSubstitute )
                             children[i].value = children[i].value.replace( '%'+customSubstitute[j]+'%', customSubstitute[j+1] );
                         }
                     }
+                    if ( origValue != children[i].value )
+                    {
+                        resetInputs.push(
+                            { 'input': children[i], 'originalValue': origValue }
+                        );
+                    }
                 }
             }
         }
 
         formElement.submit();
+
+        // restoring the form so that it gets correctly filled
+        // if another click from the user occurs
+        for( var i = 0; i != resetInputs.length; i++ )
+        {
+            resetInputs[i].input.value = resetInputs[i].originalValue;
+        }
     }
 }
 

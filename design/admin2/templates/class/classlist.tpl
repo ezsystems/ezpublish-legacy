@@ -150,7 +150,6 @@
 
 {literal}
 <script type="text/javascript">
-<!--
 jQuery(function( $ )//called on document.ready
 {
     // Disable bottom datatype dropp down when using new button in top
@@ -159,7 +158,6 @@ jQuery(function( $ )//called on document.ready
         jQuery('#ClassLanguageCodeBottom').attr('disabled', true);
     });
 });
--->
 </script>
 {/literal}
 

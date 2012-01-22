@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -170,7 +170,7 @@ if ( $http->hasPostVariable( 'AddLimitation' ) )
 
                         if ( !in_array( '-1', $limitationValues ) )
                         {
-                            $policyLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), $functionLimitation['name'], $currentModule, $currentFunction );
+                            $policyLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), $functionLimitation['name'] );
                             foreach ( $limitationValues as $limitationValue )
                             {
                                 eZPolicyLimitationValue::createNew( $policyLimitation->attribute( 'id' ), $limitationValue );
@@ -206,7 +206,7 @@ if ( $http->hasPostVariable( 'AddLimitation' ) )
 
                 if ( !in_array('-1', $limitationValues ) )
                 {
-                    $policyLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), $functionLimitation['name'], $currentModule, $currentFunction );
+                    $policyLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), $functionLimitation['name'] );
                     foreach ( $limitationValues as $limitationValue )
                     {
                         eZPolicyLimitationValue::createNew( $policyLimitation->attribute( 'id' ), $limitationValue );
@@ -457,7 +457,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
 
                     if ( !in_array('-1', $limitationValues ) )
                     {
-                        $policyLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), $functionLimitation['name'], $currentModule, $currentFunction );
+                        $policyLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), $functionLimitation['name'] );
                         foreach ( $limitationValues as $limitationValue )
                         {
                             eZPolicyLimitationValue::createNew( $policyLimitation->attribute( 'id' ), $limitationValue );
@@ -482,7 +482,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
 
                     if ( !in_array( '-1', $limitationValues ) )
                     {
-                        $policyLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), $functionLimitation['name'], $currentModule, $currentFunction);
+                        $policyLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), $functionLimitation['name'] );
                         eZDebugSetting::writeDebug( 'kernel-role-edit', $policyLimitation, 'policyLimitationCreated' );
                         foreach ( $limitationValues as $limitationValue )
                         {
@@ -560,7 +560,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
 
         $nodeLimitation = eZPolicyLimitation::fetchByIdentifier( $policy->attribute('id'), 'Node' );
         if ( $nodeLimitation == null )
-            $nodeLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), 'Node', $currentModule, $currentFunction);
+            $nodeLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), 'Node' );
 
         foreach ( $selectedNodeIDList as $nodeID )
         {
@@ -592,7 +592,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
 
         $subtreeLimitation = eZPolicyLimitation::fetchByIdentifier( $policy->attribute('id'), 'Subtree' );
         if ( $subtreeLimitation == null )
-            $subtreeLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), 'Subtree', $currentModule, $currentFunction);
+            $subtreeLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), 'Subtree' );
 
         foreach ( $selectedSubtreeIDList as $nodeID )
         {

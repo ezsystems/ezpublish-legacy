@@ -32,20 +32,34 @@ jQuery(function( $ )
     {
         if ( data && data.content !== '' )
         {
-            var boxID = '#' + data.content.CallbackID;
+            var boxID = '#' + data.content.CallbackID, boxElem = $( boxID + ' div.ezobject-relation-search-browse'  );
             if ( data.content.SearchResultCount )
             {
-                var html = '', arr = data.content.SearchResult, pub = $('#ezobjectrelation-search-published-text');
+                boxElem.empty();
+                var arr = data.content.SearchResult, pub = $('#ezobjectrelation-search-published-text');
                 for ( var i = 0, l = arr.length; i < l; i++ )
                 {
-                    html += '<a onclick="return ezajaxrelationsSearchAddObject( this, \'' + boxID + '\', ' + arr[i].id + ',\'' + arr[i].name + '\',\'' + arr[i].class_name + '\',\'' + arr[i].section.name + '\',\'' + pub.val() + '\'  );" title="' + arr[i].path_identification_string + '">' + arr[i].name + '<\/a><br \/>';
+                    var aElem = $( '<a></a>' );
+                    aElem.bind( 'click', { boxID: boxID,
+                                           id: arr[i].id,
+                                           name: arr[i].name,
+                                           className: arr[i].class_name,
+                                           sectionName: arr[i].section.name,
+                                           publishedTxt: pub.val() }, function(e) {
+                        ezajaxrelationsSearchAddObject( this, e.data.boxID, e.data.id, e.data.name, e.data.className, e.data.sectionName, e.data.publishedTxt );
+                    } );
+                    aElem.append( arr[i].name );
+                    aElem.attr( 'title', aElem.text() );
+
+                    boxElem.append( aElem );
+                    boxElem.append( '<br />' );
                 }
-                $( boxID + ' div.ezobject-relation-search-browse'  ).html( html ).show();
+                boxElem.show();
             }
             else
             {
                 var html = '<p class="ezobjectrelation-search-empty-result">' + $('#ezobjectrelation-search-empty-result-text').html().replace( '--search-string--', '<em>' + data.content.SearchString + '<\/em>' ) + '<\/p>';
-                $( boxID + ' div.ezobject-relation-search-browse'  ).html( html ).show();
+                boxElem.html( html ).show();
             }
         }
         else
@@ -87,7 +101,6 @@ jQuery(function( $ )
         $( boxID + ' table' ).removeClass('hide');
         $(boxID + ' .ezobject-relation-remove-button').removeClass('button-disabled').addClass('button').attr('disabled', false);
         $(boxID + ' .ezobject-relation-no-relation').addClass('hide');
-        $(boxID + ' input[name*=_data_object_relation_list_ajax_filled_]').val(1);
     }
 
     // register searchAdd gloablly as it is used on search links

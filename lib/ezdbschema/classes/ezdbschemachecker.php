@@ -2,7 +2,7 @@
 /**
  * File containing the eZDbSchemaChecker class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -184,7 +184,6 @@ class eZDbSchemaChecker
         if ( $field1['type'] != $field2['type'] )
         {
             return array( 'different-options' => array( 'type' ), 'field-def' => $field2 );
-            return $field2;
         }
 
         $test_fields = array( 'default', 'not_null' );

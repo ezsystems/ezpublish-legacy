@@ -2,7 +2,7 @@
 /**
  * File containing the eZLog class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -128,7 +128,7 @@ class eZLog
 
     /*!
      \static
-     \return the maxium size for a log file in bytes.
+     \return the maximum size for a log file in bytes.
     */
     static function maxLogSize()
     {
@@ -140,7 +140,7 @@ class eZLog
 
     /*!
      \static
-     Sets the maxium size for a log file to \a $size.
+     Sets the maximum size for a log file to \a $size.
     */
     static function setMaxLogSize( $size )
     {
@@ -149,7 +149,7 @@ class eZLog
 
     /*!
      \static
-     \return the maxium number of logrotate files to keep.
+     \return the maximum number of logrotate files to keep.
     */
     static function maxLogrotateFiles()
     {
@@ -196,7 +196,7 @@ class eZLog
 
     /*!
      \static
-     Sets the maxium number of logrotate files to keep to \a $files.
+     Sets the maximum number of logrotate files to keep to \a $files.
     */
     static function setLogrotateFiles( $files )
     {

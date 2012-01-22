@@ -3,7 +3,6 @@
 
 {if or( $dynamic_csm_disabled, $#admin_left_width, $#hide_right_menu )}
 <style type="text/css">
-
 {if $hide_right_menu}
     div#maincontent {ldelim} margin-right: 0.4em; {rdelim}
 {/if}
@@ -20,7 +19,6 @@
     div#contentstructure ul#content_tree_menu ul li {ldelim} padding-left: 0; {rdelim}
     div#contentstructure ul#content_tree_menu ul ul {ldelim} margin-left: 20px; {rdelim}
 {/if}
-
 </style>
 {/if}
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -176,17 +176,17 @@ function eZDBCleanup()
 function eZFatalError()
 {
     header("HTTP/1.1 500 Internal Server Error");
-    print( "<b>Fatal error</b>: eZ Publish did not finish its request<br/>" );
+    print( "<b>Fatal error</b>: The web server did not finish its request<br/>" );
     if ( ini_get('display_errors') == 1 )
     {
         if ( eZDebug::isDebugEnabled() )
             print( "<p>The execution of eZ Publish was abruptly ended, the debug output is present below.</p>" );
         else
-            print( "<p>The execution of eZ Publish was abruptly ended, debug information can be found in the log files normally placed in var/log/* or by enabling 'DebugOutput'</p>" );
+            print( "<p>Debug information can be found in the log files normally placed in var/log/* or by enabling 'DebugOutput' in site.ini</p>" );
     }
     else
     {
-        print( "<p>The execution of eZ Publish was abruptly ended. Contact website owner with current url and what you did, and owner will be able to debug the issue further(by enabling 'display_errors' and optionally 'DebugOutput').</p>" );
+        print( "<p>Contact website owner with current url and info on what you did, and owner will be able to debug the issue further (by enabling 'display_errors' in php.ini).</p>" );
     }
     $templateResult = null;
     eZDisplayResult( $templateResult );
@@ -246,6 +246,7 @@ function eZDisplayResult( $templateResult )
         {
             $templateResult = call_user_func( array ( $classname, 'filter' ), $templateResult );
         }
+        $templateResult = ezpEvent::getInstance()->filter( 'response/preoutput', $templateResult );
         $debugMarker = '<!--DEBUG_REPORT-->';
         $pos = strpos( $templateResult, $debugMarker );
         if ( $pos !== false )
@@ -332,6 +333,15 @@ eZExtension::activateExtensions( 'access' );
 // Now that all extensions are activated and siteaccess has been changed, reset
 // all eZINI instances as they may not take into account siteaccess specific settings.
 eZINI::resetAllInstances( false );
+
+$mobileDeviceDetect = new ezpMobileDeviceDetect( ezpMobileDeviceDetectFilter::getFilter() );
+if( $mobileDeviceDetect->isEnabled() )
+{
+    $mobileDeviceDetect->process();
+
+    if ( $mobileDeviceDetect->isMobileDevice() )
+        $mobileDeviceDetect->redirect();
+}
 
 // Initialize module loading
 $moduleRepositories = eZModule::activeModuleRepositories();
@@ -950,6 +960,8 @@ if ( !isset( $moduleResult['ui_context'] ) )
     $moduleResult['ui_context'] = $module->uiContextName();
 }
 $moduleResult['ui_component'] = $module->uiComponentName();
+$moduleResult['is_mobile_device'] = $mobileDeviceDetect->isMobileDevice();
+$moduleResult['mobile_device_alias'] = $mobileDeviceDetect->getUserAgentAlias();
 
 $templateResult = null;
 

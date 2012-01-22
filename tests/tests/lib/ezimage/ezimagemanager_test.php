@@ -2,7 +2,7 @@
 /**
  * File containing the eZImageManagerTest class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -18,8 +18,20 @@ class eZImageManagerTest extends ezpTestCase
     public static function imageMagickIsEnabled()
     {
         $imageIni = eZINI::instance( 'image.ini' );
-        return ( in_array( 'ImageMagick', $imageIni->variable( 'ImageConverterSettings', 'ImageConverters' ) ) and
-                 $imageIni->variable( 'ImageMagick', 'IsEnabled' ) == 'true' );
+        if (
+            !(
+                in_array(
+                    'ImageMagick',
+                    $imageIni->variable( 'ImageConverterSettings', 'ImageConverters' )
+                )
+                && $imageIni->variable( 'ImageMagick', 'IsEnabled' ) == 'true'
+            )
+        )
+            return false;
+
+        // Check furthen that the executable can be run
+        exec( $imageIni->variable( "ImageMagick", "Executable" ) . " -version 2>&1", $output, $returnValue );
+        return $returnValue === 0;
     }
 
     public function setUp()

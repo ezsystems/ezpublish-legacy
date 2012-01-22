@@ -92,7 +92,8 @@ var labelsObj = {ldelim}
 
                         header: "{'Table options'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         header_noipp: "{'Number of items per page:'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
-                        header_vtc: "{'Visible table columns:'|i18n( 'design/admin/node/view/full' )|wash('javascript')}"
+                        header_vtc: "{'Visible table columns:'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        button_close: "{'Close'|i18n( 'design/admin/node/view/full' )|wash('javascript')}"
                    {rdelim},
 
     ACTION_BUTTONS: {ldelim}

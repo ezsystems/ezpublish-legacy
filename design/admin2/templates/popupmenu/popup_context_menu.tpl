@@ -1,6 +1,5 @@
 <!-- Treemenu icon click popup menu -->
 <script type="text/javascript">
-<!--
 menuArray['ContextMenu'] = {ldelim} 'depth': 0, 'headerID': 'menu-header' {rdelim};
 menuArray['ContextMenu']['elements'] = {ldelim}{rdelim};
 //menuArray['ContextMenu']['elements']['menu-view'] = {ldelim} 'url': {"/content/view/full/%nodeID%"|ezurl} {rdelim};
@@ -9,7 +8,6 @@ menuArray['ContextMenu']['elements']['menu-copy'] = {ldelim} 'url': {"/content/c
 menuArray['ContextMenu']['elements']['menu-copy-subtree']= {ldelim} 'url': {"/content/copysubtree/%nodeID%"|ezurl} {rdelim};
 menuArray['ContextMenu']['elements']['menu-create-here']= {ldelim} 'disabled_class': 'menu-item-disabled' {rdelim};
 {*menuArray['ContextMenu']['elements']['child-menu-create-here'] = {ldelim} 'disabled_class': 'menu-item-disabled' {rdelim};*}
-// -->
 </script>
 
 <div class="popupmenu" id="ContextMenu">

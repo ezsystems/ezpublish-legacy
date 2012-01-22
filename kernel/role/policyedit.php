@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -260,7 +260,7 @@ if ( $http->hasPostVariable( 'SelectedNodeIDArray' ) and
     $selectedNodeIDList = $http->postVariable( 'SelectedNodeIDArray' );
 
     if ( $nodeLimitation == null )
-        $nodeLimitation = eZPolicyLimitation::createNew( $policyID, 'Node', $currentModule, $currentFunction);
+        $nodeLimitation = eZPolicyLimitation::createNew( $policyID, 'Node' );
     foreach ( $selectedNodeIDList as $nodeID )
     {
         if ( !in_array( $nodeID, $nodeIDList ) )
@@ -281,7 +281,7 @@ if ( $http->hasPostVariable( 'SelectedNodeIDArray' ) and
     $db = eZDB::instance();
     $db->begin();
     if ( $subtreeLimitation == null )
-        $subtreeLimitation = eZPolicyLimitation::createNew( $policyID, 'Subtree', $currentModule, $currentFunction);
+        $subtreeLimitation = eZPolicyLimitation::createNew( $policyID, 'Subtree' );
 
     foreach ( $selectedSubtreeIDList as $nodeID )
     {
@@ -366,9 +366,7 @@ function processDropdownLimitations( &$policy, $currentModule, $currentFunction,
             {
                 $hasLimitation = true;
                 $policyLimitation = eZPolicyLimitation::createNew( $policy->attribute( 'id' ),
-                                                                   $functionLimitation['name'],
-                                                                   $currentModule,
-                                                                   $currentFunction );
+                                                                   $functionLimitation['name'] );
                 foreach ( $limitationValueList as $limitationValue )
                 {
                     eZPolicyLimitationValue::createNew( $policyLimitation->attribute( 'id' ), $limitationValue );

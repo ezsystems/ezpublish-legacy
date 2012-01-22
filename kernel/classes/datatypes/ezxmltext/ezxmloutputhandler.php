@@ -2,7 +2,7 @@
 /**
  * File containing the eZXMLOutputHandler class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -109,7 +109,8 @@ class eZXMLOutputHandler
     function &viewTemplateName()
     {
         $name = 'ezxmltext';
-        $suffix = $this->viewTemplateSuffix();
+        $contentobjectAttribute = false;
+        $suffix = $this->viewTemplateSuffix( $contentobjectAttribute );
         if ( $suffix !== false )
         {
             $name .= '_' . $suffix;

@@ -1,5 +1,5 @@
 {let can_apply=false()}
-<form name="orderlist" method="post" action={concat( '/shop/orderlist' )|ezurl}>
+<form name="orderlist" method="post" action={concat( '/shop/orderlist', $view_parameters.offset|gt(0)|choose( '', concat( '/(offset)/', $view_parameters.offset ) ) )|ezurl}>
 
 <div class="context-block">
 

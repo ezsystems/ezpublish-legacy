@@ -2,7 +2,7 @@
 /**
  * File containing Mvc configuration
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -148,7 +148,7 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
     protected function runCustomFilters( $type, array $filterParams )
     {
         $filterName = $type . 'Filters';
-        $interfaceName = 'ezpRest' . $filterName . 'FilterInterface';
+        $interfaceName = 'ezpRest' . $type . 'FilterInterface';
         $definedCustomFilters = eZINI::instance( 'rest.ini' )->variable( $filterName , 'Filters' );
 
         if ( empty( $definedCustomFilters ) )
@@ -175,7 +175,7 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
                 break;
             }
 
-            if ( ! $filter instanceof $interfaceName )
+            if ( ! $filterObject instanceof $interfaceName )
                 throw new ezpRestFilterNotFoundException( $filter );
 
             $filterObject->filter();

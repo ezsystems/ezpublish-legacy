@@ -2,7 +2,7 @@
 /**
  * File containing the ezpEvent class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -133,11 +133,16 @@ class ezpEvent
             return $value;
         }
 
+        $params = func_get_args();
+        // We delete the first param, which is the name of the filter
+        // in order to retrieve only params for the listener
+        array_shift( $params );
+
         foreach ( $this->listeners[$name] as $listener )
         {
-            $value = call_user_func( $listener, $value );
+            $params[0] = call_user_func_array( $listener, $params );
         }
-        return $value;
+        return $params[0];
     }
 
     /**

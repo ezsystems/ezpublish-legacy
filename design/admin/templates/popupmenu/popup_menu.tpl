@@ -1,7 +1,6 @@
 {def $multilingual_site=fetch( content, translation_list )|count|gt( 1 )}
 
 <script language="JavaScript1.2" type="text/javascript">
-<!--
 var menuArray = new Array();
 menuArray['ContextMenu'] = new Array();
 menuArray['ContextMenu']['depth'] = 0;
@@ -127,8 +126,6 @@ menuArray['OverrideByClassSiteAccess']['depth'] = 1;
 {* Site access popup menu for override by node*}
 menuArray['OverrideByNodeSiteAccess'] = new Array();
 menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
-
-// -->
 </script>
 <script type="text/javascript" src={'javascript/lib/ezjslibdomsupport.js'|ezdesign}></script>
 <script type="text/javascript" src={'javascript/lib/ezjslibmousetracker.js'|ezdesign}></script>

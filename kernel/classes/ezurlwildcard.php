@@ -2,7 +2,7 @@
 /**
  * File containing the eZURLWildcard class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -665,6 +665,24 @@ class eZURLWildcard extends eZPersistentObject
     public static function fetchCacheFile( $filepath )
     {
         return include( $filepath );
+    }
+
+    /**
+     * Checks if $uriString exists as a wildcard
+     *
+     * @param string $uriString
+     * @return boolean
+     */
+    public static function wildcardExists( $uriString )
+    {
+        $wildcardIndex = self::wildcardsIndex();
+        $uriString = self::matchRegexpCode( array( 'source_url' => $uriString ) );
+        if ( in_array( $uriString, $wildcardIndex ) )
+        {
+            return true;
+        }
+
+        return false;
     }
 }
 

@@ -2,7 +2,7 @@
 /**
  * File containing the eZImageShellHandlerTest class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -14,7 +14,7 @@ class eZImageShellHandlerTest extends ezpTestCase
     {
         parent::setUp();
 
-        exec( eZINI::instance( "image.ini" )->variable( "ImageMagick", "Executable" ) . " -version", $output, $returnValue );
+        exec( eZINI::instance( "image.ini" )->variable( "ImageMagick", "Executable" ) . " -version 2>&1", $output, $returnValue );
         if ( $returnValue !== 0 )
         {
             $this->markTestSkipped( 'ImageMagick is not installed' );
