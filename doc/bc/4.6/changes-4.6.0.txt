@@ -56,6 +56,11 @@ Change of behavior
   contention on the ezfsfile table and to allow faster cache clearing by being
   able to truncate the cache table.
 
+  eZDFS assumes the cache directory is called 'cache' and the storage directory
+  is called 'storage'. If you have changed the name of any of these you need to
+  define the constants EZP_DFS_CACHE_DIR and/or EZP_DFS_STORAGE_DIR in
+  config.php. See config.php-RECOMMENDED for more info.
+
 Removed features
 ----------------
 

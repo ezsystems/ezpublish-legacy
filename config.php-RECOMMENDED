@@ -116,18 +116,14 @@
 /*
    CLUSTERING
    -------------------------
-   Set EZP_DFS_SEPARATE_CACHE_TABLE to true to enable the usage of a separate
-   database table to store cache files when using ezdfs clustering. A separate
-   cache table enables faster cache clearing as it's possible to rename the
-   cache folder on disk and truncate the database table. Remember to clear
-   cache before turning on this setting or you will have many stale cache
-   entries in ezdfsfile.
+   eZDFS assumes the cache directory is called 'cache' and the storage directory
+   is called 'storage'. If you have changed the name of any of these in
+   site.ini (CacheDir and StorageDir) you need to tell eZDFS what these
+   directories are called by defining EZP_DFS_CACHE_DIR and/or
+   EZP_DFS_STORAGE_DIR.
 
-   This setting should increase performance as there will be less contention on
-   the ezdfsfile table.
-
-   Note: Do not turn this setting on if you have customized the StorageDir and
-   CacheDir settings in site.ini.
+   No slashes should be used when defining the directory names.
 */
-//define( 'EZP_DFS_SEPARATE_CACHE_TABLE', true );
+//define( 'EZP_DFS_CACHE_DIR', 'cache' );
+//define( 'EZP_DFS_STORAGE_DIR', 'storage' );
 ?>

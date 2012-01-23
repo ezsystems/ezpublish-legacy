@@ -925,9 +925,7 @@ class eZDFSFileHandlerMySQLiBackend
     {
         $filePathList = array();
 
-        $tables = array( self::TABLE_METADATA );
-        if ( defined( "EZP_DFS_SEPARATE_CACHE_TABLE" ) )
-            $tables[] = self::TABLE_METADATA_CACHE;
+        $tables = array( self::TABLE_METADATA, self::TABLE_METADATA_CACHE );
 
         foreach( $tables as $table )
         {
@@ -1723,9 +1721,7 @@ class eZDFSFileHandlerMySQLiBackend
         if ( count( $scopes ) == 0 )
             throw new ezcBaseValueException( 'scopes', $scopes, "array of scopes", "parameter" );
 
-        $tables = array( self::TABLE_METADATA );
-        if ( defined( "EZP_DFS_SEPARATE_CACHE_TABLE" ) )
-            $tables[] = self::TABLE_METADATA_CACHE;
+        $tables = array( self::TABLE_METADATA, self::TABLE_METADATA_CACHE );
 
         $queries = array();
         $scopeString = $this->_sqlList( $scopes );
@@ -1765,11 +1761,13 @@ class eZDFSFileHandlerMySQLiBackend
      **/
     protected function getDbTable( $filePath )
     {
-        if ( !defined( "EZP_DFS_SEPARATE_CACHE_TABLE" ) )
-            return self::TABLE_METADATA;
+        $cacheDir = '/cache/';
+        if ( defined( 'EZP_DFS_CACHE_DIR' ) )
+            $cacheDir = '/' . EZP_DFS_CACHE_DIR . '/';
 
-        $cacheDir = "/cache/";
-        $storageDir = "/storage/";
+        $storageDir = '/storage/';
+        if ( defined( 'EZP_DFS_STORAGE_DIR' ) )
+            $storageDir = '/' . EZP_DFS_STORAGE_DIR . '/';
 
         if ( strpos( $filePath, $cacheDir ) !== false && strpos( $filePath, $storageDir ) === false )
         {

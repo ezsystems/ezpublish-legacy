@@ -26,11 +26,13 @@ function _die( $value )
  **/
 function getDbTable( $filePath )
 {
-    if ( !defined( "EZP_DFS_SEPARATE_CACHE_TABLE" ) )
-        return TABLE_METADATA;
+    $cacheDir = '/cache/';
+    if ( defined( 'EZP_DFS_CACHE_DIR' ) )
+        $cacheDir = '/' . EZP_DFS_CACHE_DIR . '/';
 
-    $cacheDir = "/cache/";
-    $storageDir = "/storage/";
+    $storageDir = '/storage/';
+    if ( defined( 'EZP_DFS_STORAGE_DIR' ) )
+        $storageDir = '/' . EZP_DFS_STORAGE_DIR . '/';
 
     if ( strpos( $filePath, $cacheDir ) !== false && strpos( $filePath, $storageDir ) === false )
     {
