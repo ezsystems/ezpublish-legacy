@@ -30,37 +30,50 @@ class eZHTTPPersistence
     {
     }
 
-    /*!
-     Fetches the HTTP post variables using the base name $base_name and stores
-     them in the object $objects, if $is_array is true then $objects is assumed
-     to be an array and all objects are updated.
-    */
-    static function fetch( $base_name,
-                    /*! The definition of the objects, uses the same syntax as eZPersistentObject */
-                    $def,
-                    $objects,
-                    /*! The eZHTTPTool object */
-                    $http,
-                    $is_array )
+    /**
+     * Fetches the HTTP post variables using the base name $base_name and stores
+     * them in the object $objects, if $is_array is true then $objects is assumed
+     * to be an array and all objects are updated.
+     *
+     * @param string $base_name Base name for HTTP POST variables
+     * @param array $def Definition for $objects, uses the same syntax as {@link eZPersistentObject}
+     * @param object|object[] Single object or array of objects having the same definition provided in $def
+     * @param eZHTTPTool
+     * @param bool $is_array If true, $objects is assumed to be an array
+     * @param string|false $indexField Field name as defined in $def. If provided, will be used to fetch HTTP variables as index.
+     * @return void
+     */
+    static function fetch( $base_name, array $def, $objects, eZHTTPTool $http, $is_array, $indexField = false )
     {
         if ( $is_array )
         {
             for ( $i = 0; $i < count( $objects ); ++$i )
             {
                 $object = $objects[$i];
-                eZHTTPPersistence::fetchElement( $base_name, $def, $object, $http, $i );
+                $index = is_string( $indexField ) ? $indexField : $i;
+                eZHTTPPersistence::fetchElement( $base_name, $def, $object, $http, $index );
             }
         }
         else
+        {
             eZHTTPPersistence::fetchElement( $base_name, $def, $objects, $http, false );
+        }
     }
 
-    /*!
-     \private
-     Helper function for fetch().
-    */
-    static function fetchElement( $base_name, $def,
-                                  $object, $http, $index )
+    /**
+     * Helper function for {@link eZHTTPPersistence::fetch()}
+     *
+     * @param string $base_name
+     * @param array $def Definition for $object, uses the same syntax as {@link eZPersistentObject}
+     * @param object $object
+     * @param eZHTTPTool $http
+     * @param int|string|false $index Index in HTTP POST data corresponding to $object.
+     *                                Set as string will make use of corresponding field in $def
+     *                                Set to false if posted data is not an array.
+     * @see eZHTTPPersistence::fetch()
+     * @return void
+     */
+    static function fetchElement( $base_name, array $def, $object, eZHTTPTool $http, $index )
     {
         $fields = $def["fields"];
         $keys = $def["keys"];

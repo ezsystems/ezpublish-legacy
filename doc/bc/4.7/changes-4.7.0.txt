@@ -1,0 +1,38 @@
+Changes to BC and behavior in version 4.7.0
+===========================================
+
+INI setting changes
+-------------------
+
+
+Change of behavior
+------------------
+
+- #019024: Mixed up class attribute IDs after re-order
+
+  Content class edit form inputs have been changed for class attributes.
+  They are now indexed by attribute ID instead of raw numeric index.
+  Override templates for *content/class/edit.tpl* must thus be changed in the same way.
+
+
+Removed features
+----------------
+
+
+
+
+Removed constants
+-----------------
+
+
+
+Removed globals
+---------------
+
+
+
+
+Deprecated
+----------
+
+
