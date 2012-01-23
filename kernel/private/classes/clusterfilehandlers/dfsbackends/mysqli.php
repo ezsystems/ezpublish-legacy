@@ -46,7 +46,6 @@ CREATE TABLE ezdfscachefile (
   KEY ezdfsfilecache_expired_name (expired,`name`(250))
 ) ENGINE=InnoDB;
  */
- */
 
 class eZDFSFileHandlerMySQLiBackend
 {
