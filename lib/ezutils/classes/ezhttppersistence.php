@@ -43,7 +43,7 @@ class eZHTTPPersistence
     {
         if ( $is_array )
         {
-            for ( $i = 0; $i < count( $objects ); ++$i )
+            for ( $i = 0, $iMax = count( $objects ); $i < $iMax; ++$i )
             {
                 $object = $objects[$i];
                 $index = is_string( $indexField ) ? $indexField : $i;
