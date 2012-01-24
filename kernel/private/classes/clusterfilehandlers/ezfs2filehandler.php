@@ -445,9 +445,10 @@ class eZFS2FileHandler extends eZFSFileHandler
     {
         if ( $this->realFilePath === null )
         {
-            eZDebugSetting::writeDebug( 'kernel-clustering', "$this->filePath is not generating", "dfs::endCacheGeneration( '{$this->filePath}' )" );
+            eZDebugSetting::writeDebug( 'kernel-clustering', "$this->filePath is not generating", "fs2::endCacheGeneration( '{$this->filePath}' )" );
             return false;
         }
+
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
         $ret = false;
