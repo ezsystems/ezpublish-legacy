@@ -790,6 +790,31 @@ class eZFS2FileHandler extends eZFSFileHandler
     {
         return true;
     }
+
+    /**
+     * Check if given file/dir exists.
+     *
+     * NOTE: this function does not interact with filesystem.
+     * Instead, it just returns existance status determined in the constructor.
+     *
+     * \public
+     */
+    function exists()
+    {
+        $path = $this->filePath;
+        if ( isset( $this->metaData['mtime'] ) )
+        {
+            $return = ( $this->metaData['mtime'] != self::EXPIRY_TIMESTAMP );
+        }
+        else
+        {
+            $return = false;
+        }
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs2::exists( '$path' ): " . ( $return ? 'true' :'false' ), __METHOD__ );
+        return $return;
+    }
+
+
     /**
      * holds the real file path. This is only used when we are generating a cache
      * file, in which case $filePath holds the generating cache file name,
