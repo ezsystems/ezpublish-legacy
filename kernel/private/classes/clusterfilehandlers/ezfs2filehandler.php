@@ -443,6 +443,11 @@ class eZFS2FileHandler extends eZFSFileHandler
      */
     public function endCacheGeneration( $rename = true)
     {
+        if ( $this->realFilePath === null )
+        {
+            eZDebugSetting::writeDebug( 'kernel-clustering', "$this->filePath is not generating", "dfs::endCacheGeneration( '{$this->filePath}' )" );
+            return false;
+        }
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
         $ret = false;
