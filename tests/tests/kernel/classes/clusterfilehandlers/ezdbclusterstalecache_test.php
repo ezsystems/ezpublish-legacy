@@ -41,9 +41,6 @@ class eZDBClusterStaleCacheTest extends eZClusterStaleCacheTest
 
         // Load database parameters for cluster
         // The same DSN than the relational database is used
-        $fileINI = eZINI::instance( 'file.ini' );
-        $this->previousFileHandler = $fileINI->variable( 'ClusteringSettings', 'FileHandler' );
-        $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', 'eZDBFileHandler' );
 
         $dsn = ezpTestRunner::dsn()->parts;
         switch ( $dsn['phptype'] )
@@ -63,13 +60,15 @@ class eZDBClusterStaleCacheTest extends eZClusterStaleCacheTest
             default:
                 $this->markTestSkipped( "Unsupported database type '{$dsn['phptype']}'" );
         }
-        $fileINI->setVariable( 'ClusteringSettings', 'DBBackend',  $backend );
-        $fileINI->setVariable( 'ClusteringSettings', 'DBHost',     $dsn['host'] );
-        $fileINI->setVariable( 'ClusteringSettings', 'DBPort',     $dsn['port'] );
-        $fileINI->setVariable( 'ClusteringSettings', 'DBSocket',   $dsn['socket'] );
-        $fileINI->setVariable( 'ClusteringSettings', 'DBName',     $dsn['database'] );
-        $fileINI->setVariable( 'ClusteringSettings', 'DBUser',     $dsn['user'] );
-        $fileINI->setVariable( 'ClusteringSettings', 'DBPassword', $dsn['password'] );
+
+        ezpINIHelper::setINISetting( 'file.ini', 'ClusteringSettings', 'FileHandler', 'eZDBFileHandler' );
+        ezpINIHelper::setINISetting( 'file.ini', 'ClusteringSettings', 'DBHost', $dsn['host'] );
+        ezpINIHelper::setINISetting( 'file.ini', 'ClusteringSettings', 'DBPort', $dsn['port'] );
+        ezpINIHelper::setINISetting( 'file.ini', 'ClusteringSettings', 'DBSocket', $dsn['socket'] );
+        ezpINIHelper::setINISetting( 'file.ini', 'ClusteringSettings', 'DBName', $dsn['database'] );
+        ezpINIHelper::setINISetting( 'file.ini', 'ClusteringSettings', 'DBUser', $dsn['user'] );
+        ezpINIHelper::setINISetting( 'file.ini', 'ClusteringSettings', 'DBPassword', $dsn['password'] );
+        ezpINIHelper::setINISetting( 'file.ini', 'ClusteringSettings', 'DBBackend', $backend );
 
         // ezpTestDatabaseHelper::insertSqlData( $this->sharedFixture, $this->sqlFiles );
 
@@ -78,15 +77,10 @@ class eZDBClusterStaleCacheTest extends eZClusterStaleCacheTest
 
     public function tearDown()
     {
-        // restore the previous file handler
-        if ( $this->previousFileHandler !== null )
-        {
-            $fileINI = eZINI::instance( 'file.ini' );
-            $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', $this->previousFileHandler );
-            $this->previousFileHandler = null;
-            if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) )
-                unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
-        }
+        ezpINIHelper::restoreINISettings();
+
+        if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) )
+            unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
 
         parent::tearDown();
     }

@@ -35,22 +35,15 @@ class eZFS2ClusterStaleCacheTest extends eZClusterStaleCacheTest
 
         // Load database parameters for cluster
         // The same DSN than the relational database is used
-        $fileINI = eZINI::instance( 'file.ini' );
-        $this->previousFileHandler = $fileINI->variable( 'ClusteringSettings', 'FileHandler' );
-        $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', $this->clusterClass );
+        ezpINIHelper::setINISetting( 'file.ini', 'ClusteringSettings', 'FileHandler', $this->clusterClass );
     }
 
     public function tearDown()
     {
-        // restore the previous file handler
-        if ( $this->previousFileHandler !== null )
-        {
-            $fileINI = eZINI::instance( 'file.ini' );
-            $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', $this->previousFileHandler );
-            $this->previousFileHandler = null;
-            if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) )
-                unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
-        }
+        ezpINIHelper::restoreINISettings();
+
+        if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) )
+            unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
 
         parent::tearDown();
     }

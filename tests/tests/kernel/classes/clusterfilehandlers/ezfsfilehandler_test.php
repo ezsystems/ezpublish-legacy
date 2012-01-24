@@ -15,14 +15,7 @@
  */
 class eZFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
 {
-    /**
-     * @var eZINI
-     */
-    protected $fileINI;
-
     protected $backupGlobals = false;
-
-    protected $previousFileHandler;
 
     protected $clusterClass = 'eZFSFileHandler';
 
@@ -42,21 +35,14 @@ class eZFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
 
         // Load database parameters for cluster
         // The same DSN than the relational database is used
-        $fileINI = eZINI::instance( 'file.ini' );
-        $this->previousFileHandler = $fileINI->variable( 'ClusteringSettings', 'FileHandler' );
-        $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', 'eZFSFileHandler' );
+        ezpINIHelper::setINISetting( 'file.ini', 'ClusteringSettings', 'FileHandler', $this->clusterClass );
     }
 
     public function tearDown()
     {
-        // restore the previous file handler
-        if ( $this->previousFileHandler !== null )
-        {
-            $fileINI = eZINI::instance( 'file.ini' );
-            $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', $this->previousFileHandler );
-            $this->previousFileHandler = null;
-            eZClusterFileHandler::$globalHandler = null;
-        }
+        ezpINIHelper::restoreINISettings();
+
+        eZClusterFileHandler::$globalHandler = null;
 
         parent::tearDown();
     }

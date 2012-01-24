@@ -28,8 +28,6 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
      **/
     protected $sqlFiles = array( 'kernel/sql/', 'cluster_dfs_schema.sql' );
 
-    protected $previousFileHandler;
-
     protected $clusterClass = 'eZDFSFileHandler';
 
     /* // Commented since __construct breaks data providers
@@ -49,8 +47,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
     {
         parent::setUp();
 
-        $this->previousFileHandler = eZINI::instance()->variable( 'ClusteringSettings', 'FileHandler' );
-        self::setUpDatabase();
+        self::setUpDatabase( $this->clusterClass );
 
         if ( !file_exists( self::$DFSPath ) )
         {
@@ -61,7 +58,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
         $this->db = eZDB::instance();
     }
 
-    public function setUpDatabase()
+    public static function setUpDatabase()
     {
         $dsn = ezpTestRunner::dsn()->parts;
         switch ( $dsn['phptype'] )
@@ -79,7 +76,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
                 break;
 
             default:
-                $this->markTestSkipped( "Unsupported database type '{$dsn['phptype']}'" );
+                self::markTestSkipped( "Unsupported database type '{$dsn['phptype']}'" );
         }
 
         // We need to clear the existing handler if it was loaded before the INI
@@ -93,30 +90,23 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
         // Load database parameters for cluster
         // The same DSN than the relational database is used
-        $fileINI = eZINI::instance( 'file.ini' );
-        $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', 'eZDFSFileHandler' );
-
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBHost',         $dsn['host'] );
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBPort',         $dsn['port'] );
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBSocket',       $dsn['socket'] );
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBName',         $dsn['database'] );
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBUser',         $dsn['user'] );
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBPassword',     $dsn['password'] );
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'MountPointPath', self::getDfsPath() );
-        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBBackend',      $backend );
+        ezpINIHelper::setINISetting( 'file.ini', 'ClusteringSettings', 'FileHandler', 'eZDFSFileHandler' );
+        ezpINIHelper::setINISetting( 'file.ini', 'eZDFSClusteringSettings', 'DBHost', $dsn['host'] );
+        ezpINIHelper::setINISetting( 'file.ini', 'eZDFSClusteringSettings', 'DBPort', $dsn['port'] );
+        ezpINIHelper::setINISetting( 'file.ini', 'eZDFSClusteringSettings', 'DBSocket', $dsn['socket'] );
+        ezpINIHelper::setINISetting( 'file.ini', 'eZDFSClusteringSettings', 'DBName', $dsn['database'] );
+        ezpINIHelper::setINISetting( 'file.ini', 'eZDFSClusteringSettings', 'DBUser', $dsn['user'] );
+        ezpINIHelper::setINISetting( 'file.ini', 'eZDFSClusteringSettings', 'DBPassword', $dsn['password'] );
+        ezpINIHelper::setINISetting( 'file.ini', 'eZDFSClusteringSettings', 'MountPointPath', self::getDfsPath() );
+        ezpINIHelper::setINISetting( 'file.ini', 'eZDFSClusteringSettings', 'DBBackend', $backend );
     }
 
     public function tearDown()
     {
-        // restore the previous file handler
-        if ( $this->previousFileHandler !== null )
-        {
-            $fileINI = eZINI::instance( 'file.ini' );
-            $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', $this->previousFileHandler );
-            $this->previousFileHandler = null;
-            if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) )
-                unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
-        }
+        ezpINIHelper::restoreINISettings();
+
+        if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) )
+            unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
 
         if ( $this->haveToRemoveDFSPath )
         {

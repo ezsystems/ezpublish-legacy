@@ -21,13 +21,6 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
 
     protected $backupGlobals = false;
 
-    protected $previousFileHandler;
-
-    /**
-     * @var eZINI
-     **/
-    protected $fileINI;
-
     public function setUp()
     {
         // Verify that the clusterClass for each implementation is properly defined
