@@ -25,6 +25,7 @@ class eZFS2FileHandlerTest extends eZClusterFileHandlerAbstractTest
      **/
     public function setUp()
     {
+        $this->markTestSkipped( "Tests skipped until eZFS2 becomes more stable" );
         parent::setUp();
 
         // We need to clear the existing handler if it was loaded before the INI
