@@ -210,7 +210,7 @@ abstract class ezpRestMvcController extends ezcMvcController
 
                     $methods = implode( ", ", $methods );
 
-                    $res = new ezcMvcResult();
+                    $res = new ezpRestMvcResult();
                     $res->status = new ezpRestStatusResponse(
                         $isOptionsMethod ? 200 : 405,
                         ( $isOptionsMethod ? "Allowed methods are : " : "This method is not supported, allowed methods are: " ) . $methods,
