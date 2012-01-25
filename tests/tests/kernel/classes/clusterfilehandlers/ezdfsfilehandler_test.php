@@ -135,7 +135,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
      */
     protected function DBFileExists( $filePath )
     {
-        $escapedFilePath = mysql_real_escape_string( $filePath );
+        $escapedFilePath = $this->db->escapeString( $filePath );
         $sql = "SELECT * FROM " . eZDFSFileHandlerMySQLBackend::TABLE_METADATA .
                " WHERE name_hash = MD5('{$escapedFilePath}')";
         $rows = $this->db->arrayQuery( $sql );
@@ -152,7 +152,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
      */
     protected function DBFileExistsAndIsValid( $filePath )
     {
-        $escapedFilePath = mysql_real_escape_string( $filePath );
+        $escapedFilePath = $this->db->escapeString( $filePath );
         $sql = "SELECT * FROM " . eZDFSFileHandlerMySQLBackend::TABLE_METADATA .
                " WHERE name LIKE '{$escapedFilePath}'";
         $rows = $this->db->arrayQuery( $sql );
