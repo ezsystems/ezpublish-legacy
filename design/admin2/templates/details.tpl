@@ -10,6 +10,8 @@
     <th class="tight">{'Translations'|i18n( 'design/admin/node/view/full' )}</th>
     <th class="tight">{'Node ID'|i18n( 'design/admin/node/view/full' )}</th>
     <th class="tight">{'Object ID'|i18n( 'design/admin/node/view/full' )}</th>
+    <th class="tight">{'Node Remote ID'|i18n( 'design/admin/node/view/full' )}</th>
+    <th class="tight">{'Object Remote ID'|i18n( 'design/admin/node/view/full' )}</th>
 </tr>
 <tr class="bglight">
     <td><a href={$node.object.owner.main_node.url_alias|ezurl}>{$node.object.owner.name|wash}</a></td>
@@ -19,6 +21,8 @@
     <td class="number" align="right">{$node.contentobject_version_object.language_list|count}</td>
     <td class="number" align="right">{$node.node_id}</td>
     <td class="number" align="right">{$node.object.id}</td>
+    <td>{$node.remote_id}</td>
+    <td>{$node.object.remote_id}</td>
 </tr>
 </table>
 </div>
