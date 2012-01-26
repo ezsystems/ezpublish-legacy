@@ -127,10 +127,22 @@ class ezjscServerFunctionsJs extends ezjscServerFunctions
      */
     public static function yui3conf( $args )
     {
-        if ( isset( $args[0] ) )
-            return 'var YUI3_config = { \'base\' : \'' . self::getDesignFile( $args[0] ) . '\', modules: {}, combine: false };';
+        $options = eZINI::instance( 'ezjscore.ini' )->variable( 'YUI3', 'LoaderOptions' );
 
-        return 'var YUI3_config = { modules: {} };';
+        if ( isset( $args[0] ) )
+        {
+            $options['base'] = self::getDesignFile( $args[0] );
+            if ( !isset( $options['combine'] ) )
+            {
+                $options['combine'] = false;
+            }
+        }
+        if ( !isset( $options['modules'] ) )
+        {
+            $options['modules'] = new stdClass;
+        }
+
+        return 'var YUI3_config = ' . json_encode( $options ) . ';';
     }
 
     /**
