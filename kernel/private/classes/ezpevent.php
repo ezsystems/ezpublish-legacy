@@ -53,6 +53,12 @@ class ezpEvent
             $listeners = eZINI::instance()->variable( 'Event', 'Listeners' );
             foreach ( $listeners as $listener )
             {
+                // $listener may be empty if some override logic has been involved
+                if ($listener == "")
+                {
+                    continue;
+                }
+
                 // format from ini is seperated by @
                 list( $event, $callback ) = explode( '@', $listener );
                 $this->attach( $event, $callback );
