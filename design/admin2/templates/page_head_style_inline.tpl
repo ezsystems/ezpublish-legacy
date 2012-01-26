@@ -20,7 +20,7 @@
 <![endif]-->
 <!--[if IE 6]>
 <style>
-.scroll-to-top {display: none;}
+.yui3-js-enabled .scroll-to-top {display: none;}
 </style>
 <![endif]-->
 {/literal}
