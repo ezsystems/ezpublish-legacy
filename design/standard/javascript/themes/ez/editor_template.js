@@ -194,6 +194,16 @@
                     alignfull : {selector : alignElements, attributes : {align : 'full'}}
                 });
                 // End eZ: alignment customizations
+
+                // eZ: make sure the HTML is up to date when leaving the editor
+                tinymce.dom.Event.add(ed.getWin(), 'blur', function (e) {
+                    tinymce.triggerSave();
+                });
+            });
+
+            // eZ: regularly update the textarea
+            ed.onChange.add(function(ed) {
+                tinymce.triggerSave();
             });
 
             ed.onSetProgressState.add(function(ed, b, ti) {
