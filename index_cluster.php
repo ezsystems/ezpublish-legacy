@@ -77,6 +77,7 @@ if ( $tries == $maxTries )
     _die( "Unable to connect to storage server" );
 }
 
+// @todo Use parse_url()
 $filename = ltrim( $_SERVER['REQUEST_URI'], '/' );
 if ( ( $queryPos = strpos( $filename, '?' ) ) !== false )
     $filename = substr( $filename, 0, $queryPos );
@@ -115,7 +116,8 @@ if ( CLUSTER_HEADER_X_POWERED_BY !== false)
 if ( CLUSTER_ENABLE_HTTP_CACHE )
 {
     header( "ETag: $mtime-$filesize" );
-    foreach ( $_SERVER as $header => $value )
+    $serverVariables = array_change_key_case( $_SERVER, CASE_UPPER );
+    foreach ( $serverVariables as $header => $value )
     {
         $header = strtoupper( $header );
         switch( $header )
