@@ -17,7 +17,7 @@ abstract class ezpClusterGateway
      * Database instance, optional
      * @var mixed
      */
-    private $db;
+    protected $db;
 
     /**
      * Sets, if required, the database instance to $db
