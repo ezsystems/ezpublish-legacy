@@ -20,15 +20,6 @@ abstract class ezpClusterGateway
     protected $db;
 
     /**
-     * Sets, if required, the database instance to $db
-     * @param mixed $db
-     */
-    function setDatabase( $db )
-    {
-        $this->db = $db;
-    }
-
-    /**
      * Returns the database default connexion port
      * @return int
      */
