@@ -64,7 +64,7 @@ class eZSimpleTagsOperator
         }
     }
 
-    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters, $placement )
     {
         $elements = preg_split( "#(</?[a-zA-Z0-9_-]+>)#",
                                 $operatorValue,
