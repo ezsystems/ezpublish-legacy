@@ -745,9 +745,11 @@ class eZFS2FileHandler extends eZFSFileHandler
         {
             case 'cacheType':
             {
-                if ( $this->cacheType === null )
-                    $this->cacheType = $this->_cacheType();
-                return $this->cacheType;
+                if ( $this->internalCacheType === null )
+                {
+                    $this->internalCacheType = $this->_cacheType();
+                }
+                return $this->internalCacheType;
             } break;
         }
     }
@@ -862,6 +864,6 @@ class eZFS2FileHandler extends eZFSFileHandler
      *
      * @var string|null
      */
-    protected $cacheType = null;
+    protected $internalCacheType = null;
 }
 ?>
