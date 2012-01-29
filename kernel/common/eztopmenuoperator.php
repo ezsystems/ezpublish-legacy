@@ -75,7 +75,7 @@ class eZTopMenuOperator
                                           'default' => false ) );
     }
 
-    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters, $placement )
     {
 
         $ini = eZINI::instance( 'menu.ini' );

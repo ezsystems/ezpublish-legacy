@@ -51,7 +51,7 @@ class eZPDF
     /*!
      Display the variable.
     */
-    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters, $placement )
     {
         $config = eZINI::instance( 'pdf.ini' );
 

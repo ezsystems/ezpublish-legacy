@@ -56,7 +56,7 @@ class eZContentStructureTreeOperator
                                                'default' => 0 ) );
     }
 
-    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters, $placement )
     {
         $sortArray = false;
         $fetchHidden = false;
