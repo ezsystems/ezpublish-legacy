@@ -23,6 +23,19 @@
 </table>
 </div>
 
+<div class="block">
+<table class="list" cellspacing="0" summary="{'Node Remote ID and Object Remote ID'|i18n( 'design/admin/node/view/full' )}">
+    <tr>
+        <th>{'Node Remote ID'|i18n( 'design/admin/node/view/full' )}</th>
+        <th>{'Object Remote ID'|i18n( 'design/admin/node/view/full' )}</th>
+    </tr>
+    <tr>
+         <td>{$node.remote_id|wash}</td>
+         <td>{$node.object.remote_id|wash}</td>
+    </tr>
+</table>
+</div>
+
 <br />
 
 <div class="block">
