@@ -279,7 +279,10 @@ class ezjscAjaxContent
 
             $operatorName = 'class_icon';
 
-            $operator->modify( $tpl, $operatorName, $operatorParameters, '', '', $operatorValue, $namedParameters );
+            $operator->modify(
+                $tpl, $operatorName, $operatorParameters, '', '',
+                $operatorValue, $namedParameters, array()
+            );
 
             $ret['class_icon'] = $operatorValue;
         }
