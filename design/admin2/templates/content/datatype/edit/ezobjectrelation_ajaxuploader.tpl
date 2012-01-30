@@ -7,7 +7,7 @@
             title="{'Upload a file to create a new object and add it to the relation'|i18n( 'design/admin2/content/datatype' )}" />
 
     {run-once}
-    {ezscript_require( 'ezjsc::yui3', 'ezjsc::yui3io', 'ezmodalwindow.js', 'ezajaxuploader.js' )}
+    {ezscript_require( array( 'ezjsc::yui3', 'ezjsc::yui3io', 'ezmodalwindow.js', 'ezajaxuploader.js' ) )}
     <div id="relation-modal-window" class="modal-window" style="display:none;">
         <h2><a href="#" class="window-close">{'Close'|i18n( 'design/admin/pagelayout' )}</a><span></span></h2>
         <div class="window-content"></div>
