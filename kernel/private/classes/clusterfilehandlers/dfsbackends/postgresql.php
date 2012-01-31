@@ -567,7 +567,6 @@ class eZDFSFileHandlerPostgresqlBackend
             eZDebug::writeError( "File '$filePath' does not exist while trying to fetch.", __METHOD__ );
             return false;
         }
-        $contentLength = $metaData['size'];
 
         // create temporary file
         if ( strrpos( $filePath, '.' ) > 0 )
@@ -619,7 +618,6 @@ class eZDFSFileHandlerPostgresqlBackend
             eZDebug::writeError( "File '$filePath' does not exist while trying to fetch its contents.", __METHOD__ );
             return false;
         }
-        $contentLength = $metaData['size'];
 
         // @todo Catch an exception
         if ( !$contents = $this->dfsbackend->getContents( $filePath ) )
