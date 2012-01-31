@@ -36,9 +36,8 @@ YUI(YUI3_config).use('ezcollapsiblemenu', 'event', 'io-ez', function (Y) {
                 selector: '#maincontent',
                 duration: 0.4,
                 // workaround to http://yuilibrary.com/projects/yui3/ticket/2531641
-                // for IE, margin has to be set in px, so we take the right padding of #mainconten
-                // to convert 1em in pixels.
-                fullStyle: {marginLeft: parseFloat(Y.one('#maincontent').getStyle('paddingRight')) * 15 + 'px'},
+                // for IE, margin has to be set in px
+                fullStyle: {marginLeft: Y.one('#leftmenu').getStyle('width')},
                 collapsedStyle: {marginLeft: '20px'}
             }],
             callback: function () {
