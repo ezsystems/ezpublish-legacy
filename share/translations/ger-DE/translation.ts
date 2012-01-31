@@ -4289,7 +4289,7 @@
     </message>
     <message>
         <source>There are no items in the trash</source>
-        <translation>Es sind keine Gegenstände im Papierkorb</translation>
+        <translation>Es sind keine Objekte im Papierkorb</translation>
     </message>
     <message>
         <source>Name</source>
@@ -8599,7 +8599,7 @@ Hinweis: Die Pakete werden nicht deinstalliert.</translation>
     </message>
     <message>
         <source>There is %basket_count item in the shopping basket.</source>
-        <translation>Es ist %basket_count Gegenstand im Warenkorb.</translation>
+        <translation>Es ist %basket_count Artikel im Warenkorb.</translation>
     </message>
     <message>
         <source>Shopping basket (%basket_count)</source>
@@ -8607,7 +8607,7 @@ Hinweis: Die Pakete werden nicht deinstalliert.</translation>
     </message>
     <message>
         <source>There are %basket_count items in the shopping basket.</source>
-        <translation>Es sind %basket_count Gegenstände im Warenkorb.</translation>
+        <translation>Es sind %basket_count Artikel im Warenkorb.</translation>
     </message>
     <message>
         <source>Logout from the system.</source>
@@ -22800,7 +22800,7 @@ Falls Sie das machen, werden die Unterelemente ebenfalls entfernt.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove these items?</source>
-        <translation type="obsolete">Sind Sie sicher, dass Sie diese Gegenstände entfernen wollen?</translation>
+        <translation type="obsolete">Sind Sie sicher, dass Sie diese Objekte entfernen wollen?</translation>
     </message>
     <message>
         <source>%nodename and its %childcount children. %additionalwarning</source>
@@ -22816,7 +22816,7 @@ Falls Sie das machen, werden die Unterelemente ebenfalls entfernt.</translation>
     </message>
     <message>
         <source>If %trashname is checked you will find the removed items in the trash afterwards.</source>
-        <translation type="obsolete">Wenn %trashname ausgewählt ist, werden Sie die entfernten Gegenstände später im Papierkorb finden.</translation>
+        <translation type="obsolete">Wenn %trashname ausgewählt ist, werden Sie die entfernten Objekte später im Papierkorb finden.</translation>
     </message>
     <message>
         <source>Note</source>
@@ -29201,7 +29201,7 @@ Um das zu tun, müssen Sie die %chown Kommandos unter den alternativen Shell-Bef
     </message>
     <message>
         <source>Subtotal of items:</source>
-        <translation type="obsolete">Zwischensumme der Gegenstände:</translation>
+        <translation type="obsolete">Zwischensumme der Artikel:</translation>
     </message>
     <message>
         <source>Order total:</source>
@@ -29213,7 +29213,7 @@ Um das zu tun, müssen Sie die %chown Kommandos unter den alternativen Shell-Bef
     </message>
     <message>
         <source>Remove items</source>
-        <translation>Entferne Gegenstände</translation>
+        <translation>Entferne Artikel</translation>
     </message>
     <message>
         <source>Selected options</source>
@@ -31439,7 +31439,7 @@ Bitte folgen Sie den Hinweisen in der Email, um Ihr Konto zu aktivieren.</transl
     <name>design/starndard/node</name>
     <message>
         <source>Are you sure you want to remove these items?</source>
-        <translation type="unfinished">Sind Sie sicher, dass Sie diese Gegenstände entfernen wollen?</translation>
+        <translation type="unfinished">Sind Sie sicher, dass Sie diese Objekte entfernen wollen?</translation>
     </message>
 </context>
 <context>

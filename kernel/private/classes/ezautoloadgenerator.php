@@ -1318,62 +1318,61 @@ END;
      */
     public function buildPHPUnitConfigurationFile()
     {
-        if ( $this->mask & self::MODE_TESTS )
+        if ( ~$this->mask & self::MODE_TESTS )
         {
-            $this->log( 'Creating phpunit configuration file.' );
+            return;
+        }
 
+        $this->log( 'Creating phpunit configuration file.' );
 
+        $dom = new DOMDocument( '1.0', 'utf-8' );
+        $dom->formatOutput = true;
 
-            $dom = new DOMDocument( '1.0', 'utf-8' );
-            $dom->formatOutput = true;
+        $baseDir = getcwd();
+        $filter = $dom->createElement( 'filter' );
+        $blacklist = $dom->createElement( 'blacklist' );
 
-            $baseDir = getcwd();
-            $root = $dom->createElement( 'phpunit' );
-            $filter = $dom->createElement( 'filter' );
-            $blacklist = $dom->createElement( 'blacklist' );
-            $directory = $dom->createElement( 'directory', $baseDir . DIRECTORY_SEPARATOR . 'tests' );
+        /* PHPUnit docs says we should either use whitelist or blacklist ( if a whitelist exists, the blacklsit will be ignored )
+         * Since whitelisting only works on source files containing classes, we base this on blacklisting
+         */
+        /*
+        $whitelist = $dom->createElement( 'whitelist' );
+        $autoloadArray = @include 'autoload/ezp_kernel.php';
+        foreach ( $autoloadArray as $class => $filename )
+        {
+            $file = $dom->createElement( 'file', $baseDir . DIRECTORY_SEPARATOR . $filename );
+            $whitelist->appendChild($file);
+        }
+        $filter->appendChild($whitelist);
+        */
 
-            /* PHPUnit docs says we should either use whitelist or blacklist ( if a whitelist exists, the blacklsit will be ignored )
-             * Since whitelisting only works on source files containing classes, we base this on blacklisting
-             */
-            /*
-            $whitelist = $dom->createElement( 'whitelist' );
-            $autoloadArray = @include 'autoload/ezp_kernel.php';
-            foreach ( $autoloadArray as $class => $filename )
+        //Blacklist tests in extension/
+        $extensionDir = $this->options->basePath . '/extension';
+
+        if ( file_exists( $extensionDir ) )
+        {
+            foreach ( scandir( $extensionDir ) as $file )
             {
-                $file = $dom->createElement( 'file', $baseDir . DIRECTORY_SEPARATOR . $filename );
-                $whitelist->appendChild($file);
-            }
-            $filter->appendChild($whitelist);
-            */
-
-            //Blacklist tests in extension/
-            $directoryEntries = scandir( $this->options->basePath . DIRECTORY_SEPARATOR . 'extension' );
-            foreach( $directoryEntries as $file )
-            {
-                if( ( $file === '.' ) or ( $file === '..' ) )
+                if ( ( $file === '.' ) || ( $file === '..' ) )
                     continue;
-                $testDirectory = $this->options->basePath . DIRECTORY_SEPARATOR . 'extension' . DIRECTORY_SEPARATOR . $file . DIRECTORY_SEPARATOR . 'tests';
-                if( file_exists( $testDirectory ) )
-                {
-                    if( is_dir ( $testDirectory ) )
-                    {
-                        $directoryElement = $dom->createElement( 'directory', $testDirectory );
-                        $blacklist->appendChild( $directoryElement );
 
-                    }
+                $testDirectory = "$extensionDir/$file/tests";
+                if ( is_dir( $testDirectory ) )
+                {
+                    $blacklist->appendChild( $dom->createElement( 'directory', $testDirectory ) );
                 }
             }
-
-            $blacklist->appendChild( $directory );
-            $filter->appendChild( $blacklist );
-            $root->appendChild( $filter );
-            $dom->appendChild( $root );
-
-            file_put_contents( $baseDir . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'phpunit.xml', $dom->saveXML() );
-
-            return $dom;
         }
+
+        $blacklist->appendChild( $dom->createElement( 'directory', "$baseDir/tests" ) );
+        $filter->appendChild( $blacklist );
+        $root = $dom->createElement( 'phpunit' );
+        $root->appendChild( $filter );
+        $dom->appendChild( $root );
+
+        file_put_contents( "$baseDir/tests/phpunit.xml", $dom->saveXML() );
+
+        return $dom;
     }
 
 }

@@ -89,5 +89,15 @@
        </div>
    {/if}
    {/default}
+{else}
+{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri=$page_uri
+         page_uri_suffix=$page_uri_suffix
+         item_count=$item_count
+         view_parameters=$view_parameters
+         node_id=$node_id
+         item_limit=$item_limit}
+
 {/if}
 {/default}

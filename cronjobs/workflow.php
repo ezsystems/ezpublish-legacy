@@ -46,10 +46,10 @@ foreach( $workflowProcessList as $process )
              $process->attribute( 'status' ) == eZWorkflow::STATUS_BUSY
            )
         {
-            $bodyMemento = eZOperationMemento::fetchMain( $process->attribute( 'memento_key' ) );
-            $mementoList = eZOperationMemento::fetchList( $process->attribute( 'memento_key' ) );
-            $bodyMemento->remove();
-            foreach( $mementoList as $memento )
+            if ( $bodyMemento = eZOperationMemento::fetchMain( $process->attribute( 'memento_key' ) ) )
+                $bodyMemento->remove();
+
+            foreach ( eZOperationMemento::fetchList( $process->attribute( 'memento_key' ) ) as $memento )
             {
                 $memento->remove();
             }

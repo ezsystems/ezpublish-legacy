@@ -4,10 +4,11 @@
 <input class="defaultbutton hide" type="submit" id="ezedit-default-button" name="PublishButton" value="{'Send for publishing'|i18n( 'design/admin/content/edit' )}" />
 
 {* Current gui locale, to be used for class [attribute] name & description fields *}
-{def $content_language = ezini( 'RegionalSettings', 'Locale' )}
+{def $content_language = ezini( 'RegionalSettings', 'Locale' )
+     $edit_menu_collapsed = cond( ezpreference( 'admin_edit_menu_collapsed' ), 1, 0 )}
 
-<div id="leftmenu">
-<a id="objectinfo-showhide" class="show-hide-control" title="{'Show / Hide leftmenu'|i18n( 'design/admin/pagelayout/leftmenu' )}" href="#">&laquo;</a>
+<div id="leftmenu"{if $edit_menu_collapsed} style="margin-left:-13.5em;"{/if}>
+<a id="objectinfo-showhide" class="show-hide-control" title="{'Show / Hide leftmenu'|i18n( 'design/admin/pagelayout/leftmenu' )}" href="#">{cond( $edit_menu_collapsed, "&raquo;", "&laquo;" )}</a>
 <div id="leftmenu-design">
 
 {include uri='design:content/edit_menu.tpl'}
@@ -17,13 +18,15 @@
 <script type="text/javascript">
 {literal}
 
-YUI(YUI3_config).use('ezcollapsiblemenu', 'event', function (Y) {
+YUI(YUI3_config).use('ezcollapsiblemenu', 'event', 'io-ez', function (Y) {
 
     Y.on('domready', function () {
         var leftmenu = new Y.eZ.CollapsibleMenu({
             link: '#objectinfo-showhide',
             content: ['&laquo;', '&raquo;'],
-            collapsed: 0,
+{/literal}
+            collapsed: {$edit_menu_collapsed},
+{literal}
             elements:[{
                 selector: '#leftmenu',
                 duration: 0.4,
@@ -33,10 +36,14 @@ YUI(YUI3_config).use('ezcollapsiblemenu', 'event', function (Y) {
                 selector: '#maincontent',
                 duration: 0.4,
                 // workaround to http://yuilibrary.com/projects/yui3/ticket/2531641
-                // for IE, margin has to be set in px
-                fullStyle: {marginLeft: Y.one('#maincontent').getStyle('marginLeft')},
+                // for IE, margin has to be set in px, so we take the right padding of #mainconten
+                // to convert 1em in pixels.
+                fullStyle: {marginLeft: parseFloat(Y.one('#maincontent').getStyle('paddingRight')) * 15 + 'px'},
                 collapsedStyle: {marginLeft: '20px'}
-            }]
+            }],
+            callback: function () {
+                Y.io.ez.setPreference('admin_edit_menu_collapsed', this.conf.collapsed);
+            }
         });
     });
 
@@ -46,7 +53,7 @@ YUI(YUI3_config).use('ezcollapsiblemenu', 'event', function (Y) {
 </script>
 
 
-<div id="maincontent">
+<div id="maincontent"{if $edit_menu_collapsed} style="margin-left:20px"{/if}>
 <div id="maincontent-design" class="float-break"><div id="fix">
 
 

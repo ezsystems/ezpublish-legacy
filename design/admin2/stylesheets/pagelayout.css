@@ -84,12 +84,12 @@ a.image-text:hover > span
 #header-logo a, #header-logo span
 {
     float: left;
-    width: 110px;
+    width: 108px;
     height: 45px;
     display: block;
     text-align: left;
     text-decoration: none;
-    background: transparent url('../images/2/ez-logo-white.png') no-repeat 8px 8px scroll;
+    background: transparent url('../images/2/ez-logo-white.png') no-repeat 7px 7px scroll;
 }
 
 #header-search

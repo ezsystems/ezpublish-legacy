@@ -37,5 +37,6 @@ function showDatePicker( base, id, datatype )
         }
 
         this.hide();
+        txtYear[0].focus();
     }, window['cal'+id], true );
 }

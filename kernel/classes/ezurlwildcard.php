@@ -666,6 +666,24 @@ class eZURLWildcard extends eZPersistentObject
     {
         return include( $filepath );
     }
+
+    /**
+     * Checks if $uriString exists as a wildcard
+     *
+     * @param string $uriString
+     * @return boolean
+     */
+    public static function wildcardExists( $uriString )
+    {
+        $wildcardIndex = self::wildcardsIndex();
+        $uriString = self::matchRegexpCode( array( 'source_url' => $uriString ) );
+        if ( in_array( $uriString, $wildcardIndex ) )
+        {
+            return true;
+        }
+
+        return false;
+    }
 }
 
 ?>

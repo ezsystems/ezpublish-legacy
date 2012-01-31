@@ -1043,6 +1043,11 @@ class eZFSFileHandler
         return false;
     }
 
+    public function hasStaleCacheSupport()
+    {
+        return false;
+    }
+
     public $metaData = null;
     public $filePath;
 }

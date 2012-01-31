@@ -1,4 +1,4 @@
-YUI().use('event', 'node-screen', 'node-style', 'selector-css3', 'transition', function (Y) {
+YUI(YUI3_config).use('event', 'node-screen', 'node-style', 'selector-css3', 'transition', function (Y) {
 
     Y.on('domready', function() {
         var toolbar, formY, form, fixed = true, firstInput,

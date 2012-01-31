@@ -443,6 +443,12 @@ class eZFS2FileHandler extends eZFSFileHandler
      */
     public function endCacheGeneration( $rename = true)
     {
+        if ( $this->realFilePath === null )
+        {
+            eZDebugSetting::writeDebug( 'kernel-clustering', "$this->filePath is not generating", "fs2::endCacheGeneration( '{$this->filePath}' )" );
+            return false;
+        }
+
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
         $ret = false;
@@ -739,9 +745,11 @@ class eZFS2FileHandler extends eZFSFileHandler
         {
             case 'cacheType':
             {
-                if ( $this->cacheType === null )
-                    $this->cacheType = $this->_cacheType();
-                return $this->cacheType;
+                if ( $this->internalCacheType === null )
+                {
+                    $this->internalCacheType = $this->_cacheType();
+                }
+                return $this->internalCacheType;
             } break;
         }
     }
@@ -779,6 +787,35 @@ class eZFS2FileHandler extends eZFSFileHandler
     {
         return false;
     }
+
+    public function hasStaleCacheSupport()
+    {
+        return true;
+    }
+
+    /**
+     * Check if given file/dir exists.
+     *
+     * NOTE: this function does not interact with filesystem.
+     * Instead, it just returns existance status determined in the constructor.
+     *
+     * \public
+     */
+    function exists()
+    {
+        $path = $this->filePath;
+        if ( isset( $this->metaData['mtime'] ) )
+        {
+            $return = ( $this->metaData['mtime'] != self::EXPIRY_TIMESTAMP );
+        }
+        else
+        {
+            $return = false;
+        }
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs2::exists( '$path' ): " . ( $return ? 'true' :'false' ), __METHOD__ );
+        return $return;
+    }
+
 
     /**
      * holds the real file path. This is only used when we are generating a cache
@@ -827,6 +864,6 @@ class eZFS2FileHandler extends eZFSFileHandler
      *
      * @var string|null
      */
-    protected $cacheType = null;
+    protected $internalCacheType = null;
 }
 ?>

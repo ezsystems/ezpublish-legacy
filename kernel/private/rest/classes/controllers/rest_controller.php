@@ -196,10 +196,13 @@ abstract class ezpRestMvcController extends ezcMvcController
                     !isset( $this->supportedProtocols[$this->action][$this->request->protocol] )
                 )
                 {
-                    $methods = array_keys( $this->supportedProtocols[$this->action] );
-                    foreach ( $methods as &$method )
+                    if ( isset( $this->supportedProtocols[$this->action] ) )
                     {
-                        $method = strtoupper( str_replace( "http-", "", $method ) );
+                        $methods = array_keys( $this->supportedProtocols[$this->action] );
+                        foreach ( $methods as &$method )
+                        {
+                            $method = strtoupper( str_replace( "http-", "", $method ) );
+                        }
                     }
 
                     // OPTIONS method is always available
@@ -207,7 +210,7 @@ abstract class ezpRestMvcController extends ezcMvcController
 
                     $methods = implode( ", ", $methods );
 
-                    $res = new ezcMvcResult();
+                    $res = new ezpRestMvcResult();
                     $res->status = new ezpRestStatusResponse(
                         $isOptionsMethod ? 200 : 405,
                         ( $isOptionsMethod ? "Allowed methods are : " : "This method is not supported, allowed methods are: " ) . $methods,

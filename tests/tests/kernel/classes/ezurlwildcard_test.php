@@ -8,8 +8,30 @@
  * @package tests
  */
 
+/**
+ * @group urlWildcard
+ */
 class eZURLWildcardTest extends ezpDatabaseTestCase
 {
+    /**
+     * Array with following keys :
+     *  - source_url
+     *  - destination_url
+     *  - type
+     * @var array
+     */
+    private $wildcardRow;
+
+    /**
+     * @var eZURLWildcard[]
+     */
+    private $wildcards;
+
+    /**
+     * @var eZURLWildcard[]
+     */
+    private $wildcardObjects;
+
     /**
      * Test case setup
      * Changes INI settings that affect eZURLWildcard to known and predictable
@@ -40,6 +62,7 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
         $this->wildcardObjects["foobar/*/*"] = self::createWildcard( "foobar/*/*", '/', eZURLWildcard::TYPE_DIRECT );
         $this->wildcardObjects["testTranslate1/*/*"] = self::createWildcard( "testTranslate1/*/*", 'foobar/{1}/{2}', eZURLWildcard::TYPE_DIRECT );
         $this->wildcardObjects["testTranslate2/*/abc"] = self::createWildcard( "testTranslate2/*/abc", 'foobar/{1}', eZURLWildcard::TYPE_FORWARD );
+        $this->wildcardObjects["test/single-page"] = self::createWildcard( "test/single-page", 'foo/bar', eZURLWildcard::TYPE_FORWARD );
         eZURLWildcard::expireCache();
     }
 
@@ -354,6 +377,19 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
         $wildcard->store();
 
         return $wildcard;
+    }
+
+    /**
+     * @covers eZURLWildcard::wildcardExists
+     */
+    public function testWildcardExists()
+    {
+        self::assertFalse( eZURLWildcard::wildcardExists( __FUNCTION__ . md5( microtime() ) ) );
+        self::assertTrue(
+            eZURLWildcard::wildcardExists(
+                $this->wildcardObjects['test/single-page']->attribute( 'source_url' )
+            )
+        );
     }
 }
 ?>

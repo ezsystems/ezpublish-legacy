@@ -1271,11 +1271,11 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
      * Determines the cache type based on the path
      * @return string viewcache, cacheblock or misc
      */
-    protected function _cacheType()
+    protected function computeCacheType()
     {
-        if ( strstr( $this->filePath, 'cache/content' ) !== false )
+        if ( strpos( $this->filePath, 'cache/content' ) !== false )
             return 'viewcache';
-        elseif ( strstr( $this->filePath, 'cache/template-block' ) !== false )
+        elseif ( strpos( $this->filePath, 'cache/template-block' ) !== false )
             return 'cacheblock';
         else
             return 'misc';
@@ -1291,9 +1291,9 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
             case 'cacheType':
             {
                 static $cacheType = null;
-                if ( $cacheType == null )
-                    $cacheType = $this->_cacheType();
-                return $cacheType;
+                if ( $this->_cacheType == null )
+                    $this->_cacheType = $this->computeCacheType();
+                return $this->_cacheType;
             } break;
 
             case 'metaData':
@@ -1372,6 +1372,11 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
         return self::$dbbackend->expiredFilesList( $scopes, $limit, $expiry );
     }
 
+    public function hasStaleCacheSupport()
+    {
+        return true;
+    }
+
     /**
      * Database backend class
      * @var eZDBFileHandlerMysqlBackend
@@ -1433,6 +1438,12 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
      * @var int
      */
     protected $generationStartTimestamp = false;
+
+    /**
+     * Type of cache file, used by the nameTrunk feature to determine how nametrunk is computed
+     * @var string
+     */
+    protected $_cacheType;
 
 }
 ?>

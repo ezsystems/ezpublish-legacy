@@ -166,13 +166,13 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
         // If a post param "_method" is set to either PUT or DELETE, then ->protocol is changed to that.
         // (original protocol is kept on ->originalProtocol param)
         // Post is used as this is only meant for forms in legacy browsers.
-        if ( $req->protocol === 'http-post' && isset( $req->post['_method'] ) )
+        if ( $req->protocol === 'http-post' && isset( $_POST['_method'] ) )
         {
-            $method = strtolower( $req->post['_method'] );
+            $method = strtolower( $_POST['_method'] );
             if ( $method  === 'put' || $method === 'delete' )
                 $req->protocol = "http-{$method}";
 
-            unset( $req->post['_method'] );
+            unset( $_POST['_method'] );
         }
     }
 

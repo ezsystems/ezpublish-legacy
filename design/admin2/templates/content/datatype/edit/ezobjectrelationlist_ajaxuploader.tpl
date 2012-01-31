@@ -11,7 +11,7 @@
             title="{'Upload a file to create a new object and add it to the relation'|i18n( 'design/admin2/content/datatype' )}" />
 
     {run-once}
-    {ezscript_require( 'ezjsc::yui3', 'ezjsc::yui3io', 'ezmodalwindow.js', 'ezajaxuploader.js' )}
+    {ezscript_require( array( 'ezjsc::yui3', 'ezjsc::yui3io', 'ezmodalwindow.js', 'ezajaxuploader.js' ) )}
     <div id="relationlist-modal-window" class="modal-window" style="display:none;">
         <h2><a href="#" class="window-close">{'Close'|i18n( 'design/admin/pagelayout' )}</a><span></span></h2>
         <div class="window-content"></div>
@@ -19,83 +19,83 @@
     <script type="text/javascript">
     {literal}
     (function () {
-        var uploaderConf = {
-            target: {},
-            open: {
-                action: 'ezajaxuploader::uploadform::ezobjectrelationlist'
-            },
-            upload: {
-                action: 'ezajaxuploader::upload::ezobjectrelationlist?ContentType=html',
-                form: 'form.ajaxuploader-upload'
-            },
-            location: {
-                action: 'ezajaxuploader::preview::ezobjectrelationlist',
-                form: 'form.ajaxuploader-location',
-                browse: 'div.ajaxuploader-browse',
-    {/literal}
-                required: "{'Please choose a location'|i18n( 'design/admin2/content/datatype' )|wash( 'javascript' )}"
-    {literal}
-            },
+        YUI().use('ezmodalwindow', 'ezajaxuploader', function (Y) {
+            var uploaderConf = {
+                target: {},
+                open: {
+                    action: 'ezajaxuploader::uploadform::ezobjectrelationlist'
+                },
+                upload: {
+                    action: 'ezajaxuploader::upload::ezobjectrelationlist',
+                    form: 'form.ajaxuploader-upload'
+                },
+                location: {
+                    action: 'ezajaxuploader::preview::ezobjectrelationlist',
+                    form: 'form.ajaxuploader-location',
+                    browse: 'div.ajaxuploader-browse',
+        {/literal}
+                    required: "{'Please choose a location'|i18n( 'design/admin2/content/datatype' )|wash( 'javascript' )}"
+        {literal}
+                },
 
-            preview: {
-                form: 'form.ajaxuploader-preview',
+                preview: {
+                    form: 'form.ajaxuploader-preview',
 
-                // this is the eZAjaxUploader instance
-                callback: function () {
-                    var box = this.Y.one('#ezobjectrelationlist_browse_' + this.conf.target.ObjectRelationsAttributeId),
-                        table = box.one('table.list');
-                        tbody = box.one('table.list tbody'),
-                        last = tbody.get('children').slice(-1).item(0),
-                        tr = false, priority = false, tds = false,
-                        result = this.lastMetaData;
+                    // this is the eZAjaxUploader instance
+                    callback: function () {
+                        var box = Y.one('#ezobjectrelationlist_browse_' + this.conf.target.ObjectRelationsAttributeId),
+                            table = box.one('table.list');
+                            tbody = box.one('table.list tbody'),
+                            last = tbody.get('children').slice(-1).item(0),
+                            tr = false, priority = false, tds = false,
+                            result = this.lastMetaData;
 
-                    if ( !table.hasClass('hide') ) {
-                        // table is visible, clone the last line
-                        tr = last.cloneNode(true);
-                        tbody.append(tr);
-                        if ( last.hasClass('bgdark') ) {
-                            tr.removeClass('bgdark').addClass('bglight');
+                        if ( !table.hasClass('hide') ) {
+                            // table is visible, clone the last line
+                            tr = last.cloneNode(true);
+                            tbody.append(tr);
+                            if ( last.hasClass('bgdark') ) {
+                                tr.removeClass('bgdark').addClass('bglight');
+                            } else {
+                                tr.removeClass('bglight').addClass('bgdark');
+                            }
                         } else {
-                            tr.removeClass('bglight').addClass('bgdark');
+                            // table is hidden, no related object yet
+                            // the only line in the table is the "template line"
+                            tr = last;
+                            table.removeClass('hide');
                         }
-                    } else {
-                        // table is hidden, no related object yet
-                        // the only line in the table is the "template line"
-                        tr = last;
-                        table.removeClass('hide');
+                        tds = tr.get('children');
+                        tds.item(0).all('input').set('value', result.object_info.id);
+                        tds.item(1).setContent(result.object_info.name);
+                        tds.item(2).setContent(result.object_info.class_name);
+                        tds.item(3).setContent(result.object_info.section_name);
+                        tds.item(4).setContent(result.object_info.published);
+                        priority = tds.item(5).one('input');
+                        priority.set('value', parseInt(priority.get('value')) + 1);
+
+                        box.one('.ezobject-relation-remove-button').removeClass('button-disabled').addClass('button').set('disabled', false);
+                        box.all('.ezobject-relation-no-relation').addClass('hide');
+
+                        this.modalWindow.close();
                     }
-                    tds = tr.get('children');
-                    tds.item(0).all('input').set('value', result.object_info.id);
-                    tds.item(1).setContent(result.object_info.name);
-                    tds.item(2).setContent(result.object_info.class_name);
-                    tds.item(3).setContent(result.object_info.section_name);
-                    tds.item(4).setContent(result.object_info.published);
-                    priority = tds.item(5).one('input');
-                    priority.set('value', parseInt(priority.get('value')) + 1);
+                },
+        {/literal}
+                validationErrorText: "{'Some required fields are empty.'|i18n( 'design/admin2/content/datatype' )|wash( 'javascript' )}",
+                parseJSONErrorText: "{'Unable to parse the JSON response.'|i18n( 'design/admin2/content/datatype' )|wash( 'javascript' )}",
+                title: "{'Upload a file and add the resulting object in the relation'|i18n( 'design/admin2/content/datatype' )|wash( 'javascript' )}"
+        {literal}
+            };
 
-                    box.one('.ezobject-relation-remove-button').removeClass('button-disabled').addClass('button').set('disabled', false);
-                    box.all('.ezobject-relation-no-relation').addClass('hide');
+            var windowConf = {
+                window: '#relationlist-modal-window',
+                centered: false,
+                xy: ['centered', 50],
+                width: 650
+            };
 
-                    this.modalWindow.close();
-                }
-            },
-    {/literal}
-            validationErrorText: "{'Some required fields are empty.'|i18n( 'design/admin2/content/datatype' )|wash( 'javascript' )}",
-            parseJSONErrorText: "{'Unable to parse the JSON response.'|i18n( 'design/admin2/content/datatype' )|wash( 'javascript' )}",
-            title: "{'Upload a file and add the resulting object in the relation'|i18n( 'design/admin2/content/datatype' )|wash( 'javascript' )}"
-    {literal}
-        };
-
-        var windowConf = {
-            window: '#relationlist-modal-window',
-            centered: false,
-            xy: ['centered', 50],
-            width: 650
-        };
-
-        YUI(YUI3_config).use('node', 'overlay', 'dom-base', 'io-ez', 'io-form', 'io-upload-iframe', 'json-parse', 'anim', function (Y) {
             Y.on('domready', function() {
-                var win = new eZModalWindow(windowConf, Y),
+                var win = new Y.eZ.ModalWindow(windowConf),
                     tokenNode = Y.one('#ezxform_token_js');
 
                 Y.all('.relation-upload-new').each(function () {
@@ -110,7 +110,7 @@
                     if ( tokenNode ) {
                         conf.token = tokenNode.get('title');
                     }
-                    uploader = new eZAjaxUploader(win, conf, Y);
+                    uploader = new Y.eZ.AjaxUploader(win, conf);
                     this.on('click', function (e) {
                         uploader.open();
                         e.halt();

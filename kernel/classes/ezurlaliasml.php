@@ -1059,7 +1059,10 @@ class eZURLAliasML extends eZPersistentObject
         if ( $locale !== null && is_string( $locale ) && !empty( $locale ) )
         {
             $selectedLanguage = eZContentLanguage::fetchByLocale( $locale );
-            $prioritizedLanguages = $selectedLanguage !== false ? array( $selectedLanguage ): eZContentLanguage::prioritizedLanguages();
+            $prioritizedLanguages = eZContentLanguage::prioritizedLanguages();
+            // Add $selectedLanguage on top of $prioritizedLanguages to take it into account with the highest priority
+            if ( $selectedLanguage instanceof eZContentLanguage )
+                array_unshift( $prioritizedLanguages, $selectedLanguage );
         }
         else
         {
@@ -1629,8 +1632,20 @@ class eZURLAliasML extends eZPersistentObject
             }
             else
             {
-                $uriString = eZURLAliasML::actionToUrl( $action );
-                $return = true;
+                // See http://issues.ez.no/19062
+                // If $uriString matches a nop action, we need to check if we also match a wildcard
+                // since we might want to translate it.
+                // Default action for nop actions is to display the root node "/" (see eZURLAliasML::actionToURL())
+                if ( strpos( $action, 'nop') !== false && eZURLWildcard::wildcardExists( $uriString ) )
+                {
+                    $return = false;
+                }
+                else
+                {
+                    $uriString = eZURLAliasML::actionToUrl( $action );
+                    $return = true;
+                }
+
             }
 
             if ( $uri instanceof eZURI )
