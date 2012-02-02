@@ -56,7 +56,7 @@ if ( !defined( 'STORAGE_SOCKET' ) )
 
 // connection
 $tries = 0; $maxTries = 3;
-while ( $tries < $maxTries )
+while ( true )
 {
     try
     {
@@ -68,13 +68,11 @@ while ( $tries < $maxTries )
     }
     catch ( RuntimeException $e )
     {
-        $tries++;
+        if ( ++$tries === $maxTries )
+        {
+            _die( "Unable to connect to storage server" );
+        }
     }
-}
-
-if ( $tries == $maxTries )
-{
-    _die( "Unable to connect to storage server" );
 }
 
 // @todo Use parse_url()
