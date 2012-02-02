@@ -44,9 +44,9 @@ if ( !file_exists( $clusterGatewayFile ) )
 $gatewayClass = require $clusterGatewayFile;
 $gateway = new $gatewayClass;
 
-if ( !defined( 'STORAGE_PORT' ) )
+if ( !defined( 'CLUSTER_STORAGE_PORT' ) )
 {
-    define( 'STORAGE_PORT', $gateway->getDefaultPort() );
+    define( 'CLUSTER_STORAGE_PORT', $gateway->getDefaultPort() );
 }
 
 if ( !defined( 'STORAGE_SOCKET' ) )
