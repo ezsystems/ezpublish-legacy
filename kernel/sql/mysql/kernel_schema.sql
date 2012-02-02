@@ -1071,9 +1071,11 @@ CREATE TABLE ezpdf_export (
 
 
 CREATE TABLE ezpending_actions (
+  id int(11) NOT NULL auto_increment,
   action varchar(64) NOT NULL default '',
   created int(11) default NULL,
   param longtext,
+  PRIMARY KEY  (id),
   KEY ezpending_actions_action (action),
   KEY ezpending_actions_created (created)
 ) ENGINE=InnoDB;

@@ -49,3 +49,14 @@ ALTER TABLE ezsearch_object_word_link
     ALTER COLUMN frequency SET DEFAULT (0)::real;
 
 ALTER TABLE ezvattype ALTER COLUMN percentage TYPE real;
+
+
+CREATE SEQUENCE ezpending_actions_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+ALTER TABLE ezpending_actions ADD id integer DEFAULT nextval('ezpending_actions_s'::text) NOT NULL;
+UPDATE ezpending_actions SET id=nextval('ezpending_actions_s'::text);

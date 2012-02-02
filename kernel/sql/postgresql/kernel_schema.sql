@@ -659,6 +659,19 @@ CREATE SEQUENCE ezpdf_export_s
 
 
 
+CREATE SEQUENCE ezpending_actions_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
 CREATE SEQUENCE ezpolicy_s
     START 1
     INCREMENT 1
@@ -2207,6 +2220,7 @@ CREATE TABLE ezpdf_export (
 
 
 CREATE TABLE ezpending_actions (
+    id integer DEFAULT nextval('ezpending_actions_s'::text) NOT NULL,
     "action" character varying(64) DEFAULT ''::character varying NOT NULL,
     created integer,
     param text
@@ -4745,6 +4759,15 @@ ALTER TABLE ONLY ezpaymentobject
 
 ALTER TABLE ONLY ezpdf_export
     ADD CONSTRAINT ezpdf_export_pkey PRIMARY KEY (id, "version");
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezpending_actions
+    ADD CONSTRAINT ezpending_actions_pkey PRIMARY KEY (id);
 
 
 

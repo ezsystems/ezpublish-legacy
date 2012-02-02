@@ -18,7 +18,11 @@ class eZPendingActions extends eZPersistentObject
      */
     public static function definition()
     {
-        return array( 'fields'       => array( 'action'               => array( 'name'     => 'action',
+        return array( 'fields'       => array( 'id'                    => array( 'name' => 'id',
+                                                                                'datatype' => 'integer',
+                                                                                'default' => 0,
+                                                                                'required' => true ),
+                                                'action'               => array( 'name'     => 'action',
                                                                                 'datatype' => 'string',
                                                                                 'default'  => null,
                                                                                 'required' => true ),
@@ -34,7 +38,7 @@ class eZPendingActions extends eZPersistentObject
                                                                                'required' => false )
                                             ),
 
-                      'keys'                 => array( 'action', 'created' ),
+                      'keys'                 => array( 'id' ),
                       'class_name'           => 'eZPendingActions',
                       'name'                 => 'ezpending_actions',
                       'function_attributes'  => array()

@@ -4913,6 +4913,11 @@ $schema = array (
     'name' => 'ezpending_actions',
     'fields' => 
     array (
+      'id' =>
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
       'action' => 
       array (
         'length' => 64,
@@ -4934,6 +4939,14 @@ $schema = array (
     ),
     'indexes' => 
     array (
+      'PRIMARY' =>
+      array (
+        'type' => 'primary',
+        'fields' =>
+        array (
+          0 => 'id',
+        ),
+      ),
       'ezpending_actions_action' => 
       array (
         'type' => 'non-unique',
