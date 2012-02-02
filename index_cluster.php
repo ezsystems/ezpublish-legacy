@@ -14,8 +14,6 @@
  */
 include 'config.php';
 
-ini_set( 'display_errors', defined( 'CLUSTER_ENABLE_DEBUG' ) && CLUSTER_ENABLE_DEBUG );
-
 if ( !defined( 'CLUSTER_STORAGE_BACKEND' ) || CLUSTER_STORAGE_BACKEND === null )
 {
     _die( "Clustering is disabled" );
@@ -29,6 +27,8 @@ if ( !defined( 'CLUSTER_PERSISTENT_CONNECTION' ) ) define( 'CLUSTER_PERSISTENT_C
 if ( !defined( 'CLUSTER_STORAGE_USER' ) )          define( 'CLUSTER_STORAGE_USER', '' );
 if ( !defined( 'CLUSTER_STORAGE_PASS' ) )          define( 'CLUSTER_STORAGE_PASS', '' );
 if ( !defined( 'CLUSTER_STORAGE_DB' ) )            define( 'CLUSTER_STORAGE_DB', '' );
+
+ini_set( 'display_errors', CLUSTER_ENABLE_DEBUG );
 
 require "kernel/clustering/gateway.php";
 
