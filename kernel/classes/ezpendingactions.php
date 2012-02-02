@@ -34,7 +34,7 @@ class eZPendingActions extends eZPersistentObject
                                                                                'required' => false )
                                             ),
 
-                      'keys'                 => array( 'action', 'created' ),
+                      'keys'                 => array( 'action', 'created', 'param' ),
                       'class_name'           => 'eZPendingActions',
                       'name'                 => 'ezpending_actions',
                       'function_attributes'  => array()
