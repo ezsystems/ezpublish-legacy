@@ -14,10 +14,7 @@
  */
 include 'config.php';
 
-if ( defined( 'CLUSTER_DEBUG' ) || CLUSTER_DEBUG === true )
-    ini_set( 'display_errors', 1 );
-else
-    ini_set( 'display_errors', 0 );
+ini_set( 'display_errors', defined( 'CLUSTER_ENABLE_DEBUG' ) && CLUSTER_ENABLE_DEBUG );
 
 if ( !defined( 'CLUSTER_STORAGE_BACKEND' ) || CLUSTER_STORAGE_BACKEND === null )
 {
