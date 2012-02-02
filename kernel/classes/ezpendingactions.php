@@ -18,30 +18,37 @@ class eZPendingActions extends eZPersistentObject
      */
     public static function definition()
     {
-        return array( 'fields'       => array( 'id'                    => array( 'name' => 'id',
-                                                                                'datatype' => 'integer',
-                                                                                'default' => 0,
-                                                                                'required' => true ),
-                                                'action'               => array( 'name'     => 'action',
-                                                                                'datatype' => 'string',
-                                                                                'default'  => null,
-                                                                                'required' => true ),
-
-                                               'created'             => array( 'name'     => 'created',
-                                                                               'datatype' => 'integer',
-                                                                               'default'  => null,
-                                                                               'required' => false ),
-
-                                               'param'               => array( 'name'     => 'param',
-                                                                               'datatype' => 'string',
-                                                                               'default'  => null,
-                                                                               'required' => false )
-                                            ),
-
-                      'keys'                 => array( 'id' ),
-                      'class_name'           => 'eZPendingActions',
-                      'name'                 => 'ezpending_actions',
-                      'function_attributes'  => array()
+        return array(
+            'fields' => array(
+                'id' => array(
+                    'name' => 'id',
+                    'datatype' => 'integer',
+                    'default' => 0,
+                    'required' => true
+                ),
+                'action' => array(
+                    'name' => 'action',
+                    'datatype' => 'string',
+                    'default' => null,
+                    'required' => true
+                ),
+                'created' => array(
+                    'name' => 'created',
+                    'datatype' => 'integer',
+                    'default' => null,
+                    'required' => false
+                ),
+                'param' => array(
+                    'name' => 'param',
+                    'datatype' => 'string',
+                    'default' => null,
+                    'required' => false
+                )
+            ),
+            'keys' => array( 'id' ),
+            'class_name' => 'eZPendingActions',
+            'name' => 'ezpending_actions',
+            'function_attributes' => array()
         );
     }
 
