@@ -30,7 +30,7 @@ if ( !defined( 'CLUSTER_STORAGE_USER' ) )          define( 'CLUSTER_STORAGE_USER
 if ( !defined( 'CLUSTER_STORAGE_PASS' ) )          define( 'CLUSTER_STORAGE_PASS', '' );
 if ( !defined( 'CLUSTER_STORAGE_DB' ) )            define( 'CLUSTER_STORAGE_DB', '' );
 
-include "kernel/clustering/gateway.php";
+require "kernel/clustering/gateway.php";
 
 if ( defined( 'CLUSTER_STORAGE_GATEWAY_PATH' ) && CLUSTER_STORAGE_GATEWAY_PATH )
     $clusterGatewayFile = CLUSTER_STORAGE_GATEWAY_PATH;
