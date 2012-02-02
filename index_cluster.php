@@ -55,16 +55,19 @@ if ( !defined( 'STORAGE_SOCKET' ) )
 }
 
 // connection
-$errorMessage = "No error specified";
 $tries = 0; $maxTries = 3;
 while ( $tries < $maxTries )
 {
-    try {
+    try
+    {
         $gateway->connect(
             CLUSTER_STORAGE_HOST, CLUSTER_STORAGE_PORT, CLUSTER_STORAGE_USER,
-            CLUSTER_STORAGE_PASS, CLUSTER_STORAGE_DB, CLUSTER_STORAGE_CHARSET );
+            CLUSTER_STORAGE_PASS, CLUSTER_STORAGE_DB, CLUSTER_STORAGE_CHARSET
+        );
         break;
-    } catch( RuntimeException $e ) {
+    }
+    catch ( RuntimeException $e )
+    {
         $tries++;
     }
 }
@@ -80,9 +83,12 @@ if ( ( $queryPos = strpos( $filename, '?' ) ) !== false )
     $filename = substr( $filename, 0, $queryPos );
 
 // Fetch file metadata.
-try {
+try
+{
     $metaData = $gateway->fetchFileMetadata( $filename );
-} catch( RuntimeException $e ) {
+}
+catch ( RuntimeException $e )
+{
     _die( $e->getMessage() );
 }
 if ( $metaData === false || $metaData['mtime'] < 0 )
@@ -91,14 +97,11 @@ if ( $metaData === false || $metaData['mtime'] < 0 )
 }
 
 // Output HTTP headers.
-$path     = $metaData['name'];
-$filesize     = $metaData['size'];
-$mimeType = $metaData['datatype'];
-$mtime    = $metaData['mtime'];
-$mdate    = gmdate( 'D, d M Y H:i:s', $mtime ) . ' GMT';
+$filesize = $metaData['size'];
+$mtime = $metaData['mtime'];
 
-header( "Content-Type: $mimeType" );
-header( "Last-Modified: $mdate" );
+header( "Content-Type: $metaData[datatype]" );
+header( "Last-Modified: " . gmdate( 'D, d M Y H:i:s', $mtime ) . ' GMT' );
 header( "Connection: close" );
 header( "Accept-Ranges: none" );
 header( 'Served-by: ' . $_SERVER["SERVER_NAME"] );
@@ -106,7 +109,7 @@ header( 'Served-by: ' . $_SERVER["SERVER_NAME"] );
 if ( CLUSTER_EXPIRY_TIMEOUT !== false )
     header( "Expires: " . gmdate( 'D, d M Y H:i:s', time() + CLUSTER_EXPIRY_TIMEOUT ) . ' GMT' );
 
-if ( CLUSTER_HEADER_X_POWERED_BY !== false)
+if ( CLUSTER_HEADER_X_POWERED_BY !== false )
     header( "X-Powered-By: " . CLUSTER_HEADER_X_POWERED_BY );
 
 // Request headers: eTag  + IF-MODIFIED-SINCE
@@ -116,8 +119,7 @@ if ( CLUSTER_ENABLE_HTTP_CACHE )
     $serverVariables = array_change_key_case( $_SERVER, CASE_UPPER );
     foreach ( $serverVariables as $header => $value )
     {
-        $header = strtoupper( $header );
-        switch( $header )
+        switch ( strtoupper( $header ) )
         {
             case 'HTTP_IF_NONE_MATCH':
                 if ( trim( $value ) != "$mtime-$filesize" )
@@ -143,24 +145,24 @@ if ( CLUSTER_ENABLE_HTTP_RANGE )
     // let the client know we do accept range by bytes
     header( 'Accept-Ranges: bytes' );
 
-    if ( isset( $_SERVER['HTTP_RANGE'] ) )
+    if ( isset( $_SERVER['HTTP_RANGE'] ) && preg_match( "/^bytes=(\d+)-(\d+)?$/", trim( $_SERVER['HTTP_RANGE'] ), $matches ) )
     {
-        if ( preg_match( "/^bytes=(\d+)-(\d+)?$/", trim( $_SERVER['HTTP_RANGE'] ), $matches ) )
-        {
-            $startOffset = $matches[1];
-            $endOffset = isset( $matches[2] ) ? $matches[2] : false;
-            $contentLength = $endOffset ? $endOffset - $startOffset + 1 : $filesize - $startOffset;
-            header( "Content-Range: bytes $startOffset-$endOffset/$filesize" );
-            header( "HTTP/1.1 206 Partial Content" );
-        }
+        $startOffset = $matches[1];
+        $endOffset = isset( $matches[2] ) ? $matches[2] : false;
+        $contentLength = $endOffset ? $endOffset - $startOffset + 1 : $filesize - $startOffset;
+        header( "Content-Range: bytes $startOffset-$endOffset/$filesize" );
+        header( "HTTP/1.1 206 Partial Content" );
     }
 }
 header( "Content-Length: $contentLength" );
 
 // Output file data
-try {
+try
+{
     $gateway->passthrough( $filename, $filesize, $startOffset, $contentLength );
-} catch( RuntimeException $e ) {
+}
+catch ( RuntimeException $e )
+{
     _die( $e->getMessage );
 }
 
@@ -174,7 +176,7 @@ $gateway->close();
  * @param string $filename
  * @return
  */
-function _die( $message, $errorCode = false, $filename = false)
+function _die( $message, $errorCode = false, $filename = false )
 {
     header( 'Content-Type: text/html' );
     switch ( $errorCode )
@@ -192,7 +194,6 @@ function _die( $message, $errorCode = false, $filename = false)
 </body></html>
 EOF;
             exit( 1 );
-            break;
 
         case 500:
         default:
@@ -206,9 +207,6 @@ EOF;
 </body></html>
 EOF;
             trigger_error( $message, E_USER_ERROR );
-            break;
-
-
     }
 }
 
