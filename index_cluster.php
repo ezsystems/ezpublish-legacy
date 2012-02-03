@@ -49,11 +49,6 @@ if ( !defined( 'CLUSTER_STORAGE_PORT' ) )
     define( 'CLUSTER_STORAGE_PORT', $gateway->getDefaultPort() );
 }
 
-if ( !defined( 'STORAGE_SOCKET' ) )
-{
-    define( 'STORAGE_SOCKET', '' );
-}
-
 // connection
 $tries = 0; $maxTries = 3;
 while ( true )
