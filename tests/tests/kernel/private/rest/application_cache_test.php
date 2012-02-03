@@ -315,6 +315,7 @@ class ezpRestApplicationCacheTest extends ezpRestTestCase
         $request->uri = $this->restINI->variable( 'System', 'ApiPrefix' ) . '/test/rest/foo';
         $request->variables = $internalVariables;
         $request->contentVariables = $contentVariables;
+        $request->protocol = 'http-get';
         $controller = $this->getTestControllerFromRequest( $request );
         $routingInfos = $controller->getRouter()->getRoutingInformation();
 
@@ -362,6 +363,7 @@ class ezpRestApplicationCacheTest extends ezpRestTestCase
         $request->uri = $uri;
         $request->variables = array( 'ResponseGroups' => array() );
         $request->contentVariables = array();
+        $request->protocol = 'http-get';
         $controller = $this->getTestControllerFromRequest( $request );
 
         // Be sure the cache has been activated

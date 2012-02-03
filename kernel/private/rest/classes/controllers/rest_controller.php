@@ -40,28 +40,6 @@ abstract class ezpRestMvcController extends ezcMvcController
     public static $isCacheCreated = false;
 
     /**
-     * Map with the supported protocols for each action.
-     *
-     * Example:
-     *     $supportedProtocols = array(
-     *         'viewContent' => array(
-     *             'http-get' => true,
-     *         ),
-     *         'publishContent' => array(
-     *             'http-put' => true,
-     *             'http-publish' => true,
-     *         ),
-     *         'changeField' => array(
-     *             'http-post' => true,
-     *         ),
-     *     );
-     *
-     * @var array
-     */
-    protected $supportedProtocols = array(
-    );
-
-    /**
      * Constructor
      *
      * @param string $action
@@ -192,33 +170,6 @@ abstract class ezpRestMvcController extends ezcMvcController
                 $debug->log( 'Generating cache', ezcLog::DEBUG );
                 $debug->switchTimer( 'GeneratingCache', 'GeneratingRestResult' );
 
-                if ( ( $isOptionsMethod = $this->request->protocol === "http-options" ) ||
-                    !isset( $this->supportedProtocols[$this->action][$this->request->protocol] )
-                )
-                {
-                    if ( isset( $this->supportedProtocols[$this->action] ) )
-                    {
-                        $methods = array_keys( $this->supportedProtocols[$this->action] );
-                        foreach ( $methods as &$method )
-                        {
-                            $method = strtoupper( str_replace( "http-", "", $method ) );
-                        }
-                    }
-
-                    // OPTIONS method is always available
-                    $methods[] = "OPTIONS";
-
-                    $methods = implode( ", ", $methods );
-
-                    $res = new ezpRestMvcResult();
-                    $res->status = new ezpRestStatusResponse(
-                        $isOptionsMethod ? 200 : 405,
-                        ( $isOptionsMethod ? "Allowed methods are : " : "This method is not supported, allowed methods are: " ) . $methods,
-                        array( "Allow" => $methods )
-                    );
-                    return $res;
-                }
-
                 $res = parent::createResult();
                 $resGroups = $this->getResponseGroups();
                 if ( !empty( $resGroups ) )
@@ -253,6 +204,23 @@ abstract class ezpRestMvcController extends ezcMvcController
         }
 
         return $res;
+    }
+
+    /**
+     * Default action to handle OPTIONS requests.
+     *
+     * @return ezcMvcResult
+     */
+    public function doHttpOptions()
+    {
+        $methods = implode( ', ', $this->supported_http_methods );
+        $result = new ezpRestMvcResult;
+        $result->status = new ezpRestStatusResponse(
+            ezpHttpResponseCodes::OK,
+            'Allowed methods are: ' . $methods,
+            array( 'Allow' => $methods )
+        );
+        return $result;
     }
 
     /**

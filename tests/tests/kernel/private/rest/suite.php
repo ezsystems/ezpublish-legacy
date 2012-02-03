@@ -21,6 +21,8 @@ class ezpRestTestSuite extends ezpTestSuite
         $this->addTestSuite( 'ezpRestVersionRouteTest' );
         $this->addTestSuite( 'ezpRestControllerTest' );
         $this->addTestSuite( 'ezpRestApplicationCacheTest' );
+        $this->addTestSuite( 'ezpRestRailsRouteTest' );
+        $this->addTestSuite( 'ezpRestRegexpRouteTest' );
     }
 
     public static function suite()

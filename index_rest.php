@@ -53,6 +53,6 @@ if( ezpRestDebug::isDebugEnabled() )
 
 $mvcConfig = new ezpMvcConfiguration();
 
-$frontController = new ezcMvcConfigurableDispatcher( $mvcConfig );
+$frontController = new ezpMvcConfigurableDispatcher( $mvcConfig );
 $frontController->run();
 ?>

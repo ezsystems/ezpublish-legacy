@@ -26,6 +26,7 @@ class ezpRestControllerTest extends ezpRestTestCase
     {
         $r = new ezpRestRequest();
         $r->variables['ResponseGroups'] = array( 'foo', 'bar' );
+        $r->protocol = 'http-get';
         $controller = new ezpRestTestController( 'test', $r );
 
         $refObj = new ReflectionObject( $controller );
@@ -45,6 +46,7 @@ class ezpRestControllerTest extends ezpRestTestCase
     {
         $r = new ezpRestRequest();
         $r->variables['ResponseGroups'] = array( 'foo', 'bar' );
+        $r->protocol = 'http-get';
         $controller = new ezpRestTestController( 'test', $r );
 
         $refObj = new ReflectionObject( $controller );
@@ -65,6 +67,7 @@ class ezpRestControllerTest extends ezpRestTestCase
     {
         $r = new ezpRestRequest();
         $r->variables['ResponseGroups'] = array( 'foo', 'bar' );
+        $r->protocol = 'http-get';
         $controller = new ezpRestTestController( 'test', $r );
 
         $refObj = new ReflectionObject( $controller );
@@ -89,6 +92,7 @@ class ezpRestControllerTest extends ezpRestTestCase
     public function testHasContentVariable()
     {
         $r = new ezpRestRequest();
+        $r->protocol = 'http-get';
         $translation = 'eng-GB';
         $r->contentVariables = array( 'Translation' => $translation );
         $controller = new ezpRestTestController( 'test', $r );
@@ -109,6 +113,7 @@ class ezpRestControllerTest extends ezpRestTestCase
         $r = new ezpRestRequest();
         $translation = 'eng-GB';
         $r->contentVariables = array( 'Translation' => $translation );
+        $r->protocol = 'http-get';
         $controller = new ezpRestTestController( 'test', $r );
 
         $refObj = new ReflectionObject( $controller );
@@ -125,6 +130,7 @@ class ezpRestControllerTest extends ezpRestTestCase
     public function testGetAllContentVariables()
     {
         $r = new ezpRestRequest();
+        $r->protocol = 'http-get';
         $providedContentVariables = array(
             'Translation' => 'eng-GB',
             'Foo' => 'FooValue',
