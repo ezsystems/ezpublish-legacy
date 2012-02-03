@@ -7,11 +7,39 @@
  */
 
 define( 'TABLE_METADATA', 'ezdfsfile' );
+define( 'TABLE_METADATA_CACHE', 'ezdfscachefile' );
 
 function _die( $value )
 {
     header( $_SERVER['SERVER_PROTOCOL'] . " 500 Internal Server Error" );
     die( $value );
+}
+
+/**
+ * Returns the database table name to use for the specified file.
+ *
+ * For files detected as cache files the cache table is returned, if not
+ * the generic table is returned.
+ *
+ * @param string $filePath
+ * @return string The database table name
+ **/
+function getDbTable( $filePath )
+{
+    $cacheDir = '/cache/';
+    if ( defined( 'EZP_DFS_CACHE_DIR' ) )
+        $cacheDir = '/' . EZP_DFS_CACHE_DIR . '/';
+
+    $storageDir = '/storage/';
+    if ( defined( 'EZP_DFS_STORAGE_DIR' ) )
+        $storageDir = '/' . EZP_DFS_STORAGE_DIR . '/';
+
+    if ( strpos( $filePath, $cacheDir ) !== false && strpos( $filePath, $storageDir ) === false )
+    {
+        return TABLE_METADATA_CACHE;
+    }
+
+    return TABLE_METADATA;
 }
 
 // Storage database connection string
@@ -58,7 +86,7 @@ if ( ( $queryPos = strpos( $filename, '?' ) ) !== false )
 
 // Fetch file metadata.
 $filePathHash = md5( $filename );
-$sql = "SELECT * FROM " . TABLE_METADATA . " WHERE name_hash=('$filePathHash')" ;
+$sql = "SELECT * FROM " . getDbTable( $filename ) . " WHERE name_hash=('$filePathHash')" ;
 if ( !$res = mysqli_query( $db, $sql ) )
     _die( "Failed to retrieve file metadata\n" );
 

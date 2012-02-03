@@ -112,4 +112,18 @@
        spl_autoload_register( 'fooAutoload' );
    </code>
 */
+
+/*
+   CLUSTERING
+   -------------------------
+   eZDFS assumes the cache directory is called 'cache' and the storage directory
+   is called 'storage'. If you have changed the name of any of these in
+   site.ini (CacheDir and StorageDir) you need to tell eZDFS what these
+   directories are called by defining EZP_DFS_CACHE_DIR and/or
+   EZP_DFS_STORAGE_DIR.
+
+   No slashes should be used when defining the directory names.
+*/
+//define( 'EZP_DFS_CACHE_DIR', 'cache' );
+//define( 'EZP_DFS_STORAGE_DIR', 'storage' );
 ?>
