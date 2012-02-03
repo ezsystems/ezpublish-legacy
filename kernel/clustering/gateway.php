@@ -125,6 +125,11 @@ abstract class ezpClusterGateway
      */
     abstract public function close();
 
+    /**
+     * @TODO: evaluate whether it is the right place for those methods or if it
+     *        should belong to other dedicated classes.
+     * @TODO: get rid of constants
+     */
     public function retrieve( $filename )
     {
         // connection
