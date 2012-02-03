@@ -11,21 +11,16 @@
  */
 class ezpDfsPostgresqlClusterGateway extends ezpClusterGateway
 {
-    public function getDefaultPort()
-    {
-        return 5433;
-    }
+    protected $port = 5433;
 
-    public function connect( $host, $port, $user, $password, $database, $charset )
+    public function connect()
     {
-        $connectString = sprintf( 'pgsql:host=%s;dbname=%s;port=%s', $host, $database, $port );
-
         try
         {
-            $this->db = new PDO( $connectString, $user, $pass );
-            if ( $this->db->exec( "SET NAMES '$charset'" ) === false )
+            $this->db = new PDO( "pgsql:host=$this->host;dbname=$this->name;port=$this->port", $this->user, $this->password );
+            if ( $this->db->exec( "SET NAMES '$this->charset'" ) === false )
             {
-                throw new RuntimeException( "Failed to set database charset to '$charset' " );
+                throw new RuntimeException( "Failed to set database charset to '$this->charset' " );
             }
         }
         catch ( PDOException $e )

@@ -44,12 +44,16 @@ if ( !file_exists( $clusterGatewayFile ) )
     _die( "Unable to open storage backend gateway class definition file '$clusterGatewayFile'" );
 }
 $gatewayClass = require $clusterGatewayFile;
-$gateway = new $gatewayClass;
-
-if ( !defined( 'CLUSTER_STORAGE_PORT' ) )
-{
-    define( 'CLUSTER_STORAGE_PORT', $gateway->getDefaultPort() );
-}
+$gateway = new $gatewayClass(
+    array(
+        "host" => CLUSTER_STORAGE_HOST,
+        "port" => defined( "CLUSTER_STORAGE_PORT" ) ? CLUSTER_STORAGE_PORT : null,
+        "user" => CLUSTER_STORAGE_USER,
+        "password" => CLUSTER_STORAGE_PASS,
+        "name" => CLUSTER_STORAGE_DB,
+        "charset" => CLUSTER_STORAGE_CHARSET,
+    )
+);
 
 // connection
 $tries = 0; $maxTries = 3;
@@ -57,10 +61,7 @@ while ( true )
 {
     try
     {
-        $gateway->connect(
-            CLUSTER_STORAGE_HOST, CLUSTER_STORAGE_PORT, CLUSTER_STORAGE_USER,
-            CLUSTER_STORAGE_PASS, CLUSTER_STORAGE_DB, CLUSTER_STORAGE_CHARSET
-        );
+        $gateway->connect();
         break;
     }
     catch ( RuntimeException $e )

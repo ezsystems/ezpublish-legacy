@@ -12,24 +12,20 @@
  */
 class ezpDbMySQLClusterGateway extends ezpClusterGateway
 {
-    public function getDefaultPort()
-    {
-        return 3306;
-    }
+    protected $port = 3306;
 
-    public function connect( $host, $port, $user, $password, $database, $charset = 'utf8' )
+    public function connect()
     {
-        $server = "$host:$port";
-        if ( !$this->db = mysql_connect( $server, $user, $password, true ) )
+        if ( !$this->db = mysql_connect( "$this->host:$this->port", $this->user, $this->password, true ) )
             throw new RuntimeException( "Failed connecting to the MySQL database" .
                 "(error #". mysql_errno( $this->db ).": " . mysql_error( $this->db ) );
 
-        if ( !mysql_select_db( $database, $this->db ) )
+        if ( !mysql_select_db( $this->name, $this->db ) )
             throw new RuntimeException( "Failed selecting the MySQL database" .
                 "(error #". mysql_errno( $this->db ).": " . mysql_error( $this->db ) );
 
-        if ( !mysql_set_charset( $charset, $this->db ) )
-            throw new RuntimeException( "Failed to set database charset to '$charset' " .
+        if ( !mysql_set_charset( $this->charset, $this->db ) )
+            throw new RuntimeException( "Failed to set database charset to '$this->charset' " .
                 "(error #". mysql_errno( $this->db ).": " . mysql_error( $this->db ) );
     }
 

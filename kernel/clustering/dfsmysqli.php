@@ -11,19 +11,16 @@
  */
 class ezpDfsMySQLiClusterGateway extends ezpClusterGateway
 {
-    public function getDefaultPort()
-    {
-        return 3306;
-    }
+    protected $port = 3306;
 
-    public function connect( $host, $port, $user, $password, $database, $charset = 'utf8' )
+    public function connect()
     {
-        if ( !$this->db = mysqli_connect( $host, $user, $password, $database, $port ) )
+        if ( !$this->db = mysqli_connect( $this->host, $this->user, $this->password, $this->name, $this->port ) )
             throw new RuntimeException( "Failed connecting to the MySQL database " .
-                "(error #". mysqli_errno( $this->db ).": " . mysql_error( $this->db ) );
+                "(error #". mysqli_errno( $this->db ).": " . mysqli_error( $this->db ) );
 
-        if ( !mysqli_set_charset( $this->db, $charset ) )
-            throw new RuntimeException( "Failed to set database charset to '$charset' " .
+        if ( !mysqli_set_charset( $this->db, $this->charset ) )
+            throw new RuntimeException( "Failed to set database charset to '$this->charset' " .
                 "(error #". mysqli_errno( $this->db ).": " . mysqli_error( $this->db ) );
     }
 
@@ -33,7 +30,7 @@ class ezpDfsMySQLiClusterGateway extends ezpClusterGateway
         $sql = "SELECT * FROM ezdfsfile WHERE name_hash='$filePathHash'" ;
         if ( !$res = mysqli_query( $this->db, $sql ) )
             throw new RuntimeException( "Failed to fetch file metadata for '$filepath' " .
-                "(error #". mysqli_errno( $this->db ).": " . mysql_error( $this->db ) );
+                "(error #". mysqli_errno( $this->db ).": " . mysqli_error( $this->db ) );
 
         if ( mysqli_num_rows( $res ) == 0 )
         {

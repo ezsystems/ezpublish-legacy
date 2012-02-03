@@ -15,15 +15,78 @@ abstract class ezpClusterGateway
 {
     /**
      * Database instance, optional
+     *
      * @var mixed
      */
     protected $db;
 
     /**
-     * Returns the database default connexion port
-     * @return int
+     * Database hostname
+     *
+     * @var string
      */
-    abstract function getDefaultPort();
+    protected $host;
+
+    /**
+     * Database port
+     *
+     * @var int
+     */
+    protected $port;
+
+    /**
+     * Database user
+     *
+     * @var string
+     */
+    protected $user;
+
+    /**
+     * Database password
+     *
+     * @var string
+     */
+    protected $password;
+
+    /**
+     * Database name
+     *
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * Database charset
+     *
+     * @var string
+     */
+    protected $charset;
+
+    /**
+     * Instantiate a gateway with the database parameters.
+     *
+     * @param array $params Database parameters.
+     */
+    public function __construct( array $params = array() )
+    {
+        if ( isset( $params["host"] ) )
+            $this->host = $params["host"];
+
+        if ( isset( $params["port"] ) )
+            $this->port = $params["port"];
+
+        if ( isset( $params["user"] ) )
+            $this->user = $params["user"];
+
+        if ( isset( $params["password"] ) )
+            $this->password = $params["password"];
+
+        if ( isset( $params["name"] ) )
+            $this->name = $params["name"];
+
+        if ( isset( $params["charset"] ) )
+            $this->charset = $params["charset"];
+    }
 
     /**
      * Creates the necessary database connection
@@ -31,18 +94,11 @@ abstract class ezpClusterGateway
      * The database connexion must be usable as is after return, meaning
      * that database connection, charset choice must be set
      *
-     * @param $host
-     * @param $port
-     * @param $user
-     * @param $password
-     * @param $database
-     * @param $charset
-     *
      * @return mixed The connection object, whatever the type
      *
      * @throws RuntimeException if connection failed
      */
-    abstract function connect( $host, $port, $user, $password, $database, $charset );
+    abstract function connect();
 
     /**
      * Fetches file metadata for $filepath
