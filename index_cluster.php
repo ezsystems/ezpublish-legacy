@@ -148,7 +148,7 @@ try
 }
 catch ( RuntimeException $e )
 {
-    _die( $e->getMessage );
+    _die( $e->getMessage() );
 }
 
 $gateway->close();
