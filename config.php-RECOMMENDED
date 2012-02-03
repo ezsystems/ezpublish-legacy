@@ -211,4 +211,16 @@ define( 'CLUSTER_STORAGE_PASS', 'dbpassword' );
  */
 // define( 'CLUSTER_ENABLE_HTTP_RANGE', true );
 
+/**
+ * Enable usage of "Expires" headers.
+ * Optional. Defaults to true.
+ */
+// define( 'CLUSTER_EXPIRY_TIMEOUT', true );
+
+/**
+ * Enable usage of "X-Powered-By" headers.
+ * Optional. Defaults to true.
+ */
+// define( 'CLUSTER_HEADER_X_POWERED_BY', true );
+
 ?>

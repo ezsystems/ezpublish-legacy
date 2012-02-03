@@ -22,6 +22,8 @@ if ( !defined( 'CLUSTER_STORAGE_BACKEND' ) || CLUSTER_STORAGE_BACKEND === null )
 // default values
 if ( !defined( 'CLUSTER_ENABLE_HTTP_RANGE' ) )     define( 'CLUSTER_ENABLE_HTTP_RANGE', true );
 if ( !defined( 'CLUSTER_ENABLE_HTTP_CACHE' ) )     define( 'CLUSTER_ENABLE_HTTP_CACHE', true );
+if ( !defined( 'CLUSTER_EXPIRY_TIMEOUT' ) )        define( 'CLUSTER_EXPIRY_TIMEOUT', true );
+if ( !defined( 'CLUSTER_HEADER_X_POWERED_BY' ) )   define( 'CLUSTER_HEADER_X_POWERED_BY', true );
 if ( !defined( 'CLUSTER_ENABLE_DEBUG' ) )          define( 'CLUSTER_ENABLE_DEBUG', false );
 if ( !defined( 'CLUSTER_PERSISTENT_CONNECTION' ) ) define( 'CLUSTER_PERSISTENT_CONNECTION', false );
 if ( !defined( 'CLUSTER_STORAGE_USER' ) )          define( 'CLUSTER_STORAGE_USER', '' );
