@@ -70,10 +70,7 @@ while ( true )
     }
 }
 
-// @todo Use parse_url()
-$filename = ltrim( $_SERVER['REQUEST_URI'], '/' );
-if ( ( $queryPos = strpos( $filename, '?' ) ) !== false )
-    $filename = substr( $filename, 0, $queryPos );
+$filename = ltrim( $_SERVER['SCRIPT_URL'], '/' );
 
 // Fetch file metadata.
 try
