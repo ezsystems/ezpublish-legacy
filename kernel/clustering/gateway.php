@@ -69,4 +69,3 @@ abstract class ezpClusterGateway
      */
     abstract function close();
 }
-?>
