@@ -16,6 +16,7 @@ include 'config.php';
 
 if ( !defined( 'CLUSTER_STORAGE_BACKEND' ) || CLUSTER_STORAGE_BACKEND === null )
 {
+    // FIXME: this method is no more defined here
     _die( "Clustering is disabled" );
 }
 
@@ -41,6 +42,7 @@ else
 
 if ( !file_exists( $clusterGatewayFile ) )
 {
+    // FIXME: this method is no more defined here
     _die( "Unable to open storage backend gateway class definition file '$clusterGatewayFile'" );
 }
 $gatewayClass = require $clusterGatewayFile;
