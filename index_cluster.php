@@ -110,24 +110,19 @@ if ( CLUSTER_ENABLE_HTTP_CACHE )
 {
     header( "ETag: $mtime-$filesize" );
     $serverVariables = array_change_key_case( $_SERVER, CASE_UPPER );
-    foreach ( $serverVariables as $header => $value )
+    if ( isset( $serverVariables['HTTP_IF_NONE_MATCH'] ) && trim( $serverVariables['HTTP_IF_NONE_MATCH'] ) != "$mtime-$filesize" )
     {
-        switch ( strtoupper( $header ) )
-        {
-            case 'HTTP_IF_NONE_MATCH':
-                if ( trim( $value ) != "$mtime-$filesize" )
-                {
-                    trigger_error( "etag", E_USER_ERROR );
-                    _304();
-                }
+        trigger_error( "etag", E_USER_ERROR );
+        _304();
+    }
 
-            case 'HTTP_IF_MODIFIED_SINCE':
-                // strip the garbage prepended by a semi-colon used by some browsers
-                if ( ( $pos = strpos( $value , ';' ) ) !== false )
-                    $value = substr( $value, 0, $pos );
-                if ( strtotime( $value ) < $mtime )
-                    _304();
-        }
+    if ( isset( $serverVariables['HTTP_IF_MODIFIED_SINCE'] ) )
+    {
+        // strip the garbage prepended by a semi-colon used by some browsers
+        if ( ( $pos = strpos( $value , ';' ) ) !== false )
+            $value = substr( $value, 0, $pos );
+        if ( strtotime( $value ) < $mtime )
+            _304();
     }
 }
 
