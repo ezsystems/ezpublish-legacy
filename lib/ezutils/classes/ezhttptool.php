@@ -803,6 +803,14 @@ class eZHTTPTool
         if ( extension_loaded( 'curl' ) )
         {
             $ch = curl_init( $url );
+            // Options used to perform in a similar way than PHP's fopen()
+            curl_setopt_array(
+                $ch,
+                array(
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_SSL_VERIFYPEER => false
+                )
+            );
             if ( $justCheckURL )
             {
                 curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 2 );
