@@ -98,7 +98,7 @@ abstract class ezpClusterGateway
      *
      * @throws RuntimeException if connection failed
      */
-    abstract function connect();
+    abstract public function connect();
 
     /**
      * Fetches file metadata for $filepath
@@ -107,7 +107,7 @@ abstract class ezpClusterGateway
      *
      * @return array|false
      */
-    abstract function fetchFileMetadata( $filepath );
+    abstract public function fetchFileMetadata( $filepath );
 
     /**
      * Passes the $filepath data through
@@ -118,12 +118,12 @@ abstract class ezpClusterGateway
      * @param int $length
      * @return void
      */
-    abstract function passthrough( $filepath, $filesize, $offset = false, $length = false );
+    abstract public function passthrough( $filepath, $filesize, $offset = false, $length = false );
 
     /**
      * Closes any connection that should be closed
      */
-    abstract function close();
+    abstract public function close();
 
     public function retrieve( $filename )
     {
