@@ -223,4 +223,14 @@ define( 'CLUSTER_STORAGE_PASS', 'dbpassword' );
  */
 // define( 'CLUSTER_HEADER_X_POWERED_BY', true );
 
+
+/**
+ * Define to true if you registered an absolute path
+ * to CacheDir in site.ini so that path to public
+ * caches (i.e. ezjscore) are calculated correctly
+ * by the index_cluster.
+ * Optional. Defaults to false.
+ */
+// define( 'CLUSTER_CACHE_DIR_IS_ABSOLUTE', true);
+ 
 ?>

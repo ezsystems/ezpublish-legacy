@@ -30,6 +30,7 @@ if ( !defined( 'CLUSTER_PERSISTENT_CONNECTION' ) ) define( 'CLUSTER_PERSISTENT_C
 if ( !defined( 'CLUSTER_STORAGE_USER' ) )          define( 'CLUSTER_STORAGE_USER', '' );
 if ( !defined( 'CLUSTER_STORAGE_PASS' ) )          define( 'CLUSTER_STORAGE_PASS', '' );
 if ( !defined( 'CLUSTER_STORAGE_DB' ) )            define( 'CLUSTER_STORAGE_DB', '' );
+if ( !defined( 'CLUSTER_CACHE_DIR_IS_ABSOLUTE' ) ) define( 'CLUSTER_CACHE_DIR_IS_ABSOLUTE', false );
 
 ini_set( 'display_errors', CLUSTER_ENABLE_DEBUG );
 
@@ -57,4 +58,15 @@ $gateway = new $gatewayClass(
     )
 );
 
-$gateway->retrieve( ltrim( $_SERVER['SCRIPT_URL'], '/' ) );
+// Path to public cache files (ezjscore) should not be ltrimed if CacheDir is absolute
+// as they are stored in cluster meta with the pre-pending slash
+if ( CLUSTER_CACHE_DIR_IS_ABSOLUTE && preg_match( '/\/public\/.*(css|js)/', $_SERVER['SCRIPT_URL'] ) )
+{
+	$filename = $_SERVER['SCRIPT_URL'];
+}
+else
+{
+	$filename = ltrim( $_SERVER['SCRIPT_URL'], '/' );
+}
+
+$gateway->retrieve( $filename );
