@@ -188,35 +188,32 @@ class ezpRestRequest extends ezcMvcRequest
     /**
      * Get parsed request body based on content type as a php hash.
      *
-     * In PUT / DELETE currently only supports application/x-www-form-urlencoded and application/json,
+     * Only supports application/x-www-form-urlencoded and application/json,
      * for anything else use ->body atm. If POST then ->post is returned.
      *
      * @todo Add some sort of configurable lazy loaded request body handler for parsing misc content type.
-     * @return array|null Null on unsupported protocol or content type.
+     * @return array|null Null on unsupported content type.
      */
     public function getParsedBody()
     {
-        if ( $this->originalProtocol === 'http-put' ||  $this->originalProtocol === 'http-delete' )
-        {
-            if ( !isset( $this->raw['CONTENT_TYPE'] ) )
-                return null;
-
-            if ( empty( $this->body ) )
-                return array();
-
-            if ( strpos( $this->raw['CONTENT_TYPE'], 'application/x-www-form-urlencoded' ) === 0 )
-            {
-                parse_str( $this->body, $parsedBody );
-                return $parsedBody;
-            }
-            else if ( strpos( $this->raw['CONTENT_TYPE'], 'application/json' ) === 0 )
-            {
-                return json_decode( $this->body, true );
-            }
-        }
-        else if ( $this->originalProtocol === 'http-post' )
+        if ( $this->originalProtocol === 'http-post' )
         {
             return $this->post;
+        }
+        if ( !isset( $this->raw['CONTENT_TYPE'] ) )
+            return null;
+
+        if ( empty( $this->body ) )
+            return array();
+
+        if ( strpos( $this->raw['CONTENT_TYPE'], 'application/x-www-form-urlencoded' ) === 0 )
+        {
+            parse_str( $this->body, $parsedBody );
+            return $parsedBody;
+        }
+        else if ( strpos( $this->raw['CONTENT_TYPE'], 'application/json' ) === 0 )
+        {
+            return json_decode( $this->body, true );
         }
         return null;
     }
