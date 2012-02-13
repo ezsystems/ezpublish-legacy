@@ -300,6 +300,7 @@ class eZUser extends eZPersistentObject
     static public function fetchUnactivated( $sort = false, $limit = 10, $offset = 0 )
     {
         $accountDef = eZUserAccountKey::definition();
+        $settingsDef = eZUserSetting::definition();
 
         return eZPersistentObject::fetchObjectList(
             eZUser::definition(), null, null, $sort,
@@ -307,8 +308,11 @@ class eZUser extends eZPersistentObject
                 'limit' => $limit,
                 'offset' => $offset
             ),
-            true, false, null, array( $accountDef['name'] ),
-            " WHERE contentobject_id = user_id"
+            true, false, null,
+            array( $accountDef['name'], $settingsDef['name'] ),
+            " WHERE contentobject_id = {$accountDef['name']}.user_id"
+                . " AND {$settingsDef['name']}.user_id = contentobject_id"
+                . " AND is_enabled = 0"
         );
     }
 
