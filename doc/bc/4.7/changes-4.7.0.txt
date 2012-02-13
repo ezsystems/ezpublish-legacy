@@ -4,6 +4,14 @@ Changes to BC and behavior in version 4.7.0
 INI setting changes
 -------------------
 
+- Revamped cluster index mechanism
+
+  The cluster index system, used to serve images & binary files when running eZ Publish
+  in cluster mode, has been revamped completely. Settings are now to be placed in
+  config.php, and have slightly different names (they all start with CLUSTER_, for one).
+  Documentation on how to configure the new version is available online.
+  All index_cluster_* & index_image_* files are to be removed from the document root.
+  Backend specific files are now located in kernel/clustering.
 
 Change of behavior
 ------------------
