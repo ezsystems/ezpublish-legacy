@@ -661,14 +661,21 @@ class eZDFSFileHandlerMySQLiBackend
      */
     function _fetchMetadata( $filePath, $fname = false )
     {
+        $metadata = $this->eventHandler->filter( 'cluster/loadMetadata', $filePath );
+        if ( $metadata != false )
+            return $metadata;
+
         if ( $fname )
             $fname .= "::_fetchMetadata($filePath)";
         else
             $fname = "_fetchMetadata($filePath)";
         $sql = "SELECT * FROM " . self::TABLE_METADATA . " WHERE name_hash=" . $this->_md5( $filePath );
-        return $this->_selectOneAssoc( $sql, $fname,
+        $metadata = $this->_selectOneAssoc( $sql, $fname,
                                        "Failed to retrieve file metadata: $filePath",
                                        true );
+        $this->eventHandler->notify( 'cluster/storeMetadata', $metadata );
+
+        return $metadata;
     }
 
     public function _linkCopy( $srcPath, $dstPath, $fname = false )
@@ -1747,6 +1754,12 @@ class eZDFSFileHandlerMySQLiBackend
      * @var eZDFSFileHandlerDFSBackend
      */
     protected $dfsbackend = null;
+
+    /**
+     * Event handler
+     * @var ezpEvent
+     */
+    protected $eventHandler;
 }
 
 ?>
