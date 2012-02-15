@@ -48,4 +48,13 @@ class ezpAttributeOperatorFormatter
 
         return $value;
     }
+    
+    /* (non-PHPdoc)
+    * @see ezpAttributeOperatorFormatterInterface::exportScalar()
+    */
+    public function exportScalar( $value )
+    {
+        return var_export( $value, true );
+    }
+    
 }
