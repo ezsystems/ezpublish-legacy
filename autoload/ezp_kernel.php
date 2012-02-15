@@ -35,6 +35,8 @@ return array(
       'eZCharsetInfo'                                      => 'lib/ezi18n/classes/ezcharsetinfo.php',
       'eZClassFunctionCollection'                          => 'kernel/class/ezclassfunctioncollection.php',
       'eZClassFunctions'                                   => 'kernel/class/ezclassfunctions.php',
+      'eZClusterEventListener'                             => 'kernel/private/classes/clusterfilehandlers/interfaces/ezclustereventlistener.php',
+      'eZClusterEventNotifier'                             => 'kernel/private/classes/clusterfilehandlers/interfaces/ezclustereventnotifier.php',
       'eZClusterFileFailure'                               => 'kernel/classes/ezclusterfilefailure.php',
       'eZClusterFileHandler'                               => 'kernel/classes/ezclusterfilehandler.php',
       'eZClusterFileHandlerInterface'                      => 'kernel/private/interfaces/ezclusterfilehandlerinterface.php',
