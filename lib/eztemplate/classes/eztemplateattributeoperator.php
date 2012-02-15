@@ -21,7 +21,7 @@
   of levels to recurse, if blank or omitted the maxium level is 2.
   The third is the type of display, if set to "text" the output is as pure text
   otherwise as html. The default output is configured in template.ini.
-  
+
   The "dump" operator does exactly what the "attribute" operator does with following
   exceptions:
   - The default maximum number of levels to recurse is 1
@@ -115,7 +115,7 @@ class eZTemplateAttributeOperator
     {
         return true;
     }
-    
+
     /*!
      Display the variable.
     */
@@ -126,20 +126,19 @@ class eZTemplateAttributeOperator
         $format     = $namedParameters[ 'format' ];
 
         $formatter = ezpAttributeOperatorManager::getOutputFormatter( $format );
-        
+
         // check for an object or an array that is not empty
-        if( is_object( $operatorValue ) || ( is_array( $operatorValue ) && !empty( $operatorValue ) ) )
+        if ( is_object( $operatorValue ) || ( is_array( $operatorValue ) && !empty( $operatorValue ) ) )
         {
             $outputString = "";
             $this->displayVariable( $operatorValue, $formatter, $showValues, $max, 0, $outputString );
-            
+
             if ( $formatter instanceof ezpAttributeOperatorFormatterInterface )
-                    $operatorValue = $formatter->header( $outputString, $showValues );
+                $operatorValue = $formatter->header( $outputString, $showValues );
         }
-        else
+        else if ( $formatter instanceof ezpAttributeOperatorFormatterInterface )
         {
-        	    if ( $formatter instanceof ezpAttributeOperatorFormatterInterface )
-                    $operatorValue = $formatter->exportScalar( $operatorValue );
+            $operatorValue = $formatter->exportScalar( $operatorValue );
         }
     }
 
@@ -157,7 +156,7 @@ class eZTemplateAttributeOperator
 
         if ( is_array( $value ) )
         {
-            foreach( $value as $key => $item )
+            foreach ( $value as $key => $item )
             {
                 $outputString .= $formatter->line( $key, $item, $showValues, $level );
 

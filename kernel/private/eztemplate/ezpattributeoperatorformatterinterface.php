@@ -7,7 +7,7 @@
  * @version //autogentag//
  * @package kernel
  */
- 
+
 interface ezpAttributeOperatorFormatterInterface
 {
     /**
@@ -29,11 +29,10 @@ interface ezpAttributeOperatorFormatterInterface
      * @return string
      */
     public function line( $key, $item, $showValues, $level );
-    
-    
+
     /**
      * Formats a scalar value like a string or an integer.
-     * 
+     *
      * @param mixed $value
      * @param return mixed
      */
