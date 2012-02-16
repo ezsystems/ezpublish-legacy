@@ -30,7 +30,7 @@ CREATE TABLE ezdfsfile (
 ) ENGINE=InnoDB;
  */
 
-class eZDFSFileHandlerMySQLiBackend
+class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
 {
     /**
      * Connects to the database.
@@ -1762,6 +1762,32 @@ class eZDFSFileHandlerMySQLiBackend
         mysqli_free_result( $res );
 
         return $filePathList;
+    }
+
+    /**
+     * Registers $listener as the cluster event listener.
+     *
+     * @param eZClusterEventListener $listener
+     * @return void
+     */
+    public function registerListener( eZClusterEventListener $listener )
+    {
+        $this->eventHandler = ezpEvent::getInstance();
+        $suppliedEvents = array(
+            'cluster/storeMetadata',
+            'cluster/loadMetadata',
+            'cluster/fileExists',
+            'cluster/deleteFile',
+            'cluster/deleteByLike',
+            'cluster/deleteByDirList',
+            'cluster/deleteByNametrunk'
+        );
+
+        foreach ( $suppliedEvents as $eventName )
+        {
+            list( $domain, $method ) = explode( '/', $eventName );
+            $this->eventHandler->attach( $eventName, array( $listener, $method ) );
+        }
     }
 
     /**
