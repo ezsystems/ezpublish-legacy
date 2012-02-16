@@ -11,39 +11,59 @@ Input:
                  around the image with href as the link.
  border_size   - Size of border around image, default is 0
 *}
-{default image_class=large
-         css_class=false()
-         alignment=false()
-         link_to_image=false()
-         href=false()
-         target=false()
-         hspace=false()
-         border_size=0
-         border_color=''
-         border_style=''
-         margin_size=''
-         alt_text=''
-         title=''}
+{if is_unset( $image_class )}
+    {def $image_class = 'large'}
+{/if}
+{if is_unset( $css_class )}
+    {def $css_class = false()}
+{/if}
+{if is_unset( $alignment )}
+    {def $alignment = false()}
+{/if}
+{if is_unset( $link_to_image )}
+    {def $link_to_image = false()}
+{/if}
+{if is_unset( $href )}
+    {def $href = false()}
+{/if}
+{if is_unset( $target )}
+    {def $target = false()}
+{/if}
+{if is_unset( $hspace )}
+    {def $hspace = false()}
+{/if}
+{if is_unset( $border_size )}
+    {def $border_size = false()}
+{/if}
+{if is_unset( $border_color )}
+    {def $border_color = false()}
+{/if}
+{if is_unset( $border_style )}
+    {def $border_style = false()}
+{/if}
+{if is_unset( $margin_size )}
+    {def $margin_size = false()}
+{/if}
+{if is_unset( $alt_text )}
+    {def $alt_text = false()}
+{/if}
+{if is_unset( $title )}
+    {def $title = false()}
+{/if}
 
-{let image_content = $attribute.content}
+{def $image_content = $attribute.content}
 
 {if $image_content.is_valid}
 
-    {let image        = $image_content[$image_class]
-         inline_style = ''}
+    {def $image        = $image_content[$image_class]
+         $inline_style = false()}
 
     {if $link_to_image}
         {set href = $image_content['original'].url|ezroot}
     {/if}
-    {switch match=$alignment}
-    {case match='left'}
-        <div class="imageleft">
-    {/case}
-    {case match='right'}
-        <div class="imageright">
-    {/case}
-    {case/}
-    {/switch}
+    {if and( $alignment, array( 'left', 'right' )|contains( $alignment ))}
+        <div class="{cond( $alignment|eq( 'left' ), 'imageleft', 'imageright' )}">
+    {/if}
 
     {if $css_class}
         <div class="{$css_class|wash}">
@@ -51,23 +71,19 @@ Input:
 
     {if and( is_set( $image ), $image )}
         {if $alt_text|not}
-            {if $image.text}
-                {set $alt_text = $image.text}
-            {else}
-                {set $alt_text = $attribute.object.name}
-            {/if}
+            {set $alt_text = cond( $image.text, $image.text, $attribute.object.name )}
         {/if}
         {if $title|not}
             {set $title = $alt_text}
         {/if}
-        {if $border_size|trim|ne('')}
+        {if $border_size}
             {set $inline_style = concat( $inline_style, 'border: ', $border_size, 'px ', $border_style, ' ', $border_color, ';' )}
         {/if}
-        {if $margin_size|trim|ne('')}
+        {if $margin_size}
             {set $inline_style = concat( $inline_style, 'margin: ', $margin_size, 'px;' )}
         {/if}
         {if $href}<a href={$href}{if and( is_set( $link_class ), $link_class )} class="{$link_class}"{/if}{if and( is_set( $link_id ), $link_id )} id="{$link_id}"{/if}{if $target} target="{$target}"{/if}{if and( is_set( $link_title ), $link_title )} id="{$link_title|wash}"{/if}>{/if}
-        <img src={$image.url|ezroot} width="{$image.width}" height="{$image.height}" {if $hspace}hspace="{$hspace}"{/if} style="{$inline_style}" alt="{$alt_text|wash(xhtml)}" title="{$title|wash(xhtml)}" />
+        <img src={$image.url|ezroot} width="{$image.width}" height="{$image.height}"{if $hspace} hspace="{$hspace}"{/if}{if $inline_style} style="{$inline_style}"{/if} alt="{$alt_text|wash(xhtml)}" title="{$title|wash(xhtml)}" />
         {if $href}</a>{/if}
     {/if}
 
@@ -75,20 +91,12 @@ Input:
         </div>
     {/if}
 
-    {switch match=$alignment}
-    {case match='left'}
+    {if and( $alignment, array( 'left', 'right' )|contains( $alignment ))}
         </div>
-    {/case}
-    {case match='right'}
-        </div>
-    {/case}
-    {case/}
-    {/switch}
+    {/if}
 
-    {/let}
+    {undef $image $inline_style}
 
 {/if}
 
-{/let}
-
-{/default}
+{undef $image_content $image_class $css_class $alignment $link_to_image $href $target $hspace $border_size $border_color $border_style $margin_size $alt_text $title}
