@@ -67,6 +67,26 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
                            'iniSection'  => 'eZDFSClusteringSettings',
                            'iniVariable' => 'DBBackend' ) ) );
             self::$dbbackend->_connect( false );
+
+            $fileINI = eZINI::instance( 'file.ini' );
+            if (
+                $fileINI->variable( 'ClusterEventsSettings', 'ClusterEvents' ) === 'enabled'
+                && self::$dbbackend instanceof eZClusterEventNotifier
+            )
+            {
+                $listener = eZExtension::getHandlerClass(
+                    new ezpExtensionOptions(
+                        array(
+                            'iniFile'     => 'file.ini',
+                            'iniSection'  => 'ClusterEventsSettings',
+                            'iniVariable' => 'Listener'
+                        )
+                    )
+                );
+
+                self::$dbbackend->registerListener( $listener );
+                $listener->initialize();
+            }
         }
 
         if ( $filePath !== false )
