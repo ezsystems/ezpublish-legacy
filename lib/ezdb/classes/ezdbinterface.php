@@ -96,31 +96,20 @@ class eZDBInterface
         $this->OutputTextCodec = null;
         $this->InputTextCodec = null;
 
-        /*
-        This is pseudocode, there is no such function as
-        mysql_supports_charset() of course
-        if ( $this->UseBuiltinEncoding and mysql_supports_charset( $charset ) )
-        {
-            mysql_session_set_charset( $charset );
-        }
-        else
-        */
-        {
-            $tmpOutputTextCodec = eZTextCodec::instance( $charset, false, false );
-            $tmpInputTextCodec = eZTextCodec::instance( false, $charset, false );
-            unset( $this->OutputTextCodec );
-            unset( $this->InputTextCodec );
-            $this->OutputTextCodec = null;
-            $this->InputTextCodec = null;
+        $tmpOutputTextCodec = eZTextCodec::instance( $charset, false, false );
+        $tmpInputTextCodec = eZTextCodec::instance( false, $charset, false );
+        unset( $this->OutputTextCodec );
+        unset( $this->InputTextCodec );
+        $this->OutputTextCodec = null;
+        $this->InputTextCodec = null;
 
-            if ( $tmpOutputTextCodec && $tmpInputTextCodec )
+        if ( $tmpOutputTextCodec && $tmpInputTextCodec )
+        {
+            if ( $tmpOutputTextCodec->conversionRequired() && $tmpInputTextCodec->conversionRequired() )
             {
-                if ( $tmpOutputTextCodec->conversionRequired() && $tmpInputTextCodec->conversionRequired() )
-                {
-                    $this->OutputTextCodec =& $tmpOutputTextCodec;
-                    $this->InputTextCodec =& $tmpInputTextCodec;
-                }
-            }
+                $this->OutputTextCodec =& $tmpOutputTextCodec;
+                $this->InputTextCodec =& $tmpInputTextCodec;
+            }        
         }
 
         $this->OutputSQL = false;
