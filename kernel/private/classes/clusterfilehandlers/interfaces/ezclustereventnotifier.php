@@ -9,7 +9,7 @@
 
 /**
  * Interface that must be implemented by cluster backends supporting events notification.
- * Can be useful if one wants to add some cache server such as Memcached or Reddis in place in order to save DB load.
+ * Can be useful if one wants to add some cache server such as Memcached or Redis in place in order to save DB load.
  */
 interface eZClusterEventNotifier
 {
