@@ -145,8 +145,12 @@ class eZDFSFileHandlerMySQLiBackend
         {
             return false;
         }
-        return $this->_protect( array( $this, "_copyInner" ), $fname,
-                                $srcFilePath, $dstFilePath, $fname, $metaData );
+        $result = $this->_protect( array( $this, "_copyInner" ), $fname,
+                                   $srcFilePath, $dstFilePath, $fname, $metaData );
+
+        $this->eventHandler->notify( 'cluster/deleteFile', array( $dstFilePath ) );
+
+        return $result;
     }
 
     /**
@@ -230,6 +234,9 @@ class eZDFSFileHandlerMySQLiBackend
         {
             $this->dfsbackend->delete( $filePath );
         }
+
+        $this->eventHandler->notify( 'cluster/deleteFile', array( $filePath ) );
+
         return true;
     }
 
@@ -348,9 +355,13 @@ class eZDFSFileHandlerMySQLiBackend
         }
         else
         {
-            return $this->_protect( array( $this, '_deleteInner' ), $fname,
+            $res = $this->_protect( array( $this, '_deleteInner' ), $fname,
                                     $filePath, $insideOfTransaction, $fname );
         }
+
+        $this->eventHandler->notify( 'cluster/deleteFile', array( $filePath ) );
+
+        return $res;
     }
 
     /**
@@ -387,8 +398,13 @@ class eZDFSFileHandlerMySQLiBackend
             $fname .= "::_deleteByLike($like)";
         else
             $fname = "_deleteByLike($like)";
-        return $this->_protect( array( $this, '_deleteByLikeInner' ), $fname,
-                                $like, $fname );
+        $return = $this->_protect( array( $this, '_deleteByLikeInner' ), $fname,
+                                   $like, $fname );
+
+        if ( $return )
+            $this->eventHandler->notify( 'cluster/deleteByLike', array( $like ) );
+
+        return $return;
     }
 
     /**
@@ -422,8 +438,13 @@ class eZDFSFileHandlerMySQLiBackend
             $fname .= "::_deleteByRegex($regex)";
         else
             $fname = "_deleteByRegex($regex)";
-        return $this->_protect( array( $this, '_deleteByRegexInner' ), $fname,
-                                $regex, $fname );
+        $return = $this->_protect( array( $this, '_deleteByRegexInner' ), $fname,
+                                   $regex, $fname );
+
+        if ( $return )
+            $this->eventHandler->notify( 'cluster/deleteByRegex', array( $regex ) );
+
+        return $return;
     }
 
     /**
@@ -507,16 +528,29 @@ class eZDFSFileHandlerMySQLiBackend
         {
             if ( strstr( $commonPath, '/cache/content' ) !== false or strstr( $commonPath, '/cache/template-block' ) !== false )
             {
-                $where = "WHERE name_trunk = '$commonPath/$dirItem/$commonSuffix'";
+                $event = 'cluster/deleteByNametrunk';
+                $nametrunk = "$commonPath/$dirItem/$commonSuffix";
+                $eventParameters = array( $nametrunk );
+                $where = "WHERE name_trunk = '$nametrunk'";
+                unset( $nametrunk );
             }
             else
             {
+                $event = 'cluster/deleteByDirList';
+                $eventParameters = array( $commonPath, $dirItem, $commonSuffix );
                 $where = "WHERE name LIKE ".$this->_quote( "$commonPath/$dirItem/$commonSuffix%", true );
             }
             $sql = "UPDATE " . self::TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\n$where";
             if ( !$res = $this->_query( $sql, $fname ) )
             {
                 eZDebug::writeError( "Failed to delete files in dir: '$commonPath/$dirItem/$commonSuffix%'", __METHOD__ );
+                $event = false;
+            }
+
+            if ( $event )
+            {
+                $this->eventHandler->notify( $event, $eventParameters );
+                unset( $event );
             }
         }
         return true;
@@ -528,8 +562,14 @@ class eZDFSFileHandlerMySQLiBackend
             $fname .= "::_exists($filePath)";
         else
             $fname = "_exists($filePath)";
-        $row = $this->_selectOneRow( "SELECT name, mtime FROM " . self::TABLE_METADATA . " WHERE name_hash=" . $this->_md5( $filePath ),
-                                     $fname, "Failed to check file '$filePath' existance: ", true );
+
+        $row = $this->eventHandler->filter( 'cluster/fileExists', $filePath );
+
+        if ( $row == false )
+        {
+            $row = $this->_selectOneRow( "SELECT name, mtime FROM " . self::TABLE_METADATA . " WHERE name_hash=" . $this->_md5( $filePath ),
+                                         $fname, "Failed to check file '$filePath' existance: ", true );
+        }
         if ( $row === false )
             return false;
 
@@ -673,7 +713,7 @@ class eZDFSFileHandlerMySQLiBackend
         $metadata = $this->_selectOneAssoc( $sql, $fname,
                                        "Failed to retrieve file metadata: $filePath",
                                        true );
-        $this->eventHandler->notify( 'cluster/storeMetadata', $metadata );
+        $this->eventHandler->notify( 'cluster/storeMetadata', array( $metadata ) );
 
         return $metadata;
     }
@@ -783,6 +823,9 @@ class eZDFSFileHandlerMySQLiBackend
 
         $this->_commit( __METHOD__ );
 
+        $this->eventHandler->notify( 'cluster/deleteFile', array( $srcFilePath ) );
+        // no need to notify about the destination filePath, as it is already cleared by purge called above
+
         return true;
     }
 
@@ -809,6 +852,8 @@ class eZDFSFileHandlerMySQLiBackend
 
         $this->_protect( array( $this, '_storeInner' ), $fname,
                          $filePath, $datatype, $scope, $fname );
+
+        $this->eventHandler->notify( 'cluster/deleteFile', array( $filePath ) );
     }
 
     /**
@@ -903,6 +948,8 @@ class eZDFSFileHandlerMySQLiBackend
         {
             return $this->_fail( "Failed to open DFS://$filePath for writing" );
         }
+
+        $this->eventHandler->notify( 'cluster/deleteFile', array( $filePath ) );
 
         return true;
     }
@@ -1761,5 +1808,4 @@ class eZDFSFileHandlerMySQLiBackend
      */
     protected $eventHandler;
 }
-
 ?>
