@@ -99,5 +99,5 @@ interface eZClusterEventListener
      * @param string $nametrunk
      * @return void
      */
-    public function deleteNametrunk( $nametrunk );
+    public function deleteByNametrunk( $nametrunk );
 }
