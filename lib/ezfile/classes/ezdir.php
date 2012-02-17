@@ -269,9 +269,15 @@ class eZDir
             return false;
 
         // rootCheck is enabled and $dir is not part of the root directory
-        if ( $rootCheck && strpos( dirname( realpath( $dir ) ) . DIRECTORY_SEPARATOR, realpath( eZSys::rootDir() ) . DIRECTORY_SEPARATOR ) === false )
-            return false;
-
+        // or the cache directory (if set to an absolute path)
+        if ( $rootCheck )
+        {
+        	$dirPath = dirname( realpath( $dir ) ) . DIRECTORY_SEPARATOR;
+        	if ( strpos( $dirPath, realpath( eZSys::rootDir() ) . DIRECTORY_SEPARATOR ) === false )
+        		if ( strpos( $dirPath, realpath( eZSys::cacheDirectory() ) . DIRECTORY_SEPARATOR ) === false )
+	            	return false;
+        }
+        
         // the directory cannot be opened
         if ( ! ( $handle = @opendir( $dir ) ) )
             return false;
