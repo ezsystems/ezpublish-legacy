@@ -77,9 +77,10 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
                 $listener = eZExtension::getHandlerClass(
                     new ezpExtensionOptions(
                         array(
-                            'iniFile'     => 'file.ini',
-                            'iniSection'  => 'ClusterEventsSettings',
-                            'iniVariable' => 'Listener'
+                            'iniFile'       => 'file.ini',
+                            'iniSection'    => 'ClusterEventsSettings',
+                            'iniVariable'   => 'Listener',
+                            'handlerParams' => array( new eZClusterEventLoggerEzdebug() )
                         )
                     )
                 );
