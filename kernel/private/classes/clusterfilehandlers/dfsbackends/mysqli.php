@@ -32,6 +32,11 @@ CREATE TABLE ezdfsfile (
 
 class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
 {
+    public function __construct()
+    {
+        $this->eventHandler = ezpEvent::getInstance();
+    }
+
     /**
      * Connects to the database.
      *
@@ -1772,7 +1777,6 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
      */
     public function registerListener( eZClusterEventListener $listener )
     {
-        $this->eventHandler = ezpEvent::getInstance();
         $suppliedEvents = array(
             'cluster/storeMetadata',
             'cluster/loadMetadata',
