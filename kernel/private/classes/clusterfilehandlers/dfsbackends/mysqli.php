@@ -718,7 +718,8 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         $metadata = $this->_selectOneAssoc( $sql, $fname,
                                        "Failed to retrieve file metadata: $filePath",
                                        true );
-        $this->eventHandler->notify( 'cluster/storeMetadata', array( $metadata ) );
+        if ( is_array( $metadata ) )
+            $this->eventHandler->notify( 'cluster/storeMetadata', array( $metadata ) );
 
         return $metadata;
     }
