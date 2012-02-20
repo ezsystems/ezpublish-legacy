@@ -85,8 +85,11 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
                     )
                 );
 
-                self::$dbbackend->registerListener( $listener );
-                $listener->initialize();
+                if ( $listener instanceof eZClusterEventListener )
+                {
+                    self::$dbbackend->registerListener( $listener );
+                    $listener->initialize();
+                }
             }
         }
 
