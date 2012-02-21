@@ -31,9 +31,11 @@ gateways can be added my means of extensions.
 Configuration
 '''''''''''''
 
-Configuration is now done through the already existing config.php. As always with this file,
-documentation can be found in the distributed config.php-dist file. For this rewrite, you will
+Configuration is now done through the already existing ``config.php``. As always with this file,
+documentation can be found in the distributed ``config.php-RECOMMENDED`` file. For this rewrite, you will
 find about a dozen new constants, all prefixed with CLUSTER_.
+Optionnaly, you can define those constants in a ``config.cluster.php`` file (which needs to be created).
+In that case, the constants will be only available for cluster environment.
 
 Some of them are settings (database host, database, password, NFS path...), while some of them
 are flags that can be enabled/disabled.
