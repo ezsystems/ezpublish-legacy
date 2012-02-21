@@ -14,6 +14,9 @@
  */
 include 'config.php';
 
+if ( file_exists( 'config.cluster.php' ) )
+    include( 'config.cluster.php' );
+
 if ( !defined( 'CLUSTER_STORAGE_BACKEND' ) || CLUSTER_STORAGE_BACKEND === null )
 {
     // FIXME: this method is no more defined here
