@@ -33,7 +33,7 @@ if ( !defined( 'CLUSTER_STORAGE_DB' ) )            define( 'CLUSTER_STORAGE_DB',
 
 ini_set( 'display_errors', CLUSTER_ENABLE_DEBUG );
 
-require "kernel/clustering/gateway.php";
+require_once "kernel/clustering/gateway.php";
 
 if ( defined( 'CLUSTER_STORAGE_GATEWAY_PATH' ) && CLUSTER_STORAGE_GATEWAY_PATH )
     $clusterGatewayFile = CLUSTER_STORAGE_GATEWAY_PATH;
@@ -47,16 +47,6 @@ if ( !file_exists( $clusterGatewayFile ) )
 }
 
 // We use require_once as the gateway file may have been included before for initialization purpose
-$gatewayClass = require_once $clusterGatewayFile;
-$gateway = new $gatewayClass(
-    array(
-        "host" => CLUSTER_STORAGE_HOST,
-        "port" => defined( "CLUSTER_STORAGE_PORT" ) ? CLUSTER_STORAGE_PORT : null,
-        "user" => CLUSTER_STORAGE_USER,
-        "password" => CLUSTER_STORAGE_PASS,
-        "name" => CLUSTER_STORAGE_DB,
-        "charset" => CLUSTER_STORAGE_CHARSET,
-    )
-);
-
+require_once $clusterGatewayFile;
+$gateway = ezpClusterGateway::getGateway();
 $gateway->retrieve( ltrim( $_SERVER['SCRIPT_URL'], '/' ) );

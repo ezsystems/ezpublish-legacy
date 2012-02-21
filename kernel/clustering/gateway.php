@@ -14,6 +14,12 @@
 abstract class ezpClusterGateway
 {
     /**
+     * The active gateway class
+     * @var string
+     */
+    private static $gatewayClass;
+
+    /**
      * Database instance, optional
      *
      * @var mixed
@@ -284,5 +290,36 @@ EOF;
             $this->close();
         }
         exit;
+    }
+
+    /**
+     * Sets the gateway class to $gatewayClass
+     *
+     * @param string $gatewayClass
+     */
+    public static function setGatewayClass( $gatewayClass )
+    {
+        self::$gatewayClass = $gatewayClass;
+    }
+
+    /**
+     * Returns an instance of the gateway class depending on {@link setGatewayClass()}
+     *
+     * @return ezpClusterGateway
+     */
+    public static function getGateway()
+    {
+        $gatewayClass = self::$gatewayClass;
+
+        return new $gatewayClass(
+            array(
+                "host" => CLUSTER_STORAGE_HOST,
+                "port" => defined( "CLUSTER_STORAGE_PORT" ) ? CLUSTER_STORAGE_PORT : null,
+                "user" => CLUSTER_STORAGE_USER,
+                "password" => CLUSTER_STORAGE_PASS,
+                "name" => CLUSTER_STORAGE_DB,
+                "charset" => CLUSTER_STORAGE_CHARSET,
+            )
+        );
     }
 }

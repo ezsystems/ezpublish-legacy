@@ -68,5 +68,4 @@ class ezpDfsPostgresqlClusterGateway extends ezpClusterGateway
     }
 }
 
-// return the class name for easier instanciation
-return 'ezpDfsPostgresqlClusterGateway';
+ezpClusterGateway::setGatewayClass( 'ezpDfsPostgresqlClusterGateway' );

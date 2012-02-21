@@ -67,5 +67,4 @@ class ezpDfsMySQLiClusterGateway extends ezpClusterGateway
     }
 }
 
-// return the class name for easier instanciation
-return 'ezpDfsMySQLiClusterGateway';
+ezpClusterGateway::setGatewayClass( 'ezpDfsMySQLiClusterGateway' );
