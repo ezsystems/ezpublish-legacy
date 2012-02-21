@@ -198,6 +198,10 @@ class ezpRestRequest extends ezcMvcRequest
     {
         if ( $this->originalProtocol === 'http-post' )
         {
+            if ( $this->raw['CONTENT_TYPE'] === 'application/json' )
+            {
+                return json_decode( $this->body, true );
+            }
             return $this->post;
         }
         if ( !isset( $this->raw['CONTENT_TYPE'] ) )
