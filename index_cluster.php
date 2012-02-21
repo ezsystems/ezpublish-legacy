@@ -45,7 +45,9 @@ if ( !file_exists( $clusterGatewayFile ) )
     // FIXME: this method is no more defined here
     _die( "Unable to open storage backend gateway class definition file '$clusterGatewayFile'" );
 }
-$gatewayClass = require $clusterGatewayFile;
+
+// We use require_once as the gateway file may have been included before for initialization purpose
+$gatewayClass = require_once $clusterGatewayFile;
 $gateway = new $gatewayClass(
     array(
         "host" => CLUSTER_STORAGE_HOST,
