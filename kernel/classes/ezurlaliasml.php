@@ -1809,6 +1809,10 @@ class eZURLAliasML extends eZPersistentObject
             {
                 $query .= " AND is_original = 1";
             }
+            if ( $db->databaseName() === 'mysql' )
+            {
+                $query .= ' LOCK IN SHARE MODE';
+            }
             $rows = $db->arrayQuery( $query );
             if ( count( $rows ) == 0 )
             {
