@@ -121,6 +121,7 @@
 
    In order to serve binary files over HTTP, eZ Publish needs informations about your cluster backend.
    Most of these settings will duplicate those found in your file.ini.append.php.
+   You can optionnaly define those constants in config.cluster.php
 */
 
 /**
