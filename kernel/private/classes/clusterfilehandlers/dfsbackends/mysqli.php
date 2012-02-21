@@ -570,7 +570,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
 
         $row = $this->eventHandler->filter( 'cluster/fileExists', $filePath );
 
-        if ( $row == false )
+        if ( !is_array( $row ) )
         {
             $row = $this->_selectOneRow( "SELECT name, mtime FROM " . self::TABLE_METADATA . " WHERE name_hash=" . $this->_md5( $filePath ),
                                          $fname, "Failed to check file '$filePath' existance: ", true );
@@ -707,7 +707,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
     function _fetchMetadata( $filePath, $fname = false )
     {
         $metadata = $this->eventHandler->filter( 'cluster/loadMetadata', $filePath );
-        if ( $metadata != false )
+        if ( is_array( $metadata ) )
             return $metadata;
 
         if ( $fname )
