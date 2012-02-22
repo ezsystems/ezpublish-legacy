@@ -11,6 +11,7 @@ Input:
                  around the image with href as the link.
  border_size   - Size of border around image, default is 0
 *}
+
 {if is_unset( $image_class )}
     {def $image_class = 'large'}
 {/if}
@@ -50,6 +51,18 @@ Input:
 {if is_unset( $title )}
     {def $title = false()}
 {/if}
+{if is_unset( $link_class )}
+    {def $link_class = false()}
+{/if}
+{if is_unset( $imagetag_class )}
+    {def $imagetag_class = false()}
+{/if}
+{if is_unset( $link_id )}
+    {def $link_id = false()}
+{/if}
+{if is_unset( $imagetag_id )}
+    {def $imagetag_id = false()}
+{/if}
 
 {def $image_content = $attribute.content}
 
@@ -82,8 +95,8 @@ Input:
         {if $margin_size}
             {set $inline_style = concat( $inline_style, 'margin: ', $margin_size, 'px;' )}
         {/if}
-        {if $href}<a href={$href}{if and( is_set( $link_class ), $link_class )} class="{$link_class}"{/if}{if and( is_set( $link_id ), $link_id )} id="{$link_id}"{/if}{if $target} target="{$target}"{/if}{if and( is_set( $link_title ), $link_title )} id="{$link_title|wash}"{/if}>{/if}
-        <img src={$image.url|ezroot} width="{$image.width}" height="{$image.height}"{if $hspace} hspace="{$hspace}"{/if}{if $inline_style} style="{$inline_style}"{/if} alt="{$alt_text|wash(xhtml)}" title="{$title|wash(xhtml)}" />
+        {if $href}<a href={$href}{if $link_class} class="{$link_class}"{/if}{if $link_id} id="{$link_id}"{/if}{if $target} target="{$target}"{/if}{if and( is_set( $link_title ), $link_title )} id="{$link_title|wash}"{/if}>{/if}
+        <img src={$image.url|ezroot} width="{$image.width}" height="{$image.height}"{if $hspace} hspace="{$hspace}"{/if}{if $inline_style} style="{$inline_style}"{/if}{if $imagetag_class} class="{$imagetag_class}"{/if}{if $imagetag_id} id="{$imagetag_id}"{/if} alt="{$alt_text|wash(xhtml)}" title="{$title|wash(xhtml)}" />
         {if $href}</a>{/if}
     {/if}
 
@@ -99,4 +112,6 @@ Input:
 
 {/if}
 
-{undef $image_content $image_class $css_class $alignment $link_to_image $href $target $hspace $border_size $border_color $border_style $margin_size $alt_text $title}
+{undef $image_content}
+
+{undef $image_class $css_class $alignment $link_to_image $href $target $hspace $border_size $border_color $border_style $margin_size $alt_text $title}
