@@ -522,6 +522,8 @@ class eZTemplate
                 eZDebug::addTimingPoint( "Process" );
             eZDebug::accumulatorStart( 'template_processing', 'template_total', 'Template processing' );
 
+            ezpEvent::getInstance()->notify( 'template/pre_processing', array( &$this, $resourceData ) );
+
             $templateCompilationUsed = false;
             if ( $resourceData['compiled-template'] )
             {
@@ -543,6 +545,8 @@ class eZTemplate
                 if ( eZTemplate::isDebugEnabled() )
                     eZDebug::writeDebug( "FETCH END URI: $template, $fname" );
             }
+
+            ezpEvent::getInstance()->notify( 'template/post_processing', array( &$this, $resourceData ) );
 
             eZDebug::accumulatorStop( 'template_processing' );
             if ( $this->ShowDetails )
