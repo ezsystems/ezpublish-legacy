@@ -116,5 +116,5 @@ Known limitations
 Cluster system is built *very early* in the request life cycle in eZ Publish and thus doesn't allow to have 
 settings in extensions or siteaccesses.
 
-So if one wants to develop a cluster event extension, **configuration file(s) MUST be placed in ``settings/override/``**.
+So if one wants to develop a cluster event extension, **configuration file(s) MUST be placed in settings/override/**.
 
