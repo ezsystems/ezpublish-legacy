@@ -48,9 +48,13 @@ interface eZClusterEventListener
 
     /**
      * Checks if a file exists on the cluster.
-     * If file does exist, this method must return an associative array with following keys:
+     * If file does exist, this method must return an array (numeric indexes) containing following data:
      *  - name
      *  - mtime
+     *
+     * <code>
+     * return array( 'filename.txt', 1329921039 );
+     * </code>
      *
      * Returns false if file doesn't exist
      *
