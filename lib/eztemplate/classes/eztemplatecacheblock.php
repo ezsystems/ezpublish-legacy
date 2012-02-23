@@ -148,8 +148,16 @@ class eZTemplateCacheBlock
         $accesName = array_pop( $keysArray );
         $placementKeyString = array_pop( $keysArray );
         $placementKeyArray = explode( self::PLACEMENT_STRING_SEPARATOR, $placementKeyString );
-        $templateFileName = array_pop(  $placementKeyArray );
-        $cacheFileSubdir = $accesName.'/'.$templateFileName;
+        $placementKeyArray = array_reverse( $placementKeyArray );
+
+        // Initialize cache-block subdir with siteAccessName and template file path :
+        $cacheFileSubdir = $accesName.'/'.$placementKeyArray[0];
+
+        // If template line number is setted, add it to the cache-block subdir !
+        if ( array_key_exists( 4, $placementKeyArray ) )
+        {
+            $cacheFileSubdir .= '/'.$placementKeyArray[4];
+        }
         
         $filename = eZSys::ezcrc32( $keyString ) . ".cache";
 
