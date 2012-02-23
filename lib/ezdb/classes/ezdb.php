@@ -60,7 +60,7 @@
 
   foreach ( $rows as $row )
   {
-     print( $row['name']�);
+     print( $row['name'] );
   }
 
   // fetch some data with a limit
