@@ -287,7 +287,8 @@ class eZStringType extends eZDataType
 
     function fromString( $contentObjectAttribute, $string )
     {
-        return $contentObjectAttribute->setAttribute( 'data_text', $string );
+        $contentObjectAttribute->setAttribute( 'data_text', $string );
+        return true;
     }
 
 

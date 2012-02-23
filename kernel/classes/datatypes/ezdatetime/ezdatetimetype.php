@@ -293,7 +293,8 @@ class eZDateTimeType extends eZDataType
 
     function fromString( $contentObjectAttribute, $string )
     {
-        return $contentObjectAttribute->setAttribute( 'data_int', $string );
+        $contentObjectAttribute->setAttribute( 'data_int', $string );
+        return true;
     }
 
     /*!

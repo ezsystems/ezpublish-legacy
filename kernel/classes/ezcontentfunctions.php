@@ -150,8 +150,16 @@ class eZContentFunctions
                                 default:
                             }
 
-                            $attribute->fromString( $dataString );
-                            $attribute->store();
+                            if ( $attribute->fromString( $dataString ) )
+                            {
+                                $attribute->store();
+                            }
+                            else
+                            {
+                                $db->rollback();                                
+                                eZDebug::writeError( "Error trying to add '$attributeIdentifier' to the '$classIdentifier' object.", __METHOD__ );
+                                return false;
+                            }
                         }
                     }
                 }
@@ -305,8 +313,16 @@ class eZContentFunctions
                     default:
                 }
 
-                $attribute->fromString( $dataString );
-                $attribute->store();
+                if ( $attribute->fromString( $dataString ) )
+                {
+                    $attribute->store();
+                }
+                else
+                {
+                    $db->rollback();
+                    eZDebug::writeError( "Error trying to update '$attributeIdentifier' for object " . $object->attribute( 'id' ) . ".", __METHOD__ );
+                    return false;
+                }
             }
         }
 
