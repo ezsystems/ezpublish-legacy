@@ -47,6 +47,11 @@ if ( $NodeID < 2 )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
 
+$testingHandler = new ezpMultivariateTest( ezpMultivariateTest::getHandler() );
+
+if ( $testingHandler->isEnabled() )
+    $NodeID = $testingHandler->execute( $NodeID );
+
 $ini = eZINI::instance();
 $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
 
