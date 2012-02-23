@@ -111,6 +111,7 @@ if ( $contentstructuremenuINI->variable( 'TreeMenu', 'UseCache' ) == 'enabled' a
         $showHidden,
         $user->roleIDList(),
         $user->limitValueList(),
+        'content/treemenu',
         $accessName ), $nodeID, -1 );
 
     if ( !( $cacheFileContent  instanceof eZClusterFileFailure ) )
