@@ -74,19 +74,6 @@ Installation
 
    If you don't manage to get these working, you can disable this feature setting ezjscore.ini[eZJSCore]Packer=disabled
 
- 7. (optional) Speedup ajax calls
-
-    1. Copy or symlink index_ajax.php from this extension to the root folder of eZ Publish (next to index.php)
-
-    2. Add the following rewrite rule:
-
-       * .htaccess
-         RewriteRule ezjscore/call.* index_ajax.php
-         RewriteRule ^index_ajax\.php - [L]
-    
-       * Virtual Host mode
-         RewriteRule ^/([^/]+/)?ezjscore/call.* /index_ajax\.php [L]
-
 
 
 Using eZ JSCore Server functions from javascript
