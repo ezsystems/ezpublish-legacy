@@ -194,7 +194,6 @@ abstract class ezpClusterGateway
             $serverVariables = array_change_key_case( $_SERVER, CASE_UPPER );
             if ( isset( $serverVariables['HTTP_IF_NONE_MATCH'] ) && trim( $serverVariables['HTTP_IF_NONE_MATCH'] ) != "$mtime-$filesize" )
             {
-                trigger_error( "etag", E_USER_ERROR );
                 $this->notModified();
             }
 
