@@ -5,6 +5,8 @@ Cluster events consist in a new feature allowing to interact with eZ Publish clu
 Depending on the action made by eZ Publish cluster, an event is trigerred via `ezpEvent` class.
 It allows a dedicated listener object to store metadata in cache engines for example (like **APC** or **Memcached**)
 and thus save database queries (and increase performance and scalability).
+These events would eventually also allow to push media files directly to a CDN (Akamai, Amazon S3...).
+
 
 
 ## Requirements ##
