@@ -11,7 +11,7 @@
 interface ezpMultivariateTestHandlerInterface
 {
     /**
-     * Checks wheter multivariate testing is enabled or not
+     * Checks whether multivariate testing is enabled or not
      *
      * @abstract
      * @return bool
@@ -19,7 +19,7 @@ interface ezpMultivariateTestHandlerInterface
     public function isEnabled();
 
     /**
-     * Executes multivatriate test secnarios
+     * Executes multivariate test scenarios
      *
      * @abstract
      * @param int $nodeID
