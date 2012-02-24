@@ -1,36 +1,39 @@
-Cluster events
-==============
+# Cluster events #
 
 Cluster events consist in a new feature allowing to interact with eZ Publish cluster system.
 
-Depending on the action made by eZ Publish cluster, an event is trigerred via ``ezpEvent`` class.
+Depending on the action made by eZ Publish cluster, an event is trigerred via `ezpEvent` class.
 It allows a dedicated listener object to store metadata in cache engines for example (like **APC** or **Memcached**)
 and thus save database queries (and increase performance and scalability).
 
-Requirements
-------------
+
+## Requirements ##
+
 At the moment, cluster events are only available for a **DFS cluster** environment using **MySQLi backend**.
 
-Cluster event listener
-----------------------
+
+## Cluster event listener ##
+
 In order to properly respond to cluster events, a dedicated event listener must be developped as a PHP class.
-This class must implement ``eZClusterEventListener`` interface (see comments in the interface for more information).
+This class must implement `eZClusterEventListener` interface (see comments in the interface for more information).
 
-To work then, cluster events must be activated and the listener declared in ``settings/override/file.ini.append.php``::
+To work then, cluster events must be activated and the listener declared in `settings/override/file.ini.append.php`:
 
-  [ClusterEventsSettings]
-  ClusterEvents=enabled
-  Listener=MyClusterEventListener
+```ini
+[ClusterEventsSettings]
+ClusterEvents=enabled
+Listener=MyClusterEventListener
+```
 
-Cluster gateway for index_cluster.php
-'''''''''''''''''''''''''''''''''''''
-As of 4.7, cluster index (the one which serves binary files) has been refactored (see ``doc/features/4.7/cluster_index.txt``).
-Depending on your cluster backend, a gateway class is used (``ezpDfsMySQLiClusterGateway`` in case of DFS MySQLi).
+### Cluster gateway for index_cluster.php ###
+As of 4.7, cluster index (the one which serves binary files) has been refactored (see `doc/features/4.7/cluster_index.txt`).
+Depending on your cluster backend, a gateway class is used (`ezpDfsMySQLiClusterGateway` in case of DFS MySQLi).
 
 For performance reasons, cluster events are not triggered from cluster gateways, so the listener needs to be notified directly.
-A best practice for this is to extend the gateway and at least override ``connect()`` and ``fetchFileMetadata()`` methods
-to use your listener::
+A best practice for this is to extend the gateway and at least override `connect()` and `fetchFileMetadata()` methods
+to use your listener:
 
+```php
   <?php
   require_once 'kernel/clustering/dfsmysqli.php';
 
@@ -62,11 +65,11 @@ to use your listener::
       }
 
   }
+```
 
-Then following configuration should be added to ``config.cluster.php``
+Then following configuration should be added to `config.cluster.php`
 
-::
-
+```php
   <?php
   // Adapt settings to your needs
   define( 'CLUSTER_STORAGE_BACKEND', 'dfsmysqli'  );
@@ -81,40 +84,44 @@ Then following configuration should be added to ``config.cluster.php``
   require_once 'extension/myclustereventsextension/classes/MyClusterGatewayMySQLi.php';
   require_once 'kernel/clustering/gateway.php';
   ezpClusterGateway::setGatewayClass( 'MyClusterGatewayMySQLi' );
+```
 
 If you need configuration, do NOT try to load eZINI as it has a lot of dependencies that are not suited
-to be loaded in ``index_cluster.php``.
+to be loaded in `index_cluster.php`.
 Try to use constants instead or configuration objects passed to your custom gateway.
 
-Supported events
-----------------
-- ``cluster/storeMetadata`` - **Notification**.
+
+## Supported events ##
+
+- `cluster/storeMetadata` - **Notification**.
   The metadata array is passed as argument.
 
-- ``cluster/loadMetadata`` - **Filter**.
+- `cluster/loadMetadata` - **Filter**.
   File path we need metadata from is passed as argument.
   Must return an the metadata array or false.
 
-- ``cluster/fileExists`` - **Filter**.
+- `cluster/fileExists` - **Filter**.
   File path is passed as argument.
   Must return an array (numeric indexes) containing name (first index) and mtime (second index) if file exists, false if not.
 
-- ``cluster/deleteFile`` - **Notification**.
+- `cluster/deleteFile` - **Notification**.
   File path is passed as argument.
 
-- ``cluster/deleteByLike`` - **Notification**.
+- `cluster/deleteByLike` - **Notification**.
   The like param is passed as argument.
 
-- ``cluster/deleteByDirList`` - **Notification**.
-  Are passed: dirList (array), commonPath and commonSuffix
+- `cluster/deleteByDirList` - **Notification**.
+  Are passed: *dirList* (array), *commonPath* and *commonSuffix*
 
-- ``cluster/deleteByNametrunk`` - **Notification**.
+- `cluster/deleteByNametrunk` - **Notification**.
   Nametrunk is passed as argument.
 
-Known limitations
------------------
+
+## Known limitations ##
+
 Cluster system is built *very early* in the request life cycle in eZ Publish and thus doesn't allow to have 
 settings in extensions or siteaccesses.
 
-So if one wants to develop a cluster event extension, **configuration file(s) MUST be placed in settings/override/**.
+So if one wants to develop a cluster event extension, **configuration file(s) MUST be placed in `settings/override/`**.
+
 
