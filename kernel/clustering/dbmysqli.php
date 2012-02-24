@@ -39,7 +39,7 @@ class ezpDbMySQLiClusterGateway extends ezpClusterGateway
         return $metadata;
     }
 
-    public function passthrough( $filepath, $offset = false, $length = false)
+    public function passthrough( $filepath, $filesize, $offset = false, $length = false)
     {
         if ( !$res = mysqli_query( $this->db, "SELECT filedata FROM ezdbfile_data WHERE name_hash=MD5('$filepath') ORDER BY offset ASC" ) )
             throw new RuntimeException( "Unable to open file data for '$filepath' " .
