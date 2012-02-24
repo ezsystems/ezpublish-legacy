@@ -187,7 +187,7 @@ abstract class ezpClusterGateway
         if ( CLUSTER_HEADER_X_POWERED_BY !== false )
             header( "X-Powered-By: " . CLUSTER_HEADER_X_POWERED_BY );
 
-        // Request headers: eTag  + IF-MODIFIED-SINCE
+        // Request headers: eTag + IF-MODIFIED-SINCE
         if ( CLUSTER_ENABLE_HTTP_CACHE )
         {
             header( "ETag: $mtime-$filesize" );

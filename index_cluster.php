@@ -26,13 +26,14 @@ if ( !defined( 'CLUSTER_STORAGE_BACKEND' ) || CLUSTER_STORAGE_BACKEND === null )
 // default values
 if ( !defined( 'CLUSTER_ENABLE_HTTP_RANGE' ) )     define( 'CLUSTER_ENABLE_HTTP_RANGE', true );
 if ( !defined( 'CLUSTER_ENABLE_HTTP_CACHE' ) )     define( 'CLUSTER_ENABLE_HTTP_CACHE', true );
-if ( !defined( 'CLUSTER_EXPIRY_TIMEOUT' ) )        define( 'CLUSTER_EXPIRY_TIMEOUT', true );
 if ( !defined( 'CLUSTER_HEADER_X_POWERED_BY' ) )   define( 'CLUSTER_HEADER_X_POWERED_BY', true );
 if ( !defined( 'CLUSTER_ENABLE_DEBUG' ) )          define( 'CLUSTER_ENABLE_DEBUG', false );
 if ( !defined( 'CLUSTER_PERSISTENT_CONNECTION' ) ) define( 'CLUSTER_PERSISTENT_CONNECTION', false );
 if ( !defined( 'CLUSTER_STORAGE_USER' ) )          define( 'CLUSTER_STORAGE_USER', '' );
 if ( !defined( 'CLUSTER_STORAGE_PASS' ) )          define( 'CLUSTER_STORAGE_PASS', '' );
 if ( !defined( 'CLUSTER_STORAGE_DB' ) )            define( 'CLUSTER_STORAGE_DB', '' );
+if ( !defined( 'CLUSTER_EXPIRY_TIMEOUT' ) || CLUSTER_EXPIRY_TIMEOUT === true )
+    define( 'CLUSTER_EXPIRY_TIMEOUT', 86400 );
 
 ini_set( 'display_errors', CLUSTER_ENABLE_DEBUG );
 

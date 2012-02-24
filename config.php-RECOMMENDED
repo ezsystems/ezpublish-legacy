@@ -214,9 +214,13 @@ define( 'CLUSTER_STORAGE_PASS', 'dbpassword' );
 
 /**
  * Enable usage of "Expires" headers.
- * Optional. Defaults to true.
+ * Optional. Defaults to 86400 (one day).
+ * Possible values: false (disable), or a TTL in seconds.
+ * Can be set to a VERY high value (315569260 for 10 years) as long as you enable
+ * ezjscore.ini/[Packer]/AppendLastModifiedTime so that the generation timestamp is appended
+ * to ezjscore pack files
  */
-// define( 'CLUSTER_EXPIRY_TIMEOUT', true );
+// define( 'CLUSTER_EXPIRY_TIMEOUT', 86400 );
 
 /**
  * Enable usage of "X-Powered-By" headers.
