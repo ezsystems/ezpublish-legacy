@@ -199,6 +199,8 @@ abstract class ezpClusterGateway
 
             if ( isset( $serverVariables['HTTP_IF_MODIFIED_SINCE'] ) )
             {
+                $value = $serverVariables['HTTP_IF_MODIFIED_SINCE'];
+
                 // strip the garbage prepended by a semi-colon used by some browsers
                 if ( ( $pos = strpos( $value , ';' ) ) !== false )
                     $value = substr( $value, 0, $pos );
