@@ -189,8 +189,6 @@ class ezpContentPublishingProcess extends eZPersistentObject
             $myPid = getmypid();
             pcntl_signal( SIGCHLD, SIG_IGN );
 
-            fclose( STDERR );
-
             $this->setAttribute( 'pid', $myPid );
             $this->setAttribute( 'started', time() );
             $this->store( array( 'pid', 'started' ) );
