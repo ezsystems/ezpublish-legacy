@@ -3053,7 +3053,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         $nodeListArray = $db->arrayQuery( $query );
 
-        if ( count( $nodeListArray ) > 0 )
+        if ( is_array( $nodeListArray ) && count( $nodeListArray ) > 0 )
         {
             if ( $asObject )
             {
