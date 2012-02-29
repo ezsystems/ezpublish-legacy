@@ -64,7 +64,7 @@ Modify custom Ajax code
 =======================
 
 If your custom ajax code only uses ezjscore jQuery.ez() or Y.io.ez(), then
-your already covered and don't need to look further.
+you're already covered and don't need to look further.
 
 This section is about making sure code that uses ajax functions directly on
 any library or natively includes the correct post form token if available.
