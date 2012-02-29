@@ -503,7 +503,7 @@ class eZPackage
     {
         if ( function_exists( 'md5_file' ) )
         {
-            if ( file_exists( $file ) )
+            if ( is_file( $file ) )
             {
                 return md5_file( $file );
             }
