@@ -1047,7 +1047,7 @@ foreach ( $commandList as $commandItem )
         if ( $package )
         {
             $package->remove();
-            $cli->error( "Package " . $commandItem['name'] . " deleted." );
+            $cli->output( "Package " . $commandItem['name'] . " deleted." );
         }
         else
             $cli->error( "Could not open package " . $commandItem['name'] );
