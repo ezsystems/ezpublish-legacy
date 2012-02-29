@@ -211,6 +211,7 @@ abstract class ezpClusterGateway
 
         // Request headers:  HTTP Range
         $contentLength = $filesize;
+        $startOffset = false;
         if ( CLUSTER_ENABLE_HTTP_RANGE )
         {
             // let the client know we do accept range by bytes
