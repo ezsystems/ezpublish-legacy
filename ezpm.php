@@ -174,7 +174,7 @@ function helpHelp()
                   "   export\n" .
                   "   add\n" .
                   "   set\n" .
-//                  "   delete (del, remove, rm)\n" .
+                  "   delete (del, remove, rm)\n" .
                   "   list\n" .
                   "   info\n"
                   );
@@ -572,6 +572,11 @@ for ( $i = 1; $i < count( $argv ); ++$i )
                     $commandItem['export-directory'] = $argv[$i];
                 }
             }
+            else if ( $commandItem['command'] == 'delete' )
+            {
+                if ( $commandItem['name'] === false )
+                    $commandItem['name'] = $arg;
+            }
         }
     }
 }
@@ -655,6 +660,14 @@ foreach ( $commandList as $commandItem )
     {
         helpHelp();
         exit( 1 );
+    }
+    else if ( $commandItem['command'] == 'delete' )
+    {
+        if ( !$commandItem['name'] )
+        {
+            helpDelete();
+            exit( 1 );
+        }
     }
     else
     {
@@ -1027,6 +1040,17 @@ foreach ( $commandList as $commandItem )
         $cli->output( $text );
         $alreadyCreated = true;
         $createdPackages[$commandItem['name']] =& $package;
+    }
+    else if ( $command == 'delete' )
+    {
+        $package = eZPackage::fetch( $commandItem['name'] );
+        if ( $package )
+        {
+            $package->remove();
+            $cli->output( "Package " . $commandItem['name'] . " deleted." );
+        }
+        else
+            $cli->error( "Could not open package " . $commandItem['name'] );
     }
 }
 
