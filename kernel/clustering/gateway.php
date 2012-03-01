@@ -204,8 +204,10 @@ abstract class ezpClusterGateway
                 // strip the garbage prepended by a semi-colon used by some browsers
                 if ( ( $pos = strpos( $value , ';' ) ) !== false )
                     $value = substr( $value, 0, $pos );
-                if ( strtotime( $value ) < $mtime )
+                if ( strtotime( $value ) <= $mtime )
+                {
                     $this->notModified();
+                }
             }
         }
 
