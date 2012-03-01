@@ -220,7 +220,28 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function dataMap()
     {
-        return $this->object()->fetchDataMap( $this->attribute( 'contentobject_version' ) );
+        return $this->object()->fetchDataMap( $this->displayedVersion() );
+    }
+
+    /**
+     * Find what version of the content object to display
+     *
+     * @return int Version number to display
+     */
+    protected function displayedVersion()
+    {
+        $version = $this->attribute( 'contentobject_version' );
+        if ( !empty( $GLOBALS['eZEditorDisplayMode'] ) && $GLOBALS['eZEditorDisplayMode'] === 'latest' )
+        {
+            $user = eZUser::currentUser();
+            if ( $user )
+            {
+                $draft = eZContentObjectVersion::fetchLatestUserDraft( $this->ContentObjectID, $user->id(), $this->object()->attribute( 'initial_language_id' ) );
+                if ( is_object( $draft ) && $draft->attribute( 'version' ) > $version )
+                    $version = $draft->attribute( 'version' );
+            }
+        }
+        return $version;
     }
 
     /*!
