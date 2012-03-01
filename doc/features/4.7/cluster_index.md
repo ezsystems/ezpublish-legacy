@@ -36,8 +36,7 @@ In that case, the constants will be only available for cluster environment.
 Some of them are settings (database host, database, password, NFS path...), while some of them
 are flags that can be enabled/disabled.
 
-New features
-------------
+## New features ##
 
 While this change makes the code structure way cleaner, it also comes up with added benefits:
 - `eTag` & `IF-MODIFIED-SINCE` header support
