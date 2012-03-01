@@ -171,7 +171,7 @@ else
             $GLOBALS['eZEditorDisplayMode'] = $displayMode;
     }
 
-    if ( $viewCacheEnabled && empty($GLOBALS['eZEditorDisplayMode']) )
+    if ( $viewCacheEnabled )
     {
         $user = eZUser::currentUser();
 
