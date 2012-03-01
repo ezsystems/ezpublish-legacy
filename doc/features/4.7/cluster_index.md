@@ -39,6 +39,7 @@ are flags that can be enabled/disabled.
 ## New features ##
 
 While this change makes the code structure way cleaner, it also comes up with added benefits:
+
 - `eTag` & `IF-MODIFIED-SINCE` header support
 - `HTTP RANGE` support, to support partial downloads
 - unified error & debug handling
