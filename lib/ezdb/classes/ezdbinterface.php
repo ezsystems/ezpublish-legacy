@@ -1049,11 +1049,7 @@ class eZDBInterface
 
             eZDebug::writeError( 'Transaction in progress failed due to DB error, transaction was rollbacked. Transaction ID is ' . $transID . '.', 'eZDBInterface::commit ' . $transID );
 
-            $oldRecordError = $this->RecordError;
-            // Turn off error handling while we rollback
-            $this->RecordError = false;
-            $this->rollbackQuery();
-            $this->RecordError = $oldRecordError;
+            $this->rollback();
 
             if ( $this->errorHandling == eZDB::ERROR_HANDLING_EXCEPTIONS )
             {
