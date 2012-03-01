@@ -41,7 +41,16 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
         {
             html += "<tr>";
             for (var x = 0, xl = eZOEPopupUtils.Int(tableSizeGrid['cols'].val(), 2); x < xl; x++)
-                html += '<td><br mce_bogus="1"/></td>';
+            {
+                if ( tinymce.isIE )
+                {
+                    html += '<td></td>';
+                }
+                else
+                {
+                    html += '<td><br data-mce-bogus="1"/></td>';
+                }
+            }
     
             html += "</tr>";
         }
