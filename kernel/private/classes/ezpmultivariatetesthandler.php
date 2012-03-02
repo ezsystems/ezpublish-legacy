@@ -33,8 +33,13 @@ class ezpMultivariateTestHandler implements ezpMultivariateTestHandlerInterface
 
         $testScenario = ezpMultivariateTestScenario::fetchEnabledByNodeID( $nodeID );
         if ( $testScenario instanceof ezpMultivariateTestScenario
-            && in_array( $currentSiteAccess['name'], eZINI::instance( 'content.ini' )->variable( 'TestingSettings', 'EnabledForSiteAccessList' ) ) )
-            $nodeID = $testScenario->getRandomNode()->attribute( 'node_id' );
+                && in_array( $currentSiteAccess['name'], eZINI::instance( 'content.ini' )->variable( 'TestingSettings', 'EnabledForSiteAccessList' ) ) )
+        {
+            $node = $testScenario->getRandomNode();
+
+            if ( $node instanceof eZContentObjectTreeNode )
+                $nodeID = $node->attribute( 'node_id' );
+        }
 
         return $nodeID;
     }
