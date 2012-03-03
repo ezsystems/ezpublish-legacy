@@ -16,7 +16,7 @@
                                       class_filter_type,'include',
                                       class_filter_array, $class_content.class_constraint_list,
                                       sort_by, array( 'name',true() ),
-                                      main_node_only, true() ) ),
+                                      main_node_only, false() ) ),
                          fetch( content, list,
                                 hash( parent_node_id, $parent_node,
                                       sort_by, array( 'name', true() )
