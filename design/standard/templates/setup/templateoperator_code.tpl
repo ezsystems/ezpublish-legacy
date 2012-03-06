@@ -61,7 +61,7 @@ class {$full_class_name}
     /*!
       {'Constructor, does nothing by default.'|i18n('design/standard/setup/operatorcode')}
     */
-    function {$full_class_name}()
+    function __construct()
     {literal}{{/literal}
     {literal}}{/literal}
 
