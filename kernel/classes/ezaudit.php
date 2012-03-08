@@ -10,7 +10,7 @@
 
 class eZAudit
 {
-    const DEFAULT_LOG_DIR = 'var/log/audit';
+    const DEFAULT_LOG_DIR = 'log/audit';
 
     /*!
       Creates a new audit object.
@@ -31,7 +31,10 @@ class eZAudit
         $auditNames = $ini->hasVariable( 'AuditSettings', 'AuditFileNames' )
                       ? $ini->variable( 'AuditSettings', 'AuditFileNames' )
                       : array();
-        $logDir = $ini->hasVariable( 'AuditSettings', 'LogDir' ) ? $ini->variable( 'AuditSettings', 'LogDir' ): self::DEFAULT_LOG_DIR;
+        $varDir = eZINI::instance()->variable( 'FileSettings', 'VarDir' );
+        // concat varDir setting with LogDir setting
+        $logDir = $varDir . '/';
+        $logDir .= $ini->hasVariable( 'AuditSettings', 'LogDir' ) ? $ini->variable( 'AuditSettings', 'LogDir' ): self::DEFAULT_LOG_DIR;
 
         $resultArray = array();
         foreach ( array_keys( $auditNames ) as $auditNameKey )
