@@ -25,7 +25,7 @@ YUI(YUI3_config).use('ezcollapsiblemenu', 'event', 'io-ez', function (Y) {
             link: '#objectinfo-showhide',
             content: ['&laquo;', '&raquo;'],
 {/literal}
-            collapsed: {$edit_menu_collapsed},
+            collapsed: "{$edit_menu_collapsed}",
 {literal}
             elements:[{
                 selector: '#leftmenu',
