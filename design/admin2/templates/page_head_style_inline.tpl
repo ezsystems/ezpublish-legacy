@@ -18,6 +18,14 @@
 }
 </style>
 <![endif]-->
+<!--[if lte IE 7]>
+<style>
+#controlbar-top .box-bc
+{
+padding-bottom:8px;
+}
+</style>
+<![endif]-->
 <!--[if IE 6]>
 <style>
 .yui3-js-enabled .scroll-to-top {display: none;}
