@@ -181,6 +181,7 @@ abstract class ezpClusterGateway
         header( "Accept-Ranges: none" );
         header( 'Served-by: ' . $_SERVER["SERVER_NAME"] );
 
+        // @todo Check if this header should be disabled when HTTP_CACHE is disabled
         if ( CLUSTER_EXPIRY_TIMEOUT !== false )
             header( "Expires: " . gmdate( 'D, d M Y H:i:s', time() + CLUSTER_EXPIRY_TIMEOUT ) . ' GMT' );
 
