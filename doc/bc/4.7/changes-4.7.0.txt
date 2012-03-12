@@ -32,9 +32,6 @@ Change of behavior
   useful if you have a multisite installation, probably using two or more databases. 
   This way you can have separate audit logs per website.
 
-  Plase also note eZAudit construct has now php5 style insted of old PHP 4 style. So,
-  if you have developed some code extending this class, you'll probably need to modify it
-  accordingly.  
 
 
 Removed features

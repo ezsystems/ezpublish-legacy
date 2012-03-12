@@ -15,7 +15,7 @@ class eZAudit
     /**
      * Creates a new audit object.
      */
-    function __construct()
+    function eZAudit()
     {
     }
 
