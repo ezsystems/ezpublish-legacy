@@ -13,6 +13,10 @@ INI setting changes
   All index_cluster_* & index_image_* files are to be removed from the document root.
   Backend specific files are now located in kernel/clustering.
 
+- LogDir=log/audit
+
+  Default log dir has changed and from now will always be relative to VarDir setting.
+
 Change of behavior
 ------------------
 
@@ -21,6 +25,13 @@ Change of behavior
   Content class edit form inputs have been changed for class attributes.
   They are now indexed by attribute ID instead of raw numeric index.
   Override templates for *content/class/edit.tpl* must thus be changed in the same way.
+
+- #019215: Audit feature should be improved for multisite installations
+
+  From now, default log storage will be relative to VarDir setting. This is specially 
+  useful if you have a multisite installation, probably using two or more databases. 
+  This way you can have separate audit logs per website.
+
 
 
 Removed features
