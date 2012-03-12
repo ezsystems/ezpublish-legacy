@@ -237,9 +237,11 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
             {
                 $switchLanguageLink .= $url;
             }
-            $ret[$siteAccessName] = array( 'url' => $switchLanguageLink,
-                                           'text' => $translationName
-                                         );
+            $ret[$siteAccessName] = array(
+                'url' => $switchLanguageLink,
+                'text' => $translationName,
+                'locale' => eZSiteAccess::getIni( $siteAccessName )->variable( 'RegionalSettings', 'ContentObjectLocale' )
+             );
         }
         return $ret;
     }
