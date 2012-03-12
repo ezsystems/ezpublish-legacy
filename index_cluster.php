@@ -19,8 +19,24 @@ if ( file_exists( 'config.cluster.php' ) )
 
 if ( !defined( 'CLUSTER_STORAGE_BACKEND' ) || CLUSTER_STORAGE_BACKEND === null )
 {
-    // FIXME: this method is no more defined here
-    _die( "Clustering is disabled" );
+    if ( CLUSTER_ENABLE_DEBUG )
+    {
+        $message = "Clustering is disabled";
+    }
+    else
+    {
+        $message = "An error has occured";
+    }
+    header( $_SERVER['SERVER_PROTOCOL'] . " 500 Internal Server Error" );
+    echo <<<EOF
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>$message</h1>
+</body></html>
+EOF;
+    trigger_error( $message, E_USER_ERROR );
 }
 
 // default values
@@ -46,8 +62,24 @@ else
 
 if ( !file_exists( $clusterGatewayFile ) )
 {
-    // FIXME: this method is no more defined here
-    _die( "Unable to open storage backend gateway class definition file '$clusterGatewayFile'" );
+    if ( CLUSTER_ENABLE_DEBUG )
+    {
+        $message = "Unable to open storage backend gateway class definition file '$clusterGatewayFile'";
+    }
+    else
+    {
+        $message = "An error has occured";
+    }
+    header( $_SERVER['SERVER_PROTOCOL'] . " 500 Internal Server Error" );
+    echo <<<EOF
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>$message</h1>
+</body></html>
+EOF;
+    trigger_error( $message, E_USER_ERROR );
 }
 
 // We use require_once as the gateway file may have been included before for initialization purpose
