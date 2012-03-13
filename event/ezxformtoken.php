@@ -38,13 +38,13 @@ class ezxFormToken
     {
         if ( $_SERVER['REQUEST_METHOD'] !== 'POST' && empty( $_POST ) )
         {
-            eZDebug::writeDebug( 'Input not protected (not POST)', __METHOD__ );
+            eZDebugSetting::writeDebug( 'ezformtoken', 'Input not protected (not POST)', __METHOD__ );
             return null;
         }
 
         if ( !self::shouldProtectUser() )
         {
-            eZDebug::writeDebug( 'Input not protected (not logged in user)', __METHOD__ );
+            eZDebugSetting::writeDebug( 'ezformtoken', 'Input not protected (not logged in user)', __METHOD__ );
             return null;
         }
 
@@ -52,7 +52,7 @@ class ezxFormToken
         if ( !empty( $_SERVER['HTTP_X_REQUESTED_WITH'] )
           && trim( strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) === 'xmlhttprequest' )
         {
-            eZDebug::writeDebug( 'Input not protected (ajax request)', __METHOD__ );
+            eZDebugSetting::writeDebug( 'ezformtoken', 'Input not protected (ajax request)', __METHOD__ );
             return null;
         }*/
 
@@ -63,7 +63,7 @@ class ezxFormToken
         if ( $_POST[self::FORM_FIELD] !== self::getToken() )
             throw new Exception( 'Wrong token found in Form!', 404 );
             
-        eZDebug::writeDebug( 'Input validated, token verified and was correct', __METHOD__ );
+        eZDebugSetting::writeDebug( 'ezformtoken', 'Input validated, token verified and was correct', __METHOD__ );
     }
 
     /**
@@ -76,7 +76,7 @@ class ezxFormToken
     {
         if ( !self::shouldProtectUser() )
         {
-            eZDebug::writeDebug( 'Output not protected (not logged in user)', __METHOD__ );
+            eZDebugSetting::writeDebug( 'ezformtoken', 'Output not protected (not logged in user)', __METHOD__ );
             return $templateResult;
         }
 
@@ -91,7 +91,7 @@ class ezxFormToken
                 strpos( $header, 'text/html' ) === false &&
                 strpos( $header, 'application/xhtml+xml' ) === false   )
            {
-               eZDebug::writeDebug( 'Output not protected (Content-Type is not html/xhtml)', __METHOD__ );
+               eZDebugSetting::writeDebug( 'ezformtoken', 'Output not protected (Content-Type is not html/xhtml)', __METHOD__ );
                return $templateResult;
             }
         }
@@ -102,7 +102,7 @@ class ezxFormToken
         $tag = "\n<span style='display:none;' id=\"{$field}_js\" title=\"{$token}\"></span>\n";
         $input = "\n<input type=\"hidden\" name=\"{$field}\" value=\"{$token}\" />\n";
                
-        eZDebug::writeDebug( 'Output protected (all forms will be modified)', __METHOD__ );
+        eZDebugSetting::writeDebug( 'ezformtoken', 'Output protected (all forms will be modified)', __METHOD__ );
 
         $templateResult = preg_replace(
             '/(<body[^>]*>)/i',
@@ -125,7 +125,7 @@ class ezxFormToken
      */
     static public function reset()
     {
-        eZDebug::writeDebug( 'Reset form token', __METHOD__ );
+        eZDebugSetting::writeDebug( 'ezformtoken', 'Reset form token', __METHOD__ );
         eZSession::unsetkey( self::SESSION_KEY, false );
     }
 
