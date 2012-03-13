@@ -498,7 +498,12 @@ class ezjscPacker
                if ( $match[0] !== '/' and strpos( $match, 'http:' ) === false )
                {
                    $cssPathSlice = $relativeCount === 0 ? $cssPathArray : array_slice( $cssPathArray  , 0, $cssPathCount - $relativeCount  );
-                   $newMatchPath = self::getWwwDir() . implode( '/', $cssPathSlice ) . '/' . str_replace( '../', '', $match );
+                   $newMatchPath = self::getWwwDir();
+                   if ( !empty( $cssPathSlice ) )
+                   {
+                       $newMatchPath .= implode( '/', $cssPathSlice ) . '/';
+                   }
+                   $newMatchPath .= str_replace( '../', '', $match );
                    $fileContent = str_replace( $match, $newMatchPath, $fileContent );
                }
            }
