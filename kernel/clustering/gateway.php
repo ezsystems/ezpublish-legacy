@@ -176,14 +176,9 @@ abstract class ezpClusterGateway
         $mtime = $metaData['mtime'];
 
         header( "Content-Type: $metaData[datatype]" );
-        header( "Last-Modified: " . gmdate( 'D, d M Y H:i:s', $mtime ) . ' GMT' );
         header( "Connection: close" );
         header( "Accept-Ranges: none" );
         header( 'Served-by: ' . $_SERVER["SERVER_NAME"] );
-
-        // @todo Check if this header should be disabled when HTTP_CACHE is disabled
-        if ( CLUSTER_EXPIRY_TIMEOUT !== false )
-            header( "Expires: " . gmdate( 'D, d M Y H:i:s', time() + CLUSTER_EXPIRY_TIMEOUT ) . ' GMT' );
 
         if ( CLUSTER_HEADER_X_POWERED_BY !== false )
             header( "X-Powered-By: " . CLUSTER_HEADER_X_POWERED_BY );
@@ -191,6 +186,11 @@ abstract class ezpClusterGateway
         // Request headers: eTag + IF-MODIFIED-SINCE
         if ( CLUSTER_ENABLE_HTTP_CACHE )
         {
+            header( "Last-Modified: " . gmdate( 'D, d M Y H:i:s', $mtime ) . ' GMT' );
+
+            if ( CLUSTER_EXPIRY_TIMEOUT !== false )
+                header( "Expires: " . gmdate( 'D, d M Y H:i:s', time() + CLUSTER_EXPIRY_TIMEOUT ) . ' GMT' );
+
             header( "ETag: $mtime-$filesize" );
             $serverVariables = array_change_key_case( $_SERVER, CASE_UPPER );
             if ( isset( $serverVariables['HTTP_IF_NONE_MATCH'] ) && trim( $serverVariables['HTTP_IF_NONE_MATCH'] ) != "$mtime-$filesize" )
