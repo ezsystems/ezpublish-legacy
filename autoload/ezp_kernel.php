@@ -17,6 +17,7 @@ return array(
       'eZApproveCollaborationHandler'                      => 'kernel/classes/collaborationhandlers/ezapprove/ezapprovecollaborationhandler.php',
       'eZApproveType'                                      => 'kernel/classes/workflowtypes/event/ezapprove/ezapprovetype.php',
       'eZAudit'                                            => 'kernel/classes/ezaudit.php',
+      'eZDBAudit'                                          => 'kernel/classes/ezdbaudit.php',
       'eZAuthor'                                           => 'kernel/classes/datatypes/ezauthor/ezauthor.php',
       'eZAuthorType'                                       => 'kernel/classes/datatypes/ezauthor/ezauthortype.php',
       'eZAutoLinkOperator'                                 => 'kernel/common/ezautolinkoperator.php',

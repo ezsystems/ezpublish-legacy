@@ -38,6 +38,85 @@ $schema = array (
       ),
     ),
   ),
+  'ezaudit' =>
+  array (
+    'name' => 'ezaudit',
+    'fields' =>
+    array (
+      'id' =>
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
+      'user_id' =>
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'user_login' =>
+      array (
+        'length' => 150,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'timestamp' =>
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'ip_address' =>
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'action' =>
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'details' =>
+      array (
+        'type' => 'longtext',
+        'default' => false,
+      ),
+    ),
+    'indexes' =>
+    array (
+      'PRIMARY' =>
+      array (
+        'type' => 'primary',
+        'fields' =>
+        array (
+          0 => 'id',
+        ),
+      ),
+      'ezaudit_user_id' =>
+      array (
+        'type' => 'non-unique',
+        'fields' =>
+        array (
+          0 => 'user_id',
+        ),
+      ),
+      'ezaudit_action' =>
+      array (
+        'type' => 'non-unique',
+        'fields' =>
+        array (
+          0 => 'action',
+        ),
+      ),
+    ),
+  ),
   'ezbasket' => 
   array (
     'name' => 'ezbasket',
