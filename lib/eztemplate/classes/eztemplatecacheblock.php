@@ -149,16 +149,13 @@ class eZTemplateCacheBlock
         $placementKeyString = array_pop( $keysArray );
         $placementKeyArray = explode( self::PLACEMENT_STRING_SEPARATOR, $placementKeyString );
         $placementKeyArray = array_reverse( $placementKeyArray );
-        $templateFileName = preg_replace( array( '#.*/#', '/\.tpl/' ), '', $placementKeyArray[0] );
+
 
         // Initialize cache-block subdir with siteAccessName and template file path :
-        $cacheFileSubdir = $accesName.'/'.$templateFileName.'-'.md5( $placementKeyArray[0] );
-        
-        // If template line number is set, add it to the cache-block subdir !
-        if ( array_key_exists( 4, $placementKeyArray ) )
-        {
-            $cacheFileSubdir .= '/'.$placementKeyArray[4];
-        }
+        // ( If template line number is set, add it to the cache-block subdir )
+        $lineNumber = array_key_exists( 4, $placementKeyArray ) ? $placementKeyArray[4] : false;
+        $templateBlockPath = self::templateBlockPath( $placementKeyArray[0], $lineNumber );
+        $cacheFileSubdir = $accesName.'/'.$templateBlockPath;
         
         $filename = eZSys::ezcrc32( $keyString ) . ".cache";
 
@@ -174,6 +171,21 @@ class eZTemplateCacheBlock
 
         $phpPath = $phpDir . '/' . $filename;
         return $phpPath;
+    }
+
+    /*!
+     \static
+     Returns the file name pattenr of a cache-blocks associated to a template file
+    */
+    static function templateBlockPath( $templateFile, $line=false )
+    {
+        $templateBlockPath = preg_replace( array( '#.*/#', '/\.tpl/' ), '', $templateFile );
+        $templateBlockPath .= '-'.md5( $templateFile );
+        if ( $line )
+        {
+            $templateBlockPath .= '/'.$line;
+        }
+        return $templateBlockPath;
     }
 
     /*!
