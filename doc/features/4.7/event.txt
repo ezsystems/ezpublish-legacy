@@ -6,8 +6,14 @@ Intro
 See 4.5/event.txt for full information on this feature
 
 
-Signature of filters
--------------------
+API Change
+----------
+{@see ezpEvent->filter()} can now take more then one variable.
+
+
+
+New filters
+-----------
 {@see ezpEvent->filter()}
 
 New filter added:
