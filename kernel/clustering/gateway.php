@@ -150,7 +150,7 @@ abstract class ezpClusterGateway
             {
                 if ( ++$tries === $maxTries )
                 {
-                    $this->interrupt( "Unable to connect to storage server" );
+                    $this->interrupt( $e->getMessage() );
                 }
             }
         }
@@ -276,6 +276,8 @@ EOF;
 
             case 500:
             default:
+                if ( !CLUSTER_ENABLE_DEBUG )
+                    $message = "An error has occured";
                 header( $_SERVER['SERVER_PROTOCOL'] . " 500 Internal Server Error" );
                 echo <<<EOF
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
