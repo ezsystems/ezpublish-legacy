@@ -12,7 +12,8 @@
  * Used to serve eZ Publish binary files through HTTP when using one of the eZ Publish clustering implementations.
  * Configuration is made in config.php, using the CLUSTER_* constants.
  */
-include 'config.php';
+if ( file_exists( 'config.php' ) )
+    include 'config.php';
 
 if ( file_exists( 'config.cluster.php' ) )
     include( 'config.cluster.php' );
