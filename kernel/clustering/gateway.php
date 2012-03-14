@@ -100,8 +100,6 @@ abstract class ezpClusterGateway
      * The database connexion must be usable as is after return, meaning
      * that database connection, charset choice must be set
      *
-     * @return mixed The connection object, whatever the type
-     *
      * @throws RuntimeException if connection failed
      */
     abstract public function connect();
