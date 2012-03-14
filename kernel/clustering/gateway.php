@@ -238,7 +238,7 @@ abstract class ezpClusterGateway
         {
             $this->passthrough( $filename, $filesize, $startOffset, $contentLength );
         }
-        catch ( RuntimeException $e )
+        catch ( Exception $e )
         {
             $this->interrupt( $e->getMessage() );
         }
