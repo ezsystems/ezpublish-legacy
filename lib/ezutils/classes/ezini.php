@@ -1225,8 +1225,10 @@ class eZINI
         }
         else
         {
+            // array_merge() is to be used below instead of the "+" operator because the
+            // position of elements in this mixed hash/list is important!
             if ( $identifier )
-                $dirs[$scope][$identifier] = array( $dir, $globalDir );
+                $dirs[$scope] = array_merge( array( $identifier => array( $dir, $globalDir ) ), $dirs[$scope] );
             else
                 $dirs[$scope] = array_merge( array( array( $dir, $globalDir ) ), $dirs[$scope] );
         }
