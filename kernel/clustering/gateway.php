@@ -177,7 +177,6 @@ abstract class ezpClusterGateway
 
         header( "Content-Type: $metaData[datatype]" );
         header( "Connection: close" );
-        header( "Accept-Ranges: none" );
         header( 'Served-by: ' . $_SERVER["SERVER_NAME"] );
 
         if ( CLUSTER_HEADER_X_POWERED_BY !== false )
@@ -229,6 +228,11 @@ abstract class ezpClusterGateway
                 header( "HTTP/1.1 206 Partial Content" );
             }
         }
+        else
+        {
+            header( 'Accept-Ranges: none' );
+        }
+
         header( "Content-Length: $contentLength" );
 
         // Output file data

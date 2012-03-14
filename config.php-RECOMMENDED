@@ -209,6 +209,7 @@ define( 'CLUSTER_STORAGE_PASS', 'dbpassword' );
 /**
  * Enable HTTP range support (partial HTTP downloads)
  * Optional. Defaults to true.
+ * NOTE: This feature is NOT available for DB based cluster handlers, only DFS ones.
  */
 // define( 'CLUSTER_ENABLE_HTTP_RANGE', true );
 
