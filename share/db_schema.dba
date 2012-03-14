@@ -5181,7 +5181,7 @@ $schema = array (
       'expirytime' => 
       array (
         'length' => 20,
-        'type' => 'bigint',
+        'type' => 'int',
         'not_null' => '1',
         'default' => '0',
       ),
@@ -5388,7 +5388,7 @@ $schema = array (
       'expirytime' => 
       array (
         'length' => 20,
-        'type' => 'bigint',
+        'type' => 'int',
         'not_null' => '1',
         'default' => '0',
       ),
