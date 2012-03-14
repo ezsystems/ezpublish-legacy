@@ -322,7 +322,8 @@ EOF;
 
         return new $gatewayClass(
             array(
-                "host" => CLUSTER_STORAGE_HOST,
+                // some databases don't need a hostname (oracle for instance)
+                "host" => defined( "CLUSTER_STORAGE_HOST" ) ? CLUSTER_STORAGE_HOST : null,
                 "port" => defined( "CLUSTER_STORAGE_PORT" ) ? CLUSTER_STORAGE_PORT : null,
                 "user" => CLUSTER_STORAGE_USER,
                 "password" => CLUSTER_STORAGE_PASS,
