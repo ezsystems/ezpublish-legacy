@@ -334,6 +334,9 @@ eZExtension::activateExtensions( 'access' );
 // all eZINI instances as they may not take into account siteaccess specific settings.
 eZINI::resetAllInstances( false );
 
+// Be able to do general events early in process
+ezpEvent::getInstance()->notify( 'request/preinput', array( $uri ) );
+
 $mobileDeviceDetect = new ezpMobileDeviceDetect( ezpMobileDeviceDetectFilter::getFilter() );
 if( $mobileDeviceDetect->isEnabled() )
 {
