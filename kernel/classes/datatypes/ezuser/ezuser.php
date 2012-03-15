@@ -1139,29 +1139,31 @@ WHERE user_id = '" . $userID . "' AND
                     {
                         $impl = new $className();
                         $ssoUser = $impl->handleSSOLogin();
+                        // If a user was found via SSO, then use it
+                        if ( $ssoUser !== false )
+                        {
+                            $currentUser = $ssoUser;
+                            $userId = $currentUser->attribute( 'contentobject_id' );
+
+                            $userInfo = array();
+                            $userInfo[$userId] = array( 
+                                'contentobject_id' => $userId,
+                                'login' => $currentUser->attribute( 'login' ),
+                                'email' => $currentUser->attribute( 'email' ),
+                                'password_hash' => $currentUser->attribute( 'password_hash' ),
+                                'password_hash_type' => $currentUser->attribute( 'password_hash_type' )
+                            );
+                            eZSession::setUserID( $userId );
+                            $http->setSessionVariable( 'eZUserLoggedInID', $userId );
+
+                            eZUser::updateLastVisit( $userId );
+                            eZUser::setCurrentlyLoggedInUser( $currentUser, $userId );
+                            eZHTTPTool::redirect( eZSys::wwwDir() . eZSys::indexFile( false ) . eZSys::requestURI(), array(), 302 );
+                            eZExecution::cleanExit();
+                        }
                     }
                 }
-                // If a user was found via SSO, then use it
-                if ( $ssoUser !== false )
-                {
-                    $currentUser = $ssoUser;
-                    $userId = $currentUser->attribute( 'contentobject_id' );
-
-                    $userInfo = array();
-                    $userInfo[$userId] = array( 'contentobject_id' => $userId,
-                                            'login' => $currentUser->attribute( 'login' ),
-                                            'email' => $currentUser->attribute( 'email' ),
-                                            'password_hash' => $currentUser->attribute( 'password_hash' ),
-                                            'password_hash_type' => $currentUser->attribute( 'password_hash_type' )
-                                            );
-                    eZSession::setUserID( $userId );
-                    $http->setSessionVariable( 'eZUserLoggedInID', $userId );
-
-                    eZUser::updateLastVisit( $userId );
-                    eZUser::setCurrentlyLoggedInUser( $currentUser, $userId );
-                    eZHTTPTool::redirect( eZSys::wwwDir() . eZSys::indexFile( false ) . eZSys::requestURI(), array(), 302 );
-                    eZExecution::cleanExit();
-                }
+                
             }
         }
 
