@@ -17,6 +17,18 @@ INI setting changes
 
   Default log dir has changed and from now will always be relative to VarDir setting.
 
+- Added audit.ini/[AuditSettings]/EnabledAudits setting
+
+  Audit records can now be stored to the database table. To have one central place
+  for enabling/disabling various auditing types, a new setting was added to control
+  which audits are enabled, regardless of auditing destination, log or database.
+  By default, all standard eZ Publish audits are enabled, but you need to add all your
+  custom audit types to this array for them to be active. Note however, that this change
+  does not remove or replace [AuditSettings]/Audit configuration. That configuration is
+  still a master switch that turns on or off the auditing feature.
+  Also note that if you still want to keep using auditing to log files, AuditFileNames
+  configuration still needs to be defined for every audit type you use.
+
 Change of behavior
 ------------------
 
@@ -28,8 +40,8 @@ Change of behavior
 
 - #019215: Audit feature should be improved for multisite installations
 
-  From now, default log storage will be relative to VarDir setting. This is specially 
-  useful if you have a multisite installation, probably using two or more databases. 
+  From now, default log storage will be relative to VarDir setting. This is specially
+  useful if you have a multisite installation, probably using two or more databases.
   This way you can have separate audit logs per website.
 
 
