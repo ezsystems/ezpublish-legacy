@@ -267,7 +267,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $this->KeyStack[] = $this->Keys;
         $this->Keys = $matchKeys;
 
-        eZDebug::accumulatorStart( 'override_cache', 'override', 'Cache load' );
+        eZDebug::accumulatorStart( 'override_cache', 'Override', 'Cache load' );
 
         if( !isset( $GLOBALS['eZOverrideTemplateCacheMap'] ) )
         {
