@@ -593,15 +593,15 @@ class eZCache
      *
      * @param array $cacheItem
      * @param eZContentObject $object
-     * @param array $imageIdentfiers array of ezimage attribute identifiers
+     * @param array $imageIdentifiers array of ezimage attribute identifiers
      */
-    private static function purgeImageAliasForObject( array $cacheItem, eZContentObject $object, array $imageIdentfiers )
+    private static function purgeImageAliasForObject( array $cacheItem, eZContentObject $object, array $imageIdentifiers )
     {
         $versions = $object->attribute( 'versions' );
         foreach ( $versions as $version )
         {
             $dataMap = $version->attribute( 'data_map' );
-            foreach ( $imageIdentfiers as $identifier )
+            foreach ( $imageIdentifiers as $identifier )
             {
                 $attr = $dataMap[$identifier];
                 if ( $attr->attribute( 'has_content' ) )
@@ -610,7 +610,6 @@ class eZCache
                 }
             }
         }
-
     }
 
     /**
