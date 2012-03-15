@@ -213,6 +213,26 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $node;
     }
 
+    /**
+     * @since 4.7
+     * @var bool
+     */
+    static protected $useCurrentUserDraft = false;
+
+    /**
+     * Enables / disables Use current user draft mode for data map
+     *
+     * When this mode is enabled (disabled by default), current user draft is used _if_ available
+     * on all dataMap calls.
+     *
+     * @since 4.7
+     * @param bool $enable
+     */
+    static public function setUseCurrentUserDraft( $enable )
+    {
+        self::$useCurrentUserDraft = (bool) $enable;
+    }
+
     /*!
      \return a map with all the content object attributes where the keys are the
              attribute identifiers.
@@ -220,7 +240,18 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function dataMap()
     {
-        return $this->object()->fetchDataMap( $this->attribute( 'contentobject_version' ) );
+        $object = $this->object();
+        if ( self::$useCurrentUserDraft )
+        {
+             $draft = eZContentObjectVersion::fetchLatestUserDraft(
+                 $object->attribute( 'id' ),
+                 eZUser::currentUserID(),
+                 $object->currentLanguageObject()->attribute( 'id' )
+             );
+             if ( $draft instanceof eZContentObjectVersion )
+                 return $object->fetchDataMap( $draft->attribute( 'version' ) );
+        }
+        return $object->fetchDataMap( $this->attribute( 'contentobject_version' ) );
     }
 
     /*!
