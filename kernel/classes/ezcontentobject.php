@@ -2901,10 +2901,18 @@ class eZContentObject extends eZPersistentObject
             {
                 $showInvisibleNodesCond = self::createFilterByVisibilitySQLString( $params['IgnoreVisibility'] );
             }
+
+            // related class identifier filter
+            $relatedClassIdentifiersSQL = '';
             if ( isset( $params['RelatedClassIdentifiers'] ) && is_array( $params['RelatedClassIdentifiers'] ) )
             {
-                $relatedClassIdentifiersString = implode( "', '", $params['RelatedClassIdentifiers'] );
-                $relatedClassIdentifiersSQL = "ezcontentclass.identifier IN ('$relatedClassIdentifiersString') AND ";
+                $relatedClassIdentifiers = array();
+                foreach( $params['RelatedClassIdentifiers'] as $classIdentifier )
+                {
+                    $relatedClassIdentifiers[] = "'" . $db->escapeString( $classIdentifier ) . "'";
+                }
+                $relatedClassIdentifiersSQL = $db->generateSQLINStatement( $relatedClassIdentifiers, 'ezcontentclass.identifier', false, true, 'string' ). " AND";
+                unset( $classIdentifier, $relatedClassIdentifiers );
             }
         }
 
