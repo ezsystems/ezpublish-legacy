@@ -162,6 +162,19 @@ else
                         "LanguageCode",   "ViewMode", "Offset", "ini",
                         "cacheFileArray", "viewParameters",  "collectionAttributes",
                         "validation" );
+
+    /**
+     * If user is logged in, and DisplayMode is set for editors,
+     * set global flag for displaymode
+     */
+    if ( ezUser::currentUser()->isLoggedIn() )
+    {
+        $contentINI = eZINI::instance( 'content.ini' );
+        $displayMode = $contentINI->variable( 'VersionManagement', 'DisplayMode' );
+        if ( $displayMode )
+            $GLOBALS['eZEditorDisplayMode'] = $displayMode;
+    }
+
     if ( $viewCacheEnabled )
     {
         $user = eZUser::currentUser();
