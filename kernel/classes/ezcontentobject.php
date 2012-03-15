@@ -2901,7 +2901,7 @@ class eZContentObject extends eZPersistentObject
             {
                 $showInvisibleNodesCond = self::createFilterByVisibilitySQLString( $params['IgnoreVisibility'] );
             }
-            if ( isset( $params['RelatedClassIdentifiers'] ) )
+            if ( isset( $params['RelatedClassIdentifiers'] ) && is_array( $params['RelatedClassIdentifiers'] ) )
             {
                 $relatedClassIdentifiersString = implode( "', '", $params['RelatedClassIdentifiers'] );
                 $relatedClassIdentifiersSQL = "ezcontentclass.identifier IN ('$relatedClassIdentifiersString') AND ";
