@@ -200,6 +200,26 @@ class eZDBAudit extends eZPersistentObject
             array( 'user_id' => (int) $userID )
         );
     }
+
+    /**
+     * Removes all audit records older than $daysThreshold days
+     *
+     * @static
+     *
+     * @param int $daysThreshold
+     */
+    public static function removeAudits( $daysThreshold = 0 )
+    {
+        $secondsThreshold = (int) $daysThreshold * 86400;
+
+        if ( $secondsThreshold < 0 )
+            return;
+
+        parent::removeObject(
+            self::definition(),
+            array( 'timestamp' => array( '<', time() - $secondsThreshold ) )
+        );
+    }
 }
 
 ?>

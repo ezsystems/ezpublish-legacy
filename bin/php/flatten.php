@@ -19,7 +19,7 @@ $script = eZScript::instance( array( 'description' => ( "eZ Publish database fla
                                                         "Will remove data that is not considered currently in use to minimize the amount of database data it consumes\n" .
                                                         "\n" .
                                                         "Possible values for NAME is:\n" .
-                                                        "contentobject, contentclass, workflow, role or all (for all items)\n" .
+                                                        "contentobject, contentclass, workflow, role, audit or all (for all items)\n" .
                                                         "flatten.php -s admin contentobject"),
                                      'use-session' => false,
                                      'use-modules' => true,
@@ -41,7 +41,7 @@ $script->initialize();
 
 if ( count( $options['arguments'] ) < 1 )
 {
-    $cli->error( "Missing NAME value ( could be contentobject, contentclass, workflow, role or all )" );
+    $cli->error( "Missing NAME value ( could be contentobject, contentclass, workflow, role, audit or all )" );
     $script->shutdown( 1 );
 }
 
@@ -64,7 +64,8 @@ $flattenItems = array();
 $flatten = array( 'contentobject' => false,
                   'contentclass' => false,
                   'workflow' => false,
-                  'role' => false );
+                  'role' => false,
+                  'audit' => false );
 
 foreach ( $options['arguments'] as $arg )
 {
@@ -154,6 +155,12 @@ if ( $flatten['role'] )
 {
     $cli->output( "Removing temporary roles" );
     eZRole::removeTemporary();
+}
+
+if ( $flatten['audit'] )
+{
+    $cli->output( "Removing audit records older than two weeks" );
+    eZDBAudit::removeAudits( 14 );
 }
 
 
