@@ -1214,8 +1214,24 @@ class eZContentFunctionCollection
         return array( 'result' =>$relatedObjectsTypedIDArray );
     }
 
-    // Fetches reverse related objects
-    static public function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $limit = false, $offset = false, $asObject = true, $loadDataMap = false, $ignoreVisibility = null )
+
+    /**
+     * Fetches related object for $objectID
+     *
+     * @param int $objectID
+     * @param int $attributeID Relation attribute id
+     * @param int $allRelations Accepted elation bitmask
+     * @param mixed $groupByAttribute
+     * @param array $sortBy
+     * @param int $limit
+     * @param int $offset
+     * @param bool $asObject
+     * @param bool $loadDataMap
+     * @param bool $ignoreVisibility
+     * @param array $relatedClassIdentifiers Array of related class identifiers that will be accepted
+     * @return array ANn array of eZContentObject
+     */
+    static public function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $limit = false, $offset = false, $asObject = true, $loadDataMap = false, $ignoreVisibility = null, array $relatedClassIdentifiers = null )
     {
         if ( !is_numeric( $objectID ) )
         {
@@ -1272,6 +1288,11 @@ class eZContentFunctionCollection
             {
                 $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( $allRelations );
             }
+        }
+
+        if ( $relatedClassIdentifiers !== null )
+        {
+            $params['RelatedClassIdentifiers'] = $relatedClassIdentifiers;
         }
 
         if ( $attributeID && !is_numeric( $attributeID ) && !is_bool( $attributeID ) )
