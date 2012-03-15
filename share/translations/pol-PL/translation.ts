@@ -6923,6 +6923,18 @@ Uwaga: Pakiety nie będą mogły być odinstalowane.
         <translation>Ukryj menu szybkiej zmiany ustawień</translation>
     </message>
     <message>
+        <source>Siteaccess:</source>
+        <translation>Dostęp do strony:</translation>
+    </message>
+    <message>
+        <source>Global (override)</source>
+        <translation>Globalnie (nadpisanie)</translation>
+    </message>
+    <message>
+        <source>Set</source>
+        <translation>Ustaw</translation>
+    </message>
+    <message>
         <source>Change name, email, password, etc.</source>
         <translation>Wybierz nazwę, email, hasło itd.</translation>
     </message>
@@ -7232,7 +7244,7 @@ Uwaga: Pakiety nie będą mogły być odinstalowane.
     </message>
     <message>
         <source>Roles and policies</source>
-        <translation>Grupy i uprawnienia </translation>
+        <translation>Grupy i uprawnienia</translation>
     </message>
     <message>
         <source>Upgrade check</source>
@@ -7354,7 +7366,11 @@ Uwaga: Pakiety nie będą mogły być odinstalowane.
     </message>
     <message>
         <source>Roles and policies</source>
-        <translation>Grupy i uprawnienia </translation>
+        <translation>Grupy i uprawnienia</translation>
+    </message>
+    <message>
+        <source>Unactivated users</source>
+        <translation>Nieaktywowani użytkownicy</translation>
     </message>
     <message>
         <source>View and manage the contents of the trash bin.</source>
@@ -12729,7 +12745,47 @@ Uwaga: Pakiety nie będą mogły być odinstalowane.
         <source>Your account was successfully created. An email will be sent to the specified
 email address. Follow the instructions in that mail to activate
 your account.</source>
-        <translation type="unfinished"></translation>
+        <translation>Twoje konto zostało pomyślnie utworzone. Na podany adres e-mail zostanie wysłana wiadomość. Aby aktywować konto postępuj zgodnie z zawartymi w niej wskazówkami.</translation>
+    </message>
+    <message>
+        <source>Unactivated users (%users_count)</source>
+        <translation>Nieaktywowani użytkownicy (%users_count)</translation>
+    </message>
+    <message>
+        <source>Toggle selection</source>
+        <translation>Odwróć zaznaczenie</translation>
+    </message>
+    <message>
+        <source>Registration date</source>
+        <translation>Data rejestracji</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Nazwa</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation>Login</translation>
+    </message>
+    <message>
+        <source>E-mail</source>
+        <translation>E-mail</translation>
+    </message>
+    <message>
+        <source>Activate selected users</source>
+        <translation>Aktywuj zaznaczonych użytkowników</translation>
+    </message>
+    <message>
+        <source>Activate selected users.</source>
+        <translation>Aktywuj zaznaczonych użytkowników.</translation>
+    </message>
+    <message>
+        <source>Remove selected users</source>
+        <translation>Usuń zaznaczonych użytkowników</translation>
+    </message>
+    <message>
+        <source>Remove selected users.</source>
+        <translation>Usuń zaznaczonych użytkowników.</translation>
     </message>
 </context>
 <context>
@@ -12960,6 +13016,32 @@ your account.</source>
     <message>
         <source>Account has been locked because the maximum number of failed login attempts was exceeded.</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/user/activations</name>
+    <message>
+        <source>The following users have been successfully activated:</source>
+        <translation>Następujący użytkownicy zostali pomyślnie aktywowani:</translation>
+    </message>
+    <message>
+        <source>Some users have not been activated</source>
+        <translation>Niektórzy użytkownicy nie zostali aktywowani</translation>
+    </message>
+    <message>
+        <source>The following unactivated users have been successfully removed:</source>
+        <translation>Następujący nieaktywowani użytkownicy zostali pomyślnie usunięci:</translation>
+    </message>
+    <message>
+        <source>Some users have not been removed</source>
+        <translation>Niektórzy użytkownicy nie zostali usunięci</translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/user/activations</name>
+    <message>
+        <source>There are no unactivated users</source>
+        <translation>Brak nieaktywowanych użytkowników</translation>
     </message>
 </context>
 <context>
@@ -18343,7 +18425,7 @@ If you want to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Global (override)</source>
-        <translation type="unfinished">Globalne (nadpisanie)</translation>
+        <translation>Globalnie (nadpisanie)</translation>
     </message>
 </context>
 <context>
@@ -19650,6 +19732,18 @@ Możesz również odinstalować pakiet bez odinstalowywania go z listy pakietów
     <message>
         <source>Clear</source>
         <translation>Wyczyść</translation>
+    </message>
+    <message>
+        <source>Siteaccess:</source>
+        <translation>Dostęp do strony:</translation>
+    </message>
+    <message>
+        <source>Global (override)</source>
+        <translation>Globalnie (nadpisanie)</translation>
+    </message>
+    <message>
+        <source>Set</source>
+        <translation>Ustaw</translation>
     </message>
 </context>
 <context>
@@ -28322,6 +28416,10 @@ your account.</source>
     <message>
         <source>authorization</source>
         <translation>autoryzacja</translation>
+    </message>
+    <message>
+        <source>Unactivated users</source>
+        <translation>Nieaktywowani użytkownicy</translation>
     </message>
 </context>
 <context>
