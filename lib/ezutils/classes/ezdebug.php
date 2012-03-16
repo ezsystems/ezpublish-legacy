@@ -677,9 +677,10 @@ class eZDebug
             return;
         if ( !eZDebug::showMessage( self::SHOW_TIMING_POINT ) )
             return;
-        $debug = eZDebug::instance();
 
         $time = microtime( true );
+        $debug = eZDebug::instance();
+
         $usedMemory = 0;
         if ( function_exists( "memory_get_usage" ) )
             $usedMemory = memory_get_usage();
@@ -761,10 +762,7 @@ class eZDebug
                         foreach ( $timePoints as $tp )
                         {
                             $desc = "Timing Point: " . $tp["Description"];
-                            if ( $this->isLogFileEnabled( $verbosityLevel ) )
-                            {
-                                $this->writeFile( $fileName, $desc, $verbosityLevel, $alwaysLog );
-                            }
+                            $this->writeFile( $fileName, $desc, $verbosityLevel, $alwaysLog );
                         }
                     }
                     $this->TmpTimePoints[$verbosityLevel] = false;
@@ -1247,7 +1245,7 @@ class eZDebug
     */
     static function setScriptStop( $time = false )
     {
-        if ( $time == false )
+        if ( $time === false )
             $time = microtime( true );
         $debug = eZDebug::instance();
         $debug->ScriptStop = $time;
@@ -1308,7 +1306,7 @@ class eZDebug
     {
         if ( !eZDebug::isDebugEnabled() )
             return;
-        $starttime = microtime( true );
+        $startTime = microtime( true );
         $debug = eZDebug::instance();
         $key = $key === false ? 'Default Debug-Accumulator' : $key;
         if ( ! array_key_exists( $key, $debug->TimeAccumulatorList ) )
@@ -1326,7 +1324,7 @@ class eZDebug
             $debug->TimeAccumulatorList[$key]['recursive_counter'] = 0;
         }
 
-        $debug->TimeAccumulatorList[$key]['temp_time'] = $starttime;
+        $debug->TimeAccumulatorList[$key]['temp_time'] = $startTime;
     }
 
     /*!
@@ -1489,7 +1487,6 @@ class eZDebug
                     echo $styles['bold'] . "($label)" . $styles['bold-end'] . "\n" . $debug["String"] . "\n\n";
                 }
             }
-            flush();
         }
         if ( $as_html )
         {
@@ -1503,12 +1500,12 @@ class eZDebug
         if ( $as_html )
         {
             echo "<tr class='data'><td>Total runtime</td><td>" .
-                number_format( ( $totalElapsed ), $this->TimingAccuracy ) . " sec</td></tr>";
+                number_format( $totalElapsed, $this->TimingAccuracy ) . " sec</td></tr>";
         }
         else
         {
             echo "Total runtime: " .
-                number_format( ( $totalElapsed ), $this->TimingAccuracy ) . " sec\n";
+                number_format( $totalElapsed, $this->TimingAccuracy ) . " sec\n";
         }
         if ( isset( $peakMemory ) )
         {
@@ -1553,8 +1550,6 @@ class eZDebug
                 echo "<table id='timingpoints' title='Timing point stats'><tr><th>Checkpoint</th><th>Start (sec)</th><th>Duration (sec)</th><th>Memory at start (KB)</th><th>Memory used (KB)</th></tr>";
             }
 
-            $elapsed = 0.00;
-            $relElapsed = 0.00;
             for ( $i = 0, $l = count( $this->TimePoints ); $i < $l; ++$i )
             {
                 $point = $this->TimePoints[$i];
@@ -1602,38 +1597,6 @@ class eZDebug
 
             if ( $as_html )
             {
-                echo "</table>";
-            }
-        }
-
-        if ( $useIncludedFiles )
-        {
-            if ( $as_html )
-            {
-                echo "<h3>Included files:</h3><table id=\"debug_includes\" title='List of included php files used in the processing of this page'><tr><th>File</th></tr>";
-            }
-            else
-            {
-                echo $styles['emphasize'] . "Includes" . $styles['emphasize-end'] . "\n";
-            }
-            $phpFiles = get_included_files();
-            $currentPathReg = preg_quote( realpath( "." ) );
-            foreach ( $phpFiles as $phpFile )
-            {
-                if ( preg_match( "#^$currentPathReg/(.+)$#", $phpFile, $matches ) )
-                    $phpFile = $matches[1];
-                if ( $as_html )
-                {
-                    echo "<tr class='data'><td>$phpFile</td></tr>";
-                }
-                else
-                {
-                    echo "$phpFile\n";
-                }
-            }
-            if ( $as_html )
-            {
-                echo "<tr><td><b>&nbsp;Number of files included: " . count( $phpFiles ) . "</b></td></tr>";
                 echo "</table>";
             }
         }
@@ -1754,6 +1717,38 @@ class eZDebug
             if ( $as_html )
             {
                 echo "<tr><td colspan=\"5\">Note: percentages do not add up to 100% because some accumulators overlap</td></tr>";
+                echo "</table>";
+            }
+        }
+
+        if ( $useIncludedFiles )
+        {
+            if ( $as_html )
+            {
+                echo "<h3>Included files:</h3><table id=\"debug_includes\" title='List of included php files used in the processing of this page'><tr><th>File</th></tr>";
+            }
+            else
+            {
+                echo $styles['emphasize'] . "Includes" . $styles['emphasize-end'] . "\n";
+            }
+            $phpFiles = get_included_files();
+            $currentPathReg = preg_quote( realpath( "." ) );
+            foreach ( $phpFiles as $phpFile )
+            {
+                if ( preg_match( "#^$currentPathReg/(.+)$#", $phpFile, $matches ) )
+                    $phpFile = $matches[1];
+                if ( $as_html )
+                {
+                    echo "<tr class='data'><td>$phpFile</td></tr>";
+                }
+                else
+                {
+                    echo "$phpFile\n";
+                }
+            }
+            if ( $as_html )
+            {
+                echo "<tr><td><b>&nbsp;Number of files included: " . count( $phpFiles ) . "</b></td></tr>";
                 echo "</table>";
             }
         }
