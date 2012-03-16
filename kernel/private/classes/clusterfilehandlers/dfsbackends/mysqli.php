@@ -80,12 +80,14 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
 
         $maxTries = self::$dbparams['max_connect_tries'];
         $tries = 0;
+        eZDebug::accumulatorStart( 'mysql_cluster_connect', 'MySQL Cluster', 'Cluster database connection' );
         while ( $tries < $maxTries )
         {
             if ( $this->db = mysqli_connect( self::$dbparams['host'], self::$dbparams['user'], self::$dbparams['pass'], self::$dbparams['dbname'], self::$dbparams['port'] ) )
                 break;
             ++$tries;
         }
+        eZDebug::accumulatorStop( 'mysql_cluster_connect' );
         if ( !$this->db )
             throw new eZClusterHandlerDBNoConnectionException( $serverString, self::$dbparams['user'], self::$dbparams['pass'] );
 

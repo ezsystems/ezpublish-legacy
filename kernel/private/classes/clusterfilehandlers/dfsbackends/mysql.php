@@ -75,12 +75,14 @@ class eZDFSFileHandlerMySQLBackend
 
         $maxTries = self::$dbparams['max_connect_tries'];
         $tries = 0;
+        eZDebug::accumulatorStart( 'mysql_cluster_connect', 'MySQL Cluster', 'DB connection' );
         while ( $tries < $maxTries )
         {
             if ( $this->db = mysql_connect( $serverString, self::$dbparams['user'], self::$dbparams['pass'] ) )
                 break;
             ++$tries;
         }
+        eZDebug::accumulatorStop( 'mysql_cluster_connect' );
         if ( !$this->db )
             throw new eZClusterHandlerDBNoConnectionException( $serverString, self::$dbparams['user'], self::$dbparams['pass'] );
 
