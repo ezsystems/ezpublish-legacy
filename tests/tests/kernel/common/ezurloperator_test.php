@@ -69,7 +69,7 @@ class eZURLOperatorTest extends ezpTestCase
         );
 
         $operator->modify(
-            $tpl, $operatorName, $operatorParameters, '', '', $operatorValue, $namedParameters, false
+            $tpl, $operatorName, $operatorParameters, '', '', $operatorValue, $namedParameters
         );
 
         $this->assertEquals( $expectedResult, $operatorValue );
