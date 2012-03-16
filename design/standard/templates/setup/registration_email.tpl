@@ -2,83 +2,98 @@
 {set-block variable=subject}
 eZ Publish {$version.text} site registration - {$site_type.title}
 {/set-block}
-Comments:
-{$comments}
+
+Provided registration information:
+
+{foreach $user_data as $fieldname => $fieldvalue}
+  {$fieldname|explode('_')|implode(' ')|upfirst|wash} - {*
+*}{if is_boolean( $fieldvalue )}{*
+    *}{cond( $fieldvalue, 'yes', 'no' )}{*
+*}{else}{*
+    *}{$fieldvalue|wash}{*
+*}{/if}
+
+
+{/foreach}
+
+
+{if $user_data['include_tech_stats']}
+
+--- Technical information ---
 
 Site info:
-
   Site package  - {$site_type.identifier}
   Title         - {$site_type.title}
   URL           - {$site_type.url}
   Admin URL     - {$site_type.admin_url}
   Access type   - {$site_type.access_type}
   Access value  - {$site_type.access_type_value}
-{*  Functionality - {$site_type.extra_functionality|implode( ', ' )*}
 
 
 {if $webserver}
 Web server info:
-Version - {$webserver.version}
+  Version - {$webserver.version}
 {/if}
 
 
 PHP info:
-Version - {$phpversion.found}
+  Version - {$phpversion.found}
+  Sapi - {$phpversion.sapi}
 
 OS info
-Name - {$os.name}
+  Name - {$os.name}
 
 {if $system.is_valid}
-CPU Type - {$system.cpu_type}
-CPU Speed - {$system.cpu_speed} {$system.cpu_unit}
-Memory Size - {$system.memory_size} ({$system.memory_size|si( byte )})
+  CPU Type - {$system.cpu_type}
+  CPU Speed - {$system.cpu_speed} {$system.cpu_unit}
+  Memory Size - {$system.memory_size} ({$system.memory_size|si( byte )})
 
 {/if}
 
 Database info:
-Type - {$database_info.info.name}
-Driver - {$database_info.info.driver}
-
+  Type - {$database_info.info.name}
+  Driver - {$database_info.info.driver}
+  Version - {$database_info.version}
 
 Email info:
-Transport - {if eq($email_info.type,1)}sendmail{else}SMTP{/if}
+  Transport - {if eq($email_info.type,1)}sendmail{else}SMTP{/if}
 
 
 Image conversion:
 
 {if $imagemagick_program.result}
-ImageMagick was found and used.
-Path - {$imagemagick_program.path}
-Executable - {$imagemagick_program.program}
+  ImageMagick was found and used.
+  Path - {$imagemagick_program.path}
+  Executable - {$imagemagick_program.program}
 {/if}
 
-
 {if $imagegd_extension.result}
-ImageGD extension was found and used.
+  ImageGD extension was found and used.
 {/if}
 
 
 Regional info:
-Primary - {$regional_info.primary_language}
+  Primary - {$regional_info.primary_language}
 
 {section show=$regional_info.languages}
-Additional - {section name=Language loop=$regional_info.languages}{$:item}{delimiter}, {/delimiter}{/section}
+  Additional - {section name=Language loop=$regional_info.languages}{$:item}{delimiter}, {/delimiter}{/section}
 {/section}
 
 
 Critical tests
-
 {section name=Critical loop=$tests_run}
 
-{$:key} - {if $:item}Success{else}Failure{/if}
+  {$:key} - {if $:item}Success{else}Failure{/if}
 
 {/section}
 
 
-Other tests:
-
+Optional tests:
 {section name=Other loop=$optional_tests}
 
-{$:item[1]} - {if eq($:item[0],1)}Success{else}Failure{/if}
+  {$:item[1]} - {if eq($:item[0],1)}Success{else}Failure{/if}
 
 {/section}
+
+
+{/if}
