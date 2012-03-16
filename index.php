@@ -783,12 +783,12 @@ if ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) !== 'true' )
         // Only set the cookie if it doesnt exist. This way we are not constantly sending the set request in the headers.
         if ( !isset( $_COOKIE['is_logged_in'] ) || $_COOKIE['is_logged_in'] != 'true' )
         {
-            setcookie( 'is_logged_in', 'true', 0, $cookiePath );
+            setcookie( 'is_logged_in', 'true', 0, $cookiePath , null , (eZINI::instance()->variable("Session","CookieSecure")=="true"?true:false) );
         }
     }
     else if ( isset( $_COOKIE['is_logged_in'] ) )
     {
-        setcookie( 'is_logged_in', false, 0, $cookiePath );
+        setcookie( 'is_logged_in', false, 0, $cookiePath , null , (eZINI::instance()->variable("Session","CookieSecure")=="true"?true:false) );
     }
 }
 
