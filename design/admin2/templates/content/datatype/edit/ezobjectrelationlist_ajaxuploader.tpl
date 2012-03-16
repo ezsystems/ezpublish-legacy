@@ -19,7 +19,7 @@
     <script type="text/javascript">
     {literal}
     (function () {
-        YUI().use('ezmodalwindow', 'ezajaxuploader', function (Y) {
+        YUI(YUI3_config).use('ezmodalwindow', 'ezajaxuploader', function (Y) {
             var uploaderConf = {
                 target: {},
                 open: {
