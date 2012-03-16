@@ -248,7 +248,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
                  eZUser::currentUserID(),
                  $object->currentLanguageObject()->attribute( 'id' )
              );
-             if ( $draft instanceof eZContentObjectVersion )
+
+             if ( $draft instanceof eZContentObjectVersion &&
+                  $draft->attribute( 'version' ) > $this->attribute( 'contentobject_version' ) )
                  return $object->fetchDataMap( $draft->attribute( 'version' ) );
         }
         return $object->fetchDataMap( $this->attribute( 'contentobject_version' ) );
