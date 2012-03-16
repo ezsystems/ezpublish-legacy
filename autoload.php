@@ -97,7 +97,16 @@ class ezpAutoloader
             }
         }
 
-        if ( isset( self::$ezpClasses[$className] ) )
+        if ( $className !== 'eZDebug' && class_exists( 'eZDebug' ) )
+        {
+            eZDebug::accumulatorStart( 'ez', 'Autoload', 'eZ Publish PHP class autoloading' );
+            if ( isset( self::$ezpClasses[$className] ) )
+            {
+                require( self::$ezpClasses[$className] );
+            }
+            eZDebug::accumulatorStop( 'ez', 'autoload' );
+        }
+        else
         {
             require( self::$ezpClasses[$className] );
         }
