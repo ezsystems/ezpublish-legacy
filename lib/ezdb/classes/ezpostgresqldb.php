@@ -39,6 +39,8 @@ class eZPostgreSQLDB extends eZDBInterface
             return;
         }
 
+        eZDebug::createAccumulatorGroup( 'postgresql_total', 'Postgresql Total' );
+
         $ini = eZINI::instance();
 
         $server = $this->Server;
@@ -55,9 +57,11 @@ class eZPostgreSQLDB extends eZDBInterface
 
             // avoid automatic SQL errors
             $oldHandling = eZDebug::setHandleType( eZDebug::HANDLE_EXCEPTION );
+            eZDebug::accumulatorStart( 'postgresql_connection', 'postgresql_total', 'Database connection'  );
             try {
                 $this->DBConnection = pg_pconnect( $connectString );
             } catch( ErrorException $e ) {}
+            eZDebug::accumulatorStop( 'postgresql_connection' );
             eZDebug::setHandleType( $oldHandling );
 
             $maxAttempts = $this->connectRetryCount();
@@ -67,9 +71,11 @@ class eZPostgreSQLDB extends eZDBInterface
             {
                 sleep( $waitTime );
                 $oldHandling = eZDebug::setHandleType( eZDebug::HANDLE_EXCEPTION );
+                eZDebug::accumulatorStart( 'postgresql_connection', 'postgresql_total', 'Database connection'  );
                 try {
                     $this->DBConnection = pg_pconnect( $connectString );
                 } catch( ErrorException $e ) {}
+                eZDebug::accumulatorStop( 'postgresql_connection' );
                 eZDebug::setHandleType( $oldHandling );
                 $numAttempts++;
             }
@@ -87,9 +93,11 @@ class eZPostgreSQLDB extends eZDBInterface
             eZDebugSetting::writeDebug( 'kernel-db-postgresql', "using real connection",  "using real connection" );
 
             $oldHandling = eZDebug::setHandleType( eZDebug::HANDLE_EXCEPTION );
+            eZDebug::accumulatorStart( 'postgresql_connection', 'postgresql_total', 'Database connection'  );
             try {
                 $this->DBConnection = pg_connect( $connectString );
             } catch( ErrorException $e ) {}
+            eZDebug::accumulatorStop( 'postgresql_connection' );
             eZDebug::setHandleType( $oldHandling );
 
             $maxAttempts = $this->connectRetryCount();
@@ -99,9 +107,11 @@ class eZPostgreSQLDB extends eZDBInterface
             {
                 sleep( $waitTime );
                 $oldHandling = eZDebug::setHandleType( eZDebug::HANDLE_EXCEPTION );
+                eZDebug::accumulatorStart( 'postgresql_connection', 'postgresql_total', 'Database connection'  );
                 try {
                     $this->DBConnection = pg_connect( $connectString );
                 } catch( ErrorException $e ) {}
+                eZDebug::accumulatorStop( 'postgresql_connection' );
                 eZDebug::setHandleType( $oldHandling );
                 $numAttempts++;
             }
@@ -179,11 +189,10 @@ class eZPostgreSQLDB extends eZDBInterface
     {
         if ( $this->isConnected() )
         {
+            eZDebug::accumulatorStart( 'postgresql_query', 'postgresql_total', 'Postgresql queries' );
             if ( $this->OutputSQL )
             {
-                eZDebug::accumulatorStart( 'postgresql_query', 'postgresql_total', 'Postgresql_queries' );
                 $this->startTimer();
-
             }
             // postgres will by default cast an error if a query fails
             // exception handling mode needs to catch this exception and set the $result variable to false
@@ -205,13 +214,12 @@ class eZPostgreSQLDB extends eZDBInterface
             if ( $this->OutputSQL )
             {
                 $this->endTimer();
-
                 if ($this->timeTaken() > $this->SlowSQLTimeout)
                 {
-                    eZDebug::accumulatorStop( 'postgresql_query' );
                     $this->reportQuery( 'eZPostgreSQLDB', $sql, false, $this->timeTaken() );
                 }
             }
+            eZDebug::accumulatorStop( 'postgresql_query' );
 
             if ( !$result )
             {
@@ -269,7 +277,12 @@ class eZPostgreSQLDB extends eZDBInterface
                     $sql .= " ";
                 $sql .= "OFFSET $offset";
             }
+
+            eZDebug::accumulatorStart( 'postgresql_query', 'postgresql_total', 'Postgresql queries' );
+
             $result = $this->query( $sql );
+
+            eZDebug::accumulatorStop( 'postgresql_query' );
 
             if ( $result == false )
             {
@@ -278,6 +291,7 @@ class eZPostgreSQLDB extends eZDBInterface
 
             if ( pg_numrows( $result ) > 0 )
             {
+                eZDebug::accumulatorStart( 'postgresql_loop', 'postgresql_total', 'Looping result' );
                 if ( !is_string( $column ) )
                 {
                     for($i = 0; $i < pg_numrows($result); $i++)
@@ -293,6 +307,7 @@ class eZPostgreSQLDB extends eZDBInterface
                         $retArray[$i + $offset] =& $tmp_row[$column];
                     }
                 }
+                eZDebug::accumulatorStart( 'postgresql_loop' );
             }
             pg_free_result( $result );
         }
