@@ -461,7 +461,7 @@ class eZINI
      */
     function loadCache( $reset = true, $placement = false )
     {
-        eZDebug::accumulatorStart( 'ini', 'ini_load', 'Load cache' );
+        eZDebug::accumulatorStart( 'ini', 'Ini load', 'Load cache' );
         if ( $reset )
             $this->reset();
         $cachedDir = self::CONFIG_CACHE_DIR;
@@ -494,7 +494,7 @@ class eZINI
             }
             else if ( self::$checkFileMtime === true || self::$checkFileMtime === $this->FileName )
             {
-                eZDebug::accumulatorStart( 'ini_check_mtime', 'ini_load', 'Check MTime' );
+                eZDebug::accumulatorStart( 'ini_check_mtime', 'Ini load', 'Check MTime' );
                 $currentTime = time();
                 $cacheCreatedTime = strtotime( $data['created'] );
                 $iniFile = $data['file'];// used by findInputFiles further down
@@ -538,7 +538,7 @@ class eZINI
         {
             if ( !isset( $inputFiles ) )// use $inputFiles from cache if defined
             {
-                eZDebug::accumulatorStart( 'ini_find_files', 'ini_load', 'Find INI Files' );
+                eZDebug::accumulatorStart( 'ini_find_files', 'Ini load', 'Find INI Files' );
                 $this->findInputFiles( $inputFiles, $iniFile );
                 eZDebug::accumulatorStop( 'ini_find_files' );
                 if ( count( $inputFiles ) === 0 )
@@ -548,10 +548,10 @@ class eZINI
                 }
             }
 
-            eZDebug::accumulatorStart( 'ini_files_parse', 'ini_load', 'Parse' );
+            eZDebug::accumulatorStart( 'ini_files_parse', 'Ini load', 'Parse' );
             $this->parse( $inputFiles, $iniFile, false, $placement );
             eZDebug::accumulatorStop( 'ini_files_parse' );
-            eZDebug::accumulatorStart( 'ini_files_save', 'ini_load', 'Save Cache' );
+            eZDebug::accumulatorStart( 'ini_files_save', 'Ini load', 'Save Cache' );
             $cacheSaved = $this->saveCache( $cachedDir, $cachedFile, $placement ? $this->BlockValuesPlacement : $this->BlockValues, $inputFiles, $iniFile );
             eZDebug::accumulatorStop( 'ini_files_save' );
 
@@ -637,7 +637,7 @@ class eZINI
         if ( $inputFiles === false or
              $iniFile === false )
         {
-            eZDebug::accumulatorStart( 'ini_parse_find_files', 'ini_load', 'Find INI Files2' );
+            eZDebug::accumulatorStart( 'ini_parse_find_files', 'Ini load', 'Find INI Files2' );
             $this->findInputFiles( $inputFiles, $iniFile );
             eZDebug::accumulatorStop( 'ini_parse_find_files' );
         }
