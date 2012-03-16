@@ -74,6 +74,7 @@ class eZDBFileHandlerMysqliBackend
 
         $maxTries = $params['max_connect_tries'];
         $tries = 0;
+        eZDebug::accumulatorStart( 'mysql_cluster_connect', 'mysql_cluster_total', 'Cluster_database_connection' );
         while ( $tries < $maxTries )
         {
             /// @todo what if port is null, '' ??? to be tested
@@ -81,6 +82,7 @@ class eZDBFileHandlerMysqliBackend
                 break;
             ++$tries;
         }
+        eZDebug::accumulatorStop( 'mysql_cluster_connect' );
         if ( !$this->db )
             return $this->_die( "Unable to connect to storage server" );
 
