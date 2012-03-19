@@ -655,52 +655,59 @@
 
 			return this.run(e, function(e) {
 				var s = t.settings;
+				var originalValue = e.getAttribute(n);
+				if (v !== null) {
+					switch (n) {
+						case "style":
+							if (!is(v, 'string')) {
+								each(v, function(v, n) {
+									t.setStyle(e, n, v);
+								});
 
-				switch (n) {
-					case "style":
-						if (!is(v, 'string')) {
-							each(v, function(v, n) {
-								t.setStyle(e, n, v);
-							});
+								return;
+							}
 
-							return;
-						}
+							// No mce_style for elements with these since they might get resized by the user
+							if (s.keep_values) {
+								if (v && !t._isRes(v))
+									e.setAttribute('data-mce-style', v, 2);
+								else
+									e.removeAttribute('data-mce-style', 2);
+							}
 
-						// No mce_style for elements with these since they might get resized by the user
-						if (s.keep_values) {
-							if (v && !t._isRes(v))
-								e.setAttribute('data-mce-style', v, 2);
-							else
-								e.removeAttribute('data-mce-style', 2);
-						}
+							e.style.cssText = v;
+							break;
 
-						e.style.cssText = v;
-						break;
+						case "class":
+							e.className = v || ''; // Fix IE null bug
+							break;
 
-					case "class":
-						e.className = v || ''; // Fix IE null bug
-						break;
+						case "src":
+						case "href":
+							if (s.keep_values) {
+								if (s.url_converter)
+									v = s.url_converter.call(s.url_converter_scope || t, v, n, e);
 
-					case "src":
-					case "href":
-						if (s.keep_values) {
-							if (s.url_converter)
-								v = s.url_converter.call(s.url_converter_scope || t, v, n, e);
+								t.setAttrib(e, 'data-mce-' + n, v, 2);
+							}
 
-							t.setAttrib(e, 'data-mce-' + n, v, 2);
-						}
+							break;
 
-						break;
-
-					case "shape":
-						e.setAttribute('data-mce-style', v);
-						break;
+						case "shape":
+							e.setAttribute('data-mce-style', v);
+							break;
+					}
 				}
-
 				if (is(v) && v !== null && v.length !== 0)
 					e.setAttribute(n, '' + v, 2);
 				else
 					e.removeAttribute(n, 2);
+
+				// fire onChangeAttrib event for attributes that have changed
+				if (tinyMCE.activeEditor && originalValue != v) {
+					var ed = tinyMCE.activeEditor;
+					ed.onSetAttrib.dispatch(ed, e, n, v);
+				}
 			});
 		},
 
@@ -1606,6 +1613,10 @@
 						}
 					}
 
+					// Keep comment nodes
+					if (type == 8)
+						return false;
+
 					// Keep non whitespace text nodes
 					if ((type === 3 && !whiteSpaceRegExp.test(node.nodeValue)))
 						return false;
@@ -1701,6 +1712,12 @@
 			function trim(node) {
 				var i, children = node.childNodes, type = node.nodeType;
 
+				function surroundedBySpans(node) {
+					var previousIsSpan = node.previousSibling && node.previousSibling.nodeName == 'SPAN';
+					var nextIsSpan = node.nextSibling && node.nextSibling.nodeName == 'SPAN';
+					return previousIsSpan && nextIsSpan;
+				}
+
 				if (type == 1 && node.getAttribute('data-mce-type') == 'bookmark')
 					return;
 
@@ -1711,7 +1728,10 @@
 					// Keep non whitespace text nodes
 					if (type == 3 && node.nodeValue.length > 0) {
 						// If parent element isn't a block or there isn't any useful contents for example "<p>   </p>"
-						if (!t.isBlock(node.parentNode) || tinymce.trim(node.nodeValue).length > 0)
+						// Also keep text nodes with only spaces if surrounded by spans.
+						// eg. "<p><span>a</span> <span>b</span></p>" should keep space between a and b
+						var trimmedLength = tinymce.trim(node.nodeValue).length;
+						if (!t.isBlock(node.parentNode) || trimmedLength > 0 || trimmedLength == 0 && surroundedBySpans(node))
 							return;
 					} else if (type == 1) {
 						// If the only child is a bookmark then move it up
@@ -1748,9 +1768,9 @@
 
 				// Insert middle chunk
 				if (re)
-					pa.replaceChild(re, e);
-				else
-					pa.insertBefore(e, pe);
+				pa.replaceChild(re, e);
+			else
+				pa.insertBefore(e, pe);
 
 				// Insert after chunk
 				pa.insertBefore(trim(aft), pe);

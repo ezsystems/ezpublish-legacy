@@ -508,10 +508,10 @@
 
                 // Fake selection, execCommand will fire a nodeChange and update the selection
                 c.select(function(sv) {
-                    return v == sv;
-                });
+					return v == sv;
+				});
 
-				if (cur && (cur.value.fontSize == v.fontSize || cur.value['class'] == v['class'])) {
+				if (cur && (cur.value.fontSize == v.fontSize || cur.value['class'] && cur.value['class'] == v['class'])) {
 					c.select(null);
 				}
 
@@ -718,8 +718,12 @@
 				var DOM_VK_F10 = 121, DOM_VK_F11 = 122;
 
 				if (evt.altKey) {
-		 			if (evt.keyCode === DOM_VK_F10) {
-						window.focus();
+					if (evt.keyCode === DOM_VK_F10) {
+						 // Make sure focus is given to toolbar in Safari.
+						// We can't do this in IE as it prevents giving focus to toolbar when editor is in a frame
+						if (tinymce.isWebKit) {
+							window.focus();
+						}
 						t.toolbarGroup.focus();
 						return Event.cancel(evt);
 					} else if (evt.keyCode === DOM_VK_F11) {
@@ -1479,7 +1483,7 @@
             ed.windowManager.open({
                 url : this.url + '/charmap.htm',
                 width : 550 + parseInt(ed.getLang('advanced.charmap_delta_width', 0)),
-                height : 250 + parseInt(ed.getLang('advanced.charmap_delta_height', 0)),
+                height : 265 + parseInt(ed.getLang('advanced.charmap_delta_height', 0)),
                 inline : true
             }, {
                 theme_url : this.url

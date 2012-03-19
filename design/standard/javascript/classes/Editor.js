@@ -14,7 +14,7 @@
 		Dispatcher = tinymce.util.Dispatcher, each = tinymce.each, isGecko = tinymce.isGecko,
 		isIE = tinymce.isIE, isWebKit = tinymce.isWebKit, is = tinymce.is,
 		ThemeManager = tinymce.ThemeManager, PluginManager = tinymce.PluginManager,
-		inArray = tinymce.inArray, grep = tinymce.grep, explode = tinymce.explode;
+		inArray = tinymce.inArray, grep = tinymce.grep, explode = tinymce.explode, VK = tinymce.VK;
 
 	/**
 	 * This class contains the core logic for a TinyMCE editor.
@@ -148,6 +148,24 @@
 				 * });
 				 */
 				'onPostRender',
+
+				/**
+				 * Fires when the onload event on the body occurs.
+				 *
+				 * @event onLoad
+				 * @param {tinymce.Editor} sender Editor instance.
+				 * @example
+				 * // Adds an observer to the onLoad event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onLoad.add(function(ed, cm) {
+				 *           console.debug('Document loaded: ' + ed.id);
+				 *       });
+				 *    }
+				 * });
+				 */
+				'onLoad',
 
 				/**
 				 * Fires after the initialization of the editor is done.
@@ -759,7 +777,25 @@
 				 *    }
 				 * });
 				 */
-				'onSetProgressState'
+				'onSetProgressState',
+
+				/**
+				 * Fires after an attribute is set using setAttrib.
+				 *
+				 * @event onSetAttrib
+				 * @param {tinymce.Editor} sender Editor instance.
+				 * @example
+				 * // Adds an observer to the onSetAttrib event using tinyMCE.init
+				 *tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onSetAttrib.add(function(ed, node, attribute, attributeValue) {
+				 *            console.log('onSetAttrib tag');
+				 *       });
+				 *    }
+				 * });
+				 */
+				'onSetAttrib'
 			], function(e) {
 				t[e] = new Dispatcher(t);
 			});
@@ -802,6 +838,7 @@
 				visual_table_class : 'mceItemTable',
 				visual : 1,
 				font_size_style_values : 'xx-small,x-small,small,medium,large,x-large,xx-large',
+				font_size_legacy_values : 'xx-small,small,medium,large,x-large,xx-large,300%', // See: http://www.w3.org/TR/CSS2/fonts.html#propdef-font-size
 				apply_source_formatting : 1,
 				directionality : 'ltr',
 				forced_root_block : 'p',
@@ -1195,6 +1232,8 @@
 				t.iframeHTML += '<link type="text/css" rel="stylesheet" href="' + t.contentCSS[i] + '" />';
 			}
 
+			t.contentCSS = [];
+
 			bi = s.body_id || 'tinymce';
 			if (bi.indexOf('=') != -1) {
 				bi = t.getParam('body_id', '', 'hash');
@@ -1207,7 +1246,7 @@
 				bc = bc[t.id] || '';
 			}
 
-			t.iframeHTML += '</head><body id="' + bi + '" class="mceContentBody ' + bc + '"><br></body></html>';
+			t.iframeHTML += '</head><body id="' + bi + '" class="mceContentBody ' + bc + '" onload="window.parent.tinyMCE.get(\'' + t.id + '\').onLoad.dispatch();"><br></body></html>';
 
 			// Domain relaxing enabled, then set document domain
 			if (tinymce.relaxedDomain && (isIE || (tinymce.isOpera && parseFloat(opera.version()) < 11))) {
@@ -1349,10 +1388,12 @@
 
 			// Keep scripts from executing
 			t.parser.addNodeFilter('script', function(nodes, name) {
-				var i = nodes.length;
+				var i = nodes.length, node;
 
-				while (i--)
-					nodes[i].attr('type', 'mce-text/javascript');
+				while (i--) {
+					node = nodes[i];
+					node.attr('type', 'mce-' + (node.attr('type') || 'text/javascript'));
+				}
 			});
 
 			t.parser.addNodeFilter('#cdata', function(nodes, name) {
@@ -1700,6 +1741,16 @@
 			t.load({initial : true, format : 'html'});
 			t.startContent = t.getContent({format : 'raw'});
 			t.undoManager.add();
+			/**
+			 * Is set to true after the editor instance has been initialized
+			 *
+			 * @property initialized
+			 * @type Boolean
+			 * @example
+			 * function isEditorInitialized(editor) {
+			 *     return editor && editor.initialized;
+			 * }
+			 */
 			t.initialized = true;
 
 			t.onInit.dispatch(t);
@@ -1846,7 +1897,6 @@
 				}
 
 				t._refreshContentEditable();
-				selection.normalize();
 
 				// Is not content editable
 				if (!ce)
@@ -2216,9 +2266,9 @@
 			if (!/^(mceAddUndoLevel|mceEndUndoLevel|mceBeginUndoLevel|mceRepaint|SelectAll)$/.test(cmd) && (!a || !a.skip_focus))
 				t.focus();
 
-			o = {};
-			t.onBeforeExecCommand.dispatch(t, cmd, ui, val, o);
-			if (o.terminate)
+			a = extend({}, a);
+			t.onBeforeExecCommand.dispatch(t, cmd, ui, val, a);
+			if (a.terminate)
 				return false;
 
 			// Command callback
@@ -2983,30 +3033,32 @@
 
 			// Add block quote deletion handler
 			t.onKeyDown.add(function(ed, e) {
-				// Was the BACKSPACE key pressed?
-				if (e.keyCode != 8)
+				if (e.keyCode != VK.BACKSPACE)
 					return;
 
-				var n = ed.selection.getRng().startContainer;
-				var offset = ed.selection.getRng().startOffset;
+				var rng = ed.selection.getRng();
+				if (!rng.collapsed)
+					return;
+
+				var n = rng.startContainer;
+				var offset = rng.startOffset;
 
 				while (n && n.nodeType && n.nodeType != 1 && n.parentNode)
 					n = n.parentNode;
-					
+
 				// Is the cursor at the beginning of a blockquote?
 				if (n && n.parentNode && n.parentNode.tagName === 'BLOCKQUOTE' && n.parentNode.firstChild == n && offset == 0) {
 					// Remove the blockquote
 					ed.formatter.toggle('blockquote', null, n.parentNode);
 
 					// Move the caret to the beginning of n
-					var rng = ed.selection.getRng();
 					rng.setStart(n, 0);
 					rng.setEnd(n, 0);
 					ed.selection.setRng(rng);
 					ed.selection.collapse(false);
 				}
 			});
- 
+
 
 
 			// Add reset handler
@@ -3143,7 +3195,8 @@
 					t.undoManager.add();
 				};
 
-				dom.bind(t.getDoc(), 'focusout', function(e) {
+				var focusLostFunc = tinymce.isGecko ? 'blur' : 'focusout';
+				dom.bind(t.getDoc(), focusLostFunc, function(e){
 					if (!t.removed && t.undoManager.typing)
 						addUndo();
 				});
@@ -3203,21 +3256,6 @@
 				});
 			}
 
-			// Fire a nodeChanged when the selection is changed on WebKit this fixes selection issues on iOS5
-			// It only fires the nodeChange event every 50ms since it would other wise update the UI when you type and it hogs the CPU
-			if (tinymce.isWebKit) {
-				dom.bind(t.getDoc(), 'selectionchange', function() {
-					if (t.selectionTimer) {
-						clearTimeout(t.selectionTimer);
-						t.selectionTimer = 0;
-					}
-
-					t.selectionTimer = window.setTimeout(function() {
-						t.nodeChanged();
-					}, 50);
-				});
-			}
-
 			// Bug fix for FireFox keeping styles from end of selection instead of start.
 			if (tinymce.isGecko) {
 				function getAttributeApplyFunction() {
@@ -3227,11 +3265,11 @@
 						var target = t.selection.getStart();
 
 						if (target !== t.getBody()) {
-							t.dom.removeAllAttribs(target);
+							t.dom.setAttrib(target, "style", null);
 
-							each(template, function(attr) {
-								target.setAttributeNode(attr.cloneNode(true));
-							});
+						each(template, function(attr) {
+							target.setAttributeNode(attr.cloneNode(true));
+						});
 						}
 					};
 				}

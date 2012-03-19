@@ -145,6 +145,7 @@ class ezoeServerFunctions extends ezjscServerFunctions
                 'tongue_out' => ezpI18n::tr( 'design/standard/ezoe', "Tongue out"),
                 'undecided' => ezpI18n::tr( 'design/standard/ezoe', "Undecided"),
                 'wink' => ezpI18n::tr( 'design/standard/ezoe', "Wink"),
+                'usage' => ezpI18n::tr( 'design/standard/ezoe', "Use left and right arrows to navigate."),
                 'yell' => ezpI18n::tr( 'design/standard/ezoe', "Yell"),
             ),
             'searchreplace' => array(
@@ -337,6 +338,7 @@ class ezoeServerFunctions extends ezjscServerFunctions
                 'colorpicker_named_title' => ezpI18n::tr( 'design/standard/ezoe', "Named colors"),
                 'colorpicker_color' => ezpI18n::tr( 'design/standard/ezoe', "Color"),
                 'colorpicker_name' => ezpI18n::tr( 'design/standard/ezoe', "Name"),
+                'charmap_usage' => ezpI18n::tr( 'design/standard/ezoe', "Use left and right arrows to navigate."),
                 'charmap_title' => ezpI18n::tr( 'design/standard/ezoe', "Select special character")/*,
                 'image_title' => ezpI18n::tr( 'design/standard/ezoe', "Insert/edit image"),
                 'image_src' => ezpI18n::tr( 'design/standard/ezoe', "Image URL"),

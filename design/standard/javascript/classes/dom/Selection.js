@@ -807,7 +807,8 @@
 					}
 
 					s.addRange(r);
-					t.selectedRange = s.getRangeAt(0);
+					// adding range isn't always successful so we need to check range count otherwise an exception can occur
+					t.selectedRange = s.rangeCount > 0 ? s.getRangeAt(0) : null;
 				}
 			} else {
 				// Is W3C Range
@@ -922,7 +923,8 @@
 			if (sb && eb && sb != eb) {
 				n = sb;
 
-				while ((n = n.nextSibling) && n != eb) {
+				var walker = new tinymce.dom.TreeWalker(sb, dom.getRoot());
+				while ((n = walker.next()) && n != eb) {
 					if (dom.isBlock(n))
 						bl.push(n);
 				}
@@ -937,6 +939,11 @@
 		normalize : function() {
 			var self = this, rng, normalized;
 
+			// TODO:
+			// Retain selection direction.
+			// Lean left/right on Gecko for inline elements.
+			// Run this on mouse up/key up when the user manually moves the selection
+			
 			// Normalize only on non IE browsers for now
 			if (tinymce.isIE)
 				return;
@@ -971,18 +978,24 @@
 								if (node.nodeType === 3) {
 									offset = start ? 0 : node.nodeValue.length - 1;
 									container = node;
+									normalized = true;
 									break;
 								}
 
-								// Found a BR element that we can place the caret before
-								if (node.nodeName === 'BR') {
+								// Found a BR/IMG element that we can place the caret before
+								if (/^(BR|IMG)$/.test(node.nodeName)) {
 									offset = dom.nodeIndex(node);
 									container = node.parentNode;
+
+									// Put caret after image when moving the end point
+									if (node.nodeName ==  "IMG" && !start) {
+										offset++;
+									}
+
+									normalized = true;
 									break;
 								}
 							} while (node = (start ? walker.next() : walker.prev()));
-
-							normalized = true;
 						}
 					}
 				}
@@ -997,7 +1010,7 @@
 			// Normalize the end points
 			normalizeEndPoint(true);
 			
-			if (rng.collapsed)
+			if (!rng.collapsed)
 				normalizeEndPoint();
 
 			// Set the selection if it was normalized

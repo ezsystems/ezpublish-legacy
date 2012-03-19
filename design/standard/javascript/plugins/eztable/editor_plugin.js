@@ -754,7 +754,7 @@
 		});
 	};
 
-	tinymce.create('tinymce.plugins.eZTablePlugin', {
+	tinymce.create('tinymce.plugins.eZTablePlugin', {// *eZ fix: plugin name*
 		init : function(ed, url) {
 			var winMan, clipboardRows, hasCellSelection = true; // Might be selected cells on reload
 
@@ -826,7 +826,7 @@
 				}
 			});
 
-			/* handled by the ez theme ( _nodeChanged() )
+			/* eZ fix: handled by the ez theme ( _nodeChanged() )
 			// Handle node change updates
 			ed.onNodeChange.add(function(ed, cm, n) {
 				var p;
@@ -1006,7 +1006,7 @@
 
 					var rng = ed.selection.getRng();
 					var n = ed.selection.getNode();
-					var currentCell = ed.dom.getParent(rng.startContainer, 'TD');
+					var currentCell = ed.dom.getParent(rng.startContainer, 'TD,TH');
 
 					if (!tableCellSelected(ed, rng, n, currentCell))
 						return;
@@ -1023,7 +1023,7 @@
 					rng.setEnd(end, end.nodeValue.length);
 					ed.selection.setRng(rng);
 				}
-				ed.plugins.eztable.fixTableCellSelection=fixTableCellSelection;
+				ed.plugins.eztable.fixTableCellSelection=fixTableCellSelection;// *eZ fix: plugin name*
 
 				// Add context menu
 				if (ed && ed.plugins.contextmenu) {
@@ -1080,31 +1080,85 @@
 				// Fix to allow navigating up and down in a table in WebKit browsers.
 				if (tinymce.isWebKit) {
 					function moveSelection(ed, e) {
+						var VK = tinymce.VK;
+						var key = e.keyCode;
+
+						function handle(upBool, sourceNode, event) {
+							var siblingDirection = upBool ? 'previousSibling' : 'nextSibling';
+							var currentRow = ed.dom.getParent(sourceNode, 'tr');
+							var siblingRow = currentRow[siblingDirection];
+
+							if (siblingRow) {
+								moveCursorToRow(ed, sourceNode, siblingRow, upBool);
+								tinymce.dom.Event.cancel(event);
+								return true;
+							} else {
+								var tableNode = ed.dom.getParent(currentRow, 'table');
+								var middleNode = currentRow.parentNode;
+								var parentNodeName = middleNode.nodeName.toLowerCase();
+								if (parentNodeName === 'tbody' || parentNodeName === (upBool ? 'tfoot' : 'thead')) {
+									var targetParent = getTargetParent(upBool, tableNode, middleNode, 'tbody');
+									if (targetParent !== null) {
+										return moveToRowInTarget(upBool, targetParent, sourceNode, event);
+						}
+								}
+								return escapeTable(upBool, currentRow, siblingDirection, tableNode, event);
+							}
+						}
+
+						function getTargetParent(upBool, topNode, secondNode, nodeName) {
+							var tbodies = ed.dom.select('>' + nodeName, topNode);
+							var position = tbodies.indexOf(secondNode);
+							if (upBool && position === 0 || !upBool && position === tbodies.length - 1) {
+								return getFirstHeadOrFoot(upBool, topNode);
+							} else if (position === -1) {
+								var topOrBottom = secondNode.tagName.toLowerCase() === 'thead' ? 0 : tbodies.length - 1;
+								return tbodies[topOrBottom];
+							} else {
+								return tbodies[position + (upBool ? -1 : 1)];
+						}
+						}
+
+						function getFirstHeadOrFoot(upBool, parent) {
+							var tagName = upBool ? 'thead' : 'tfoot';
+							var headOrFoot = ed.dom.select('>' + tagName, parent);
+							return headOrFoot.length !== 0 ? headOrFoot[0] : null;
+						}
+
+						function moveToRowInTarget(upBool, targetParent, sourceNode, event) {
+							var targetRow = getChildForDirection(targetParent, upBool);
+							targetRow && moveCursorToRow(ed, sourceNode, targetRow, upBool);
+							tinymce.dom.Event.cancel(event);
+							return true;
+						}
+
+						function escapeTable(upBool, currentRow, siblingDirection, table, event) {
+							var tableSibling = table[siblingDirection];
+							if (tableSibling) {
+								moveCursorToStartOfElement(tableSibling);
+								return true;
+							} else {
+								var parentCell = ed.dom.getParent(table, 'td,th');
+								if (parentCell) {
+									return handle(upBool, parentCell, event);
+								} else {
+									var backUpSibling = getChildForDirection(currentRow, !upBool);
+									moveCursorToStartOfElement(backUpSibling);
+									return tinymce.dom.Event.cancel(event);
+						}
+							}
+						}
+
+						function getChildForDirection(parent, up) {
+							return parent && parent[up ? 'lastChild' : 'firstChild'];
+						}
 
 						function moveCursorToStartOfElement(n) {
 							ed.selection.setCursorLocation(n, 0);
 						}
 
-						function getSibling(event, element) {
-							return event.keyCode == UP_ARROW ? element.previousSibling : element.nextSibling;
-						}
-
-						function getNextRow(e, row) {
-							var sibling = getSibling(e, row);
-							return sibling !== null && sibling.tagName === 'TR' ? sibling : null;
-						}
-
-						function getTable(ed, currentRow) {
-							return ed.dom.getParent(currentRow, 'table');
-						}
-
-						function getTableSibling(currentRow) {
-							var table = getTable(ed, currentRow);
-							return getSibling(e, table);
-						}
-
-						function isVerticalMovement(event) {
-							return event.keyCode == UP_ARROW || event.keyCode == DOWN_ARROW;
+						function isVerticalMovement() {
+							return key == VK.UP || key == VK.DOWN;
 						}
 
 						function isInTable(ed) {
@@ -1135,42 +1189,32 @@
 							return r;
 						}
 
-						function moveCursorToRow(ed, node, row) {
-							var srcColumnIndex = columnIndex(ed.dom.getParent(node, 'td,th'));
-							var tgtColumnIndex = findColumn(row, srcColumnIndex)
-							var tgtNode = row.childNodes[tgtColumnIndex];
-							moveCursorToStartOfElement(tgtNode);
-						}
+                        function moveCursorToRow(ed, node, row, upBool) {
+                            var srcColumnIndex = columnIndex(ed.dom.getParent(node, 'td,th'));
+                            var tgtColumnIndex = findColumn(row, srcColumnIndex);
+                            var tgtNode = row.childNodes[tgtColumnIndex];
+                            var rowCellTarget = getChildForDirection(tgtNode, upBool);
+                            moveCursorToStartOfElement(rowCellTarget || tgtNode);
+                        }
 
-						function escapeTable(currentRow, e) {
-							var tableSiblingElement = getTableSibling(currentRow);
-							if (tableSiblingElement !== null) {
-								moveCursorToStartOfElement(tableSiblingElement);
-								return tinymce.dom.Event.cancel(e);
-							} else {
-								var element = e.keyCode == UP_ARROW ? currentRow.firstChild : currentRow.lastChild;
-								// rely on default behaviour to escape table after we are in the last cell of the last row
-								moveCursorToStartOfElement(element);
-								return true;
-							}
-						}
+                        function shouldFixCaret(preBrowserNode) {
+                            var newNode = ed.selection.getNode();
+                            var newParent = ed.dom.getParent(newNode, 'td,th');
+                            var oldParent = ed.dom.getParent(preBrowserNode, 'td,th');
+                            return newParent && newParent !== oldParent && checkSameParentTable(newParent, oldParent)
+                        }
 
-						var UP_ARROW = 38;
-						var DOWN_ARROW = 40;
+                        function checkSameParentTable(nodeOne, NodeTwo) {
+                            return ed.dom.getParent(nodeOne, 'TABLE') === ed.dom.getParent(NodeTwo, 'TABLE');
+                        }
 
-						if (isVerticalMovement(e) && isInTable(ed)) {
-							var node = ed.selection.getNode();
-							var currentRow = ed.dom.getParent(node, 'tr');
-							var nextRow = getNextRow(e, currentRow);
-
-							// If we're at the first or last row in the table, we should move the caret outside of the table
-							if (nextRow == null) {
-								return escapeTable(currentRow, e);
-							} else {
-								moveCursorToRow(ed, node, nextRow);
-								tinymce.dom.Event.cancel(e);
-								return true;
-							}
+                        if (isVerticalMovement() && isInTable(ed)) {
+                            var preBrowserNode = ed.selection.getNode();
+                            setTimeout(function() {
+                                if (shouldFixCaret(preBrowserNode)) {
+                                    handle(!e.shiftKey && key === VK.UP, preBrowserNode, e);
+                                }
+                            }, 0);
 						}
 					}
 
@@ -1229,12 +1273,30 @@
 							ed.dom.remove(last);
 					});
 
+
+					/**
+					 * Fixes bug in Gecko where shift-enter in table cell does not place caret on new line
+					 */
+					if (tinymce.isGecko) {
+						ed.onKeyDown.add(function(ed, e) {
+							if (e.keyCode === tinymce.VK.ENTER && e.shiftKey) {
+								var node = ed.selection.getRng().startContainer;
+								var tableCell = dom.getParent(node, 'td,th');
+								if (tableCell) {
+									var zeroSizedNbsp = ed.getDoc().createTextNode("\uFEFF");
+									dom.insertAfter(zeroSizedNbsp, node);
+								}
+							}
+						});
+					}
+
+
 					fixTableCaretPos();
 					ed.startContent = ed.getContent({format : 'raw'});
 				}
 			});
 
-            function generalXmlTagPopup( eurl, view, width, height, node )
+            function generalXmlTagPopup( eurl, view, width, height, node )// *eZ fix: custom popup logic*
             {
                 //var ed = this.editor;
                 if ( !view ) view = '/tags/';
@@ -1267,7 +1329,7 @@
 
 				mceTableMergeCells : function(grid) {
 					if (!ed.dom.select('td.mceSelected,th.mceSelected').length) {
-						generalXmlTagPopup( 'merge_cells', '/dialog/', 310, 140, cell );
+						generalXmlTagPopup( 'merge_cells', '/dialog/', 310, 140, cell );// *eZ fix: custom popup logic*
 					} else
 						grid.merge();
 				},
@@ -1329,15 +1391,15 @@
 
 			// Register dialog commands
 			each({
-				mceInsertTable : function(ui, val) {
+				mceInsertTable : function(ui, val) {// *eZ fix: custom popup logic*
 			        generalXmlTagPopup( 'table', false, 460, 360, ui );
 				},
 
-				mceTableRowProps : function(ui, val) {
+				mceTableRowProps : function(ui, val) {// *eZ fix: custom popup logic*
 				    generalXmlTagPopup( 'tr', false, 460, 0, ui );
 				},
 
-				mceTableCellProps : function(ui, val) {
+				mceTableCellProps : function(ui, val) {// *eZ fix: custom popup logic*
 				    var cell = ed.dom.getParent(ed.selection.getNode(), 'th,td');
 				    generalXmlTagPopup( cell.nodeName.toLowerCase(), false, 460, 0, ui );
 				}
@@ -1346,7 +1408,7 @@
 			});
 		},
 		
-        createControl : function(n, cm)
+        createControl : function(n, cm)// *eZ fix: cutom table menu for having all table options in one button*
         {
             var t = this, c, ed = t.editor;
             if (n == 'tablemenu')
@@ -1376,5 +1438,5 @@
 	});
 
 	// Register plugin
-    tinymce.PluginManager.add('eztable', tinymce.plugins.eZTablePlugin);
+    tinymce.PluginManager.add('eztable', tinymce.plugins.eZTablePlugin);// *eZ fix: plugin name*
 })(tinymce);

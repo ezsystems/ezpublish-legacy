@@ -25,7 +25,7 @@
 			var rng, blockElm, node, clonedSpan, isDelete;
 
 			isDelete = e.keyCode == DELETE;
-			if (isDelete || e.keyCode == BACKSPACE) {
+			if ((isDelete || e.keyCode == BACKSPACE) && !VK.modifierPressed(e)) {
 				e.preventDefault();
 				rng = selection.getRng();
 
@@ -41,7 +41,7 @@
 					node = blockElm.firstChild;
 
 					// Ignore empty text nodes
-					while (node.nodeType == 3 && node.nodeValue.length == 0)
+					while (node && node.nodeType == 3 && node.nodeValue.length == 0)
 						node = node.nextSibling;
 
 					if (node && node.nodeName === 'SPAN') {
@@ -49,7 +49,7 @@
 					}
 				}
 
-				// Do the backspace/delete actiopn
+				// Do the backspace/delete action
 				ed.getDoc().execCommand(isDelete ? 'ForwardDelete' : 'Delete', false, null);
 
 				// Find all odd apple-style-spans
@@ -75,17 +75,36 @@
 	 * like a <h1></h1> or <p></p> and then forcefully remove all contents.
 	 */
 	function emptyEditorWhenDeleting(ed) {
-		ed.onKeyUp.add(function(ed, e) {
-			var keyCode = e.keyCode;
 
+		function serializeRng(rng) {
+			var body = ed.dom.create("body");
+			var contents = rng.cloneContents();
+			body.appendChild(contents);
+			return ed.selection.serializer.serialize(body, {format: 'html'});
+		}
+
+		function allContentsSelected(rng) {
+			var selection = serializeRng(rng);
+
+			var allRng = ed.dom.createRng();
+			allRng.selectNode(ed.getBody());
+
+			var allSelection = serializeRng(allRng);
+			return selection === allSelection;
+		}
+
+		ed.onKeyDown.addToTop(function(ed, e) {
+			var keyCode = e.keyCode;
 			if (keyCode == DELETE || keyCode == BACKSPACE) {
-				if (ed.dom.isEmpty(ed.getBody())) {
+				var rng = ed.selection.getRng(true);
+				if (!rng.collapsed && allContentsSelected(rng)) {
 					ed.setContent('', {format : 'raw'});
 					ed.nodeChanged();
-					return;
+					e.preventDefault();
 				}
 			}
 		});
+
 	};
 
 	/**
@@ -97,6 +116,28 @@
 			ed.selection.setRng(ed.selection.getRng());
 		});
 	};
+
+	/**
+	 * Backspacing in FireFox/IE from a paragraph into a horizontal rule results in a floating text node because the
+	 * browser just deletes the paragraph - the browser fails to merge the text node with a horizontal rule so it is
+	 * left there. TinyMCE sees a floating text node and wraps it in a paragraph on the key up event (ForceBlocks.js
+	 * addRootBlocks), meaning the action does nothing. With this code, FireFox/IE matche the behaviour of other
+     * browsers
+	 */
+	function removeHrOnBackspace(ed) {
+		ed.onKeyDown.add(function(ed, e) {
+			if (e.keyCode === BACKSPACE) {
+				if (ed.selection.isCollapsed() && ed.selection.getRng(true).startOffset === 0) {
+					var node = ed.selection.getNode();
+					var previousSibling = node.previousSibling;
+					if (previousSibling && previousSibling.nodeName && previousSibling.nodeName.toLowerCase() === "hr") {
+						ed.dom.remove(previousSibling);
+						tinymce.dom.Event.cancel(e);
+					}
+				}
+			}
+		})
+	}
 
 	/**
 	 * Firefox 3.x has an issue where the body element won't get proper focus if you click out
@@ -143,6 +184,61 @@
 		});
 	};
 
+	/**
+	 * If you hit enter from a heading in IE, the resulting P tag below it shares the style property (bad)
+	 * */
+	function removeStylesOnPTagsInheritedFromHeadingTag(ed) {
+		ed.onKeyDown.add(function(ed, event) {
+			function checkInHeadingTag(ed) {
+				var currentNode = ed.selection.getNode();
+				var headingTags = 'h1,h2,h3,h4,h5,h6';
+				return ed.dom.is(currentNode, headingTags) || ed.dom.getParent(currentNode, headingTags) !== null;
+			}
+
+			if (event.keyCode === VK.ENTER && !VK.modifierPressed(event) && checkInHeadingTag(ed)) {
+				setTimeout(function() {
+					var currentNode = ed.selection.getNode();
+					if (ed.dom.is(currentNode, 'p')) {
+						ed.dom.setAttrib(currentNode, 'style', null);
+						// While tiny's content is correct after this method call, the content shown is not representative of it and needs to be 'repainted'
+						ed.execCommand('mceCleanup');
+					}
+				}, 0);
+			}
+		});
+	}
+	/**
+	 * Fire a nodeChanged when the selection is changed on WebKit this fixes selection issues on iOS5. It only fires the nodeChange
+	 * event every 50ms since it would other wise update the UI when you type and it hogs the CPU.
+	 */
+	function selectionChangeNodeChanged(ed) {
+		var lastRng, selectionTimer;
+
+		ed.dom.bind(ed.getDoc(), 'selectionchange', function() {
+			if (selectionTimer) {
+				clearTimeout(selectionTimer);
+				selectionTimer = 0;
+			}
+
+			selectionTimer = window.setTimeout(function() {
+				var rng = ed.selection.getRng();
+
+				// Compare the ranges to see if it was a real change or not
+				if (!lastRng || !tinymce.dom.RangeUtils.compareRanges(rng, lastRng)) {
+					ed.nodeChanged();
+					lastRng = rng;
+				}
+			}, 50);
+		});
+	}
+
+	/**
+	 * Screen readers on IE needs to have the role application set on the body.
+	 */
+	function ensureBodyHasRoleApplication(ed) {
+		document.body.setAttribute("role", "application");
+	}
+	
 	tinymce.create('tinymce.util.Quirks', {
 		Quirks: function(ed) {
 			// WebKit
@@ -151,15 +247,24 @@
 				emptyEditorWhenDeleting(ed);
 				inputMethodFocus(ed);
 				selectControlElements(ed);
+
+				// iOS
+				if (tinymce.isIDevice) {
+					selectionChangeNodeChanged(ed);
+				}
 			}
 
 			// IE
 			if (tinymce.isIE) {
+				removeHrOnBackspace(ed);
 				emptyEditorWhenDeleting(ed);
+				ensureBodyHasRoleApplication(ed);
+				removeStylesOnPTagsInheritedFromHeadingTag(ed)
 			}
 
 			// Gecko
 			if (tinymce.isGecko) {
+				removeHrOnBackspace(ed);
 				focusBody(ed);
 			}
 		}
