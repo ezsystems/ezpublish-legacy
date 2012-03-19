@@ -315,7 +315,7 @@ input.button, input.defaultbutton, input.button-disabled
     background-image: -ms-linear-gradient(top,  #5d7db1,  #445c89);
     background-image: -o-linear-gradient(top,  #5d7db1,  #445c89);
     background-image: linear-gradient(top,  #5d7db1,  #445c89);
-    border: 1px solid #aaa;
+    border: 1px solid #cfd1d3;
     border-radius: 3px;
     background-clip: padding-box;
 }
