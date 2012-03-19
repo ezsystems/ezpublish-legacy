@@ -2203,7 +2203,7 @@
     </message>
     <message>
         <source>Toggle fullscreen editing!</source>
-        <translation>Editar en modo pantalla completa!</translation>
+        <translation type="obsolete">Editar en modo pantalla completa!</translation>
     </message>
     <message>
         <source>Store draft and exit</source>
@@ -6166,7 +6166,7 @@
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cerrar</translation>
     </message>
     <message>
         <source>Select</source>
@@ -6219,6 +6219,18 @@
     <message>
         <source>Object state</source>
         <translation>Estado del objeto</translation>
+    </message>
+    <message>
+        <source>Node Remote ID and Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object Remote ID</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6997,11 +7009,11 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Global (override)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Global (sobreescritura)</translation>
     </message>
     <message>
         <source>Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fijar</translation>
     </message>
     <message>
         <source>Change name, email, password, etc.</source>
@@ -7038,6 +7050,13 @@ Nota: los paquetes no serán desinstalados.</translation>
     <message>
         <source>Loading...</source>
         <translation>Cargando...</translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/pagelayout/leftmenu</name>
+    <message>
+        <source>Show / Hide leftmenu</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -12870,7 +12889,7 @@ tu cuenta.</translation>
     </message>
     <message>
         <source>Toggle selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Invertir la selección</translation>
     </message>
     <message>
         <source>Registration date</source>
@@ -12878,7 +12897,7 @@ tu cuenta.</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nombre</translation>
     </message>
     <message>
         <source>Login</source>
@@ -12902,6 +12921,25 @@ tu cuenta.</translation>
     </message>
     <message>
         <source>Remove selected users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/user/activations</name>
+    <message>
+        <source>The following users have been successfully activated:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been activated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following unactivated users have been successfully removed:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been removed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -13137,32 +13175,6 @@ tu cuenta.</translation>
     <message>
         <source>Account has been locked because the maximum number of failed login attempts was exceeded.</source>
         <translation>La cuenta de usuario se ha bloqueado porque ha excedido el número máximo de intentos de conexión permitidos.</translation>
-    </message>
-</context>
-<context>
-    <name>design/admin/user/activations</name>
-    <message>
-        <source>The following users have been successfully activated:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Some users have not been activated</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The following unactivated users have been successfully removed:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Some users have not been removed</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/admin2/user/activations</name>
-    <message>
-        <source>There are no unactivated users</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -14046,7 +14058,7 @@ tu cuenta.</translation>
     </message>
     <message>
         <source>Step 1/3: Upload a file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Paso 1/3: Subir un fichero</translation>
     </message>
     <message>
         <source>Name</source>
@@ -14108,10 +14120,6 @@ tu cuenta.</translation>
         <source>Upload the file</source>
         <translation>Subir el fichero</translation>
     </message>
-    <message>
-        <source>Step 1/3: Upload a file</source>
-        <translation>Paso 1/3: Subir un fichero</translation>
-    </message>
 </context>
 <context>
     <name>design/admin2/content/datatype</name>
@@ -14138,6 +14146,20 @@ tu cuenta.</translation>
     <message>
         <source>Upload a file and add the resulting object in the relation</source>
         <translation>Subir un fichero y añadir el objeto resultado a la relación</translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/content/edit</name>
+    <message>
+        <source>Go to the top</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/user/activations</name>
+    <message>
+        <source>There are no unactivated users</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -19930,11 +19952,11 @@ También puedes borrar el paquete sin desinstalarlo de la lista de paquetes.</tr
     </message>
     <message>
         <source>Global (override)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Global (sobreescritura)</translation>
     </message>
     <message>
         <source>Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fijar</translation>
     </message>
 </context>
 <context>

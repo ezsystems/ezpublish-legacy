@@ -2204,7 +2204,7 @@
     </message>
     <message>
         <source>Toggle fullscreen editing!</source>
-        <translation>Przełącz edycję w tryb pełnoekranowy!</translation>
+        <translation type="obsolete">Przełącz edycję w tryb pełnoekranowy!</translation>
     </message>
     <message>
         <source>Store draft and exit</source>
@@ -5174,7 +5174,7 @@
     </message>
     <message>
         <source>You cannot continue because you do not have permission to remove some of the selected locations.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nie możesz kontynuować, ponieważ nie masz uprawnień do usunięcia niektórych z wybranych lokalizacji.</translation>
     </message>
     <message>
         <source>The system will let you restore the object &lt;%name&gt;. Specify where you wish to restore it.</source>
@@ -6145,6 +6145,18 @@
         <source>Object state</source>
         <translation>Stan obiektu</translation>
     </message>
+    <message>
+        <source>Node Remote ID and Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view/line</name>
@@ -6961,6 +6973,13 @@ Uwaga: Pakiety nie będą mogły być odinstalowane.
     <message>
         <source>Loading...</source>
         <translation>Wczytywanie...</translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/pagelayout/leftmenu</name>
+    <message>
+        <source>Show / Hide leftmenu</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -10443,6 +10462,10 @@ Uwaga: Pakiety nie będą mogły być odinstalowane.
         <source>Country/region</source>
         <translation type="unfinished">Kraj/region</translation>
     </message>
+    <message>
+        <source>Comment</source>
+        <translation type="unfinished">Komentarz</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/shop/archivelist</name>
@@ -10887,7 +10910,7 @@ Uwaga: Pakiety nie będą mogły być odinstalowane.
     </message>
     <message>
         <source>Use these checkboxes to select items for removal. Click the &quot;Remove selected&quot; button to  remove the selected items.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Użyj pól wyboru w celu zaznaczenia elementów do usunięcia. Kliknij przycisk &quot;Usuń zaznaczone&quot; aby usunąć zaznaczone elementy.</translation>
     </message>
 </context>
 <context>
@@ -12789,6 +12812,25 @@ your account.</source>
     </message>
 </context>
 <context>
+    <name>design/admin/user/activations</name>
+    <message>
+        <source>The following users have been successfully activated:</source>
+        <translation>Następujący użytkownicy zostali pomyślnie aktywowani:</translation>
+    </message>
+    <message>
+        <source>Some users have not been activated</source>
+        <translation>Niektórzy użytkownicy nie zostali aktywowani</translation>
+    </message>
+    <message>
+        <source>The following unactivated users have been successfully removed:</source>
+        <translation>Następujący nieaktywowani użytkownicy zostali pomyślnie usunięci:</translation>
+    </message>
+    <message>
+        <source>Some users have not been removed</source>
+        <translation>Niektórzy użytkownicy nie zostali usunięci</translation>
+    </message>
+</context>
+<context>
     <name>design/admin/user/login</name>
     <message>
         <source>The system could not log you in.</source>
@@ -13016,32 +13058,6 @@ your account.</source>
     <message>
         <source>Account has been locked because the maximum number of failed login attempts was exceeded.</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/admin/user/activations</name>
-    <message>
-        <source>The following users have been successfully activated:</source>
-        <translation>Następujący użytkownicy zostali pomyślnie aktywowani:</translation>
-    </message>
-    <message>
-        <source>Some users have not been activated</source>
-        <translation>Niektórzy użytkownicy nie zostali aktywowani</translation>
-    </message>
-    <message>
-        <source>The following unactivated users have been successfully removed:</source>
-        <translation>Następujący nieaktywowani użytkownicy zostali pomyślnie usunięci:</translation>
-    </message>
-    <message>
-        <source>Some users have not been removed</source>
-        <translation>Niektórzy użytkownicy nie zostali usunięci</translation>
-    </message>
-</context>
-<context>
-    <name>design/admin2/user/activations</name>
-    <message>
-        <source>There are no unactivated users</source>
-        <translation>Brak nieaktywowanych użytkowników</translation>
     </message>
 </context>
 <context>
@@ -14017,6 +14033,20 @@ your account.</source>
     </message>
 </context>
 <context>
+    <name>design/admin2/content/edit</name>
+    <message>
+        <source>Go to the top</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/user/activations</name>
+    <message>
+        <source>There are no unactivated users</source>
+        <translation>Brak nieaktywowanych użytkowników</translation>
+    </message>
+</context>
+<context>
     <name>design/base</name>
     <message>
         <source>Subject</source>
@@ -14437,7 +14467,7 @@ your account.</source>
     </message>
     <message>
         <source>Fewer keywords result in more matches. Try reducing keywords until you get a result.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mniej słów da więcej wyników. Spróbuj zredukować liczbę słów do momentu otrzymania wyniku.</translation>
     </message>
     <message>
         <source>Powered by %linkStartTag eZ Publish&amp;reg;&amp;trade; open source content management system %linkEndTag and development framework.</source>
@@ -15273,15 +15303,15 @@ your account.</source>
     </message>
     <message>
         <source>RealPlayer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">RealPlayer</translation>
     </message>
     <message>
         <source>Silverlight</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Silverlight</translation>
     </message>
     <message>
         <source>Windows Media Player</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Windows Media Player</translation>
     </message>
     <message>
         <source>List with checkboxes</source>
@@ -16868,6 +16898,14 @@ If you want to send comments to the approver or view the status use the URL belo
         <source>Browse to add existing objects in this relation</source>
         <translation>Przeglądaj, aby dodać istniejące obiekty do tej relacji</translation>
     </message>
+    <message>
+        <source>Html5 Video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Html5 Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/diff</name>
@@ -17231,7 +17269,7 @@ If you want to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>You do not have permission to create a translation in another language.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nie masz uprawnień do utworzenia tłumaczenia w innym języku.</translation>
     </message>
 </context>
 <context>
@@ -17424,39 +17462,39 @@ If you want to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Version is not a draft</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wersja nie jest szkicem</translation>
     </message>
     <message>
         <source>Version %1 is not available for editing anymore. Only drafts can be edited.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wersja %1 nie jest już dostępna do edycji. Tylko szkice mogą być edytowane.</translation>
     </message>
     <message>
         <source>To edit this version, first create a copy of it.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aby edytować tę wersję, utwórz najpierw jej kopię.</translation>
     </message>
     <message>
         <source>Version is not yours</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wersja nie jest Twoja</translation>
     </message>
     <message>
         <source>Version %1 was not created by you. You can only edit your own drafts.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wersja %1 nie została stworzona przez Ciebie. Możesz edytować jedynie własne szkice.</translation>
     </message>
     <message>
         <source>Modified translation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tłumaczenie</translation>
     </message>
     <message>
         <source>Version #%version_number cannot be removed because it is either the published version of the object or because you do not have permission to remove it.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wersja #%version_number nie może zostać usunięta, ponieważ jest albo opublikowaną wersją, albo nie masz uprawnień do jej usunięcia.</translation>
     </message>
     <message>
         <source>You cannot make copies of versions because you do not have permission to edit the object.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nie możesz tworzyć kopii wersji, ponieważ nie masz uprawnień do edycji obiektu.</translation>
     </message>
     <message>
         <source>You cannot edit the contents of version #%version_number either because it is not a draft or because you do not have permission to edit the object.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nie możesz edytować zawartości wersji #%version_number, ponieważ nie jest szkicem albo nie masz uprawnień do edycji obiektu.</translation>
     </message>
 </context>
 <context>
@@ -17681,7 +17719,7 @@ If you want to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Fewer keywords result in more matches. Try reducing keywords until you get a result.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mniej słów da więcej wyników. Spróbuj zredukować liczbę słów do momentu otrzymania wyniku.</translation>
     </message>
 </context>
 <context>
@@ -19186,7 +19224,7 @@ The item be can viewed by using the URL below.</source>
     </message>
     <message>
         <source>Choose which collaboration items you want to get notifications for.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wybierz elementy współpracy, dla których chcesz otrzymywać powiadomienia.</translation>
     </message>
 </context>
 <context>
@@ -19681,7 +19719,7 @@ Możesz również odinstalować pakiet bez odinstalowywania go z listy pakietów
     </message>
     <message>
         <source>Include templates related to exported objects.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dołącz szablony związane z eksportowanymi obiektami.</translation>
     </message>
 </context>
 <context>
@@ -24976,7 +25014,7 @@ To do this you need to change the %chown commands under Alternative shell comman
         <source>Your account was successfully created. An email will be sent to the specified
 email address. Follow the instructions in that mail to activate
 your account.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Twoje konto zostało pomyślnie utworzone. Na podany adres e-mail zostanie wysłana wiadomość. Aby aktywować konto postępuj zgodnie z zawartymi w niej wskazówkami.</translation>
     </message>
     <message>
         <source>Please note that your browser must use and support cookies to register a new user.</source>
@@ -26628,7 +26666,7 @@ your account.</source>
     <message>
         <source>Image</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Obraz</translation>
     </message>
     <message>
         <source>Integer</source>

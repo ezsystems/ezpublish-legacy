@@ -2158,10 +2158,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Toggle fullscreen editing!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Store draft and exit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6092,6 +6088,18 @@
         <source>Object state</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Node Remote ID and Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view/line</name>
@@ -6867,7 +6875,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Postavi</translation>
     </message>
     <message>
         <source>[%classname] Click on the icon to display a context-sensitive menu.</source>
@@ -6899,6 +6907,13 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/pagelayout/leftmenu</name>
+    <message>
+        <source>Show / Hide leftmenu</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -10373,6 +10388,10 @@ Note: The packages will not be uninstalled.</source>
         <source>Country/region</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Comment</source>
+        <translation type="unfinished">Komentar</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/shop/archivelist</name>
@@ -12682,7 +12701,7 @@ your account.</source>
     </message>
     <message>
         <source>Toggle selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Izaberi selekciju</translation>
     </message>
     <message>
         <source>Registration date</source>
@@ -12714,6 +12733,25 @@ your account.</source>
     </message>
     <message>
         <source>Remove selected users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/user/activations</name>
+    <message>
+        <source>The following users have been successfully activated:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been activated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following unactivated users have been successfully removed:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been removed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -12945,32 +12983,6 @@ your account.</source>
     <message>
         <source>Reset</source>
         <translation type="unfinished">Ponovo postavi</translation>
-    </message>
-</context>
-<context>
-    <name>design/admin/user/activations</name>
-    <message>
-        <source>The following users have been successfully activated:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Some users have not been activated</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The following unactivated users have been successfully removed:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Some users have not been removed</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/admin2/user/activations</name>
-    <message>
-        <source>There are no unactivated users</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -13941,6 +13953,20 @@ your account.</source>
     </message>
     <message>
         <source>Upload a file and add the resulting object in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/content/edit</name>
+    <message>
+        <source>Go to the top</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/user/activations</name>
+    <message>
+        <source>There are no unactivated users</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -16790,6 +16816,14 @@ If you want to send comments to the approver or view the status use the URL belo
         <source>Browse to add existing objects in this relation</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Html5 Video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Html5 Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/diff</name>
@@ -19605,7 +19639,7 @@ You can also remove the package without uninstalling it from the package list.</
     </message>
     <message>
         <source>Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Postavi</translation>
     </message>
 </context>
 <context>

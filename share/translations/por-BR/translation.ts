@@ -2486,7 +2486,7 @@
     </message>
     <message>
         <source>Toggle fullscreen editing!</source>
-        <translation>Alterar para edição em tela cheia!</translation>
+        <translation type="obsolete">Alterar para edição em tela cheia!</translation>
     </message>
     <message>
         <source>Store draft and exit</source>
@@ -6765,6 +6765,18 @@ Tem certeza de que deseja remover a informação coletada?</translation>
         <source>Object state</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Node Remote ID and Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view/line</name>
@@ -7543,7 +7555,7 @@ Nota: Os pacotes não serão desinstalados.</translation>
     </message>
     <message>
         <source>Global (override)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Global (sobrescrito)</translation>
     </message>
     <message>
         <source>Set</source>
@@ -7583,6 +7595,13 @@ Nota: Os pacotes não serão desinstalados.</translation>
     </message>
     <message>
         <source>Loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/pagelayout/leftmenu</name>
+    <message>
+        <source>Show / Hide leftmenu</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -11084,6 +11103,10 @@ Clique em um dos botões &quot;Conceder..&quot; (explicado abaixo), para prosseg
         <source>Country/region</source>
         <translation>País/região</translation>
     </message>
+    <message>
+        <source>Comment</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/shop/archivelist</name>
@@ -13401,7 +13424,7 @@ your account.</source>
     </message>
     <message>
         <source>Toggle selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Inverter seleção</translation>
     </message>
     <message>
         <source>Registration date</source>
@@ -13417,7 +13440,7 @@ your account.</source>
     </message>
     <message>
         <source>E-mail</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">E-Mail</translation>
     </message>
     <message>
         <source>Activate selected users</source>
@@ -13433,6 +13456,25 @@ your account.</source>
     </message>
     <message>
         <source>Remove selected users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/user/activations</name>
+    <message>
+        <source>The following users have been successfully activated:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been activated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following unactivated users have been successfully removed:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been removed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -13664,32 +13706,6 @@ your account.</source>
     <message>
         <source>Account has been locked because the maximum number of failed login attempts was exceeded.</source>
         <translation type="unfinished">A conta foi bloqueada devido ao número máximo de tentativas de login sem sucesso ter excedido.</translation>
-    </message>
-</context>
-<context>
-    <name>design/admin/user/activations</name>
-    <message>
-        <source>The following users have been successfully activated:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Some users have not been activated</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The following unactivated users have been successfully removed:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Some users have not been removed</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/admin2/user/activations</name>
-    <message>
-        <source>There are no unactivated users</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -14660,6 +14676,20 @@ your account.</source>
     </message>
     <message>
         <source>Upload a file and add the resulting object in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/content/edit</name>
+    <message>
+        <source>Go to the top</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/user/activations</name>
+    <message>
+        <source>There are no unactivated users</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -17492,6 +17522,14 @@ Se quiser enviar comentários ao aprovador ou ver o status do processo, use a UR
     <message>
         <source>Browse to add existing objects in this relation</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Html5 Video</source>
+        <translation type="unfinished">Video html5</translation>
+    </message>
+    <message>
+        <source>Html5 Audio</source>
+        <translation type="unfinished">Áudio html5</translation>
     </message>
 </context>
 <context>
@@ -20434,7 +20472,7 @@ Você também pode remover o pacote sem desinstala-lo a partir da lista de pacot
     </message>
     <message>
         <source>Global (override)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Global (sobrescrito)</translation>
     </message>
     <message>
         <source>Set</source>

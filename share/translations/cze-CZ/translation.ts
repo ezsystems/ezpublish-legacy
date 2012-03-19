@@ -2198,10 +2198,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Toggle fullscreen editing!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Store draft and exit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6185,6 +6181,18 @@ Parametry jsou pojeny počátečními a koncovými tags.</translation>
         <source>Object state</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Node Remote ID and Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view/line</name>
@@ -6960,11 +6968,11 @@ Poznámka: Soubory programů nebudou odinstalovány.</translation>
     </message>
     <message>
         <source>Global (override)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Globální (přepis)</translation>
     </message>
     <message>
         <source>Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nastavit</translation>
     </message>
     <message>
         <source>Change name, email, password, etc.</source>
@@ -6996,6 +7004,13 @@ Poznámka: Soubory programů nebudou odinstalovány.</translation>
     </message>
     <message>
         <source>Loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/pagelayout/leftmenu</name>
+    <message>
+        <source>Show / Hide leftmenu</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -10505,6 +10520,10 @@ Moduly webového serveru nemohou být detekovány.
         <source>Country/region</source>
         <translation>Země/region</translation>
     </message>
+    <message>
+        <source>Comment</source>
+        <translation type="unfinished">Poznámka</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/shop/archivelist</name>
@@ -12815,7 +12834,7 @@ your account.</source>
     </message>
     <message>
         <source>Toggle selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Změnit výběr</translation>
     </message>
     <message>
         <source>Registration date</source>
@@ -12847,6 +12866,25 @@ your account.</source>
     </message>
     <message>
         <source>Remove selected users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/user/activations</name>
+    <message>
+        <source>The following users have been successfully activated:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been activated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following unactivated users have been successfully removed:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been removed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -13082,32 +13120,6 @@ Tlačítko registrovat</translation>
     <message>
         <source>Account has been locked because the maximum number of failed login attempts was exceeded.</source>
         <translation>Účet byl zamčen, protože byl překročen maximální počet chybových přihlášení do systému.</translation>
-    </message>
-</context>
-<context>
-    <name>design/admin/user/activations</name>
-    <message>
-        <source>The following users have been successfully activated:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Some users have not been activated</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The following unactivated users have been successfully removed:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Some users have not been removed</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/admin2/user/activations</name>
-    <message>
-        <source>There are no unactivated users</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -14078,6 +14090,20 @@ Tlačítko registrovat</translation>
     </message>
     <message>
         <source>Upload a file and add the resulting object in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/content/edit</name>
+    <message>
+        <source>Go to the top</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/user/activations</name>
+    <message>
+        <source>There are no unactivated users</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -16935,6 +16961,14 @@ If you want to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Browse to add existing objects in this relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Html5 Video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Html5 Audio</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -19855,11 +19889,11 @@ Můžete také vyjmout balíček, aniž byste ho odinstalovali ze seznamu balí�
     </message>
     <message>
         <source>Global (override)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Globální (přepis)</translation>
     </message>
     <message>
         <source>Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nastavit</translation>
     </message>
 </context>
 <context>

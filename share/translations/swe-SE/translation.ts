@@ -2195,10 +2195,6 @@ Filtyp</translation>
         <translation>Stat</translation>
     </message>
     <message>
-        <source>Toggle fullscreen editing!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Store draft and exit</source>
         <translation>Spara och stäng utkast</translation>
     </message>
@@ -5202,7 +5198,7 @@ Knapp</translation>
     </message>
     <message>
         <source>You cannot continue because you do not have permission to remove some of the selected locations.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Du kan inte fortsätta för du har inte behörighet att radera några av de valda platserna.</translation>
     </message>
     <message>
         <source>The system will let you restore the object &lt;%name&gt;. Specify where you wish to restore it.</source>
@@ -5895,11 +5891,11 @@ Knapp</translation>
     </message>
     <message>
         <source>Select the desired main language using the radio buttons above then click this button to store the setting.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Välj önskat huvudspråk genom att använda radioknapparna ovan, klicka sedan på denna knapp för att spara.</translation>
     </message>
     <message>
         <source>You cannot change the main language because the object is not translated to any other languages.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Du kan inte ändra huvudspråket för objektet är inte översatt till något annat språk.</translation>
     </message>
     <message>
         <source>You cannot change the main language because you do not have permission to edit the current item.</source>
@@ -6023,7 +6019,7 @@ Knapp</translation>
     </message>
     <message>
         <source>New translation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ny översättning</translation>
     </message>
     <message>
         <source>Policy list and the Role that are assignet to current node.</source>
@@ -6115,7 +6111,7 @@ Knapp</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stäng</translation>
     </message>
     <message>
         <source>Select</source>
@@ -6167,6 +6163,18 @@ Knapp</translation>
     </message>
     <message>
         <source>Object state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node Remote ID and Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object Remote ID</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6946,7 +6954,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Global (override)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Global (upphäv)</translation>
     </message>
     <message>
         <source>Set</source>
@@ -6983,6 +6991,13 @@ Obs: Paketen avinstalleras inte.</translation>
     <message>
         <source>Loading...</source>
         <translation>Laddar...</translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/pagelayout/leftmenu</name>
+    <message>
+        <source>Show / Hide leftmenu</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7290,7 +7305,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>States</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stat</translation>
     </message>
     <message>
         <source>URL management</source>
@@ -8777,7 +8792,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Enclosure (media)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bilaga (media)</translation>
     </message>
     <message>
         <source>Use this drop-down to select the attribute that should be exported as the enclosure of the RSS export entry, enclosures are direct link to a media file, so use a media/image/file datatype .</source>
@@ -10461,6 +10476,10 @@ Obs: Paketen avinstalleras inte.</translation>
         <source>Country/region</source>
         <translation>Land/region</translation>
     </message>
+    <message>
+        <source>Comment</source>
+        <translation type="unfinished">Kommentar</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/shop/archivelist</name>
@@ -11274,7 +11293,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Cancel creating new currency.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Avbryt att skapa ny valuta.</translation>
     </message>
     <message>
         <source>Create</source>
@@ -12277,7 +12296,7 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Select content object state group for removal.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Välj innehållsobjektets gruppstatus för borttagning.</translation>
     </message>
     <message>
         <source>Remove selected</source>
@@ -12772,7 +12791,7 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Toggle selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Knappval</translation>
     </message>
     <message>
         <source>Registration date</source>
@@ -12804,6 +12823,25 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Remove selected users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/user/activations</name>
+    <message>
+        <source>The following users have been successfully activated:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been activated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following unactivated users have been successfully removed:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been removed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -13035,32 +13073,6 @@ ditt konto.</translation>
     <message>
         <source>Account has been locked because the maximum number of failed login attempts was exceeded.</source>
         <translation>Kontot har låsts för maximalt antal misslyckade inloggningsförsök har överskridits.</translation>
-    </message>
-</context>
-<context>
-    <name>design/admin/user/activations</name>
-    <message>
-        <source>The following users have been successfully activated:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Some users have not been activated</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The following unactivated users have been successfully removed:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Some users have not been removed</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/admin2/user/activations</name>
-    <message>
-        <source>There are no unactivated users</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -13964,7 +13976,7 @@ ditt konto.</translation>
     </message>
     <message>
         <source>next</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">nästa</translation>
     </message>
     <message>
         <source>Step 2/3: Choose a location for the new &apos;%class&apos; object</source>
@@ -13980,7 +13992,7 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stäng</translation>
     </message>
     <message>
         <source>Step 3/3: Preview of &apos;%name&apos; (%class)</source>
@@ -14031,6 +14043,20 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Upload a file and add the resulting object in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/content/edit</name>
+    <message>
+        <source>Go to the top</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/user/activations</name>
+    <message>
+        <source>There are no unactivated users</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -16886,6 +16912,14 @@ Om du vill skicka kommentarer till personen som godkänner eller visa statusen, 
     <message>
         <source>Browse to add existing objects in this relation</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Html5 Video</source>
+        <translation type="unfinished">Html5 Video</translation>
+    </message>
+    <message>
+        <source>Html5 Audio</source>
+        <translation type="unfinished">Html5 Audio</translation>
     </message>
 </context>
 <context>
@@ -19812,7 +19846,7 @@ Du kan även ta bort paketet utan att avinstallera det från paketlistan.</trans
     </message>
     <message>
         <source>Global (override)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Global (upphäv)</translation>
     </message>
     <message>
         <source>Set</source>

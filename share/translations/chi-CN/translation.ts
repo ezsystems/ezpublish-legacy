@@ -2363,7 +2363,7 @@
     </message>
     <message>
         <source>Toggle fullscreen editing!</source>
-        <translation>触发全屏编辑！</translation>
+        <translation type="obsolete">触发全屏编辑！</translation>
     </message>
     <message>
         <source>Store draft and exit</source>
@@ -6911,6 +6911,18 @@
         <source>Object state</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Node Remote ID and Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view/full </name>
@@ -7715,11 +7727,11 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Global (override)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">全局（重载）</translation>
     </message>
     <message>
         <source>Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">设置</translation>
     </message>
     <message>
         <source>Content</source>
@@ -7759,6 +7771,13 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/pagelayout/leftmenu</name>
+    <message>
+        <source>Show / Hide leftmenu</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -11378,6 +11397,10 @@ Note: The packages will not be uninstalled.</source>
         <source>Country/region</source>
         <translation>国家／地区</translation>
     </message>
+    <message>
+        <source>Comment</source>
+        <translation type="unfinished">注释</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/shop/archivelist</name>
@@ -13767,7 +13790,7 @@ your account.</source>
     </message>
     <message>
         <source>Toggle selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">切换选择</translation>
     </message>
     <message>
         <source>Registration date</source>
@@ -13775,15 +13798,15 @@ your account.</source>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">名称</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">登录</translation>
     </message>
     <message>
         <source>E-mail</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">电子信箱</translation>
     </message>
     <message>
         <source>Activate selected users</source>
@@ -13799,6 +13822,25 @@ your account.</source>
     </message>
     <message>
         <source>Remove selected users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/user/activations</name>
+    <message>
+        <source>The following users have been successfully activated:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been activated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following unactivated users have been successfully removed:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been removed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -14057,32 +14099,6 @@ your account.</source>
     <message>
         <source>OK</source>
         <translation type="obsolete">Ok</translation>
-    </message>
-</context>
-<context>
-    <name>design/admin/user/activations</name>
-    <message>
-        <source>The following users have been successfully activated:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Some users have not been activated</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The following unactivated users have been successfully removed:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Some users have not been removed</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/admin2/user/activations</name>
-    <message>
-        <source>There are no unactivated users</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -15063,6 +15079,20 @@ your account.</source>
     </message>
     <message>
         <source>Upload a file and add the resulting object in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/content/edit</name>
+    <message>
+        <source>Go to the top</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/user/activations</name>
+    <message>
+        <source>There are no unactivated users</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -18433,6 +18463,14 @@ If you want to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Browse to add existing objects in this relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Html5 Video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Html5 Audio</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -21876,11 +21914,11 @@ You can also remove the package without uninstalling it from the package list.</
     </message>
     <message>
         <source>Global (override)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">全局（重载）</translation>
     </message>
     <message>
         <source>Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">设置</translation>
     </message>
 </context>
 <context>

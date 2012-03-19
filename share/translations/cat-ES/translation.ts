@@ -2203,7 +2203,7 @@
     </message>
     <message>
         <source>Toggle fullscreen editing!</source>
-        <translation>Canvia a edició a pantalla completa!</translation>
+        <translation type="obsolete">Canvia a edició a pantalla completa!</translation>
     </message>
     <message>
         <source>Store draft and exit</source>
@@ -6216,6 +6216,18 @@
         <source>Object state</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Node Remote ID and Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view/line</name>
@@ -6993,7 +7005,7 @@ Nota: Els paquets no seran desinstal·lats.</translation>
     </message>
     <message>
         <source>Global (override)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Global (sobrescriptura)</translation>
     </message>
     <message>
         <source>Set</source>
@@ -7033,6 +7045,13 @@ Nota: Els paquets no seran desinstal·lats.</translation>
     </message>
     <message>
         <source>Loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/pagelayout/leftmenu</name>
+    <message>
+        <source>Show / Hide leftmenu</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -10548,6 +10567,10 @@ Nota: Els paquets no seran desinstal·lats.</translation>
         <source>Country/region</source>
         <translation>País/regió</translation>
     </message>
+    <message>
+        <source>Comment</source>
+        <translation type="unfinished">Comenta</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/shop/archivelist</name>
@@ -12862,7 +12885,7 @@ Segueix les instruccions d&apos;aquest correu per activar el teu compte.</transl
     </message>
     <message>
         <source>Toggle selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Invertir la selecció</translation>
     </message>
     <message>
         <source>Registration date</source>
@@ -12894,6 +12917,25 @@ Segueix les instruccions d&apos;aquest correu per activar el teu compte.</transl
     </message>
     <message>
         <source>Remove selected users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/user/activations</name>
+    <message>
+        <source>The following users have been successfully activated:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been activated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following unactivated users have been successfully removed:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been removed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -13129,32 +13171,6 @@ Segueix les instruccions d&apos;aquest correu per activar el teu compte.</transl
     <message>
         <source>Account has been locked because the maximum number of failed login attempts was exceeded.</source>
         <translation>El compte d&apos;usuari s&apos;ha bloquejat perquè s&apos;ha excedit el nombre màxim d&apos;intents per connectar.</translation>
-    </message>
-</context>
-<context>
-    <name>design/admin/user/activations</name>
-    <message>
-        <source>The following users have been successfully activated:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Some users have not been activated</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The following unactivated users have been successfully removed:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Some users have not been removed</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/admin2/user/activations</name>
-    <message>
-        <source>There are no unactivated users</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -14125,6 +14141,20 @@ Segueix les instruccions d&apos;aquest correu per activar el teu compte.</transl
     </message>
     <message>
         <source>Upload a file and add the resulting object in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/content/edit</name>
+    <message>
+        <source>Go to the top</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/user/activations</name>
+    <message>
+        <source>There are no unactivated users</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -16979,6 +17009,14 @@ Si vols enviar comentaris a l&apos;encarregat d&apos;aprovar el contingut o veur
     <message>
         <source>Browse to add existing objects in this relation</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Html5 Video</source>
+        <translation type="unfinished">Video Html5</translation>
+    </message>
+    <message>
+        <source>Html5 Audio</source>
+        <translation type="unfinished">Audio Html5</translation>
     </message>
 </context>
 <context>
@@ -19908,7 +19946,7 @@ També pots esborrar el paquet sense desinstal·lar-lo de la llista de paquets.<
     </message>
     <message>
         <source>Global (override)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Global (sobrescriptura)</translation>
     </message>
     <message>
         <source>Set</source>

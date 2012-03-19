@@ -2203,7 +2203,7 @@
     </message>
     <message>
         <source>Toggle fullscreen editing!</source>
-        <translation>Activer / Désactiver la modification en plein écran !</translation>
+        <translation type="obsolete">Activer / Désactiver la modification en plein écran !</translation>
     </message>
     <message>
         <source>Store draft and exit</source>
@@ -6138,7 +6138,7 @@
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fermer</translation>
     </message>
     <message>
         <source>Select</source>
@@ -6191,6 +6191,18 @@
     <message>
         <source>Object state</source>
         <translation>État d&apos;objet</translation>
+    </message>
+    <message>
+        <source>Node Remote ID and Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object Remote ID</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6966,7 +6978,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Global (override)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Général (override)</translation>
     </message>
     <message>
         <source>Set</source>
@@ -7007,6 +7019,13 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     <message>
         <source>Loading...</source>
         <translation>Chargement ...</translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/pagelayout/leftmenu</name>
+    <message>
+        <source>Show / Hide leftmenu</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -10508,6 +10527,10 @@ Note : les paquetages ne seront pas désinstallés.</translation>
         <source>Country/region</source>
         <translation>Pays/région</translation>
     </message>
+    <message>
+        <source>Comment</source>
+        <translation type="unfinished">Commentaire</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/shop/archivelist</name>
@@ -12822,7 +12845,7 @@ your account.</source>
     </message>
     <message>
         <source>Toggle selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Activer la sélection</translation>
     </message>
     <message>
         <source>Registration date</source>
@@ -12830,7 +12853,7 @@ your account.</source>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nom</translation>
     </message>
     <message>
         <source>Login</source>
@@ -12854,6 +12877,25 @@ your account.</source>
     </message>
     <message>
         <source>Remove selected users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/user/activations</name>
+    <message>
+        <source>The following users have been successfully activated:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been activated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following unactivated users have been successfully removed:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been removed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -13085,32 +13127,6 @@ your account.</source>
     <message>
         <source>Account has been locked because the maximum number of failed login attempts was exceeded.</source>
         <translation>Le compte a été verrouillé car le nombre maximum d&apos;échec d&apos;identification a été dépassé.</translation>
-    </message>
-</context>
-<context>
-    <name>design/admin/user/activations</name>
-    <message>
-        <source>The following users have been successfully activated:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Some users have not been activated</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The following unactivated users have been successfully removed:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Some users have not been removed</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/admin2/user/activations</name>
-    <message>
-        <source>There are no unactivated users</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -14077,11 +14093,25 @@ your account.</source>
     </message>
     <message>
         <source>Unable to parse the JSON response.</source>
-        <translation>Impossible d'analyser la réponse JSON.</translation>
+        <translation>Impossible d&apos;analyser la réponse JSON.</translation>
     </message>
     <message>
         <source>Upload a file and add the resulting object in the relation</source>
         <translation>Télécharger un fichier et ajouter l&apos;objet résultant à la relation</translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/content/edit</name>
+    <message>
+        <source>Go to the top</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/user/activations</name>
+    <message>
+        <source>There are no unactivated users</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -16936,6 +16966,14 @@ Si vous voulez laisser un commentaire au responsable de l&apos;approbation ou en
     <message>
         <source>Browse to add existing objects in this relation</source>
         <translation>Parcourir pour ajouter des objets existants dans la relation</translation>
+    </message>
+    <message>
+        <source>Html5 Video</source>
+        <translation type="unfinished">Vidéo HTML 5</translation>
+    </message>
+    <message>
+        <source>Html5 Audio</source>
+        <translation type="unfinished">Son HTML 5</translation>
     </message>
 </context>
 <context>
@@ -19851,7 +19889,7 @@ You can also remove the package without uninstalling it from the package list.</
     </message>
     <message>
         <source>Global (override)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Général (override)</translation>
     </message>
     <message>
         <source>Set</source>
