@@ -60,7 +60,8 @@ if ( version_compare( $version, '3.5.0' ) == -1 && $version !== '@package_versio
 }
 
 require_once 'PHP/CodeCoverage.php';
-PHP_CodeCoverage::getInstance()->filter()->addFileToBlacklist( __FILE__, 'PHPUNIT' );
+$codeCoverage = new PHP_CodeCoverage;
+$codeCoverage->filter()->addFileToBlacklist( __FILE__, 'PHPUNIT' );
 
 //require_once 'bootstrap.php';
 
