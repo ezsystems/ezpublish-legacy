@@ -1128,6 +1128,10 @@ Vols rebre més informació al respecte?</translation>
         <source>Word wrap</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Use left and right arrows to navigate.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/ezoe/handler</name>

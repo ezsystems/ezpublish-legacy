@@ -1128,6 +1128,10 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
         <source>Upload new Object</source>
         <translation>Envoyer un nouvel objet</translation>
     </message>
+    <message>
+        <source>Use left and right arrows to navigate.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/ezoe/handler</name>

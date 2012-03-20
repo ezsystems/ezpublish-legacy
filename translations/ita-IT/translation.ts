@@ -1124,6 +1124,10 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
         <source>Insert horizontal ruler</source>
         <translation>Inserisci riga orizzontale</translation>
     </message>
+    <message>
+        <source>Use left and right arrows to navigate.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/ezoe/contenttype</name>

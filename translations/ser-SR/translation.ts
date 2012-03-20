@@ -1129,6 +1129,10 @@ Desno</translation>
         <source>Insert horizontal ruler</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Use left and right arrows to navigate.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/ezoe/handler</name>

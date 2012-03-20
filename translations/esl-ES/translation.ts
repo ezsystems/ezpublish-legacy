@@ -1128,6 +1128,10 @@ Do you want more information about this issue?</source>
         <source>Insert horizontal ruler</source>
         <translation type="unfinished">Insertar separador horizontal</translation>
     </message>
+    <message>
+        <source>Use left and right arrows to navigate.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/ezoe/handler</name>

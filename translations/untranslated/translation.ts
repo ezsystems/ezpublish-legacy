@@ -1095,6 +1095,10 @@ Do you want more information about this issue?</source>
         <source>Invalid parameter: %parameter = %value</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Use left and right arrows to navigate.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/ezoe/handler</name>
