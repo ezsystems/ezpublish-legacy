@@ -18,7 +18,7 @@ we are trying to avoid
 
 ## Revamped structure ##
 
-A unique file can now be found at document root level: `cluster_index.php`. This file will
+A unique file can now be found at document root level: `index_cluster.php`. This file will
 be the one serving binary files, and must be the rewrite target.
 
 Depending on the configuration (see below), this file will use a gateway class, specific
