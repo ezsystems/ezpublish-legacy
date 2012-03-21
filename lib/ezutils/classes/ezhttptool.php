@@ -567,7 +567,7 @@ class eZHTTPTool
             }
         }
         if ( $parameters['override_protocol'] )
-            $host = $parameters['override_protocol'];
+            $protocol = $parameters['override_protocol'];
 
         $uri = $protocol . '://';
         if ( $parameters['override_username'] )
