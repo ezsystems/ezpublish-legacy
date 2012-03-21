@@ -105,7 +105,8 @@
          page_uri='/content/trash'
          item_count=$list_count
          view_parameters=$view_parameters
-         item_limit=$number_of_items}
+         item_limit=$number_of_items
+         show_google_navigator=true()}
 </div>
 
 
