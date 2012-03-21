@@ -1221,9 +1221,23 @@ class eZObjectRelationListType extends eZDataType
         return $relationItem;
     }
 
-    function appendObject( $objectID, $priority, $contentObjectAttribute )
+    /**
+     * Generate array with object relation info
+     *
+     * @param integer $objectID The id of the object to add as relation
+     * @param integer $priority The priortity of the relation
+     * @param eZContentObjectAttribute $contentObjectAttribute Not used
+     * @return array|null A array containing relation information or null if object does not exist
+     */
+    public function appendObject( $objectID, $priority, $contentObjectAttribute )
     {
         $object = eZContentObject::fetch( $objectID );
+
+        if ( null === $object )
+        {
+            return;
+        }
+
         $class = $object->attribute( 'content_class' );
         $sectionID = $object->attribute( 'section_id' );
         $relationItem = array( 'identifier' => false,
