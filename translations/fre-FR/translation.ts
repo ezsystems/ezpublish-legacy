@@ -1026,7 +1026,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>The url the link points to, starts with link type (like http://).</source>
-        <translation>L&apos;URL vers laquelle le lien doit pointer; elle démarre par le type de lien (par exemple http://)</translation>
+        <translation>L&apos;URL vers laquelle le lien doit pointer; elle démarre par le type de lien (par exemple http://).</translation>
     </message>
     <message>
         <source>Class are often used to give different design or appearance, either by using a different template, style or both.</source>
@@ -1130,7 +1130,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Use left and right arrows to navigate.</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisez les flèches gauche et droite pour naviguer.</translation>
     </message>
 </context>
 <context>
