@@ -216,6 +216,13 @@ var sortableSubitems = function () {
             // Append the generated node into the container
             tpg.appendChild(prevPageLinkNode);
             tpg.appendChild(nextPageLinkNode);
+            
+            // search for default paginators added to dom by tpl files and remove them
+            paginators = YAHOO.util.Dom.getElementsByClassName('pagenavigator' );
+            for ( var i = 0; i < paginators.length; i++ ) {
+                var paginatorcontainer = paginators[i].parentNode
+                paginatorcontainer.parentNode.removeChild( paginatorcontainer );
+            }
         });
 
         var buildQueryString = function (state,dt) {
