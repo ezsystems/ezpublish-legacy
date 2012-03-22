@@ -14629,7 +14629,7 @@ your account.</source>
     </message>
     <message>
         <source>Step 3/3: Preview of &apos;%name&apos; (%class)</source>
-        <translation>Etapa 3/3: Previsualização de &apos;%name&apos; (%class)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add</source>
