@@ -6138,7 +6138,7 @@
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished">Fermer</translation>
+        <translation>Fermer</translation>
     </message>
     <message>
         <source>Select</source>
@@ -6194,15 +6194,15 @@
     </message>
     <message>
         <source>Node Remote ID and Object Remote ID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID externe du nœud et ID externe de l&apos;objet</translation>
     </message>
     <message>
         <source>Node Remote ID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID externe du nœud</translation>
     </message>
     <message>
         <source>Object Remote ID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID externe de l&apos;objet</translation>
     </message>
 </context>
 <context>
@@ -6974,15 +6974,15 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Siteaccess:</source>
-        <translation type="unfinished"></translation>
+        <translation>Siteaccess:</translation>
     </message>
     <message>
         <source>Global (override)</source>
-        <translation type="unfinished">Général (override)</translation>
+        <translation>Général (override)</translation>
     </message>
     <message>
         <source>Set</source>
-        <translation type="unfinished"></translation>
+        <translation>Définir</translation>
     </message>
     <message>
         <source>Change name, email, password, etc.</source>
@@ -7025,7 +7025,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     <name>design/admin/pagelayout/leftmenu</name>
     <message>
         <source>Show / Hide leftmenu</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher / Cacher le menu de gauche</translation>
     </message>
 </context>
 <context>
@@ -7447,7 +7447,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Unactivated users</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateurs désactivés</translation>
     </message>
     <message>
         <source>View and manage the contents of the trash bin.</source>
@@ -10529,7 +10529,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation type="unfinished">Commentaire</translation>
+        <translation>Commentaire</translation>
     </message>
 </context>
 <context>
@@ -12841,62 +12841,62 @@ your account.</source>
     </message>
     <message>
         <source>Unactivated users (%users_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateurs désactivés (%users_count)</translation>
     </message>
     <message>
         <source>Toggle selection</source>
-        <translation type="unfinished">Activer la sélection</translation>
+        <translation>Activer la sélection</translation>
     </message>
     <message>
         <source>Registration date</source>
-        <translation type="unfinished"></translation>
+        <translation>Date d&apos;inscription</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Nom</translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Identifiant</translation>
     </message>
     <message>
         <source>E-mail</source>
-        <translation type="unfinished"></translation>
+        <translation>Courriel</translation>
     </message>
     <message>
         <source>Activate selected users</source>
-        <translation type="unfinished"></translation>
+        <translation>Activer les utilisateurs sélectionnés</translation>
     </message>
     <message>
         <source>Activate selected users.</source>
-        <translation type="unfinished"></translation>
+        <translation>Activer les utilisateurs sélectionnés.</translation>
     </message>
     <message>
         <source>Remove selected users</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer les utilisateurs sélectionnés</translation>
     </message>
     <message>
         <source>Remove selected users.</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer les utilisateurs sélectionnés.</translation>
     </message>
 </context>
 <context>
     <name>design/admin/user/activations</name>
     <message>
         <source>The following users have been successfully activated:</source>
-        <translation type="unfinished"></translation>
+        <translation>Les utilisateurs suivants ont été activés avec succès:</translation>
     </message>
     <message>
         <source>Some users have not been activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Certains utilisateurs n&apos;ont pas été activés</translation>
     </message>
     <message>
         <source>The following unactivated users have been successfully removed:</source>
-        <translation type="unfinished"></translation>
+        <translation>Les utilisateurs désactivés suivants ont été supprimés avec succès:</translation>
     </message>
     <message>
         <source>Some users have not been removed</source>
-        <translation type="unfinished"></translation>
+        <translation>Certains utilisateurs n&apos;ont pas été supprimés</translation>
     </message>
 </context>
 <context>
@@ -14010,7 +14010,7 @@ your account.</source>
     </message>
     <message>
         <source>Step 1/3: Upload a file</source>
-        <translation type="unfinished"></translation>
+        <translation>Etape 1/3: Transférer un fichier</translation>
     </message>
     <message>
         <source>Name</source>
@@ -14104,14 +14104,14 @@ your account.</source>
     <name>design/admin2/content/edit</name>
     <message>
         <source>Go to the top</source>
-        <translation type="unfinished"></translation>
+        <translation>Retour en haut</translation>
     </message>
 </context>
 <context>
     <name>design/admin2/user/activations</name>
     <message>
         <source>There are no unactivated users</source>
-        <translation type="unfinished"></translation>
+        <translation>Il n&apos;y a pas d&apos;utilisateurs désactivés</translation>
     </message>
 </context>
 <context>
@@ -16969,11 +16969,11 @@ Si vous voulez laisser un commentaire au responsable de l&apos;approbation ou en
     </message>
     <message>
         <source>Html5 Video</source>
-        <translation type="unfinished">Vidéo HTML 5</translation>
+        <translation>Vidéo HTML 5</translation>
     </message>
     <message>
         <source>Html5 Audio</source>
-        <translation type="unfinished">Son HTML 5</translation>
+        <translation>Son HTML 5</translation>
     </message>
 </context>
 <context>
@@ -19885,15 +19885,15 @@ You can also remove the package without uninstalling it from the package list.</
     </message>
     <message>
         <source>Siteaccess:</source>
-        <translation type="unfinished"></translation>
+        <translation>Siteaccess:</translation>
     </message>
     <message>
         <source>Global (override)</source>
-        <translation type="unfinished">Général (override)</translation>
+        <translation>Général (override)</translation>
     </message>
     <message>
         <source>Set</source>
-        <translation type="unfinished"></translation>
+        <translation>Définir</translation>
     </message>
 </context>
 <context>
@@ -28608,7 +28608,7 @@ your account.</source>
     </message>
     <message>
         <source>Unactivated users</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateurs désactivés</translation>
     </message>
 </context>
 <context>
