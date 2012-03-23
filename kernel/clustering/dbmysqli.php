@@ -41,7 +41,7 @@ class ezpDbMySQLiClusterGateway extends ezpClusterGateway
 
     public function passthrough( $filepath, $filesize, $offset = false, $length = false)
     {
-        if ( $offset || $length )
+        if ( $offset !== false )
             throw new UnexpectedValueException( "HTTP Range is not supported by " . __CLASS__ );
 
         if ( !$res = mysqli_query( $this->db, "SELECT filedata FROM ezdbfile_data WHERE name_hash=MD5('$filepath') ORDER BY offset ASC" ) )
