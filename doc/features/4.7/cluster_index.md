@@ -41,5 +41,5 @@ are flags that can be enabled/disabled.
 While this change makes the code structure way cleaner, it also comes up with added benefits:
 
 - `eTag` & `IF-MODIFIED-SINCE` header support
-- `HTTP RANGE` support, to support partial downloads
+- `HTTP RANGE` support, to support partial downloads (only for **DFS clusters**)
 - unified error & debug handling
