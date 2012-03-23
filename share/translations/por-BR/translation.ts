@@ -12,15 +12,15 @@
     <name>design</name>
     <message>
         <source>%group_name [Content object state group]</source>
-        <translation type="unfinished">%group_name [Grupo de estado de conteúdo]</translation>
+        <translation>%group_name [Grupo de estado de conteúdo]</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Editar</translation>
+        <translation>Editar</translation>
     </message>
     <message>
         <source>%state_name [Content object state]</source>
-        <translation type="unfinished">%state_name [Estado de conteúdo]</translation>
+        <translation>%state_name [Estado de conteúdo]</translation>
     </message>
 </context>
 <context>
@@ -135,7 +135,7 @@
     </message>
     <message>
         <source>Use this menu to select the language you to want use then click the &quot;New class&quot; button. The item will be created within the current location.</source>
-        <translation type="unfinished"></translation>
+        <translation>Use este menu para selecionar o idioma que deseja utilizar, então clique no botão &quot;Novo tipo de conteúdo&quot;. O item será criado dentro do local atual.</translation>
     </message>
 </context>
 <context>
@@ -154,7 +154,7 @@
     </message>
     <message>
         <source>Select the item that you want to be the default selection then click &quot;OK&quot;.</source>
-        <translation type="unfinished">Selecione o item desejado para a seleção padrão e clique em &quot;OK&quot;.</translation>
+        <translation>Selecione o item desejado para a seleção padrão e clique em &quot;OK&quot;.</translation>
     </message>
 </context>
 <context>
@@ -456,11 +456,11 @@
     </message>
     <message>
         <source>The draft of the class definition was successfully stored.</source>
-        <translation type="unfinished">O rascunho da definição da classe foi armazenado com sucesso.</translation>
+        <translation>O rascunho da definição do tipo de conteúdo foi armazenado com sucesso.</translation>
     </message>
     <message>
         <source>Edit &lt;%class_name&gt; (%object_count objects)</source>
-        <translation type="unfinished"></translation>
+        <translation>Editar &lt;%class_name&gt; (%object_count objetos)</translation>
     </message>
 </context>
 <context>
@@ -1110,11 +1110,11 @@
     </message>
     <message>
         <source>Application name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome da aplicação</translation>
     </message>
     <message>
         <source>Confirm removal</source>
-        <translation type="unfinished">Confirmar remoção</translation>
+        <translation>Confirmar remoção</translation>
     </message>
 </context>
 <context>
@@ -1838,30 +1838,30 @@
     </message>
     <message>
         <source>Year</source>
-        <translation type="unfinished">Ano</translation>
+        <translation>Ano</translation>
     </message>
     <message>
         <source>Month</source>
-        <translation type="unfinished">Mês</translation>
+        <translation>Mês</translation>
     </message>
     <message>
         <source>Day</source>
-        <translation type="unfinished">Dia</translation>
+        <translation>Dia</translation>
     </message>
     <message>
         <source>Hour</source>
-        <translation type="unfinished">Hora</translation>
+        <translation>Hora</translation>
     </message>
     <message>
         <source>Minute</source>
-        <translation type="unfinished">Minuto</translation>
+        <translation>Minuto</translation>
     </message>
 </context>
 <context>
     <name>design/admin/content/datatype/ezuser</name>
     <message>
         <source>User ID</source>
-        <translation type="obsolete">ID de usuário</translation>
+        <translation>ID de usuário</translation>
     </message>
     <message>
         <source>Username</source>
@@ -2538,11 +2538,11 @@
     </message>
     <message>
         <source>View the draft that is being edited.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizar o rascunho que está sendo editado.</translation>
     </message>
     <message>
         <source>Path String</source>
-        <translation type="unfinished">Caminho</translation>
+        <translation>Caminho</translation>
     </message>
 </context>
 <context>
@@ -5052,7 +5052,7 @@ Apelidos de URL definidos globalmente [%alias_count]</translation>
     </message>
     <message>
         <source>Dynamic tree menu is disabled for this siteaccess!</source>
-        <translation type="unfinished"></translation>
+        <translation>O menu de árvore dinâmico está desabilitado para este siteaccess!</translation>
     </message>
 </context>
 <context>
@@ -5098,7 +5098,7 @@ Apelidos de URL definidos globalmente [%alias_count]</translation>
     <name>design/admin/dashboard/drafts</name>
     <message>
         <source>My drafts</source>
-        <translation type="unfinished">Meus rascunhos</translation>
+        <translation>Meus rascunhos</translation>
     </message>
     <message>
         <source>Name</source>
@@ -5133,7 +5133,7 @@ Apelidos de URL definidos globalmente [%alias_count]</translation>
     <name>design/admin/dashboard/latest_content</name>
     <message>
         <source>My latest content</source>
-        <translation type="unfinished">Meus últimos conteúdos</translation>
+        <translation>Meus últimos conteúdos</translation>
     </message>
     <message>
         <source>Name</source>
@@ -5192,7 +5192,7 @@ Apelidos de URL definidos globalmente [%alias_count]</translation>
     <name>design/admin/dashboard/pending_list</name>
     <message>
         <source>My pending items</source>
-        <translation type="unfinished">Meus itens pendentes</translation>
+        <translation>Meus itens pendentes</translation>
     </message>
     <message>
         <source>Name</source>
@@ -5231,19 +5231,19 @@ Apelidos de URL definidos globalmente [%alias_count]</translation>
     </message>
     <message>
         <source>Published</source>
-        <translation type="unfinished">Publicado</translation>
+        <translation>Publicado</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Editar</translation>
+        <translation>Editar</translation>
     </message>
     <message>
         <source>Edit &lt;%item_name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Editar &lt;%item_name&gt;.</translation>
     </message>
     <message>
         <source>You do not have permission to edit &lt;%item_name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Você não tem permição para editar &lt;%item_name&gt;.</translation>
     </message>
 </context>
 <context>
@@ -5794,11 +5794,11 @@ Tem certeza de que deseja remover a informação coletada?</translation>
     </message>
     <message>
         <source>Pending sub-object</source>
-        <translation type="unfinished">Sub-objeto pendente</translation>
+        <translation>Sub-objeto pendente</translation>
     </message>
     <message>
         <source>Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.</source>
-        <translation type="unfinished">A remoção falhou porque existe um sub-objeto sob o nó. Por favor termine o processo relevante e então refaça a remoção.</translation>
+        <translation>A remoção falhou porque existe um sub-objeto pendente sob o nó. Por favor termine o processo relevante e então refaça a remoção.</translation>
     </message>
 </context>
 <context>
@@ -6611,7 +6611,7 @@ Tem certeza de que deseja remover a informação coletada?</translation>
     </message>
     <message>
         <source>New translation</source>
-        <translation type="unfinished">Nova tradução</translation>
+        <translation>Nova tradução</translation>
     </message>
     <message>
         <source>Policy list and the Role that are assignet to current node.</source>
@@ -6667,115 +6667,115 @@ Tem certeza de que deseja remover a informação coletada?</translation>
     </message>
     <message>
         <source>Tab is disabled, enable with toggler to the left of these tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aba está desabilitada, habilite com o alternador à esquerda dessas abas.</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizar</translation>
     </message>
     <message>
         <source>Show simplified view of content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar visão simplificada de conteúdo.</translation>
     </message>
     <message>
         <source>Ordering</source>
-        <translation type="unfinished">Ordenação</translation>
+        <translation>Ordenação</translation>
     </message>
     <message>
         <source>Show published ordering overview.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar visão geral da ordenação por publicação.</translation>
     </message>
     <message>
         <source>Loading ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Carregando...</translation>
     </message>
     <message>
         <source>Node remote ID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID remoto do nó</translation>
     </message>
     <message>
         <source>Object remote ID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID remoto do objeto</translation>
     </message>
     <message>
         <source>Table options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opções de tabela</translation>
     </message>
     <message>
         <source>Number of items per page:</source>
-        <translation type="unfinished"></translation>
+        <translation>Número de itens por página:</translation>
     </message>
     <message>
         <source>Visible table columns:</source>
-        <translation type="unfinished"></translation>
+        <translation>Colunas da tabela visíveis:</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Fechar</translation>
     </message>
     <message>
         <source>Select</source>
-        <translation type="unfinished">Selecionar</translation>
+        <translation>Selecionar</translation>
     </message>
     <message>
         <source>Select all visible</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecionar todos visíveis</translation>
     </message>
     <message>
         <source>Select none</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecionar nenhum</translation>
     </message>
     <message>
         <source>Create new</source>
-        <translation type="unfinished">Criar novo</translation>
+        <translation>Criar novo</translation>
     </message>
     <message>
         <source>More actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Mais ações</translation>
     </message>
     <message>
         <source>Use the checkboxes to select one or more items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilize as caixas de seleção para selecionar um ou mais itens.</translation>
     </message>
     <message>
         <source>first</source>
-        <translation type="unfinished"></translation>
+        <translation>primeira</translation>
     </message>
     <message>
         <source>prev</source>
-        <translation type="unfinished"></translation>
+        <translation>ant</translation>
     </message>
     <message>
         <source>next</source>
-        <translation type="unfinished"></translation>
+        <translation>prox</translation>
     </message>
     <message>
         <source>last</source>
-        <translation type="unfinished"></translation>
+        <translation>última</translation>
     </message>
     <message>
         <source>Invert selection</source>
-        <translation type="unfinished">Inverter seleção</translation>
+        <translation>Inverter seleção</translation>
     </message>
     <message>
         <source>Path String</source>
-        <translation type="unfinished">Caminho</translation>
+        <translation>Caminho</translation>
     </message>
     <message>
         <source>Object state</source>
-        <translation type="unfinished"></translation>
+        <translation>Estado do objeto</translation>
     </message>
     <message>
         <source>Node Remote ID and Object Remote ID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID Remoto do Nó e ID Remoto do Objeto</translation>
     </message>
     <message>
         <source>Node Remote ID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID Remoto do Nó</translation>
     </message>
     <message>
         <source>Object Remote ID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID Remoto do Objeto</translation>
     </message>
 </context>
 <context>
@@ -7551,15 +7551,15 @@ Nota: Os pacotes não serão desinstalados.</translation>
     </message>
     <message>
         <source>Siteaccess:</source>
-        <translation type="unfinished"></translation>
+        <translation>Siteaccess:</translation>
     </message>
     <message>
         <source>Global (override)</source>
-        <translation type="unfinished">Global (sobrescrito)</translation>
+        <translation>Global (sobrescrito)</translation>
     </message>
     <message>
         <source>Set</source>
-        <translation type="unfinished"></translation>
+        <translation>Mudar</translation>
     </message>
     <message>
         <source>Change name, email, password, etc.</source>
@@ -7587,22 +7587,22 @@ Nota: Os pacotes não serão desinstalados.</translation>
     </message>
     <message>
         <source>User preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferências do usuário</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Fechar</translation>
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Carregando...</translation>
     </message>
 </context>
 <context>
     <name>design/admin/pagelayout/leftmenu</name>
     <message>
         <source>Show / Hide leftmenu</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar / Esconder menu lateral esquerdo</translation>
     </message>
 </context>
 <context>
@@ -7809,11 +7809,11 @@ Nota: Os pacotes não serão desinstalados.</translation>
     </message>
     <message>
         <source>Enable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Habilitar &amp;quot;Abas&amp;quot; por padrão durante navegando pelo conteúdo.</translation>
     </message>
     <message>
         <source>Disable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Desabilitar &amp;quot;Abas&amp;quot; por padrão durante navegando pelo conteúdo.</translation>
     </message>
 </context>
 <context>
@@ -7926,7 +7926,7 @@ Nota: Os pacotes não serão desinstalados.</translation>
     </message>
     <message>
         <source>URL management</source>
-        <translation type="unfinished"></translation>
+        <translation>Gerenciamento de URL</translation>
     </message>
 </context>
 <context>
@@ -8016,7 +8016,7 @@ Nota: Os pacotes não serão desinstalados.</translation>
     </message>
     <message>
         <source>Unactivated users</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuários desativados</translation>
     </message>
     <message>
         <source>View and manage the contents of the trash bin.</source>
@@ -8384,11 +8384,11 @@ Nota: Os pacotes não serão desinstalados.</translation>
     </message>
     <message>
         <source>Sitemap for subtree</source>
-        <translation type="unfinished">Mapa do site para a subárvore</translation>
+        <translation>Mapa do site para a subárvore</translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation type="unfinished">Previsão</translation>
+        <translation>Previsão</translation>
     </message>
 </context>
 <context>
@@ -8445,7 +8445,7 @@ Nota: Os pacotes não serão desinstalados.</translation>
     </message>
     <message>
         <source>Your name</source>
-        <translation type="unfinished">Seu nome</translation>
+        <translation>Seu nome</translation>
     </message>
 </context>
 <context>
@@ -10457,7 +10457,7 @@ Clique em um dos botões &quot;Conceder..&quot; (explicado abaixo), para prosseg
     </message>
     <message>
         <source>Activate or deactivate extension. Use the &quot;Update&quot; button to apply the changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ativar ou desativar extensão. Use o botão &quot;Atualizar&quot; para aplicar as mudanças.</translation>
     </message>
     <message>
         <source>Update</source>
@@ -11105,7 +11105,7 @@ Clique em um dos botões &quot;Conceder..&quot; (explicado abaixo), para prosseg
     </message>
     <message>
         <source>Comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Comentário</translation>
     </message>
 </context>
 <context>
@@ -13268,15 +13268,15 @@ Clique em um dos botões &quot;Conceder..&quot; (explicado abaixo), para prosseg
     </message>
     <message>
         <source>Valid URLs [%url_list_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>URLs válidas [%url_list_count]</translation>
     </message>
     <message>
         <source>Invalid URLs [%url_list_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>URLs inválidas [%url_list_count]</translation>
     </message>
     <message>
         <source>All URLs [%url_list_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>Todas URLs [%url_list_count]</translation>
     </message>
 </context>
 <context>
@@ -13420,62 +13420,62 @@ your account.</source>
     </message>
     <message>
         <source>Unactivated users (%users_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuários desativados (%users_count)</translation>
     </message>
     <message>
         <source>Toggle selection</source>
-        <translation type="unfinished">Inverter seleção</translation>
+        <translation>Inverter seleção</translation>
     </message>
     <message>
         <source>Registration date</source>
-        <translation type="unfinished"></translation>
+        <translation>Data de cadastro</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome de usuário</translation>
     </message>
     <message>
         <source>E-mail</source>
-        <translation type="unfinished">E-Mail</translation>
+        <translation>E-Mail</translation>
     </message>
     <message>
         <source>Activate selected users</source>
-        <translation type="unfinished"></translation>
+        <translation>Ativar usuários selecionados</translation>
     </message>
     <message>
         <source>Activate selected users.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ativar usuários selecionados.</translation>
     </message>
     <message>
         <source>Remove selected users</source>
-        <translation type="unfinished"></translation>
+        <translation>Remover usuários selecionados</translation>
     </message>
     <message>
         <source>Remove selected users.</source>
-        <translation type="unfinished"></translation>
+        <translation>Remover usuários selecionados.</translation>
     </message>
 </context>
 <context>
     <name>design/admin/user/activations</name>
     <message>
         <source>The following users have been successfully activated:</source>
-        <translation type="unfinished"></translation>
+        <translation>Os seguintes usuários foram ativados com sucesso:</translation>
     </message>
     <message>
         <source>Some users have not been activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Alguns usuários não foram ativados</translation>
     </message>
     <message>
         <source>The following unactivated users have been successfully removed:</source>
-        <translation type="unfinished"></translation>
+        <translation>Os seguintes usuários foram removidos com sucesso:</translation>
     </message>
     <message>
         <source>Some users have not been removed</source>
-        <translation type="unfinished"></translation>
+        <translation>Alguns usuários não foram removidos</translation>
     </message>
 </context>
 <context>
@@ -14138,11 +14138,11 @@ your account.</source>
     </message>
     <message>
         <source>Error : Could not load workflow event &quot;%eventtype&quot; (event type not available)</source>
-        <translation type="unfinished"></translation>
+        <translation>Erro : Não foi possível carregar o evento de workflow &quot;%eventtype&quot; (tipo de evento não disponível)</translation>
     </message>
     <message>
         <source>Hint : This can happen when a workflow extension has been disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Dica : Isto pode acontecer quando uma extensão de workflow foi desabilitada</translation>
     </message>
 </context>
 <context>
@@ -14578,58 +14578,58 @@ your account.</source>
     <name>design/admin2/ajaxupload</name>
     <message>
         <source>&lt;em&gt;%file&lt;/em&gt; has successfully been uploaded.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;em&gt;%file&lt;/em&gt; foi enviado com sucesso.</translation>
     </message>
 </context>
 <context>
     <name>design/admin2/ajaxuploader</name>
     <message>
         <source>Go to the parent level</source>
-        <translation type="unfinished"></translation>
+        <translation>Ir para o nível pai</translation>
     </message>
     <message>
         <source>Step 1/3: Upload a file</source>
-        <translation type="unfinished"></translation>
+        <translation>Etapa 1/3: Enviar um arquivo</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Tipo</translation>
+        <translation>Tipo</translation>
     </message>
     <message>
         <source>Section</source>
-        <translation type="unfinished">Seção</translation>
+        <translation>Seção</translation>
     </message>
     <message>
         <source>prev</source>
-        <translation type="unfinished"></translation>
+        <translation>ant</translation>
     </message>
     <message>
         <source>next</source>
-        <translation type="unfinished"></translation>
+        <translation>prox</translation>
     </message>
     <message>
         <source>Step 2/3: Choose a location for the new &apos;%class&apos; object</source>
-        <translation type="unfinished"></translation>
+        <translation>Etapa 2/3: Escolhe um local para o novo objeto do tipo &apos;%class&apos;</translation>
     </message>
     <message>
         <source>Please choose a location for the &apos;%class&apos; object that is going to be created from it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor escolha um local para o objeto do tipo &apos;%class&apos; que será criado a partir disso.</translation>
     </message>
     <message>
         <source>Choose this location</source>
-        <translation type="unfinished"></translation>
+        <translation>Escolha este local</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Fechar</translation>
     </message>
     <message>
         <source>Step 3/3: Preview of &apos;%name&apos; (%class)</source>
-        <translation type="unfinished"></translation>
+        <translation>Etapa 3/3: Previsualização de &apos;%name&apos; (%class)</translation>
     </message>
     <message>
         <source>Add</source>
