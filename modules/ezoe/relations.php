@@ -73,7 +73,7 @@ $object    = eZContentObject::fetch( $objectID );
 $imageIni  = eZINI::instance( 'image.ini' );
 $params    = array('loadImages' => true, 'imagePreGenerateSizes' => array('small', 'original') );
 
-if ( !$object )
+if ( !$object instanceof eZContentObject || !$object->canRead() )
 {
    echo ezpI18n::tr( 'design/standard/ezoe', 'Invalid parameter: %parameter = %value', null, array( '%parameter' => 'ObjectId', '%value' => $objectID ) );
    eZExecution::cleanExit();
@@ -95,7 +95,7 @@ if ( isset( $Params['EmbedID'] )  && $Params['EmbedID'])
 }
 
 
-if ( !$embedObject )
+if ( !$embedObject instanceof eZContentObject || !$embedObject->canRead()  )
 {
    echo ezpI18n::tr( 'design/standard/ezoe', 'Invalid parameter: %parameter = %value', null, array( '%parameter' => 'EmbedID', '%value' => $Params['EmbedID'] ) );
    eZExecution::cleanExit();

@@ -46,7 +46,7 @@ if ( isset( $Params['EmbedID'] ) && $Params['EmbedID'])
         $embedObject = eZContentObject::fetch( $embedId );
 }
 
-if ( !$embedObject )
+if ( !$embedObject instanceof eZContentObject || !$embedObject->canRead() )
 {
    echo 'false';
    eZExecution::cleanExit();

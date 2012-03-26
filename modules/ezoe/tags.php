@@ -41,8 +41,7 @@ if ( $objectID === 0  || $objectVersion === 0 )
 }
 
 $object = eZContentObject::fetch( $objectID );
-
-if ( !$object )
+if ( !$object instanceof eZContentObject || !$object->canEdit() )
 {
    echo ezpI18n::tr( 'design/standard/ezoe', 'Invalid parameter: %parameter = %value', null, array( '%parameter' => 'ObjectId', '%value' => $objectID ) );
    eZExecution::cleanExit();

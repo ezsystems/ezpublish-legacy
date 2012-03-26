@@ -477,6 +477,10 @@ class ezoeServerFunctions extends ezjscServerFunctions
         {
             throw new ezcBaseFunctionalityNotSupportedException( 'Browse node list', "Parent node '$nodeID' is not valid" );
         }
+        else if ( !$node->canRead() )
+        {
+            throw new ezcBaseFunctionalityNotSupportedException( 'Browse node list', "Parent node '$nodeID' is not valid" );
+        }
 
         $params = array( 'Depth' => 1,
                 'Limit'            => $limit,
