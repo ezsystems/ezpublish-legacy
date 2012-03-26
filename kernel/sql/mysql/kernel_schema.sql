@@ -425,7 +425,7 @@ CREATE TABLE ezcontentobject_attribute (
   attribute_original_id int(11) default '0',
   contentclassattribute_id int(11) NOT NULL default '0',
   contentobject_id int(11) NOT NULL default '0',
-  data_float float default NULL,
+  data_float double default NULL,
   data_int int(11) default NULL,
   data_text longtext,
   data_type_string varchar(50) default '',

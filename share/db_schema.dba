@@ -1953,7 +1953,7 @@ $schema = array (
       ),
       'data_float' => 
       array (
-        'type' => 'float',
+        'type' => 'double',
         'default' => NULL,
       ),
       'data_int' => 

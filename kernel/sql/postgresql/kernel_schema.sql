@@ -1599,7 +1599,7 @@ CREATE TABLE ezcontentobject_attribute (
     attribute_original_id integer DEFAULT 0,
     contentclassattribute_id integer DEFAULT 0 NOT NULL,
     contentobject_id integer DEFAULT 0 NOT NULL,
-    data_float real,
+    data_float double precision,
     data_int integer,
     data_text text,
     data_type_string character varying(50) DEFAULT ''::character varying,
