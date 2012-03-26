@@ -287,6 +287,14 @@ class ezjscServerFunctionsAjaxUploader extends ezjscServerFunctions
                 )
             );
         }
+        else if ( !$node->canRead() )
+        {
+            throw new InvalidArgumentException(
+                ezpI18n::tr(
+                    'extension/ezjscore/ajaxuploader', 'Arguments error.'
+                )
+            );
+        }
         $browseItems = self::getBrowseItems( $node, $class, $offset );
 
         $tpl = eZTemplate::factory();
@@ -313,6 +321,15 @@ class ezjscServerFunctionsAjaxUploader extends ezjscServerFunctions
     {
         $http = eZHTTPTool::instance();
         $handler = self::getHandler( $args );
+        if ( !$handler->canUpload() )
+        {
+            throw new RuntimeException(
+                ezpI18n::tr(
+                    'extension/ezjscore/ajaxuploader',
+                    'You are not allowed to upload a file.'
+                )
+            );
+        }
 
         $file = $http->postVariable( 'UploadFile', false );
         $fileHandler = eZClusterFileHandler::instance();

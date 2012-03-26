@@ -82,6 +82,7 @@ class ezjscServerFunctionsNode extends ezjscServerFunctions
         {
             $nodeArray = false;
         }
+        unset( $node );// We have on purpose not checked permission on $node itself, so it should not be used
 
         // generate json response from node list
         if ( $nodeArray )
@@ -143,6 +144,10 @@ class ezjscServerFunctionsNode extends ezjscServerFunctions
         {
            throw new InvalidArgumentException( "Argument 1: '$embedType\_$embedId' does not map to a valid content object" );
         }
+        else if ( !$embedObject->canRead() )
+        {
+            throw new InvalidArgumentException( "Argument 1: '$embedType\_$embedId' is not available" );
+        }
 
         // Params for node to json encoder
         $params    = array('loadImages' => true);
@@ -181,6 +186,16 @@ class ezjscServerFunctionsNode extends ezjscServerFunctions
         $contentNodeID = $http->postVariable('ContentNodeID');
         $priorityArray = $http->postVariable('Priority');
         $priorityIDArray = $http->postVariable('PriorityID');
+
+        $contentNode = eZContentObjectTreeNode::fetch( $contentNodeID );
+        if ( !$contentNode instanceof eZContentObjectTreeNode )
+        {
+           throw new InvalidArgumentException( "Argument ContentNodeID: '$contentNodeID' does not exist" );
+        }
+        else if ( !$contentNode->canEdit() )
+        {
+            throw new InvalidArgumentException( "Argument ContentNodeIDs: '$contentNodeID' is not available" );
+        }
 
         if ( eZOperationHandler::operationIsAvailable( 'content_updatepriority' ) )
         {
