@@ -109,7 +109,12 @@ eZOEPopupUtils.settings.browseLinkGenerator = function( n, mode, ed )
        var tag = document.createElement("a");
        tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.browse(' + n.node_id + ');');
        tag.setAttribute('title', ed.getLang('browse') + ': ' + n.url_alias );
-       if ( mode !== 'browse' ) ez.$( tag ).addEvent('click', function(){ ezoeLinkAttribute.slides.accordionGoto( 2 ); });
+       if ( mode !== 'browse' ) {
+           ez.$(tag).addEvent('click', function () {
+               jQuery('div.panel').hide();
+               jQuery('#browse_box').show();
+           });
+       }
        return tag;
     }
     var tag = document.createElement("span");
