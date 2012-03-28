@@ -58,6 +58,20 @@ class eZINI
     const CONFIG_CACHE_REV = 2;
 
     /**
+     * Constant name of default settings file
+     *
+     * @var string
+     */
+    const CONFIG_FILENAME = 'site.ini';
+
+    /**
+     * Constant path to default settings directory
+     *
+     * @var string
+     */
+    const CONFIG_ROOTDIR = 'settings';
+
+    /**
      * Set EZP_INI_FILEMTIME_CHECK constant to false to improve performance by
      * not checking modified time on ini files. You can also set it to a string, the name
      * of a ini file you still want to check modified time on, best example would be to
@@ -117,13 +131,13 @@ class eZINI
      * @param bool $load @since 4.5 Lets you disable automatic loading of ini values in
      *                   cases where changes on instance will be done first.
      */
-    function eZINI( $fileName = 'site.ini', $rootDir = '', $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false, $load = true )
+    function eZINI( $fileName = null, $rootDir = null, $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false, $load = true )
     {
         $this->Charset = 'utf8';
-        if ( $fileName == '' )
-            $fileName = 'site.ini';
-        if ( $rootDir !== false && $rootDir == '' )
-            $rootDir = 'settings';
+
+        if( empty( $fileName ) ) $fileName = self::CONFIG_FILENAME;
+        if( empty( $rootDir ) )  $rootDir  = self::CONFIG_ROOTDIR;
+
         if ( $useCache === null )
             $useCache = self::isCacheEnabled();
         if ( eZINI::isNoCacheAdviced() )
@@ -281,8 +295,11 @@ class eZINI
      * @param string parameter parameter name
      * @return bool True if the the parameter is set.
      */
-    static function parameterSet( $fileName = 'site.ini', $rootDir = 'settings', &$section, &$parameter )
+    static function parameterSet( $fileName = null, $rootDir = null, &$section, &$parameter )
     {
+        if( empty( $fileName ) ) $fileName = self::CONFIG_FILENAME;
+        if( empty( $rootDir ) )  $rootDir  = self::CONFIG_ROOTDIR;
+
         if ( !eZINI::exists( $fileName, $rootDir ) )
             return false;
 
@@ -295,12 +312,11 @@ class eZINI
      \return true if the INI file \a $fileName exists in the root dir \a $rootDir.
      $fileName defaults to site.ini and rootDir to settings.
     */
-    static function exists( $fileName = "site.ini", $rootDir = "settings" )
+    static function exists( $fileName = null, $rootDir = null )
     {
-        if ( $fileName == "" )
-            $fileName = "site.ini";
-        if ( $rootDir == "" )
-            $rootDir = "settings";
+        if( empty( $fileName ) ) $fileName = self::CONFIG_FILENAME;
+        if( empty( $rootDir ) )  $rootDir  = self::CONFIG_ROOTDIR;
+
         if ( file_exists( $rootDir . '/' . $fileName ) )
             return true;
         else if ( file_exists( $rootDir . '/' . $fileName . '.append.php' ) )
@@ -354,11 +370,7 @@ class eZINI
     */
     function findInputFiles( &$inputFiles, &$iniFile )
     {
-        if ( $this->RootDir !== false )
-            $iniFile = eZDir::path( array( $this->RootDir, $this->FileName ) );
-        else
-            $iniFile = eZDir::path( array( $this->FileName ) );
-
+        $iniFile    = eZDir::path( array( $this->RootDir, $this->FileName ) );
         $inputFiles = array();
 
         if ( $this->FileName === 'override.ini' )
@@ -1471,7 +1483,7 @@ class eZINI
         $currentSetting = $realFileName . '/' . $blockName . '/' . $settingName;
 
         $settingList = $ini->variable( 'eZINISettings', 'ReadonlySettingList' );
-        $settingList[] = 'site.ini/eZINISettings/*';
+        $settingList[] = self::CONFIG_FILENAME . '/eZINISettings/*';
 
         $result = !( in_array( $realFileName . '/*' , $settingList ) or
                      in_array( $realFileName . '/' . $blockName . '/*'  , $settingList ) or
@@ -1651,8 +1663,11 @@ class eZINI
      *
      * @return bool
      */
-    static function isLoaded( $fileName = 'site.ini', $rootDir = 'settings', $useLocalOverrides = null )
+    static function isLoaded( $fileName = null, $rootDir = null, $useLocalOverrides = null )
     {
+        if( empty( $fileName ) ) $fileName = self::CONFIG_FILENAME;
+        if( empty( $rootDir ) )  $rootDir  = self::CONFIG_ROOTDIR;
+
         return isset( self::$instances["$rootDir-$fileName-$useLocalOverrides"] );
     }
 
@@ -1673,13 +1688,16 @@ class eZINI
      * @param bool $addArrayDefinition @deprecated since version 4.5, use "new eZINI()" (instance not used if true!)
      * @return eZINI
      */
-    static function instance( $fileName = 'site.ini', $rootDir = 'settings', $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false )
+    static function instance( $fileName = null, $rootDir = null, $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false )
     {
         if ( $addArrayDefinition !== false  || $directAccess !== false || $useTextCodec !== null || $useCache !== null )
         {
             // Could have trown strict error here but will cause issues if ini system has not been setup yet..
             return new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides, $directAccess, $addArrayDefinition );
         }
+
+        if( empty( $fileName ) ) $fileName = self::CONFIG_FILENAME;
+        if( empty( $rootDir ) )  $rootDir  = self::CONFIG_ROOTDIR;
 
         $key = "$rootDir-$fileName-$useLocalOverrides";
         if ( !isset( self::$instances[$key] ) )
@@ -1716,7 +1734,7 @@ class eZINI
       \static
       Similar to instance() but will always create a new copy.
     */
-    static function create( $fileName = 'site.ini', $rootDir = 'settings', $useTextCodec = null, $useCache = null, $useLocalOverrides = null )
+    static function create( $fileName = null, $rootDir = null, $useTextCodec = null, $useCache = null, $useLocalOverrides = null )
     {
         $impl = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides );
         return $impl;
@@ -1749,7 +1767,7 @@ class eZINI
      *
      * @see resetInstance()
      */
-    static function resetGlobals( $fileName = 'site.ini', $rootDir = 'settings', $useLocalOverrides = null )
+    static function resetGlobals( $fileName = null, $rootDir = null, $useLocalOverrides = null )
     {
         self::resetInstance( $fileName, $rootDir, $useLocalOverrides );
     }
@@ -1763,8 +1781,11 @@ class eZINI
      * @param string $rootDir
      * @param null|bool $useLocalOverrides default system setting if null
      */
-    static function resetInstance( $fileName = 'site.ini', $rootDir = 'settings', $useLocalOverrides = null )
+    static function resetInstance( $fileName = null, $rootDir = null, $useLocalOverrides = null )
     {
+        if( empty( $fileName ) ) $fileName = self::CONFIG_FILENAME;
+        if( empty( $rootDir ) )  $rootDir  = self::CONFIG_ROOTDIR;
+
         unset( self::$instances["$rootDir-$fileName-$useLocalOverrides"] );
     }
 
