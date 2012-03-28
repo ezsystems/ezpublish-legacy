@@ -1452,22 +1452,22 @@ $schema = array (
       ),
       'data_float1' => 
       array (
-        'type' => 'float',
+        'type' => 'double',
         'default' => NULL,
       ),
       'data_float2' => 
       array (
-        'type' => 'float',
+        'type' => 'double',
         'default' => NULL,
       ),
       'data_float3' => 
       array (
-        'type' => 'float',
+        'type' => 'double',
         'default' => NULL,
       ),
       'data_float4' => 
       array (
-        'type' => 'float',
+        'type' => 'double',
         'default' => NULL,
       ),
       'data_int1' => 
