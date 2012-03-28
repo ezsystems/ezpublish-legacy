@@ -80,7 +80,7 @@ class ezjscServerFunctionsNode extends ezjscServerFunctions
         }
         else
         {
-            $nodeArray = false;
+            $nodeArray = array();
         }
         unset( $node );// We have on purpose not checked permission on $node itself, so it should not be used
 
