@@ -2,7 +2,7 @@
     eZ Core : tiny javascript library for ajax and stuff
     Created on: <28-Feb-2007 00:00:00 ar>
     
-    Copyright (c) 1999-2010 eZ Systems
+    Copyright (c) 1999-2012 eZ Systems
     Licensed under the MIT License:
     http://www.opensource.org/licenses/mit-license.php
 

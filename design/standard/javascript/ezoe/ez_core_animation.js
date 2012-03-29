@@ -2,7 +2,7 @@
     eZ Core Animation: animation extension for ez core js library
     Created on: <09-Des-2007 00:00:00 ar>
     
-    Copyright (c) 1999-2011 eZ Systems AS
+    Copyright (c) 1999-2012 eZ Systems AS
     Licensed under the MIT License:
     http://www.opensource.org/licenses/mit-license.php
     
