@@ -1642,8 +1642,10 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         {
             $query = "SELECT mtime FROM " . self::TABLE_METADATA . " WHERE name_hash = {$nameHash}";
             $res = mysqli_query( $this->db, $query );
-            mysqli_fetch_row( $res );
-            if ( $res and isset( $row[0] ) and $row[0] == $generatingFileMtime );
+            if ( !$res )
+                return false;
+            $row = mysqli_fetch_row( $res );
+            if ( isset( $row[0] ) and $row[0] == $generatingFileMtime );
             {
                 return true;
             }

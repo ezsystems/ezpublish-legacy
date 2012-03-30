@@ -1654,8 +1654,10 @@ class eZDBFileHandlerMysqlBackend
         {
             $query = "SELECT mtime FROM " . TABLE_METADATA . " WHERE name_hash = {$nameHash}";
             $res = mysql_query( $query, $this->db );
-            mysql_fetch_row( $res );
-            if( $res and isset( $row[0] ) and $row[0] == $generatingFileMtime );
+            if ( !$res )
+                return false;
+            $row = mysql_fetch_row( $res );
+            if( isset( $row[0] ) and $row[0] == $generatingFileMtime );
                 return true;
 
             return false;
