@@ -4967,7 +4967,7 @@
     </message>
     <message>
         <source>%collections collection will be removed.</source>
-        <translation>%collection collection sera supprimée.</translation>
+        <translation>%collections collection sera supprimée.</translation>
     </message>
     <message>
         <source>%collections collections will be removed.</source>
