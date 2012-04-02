@@ -5,7 +5,7 @@
 </div>
 
 <p>
- {"In order to provide you with the best service in the future, we need some statistics to know a bit about eZ Publish, platform use and you."|i18n("design/standard/setup/init")}
+ {"In order to provide you with the best service in the future, we need some statistics to know a bit about your usage of eZ Publish and its underlying platform."|i18n("design/standard/setup/init")}
  {"In return this will also provide you with heads-up on security issues, notifications about updates, upgrades and other important news."|i18n("design/standard/setup/init")}
  {"This happens periodically, and you will always be able to opt-out of this at anytime."|i18n("design/standard/setup/init")}
 </p>
