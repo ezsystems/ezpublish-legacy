@@ -6147,15 +6147,15 @@
     </message>
     <message>
         <source>Node Remote ID and Object Remote ID</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdalne ID węzła i obiektu</translation>
     </message>
     <message>
         <source>Node Remote ID</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdalne ID węzła</translation>
     </message>
     <message>
         <source>Object Remote ID</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdalne ID obiektu</translation>
     </message>
 </context>
 <context>
@@ -23329,289 +23329,295 @@ Jest to naruszenie zasad bezpieczeństwa i katalog powinien zostać zmieniony na
     </message>
     <message>
         <source>Missed some directories</source>
-        <translation type="unfinished"></translation>
+        <translation>Brakuje kilku katalogów</translation>
     </message>
     <message>
         <source>The nonexistent directories are: %dir_list</source>
-        <translation type="unfinished"></translation>
+        <translation>Brakuje następujących katalogów: %dir_list</translation>
     </message>
     <message>
         <source>You can try the following shell commands to create necessary directories:</source>
-        <translation type="unfinished"></translation>
+        <translation>Możesz spróbować wykonać następujące polecenia powłoki, aby utworzyć potrzebne katalogi:</translation>
     </message>
     <message>
         <source>Files instead necessary directories</source>
-        <translation type="unfinished"></translation>
+        <translation>Pliki zamiast wymaganych katalogów</translation>
     </message>
     <message>
         <source>The affected directories (files) are: %dir_list</source>
-        <translation type="unfinished"></translation>
+        <translation>Katalogi (pliki), których to dotyczy: %dir_list</translation>
     </message>
     <message>
         <source>If you&apos;re running apache 1.3, eZ Publish will not run in CGI mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeśli używasz Apache 1.3, eZ publish nie będzie działał w trybie CGI.</translation>
     </message>
     <message>
         <source>eZ Publish cannot write to the</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ Publish nie może zapisać w</translation>
     </message>
     <message>
         <source>directory.</source>
-        <translation type="unfinished"></translation>
+        <translation>katalogu.</translation>
     </message>
     <message>
         <source>Your PHP does not have support for all databases that eZ Publish support.</source>
-        <translation type="unfinished"></translation>
+        <translation>Twoja wersja PHP nie obsługuje wszystkich baz danych, które eZ Publish obsługuje.</translation>
     </message>
     <message>
         <source>Although eZ Publish will work without it, it might be that you want to have support for this database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mimo, że eZ Publish będzie działać bez tego, może okazać się, że zechcesz mieć wsparcie dla tej bazy danych.</translation>
     </message>
     <message>
         <source>No supported database handlers were found. eZ Publish requires a database to store it&apos;s data, without one the system will fail.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie znaleziono systemu zarządzania bazą danych. eZ Publish wymaga bazy danych do przechowywania danych. Bez bazy danych, system nie będzie działać.</translation>
     </message>
     <message>
         <source>eZ Publish cannot write to some important directories, without this the setup cannot finish and parts of eZ Publish will fail.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ Publish nie ma dostępu do zapisu do niektórych ważnych katalogów. Bez tych uprawnień instalacja nie może zostać ukończona.</translation>
     </message>
     <message>
         <source>These shell commands will give proper permission to the web server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Te polecenia powłoki nadadzą potrzebne uprawnienia do serwera.</translation>
     </message>
     <message>
         <source>eZ Publish could not detect the user and group of the web server.
 If you know the user and group of the web server it is recommended to change the ownership of the files to match this user and group.
 To do this you need to change the %chown commands under Alternative shell commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish nie mógł wykryć użytkownika i grupy serwera www.
+Jeżeli znasz użytkownika i grupę serwera www zaleca się zmianę właściciela plików na tego użytkownika i grupę.
+Aby to zrobić, należy polecenia %chown zamienić na alternatywne polecenia powłoki.</translation>
     </message>
     <message>
         <source>These commands will setup the permission more correctly, but require knowledge about the running web server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Te polecenia nadadzą uprawnienia bardziej precyzyjnie, jednak wymagają wiedzy o serwerze www.</translation>
     </message>
     <message>
         <source>The %user_expr must be changed to your web server username and groupname.</source>
-        <translation type="unfinished"></translation>
+        <translation>%user_expr należy zmienić na nazwę użytkownika i grupę twojego serwera www.</translation>
     </message>
     <message>
         <source>eZ Publish cannot create some important directories, without this the setup cannot finish and parts of eZ Publish will fail.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ Publish nie może utworzyć niektórych istotnych katalogów, przez co instalacja nie może zostać ukończona.</translation>
     </message>
     <message>
         <source>eZ Publish cannot create some important directories, because there are an files instead of these directories in the same places with the same names.
 You should replace these files with appropriate directories and give necessary permissions to them.
 Without this the setup cannot finish and parts of eZ Publish will fail.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ Publish nie może utworzyć niektórych istotnych katalogów, ponieważ w tych samych miejscach znajdują się pliki o nazwach identycznych co potrzebne katalogi.
+Powinieneś zamienić te pliki na katalogi oraz nadać niezbędne uprawnienia do nich.
+Bez tej zmiany instalacja nie może zostać ukończona.</translation>
     </message>
     <message>
         <source>Missing DOM extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Brakujące rozszerzenie DOM</translation>
     </message>
     <message>
         <source>The DOM extension is not available to eZ Publish. Without it eZ Publish will not work.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozszerzenie DOM jest niedostępne dla eZ Publish. Bez niego eZ Publish nie będzie działać.</translation>
     </message>
     <message>
         <source>In most cases, the DOM extension is enabled by default because it is included in the PHP core. However, some Linux distributions have PHP without compiled-in support for DOM. Instead, they provide DOM as a shared module in a separate RPM package called &quot;php-xml&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>W większości przypadków rozszerzenie DOM jest domyślnie włączone, ponieważ znajduje się w jądrze PHP. Jednak w niektóre dystrybucje Linuksa nie mają wbudowanego wsparcia dla DOM w PHP. Zamiast tego, istnieje rozszerzenie DOM, udostępnione jako moduł w osobnym pakiecie RPM o nazwie "php-xml".</translation>
     </message>
     <message>
         <source>Insufficient execution time allowed to install eZ Publish</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas wykonywania skryptu jest niewystarczający do przeprowadzenia instalacji eZ Publish</translation>
     </message>
     <message>
         <source>eZ Publish will not work correctly with a execution time limit of %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish nie będzie działał poprawnie z limitem czasu wykonywania skryptu %1.</translation>
     </message>
     <message>
         <source>If you are running eZ Publish in a shared host environment, contant your ISP to perform the changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeśli eZ publish działa w środowisku współdzielonym, skontaktuj się ze swoim dostawcą usług internetowych (ISP) w celu dokonania zmian</translation>
     </message>
     <message>
         <source>File uploading is not enabled which means that it&apos;s impossible for eZ Publish to handle file uploading. All other parts of eZ Publish will still work fine but it&apos;s recommended to enable file uploads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Przesyłanie plików nie zostało włączone, co oznacza, że nie będzie można przesłać ich do eZ Publish. Wszystkie pozostałe części eZ publish będą nadal działać poprawnie, jednak zaleca się, aby umożliwić przesyłanie plików.</translation>
     </message>
     <message>
         <source>The PHP upload directory %upload_dir does not exists or is not accessible, without this you will not be able to upload files or images to eZ Publish.</source>
-        <translation type="unfinished"></translation>
+        <translation>Katalog wysyłania %upload_dir określony w konfiguracji PHP nie istnieje lub jest niedostępny. Bez niego nie będzie możliwe przesyłanie plików lub zdjęć do eZ Publish.</translation>
     </message>
     <message>
         <source>The PHP upload directory %upload_dir is not writeable. This means that it will be impossible to upload files or images to eZ Publish.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można zapisywać w katalogu %upload_dir określonym w konfiguracji PHP. Oznacza to, że nie będzie możliwe przesyłanie plików lub zdjęć do eZ Publish.</translation>
     </message>
     <message>
         <source>eZ Publish could not detect the user and group of the web server.
 If you know the user and group of the web server it is recommended to change the ownership of the upload directory to match this user and group.
 To do this you need to change the %chown commands under Alternative shell commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish nie mógł wykryć użytkownika i grupy serwera www.
+Jeżeli znasz użytkownika i grupę serwera www zaleca się zmianę właściciela katalogu przesłanych plików na tego użytkownika i grupę.
+Aby to zrobić, należy polecenia %chown zamienić na alternatywne polecenia powłoki.</translation>
     </message>
     <message>
         <source>If you know the user and group of the web server you can try this command. Replace apache:apache with the user and group.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeżeli znasz użytkownika i grupę serwera www możesz spróbować zastosować to polecenie. Zamień apache:apache na odpowiedniego użytkownika i grupę.</translation>
     </message>
     <message>
         <source>No image conversion capabilities was detected, this means that eZ Publish cannot scale any images or detect their type. This is vital functionality in eZ Publish and must be supported.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie wykryto możliwości przetwarzania obrazów, co oznacza, że eZ Publish nie będzie mógł skalować żadnych obrazów, ani rozpoznawać ich typów. Jest to bardzo istotna funkcja w eZ Publish i wymaga się jej obsługi.</translation>
     </message>
     <message>
         <source>The imagegd2 extension is not available to eZ Publish. Without it eZ Publish will only be able to do conversion using ImageMagick and the</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozszerzenie imagegd2 jest niedostępne. Bez niego eZ publish będzie jedynie w stanie dokonać konwersji za pomocą ImageMagick i</translation>
     </message>
     <message>
         <source>Future releases of eZ Publish will have more advanced image support by using the imagegd extension.</source>
-        <translation type="unfinished"></translation>
+        <translation>Przyszłe wydania eZ publish wniosą bardziej zaawansowaną obsługę obrazu dzięki rozszerzeniu imagegd.</translation>
     </message>
     <message>
         <source>The ImageMagick program is not available to eZ Publish. Without it eZ Publish will not be able to do image conversion unless the imagegd extension is available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Program ImageMagick jest niedostępny dla eZ Publish. Bez niego niemożliwa będzie konwersja obrazów, chyba, że dostępne jest rozszerzenie imagegd.</translation>
     </message>
     <message>
         <source>eZ Publish comes with a good list of supported charsets by default, however they can be a bit slow due to being made in pure PHP code. Luckily eZ Publish supports the mbstring extension for handling some of the charsets.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ Publish obsługuje standardowo wiele zestawów znaków, które mogą jednak nieznacznie spowalniać pracę z powodu stworzenia ich w czystym kodzie PHP. Na szczęście eZ Publish korzysta z rozszerzenia mbstring, aby zapewnić wsparcie niektórym zestawom znaków.</translation>
     </message>
     <message>
         <source>By enabling the mbstring extension eZ Publish will have access to more charsets and also be able to process some of them faster, such as Unicode and iso-8859-*. This is recommended for multilingual sites and sites with more exotic charsets.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dzięku włączeniu rozszerzenia mbstring eZ Publish będzie miał dostęp do większej ilości zestawów znaków i tym samym będzie w stanie przetwarzać niektóre z nich szybciej, jak np. Unicode czy iso-8859-*. Jest to zalecane dla witryn wielojęzycznych i egzotycznych zestawów znaków.</translation>
     </message>
     <message>
         <source>Do not enable mbstring function overloading, eZ Publish will only use the extension whenever it&apos;s needed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie należy włączać przeciążania funkcji mbstring, eZ Publish użyje rozszerzenia tylko wtedy, gdy jest to konieczne.</translation>
     </message>
     <message>
         <source>Insufficient memory allocated to install eZ Publish</source>
-        <translation type="unfinished"></translation>
+        <translation>Niewystarczająca ilość przydzielonej pamięci do instalacji eZ Publish</translation>
     </message>
     <message>
         <source>eZ Publish will not work correctly with a memory limit of %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish nie będzie działać poprawnie z limitem pamięci %1.</translation>
     </message>
     <message>
         <source>eZ Publish will work with this option on however it will lead to some minor performance issues since all input variables need to be be converted back to</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ Publish będzię działać z tą opcją, jednak może to prowadzić do niewielkich problemów z wydajnością, ponieważ wszystkie zmienne wejściowe muszą zostać ponownie skonwertowane</translation>
     </message>
     <message>
         <source>It is recommended that the option is turned off. To turn it off edit your %phpini configuration and set %magic_quotes_gpc and %magic_quotes_runtime to %offtext.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaleca się, aby ta opcja była wyłączona. Aby to zrobić należy edytować konfigurację %phpini i ustawić %magic_quotes_gpc oraz %magic_quotes_runtime na %offtext.</translation>
     </message>
     <message>
         <source>Alternatively you may create a file called %1 in your eZ Publish root folder and add the following</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternatywnie można utworzyć plik o nazwie %1 w katalogu głównym eZ Publish i dodać następujące</translation>
     </message>
     <message>
         <source>eZ Publish will not work properly with this option on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeśli ta opcja jest włączona, eZ Publish nie będzie działać poprawnie.</translation>
     </message>
     <message>
         <source>eZ Publish will work with this option on however it will lead to some minor performance issues since all input variables will be made global on each script execution.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ Publish będzię działać z tą opcją, jednak może to prowadzić do niewielkich problemów z wydajnością, ponieważ wszystkie zmienne wejściowe będą zdefiniowane jako globalne przy każdym wykonaniu skryptu.</translation>
     </message>
     <message>
         <source>Your PHP module does not have session support, without this eZ Publish will not work properly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Twój moduł PHP nie obsługuje sesji, bez tego eZ Publish nie będzie działać poprawnie.</translation>
     </message>
     <message>
         <source>eZ Publish may work with safe mode on, however there might be several features that will be unavailable. Some of the things that might occur are</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ Publish może pracować z trybie safe mode, jednak niektóre funkcje mogą być wówczas niedostępne. Niektóre nieprawidłowości, które mogą wystąpić, to</translation>
     </message>
     <message>
         <source>The zlib extension is not available to eZ Publish. Without it eZ Publish will not be able to install the demo data, however if you do not wish the demo data you can safely ignore this.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozszerzenie zlib jest niedostępne dla eZ Publish. Bez niego eZ Publish nie będzie w stanie zainstalować przykładowych danych. Jeśli ich nie potrzebujesz możesz bezpiecznie zignorować ten krok.</translation>
     </message>
     <message>
         <source>Missing cURL extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Brakujące rozszerzenie cURL</translation>
     </message>
     <message>
         <source>It is recommended to enable the PHP cURL extension, otherwise some features requiring a proxy or SSL will not work.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaleca się użycie rozszerzenia PHP cURL, gdyż w przeciwnym razie niektóre funkcje wymagające proxy lub SSL nie będą działać.</translation>
     </message>
     <message>
         <source>To enable the PHP cURL functions you need to compile PHP with support for it. Configure PHP with</source>
-        <translation type="unfinished"></translation>
+        <translation>Aby włączyć funkcje PHP cURL należy skompilować PHP ze wsparciem dla niego. Skonfiguruj PHP z</translation>
     </message>
     <message>
         <source>More information on this subject is available at</source>
-        <translation type="unfinished"></translation>
+        <translation>Więcej informacji na ten temat można znaleźć pod adresem</translation>
     </message>
     <message>
         <source>Wrong eZ Components version detected</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykryto złą wersję eZ Components</translation>
     </message>
     <message>
         <source>Missing eZ Components dependancy</source>
-        <translation type="unfinished"></translation>
+        <translation>Brakująca zależność eZ Components</translation>
     </message>
     <message>
         <source>The minimum required eZ Components version is</source>
-        <translation type="unfinished"></translation>
+        <translation>Minimalna wymagana wersja eZ Components to</translation>
     </message>
     <message>
         <source>Download instructions for both regular download and PEAR are provided at</source>
-        <translation type="unfinished"></translation>
+        <translation>Instrukcje instalacji zarówno dla wersji zwykłej, jak i PEAR są dostępna na</translation>
     </message>
     <message>
         <source>Missing iconv extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Brakujące rozszerzenie iconv</translation>
     </message>
     <message>
         <source>The iconv extension is not available to eZ Publish. Without it eZ Publish will not work.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozszerzenie iconv jest niedostępne dla eZ Publish. Bez niego eZ publish nie będzie działać.</translation>
     </message>
     <message>
         <source>In most cases, the iconv extension is enabled by default because it is included in the PHP core. However, some Linux distributions have PHP without compiled-in support for iconv. Instead, they provide iconv as a shared module in a separate RPM package called &quot;php-iconv&quot; (or &quot;php5-iconv&quot;).</source>
-        <translation type="unfinished"></translation>
+        <translation>W większości przypadków rozszerzenie iconv jest włączone domyślnie, ponieważ znajduje się w jądrze PHP. Jednak niektóre dystrybucje Linuksa nie mają wbudowanego wsparcia dla iconv w PHP. Zamiast tego, istnieje rozszerzenie iconv, udostępnione jako moduł w osobnym pakiecie RPM o nazwie &quot;php-iconv&quot; (lub &quot;php5-iconv&quot;).</translation>
     </message>
     <message>
         <source>If you know where the program is installed (the executable is called</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeśli wiesz, gdzie program jest zainstalowany (plik wykonywalny nazywa się</translation>
     </message>
     <message>
         <source>, but the latest released stable PHP version is always recommended.</source>
-        <translation type="unfinished"></translation>
+        <translation>, ale najnowsza stabilna wersja PHP jest zawsze zalecana.</translation>
     </message>
     <message>
         <source>Time zone configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfiguracja strefy czasowej</translation>
     </message>
     <message>
         <source>You are using the default time zone, UTC. It is important that you set your time zone to make sure date and time is handled correctly. To do this, set the &lt;strong&gt;date.timezone&lt;/strong&gt; setting in &lt;strong&gt;php.ini&lt;/strong&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Używasz domyślnej strefy czasowej, UTC. Ważne jest, żeby ustawić strefę czasową, aby mieć pewność, że data i godzina są właściwie zarządzane. Aby to zrobić należy ustawić &lt;strong&gt;date.timezone&lt;/strong&gt; w &lt;strong&gt;php.ini&lt;/strong&gt;.</translation>
     </message>
     <message>
         <source>Example &lt;strong&gt;php.ini&lt;/strong&gt; configuration:</source>
-        <translation type="unfinished"></translation>
+        <translation>Przykładowa konfiguracja &lt;strong&gt;php.ini&lt;/strong&gt;:</translation>
     </message>
     <message>
         <source>For a list of valid time zones see the &lt;a href=&quot;http://php.net/timezones&quot;&gt;List of Supported Time zones&lt;/a&gt; in the PHP documentation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykaz obowiązujących stref czasowych można znaleźć w dokumentacji PHP: &lt;a href=&quot;http://php.net/timezones&quot;&gt;Lista obsługiwanych stref czasowych&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Alternatively, if you do not have access to modify &lt;strong&gt;php.ini&lt;/strong&gt;, you can change the time zone in &lt;strong&gt;config.php&lt;/strong&gt;. Time zone set in &lt;strong&gt;config.php&lt;/strong&gt; will override the &lt;strong&gt;php.ini&lt;/strong&gt; time zone setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeśli nie masz uprawnień do edycji pliku &lt;strong&gt;php.ini&lt;/strong&gt;, możesz zmienić strefę czasową w &lt;strong&gt;config.php&lt;/strong&gt;. Strefa czasowa ustawiona w &lt;strong&gt;config.php&lt;/strong&gt; nadpisze ustawienia z pliku &lt;strong&gt;php.ini&lt;/strong&gt;.</translation>
     </message>
     <message>
         <source>Example &lt;strong&gt;config.php&lt;/strong&gt; configuration:</source>
-        <translation type="unfinished"></translation>
+        <translation>Przykładowa konfiguracja &lt;strong&gt;config.php&lt;/strong&gt;:</translation>
     </message>
     <message>
         <source>If you want to keep UTC as your time zone, check &lt;strong&gt;Ignore this test&lt;/strong&gt; below to proceed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeśli chcesz zachować strefę czasową UTC, zaznacz poniżej &lt;strong&gt;Ignore this test&lt;/strong&gt; aby kontynuować.</translation>
     </message>
     <message>
         <source>PHP does not register environment variables</source>
-        <translation type="unfinished"></translation>
+        <translation>PHP nie rejestruje zmiennych środowiskowych</translation>
     </message>
     <message>
         <source>PHP is currently not configured to register environment variables in the global variable $_ENV.</source>
-        <translation type="unfinished"></translation>
+        <translation>PHP nie jest obecnie skonfigurowany do rejestrowania zmiennych środowiskowych w zmiennej globalnej $_ENV.</translation>
     </message>
     <message>
         <source>Since some extensions might use $_ENV it is recommended to fix it unless you have full control over all extensions you use!</source>
-        <translation type="unfinished"></translation>
+        <translation>Niektóre rozszerzenia mogą korzystać ze zmiennej $_ENV, dlatego zaleca się rozwiązać tę kwestię, chyba że masz całkowitą kontrolę nad wszystkimi rozszerzeniami, z których korzystasz!</translation>
     </message>
     <message>
         <source>To fix this, edit your php.ini configuration and add E to the variables_order setting and restart your webserver.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aby to naprawić należy w pliku php.ini dodać E do ustawienia variables_order i ponownie uruchomić serwer www.</translation>
     </message>
 </context>
 <context>
@@ -27436,44 +27442,44 @@ your account.</source>
     <message>
         <source>Content structure</source>
         <comment>Navigation part</comment>
-        <translation type="unfinished">Zawartość</translation>
+        <translation>Zawartość</translation>
     </message>
     <message>
         <source>Media library</source>
         <comment>Navigation part</comment>
-        <translation type="unfinished">Media</translation>
+        <translation>Media</translation>
     </message>
     <message>
         <source>User accounts</source>
         <comment>Navigation part</comment>
-        <translation type="unfinished">Konta użytkowników</translation>
+        <translation>Konta użytkowników</translation>
     </message>
     <message>
         <source>Webshop</source>
         <comment>Navigation part</comment>
-        <translation type="unfinished">Sklep</translation>
+        <translation>Sklep</translation>
     </message>
     <message>
         <source>Design</source>
         <comment>Navigation part</comment>
-        <translation type="unfinished">Wygląd</translation>
+        <translation>Wygląd</translation>
     </message>
     <message>
         <source>Setup</source>
         <comment>Navigation part</comment>
-        <translation type="unfinished">Ustawienia</translation>
+        <translation>Ustawienia</translation>
     </message>
     <message>
         <source>My account</source>
         <comment>Navigation part</comment>
-        <translation type="unfinished">Moje konto</translation>
+        <translation>Moje konto</translation>
     </message>
 </context>
 <context>
     <name>kernel/notification</name>
     <message>
         <source>Notification settings</source>
-        <translation type="unfinished">Ustawienia powiadomień</translation>
+        <translation>Ustawienia powiadomień</translation>
     </message>
 </context>
 <context>
@@ -27499,39 +27505,39 @@ your account.</source>
     <name>kernel/package</name>
     <message>
         <source>Packages</source>
-        <translation type="unfinished">Pakiety</translation>
+        <translation>Pakiety</translation>
     </message>
     <message>
         <source>Upload</source>
-        <translation type="unfinished">Załaduj</translation>
+        <translation>Prześlij</translation>
     </message>
     <message>
         <source>Package information</source>
-        <translation type="unfinished">Informacje o pakiecie</translation>
+        <translation>Informacje o pakiecie</translation>
     </message>
     <message>
         <source>Package maintainer</source>
-        <translation type="unfinished">Osoba odpowiedzialna</translation>
+        <translation>Opiekun pakietu</translation>
     </message>
     <message>
         <source>Package changelog</source>
-        <translation type="unfinished">Dziennik</translation>
+        <translation>Dziennik zmian pakietów</translation>
     </message>
     <message>
         <source>Package thumbnail</source>
-        <translation type="unfinished">Miniaturka pakietu</translation>
+        <translation>Miniatura pakietu</translation>
     </message>
     <message>
         <source>Package name</source>
-        <translation type="unfinished">Nazwa pakietu</translation>
+        <translation>Nazwa pakietu</translation>
     </message>
     <message>
         <source>Package name is missing</source>
-        <translation type="unfinished">Brakująca nazwa pakietu</translation>
+        <translation>Brakuje nazwy pakietu</translation>
     </message>
     <message>
         <source>A package named %packagename already exists, please give another name</source>
-        <translation type="unfinished">Nazwa %packagename już istnieje, proszę podać inną nazwę</translation>
+        <translation>Nazwa %packagename już istnieje, proszę podać inną nazwę</translation>
     </message>
     <message>
         <source>Summary</source>
@@ -27539,7 +27545,7 @@ your account.</source>
     </message>
     <message>
         <source>Summary is missing</source>
-        <translation>Brakujące podsumowanie</translation>
+        <translation>Brakuje podsumowania</translation>
     </message>
     <message>
         <source>Version</source>
@@ -27559,263 +27565,263 @@ your account.</source>
     </message>
     <message>
         <source>You must supply some text for the changelog entry</source>
-        <translation type="unfinished">Musisz wpisać jakiś tekst, aby wejść do rejestru zmian</translation>
+        <translation>Musisz wpisać jakiś tekst do rejestru zmian</translation>
     </message>
     <message>
         <source>You must enter a name of the maintainer</source>
-        <translation type="unfinished">Musisz podać nazwę osoby zarządzającej rejestrem zmian</translation>
+        <translation>Musisz podać nazwę osoby zarządzającej</translation>
     </message>
     <message>
         <source>Content classes to include</source>
-        <translation type="unfinished">Klasy zawartości do dołączenia</translation>
+        <translation>Klasy obiektów do dołączenia</translation>
     </message>
     <message>
         <source>Content class export</source>
-        <translation type="unfinished">Eksport zawartości klas</translation>
+        <translation>Eksport klas obiektów</translation>
     </message>
     <message>
         <source>Class list</source>
-        <translation type="unfinished">Lista klas</translation>
+        <translation>Lista klas</translation>
     </message>
     <message>
         <source>You must select at least one class for inclusion</source>
-        <translation type="unfinished">Musisz wybrać co najmniej jedną klasę dla włączenia</translation>
+        <translation>Musisz wybrać co najmniej jedną klasę w celu włączenia</translation>
     </message>
     <message>
         <source>CSS file</source>
-        <translation type="unfinished">Plik CSS</translation>
+        <translation>Plik CSS</translation>
     </message>
     <message>
         <source>Image files</source>
-        <translation type="unfinished">Plik graficzny</translation>
+        <translation>Pliki obrazów</translation>
     </message>
     <message>
         <source>Site style</source>
-        <translation type="unfinished">Styl strony</translation>
+        <translation>Styl strony</translation>
     </message>
     <message>
         <source>File did not have a .css suffix, this is most likely not a CSS file</source>
-        <translation type="unfinished">Plik nie posiada rozszerzenia .css, najprawdopodobniej nie jest to plik typu CSS</translation>
+        <translation>Plik nie posiada rozszerzenia .css, najprawdopodobniej nie jest to plik typu CSS</translation>
     </message>
     <message>
         <source>Create package</source>
-        <translation type="unfinished">Stwórz pakiet</translation>
+        <translation>Stwórz pakiet</translation>
     </message>
     <message>
         <source>Install</source>
-        <translation type="unfinished">Instaluj</translation>
+        <translation>Instaluj</translation>
     </message>
     <message>
         <source>Uninstall</source>
-        <translation type="unfinished">Odinstaluj</translation>
+        <translation>Odinstaluj</translation>
     </message>
     <message>
         <source>Package %packagename already exists, cannot import the package</source>
-        <translation type="unfinished">Pakiet %packagename już istnieje, nie można zaimportować pakietu</translation>
+        <translation>Pakiet %packagename już istnieje, nie można zaimportować tego pakietu</translation>
     </message>
     <message>
         <source>Local</source>
-        <translation type="unfinished">Lokalny</translation>
+        <translation>Lokalne</translation>
     </message>
     <message>
         <source>Content objects to include</source>
-        <translation type="unfinished">Zawartość dołączanych obiektów</translation>
+        <translation>Obiekty do załączenia</translation>
     </message>
     <message>
         <source>Content object limits</source>
-        <translation type="unfinished">Ograniczenia zawartości obiektu</translation>
+        <translation>Ograniczenia obiektów</translation>
     </message>
     <message>
         <source>Content object export</source>
-        <translation type="unfinished">Eksport zawartości obiektu</translation>
+        <translation>Eksport obiektów</translation>
     </message>
     <message>
         <source>Selected nodes</source>
-        <translation type="unfinished">Zaznaczone elementy</translation>
+        <translation>Zaznaczone węzły</translation>
     </message>
     <message>
         <source>You must select one or more node(s)/subtree(s) for export.</source>
-        <translation type="unfinished">Aby dokonać eksportu musisz zaznaczyć przynajmniej jeden element/gałąź.</translation>
+        <translation>Aby dokonać eksportu musisz zaznaczyć przynajmniej jeden węzeł/poddrzewo.</translation>
     </message>
     <message>
         <source>You must choose one or more languages.</source>
-        <translation type="unfinished">Musisz wybrać przynajmniej jeden język.</translation>
+        <translation>Musisz wybrać przynajmniej jeden język.</translation>
     </message>
     <message>
         <source>You must choose one or more site access.</source>
-        <translation type="unfinished">Musisz wybrać przynajmniej jedną metodę dostępu do strony.</translation>
+        <translation>Musisz wybrać przynajmniej jeden dostęp do strony.</translation>
     </message>
     <message>
         <source>CSS files</source>
-        <translation type="unfinished">Pliki CSS</translation>
+        <translation>Pliki CSS</translation>
     </message>
     <message>
         <source>You must upload both CSS files</source>
-        <translation type="unfinished">Musisz załadować oba pliki CSS</translation>
+        <translation>Musisz załadować oba pliki CSS</translation>
     </message>
     <message>
         <source>Content object %objectname</source>
-        <translation type="unfinished">Obiekt %objectname</translation>
+        <translation>Obiekt %objectname</translation>
     </message>
     <message>
         <source>The version must only contain numbers (optionally followed by text) and must be delimited by dots (.), e.g. 1.0, 3.4.0beta1</source>
-        <translation type="unfinished">Numer wersji może się składać tylko z liczb (ewentualnie zakończonych tekstem), rozdzielonych przy pomocy kropki (.), np. 1.0, 3.4.0beta1</translation>
+        <translation>Numer wersji może się składać tylko z liczb (ewentualnie zakończonych tekstem), rozdzielonych kropką (.), np. 1.0, 3.4.0beta1</translation>
     </message>
     <message>
         <source>Lead</source>
-        <translation type="unfinished">Lider</translation>
+        <translation>Lider</translation>
     </message>
     <message>
         <source>Developer</source>
-        <translation type="unfinished">Programista</translation>
+        <translation>Programista</translation>
     </message>
     <message>
         <source>Designer</source>
-        <translation type="unfinished">Projektant</translation>
+        <translation>Projektant</translation>
     </message>
     <message>
         <source>Contributor</source>
-        <translation type="unfinished">Uczestnik</translation>
+        <translation>Współpracownik</translation>
     </message>
     <message>
         <source>Tester</source>
-        <translation type="unfinished">Tester</translation>
+        <translation>Tester</translation>
     </message>
     <message>
         <source>The package name %packagename is not valid, it can only contain characters in the range a-z, 0-9 and underscore.</source>
-        <translation type="unfinished">Nazwa pakietu %packagename jest nieprawidłowa, może zawierać tylko znaki z zakresu a-z, 0-9 i podkreślnik.</translation>
+        <translation>Nazwa pakietu %packagename jest nieprawidłowa, może zawierać tylko znaki z zakresu a-z, 0-9 i podkreślnik.</translation>
     </message>
     <message>
         <source>Extension export</source>
-        <translation type="unfinished">Eksport rozszerzenia</translation>
+        <translation>Eksport rozszerzenia</translation>
     </message>
     <message>
         <source>Removing class &apos;%classname&apos; will result in the removal of %objectscount object(s) of this class and all their sub-items. Are you sure you want to uninstall it?</source>
-        <translation type="unfinished">Usunięcie klasy &apos;%classname&apos; spowoduje usunięcie %objectscount obiektu lub obiektów tej klasy oraz wszystkich podelementów. Czy jesteś pwny, że chcesz ją odinstalować?</translation>
+        <translation>Usunięcie klasy &apos;%classname&apos; spowoduje usunięcie %objectscount obiektów tej klasy oraz wszystkich ich elementów podrzędnych. Czy na pewno chcesz ją odinstalować?</translation>
     </message>
     <message>
         <source>Class &apos;%classname&apos; already exists.</source>
-        <translation type="unfinished">Klasa &apos;%classname&apos; już istnieje.</translation>
+        <translation>Klasa &apos;%classname&apos; już istnieje.</translation>
     </message>
     <message>
         <source>Replace existing class</source>
-        <translation type="unfinished">Zastąp istniejącą klasę</translation>
+        <translation>Zastąp istniejącą klasę</translation>
     </message>
     <message>
         <source>(Warning! $objectsCount content object(s) and their sub-items will be removed)</source>
-        <translation type="unfinished">(Uwaga! $objectsCount obiekt(ów) oraz (jego/ich) podelementy zostaną usunięte)</translation>
+        <translation>(Uwaga! $objectsCount obiekt(ów) oraz (jego/ich) elementy podrzędne zostaną usunięte)</translation>
     </message>
     <message>
         <source>Skip installing this class</source>
-        <translation type="unfinished">Pomiń instalację tej klasy</translation>
+        <translation>Pomiń instalację tej klasy</translation>
     </message>
     <message>
         <source>Keep existing and create a new one</source>
-        <translation type="unfinished">Pozostaw i stwórz nowy</translation>
+        <translation>Zachowaj istniejącą i stwórz nową</translation>
     </message>
     <message>
         <source>%number content objects</source>
-        <translation type="unfinished">%number obiektów</translation>
+        <translation>%number obiektów</translation>
     </message>
     <message>
         <source>Object &apos;%objectname&apos; has been modified since installation. Are you sure you want to remove it?</source>
-        <translation type="unfinished">Obiekt &apos;%objectname&apos; został zmodyfikowany od czasu instalacji. Czy jesteś pewien, że chcesz go usunąć?</translation>
+        <translation>Obiekt &apos;%objectname&apos; został zmodyfikowany od czasu instalacji. Czy jesteś pewien, że chcesz go usunąć?</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Usuń</translation>
+        <translation>Usuń</translation>
     </message>
     <message>
         <source>Keep object</source>
-        <translation type="unfinished">Zachowaj obiekt</translation>
+        <translation>Zachowaj obiekt</translation>
     </message>
     <message>
         <source>Object &apos;%objectname&apos; has %childrencount sub-item(s) that will be removed.</source>
-        <translation type="unfinished">Obiekt &apos;%objectname&apos; posiada %childrencount podelementów, które zostaną usunięte.</translation>
+        <translation>Obiekt &apos;%objectname&apos; posiada %childrencount elementów podrzędnych, które zostaną usunięte.</translation>
     </message>
     <message>
         <source>Extension &apos;%extensionname&apos;</source>
-        <translation type="unfinished">Rozszerzenie &apos;%extensionname&apos;</translation>
+        <translation>Rozszerzenie &apos;%extensionname&apos;</translation>
     </message>
     <message>
         <source>Extension &apos;%extensionname&apos; already exists.</source>
-        <translation type="unfinished">Rozszerzenie &apos;%extensionname&apos; już istnieje.</translation>
+        <translation>Rozszerzenie &apos;%extensionname&apos; już istnieje.</translation>
     </message>
     <message>
         <source>Replace extension</source>
-        <translation type="unfinished">Zastąp rozszerzenie </translation>
+        <translation>Zastąp rozszerzenie</translation>
     </message>
     <message>
         <source>Skip</source>
-        <translation type="unfinished">Pomiń</translation>
+        <translation>Pomiń</translation>
     </message>
     <message>
         <source>Install script: %description</source>
-        <translation type="unfinished">Zainstaluj skrypt: %description</translation>
+        <translation>Zainstaluj skrypt: %description</translation>
     </message>
     <message>
         <source>Email</source>
-        <translation type="unfinished">Email</translation>
+        <translation>E-mail</translation>
     </message>
     <message>
         <source>You must enter an email for the changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>Musisz podać adres e-mail do rejestru zmian</translation>
     </message>
     <message>
         <source>You must enter an email address of the maintainer</source>
-        <translation type="unfinished"></translation>
+        <translation>Musisz podać adres e-mail osoby zarządzającej</translation>
     </message>
     <message>
         <source>Extensions to include</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozszerzenia do załączenia</translation>
     </message>
     <message>
         <source>Extension list</source>
-        <translation type="unfinished"></translation>
+        <translation>Lista rozszerzeń</translation>
     </message>
     <message>
         <source>You must select at least one extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Musisz zaznaczyć przynajmniej jedno rozszerzenie</translation>
     </message>
     <message>
         <source>Content class &apos;%classname&apos; (%classidentifier)</source>
-        <translation type="unfinished"></translation>
+        <translation>Klasa &apos;%classname&apos; (%classidentifier)</translation>
     </message>
     <message>
         <source>Remove object and its sub-item(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń obiekt oraz jego elementy podrzędne</translation>
     </message>
     <message>
         <source>Package contains an invalid extension name: %extensionname</source>
-        <translation type="unfinished"></translation>
+        <translation>Pakiet zawiera nieprawidłową nazwę rozszerzenia: %extensionname</translation>
     </message>
     <message>
         <source>Site access mapping</source>
-        <translation type="unfinished"></translation>
+        <translation>Mapowanie dostępu do strony</translation>
     </message>
     <message>
         <source>Top node placements</source>
-        <translation type="unfinished"></translation>
+        <translation>Położenia węzłów nadrzędnych</translation>
     </message>
     <message>
         <source>Advanced options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcje zaawansowane</translation>
     </message>
     <message>
         <source>Content object import</source>
-        <translation type="unfinished"></translation>
+        <translation>Import obiektu</translation>
     </message>
     <message>
         <source>Select parent nodes</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz węzły nadrzędne</translation>
     </message>
     <message>
         <source>You must assign all nodes to new parent nodes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Musisz przypisać wszystkie węzły do nowych węzłów nadrzędnych.</translation>
     </message>
     <message>
         <source>The package name %packagename is invalid, cannot import the package</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa pakietu %packagename jest nieprawidłowa, nie można zaimportować pakietu.</translation>
     </message>
 </context>
 <context>
@@ -27833,7 +27839,7 @@ your account.</source>
     <name>kernel/pdfexport</name>
     <message>
         <source>New PDF Export</source>
-        <translation type="unfinished">Nowy eksport PDF</translation>
+        <translation>Nowy eksport do PDF</translation>
     </message>
 </context>
 <context>
@@ -27847,64 +27853,64 @@ your account.</source>
     <name>kernel/role</name>
     <message>
         <source>Role list</source>
-        <translation type="unfinished">Grupy uprawnień</translation>
+        <translation>Grupy uprawnień</translation>
     </message>
     <message>
         <source>Editing policy</source>
-        <translation type="unfinished">Edycja uprawnienia</translation>
+        <translation>Edycja uprawnienia</translation>
     </message>
     <message>
         <source>Limit on section</source>
-        <translation type="unfinished">Ograniczenia w sekcji</translation>
+        <translation>Ograniczenia w sekcji</translation>
     </message>
     <message>
         <source>Create new policy, step 2: select function</source>
-        <translation type="unfinished">Tworzenie nowego uprawnienia, krok 2: wybierz fukcję</translation>
+        <translation>Tworzenie nowego uprawnienia, krok 2: wybierz fukcję</translation>
     </message>
     <message>
         <source>Create new policy, step three: set function limitations</source>
-        <translation type="unfinished">Tworzenie nowego uprawnienia, krok trzeci: określ ograniczenia fukcji</translation>
+        <translation>Tworzenie nowego uprawnienia, krok trzeci: określ ograniczenia fukcji</translation>
     </message>
     <message>
         <source>Create new policy, step two: select function</source>
-        <translation type="unfinished">Tworzenie nowego uprawnienia. krok drugi: wybierz funkcję</translation>
+        <translation>Tworzenie nowego uprawnienia. krok drugi: wybierz funkcję</translation>
     </message>
     <message>
         <source>Create new policy, step one: select module</source>
-        <translation type="unfinished">Tworzenie nowego uprawnienia, krok pierwszy: wybierz moduł</translation>
+        <translation>Tworzenie nowego uprawnienia, krok pierwszy: wybierz moduł</translation>
     </message>
 </context>
 <context>
     <name>kernel/role/edit</name>
     <message>
         <source>New role</source>
-        <translation type="unfinished">Nowa grupa uprawnień</translation>
+        <translation>Nowa grupa uprawnień</translation>
     </message>
     <message>
         <source>Copy of %rolename</source>
-        <translation type="unfinished">Kopia %rolename</translation>
+        <translation>Kopia %rolename</translation>
     </message>
 </context>
 <context>
     <name>kernel/rss</name>
     <message>
         <source>Really Simple Syndication</source>
-        <translation type="unfinished">Really Simple Syndication</translation>
+        <translation>Really Simple Syndication (RSS)</translation>
     </message>
     <message>
         <source>New RSS Export</source>
-        <translation type="unfinished">Nowy eksport RSS</translation>
+        <translation>Nowy eksport RSS</translation>
     </message>
     <message>
         <source>New RSS Import</source>
-        <translation type="unfinished">Nowy import RSS</translation>
+        <translation>Nowy import RSS</translation>
     </message>
 </context>
 <context>
     <name>kernel/rss/edit_export</name>
     <message>
         <source>Selected class does not exist</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybrana klasa nie istnieje</translation>
     </message>
     <message>
         <source>Invalid selection for title class %1 does not have attribute &quot;%2&quot;</source>
@@ -27923,7 +27929,7 @@ your account.</source>
     <name>kernel/search</name>
     <message>
         <source>Search stats</source>
-        <translation type="unfinished">Statystyki szukania</translation>
+        <translation>Statystyki wyszukiwań</translation>
     </message>
 </context>
 <context>
@@ -27996,51 +28002,51 @@ your account.</source>
     <name>kernel/shop</name>
     <message>
         <source>Basket</source>
-        <translation type="unfinished">Koszyk</translation>
+        <translation>Koszyk</translation>
     </message>
     <message>
         <source>Confirm order</source>
-        <translation type="unfinished">Potwierdź zamówienie</translation>
+        <translation>Potwierdź zamówienie</translation>
     </message>
     <message>
         <source>Discount group</source>
-        <translation type="unfinished">Grupa rabatów</translation>
+        <translation>Grupa rabatów</translation>
     </message>
     <message>
         <source>Group view of discount rule</source>
-        <translation type="unfinished">Widok grupowy reguł rabatów</translation>
+        <translation>Widok grupowy reguł rabatów</translation>
     </message>
     <message>
         <source>Editing rule</source>
-        <translation type="unfinished">Edycja reguły</translation>
+        <translation>Edycja reguły</translation>
     </message>
     <message>
         <source>Order list</source>
-        <translation type="unfinished">Lista zamówień</translation>
+        <translation>Lista zamówień</translation>
     </message>
     <message>
         <source>Enter account information</source>
-        <translation type="unfinished">Wprowadź informacje o koncie</translation>
+        <translation>Wprowadź informacje o koncie</translation>
     </message>
     <message>
         <source>VAT types</source>
-        <translation type="unfinished">Rodzaj VAT-u</translation>
+        <translation>Rodzaje VAT-u</translation>
     </message>
     <message>
         <source>Checkout</source>
-        <translation type="unfinished">Złóż zamówienie</translation>
+        <translation>Złóż zamówienie</translation>
     </message>
     <message>
         <source>Customer list</source>
-        <translation type="unfinished">Lista klientów</translation>
+        <translation>Lista klientów</translation>
     </message>
     <message>
         <source>Statistics</source>
-        <translation type="unfinished">Statystyki</translation>
+        <translation>Statystyki</translation>
     </message>
     <message>
         <source>Remove order</source>
-        <translation type="unfinished">Usuń zamówienia</translation>
+        <translation>Usuń zamówienie</translation>
     </message>
     <message>
         <source>VAT type</source>
