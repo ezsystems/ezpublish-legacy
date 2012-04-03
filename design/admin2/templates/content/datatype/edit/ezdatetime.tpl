@@ -5,7 +5,9 @@
 
 <script type="text/javascript">
 (function() {ldelim}
-    YUILoader.addModule({ldelim}
+    var loader = new YAHOO.util.YUILoader(YUI2_config);
+
+    loader.addModule({ldelim}
         name: 'datepicker',
         type: 'js',
         fullpath: '{"javascript/ezdatepicker.js"|ezdesign( 'no' )}',
@@ -14,11 +16,8 @@
         skinnable: false
     {rdelim});
 
-    YUILoader.require(["datepicker"]);
-
-    // Load the files using the insert() method.
-    var options = [];
-    YUILoader.insert(options, "js");
+    loader.require(["datepicker"]);
+    loader.insert();
 {rdelim})();
 </script>
 

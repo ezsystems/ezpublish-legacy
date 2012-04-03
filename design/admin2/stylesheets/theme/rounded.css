@@ -509,3 +509,8 @@ table.list th, table.special th
     margin-bottom: -2px;
     padding-top: 9px;
 }
+
+#page .yui-calcontainer .title
+{
+position:absolute;
+}
