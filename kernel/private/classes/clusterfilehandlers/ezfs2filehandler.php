@@ -800,6 +800,23 @@ class eZFS2FileHandler extends eZFSFileHandler
     }
 
     /**
+     * Checks if the given $path exists.
+     *
+     * @param string $path
+     * @return bool
+     */
+    function fileExists( $path )
+    {
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileExists( '$path' )", __METHOD__ );
+
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
+        $rc = file_exists( $path ) && ( filemtime( $path ) != self::EXPIRY_TIMESTAMP );
+        eZDebug::accumulatorStop( 'dbfile' );
+
+        return $rc;
+    }
+
+    /**
      * Check if given file/dir exists.
      *
      * NOTE: this function does not interact with filesystem.
