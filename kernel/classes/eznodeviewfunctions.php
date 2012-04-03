@@ -398,24 +398,33 @@ class eZNodeviewfunctions
         {
 //        $contents = $cacheFile->fetchContents();
             $contents = file_get_contents( $file );
-            $Result = unserialize( $contents );
 
-            // Check if a no_cache key has been set in the viewcache, and
-            // return an eZClusterFileFailure if it has
-            if ( isset( $Result['no_cache'] ) )
+            if ( $contents === false )
             {
-                return new eZClusterFileFailure( 3, "Cache has been disabled for this node" );
+                $cacheExpired = true;
+                $expiryReason = 'Content cache file is empty';
             }
-
-            // Check if cache has expired when cache_ttl is set
-            $cacheTTL = isset( $Result['cache_ttl'] ) ? $Result['cache_ttl'] : -1;
-            if ( $cacheTTL > 0 )
+            else
             {
-                $expiryTime = $mtime + $cacheTTL;
-                if ( time() > $expiryTime )
+                $Result = unserialize( $contents );
+
+                // Check if a no_cache key has been set in the viewcache, and
+                // return an eZClusterFileFailure if it has
+                if ( isset( $Result['no_cache'] ) )
                 {
-                    $cacheExpired = true;
-                    $expiryReason = 'Content cache is expired by cache_ttl=' . $cacheTTL;
+                    return new eZClusterFileFailure( 3, "Cache has been disabled for this node" );
+                }
+
+                // Check if cache has expired when cache_ttl is set
+                $cacheTTL = isset( $Result['cache_ttl'] ) ? $Result['cache_ttl'] : -1;
+                if ( $cacheTTL > 0 )
+                {
+                    $expiryTime = $mtime + $cacheTTL;
+                    if ( time() > $expiryTime )
+                    {
+                        $cacheExpired = true;
+                        $expiryReason = 'Content cache is expired by cache_ttl=' . $cacheTTL;
+                    }
                 }
             }
 
