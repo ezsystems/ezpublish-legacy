@@ -21088,59 +21088,59 @@ The default code was made from the basic parameters you chose.</source>
     <name>design/standard/setup/init</name>
     <message>
         <source>Install demo data?</source>
-        <translation type="unfinished"></translation>
+        <translation>Εγκατάσταση δεδομένων επίδειξης;</translation>
     </message>
     <message>
         <source>Cannot install demo data, the zlib extension is missing from your PHP installation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Δεν είναι δυνατή η εγκατάσταση δεδομένων επίδειξης, η επέκταση zlib λείπει από την εγκατάσταση της PHP σας.</translation>
     </message>
     <message>
         <source>does not support installing demo data at this point.</source>
-        <translation type="unfinished"></translation>
+        <translation>δεν υποστηρίζεται η εγκατάσταση δεδομένων επίδειξης σε αυτό το σημείο.</translation>
     </message>
     <message>
         <source>Demo data failure</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία δεδομένων επίδειξης</translation>
     </message>
     <message>
         <source>Could not unpack the demo data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αδύνατη η αποσυσκευασία των δεδομένων επίδειξης.</translation>
     </message>
     <message>
         <source>You should try to install without demo data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Θα πρέπει να προσπαθήσετε την εγκατάσταση χωρίς δεδομένα επίδειξης.</translation>
     </message>
     <message>
         <source>Initialization failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Η αρχικοποίηση απέτυχε</translation>
     </message>
     <message>
         <source>The database could not be properly initialized.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η βάση δεδομένων δεν ήταν δυνατό να αρχικοποιηθεί δεόντως.</translation>
     </message>
     <message>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Προειδοποίηση</translation>
     </message>
     <message>
         <source>Your database already contains data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η βάση δεδομένων σας περιέχει ήδη δεδομένα.</translation>
     </message>
     <message>
         <source>The setup can continue with the initialization but may damage the present data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η εγκατάσταση μπορεί να συνεχίσει με την αρχικοποίηση αλλά μπορεί να αλλοιώσει τα υπάρχοντα δεδομένα.</translation>
     </message>
     <message>
         <source>What do you want the setup to do?</source>
-        <translation type="unfinished"></translation>
+        <translation>Τι θέλετε η εγκατάσταση να κάνει;</translation>
     </message>
     <message>
         <source>Continue but leave the data as it is.</source>
-        <translation type="unfinished"></translation>
+        <translation>Να συνεχίσει αλλά να αφήσει ως έχουν τα δεδομένα.</translation>
     </message>
     <message>
         <source>Let me choose a new database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αφήστε με αν επιλέξω μια νέα βάση δεδομένων.</translation>
     </message>
     <message>
         <source>Language Options</source>
@@ -21156,11 +21156,11 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Configure</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρύθμιση</translation>
     </message>
     <message>
         <source>button.</source>
-        <translation type="unfinished"></translation>
+        <translation>κουμπί.</translation>
     </message>
     <message>
         <source>No finetuning is required on your system, you can continue by clicking the</source>
