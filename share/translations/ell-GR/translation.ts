@@ -4382,7 +4382,7 @@
     </message>
     <message>
         <source>If your installation is not running eZ Publish Premium, it might not be up to date with the latest maintenance service packs. Contact eZ Systems.</source>
-        <translation>Άν προκύψει πρόβλημα με την εγκατάστασή σας επικοινωνήστε με την webwiz.</translation>
+        <translation>Άν η εγκατάστασή σας δεν τρέχει eZ Publish Premium, μπορεί να μην είναι ενήμερη με τις τελευταίες εκδόσεις λογισμικού. Επικοινωνήστε με την eZ Systems.</translation>
     </message>
 </context>
 <context>
