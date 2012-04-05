@@ -70,3 +70,7 @@ eZ Publish forums: http://ez.no/developer/forum
 Live demo of eZ Publish
 -------------------------
 http://ez.no/products/ez_publish/demo
+
+Testing notifications
+---------------------
+This is just a test.
