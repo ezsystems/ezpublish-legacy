@@ -405,6 +405,10 @@ class ezjscAjaxContent
         if ( is_array( $params['dataMap'] ) && is_array(  $params['dataMapType'] ) )
         {
             $dataMap = $contentObject->attribute( 'data_map' );
+            $datatypeBlacklist = array_fill_keys(
+                $ini->variable( 'ContentSettings', 'DatatypeBlackListForExternal' ),
+                true
+            );
             foreach( $dataMap as $key => $atr )
             {
                 $dataTypeString = $atr->attribute( 'data_type_string' );
@@ -421,7 +425,10 @@ class ezjscAjaxContent
                 $attrtibuteArray[ $key ]['id']         = $atr->attribute( 'id' );
                 $attrtibuteArray[ $key ]['type']       = $dataTypeString;
                 $attrtibuteArray[ $key ]['identifier'] = $key;
-                $attrtibuteArray[ $key ]['content']    = $atr->toString();
+                if ( isset ( $datatypeBlacklist[$dataTypeString] ) )
+                    $attrtibuteArray[ $key ]['content'] = null;
+                else
+                    $attrtibuteArray[ $key ]['content'] = $atr->toString();
 
                 // images
                 if ( in_array( $dataTypeString, $params['imageDataTypes'], true) && $atr->hasContent() )
