@@ -867,7 +867,7 @@ class eZContentLanguage extends eZPersistentObject
      */
     static function setCronjobMode( $enable = true )
     {
-        $GLOBALS['eZContentLanguageCronjobMode'] = true;
+        $GLOBALS['eZContentLanguageCronjobMode'] = $enable;
         unset( $GLOBALS['eZContentLanguagePrioritizedLanguages'] );
     }
 
