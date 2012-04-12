@@ -197,7 +197,7 @@ class ezjscServerRouter
         }
         else
         {
-            return method_exists( $className, $functionName );
+            return is_callable( "{$className}::{$functionName}" );
         }
     }
 
