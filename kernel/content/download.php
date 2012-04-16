@@ -49,6 +49,7 @@ if ( count( $nodeAssignments ) === 0 )
 
 // If exists location that current user has access to and location is visible.
 $canAccess = false;
+$isContentDraft = $contentObject->attribute( 'status' ) == eZContentObject::STATUS_DRAFT;
 foreach ( $nodeAssignments as $nodeAssignment )
 {
     if ( ( eZContentObjectTreeNode::showInvisibleNodes() || !$nodeAssignment->attribute( 'is_invisible' ) ) and $nodeAssignment->canRead() )
@@ -57,12 +58,12 @@ foreach ( $nodeAssignments as $nodeAssignment )
         break;
     }
 }
-if ( !$canAccess )
+if ( !$canAccess && !$isContentDraft )
     return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 // If $version is not current version (published)
 // we should check permission versionRead for the $version.
-if ( $version != $currentVersion )
+if ( $version != $currentVersion || $isContentDraft )
 {
     $versionObj = eZContentObjectVersion::fetchVersion( $version, $contentObjectID );
     if ( is_object( $versionObj ) and !$versionObj->canVersionRead() )
