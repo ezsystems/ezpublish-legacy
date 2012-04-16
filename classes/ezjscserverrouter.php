@@ -197,7 +197,7 @@ class ezjscServerRouter
         }
         else
         {
-            return is_callable( "{$className}::{$functionName}" );
+            return is_callable( array( $className, $functionName ) );
         }
     }
 
