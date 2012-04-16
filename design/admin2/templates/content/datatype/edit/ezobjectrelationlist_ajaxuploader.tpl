@@ -26,7 +26,7 @@
                     action: 'ezajaxuploader::uploadform::ezobjectrelationlist'
                 },
                 upload: {
-                    action: 'ezajaxuploader::upload::ezobjectrelationlist',
+                    action: 'ezajaxuploader::upload::ezobjectrelationlist?ContentType=html',
                     form: 'form.ajaxuploader-upload'
                 },
                 location: {
