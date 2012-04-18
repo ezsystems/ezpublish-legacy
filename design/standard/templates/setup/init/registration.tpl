@@ -78,3 +78,7 @@
 <tr><th class="label">{"Contents of registration email"|i18n("design/standard/setup/init")}:</th></tr>
 <tr><td class="normal"><textarea class="box full" readonly="readonly" cols="60" rows="8">{$email_body}</textarea></td></tr>
 </table>
+
+<p>
+{"We care for your privacy. Read more <a href='%link' target='_blank'>here</a>. This data will be treated securely and not shared with third parties without your permission."|i18n("design/standard/setup/init", "", hash( '%link', "http://ez.no/Privacy-policy" ))}
+</p>
