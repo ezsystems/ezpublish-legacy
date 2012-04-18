@@ -48,7 +48,7 @@ class eZDFSFileHandlerDFSBackend
         }
         else
         {
-            $ret = $this->createFile( $dstFilePath, $srcFilePath, false );
+            $ret = $this->createFile( $dstFilePath, file_get_contents( $srcFilePath ), false );
         }
 
         $this->accumulatorStop();
