@@ -41,7 +41,7 @@
         </tr>
         <tr>
             <td><label for="ezsrd_email" class="textfield">{"Your email"|i18n("design/standard/setup/init")}*:</label></td>
-            <td><input id="ezsrd_email" type="text" size="20" name="eZSetupRegistrationData[email]" value="{$email_user_data['email']|wash}" /></td>
+            <td><input id="ezsrd_email" type="email" size="20" name="eZSetupRegistrationData[email]" value="{$email_user_data['email']|wash}" /></td>
         </tr>
         <tr>
             <td><label for="ezsrd_country" class="textfield">{"Country"|i18n("design/standard/setup/init")}*:</label></td>
@@ -56,7 +56,7 @@
             <td><input id="ezsrd_first_time_user" type="checkbox" size="20" name="eZSetupRegistrationData[first_time_user]" {if $email_user_data['first_time_user']}checked="checked" {/if}value="1" /></td>
         </tr>
         <tr>
-            <td><label for="ezsrd_include_tech_stats" class="textfield">{"Is it ok that some simple technical information is included?"|i18n("design/standard/setup/init")}</label></td>
+            <td><label for="ezsrd_include_tech_stats" class="textfield">{"Included some simple technical information?"|i18n("design/standard/setup/init")}</label></td>
             <td><input id="ezsrd_include_tech_stats" type="checkbox" size="20" name="eZSetupRegistrationData[include_tech_stats]" {if $email_user_data['include_tech_stats']}checked="checked" {/if}value="1" /></td>
         </tr>
     </table>
