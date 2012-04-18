@@ -48,7 +48,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
                 }
                 else
                 {
-                    html += '<td><br data-mce-bogus="1"/></td>';
+                    html += '<td><p><br data-mce-bogus="1"/></p></td>';
                 }
             }
     
