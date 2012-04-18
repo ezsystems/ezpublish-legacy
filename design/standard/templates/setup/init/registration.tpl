@@ -72,6 +72,33 @@
 </fieldset>
 </form>
 
+<script type="text/javascript">
+{literal}
+(function(){
+    // Disable form input elements in browsers that support it
+    var forms = document.getElementsByTagName('form');
+    for ( var i = 0; i < forms.length; i++ ){
+        if ( forms[i].addEventListener )
+            forms[i].addEventListener( 'submit', formDisable, false );
+        else
+            forms[i].onsubmit = formDisable;
+    }
+
+    function formDisable(){
+        var form = this;
+        setTimeout( function(){
+            var allInputs = form.getElementsByTagName('input');
+            for ( var i = 0; i < allInputs.length; i++ ){
+                allInputs[i].disabled = true;
+                if ( allInputs[i].className === 'defaultbutton' || allInputs[i].className === 'button' )
+                    allInputs[i].className += ' button-disabled';
+            }
+        }, 10 );
+    }
+})();
+{/literal}
+</script>
+
 <br />
 
 <table cellpadding="0" cellspacing="0" border="0" class="full">
