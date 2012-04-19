@@ -24,8 +24,8 @@ class eZPolicyTest extends ezpDatabaseTestCase
     public function testFetchTemporaryCopy()
     {
         // Get the first policy from the anonymous role
-        $role = $this->getRole();
-        $policy = array_shift( $role->policyList() );
+        $policyList = $this->getRole()->policyList();
+        $policy = current( $policyList );
 
         // The first fetch should create the temporary copy
         $temporaryPolicy = eZPolicy::fetchTemporaryCopy( $policy->attribute( 'id' ) );
@@ -51,8 +51,8 @@ class eZPolicyTest extends ezpDatabaseTestCase
     public function testSaveTemporary()
     {
         // Get the first policy from the anonymous role
-        $role = $this->getRole();
-        $policy = array_shift( $role->policyList() );
+        $policyList = $this->getRole()->policyList();
+        $policy = current( $policyList );
         $originalPolicyID = $policy->attribute( 'id' );
 
         // The first fetch should create the temporary copy
@@ -73,8 +73,8 @@ class eZPolicyTest extends ezpDatabaseTestCase
      */
     protected function getRole()
     {
-        $anonymousUser = eZUser::fetch( eZINI::instance()->variable( 'UserSettings', 'AnonymousUserID' ) );
-        return array_shift( $anonymousUser->roles() );
+        $roles = eZUser::fetch( eZINI::instance()->variable( 'UserSettings', 'AnonymousUserID' ) )->roles();
+        return current( $roles );
     }
 }
 ?>
