@@ -251,7 +251,8 @@ abstract class eZDBBasedClusterFileHandlerAbstractTest extends eZClusterFileHand
         $files = array();
 
         // generate more files than the cache limit so that the
-        for( $i = 1; $i <= $class::INFOCACHE_MAX + 10; $i++ )
+        $iMax = constant( "$class::INFOCACHE_MAX" ) + 10;
+        for( $i = 1; $i <= $iMax; $i++ )
         {
             $ch = eZClusterFileHandler::instance( "var/tests/" . __FUNCTION__ . "/{$i}.txt" );
             $ch->loadMetaData();
