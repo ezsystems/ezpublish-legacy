@@ -78,7 +78,7 @@
     <name>design/standard/content/view</name>
     <message>
         <source>You have no bookmarks</source>
-        <translation>Non hai preferiti</translation>
+        <translation>Non hai alcun preferito</translation>
     </message>
 </context>
 <context>
@@ -1126,7 +1126,7 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     </message>
     <message>
         <source>Use left and right arrows to navigate.</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa le frecce sinistra e destra per navigare.</translation>
     </message>
 </context>
 <context>
@@ -1179,15 +1179,15 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     <name>design/standard/ezoe/help</name>
     <message>
         <source>Using the toolbar</source>
-        <translation>Uso della barra degli strumenti</translation>
+        <translation>Usare la barra degli strumenti</translation>
     </message>
     <message>
         <source>Make the selected text &lt;b&gt;bold&lt;/b&gt;. If the selected text is &lt;b&gt;bold&lt;/b&gt; already, this button will remove the formating.</source>
-        <translation>Rende il testo selezionato &lt;b&gt;grassetto&lt;/b&gt;. Se il il testo selezionato è già &lt;b&gt;grassetto&lt;/b&gt; , questo pulsante eliminerà la formattazione.</translation>
+        <translation>Rendi il testo selezionato &lt;b&gt;grassetto&lt;/b&gt;. Se il il testo selezionato è già &lt;b&gt;grassetto&lt;/b&gt; , questo pulsante eliminerà la formattazione.</translation>
     </message>
     <message>
         <source>Make the selected text &lt;i&gt;italic&lt;/i&gt;. If the selected text is &lt;i&gt;italic&lt;/i&gt; already, this button will remove the formating.</source>
-        <translation>Rende il testo selezionato &lt;i&gt;corsivo&lt;/i&gt;. Se il il testo selezionato è già &lt;i&gt;corsivo&lt;/i&gt; , questo pulsante eliminerà la formattazione.</translation>
+        <translation>Rendi il testo selezionato &lt;i&gt;corsivo&lt;/i&gt;. Se il il testo selezionato è già &lt;i&gt;corsivo&lt;/i&gt; , questo pulsante eliminerà la formattazione.</translation>
     </message>
     <message>
         <source>Make the selected text &lt;u&gt;underline&lt;/u&gt;. This button is only enabled if you have a custom tag named underline, template code to handle underline custom tags is not included in Online Editor.</source>
@@ -1195,11 +1195,11 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     </message>
     <message>
         <source>Create a bullet list. To create a new list item, press &quot;Enter&quot;. To end a list, press &quot;Enter&quot; key on an empty list item. If you click this button when the cursor is on a list item, the formatting will be removed.</source>
-        <translation>Crea una lista puntata. Per creare una nuova lista, premi &quot;Inserisci&quot;. Per terminare una lista, premi il pulsante &quot;Inserisci&quot; in una lista vuota. Se premi questo pulsante quando il cursore è in una lista, la formattazione verrà rimossa.</translation>
+        <translation>Crea una lista puntata. Per creare una nuova lista, premi &quot;Inserisci&quot;. Per terminare una lista, premi il pulsante &quot;Inserisci&quot; in un elemento vuoto della lista. Se premi questo pulsante quando il cursore è in una lista, la formattazione verrà rimossa.</translation>
     </message>
     <message>
         <source>Create a numbered list. To create a new list item, press &quot;Enter&quot;. To end a list, press &quot;Enter&quot; key on an empty list item. If you click this button when the cursor is on a list item, the formatting will be removed.</source>
-        <translation>Crea una lista numerata. Per creare una nuova lista, premi &quot;Inserisci&quot;. Per terminare una lista, premi il pulsante &quot;Inserisci&quot; in una lista vuota. Se premi questo pulsante quando il cursore è in una lista, la formattazione verrà rimossa.</translation>
+        <translation>Crea una lista numerata. Per creare una nuova lista, premi &quot;Inserisci&quot;. Per terminare una lista, premi il pulsante &quot;Inserisci&quot; in un elemento vuoto della lista. Se premi questo pulsante quando il cursore è in una lista, la formattazione verrà rimossa.</translation>
     </message>
     <message>
         <source>Increase list indent. Use this button to change the level of a list item in a nested list.</source>
@@ -1207,11 +1207,11 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     </message>
     <message>
         <source>Decrease list indent. Use this button to change the level of a list item in a nested list.</source>
-        <translation>Diminuisce la rientranza della lista. Usa questo pulsante per modificare il livello di una lista in una lista annidata.</translation>
+        <translation>Diminuisci la rientranza della lista. Usa questo pulsante per modificare il livello di una lista in una lista annidata.</translation>
     </message>
     <message>
         <source>Undo the last operation in the editor. To undo more than one operation, keep clicking the button.</source>
-        <translation>Annulla l&apos;ultima operazione nell&apos;editor. Per annullare più di un&apos;operazione, continuate a premere il pulsante.</translation>
+        <translation>Annulla l&apos;ultima operazione nell&apos;editor. Per annullare più di un&apos;operazione, continua a premere il pulsante.</translation>
     </message>
     <message>
         <source>Reverse the &quot;Undo&quot; command.</source>
@@ -1235,7 +1235,7 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     </message>
     <message>
         <source>Insert an object from the related objects list, upload a new object, search for an existing object or browse for it. To upload a local file, click &quot;Upload new&quot; button choose the local file, specify the name of the new object, choose placement from list and then click &quot;Upload&quot; button. Note that embedded object will begin on a new line when displayed in the resulting XHTML.</source>
-        <translation>Inserisci un oggetto da una lista di oggetti correlate, carica un nuovo oggetto, cerca un oggetto esistente o naviga per cercarlo. Per caricare un file locale premi il pulsante &quot;Carica nuovo&quot;, scegli il file locale, specifica il nome del nuovo oggetto, scegli la posizione dalla lista e quindi premi il pulsante &quot;Carica&quot;. Nota che gli oggetti inclusi verranno inseriti in una nuova riga se mostrati nel XHTML risultante.</translation>
+        <translation>Inserisci un oggetto da una lista di oggetti correlate, carica un nuovo oggetto, cerca un oggetto esistente o naviga per cercarlo. Per caricare un file locale premi il pulsante &quot;Carica nuovo&quot;, scegli il file locale, specifica il nome del nuovo oggetto, scegli la posizione dalla lista e quindi premi il pulsante &quot;Carica&quot;. Nota che gli oggetti inclusi verranno inseriti in una nuova riga una volta mostrati nel XHTML risultante.</translation>
     </message>
     <message>
         <source>Create a custom tag. Optionally select the text you want to transform to a custom tag and click the button to open the insert custom tag window. Select the name of the custom tag you want to insert from the list, edit the attributes and click OK to insert it.</source>
@@ -1247,15 +1247,15 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     </message>
     <message>
         <source>Insert a special character. Click the button to open the special character window. Click on a character to insert it.</source>
-        <translation>Inserisce un carattere speciale. Premi il pulsante per aprire una finestra per i caratteri speciali. Clicca su un carattere per inserirlo.</translation>
+        <translation>Inserisci un carattere speciale. Premi il pulsante per aprire una finestra per i caratteri speciali. Clicca su un carattere per inserirlo.</translation>
     </message>
     <message>
         <source>Insert a pagebreak. This button is only enabled if you have a custom tag named pagebreak, template code to handle pagebreaks is not included in Online Editor.</source>
-        <translation>Inserisce un intervallo di pagina. Questo pulsante è attivo solo se hai una stringa personale chiamata intervallo di pagina, il codice di template per gestire gli intervalli di pagina non è incluso nell&apos;Online Editor.</translation>
+        <translation>Inserisci un intervallo di pagina. Questo pulsante è attivo solo se hai una stringa personale chiamata intervallo di pagina, il codice di template per gestire gli intervalli di pagina non è incluso nell&apos;Online Editor.</translation>
     </message>
     <message>
         <source>Insert a table at the selected position. Tables with their border set to 0 are displayed with a grey border color in the editor.</source>
-        <translation>Inserisce una tabella nella posizione scelta. Le tabelle col bordo impostato su 0 nell&apos;editor appaiono con un bordo grigio.</translation>
+        <translation>Inserisci una tabella nella posizione scelta. Le tabelle col bordo impostato su 0 nell&apos;editor appaiono con un bordo grigio.</translation>
     </message>
     <message>
         <source>Delete the currently selected table.</source>
@@ -1267,7 +1267,7 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     </message>
     <message>
         <source>Insert a column to the left of the current cell.</source>
-        <translation>Inserisce una colonna a sinistra della cella attuale.</translation>
+        <translation>Inserisci una colonna a sinistra della cella attuale.</translation>
     </message>
     <message>
         <source>Delete the current row.</source>
@@ -1275,11 +1275,11 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     </message>
     <message>
         <source>Insert a row bellow the current row.</source>
-        <translation>Inserisce una riga sotto la riga attuale.</translation>
+        <translation>Inserisci una riga sotto la riga attuale.</translation>
     </message>
     <message>
         <source>Split the current table cell into two cells.</source>
-        <translation>Suddivide la cella attuale in due celle.</translation>
+        <translation>Suddividi la cella attuale in due celle.</translation>
     </message>
     <message>
         <source>Merge the selected table cells into one cell. (Select several cells with shift+click or Ctrl+click)</source>
@@ -1287,7 +1287,7 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     </message>
     <message>
         <source>Open Online Editor xhtml source code editor. This button is not enabled by default, and is only intended for experienced users.</source>
-        <translation>Editore del codice aperto dell&apos;Online Editor xhtml. Questo pulsante non è abilitato per default, ed è rivolto ad utenti con esperienza.</translation>
+        <translation>Apri l&apos;Online Editor xhtml per il codice sorgente. Questo pulsante non è abilitato per default, ed è rivolto ad utenti esperti.</translation>
     </message>
     <message>
         <source>Edit the current content attribute in the whole browser window(&quot;Fullscreen&quot;). Click second time to go back to normal editing.</source>
@@ -1319,11 +1319,11 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     </message>
     <message>
         <source>You can create a new line by holding the Shift key down and pressing Enter key.</source>
-        <translation>Puoi creare una nuova linea tenendo premuto il tasto Shift e premendo il tasto Enter.</translation>
+        <translation>Puoi creare una nuova linea tenendo premuto il tasto Maiuscole e premendo il tasto Invio.</translation>
     </message>
     <message>
         <source>You can create a new paragraph by pressing the Enter key.</source>
-        <translation>Puoi creare un nuovo paragrafo premendo il tasto Enter.</translation>
+        <translation>Puoi creare un nuovo paragrafo premendo il tasto Invio.</translation>
     </message>
     <message>
         <source>The status bar will show the current tag name and all its parent tags. You can view more information about the tags by hovering over them.</source>
@@ -1383,7 +1383,7 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     </message>
     <message>
         <source>Replace a string or a word in your text. This button is not enabled by default.</source>
-        <translation>Sostituisce una stringa o una parola nel testo. Questo pulsante non è abilitato per default.</translation>
+        <translation>Sostituisci una stringa o una parola nel testo. Questo pulsante non è abilitato per default.</translation>
     </message>
     <message>
         <source>Dialog to paste text from word, the dialog will handle cleaning the content from word.</source>
@@ -1470,7 +1470,7 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be a valid integer number</source>
-        <translation>&amp;quot;%label&amp;quot; dev&apos;essere un numero intero</translation>
+        <translation>&amp;quot;%label&amp;quot; dev&apos;essere un numero intero valido</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be a valid absolute url address</source>
@@ -1501,11 +1501,11 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     <name>design/standard/ezoe/wai</name>
     <message>
         <source>Upload file from your local machine.</source>
-        <translation>Carica file dal tuo computer locale.</translation>
+        <translation>Carica il file dal tuo computer locale.</translation>
     </message>
     <message>
         <source>Search for content already in eZ Publish.</source>
-        <translation>Cerca contenuti già su eZ Publish.</translation>
+        <translation>Cerca contenuti già presenti su eZ Publish.</translation>
     </message>
     <message>
         <source>Browse the content tree in eZ Publish.</source>
@@ -1513,7 +1513,7 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     </message>
     <message>
         <source>Select or browse content among your personal eZ Publish bookmarks.</source>
-        <translation>Seleziona o naviga in cerca di contenuti tra i tuoi personali preferiti eZ Publish.</translation>
+        <translation>Seleziona o naviga in cerca di contenuti tra i tuoi personali preferiti su eZ Publish.</translation>
     </message>
     <message>
         <source>Name for the uploaded object, filename is used if none is specified.</source>
