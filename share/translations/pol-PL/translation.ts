@@ -2722,7 +2722,7 @@
     </message>
     <message>
         <source>There is no need to make copies of untouched drafts.</source>
-        <translation type="unfinished">Nie ma potrzeby tworzenia kopii nietkniętych obiektów.</translation>
+        <translation>Nie ma potrzeby tworzenia kopii nienaruszonych obiektów.</translation>
     </message>
     <message>
         <source>You cannot make copies of versions because you do not have permission to edit the object.</source>
@@ -3429,7 +3429,7 @@
     </message>
     <message>
         <source>Country/region variation</source>
-        <translation type="unfinished"></translation>
+        <translation>Wariacja kraju/regionu</translation>
     </message>
 </context>
 <context>
@@ -3737,11 +3737,11 @@
     </message>
     <message>
         <source>Edit the contents for language %language.</source>
-        <translation type="unfinished"></translation>
+        <translation>Edytuj zawartość dla języka %language.</translation>
     </message>
     <message>
         <source>You cannot edit the contents for language %language because you do not have permission to edit the object.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie możesz edytować obiektu dla języka %language, ponieważ nie posiadasz uprawnień do edycji tego obiektu.</translation>
     </message>
     <message>
         <source>Create new alias</source>
@@ -3785,35 +3785,35 @@
     </message>
     <message>
         <source>If checked the alias will start from the parent of the current node. If un-checked the aliases will start from the root of the site.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeśli zaznaczono, alias rozpocznie się od rodzica bieżącego węzła. W przeciwnym razie aliasy rozpoczną się od węzła głównego witryny.</translation>
     </message>
     <message>
         <source>Place alias on the site root</source>
-        <translation type="unfinished"></translation>
+        <translation>Umieść alias w węźle głównym witryny</translation>
     </message>
     <message>
         <source>The new alias be placed under %link</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowy alias będzie dostępny pod %link</translation>
     </message>
     <message>
         <source>&lt;em&gt;Un-check&lt;/em&gt; to create the new alias under %link. Leave it checked and the new alias will be created on &lt;em&gt;&lt;a href=&apos;/&apos;&gt;%siteroot&lt;/a&gt;&lt;/em&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;em&gt;Odznacz&lt;/em&gt; aby stworzyć nowy alias pod %link. Jeśli pozostawisz to pole zaznaczone nowy alias zostanie stworzony w &lt;em&gt;&lt;a href=&apos;/&apos;&gt;%siteroot&lt;/a&gt;&lt;/em&gt;.</translation>
     </message>
     <message>
         <source>Include in other languages</source>
-        <translation type="unfinished"></translation>
+        <translation>Dostępny w pozostałych językach</translation>
     </message>
     <message>
         <source>Create new URL forwarding with wildcard</source>
-        <translation type="unfinished"></translation>
+        <translation>Utwórz nowe przekierowanie URL ze wzorcem</translation>
     </message>
     <message>
         <source>Redirecting URL</source>
-        <translation type="unfinished">Przekierowujący URL</translation>
+        <translation>Przekierowujący URL</translation>
     </message>
     <message>
         <source>URL aliases for &lt;%node_name&gt; (%alias_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Aliasy URL dla &lt;%node_name&gt; (%alias_count)</translation>
     </message>
     <message>
         <source>Generated aliases (%count)</source>
@@ -3824,314 +3824,314 @@
     <name>design/admin/content/urlalias_global</name>
     <message>
         <source>Alias should redirect to its destination</source>
-        <translation type="unfinished">Alias powinień przekierować do miejsca przeznaczenia</translation>
+        <translation>Alias powinień przekierować do adresu docelowego</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation type="unfinished">Utwórz</translation>
+        <translation>Utwórz</translation>
     </message>
     <message>
         <source>Create a new global URL alias.</source>
-        <translation type="unfinished"></translation>
+        <translation>Utwórz nowy globalny alias URL.</translation>
     </message>
     <message>
         <source>The selected aliases were successfully removed.</source>
-        <translation type="unfinished">Zaznaczone aliasy zostały pomyślnie usunięte.</translation>
+        <translation>Zaznaczone aliasy zostały pomyślnie usunięte.</translation>
     </message>
     <message>
         <source>All global aliases were successfully removed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystkie globalne aliasy zostały pomyślnie usunięte.</translation>
     </message>
     <message>
         <source>The specified language code &lt;%language&gt; is not valid.</source>
-        <translation type="unfinished">Podany kod języka &lt;%language&gt; jest nieprawidłowy.</translation>
+        <translation>Podany kod języka &lt;%language&gt; jest nieprawidłowy.</translation>
     </message>
     <message>
         <source>Text is missing for the URL alias</source>
-        <translation type="unfinished">Tekst jest zagubiony dla aliasu URL</translation>
+        <translation>Brakuje tekstu dla aliasu URL</translation>
     </message>
     <message>
         <source>Enter text in the input box to create a new alias.</source>
-        <translation type="unfinished">Wprowadź tekst w polu tekstowy aby utworzyć nowy alias.</translation>
+        <translation>Wprowadź tekst w polu tekstowym aby utworzyć nowy alias.</translation>
     </message>
     <message>
         <source>Text is missing for the URL alias destination</source>
-        <translation type="unfinished"></translation>
+        <translation>Brakuje tekstu dla adresu docelowego aliasu URL</translation>
     </message>
     <message>
         <source>Enter some text in the destination input box to create a new alias.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadź tekst dla adresu docelowego w odpowiednie pole, aby utworzyć nowy alias.</translation>
     </message>
     <message>
         <source>The specified destination URL %url does not exist in the system, cannot create alias for it</source>
-        <translation type="unfinished"></translation>
+        <translation>Podany docelowy adres URL %url nie istnieje w systemie, nie można utworzyć dla niego aliasu</translation>
     </message>
     <message>
         <source>Ensure that the destination points to a valid entry, one of:</source>
-        <translation type="unfinished"></translation>
+        <translation>Upewnij się, że adres docelowy wskazuje na istniejącą lokalizację, jedną z:</translation>
     </message>
     <message>
         <source>Built-in functionality, e.g. %example.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wbudowaną funkcję, np. %example.</translation>
     </message>
     <message>
         <source>Existing aliases for the content structure.</source>
-        <translation type="unfinished"></translation>
+        <translation>Istniejące aliasy dla zawartości.</translation>
     </message>
     <message>
         <source>The URL alias was successfully created, but was modified by the system to &lt;%new_alias&gt;</source>
-        <translation type="unfinished">Alias URL został pomyślnie dodany ale został zmodyfikowany przez system do postaci &lt;%new_alias&gt;</translation>
+        <translation>Alias URL został pomyślnie stworzony, lecz został zmodyfikowany przez system do postaci &lt;%new_alias&gt;</translation>
     </message>
     <message>
         <source>Note that the new alias points to a node and will not be displayed in the global list. It can be examined on the URL-Alias page of the node, %node_link.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zauważ, że nowy aliasy kieruje do węzła i nie będzie wyświetlany na globalnej liście. Będzie natomiast widoczny na stronie URL-Alias ​​w widoku węzła, %node_link.</translation>
     </message>
     <message>
         <source>Invalid characters will be removed or transformed to valid characters.</source>
-        <translation type="unfinished">Nieprawidłowe znaki zostaną usunięte lub zamienione na prawidłow.</translation>
+        <translation>Nieprawidłowe znaki zostaną usunięte lub zamienione na prawidłowe.</translation>
     </message>
     <message>
         <source>Existing objects or functionality with the same name take precedence on the name.</source>
-        <translation type="unfinished">Istniejące obiekty lub funkcje z taką samą nazwą mają pierwszeństwo na daną nazwę.</translation>
+        <translation>Istniejące obiekty lub funkcje o tej samej nazwie mają pierwszeństwo.</translation>
     </message>
     <message>
         <source>The URL alias &lt;%new_alias&gt; was successfully created</source>
-        <translation type="unfinished">Alias URL &lt;%new_alias&gt; został utworzony</translation>
+        <translation>Alias URL &lt;%new_alias&gt; został pomyślnie utworzony</translation>
     </message>
     <message>
         <source>The URL alias &amp;lt;%new_alias&amp;gt; already exists, and it points to &amp;lt;%action_url&amp;gt;</source>
-        <translation type="unfinished">Alias URL &amp;lt;%new_alias&amp;gt; już istnieje i wskazuje na &amp;lt;%action_url&amp;gt;</translation>
+        <translation>Alias URL &amp;lt;%new_alias&amp;gt; już istnieje i wskazuje na &amp;lt;%action_url&amp;gt;</translation>
     </message>
     <message>
         <source>Globally defined URL aliases [%alias_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>Aliasy URL zdefiniowane globalnie [%alias_count]</translation>
     </message>
     <message>
         <source>Show %number_of items per page.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokazuj %number_of na stronę.</translation>
     </message>
     <message>
         <source>The global list does not contain any aliases.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lista globalna nie zawiera żadnych aliasów.</translation>
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished">Odwróć zaznaczenie.</translation>
+        <translation>Odwróć zaznaczenie.</translation>
     </message>
     <message>
         <source>URL alias</source>
-        <translation type="unfinished">Alias URL</translation>
+        <translation>Alias URL</translation>
     </message>
     <message>
         <source>Destination</source>
-        <translation type="unfinished"></translation>
+        <translation>Adres docelowy</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation type="unfinished">Język</translation>
+        <translation>Język</translation>
     </message>
     <message>
         <source>Always available</source>
-        <translation type="unfinished"></translation>
+        <translation>Zawsze dostępny</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Typ</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <source>Redirect</source>
-        <translation type="unfinished">Przekierowanie</translation>
+        <translation>Przekierowanie</translation>
     </message>
     <message>
         <source>Direct</source>
-        <translation type="unfinished">Bezpośrednio</translation>
+        <translation>Bezpośrednio</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished">Usuń zaznaczone</translation>
+        <translation>Usuń zaznaczone</translation>
     </message>
     <message>
         <source>Remove selected aliases from the list above.</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń zaznaczone aliasy z powyższej listy.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove the selected aliases?</source>
-        <translation type="unfinished">Czy na pewno chcesz usunąć wybrane aliasy?</translation>
+        <translation>Czy na pewno chcesz usunąć wybrane aliasy?</translation>
     </message>
     <message>
         <source>Remove all</source>
-        <translation type="unfinished">Usuń wszystko</translation>
+        <translation>Usuń wszystkie</translation>
     </message>
     <message>
         <source>Remove all global aliases.</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń wszystkie globalne aliasy.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove all global aliases?</source>
-        <translation type="unfinished"></translation>
+        <translation>Czy na pewno chcesz usunąć wszystkie globalne aliasy?</translation>
     </message>
     <message>
         <source>There are no removable aliases.</source>
-        <translation type="unfinished">Nie ma wymiennych aliasów.</translation>
+        <translation>Brak aliasów do usunięcia.</translation>
     </message>
     <message>
         <source>New URL alias</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowy alias URL</translation>
     </message>
     <message>
         <source>Enter the URL for the new alias. Use forward slashes (/) to create subentries.</source>
-        <translation type="unfinished">Wpisz URL dla nowego aliasu. Użyj ukośników (/) aby utworzyć pozycje podrzędne.</translation>
+        <translation>Wprowadź URL dla nowego aliasu. Użyj ukośników (/) aby utworzyć pozycje podrzędne.</translation>
     </message>
     <message>
         <source>Enter the destination URL for the new alias. Use forward slashes (/) to create subentries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadź docelowy adres URL dla nowego aliasu. Użyj ukośników (/) aby utworzyć pozycje podrzędne.</translation>
     </message>
     <message>
         <source>Choose the language for the new URL alias.</source>
-        <translation type="unfinished">Wybierz język nowego aliasu URL.</translation>
+        <translation>Wybierz język dla nowego aliasu URL.</translation>
     </message>
     <message>
         <source>Makes the alias available in languages other than the one specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapewnia, że ​​alias URL będzie dostępny w językach innych niż wybrany.</translation>
     </message>
     <message>
         <source>Destination (path to existing functionality or resource)</source>
-        <translation type="unfinished"></translation>
+        <translation>Adres docelowy (ścieżka do istniejącej funkcji lub zasobu)</translation>
     </message>
     <message>
         <source>Globally defined URL aliases (%alias_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Aliasy URL zdefiniowane globalnie (%alias_count)</translation>
     </message>
 </context>
 <context>
     <name>design/admin/content/urlalias_wildcard</name>
     <message>
         <source>The selected aliases were successfully removed.</source>
-        <translation type="unfinished">Zaznaczone aliasy zostały pomyślnie usunięte.</translation>
+        <translation>Zaznaczone aliasy zostały pomyślnie usunięte.</translation>
     </message>
     <message>
         <source>All wildcard aliases were successfully removed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystkie wzorce aliasów zostały pomyślnie usunięte.</translation>
     </message>
     <message>
         <source>Text is missing for the URL alias</source>
-        <translation type="unfinished">Tekst jest zagubiony dla aliasu URL</translation>
+        <translation>Brakuje tekstu dla aliasu URL</translation>
     </message>
     <message>
         <source>Enter text in the input box to create a new alias.</source>
-        <translation type="unfinished">Wprowadź tekst w polu tekstowy aby utworzyć nowy alias.</translation>
+        <translation>Wprowadź tekst w polu tekstowym w celu utworzenia nowego aliasu.</translation>
     </message>
     <message>
         <source>Text is missing for the URL alias destination</source>
-        <translation type="unfinished"></translation>
+        <translation>Brakuje tekstu dla adresu docelowego aliasu URL</translation>
     </message>
     <message>
         <source>Enter some text in the destination input box to create a new alias.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadź tekst w polu tekstowym adresu docelowego w celu utworzenia nowego aliasu.</translation>
     </message>
     <message>
         <source>The URL alias &lt;%wildcard_src_url&gt; was successfully created</source>
-        <translation type="unfinished"></translation>
+        <translation>Alias ​​URL &lt;%wildcard_src_url&gt; został pomyślnie utworzony</translation>
     </message>
     <message>
         <source>The URL alias &lt;%wildcard_src_url&gt; already exists, and it points to &lt;%wildcard_dst_url&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Alias ​​URL &lt;%wildcard_src_url&gt; już istnieje i wskazuje na &lt;%wildcard_dst_url&gt;</translation>
     </message>
     <message>
         <source>Defined URL aliases with wildcard[%wildcard_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>Aliasy URL ze wzorcami [%wildcard_count]</translation>
     </message>
     <message>
         <source>Show %number_of items per page.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokazuj %number_of elementów na stronę.</translation>
     </message>
     <message>
         <source>The URL wildcard list does not contain any aliases.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lista wzorców URL nie zawiera żadnych aliasów.</translation>
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished">Odwróć zaznaczenie.</translation>
+        <translation>Odwróć zaznaczenie.</translation>
     </message>
     <message>
         <source>URL alias wildcard</source>
-        <translation type="unfinished"></translation>
+        <translation>Wzorzec aliasu URL</translation>
     </message>
     <message>
         <source>Destination</source>
-        <translation type="unfinished"></translation>
+        <translation>Adres docelowy</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Typ</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <source>Forward</source>
-        <translation type="unfinished"></translation>
+        <translation>Przekierowanie</translation>
     </message>
     <message>
         <source>Direct</source>
-        <translation type="unfinished">Bezpośrednio</translation>
+        <translation>Bezpośrednio</translation>
     </message>
     <message>
         <source>Undefined</source>
-        <translation type="unfinished">Niezdefiniowany</translation>
+        <translation>Niezdefiniowano</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished">Usuń zaznaczone</translation>
+        <translation>Usuń zaznaczone</translation>
     </message>
     <message>
         <source>Remove selected aliases from the list above.</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń zaznaczone aliasy z powyższej listy.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove the selected wildcards?</source>
-        <translation type="unfinished"></translation>
+        <translation>Czy na pewno chcesz usunąć wybrane wzorce URL?</translation>
     </message>
     <message>
         <source>Remove all</source>
-        <translation type="unfinished">Usuń wszystko</translation>
+        <translation>Usuń wszystkie</translation>
     </message>
     <message>
         <source>Remove all wildcard aliases.</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń wszystkie aliasy wzorców URL.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove all wildcard aliases?</source>
-        <translation type="unfinished"></translation>
+        <translation>Czy na pewno chcesz usunąć wszystkie aliasy wzorców URL?</translation>
     </message>
     <message>
         <source>There are no removable aliases.</source>
-        <translation type="unfinished">Nie ma wymiennych aliasów.</translation>
+        <translation>Brak aliasów do usunięcia.</translation>
     </message>
     <message>
         <source>New URL wildcard</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowy wzorzec URL</translation>
     </message>
     <message>
         <source>Perform redirecting.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykonuje przekierowanie.</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation type="unfinished">Utwórz</translation>
+        <translation>Utwórz</translation>
     </message>
     <message>
         <source>Create a new wildcard URL alias.</source>
-        <translation type="unfinished"></translation>
+        <translation>Utwórz nowy wzorzec URL.</translation>
     </message>
     <message>
         <source>Enter the URL for the new wildcard. Example: developer/*</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadź adres URL dla nowego wzorca. Przykład: developer/*</translation>
     </message>
     <message>
         <source>Enter the destination URL for the new wildcard. Example: dev/{1\}</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadź docelowy adres URL dla nowego wzorca. Przykład: dev/{1\}</translation>
     </message>
     <message>
         <source>Defined URL aliases with wildcard(%wildcard_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Aliasy URL ze wzorcem (%wildcard_count)</translation>
     </message>
 </context>
 <context>
@@ -4375,27 +4375,27 @@
     </message>
     <message>
         <source>You cannot manage the versions of this object because there is only one version available (the one that is being displayed).</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie możesz zarządzać wersjami tego obiektu, ponieważ dostępna jest tylko jedna wersja (obecnie wyświetlana).</translation>
     </message>
     <message>
         <source>This version is not a draft and therefore cannot be edited.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ta wersja nie jest szkicem i dlatego nie może być edytowana.</translation>
     </message>
     <message>
         <source>Translation mismatch</source>
-        <translation type="unfinished"></translation>
+        <translation>Niezgodność tłumaczenia</translation>
     </message>
     <message>
         <source>Your selected translation does not match the language of your selected siteaccess. This may lead to unexpected results in the preview, however it may also be what you intended.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybrane tłumaczenie nie pasuje do języka wybranego dostępu do strony. Może to prowadzić do nieoczekiwanych wyników w podglądzie, jednak może to być również wynikiem zamierzonego działania.</translation>
     </message>
     <message>
         <source>Back to edit</source>
-        <translation type="unfinished">Powrót do edycji</translation>
+        <translation>Powrót do edycji</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Powrót</translation>
     </message>
 </context>
 <context>
@@ -4430,7 +4430,7 @@
     </message>
     <message>
         <source>Dynamic tree not allowed for this siteaccess</source>
-        <translation>Dynamiczne drzewo nie jest dostępny dla tego siteaccess&apos;a</translation>
+        <translation>Dynamiczne drzewo nie jest dostępny dla tego dostępu do strony (siteaccess)</translation>
     </message>
     <message>
         <source>Node does not exist</source>
@@ -4450,7 +4450,7 @@
     </message>
     <message>
         <source>Dynamic tree menu is disabled for this siteaccess!</source>
-        <translation type="unfinished"></translation>
+        <translation>Dynamiczne drzewo jest wyłączone dla tego dostępu do strony (siteaccess)!</translation>
     </message>
 </context>
 <context>
@@ -4512,19 +4512,19 @@
     </message>
     <message>
         <source>Modified</source>
-        <translation>Data </translation>
+        <translation>Zmodyfikowano</translation>
     </message>
     <message>
         <source>Edit &lt;%draft_name&gt;.</source>
-        <translation type="unfinished">Edytuj &lt;%draft_name&gt;.</translation>
+        <translation>Edytuj &lt;%draft_name&gt;.</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Edytuj</translation>
     </message>
     <message>
         <source>Currently you do not have any drafts available.</source>
-        <translation>Aktualnie nie masz szkicy.</translation>
+        <translation>Aktualnie nie masz szkiców.</translation>
     </message>
 </context>
 <context>
@@ -4616,23 +4616,23 @@
     </message>
     <message>
         <source>Currently you do not have any products on your wish list.</source>
-        <translation>Aktualnie nie masz żadnych produktów na liście życzenia.</translation>
+        <translation>Aktualnie nie masz żadnych produktów na liście życzeń.</translation>
     </message>
     <message>
         <source>Published</source>
-        <translation type="unfinished"></translation>
+        <translation>Opublikowano</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Edytuj</translation>
     </message>
     <message>
         <source>Edit &lt;%item_name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Edytuj &lt;%item_name&gt;.</translation>
     </message>
     <message>
         <source>You do not have permission to edit &lt;%item_name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie masz uprawnień do edycji &lt;%item_name&gt;.</translation>
     </message>
 </context>
 <context>
@@ -4760,43 +4760,43 @@
     </message>
     <message>
         <source>The draft could not be created. (5)</source>
-        <translation type="unfinished"></translation>
+        <translation>Szkic nie mógł zostać utworzony. (5)</translation>
     </message>
     <message>
         <source>Invalid language code provided. The draft could not be created.</source>
-        <translation type="unfinished"></translation>
+        <translation>Podano nieprawidłowy kod języka. Szkic nie mógł zostać utworzony.</translation>
     </message>
     <message>
         <source>You are not logged in to the system. Please log in.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie jesteś zalogowany do systemu. Proszę się zalogować.</translation>
     </message>
     <message>
         <source>The site is using URL matching to determine which siteaccess to use, but the name of the siteaccess is missing from the URL. Try to add the name of the siteaccess; it should be specified before the name of the module.</source>
-        <translation type="unfinished"></translation>
+        <translation>Witryna określa dostęp do strony (siteaccess) na podstawie adresu URL, jednak w adresie brakuje informacji o dostępie do strony. Spróbuj dodać nazwę dostępu do strony; powinna znaleźć się przed nazwą modułu.</translation>
     </message>
     <message>
         <source>The requested view cannot be accessed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Żądany widok jest niedostępny.</translation>
     </message>
     <message>
         <source>The &lt;%view&gt; within the &lt;%module&gt; is disabled and thus it cannot be accessed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Widok &lt;%view&gt; w module &lt;%module&gt; jest wyłączony i dlatego nie jest dostępny.</translation>
     </message>
     <message>
         <source>The requested module cannot be accessed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Żądany moduł jest niedostępny.</translation>
     </message>
     <message>
         <source>The &lt;%module&gt; module is disabled and thus it cannot be accessed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Moduł &lt;%module&gt; jest wyłączony i dlatego nie jest dostępny.</translation>
     </message>
     <message>
         <source>The ID number of the object is incorrect. Check the URL for spelling mistakes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Identyfikator obiektu jest niepoprawny. Sprawdź, czy nie popełniłeś błędu w adresie URL.</translation>
     </message>
     <message>
         <source>If redirection fails, click on the following address: %url.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeśli przekierowanie nie powiedzie się, kliknij na poniższy adres: %url.</translation>
     </message>
 </context>
 <context>
@@ -4827,11 +4827,11 @@
     </message>
     <message>
         <source>&apos;%1&apos; currency does not exist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Waluta &apos;%1&apos; nie istnieje.</translation>
     </message>
     <message>
         <source>&apos;%1&apos; cannot be used because it is inactive.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;%1&apos; nie może być stosowana, ponieważ jest nieaktywna.</translation>
     </message>
 </context>
 <context>
@@ -4854,15 +4854,15 @@
     </message>
     <message>
         <source>eZ Publish information: %version</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacje o eZ Publish: %version</translation>
     </message>
     <message>
         <source>What is eZ Publish?</source>
-        <translation type="unfinished"></translation>
+        <translation>Czym jest eZ Publish?</translation>
     </message>
     <message>
         <source>License</source>
-        <translation type="unfinished">Licencja</translation>
+        <translation>Licencja</translation>
     </message>
 </context>
 <context>
@@ -5040,7 +5040,7 @@
     </message>
     <message>
         <source>Override templates</source>
-        <translation type="unfinished">Nadpisane szablony</translation>
+        <translation>Nadpisane szablony</translation>
     </message>
 </context>
 <context>
@@ -5146,65 +5146,65 @@
     </message>
     <message>
         <source>Some of the subtrees or objects selected for removal are used by other objects. Select the menu from the content tree, and</source>
-        <translation type="unfinished">Niektóre z gałęzi zawartości lub obiektów zaznaczonych do usunięcia są używane przez inne obiekty. Zaznacz menu z drzewa zawartości i</translation>
+        <translation>Niektóre zaznaczone do usunięcia poddrzewa lub obiekty są używane przez inne obiekty. Wybierz menu z drzewa zawartości i</translation>
     </message>
     <message>
         <source>Advanced</source>
-        <translation type="unfinished">Rozszerzone</translation>
+        <translation>Zaawansowane</translation>
     </message>
     <message>
         <source>Reverse related for subtree</source>
-        <translation type="unfinished">Powiązane zwrotne z gałęzią drzewa zawartości</translation>
+        <translation>Powiązane zwrotnie z poddrzewem</translation>
     </message>
     <message>
         <source>Some of the objects selected for removal are used by other objects. Select the menu from the content tree, and</source>
-        <translation type="unfinished">Niektóre z zaznaczonych do usunięcia elementów są wykorzystywane przez inne obiekty. Zanznacz menu w drzewie zawartości i</translation>
+        <translation>Niektóre z zaznaczonych do usunięcia obiektów są wykorzystywane przez inne obiekty. Wybierz menu z drzewa zawartości i</translation>
     </message>
     <message>
         <source>Specify the location where you want to restore &lt;%name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Określ położenie, do którego chcesz przywrócić &lt;%name&gt;.</translation>
     </message>
     <message>
         <source>The lines marked with red contain more than the maximum possible nodes for subtree removal and will not be deleted. You can remove this subtree using the ezsubtreeremove.php script.</source>
-        <translation type="unfinished"></translation>
+        <translation>Linie oznaczone kolorem czerwonym zawierają większą niż dopuszczalną liczbę węzłów do usunięcia, dlatego nie zostaną usunięte. Możesz usunąć to drzewo używając skryptu ezsubtreeremove.php.</translation>
     </message>
     <message>
         <source>The lines marked with red contain items that you do not have permission to remove.</source>
-        <translation type="unfinished"></translation>
+        <translation>Linie oznaczone kolorem czerwonym zawierają elementy, do usunięcia których nie masz uprawnień.</translation>
     </message>
     <message>
         <source>You cannot continue because you do not have permission to remove some of the selected locations.</source>
-        <translation type="unfinished">Nie możesz kontynuować, ponieważ nie masz uprawnień do usunięcia niektórych z wybranych lokalizacji.</translation>
+        <translation>Nie możesz kontynuować, ponieważ nie masz uprawnień do usunięcia niektórych z wybranych lokalizacji.</translation>
     </message>
     <message>
         <source>The system will let you restore the object &lt;%name&gt;. Specify where you wish to restore it.</source>
-        <translation type="unfinished"></translation>
+        <translation>System umożliwi Ci przywrócenie obiektu &lt;%name&gt;. Określ, gdzie chcesz go przywrócić.</translation>
     </message>
     <message>
         <source>Pending sub-object</source>
-        <translation type="unfinished"></translation>
+        <translation>Oczekujące obiekty</translation>
     </message>
     <message>
         <source>Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.</source>
-        <translation type="unfinished"></translation>
+        <translation>Usunięcie nie powiodło się, ponieważ w węźle znajduje się obiekt, na którym wykonywana jest operacja. Proszę zakończyć dany proces, a następnie powtórzyć operację usunięcia.</translation>
     </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
     <message>
         <source>Two-level index for &lt;%node_name&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Przegląd dwóch poziomach dla &lt;%node_name&gt;</translation>
     </message>
 </context>
 <context>
     <name>design/admin/node/view/embed</name>
     <message>
         <source> - You do not have permission to view this object</source>
-        <translation type="unfinished"></translation>
+        <translation> - Nie masz uprawnień do wyświetlania tego obiektu</translation>
     </message>
     <message>
         <source>You do not have permission to view this object</source>
-        <translation type="unfinished">Nie masz uprawnień do oglądania tego obiektu</translation>
+        <translation>Nie masz uprawnień do wyświetlania tego obiektu</translation>
     </message>
 </context>
 <context>
@@ -5707,7 +5707,7 @@
     </message>
     <message>
         <source>Published at</source>
-        <translation type="unfinished">Opublikowany w</translation>
+        <translation>Opublikowano</translation>
     </message>
     <message>
         <source>Another language</source>
@@ -6979,7 +6979,7 @@ Uwaga: Pakiety nie będą mogły być odinstalowane.
     <name>design/admin/pagelayout/leftmenu</name>
     <message>
         <source>Show / Hide leftmenu</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż / ukryj menu po lewej stronie</translation>
     </message>
 </context>
 <context>
@@ -9254,7 +9254,7 @@ Uwaga: Pakiety nie będą mogły być odinstalowane.
     </message>
     <message>
         <source>Identifier</source>
-        <translation type="unfinished">Identyfikator</translation>
+        <translation>Identyfikator</translation>
     </message>
 </context>
 <context>
@@ -9333,15 +9333,15 @@ Uwaga: Pakiety nie będą mogły być odinstalowane.
     </message>
     <message>
         <source>Assign subtree</source>
-        <translation type="unfinished"></translation>
+        <translation>Przypisz poddrzewo</translation>
     </message>
     <message>
         <source>Assign subtree of objects to this section</source>
-        <translation type="unfinished"></translation>
+        <translation>Przypisz poddrzewo obiektów do tej sekcji</translation>
     </message>
     <message>
         <source>Identifier</source>
-        <translation type="unfinished">Identyfikator</translation>
+        <translation>Identyfikator</translation>
     </message>
 </context>
 <context>
@@ -9532,23 +9532,23 @@ Uwaga: Pakiety nie będą mogły być odinstalowane.
     </message>
     <message>
         <source>Siteaccess</source>
-        <translation type="unfinished">Dostęp do strony</translation>
+        <translation>Dostęp do strony</translation>
     </message>
     <message>
         <source>Values for each location setting are shown. The first values are lowest priority; the values toward the end have higher priority than the first ones.</source>
-        <translation type="unfinished"></translation>
+        <translation>Widoczne są wartości dla każdego ustawienia lokalizacji. Pierwsze wartości mają najniższy priorytet, im bliżej końca listy tym wyższy priorytet.</translation>
     </message>
     <message>
         <source>Setting name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa ustawienia</translation>
     </message>
     <message>
         <source>Choose another name that is not already in use</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz inną nazwę, która nie jest już używana</translation>
     </message>
     <message>
         <source>Make sure you have permission to %path and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Upewnij się, że masz uprawnienia do %path i spróbuj ponownie.</translation>
     </message>
     <message>
         <source>Please select an ini file from the drop-down below</source>
@@ -9599,27 +9599,27 @@ Uwaga: Pakiety nie będą mogły być odinstalowane.
     </message>
     <message>
         <source>Warning: it is not safe to upgrade without checking the modifications done to the following files</source>
-        <translation type="unfinished"></translation>
+        <translation>Uwaga: nie zaleca się przeprowadzania aktualizacji bez uprzedniego sprawdzenia zmian dokonanych w następujących plikach</translation>
     </message>
     <message>
         <source>Before upgrading eZ Publish to a newer version, it is important to check that the current installation is ready for upgrading.</source>
-        <translation type="unfinished"></translation>
+        <translation>Przed aktualizacją eZ Publish do nowszej wersji, powinno się sprawdzić, czy bieżąca instalacja jest do niej gotowa.</translation>
     </message>
     <message>
         <source>Remember to make a backup of the eZ Publish directory and the database before you upgrade.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pamiętaj o zrobieniu kopii zapasowej katalogu eZ Publish i bazy danych przed uaktualnieniem.</translation>
     </message>
     <message>
         <source>The file consistency tool checks if you have altered any of the files that came with the current installation. Altered files may be replaced by new versions that contain bugfixes, new features, etc. Make sure that you backup and then merge your changes into the new versions of the files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Narzędzie do badania spójności plików sprawdzi, czy którykolwiek z plików dostarczonych wraz z bieżącą instalacją został zmieniony. Zmodyfikowane pliki mogą zostać zastąpione przez ich nowsze wersje, zawierające poprawki błędów, nowe funkcje itp. Upewnij się, że posiadasz kopię zapasową zmian, żebyś mógł je scalić w nowych wersjach plików.</translation>
     </message>
     <message>
         <source>The database consistency tool checks if the current database is consistent with the database schema that came with the eZ Publish distribution. If there are any inconsistencies, the tool will suggest the necessary SQL statements that should be run in order to bring the database into a consistent state. Please run the suggested SQL statements before upgrading.</source>
-        <translation type="unfinished"></translation>
+        <translation>Narzędzie do badania spójności bazy danych sprawdzi, czy bieżąca baza danych jest zgodna ze schematem bazy danych dostarczonej wraz z dystrybucją eZ Publish. W przypadku znalezienia niespójności, narzędzie zaproponuje niezbędne polecenia SQL, które powinny być wykoname w celu doprowadzenia bazy danych do spójnego stanu. Proszę wykonać sugerowane polecenia SQL przed uaktualnieniem.</translation>
     </message>
     <message>
         <source>The upgrade checking tools require a lot of system resources. They may take some time to run.</source>
-        <translation type="unfinished"></translation>
+        <translation>Narzędzia sprawdzania aktualizacji wymagają znacznych zasobów systemowych. Ich działanie może zająć trochę czasu.</translation>
     </message>
 </context>
 <context>
@@ -18624,23 +18624,23 @@ If you want to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Incompatible product type</source>
-        <translation type="unfinished">Niekompatybilny typ produktu</translation>
+        <translation>Niezgodny typ produktu</translation>
     </message>
     <message>
         <source>The requested object and current basket have incompatible price datatypes.</source>
-        <translation type="unfinished">Żądany obiekt i aktualny koszyk mają niekompatybilne typy cen.</translation>
+        <translation>Żądany obiekt i aktualny koszyk mają niezgodne typy cen.</translation>
     </message>
     <message>
         <source>Invalid preferred currency</source>
-        <translation type="unfinished">Nieodpowiednia preferowana waluta</translation>
+        <translation>Nieprawidłowa preferowana waluta</translation>
     </message>
     <message>
         <source>&apos;%1&apos; currency does not exist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Waluta &apos;%1&apos; nie istnieje.</translation>
     </message>
     <message>
         <source>&apos;%1&apos; cannot be used because it is inactive.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;%1&apos; nie może być stosowana, ponieważ jest nieaktywna.</translation>
     </message>
 </context>
 <context>
@@ -28485,107 +28485,107 @@ your account.</source>
     <name>kernel/workflow</name>
     <message>
         <source>Edit workflow</source>
-        <translation type="unfinished">Edytuj łańcuch zdarzeń</translation>
+        <translation>Edytuj łańcuch zdarzeń</translation>
     </message>
     <message>
         <source>Workflow</source>
-        <translation type="unfinished">Łańcuch zdarzeń</translation>
+        <translation>Łańcuch zdarzeń</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Edycja</translation>
+        <translation>Edycja</translation>
     </message>
     <message>
         <source>Edit workflow group</source>
-        <translation type="unfinished">Edycja grupy łańcucha zdarzeń</translation>
+        <translation>Edycja grupy łańcucha zdarzeń</translation>
     </message>
     <message>
         <source>Group edit</source>
-        <translation type="unfinished">Edycja grupy</translation>
+        <translation>Edycja grupy</translation>
     </message>
     <message>
         <source>Workflow group list</source>
-        <translation type="unfinished">Lista grup łańcucha zdarzeń</translation>
+        <translation>Lista grup łańcucha zdarzeń</translation>
     </message>
     <message>
         <source>Group list</source>
-        <translation type="unfinished">Lista grup</translation>
+        <translation>Lista grup</translation>
     </message>
     <message>
         <source>Workflow list</source>
-        <translation type="unfinished">Lista łańcuchów zdarzeń</translation>
+        <translation>Lista łańcuchów zdarzeń</translation>
     </message>
     <message>
         <source>Workflow list of group</source>
-        <translation type="unfinished">Lista łańcuchów zdarzeń grupy</translation>
+        <translation>Lista łańcuchów zdarzeń grupy</translation>
     </message>
     <message>
         <source>List</source>
-        <translation type="unfinished">Lista</translation>
+        <translation>Lista</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Widok</translation>
+        <translation>Widok</translation>
     </message>
     <message>
         <source>You have to have at least one group that the workflow belongs to!</source>
-        <translation type="unfinished">Łańcuch zdarzeń musi należeć do przynajmniej jednej grupy!</translation>
+        <translation>Łańcuch zdarzeń musi należeć do przynajmniej jednej grupy!</translation>
     </message>
     <message>
         <source>Process list</source>
-        <translation type="unfinished">Lista procesów</translation>
+        <translation>Lista procesów</translation>
     </message>
 </context>
 <context>
     <name>kernel/workflow/edit</name>
     <message>
         <source>New Workflow</source>
-        <translation type="unfinished">Nowy łańcuch zdarzeń</translation>
+        <translation>Nowy łańcuch zdarzeń</translation>
     </message>
 </context>
 <context>
     <name>kernel/workflow/event</name>
     <message>
         <source>Event</source>
-        <translation type="unfinished">Zdarzenie</translation>
+        <translation>Zdarzenie</translation>
     </message>
     <message>
         <source>Approve</source>
-        <translation type="unfinished">Zatwierdzić</translation>
+        <translation>Zatwierdź</translation>
     </message>
     <message>
         <source>Multiplexer</source>
-        <translation type="unfinished">Multiplekser</translation>
+        <translation>Multiplekser</translation>
     </message>
     <message>
         <source>Simple shipping</source>
-        <translation type="unfinished">Dostawa prosta</translation>
+        <translation>Dostawa prosta</translation>
     </message>
     <message>
         <source>Wait until date</source>
-        <translation type="unfinished">Czekaj do wyznaczonej daty</translation>
+        <translation>Czekaj do wyznaczonej daty</translation>
     </message>
     <message>
         <source>Payment Gateway</source>
-        <translation type="unfinished">Płatności</translation>
+        <translation>Bramka płatności</translation>
     </message>
     <message>
         <source>Finish User Registration</source>
-        <translation type="unfinished"></translation>
+        <translation>Zakończ rejestrację użytkownika</translation>
     </message>
 </context>
 <context>
     <name>kernel/workflow/group</name>
     <message>
         <source>Group</source>
-        <translation type="unfinished">Grupa</translation>
+        <translation>Grupa</translation>
     </message>
 </context>
 <context>
     <name>kernel/workflow/groupedit</name>
     <message>
         <source>New WorkflowGroup</source>
-        <translation type="unfinished">Nowa grupa łańcuchów zdarzeń</translation>
+        <translation>Nowa grupa łańcuchów zdarzeń</translation>
     </message>
 </context>
 <context>
@@ -28612,43 +28612,43 @@ your account.</source>
     <name>lib/template</name>
     <message>
         <source>The maximum nesting level of %max has been reached. The execution is stopped to avoid infinite recursion.</source>
-        <translation type="unfinished">Został osiągnięty maksymalny poziom zagnieżdżenia %max. Wykonanie skryptu zostaje wstrzymane w celu uniknięcia nieskończonej rekursji.</translation>
+        <translation>Osiągnięto maksymalny poziom zagnieżdżenia %max. Wykonanie skryptu zostaje wstrzymane w celu uniknięcia nieskończonej rekursji.</translation>
     </message>
 </context>
 <context>
     <name>pdf/edit</name>
     <message>
         <source>PDF Export</source>
-        <translation type="unfinished">Eksport PDF</translation>
+        <translation>Eksport do PDF</translation>
     </message>
 </context>
 <context>
     <name>settings/edit</name>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">Ustawienia</translation>
+        <translation>Ustawienia</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Edycja</translation>
+        <translation>Edycja</translation>
     </message>
 </context>
 <context>
     <name>settings/view</name>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">Ustawienia</translation>
+        <translation>Ustawienia</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Widok</translation>
+        <translation>Widok</translation>
     </message>
 </context>
 <context>
     <name>shop</name>
     <message>
         <source>Remove orders</source>
-        <translation type="unfinished">Usuń zamówienia</translation>
+        <translation>Usuń zamówienia</translation>
     </message>
 </context>
 <context>
