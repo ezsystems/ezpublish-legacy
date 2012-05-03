@@ -242,6 +242,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                                      'object' => array( 'contentobject_id' ),
                                                                      'class' => array( 'object', 'contentclass_id' ),
                                                                      'section' => array( 'object', 'section_id' ),
+                                                                     'section_identifier' => array( 'object', 'section_identifier' ),
                                                                      'class_identifier' => array( 'object', 'class_identifier' ),
                                                                      'class_group' => array( 'object', 'match_ingroup_id_list' ),
                                                                      'state' => array( 'object', 'state_id_array' ),
