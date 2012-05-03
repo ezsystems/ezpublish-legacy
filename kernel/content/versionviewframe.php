@@ -112,7 +112,19 @@ if ( $Module->isCurrentAction( 'Publish' ) and
         }
         else
         {
-            $Module->redirectToView( 'view', array( 'full', $object->attribute( 'main_parent_node_id' ) ) );
+            if ( $node !== null )
+            {
+                $parentNode = $node->attribute( 'parent_node_id' );
+                if ( $parentNode == 1 )
+                {
+                    $parentNode = $node->attribute( 'node_id' );
+                }
+                $Module->redirectToView( 'view', array( 'full', $parentNode ) );
+            }
+            else
+            {
+                $Module->redirectToView( 'view', array( 'full', $object->attribute( 'main_parent_node_id' ) ) );
+            }
         }
     }
     else
