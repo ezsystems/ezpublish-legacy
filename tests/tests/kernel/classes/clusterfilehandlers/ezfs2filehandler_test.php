@@ -25,14 +25,11 @@ class eZFS2FileHandlerTest extends eZClusterFileHandlerAbstractTest
      **/
     public function setUp()
     {
-        $this->markTestSkipped( "Tests skipped until eZFS2 becomes more stable" );
         parent::setUp();
 
         // We need to clear the existing handler if it was loaded before the INI
         // settings changes
-        if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) and
-            !$GLOBALS['eZClusterFileHandler_chosen_handler'] instanceof $this->clusterClass )
-            unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
+        eZClusterFileHandler::resetHandler();
 
         // Load database parameters for cluster
         // The same DSN than the relational database is used
@@ -42,9 +39,7 @@ class eZFS2FileHandlerTest extends eZClusterFileHandlerAbstractTest
     public function tearDown()
     {
         ezpINIHelper::restoreINISettings();
-
-        if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) )
-            unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
+        eZClusterFileHandler::resetHandler();
 
         parent::tearDown();
     }

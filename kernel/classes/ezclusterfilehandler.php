@@ -149,7 +149,9 @@ class eZClusterFileHandler
      */
     public static function addGeneratingFile( $file )
     {
-        if ( !( $file instanceof eZDBFileHandler ) && !( $file instanceof eZDFSFileHandler ) )
+        if ( !( $file instanceof eZDBFileHandler )
+                && !( $file instanceof eZDFSFileHandler )
+                && !( $file instanceof eZFS2FileHandler ) )
             return false; // @todo Exception
 
         self::$generatingFiles[$file->filePath] = $file;
@@ -165,7 +167,9 @@ class eZClusterFileHandler
      */
     public static function removeGeneratingFile( $file )
     {
-        if ( !( $file instanceof eZDBFileHandler ) && !( $file instanceof eZDFSFileHandler ) )
+        if ( !( $file instanceof eZDBFileHandler )
+                && !( $file instanceof eZDFSFileHandler )
+                && !( $file instanceof eZFS2FileHandler ) )
             return false; // @todo Exception
 
         if ( isset( self::$generatingFiles[$file->filePath] ) )

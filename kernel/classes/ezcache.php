@@ -604,7 +604,11 @@ class eZCache
             foreach ( $imageIdentifiers as $identifier )
             {
                 $attr = $dataMap[$identifier];
-                if ( $attr->attribute( 'has_content' ) )
+                if ( !$attr instanceof eZContentObjectAttribute )
+                {
+                    eZDebug::writeError( "Missing attribute $identifier in object " . $object->attribute( 'id' ) . ", version " . $version->attribute( 'version' ) . ". This indicates data corruption.", __METHOD__ );
+                }
+                elseif ( $attr->attribute( 'has_content' ) )
                 {
                     $attr->attribute( 'content' )->purgeAllAliases( $attr );
                 }

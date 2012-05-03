@@ -36,6 +36,7 @@ class eZDFSClusterStaleCacheTest extends eZClusterStaleCacheTest
         parent::setUp();
 
         $this->previousFileHandler = eZINI::instance( 'file.ini' )->variable( 'ClusteringSettings', 'FileHandler' );
+        eZClusterFileHandler::resetHandler();
 
         $this->DFSPath = eZDFSFileHandlerTest::getDfsPath();
         eZDFSFileHandlerTest::setUpDatabase();
@@ -57,8 +58,7 @@ class eZDFSClusterStaleCacheTest extends eZClusterStaleCacheTest
             $fileINI = eZINI::instance( 'file.ini' );
             $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', $this->previousFileHandler );
             $this->previousFileHandler = null;
-            if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) )
-                unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
+            eZClusterFileHandler::resetHandler();
         }
 
         if ( $this->haveToRemoveDFSPath )

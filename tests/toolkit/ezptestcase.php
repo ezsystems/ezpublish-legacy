@@ -13,14 +13,6 @@ class ezpTestCase extends PHPUnit_Framework_TestCase
     protected $sharedFixture;
 
     protected $backupGlobals = false;
-
-
-    protected function setUp()
-    {
-        //echo("Running test : ". $this->getName() . "\n");
-        parent::setUp();
-    }
-
 }
 
 ?>

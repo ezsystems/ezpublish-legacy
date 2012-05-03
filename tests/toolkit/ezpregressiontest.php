@@ -44,17 +44,6 @@ abstract class ezpRegressionTest extends ezpTestCase
     }
 
     /**
-     * Get name of current test (uses file name)
-     *
-     * @param bool $withDataSet
-     * @return string
-     */
-    public function getName( $withDataSet = TRUE )
-    {
-        return $this->currentFile;
-    }
-
-    /**
      * Get list of files for current set of tests
      *
      * @return array

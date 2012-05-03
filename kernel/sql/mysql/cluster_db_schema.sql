@@ -1,5 +1,5 @@
 CREATE TABLE ezdbfile (
-  datatype      VARCHAR(60)   NOT NULL DEFAULT 'application/octet-stream',
+  datatype      VARCHAR(255)   NOT NULL DEFAULT 'application/octet-stream',
   name          TEXT          NOT NULL,
   name_trunk    TEXT          NOT NULL,
   name_hash     VARCHAR(34)   NOT NULL DEFAULT '',

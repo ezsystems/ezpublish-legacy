@@ -30,8 +30,7 @@ class eZFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
 
         // We need to clear the existing handler if it was loaded before the INI
         // settings changes
-        if ( !eZClusterFileHandler::$globalHandler instanceof eZFSFileHandler )
-            eZClusterFileHandler::$globalHandler = null;
+        eZClusterFileHandler::resetHandler();
 
         // Load database parameters for cluster
         // The same DSN than the relational database is used
@@ -42,7 +41,7 @@ class eZFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
     {
         ezpINIHelper::restoreINISettings();
 
-        eZClusterFileHandler::$globalHandler = null;
+        eZClusterFileHandler::resetHandler();
 
         parent::tearDown();
     }

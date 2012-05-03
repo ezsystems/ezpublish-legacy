@@ -246,11 +246,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
              $draft = eZContentObjectVersion::fetchLatestUserDraft(
                  $object->attribute( 'id' ),
                  eZUser::currentUserID(),
-                 $object->currentLanguageObject()->attribute( 'id' )
+                 $object->currentLanguageObject()->attribute( 'id' ),
+                 $object->attribute( 'modified' )
              );
 
-             if ( $draft instanceof eZContentObjectVersion &&
-                  $draft->attribute( 'version' ) > $this->attribute( 'contentobject_version' ) )
+             if ( $draft instanceof eZContentObjectVersion )
                  return $object->fetchDataMap( $draft->attribute( 'version' ) );
         }
         return $object->fetchDataMap( $this->attribute( 'contentobject_version' ) );
@@ -621,7 +621,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $classNameFilter = eZContentClassName::sqlFilter();
                             $sortingFields .= 'contentclass_name';
                             $datatypeSortingTargetSQL .= ", $classNameFilter[nameField] AS contentclass_name";
-                            $attributeFromSQL .= ", $classNameFilter[from]";
+                            $attributeFromSQL .= " INNER JOIN $classNameFilter[from]";
                             $attributeWhereSQL .= "$classNameFilter[where] AND ";
                         } break;
                         case 'priority':
@@ -657,7 +657,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                                 $sql = $dataType->customSortingSQL( $params );
 
-                                $datatypeFromSQL .= ", {$sql['from']}";
+                                $datatypeFromSQL .= " INNER JOIN {$sql['from']}";
                                 $datatypeWhereSQL .= " AND {$sql['where']}";
                                 $datatypeSortingFieldSQL = $sql['sorting_field'];
                                 $datatypeSortingTargetSQL .= ', ' . $sql['sorting_field'];
@@ -685,7 +685,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             }
 
                             $sortingFields .= "$datatypeSortingFieldSQL";
-                            $attributeFromSQL .= ", $datatypeFromSQL";
+                            $attributeFromSQL .= " INNER JOIN $datatypeFromSQL";
                             $attributeWhereSQL .= "$datatypeWhereSQL AND ";
 
                             $attributeJoinCount++;
@@ -712,7 +712,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $stateLinkAlias = "sl$stateJoinCount";
                             $sortingFields .= "$stateAlias.priority";
                             $datatypeSortingTargetSQL .= ", $stateAlias.priority";
-                            $attributeFromSQL .= ", ezcobj_state $stateAlias, ezcobj_state_link $stateLinkAlias";
+                            $attributeFromSQL .= " INNER JOIN ezcobj_state $stateAlias INNER JOIN ezcobj_state_link $stateLinkAlias";
                             $attributeWhereSQL .= "$stateLinkAlias.contentobject_id=$treeTableName.contentobject_id AND
                                                    $stateLinkAlias.contentobject_state_id=$stateAlias.id AND
                                                    $stateAlias.group_id=$stateGroupID AND ";
@@ -1061,7 +1061,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         {
                             $classNameFilter = eZContentClassName::sqlFilter();
                             $filterField = $classNameFilter['nameField'];
-                            $filterSQL['from'] .= ", $classNameFilter[from]";
+                            $filterSQL['from'] .= " INNER JOIN $classNameFilter[from]";
                             $filterSQL['where'] .= "$classNameFilter[where] AND ";
                         } break;
                         case 'priority':
@@ -1139,7 +1139,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 // if more attributes are filtered by we will append them
                                 if ( $filterCount >= $sortingInfo['attributeJoinCount'] )
                                 {
-                                    $filterSQL['from']  .= ", ezcontentobject_attribute a$filterCount ";
+                                    $filterSQL['from']  .= " INNER JOIN ezcontentobject_attribute a$filterCount ";
                                 }
 
                                 $filterSQL['where'] .= "
@@ -1508,7 +1508,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( $useVersionName )
         {
-            $versionNameTables = ', ezcontentobject_name ';
+            $versionNameTables = ' INNER JOIN ezcontentobject_name ';
         }
 
         return $versionNameTables;
@@ -1621,7 +1621,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                     WHERE    parent_node_id IN ("  . implode( ', ', $parentList ) . ')',
                                             eZDBInterface::SERVER_SLAVE );
 
-                                $sqlPermissionCheckingFrom .= ', ' . $groupPermTempTable;
+                                $sqlPermissionCheckingFrom .= " LEFT JOIN $groupPermTempTable ON $groupPermTempTable.user_id = ezcontentobject.owner_id";
                             }
                             $sqlPartPart[] = "ezcontentobject.owner_id = $groupPermTempTable.user_id";
                         } break;
@@ -1674,9 +1674,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                     $stateGroupTable = "ezcobj_state_grp_{$stateIndex}_perm";
                                     $stateAliasTables[$stateIdentifier] = $stateTable;
 
-                                    $sqlPermissionCheckingFrom .= ", ezcobj_state_link $stateLinkTable ";
-                                    $sqlPermissionCheckingFrom .= ", ezcobj_state_group $stateGroupTable ";
-                                    $sqlPermissionCheckingFrom .= ", ezcobj_state $stateTable ";
+                                    $sqlPermissionCheckingFrom .= " INNER JOIN ezcobj_state_link $stateLinkTable ";
+                                    $sqlPermissionCheckingFrom .= " INNER JOIN ezcobj_state_group $stateGroupTable ";
+                                    $sqlPermissionCheckingFrom .= " INNER JOIN ezcobj_state $stateTable ";
 
                                     $sqlPermissionCheckingWhere .= "AND $stateLinkTable.contentobject_id = ezcontentobject.id " .
                                                                    "AND $stateTable.id = $stateLinkTable.contentobject_state_id " .
@@ -1964,8 +1964,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
                        $sortingInfo[attributeTargetSQL]
                        $extendedAttributeFilter[columns]
                    FROM
-                      ezcontentobject_tree,
-                      ezcontentobject,ezcontentclass
+                      ezcontentobject_tree
+                      INNER JOIN ezcontentobject
+                      INNER JOIN ezcontentclass
                       $versionNameTables
                       $sortingInfo[attributeFromSQL]
                       $attributeFilter[from]
@@ -2205,8 +2206,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
                        $sortingInfo[attributeTargetSQL]
                        , ".$nodeParams['ResultID']." AS resultid
                    FROM
-                      ezcontentobject_tree,
-                      ezcontentobject,ezcontentclass
+                      ezcontentobject_tree
+                      INNER JOIN ezcontentobject
+                      INNER JOIN ezcontentclass
                       $versionNameTables
                       $sortingInfo[attributeFromSQL]
                       $attributeFilter[from]
@@ -2415,8 +2417,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $query = "SELECT
                         count( DISTINCT ezcontentobject_tree.node_id ) as count
                   FROM
-                       ezcontentobject_tree,
-                       ezcontentobject,ezcontentclass
+                       ezcontentobject_tree
+                       INNER JOIN ezcontentobject
+                       INNER JOIN ezcontentclass
                        $versionNameTables
                        $attributeFilter[from]
                        $extendedAttributeFilter[tables]
@@ -2523,8 +2526,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
                          ezcontentobject.published as published
                          $groupBySelectText
                    FROM
-                      ezcontentobject_tree,
-                      ezcontentobject,ezcontentclass
+                      ezcontentobject_tree
+                      INNER JOIN ezcontentobject
+                      INNER JOIN ezcontentclass
                       $versionNameTables
                       $attributeFilter[from]
                       $extendedAttributeFilter[tables]

@@ -76,14 +76,15 @@ class eZRoleTest extends ezpDatabaseTestCase
      */
     public function testPolicyList()
     {
-        $role = array_shift( eZRole::fetchByUser( array( self::$anonymousUserID ), true ) );
-        $policy = array_shift( $role->policyList() );
+        $roleList = eZRole::fetchByUser( array( self::$anonymousUserID ), true );
+        $policyList = current( $roleList )->policyList();
+        $policy = current( $policyList );
 
         // create a temporary copy of one of the role's policies
         $policy->createTemporaryCopy();
 
         // check that the role's policies all are final (not temporary)
-        foreach( $role->policyList() as $policy )
+        foreach ( $policyList as $policy )
         {
             $this->assertInstanceOf( 'eZPolicy', $policy );
             $this->assertEquals( 0, $policy->attribute( 'original_id' ) );

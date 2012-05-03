@@ -143,8 +143,9 @@ class eZContentStructureTreeOperator
         {
             $query = "SELECT count(*) as count
                           FROM
-                               ezcontentobject_tree,
-                               ezcontentobject,ezcontentclass
+                               ezcontentobject_tree
+                               INNER JOIN ezcontentobject
+                               INNER JOIN ezcontentclass
                                $versionNameTables
                                $permissionChecking[from]
                           WHERE $pathStringCond
@@ -165,8 +166,9 @@ class eZContentStructureTreeOperator
                              ezcontentclass.is_container as is_container
                              $versionNameTargets
                       FROM
-                             ezcontentobject_tree,
-                             ezcontentobject,ezcontentclass
+                             ezcontentobject_tree
+                             INNER JOIN ezcontentobject
+                             INNER JOIN ezcontentclass
                              $versionNameTables
                              $sortingInfo[attributeFromSQL]
                              $permissionChecking[from]

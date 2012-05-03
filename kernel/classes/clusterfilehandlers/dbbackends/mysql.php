@@ -16,7 +16,7 @@ if ( !defined( 'TABLE_DATA' ) )
 
 /*
 CREATE TABLE ezdbfile (
-  datatype      VARCHAR(60)   NOT NULL DEFAULT 'application/octet-stream',
+  datatype      VARCHAR(255)   NOT NULL DEFAULT 'application/octet-stream',
   name          TEXT          NOT NULL,
   name_trunk    TEXT          NOT NULL,
   name_hash     VARCHAR(34)   NOT NULL DEFAULT '',
@@ -351,9 +351,9 @@ class eZDBFileHandlerMysqlBackend
     function _deleteByDirList( $dirList, $commonPath, $commonSuffix, $fname = false )
     {
         if ( $fname )
-            $fname .= "::_deleteByDirList($dirList, $commonPath, $commonSuffix)";
+            $fname .= "::_deleteByDirList(" . join( ", ", $dirList ) . ", $commonPath, $commonSuffix)";
         else
-            $fname = "_deleteByDirList($dirList, $commonPath, $commonSuffix)";
+            $fname = "_deleteByDirList(" . join( ", ", $dirList ) . ", $commonPath, $commonSuffix)";
         return $this->_protect( array( $this, '_deleteByDirListInner' ), $fname,
                                 $dirList, $commonPath, $commonSuffix, $fname );
     }
@@ -1654,8 +1654,10 @@ class eZDBFileHandlerMysqlBackend
         {
             $query = "SELECT mtime FROM " . TABLE_METADATA . " WHERE name_hash = {$nameHash}";
             $res = mysql_query( $query, $this->db );
-            mysql_fetch_row( $res );
-            if( $res and isset( $row[0] ) and $row[0] == $generatingFileMtime );
+            if ( !$res )
+                return false;
+            $row = mysql_fetch_row( $res );
+            if( isset( $row[0] ) and $row[0] == $generatingFileMtime );
                 return true;
 
             return false;

@@ -22,7 +22,7 @@
                     action: 'ezajaxuploader::uploadform::ezobjectrelation'
                 },
                 upload: {
-                    action: 'ezajaxuploader::upload::ezobjectrelation',
+                    action: 'ezajaxuploader::upload::ezobjectrelation?ContentType=html',
                     form: 'form.ajaxuploader-upload'
                 },
                 location: {

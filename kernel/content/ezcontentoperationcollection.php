@@ -1239,16 +1239,16 @@ class eZContentOperationCollection
     /**
      * Updates the priority of a node
      *
-     * @param int $nodeID
+     * @param int $parentNodeID
      * @param array $priorityArray
      * @param array $priorityArray
      *
      * @return array An array with operation status, always true
      */
-    static public function updatePriority( $nodeID, $priorityArray = array(), $priorityIDArray = array() )
+    static public function updatePriority( $parentNodeID, $priorityArray = array(), $priorityIDArray = array() )
     {
-        $curNode = eZContentObjectTreeNode::fetch( $nodeID );
-        if ( is_object( $curNode ) )
+        $curNode = eZContentObjectTreeNode::fetch( $parentNodeID );
+        if ( $curNode instanceof eZContentObjectTreeNode )
         {
              $db = eZDB::instance();
              $db->begin();
@@ -1256,7 +1256,12 @@ class eZContentOperationCollection
              {
                  $priority = (int) $priorityArray[$i];
                  $nodeID = (int) $priorityIDArray[$i];
-                 $db->query( "UPDATE ezcontentobject_tree SET priority=$priority WHERE node_id=$nodeID" );
+                 $db->query( "UPDATE
+                                  ezcontentobject_tree
+                              SET
+                                  priority={$priority}
+                              WHERE
+                                  node_id={$nodeID} AND parent_node_id={$parentNodeID}" );
              }
              $curNode->updateAndStoreModified();
              $db->commit();
@@ -1273,7 +1278,7 @@ class eZContentOperationCollection
      *
      * @return array An array with operation status, always true
      */
-    static public function UpdateMainAssignment( $mainAssignmentID, $ObjectID, $mainAssignmentParentID )
+    static public function updateMainAssignment( $mainAssignmentID, $ObjectID, $mainAssignmentParentID )
     {
         eZContentObjectTreeNode::updateMainNodeID( $mainAssignmentID, $ObjectID, false, $mainAssignmentParentID );
         eZContentCacheManager::clearContentCacheIfNeeded( $ObjectID );

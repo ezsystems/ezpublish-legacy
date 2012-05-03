@@ -21,6 +21,7 @@ class ezpEventTest extends ezpTestCase
                 'test/filter@ezpEventTest::helperFilterNotNull',
         ) );
         $this->event = ezpEvent::getInstance();
+        $this->event->registerEventListeners();
     }
     
     public function tearDown()

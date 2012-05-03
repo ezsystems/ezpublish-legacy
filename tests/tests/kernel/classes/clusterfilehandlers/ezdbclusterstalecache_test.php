@@ -33,9 +33,7 @@ class eZDBClusterStaleCacheTest extends eZClusterStaleCacheTest
 
         // We need to clear the existing handler if it was loaded before the INI
         // settings changes
-        if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) and
-            !$GLOBALS['eZClusterFileHandler_chosen_handler'] instanceof eZDBFileHandler )
-            unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
+        eZClusterFileHandler::resetHandler();
 
         unset( $GLOBALS['eZClusterInfo'] );
 
@@ -78,9 +76,7 @@ class eZDBClusterStaleCacheTest extends eZClusterStaleCacheTest
     public function tearDown()
     {
         ezpINIHelper::restoreINISettings();
-
-        if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) )
-            unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
+        eZClusterFileHandler::resetHandler();
 
         parent::tearDown();
     }

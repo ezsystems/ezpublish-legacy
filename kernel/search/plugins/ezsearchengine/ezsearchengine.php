@@ -785,7 +785,7 @@ class eZSearchEngine implements ezpSearchEngine
             $useVersionName = true;
             if ( $useVersionName )
             {
-                $versionNameTables = ', ezcontentobject_name ';
+                $versionNameTables = ' INNER JOIN ezcontentobject_name ';
                 $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
 
                 $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
@@ -868,11 +868,11 @@ class eZSearchEngine implements ezpSearchEngine
                         $this->saveCreatedTempTableName( 0, $table );
                         $db->createTempTable( "CREATE TEMPORARY TABLE $table ( contentobject_id int primary key not null, published int )" );
                         $db->query( "INSERT INTO $table SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
-                                         FROM ezcontentobject,
-                                              ezsearch_object_word_link
-                                              $subTreeTable,
-                                              ezcontentclass,
-                                              ezcontentobject_tree
+                                         FROM ezcontentobject
+                                              INNER JOIN ezsearch_object_word_link
+                                              $subTreeTable
+                                              INNER JOIN ezcontentclass
+                                              INNER JOIN ezcontentobject_tree
                                               $sqlPermissionChecking[from]
                                          WHERE
                                                $searchDateQuery
@@ -899,12 +899,12 @@ class eZSearchEngine implements ezpSearchEngine
                         $db->createTempTable( "CREATE TEMPORARY TABLE $table ( contentobject_id int primary key not null, published int )" );
                         $db->query( "INSERT INTO $table SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
                                          FROM
-                                             ezcontentobject,
-                                             ezsearch_object_word_link
-                                             $subTreeTable,
-                                             ezcontentclass,
-                                             ezcontentobject_tree,
-                                             $tmpTable0
+                                             ezcontentobject
+                                             INNER JOIN ezsearch_object_word_link
+                                             $subTreeTable
+                                             INNER JOIN ezcontentclass
+                                             INNER JOIN ezcontentobject_tree
+                                             INNER JOIN $tmpTable0
                                              $sqlPermissionChecking[from]
                                           WHERE
                                           $tmpTable0.contentobject_id=ezsearch_object_word_link.contentobject_id AND
@@ -937,11 +937,11 @@ class eZSearchEngine implements ezpSearchEngine
                  $this->saveCreatedTempTableName( 0, $table );
                  $db->createTempTable( "CREATE TEMPORARY TABLE $table ( contentobject_id int primary key not null, published int )" );
                  $db->query( "INSERT INTO $table SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
-                                     FROM ezcontentobject,
-                                          ezsearch_object_word_link
-                                          $subTreeTable,
-                                          ezcontentclass,
-                                          ezcontentobject_tree
+                                     FROM ezcontentobject
+                                          INNER JOIN ezsearch_object_word_link
+                                          $subTreeTable
+                                          INNER JOIN ezcontentclass
+                                          INNER JOIN ezcontentobject_tree
                                           $sqlPermissionChecking[from]
                                      WHERE
                                           $searchDateQuery
@@ -984,13 +984,13 @@ class eZSearchEngine implements ezpSearchEngine
             {
                 $tmpTablesFrom .= $this->getSavedTempTableName( $i );
                 if ( $i < ( $tmpTableCount - 1 ) )
-                    $tmpTablesFrom .= ", ";
+                    $tmpTablesFrom .= " INNER JOIN ";
 
             }
             $tmpTablesSeparator = '';
             if ( $tmpTableCount > 0 )
             {
-                $tmpTablesSeparator = ',';
+                $tmpTablesSeparator = ' INNER JOIN ';
             }
 
             $tmpTable0 = $this->getSavedTempTableName( 0 );
@@ -1026,9 +1026,9 @@ class eZSearchEngine implements ezpSearchEngine
                             $versionNameTargets
                     FROM
                        $tmpTablesFrom $tmpTablesSeparator
-                       ezcontentobject,
-                       ezcontentclass,
-                       ezcontentobject_tree
+                       ezcontentobject
+                       INNER JOIN ezcontentclass
+                       INNER JOIN ezcontentobject_tree
                        $versionNameTables
                        $sortFromSQL
                     WHERE
@@ -1049,9 +1049,9 @@ class eZSearchEngine implements ezpSearchEngine
                             $versionNameTargets
                     FROM
                        $tmpTablesFrom $tmpTablesSeparator
-                       ezcontentobject,
-                       ezcontentclass,
-                       ezcontentobject_tree
+                       ezcontentobject
+                       INNER JOIN ezcontentclass
+                       INNER JOIN ezcontentobject_tree
                        $versionNameTables
                     WHERE
                     $tmpTablesWhere $and
@@ -1180,7 +1180,7 @@ class eZSearchEngine implements ezpSearchEngine
                         {
                             $classNameFilter = eZContentClassName::sqlFilter();
                             $sortingFields .= $classNameFilter['nameField'];
-                            $attributeFromSQL .= ", $classNameFilter[from]";
+                            $attributeFromSQL .= " INNER JOIN $classNameFilter[from]";
                             $attributeWhereSQL .= "$classNameFilter[where] AND ";
                         } break;
                         case 'priority':
@@ -1213,7 +1213,7 @@ class eZSearchEngine implements ezpSearchEngine
                             }
 
                             $sortingFields .= "a$attributeJoinCount.$sortKey";
-                            $attributeFromSQL .= ", ezcontentobject_attribute as a$attributeJoinCount";
+                            $attributeFromSQL .= " INNER JOIN ezcontentobject_attribute as a$attributeJoinCount";
                             $attributeWereSQL .= " AND a$attributeJoinCount.contentobject_id = ezcontentobject.id AND
                                                   a$attributeJoinCount.contentclassattribute_id = $sortClassID AND
                                                   a$attributeJoinCount.version = ezcontentobject_name.content_version";
@@ -1668,11 +1668,11 @@ class eZSearchEngine implements ezpSearchEngine
             $db->createTempTable( "CREATE TEMPORARY TABLE $table ( contentobject_id int primary key not null, published int )" );
             $db->query( "INSERT INTO $table SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
                     FROM
-                       ezcontentobject,
-                       ezsearch_object_word_link
-                       $subTreeTable,
-                       ezcontentclass,
-                       ezcontentobject_tree
+                       ezcontentobject
+                       INNER JOIN ezsearch_object_word_link
+                       $subTreeTable
+                       INNER JOIN ezcontentclass
+                       INNER JOIN ezcontentobject_tree
                        $sqlPermissionChecking[from]
                     WHERE
                     $searchDateQuery
@@ -1697,12 +1697,12 @@ class eZSearchEngine implements ezpSearchEngine
             $db->createTempTable( "CREATE TEMPORARY TABLE $table ( contentobject_id int primary key not null, published int )" );
             $db->query( "INSERT INTO $table SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
                     FROM
-                       ezcontentobject,
-                       ezsearch_object_word_link
-                       $subTreeTable,
-                       ezcontentclass,
-                       ezcontentobject_tree,
-                       $tmpTable0
+                       ezcontentobject
+                       INNER JOIN ezsearch_object_word_link
+                       $subTreeTable
+                       INNER JOIN ezcontentclass
+                       INNER JOIN ezcontentobject_tree
+                       INNER JOIN $tmpTable0
                        $sqlPermissionChecking[from]
                     WHERE
                     $tmpTable0.contentobject_id=ezsearch_object_word_link.contentobject_id AND
@@ -1814,11 +1814,11 @@ class eZSearchEngine implements ezpSearchEngine
                     $db->createTempTable( "CREATE TEMPORARY TABLE $table ( contentobject_id int primary key not null, published int )" );
                     $db->query( "INSERT INTO $table SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
                     FROM
-                       ezcontentobject,
-                       ezsearch_object_word_link
-                       $subTreeTable,
-                       ezcontentclass,
-                       ezcontentobject_tree
+                       ezcontentobject
+                       INNER JOIN ezsearch_object_word_link
+                       $subTreeTable
+                       INNER JOIN ezcontentclass
+                       INNER JOIN ezcontentobject_tree
                        $sqlPermissionChecking[from]
                     WHERE
                     $searchDateQuery
@@ -1843,12 +1843,12 @@ class eZSearchEngine implements ezpSearchEngine
                     $db->createTempTable( "CREATE TEMPORARY TABLE $table ( contentobject_id int primary key not null, published int )" );
                     $db->query( "INSERT INTO $table SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
                     FROM
-                       ezcontentobject,
-                       ezsearch_object_word_link
-                       $subTreeTable,
-                       ezcontentclass,
-                       ezcontentobject_tree,
-                       $tmpTable0
+                       ezcontentobject
+                       INNER JOIN ezsearch_object_word_link
+                       $subTreeTable
+                       INNER JOIN ezcontentclass
+                       INNER JOIN ezcontentobject_tree
+                       INNER JOIN $tmpTable0
                        $sqlPermissionChecking[from]
                     WHERE
                     $tmpTable0.contentobject_id=ezsearch_object_word_link.contentobject_id AND

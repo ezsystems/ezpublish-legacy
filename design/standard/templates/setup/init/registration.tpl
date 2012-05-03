@@ -5,7 +5,7 @@
 </div>
 
 <p>
- {"In order to provide you with the best service in the future, we need some statistics to know a bit about eZ Publish, platform use and you."|i18n("design/standard/setup/init")}
+ {"In order to provide you with the best service in the future, we need some statistics to know a bit about your usage of eZ Publish and its underlying platform."|i18n("design/standard/setup/init")}
  {"In return this will also provide you with heads-up on security issues, notifications about updates, upgrades and other important news."|i18n("design/standard/setup/init")}
  {"This happens periodically, and you will always be able to opt-out of this at anytime."|i18n("design/standard/setup/init")}
 </p>
@@ -41,7 +41,7 @@
         </tr>
         <tr>
             <td><label for="ezsrd_email" class="textfield">{"Your email"|i18n("design/standard/setup/init")}*:</label></td>
-            <td><input id="ezsrd_email" type="text" size="20" name="eZSetupRegistrationData[email]" value="{$email_user_data['email']|wash}" /></td>
+            <td><input id="ezsrd_email" type="email" size="20" name="eZSetupRegistrationData[email]" value="{$email_user_data['email']|wash}" /></td>
         </tr>
         <tr>
             <td><label for="ezsrd_country" class="textfield">{"Country"|i18n("design/standard/setup/init")}*:</label></td>
@@ -56,7 +56,7 @@
             <td><input id="ezsrd_first_time_user" type="checkbox" size="20" name="eZSetupRegistrationData[first_time_user]" {if $email_user_data['first_time_user']}checked="checked" {/if}value="1" /></td>
         </tr>
         <tr>
-            <td><label for="ezsrd_include_tech_stats" class="textfield">{"Is it ok that some simple technical information is included?"|i18n("design/standard/setup/init")}</label></td>
+            <td><label for="ezsrd_include_tech_stats" class="textfield">{"Included some simple technical information?"|i18n("design/standard/setup/init")}</label></td>
             <td><input id="ezsrd_include_tech_stats" type="checkbox" size="20" name="eZSetupRegistrationData[include_tech_stats]" {if $email_user_data['include_tech_stats']}checked="checked" {/if}value="1" /></td>
         </tr>
     </table>
@@ -72,9 +72,40 @@
 </fieldset>
 </form>
 
+<script type="text/javascript">
+{literal}
+(function(){
+    // Disable form input elements in browsers that support it
+    var forms = document.getElementsByTagName('form');
+    for ( var i = 0; i < forms.length; i++ ){
+        if ( forms[i].addEventListener )
+            forms[i].addEventListener( 'submit', formDisable, false );
+        else
+            forms[i].onsubmit = formDisable;
+    }
+
+    function formDisable(){
+        var form = this;
+        setTimeout( function(){
+            var allInputs = form.getElementsByTagName('input');
+            for ( var i = 0; i < allInputs.length; i++ ){
+                allInputs[i].disabled = true;
+                if ( allInputs[i].className === 'defaultbutton' || allInputs[i].className === 'button' )
+                    allInputs[i].className += ' button-disabled';
+            }
+        }, 10 );
+    }
+})();
+{/literal}
+</script>
+
 <br />
 
 <table cellpadding="0" cellspacing="0" border="0" class="full">
 <tr><th class="label">{"Contents of registration email"|i18n("design/standard/setup/init")}:</th></tr>
 <tr><td class="normal"><textarea class="box full" readonly="readonly" cols="60" rows="8">{$email_body}</textarea></td></tr>
 </table>
+
+<p>
+{"We care for your privacy. Read more <a href='%link' target='_blank'>here</a>. This data will be treated securely and not shared with third parties without your permission."|i18n("design/standard/setup/init", "", hash( '%link', "http://ez.no/Privacy-policy" ))}
+</p>

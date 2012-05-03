@@ -237,9 +237,9 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
                         $sortingInfo[attributeTargetSQL] ";
         }
         $query .= "FROM
-                        ezcontentobject_trash ezcot,
-                        ezcontentobject,
-                        ezcontentclass
+                        ezcontentobject_trash ezcot
+                        INNER JOIN ezcontentobject
+                        INNER JOIN ezcontentclass
                         $versionNameTables
                         $sortingInfo[attributeFromSQL]
                         $attributeFilter[from]
