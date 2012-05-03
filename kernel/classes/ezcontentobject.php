@@ -198,7 +198,8 @@ class eZContentObject extends eZPersistentObject
                                                       'allowed_assign_state_id_list' => 'allowedAssignStateIDList',
                                                       'allowed_assign_state_list' => 'allowedAssignStateList',
                                                       'state_id_array' => 'stateIDArray',
-                                                      'state_identifier_array' => 'stateIdentifierArray' ),
+                                                      'state_identifier_array' => 'stateIdentifierArray',
+                                                      'section_identifier' => 'sectionIdentifier' ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObject",
                       "sort" => array( "id" => "asc" ),
@@ -6057,6 +6058,20 @@ class eZContentObject extends eZPersistentObject
         }
 
         $db->commit();
+    }
+
+    /**
+     * Returns object's section identifier
+     * @return string
+     */
+    public function sectionIdentifier()
+    {
+        $section = eZSection::fetch( $this->attribute( 'section_id' ), false );
+        if( $section )
+        {
+            return $section['identifier'];
+        }
+        return false;
     }
 
     public $ID;
