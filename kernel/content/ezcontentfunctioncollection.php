@@ -828,7 +828,7 @@ class eZContentFunctionCollection
         }
 
         $query = "SELECT COUNT($sqlToExcludeDuplicates ezcontentobject.id) AS count
-                  FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
+                  FROM ezkeyword INNER JOIN ezkeyword_attribute_link INNER JOIN ezcontentobject_tree INNER JOIN ezcontentobject INNER JOIN ezcontentclass INNER JOIN ezcontentobject_attribute
                        $sqlPermissionChecking[from]
                   WHERE $sqlMatching
                   $showInvisibleNodesCond
@@ -910,7 +910,7 @@ class eZContentFunctionCollection
         $alphabet = $db->escapeString( $alphabet );
 
         $sortingInfo = array();
-        $sortingInfo['attributeFromSQL'] = ', ezcontentobject_attribute a1';
+        $sortingInfo['attributeFromSQL'] = ' INNER JOIN ezcontentobject_attribute a1';
         $sortingInfo['attributeWhereSQL'] = '';
         $sqlTarget = $sqlKeyword.',ezcontentobject_tree.node_id';
 
@@ -949,7 +949,7 @@ class eZContentFunctionCollection
                     if ( $sortBy[0] == 'attribute' )
                     {
                         // if sort_by is 'attribute' we should add ezcontentobject_name to "FromSQL" and link to ezcontentobject
-                        $sortingInfo['attributeFromSQL']  .= ', ezcontentobject_name, ezcontentobject_attribute a1';
+                        $sortingInfo['attributeFromSQL']  .= ' INNER JOIN ezcontentobject_name INNER JOIN ezcontentobject_attribute a1';
                         $sortingInfo['attributeWhereSQL'] .= ' ezcontentobject.id = ezcontentobject_name.contentobject_id AND';
                         $sqlTarget = 'DISTINCT ezcontentobject_tree.node_id, '.$sqlKeyword;
                     }
@@ -958,7 +958,7 @@ class eZContentFunctionCollection
                         $sortByArray = explode( ' ', $sortingInfo['sortingFields'] );
                         $sortingInfo['attributeTargetSQL'] .= ', ' . $sortByArray[0];
 
-                        $sortingInfo['attributeFromSQL']  .= ', ezcontentobject_attribute a1';
+                        $sortingInfo['attributeFromSQL']  .= ' INNER JOIN ezcontentobject_attribute a1';
                     }
 
                 } break;
@@ -998,7 +998,7 @@ class eZContentFunctionCollection
         }
 
         $query = "SELECT $sqlTarget
-                  FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass
+                  FROM ezkeyword INNER JOIN ezkeyword_attribute_link INNER JOIN ezcontentobject_tree INNER JOIN ezcontentobject INNER JOIN ezcontentclass
                        $sortingInfo[attributeFromSQL]
                        $sqlPermissionChecking[from]
                   WHERE

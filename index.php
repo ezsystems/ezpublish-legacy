@@ -339,6 +339,8 @@ eZExtension::activateExtensions( 'access' );
 // all eZINI instances as they may not take into account siteaccess specific settings.
 eZINI::resetAllInstances( false );
 
+ezpEvent::getInstance()->registerEventListeners();
+
 // Be able to do general events early in process
 ezpEvent::getInstance()->notify( 'request/preinput', array( $uri ) );
 

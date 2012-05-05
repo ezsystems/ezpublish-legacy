@@ -122,6 +122,8 @@ $versions46 = array( 'unstable' => array( array( '4.5.0', '4.6.0alpha1' ),
            );
 
 $versions47 = array( 'unstable' => array( array( '4.6.0', '4.7.0alpha1' ),
+                                          array( '4.7.0alpha1', '4.7.0beta1' ),
+                                          array( '4.7.0beta1', '4.7.0rc1' ),
                     ),
              'unstable_subdir' => 'unstable',
              'stable' => array(),

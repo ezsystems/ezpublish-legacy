@@ -43,11 +43,6 @@ class ezpDatabaseRegressionTest extends ezpDatabaseTestCase
         }
     }
 
-    public function getName( $withDataSet = TRUE )
-    {
-        return $this->currentFile;
-    }
-
     public function getFiles()
     {
         return $this->files;

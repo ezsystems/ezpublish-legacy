@@ -16,7 +16,7 @@ if ( !defined( 'TABLE_DATA' ) )
 
 /*
 CREATE TABLE ezdbfile (
-  datatype      VARCHAR(60)   NOT NULL DEFAULT 'application/octet-stream',
+  datatype      VARCHAR(255)   NOT NULL DEFAULT 'application/octet-stream',
   name          TEXT          NOT NULL,
   name_trunk    TEXT          NOT NULL,
   name_hash     VARCHAR(34)   NOT NULL DEFAULT '',
@@ -351,9 +351,9 @@ class eZDBFileHandlerMysqlBackend
     function _deleteByDirList( $dirList, $commonPath, $commonSuffix, $fname = false )
     {
         if ( $fname )
-            $fname .= "::_deleteByDirList($dirList, $commonPath, $commonSuffix)";
+            $fname .= "::_deleteByDirList(" . join( ", ", $dirList ) . ", $commonPath, $commonSuffix)";
         else
-            $fname = "_deleteByDirList($dirList, $commonPath, $commonSuffix)";
+            $fname = "_deleteByDirList(" . join( ", ", $dirList ) . ", $commonPath, $commonSuffix)";
         return $this->_protect( array( $this, '_deleteByDirListInner' ), $fname,
                                 $dirList, $commonPath, $commonSuffix, $fname );
     }
