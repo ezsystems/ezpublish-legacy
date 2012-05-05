@@ -252,7 +252,7 @@ function getHTTPVariable( $variable )
         $http = eZHTTPTool::instance();
 
     if ( $hasPost === null )
-        $hasPost = $http->hasPostVariable( 'AuthorizeButton' ) or $http->hasPostVariable( 'DenyButton' );
+        $hasPost = $http->hasPostVariable( 'AuthorizeButton' ) || $http->hasPostVariable( 'DenyButton' );
 
     if ( $hasPost )
         return $http->hasPostVariable( $variable ) ? $http->postVariable( $variable ) : false;
