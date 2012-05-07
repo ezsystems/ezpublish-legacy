@@ -1162,8 +1162,11 @@ WHERE user_id = '" . $userID . "' AND
                             eZExecution::cleanExit();
                         }
                     }
-                }
-                
+                    else
+                    {
+                        eZDebug::writeError( "Undefined ssoHandler class: $className", __METHOD__ );
+                    }
+                }                
             }
         }
 
