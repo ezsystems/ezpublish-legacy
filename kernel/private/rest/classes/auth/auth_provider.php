@@ -17,7 +17,7 @@ class ezpRestAuthProvider implements ezpRestProviderInterface
         $routes = array(
             'basicAuth'    => new ezpMvcRailsRoute( '/http-basic-auth', 'ezpRestAuthController', 'basicAuth' ),
             'oauthLogin'   => new ezpMvcRailsRoute( '/oauth/login', 'ezpRestAuthController', 'oauthRequired' ),
-            'oauthToken'   => new ezpMvcRailsRoute( '/oauth/token', 'ezpRestOauthTokenController', 'handleRequest')
+            'oauthToken'   => new ezpMvcRailsRoute( '/oauth/token', 'ezpRestOauthTokenController', array( 'http-post' => 'handleRequest' ))
         );
         return $routes;
     }
