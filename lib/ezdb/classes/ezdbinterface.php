@@ -60,6 +60,7 @@ class eZDBInterface
         $slaveUser = $parameters['slave_user'];
         $slavePassword = $parameters['slave_password'];
         $slaveDB =  $parameters['slave_database'];
+        $followMaster = $parameters['follow_master']; 
         $socketPath = $parameters['socket'];
         $charset = $parameters['charset'];
         $isInternalCharset = $parameters['is_internal_charset'];
@@ -152,6 +153,7 @@ class eZDBInterface
             'slave_database_server' => 'SlaveServer',
             'slave_database_port' => 'SlavePort',
             'slave_database_user' => 'SlaveUser',
+            'follow_master' => 'FollowMaster',
             'charset' => 'Charset',
             'is_internal_charset' => 'IsInternalCharset',
             'use_builting_encoding' => 'UseBuiltinEncoding',
@@ -1737,6 +1739,14 @@ class eZDBInterface
      * @var string
      */
     public $SlavePassword;
+
+    /**
+     * Flag for server selection control
+     *
+     * @access protected
+     * @var bool
+     */
+    public $FollowMaster;
 
     /**
      * The transaction counter, 0 means no transaction
