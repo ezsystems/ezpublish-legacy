@@ -542,6 +542,12 @@ while ( $moduleRunRequired )
         }
     }
 
+    if ( false !== strpos( $translateResult, '://' ) )
+    {
+        header( "Location: {$translateResult}" );
+        eZExecution::cleanExit();
+    }
+
     if ( $uri->isEmpty() )
     {
         $tmp_uri = new eZURI( $ini->variable( "SiteSettings", "IndexPage" ) );
