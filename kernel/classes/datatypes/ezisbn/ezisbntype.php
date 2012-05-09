@@ -382,7 +382,8 @@ class eZISBNType extends eZDataType
 
     function fromString( $contentObjectAttribute, $string )
     {
-        return $contentObjectAttribute->setAttribute( self::CONTENT_VALUE, $string );
+        $contentObjectAttribute->setAttribute( self::CONTENT_VALUE, $string );
+        return true;
     }
 
     /*!

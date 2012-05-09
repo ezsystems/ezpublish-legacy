@@ -340,7 +340,8 @@ class eZFloatType extends eZDataType
 
     function fromString( $contentObjectAttribute, $string )
     {
-        return $contentObjectAttribute->setAttribute( 'data_float', $string );
+        $contentObjectAttribute->setAttribute( 'data_float', $string );
+        return true;
     }
 
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
