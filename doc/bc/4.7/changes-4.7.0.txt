@@ -35,6 +35,15 @@ Change of behavior
   useful if you have a multisite installation, probably using two or more databases.
   This way you can have separate audit logs per website.
 
+- ezpMvcRailsRoute now forces you to be explicit on what kind of http method is used.
+
+  By default http-get is now assumed so if your rails route uses anyting else you would need to change it.
+  Two options:
+  * Use ezcMvcRailsRoute instead, it behaves like ezpMvcRailsRoute used to and works on 4.5 and up
+  * Change your route configuration:
+   - 'oauthToken'   => new ezpMvcRailsRoute( '/oauth/token', 'ezpRestOauthTokenController', 'handleRequest' )
+   + 'oauthToken'   => new ezpMvcRailsRoute( '/oauth/token', 'ezpRestOauthTokenController', array( 'http-post' => 'handleRequest' ) )
+
 
 
 Removed features
