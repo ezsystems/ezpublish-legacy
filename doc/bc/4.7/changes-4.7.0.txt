@@ -57,4 +57,7 @@ Removed globals
 Deprecated
 ----------
 
+- eZSession::get() and eZHTTPTool->sessionVariable()
 
+  These functions will not return session value by reference in the future,
+  please adapt your code to be explicit and use the set() / setSessionVariable().
