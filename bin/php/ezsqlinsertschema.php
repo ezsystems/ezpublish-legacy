@@ -23,29 +23,30 @@ $script->startup();
 
 $options = $script->getOptions( "[type:][user:][host:][password;][port:][socket:]" .
                                 "[table-type:][table-charset:]" .
-                                "[insert-types:][allow-multi-insert][schema-file:][clean-existing]",
+                                "[insert-types:][allow-multi-insert][schema-file:][commit-every-n-rows:][clean-existing]",
                                 "[filename][database]",
-                                array( 'type' => ( "Which database type to use, can be one of:\n" .
-                                                   "mysql, postgresql or any other supported by extensions" ),
+                                array( 'type' => "Which database type to use, can be one of:\n" .
+                                                 "mysql, postgresql or any other supported by extensions",
                                        'host' => "Connect to host database",
                                        'user' => "User for login to database",
                                        'password' => "Password to use when connecting to database",
                                        'port' => 'Port to connect to database',
                                        'socket' => 'Socket to connect to match and database (only for MySQL)',
-                                       'table-type' => ( "The table storage type to use when creating tables.\n" .
-                                                         "MySQL: bdb, innodb and myisam\n" .
-                                                         "PostgreSQL: \n" .
-                                                         "Oracle: " ),
+                                       'table-type' => "The table storage type to use when creating tables.\n" .
+                                                       "MySQL: bdb, innodb and myisam\n" .
+                                                       "PostgreSQL: \n" .
+                                                       "Oracle: ",
                                        'clean-existing' => 'Clean up existing schema (remove all database objects)',
                                        'table-charset' => 'Defines the charset to use on tables, the names of the charset depends on database type',
                                        'schema-file' => 'The schema file to use when importing data structures, is only required when importing a schema',
-                                       'allow-multi-insert' => ( 'Will create INSERT statements with multiple data entries (applies to data import only)' . "\n" .
-                                                                 'Multi-inserts will only be created for databases that support it' ),
-                                       'insert-types' => ( "A comma separated list of types to import (default is schema only):\n" .
-                                                           "schema - Table schema\n" .
-                                                           "data - Table data\n" .
-                                                           "all - Both table schema and data\n" .
-                                                           "none - Insert nothing (useful if you want to clean up schema only)" )
+                                       'allow-multi-insert' => 'Will create INSERT statements with multiple data entries (applies to data import only)' . "\n" .
+                                                               'Multi-inserts will only be created for databases that support it',
+                                       'commit-every-n-rows' => 'Commit every N insert statements (by default commits after every table data is inserted)',
+                                       'insert-types' => "A comma separated list of types to import (default is schema only):\n" .
+                                                         "schema - Table schema\n" .
+                                                         "data - Table data\n" .
+                                                         "all - Both table schema and data\n" .
+                                                         "none - Insert nothing (useful if you want to clean up schema only)"
                                        ) );
 $script->initialize();
 
@@ -131,7 +132,8 @@ $dbschemaParameters = array( 'schema' => $includeSchema,
                              'format' => 'local',
                              'table_type' => $options['table-type'],
                              'table_charset' => $options['table-charset'],
-                             'allow_multi_insert' => $options['allow-multi-insert'] );
+                             'allow_multi_insert' => $options['allow-multi-insert'],
+                             'commit_every_n_rows' => $options['commit-every-n-rows'] > 0 ? (int) $options['commit-every-n-rows'] : false );
 
 
 if ( strlen( trim( $type ) ) == 0 )
