@@ -92,17 +92,46 @@
 
 </div>
 
-
+{def $number_of_items=min( ezpreference( 'admin_role_view_limit' ), 3)|choose( 10, 10, 25, 50 )}
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-<h2 class="context-title">{'Users and groups using the <%role_name> role (%users_count)'|i18n( 'design/admin/role/view',, hash('%role_name', $role.name, '%users_count', $user_array|count) )|wash}</h2>
+<h2 class="context-title">{'Users and groups using the <%role_name> role (%users_count)'|i18n( 'design/admin/role/view',, hash('%role_name', $role.name, '%users_count', $user_array_count) )|wash}</h2>
 
 
 
 {* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+
+{* Items per page selector. *}
+<div class="context-toolbar">
+<div class="button-left">
+<p class="table-preferences">
+{switch match=$number_of_items}
+{case match=25}
+<a href={'/user/preferences/set/admin_role_view_limit/1'|ezurl}>10</a>
+<span class="current">25</span>
+<a href={'/user/preferences/set/admin_role_view_limit/3'|ezurl}>50</a>
+{/case}
+
+{case match=50}
+<a href={'/user/preferences/set/admin_role_view_limit/1'|ezurl}>10</a>
+<a href={'/user/preferences/set/admin_role_view_limit/2'|ezurl}>25</a>
+<span class="current">50</span>
+{/case}
+
+{case}
+<span class="current">10</span>
+<a href={'/user/preferences/set/admin_role_view_limit/2'|ezurl}>25</a>
+<a href={'/user/preferences/set/admin_role_view_limit/3'|ezurl}>50</a>
+{/case}
+
+{/switch}
+</p>
+</div>
+<div class="float-break"></div>
+</div>
 
 {section show=$user_array}
 <table class="list" cellspacing="0">
@@ -145,6 +174,15 @@
 </tr>
 {/section}
 </table>
+
+<div class="context-toolbar">
+{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri=concat( '/role/view/', $role.id )
+         item_count=$user_array_count
+         view_parameters=$view_parameters
+         item_limit=$limit}
+</div>
 {section-else}
 <div class="block">
 <p>

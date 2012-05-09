@@ -764,9 +764,11 @@ class eZRole extends eZPersistentObject
     }
 
     /*!
+      \param offset
+      \param limit
       \return the users and user groups assigned to the current role.
     */
-    function fetchUserByRole( )
+    function fetchUserByRole( $offset = false, $limit = false )
     {
         $db = eZDB::instance();
 
@@ -780,7 +782,7 @@ class eZRole extends eZPersistentObject
                   WHERE
                     ezuser_role.role_id = '$this->ID'";
 
-        $userRoleArray = $db->arrayQuery( $query );
+        $userRoleArray = $db->arrayQuery( $query, array( 'limit' => $limit, 'offset' => $offset ) );
         $userRoles = array();
         foreach ( $userRoleArray as $userRole )
         {
@@ -793,6 +795,27 @@ class eZRole extends eZPersistentObject
             $userRoles[] = $role;
         }
         return $userRoles;
+    }
+
+    /*!
+      \return the count of users and user groups assigned to the current role.
+    */
+    function fetchUserByRoleCount()
+    {
+        $db = eZDB::instance();
+
+        $query = "SELECT COUNT(*) AS row_count
+                  FROM
+                     ezuser_role
+                  WHERE
+                    ezuser_role.role_id = '$this->ID'";
+
+        $userRoleCountArray = $db->arrayQuery( $query );
+
+        if ( is_array( $userRoleCountArray ) && !empty( $userRoleCountArray ) )
+            return $userRoleCountArray[0]['row_count'];
+
+        return 0;
     }
 
     static function fetchRolesByLimitation( $limit_identifier, $limit_value )
