@@ -127,7 +127,7 @@ class ezjscAjaxContent
         if ( is_array( $mix ) )
             return implode(',', array_map( array('ezjscAjaxContent', 'textEncode'), array_filter( $mix ) ) );
 
-        return $mix;
+        return htmlspecialchars( $mix );
     }
 
     /**
