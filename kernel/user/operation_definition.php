@@ -202,4 +202,59 @@ $OperationList['preferences'] = array( 'name' => 'preferences',
                                                          ) ) )
                                         );
 
+$OperationList['logout'] = array( 'name' => 'logout',
+                                        'default_call_method' => array( 'include_file' => 'kernel/user/ezuseroperationcollection.php',
+                                                                        'class' => 'eZUserOperationCollection' ),
+                                        'parameter_type' => 'standard',
+                                        'parameters' => array( ),
+                                        'keys' => array( ),
+
+                                        'body' => array( array( 'type' => 'trigger',
+                                                                'name' => 'pre_logout',
+                                                                'keys' => array( )
+                                                                ),
+                                                         array( 'type' => 'method',
+                                                                'name' => 'logout',
+                                                                'frequency' => 'once',
+                                                                'method' => 'logoutUser',
+                                                                ),
+                                                         array( 'type' => 'trigger',
+                                                                'name' => 'post_logout',
+                                                                'keys' => array( ) ) )
+                                        );
+
+$OperationList['login'] = array( 'name' => 'login',
+                                        'default_call_method' => array( 'include_file' => 'kernel/user/ezuseroperationcollection.php',
+                                                                        'class' => 'eZUserOperationCollection' ),
+                                        'parameter_type' => 'standard',
+                                        'parameters' => array( array( 'name' => 'login',
+                                                                      'type' => 'string',
+                                                                      'required' => true ),
+                                                               array( 'name' => 'password',
+                                                                      'type' => 'string',
+                                                                      'required' => true ),
+                                                               array( 'name' => 'protocol',
+                                                                      'type' => 'string',
+                                                                      'required' => false )),
+                                        'keys' => array( 'login', 'password', 'protocol' ),
+
+                                        'body' => array( array( 'type' => 'trigger',
+                                                                'name' => 'pre_login',
+                                                                'keys' => array( 'login',
+                                                                                 'password',
+                                                                                 'protocol')
+                                                                ),
+                                                         array( 'type' => 'method',
+                                                                'name' => 'login',
+                                                                'frequency' => 'once',
+                                                                'method' => 'loginUser',
+                                                                ),
+                                                         array( 'type' => 'trigger',
+                                                                'name' => 'post_login',
+                                                                'keys' => array( 'login',
+                                                                                 'password',
+                                                                                 'protocol') ) )
+                                        );
+
+
 ?>

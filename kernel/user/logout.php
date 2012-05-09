@@ -13,7 +13,11 @@ $user = eZUser::instance();
 // Remove all temporary drafts
 eZContentObject::cleanupAllInternalDrafts( $user->attribute( 'contentobject_id' ) );
 
-$user->logoutCurrent();
+if (eZOperationHandler::operationIsAvailable( 'user_logout' )) {
+    $operationResult = eZOperationHandler::execute( 'user', 'logout', null, null, true );
+} else {
+    $user->logoutCurrent();
+}
 
 $http->setSessionVariable( 'force_logout', 1 );
 
