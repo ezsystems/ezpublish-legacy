@@ -626,6 +626,4 @@ class eZDateTimeType extends eZDataType
     }
 }
 
-eZDataType::register( eZDateTimeType::DATA_TYPE_STRING, "eZDateTimeType" );
-
 ?>

@@ -443,6 +443,4 @@ class eZTimeType extends eZDataType
     }
 }
 
-eZDataType::register( eZTimeType::DATA_TYPE_STRING, "eZTimeType" );
-
 ?>

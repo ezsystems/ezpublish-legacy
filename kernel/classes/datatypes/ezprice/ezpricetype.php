@@ -319,6 +319,4 @@ class eZPriceType extends eZDataType
     }
 }
 
-eZDataType::register( eZPriceType::DATA_TYPE_STRING, "eZPriceType" );
-
 ?>

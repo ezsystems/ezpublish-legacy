@@ -529,6 +529,4 @@ class eZUserType extends eZDataType
     }
 }
 
-eZDataType::register( eZUserType::DATA_TYPE_STRING, "eZUserType" );
-
 ?>
