@@ -202,4 +202,25 @@ $OperationList['preferences'] = array( 'name' => 'preferences',
                                                          ) ) )
                                         );
 
+$OperationList['logout'] = array( 'name' => 'logout',
+                                        'default_call_method' => array( 'include_file' => 'kernel/user/ezuseroperationcollection.php',
+                                                                        'class' => 'eZUserOperationCollection' ),
+                                        'parameter_type' => 'standard',
+                                        'parameters' => array( ),
+                                        'keys' => array( ),
+
+                                        'body' => array( array( 'type' => 'trigger',
+                                                                'name' => 'pre_logout',
+                                                                'keys' => array( )
+                                                                ),
+                                                         array( 'type' => 'method',
+                                                                'name' => 'logout',
+                                                                'frequency' => 'once',
+                                                                'method' => 'logoutUser',
+                                                                ),
+                                                         array( 'type' => 'trigger',
+                                                                'name' => 'post_logout',
+                                                                'keys' => array() ) )
+                                        );
+
 ?>
