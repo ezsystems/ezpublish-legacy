@@ -120,7 +120,7 @@ ul.tabs li a, ul.tabs li span.disabled
 
 /* CSS Media Query's to adjust layout based on screen width */
 
-@media all and (max-width: 1080px)
+@media all and (max-width: 1124px)
 {
     #header-logo a, #header-logo span
     {
