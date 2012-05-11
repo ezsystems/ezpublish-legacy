@@ -607,6 +607,7 @@ return array(
       'ezpExtensionOptions'                                => 'kernel/private/options/ezpextensionoptions.php',
       'ezpHttpResponseCodes'                               => 'kernel/private/rest/classes/http_response_codes.php',
       'ezpI18n'                                            => 'kernel/common/ezpi18n.php',
+      'ezpKernel'                                          => 'kernel/private/classes/ezpkernel.php',
       'ezpLanguageSwitcher'                                => 'kernel/private/classes/ezplanguageswitcher.php',
       'ezpLanguageSwitcherCapable'                         => 'kernel/private/interfaces/ezplanguageswitchercapable.php',
       'ezpLanguageSwitcherFunctionCollection'              => 'kernel/private/modules/switchlanguage/ezpLanguageSwitcherFunctionCollection.php',
