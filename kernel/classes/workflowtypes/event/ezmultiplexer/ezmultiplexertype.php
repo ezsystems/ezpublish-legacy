@@ -318,7 +318,12 @@ class eZMultiplexerType extends eZWorkflowEventType
                     $childProcess->removeThis();
                     return eZWorkflowType::STATUS_ACCEPTED;
                 }
-                else if ( $childStatus == eZWorkflow::STATUS_CANCELLED || $childStatus == eZWorkflow::STATUS_FAILED )
+                else if ( $childStatus == eZWorkflow::STATUS_CANCELLED )
+                {
+                    $childProcess->removeThis();
+                    return eZWorkflowType::STATUS_WORKFLOW_CANCELLED;
+                }
+                else if ( $childStatus == eZWorkflow::STATUS_FAILED )
                 {
                     $childProcess->removeThis();
                     return eZWorkflowType::STATUS_REJECTED;
