@@ -15,11 +15,6 @@
 class ezpKernel
 {
     /**
-     * @var bool
-     */
-    private $isBooted = false;
-
-    /**
      * @var ezpMobileDeviceDetect
      */
     private $mobileDeviceDetect;
@@ -67,13 +62,10 @@ class ezpKernel
     private $access;
 
     /**
-     * Boot up legacy kernel
+     * Construct an ezpKernel instance
      */
-    protected function boot()
+    public function __construct()
     {
-        if ( $this->isBooted )
-            return;
-
         require_once __DIR__ . '/global_functions.php';
 
         /**
@@ -239,8 +231,6 @@ class ezpKernel
      */
     public function run()
     {
-        $this->boot();
-
         $scriptStartTime = microtime( true );
 
         ob_start();
