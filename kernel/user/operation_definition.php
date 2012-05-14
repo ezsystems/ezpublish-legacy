@@ -9,8 +9,7 @@
 $OperationList = array();
 
 $OperationList['setsettings'] = array( 'name' => 'setsettings',
-                                        'default_call_method' => array( 'include_file' => 'kernel/user/ezuseroperationcollection.php',
-                                                                        'class' => 'eZUserOperationCollection' ),
+                                        'default_call_method' => array( 'class' => 'eZUserOperationCollection' ),
                                         'parameter_type' => 'standard',
                                         'parameters' => array( array( 'name' => 'user_id',
                                                                       'type' => 'integer',
@@ -43,8 +42,7 @@ $OperationList['setsettings'] = array( 'name' => 'setsettings',
                                         );
 
 $OperationList['activation'] = array( 'name' => 'activation',
-                                        'default_call_method' => array( 'include_file' => 'kernel/user/ezuseroperationcollection.php',
-                                                                        'class' => 'eZUserOperationCollection' ),
+                                        'default_call_method' => array( 'class' => 'eZUserOperationCollection' ),
                                         'parameter_type' => 'standard',
                                         'parameters' => array( array( 'name' => 'user_id',
                                                                       'type' => 'integer',
@@ -77,8 +75,7 @@ $OperationList['activation'] = array( 'name' => 'activation',
                                         );
 
 $OperationList['register'] = array( 'name' => 'register',
-                                        'default_call_method' => array( 'include_file' => 'kernel/user/ezuseroperationcollection.php',
-                                                                        'class' => 'eZUserOperationCollection' ),
+                                        'default_call_method' => array( 'class' => 'eZUserOperationCollection' ),
                                         'parameter_type' => 'standard',
                                         'parameters' => array( array( 'name' => 'user_id',
                                                                       'type' => 'integer',
@@ -111,8 +108,7 @@ $OperationList['register'] = array( 'name' => 'register',
                                         );
 
 $OperationList['password'] = array( 'name' => 'password',
-                                        'default_call_method' => array( 'include_file' => 'kernel/user/ezuseroperationcollection.php',
-                                                                        'class' => 'eZUserOperationCollection' ),
+                                        'default_call_method' => array( 'class' => 'eZUserOperationCollection' ),
                                         'parameter_type' => 'standard',
                                         'parameters' => array( array( 'name' => 'user_id',
                                                                       'type' => 'integer',
@@ -140,8 +136,7 @@ $OperationList['password'] = array( 'name' => 'password',
                                         );
 
 $OperationList['forgotpassword'] = array( 'name' => 'forgotpassword',
-                                        'default_call_method' => array( 'include_file' => 'kernel/user/ezuseroperationcollection.php',
-                                                                        'class' => 'eZUserOperationCollection' ),
+                                        'default_call_method' => array( 'class' => 'eZUserOperationCollection' ),
                                         'parameter_type' => 'standard',
                                         'parameters' => array( array( 'name' => 'user_id',
                                                                       'type' => 'integer',
@@ -174,8 +169,7 @@ $OperationList['forgotpassword'] = array( 'name' => 'forgotpassword',
                                         );
 
 $OperationList['preferences'] = array( 'name' => 'preferences',
-                                        'default_call_method' => array( 'include_file' => 'kernel/user/ezuseroperationcollection.php',
-                                                                        'class' => 'eZUserOperationCollection' ),
+                                        'default_call_method' => array( 'class' => 'eZUserOperationCollection' ),
                                         'parameter_type' => 'standard',
                                         'parameters' => array( array( 'name' => 'key',
                                                                       'type' => 'string',

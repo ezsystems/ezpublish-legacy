@@ -148,8 +148,7 @@ class eZModuleOperationInfo
         $callMethod = $operationDefinition['default_call_method'];
         $resultArray = null;
         $this->Memento = null;
-        if ( isset( $callMethod['include_file'] ) and
-             isset( $callMethod['class'] ) )
+        if ( isset( $callMethod['class'] ) )
         {
             $bodyCallCount = array( 'loop_run' => array() );
             $operationKeys = null;
@@ -194,7 +193,7 @@ class eZModuleOperationInfo
                         $mementoData = $memento->data();
                         $memento->remove();
 
-                        $resultArray = $this->executeBody( $callMethod['include_file'], $callMethod['class'], $operationDefinition['body'],
+                        $resultArray = $this->executeBody( $callMethod['class'], $operationDefinition['body'],
                                                            $operationKeys, $operationParameterDefinitions, $operationParameters,
                                                            $mementoData, $bodyCallCount, $operationDefinition['name'] );
                         if ( is_array( $resultArray ) )
@@ -212,7 +211,7 @@ class eZModuleOperationInfo
             if ( $runOperation )
             {
                 // start  new operation
-                $resultArray = $this->executeBody( $callMethod['include_file'], $callMethod['class'], $operationDefinition['body'],
+                $resultArray = $this->executeBody( $callMethod['class'], $operationDefinition['body'],
                                                     $operationKeys, $operationParameterDefinitions, $operationParameters,
                                                     $mementoData, $bodyCallCount, $operationDefinition['name'] );
             }
@@ -324,8 +323,7 @@ class eZModuleOperationInfo
     /**
      * Executes the operation body
      *
-     * @param string $includeFile Path to the file where the operation class is defined
-     * @param string $className Name of the class holding the operation methods (@see $includeFile)
+     * @param string $className Name of the class holding the operation methods
      * @param array $bodyStructure
      * @param array $operationKeys
      * @param array $operationParameterDefinitions
@@ -336,7 +334,7 @@ class eZModuleOperationInfo
      * @param array $currentLoopData
      * @return array
      */
-    function executeBody( $includeFile, $className, $bodyStructure,
+    function executeBody( $className, $bodyStructure,
                           $operationKeys, $operationParameterDefinitions, $operationParameters,
                           &$mementoData, &$bodyCallCount, $operationName, $currentLoopData = null )
     {
@@ -369,7 +367,7 @@ class eZModuleOperationInfo
 
                     if ( $mementoData !== null )
                     {
-                        $returnValue = $this->executeBody( $includeFile, $className, $children,
+                        $returnValue = $this->executeBody( $className, $children,
                                                            $operationKeys, $tmpOperationParameterDefinitions, $operationParameters,
                                                            $mementoData, $bodyCallCount, $operationName, null );
                         if ( !$returnValue['status'] )
@@ -380,7 +378,7 @@ class eZModuleOperationInfo
                         ++$bodyCallCount['loop_run'][$bodyName];
 
                         $method = $body['method'];
-                        $resultArray = $this->executeClassMethod( $includeFile, $className, $method,
+                        $resultArray = $this->executeClassMethod( $className, $method,
                                                                   $operationParameterDefinitions, $operationParameters );
                         $parameters = array();
                         if ( isset( $resultArray['parameters'] ) )
@@ -401,7 +399,7 @@ class eZModuleOperationInfo
                             }
 
                             ++$count;
-                            $returnValue = $this->executeBody( $includeFile, $className, $children,
+                            $returnValue = $this->executeBody( $className, $children,
                                                                $operationKeys, $tmpOperationParameterDefinitions, $tmpOperationParameters,
                                                                $mementoData, $bodyCallCount, $operationName, array( 'name' => $loopName,
                                                                                                                     'count' => count( $parameters ),
@@ -526,7 +524,7 @@ class eZModuleOperationInfo
                             $tmpOperationParameterDefinitions = $body['parameters'];
                         if ( $executeMethod )
                         {
-                            $result = $this->executeClassMethod( $includeFile, $className, $method,
+                            $result = $this->executeClassMethod( $className, $method,
                                                                  $tmpOperationParameterDefinitions, $operationParameters );
                             if ( $result && array_key_exists( 'status', $result ) )
                             {
@@ -744,17 +742,15 @@ class eZModuleOperationInfo
     /**
      * Executes a class method in an operation body
      *
-     * @param string $includeFile The file where the class & method are defined
      * @param string $className The class where the method is implemented
      * @param string $methodName The method to call
      * @param mixed $operationParameterDefinitions The method parameters definition
      * @param mixed $operationParameters The method parameters values
      * @return array
      */
-    function executeClassMethod( $includeFile, $className, $methodName,
+    function executeClassMethod( $className, $methodName,
                                  $operationParameterDefinitions, $operationParameters )
     {
-        include_once( $includeFile );
         if ( !class_exists( $className ) )
         {
             return array( 'internal_error' => eZModuleOperationInfo::ERROR_NO_CLASS,

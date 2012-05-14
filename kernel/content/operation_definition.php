@@ -8,8 +8,7 @@
 
 $OperationList = array();
 $OperationList['read'] = array( 'name' => 'read',
-                                'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
-                                                                'class' => 'eZContentOperationCollection' ),
+                                'default_call_method' => array( 'class' => 'eZContentOperationCollection' ),
                                 'parameter_type' => 'standard',
                                 'parameters' => array( array( 'name' => 'node_id',
                                                               'type' => 'integer',
@@ -36,8 +35,7 @@ $OperationList['read'] = array( 'name' => 'read',
                                                         'method' => 'readObject' ) ) );
 
 $OperationList['publish'] = array( 'name' => 'publish',
-                                   'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
-                                                                   'class' => 'eZContentOperationCollection' ),
+                                   'default_call_method' => array( 'class' => 'eZContentOperationCollection' ),
                                    'parameters' => array( array( 'name' => 'object_id',
                                                                  'type' => 'integer',
                                                                  'required' => true ),
@@ -217,8 +215,7 @@ $OperationList['publish'] = array( 'name' => 'publish',
                                                     ) );
 
 $OperationList['move'] = array( 'name' => 'move',
-                                'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
-                                                                'class' => 'eZContentOperationCollection' ),
+                                'default_call_method' => array( 'class' => 'eZContentOperationCollection' ),
                                 'parameter_type' => 'standard',
                                 'parameters' => array( array( 'name' => 'node_id',
                                                               'type' => 'integer',
@@ -252,8 +249,7 @@ $OperationList['move'] = array( 'name' => 'move',
                               );
 
 $OperationList['addlocation'] = array(  'name' => 'addlocation',
-                                        'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
-                                                                        'class' => 'eZContentOperationCollection' ),
+                                        'default_call_method' => array( 'class' => 'eZContentOperationCollection' ),
                                         'parameter_type' => 'standard',
                                         'parameters' => array( array( 'name' => 'node_id',
                                                                       'type' => 'integer',
@@ -289,8 +285,7 @@ $OperationList['addlocation'] = array(  'name' => 'addlocation',
                                      );
 
 $OperationList['removelocation'] = array(   'name' => 'removelocation',
-                                            'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
-                                                                            'class' => 'eZContentOperationCollection' ),
+                                            'default_call_method' => array( 'class' => 'eZContentOperationCollection' ),
                                             'parameter_type' => 'standard',
                                             'parameters' => array( array( 'name' => 'node_list',
                                                                           'type' => 'array',
@@ -314,8 +309,7 @@ $OperationList['removelocation'] = array(   'name' => 'removelocation',
                                         );
 
 $OperationList['delete'] = array( 'name' => 'delete',
-                                            'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
-                                                                            'class' => 'eZContentOperationCollection' ),
+                                            'default_call_method' => array( 'class' => 'eZContentOperationCollection' ),
                                             'parameter_type' => 'standard',
                                             'parameters' => array( array( 'name' => 'node_id_list',
                                                                           'type' => 'array',
@@ -343,8 +337,7 @@ $OperationList['delete'] = array( 'name' => 'delete',
                                                          ) );
 
 $OperationList['hide'] = array( 'name' => 'hide',
-                                'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
-                                                                'class' => 'eZContentOperationCollection' ),
+                                'default_call_method' => array( 'class' => 'eZContentOperationCollection' ),
                                 'parameter_type' => 'standard',
                                 'parameters' => array( array( 'name' => 'node_id',
                                                               'type' => 'integer',
@@ -369,8 +362,7 @@ $OperationList['hide'] = array( 'name' => 'hide',
                               );
 
 $OperationList['swap'] = array( 'name' => 'swap',
-                                'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
-                                                                'class' => 'eZContentOperationCollection' ),
+                                'default_call_method' => array( 'class' => 'eZContentOperationCollection' ),
                                 'parameter_type' => 'standard',
                                 'parameters' => array( array( 'name' => 'node_id',
                                                               'type' => 'integer',
@@ -401,8 +393,7 @@ $OperationList['swap'] = array( 'name' => 'swap',
                               );
 
 $OperationList['updatesection'] = array( 'name' => 'updatesection',
-                                         'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
-                                                                         'class' => 'eZContentOperationCollection' ),
+                                         'default_call_method' => array( 'class' => 'eZContentOperationCollection' ),
                                         'parameter_type' => 'standard',
                                         'parameters' => array( array( 'name' => 'node_id',
                                                                       'type' => 'integer',
@@ -429,8 +420,7 @@ $OperationList['updatesection'] = array( 'name' => 'updatesection',
                                                         )
                               );
 $OperationList['translationavailable'] = array( 'name' => 'translationavailable',
-                                                'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
-                                                'class' => 'eZContentOperationCollection' ),
+                                                'default_call_method' => array( 'class' => 'eZContentOperationCollection' ),
                                                 'parameter_type' => 'standard',
                                                 'parameters' => array( array( 'name' => 'object_id',
                                                                               'type' => 'integer',
@@ -457,8 +447,7 @@ $OperationList['translationavailable'] = array( 'name' => 'translationavailable'
                                             );
 
 $OperationList['sort'] = array( 'name' => 'sort',
-                                'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
-                                                                'class' => 'eZContentOperationCollection' ),
+                                'default_call_method' => array( 'class' => 'eZContentOperationCollection' ),
                                 'parameter_type' => 'standard',
                                 'parameters' => array( array( 'name' => 'node_id',
                                                               'type' => 'integer',
@@ -488,8 +477,7 @@ $OperationList['sort'] = array( 'name' => 'sort',
                               );
 
 $OperationList['updatepriority'] = array( 'name' => 'updatepriority',
-                                'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
-                                                                'class' => 'eZContentOperationCollection' ),
+                                'default_call_method' => array( 'class' => 'eZContentOperationCollection' ),
                                 'parameter_type' => 'standard',
                                 'parameters' => array( array( 'name' => 'node_id',
                                                               'type' => 'integer',
@@ -519,8 +507,7 @@ $OperationList['updatepriority'] = array( 'name' => 'updatepriority',
                               );
 
 $OperationList['updatemainassignment'] = array( 'name' => 'UpdateMainAssignment',
-                                'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
-                                                                'class' => 'eZContentOperationCollection' ),
+                                'default_call_method' => array( 'class' => 'eZContentOperationCollection' ),
                                 'parameter_type' => 'standard',
                                 'parameters' => array( array( 'name' => 'main_assignment_id',
                                                               'type' => 'integer',
@@ -550,8 +537,7 @@ $OperationList['updatemainassignment'] = array( 'name' => 'UpdateMainAssignment'
                               );
 
 $OperationList['updateinitiallanguage'] = array( 'name' => 'updateinitiallanguage',
-                                                 'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
-                                                 'class' => 'eZContentOperationCollection' ),
+                                                 'default_call_method' => array( 'class' => 'eZContentOperationCollection' ),
                                 'parameter_type' => 'standard',
                                 'parameters' => array( array( 'name' => 'object_id',
                                                               'type' => 'integer',
@@ -580,8 +566,7 @@ $OperationList['updateinitiallanguage'] = array( 'name' => 'updateinitiallanguag
                               );
 
 $OperationList['updatealwaysavailable'] = array( 'name' => 'updatealwaysavailable',
-                                                 'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
-                                                 'class' => 'eZContentOperationCollection' ),
+                                                 'default_call_method' => array( 'class' => 'eZContentOperationCollection' ),
                                 'parameter_type' => 'standard',
                                 'parameters' => array( array( 'name' => 'object_id',
                                                               'type' => 'integer',
@@ -610,8 +595,7 @@ $OperationList['updatealwaysavailable'] = array( 'name' => 'updatealwaysavailabl
                               );
 
 $OperationList['removetranslation'] = array( 'name' => 'removetranslation',
-                                             'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
-                                             'class' => 'eZContentOperationCollection' ),
+                                             'default_call_method' => array( 'class' => 'eZContentOperationCollection' ),
                                 'parameter_type' => 'standard',
                                 'parameters' => array(  array( 'name' => 'object_id',
                                                                'type' => 'integer',
@@ -640,8 +624,7 @@ $OperationList['removetranslation'] = array( 'name' => 'removetranslation',
                               );
 
 $OperationList['updateobjectstate'] = array( 'name' => 'updateobjectstate',
-                                             'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
-                                             'class' => 'eZContentOperationCollection' ),
+                                             'default_call_method' => array( 'class' => 'eZContentOperationCollection' ),
                                 'parameter_type' => 'standard',
                                 'parameters' => array(  array( 'name' => 'object_id',
                                                                'type' => 'integer',
@@ -667,8 +650,7 @@ $OperationList['updateobjectstate'] = array( 'name' => 'updateobjectstate',
                               );
 
 $OperationList['createnodefeed'] = array( 'name' => 'createnodefeed',
-                                          'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
-                                          'class' => 'eZContentOperationCollection' ),
+                                          'default_call_method' => array( 'class' => 'eZContentOperationCollection' ),
                                 'parameter_type' => 'standard',
                                 'parameters' => array(  array( 'name' => 'node_id',
                                                                'type' => 'integer',
@@ -691,8 +673,7 @@ $OperationList['createnodefeed'] = array( 'name' => 'createnodefeed',
                               );
 
 $OperationList['removenodefeed'] = array( 'name' => 'removenodefeed',
-                                          'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
-                                          'class' => 'eZContentOperationCollection' ),
+                                          'default_call_method' => array( 'class' => 'eZContentOperationCollection' ),
                                 'parameter_type' => 'standard',
                                 'parameters' => array(  array( 'name' => 'node_id',
                                                                'type' => 'integer',
