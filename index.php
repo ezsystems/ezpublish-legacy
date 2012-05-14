@@ -20,4 +20,8 @@ error_reporting ( E_ALL | E_STRICT );
 require 'autoload.php';
 
 $kernel = new ezpKernel;
-$kernel->run();
+$result = $kernel->run();
+
+echo $result["content"];
+
+$kernel->shutdown();

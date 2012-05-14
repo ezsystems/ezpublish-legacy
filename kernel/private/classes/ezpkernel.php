@@ -618,14 +618,16 @@ class ezpKernel
 
         eZDebug::addTimingPoint( "Script end" );
 
-        echo trim( ob_get_clean() );
+        $content = trim( ob_get_clean() );
 
+        ob_start();
         eZDB::checkTransactionCounter();
-
         eZDisplayResult( $templateResult );
+        $content .= ob_get_clean();
 
-        eZExecution::cleanup();
-        eZExecution::setCleanExit();
+        return array(
+            "content" => $content,
+        );
     }
 
     /**
@@ -939,6 +941,12 @@ class ezpKernel
         }
 
         return $this->policyCheckViewMap;
+    }
+
+    public function shutdown()
+    {
+        eZExecution::cleanup();
+        eZExecution::setCleanExit();
     }
     /**
      * Performs a redirection
