@@ -289,7 +289,7 @@ class ezpKernel
             {
                 eZSession::addCallback(
                     'destroy_pre',
-                    function ( eZDB $db, $key, $escapedKey )
+                    function ( eZDBInterface $db, $key, $escapedKey )
                     {
                         $basket = eZBasket::fetch( $key );
                         if ( $basket instanceof eZBasket )
@@ -298,7 +298,7 @@ class ezpKernel
                 );
                 eZSession::addCallback(
                     'gc_pre',
-                    function ( eZDB $db, $time )
+                    function ( eZDBInterface $db, $time )
                     {
                         eZBasket::cleanupExpired( $time );
                     }
@@ -306,7 +306,7 @@ class ezpKernel
 
                 eZSession::addCallback(
                     'cleanup_pre',
-                    function ( eZDB $db )
+                    function ( eZDBInterface $db )
                     {
                         eZBasket::cleanup();
                     }
@@ -316,7 +316,7 @@ class ezpKernel
             // addCallBack to update session id for shop basket on session regenerate
             eZSession::addCallback(
                 'regenerate_post',
-                function( eZDB $db, $escNewKey, $escOldKey  )
+                function ( eZDBInterface $db, $escNewKey, $escOldKey  )
                 {
                     $db->query( "UPDATE ezbasket SET session_id='{$escNewKey}' WHERE session_id='{$escOldKey}'" );
                 }
