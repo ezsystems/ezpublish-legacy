@@ -19,10 +19,10 @@ if ( file_exists( 'config.php' ) )
     require 'config.php';
 }
 
-$useBundledComponents = defined( 'EZP_USE_BUNDLED_COMPONENTS' ) ? EZP_USE_BUNDLED_COMPONENTS === true : file_exists( 'lib/ezc' );
-if ( $useBundledComponents )
+$ezcPath = __DIR__ . "/lib/ezc";
+if ( defined( 'EZP_USE_BUNDLED_COMPONENTS' ) ? EZP_USE_BUNDLED_COMPONENTS === true : file_exists( $ezcPath ) )
 {
-    set_include_path( '.' . PATH_SEPARATOR . './lib/ezc' . PATH_SEPARATOR . get_include_path() );
+    set_include_path( '.' . PATH_SEPARATOR . $ezcPath . PATH_SEPARATOR . get_include_path() );
     require 'Base/src/base.php';
     $baseEnabled = true;
 }

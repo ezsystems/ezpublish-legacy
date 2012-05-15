@@ -464,7 +464,7 @@ class eZINI
         eZDebug::accumulatorStart( 'ini', 'Ini load', 'Load cache' );
         if ( $reset )
             $this->reset();
-        $cachedDir = self::CONFIG_CACHE_DIR;
+        $cachedDir = __DIR__ . "/../../../" . self::CONFIG_CACHE_DIR;
 
         $fileName = $this->cacheFileName( $placement );
         $cachedFile = $cachedDir . $fileName;
