@@ -931,11 +931,6 @@ class ezpKernel
         return $this->policyCheckViewMap;
     }
 
-    public function shutdown()
-    {
-        eZExecution::cleanup();
-        eZExecution::setCleanExit();
-    }
     /**
      * Performs a redirection
      *
@@ -1061,4 +1056,9 @@ class ezpKernel
     /**
      * Runs the shutdown process
      */
+    public function shutdown()
+    {
+        eZExecution::cleanup();
+        eZExecution::setCleanExit();
+    }
 }
