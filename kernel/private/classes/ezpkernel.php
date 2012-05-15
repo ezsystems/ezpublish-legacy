@@ -222,8 +222,6 @@ class ezpKernel
          * @uses eZUser::instance() So needs to be executed after eZSession::start()|lazyStart()
          */
         eZDebug::checkDebugByUser();
-
-        $this->isBooted = true;
     }
 
     /**
