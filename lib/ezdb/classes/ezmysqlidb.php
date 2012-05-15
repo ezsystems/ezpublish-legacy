@@ -283,8 +283,19 @@ class eZMySQLiDB extends eZDBInterface
             // Check if we need to use the master or slave server by default
             if ( $server === false )
             {
-                $server = strncasecmp( $sql, 'select', 6 ) === 0 && $this->TransactionCounter == 0 ?
-                    eZDBInterface::SERVER_SLAVE : eZDBInterface::SERVER_MASTER;
+                // Always use master if it has been written to, this is to avoid
+                // race-condition where 1 thing is written to master and fetched
+                // from slave before replication is done.
+                if ( $this->writeFlag && $this->attribute('follow_master') ) {
+                    $server = eZDBInterface::SERVER_MASTER;
+                } else {
+                    if ( strncasecmp( $sql, 'select', 6 ) === 0 && $this->TransactionCounter == 0 ) {
+                        $server = eZDBInterface::SERVER_SLAVE;
+                    } else {
+                        $server = eZDBInterface::SERVER_MASTER;
+                        $this->writeFlag = true;
+                    }
+                }
             }
 
             $connection = ( $server == eZDBInterface::SERVER_SLAVE ) ? $this->DBConnection : $this->DBWriteConnection;

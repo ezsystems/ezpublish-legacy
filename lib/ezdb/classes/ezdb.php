@@ -160,6 +160,7 @@ class eZDB
             $slaveServerUser = null;
             $slaveServerPassword = null;
             $slaveServerDatabase = null;
+            $followMaster = null;   
             $useSlave = $ini->variable( 'DatabaseSettings', 'UseSlaveServer' );
             if ( $useSlave == "enabled" )
             {
@@ -168,6 +169,7 @@ class eZDB
                 $slaveServerUsers = $ini->variable( 'DatabaseSettings', 'SlaverServerUser' );
                 $slaveServerPasswords = $ini->variable( 'DatabaseSettings', 'SlaverServerPassword' );
                 $slaveServerDatabases = $ini->variable( 'DatabaseSettings', 'SlaverServerDatabase' );
+                $followMaster = $ini->variable( 'DatabaseSettings', 'FollowMaster' );
                 $numberServers = count( $slaveServers );
                 if ( $numberServers > 1 )
                 {
@@ -195,9 +197,8 @@ class eZDB
 
             $impl = null;
 
-            $useSlaveServer = false;
-            if ( $useSlave == "enabled" )
-                $useSlaveServer = true;
+            $useSlaveServer = ( $useSlave === "enabled" );
+            $followMaster   = ( $followMaster === 'enabled' );  
             $defaultDatabaseParameters = array( 'server' => $server,
                                                 'port' => $port,
                                                 'user' => $user,
@@ -209,6 +210,7 @@ class eZDB
                                                 'slave_user' => $slaveServerUser,
                                                 'slave_password' => $slaveServerPassword,
                                                 'slave_database' => $slaveServerDatabase,
+                                                'follow_master' => $followMaster,
                                                 'charset' => $charset,
                                                 'is_internal_charset' => $isInternalCharset,
                                                 'socket' => $socketPath,
@@ -241,6 +243,8 @@ class eZDB
                 $databaseParameters['slave_password'] = $b['slave_password'];
             if ( isset( $b['slave_database'] ) )
                 $databaseParameters['slave_database'] = $b['slave_database'];
+            if ( isset( $b['follow_master'] ) )
+                $databaseParameters['follow_master'] = $b['follow_master'];
             if ( isset( $b['charset'] ) )
             {
                 $databaseParameters['charset'] = $b['charset'];
