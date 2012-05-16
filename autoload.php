@@ -59,14 +59,14 @@ class ezpAutoloader
             $ezpExtensionClasses = false;
             $ezpTestClasses = false;
 
-            if ( file_exists( 'var/autoload/ezp_extension.php' ) )
+            if ( file_exists( __DIR__ . '/var/autoload/ezp_extension.php' ) )
             {
-                $ezpExtensionClasses = require 'var/autoload/ezp_extension.php';
+                $ezpExtensionClasses = require __DIR__ . '/var/autoload/ezp_extension.php';
             }
 
-            if ( file_exists( 'var/autoload/ezp_tests.php' ) )
+            if ( file_exists( __DIR__ . '/var/autoload/ezp_tests.php' ) )
             {
-                $ezpTestClasses = require 'var/autoload/ezp_tests.php';
+                $ezpTestClasses = require __DIR__ . '/var/autoload/ezp_tests.php';
             }
 
             if ( $ezpExtensionClasses and $ezpTestClasses )
