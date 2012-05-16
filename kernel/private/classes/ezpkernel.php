@@ -62,6 +62,16 @@ class ezpKernel
     private $access;
 
     /**
+     * @var eZURI
+     */
+    private $uri;
+
+    /**
+     * @var array
+     */
+    private $check;
+
+    /**
      * Construct an ezpKernel instance
      */
     public function __construct()
@@ -229,159 +239,11 @@ class ezpKernel
      */
     public function run()
     {
-        $scriptStartTime = microtime( true );
+        $this->requestInit();
 
-        ob_start();
+        $moduleResult = $this->dispatchLoop();
 
-        $GLOBALS['eZRedirection'] = false;
-        $this->access = eZSiteAccess::current();
-
-        eZDebug::setScriptStart( $scriptStartTime );
-
-        eZDebug::addTimingPoint( "Script start" );
-
-        $uri = eZURI::instance( eZSys::requestURI() );
-        $GLOBALS['eZRequestedURI'] = $uri;
-
-        // Be able to do general events early in process
-        ezpEvent::getInstance()->notify( 'request/preinput', array( $uri ) );
-
-        // Initialize module loading
-        $this->siteBasics['module-repositories'] = eZModule::activeModuleRepositories();
-        eZModule::setGlobalPathList( $this->siteBasics['module-repositories'] );
-
-        // make sure we get a new $ini instance now that it has been reset
         $ini = eZINI::instance();
-
-        // start: eZCheckValidity
-        // pre check, setup wizard related so needs to be before session/db init
-        if ( $ini->variable( 'SiteAccessSettings', 'CheckValidity' ) === 'true' )
-        {
-            $check = array( 'module' => 'setup', 'function' => 'init' );
-            // Turn off some features that won't bee needed yet
-            $this->siteBasics['policy-check-omit-list'][] = 'setup';
-            $this->siteBasics['show-page-layout'] = $ini->variable( 'SetupSettings', 'PageLayout' );
-            $this->siteBasics['validity-check-required'] = true;
-            $this->siteBasics['session-required'] = $this->siteBasics['user-object-required'] = false;
-            $this->siteBasics['db-required'] = $this->siteBasics['no-cache-adviced'] = $this->siteBasics['url-translator-allowed'] = false;
-            $this->siteBasics['site-design-override'] = $ini->variable( 'SetupSettings', 'OverrideSiteDesign' );
-            $this->access = eZSiteAccess::change( array( 'name' => 'setup', 'type' => eZSiteAccess::TYPE_URI ) );
-            eZTranslatorManager::enableDynamicTranslations();
-        }
-        // stop: eZCheckValidity
-
-        if ( $this->siteBasics['session-required'] )
-        {
-            // Check if this should be run in a cronjob
-            if ( $ini->variable( 'Session', 'BasketCleanup' ) !== 'cronjob' )
-            {
-                eZSession::addCallback(
-                    'destroy_pre',
-                    function ( eZDBInterface $db, $key, $escapedKey )
-                    {
-                        $basket = eZBasket::fetch( $key );
-                        if ( $basket instanceof eZBasket )
-                            $basket->remove();
-                    }
-                );
-                eZSession::addCallback(
-                    'gc_pre',
-                    function ( eZDBInterface $db, $time )
-                    {
-                        eZBasket::cleanupExpired( $time );
-                    }
-                );
-
-                eZSession::addCallback(
-                    'cleanup_pre',
-                    function ( eZDBInterface $db )
-                    {
-                        eZBasket::cleanup();
-                    }
-                );
-            }
-
-            // addCallBack to update session id for shop basket on session regenerate
-            eZSession::addCallback(
-                'regenerate_post',
-                function ( eZDBInterface $db, $escNewKey, $escOldKey  )
-                {
-                    $db->query( "UPDATE ezbasket SET session_id='{$escNewKey}' WHERE session_id='{$escOldKey}'" );
-                }
-            );
-
-            if ( $ini->variable( 'Session', 'ForceStart' ) === 'enabled' )
-                eZSession::start();
-            else
-                eZSession::lazyStart();
-
-            // let session specify if db is required
-            $this->siteBasics['db-required'] = eZSession::getHandlerInstance()->dbRequired();
-        }
-
-        // if $this->siteBasics['db-required'], open a db connection and check that db is connected
-        if ( $this->siteBasics['db-required'] && !eZDB::instance()->isConnected() )
-        {
-            $this->warningList[] = array(
-                'error' => array(
-                    'type' => 'kernel',
-                    'number' => eZError::KERNEL_NO_DB_CONNECTION
-                ),
-                'text' => 'No database connection could be made, the system might not behave properly.'
-            );
-        }
-
-        // eZCheckUser: pre check, RequireUserLogin & FORCE_LOGIN related so needs to be after session init
-        if ( !isset( $check ) )
-        {
-            $check = eZUserLoginHandler::preCheck( $this->siteBasics, $uri );
-        }
-
-        ezpEvent::getInstance()->notify( 'request/input', array( $uri ) );
-
-        // Initialize with locale settings
-        $languageCode = eZLocale::instance()->httpLocaleCode();
-        $phpLocale = trim( $ini->variable( 'RegionalSettings', 'SystemLocale' ) );
-        if ( $phpLocale != '' )
-        {
-            setlocale( LC_ALL, explode( ',', $phpLocale ) );
-        }
-
-        $httpCharset = eZTextCodec::httpCharset();
-
-        $site = array(
-            'title' => $ini->variable( 'SiteSettings', 'SiteName' ),
-            'design' => $ini->variable( 'DesignSettings', 'SiteDesign' ),
-            'http_equiv' => array(
-                'Content-Type' => 'text/html; charset=' . $httpCharset,
-                'Content-language' => $languageCode
-            )
-        );
-
-        // send header information
-        foreach ( eZHTTPHeader::headerOverrideArray( $uri ) +
-            array(
-                'Expires' => 'Mon, 26 Jul 1997 05:00:00 GMT',
-                'Last-Modified' => gmdate( 'D, d M Y H:i:s' ) . ' GMT',
-                'Cache-Control' => 'no-cache, must-revalidate',
-                'Pragma' => 'no-cache',
-                'X-Powered-By' => 'eZ Publish',
-                'Content-Type' => 'text/html; charset=' . $httpCharset,
-                'Served-by' => $_SERVER["SERVER_NAME"],
-                'Content-language' => $languageCode
-            ) as $key => $value )
-        {
-            header( $key . ': ' . $value );
-        }
-        unset( $languageCode, $phpLocale, $httpCharset );
-
-        // Read role settings
-        $this->siteBasics['policy-check-omit-list'] = array_merge(
-            $this->siteBasics['policy-check-omit-list'],
-            $ini->variable( 'RoleSettings', 'PolicyOmitList' )
-        );
-
-        $moduleResult = $this->dispatchLoop( $uri, $check );
 
         /**
          * Ouput an is_logged_in cookie when users are logged in for use by http cache solutions.
@@ -583,7 +445,7 @@ class ezpKernel
             $navigationPart = eZNavigationPart::fetchPartByIdentifier( $navigationPartString );
 
             $tpl->setVariable( 'navigation_part', $navigationPart );
-            $tpl->setVariable( 'uri_string', $uri->uriString() );
+            $tpl->setVariable( 'uri_string', $this->uri->uriString() );
             if ( isset( $moduleResult['requested_uri_string'] ) )
             {
                 $tpl->setVariable( 'requested_uri_string', $moduleResult['requested_uri_string'] );
@@ -620,11 +482,8 @@ class ezpKernel
 
     /**
      * Runs the dispatch loop
-     *
-     * @param string $uri
-     * @param array $check
      */
-    protected function dispatchLoop( $uri, $check )
+    protected function dispatchLoop()
     {
         $ini = eZINI::instance();
 
@@ -633,22 +492,22 @@ class ezpKernel
         {
             $objectHasMovedError = false;
             $objectHasMovedURI = false;
-            $this->actualRequestedURI = $uri->uriString();
+            $this->actualRequestedURI = $this->uri->uriString();
 
             // Extract user specified parameters
-            $userParameters = $uri->userParameters();
+            $userParameters = $this->uri->userParameters();
 
             // Generate a URI which also includes the user parameters
-            $this->completeRequestedURI = $uri->originalURIString();
+            $this->completeRequestedURI = $this->uri->originalURIString();
 
             // Check for URL translation
-            if ( $this->siteBasics['url-translator-allowed'] && eZURLAliasML::urlTranslationEnabledByUri( $uri ) )
+            if ( $this->siteBasics['url-translator-allowed'] && eZURLAliasML::urlTranslationEnabledByUri( $this->uri ) )
             {
-                $translateResult = eZURLAliasML::translate( $uri );
+                $translateResult = eZURLAliasML::translate( $this->uri );
 
                 if ( !is_string( $translateResult ) && $ini->variable( 'URLTranslator', 'WildcardTranslation' ) === 'enabled' )
                 {
-                    $translateResult = eZURLWildcard::translate( $uri );
+                    $translateResult = eZURLWildcard::translate( $this->uri );
                 }
 
                 // Check if the URL has moved
@@ -664,14 +523,14 @@ class ezpKernel
                 }
             }
 
-            if ( $uri->isEmpty() )
+            if ( $this->uri->isEmpty() )
             {
                 $tmp_uri = new eZURI( $ini->variable( "SiteSettings", "IndexPage" ) );
                 $moduleCheck = eZModule::accessAllowed( $tmp_uri );
             }
             else
             {
-                $moduleCheck = eZModule::accessAllowed( $uri );
+                $moduleCheck = eZModule::accessAllowed( $this->uri );
             }
 
             if ( !$moduleCheck['result'] )
@@ -679,25 +538,25 @@ class ezpKernel
                 if ( $ini->variable( "SiteSettings", "ErrorHandler" ) == "defaultpage" )
                 {
                     $defaultPage = $ini->variable( "SiteSettings", "DefaultPage" );
-                    $uri->setURIString( $defaultPage );
+                    $this->uri->setURIString( $defaultPage );
                     $moduleCheck['result'] = true;
                 }
             }
 
             $displayMissingModule = false;
-            $this->oldURI = $uri;
+            $this->oldURI = $this->uri;
 
-            if ( $uri->isEmpty() )
+            if ( $this->uri->isEmpty() )
             {
-                if ( !fetchModule( $tmp_uri, $check, $this->module, $moduleName, $functionName, $params ) )
+                if ( !fetchModule( $tmp_uri, $this->check, $this->module, $moduleName, $functionName, $params ) )
                     $displayMissingModule = true;
             }
-            else if ( !fetchModule( $uri, $check, $this->module, $moduleName, $functionName, $params ) )
+            else if ( !fetchModule( $this->uri, $this->check, $this->module, $moduleName, $functionName, $params ) )
             {
                 if ( $ini->variable( "SiteSettings", "ErrorHandler" ) == "defaultpage" )
                 {
                     $tmp_uri = new eZURI( $ini->variable( "SiteSettings", "DefaultPage" ) );
-                    if ( !fetchModule( $tmp_uri, $check, $this->module, $moduleName, $functionName, $params ) )
+                    if ( !fetchModule( $tmp_uri, $this->check, $this->module, $moduleName, $functionName, $params ) )
                         $displayMissingModule = true;
                 }
                 else
@@ -881,7 +740,7 @@ class ezpKernel
             {
                 if ( isset( $moduleResult['rerun_uri'] ) )
                 {
-                    $uri = eZURI::instance( $moduleResult['rerun_uri'] );
+                    $this->uri = eZURI::instance( $moduleResult['rerun_uri'] );
                     $this->siteBasics['module-run-required'] = true;
                 }
                 else
@@ -1053,8 +912,174 @@ class ezpKernel
         eZExecution::cleanExit();
     }
 
+    protected function requestInit()
+    {
+        $scriptStartTime = microtime( true );
+
+        ob_start();
+
+        $GLOBALS['eZRedirection'] = false;
+        $this->access = eZSiteAccess::current();
+
+        eZDebug::setScriptStart( $scriptStartTime );
+
+        eZDebug::addTimingPoint( "Script start" );
+
+        $this->uri = eZURI::instance( eZSys::requestURI() );
+        $GLOBALS['eZRequestedURI'] = $this->uri;
+
+        // Be able to do general events early in process
+        ezpEvent::getInstance()->notify( 'request/preinput', array( $this->uri ) );
+
+        // Initialize module loading
+        $this->siteBasics['module-repositories'] = eZModule::activeModuleRepositories();
+        eZModule::setGlobalPathList( $this->siteBasics['module-repositories'] );
+
+        // make sure we get a new $ini instance now that it has been reset
+        $ini = eZINI::instance();
+
+        // start: eZCheckValidity
+        // pre check, setup wizard related so needs to be before session/db init
+        if ( $ini->variable( 'SiteAccessSettings', 'CheckValidity' ) === 'true' )
+        {
+            $this->check = array( 'module' => 'setup', 'function' => 'init' );
+            // Turn off some features that won't bee needed yet
+            $this->siteBasics['policy-check-omit-list'][] = 'setup';
+            $this->siteBasics['show-page-layout'] = $ini->variable( 'SetupSettings', 'PageLayout' );
+            $this->siteBasics['validity-check-required'] = true;
+            $this->siteBasics['session-required'] = $this->siteBasics['user-object-required'] = false;
+            $this->siteBasics['db-required'] = $this->siteBasics['no-cache-adviced'] = $this->siteBasics['url-translator-allowed'] = false;
+            $this->siteBasics['site-design-override'] = $ini->variable( 'SetupSettings', 'OverrideSiteDesign' );
+            $this->access = eZSiteAccess::change( array( 'name' => 'setup', 'type' => eZSiteAccess::TYPE_URI ) );
+            eZTranslatorManager::enableDynamicTranslations();
+        }
+        // stop: eZCheckValidity
+
+        if ( $this->siteBasics['session-required'] )
+        {
+            // Check if this should be run in a cronjob
+            if ( $ini->variable( 'Session', 'BasketCleanup' ) !== 'cronjob' )
+            {
+                eZSession::addCallback(
+                    'destroy_pre',
+                    function ( eZDBInterface $db, $key, $escapedKey )
+                    {
+                        $basket = eZBasket::fetch( $key );
+                        if ( $basket instanceof eZBasket )
+                            $basket->remove();
+                    }
+                );
+                eZSession::addCallback(
+                    'gc_pre',
+                    function ( eZDBInterface $db, $time )
+                    {
+                        eZBasket::cleanupExpired( $time );
+                    }
+                );
+
+                eZSession::addCallback(
+                    'cleanup_pre',
+                    function ( eZDBInterface $db )
+                    {
+                        eZBasket::cleanup();
+                    }
+                );
+            }
+
+            // addCallBack to update session id for shop basket on session regenerate
+            eZSession::addCallback(
+                'regenerate_post',
+                function ( eZDBInterface $db, $escNewKey, $escOldKey  )
+                {
+                    $db->query( "UPDATE ezbasket SET session_id='{$escNewKey}' WHERE session_id='{$escOldKey}'" );
+                }
+            );
+
+            if ( $ini->variable( 'Session', 'ForceStart' ) === 'enabled' )
+                eZSession::start();
+            else
+                eZSession::lazyStart();
+
+            // let session specify if db is required
+            $this->siteBasics['db-required'] = eZSession::getHandlerInstance()->dbRequired();
+        }
+
+        // if $this->siteBasics['db-required'], open a db connection and check that db is connected
+        if ( $this->siteBasics['db-required'] && !eZDB::instance()->isConnected() )
+        {
+            $this->warningList[] = array(
+                'error' => array(
+                    'type' => 'kernel',
+                    'number' => eZError::KERNEL_NO_DB_CONNECTION
+                ),
+                'text' => 'No database connection could be made, the system might not behave properly.'
+            );
+        }
+
+        // eZCheckUser: pre check, RequireUserLogin & FORCE_LOGIN related so needs to be after session init
+        if ( !isset( $this->check ) )
+        {
+            $this->check = eZUserLoginHandler::preCheck( $this->siteBasics, $this->uri );
+        }
+
+        ezpEvent::getInstance()->notify( 'request/input', array( $this->uri ) );
+
+        // Initialize with locale settings
+        $languageCode = eZLocale::instance()->httpLocaleCode();
+        $phpLocale = trim( $ini->variable( 'RegionalSettings', 'SystemLocale' ) );
+        if ( $phpLocale != '' )
+        {
+            setlocale( LC_ALL, explode( ',', $phpLocale ) );
+        }
+
+        $httpCharset = eZTextCodec::httpCharset();
+
+        $site = array(
+            'title' => $ini->variable( 'SiteSettings', 'SiteName' ),
+            'design' => $ini->variable( 'DesignSettings', 'SiteDesign' ),
+            'http_equiv' => array(
+                'Content-Type' => 'text/html; charset=' . $httpCharset,
+                'Content-language' => $languageCode
+            )
+        );
+
+        // send header information
+        foreach ( eZHTTPHeader::headerOverrideArray( $this->uri ) +
+            array(
+                'Expires' => 'Mon, 26 Jul 1997 05:00:00 GMT',
+                'Last-Modified' => gmdate( 'D, d M Y H:i:s' ) . ' GMT',
+                'Cache-Control' => 'no-cache, must-revalidate',
+                'Pragma' => 'no-cache',
+                'X-Powered-By' => 'eZ Publish',
+                'Content-Type' => 'text/html; charset=' . $httpCharset,
+                'Served-by' => $_SERVER["SERVER_NAME"],
+                'Content-language' => $languageCode
+            ) as $key => $value )
+        {
+            header( $key . ': ' . $value );
+        }
+
+        // Read role settings
+        $this->siteBasics['policy-check-omit-list'] = array_merge(
+            $this->siteBasics['policy-check-omit-list'],
+            $ini->variable( 'RoleSettings', 'PolicyOmitList' )
+        );
+    }
+
+    /**
+     * Run a callback function in legacy environment
+     */
+    public function runCallback( $callback )
+    {
+        $this->requestInit();
+
+        return $callback();
+    }
+
     /**
      * Runs the shutdown process
+     *
+     * @todo Use in run() and runCallback() and mark as protected?
      */
     public function shutdown()
     {
