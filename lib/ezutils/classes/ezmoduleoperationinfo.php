@@ -213,7 +213,7 @@ class eZModuleOperationInfo
             if ( $runOperation )
             {
                 // start  new operation
-                $resultArray = $this->executeBody( $callMethod['include_file'], $callMethod['class'], $operationDefinition['body'],
+                $resultArray = $this->executeBody( $includeFile, $callMethod['class'], $operationDefinition['body'],
                                                     $operationKeys, $operationParameterDefinitions, $operationParameters,
                                                     $mementoData, $bodyCallCount, $operationDefinition['name'] );
             }
