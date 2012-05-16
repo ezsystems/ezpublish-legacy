@@ -8,8 +8,8 @@
  * @package kernel
  */
 
-require 'autoload.php';
-require 'kernel/private/rest/classes/lazy.php';
+require __DIR__ . '/autoload.php';
+require __DIR__ . '/kernel/private/rest/classes/lazy.php';
 
 // Below we are setting up a minimal eZ Publish environment from the old index.php
 // This is a temporary measure.
