@@ -1,0 +1,205 @@
+/*
+ * Styles specific for the setup wizard for Etna
+ *
+ * Uses some html5 and css3 features, but with safe defaults to be able to be also work on older browsers.
+ */
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section {
+  display: block;
+}
+
+#debug {
+    max-width: 890px;
+    overflow-x: scroll;
+}
+
+body {
+    text-align: center;
+    /* Photo attributed (under CC for commercial use) to gnuckx, source: http://www.flickr.com/photos/gnuckx/5350361507/  */
+    background: #fff url('../images/setup/2/ez-ecosystem-virtuous-circle.png') no-repeat right top;
+}
+
+
+/* Layout */
+section#page {
+    width: 782px;
+    margin: 20px auto 20px auto;
+    text-align: left;
+    font-family: Verdana, sans-serif;
+    border-radius: 10px;
+    background-color: #f0f0f0;
+    background-color: rgba(245,245,245,0.85);
+}
+
+header {
+    background: transparent url('../images/setup/2/ez-publish-ce-40x460-png-24.png') no-repeat 24px 20px;
+    height: 60px;
+}
+
+article {
+    width: 64%;
+    padding: 10px 2% 2% 2%;
+    float: left;
+    overflow-x: scroll;
+}
+
+aside.helptext {
+    width: 26%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding: 0 2% 2% 2%;
+    float: right;
+    height: 100%;
+    background-color: #aaa;
+    background-color:  rgba(100,100,100,0.8);
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+
+/* Addapt a bit, from a 800x600 server screen resulution to more normal desktop sizes */
+@media all and (min-height: 800px) {
+    section#page {
+        margin-top: 80px;
+    }
+}
+
+@media all and (min-height: 1100px) {
+    section#page {
+        margin-top: 140px;
+    }
+}
+
+
+@media all and (min-width: 1000px) {
+    section#page {
+        width: 978px;
+    }
+    article {
+        width: 68%;
+    }
+    aside.helptext {
+        width: 23%;
+    }
+}
+
+@media all and (min-width: 1250px) {
+    section#page {
+        width: 1200px;
+    }
+    article {
+        width: 72%;
+    }
+    aside.helptext {
+        width: 20%;
+    }
+}
+
+
+/* Content */
+section#content {
+    width: 100%;
+    overflow: auto;
+}
+
+
+aside.progressbar p {
+    text-align: right;
+    padding-right: 5px;
+    margin-bottom: -19px;
+}
+
+aside.progressbar div {
+    height: 25px;
+    background-color: #ccc;
+    background-image:      -o-linear-gradient(bottom, rgb(168,168,168) 0%, rgb(255,255,255) 4%, rgb(184,184,184) 49%, rgb(255,255,255) 96%, rgb(168,168,168) 100%);
+    background-image:    -moz-linear-gradient(bottom, rgb(168,168,168) 0%, rgb(255,255,255) 4%, rgb(184,184,184) 49%, rgb(255,255,255) 96%, rgb(168,168,168) 100%);
+    background-image: -webkit-linear-gradient(bottom, rgb(168,168,168) 0%, rgb(255,255,255) 4%, rgb(184,184,184) 49%, rgb(255,255,255) 96%, rgb(168,168,168) 100%);
+    background-image:     -ms-linear-gradient(bottom, rgb(168,168,168) 0%, rgb(255,255,255) 4%, rgb(184,184,184) 49%, rgb(255,255,255) 96%, rgb(168,168,168) 100%);
+    background-image:         linear-gradient(bottom, rgb(168,168,168) 0%, rgb(255,255,255) 4%, rgb(184,184,184) 49%, rgb(255,255,255) 96%, rgb(168,168,168) 100%);
+}
+
+aside.progressbar div span {
+    display: block;
+    height: 25px;
+    background-color: rgb(255,102,10);
+    background-image:      -o-linear-gradient(bottom, rgb(255,102,10) 0%, rgb(255,193,10) 4%, rgb(255,81,10) 49%, rgb(255,193,10) 96%, rgb(255,108,10) 100%);
+    background-image:    -moz-linear-gradient(bottom, rgb(255,102,10) 0%, rgb(255,193,10) 4%, rgb(255,81,10) 49%, rgb(255,193,10) 96%, rgb(255,108,10) 100%);
+    background-image: -webkit-linear-gradient(bottom, rgb(255,102,10) 0%, rgb(255,193,10) 4%, rgb(255,81,10) 49%, rgb(255,193,10) 96%, rgb(255,108,10) 100%);
+    background-image:     -ms-linear-gradient(bottom, rgb(255,102,10) 0%, rgb(255,193,10) 4%, rgb(255,81,10) 49%, rgb(255,193,10) 96%, rgb(255,108,10) 100%);
+    background-image:         linear-gradient(bottom, rgb(255,102,10) 0%, rgb(255,193,10) 4%, rgb(255,81,10) 49%, rgb(255,193,10) 96%, rgb(255,108,10) 100%);
+}
+
+footer {
+    text-align: center;
+    font-size: 90%;
+    padding-bottom: 10px;
+}
+
+
+/* setup.css override */
+h1, h2, h3, h4, h5, h6, th.label, legend {
+    margin: 1em 0 0.2em 0;
+    font-weight: normal;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+fieldset {
+    margin-top: 1em;
+}
+
+a, a:link, a:link.setup_final, div.setup_help a:link,
+a:visited, a:visited.setup_final, div.setup_help a:visited {
+    color: #ff8c0f;
+}
+
+div.setup_summary_empty {
+    color: #afafaf;
+}
+
+input.button, button, input.defaultbutton, input.button-disabled {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: normal;
+    width: auto;
+    overflow: visible;
+    padding: 0.27em 0.7em;
+    color: #fff;
+    background-color: #ff770f;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ff8c0f), to(#ff660f));
+    background-image: -moz-linear-gradient(top,  #ff8c0f,  #ff660f);
+    background-image: -ms-linear-gradient(top,  #ff8c0f,  #ff660f);
+    background-image: -o-linear-gradient(top,  #ff8c0f,  #ff660f);
+    background-image: linear-gradient(top,  #ff8c0f,  #ff660f);
+    background-clip: padding-box;
+    border: 1px solid #ccccc3;
+    border-radius: 3px;
+}
+
+input.defaultbutton {
+    font-weight: bold;
+    padding: 0.5em 1.1em;
+}
+
+input.button-disabled, input.button[disabled="disabled"] {
+    cursor: default;
+    color: #999;
+    background: #e0e0e0;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#eee), to(#ddd));
+    background-image: -moz-linear-gradient(top,  #eee,  #ddd);
+    background-image: -ms-linear-gradient(top,  #eee,  #ddd);
+    background-image: -o-linear-gradient(top,  #eee,  #ddd);
+    background-image: linear-gradient(top,  #eee,  #ddd);
+}
