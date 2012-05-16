@@ -617,12 +617,57 @@ if ( !function_exists( 'checkContentActions' ) )
                 }
                 else if ( $node !== null )
                 {
+                    $ini = eZINI::instance('site.ini');
+                    $redirection= $ini->variable("ContentSettings", "RedirectAfterPublish" );
+                    
+                    switch ($redirection)
+                    {
+                         case 'node':
+
+                            $nodeNode = $node->attribute( 'node_id' );
+
+                            $module->redirectToView( 'view', array( 'full', $nodeNode ) );
+
+                            break;
+
+                         case 'mainNode':
+
+                            $mainNode = $node->attribute( 'main_node_id' );
+                            
+                            $module->redirectToView( 'view', array( 'full', $mainNode ) );
+
+                            break;
+
+                        case 'rootNode':
+                            $contentINI = eZINI::instance( 'content.ini' );
+
+                            $rootNodeID = $contentINI->variable( 'NodeSettings', 'RootNode' );
+
+                            $module->redirectToView( 'view', array( 'full', $rootNodeID ) );
+
+                            break;
+
+                        case 'uri':
+
+                            $uri= $ini->variable("ContentSettings", "RedirectAfterPublishUri" );
+                               
+                            if(!empty($uri))
+                            {
+                                $module->redirectTo( $uri );
+                            }
+
+                            break;
+
+                        case 'parentNode':
+                        default:
                     $parentNode = $node->attribute( 'parent_node_id' );
                     if ( $parentNode == 1 )
                     {
                         $parentNode = $node->attribute( 'node_id' );
                     }
                     $module->redirectToView( 'view', array( 'full', $parentNode ) );
+                            break;
+                    }
                 }
                 else
                 {
