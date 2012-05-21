@@ -162,6 +162,7 @@ if ( $requestedURI instanceof eZURI )
 }
 $tpl->setVariable( 'redirect_uri', $userRedirectURI );
 $tpl->setVariable( 'embed_content', $embedContent );
+$tpl->setVariable( 'persistent_variable', false );
 
 if ( (isset( $Params['ExtraParameters']['AccessList'] ) ) and  ( $ini->variable( 'RoleSettings', 'ShowAccessDeniedReason' ) === "enabled" ) )
 {
@@ -174,6 +175,12 @@ $res->setKeys( array( array( 'error_type', $errorType ), array( 'error_number', 
 
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:error/$errorType/$errorNumber.tpl" );
+$contentInfoArray = array();
+$contentInfoArray['persistent_variable'] = false;
+if ( $tpl->variable( 'persistent_variable' ) !== false )
+{
+    $contentInfoArray['persistent_variable'] = $tpl->variable( 'persistent_variable' );
+}
 $Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/error', 'Error' ),
                                 'url' => false ),
                          array( 'text' => "$errorType ($errorNumber)",
