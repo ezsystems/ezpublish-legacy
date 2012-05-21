@@ -178,9 +178,9 @@ $Result['content'] = $tpl->fetch( "design:error/$errorType/$errorNumber.tpl" );
 $contentInfoArray = array();
 $contentInfoArray['persistent_variable'] = false;
 if ( $tpl->variable( 'persistent_variable' ) !== false )
-{
     $contentInfoArray['persistent_variable'] = $tpl->variable( 'persistent_variable' );
-}
+
+$Result['content_info'] = $contentInfoArray;
 $Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/error', 'Error' ),
                                 'url' => false ),
                          array( 'text' => "$errorType ($errorNumber)",
