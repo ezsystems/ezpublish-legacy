@@ -19,7 +19,10 @@ interface ezpLanguageSwitcherCapable
      * Constructs a ezpLanguageSwitcherCapable object.
      *
      * The $params array is the module-params array returned in the switchlanguage/to
-     * view. This is used to construct the destination URL.
+     * view. In addition, the value in $params['QueryString'] might also be taken
+     * into account (if present) to keep the query string while redirecting to
+     * another language.
+     * This is used to construct the destination URL.
      *
      * @param array $params
      * @return ezpLanguageSwitcherCapable

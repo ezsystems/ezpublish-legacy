@@ -18,6 +18,7 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
 {
     protected $origUrl;
     protected $userParamString;
+    protected $queryString;
 
     protected $destinationSiteAccess;
     protected $destinationLocale;
@@ -43,6 +44,8 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
         {
             $this->userParamString .= "/($key)/$value";
         }
+
+        $this->queryString = isset( $params['QueryString'] ) ? $params['QueryString'] : '';
     }
 
     /**
@@ -163,6 +166,10 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
         else
         {
             $finalUrl = $this->baseDestinationUrl . '/' . $urlAlias;
+        }
+        if ( $this->queryString != '' )
+        {
+            $finalUrl .= '?' . $this->queryString;
         }
         return $finalUrl;
     }
