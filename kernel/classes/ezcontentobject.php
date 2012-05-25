@@ -2939,13 +2939,6 @@ class eZContentObject extends eZPersistentObject
         }
 
         // Create SQL
-        $versionNameTables = ', ezcontentobject_name ';
-        $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
-
-        $versionNameJoins = " AND ezcontentobject.id = ezcontentobject_name.contentobject_id AND
-                                 ezcontentobject.current_version = ezcontentobject_name.content_version AND ";
-        $versionNameJoins .= eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' );
-
         $fromOrToContentObjectID = $reverseRelatedObjects == false ? " AND ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
                                                                       ezcontentobject_link.from_contentobject_id='$objectID' AND
                                                                       ezcontentobject_link.from_contentobject_version='$fromObjectVersion' "
@@ -2962,13 +2955,13 @@ class eZContentObject extends eZPersistentObject
                         ezcontentclass.serialized_name_list AS class_serialized_name_list,
                         ezcontentclass.identifier as contentclass_identifier,
                         ezcontentclass.is_container as is_container,
-                        ezcontentobject.* $versionNameTargets
+                        ezcontentobject.*, ezcontentobject_name.name as name, ezcontentobject_name.real_translation
                         $sortingInfo[attributeTargetSQL]
                      FROM
                         ezcontentclass,
                         ezcontentobject,
-                        ezcontentobject_link
-                        $versionNameTables
+                        ezcontentobject_link,
+                        ezcontentobject_name
                         $sortingInfo[attributeFromSQL]
                      WHERE
                         ezcontentclass.id=ezcontentobject.contentclass_id AND
@@ -2979,8 +2972,10 @@ class eZContentObject extends eZPersistentObject
                         ezcontentobject_link.op_code='0'
                         $relationTypeMasking
                         $fromOrToContentObjectID
-                        $showInvisibleNodesCond
-                        $versionNameJoins
+                        $showInvisibleNodesCond AND
+                        ezcontentobject.id = ezcontentobject_name.contentobject_id AND
+                        ezcontentobject.current_version = ezcontentobject_name.content_version AND
+                        " . eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
                         $sortingString";
         if ( !$offset && !$limit )
         {

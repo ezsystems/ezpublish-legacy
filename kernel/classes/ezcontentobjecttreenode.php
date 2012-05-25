@@ -621,8 +621,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $classNameFilter = eZContentClassName::sqlFilter();
                             $sortingFields .= 'contentclass_name';
                             $datatypeSortingTargetSQL .= ", $classNameFilter[nameField] AS contentclass_name";
-                            $attributeFromSQL .= " INNER JOIN $classNameFilter[from]";
-                            $attributeWhereSQL .= "$classNameFilter[where] AND ";
+                            $attributeFromSQL .= " INNER JOIN $classNameFilter[from] ON ($classNameFilter[where])";
                         } break;
                         case 'priority':
                         {
@@ -657,8 +656,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                                 $sql = $dataType->customSortingSQL( $params );
 
-                                $datatypeFromSQL .= " INNER JOIN {$sql['from']}";
-                                $datatypeWhereSQL .= " AND {$sql['where']}";
+                                $datatypeFromSQL .= " INNER JOIN $sql[from] ON ($sql[where])";
                                 $datatypeSortingFieldSQL = $sql['sorting_field'];
                                 $datatypeSortingTargetSQL .= ', ' . $sql['sorting_field'];
                             }
@@ -685,8 +683,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             }
 
                             $sortingFields .= "$datatypeSortingFieldSQL";
-                            $attributeFromSQL .= " INNER JOIN $datatypeFromSQL";
-                            $attributeWhereSQL .= "$datatypeWhereSQL AND ";
+                            $attributeFromSQL .= " INNER JOIN $datatypeFromSQL ON ($datatypeWhereSQL)";
 
                             $attributeJoinCount++;
                         }break;
@@ -712,10 +709,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $stateLinkAlias = "sl$stateJoinCount";
                             $sortingFields .= "$stateAlias.priority";
                             $datatypeSortingTargetSQL .= ", $stateAlias.priority";
-                            $attributeFromSQL .= " INNER JOIN ezcobj_state $stateAlias INNER JOIN ezcobj_state_link $stateLinkAlias";
-                            $attributeWhereSQL .= "$stateLinkAlias.contentobject_id=$treeTableName.contentobject_id AND
-                                                   $stateLinkAlias.contentobject_state_id=$stateAlias.id AND
-                                                   $stateAlias.group_id=$stateGroupID AND ";
+                            $attributeFromSQL .=
+                                " INNER JOIN ezcobj_state $stateAlias ON ($stateAlias.group_id = $stateGroupID)" .
+                                " INNER JOIN ezcobj_state_link $stateLinkAlias" .
+                                "     ON ($stateLinkAlias.contentobject_id = $treeTableName.contentobject_id AND $stateLinkAlias.contentobject_state_id = $stateAlias.id)";
                         } break;
 
                         default:
@@ -1061,8 +1058,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         {
                             $classNameFilter = eZContentClassName::sqlFilter();
                             $filterField = $classNameFilter['nameField'];
-                            $filterSQL['from'] .= " INNER JOIN $classNameFilter[from]";
-                            $filterSQL['where'] .= "$classNameFilter[where] AND ";
+                            $filterSQL['from'] .= " INNER JOIN $classNameFilter[from] ON ($classNameFilter[where])";
                         } break;
                         case 'priority':
                         {
@@ -1139,7 +1135,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 // if more attributes are filtered by we will append them
                                 if ( $filterCount >= $sortingInfo['attributeJoinCount'] )
                                 {
-                                    $filterSQL['from']  .= " INNER JOIN ezcontentobject_attribute a$filterCount ";
+                                    $filterSQL['from']  .= " INNER JOIN ezcontentobject_attribute a$filterCount ON (a$filterCount.contentobject_id = ezcontentobject.id) ";
                                 }
 
                                 $filterSQL['where'] .= "
@@ -1499,11 +1495,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
     }
 
-    /*!
-        \a static
-    */
+    /**
+     * @deprecated Since 5.0
+     */
     static function createVersionNameTablesSQLString( $useVersionName )
     {
+        eZDebug::writeStrict( 'Method ' . __METHOD__ . ' has been deprecated in 5.0', 'Deprecation' );
+
         $versionNameTables = '';
 
         if ( $useVersionName )
@@ -1514,11 +1512,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $versionNameTables;
     }
 
-    /*!
-        \a static
-    */
+    /**
+     * @deprecated Since 5.0
+     */
     static function createVersionNameTargetsSQLString( $useVersionName )
     {
+        eZDebug::writeStrict( 'Method ' . __METHOD__ . ' has been deprecated in 5.0', 'Deprecation' );
+
         $versionNameTargets = '';
 
         if ( $useVersionName )
@@ -1526,15 +1526,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
         }
 
-
         return $versionNameTargets;
     }
 
-    /*!
-        \a static
-    */
+    /**
+     * @deprecated Since 5.0
+     */
     static function createVersionNameJoinsSQLString( $useVersionName, $includeAnd = true, $onlyTranslated = false, $lang = false, $treeTableName = 'ezcontentobject_tree' )
     {
+        eZDebug::writeStrict( 'Method ' . __METHOD__ . ' has been deprecated in 5.0', 'Deprecation' );
+
         $versionNameJoins = '';
         if ( $useVersionName )
         {
@@ -1674,14 +1675,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                     $stateGroupTable = "ezcobj_state_grp_{$stateIndex}_perm";
                                     $stateAliasTables[$stateIdentifier] = $stateTable;
 
-                                    $sqlPermissionCheckingFrom .= " INNER JOIN ezcobj_state_link $stateLinkTable ";
-                                    $sqlPermissionCheckingFrom .= " INNER JOIN ezcobj_state_group $stateGroupTable ";
-                                    $sqlPermissionCheckingFrom .= " INNER JOIN ezcobj_state $stateTable ";
-
-                                    $sqlPermissionCheckingWhere .= "AND $stateLinkTable.contentobject_id = ezcontentobject.id " .
-                                                                   "AND $stateTable.id = $stateLinkTable.contentobject_state_id " .
-                                                                   "AND $stateTable.group_id = $stateGroupTable.id " .
-                                                                   "AND $stateGroupTable.identifier='" . $db->escapeString( $stateIdentifier ) . "' ";
+                                    $sqlPermissionCheckingFrom .=
+                                        " INNER JOIN ezcobj_state_link $stateLinkTable ON ($stateLinkTable.contentobject_id = ezcontentobject.id) " .
+                                        " INNER JOIN ezcobj_state_group $stateGroupTable ON ($stateGroupTable.identifier = '" . $db->escapeString( $stateIdentifier ) . "') " .
+                                        " INNER JOIN ezcobj_state $stateTable ON ($stateTable.id = $stateLinkTable.contentobject_state_id AND $stateTable.group_id = $stateGroupTable.id) ";
                                 }
 
                                 if ( count( $limitationArray[$ident] ) > 1 )
@@ -1932,14 +1929,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
 
-        $useVersionName     = true;
-
-        $versionNameTables  = eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
-        $versionNameTargets = eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
-        $versionNameJoins   = eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false );
-
-        $languageFilter = ' AND ' . eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
-
         if ( $language )
         {
             eZContentLanguage::clearPrioritizedLanguages();
@@ -1959,15 +1948,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
                        ezcontentclass.serialized_name_list as class_serialized_name_list,
                        ezcontentclass.identifier as class_identifier,
                        ezcontentclass.is_container as is_container
-                       $groupBySelectText
-                       $versionNameTargets
+                       $groupBySelectText,
+                       ezcontentobject_name.name as name,
+                       ezcontentobject_name.real_translation
                        $sortingInfo[attributeTargetSQL]
                        $extendedAttributeFilter[columns]
                    FROM
                       ezcontentobject_tree
-                      INNER JOIN ezcontentobject
-                      INNER JOIN ezcontentclass
-                      $versionNameTables
+                      INNER JOIN ezcontentobject ON (ezcontentobject_tree.contentobject_id = ezcontentobject.id)
+                      INNER JOIN ezcontentclass ON (ezcontentclass.version = 0 AND ezcontentclass.id = ezcontentobject.contentclass_id)
+                      INNER JOIN ezcontentobject_name ON (
+                          ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id AND
+                          ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version
+                      )
                       $sortingInfo[attributeFromSQL]
                       $attributeFilter[from]
                       $extendedAttributeFilter[tables]
@@ -1977,17 +1970,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       $extendedAttributeFilter[joins]
                       $sortingInfo[attributeWhereSQL]
                       $attributeFilter[where]
-                      ezcontentclass.version=0 AND
                       $notEqParentString
-                      ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
-                      ezcontentclass.id = ezcontentobject.contentclass_id AND
                       $mainNodeOnlyCond
                       $classCondition
-                      $versionNameJoins
+                      " .  eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
                       $showInvisibleNodesCond
                       $sqlPermissionChecking[where]
-                      $objectNameFilterSQL
-                      $languageFilter
+                      $objectNameFilterSQL AND " .
+                      eZContentLanguage::languagesSQLFilter( 'ezcontentobject' ) . "
                 $groupBySQL";
 
         if ( $sortingInfo['sortingFields'] )
@@ -2146,10 +2136,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 return $retValue;
             }
 
-            $useVersionName     = true;
-            $versionNameTables  = eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
-            $versionNameTargets = eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
-            $versionNameJoins   = eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false );
 
             $languageFilter = ' AND ' . eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
 
@@ -2172,11 +2158,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           $attributeFilter[where]
                           ezcontentclass.version=0 AND
                           $notEqParentString
-                          ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
-                          ezcontentclass.id = ezcontentobject.contentclass_id AND
                           $mainNodeOnlyCond
                           $classCondition
-                          $versionNameJoins
+                          " . eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
                           $showInvisibleNodesCond
                           $sqlPermissionChecking[where]
                           $languageFilter
@@ -2201,15 +2185,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
                        ezcontentclass.serialized_name_list as class_serialized_name_list,
                        ezcontentclass.identifier as class_identifier,
                        ezcontentclass.is_container as is_container
-                       $groupBySelectText
-                       $versionNameTargets
+                       $groupBySelectText,
+                       ezcontentobject_name.name as name,
+                       ezcontentobject_name.real_translation
                        $sortingInfo[attributeTargetSQL]
                        , ".$nodeParams['ResultID']." AS resultid
                    FROM
                       ezcontentobject_tree
-                      INNER JOIN ezcontentobject
-                      INNER JOIN ezcontentclass
-                      $versionNameTables
+                      INNER JOIN ezcontentobject ON (ezcontentobject.id = ezcontentobject_tree.contentobject_id)
+                      INNER JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id)
+                      INNER JOIN ezcontentobject_name ON (
+                          ezcontentobject_name.contentobject_id = ezcontentobject_tree.contentobject_id AND
+                          ezcontentobject_name.content_version = ezcontentobject_tree.contentobject_version
+                      )
                       $sortingInfo[attributeFromSQL]
                       $attributeFilter[from]
                       $extendedAttributeFilter[tables]
@@ -2387,14 +2375,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return null;
         }
 
-        //$onlyTranslated   = ( isset( $params['OnlyTranslated'] ) ) ? $params['OnlyTranslated']     : false;
-
-        $useVersionName     = true;
-
-        $versionNameTables  = eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
-        $versionNameTargets = eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
-        $versionNameJoins   = eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false );
-
         $languageFilter = ' AND '.eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
 
         if ( $language )
@@ -2418,9 +2398,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         count( DISTINCT ezcontentobject_tree.node_id ) as count
                   FROM
                        ezcontentobject_tree
-                       INNER JOIN ezcontentobject
-                       INNER JOIN ezcontentclass
-                       $versionNameTables
+                       INNER JOIN ezcontentobject ON (ezcontentobject.id = ezcontentobject_tree.contentobject_id)
+                       INNER JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id)
+                       INNER JOIN ezcontentobject_name ON (
+                           ezcontentobject_name.contentobject_id = ezcontentobject_tree.contentobject_id AND
+                           ezcontentobject_name.content_version = ezcontentobject_tree.contentobject_version
+                       )
                        $attributeFilter[from]
                        $extendedAttributeFilter[tables]
                        $sqlPermissionChecking[from]
@@ -2431,9 +2414,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         $attributeFilter[where]
                         ezcontentclass.version=0 AND
                         $notEqParentString
-                        ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
-                        ezcontentclass.id = ezcontentobject.contentclass_id AND
-                        $versionNameJoins
+                        " . eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
                         $showInvisibleNodesCond
                         $sqlPermissionChecking[where]
                         $objectNameFilterSQL
@@ -2511,10 +2492,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             eZDebug::writeError( "Cannot use group_by parameter together with extended attribute filter which sets group_by!", __METHOD__ );
         }
 
-        $useVersionName     = true;
-        $versionNameTables  = eZContentObjectTreeNode::createVersionNameTablesSQLString( $useVersionName );
-        $versionNameJoins   = eZContentObjectTreeNode::createVersionNameJoinsSQLString( $useVersionName, false );
-
         $limitation = ( isset( $params['Limitation']  ) && is_array( $params['Limitation']  ) ) ? $params['Limitation']: false;
         $limitationList = eZContentObjectTreeNode::getLimitationList( $limitation );
         $sqlPermissionChecking = eZContentObjectTreeNode::createPermissionCheckingSQL( $limitationList );
@@ -2527,9 +2504,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
                          $groupBySelectText
                    FROM
                       ezcontentobject_tree
-                      INNER JOIN ezcontentobject
-                      INNER JOIN ezcontentclass
-                      $versionNameTables
+                      INNER JOIN ezcontentobject ON (ezcontentobject.id = ezcontentobject_tree.contentobject_id)
+                      INNER JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id)
+                      INNER JOIN ezcontentobject_name ON (
+                          ezcontentobject_name.contentobject_id = ezcontentobject_tree.contentobject_id AND
+                          ezcontentobject_name.content_version = ezcontentobject_tree.contentobject_version
+                      )
+
                       $attributeFilter[from]
                       $extendedAttributeFilter[tables]
                       $sqlPermissionChecking[from]
@@ -2537,14 +2518,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       $pathStringCond
                       $extendedAttributeFilter[joins]
                       $attributeFilter[where]
-                      ezcontentclass.version=0
-                      AND
+                      ezcontentclass.version = 0 AND
                       $notEqParentString
                       $mainNodeOnlyCond
-                      ezcontentobject_tree.contentobject_id = ezcontentobject.id AND
-                      ezcontentclass.id = ezcontentobject.contentclass_id AND
                       $classCondition
-                      $versionNameJoins
+                      " . eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
                       $showInvisibleNodesCond
                       $sqlPermissionChecking[where]
                 $groupBySQL";
@@ -3014,10 +2992,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         else
         {
-            $versionNameTables = ', ezcontentobject_name ';
-            $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
-            $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
-                                  ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and ";
+            $versionNameJoins = " AND ";
             if ( $lang )
             {
                 $lang = $db->escapeString( $lang );
@@ -3075,16 +3050,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
                        ezcontentobject_tree.*,
                        ezcontentclass.serialized_name_list as class_serialized_name_list,
                        ezcontentclass.identifier as class_identifier,
-                       ezcontentclass.is_container as is_container
-                       $versionNameTargets
-                FROM ezcontentobject_tree,
-                     ezcontentobject,
-                     ezcontentclass
-                     $versionNameTables
+                       ezcontentclass.is_container as is_container,
+                       ezcontentobject_name.name as name,
+                       ezcontentobject_name.real_translation
+                FROM ezcontentobject_tree
+                     INNER JOIN ezcontentobject ON (ezcontentobject.id = ezcontentobject_tree.contentobject_id)
+                     INNER JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id)
+                     INNER JOIN ezcontentobject_name ON (
+                         ezcontentobject_name.contentobject_id = ezcontentobject_tree.contentobject_id AND
+                         ezcontentobject_name.content_version = ezcontentobject_tree.contentobject_version
+                     )
+
                 WHERE $sqlCondition
-                      ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
-                      ezcontentclass.version=0  AND
-                      ezcontentclass.id = ezcontentobject.contentclass_id
+                      ezcontentclass.version = 0
                       $languageFilter
                       $versionNameJoins";
         }
@@ -3186,26 +3164,23 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( $pathString  )
         {
-            $useVersionName     = true;
-            $versionNameTables  = eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
-            $versionNameTargets = eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
-            $versionNameJoins   = eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName );
-
             $query = "SELECT ezcontentobject.*,
                              ezcontentobject_tree.*,
                              ezcontentclass.serialized_name_list as class_serialized_name_list,
                              ezcontentclass.identifier as class_identifier,
-                             ezcontentclass.is_container as is_container
-                             $versionNameTargets
-                      FROM ezcontentobject_tree,
-                           ezcontentobject,
-                           ezcontentclass
-                           $versionNameTables
+                             ezcontentclass.is_container as is_container,
+                             ezcontentobject_name.name as name,
+                             ezcontentobject_name.real_translation
+                      FROM ezcontentobject_tree
+                           INNER JOIN ezcontentobject ON (ezcontentobject.id = ezcontentobject_tree.contentobject_id)
+                           INNER JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id)
+                           INNER JOIN ezcontentobject_name ON (
+                               ezcontentobject_name.contentobject_id = ezcontentobject_tree.contentobject_id AND
+                               ezcontentobject_name.content_version = ezcontentobject_tree.contentobject_version
+                           )
                       WHERE $pathString
-                            ezcontentobject_tree.contentobject_id=ezcontentobject.id  AND
-                            ezcontentclass.version=0 AND
-                            ezcontentclass.id = ezcontentobject.contentclass_id
-                            $versionNameJoins
+                            ezcontentclass.version = 0 AND
+                            " . eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
                       ORDER BY path_string";
 
             $db = eZDB::instance();
