@@ -149,7 +149,7 @@
  * Cluster storage host.
  * Required.
  */
-define( 'CLUSTER_STORAGE_HOST', 'localhost' );
+// define( 'CLUSTER_STORAGE_HOST', 'localhost' );
 
 /**
  * Cluster storage port.
@@ -167,7 +167,7 @@ define( 'CLUSTER_STORAGE_HOST', 'localhost' );
  * Cluster storage password
  * Required
  */
-define( 'CLUSTER_STORAGE_PASS', 'dbpassword' );
+// define( 'CLUSTER_STORAGE_PASS', 'dbpassword' );
 
 /**
  * Database name
