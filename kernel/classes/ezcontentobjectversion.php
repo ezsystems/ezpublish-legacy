@@ -1013,6 +1013,7 @@ class eZContentObjectVersion extends eZPersistentObject
             $filters['modified'] = array( '<', $expiryTime );
 
         $processedCount = 0;
+        $db = eZDB::instance();
         while ( $processedCount < $limit or !$limit )
         {
             // fetch by versions by preset portion at a time to avoid memory overflow
@@ -1022,13 +1023,12 @@ class eZContentObjectVersion extends eZPersistentObject
             if ( count( $versions ) < 1 )
                 break;
 
-            $db = eZDB::instance();
-            $db->begin();
             foreach ( $versions as $version )
             {
+                $db->begin();
                 $version->removeThis();
+                $db->commit();
             }
-            $db->commit();
             $processedCount += count( $versions );
         }
         return $processedCount;
