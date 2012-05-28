@@ -997,52 +997,33 @@ class eZSearchEngine implements ezpSearchEngine
             $orderByFieldsSQL = $orderBySQLArray['sortingFields'];
             $sortWhereSQL = $orderBySQLArray['whereSQL'];
             $sortFromSQL = $orderBySQLArray['fromSQL'];
+            $sortSelectSQL = $orderBySQLArray['selectSQL'];
 
             // Fetch data from table
             $searchQuery ='';
-            $dbName = $db->databaseName();
-            if ( $dbName == 'mysql' )
-            {
-                $searchQuery = "SELECT DISTINCT ezcontentobject.*, ezcontentclass.serialized_name_list as class_serialized_name_list, ezcontentobject_tree.*, ezcontentobject_name.name as name, ezcontentobject_name.real_translation
-                    FROM
-                       $tmpTablesFrom $tmpTablesSeparator
-                       ezcontentobject
-                       INNER JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id )
-                       INNER JOIN ezcontentobject_tree ON (ezcontentobject_tree.contentobject_id = ezcontentobject.id)
-                       INNER JOIN ezcontentobject_name ON (
-                           ezcontentobject_name.contentobject_id = ezcontentobject_tree.contentobject_id AND
-                           ezcontentobject_name.content_version = ezcontentobject_tree.contentobject_version
-                       )
-                       $sortFromSQL
-                    WHERE
-                    $tmpTablesWhere $and
-                    $tmpTablesWhereExtra
-                    ezcontentclass.version = '0' AND
-                    ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id AND
-                    " . eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
-                    $showInvisibleNodesCond
-                    $sortWhereSQL
-                    ORDER BY $orderByFieldsSQL";
-            }
-            else
-            {
-                $searchQuery = "SELECT DISTINCT ezcontentobject.*, ezcontentclass.serialized_name_list as class_serialized_name_list, ezcontentobject_tree.*, ezcontentobject_name.name as name,  ezcontentobject_name.real_translation
-                    FROM
-                       $tmpTablesFrom $tmpTablesSeparator
-                       ezcontentobject
-                       INNER JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id )
-                       INNER JOIN ezcontentobject_tree ON (ezcontentobject_tree.contentobject_id = ezcontentobject.id)
-                       INNER JOIN ezcontentobject_name ON (
-                           ezcontentobject_name.contentobject_id = ezcontentobject_tree.contentobject_id AND
-                           ezcontentobject_name.content_version = ezcontentobject_tree.contentobject_version
-                       )
-                    WHERE
-                    $tmpTablesWhere $and
-                    $tmpTablesWhereExtra
-                    ezcontentclass.version = '0' AND
-                    ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id AND
-                    " . eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' );
-            }
+            $searchQuery = "SELECT DISTINCT ezcontentobject.*, ezcontentclass.serialized_name_list as class_serialized_name_list,
+                ezcontentobject_tree.*, ezcontentobject_name.name as name,
+                ezcontentobject_name.real_translation $sortSelectSQL
+                FROM
+                   $tmpTablesFrom $tmpTablesSeparator
+                   ezcontentobject
+                   INNER JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id )
+                   INNER JOIN ezcontentobject_tree ON (ezcontentobject_tree.contentobject_id = ezcontentobject.id)
+                   INNER JOIN ezcontentobject_name ON (
+                       ezcontentobject_name.contentobject_id = ezcontentobject_tree.contentobject_id AND
+                       ezcontentobject_name.content_version = ezcontentobject_tree.contentobject_version
+                   )
+                   $sortFromSQL
+                WHERE
+                $tmpTablesWhere $and
+                $tmpTablesWhereExtra
+                ezcontentclass.version = '0' AND
+                ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id AND
+                " . eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
+                $showInvisibleNodesCond
+                $sortWhereSQL
+                ORDER BY $orderByFieldsSQL";
+
             // Count query
             $languageCond = eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
             if ( $tmpTableCount == 0 )
@@ -1120,6 +1101,7 @@ class eZSearchEngine implements ezpSearchEngine
         $attributeJoinCount = 0;
         $attributeFromSQL = "";
         $attributeWereSQL = "";
+        $selectSQL = '';
         if ( $sortList !== false )
         {
             $sortingFields = '';
@@ -1155,11 +1137,13 @@ class eZSearchEngine implements ezpSearchEngine
                         case 'class_identifier':
                         {
                             $sortingFields .= 'ezcontentclass.identifier';
+                            $selectSQL .= ', ezcontentclass.identifier';
                         } break;
                         case 'class_name':
                         {
                             $classNameFilter = eZContentClassName::sqlFilter();
-                            $sortingFields .= $classNameFilter['nameField'];
+                            $selectSQL .= ", " . $classNameFilter['nameField'] . " AS class_name";
+                            $sortingFields .= "class_name";
                             $attributeFromSQL .= " INNER JOIN $classNameFilter[from] ON ($classNameFilter[where])";
                         } break;
                         case 'priority':
@@ -1194,6 +1178,7 @@ class eZSearchEngine implements ezpSearchEngine
                             $sortingFields .= "a$attributeJoinCount.$sortKey";
                             $attributeFromSQL .= " INNER JOIN ezcontentobject_attribute as a$attributeJoinCount ON (a$attributeJoinCount.contentobject_id = ezcontentobject.id AND a$attributeJoinCount.version = ezcontentobject_name.content_version)";
                             $attributeWereSQL .= " AND a$attributeJoinCount.contentclassattribute_id = $sortClassID";
+                            $selectSQL .= ", a$attributeJoinCount.$sortKey";
 
                             $attributeJoinCount++;
                         }break;
@@ -1220,6 +1205,7 @@ class eZSearchEngine implements ezpSearchEngine
         }
 
         return array( 'sortingFields' => $sortingFields,
+                      'selectSQL' => $selectSQL,
                       'fromSQL' => $attributeFromSQL,
                       'whereSQL' => $attributeWereSQL );
     }
