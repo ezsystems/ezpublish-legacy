@@ -475,6 +475,8 @@ class ezpKernel
         eZDisplayResult( $templateResult );
         $content .= ob_get_clean();
 
+        $this->shutdown();
+
         return array(
             "content" => $content,
         );
@@ -1073,7 +1075,11 @@ class ezpKernel
     {
         $this->requestInit();
 
-        return $callback();
+        $return = $callback();
+
+        $this->shutdown();
+
+        return $return;
     }
 
     /**
@@ -1081,7 +1087,7 @@ class ezpKernel
      *
      * @todo Use in run() and runCallback() and mark as protected?
      */
-    public function shutdown()
+    protected function shutdown()
     {
         eZExecution::cleanup();
         eZExecution::setCleanExit();
