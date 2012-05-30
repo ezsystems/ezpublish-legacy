@@ -302,7 +302,7 @@ class eZINI
         if ( $rootDir == "" )
             $rootDir = "settings";
         if ( $rootDir[0] !== "/" )
-            $rootDir = __DIR__ . "/../../../";
+            $rootDir = __DIR__ . "/../../../" . $rootDir;
         if ( file_exists( $rootDir . '/' . $fileName ) )
             return true;
         else if ( file_exists( $rootDir . '/' . $fileName . '.append.php' ) )
