@@ -72,6 +72,11 @@ class ezpKernel
     private $check;
 
     /**
+     * @var array
+     */
+    private $site;
+
+    /**
      * Construct an ezpKernel instance
      */
     public function __construct()
@@ -275,7 +280,7 @@ class ezpKernel
 
         if ( $this->module->exitStatus() == eZModule::STATUS_REDIRECT )
         {
-            $this->redirect( $site );
+            $this->redirect();
         }
 
         // Store the last URI for access history for login redirection
@@ -362,13 +367,13 @@ class ezpKernel
                 $meta['description'] = $metaDescription;
             }
 
-            $site['uri'] = $this->oldURI;
-            $site['redirect'] = false;
-            $site['meta'] = $meta;
-            $site['version'] = eZPublishSDK::version();
-            $site['page_title'] = $this->module->title();
+            $this->site['uri'] = $this->oldURI;
+            $this->site['redirect'] = false;
+            $this->site['meta'] = $meta;
+            $this->site['version'] = eZPublishSDK::version();
+            $this->site['page_title'] = $this->module->title();
 
-            $tpl->setVariable( "site", $site );
+            $tpl->setVariable( "site", $this->site );
 
             if ( $ini->variable( 'DebugSettings', 'DisplayDebugWarnings' ) === 'enabled' )
             {
@@ -794,10 +799,8 @@ class ezpKernel
 
     /**
      * Performs a redirection
-     *
-     * @param array $site
      */
-    protected function redirect( $site )
+    protected function redirect()
     {
         $GLOBALS['eZRedirection'] = true;
         $ini = eZINI::instance();
@@ -901,7 +904,7 @@ class ezpKernel
             }
 
             $tpl = eZTemplate::factory();
-            $tpl->setVariable( 'site', $site );
+            $tpl->setVariable( 'site', $this->site );
             $tpl->setVariable( 'warning_list', !empty( $this->warningList ) ? $this->warningList : false );
             $tpl->setVariable( 'redirect_uri', eZURI::encodeURL( $redirectURI ) );
             $templateResult = $tpl->fetch( 'design:redirect.tpl' );
@@ -1036,7 +1039,7 @@ class ezpKernel
 
         $httpCharset = eZTextCodec::httpCharset();
 
-        $site = array(
+        $this->site = array(
             'title' => $ini->variable( 'SiteSettings', 'SiteName' ),
             'design' => $ini->variable( 'DesignSettings', 'SiteDesign' ),
             'http_equiv' => array(
