@@ -40,7 +40,7 @@ of ini settings. It is::
 Bellow sa-extension you'll find the settings folder, but that is not currently defined as a scope since it's not configurable.
 
 In each scope is a list of ini locations in the order they are loaded, for extensions this means the order as defined by
-extension ordering (see separate feature doc). For siteaccess, first the one in settings/siteaccess/* then locations in 
+extension ordering (see separate feature doc). For siteaccess, first the one in settings/siteaccess/* then locations in
 ActiveExtensions as defined by extension ordering, and last locations in ActiveAccessExtensions.
 
 We have removed the condition on ``file_exists`` when processing the multiple locations possible for extensions. This
@@ -61,15 +61,15 @@ Improved performance
 
 PHP does not cache stat calls (file_exists, filemtime..) when a files does not exist, and neither should it.
 So the change in this version was to cache files used as basis for ini cache in the ini cache file, and hence
-not need to iterate over the whole installation and check if settings folder exists and later if a certain 
+not need to iterate over the whole installation and check if settings folder exists and later if a certain
 ini file exist in a valid ini folder. Then by default check modified time on these files to decide if ini cache
 needs to be refreshed. It is still possible to disable this globally or only do it on one file using
 EZP_INI_FILEMTIME_CHECK, but the performance gain is not as large anymore since it is much more efficient by
 default as well.
 
-There is one down side to this, it won't detect automatically that you have added new ini files in existing locations
-(already activated extensions/siteaccess, or override folder) anymore.
-So you'll need to clear ini cache in these cases.
+There is one downside to this: new ini overrides in existing locations won't be found automatically (in already
+activated extensions/siteaccess, or override folder) anymore. You'll need to clear ini cache so that they can
+be found.
 
 
 ==================
@@ -103,7 +103,7 @@ If you want to change siteaccess during execution you can do that like this:
 
     // In that case make sure you have specified site.ini\[SiteSettings]\SiteUriParts[]
     // to be the same as the uri parts that match siteaccess in uri.
-    // However, this won't cover you if you use host_uri matching and siteaccess uses different host. 
+    // However, this won't cover you if you use host_uri matching and siteaccess uses different host.
 
 So we recommend using the approach above with 'SiteURL' instead and redirect the user if possible,
 a lot more straightforward and only requires a correct SiteURL setting.
