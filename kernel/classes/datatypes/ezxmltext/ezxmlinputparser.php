@@ -604,7 +604,7 @@ class eZXMLInputParser
                 // Value of '0' is valid ( eg. border='0' )
                 if ( $value !== '' && $value !== false && $value !== null )
                 {
-                    $attributes[strtolower( $attribute[1] )] = $value;
+                    $attributes[$attribute[1]] = $value;
                 }
             }
         }
