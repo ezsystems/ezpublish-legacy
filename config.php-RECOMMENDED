@@ -66,7 +66,7 @@
     still check if that file has been modified, while ignoring changes for
     any other file.
 
-    Not that independently of this setting, new INI override files will NEVER
+    Note that independently of this setting, new INI override files will NEVER
     be found automatically. You will need to clear at least the INI cache
     when a new INI file override is added to the structure. Note that new files
     are not affected, but this is an edge situation.
