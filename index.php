@@ -23,5 +23,3 @@ $kernel = new ezpKernel;
 $result = $kernel->run();
 
 echo $result["content"];
-
-$kernel->shutdown();
