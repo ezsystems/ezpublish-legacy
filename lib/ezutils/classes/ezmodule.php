@@ -83,6 +83,164 @@ class eZModule
     const HOOK_STATUS_FAILED = 2;
 
     /**
+     * List of defined views for the module, as defined in the $ViewList variable
+     * in module.php
+     * @var array
+     * @private
+     */
+    public $Functions;
+
+    /**
+     * Array of module information.
+     * Available keys:
+     * - string  name: the module name
+     * - array   function: the known function (view) list
+     * - boolean variable_params
+     * - string  ui_component_match
+     * @var array
+     * @private
+     */
+    public $Module;
+
+    /**
+     * The module name
+     * @var string
+     */
+    public $Name;
+
+    /**
+     * The module's path, without the module name and module.php
+     * Examples: kernel, extension/mymoduleextension/modules
+     * @var string
+     */
+    public $Path;
+
+    /**
+     * The last execution's exit status.
+     * Accepts one of the STATUS_ constants.
+     * @see STATUS_OK, STATUS_FAILED, STATUS_REDIRECT, STATUS_RERUN
+     * @see setExitStatus(), exitStatus()
+     * @var int
+     */
+    public $ExitStatus;
+
+    /**
+     * The last execution's error code, if an error occured
+     * @see errorCode(), setErrorCode()
+     * @var int
+     */
+    public $ErrorCode;
+
+    /**
+     * The redirection URI that will be used to redirect after execution has ended.
+     * @see redirectURI(), setRedirectURI(), redirectTo(), STATUS_REDIRECT
+     * @var string
+     */
+    public $RedirectURI;
+
+    /**
+     * The redirection HTTP status
+     * @see setRedirectStatus(), redirectStatus(), STATUS_REDIRECT
+     * @var string
+     */
+    public $RedirectStatus;
+
+    /**
+     * The last execution's result title
+     * @var string
+     * @see title(), setTitle()
+     */
+    public $Title;
+
+    /**
+     * The hook list for this module
+     * @see addHook(), runHooks()
+     * @var array
+     */
+    public $HookList;
+
+    /**
+     * Current action per view, as an associative array.
+     * Each key is a view name, and the value the current action
+     * @var array
+     * @see viewAction(), setCurrentAction(), isCurrentAction()
+     */
+    public $ViewActions;
+
+    /**
+     * The last execution view result, as an array
+     * Common keys: content, title, url...
+     * @var array
+     */
+    public $ViewResult;
+
+    /**
+     * Ordered view parameters values
+     * @var array
+     * @private
+     */
+    public $ViewParameters;
+
+    /**
+     * Original parameters, before they're mapped to view/unordered/user
+     * @var array
+     * @private
+     */
+    public $OriginalParameters;
+
+    /**
+     * View parameters values
+     * @var array
+     * @private
+     */
+    public $OriginalViewParameters;
+
+    /**
+     * Named parameters, indexed by name
+     * @var array
+     * @private
+     */
+    public $NamedParameters;
+
+    /**
+     * Unordered parameters
+     * @var array
+     * @private
+     */
+    public $OriginalUnorderedParameters;
+
+    /**
+     * User parameters (customized ones, as the content/view "view" parameters)
+     * @var array
+     * @private
+     */
+    public $UserParameters;
+
+    /**
+     * The current UI context
+     * By default 'navigation' but can be changed depending on module or PHP code
+     * @var string
+     * @private
+     */
+    public $UIContext;
+
+    /**
+     * The current UI context
+     * By default the current module but can be changed depending on module or PHP code
+     * @var string
+     * @private
+     */
+    public $UIComponent;
+
+    /**
+     * Controls at which level UI component matching is done:
+     * either 'module' which uses module name or 'view' which uses view name
+     * @var string
+     * @private
+     */
+    public $UIComponentMatch;
+
+    /**
      * Constructor. Initializes the module.
      *
      * @param string $path
@@ -1897,164 +2055,6 @@ class eZModule
         $check['result'] = $access;
         return $check;
     }
-
-    /**
-     * List of defined views for the module, as defined in the $ViewList variable
-     * in module.php
-     * @var array
-     * @private
-     */
-    public $Functions;
-
-    /**
-     * Array of module information.
-     * Available keys:
-     * - string  name: the module name
-     * - array   function: the known function (view) list
-     * - boolean variable_params
-     * - string  ui_component_match
-     * @var array
-     * @private
-     */
-    public $Module;
-
-    /**
-     * The module name
-     * @var string
-     */
-    public $Name;
-
-    /**
-     * The module's path, without the module name and module.php
-     * Examples: kernel, extension/mymoduleextension/modules
-     * @var string
-     */
-    public $Path;
-
-    /**
-     * The last execution's exit status.
-     * Accepts one of the STATUS_ constants.
-     * @see STATUS_OK, STATUS_FAILED, STATUS_REDIRECT, STATUS_RERUN
-     * @see setExitStatus(), exitStatus()
-     * @var int
-     */
-    public $ExitStatus;
-
-    /**
-     * The last execution's error code, if an error occured
-     * @see errorCode(), setErrorCode()
-     * @var int
-     */
-    public $ErrorCode;
-
-    /**
-     * The redirection URI that will be used to redirect after execution has ended.
-     * @see redirectURI(), setRedirectURI(), redirectTo(), STATUS_REDIRECT
-     * @var string
-     */
-    public $RedirectURI;
-
-    /**
-     * The redirection HTTP status
-     * @see setRedirectStatus(), redirectStatus(), STATUS_REDIRECT
-     * @var string
-     */
-    public $RedirectStatus;
-
-    /**
-     * The last execution's result title
-     * @var string
-     * @see title(), setTitle()
-     */
-    public $Title;
-
-    /**
-     * The hook list for this module
-     * @see addHook(), runHooks()
-     * @var array
-     */
-    public $HookList;
-
-    /**
-     * Current action per view, as an associative array.
-     * Each key is a view name, and the value the current action
-     * @var array
-     * @see viewAction(), setCurrentAction(), isCurrentAction()
-     */
-    public $ViewActions;
-
-    /**
-     * The last execution view result, as an array
-     * Common keys: content, title, url...
-     * @var array
-     */
-    public $ViewResult;
-
-    /**
-     * Ordered view parameters values
-     * @var array
-     * @private
-     */
-    public $ViewParameters;
-
-    /**
-     * Original parameters, before they're mapped to view/unordered/user
-     * @var array
-     * @private
-     */
-    public $OriginalParameters;
-
-    /**
-     * View parameters values
-     * @var array
-     * @private
-     */
-    public $OriginalViewParameters;
-
-    /**
-     * Named parameters, indexed by name
-     * @var array
-     * @private
-     */
-    public $NamedParameters;
-
-    /**
-     * Unordered parameters
-     * @var array
-     * @private
-     */
-    public $OriginalUnorderedParameters;
-
-    /**
-     * User parameters (customized ones, as the content/view "view" parameters)
-     * @var array
-     * @private
-     */
-    public $UserParameters;
-
-    /**
-     * The current UI context
-     * By default 'navigation' but can be changed depending on module or PHP code
-     * @var string
-     * @private
-     */
-    public $UIContext;
-
-    /**
-     * The current UI context
-     * By default the current module but can be changed depending on module or PHP code
-     * @var string
-     * @private
-     */
-    public $UIComponent;
-
-    /**
-     * Controls at which level UI component matching is done:
-     * either 'module' which uses module name or 'view' which uses view name
-     * @var string
-     * @private
-     */
-    public $UIComponentMatch;
 }
 
 ?>
