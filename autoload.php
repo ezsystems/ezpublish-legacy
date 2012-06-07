@@ -14,15 +14,15 @@
 // function stack. Remember to check for class prefixes in such a method, if it
 // will not serve classes from eZ Publish and eZ Components
 
-if ( file_exists( 'config.php' ) )
+if ( file_exists( __DIR__ . '/config.php' ) )
 {
-    require 'config.php';
+    require __DIR__ . '/config.php';
 }
 
 $ezcPath = __DIR__ . "/lib/ezc";
 if ( defined( 'EZP_USE_BUNDLED_COMPONENTS' ) ? EZP_USE_BUNDLED_COMPONENTS === true : file_exists( $ezcPath ) )
 {
-    set_include_path( '.' . PATH_SEPARATOR . $ezcPath . PATH_SEPARATOR . get_include_path() );
+    set_include_path( __DIR__ . PATH_SEPARATOR . $ezcPath . PATH_SEPARATOR . get_include_path() );
     require 'Base/src/base.php';
     $baseEnabled = true;
 }
@@ -55,7 +55,7 @@ class ezpAutoloader
     {
         if ( self::$ezpClasses === null )
         {
-            $ezpKernelClasses = require 'autoload/ezp_kernel.php';
+            $ezpKernelClasses = require __DIR__ . '/autoload/ezp_kernel.php';
             $ezpExtensionClasses = false;
             $ezpTestClasses = false;
 
@@ -90,7 +90,7 @@ class ezpAutoloader
             {
                 // won't work, as eZDebug isn't initialized yet at that time
                 // eZDebug::writeError( "Kernel override is enabled, but var/autoload/ezp_override.php has not been generated\nUse bin/php/ezpgenerateautoloads.php -o", 'autoload.php' );
-                if ( $ezpKernelOverrideClasses = include 'var/autoload/ezp_override.php' )
+                if ( $ezpKernelOverrideClasses = include __DIR__ . '/var/autoload/ezp_override.php' )
                 {
                     self::$ezpClasses = array_merge( self::$ezpClasses, $ezpKernelOverrideClasses );
                 }
@@ -99,7 +99,7 @@ class ezpAutoloader
 
         if ( isset( self::$ezpClasses[$className] ) )
         {
-            require( self::$ezpClasses[$className] );
+            require( __DIR__ . "/" . self::$ezpClasses[$className] );
         }
     }
 
