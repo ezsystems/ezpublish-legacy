@@ -246,7 +246,15 @@ class ezpKernel
     {
         $this->requestInit();
 
-        $moduleResult = $this->dispatchLoop();
+        try
+        {
+            $moduleResult = $this->dispatchLoop();
+        }
+        catch ( Exception $e )
+        {
+            $this->shutdown();
+            throw $e;
+        }
 
         $ini = eZINI::instance();
 
@@ -586,7 +594,7 @@ class ezpKernel
                     && !isset( $this->module->Module['function']['script'] )
                 )
                 {
-                    $moduleResult = $this->module->handleError( eZError::KERNEL_MODULE_VIEW_NOT_FOUND, 'kernel' );
+                    $moduleResult = $this->module->handleError( eZError::KERNEL_MODULE_VIEW_NOT_FOUND, 'kernel', array( "check" => $moduleCheck ) );
                     $runModuleView = false;
                     $this->siteBasics['policy-check-required'] = false;
                     $omitPolicyCheck = true;
@@ -1094,5 +1102,15 @@ class ezpKernel
     {
         eZExecution::cleanup();
         eZExecution::setCleanExit();
+    }
+
+    /**
+     * Sets whether to use exceptions in legacy kernel.
+     *
+     * @param bool $useExceptions
+     */
+    public function setUseExceptions( $useExceptions )
+    {
+        eZModule::$useExceptions = (bool)$useExceptions;
     }
 }

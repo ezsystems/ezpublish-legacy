@@ -240,6 +240,8 @@ class eZModule
      */
     public $UIComponentMatch;
 
+    public static $useExceptions;
+
     /**
      * Constructor. Initializes the module.
      *
@@ -586,6 +588,37 @@ class eZModule
      */
     function handleError( $errorCode, $errorType = false, $parameters = array(), $userParameters = false )
     {
+        if ( self::$useExceptions && $errorType === "kernel" )
+        {
+            switch ( $errorCode )
+            {
+                case eZError::KERNEL_MODULE_NOT_FOUND:
+                    throw new ezpModuleNotFound( $parameters["module"] );
+
+                case eZError::KERNEL_MODULE_DISABLED:
+                    if ( $parameters["check"]["view_checked"] )
+                        throw new ezpModuleViewDisabled( $parameters["check"]['module'], $parameters["check"]['view'] );
+
+                    throw new ezpModuleDisabled( $parameters["check"]['module'] );
+
+                case eZError::KERNEL_MODULE_VIEW_NOT_FOUND:
+                    throw new ezpModuleViewNotFound( $parameters["check"]['module'], $parameters["check"]['view'] );
+
+                case eZError::KERNEL_ACCESS_DENIED:
+                    throw new ezpAccessDenied;
+
+                case eZError::KERNEL_MOVED:
+                    throw new ezpContentMoved( $parameters["new_location"] );
+
+                case eZError::KERNEL_NOT_AVAILABLE:
+                case eZError::KERNEL_NOT_FOUND:
+                    throw new ezpContentNotFoundException( "" );
+
+                case eZError::KERNEL_LANGUAGE_NOT_FOUND:
+                        throw new ezpLanguageNotFound;
+            }
+        }
+
         if ( !$errorType )
         {
             eZDebug::writeWarning( "No error type specified for error code $errorCode, assuming kernel.\nA specific error type should be supplied, please check your code.", __METHOD__ );
