@@ -590,7 +590,6 @@ return array(
       'ezpContentLocation'                                 => 'kernel/private/api/content/location.php',
       'ezpContentLocationCriteria'                         => 'kernel/private/api/content/criteria/location.php',
       'ezpContentLocationSet'                              => 'kernel/private/api/content/location_set.php',
-      'ezpContentMoved'                                    => 'kernel/private/classes/exceptions/kernel/contentmoved.php',
       'ezpContentNotFoundException'                        => 'kernel/private/api/content/exceptions/content_not_found.php',
       'ezpContentPublishingBehaviour'                      => 'kernel/content/ezcontentpublishingbehaviour.php',
       'ezpContentPublishingProcess'                        => 'kernel/private/classes/ezpcontentpublishingprocess.php',

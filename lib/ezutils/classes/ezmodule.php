@@ -607,8 +607,8 @@ class eZModule
                 case eZError::KERNEL_ACCESS_DENIED:
                     throw new ezpAccessDenied;
 
-                case eZError::KERNEL_MOVED:
-                    throw new ezpContentMoved( $parameters["new_location"] );
+                //case eZError::KERNEL_MOVED:
+                // @todo ?
 
                 case eZError::KERNEL_NOT_AVAILABLE:
                 case eZError::KERNEL_NOT_FOUND:
