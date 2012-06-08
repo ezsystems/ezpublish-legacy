@@ -953,6 +953,7 @@ class ezpKernel
 
         // start: eZCheckValidity
         // pre check, setup wizard related so needs to be before session/db init
+        // TODO: Move validity check in the constructor? Setup is not meant to be launched at each (sub)request is it?
         if ( $ini->variable( 'SiteAccessSettings', 'CheckValidity' ) === 'true' )
         {
             $this->check = array( 'module' => 'setup', 'function' => 'init' );
@@ -1008,6 +1009,7 @@ class ezpKernel
                 }
             );
 
+            // TODO: Session starting should be made only once in the constructor
             if ( $ini->variable( 'Session', 'ForceStart' ) === 'enabled' )
                 eZSession::start();
             else
@@ -1038,6 +1040,7 @@ class ezpKernel
         ezpEvent::getInstance()->notify( 'request/input', array( $this->uri ) );
 
         // Initialize with locale settings
+        // TODO: Move to constructor? Is it relevant to init the locale/charset for each (sub)requests?
         $languageCode = eZLocale::instance()->httpLocaleCode();
         $phpLocale = trim( $ini->variable( 'RegionalSettings', 'SystemLocale' ) );
         if ( $phpLocale != '' )
@@ -1047,6 +1050,7 @@ class ezpKernel
 
         $httpCharset = eZTextCodec::httpCharset();
 
+        // TODO: are these parameters supposed to vary across potential sub-requests?
         $this->site = array(
             'title' => $ini->variable( 'SiteSettings', 'SiteName' ),
             'design' => $ini->variable( 'DesignSettings', 'SiteDesign' ),
