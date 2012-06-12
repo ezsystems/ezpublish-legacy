@@ -14,7 +14,24 @@
 <tr class="bglight">
     <td><a href={$node.object.owner.main_node.url_alias|ezurl}>{$node.object.owner.name|wash}</a></td>
     <td>{$node.object.published|l10n( shortdatetime )}</td>
-    <td>{let section_object=fetch( section, object, hash( section_id, $node.object.section_id ) )}{section show=$section_object}<a href={concat( '/section/view/', $node.object.section_id )|ezurl}>{$section_object.name|wash}</a>{section-else}<i>{'Unknown'|i18n( 'design/admin/node/view/full' )}</i>{/section}{/let}</td>
+    <td>
+    <form name="changesection" id="changesection" method="post" action={concat( 'content/edit/', $node.object.id )|ezurl}>
+    <input type="hidden" name="RedirectRelativeURI" value="{$node.url_alias}" />
+    <input type="hidden" name="ChangeSectionOnly" value="1" />
+
+    <select id="selected-section-id" name="SelectedSectionId">
+    {foreach $node.object.allowed_assign_section_list as $section}
+        {if eq( $section.id, $node.object.section_id )}
+        <option value="{$section.id}" selected="selected">{$section.name|wash}</option>
+        {else}
+        <option value="{$section.id}">{$section.name|wash}</option>
+        {/if}
+    {/foreach}
+    </select>
+    <input id="tab-details-set-section" type="submit" value="{'Set'|i18n( 'design/admin/node/view/full' )}" name="SectionEditButton" class="button" />
+    </form>
+
+    </td>
     <td class="number" align="right">{$node.object.versions|count()}</td>
     <td class="number" align="right">{$node.contentobject_version_object.language_list|count}</td>
     <td class="number" align="right">{$node.node_id}</td>
@@ -95,6 +112,14 @@
     $('#tab-details-states-list select').change(function()
     {
         var btn = $('#tab-details-set-states');
+        if ( !btn.attr('disabled') )
+        {
+            btn.removeClass('button').addClass('defaultbutton');
+        }
+    });
+    $('#selected-section-id').change(function()
+    {
+        var btn = $('#tab-details-set-section');
         if ( !btn.attr('disabled') )
         {
             btn.removeClass('button').addClass('defaultbutton');
