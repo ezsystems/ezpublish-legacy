@@ -98,6 +98,16 @@ class eZImageShellHandler extends eZImageHandler
 
         $systemString = implode( ' ', $argumentList );
 
+        if( preg_match( "|convert|", $executable ) )
+        {
+            $ini = eZINI::instance( 'image.ini' );
+            if( $ini->hasVariable( 'ImageMagick', 'MagickThreadLimit' ) )
+                $imageMagickThreadLimit = $ini->variable( 'ImageMagick', 'MagickThreadLimit' );
+
+            if( is_numeric( $imageMagickThreadLimit ) ) 
+                putenv( 'MAGICK_THREAD_LIMIT='. $imageMagickThreadLimit );
+        }
+
         system( $systemString, $returnCode );
 
         if ( $returnCode == 0 )
