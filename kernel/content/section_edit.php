@@ -58,6 +58,7 @@ function sectionEditActionCheck( $module, $class, $object, $version, $contentObj
                         $db->query( "UPDATE ezcontentobject SET section_id='$selectedSectionID' WHERE id = '$objectID'" );
                         $db->query( "UPDATE ezsearch_object_word_link SET section_id='$selectedSectionID' WHERE  contentobject_id = '$objectID'" );
                     }
+                    eZContentCacheManager::clearContentCacheIfNeeded( $object->attribute( 'id' ) );
                     $object->expireAllViewCache();
                     $db->commit();
                 }
