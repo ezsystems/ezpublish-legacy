@@ -179,6 +179,7 @@ class ezpKernel
                 eZDisplayResult( null );
             }
         );
+        eZExecution::setCleanExit();
 
         // Enable this line to get eZINI debug output
         // eZINI::setIsDebugEnabled( true );
@@ -927,6 +928,7 @@ class ezpKernel
 
     protected function requestInit()
     {
+        eZExecution::setCleanExit( false );
         $scriptStartTime = microtime( true );
 
         ob_start();
