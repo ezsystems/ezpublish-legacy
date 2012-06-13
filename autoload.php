@@ -19,28 +19,31 @@ if ( file_exists( __DIR__ . '/config.php' ) )
     require __DIR__ . '/config.php';
 }
 
-$ezcPath = __DIR__ . "/lib/ezc";
-if ( defined( 'EZP_USE_BUNDLED_COMPONENTS' ) ? EZP_USE_BUNDLED_COMPONENTS === true : file_exists( $ezcPath ) )
+if ( !defined( 'EZCBASE_ENABLED' ) )
 {
-    set_include_path( __DIR__ . PATH_SEPARATOR . $ezcPath . PATH_SEPARATOR . get_include_path() );
-    require 'Base/src/base.php';
-    $baseEnabled = true;
-}
-else if ( defined( 'EZC_BASE_PATH' ) )
-{
-    require EZC_BASE_PATH;
-    $baseEnabled = true;
-}
-else
-{
-    $baseEnabled = @include 'ezc/Base/base.php';
-    if ( !$baseEnabled )
+    $ezcPath = __DIR__ . "/lib/ezc";
+    if ( defined( 'EZP_USE_BUNDLED_COMPONENTS' ) ? EZP_USE_BUNDLED_COMPONENTS === true : file_exists( $ezcPath ) )
     {
-        $baseEnabled = @include 'Base/src/base.php';
+        set_include_path( __DIR__ . PATH_SEPARATOR . $ezcPath . PATH_SEPARATOR . get_include_path() );
+        require 'Base/src/base.php';
+        $baseEnabled = true;
     }
-}
+    else if ( defined( 'EZC_BASE_PATH' ) )
+    {
+        require EZC_BASE_PATH;
+        $baseEnabled = true;
+    }
+    else
+    {
+        $baseEnabled = @include 'ezc/Base/base.php';
+        if ( !$baseEnabled )
+        {
+            $baseEnabled = @include 'Base/src/base.php';
+        }
+    }
 
-define( 'EZCBASE_ENABLED', $baseEnabled );
+    define( 'EZCBASE_ENABLED', $baseEnabled );
+}
 
 /**
  * Provides the native autoload functionality for eZ Publish
