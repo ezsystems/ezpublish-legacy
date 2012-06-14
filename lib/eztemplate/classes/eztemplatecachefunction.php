@@ -84,10 +84,15 @@ class eZTemplateCacheFunction
             $ignoreContentExpiry = eZTemplateNodeTool::elementConstantValue( $parameters['ignore_content_expiry'] );
         }
 
+        $name = '';
         $keysData = false;
         $hasKeys = false;
         $subtreeExpiryData = null;
         $subtreeValue = null;
+        if ( isset( $parameters['name'] ) )
+        {
+            $name = $parameters['name'];
+        }
         if ( isset( $parameters['keys'] ) )
         {
             $keysData = $parameters['keys'];
@@ -112,14 +117,23 @@ class eZTemplateCacheFunction
             $accessNameText = eZPHPCreator::variableText( $accessName, 0, 0, false );
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $keysData, false, array(), 'cacheKeys' );
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $subtreeExpiryData, false, array(), 'subtreeExpiry' );
+            $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $name, false, array(), 'name' );
 
-            $code = "\$cacheKeys = array( \$cacheKeys, $placementKeyStringText, $accessNameText );\n";
+            $code = '';
+            if ($name == '')
+            {
+                $code = "\$cacheKeys = array( \$cacheKeys, $placementKeyStringText, $accessNameText );\n";
+            }
+            else
+            {
+                $code = "\$cacheKeys = array( \$cacheKeys, $accessNameText );\n";
+            }
             $cachePathText = "\$cachePath";
         }
         else
         {
             $nodeID = $subtreeValue ? eZTemplateCacheBlock::decodeNodeID( $subtreeValue ) : false;
-            $cachePath = eZTemplateCacheBlock::cachePath( eZTemplateCacheBlock::keyString( array( $placementKeyString, $accessName ) ), $nodeID );
+            $cachePath = eZTemplateCacheBlock::cachePath( eZTemplateCacheBlock::keyString( array( $placementKeyString, $accessName ) ), $nodeID, $name );
             $code = "";
             $cachePathText = eZPHPCreator::variableText( $cachePath, 0, 0, false );
         }
@@ -131,7 +145,7 @@ class eZTemplateCacheFunction
         $codePlacementHash = md5( $placementKeyString );
         if ( $hasKeys )
         {
-            $code .= "list(\$cacheHandler_{$codePlacementHash}, \$contentData) =\n  eZTemplateCacheBlock::retrieve( \$cacheKeys, \$subtreeExpiry, $ttlCode, " . ($ignoreContentExpiry ? "false" : "true") . " );\n";
+            $code .= "list(\$cacheHandler_{$codePlacementHash}, \$contentData) =\n  eZTemplateCacheBlock::retrieve( \$cacheKeys, \$subtreeExpiry, $ttlCode, " . ($ignoreContentExpiry ? "false" : "true") . ", \$name );\n";
         }
         else
         {
@@ -198,6 +212,7 @@ class eZTemplateCacheFunction
 
     function processCachedPreprocess( $tpl, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
+        $name                = '';
         $keys                = null;
         $subtreeExpiry       = null;
         $expiry              = self::DEFAULT_TTL;
@@ -224,31 +239,50 @@ class eZTemplateCacheFunction
         {
             $ignoreContentExpiry = true;
         }
+        if ( isset( $functionParameters["name"] ) )
+        {
+            $name = $tpl->elementValue( $functionParameters["name"], $rootNamespace, $currentNamespace, $functionPlacement );
+        }
 
         $placementString = eZTemplateCacheBlock::placementString( $functionPlacement );
 
         return eZTemplateCacheFunction::processCached( $tpl, $functionChildren, $rootNamespace, $currentNamespace,
-                                                       $placementString, $keys, $subtreeExpiry, $expiry, $ignoreContentExpiry );
+                                                       $placementString, $name, $keys, $subtreeExpiry, $expiry, $ignoreContentExpiry );
     }
 
     function processCached( $tpl, $functionChildren, $rootNamespace, $currentNamespace,
-                            $placementString, $keys, $subtreeExpiry, $expiry, $ignoreContentExpiry )
+                            $placementString, $name, $keys, $subtreeExpiry, $expiry, $ignoreContentExpiry )
     {
         // Fetch the current siteaccess
         $accessName = false;
         if ( isset( $GLOBALS['eZCurrentAccess']['name'] ) )
             $accessName = $GLOBALS['eZCurrentAccess']['name'];
-        if ( $keys === null )
+
+        if ($name == '')
         {
-            $keyArray = array( $placementString, $accessName );
+            if ( $keys === null )
+            {
+                $keyArray = array( $placementString, $accessName );
+            }
+            else
+            {
+                $keyArray = array( $keys, $placementString, $accessName );
+            }
         }
         else
         {
-            $keyArray = array( $keys, $placementString, $accessName );
+            if ( $keys === null )
+            {
+                $keyArray = array( $accessName );
+            }
+            else
+            {
+                $keyArray = array( $keys, $accessName );
+            }
         }
 
         $nodeID = $subtreeExpiry ? eZTemplateCacheBlock::decodeNodeID( $subtreeExpiry ) : false;
-        $phpPath = eZTemplateCacheBlock::cachePath( eZTemplateCacheBlock::keyString( $keyArray ), $nodeID );
+        $phpPath = eZTemplateCacheBlock::cachePath( eZTemplateCacheBlock::keyString( $keyArray ), $nodeID, $name );
 
         $ttl = $expiry > 0 ? $expiry : null;
 
