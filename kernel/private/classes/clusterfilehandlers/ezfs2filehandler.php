@@ -478,6 +478,7 @@ class eZFS2FileHandler extends eZFSFileHandler
             unlink( $this->filePath );
             $this->filePath = $this->realFilePath;
             $this->realFilePath = null;
+            eZClusterFileHandler::removeGeneratingFile( $this );
             $this->loadMetaData();
         }
 
