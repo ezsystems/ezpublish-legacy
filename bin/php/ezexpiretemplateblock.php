@@ -1,5 +1,13 @@
 #!/usr/bin/env php
 <?php
+/**
+ * File containing ezexpiretemplateblock.php script.
+ *
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 require 'autoload.php';
 
@@ -40,7 +48,7 @@ if ( $options['clear-block'] )
         $cli->output( "No block name given!" );
         $script->shutdown( 0 );
     }
-    if ($nodeID)
+    if ( $nodeID )
     {
         $cli->output( "Clearing cache for template block <" . $blockName . "> and Node <" . $nodeID . ">." );
     }

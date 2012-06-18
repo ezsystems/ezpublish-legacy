@@ -42,7 +42,7 @@ class eZTemplateCacheFunction
                                                  'static' => false,
                                                  'transform-children' => true,
                                                  'tree-transformation' => true,
-                                                 'transform-parameters' => true ) );
+                                                    'transform-parameters' => true ) );
     }
 
     function templateNodeTransformation( $functionName, &$node,
@@ -120,7 +120,7 @@ class eZTemplateCacheFunction
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $name, false, array(), 'name' );
 
             $code = '';
-            if ($name == '')
+            if ( $name == '')
             {
                 $code = "\$cacheKeys = array( \$cacheKeys, $placementKeyStringText, $accessNameText );\n";
             }
@@ -128,6 +128,7 @@ class eZTemplateCacheFunction
             {
                 $code = "\$cacheKeys = array( \$cacheKeys, $accessNameText );\n";
             }
+            
             $cachePathText = "\$cachePath";
         }
         else
@@ -152,6 +153,7 @@ class eZTemplateCacheFunction
             $nodeIDText = var_export( $nodeID, true );
             $code .= "list(\$cacheHandler_{$codePlacementHash}, \$contentData) =\n  eZTemplateCacheBlock::handle( $cachePathText, $nodeIDText, $ttlCode, " . ($ignoreContentExpiry ? "false" : "true") . " );\n";
         }
+  
         $code .=
             "if ( !( \$contentData instanceof eZClusterFileFailure ) )\n" .
             "{\n";
@@ -258,7 +260,7 @@ class eZTemplateCacheFunction
         if ( isset( $GLOBALS['eZCurrentAccess']['name'] ) )
             $accessName = $GLOBALS['eZCurrentAccess']['name'];
 
-        if ($name == '')
+        if ( $name == '')
         {
             if ( $keys === null )
             {
@@ -301,6 +303,7 @@ class eZTemplateCacheFunction
         {
             $globalExpiryTime = eZExpiryHandler::getTimestamp( 'template-block-cache', -1 );
         }
+  
         $globalExpiryTime = max( eZExpiryHandler::getTimestamp( 'global-template-block-cache', -1 ), // This expiry value is the true global expiry for cache-blocks
                                  $globalExpiryTime );
 

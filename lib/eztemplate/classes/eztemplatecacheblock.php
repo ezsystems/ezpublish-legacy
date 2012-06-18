@@ -17,30 +17,42 @@
 class eZTemplateCacheBlock
 {
     /*!
-    USAGE:
+     Helper function for setting the expired flag to 1 to all cache block files related to the given cache block name and (optional) node id. 
+
+     \param $name Name of the cache block which should be expired.
+     \param $nodeID Optional the node id of which the named cache block should be expired.
+
+
+     Example of usage:
+     \code
         eZTemplateCacheBlock::expireCacheByName( $name, $nodeID);
-    
-    */
+     \endcode
+
+     Note: If only the $name is given all files of the named cache block will be expired. 
+           If a $nodeID is given only the file related to name and node id will be expired.
+
+     */
     static function expireCacheByName( $name, $nodeID = false )
     {
-        if ($name == '')
+        if ( $name == '' )
         {
             return;
         }
+
         $cachePath = eZTemplateCacheBlock::cachePath( eZTemplateCacheBlock::keyString( $keys ), $nodeID, $name );
 
         $phpPath = eZTemplateCacheBlock::templateBlockCacheDir() . '/';
 
         if ( is_numeric( $nodeID ) )
         {
-            $phpPath .= eZTemplateCacheBlock::subtreeCacheSubDirForNode( $nodeID, $name );
+            $phpPath .= eZTemplateCacheBlock::subtreeCacheSubDirForNode( $nodeID, $name ) . '/';
         }
         else
         {
-            $phpPath .= $name;
+            $phpPath .= $name . '/';
         }
 
-        $phpPath = $phpPath . '/' . $filename;
+        $phpPath .= $filename;
 
         $fileHandler = eZClusterFileHandler::instance($phpPath);
 
@@ -182,7 +194,7 @@ class eZTemplateCacheBlock
         }
         else
         {
-            if ($name)
+            if ( $name )
             {
                 $phpDir .= $name . '/' . $filename[0] . '/' . $filename[1] . '/' . $filename[2];
             }
@@ -202,7 +214,7 @@ class eZTemplateCacheBlock
     */
     static function templateBlockCacheDir()
     {
-        $cacheDir = eZSys::cacheDirectory() . '/template-block/' ;
+        $cacheDir = eZSys::cacheDirectory() . '/template-block/';
         return $cacheDir;
     }
 
@@ -300,7 +312,7 @@ class eZTemplateCacheBlock
     {
         $cacheDir = eZTemplateCacheBlock::subtreeCacheBaseSubDir();
 
-        if ($name != '' )
+        if ( $name != '' )
         {
             $cacheDir =  $name . '/' . $cacheDir;
         }
