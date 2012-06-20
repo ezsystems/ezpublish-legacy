@@ -45,6 +45,10 @@ class ezpLanguageSwitcherOperator
                     return;
                 }
 
+                // Append original query string if no query string has already been passed in $destination
+                if ( strpos( $destination, '?' ) === false )
+                    $destination .= eZSys::queryString();
+
                 $className = $ini->variable( 'RegionalSettings', 'LanguageSwitcherClass' );
                 $operatorValue = call_user_func( array( $className, 'setupTranslationSAList' ), $destination );
             } break;
