@@ -13,3 +13,8 @@
     </cite>
 </p>
 {/if}
+
+{* $content is supposed to be an eZContentObject instance or similar (with same property access) *}
+{if $content}
+<h3>Passed content object: #{$content.id} - {$content.name}</h3>
+{/if}
