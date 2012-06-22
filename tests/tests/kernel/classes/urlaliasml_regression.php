@@ -1416,6 +1416,8 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         // By creating following URL alias, "test/single-page" will be registered as a NOP URI segment
         $uriFirstSegment = 'test19062';
         $uriWildcard = "$uriFirstSegment/single-page";
+        $uriFirstSegment2 = 'test19062_2';
+        $uriWildcard2 = "$uriFirstSegment2/*";
         $res = eZURLAliasML::storePath(
             "$uriWildcard/article.html",
             "eznode:{$folder->mainNode->node_id}",
@@ -1423,16 +1425,27 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
             0,
             true
         );
+        $res = eZURLAliasML::storePath(
+            "$uriWildcard2/article.html",
+            "eznode:{$folder->mainNode->node_id}",
+            $this->englishLanguage,
+            0,
+            true
+        );
+        $wildcard2 = eZURLWildcardTest::createWildcard( $uriWildcard2, 'bar', eZURLWildcard::TYPE_FORWARD );
         $wildcard = eZURLWildcardTest::createWildcard( $uriWildcard, 'foo', eZURLWildcard::TYPE_FORWARD );
 
         // Translating the wildcard URL should return false in order to be then translated by eZURLWildcard in index.php
         self::assertFalse( eZURLAliasML::translate( $uriWildcard ) );
+        $matchUriWildcard2 = $uriFirstSegment2 . '/something/that/matches/uriWildcard2';
+        self::assertFalse( eZURLAliasML::translate( $matchUriWildcard2 ) );
         // Here no wildcard and test19062 should be a nop segment (points to nothing.
         // Default behaviour is to return true and redirect to root ("/")
         self::assertTrue( eZURLAliasML::translate( $uriFirstSegment ) );
 
         $folder->remove();
         $wildcard->remove();
+        $wildcard2->remove();
     }
 }
 

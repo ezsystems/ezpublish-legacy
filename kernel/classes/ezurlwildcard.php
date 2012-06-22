@@ -676,12 +676,13 @@ class eZURLWildcard extends eZPersistentObject
     public static function wildcardExists( $uriString )
     {
         $wildcardIndex = self::wildcardsIndex();
-        $uriString = self::matchRegexpCode( array( 'source_url' => $uriString ) );
-        if ( in_array( $uriString, $wildcardIndex ) )
+        foreach ( $wildcardIndex as $preg )
         {
-            return true;
+            if ( preg_match( $preg, $uriString ) )
+            {
+                return true;
+            }
         }
-
         return false;
     }
 }
