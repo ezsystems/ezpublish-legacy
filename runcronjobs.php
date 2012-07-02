@@ -305,12 +305,14 @@ if ( $listCronjobs )
         $hasScripts = false;
         if ( $block === 'CronjobSettings' )
         {
-            $cli->output( "\n Standard scripts:" );
+            $cli->output( $cli->endLineString() );
+            $cli->output( "Standard scripts:" );
             $hasScripts = true;
         }
         if ( strpos( $block, 'CronjobPart-' ) !== false )
         {
-            $cli->output( "\n {$block}:" );
+            $cli->output( $cli->endLineString() );
+            $cli->output( "{$block}:" );
             $hasScripts = true;
         }
         if ( $hasScripts )
@@ -324,11 +326,11 @@ if ( $listCronjobs )
                     if ( file_exists( $filePath ) )
                     {
                         $fileExists = true;
-                        $cli->output( "\t {$filePath}" );
+                        $cli->output( "{$cli->goToColumn( 4 )} {$filePath}" );
                     }
                 }
                 if ( !$fileExists )
-                    $cli->output( "\t Error: No {$fileName} file in any of configured directories!" );
+                    $cli->output( "{$cli->goToColumn( 4 )} Error: No {$fileName} file in any of configured directories!" );
             }
         }   
     }
