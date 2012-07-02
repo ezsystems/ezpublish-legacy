@@ -302,21 +302,11 @@ if ( $listCronjobs )
 {
     foreach ( $ini->groups() as $block => $blockValues )
     {
-        $hasScripts = false;
-        if ( $block === 'CronjobSettings' )
-        {
-            $cli->output( $cli->endLineString() );
-            $cli->output( "Standard scripts:" );
-            $hasScripts = true;
-        }
-        if ( strpos( $block, 'CronjobPart-' ) !== false )
+        if ( strpos( $block, 'Cronjob' ) !== false )
         {
             $cli->output( $cli->endLineString() );
             $cli->output( "{$block}:" );
-            $hasScripts = true;
-        }
-        if ( $hasScripts )
-        {
+
             foreach ( $blockValues['Scripts'] as $fileName )
             {
                 $fileExists = false;
