@@ -3783,11 +3783,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       but instead return information on what will happen
                       if it is removed. See subtreeRemovalInformation() for the
                       returned structure.
+     \param $onlyChildNode If set to \c true it will remove only childs of each node
+                      in \a $deleteIDArray.
 
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    static function removeSubtrees( $deleteIDArray, $moveToTrash = true, $infoOnly = false )
+    static function removeSubtrees( $deleteIDArray, $moveToTrash = true, $infoOnly = false, $onlyChildNode = false )
     {
         $moveToTrashAllowed = true;
         $deleteResult = array();
@@ -3937,7 +3939,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         }
                     }
 
-                    $node->removeNodeFromTree( $moveToTrashTemp );
+                    if( !$onlyChildNode )
+                      $node->removeNodeFromTree( $moveToTrashTemp );
                 }
             }
             if ( !$canRemove )
