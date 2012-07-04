@@ -1928,6 +1928,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             eZDebug::writeError( "Cannot use group_by parameter together with extended attribute filter which sets group_by!", __METHOD__ );
         }
 
+        $languageFilter = eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
+        $objectNameLanguageFilter = eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' );
 
         if ( $language )
         {
@@ -1973,11 +1975,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       $notEqParentString
                       $mainNodeOnlyCond
                       $classCondition
-                      " .  eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
+                      $objectNameLanguageFilter
                       $showInvisibleNodesCond
                       $sqlPermissionChecking[where]
-                      $objectNameFilterSQL AND " .
-                      eZContentLanguage::languagesSQLFilter( 'ezcontentobject' ) . "
+                      $objectNameFilterSQL AND
+                      $languageFilter
                 $groupBySQL";
 
         if ( $sortingInfo['sortingFields'] )
@@ -2376,6 +2378,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         $languageFilter = ' AND '.eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
+        $objectNameLanguageFilter = eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' );
 
         if ( $language )
         {
@@ -2414,7 +2417,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         $attributeFilter[where]
                         ezcontentclass.version=0 AND
                         $notEqParentString
-                        " . eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
+                        $objectNameLanguageFilter
                         $showInvisibleNodesCond
                         $sqlPermissionChecking[where]
                         $objectNameFilterSQL
