@@ -912,12 +912,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    static function createAttributeFilterSQLStrings( &$attributeFilter, &$sortingInfo = array( 'sortCount' => 0, 'attributeJoinCount' => 0 ) )
+    static function createAttributeFilterSQLStrings( &$attributeFilter, &$sortingInfo = array( 'sortCount' => 0, 'attributeJoinCount' => 0 ), $language = false )
     {
         // Check for attribute filtering
 
         $filterSQL = array( 'from'    => '',
                             'where'   => '' );
+
+        if ( $language !== false && !is_array( $language ) )
+        {
+            $language = array( $language );
+        }
 
         $totalAttributesFiltersCount = 0;
         $invalidAttributesFiltersCount = 0;
@@ -1138,11 +1143,21 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                     $filterSQL['from']  .= " INNER JOIN ezcontentobject_attribute a$filterCount ON (a$filterCount.contentobject_id = ezcontentobject.id) ";
                                 }
 
+                                // Ref http://issues.ez.no/19190
+                                // If language param is set, we must take it into account.
+                                if ( $language )
+                                {
+                                    eZContentLanguage::setPrioritizedLanguages( $language );
+                                }
                                 $filterSQL['where'] .= "
                                   a$filterCount.contentobject_id = ezcontentobject.id AND
                                   a$filterCount.contentclassattribute_id = $filterAttributeID AND
                                   a$filterCount.version = ezcontentobject_name.content_version AND ";
                                 $filterSQL['where'] .= eZContentLanguage::sqlFilter( "a$filterCount", 'ezcontentobject' ). ' AND ';
+                                if ( $language )
+                                {
+                                    eZContentLanguage::clearPrioritizedLanguages();
+                                }
                             }
                         }
                     }
@@ -1890,7 +1905,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return null;
         }
 
-        $attributeFilter         = eZContentObjectTreeNode::createAttributeFilterSQLStrings( $params['AttributeFilter'], $sortingInfo );
+        $attributeFilter         = eZContentObjectTreeNode::createAttributeFilterSQLStrings( $params['AttributeFilter'], $sortingInfo, $language );
         if ( $attributeFilter === false )
         {
             return null;
