@@ -3789,7 +3789,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    static function removeSubtrees( $deleteIDArray, $moveToTrash = true, $infoOnly = false, $onlyChildNode = false )
+    static function removeSubtrees( $deleteIDArray, $moveToTrash = true, $infoOnly = false, $onlyChildrenNode = false )
     {
         $moveToTrashAllowed = true;
         $deleteResult = array();
@@ -3939,8 +3939,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         }
                     }
 
-                    if( !$onlyChildNode )
-                      $node->removeNodeFromTree( $moveToTrashTemp );
+                    if ( !$onlyChildrenNode )
+                        $node->removeNodeFromTree( $moveToTrashTemp );
                 }
             }
             if ( !$canRemove )

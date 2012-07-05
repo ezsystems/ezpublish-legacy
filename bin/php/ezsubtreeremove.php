@@ -27,13 +27,13 @@ $scriptOptions = $script->getOptions( "[nodes-id:][ignore-trash]",
                                       "",
                                       array( 'nodes-id' => "Subtree nodes ID (separated by comma ',').",
                                              'ignore-trash' => "Ignore trash ('move to trash' by default).",
-                                             'only-child-remove' => "If you want only remove child of nodes-id "
+                                             'only-children-remove' => "If you want only remove child of nodes-id."
                                              ),
                                       false );
 $script->initialize();
 $srcNodesID  = $scriptOptions[ 'nodes-id' ] ? trim( $scriptOptions[ 'nodes-id' ] ) : false;
 $moveToTrash = $scriptOptions[ 'ignore-trash' ] ? false : true;
-$onlyChildRemove = $scriptOptions[ 'only-child-remove' ] ? true : false;
+$onlyChildrenRemove = $scriptOptions[ 'only-children-remove' ] ? true : false;
 $deleteIDArray = $srcNodesID ? explode( ',', $srcNodesID ) : false;
 
 if ( !$deleteIDArray )
@@ -113,7 +113,7 @@ foreach ( $deleteResult as $deleteItem )
     $cli->output( "Object node count: $objectNodeCount" );
 
     // Remove subtrees
-    eZContentObjectTreeNode::removeSubtrees( array( $nodeID ), $moveToTrash, $onlyChildRemove );
+    eZContentObjectTreeNode::removeSubtrees( array( $nodeID ), $moveToTrash, $onlyChildrenRemove );
 
     // We should make sure that all subitems have been removed.
     $itemInfo = eZContentObjectTreeNode::subtreeRemovalInformation( array( $nodeID ) );
