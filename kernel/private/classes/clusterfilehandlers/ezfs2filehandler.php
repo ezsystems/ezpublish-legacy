@@ -545,6 +545,22 @@ class eZFS2FileHandler extends eZFSFileHandler
     }
 
     /**
+     * Check if given file/dir exists.
+     *
+     * \public
+     */
+    function fileExists( $path )
+    {
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileExists( '$path' )", __METHOD__ );
+
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
+        $rc = !$this->isExpired( -1, time(), null );
+        eZDebug::accumulatorStop( 'dbfile' );
+
+        return $rc;
+    }
+
+    /**
      * Delete files located in a directories from dirList, with common prefix specified by
      * commonPath, and common suffix with added wildcard at the end
      *
