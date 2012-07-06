@@ -3786,7 +3786,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      *                 but instead return information on what will happen
      *                 if it is removed. See subtreeRemovalInformation() for the
      *                 returned structure.
-     * @param bool $onlyChildNode optional If true it will remove only childs of each node in $deleteIDArray.
+     * @param bool $onlyChildrenNode optional If true it will remove only childs of each node in $deleteIDArray.
      * @return true|array  See subtreeRemovalInformation() for the returned structure
      *
      */
