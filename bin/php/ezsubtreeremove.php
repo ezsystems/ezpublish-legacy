@@ -23,7 +23,7 @@ $script = eZScript::instance( array( 'description' => ( "\n" .
                                       'use-extensions' => true ) );
 $script->startup();
 
-$scriptOptions = $script->getOptions( "[nodes-id:][ignore-trash]",
+$scriptOptions = $script->getOptions( "[nodes-id:][ignore-trash][only-children-remove]",
                                       "",
                                       array( 'nodes-id' => "Subtree nodes ID (separated by comma ',').",
                                              'ignore-trash' => "Ignore trash ('move to trash' by default).",
@@ -79,10 +79,12 @@ if ( count( $deleteResult ) == 0 )
 $totalChildCount = $info['total_child_count'];
 $canRemoveAll = $info['can_remove_all'];
 $moveToTrashStr = $moveToTrash ? 'true' : 'false';
+$onlyChildrenRemoveStr = $onlyChildrenRemove ? 'true' : 'false';
 $reverseRelatedCount = $info['reverse_related_count'];
 
 $cli->output( "\nTotal child count: $totalChildCount" );
 $cli->output( "Move to trash: $moveToTrashStr" );
+$cli->output( "Remove only children: $onlyChildrenRemoveStr" );
 $cli->output( "Reverse related count: $reverseRelatedCount\n" );
 
 $cli->output( "Removing subtrees:\n" );
@@ -113,12 +115,22 @@ foreach ( $deleteResult as $deleteItem )
     $cli->output( "Object node count: $objectNodeCount" );
 
     // Remove subtrees
-    eZContentObjectTreeNode::removeSubtrees( array( $nodeID ), $moveToTrash, $onlyChildrenRemove );
+    eZContentObjectTreeNode::removeSubtrees( array( $nodeID ), $moveToTrash, false, $onlyChildrenRemove );
 
     // We should make sure that all subitems have been removed.
     $itemInfo = eZContentObjectTreeNode::subtreeRemovalInformation( array( $nodeID ) );
     $itemTotalChildCount = $itemInfo['total_child_count'];
     $itemDeleteList = $itemInfo['delete_list'];
+
+    if ( $onlyChildrenRemove and count( $itemDeleteList ) == 1 )
+    {
+        $itemNodeID = $itemDeleteList[0]["node"]->attribute( 'node_id' );
+
+        if ( $itemNodeID == $nodeID )
+        {
+            array_pop( $itemDeleteList );
+        }
+    }
 
     if ( count( $itemDeleteList ) != 0 or ( $childCount != 0 and $itemTotalChildCount != 0 ) )
         $cli->error( "\nWARNING!\nSome subitems have not been removed.\n" );
