@@ -19,7 +19,7 @@ error_reporting ( E_ALL | E_STRICT );
 
 require 'autoload.php';
 
-$kernel = new ezpKernel;
+$kernel = new ezpKernel( new ezpKernelWeb() );
 $result = $kernel->run();
 
-echo $result["content"];
+echo $result->content;
