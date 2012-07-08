@@ -88,6 +88,7 @@ class eZUserSetting extends eZPersistentObject
                         eZUser::removeSessionData( $this->UserID );
                     }
                 }
+                eZUser::purgeUserCacheByUserId( $this->UserID );
             } break;
         }
 
