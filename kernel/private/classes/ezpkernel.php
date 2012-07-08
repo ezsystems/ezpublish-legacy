@@ -52,11 +52,14 @@ class ezpKernel implements ezpKernelHandler
      * This is useful to run eZ Publish 4.x code from a non-related context (like eZ Publish 5)
      *
      * @param \Closure $callback
+     * @param bool $postReinitialize Default is true.
+     *                               If set to false, the kernel environment will not be reinitialized.
+     *                               This can be useful to optimize several calls to the kernel within the same context.
      * @return mixed The result of the callback
      */
-    public function runCallback( \Closure $callback )
+    public function runCallback( \Closure $callback, $postReinitialize = true )
     {
-        return $this->kernelHandler->runCallback( $callback );
+        return $this->kernelHandler->runCallback( $callback, $postReinitialize );
     }
 
     /**

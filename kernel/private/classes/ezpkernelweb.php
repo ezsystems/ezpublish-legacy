@@ -77,6 +77,13 @@ class ezpKernelWeb implements ezpKernelHandler
     private $site;
 
     /**
+     * Indicates is request has been properly initialized
+     *
+     * @var bool
+     */
+    protected $isInitialized = false;
+
+    /**
      * Construct an ezpKernel instance
      */
     public function __construct()
@@ -916,6 +923,9 @@ class ezpKernelWeb implements ezpKernelHandler
 
     protected function requestInit()
     {
+        if ( $this->isInitialized )
+            return;
+
         eZExecution::setCleanExit( false );
         $scriptStartTime = microtime( true );
 
@@ -1071,31 +1081,33 @@ class ezpKernelWeb implements ezpKernelHandler
             $this->siteBasics['policy-check-omit-list'],
             $ini->variable( 'RoleSettings', 'PolicyOmitList' )
         );
+
+        $this->isInitialized = true;
     }
 
     /**
      * Run a callback function in legacy environment
      */
-    public function runCallback( \Closure $callback )
+    public function runCallback( \Closure $callback, $postReinitialize = true )
     {
         $this->requestInit();
 
         $return = $callback();
 
-        $this->shutdown();
+        $this->shutdown( $postReinitialize );
 
         return $return;
     }
 
     /**
      * Runs the shutdown process
-     *
-     * @todo Use in run() and runCallback() and mark as protected?
      */
-    protected function shutdown()
+    protected function shutdown( $reInitialize = true )
     {
         eZExecution::cleanup();
         eZExecution::setCleanExit();
+        if ( $reInitialize )
+            $this->isInitialized = false;
     }
 
     /**
