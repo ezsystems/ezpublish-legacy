@@ -1329,6 +1329,7 @@ WHERE user_id = '" . $userID . "' AND
             $data['info'][$userId] = array( 'contentobject_id'   => $user->attribute( 'contentobject_id' ),
                                             'login'              => $user->attribute( 'login' ),
                                             'email'              => $user->attribute( 'email' ),
+                                            'is_enabled'         => $user->isEnabled( false ),
                                             'password_hash'      => $user->attribute( 'password_hash' ),
                                             'password_hash_type' => $user->attribute( 'password_hash_type' ) );
 
@@ -1519,11 +1520,11 @@ WHERE user_id = '" . $userID . "' AND
     /*!
      \return \c true if the user is enabled and can be used on the site.
     */
-    function isEnabled()
+    function isEnabled( $useCache = true )
     {
-        if ( $this == eZUser::currentUser() )
+        if ( isset( $this->UserCache['info'][$this->ContentObjectID]['is_enabled'] ) && $useCache )
         {
-            return true;
+            return $this->UserCache['info'][$this->ContentObjectID]['is_enabled'];
         }
 
         $setting = eZUserSetting::fetch( $this->attribute( 'contentobject_id' ) );
@@ -1552,8 +1553,13 @@ WHERE user_id = '" . $userID . "' AND
     */
     static function currentUser()
     {
-        $user = eZUser::instance();
-        return $user;
+        $user = self::instance();
+        if ( $user->isAnonymous() || $user->isEnabled() )
+        {
+            return $user;
+        }
+        self::logoutCurrent();
+        return self::instance();
     }
 
     /*!
@@ -1562,10 +1568,7 @@ WHERE user_id = '" . $userID . "' AND
     */
     static function currentUserID()
     {
-        $user = eZUser::instance();
-        if ( !$user )
-            return 0;
-        return $user->attribute( 'contentobject_id' );
+        return self::currentUser()->attribute( 'contentobject_id' );
     }
 
     /*!
