@@ -1119,4 +1119,12 @@ class ezpKernelWeb implements ezpKernelHandler
     {
         eZModule::$useExceptions = (bool)$useExceptions;
     }
+
+    /**
+     * Reinitializes the kernel environment.
+     */
+    public function reInitialize()
+    {
+        $this->isInitialized = false;
+    }
 }

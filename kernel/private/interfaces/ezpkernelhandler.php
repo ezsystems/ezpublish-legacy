@@ -38,4 +38,12 @@ interface ezpKernelHandler
      * @param bool $useExceptions
      */
     public function setUseExceptions( $useExceptions );
+
+    /**
+     * Reinitializes the kernel environment.
+     *
+     * @abstract
+     * @return void
+     */
+    public function reInitialize();
 }

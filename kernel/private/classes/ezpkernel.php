@@ -71,4 +71,12 @@ class ezpKernel implements ezpKernelHandler
     {
         $this->kernelHandler->setUseExceptions( $useExceptions );
     }
+
+    /**
+     * Reinitializes the kernel environment.
+     */
+    public function reInitialize()
+    {
+        $this->kernelHandler->reInitialize();
+    }
 }
