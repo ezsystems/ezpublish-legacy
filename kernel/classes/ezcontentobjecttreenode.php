@@ -912,12 +912,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    static function createAttributeFilterSQLStrings( &$attributeFilter, &$sortingInfo = array( 'sortCount' => 0, 'attributeJoinCount' => 0 ) )
+    static function createAttributeFilterSQLStrings( &$attributeFilter, &$sortingInfo = array( 'sortCount' => 0, 'attributeJoinCount' => 0 ), $language = false )
     {
         // Check for attribute filtering
 
         $filterSQL = array( 'from'    => '',
                             'where'   => '' );
+
+        if ( $language !== false && !is_array( $language ) )
+        {
+            $language = array( $language );
+        }
 
         $totalAttributesFiltersCount = 0;
         $invalidAttributesFiltersCount = 0;
@@ -1138,11 +1143,21 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                     $filterSQL['from']  .= " INNER JOIN ezcontentobject_attribute a$filterCount ON (a$filterCount.contentobject_id = ezcontentobject.id) ";
                                 }
 
+                                // Ref http://issues.ez.no/19190
+                                // If language param is set, we must take it into account.
+                                if ( $language )
+                                {
+                                    eZContentLanguage::setPrioritizedLanguages( $language );
+                                }
                                 $filterSQL['where'] .= "
                                   a$filterCount.contentobject_id = ezcontentobject.id AND
                                   a$filterCount.contentclassattribute_id = $filterAttributeID AND
                                   a$filterCount.version = ezcontentobject_name.content_version AND ";
                                 $filterSQL['where'] .= eZContentLanguage::sqlFilter( "a$filterCount", 'ezcontentobject' ). ' AND ';
+                                if ( $language )
+                                {
+                                    eZContentLanguage::clearPrioritizedLanguages();
+                                }
                             }
                         }
                     }
@@ -1890,7 +1905,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return null;
         }
 
-        $attributeFilter         = eZContentObjectTreeNode::createAttributeFilterSQLStrings( $params['AttributeFilter'], $sortingInfo );
+        $attributeFilter         = eZContentObjectTreeNode::createAttributeFilterSQLStrings( $params['AttributeFilter'], $sortingInfo, $language );
         if ( $attributeFilter === false )
         {
             return null;
@@ -1928,6 +1943,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             eZDebug::writeError( "Cannot use group_by parameter together with extended attribute filter which sets group_by!", __METHOD__ );
         }
 
+        $languageFilter = eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
+        $objectNameLanguageFilter = eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' );
 
         if ( $language )
         {
@@ -1973,11 +1990,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       $notEqParentString
                       $mainNodeOnlyCond
                       $classCondition
-                      " .  eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
+                      $objectNameLanguageFilter
                       $showInvisibleNodesCond
                       $sqlPermissionChecking[where]
-                      $objectNameFilterSQL AND " .
-                      eZContentLanguage::languagesSQLFilter( 'ezcontentobject' ) . "
+                      $objectNameFilterSQL AND
+                      $languageFilter
                 $groupBySQL";
 
         if ( $sortingInfo['sortingFields'] )
@@ -2111,6 +2128,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $nodeParams['ClassFilterType'] = false;
             }
 
+            $sortingInfo             = eZContentObjectTreeNode::createSortingSQLStrings( $sortBy );
+            $attributeFilter         = eZContentObjectTreeNode::createAttributeFilterSQLStrings( $nodeParams['AttributeFilter'], $sortingInfo, $language );
+
             if ( $language )
             {
                 if ( !is_array( $language ) )
@@ -2120,9 +2140,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 eZContentLanguage::setPrioritizedLanguages( $language );
             }
 
-            $sortingInfo             = eZContentObjectTreeNode::createSortingSQLStrings( $sortBy );
             $classCondition          = eZContentObjectTreeNode::createClassFilteringSQLString( $nodeParams['ClassFilterType'], $nodeParams['ClassFilterArray'] );
-            $attributeFilter         = eZContentObjectTreeNode::createAttributeFilterSQLStrings( $nodeParams['AttributeFilter'], $sortingInfo );
             $extendedAttributeFilter = eZContentObjectTreeNode::createExtendedAttributeFilterSQLStrings( $nodeParams['ExtendedAttributeFilter'] );
             $mainNodeOnlyCond        = eZContentObjectTreeNode::createMainNodeConditionSQLString( $mainNodeOnly );
 
@@ -2368,20 +2386,22 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $mainNodeOnlyCond = 'ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id AND';
         }
 
-        $attributeFilterParam = isset( $params['AttributeFilter'] ) ? $params['AttributeFilter'] : false;
-        $attributeFilter = eZContentObjectTreeNode::createAttributeFilterSQLStrings( $attributeFilterParam );
-        if ( $attributeFilter === false )
-        {
-            return null;
-        }
-
         $languageFilter = ' AND '.eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
+        $objectNameLanguageFilter = eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' );
 
         if ( $language )
         {
             eZContentLanguage::clearPrioritizedLanguages();
         }
         $objectNameFilter = ( isset( $params['ObjectNameFilter']  ) ) ? $params['ObjectNameFilter']   : false;
+
+        $attributeFilterParam = isset( $params['AttributeFilter'] ) ? $params['AttributeFilter'] : false;
+        $sortingInfo = array( 'sortCount' => 0, 'attributeJoinCount' => 0 );
+        $attributeFilter = eZContentObjectTreeNode::createAttributeFilterSQLStrings( $attributeFilterParam, $sortingInfo, $language );
+        if ( $attributeFilter === false )
+        {
+            return null;
+        }
         $objectNameFilterSQL = eZContentObjectTreeNode::createObjectNameFilterConditionSQLString( $objectNameFilter );
 
         $extendedAttributeFilter = eZContentObjectTreeNode::createExtendedAttributeFilterSQLStrings( $params['ExtendedAttributeFilter'] );
@@ -2414,7 +2434,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         $attributeFilter[where]
                         ezcontentclass.version=0 AND
                         $notEqParentString
-                        " . eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
+                        $objectNameLanguageFilter
                         $showInvisibleNodesCond
                         $sqlPermissionChecking[where]
                         $objectNameFilterSQL
