@@ -1,5 +1,5 @@
 eZ Publish 4 README
-
+===================
 
 What is eZ Publish?
 -------------------
