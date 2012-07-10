@@ -1,0 +1,16 @@
+language: php
+
+php:
+  - 5.3
+
+branches:
+  only:
+    - master
+
+before_script:
+ - mysql -e "create database IF NOT EXISTS testdb;" -uroot
+ - pear channel-discover components.ez.no
+ - pear install -a ezc/eZComponents
+ - php bin/php/ezpgenerateautoloads.php -s
+
+script: "php tests/runtests.php --dsn mysql://root@localhost/testdb"
