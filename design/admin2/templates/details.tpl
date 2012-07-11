@@ -20,11 +20,11 @@
     <input type="hidden" name="ChangeSectionOnly" value="1" />
 
     <select id="selected-section-id" name="SelectedSectionId">
-    {foreach $node.object.allowed_assign_section_list as $section}
-        {if eq( $section.id, $node.object.section_id )}
-        <option value="{$section.id}" selected="selected">{$section.name|wash}</option>
+    {foreach $node.object.allowed_assign_section_list as $allowed_assign_section}
+        {if eq( $allowed_assign_section.id, $node.object.section_id )}
+        <option value="{$allowed_assign_section.id}" selected="selected">{$allowed_assign_section.name|wash}</option>
         {else}
-        <option value="{$section.id}">{$section.name|wash}</option>
+        <option value="{$allowed_assign_section.id}">{$allowed_assign_section.name|wash}</option>
         {/if}
     {/foreach}
     </select>
