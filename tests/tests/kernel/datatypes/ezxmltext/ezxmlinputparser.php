@@ -61,7 +61,7 @@ class eZXMLInputParserTest extends ezpTestCase
     public function testUppercaseNameAttributeParsing()
     {
         $this->assertEquals(
-            array( "foo" => "bar" ),
+            array( "FOO" => "bar" ),
             $this->parser->parseAttributes( "FOO='bar'" )
         );
     }
