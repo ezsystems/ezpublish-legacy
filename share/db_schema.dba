@@ -326,6 +326,13 @@ $schema = array (
         'not_null' => '1',
         'default' => '',
       ),
+      'real_language_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
     ),
     'indexes' => 
     array (
@@ -335,7 +342,7 @@ $schema = array (
         'fields' => 
         array (
           0 => 'contentobject_state_group_id',
-          1 => 'language_id',
+          1 => 'real_language_id',
         ),
       ),
     ),
