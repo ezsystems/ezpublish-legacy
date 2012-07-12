@@ -21,7 +21,7 @@
         {else}
             <p class="advanced hide"><a href={'/content/advancedsearch'|ezurl} title="{'Advanced search.'|i18n( 'design/admin/pagelayout' )}">{'Advanced'|i18n( 'design/admin/pagelayout' )}</a></p>
         {/if}
-        <div class="searchbuttonfield" id="searchbuttonfield"></div>
+        <div class="searchbuttonfield" id="searchbuttonfield"><img src={"1x1.gif"|ezimage()} width="17" height="17" /></div>
     {/if}
 </form>
 </div>
