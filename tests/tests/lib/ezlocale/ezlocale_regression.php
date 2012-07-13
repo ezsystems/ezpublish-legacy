@@ -36,7 +36,7 @@ class eZLocaleRegression extends ezpTestCase
     {
         $locale = eZLocale::instance( "eng-GB" );
         $result = $locale->formatShortDateTime( '' );
-        self::assertEquals( "01/01/1970 1:00 am", $result );
+        self::assertEquals( "01/01/1970 12:00 am", $result );
     }
 }
 
