@@ -1,5 +1,5 @@
-eZ Publish 4 README
-===================
+eZ Publish 4 [![Build Status](https://secure.travis-ci.org/Synap/ezpublish.png)](http://travis-ci.org/Synap/ezpublish)
+============
 
 What is eZ Publish?
 -------------------
