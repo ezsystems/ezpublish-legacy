@@ -137,6 +137,9 @@ class eZXMLTextType extends eZDataType
      * are registered in the ezurl_object_link table, and thus retained, if
      * previous versions of an object are removed.
      *
+     * It also checks for embedded objects in other languages xml, and makes
+     * sure the matching object relations are stored for the publish version.
+     *
      * @param eZContentObjectAttribute $contentObjectAttribute
      * @param eZContentObject $object
      * @param array $publishedNodes
@@ -165,18 +168,14 @@ class eZXMLTextType extends eZDataType
         foreach ( $attributeArray as $attr )
         {
             $xmlText = eZXMLTextType::rawXMLText( $attr );
+
             $dom = new DOMDocument( '1.0', 'utf-8' );
-            $success = $dom->loadXML( $xmlText );
-
-            if ( !$success )
-            {
+            if ( !$dom->loadXML( $xmlText ) )
                 continue;
-            }
 
-            $linkNodes = $dom->getElementsByTagName( 'link' );
+            // urls
             $urlIdArray = array();
-
-            foreach ( $linkNodes as $link )
+            foreach ( $dom->getElementsByTagName( 'link' ) as $link )
             {
                 // We are looking for external 'http://'-style links, not the internal
                 // object or node links.
@@ -190,9 +189,46 @@ class eZXMLTextType extends eZDataType
             {
                 eZSimplifiedXMLInput::updateUrlObjectLinks( $attr, $urlIdArray );
             }
+
+            // embedded objects
+            $embeddedObjectIdArray = array();
+            $embeddedObjectIdArray = array_merge(
+                $this->getEmbeddedObjectList( $dom->getElementsByTagName( 'embed' ) ),
+                $this->getEmbeddedObjectList( $dom->getElementsByTagName( 'embed-inline' ) )
+            );
+
+            if ( count( $embeddedObjectIdArray ) )
+            {
+                $object->appendInputRelationList( $embeddedObjectIdArray, eZContentObject::RELATION_EMBED );
+                $object->commitInputRelations( $currentVersion->attribute( 'version' ) );
+            }
         }
     }
 
+    /**
+     * Extracts ids of embedded objects in an eZXML DOMNodeList
+     * @param DOMNodeList $domNodeList
+     * @return array
+     */
+    private function getEmbeddedObjectList( DOMNodeList $domNodeList )
+    {
+        $embeddedObjectIdArray = array();
+        foreach( $domNodeList as $embed )
+        {
+            if ( $embed->hasAttribute( 'object_id' ) )
+            {
+                $embeddedObjectIdArray[] = $embed->getAttribute( 'object_id' );
+            }
+            elseif ( $embed->hasAttribute( 'node_id' ) )
+            {
+                if ( $object = eZContentObject::fetchByNodeID( $embed->getAttribute( 'node_id' ) ) )
+                {
+                    $embeddedObjectIdArray[] = $object->attribute( 'id' );
+                }
+            }
+        }
+        return $embeddedObjectIdArray;
+    }
     /*!
      Validates the input and returns true if the input was
      valid for this datatype.
