@@ -191,13 +191,12 @@ class eZXMLTextType extends eZDataType
             }
 
             // embedded objects
-            $embeddedObjectIdArray = array();
             $embeddedObjectIdArray = array_merge(
                 $this->getEmbeddedObjectList( $dom->getElementsByTagName( 'embed' ) ),
                 $this->getEmbeddedObjectList( $dom->getElementsByTagName( 'embed-inline' ) )
             );
 
-            if ( count( $embeddedObjectIdArray ) )
+            if ( !empty( $embeddedObjectIdArray ) )
             {
                 $object->appendInputRelationList( $embeddedObjectIdArray, eZContentObject::RELATION_EMBED );
                 $object->commitInputRelations( $currentVersion->attribute( 'version' ) );
