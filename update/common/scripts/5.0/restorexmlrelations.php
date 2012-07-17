@@ -23,8 +23,7 @@ $script = eZScript::instance(
 
 $script->startup();
 
-$options = $script->getOptions( "[q]", "", array( 'q' => 'Quiet' ) );
-$script->setIsQuiet( isset( $options['q'] ) );
+$options = $script->getOptions();
 
 $script->initialize();
 
@@ -43,7 +42,8 @@ foreach( $affectedClasses as $affectedClassId => $classAttributeIdentifiers )
     if ( $count > 0 )
     {
         $done = 0;
-        do {
+        do
+        {
             $objects = eZContentObject::fetchList( true, array( 'contentclass_id' => $affectedClassId ), $done, 100 );
             foreach( $objects as $object )
             {
@@ -53,7 +53,8 @@ foreach( $affectedClasses as $affectedClassId => $classAttributeIdentifiers )
                 $totalUpdatedRelations += $updatedRelations;
             }
             $done += count( $objects );
-        } while( $done < $count );
+        }
+        while( $done < $count );
     }
 }
 
@@ -73,7 +74,7 @@ $script->shutdown();
 function getClassList()
 {
     $affectedClasses = array();
-    $classAttributes = eZContentClassAttribute::fetchFilteredList( array( 'data_type_string' => 'ezxmltext', 'version' => 0 ), false );
+    $classAttributes = eZContentClassAttribute::fetchFilteredList( array( 'data_type_string' => 'ezxmltext', 'version' => eZContentClass::VERSION_STATUS_DEFINED ), false );
     foreach( $classAttributes as $classAttribute )
     {
         $contentClassId = $classAttribute['contentclass_id'];
@@ -109,7 +110,10 @@ function restoreXmlRelations( eZContentObject $object, array $classAttributeIden
         $languageList
     );
 
-    $restoredRelations = 0;
+    $embedRelationsCount = $object->relatedContentObjectCount( false, 0, array( 'AllRelations' => eZContentObject::RELATION_EMBED ) );
+    $linkRelationsCount = $object->relatedContentObjectCount( false, 0, array( 'AllRelations' => eZContentObject::RELATION_LINK ) );
+
+    $embeddedObjectIdArray = $linkedObjectIdArray = array();
     foreach ( $attributeArray as $attribute )
     {
         $xmlText = eZXMLTextType::rawXMLText( $attribute );
@@ -119,31 +123,37 @@ function restoreXmlRelations( eZContentObject $object, array $classAttributeIden
             continue;
 
         // linked objects
-        $linkedObjectIdArray = getRelatedObjectList( $dom->getElementsByTagName( 'link' ) );
+        $linkedObjectIdArray = array_merge(
+            $linkedObjectIdArray,
+            getRelatedObjectList( $dom->getElementsByTagName( 'link' ) )
+        );
 
         // embedded objects
         $embeddedObjectIdArray = array_merge(
+            $embeddedObjectIdArray,
             getRelatedObjectList( $dom->getElementsByTagName( 'embed' ) ),
             getRelatedObjectList( $dom->getElementsByTagName( 'embed-inline' ) )
         );
-
-        if ( !empty( $embeddedObjectIdArray ) )
-        {
-            $object->appendInputRelationList( $embeddedObjectIdArray, eZContentObject::RELATION_EMBED );
-        }
-
-        if ( !empty( $linkedObjectIdArray ) )
-        {
-            $object->appendInputRelationList( $linkedObjectIdArray, eZContentObject::RELATION_LINK );
-        }
-
-        if ( !empty( $linkedObjectIdArray ) || !empty( $embeddedObjectIdArray ) )
-        {
-            $object->commitInputRelations( $currentVersion->attribute( 'version' ) );
-        }
-
-        $restoredRelations += count( $linkedObjectIdArray ) + count( $embeddedObjectIdArray );
     }
+
+    $doCommit = false;
+    $restoredRelations = 0;
+    if ( !empty( $embeddedObjectIdArray ) )
+    {
+        $object->appendInputRelationList( $embeddedObjectIdArray, eZContentObject::RELATION_EMBED );
+        $restoredRelations += count( $embeddedObjectIdArray ) - $embedRelationsCount;
+        $doCommit = true;
+    }
+
+    if ( !empty( $linkedObjectIdArray ) )
+    {
+        $object->appendInputRelationList( $linkedObjectIdArray, eZContentObject::RELATION_LINK );
+        $restoredRelations += count( $linkedObjectIdArray ) - $linkRelationsCount;
+        $doCommit = true;
+    }
+
+    if ( $doCommit )
+        $object->commitInputRelations( $currentVersion->attribute( 'version' ) );
 
     return $restoredRelations;
 }
