@@ -84,11 +84,23 @@ class ezpKernelWeb implements ezpKernelHandler
     protected $isInitialized = false;
 
     /**
-     * Construct an ezpKernel instance
+     * Hash of settings for the web kernel handler.
+     *
+     * Keys can be:
+     *  - siteaccess (injected siteaccess, an associative array with 'name' (string), 'type' (int) and 'uri_part' (array))
+     *
+     * @var array
      */
-    public function __construct()
+    protected $settings = array();
+
+    /**
+     * Constructs an ezpKernel instance
+     */
+    public function __construct( array $settings = array() )
     {
         require_once __DIR__ . '/global_functions.php';
+
+        $this->settings = $settings;
 
         $GLOBALS['eZSiteBasics'] = array(
             'external-css' => true,
