@@ -191,7 +191,7 @@ class eZXMLTextType extends eZDataType
             }
 
             // linked objects
-            $linkedObjectIdArray = $this->getRelatedObjectList( $dom->getElementsByTagName( 'link' );
+            $linkedObjectIdArray = $this->getRelatedObjectList( $dom->getElementsByTagName( 'link' ) );
 
             // embedded objects
             $embeddedObjectIdArray = array_merge(
@@ -240,6 +240,7 @@ class eZXMLTextType extends eZDataType
         }
         return $embeddedObjectIdArray;
     }
+
     /*!
      Validates the input and returns true if the input was
      valid for this datatype.
