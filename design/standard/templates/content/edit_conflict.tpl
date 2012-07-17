@@ -22,7 +22,7 @@
 <label>{'Created'|i18n( 'design/admin/content/edit_draft' )}:</label>
 {if $object.published}
 {$object.published|l10n( shortdatetime )}<br />
-{$object.current.creator.name|wash}
+{$object.owner.name|wash()}
 {else}
 {'Not yet published'|i18n( 'design/admin/content/edit_draft' )}
 {/if}
@@ -33,7 +33,7 @@
 <label>{'Modified'|i18n( 'design/admin/content/edit_draft' )}:</label>
 {if $object.modified}
 {$object.modified|l10n( shortdatetime )}<br />
-{fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name|wash}
+{$object.current.creator.name|wash()}
 {else}
 {'Not yet published'|i18n( 'design/admin/content/edit_draft' )}
 {/if}
