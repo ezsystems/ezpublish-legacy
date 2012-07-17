@@ -207,16 +207,18 @@ class ezpKernelWeb implements ezpKernelHandler
         eZExtension::activateExtensions( 'default' );
         // Extension check end
 
-        // @todo Inject matched siteaccess instead of re matching again
-        // means some deprecated matching methods will go.
-        $this->access = eZSiteAccess::change(
+        // Use injected siteaccess if available or match it internally.
+        $this->access = isset( $this->settings['siteaccess'] ) ?
+            $this->settings['siteaccess'] :
             eZSiteAccess::match(
                 eZURI::instance( eZSys::requestURI() ),
                 eZSys::hostname(),
                 eZSys::serverPort(),
                 eZSys::indexFile()
             )
-        );
+        ;
+
+        eZSiteAccess::change( $this->access );
         eZDebugSetting::writeDebug( 'kernel-siteaccess', $this->access, 'current siteaccess' );
 
         // Check for siteaccess extension
