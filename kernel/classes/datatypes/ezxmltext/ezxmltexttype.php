@@ -191,9 +191,7 @@ class eZXMLTextType extends eZDataType
             }
 
             // linked objects
-            $linkedObjectIdArray = array_merge(
-                $this->getRelatedObjectList( $dom->getElementsByTagName( 'link' ) )
-            );
+            $linkedObjectIdArray = $this->getRelatedObjectList( $dom->getElementsByTagName( 'link' );
 
             // embedded objects
             $embeddedObjectIdArray = array_merge(
