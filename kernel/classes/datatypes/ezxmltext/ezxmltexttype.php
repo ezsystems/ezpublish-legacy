@@ -165,9 +165,9 @@ class eZXMLTextType extends eZDataType
                                                                 $currentVersion->attribute( 'version' ),
                                                                 $languageList );
 
-        foreach ( $attributeArray as $attr )
+        foreach ( $attributeArray as $attribute )
         {
-            $xmlText = eZXMLTextType::rawXMLText( $attr );
+            $xmlText = eZXMLTextType::rawXMLText( $attribute );
 
             $dom = new DOMDocument( '1.0', 'utf-8' );
             if ( !$dom->loadXML( $xmlText ) )
@@ -187,29 +187,43 @@ class eZXMLTextType extends eZDataType
 
             if ( count( $urlIdArray ) > 0 )
             {
-                eZSimplifiedXMLInput::updateUrlObjectLinks( $attr, $urlIdArray );
+                eZSimplifiedXMLInput::updateUrlObjectLinks( $attribute, $urlIdArray );
             }
+
+            // linked objects
+            $linkedObjectIdArray = array_merge(
+                $this->getRelatedObjectList( $dom->getElementsByTagName( 'link' ) )
+            );
 
             // embedded objects
             $embeddedObjectIdArray = array_merge(
-                $this->getEmbeddedObjectList( $dom->getElementsByTagName( 'embed' ) ),
-                $this->getEmbeddedObjectList( $dom->getElementsByTagName( 'embed-inline' ) )
+                $this->getRelatedObjectList( $dom->getElementsByTagName( 'embed' ) ),
+                $this->getRelatedObjectList( $dom->getElementsByTagName( 'embed-inline' ) )
             );
 
             if ( !empty( $embeddedObjectIdArray ) )
             {
                 $object->appendInputRelationList( $embeddedObjectIdArray, eZContentObject::RELATION_EMBED );
+            }
+
+            if ( !empty( $linkedObjectIdArray ) )
+            {
+                $object->appendInputRelationList( $linkedObjectIdArray, eZContentObject::RELATION_LINK );
+            }
+            if ( !empty( $linkedObjectIdArray ) || !empty( $embeddedObjectIdArray ) )
+            {
                 $object->commitInputRelations( $currentVersion->attribute( 'version' ) );
             }
+
         }
     }
 
     /**
-     * Extracts ids of embedded objects in an eZXML DOMNodeList
+     * Extracts ids of embedded/linked objects in an eZXML DOMNodeList
      * @param DOMNodeList $domNodeList
      * @return array
      */
-    private function getEmbeddedObjectList( DOMNodeList $domNodeList )
+    private function getRelatedObjectList( DOMNodeList $domNodeList )
     {
         $embeddedObjectIdArray = array();
         foreach( $domNodeList as $embed )

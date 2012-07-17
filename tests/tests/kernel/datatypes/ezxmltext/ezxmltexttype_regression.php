@@ -17,10 +17,7 @@ class eZXMLTextTypeRegression extends ezpDatabaseTestCase
     }
 
     /**
-     * Regression test for issue {@see #17632 http://issues.ez.no/17632}
-     *
-     * In a multi language environment, a node fetched with a language other than the prioritized one(s) will return the
-     * URL alias in the prioritized language
+     * Regression test for issue {@see #19174 http://issues.ez.no/19174}
      */
     public function testIssue19174()
     {
@@ -31,16 +28,15 @@ class eZXMLTextTypeRegression extends ezpDatabaseTestCase
         $translation = eZContentLanguage::addLanguage( $locale->localeCode(), $locale->internationalLanguageName() );
 
         // create related objects
-        $relatedObjectOne = new ezpObject( 'article', 2, 14, 1, 'eng-GB' );
-        $relatedObjectOne->title = __METHOD__ . ' related object one';
-        $relatedObjectOneId = $relatedObjectOne->publish();
+        $relatedObjectsIds = array(
+            $this->createObjectForRelation(),
+            $this->createObjectForRelation(),
+            $this->createObjectForRelation(),
+            $this->createObjectForRelation()
+        );
 
-        $relatedObjectTwo = new ezpObject( 'article', 2, 14, 1, 'eng-GB' );
-        $relatedObjectTwo->title = __METHOD__ . ' related object two';
-        $relatedObjectTwoId = $relatedObjectTwo->publish();
-
-        $xmlTextEn = "<embed href=\"ezobject://$relatedObjectOneId\" />";
-        $xmlTextFr = "<embed href=\"ezobject://$relatedObjectTwoId\" />";
+        $xmlTextEn = "<embed href=\"ezobject://{$relatedObjectsIds[0]}\" /><link href=\"ezobject://{$relatedObjectsIds[1]}\">link</link>";
+        $xmlTextFr = "<embed href=\"ezobject://{$relatedObjectsIds[2]}\" /><link href=\"ezobject://{$relatedObjectsIds[3]}\">link</link>";
 
         // Create an article in eng-GB, and embed related object one in the intro
         $article = new ezpObject( 'article', 2, 14, 1, 'eng-GB' );
@@ -54,9 +50,9 @@ class eZXMLTextTypeRegression extends ezpDatabaseTestCase
             'intro' => $xmlTextFr
         ) );
 
-        $relatedObjects = eZContentObject::fetch( $articleId )->relatedObjects( false, false, 0, false, array( 'AllRelations' => eZContentObject::RELATION_EMBED ) );
-        self::assertEquals( 2, count( $relatedObjects ) );
-        $expectedRelations = array( $relatedObjectOneId => true, $relatedObjectTwoId => true );
+        $relatedObjects = eZContentObject::fetch( $articleId )->relatedObjects( false, false, 0, false, array( 'AllRelations' => eZContentObject::RELATION_LINK | eZContentObject::RELATION_EMBED ) );
+        self::assertEquals( 4, count( $relatedObjects ) );
+        $expectedRelations = array_flip( $relatedObjectsIds );
         foreach( $relatedObjects as $relatedObject )
         {
             if ( isset( $expectedRelations[$relatedObject->ID] ) )
@@ -65,6 +61,15 @@ class eZXMLTextTypeRegression extends ezpDatabaseTestCase
         self::assertEquals( 0, count( $expectedRelations ) );
 
         eZContentLanguage::setPrioritizedLanguages( $bkpLanguages );
+    }
+
+    private function createObjectForRelation( $title = false )
+    {
+        if ( !$title )
+            $title = uniqid( __METHOD__ );
+        $relatedObject = new ezpObject( 'article', 2, 14, 1, 'eng-GB' );
+        $relatedObject->title = $title;
+        return $relatedObject->publish();
     }
 }
 
