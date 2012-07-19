@@ -209,8 +209,8 @@ function _showTopLevel( event, menuID, substituteValues, menuHeader, disableIDLi
     _doItemSubstitution( menuID, menuHeader );
 
     // make menu visible
-    _moveTopLevelOnScreen( menuID, mousePos );
     _makeVisible( menuID );
+    _moveTopLevelOnScreen( menuID, mousePos );
 }
 
 /*!
