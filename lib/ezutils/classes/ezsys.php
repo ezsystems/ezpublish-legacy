@@ -791,6 +791,12 @@ class eZSys
      */
     public static function clientIP()
     {
+        if ( isset( $GLOBALS["eZSysClientIP"] ) )
+            return $GLOBALS["eZSysClientIP"];
+
+        // Fallback on $_SERVER['REMOTE_ADDR']
+        $GLOBALS["eZSysClientIP"] = self::serverVariable( 'REMOTE_ADDR', true );
+
         $customHTTPHeader = eZINI::instance()->variable( 'HTTPHeaderSettings', 'ClientIpByCustomHTTPHeader' );
         if( $customHTTPHeader && $customHTTPHeader != 'false' )
         {
@@ -806,16 +812,17 @@ class eZSys
                 $forwardedClients = explode( ',', $forwardedClientsString );
                 if( !empty( $forwardedClients ) )
                 {
-                    return trim( $forwardedClients[0] );
+                    $GLOBALS["eZSysClientIP"] = trim( $forwardedClients[0] );
                 }
             }
-
-            // Fallback on $_SERVER['REMOTE_ADDR']
-            eZDebug::writeWarning( "Could not get ip with ClientIpByCustomHTTPHeader={$customHTTPHeader}, fallback to using REMOTE_ADDR",
-                                   __METHOD__ );
+            else
+            {
+                eZDebug::writeWarning( "Could not get ip with ClientIpByCustomHTTPHeader={$customHTTPHeader}, fallback to using REMOTE_ADDR",
+                                       __METHOD__ );
+            }
         }
 
-        return self::serverVariable( 'REMOTE_ADDR', true );
+        return $GLOBALS["eZSysClientIP"];
     }
 
     /**
