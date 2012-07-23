@@ -262,7 +262,6 @@ class eZTemplateCacheFunction
         }
 
         $globalExpiryTime = -1;
-        eZExpiryHandler::registerShutdownFunction();
         if ( $ignoreContentExpiry == false )
         {
             $globalExpiryTime = eZExpiryHandler::getTimestamp( 'template-block-cache', -1 );

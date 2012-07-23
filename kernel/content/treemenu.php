@@ -6,8 +6,6 @@
  * @package kernel
  */
 
-eZExpiryHandler::registerShutdownFunction();
-
 if ( !defined( 'MAX_AGE' ) )
 {
     define( 'MAX_AGE', 86400 );

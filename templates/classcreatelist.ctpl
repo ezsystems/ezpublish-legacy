@@ -82,7 +82,6 @@
         if ( $enableCaching )
         {
             $http = eZHTTPTool::instance();
-            eZExpiryHandler::registerShutdownFunction();
             $handler = eZExpiryHandler::instance();
             $expiredTimeStamp = 0;
             if ( $handler->hasTimestamp( 'user-class-cache' ) )

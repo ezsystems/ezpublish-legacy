@@ -61,7 +61,6 @@ class eZTemplateCacheBlock
     static function handle( $cachePath, $nodeID, $ttl, $useGlobalExpiry = true )
     {
         $globalExpiryTime = -1;
-        eZExpiryHandler::registerShutdownFunction();
         if ( $useGlobalExpiry )
         {
             $globalExpiryTime = eZExpiryHandler::getTimestamp( 'template-block-cache', -1 );

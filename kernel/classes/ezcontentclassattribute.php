@@ -589,8 +589,6 @@ class eZContentClassAttribute extends eZPersistentObject
 
     static function cachedInfo()
     {
-        eZExpiryHandler::registerShutdownFunction();
-
         $info = array();
         $db = eZDB::instance();
         $dbName = md5( $db->DB );
@@ -912,7 +910,6 @@ class eZContentClassAttribute extends eZPersistentObject
                                           '',
                                           array( 'clustering' => 'classattridentifiers' ) );
 
-            eZExpiryHandler::registerShutdownFunction();
             $handler = eZExpiryHandler::instance();
             $expiryTime = 0;
             if ( $handler->hasTimestamp( 'class-identifier-cache' ) )

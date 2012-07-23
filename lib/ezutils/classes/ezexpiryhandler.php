@@ -148,6 +148,7 @@ class eZExpiryHandler
 
     /**
      * Called at the end of execution and will store the data if it is modified.
+     * @deprecated
      */
     static function shutdown()
     {
@@ -160,6 +161,7 @@ class eZExpiryHandler
     /**
      * Registers the shutdown function.
      * @see eZExpiryHandler::shutdown()
+     * @deprecated
      */
     public static function registerShutdownFunction(){
         if ( !eZExpiryHandler::$isShutdownFunctionRegistered ) {
@@ -182,6 +184,7 @@ class eZExpiryHandler
     /**
      * Indicates if thre shutdown function has been registered
      * @var bool
+     * @deprecated
      */
     private static $isShutdownFunctionRegistered = false;
 
