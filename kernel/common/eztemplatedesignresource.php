@@ -682,7 +682,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         if( $designLocationCache )
         {
-            $siteAccessName = $GLOBALS['eZCurrentAccess']['name'];
+            // Using current SA if none given
+            $siteAccessName = $siteAccess !== false ? $siteAccess : $GLOBALS['eZCurrentAccess']['name'];
 
             $cachePath = eZSys::cacheDirectory()
                          . '/'
