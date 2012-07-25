@@ -935,6 +935,35 @@ class ezpKernelWeb implements ezpKernelHandler
         eZExecution::cleanExit();
     }
 
+    /**
+     * Initializes the session. If running, through Symfony the session
+     * parameters from Symfony override the session parameter from eZ Publish.
+     */
+    protected function sessionInit()
+    {
+        if ( !isset( $this->settings['session'] ) || !$this->settings['session']['configured'] )
+        {
+            // running without Symfony2 or session is not configured
+            // we keep the historic behaviour
+            $ini = eZINI::instance();
+            if ( $ini->variable( 'Session', 'ForceStart' ) === 'enabled' )
+                eZSession::start();
+            else
+                eZSession::lazyStart();
+        }
+        else
+        {
+            eZSession::init(
+                $this->settings['session']['name'],
+                $this->settings['session']['started'],
+                $this->settings['session']['namespace']
+            );
+        }
+
+        // let session specify if db is required
+        $this->siteBasics['db-required'] = eZSession::getHandlerInstance()->dbRequired();
+    }
+
     protected function requestInit()
     {
         if ( $this->isInitialized )
@@ -1024,13 +1053,7 @@ class ezpKernelWeb implements ezpKernelHandler
             );
 
             // TODO: Session starting should be made only once in the constructor
-            if ( $ini->variable( 'Session', 'ForceStart' ) === 'enabled' )
-                eZSession::start();
-            else
-                eZSession::lazyStart();
-
-            // let session specify if db is required
-            $this->siteBasics['db-required'] = eZSession::getHandlerInstance()->dbRequired();
+            $this->sessionInit();
         }
 
         // if $this->siteBasics['db-required'], open a db connection and check that db is connected
