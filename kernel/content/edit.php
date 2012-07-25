@@ -36,6 +36,7 @@ if ( $http->hasPostVariable( 'ChangeSectionOnly' ) )
         ? $Module->actionParameter( 'RedirectRelativeURI' )
         : '/'
     );
+    return eZModule::HOOK_STATUS_CANCEL_RUN;
 }
 
 // If the object has status Archived (trash) we redirect to content/restore
