@@ -45,11 +45,13 @@ INSERT INTO ezcobj_state_group_language (
   contentobject_state_group_id,
   description,
   language_id,
+  real_language_id,
   name
 ) VALUES (
   2,
   '',
   3,
+  2,
   'Lock'
 );
 
