@@ -712,6 +712,7 @@ return array(
       'ezpSessionHandler'                                  => 'lib/ezsession/classes/ezpsessionhandler.php',
       'ezpSessionHandlerDB'                                => 'lib/ezsession/classes/ezpsessionhandlerdb.php',
       'ezpSessionHandlerPHP'                               => 'lib/ezsession/classes/ezpsessionhandlerphp.php',
+      'ezpSessionHandlerSymfony'                           => 'lib/ezsession/classes/ezpsessionhandlersymfony.php',
       'ezpStaticCache'                                     => 'kernel/private/interfaces/ezpstaticcache.php',
       'ezpTopologicalSort'                                 => 'kernel/private/classes/ezptopologicalsort.php',
       'ezpTopologicalSortNode'                             => 'kernel/private/classes/ezptopologicalsortnode.php',

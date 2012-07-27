@@ -953,10 +953,16 @@ class ezpKernelWeb implements ezpKernelHandler
         }
         else
         {
+            $sfHandler = new ezpSessionHandlerSymfony(
+                $this->settings['session']['has_previous']
+                    || $this->settings['session']['started']
+            );
+            $sfHandler->setStorage( $this->settings['session']['storage'] );
             eZSession::init(
                 $this->settings['session']['name'],
                 $this->settings['session']['started'],
-                $this->settings['session']['namespace']
+                $this->settings['session']['namespace'],
+                $sfHandler
             );
         }
 

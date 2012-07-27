@@ -257,7 +257,7 @@ class eZSession
      * @since 4.1
      * @return bool Depending on if eZSession is registrated as session handler.
     */
-    static protected function registerFunctions( $sessionName = false )
+    static protected function registerFunctions( $sessionName = false, ezpSessionHandler $handler = null )
     {
         if ( self::$hasStarted || self::$handlerInstance !== null )
             return false;
@@ -298,7 +298,7 @@ class eZSession
             self::$hasSessionCookie = isset( $_COOKIE[ $sessionName ] );
         }
 
-        return self::getHandlerInstance()->setSaveHandler();
+        return self::getHandlerInstance( $handler )->setSaveHandler();
     }
 
     /**
@@ -399,13 +399,13 @@ class eZSession
      * @param string $ns Namespace ie the key under which session data should
      *        be put in global array
      */
-    static public function init( $name, $started, $ns )
+    static public function init( $name, $started, $ns, ezpSessionHandler $handler )
     {
         if ( self::$hasStarted )
         {
             return;
         }
-        self::registerFunctions( $name );
+        self::registerFunctions( $name, $handler );
         self::$namespace = $ns;
         if ( self::$hasSessionCookie && !$started )
         {
@@ -568,20 +568,29 @@ class eZSession
      * @since 4.4
      * @return ezpSessionHandler
      */
-    static public function getHandlerInstance()
+    static public function getHandlerInstance( ezpSessionHandler $handler = null )
     {
         if ( self::$handlerInstance === null )
         {
-            $ini = eZINI::instance();
-            if ( $ini->variable( 'Session', 'Handler' ) !== '' )
+            if ( $handler === null )
             {
-                $optionArray = array( 'iniFile'       => 'site.ini',
-                                      'iniSection'    => 'Session',
-                                      'iniVariable'   => 'Handler',
-                                      'handlerParams' => array( self::$hasSessionCookie ) );
+                $ini = eZINI::instance();
+                if ( $ini->variable( 'Session', 'Handler' ) !== '' )
+                {
+                    $optionArray = array(
+                        'iniFile'       => 'site.ini',
+                        'iniSection'    => 'Session',
+                        'iniVariable'   => 'Handler',
+                        'handlerParams' => array( self::$hasSessionCookie )
+                    );
 
-                $options = new ezpExtensionOptions( $optionArray );
-                self::$handlerInstance = eZExtension::getHandlerClass( $options );
+                    $options = new ezpExtensionOptions( $optionArray );
+                    self::$handlerInstance = eZExtension::getHandlerClass( $options );
+                }
+            }
+            else
+            {
+                self::$handlerInstance = $handler;
             }
             if ( !self::$handlerInstance instanceof ezpSessionHandler )
             {
