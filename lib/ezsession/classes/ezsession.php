@@ -296,10 +296,24 @@ class eZSession
         }
         $path   = $ini->hasVariable('Session', 'CookiePath')     ? $ini->variable('Session', 'CookiePath')     : $params['path'];
         $domain = $ini->hasVariable('Session', 'CookieDomain')   ? $ini->variable('Session', 'CookieDomain')   : $params['domain'];
-        $secure = $ini->hasVariable('Session', 'CookieSecure')   ? $ini->variable('Session', 'CookieSecure')   : $params['secure'];
+        if ( $ini->hasVariable('Session', 'CookieSecure') )
+        {
+            $secure = ($ini->variable('Session', 'CookieSecure') == 'true') ? true : false ;
+        }
+        else 
+        { 
+            $secure = $params['secure'];
+        }
         if ( isset( $params['httponly'] ) ) // only available on PHP 5.2 and up
         {
-            $httponly = $ini->hasVariable('Session', 'CookieHttponly') ? $ini->variable('Session', 'CookieHttponly') : $params['httponly'];
+            if ( $ini->hasVariable('Session', 'CookieHttponly') )
+            {
+                $httponly = ($ini->variable('Session', 'CookieHttponly') == 'true') ? true : false ;
+            }
+            else 
+            { 
+                $httponly = $params['httponly'];
+            }
             session_set_cookie_params( $lifetime, $path, $domain, $secure, $httponly );
         }
         else
