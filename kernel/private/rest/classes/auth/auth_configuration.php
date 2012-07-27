@@ -75,7 +75,11 @@ class ezpRestAuthConfiguration
         $user = $this->filter->authenticate( $auth, $this->req );
         if ( $user instanceof eZUser )
         {
-            eZUser::setCurrentlyLoggedInUser( $user, $user->attribute( 'contentobject_id' ) );
+            $userID = $user->id();
+            if ( $userID != eZUser::currentUserID() )
+            {
+                eZUser::setCurrentlyLoggedInUser( $user, $userID );
+            }
             $this->filter->setUser( $user );
         }
         else if ( $user instanceof ezcMvcInternalRedirect )
