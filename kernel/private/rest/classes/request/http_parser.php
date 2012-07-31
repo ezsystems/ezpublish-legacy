@@ -2,7 +2,7 @@
 /**
  * File containing the ezpRestHttpRequestParser class
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -22,11 +22,23 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
      */
     protected $request;
 
+    /**
+     * Overload createRequestObject() to make sure ezpRestRequest is created.
+     *
+     * @return ezpRestRequest
+     */
     protected function createRequestObject()
     {
         return new ezpRestRequest();
     }
 
+    /**
+     * Overloads processVariables() to instead get ezpRest specific variables
+     *
+     * Note: ->variables is set with ezpRest specific variables instead of raw $_REQUEST.
+     *
+     * @return void
+     */
     protected function processVariables()
     {
         $this->request->variables = $this->fillVariables();
@@ -35,6 +47,11 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
         $this->request->post = $_POST;
     }
 
+    /**
+     * Overloads parent::processStandardHeaders() to also call processEncryption()
+     *
+     * @return void
+     */
     protected function processStandardHeaders()
     {
         $this->processEncryption();
@@ -53,7 +70,16 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
     }
 
     /**
+     *  Overloads processBody() to add support for body on DELETE in addition to PUT
+     */
+    protected function processBody()
+    {
+        $this->request->body = file_get_contents( "php://input" );
+    }
+
+    /**
      * Extract variables to be used internally from GET
+     *
      * @return array
      */
     protected function fillVariables()
@@ -97,6 +123,7 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
 
     /**
      * Extract variables related to content from GET
+     *
      * @return array
      */
     protected function fillContentVariables()
@@ -125,5 +152,39 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
         }
 
         return $contentVariables;
+    }
+
+    /**
+     * Processes the request protocol.
+     */
+    protected function processProtocol()
+    {
+        $req = $this->request;
+        $req->originalProtocol = $req->protocol = 'http-' . ( isset( $_SERVER['REQUEST_METHOD'] ) ? strtolower( $_SERVER['REQUEST_METHOD'] ) : "get" );
+
+        // Adds support for using POST for PUT and DELETE for legacy browsers that does not support these.
+        // If a post param "_method" is set to either PUT or DELETE, then ->protocol is changed to that.
+        // (original protocol is kept on ->originalProtocol param)
+        // Post is used as this is only meant for forms in legacy browsers.
+        if ( $req->protocol === 'http-post' && isset( $_POST['_method'] ) )
+        {
+            $method = strtolower( $_POST['_method'] );
+            if ( $method  === 'put' || $method === 'delete' )
+                $req->protocol = "http-{$method}";
+
+            unset( $_POST['_method'] );
+        }
+    }
+
+    /**
+     * Processes the request date.
+     *
+     * @see http://issues.ez.no/19027
+     */
+    protected function processDate()
+    {
+        $this->request->date = isset( $_SERVER['REQUEST_TIME'] )
+            ? new DateTime( '@' . (int)$_SERVER['REQUEST_TIME'] )
+            : new DateTime();
     }
 }

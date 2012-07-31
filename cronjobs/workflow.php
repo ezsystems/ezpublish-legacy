@@ -2,7 +2,7 @@
 /**
  * File containing the workflow.php cronjob
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -46,10 +46,10 @@ foreach( $workflowProcessList as $process )
              $process->attribute( 'status' ) == eZWorkflow::STATUS_BUSY
            )
         {
-            $bodyMemento = eZOperationMemento::fetchMain( $process->attribute( 'memento_key' ) );
-            $mementoList = eZOperationMemento::fetchList( $process->attribute( 'memento_key' ) );
-            $bodyMemento->remove();
-            foreach( $mementoList as $memento )
+            if ( $bodyMemento = eZOperationMemento::fetchMain( $process->attribute( 'memento_key' ) ) )
+                $bodyMemento->remove();
+
+            foreach ( eZOperationMemento::fetchList( $process->attribute( 'memento_key' ) ) as $memento )
             {
                 $memento->remove();
             }

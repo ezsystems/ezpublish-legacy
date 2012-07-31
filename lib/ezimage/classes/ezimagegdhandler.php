@@ -2,7 +2,7 @@
 /**
  * File containing the eZImageGDHandler class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -634,6 +634,8 @@ class eZImageGDHandler extends eZImageHandler
         $sourceHeight = ImageSY( $imageObject );
 
         $temporaryImageObject = eZImageGDHandler::imageCreate( $destinationWidth, $destinationHeight, eZImageGDHandler::isImageTrueColor( $imageObject, $sourceMimeData ) );
+        imagealphablending( $temporaryImageObject, false );
+        imagesavealpha( $temporaryImageObject, true );
         ImageCopyResampled( $temporaryImageObject, $imageObject,
                             0, 0, 0, 0,
                             $destinationWidth, $destinationHeight, $sourceWidth, $sourceHeight );

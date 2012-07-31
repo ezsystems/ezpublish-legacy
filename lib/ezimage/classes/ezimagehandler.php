@@ -2,7 +2,7 @@
 /**
  * File containing the eZImageHandler class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -169,7 +169,7 @@ class eZImageHandler
      - self::PREPEND_TAG_REPLACE_SUFFIX - Prepends the tag name and replaces the suffix of the url
      The new url is placed in the \a $destinationMimeData.
     */
-    static function rewriteURL( $originalMimeData, &$destinationMimeData, $rewriteType, $aliasName = false )
+    function rewriteURL( $originalMimeData, &$destinationMimeData, $rewriteType, $aliasName = false )
     {
         $extraText = false;
         if ( $aliasName and
@@ -418,7 +418,7 @@ class eZImageHandler
         if ( $mimeType )
         {
             $mimeData = eZMimeType::findByName( $mimeType );
-            eZImageHandler::rewriteURL( $currentMimeData, $mimeData, $this->outputRewriteType(), $aliasName );
+            $this->rewriteURL( $currentMimeData, $mimeData, $this->outputRewriteType(), $aliasName );
         }
         return $mimeData;
     }

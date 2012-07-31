@@ -2,7 +2,7 @@
 /**
  * File containing the eZStaticCache class
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -26,7 +26,7 @@
  *
  * @package kernel
  */
-class eZStaticCache
+class eZStaticCache implements ezpStaticCache
 {
     /**
      * User-Agent string
@@ -293,7 +293,7 @@ class eZStaticCache
                 {
                     if ( !$quiet and $cli and $parentURL['glob'] )
                         $cli->output( "wildcard cache: " . $parentURL['url'] . '/' . $parentURL['glob'] . "*" );
-                    $elements = eZURLAliasML::fetchByPath( $parentURL['url'], $parentURL['glob'], true, true );
+                    $elements = eZURLAliasML::fetchByPath( $parentURL['url'], $parentURL['glob'] );
                     foreach ( $elements as $element )
                     {
                         $path = '/' . $element->getPath();
@@ -360,8 +360,6 @@ class eZStaticCache
      */
     private function storeCache( $url, $staticStorageDir, $alternativeStaticLocations = array(), $skipUnlink = false, $delay = true )
     {
-        $http = eZHTTPTool::instance();
-
         $dirs = array();
 
         foreach ( $this->cachedSiteAccesses as $cachedSiteAccess )
@@ -410,13 +408,12 @@ class eZStaticCache
                             // Generate content, if required
                             if ( $content === false )
                             {
-                                if ( $http->getDataByURL( $fileName, true, eZStaticCache::USER_AGENT ) )
-                                    $content = $http->getDataByURL( $fileName, false, eZStaticCache::USER_AGENT );
+                                if ( eZHTTPTool::getDataByURL( $fileName, true, eZStaticCache::USER_AGENT ) )
+                                    $content = eZHTTPTool::getDataByURL( $fileName, false, eZStaticCache::USER_AGENT );
                             }
                             if ( $content === false )
                             {
-                                eZDebug::writeNotice( "Could not grab content (from $fileName), is the hostname correct and Apache running?",
-                                                      'Static Cache' );
+                                eZDebug::writeError( "Could not grab content (from $fileName), is the hostname correct and Apache running?", 'Static Cache' );
                             }
                             else
                             {
@@ -538,7 +535,7 @@ class eZStaticCache
 
             fwrite( $fp, $content . $comment );
             fclose( $fp );
-            eZFile::rename( $tmpFileName, $file );
+            eZFile::rename( $tmpFileName, $file, false, eZFile::CLEAN_ON_FAILURE | eZFile::APPEND_DEBUG_ON_FAILURE );
 
             $perm = eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' );
             chmod( $file, octdec( $perm ) );
@@ -594,8 +591,6 @@ class eZStaticCache
             $db = eZDB::instance();
         }
 
-        $http = eZHTTPTool::instance();
-
         foreach ( self::$actionList as $action )
         {
             list( $action, $parameters ) = $action;
@@ -617,14 +612,14 @@ class eZStaticCache
                     {
                         if ( !isset( $fileContentCache[$source] ) )
                         {
-                            if ( $http->getDataByURL( $source, true, eZStaticCache::USER_AGENT ) )
-                                $fileContentCache[$source] = $http->getDataByURL( $source, false, eZStaticCache::USER_AGENT );
+                            if ( eZHTTPTool::getDataByURL( $source, true, eZStaticCache::USER_AGENT ) )
+                                $fileContentCache[$source] = eZHTTPTool::getDataByURL( $source, false, eZStaticCache::USER_AGENT );
                             else
                                 $fileContentCache[$source] = false;
                         }
                         if ( $fileContentCache[$source] === false )
                         {
-                            eZDebug::writeNotice( 'Could not grab content, is the hostname correct and Apache running?', 'Static Cache' );
+                            eZDebug::writeError( "Could not grab content (from $source), is the hostname correct and Apache running?", 'Static Cache' );
                         }
                         else
                         {

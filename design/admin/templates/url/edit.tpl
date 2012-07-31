@@ -32,12 +32,10 @@
 
 {literal}
 <script type="text/javascript">
-<!--
     window.onload=function()
     {
         document.getElementById('address').select();
         document.getElementById('address').focus();
     }
--->
 </script>
 {/literal}

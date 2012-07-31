@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -518,7 +518,7 @@ $OperationList['updatepriority'] = array( 'name' => 'updatepriority',
                                                  )
                               );
 
-$OperationList['updatemainassignment'] = array( 'name' => 'UpdateMainAssignment',
+$OperationList['updatemainassignment'] = array( 'name' => 'updatemainassignment',
                                 'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
                                                                 'class' => 'eZContentOperationCollection' ),
                                 'parameter_type' => 'standard',
@@ -534,16 +534,16 @@ $OperationList['updatemainassignment'] = array( 'name' => 'UpdateMainAssignment'
                                                       ),
                                 'keys' => array( 'main_assignment_id', 'object_id', 'main_assignment_parent_id' ),
                                 'body' => array( array( 'type' => 'trigger',
-                                                        'name' => 'pre_UpdateMainAssignment',
+                                                        'name' => 'pre_updatemainassignment',
                                                         'keys' => array( 'main_assignment_id' ),
                                                        ),
                                                  array( 'type' => 'method',
                                                         'name' => 'updatemainassignment',
                                                         'frequency' => 'once',
-                                                        'method' => 'UpdateMainAssignment',
+                                                        'method' => 'updateMainAssignment',
                                                         ),
                                                  array( 'type' => 'trigger',
-                                                        'name' => 'post_UpdateMainAssignment',
+                                                        'name' => 'post_updatemainassignment',
                                                         'keys' => array( 'main_assignment_id' )
                                                        )
                                                  )

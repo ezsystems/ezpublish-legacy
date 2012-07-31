@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -37,7 +37,6 @@ else
 $embedContent = false;
 
 $GLOBALS["eZRequestError"] = true;
-eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "error/view.php" );
 
 // if ( $errorType == 'kernel' )
 {
@@ -81,6 +80,9 @@ eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "er
             }
         }
     }
+
+    eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "error/view.php" );
+
     if ( $errorHandlerType == 'redirect' )
     {
         $errorRedirectURL = $errorINI->variable( 'ErrorSettings', 'DefaultRedirectURL' );

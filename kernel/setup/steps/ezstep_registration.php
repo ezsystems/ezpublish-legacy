@@ -2,7 +2,7 @@
 /**
  * File containing the eZStepRegistration class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -16,16 +16,27 @@
 
 class eZStepRegistration extends eZStepInstaller
 {
-    /*!
-     Constructor
-    */
-    function eZStepRegistration( $tpl, $http, $ini, &$persistenceList )
+    /**
+     * Constructor for eZStepRegistration
+     *
+     * @param \eZTemplate $tpl
+     * @param \eZHTTPTool $http
+     * @param \eZINI $ini
+     * @param array $persistenceList
+     */
+    function eZStepRegistration( eZTemplate $tpl, eZHTTPTool $http, eZINI $ini, array &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
                                 'registration', 'Registration' );
     }
 
-    function generateRegistration( $mailTpl, $comments )
+    /**
+     * @param \eZTemplate $mailTpl
+     * @param array $userData
+     *
+     * @return array|null|string
+     */
+    function generateRegistration( eZTemplate $mailTpl, array $userData )
     {
         $databaseMap = eZSetupDatabaseMap();
         $databaseInfo = $this->PersistenceList['database_info'];
@@ -33,20 +44,12 @@ class eZStepRegistration extends eZStepInstaller
         $regionalInfo = $this->PersistenceList['regional_info'];
         if ( !isset( $regionalInfo['languages'] ) )
             $regionalInfo['languages'] = array();
-//        $demoData = $this->PersistenceList['demo_data'];
+
         $emailInfo = $this->PersistenceList['email_info'];
 
-        $siteTemplates = array();
         $siteType = $this->chosenSiteType();
 
 
-       /* $typeFunctionality = eZSetupFunctionality( $siteType['identifier'] );
-        $additionalPackages = array();
-        if ( isset( $this->PersistenceList['additional_packages'] ) )
-            $additionalPackages = $this->PersistenceList['additional_packages'];
-        $extraFunctionality = array_merge( $additionalPackages,
-                                           $typeFunctionality['required'] );
-        $extraFunctionality = array_unique( $extraFunctionality );*/
         $url = $siteType['url'];
         if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
         {
@@ -71,36 +74,35 @@ class eZStepRegistration extends eZStepInstaller
         }
         $siteType['url'] = $url;
         $siteType['admin_url'] = $adminURL;
-        //$siteType['extra_functionality'] = $extraFunctionality;
 
 
         $testsRun = $this->PersistenceList['tests_run'];
         $imageMagickProgram = $this->PersistenceList['imagemagick_program'];
         $imageGDExtension = $this->PersistenceList['imagegd_extension'];
         $phpVersion = $this->PersistenceList['phpversion'];
+        $phpVersion['sapi'] = PHP_SAPI;
+
         $webserverInfo = false;
         if ( function_exists( 'apache_get_version' ) )
         {
             $webserverInfo = array( 'version' => apache_get_version() );
         }
+        else if ( !empty( $_SERVER['SERVER_SOFTWARE'] ) )
+        {
+            $webserverInfo = array( 'version' => $_SERVER['SERVER_SOFTWARE'] );
+        }
+
         $systemInfo = new eZSysInfo();
         $systemInfo->scan();
 
         $optionalTests = eZSetupOptionalTests();
-        $testTable = eZSetupTestTable();
-
         $runResult = eZSetupRunTests( $optionalTests, 'eZSetup:init:send_registration', $this->PersistenceList );
         $testResults = $runResult['results'];
-        $testResult = $runResult['result'];
-        $successCount = $runResult['success_count'];
-        $persistenceData = $runResult['persistence_list'];
 
-        // Send e-mail
-
-        $mailTpl->setVariable( 'comments', $comments );
+        // Generate email body e-mail
+        $mailTpl->setVariable( 'user_data', $userData );
         $mailTpl->setVariable( 'database_info', $databaseInfo );
         $mailTpl->setVariable( 'regional_info', $regionalInfo );
-//        $mailTpl->setVariable( 'demo_data', $demoData );
         $mailTpl->setVariable( 'email_info', $emailInfo );
         $mailTpl->setVariable( 'site_type', $siteType );
         $mailTpl->setVariable( 'tests_run', $testsRun );
@@ -119,6 +121,9 @@ class eZStepRegistration extends eZStepInstaller
         return $mailTpl->fetch( 'design:setup/registration_email.tpl' );
     }
 
+    /**
+     * @return bool
+     */
     function processPostData()
     {
         if ( !$this->Http->hasPostVariable( 'eZSetupSendRegistration' ) )// skip site registration
@@ -126,13 +131,80 @@ class eZStepRegistration extends eZStepInstaller
             return true;
         }
 
-        $mailTpl = eZTemplate::factory();
-        $comments = false;
-        if ( $this->Http->hasPostVariable( 'eZSetupRegistrationComment' ) )
+        if ( !$this->Http->hasPostVariable( 'eZSetupRegistrationData' ) )
         {
-            $comments = $this->Http->postVariable( 'eZSetupRegistrationComment' );
+          return false;
         }
-        $bodyText = $this->generateRegistration( $mailTpl, $comments );
+
+        // Get post variables and make sure they keep same order independent of checkboxes
+        $rawUserData = $this->Http->postVariable( 'eZSetupRegistrationData' );
+        $userData['first_time_user'] = isset( $rawUserData['first_time_user'] ) ? true : false;
+        $userData['include_tech_stats'] = isset( $rawUserData['include_tech_stats'] ) ? true : false;
+        unset( $rawUserData['first_time_user'], $rawUserData['include_tech_stats'] );
+        $userData = $rawUserData + $userData + $this->defaultUserData;
+
+        // Store on persistence list so data doesn't need to be entered several times
+        $this->PersistenceList['email_info']['user_data'] = $userData;
+
+        // Make sure requried data is present
+        $validationMessages = array();
+        if ( !$userData['first_name'] )
+        {
+            $validationMessages[] = ezpI18n::tr(
+                'design/standard/setup/init',
+                'Registration field "%fieldName" is empty',
+                false,
+                array( '%fieldName' => ezpI18n::tr( 'design/standard/setup/init', 'First name' ) )
+            );
+        }
+
+        if ( !$userData['last_name'] )
+        {
+            $validationMessages[] = ezpI18n::tr(
+                'design/standard/setup/init',
+                'Registration field "%fieldName" is empty',
+                false,
+                array( '%fieldName' => ezpI18n::tr( 'design/standard/setup/init', 'Last name' ) )
+            );
+        }
+
+        if ( !$userData['email'] )
+        {
+            $validationMessages[] = ezpI18n::tr(
+                'design/standard/setup/init',
+                'Registration field "%fieldName" is empty',
+                false,
+                array( '%fieldName' => ezpI18n::tr( 'design/standard/setup/init', 'Your email' ) )
+            );
+        }
+        else if ( !eZMail::validate( $userData['email'] ) )
+        {
+            $validationMessages[] = ezpI18n::tr(
+                'design/standard/setup/init',
+                'Registration field "%fieldName" has wrong format',
+                false,
+                array( '%fieldName' => ezpI18n::tr( 'design/standard/setup/init', 'Your email' ) )
+            );
+        }
+
+        if ( !$userData['country'] )
+        {
+            $validationMessages[] = ezpI18n::tr(
+                'design/standard/setup/init',
+                'Registration field "%fieldName" is empty',
+                false,
+                array( '%fieldName' => ezpI18n::tr( 'design/standard/setup/init', 'Country' ) )
+            );
+        }
+
+        if ( !empty( $validationMessages ) )
+        {
+            $this->Tpl->setVariable( 'validation_messages', $validationMessages );
+            return false;
+        }
+
+        $mailTpl = eZTemplate::factory();
+        $bodyText = $this->generateRegistration( $mailTpl, $userData );
         $subject = $mailTpl->variable( 'subject' );
 
         // Fill in E-Mail data and send it
@@ -149,21 +221,24 @@ class eZStepRegistration extends eZStepInstaller
         return true; // Always continue
     }
 
+    /**
+     * @return bool
+     */
     function init()
     {
         if ( $this->hasKickstartData() )
         {
             $data = $this->kickstartData();
 
-            $this->PersistenceList['email_info']['send']     =   isset( $data['Send'] ) ? ( $data['Send'] == 'true' ) : true;
-            $this->PersistenceList['email_info']['comments'] = ( isset( $data['Comments'] ) ) ? $data['Comments'] : false;
+            $this->PersistenceList['email_info']['send'] = isset( $data['Send'] ) ? ( $data['Send'] == 'true' ) : true;
+            $this->PersistenceList['email_info']['user_data'] = isset( $data['UserData'] ) ? $data['UserData'] : $this->defaultUserData;
 
             if ( $this->kickstartContinueNextStep() )
             {
                 if ( $this->PersistenceList['email_info']['send'] )
                 {
                     $mailTpl = eZTemplate::factory();
-                    $bodyText = $this->generateRegistration( $mailTpl, $comments );
+                    $bodyText = $this->generateRegistration( $mailTpl, $this->PersistenceList['email_info']['user_data'] );
                     $subject = $mailTpl->variable( 'subject' );
 
                     // Fill in E-Mail data and send it
@@ -191,17 +266,22 @@ class eZStepRegistration extends eZStepInstaller
         return false; // Always display registration information
     }
 
+    /**
+     * @return array
+     */
     function display()
     {
         $mailTpl = eZTemplate::factory();
 
-        $bodyText = $this->generateRegistration( $mailTpl, false );
+        $userData = isset( $this->PersistenceList['email_info']['user_data'] ) ? $this->PersistenceList['email_info']['user_data'] : $this->defaultUserData;
+
+        $bodyText = $this->generateRegistration( $mailTpl, $userData );// using default data
         $send     = ( isset( $this->PersistenceList['email_info']['send'] ) )     ? $this->PersistenceList['email_info']['send'] : true;
-        $comments = ( isset( $this->PersistenceList['email_info']['comments'] ) ) ? $this->PersistenceList['email_info']['comments'] : false;
+
 
         $this->Tpl->setVariable( 'email_body', $bodyText );
         $this->Tpl->setVariable( 'send_registration', $send );
-        $this->Tpl->setVariable( 'email_comments', $comments );
+        $this->Tpl->setVariable( 'email_user_data', $userData );
         $this->Tpl->setVariable( 'setup_previous_step', 'Registration' );
         $this->Tpl->setVariable( 'setup_next_step', 'DatabaseCreate' );
 
@@ -213,6 +293,17 @@ class eZStepRegistration extends eZStepInstaller
                                         'url' => false ) );
         return $result;
     }
+
+
+    private $defaultUserData = array(
+            'first_name' => '',
+            'last_name' => '',
+            'email' => '',
+            'country' => '',
+            'company' => '',
+            'first_time_user' => false,
+            'include_tech_stats' => true,
+    );
 }
 
 ?>

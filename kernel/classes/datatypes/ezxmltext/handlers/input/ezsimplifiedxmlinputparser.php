@@ -2,7 +2,7 @@
 /**
  * File containing the eZSimplifiedXMLInputParser class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -790,8 +790,8 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                         return $ret;
 
                     }
-                    // Check mail address validity
-                    if ( preg_match( "/^mailto:(.*)/i" , $url, $mailAddr ) &&
+                    // Check mail address validity following RFC 5322 and RFC 5321
+                    if ( preg_match( "/^mailto:([^.][a-z0-9!#\$%&'*+-\/=?`{|}~^]+@([a-z0-9.-]+))/i" , $url, $mailAddr ) &&
                          !eZMail::validate( $mailAddr[1] ) )
                     {
                         $this->handleError( eZXMLInputParser::ERROR_DATA,

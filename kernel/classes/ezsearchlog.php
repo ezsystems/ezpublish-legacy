@@ -2,7 +2,7 @@
 /**
  * File containing the eZSearchLog class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -25,7 +25,7 @@ class eZSearchLog
         $db->begin();
 
         $trans = eZCharTransform::instance();
-        $phrase = $trans->transformByGroup( trim( $phrase ), 'lowercase' );
+        $phrase = $trans->transformByGroup( trim( $phrase ), 'search' );
 
         // 250 is the numbers of characters accepted by the DB table, so shorten to fit
         if ( strlen( $phrase ) > 250 )

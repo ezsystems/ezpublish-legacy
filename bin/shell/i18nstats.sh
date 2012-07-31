@@ -6,6 +6,7 @@ function show_help
     echo
     echo "Options: -h"
     echo "         --help   This message"
+    echo "         --extension [extension] Stats for extension $extension"
 }
 
 for arg in $*; do
@@ -13,6 +14,11 @@ for arg in $*; do
     --help|-h)
         show_help
         exit 1
+        ;;
+    --extension=*)
+        if echo $arg | grep -e "--extension=" >/dev/null; then
+            EXTENSION=`echo $arg | sed 's/--extension=//'`
+        fi
         ;;
     -*)
         echo "$arg: unknown option specified"
@@ -27,7 +33,11 @@ done
 
 if [ -z "$LOCALE_LIST" ]; then
     echo "No locales given, will use all existing translations."
-    LOCALE_LIST=`ls share/translations`
+    if [ -n "$EXTENSION" ]; then
+	LOCALE_LIST=`ls extension/$EXTENSION/translations`
+    else
+	LOCALE_LIST=`ls share/translations`
+    fi
 fi
 
 echo "+--------+-------+----------+----------+------------+------------+"
@@ -37,8 +47,14 @@ for LOCALE in $LOCALE_LIST; do
     if [ $LOCALE = "untranslated" ]; then
         continue
     fi
-    FILE=share/translations/$LOCALE/translation.ts
+    if [ -n "$EXTENSION" ]; then
+        FILE=extension/$EXTENSION/translations/$LOCALE/translation.ts
+    else
+        FILE=share/translations/$LOCALE/translation.ts
+    fi
+    
     if [ -f "$FILE" ]; then
+
         FINISHED=`grep "<translation" $FILE | grep -v obsolete | grep -v unfinished | wc -l`
         UNFINISHED=`grep "<translation" $FILE | grep unfinished | wc -l`
         printf "| %-6s " $LOCALE

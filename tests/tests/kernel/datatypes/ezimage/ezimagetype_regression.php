@@ -2,7 +2,7 @@
 /**
  * File containing the eZImageTypeRegression class
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -79,22 +79,22 @@ class eZImageTypeRegression extends ezpDatabaseTestCase
     public function testIssue14983()
     {
         $files = eZImageFile::fetchForContentObjectAttribute( $this->fileAttribute->attribute( "id" ), true );
-        self::assertType( PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $files );
+        self::assertInternalType( "array", $files );
         $file = $files[0];
         unset( $files );
 
         // Read stored path, move to trash, and read stored path again
-        self::assertType( 'eZImageFile', $file );
+        self::assertInstanceOf( 'eZImageFile', $file );
 
         $oldFile = $file;
         $this->imageObject->object->removeThis();
         $this->imageObject->refresh();
         $files = eZImageFile::fetchForContentObjectAttribute( $this->fileAttribute->attribute( "id" ), true );
-        self::assertType( PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $files );
+        self::assertInternalType( "array", $files );
         $file = $files[0];
         unset( $files );
 
-        self::assertType( 'eZImageFile', $file );
+        self::assertInstanceOf( 'eZImageFile', $file );
         self::assertTrue( strpos( $file->attribute( "filepath" ), '/trashed') !== false, "The stored file should be renamed when trashed" );
     }
 

@@ -2,7 +2,7 @@
 /**
  * File containing the eZKernelTestSuite class
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -61,12 +61,16 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZExtensionWithOrderingTest' );
         $this->addTestSuite( 'eZExtensionWithoutOrderingTest' );
         $this->addTestSuite( 'ezpExtensionTest' );
-        $this->addTestSuite( 'ezpAutoloadGeneratorTest' );
+//        $this->addTestSuite( 'ezpAutoloadGeneratorTest' );
 
         $this->addTestSuite( 'eZRSSExportTest' );
         $this->addTestSuite( 'ezpEventTest' );
+        $this->addTestSuite( 'ezpMobileDeviceDetectFilterTest' );
+        $this->addTestSuite( 'ezpMobileDeviceDetectTest' );
+        $this->addTestSuite( 'ezpMobileDeviceRegexpFilterTest' );
 
         $this->addTestSuite( 'eZSiteAccess_Test' );
+        $this->addTestSuite( 'eZSiteAccessMatchHostUriTest' );
         $this->addTestSuite( 'eZSiteDataTest' );
         $this->addTestSuite( 'eZPendingActionsTest' );
         $this->addTestSuite( 'eZSectionTest' );

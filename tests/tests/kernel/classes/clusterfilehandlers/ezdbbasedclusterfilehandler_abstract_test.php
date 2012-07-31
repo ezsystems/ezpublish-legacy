@@ -2,8 +2,8 @@
 /**
  * File containing the eZDBBasedClusterFileHandlerAbstractTest class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
- * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
  * @version //autogentag//
  * @package tests
  */
@@ -15,7 +15,7 @@ abstract class eZDBBasedClusterFileHandlerAbstractTest extends eZClusterFileHand
 {
     /**
      * @var eZMySQLDB
-     */
+     **/
     protected $db;
 
     /**
@@ -24,7 +24,10 @@ abstract class eZDBBasedClusterFileHandlerAbstractTest extends eZClusterFileHand
      */
     public function testShutdownHandler()
     {
-        $path1 = 'var/tests/' . __FUNCTION__ . 'uncleanfile1.txt';
+        // Call the cleanup handler called by eZExecution::cleanExit()
+        self::assertFalse( eZClusterFileHandler::cleanupGeneratingFiles() );
+
+        $path1 = 'var/tests/' . __FUNCTION__ . '/uncleanfile1.txt';
         $path2 = 'var/tests/' . __FUNCTION__ . '/uncleanfile2.txt';
         $path3 = 'var/tests/' . __FUNCTION__ . '/uncleanfile3.txt';
 
@@ -45,17 +48,17 @@ abstract class eZDBBasedClusterFileHandlerAbstractTest extends eZClusterFileHand
         $file2->endCacheGeneration();
 
         // check that the generating status is as expected
-        $this->assertStringEndsWith(    '.generating', $file1->filePath, '$file1 is not generating' );
-        $this->assertStringEndsNotWith( '.generating', $file2->filePath, '$file2 is generating' );
-        $this->assertStringEndsWith(    '.generating', $file3->filePath, '$file3 is not generating' );
+        self::assertStringEndsWith(    '.generating', $file1->filePath, '$file1 is not generating' );
+        self::assertStringEndsNotWith( '.generating', $file2->filePath, '$file2 is generating' );
+        self::assertStringEndsWith(    '.generating', $file3->filePath, '$file3 is not generating' );
 
         // Call the cleanup handler called by eZExecution::cleanExit()
-        eZClusterFileHandler::cleanupGeneratingFiles();
+        self::assertTrue( eZClusterFileHandler::cleanupGeneratingFiles() );
 
         // Check that all files are no longer marked as generating
-        $this->assertStringEndsNotWith( '.generating', $file1->filePath, '$file1 is still generating' );
-        $this->assertStringEndsNotWith( '.generating', $file2->filePath, '$file2 is still generating' );
-        $this->assertStringEndsNotWith( '.generating', $file3->filePath, '$file3 is still generating' );
+        self::assertStringEndsNotWith( '.generating', $file1->filePath, '$file1 is still generating' );
+        self::assertStringEndsNotWith( '.generating', $file2->filePath, '$file2 is still generating' );
+        self::assertStringEndsNotWith( '.generating', $file3->filePath, '$file3 is still generating' );
     }
 
     /**
@@ -65,11 +68,6 @@ abstract class eZDBBasedClusterFileHandlerAbstractTest extends eZClusterFileHand
     {
         self::markTestIncomplete();
     }
-
-    /**
-     * Test for the disconnect() method
-     */
-    abstract public function testDisconnect();
 
     /**
      * Test for the cleanPath() method
@@ -127,7 +125,7 @@ abstract class eZDBBasedClusterFileHandlerAbstractTest extends eZClusterFileHand
         self::assertEquals( "$path.generating", $ch->filePath );
 
         $res = $ch2->startCacheGeneration();
-        self::assertType( 'integer', $res, "Calling startCacheGeneration for the second time should have returned the remaining cache generation time" );
+        self::assertInternalType( 'integer', $res, "Calling startCacheGeneration for the second time should have returned the remaining cache generation time" );
         self::assertStringEndsNotWith( ".generating.generating", $ch->filePath );
 
         $ch->abortCacheGeneration();
@@ -145,9 +143,9 @@ abstract class eZDBBasedClusterFileHandlerAbstractTest extends eZClusterFileHand
         $ch->storeContents( 'contents' );
         $res = $ch->endCacheGeneration();
 
-        self::assertTrue( $res );
+        self::assertTrue( $res, "endCacheGeneration didn't return true" );
         self::assertEquals( $path, $ch->filePath );
-        self::assertTrue( $ch->exists() );
+        self::assertTrue( $ch->exists(), "$path does not exist" );
     }
 
     /**
@@ -195,6 +193,122 @@ abstract class eZDBBasedClusterFileHandlerAbstractTest extends eZClusterFileHand
         $ch->storeContents( 'contents' );
 
         self::assertTrue( $ch->checkCacheGenerationTimeout() );
+
+        $ch->abortCacheGeneration();
+    }
+
+    /**
+     * Tests the name trunk automatic creation (at backend level)
+     * @dataProvider providerForTestNameTrunk
+     */
+    public function testNameTrunk( $path, $scope, $expectedNameTrunk, $expectedCacheType )
+    {
+        // postgres doesn't use nametrunk
+        if ( ezpTestRunner::dsn()->parts['phptype'] == 'postgresql' )
+            self::markTestSkipped( "name_trunk isn't used by postgresql" );
+
+        $ch = self::createFile( $path, false, array( 'scope' => $scope ) );
+        self::assertEquals( $expectedNameTrunk, $ch->metaData['name_trunk'] );
+        self::assertEquals( $expectedCacheType, $ch->cacheType );
+    }
+
+    public static function providerForTestNameTrunk()
+    {
+        return array(
+            // view cache file
+            array(
+                'var/plain_site/cache/content/plain_site/2-a54e7f5dba0d9df9de22904d309754b8.cache',
+                'viewcache',
+                'var/plain_site/cache/content/plain_site/2-',
+                'viewcache'
+            ),
+
+            // template block with subtree expiry
+            array(
+                'var/plain_site/cache/template-block/subtree/1/cache/1/1/0/110322645.cache',
+                'template-block',
+                'var/plain_site/cache/template-block/subtree/1/cache/',
+                'cacheblock'
+            ),
+
+            // misc cache
+            array(
+                'var/plain_site/cache/classidentifiers_fc45544cdb917d072c104b67248009e1.php',
+                'classidentifiers',
+                'var/plain_site/cache/classidentifiers_fc45544cdb917d072c104b67248009e1.php',
+                'misc'
+            ),
+        );
+    }
+
+    /**
+     * Validates the cache feature used by the loadMetaData() method
+     */
+    public function testLoadMetaDataCache()
+    {
+        $class = $this->clusterClass;
+
+        $files = array();
+
+        // generate more files than the cache limit so that the
+        $iMax = constant( "$class::INFOCACHE_MAX" ) + 10;
+        for( $i = 1; $i <= $iMax; $i++ )
+        {
+            $ch = eZClusterFileHandler::instance( "var/tests/" . __FUNCTION__ . "/{$i}.txt" );
+            $ch->loadMetaData();
+            self::assertInstanceOf( $class, $ch, "Object #{$i} is not a cluster file handler" );
+            $files[] = $ch->filePath;
+        }
+
+        // reload the same files to trigger loading from cache
+        foreach( $files as $filePath )
+        {
+            $ch = eZClusterFileHandler::instance( $filePath );
+            $ch->loadMetaData();
+            self::assertInstanceOf( $class, $ch, "Object #{$i} is not a cluster file handler" );
+        }
+    }
+
+    /**
+     * Unit test for fileDeleteLocal()
+     */
+    public function testFiledeleteLocal()
+    {
+        $path = 'var/tests/' . __FUNCTION__ . '/file.txt';
+        $ch = $this->createFile( $path );
+        $ch->fetch();
+
+        self::assertFileExists( $path );
+
+        $ch->fileDeleteLocal( $path );
+
+        self::assertFileNotExists( $path );
+    }
+
+    /**
+     * Unit test for deleteLocal()
+     */
+    public function testDeleteLocal()
+    {
+        $path = 'var/tests/' . __FUNCTION__ . '/file.txt';
+        $ch = $this->createFile( $path );
+        $ch->fetch();
+
+        self::assertFileExists( $path );
+
+        $ch->deleteLocal( $path );
+
+        self::assertFileNotExists( $path );
+    }
+
+    public function testRequiresClusterizing()
+    {
+        self::assertTrue( eZClusterFileHandler::instance()->requiresClusterizing() );
+    }
+
+    public function testRequiresBinaryPurge()
+    {
+        self::assertTrue( eZClusterFileHandler::instance()->requiresBinaryPurge() );
     }
 }
 ?>

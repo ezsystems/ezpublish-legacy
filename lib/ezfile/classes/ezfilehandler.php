@@ -2,7 +2,7 @@
 /**
  * File containing the eZFileHandler class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -558,7 +558,7 @@ class eZFileHandler
     /*!
      Tries to unlink the file from the file system.
     */
-    static function unlink( $filename = false )
+    function unlink( $filename = false )
     {
         if ( !$filename )
         {
@@ -872,7 +872,7 @@ class eZFileHandler
     */
     function doRewind()
     {
-        $this->doSeek( $offset, SEEK_SET );
+        $this->doSeek( 0, SEEK_SET );
     }
 
     /*!
@@ -902,7 +902,7 @@ class eZFileHandler
     */
     function doPasstrough( $closeFile = true )
     {
-        $result = @fpasstru( $this->FileHandler );
+        $result = @fpassthru( $this->FileHandler );
         if ( $closeFile )
         {
             @fclose( $this->FileHandler );

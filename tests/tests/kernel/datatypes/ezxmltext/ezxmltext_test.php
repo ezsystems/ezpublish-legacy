@@ -2,7 +2,7 @@
 /**
  * File containing the eZXMLTextTest class
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -34,7 +34,7 @@ class eZXMLTextTest extends ezpTestCase
         $parser = new eZSimplifiedXMLInputParser( 2, eZXMLInputParser::ERROR_ALL, eZXMLInputParser::ERROR_ALL, true );
 
         $document = $parser->process( '<header level="-1">Fatal error test</header>' );
-        $this->assertTrue( $document instanceof DOMDocument, 'Parser error: ' . $parser->getMessages() );
+        $this->assertTrue( $document instanceof DOMDocument, 'Parser error: ' . join( ", ", $parser->getMessages() ) );
 
         $root = $document->documentElement;        
         $this->assertTrue( $root->hasChildNodes(), 'Content missing, xml document is empty' );

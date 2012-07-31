@@ -2,7 +2,7 @@
 /**
  * File containing the ezpI18n class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -10,6 +10,14 @@
 
 class ezpI18n
 {
+    /**
+     * Indicates if text translation is enabled or not.
+     * @see ezpI18n::isEnabled()
+     *
+     * @var null|bool
+     */
+    protected static $isEnabled = null;
+
     /**
      * Replaces keys found in \a $text with values in \a $arguments.
      * If \a $arguments is an associative array it will use the argument
@@ -44,14 +52,21 @@ class ezpI18n
     */
     protected static function isEnabled()
     {
-        static $isEnabled = null;
-        if ( $isEnabled === null )
+        if ( self::$isEnabled === null )
         {
             $ini = eZINI::instance();
             $useTextTranslation = $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled';
-            $isEnabled = $useTextTranslation || eZTranslatorManager::dynamicTranslationsEnabled();
+            self::$isEnabled = $useTextTranslation || eZTranslatorManager::dynamicTranslationsEnabled();
         }
-        return $isEnabled;
+        return self::$isEnabled;
+    }
+
+    /**
+     * Resets the state ezpI18n class.
+     */
+    public static function reset()
+    {
+        self::$isEnabled = null;
     }
 
     /**

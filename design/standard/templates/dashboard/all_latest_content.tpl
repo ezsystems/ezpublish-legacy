@@ -40,7 +40,7 @@
             </td>
             <td>
             {if $latest_node.can_edit}
-                <a href="{concat( 'content/edit/', $latest_node.contentobject_id )|ezurl('no')}">
+                <a href="{concat( 'content/edit/', $latest_node.contentobject_id, '/f/', $latest_node.object.default_language )|ezurl('no')}">
                     <img src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/dashboard/all_latest_content' )}" title="{'Edit <%child_name>.'|i18n( 'design/admin/dashboard/all_latest_content',, hash( '%child_name', $latest_node.name) )|wash}" />
                 </a>
             {else}

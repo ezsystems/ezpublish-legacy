@@ -47,6 +47,28 @@ table.list th, table.special th
     vertical-align: middle;
 }
 
+table.list label
+{
+font-weight:normal;
+}
+
+table.list th a
+{
+text-decoration:none;
+}
+
+table.list .sort-asc a
+{
+padding-right:1.5em;
+background:url(../images/icons-sprite.png) no-repeat right -270px;
+}
+
+table.list .sort-desc a
+{
+padding-right:1.5em;
+background:url(../images/icons-sprite.png) no-repeat right -250px;
+}
+
 table.special th
 {
     border-top: 1px solid #ccc;
@@ -238,4 +260,14 @@ fieldset.ezcca-collapsible legend a
 fieldset.ezcca-collapsible.ezcca-collapsed legend a
 {
     background: url("../images/2/yui_sprite.png") no-repeat 0 -350px;
+}
+
+/* OBJECTRELATIONLIST */
+
+.ezcca-edit-datatype-ezobjectrelationlist h4, .ezcca-edit-datatype-ezobjectrelation h4
+{
+    padding-bottom:2px;
+    border-bottom: 1px solid #cacaca;
+    margin-bottom:1em;
+    color:#333;
 }

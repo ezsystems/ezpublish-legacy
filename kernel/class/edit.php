@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -409,7 +409,7 @@ if ( $contentClassHasInput )
         if ( $http->hasPostVariable( 'ContentAttribute_category_select' ) )
             $categoryArray = $http->postVariable( 'ContentAttribute_category_select' );
 
-        foreach ( $attributes as $key => $attribute )
+        foreach ( $attributes as $attribute )
         {
             $attributeID = $attribute->attribute( 'id' );
             $attribute->setAttribute( 'is_required', in_array( $attributeID, $requireCheckedArray ) );
@@ -420,12 +420,12 @@ if ( $contentClassHasInput )
             // check if the category is set for this attribute key, may not be the case when using old admin and new attributes
             // if this is not set at all, it gets a default value from the DB
             // if it is set, we want to leave it like that of course
-            if ( array_key_exists( $key, $categoryArray ) )
+            if ( isset( $categoryArray[$attributeID] ) )
             {
-                $attribute->setAttribute( 'category', $categoryArray[$key] );
+                $attribute->setAttribute( 'category', $categoryArray[$attributeID] );
             }
 
-            $placement = (int) $placementArray[$key];
+            $placement = (int) $placementArray[$attribute->attribute( 'id' )];
             if ( $attribute->attribute( 'placement' ) != $placement )
                 $attribute->setAttribute( 'placement', $placement );
         }
@@ -446,15 +446,16 @@ $cur_datatype = 'ezstring';
 // Apply HTTP POST variables
 if ( $contentClassHasInput )
 {
-    eZHTTPPersistence::fetch( 'ContentAttribute', eZContentClassAttribute::definition(), $attributes, $http, true );
+    eZHTTPPersistence::fetch( 'ContentAttribute', eZContentClassAttribute::definition(), $attributes, $http, true, 'id' );
     if ( $http->hasPostVariable( 'ContentAttribute_name' ) )
     {
         $attributeNames = $http->postVariable( 'ContentAttribute_name' );
-        foreach( $attributes as $key => $attribute )
+        foreach ( $attributes as $attribute )
         {
+            $key = $attribute->attribute( 'id' );
             if ( isset( $attributeNames[$key] ) )
             {
-                $attributes[$key]->setName( $attributeNames[$key], $EditLanguage );
+                $attribute->setName( $attributeNames[$key], $EditLanguage );
             }
         }
     }
@@ -462,11 +463,12 @@ if ( $contentClassHasInput )
     if ( $http->hasPostVariable( 'ContentAttribute_description' ) )
     {
         $attributeNames = $http->postVariable( 'ContentAttribute_description' );
-        foreach( $attributes as $key => $attribute )
+        foreach ( $attributes as $attribute )
         {
+            $key = $attribute->attribute( 'id' );
             if ( isset( $attributeNames[$key] ) )
             {
-                $attributes[$key]->setDescription( $attributeNames[$key], $EditLanguage );
+                $attribute->setDescription( $attributeNames[$key], $EditLanguage );
             }
         }
     }
@@ -625,16 +627,18 @@ if ( $contentClassHasInput )
 if ( $validationRequired )
 {
     // check for duplicate attribute identifiers in the input
-    if ( count( $attributes ) > 1 )
+    $attributesCount = count( $attributes );
+    if ( $attributesCount > 1 )
     {
-        for( $attrIndex = 0; $attrIndex < count( $attributes ) - 1; $attrIndex++ )
+        $attributesValues = array_values( $attributes );
+        for ( $attrIndex = 0; $attrIndex < $attributesCount - 1; $attrIndex++ )
         {
-            $classAttribute = $attributes[$attrIndex];
+            $classAttribute = $attributesValues[$attrIndex];
             $identifier = $classAttribute->attribute( 'identifier' );
             $placement = $classAttribute->attribute( 'placement' );
-            for ( $attrIndex2 = $attrIndex + 1; $attrIndex2 < count( $attributes ); $attrIndex2++ )
+            for ( $attrIndex2 = $attrIndex + 1; $attrIndex2 < $attributesCount; $attrIndex2++ )
             {
-                $classAttribute2 = $attributes[$attrIndex2];
+                $classAttribute2 = $attributesValues[$attrIndex2];
                 $identifier2 = $classAttribute2->attribute( 'identifier' );
                 $placement2 = $classAttribute2->attribute( 'placement' );
                 if (  $placement ==  $placement2 )
@@ -658,6 +662,8 @@ if ( $validationRequired )
                 }
             }
         }
+
+        unset( $attributesValues );
     }
 }
 

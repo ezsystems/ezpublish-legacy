@@ -659,6 +659,19 @@ CREATE SEQUENCE ezpdf_export_s
 
 
 
+CREATE SEQUENCE ezpending_actions_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
 CREATE SEQUENCE ezpolicy_s
     START 1
     INCREMENT 1
@@ -1225,6 +1238,7 @@ CREATE TABLE ezcobj_state_group_language (
     contentobject_state_group_id integer DEFAULT 0 NOT NULL,
     description text NOT NULL,
     language_id integer DEFAULT 0 NOT NULL,
+    real_language_id integer DEFAULT 0 NOT NULL,
     name character varying(45) DEFAULT ''::character varying NOT NULL
 );
 
@@ -1280,9 +1294,9 @@ CREATE TABLE ezcollab_group (
 CREATE TABLE ezcollab_item (
     created integer DEFAULT 0 NOT NULL,
     creator_id integer DEFAULT 0 NOT NULL,
-    data_float1 double precision DEFAULT 0::double precision NOT NULL,
-    data_float2 double precision DEFAULT 0::double precision NOT NULL,
-    data_float3 double precision DEFAULT 0::double precision NOT NULL,
+    data_float1 real DEFAULT 0::real NOT NULL,
+    data_float2 real DEFAULT 0::real NOT NULL,
+    data_float3 real DEFAULT 0::real NOT NULL,
     data_int1 integer DEFAULT 0 NOT NULL,
     data_int2 integer DEFAULT 0 NOT NULL,
     data_int3 integer DEFAULT 0 NOT NULL,
@@ -1396,9 +1410,9 @@ CREATE TABLE ezcollab_profile (
 CREATE TABLE ezcollab_simple_message (
     created integer DEFAULT 0 NOT NULL,
     creator_id integer DEFAULT 0 NOT NULL,
-    data_float1 double precision DEFAULT 0::double precision NOT NULL,
-    data_float2 double precision DEFAULT 0::double precision NOT NULL,
-    data_float3 double precision DEFAULT 0::double precision NOT NULL,
+    data_float1 real DEFAULT 0::real NOT NULL,
+    data_float2 real DEFAULT 0::real NOT NULL,
+    data_float3 real DEFAULT 0::real NOT NULL,
     data_int1 integer DEFAULT 0 NOT NULL,
     data_int2 integer DEFAULT 0 NOT NULL,
     data_int3 integer DEFAULT 0 NOT NULL,
@@ -1733,7 +1747,7 @@ CREATE TABLE ezdiscountrule (
 
 
 CREATE TABLE ezdiscountsubrule (
-    discount_percent double precision,
+    discount_percent real,
     discountrule_id integer DEFAULT 0 NOT NULL,
     id integer DEFAULT nextval('ezdiscountsubrule_s'::text) NOT NULL,
     limitation character(1),
@@ -1846,7 +1860,7 @@ CREATE TABLE ezinfocollection_attribute (
     contentclass_attribute_id integer DEFAULT 0 NOT NULL,
     contentobject_attribute_id integer,
     contentobject_id integer,
-    data_float double precision,
+    data_float real,
     data_int integer,
     data_text text,
     id integer DEFAULT nextval('ezinfocollection_attribute_s'::text) NOT NULL,
@@ -2116,9 +2130,9 @@ CREATE TABLE ezorder_item (
     id integer DEFAULT nextval('ezorder_item_s'::text) NOT NULL,
     is_vat_inc integer DEFAULT 0 NOT NULL,
     order_id integer DEFAULT 0 NOT NULL,
-    price double precision,
+    price real,
     "type" character varying(30),
-    vat_value double precision DEFAULT 0::double precision NOT NULL
+    vat_value real DEFAULT 0::real NOT NULL
 );
 
 
@@ -2207,6 +2221,7 @@ CREATE TABLE ezpdf_export (
 
 
 CREATE TABLE ezpending_actions (
+    id integer DEFAULT nextval('ezpending_actions_s'::text) NOT NULL,
     "action" character varying(64) DEFAULT ''::character varying NOT NULL,
     created integer,
     param text
@@ -2355,14 +2370,14 @@ CREATE TABLE ezproductcollection (
 
 CREATE TABLE ezproductcollection_item (
     contentobject_id integer DEFAULT 0 NOT NULL,
-    discount double precision,
+    discount real,
     id integer DEFAULT nextval('ezproductcollection_item_s'::text) NOT NULL,
     is_vat_inc integer,
     item_count integer DEFAULT 0 NOT NULL,
     name character varying(255) DEFAULT ''::character varying NOT NULL,
-    price double precision DEFAULT 0::double precision,
+    price real DEFAULT 0::real,
     productcollection_id integer DEFAULT 0 NOT NULL,
-    vat_value double precision
+    vat_value real
 );
 
 
@@ -2377,7 +2392,7 @@ CREATE TABLE ezproductcollection_item_opt (
     name character varying(255) DEFAULT ''::character varying NOT NULL,
     object_attribute_id integer,
     option_item_id integer DEFAULT 0 NOT NULL,
-    price double precision DEFAULT 0::double precision NOT NULL,
+    price real DEFAULT 0::real NOT NULL,
     value character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
@@ -2506,7 +2521,7 @@ CREATE TABLE ezsearch_object_word_link (
     contentclass_attribute_id integer DEFAULT 0 NOT NULL,
     contentclass_id integer DEFAULT 0 NOT NULL,
     contentobject_id integer DEFAULT 0 NOT NULL,
-    frequency double precision DEFAULT 0::double precision NOT NULL,
+    frequency real DEFAULT 0::real NOT NULL,
     id integer DEFAULT nextval('ezsearch_object_word_link_s'::text) NOT NULL,
     identifier character varying(255) DEFAULT ''::character varying NOT NULL,
     integer_value integer DEFAULT 0 NOT NULL,
@@ -2846,7 +2861,7 @@ CREATE TABLE ezvatrule_product_category (
 CREATE TABLE ezvattype (
     id integer DEFAULT nextval('ezvattype_s'::text) NOT NULL,
     name character varying(255) DEFAULT ''::character varying NOT NULL,
-    percentage double precision
+    percentage real
 );
 
 
@@ -4213,7 +4228,7 @@ ALTER TABLE ONLY ezcobj_state_group
 
 
 ALTER TABLE ONLY ezcobj_state_group_language
-    ADD CONSTRAINT ezcobj_state_group_language_pkey PRIMARY KEY (contentobject_state_group_id, language_id);
+    ADD CONSTRAINT ezcobj_state_group_language_pkey PRIMARY KEY (contentobject_state_group_id, real_language_id);
 
 
 
@@ -4745,6 +4760,15 @@ ALTER TABLE ONLY ezpaymentobject
 
 ALTER TABLE ONLY ezpdf_export
     ADD CONSTRAINT ezpdf_export_pkey PRIMARY KEY (id, "version");
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezpending_actions
+    ADD CONSTRAINT ezpending_actions_pkey PRIMARY KEY (id);
 
 
 

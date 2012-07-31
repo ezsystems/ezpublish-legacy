@@ -3,7 +3,7 @@
 /**
  * File containing the ezconvertdbcharset.php script.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -827,7 +827,7 @@ function convertArray( $array, $inCharset, $outCharset )
             {
                 if( CommandLineArguments::logFilename() !== false )
                 {
-                    $logString = "ERROR: Unable to predict correct character set while converting array. Value is $value, inCharset : $inCharset, outCharSet : $outCharSet\n";
+                    $logString = "ERROR: Unable to predict correct character set while converting array. Value is $value, inCharset : $inCharset, outCharset : $outCharset\n";
                     file_put_contents( CommandLineArguments::logFilename(), $logString, FILE_APPEND );
                 }
             }

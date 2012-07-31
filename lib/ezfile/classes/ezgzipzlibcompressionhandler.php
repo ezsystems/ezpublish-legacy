@@ -2,7 +2,7 @@
 /**
  * File containing the eZGZIPZLIBCompressionHandler class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -121,7 +121,7 @@ class eZGZIPZLIBCompressionHandler extends eZCompressionHandler
 
     function doPasstrough( $closeFile = true )
     {
-        $result = @gzpasstru( $this->File );
+        $result = @gzpassthru( $this->File );
         if ( !$closeFile )
         {
             // The file must be reopened because gzpasstru will close the file.

@@ -2203,7 +2203,7 @@
     </message>
     <message>
         <source>Toggle fullscreen editing!</source>
-        <translation>Canvia a edició a pantalla completa!</translation>
+        <translation type="obsolete">Canvia a edició a pantalla completa!</translation>
     </message>
     <message>
         <source>Store draft and exit</source>
@@ -4515,10 +4515,6 @@
         <source>Dynamic tree menu is disabled for this siteaccess!</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Internal errorD</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>design/admin/dashboard/all_latest_content</name>
@@ -4684,6 +4680,22 @@
     <message>
         <source>Currently you do not have any products on your wish list.</source>
         <translation>No tens cap producte a la teva llista de desitjos.</translation>
+    </message>
+    <message>
+        <source>Published</source>
+        <translation type="unfinished">Publicat</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished">Edita</translation>
+    </message>
+    <message>
+        <source>Edit &lt;%item_name&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You do not have permission to edit &lt;%item_name&gt;.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6149,6 +6161,10 @@
         <translation>Columnes visibles de la taula:</translation>
     </message>
     <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Select</source>
         <translation>Selecciona</translation>
     </message>
@@ -6195,6 +6211,22 @@
     <message>
         <source>Path String</source>
         <translation type="unfinished">Ruta</translation>
+    </message>
+    <message>
+        <source>Object state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node Remote ID and Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object Remote ID</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6968,6 +7000,18 @@ Nota: Els paquets no seran desinstal·lats.</translation>
         <translation>Oculta configuració ràpida</translation>
     </message>
     <message>
+        <source>Siteaccess:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Global (override)</source>
+        <translation type="unfinished">Global (sobrescriptura)</translation>
+    </message>
+    <message>
+        <source>Set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Change name, email, password, etc.</source>
         <translation>Canvia el nom. correu electrònic, contrasenya, etc.</translation>
     </message>
@@ -6994,6 +7038,21 @@ Nota: Els paquets no seran desinstal·lats.</translation>
     <message>
         <source>User preferences</source>
         <translation type="unfinished">Preferències d&apos;usuari</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/pagelayout/leftmenu</name>
+    <message>
+        <source>Show / Hide leftmenu</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7213,14 +7272,6 @@ Nota: Els paquets no seran desinstal·lats.</translation>
     <message>
         <source>Disable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
         <translation>Deshabilita les &amp;quot;Pestanyes&amp;quot; per defecte mentre que navegues pel contingut.</translation>
-    </message>
-    <message>
-        <source>Enable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Disable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7452,6 +7503,10 @@ Nota: Els paquets no seran desinstal·lats.</translation>
     <message>
         <source>Roles and policies</source>
         <translation>Rols i polítiques</translation>
+    </message>
+    <message>
+        <source>Unactivated users</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -10512,6 +10567,10 @@ Nota: Els paquets no seran desinstal·lats.</translation>
         <source>Country/region</source>
         <translation>País/regió</translation>
     </message>
+    <message>
+        <source>Comment</source>
+        <translation type="unfinished">Comenta</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/shop/archivelist</name>
@@ -12795,11 +12854,11 @@ Nota: Els paquets no seran desinstal·lats.</translation>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>El teu compte ja està activat.</translation>
+        <translation type="obsolete">El teu compte ja està activat.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>La clau enviada no és vàlida. El compte no ha estat activat.</translation>
+        <translation type="obsolete">La clau enviada no és vàlida. El compte no ha estat activat.</translation>
     </message>
     <message>
         <source>User registered</source>
@@ -12819,6 +12878,65 @@ email address. Follow the instructions in that mail to activate
 your account.</source>
         <translation>El teu compte s&apos;ha creat correctament. Se&apos;t enviarà un email a l&apos;adreça especificada. 
 Segueix les instruccions d&apos;aquest correu per activar el teu compte.</translation>
+    </message>
+    <message>
+        <source>Unactivated users (%users_count)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle selection</source>
+        <translation type="unfinished">Invertir la selecció</translation>
+    </message>
+    <message>
+        <source>Registration date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>E-mail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Activate selected users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Activate selected users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/user/activations</name>
+    <message>
+        <source>The following users have been successfully activated:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been activated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following unactivated users have been successfully removed:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been removed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -13922,6 +14040,125 @@ Segueix les instruccions d&apos;aquest correu per activar el teu compte.</transl
     </message>
 </context>
 <context>
+    <name>design/admin2/ajaxupload</name>
+    <message>
+        <source>&lt;em&gt;%file&lt;/em&gt; has successfully been uploaded.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/ajaxuploader</name>
+    <message>
+        <source>Go to the parent level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Step 1/3: Upload a file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished">Tipus</translation>
+    </message>
+    <message>
+        <source>Section</source>
+        <translation type="unfinished">Secció</translation>
+    </message>
+    <message>
+        <source>prev</source>
+        <translation type="unfinished">anterior</translation>
+    </message>
+    <message>
+        <source>next</source>
+        <translation type="unfinished">següent</translation>
+    </message>
+    <message>
+        <source>Step 2/3: Choose a location for the new &apos;%class&apos; object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose a location for the &apos;%class&apos; object that is going to be created from it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose this location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Step 3/3: Preview of &apos;%name&apos; (%class)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File</source>
+        <translation type="unfinished">Fitxer</translation>
+    </message>
+    <message>
+        <source>Required</source>
+        <translation type="unfinished">Requerit</translation>
+    </message>
+    <message>
+        <source>The name will be autogenerated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload the file</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/content/datatype</name>
+    <message>
+        <source>Upload a file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload a file to create a new object and add it to the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose a location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some required fields are empty.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unable to parse the JSON response.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload a file and add the resulting object in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/content/edit</name>
+    <message>
+        <source>Go to the top</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/user/activations</name>
+    <message>
+        <source>There are no unactivated users</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/base</name>
     <message>
         <source>Back to poll</source>
@@ -14513,6 +14750,13 @@ Segueix les instruccions d&apos;aquest correu per activar el teu compte.</transl
     <message>
         <source>Minute</source>
         <translation type="obsolete">Minut</translation>
+    </message>
+</context>
+<context>
+    <name>design/ezwebin/link</name>
+    <message>
+        <source>Printable version</source>
+        <translation type="unfinished">Versió per imprimir</translation>
     </message>
 </context>
 <context>
@@ -16452,7 +16696,7 @@ Si vols enviar comentaris a l&apos;encarregat d&apos;aprovar el contingut o veur
     </message>
     <message>
         <source>Add object</source>
-        <translation>Afegeix objecte</translation>
+        <translation type="obsolete">Afegeix objecte</translation>
     </message>
     <message>
         <source>Invert selection.</source>
@@ -16733,6 +16977,46 @@ Si vols enviar comentaris a l&apos;encarregat d&apos;aprovar el contingut o veur
     <message>
         <source>Confirm email</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add an object in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add an existing object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse to add an existing object in this relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Objects in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected elements from the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add objects in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add existing objects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse to add existing objects in this relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Html5 Video</source>
+        <translation type="unfinished">Video Html5</translation>
+    </message>
+    <message>
+        <source>Html5 Audio</source>
+        <translation type="unfinished">Audio Html5</translation>
     </message>
 </context>
 <context>
@@ -18577,7 +18861,7 @@ Si esborres cap objecte, només s&apos;esborrarà de la llista.</translation>
     <name>design/standard/layout</name>
     <message>
         <source>Printable version</source>
-        <translation>Versió per imprimir</translation>
+        <translation type="obsolete">Versió per imprimir</translation>
     </message>
     <message>
         <source>To log in enter a valid login and password.</source>
@@ -19655,6 +19939,18 @@ També pots esborrar el paquet sense desinstal·lar-lo de la llista de paquets.<
     <message>
         <source>Clear</source>
         <translation>Neteja</translation>
+    </message>
+    <message>
+        <source>Siteaccess:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Global (override)</source>
+        <translation type="unfinished">Global (sobrescriptura)</translation>
+    </message>
+    <message>
+        <source>Set</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -23500,7 +23796,7 @@ Per fer-ho, cal que canviïs els comandaments %chown sota els comandaments alter
         <translation>PHP no registra variables d&apos;entorn</translation>
     </message>
     <message>
-        <source>PHP is currently not configured to register enviroment variables in the global variable $_ENV.</source>
+        <source>PHP is currently not configured to register environment variables in the global variable $_ENV.</source>
         <translation>PHP no està configurat per registrar variables d&apos;entorn a la global global $_ENV.</translation>
     </message>
     <message>
@@ -23540,7 +23836,7 @@ Per fer-ho, cal que canviïs els comandaments %chown sota els comandaments alter
         <translation>, però sempre es recomana l&apos;última versió establa de PHP.</translation>
     </message>
     <message>
-        <source>Since some extensions might use $_ENV it is recomended to fix it unless you have full controll over all extensions you use!</source>
+        <source>Since some extensions might use $_ENV it is recommended to fix it unless you have full control over all extensions you use!</source>
         <translation>Algunes extensions poden fer servir $_ENV, recomanem arreglar-ho a no ser que tinguis control total sobre totes les extensions que fas servir!</translation>
     </message>
     <message>
@@ -26892,6 +27188,10 @@ si has triat l&apos;opció &quot;%3&quot; des de &quot;%4&quot; </translation>
         <source>Object %1 can not be embeded to itself.</source>
         <translation>L&apos;objecte %1 no es pot adjuntar a ell mateix.</translation>
     </message>
+    <message>
+        <source>%count invalid character(s) have been found and replaced by a space</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/collaboration</name>
@@ -28415,6 +28715,10 @@ si has triat l&apos;opció &quot;%3&quot; des de &quot;%4&quot; </translation>
     </message>
     <message>
         <source>authorization</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unactivated users</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

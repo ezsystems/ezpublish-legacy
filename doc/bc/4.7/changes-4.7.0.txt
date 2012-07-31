@@ -1,0 +1,72 @@
+Changes to BC and behavior in version 4.7.0
+===========================================
+
+INI setting changes
+-------------------
+
+- Revamped cluster index mechanism
+
+  The cluster index system, used to serve images & binary files when running eZ Publish
+  in cluster mode, has been revamped completely. Settings are now to be placed in
+  config.php, and have slightly different names (they all start with CLUSTER_, for one).
+  Documentation on how to configure the new version is available online.
+  All index_cluster_* & index_image_* files are to be removed from the document root.
+  Backend specific files are now located in kernel/clustering.
+
+  Note that if using eZDB cluster, HTTP_RANGE support should be explicitely disabled by
+  setting CLUSTER_ENABLE_HTTP_RANGE constant to false.
+
+- LogDir=log/audit
+
+  Default log dir has changed and from now will always be relative to VarDir setting.
+
+Change of behavior
+------------------
+
+- #019024: Mixed up class attribute IDs after re-order
+
+  Content class edit form inputs have been changed for class attributes.
+  They are now indexed by attribute ID instead of raw numeric index.
+  Override templates for *content/class/edit.tpl* must thus be changed in the same way.
+
+- #019215: Audit feature should be improved for multisite installations
+
+  From now, default log storage will be relative to VarDir setting. This is specially
+  useful if you have a multisite installation, probably using two or more databases.
+  This way you can have separate audit logs per website.
+
+- ezpMvcRailsRoute now forces you to be explicit on what kind of http method is used.
+
+  By default http-get is now assumed so if your rails route uses anyting else you would need to change it.
+  Two options:
+  * Use ezcMvcRailsRoute instead, it behaves like ezpMvcRailsRoute used to and works on 4.5 and up
+  * Change your route configuration:
+   - 'oauthToken'   => new ezpMvcRailsRoute( '/oauth/token', 'ezpRestOauthTokenController', 'handleRequest' )
+   + 'oauthToken'   => new ezpMvcRailsRoute( '/oauth/token', 'ezpRestOauthTokenController', array( 'http-post' => 'handleRequest' ) )
+
+
+
+Removed features
+----------------
+
+
+
+
+Removed constants
+-----------------
+
+
+
+Removed globals
+---------------
+
+
+
+
+Deprecated
+----------
+
+- eZSession::get() and eZHTTPTool->sessionVariable()
+
+  These functions will not return session value by reference in the future,
+  please adapt your code to be explicit and use the set() / setSessionVariable().

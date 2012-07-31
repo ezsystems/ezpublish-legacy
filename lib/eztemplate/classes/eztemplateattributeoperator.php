@@ -2,7 +2,7 @@
 /**
  * File containing the eZTemplateAttributeOperator class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -11,26 +11,43 @@
 /*!
   \class eZTemplateAttributeOperator eztemplateattributeoperator.php
   \ingroup eZTemplateOperators
-  \brief Display of variable attributes using operator "attribute"
+  \brief Display of variable attributes using operator "attribute" or dumps a variable using the operator "dump"
 
   This class allows for displaying template variable attributes. The display
   is recursive and the number of levels can be maximized.
 
-  The operator can take three parameters. The first is the maximum number of
-  levels to recurse, if blank or omitted the maxium level is infinity.
-  The second is the type of display, if set to "text" the output is as pure text
-  otherwise as html.
-  The third is whether to show variable values or not, default is to not show.
+  The "attribute" operator can take three parameters. The first is whether to show
+  variable values or not, default is to not show. The second is the maximum number
+  of levels to recurse, if blank or omitted the maxium level is 2.
+  The third is the type of display, if set to "text" the output is as pure text
+  otherwise as html. The default output is configured in template.ini.
+
+  The "dump" operator does exactly what the "attribute" operator does with following
+  exceptions:
+  - The default maximum number of levels to recurse is 1
+  - By default, it shows the values of arrays and object properties
+  - it can handle primitive variables and NULL values
 
 \code
-// Example template code
+// Example template code for operator 'attribute'
 
 // Display attributes of $myvar
 {$myvar|attribute}
 // Display 2 levels of $tree
-{$tree|attribute(2)}
+{$tree|attribute(show,2)}
 // Display attributes and values of $item
-{$item|attribute(,,show)}
+{$item|attribute(show)}
+
+
+// Example template code for operator 'dump'
+
+// Dumps out $myvar - can handle primitive variables, arrays and objects.
+// By default it shows array values or object properties.
+{$myvar|dump()}
+
+// Show 2 levels of $tree (default is 1)
+{$tree|dump(show, 2)}
+
 \endcode
 
 */
@@ -38,12 +55,14 @@
 class eZTemplateAttributeOperator
 {
     /*!
-     Initializes the object with the name $name, default is "attribute".
+     Initializes the object with the name $attributeName, default is "attribute" and $dumpName, default is 'dump'
     */
-    function eZTemplateAttributeOperator( $name = "attribute" )
+    function eZTemplateAttributeOperator( $attributeName = 'attribute',
+                                          $dumpName = 'dump' )
     {
-        $this->AttributeName = $name;
-        $this->Operators = array( $name );
+        $this->AttributeName = $attributeName;
+        $this->DumpName = $dumpName;
+        $this->Operators = array( $attributeName, $dumpName );
     }
 
     /*!
@@ -58,7 +77,10 @@ class eZTemplateAttributeOperator
     {
         return array( $this->AttributeName => array( 'input' => true,
                                                      'output' => true,
-                                                     'parameters' => 3 ) );
+                                                     'parameters' => 3 ),
+                      $this->DumpName => array( 'input' => true,
+                                                'outpout' => true,
+                                                'parameters' => 3 ) );
     }
 
     /*!
@@ -66,36 +88,58 @@ class eZTemplateAttributeOperator
     */
     function namedParameterList()
     {
-        return array( "show_values" => array( "type" => "string",
-                                              "required" => false,
-                                              "default" => "" ),
-                      "max_val" => array( "type" => "numerical",
-                                          "required" => false,
-                                          "default" => 2 ),
-                      "as_html" => array( "type" => "boolean",
-                                          "required" => false,
-                                          "default" => true ) );
+        return array( $this->AttributeName => array( "show_values" => array( "type" => "string",
+                                                                             "required" => false,
+                                                                             "default" => "" ),
+                                                     "max_val"     => array( "type" => "numerical",
+                                                                             "required" => false,
+                                                                             "default" => 2 ),
+                                                     "format"      => array( "type" => "boolean",
+                                                                             "required" => false,
+                                                                             "default" => eZINI::instance( 'template.ini' )->variable( 'AttributeOperator', 'DefaultFormatter' ) ) ),
+                      $this->DumpName =>      array( "show_values" => array( "type" => "string",
+                                                                             "required" => false,
+                                                                             "default" => "show" ),
+                                                     "max_val"     => array( "type" => "numerical",
+                                                                             "required" => false,
+                                                                             "default" => 1 ),
+                                                     "format"      => array( "type" => "boolean",
+                                                                             "required" => false,
+                                                                             "default" => eZINI::instance( 'template.ini' )->variable( 'AttributeOperator', 'DefaultFormatter' ) ) ) );
+    }
+
+   /*!
+     \return true to tell the template engine that the parameter list exists per operator type.
+    */
+    function namedParameterPerOperator()
+    {
+        return true;
     }
 
     /*!
      Display the variable.
     */
-    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters, $placement )
     {
-        $max = $namedParameters["max_val"];
-        $as_html = $namedParameters["as_html"];
-        $show_values = $namedParameters["show_values"] == "show";
-        $txt = "";
-        $this->displayVariable( $operatorValue, $as_html, $show_values, $max, 0, $txt );
-        if ( $as_html )
+        $showValues = $namedParameters[ 'show_values' ] == 'show';
+        $max        = $namedParameters[ 'max_val' ];
+        $format     = $namedParameters[ 'format' ];
+
+        $formatter = ezpAttributeOperatorManager::getOutputFormatter( $format );
+
+        // check for an object or an array that is not empty
+        if ( is_object( $operatorValue ) || ( is_array( $operatorValue ) && !empty( $operatorValue ) ) )
         {
-            $headers = "<th align=\"left\">Attribute</th>\n<th align=\"left\">Type</th>\n";
-            if ( $show_values )
-                $headers .= "<th align=\"left\">Value</th>\n";
-            $operatorValue = "<table><tr>$headers</tr>\n$txt</table>\n";
+            $outputString = "";
+            $this->displayVariable( $operatorValue, $formatter, $showValues, $max, 0, $outputString );
+
+            if ( $formatter instanceof ezpAttributeOperatorFormatterInterface )
+                $operatorValue = $formatter->header( $outputString, $showValues );
         }
-        else
-            $operatorValue = $txt;
+        else if ( $formatter instanceof ezpAttributeOperatorFormatterInterface )
+        {
+            $operatorValue = $formatter->exportScalar( $operatorValue );
+        }
     }
 
     /*!
@@ -103,47 +147,20 @@ class eZTemplateAttributeOperator
      Helper function for recursive display of attributes.
      $value is the current variable, $as_html is true if display as html,
      $max is the maximum number of levels, $cur_level the current level
-     and $txt is the output text which the function adds to.
+     and $outputString is the output text which the function adds to.
     */
-    function displayVariable( &$value, $as_html, $show_values, $max, $cur_level, &$txt )
+    function displayVariable( &$value, ezpAttributeOperatorFormatterInterface $formatter, $showValues, $max, $level, &$outputString )
     {
-        if ( $max !== false and $cur_level >= $max )
+        if ( $max !== false and $level >= $max )
             return;
+
         if ( is_array( $value ) )
         {
-            foreach( $value as $key => $item )
+            foreach ( $value as $key => $item )
             {
-                $type = gettype( $item );
-                if ( is_object( $item ) )
-                    $type .= "[" . get_class( $item ) . "]";
+                $outputString .= $formatter->line( $key, $item, $showValues, $level );
 
-                if ( is_bool( $item ) )
-                    $itemValue = $item ? "true" : "false";
-                else if ( is_array( $item ) )
-                    $itemValue = 'Array(' . count( $item ) . ')';
-                else if ( is_string( $item ) )
-                    $itemValue = "'" . $item . "'";
-                else if ( is_object( $item ) )
-                    $itemValue = method_exists( $item, '__toString' ) ? (string)$item : 'Object';
-                else
-                    $itemValue = $item;
-                if ( $as_html )
-                {
-                    $spacing = str_repeat( "&gt;", $cur_level );
-                    if ( $show_values )
-                        $txt .= "<tr><td>$spacing$key</td>\n<td>$type</td>\n<td>$itemValue</td>\n</tr>\n";
-                    else
-                        $txt .= "<tr><td>$spacing$key</td>\n<td>$type</td>\n</tr>\n";
-                }
-                else
-                {
-                    $spacing = str_repeat( " ", $cur_level*4 );
-                    if ( $show_values )
-                        $txt .= "$spacing$key ($type=$itemValue)\n";
-                    else
-                        $txt .= "$spacing$key ($type)\n";
-                }
-                $this->displayVariable( $item, $as_html, $show_values, $max, $cur_level + 1, $txt );
+                $this->displayVariable( $item, $formatter, $showValues, $max, $level + 1, $outputString );
             }
         }
         else if ( is_object( $value ) )
@@ -151,43 +168,14 @@ class eZTemplateAttributeOperator
             if ( !method_exists( $value, "attributes" ) or
                  !method_exists( $value, "attribute" ) )
                 return;
-            $attrs = $value->attributes();
-            foreach ( $attrs as $key )
+
+            foreach ( $value->attributes() as $key )
             {
                 $item = $value->attribute( $key );
-                $type = gettype( $item );
-                if ( is_object( $item ) )
-                    $type .= "[" . get_class( $item ) . "]";
 
-                if ( is_bool( $item ) )
-                    $itemValue = $item ? "true" : "false";
-                else if ( is_array( $item ) )
-                    $itemValue = 'Array(' . count( $item ) . ')';
-                else if ( is_numeric( $item ) )
-                    $itemValue = $item;
-                else if ( is_string( $item ) )
-                    $itemValue = "'" . $item . "'";
-                else if ( is_object( $item ) )
-                    $itemValue = method_exists( $item, '__toString' ) ? (string)$item : 'Object';
-                else
-                    $itemValue = $item;
-                if ( $as_html )
-                {
-                    $spacing = str_repeat( "&gt;", $cur_level );
-                    if ( $show_values )
-                        $txt .= "<tr><td>$spacing$key</td>\n<td>$type</td>\n<td>$itemValue</td>\n</tr>\n";
-                    else
-                        $txt .= "<tr><td>$spacing$key</td>\n<td>$type</td>\n</tr>\n";
-                }
-                else
-                {
-                    $spacing = str_repeat( " ", $cur_level*4 );
-                    if ( $show_values )
-                        $txt .= "$spacing$key ($type=$itemValue)\n";
-                    else
-                        $txt .= "$spacing$key ($type)\n";
-                }
-                $this->displayVariable( $item, $as_html, $show_values, $max, $cur_level + 1, $txt );
+                $outputString .= $formatter->line( $key, $item, $showValues, $level );
+
+                $this->displayVariable( $item, $formatter, $showValues, $max, $level + 1, $outputString );
             }
         }
     }

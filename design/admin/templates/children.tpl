@@ -199,7 +199,6 @@
 
     {if ne( $can_create_languages|count, 1 )}
     <script type="text/javascript">
-    <!--
         {literal}
         function updateLanguageSelector( classSelector )
         {
@@ -275,7 +274,6 @@
         {foreach $can_create_classes as $class}
         languagesByClassID[{$class.id}] = [ {foreach $class.can_instantiate_languages as $tmp_language}'{$tmp_language}'{delimiter}, {/delimiter} {/foreach} ];
     {/foreach}
-    // -->
     </script>
     {/if}
 

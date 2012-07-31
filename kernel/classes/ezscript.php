@@ -2,7 +2,7 @@
 /**
  * File containing the eZScript class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -999,7 +999,7 @@ class eZScript
                     else if ( $level == 'notice' )
                         $level = eZDebug::LEVEL_NOTICE;
                     else if ( $level == 'timing' )
-                        $level = eZDebug::EZ_LEVEL_TIMING;
+                        $level = eZDebug::LEVEL_TIMING_POINT;
                     $allowedDebugLevels[] = $level;
                 }
                 $this->setUseDebugOutput( true );

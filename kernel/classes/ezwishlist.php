@@ -2,7 +2,7 @@
 /**
  * File containing the eZWishList class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -87,7 +87,9 @@ class eZWishList extends eZPersistentObject
                                                          false,
                                                          false,
                                                          array( array( 'operation' => 'count( id )',
-                                                                       'name' => 'count' ) ) );
+                                                                       'name' => 'count' ) ),
+                                                         array( 'ezcontentobject_tree' ),
+                                                         ' AND ezproductcollection_item.contentobject_id = ezcontentobject_tree.contentobject_id' );
         return $countRes[0]['count'];
     }
 
@@ -109,7 +111,8 @@ class eZWishList extends eZPersistentObject
             $id = $productItem->attribute( 'id' );
             $contentObject = $productItem->attribute( 'contentobject' );
 
-            if ( $contentObject !== null )
+            //if the node is put into trash/delete, don't fetch it
+            if ( $contentObject !== null && $contentObject->attribute( 'main_node_id' ) !== null )
             {
                 $vatValue = $productItem->attribute( 'vat_value' );
                 $count = $productItem->attribute( 'item_count' );

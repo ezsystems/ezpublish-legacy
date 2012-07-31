@@ -2,7 +2,7 @@
 /**
  * File containing the eZDBFileHandlerMysqlBackend class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -16,7 +16,7 @@ if ( !defined( 'TABLE_DATA' ) )
 
 /*
 CREATE TABLE ezdbfile (
-  datatype      VARCHAR(60)   NOT NULL DEFAULT 'application/octet-stream',
+  datatype      VARCHAR(255)   NOT NULL DEFAULT 'application/octet-stream',
   name          TEXT          NOT NULL,
   name_trunk    TEXT          NOT NULL,
   name_hash     VARCHAR(34)   NOT NULL DEFAULT '',
@@ -79,12 +79,14 @@ class eZDBFileHandlerMysqlBackend
 
         $maxTries = $params['max_connect_tries'];
         $tries = 0;
+        eZDebug::accumulatorStart( 'mysql_cluster_connect', 'mysql_cluster_total', 'Cluster_database_connection' );
         while ( $tries < $maxTries )
         {
             if ( $this->db = mysql_connect( $serverString, $params['user'], $params['pass'], $newLink ) )
                 break;
             ++$tries;
         }
+        eZDebug::accumulatorStop( 'mysql_cluster_connect' );
         if ( !$this->db )
             return $this->_die( "Unable to connect to storage server" );
 
@@ -237,7 +239,7 @@ class eZDBFileHandlerMysqlBackend
             $fname .= "::_purgeByLike($like, $onlyExpired)";
         else
             $fname = "_purgeByLike($like, $onlyExpired)";
-        $sql = "DELETE FROM " . TABLE_METADATA . " WHERE name LIKE " . $this->_quote( $like );
+        $sql = "DELETE FROM " . TABLE_METADATA . " WHERE name LIKE " . $this->_quote( $like, true );
         if ( $expiry !== false )
             $sql .= " AND mtime < " . (int)$expiry;
         elseif ( $onlyExpired )
@@ -287,7 +289,7 @@ class eZDBFileHandlerMysqlBackend
 
     function _deleteByLikeInner( $like, $fname )
     {
-        $sql = "UPDATE " . TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\nWHERE name like ". $this->_quote( $like );
+        $sql = "UPDATE " . TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\nWHERE name like ". $this->_quote( $like, true );
         if ( !$res = $this->_query( $sql, $fname ) )
         {
             return $this->_fail( "Failed to delete files by like: '$like'" );
@@ -349,9 +351,9 @@ class eZDBFileHandlerMysqlBackend
     function _deleteByDirList( $dirList, $commonPath, $commonSuffix, $fname = false )
     {
         if ( $fname )
-            $fname .= "::_deleteByDirList($dirList, $commonPath, $commonSuffix)";
+            $fname .= "::_deleteByDirList(" . join( ", ", $dirList ) . ", $commonPath, $commonSuffix)";
         else
-            $fname = "_deleteByDirList($dirList, $commonPath, $commonSuffix)";
+            $fname = "_deleteByDirList(" . join( ", ", $dirList ) . ", $commonPath, $commonSuffix)";
         return $this->_protect( array( $this, '_deleteByDirListInner' ), $fname,
                                 $dirList, $commonPath, $commonSuffix, $fname );
     }
@@ -366,7 +368,7 @@ class eZDBFileHandlerMysqlBackend
             }
             else
             {
-                $where = "WHERE name LIKE '$commonPath/$dirItem/$commonSuffix%'";
+                $where = "WHERE name LIKE ".$this->_quote( "$commonPath/$dirItem/$commonSuffix%", true );
             }
             $sql = "UPDATE " . TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\n$where";
             if ( !$res = $this->_query( $sql, $fname ) )
@@ -507,7 +509,7 @@ class eZDBFileHandlerMysqlBackend
 
         if ( ! $uniqueName === true )
         {
-            eZFile::rename( $tmpFilePath, $filePath );
+            eZFile::rename( $tmpFilePath, $filePath, false, eZFile::CLEAN_ON_FAILURE | eZFile::APPEND_DEBUG_ON_FAILURE );
         }
         else
         {
@@ -1356,18 +1358,32 @@ class eZDBFileHandlerMysqlBackend
         return $res;
     }
 
-    /*!
-     Make sure that $value is escaped and qouted according to type and returned as a string.
-     The returned value can directly be put into SQLs.
+    /**
+     * Make sure that $value is escaped and qouted according to type and returned
+     * as a string.
+     *
+     * @param string $value a SQL parameter to escape
+     * @param bool $escapeUnderscoreWildcards Set to true to escape underscores as well to avoid them to act as wildcards
+     *                                        Highly recommended for LIKE statements !
+     * @return string a string that can safely be used in SQL queries
      */
-    function _quote( $value )
+    function _quote( $value, $escapeUnderscoreWildcards = false )
     {
         if ( $value === null )
+        {
             return 'NULL';
+        }
         elseif ( is_integer( $value ) )
+        {
             return (string)$value;
+        }
         else
-            return "'" . mysql_real_escape_string( $value ) . "'";
+        {
+           if ( $escapeUnderscoreWildcards )
+                return "'" . addcslashes( mysql_real_escape_string( $value, $this->db ), "_" ) . "'";
+           else
+                return "'" . mysql_real_escape_string( $value, $this->db ) . "'";
+        }
     }
 
     /*!
@@ -1638,8 +1654,10 @@ class eZDBFileHandlerMysqlBackend
         {
             $query = "SELECT mtime FROM " . TABLE_METADATA . " WHERE name_hash = {$nameHash}";
             $res = mysql_query( $query, $this->db );
-            mysql_fetch_row( $res );
-            if( $res and isset( $row[0] ) and $row[0] == $generatingFileMtime );
+            if ( !$res )
+                return false;
+            $row = mysql_fetch_row( $res );
+            if( isset( $row[0] ) and $row[0] == $generatingFileMtime );
                 return true;
 
             return false;

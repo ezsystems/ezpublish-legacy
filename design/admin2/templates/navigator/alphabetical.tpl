@@ -1,5 +1,14 @@
-{default page_uri_suffix=false()}
-
+{default page_uri_suffix=false()
+         show_google_navigator = false()}
+{if $show_google_navigator}
+    {include name=navigator
+            uri='design:navigator/google.tpl'
+            page_uri=$page_uri
+            page_uri_suffix=$page_uri_suffix
+            item_count=$item_count
+            view_parameters=$view_parameters
+            item_limit=$item_limit}
+{/if}
 {if and( ezini_hasvariable( 'AlphabeticalFilterSettings', 'ContentFilterList', 'content.ini' ),
          gt( count( ezini( 'AlphabeticalFilterSettings', 'ContentFilterList', 'content.ini' ) ), 0 )
      )}
@@ -34,6 +43,7 @@
    {if and( $:objectname_filter|eq( false() ), $:page_count|eq( 0 ) )}
    {* DO NOTHING *}
    {else}
+       <div class="break"></div>
        <div class="pagenavigator alphabetical">
        <p>
        {let $c=0}

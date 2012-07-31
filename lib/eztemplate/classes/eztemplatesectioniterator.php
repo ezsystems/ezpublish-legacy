@@ -2,7 +2,7 @@
 /**
  * File containing the eZTemplateSectionIterator class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -37,7 +37,6 @@ class eZTemplateSectionIterator
                                            'number' => false,
                                            'sequence' => false,
                                            'last' => false );
-        $this->InternalAttributeNames = array_keys( $this->InternalAttributes );
     }
 
     /*!
@@ -76,15 +75,22 @@ class eZTemplateSectionIterator
     */
     function hasAttribute( $name )
     {
-        if ( in_array( $name, $this->InternalAttributeNames ) )
-            return true;
+        switch ( $name )
+        {
+            case "item":
+            case "key":
+            case "index":
+            case "number":
+            case "sequence":
+            case "last":
+                return true;
+        }
         $item = $this->InternalAttributes['item'];
         if ( is_array( $item ) )
         {
-            return in_array( $name, array_keys( $item ) );
+            return array_key_exists( $name, $item );
         }
-        else if ( is_object( $item ) and
-                  method_exists( $item, 'hasAttribute' ) )
+        if ( is_object( $item ) && method_exists( $item, 'hasAttribute' ) )
         {
             return $item->hasAttribute( $name );
         }
@@ -97,17 +103,22 @@ class eZTemplateSectionIterator
     */
     function attribute( $name )
     {
-        if ( in_array( $name, $this->InternalAttributeNames ) )
+        switch ( $name )
         {
-            return $this->InternalAttributes[$name];
+            case "item":
+            case "key":
+            case "index":
+            case "number":
+            case "sequence":
+            case "last":
+                return $this->InternalAttributes[$name];
         }
         $item = $this->InternalAttributes['item'];
         if ( is_array( $item ) )
         {
             return $item[$name];
         }
-        else if ( is_object( $item ) and
-                  method_exists( $item, 'attribute' ) )
+        if ( is_object( $item ) && method_exists( $item, 'attribute' ) )
         {
             return $item->attribute( $name );
         }

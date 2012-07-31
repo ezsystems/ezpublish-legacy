@@ -2,7 +2,7 @@
 /**
  * File containing the eZUserOperationCollection class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -53,6 +53,10 @@ class eZUserOperationCollection
             if ( !$isUserEnabled )
             {
                 eZUser::removeSessionData( $userID );
+            }
+            else
+            {
+                eZUserAccountKey::removeByUserID( $userID );
             }
             return array( 'status' => true );
         }
@@ -138,7 +142,9 @@ class eZUserOperationCollection
         {
             $templateResult = $tpl->fetch( 'design:user/registrationinfo.tpl' );
             if ( $tpl->hasVariable( 'content_type' ) )
-                $mail->setContentType( $tpl->variable( 'content_type' ) );
+                $contentType = $tpl->variable( 'content_type' );
+            else
+                $contentType = $ini->variable( 'MailSettings', 'ContentType' );
 
             $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
             if ( $tpl->hasVariable( 'email_sender' ) )
@@ -153,6 +159,7 @@ class eZUserOperationCollection
 
             $mail = new eZMail();
             $mail->setSender( $emailSender );
+            $mail->setContentType( $contentType );
             $user = eZUser::fetch( $userID );
             $receiver = $user->attribute( 'email' );
             $mail->setReceiver( $receiver );

@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 /**
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -53,6 +53,7 @@ function help()
                   "  --sql              display sql queries\n" .
                   "  --logfiles         create log files\n" .
                   "  --no-logfiles      do not create log files (default)\n" .
+                  "  --list             list all cronjobs parts and the scripts contained by each one\n" .
                   "  --no-colors        do not use ANSI coloring (default)\n" );
 }
 
@@ -109,13 +110,14 @@ $isQuiet = false;
 $useLogFiles = false;
 $showSQL = false;
 $cronPart = false;
+$listCronjobs = false;
 
 $optionsWithData = array( 's' );
 $longOptionsWithData = array( 'siteaccess' );
 
 $readOptions = true;
 
-for ( $i = 1; $i < count( $argv ); ++$i )
+for ( $i = 1, $count = count( $argv ); $i < $count; ++$i )
 {
     $arg = $argv[$i];
     if ( $readOptions and
@@ -163,6 +165,10 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             else if ( $flag == 'logfiles' )
             {
                 $useLogFiles = true;
+            }
+            else if ( $flag == 'list' )
+            {
+                $listCronjobs = true;
             }
             else if ( $flag == 'sql' )
             {
@@ -237,7 +243,7 @@ for ( $i = 1; $i < count( $argv ); ++$i )
                         else if ( $level == 'notice' )
                             $level = eZDebug::LEVEL_NOTICE;
                         else if ( $level == 'timing' )
-                            $level = eZDebug::EZ_LEVEL_TIMING;
+                            $level = eZDebug::LEVEL_TIMING_POINT;
                         $allowedDebugLevels[] = $level;
                     }
                 }
@@ -291,6 +297,35 @@ $scriptDirectories = $ini->variable( 'CronjobSettings', 'ScriptDirectories' );
 /* Include extension directories */
 $extensionDirectories = $ini->variable( 'CronjobSettings', 'ExtensionDirectories' );
 $scriptDirectories = array_merge( $scriptDirectories, eZExtension::expandedPathList( $extensionDirectories, 'cronjobs' ) );
+
+if ( $listCronjobs )
+{
+    foreach ( $ini->groups() as $block => $blockValues )
+    {
+        if ( strpos( $block, 'Cronjob' ) !== false )
+        {
+            $cli->output( $cli->endLineString() );
+            $cli->output( "{$block}:" );
+
+            foreach ( $blockValues['Scripts'] as $fileName )
+            {
+                $fileExists = false;
+                foreach ( $scriptDirectories as $scriptDirectory )
+                {
+                    $filePath = $scriptDirectory . "/" . $fileName;
+                    if ( file_exists( $filePath ) )
+                    {
+                        $fileExists = true;
+                        $cli->output( "{$cli->goToColumn( 4 )} {$filePath}" );
+                    }
+                }
+                if ( !$fileExists )
+                    $cli->output( "{$cli->goToColumn( 4 )} Error: No {$fileName} file in any of configured directories!" );
+            }
+        }   
+    }
+    $script->shutdown( 0 );
+}
 
 $scriptGroup = 'CronjobSettings';
 if ( $cronPart !== false )

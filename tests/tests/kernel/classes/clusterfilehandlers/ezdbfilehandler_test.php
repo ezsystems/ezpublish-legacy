@@ -2,53 +2,34 @@
 /**
  * File containing the eZDBFileHandlerTest class
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
- * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
- * @version //autogentag//
+ * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
  * @package tests
  */
 
+/**
+ * eZDBFileHandler tests
+ * @group cluster
+ * @group eZDB
+ */
 class eZDBFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 {
     /**
      * @var array
-     */
-    protected $sqlFiles = array( 'kernel/sql/mysql/cluster_schema.sql' );
+     **/
+    protected $sqlFiles = array( array( 'kernel/sql/', 'cluster_db_schema.sql' ) );
 
     protected $clusterClass = 'eZDBFileHandler';
-
-    /* // Commented since __construct breaks data providers
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setName( "eZDBFileHandler Unit Tests" );
-    }*/
 
     /**
      * Test setup
      *
      * Load an instance of file.ini
      * Assigns DB parameters for cluster
-     */
+     **/
     public function setUp()
     {
-        if ( ezpTestRunner::dsn()->dbsyntax !== 'mysql' && ezpTestRunner::dsn()->dbsyntax !== 'mysqli' )
-            self::markTestSkipped( "Not running MySQL, skipping" );
-
         parent::setUp();
-
-        // We need to clear the existing handler if it was loaded before the INI
-        // settings changes
-        if ( !eZClusterFileHandler::$globalHandler instanceof eZDBFileHandler )
-            eZClusterFileHandler::$globalHandler = null;
-
-        unset( $GLOBALS['eZClusterInfo'] );
-
-        // Load database parameters for cluster
-        // The same DSN than the relational database is used
-        $fileINI = eZINI::instance( 'file.ini' );
-        $this->previousFileHandler = $fileINI->variable( 'ClusteringSettings', 'FileHandler' );
-        $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', 'eZDBFileHandler' );
 
         $dsn = ezpTestRunner::dsn()->parts;
         switch ( $dsn['phptype'] )
@@ -61,68 +42,99 @@ class eZDBFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
                 $backend = 'eZDBFileHandlerMysqliBackend';
                 break;
 
+            case 'postgresql':
+                $backend = 'eZDBFileHandlerPostgresqlBackend';
+                break;
+
             default:
                 $this->markTestSkipped( "Unsupported database type '{$dsn['phptype']}'" );
         }
-        $fileINI->setVariable( 'ClusteringSettings', 'DBBackend',  $backend );
-        $fileINI->setVariable( 'ClusteringSettings', 'DBHost',     $dsn['host'] );
-        $fileINI->setVariable( 'ClusteringSettings', 'DBPort',     $dsn['port'] );
-        $fileINI->setVariable( 'ClusteringSettings', 'DBSocket',   $dsn['socket'] );
-        $fileINI->setVariable( 'ClusteringSettings', 'DBName',     $dsn['database'] );
-        $fileINI->setVariable( 'ClusteringSettings', 'DBUser',     $dsn['user'] );
-        $fileINI->setVariable( 'ClusteringSettings', 'DBPassword', $dsn['password'] );
 
-        // ezpTestDatabaseHelper::insertSqlData( $this->sharedFixture, $this->sqlFiles );
+        // We need to clear the existing handler if it was loaded before the INI
+        // settings changes
+        eZClusterFileHandler::resetHandler();
+
+        // We need to clear the existing handler if it was loaded before the INI
+        // settings changes
+        eZClusterFileHandler::resetHandler();
+
+        unset( $GLOBALS['eZClusterInfo'] );
+
+        // Load database parameters for cluster
+        // The same DSN than the relational database is used
+        ezpINIHelper::setINISetting( 'file.ini', 'ClusteringSettings', 'FileHandler', $this->clusterClass );
+        ezpINIHelper::setINISetting( 'file.ini', 'ClusteringSettings', 'DBHost', $dsn['host'] );
+        ezpINIHelper::setINISetting( 'file.ini', 'ClusteringSettings', 'DBPort', $dsn['port'] );
+        ezpINIHelper::setINISetting( 'file.ini', 'ClusteringSettings', 'DBSocket', $dsn['socket'] );
+        ezpINIHelper::setINISetting( 'file.ini', 'ClusteringSettings', 'DBName', $dsn['database'] );
+        ezpINIHelper::setINISetting( 'file.ini', 'ClusteringSettings', 'DBUser', $dsn['user'] );
+        ezpINIHelper::setINISetting( 'file.ini', 'ClusteringSettings', 'DBPassword', $dsn['password'] );
+        ezpINIHelper::setINISetting( 'file.ini', 'ClusteringSettings', 'DBBackend', $backend );
 
         $this->db = $this->sharedFixture;
     }
 
     public function tearDown()
     {
-        // restore the previous file handler
-        if ( $this->previousFileHandler !== null )
-        {
-            $fileINI = eZINI::instance( 'file.ini' );
-            $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', $this->previousFileHandler );
-            $this->previousFileHandler = null;
-            eZClusterFileHandler::$globalHandler = null;
-        }
+        ezpINIHelper::restoreINISettings();
+        eZClusterFileHandler::resetHandler();
 
         parent::tearDown();
     }
 
-    public function testDisconnect()
+    public function testPurgeMultipleFiles()
     {
-        $handler = eZClusterFileHandler::instance();
+        // create multiple files in a folder for deletion
+        for( $i = 0; $i < 10; $i++ )
+        {
+            $files[$i] = 'var/tests/' . __FUNCTION__ . "/MultipleFiles/{$i}.txt";
+            $ch = $this->createFile( $files[$i] );
+            $ch->fetch();
+            $ch->delete();
+        }
+        // and a few other files to check if we don't delete anything that shouldn't be
+        for( $i = 0; $i < 5; $i++ )
+        {
+            $otherFiles[$i] = 'var/tests/' . __FUNCTION__ . "/OtherFiles/{$i}.txt";
+            $ch = $this->createFile( $otherFiles[$i] );
+            $ch->fetch();
+            self::assertFileExists( $otherFiles[$i] );
+        }
 
-        // the property ain't private as of now, but will be at some point
-        $refHandler = new ReflectionObject( $handler );
-        $refBackendProperty = $refHandler->getProperty( 'backend' );
-        $refBackendProperty->setAccessible( true );
+        $clusterHandler = eZClusterFileHandler::instance( 'var/tests/' . __FUNCTION__ . '/MultipleFiles');
+        $clusterHandler->purge();
 
-        self::assertNotNull( $refBackendProperty->getValue( $handler ) );
+        // check if files supposed to be deleted were
+        foreach( $files as $file )
+        {
+            self::assertFalse( $clusterHandler->fileExists( $file ), "DB file $file still exists" );
+            self::assertFileNotExists( $file );
+        }
 
-        $handler->disconnect();
+        // and if files not supposed to be deleted weren't
+        foreach( $otherFiles as $file )
+        {
+            self::assertTrue( $clusterHandler->fileExists( $file ), "DB file $file has been removed" );
+            self::assertFileExists( $file );
+        }
 
-        self::assertNull( $refBackendProperty->getValue( $handler ) );
+        // remove all of 'em
+        self::deleteLocalFiles( array_merge( $files, $otherFiles ) );
     }
 
-    /**
-     * Test for the global {@see eZClusterFilehandler::preFork()} method
-     */
-    public function testPreFork()
+    public function testPurgeSingleFile()
     {
-        $handler = eZClusterFileHandler::instance();
+        $testFile = 'var/tests/' . __FUNCTION__ . '/file.txt';
+        $this->createFile( $testFile );
 
-        $refHandler = new ReflectionObject( $handler );
-        $refBackendProperty = $refHandler->getProperty( 'backend' );
-        $refBackendProperty->setAccessible( true );
+        $clusterHandler = eZClusterFileHandler::instance( $testFile );
+        $clusterHandler->delete();
+        $clusterHandler->purge();
 
-        self::assertNotNull( $refBackendProperty->getValue( $handler ) );
+        self::assertFalse( $clusterHandler->fileExists( $testFile ), "File still exists" );
+        self::assertFileNotExists( $testFile, "Local file still exists" );
 
-        eZClusterFileHandler::preFork();
-
-        self::assertNull( $refBackendProperty->getValue( $handler ) );
+        self::deleteLocalFiles( $testFile );
     }
 }
 ?>

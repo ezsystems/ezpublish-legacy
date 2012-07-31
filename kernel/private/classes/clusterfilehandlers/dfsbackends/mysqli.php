@@ -2,7 +2,7 @@
 /**
  * File containing the eZDFSFileHandlerMySQLiBackend class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -17,12 +17,11 @@ CREATE TABLE ezdfsfile (
   `name` text NOT NULL,
   name_trunk text NOT NULL,
   name_hash varchar(34) NOT NULL DEFAULT '',
-  datatype varchar(60) NOT NULL DEFAULT 'application/octet-stream',
+  datatype varchar(255) NOT NULL DEFAULT 'application/octet-stream',
   scope varchar(25) NOT NULL DEFAULT '',
   size bigint(20) unsigned NOT NULL DEFAULT '0',
   mtime int(11) NOT NULL DEFAULT '0',
   expired tinyint(1) NOT NULL DEFAULT '0',
-  `status` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (name_hash),
   KEY ezdfsfile_name (`name`(250)),
   KEY ezdfsfile_name_trunk (name_trunk(250)),
@@ -31,8 +30,13 @@ CREATE TABLE ezdfsfile (
 ) ENGINE=InnoDB;
  */
 
-class eZDFSFileHandlerMySQLiBackend
+class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
 {
+    public function __construct()
+    {
+        $this->eventHandler = ezpEvent::getInstance();
+    }
+
     /**
      * Connects to the database.
      *
@@ -53,7 +57,8 @@ class eZDFSFileHandlerMySQLiBackend
 
             self::$dbparams = array();
             self::$dbparams['host']       = $fileINI->variable( 'eZDFSClusteringSettings', 'DBHost' );
-            self::$dbparams['port']       = $fileINI->variable( 'eZDFSClusteringSettings', 'DBPort' );
+            $dbPort = $fileINI->variable( 'eZDFSClusteringSettings', 'DBPort' );
+            self::$dbparams['port']       = $dbPort !== '' ? $dbPort : null;
             self::$dbparams['socket']     = $fileINI->variable( 'eZDFSClusteringSettings', 'DBSocket' );
             self::$dbparams['dbname']     = $fileINI->variable( 'eZDFSClusteringSettings', 'DBName' );
             self::$dbparams['user']       = $fileINI->variable( 'eZDFSClusteringSettings', 'DBUser' );
@@ -75,13 +80,14 @@ class eZDFSFileHandlerMySQLiBackend
 
         $maxTries = self::$dbparams['max_connect_tries'];
         $tries = 0;
+        eZDebug::accumulatorStart( 'mysql_cluster_connect', 'MySQL Cluster', 'Cluster database connection' );
         while ( $tries < $maxTries )
         {
-            /// @todo what if port is null, '' ??? to be tested
             if ( $this->db = mysqli_connect( self::$dbparams['host'], self::$dbparams['user'], self::$dbparams['pass'], self::$dbparams['dbname'], self::$dbparams['port'] ) )
                 break;
             ++$tries;
         }
+        eZDebug::accumulatorStop( 'mysql_cluster_connect' );
         if ( !$this->db )
             throw new eZClusterHandlerDBNoConnectionException( $serverString, self::$dbparams['user'], self::$dbparams['pass'] );
 
@@ -146,8 +152,12 @@ class eZDFSFileHandlerMySQLiBackend
         {
             return false;
         }
-        return $this->_protect( array( $this, "_copyInner" ), $fname,
-                                $srcFilePath, $dstFilePath, $fname, $metaData );
+        $result = $this->_protect( array( $this, "_copyInner" ), $fname,
+                                   $srcFilePath, $dstFilePath, $fname, $metaData );
+
+        $this->eventHandler->notify( 'cluster/deleteFile', array( $dstFilePath ) );
+
+        return $result;
     }
 
     /**
@@ -231,6 +241,9 @@ class eZDFSFileHandlerMySQLiBackend
         {
             $this->dfsbackend->delete( $filePath );
         }
+
+        $this->eventHandler->notify( 'cluster/deleteFile', array( $filePath ) );
+
         return true;
     }
 
@@ -260,7 +273,7 @@ class eZDFSFileHandlerMySQLiBackend
             $fname = "_purgeByLike($like, $onlyExpired)";
 
         // common query part used for both DELETE and SELECT
-        $where = " WHERE name LIKE " . $this->_quote( $like );
+        $where = " WHERE name LIKE " . $this->_quote( $like, true );
 
         if ( $expiry !== false )
             $where .= " AND mtime < " . (int)$expiry;
@@ -349,9 +362,13 @@ class eZDFSFileHandlerMySQLiBackend
         }
         else
         {
-            return $this->_protect( array( $this, '_deleteInner' ), $fname,
+            $res = $this->_protect( array( $this, '_deleteInner' ), $fname,
                                     $filePath, $insideOfTransaction, $fname );
         }
+
+        $this->eventHandler->notify( 'cluster/deleteFile', array( $filePath ) );
+
+        return $res;
     }
 
     /**
@@ -388,8 +405,13 @@ class eZDFSFileHandlerMySQLiBackend
             $fname .= "::_deleteByLike($like)";
         else
             $fname = "_deleteByLike($like)";
-        return $this->_protect( array( $this, '_deleteByLikeInner' ), $fname,
-                                $like, $fname );
+        $return = $this->_protect( array( $this, '_deleteByLikeInner' ), $fname,
+                                   $like, $fname );
+
+        if ( $return )
+            $this->eventHandler->notify( 'cluster/deleteByLike', array( $like ) );
+
+        return $return;
     }
 
     /**
@@ -401,7 +423,7 @@ class eZDFSFileHandlerMySQLiBackend
      */
     private function _deleteByLikeInner( $like, $fname )
     {
-        $sql = "UPDATE " . self::TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\nWHERE name like ". $this->_quote( $like );
+        $sql = "UPDATE " . self::TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\nWHERE name like ". $this->_quote( $like, true );
         if ( !$res = $this->_query( $sql, $fname ) )
         {
             return $this->_fail( "Failed to delete files by like: '$like'" );
@@ -423,8 +445,13 @@ class eZDFSFileHandlerMySQLiBackend
             $fname .= "::_deleteByRegex($regex)";
         else
             $fname = "_deleteByRegex($regex)";
-        return $this->_protect( array( $this, '_deleteByRegexInner' ), $fname,
-                                $regex, $fname );
+        $return = $this->_protect( array( $this, '_deleteByRegexInner' ), $fname,
+                                   $regex, $fname );
+
+        if ( $return )
+            $this->eventHandler->notify( 'cluster/deleteByRegex', array( $regex ) );
+
+        return $return;
     }
 
     /**
@@ -495,9 +522,9 @@ class eZDFSFileHandlerMySQLiBackend
     public function _deleteByDirList( $dirList, $commonPath, $commonSuffix, $fname = false )
     {
         if ( $fname )
-            $fname .= "::_deleteByDirList($dirList, $commonPath, $commonSuffix)";
+            $fname .= "::_deleteByDirList(" . join( ", ", $dirList ) . ", $commonPath, $commonSuffix)";
         else
-            $fname = "_deleteByDirList($dirList, $commonPath, $commonSuffix)";
+            $fname = "_deleteByDirList(" . join( ", ", $dirList ) . ", $commonPath, $commonSuffix)";
         return $this->_protect( array( $this, '_deleteByDirListInner' ), $fname,
                                 $dirList, $commonPath, $commonSuffix, $fname );
     }
@@ -508,29 +535,48 @@ class eZDFSFileHandlerMySQLiBackend
         {
             if ( strstr( $commonPath, '/cache/content' ) !== false or strstr( $commonPath, '/cache/template-block' ) !== false )
             {
-                $where = "WHERE name_trunk = '$commonPath/$dirItem/$commonSuffix'";
+                $event = 'cluster/deleteByNametrunk';
+                $nametrunk = "$commonPath/$dirItem/$commonSuffix";
+                $eventParameters = array( $nametrunk );
+                $where = "WHERE name_trunk = '$nametrunk'";
+                unset( $nametrunk );
             }
             else
             {
-                $where = "WHERE name LIKE '$commonPath/$dirItem/$commonSuffix%'";
+                $event = 'cluster/deleteByDirList';
+                $eventParameters = array( $commonPath, $dirItem, $commonSuffix );
+                $where = "WHERE name LIKE ".$this->_quote( "$commonPath/$dirItem/$commonSuffix%", true );
             }
             $sql = "UPDATE " . self::TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\n$where";
             if ( !$res = $this->_query( $sql, $fname ) )
             {
                 eZDebug::writeError( "Failed to delete files in dir: '$commonPath/$dirItem/$commonSuffix%'", __METHOD__ );
+                $event = false;
+            }
+
+            if ( $event )
+            {
+                $this->eventHandler->notify( $event, $eventParameters );
+                unset( $event );
             }
         }
         return true;
     }
 
-    public function _exists( $filePath, $fname = false, $ignoreExpiredFiles = true )
+    public function _exists( $filePath, $fname = false, $ignoreExpiredFiles = true, $checkOnDFS = false )
     {
         if ( $fname )
             $fname .= "::_exists($filePath)";
         else
             $fname = "_exists($filePath)";
-        $row = $this->_selectOneRow( "SELECT name, mtime FROM " . self::TABLE_METADATA . " WHERE name_hash=" . $this->_md5( $filePath ),
-                                     $fname, "Failed to check file '$filePath' existance: ", true );
+
+        $row = $this->eventHandler->filter( 'cluster/fileExists', $filePath );
+
+        if ( !is_array( $row ) )
+        {
+            $row = $this->_selectOneRow( "SELECT name, mtime FROM " . self::TABLE_METADATA . " WHERE name_hash=" . $this->_md5( $filePath ),
+                                         $fname, "Failed to check file '$filePath' existance: ", true );
+        }
         if ( $row === false )
             return false;
 
@@ -539,6 +585,10 @@ class eZDFSFileHandlerMySQLiBackend
         else
             $rc = true;
 
+        if ( $checkOnDFS && $rc )
+        {
+            $rc = $this->dfsbackend->existsOnDFS( $filePath );
+        }
         return $rc;
     }
 
@@ -590,7 +640,6 @@ class eZDFSFileHandlerMySQLiBackend
             eZDebug::writeError( "File '$filePath' does not exist while trying to fetch.", __METHOD__ );
             return false;
         }
-        $contentLength = $metaData['size'];
 
         // create temporary file
         if ( strrpos( $filePath, '.' ) > 0 )
@@ -619,7 +668,7 @@ class eZDFSFileHandlerMySQLiBackend
 
         if ( $uniqueName !== true )
         {
-            eZFile::rename( $tmpFilePath, $filePath );
+            eZFile::rename( $tmpFilePath, $filePath, false, eZFile::CLEAN_ON_FAILURE | eZFile::APPEND_DEBUG_ON_FAILURE );
         }
         else
         {
@@ -642,7 +691,6 @@ class eZDFSFileHandlerMySQLiBackend
             eZDebug::writeError( "File '$filePath' does not exist while trying to fetch its contents.", __METHOD__ );
             return false;
         }
-        $contentLength = $metaData['size'];
 
         // @todo Catch an exception
         if ( !$contents = $this->dfsbackend->getContents( $filePath ) )
@@ -660,14 +708,22 @@ class eZDFSFileHandlerMySQLiBackend
      */
     function _fetchMetadata( $filePath, $fname = false )
     {
+        $metadata = $this->eventHandler->filter( 'cluster/loadMetadata', $filePath );
+        if ( is_array( $metadata ) )
+            return $metadata;
+
         if ( $fname )
             $fname .= "::_fetchMetadata($filePath)";
         else
             $fname = "_fetchMetadata($filePath)";
         $sql = "SELECT * FROM " . self::TABLE_METADATA . " WHERE name_hash=" . $this->_md5( $filePath );
-        return $this->_selectOneAssoc( $sql, $fname,
+        $metadata = $this->_selectOneAssoc( $sql, $fname,
                                        "Failed to retrieve file metadata: $filePath",
                                        true );
+        if ( is_array( $metadata ) )
+            $this->eventHandler->notify( 'cluster/storeMetadata', array( $metadata ) );
+
+        return $metadata;
     }
 
     public function _linkCopy( $srcPath, $dstPath, $fname = false )
@@ -775,6 +831,9 @@ class eZDFSFileHandlerMySQLiBackend
 
         $this->_commit( __METHOD__ );
 
+        $this->eventHandler->notify( 'cluster/deleteFile', array( $srcFilePath ) );
+        // no need to notify about the destination filePath, as it is already cleared by purge called above
+
         return true;
     }
 
@@ -801,6 +860,8 @@ class eZDFSFileHandlerMySQLiBackend
 
         $this->_protect( array( $this, '_storeInner' ), $fname,
                          $filePath, $datatype, $scope, $fname );
+
+        $this->eventHandler->notify( 'cluster/deleteFile', array( $filePath ) );
     }
 
     /**
@@ -895,6 +956,8 @@ class eZDFSFileHandlerMySQLiBackend
         {
             return $this->_fail( "Failed to open DFS://$filePath for writing" );
         }
+
+        $this->eventHandler->notify( 'cluster/deleteFile', array( $filePath ) );
 
         return true;
     }
@@ -1284,16 +1347,27 @@ class eZDFSFileHandlerMySQLiBackend
      * as a string.
      *
      * @param string $value a SQL parameter to escape
+     * @param bool $escapeUnderscoreWildcards Set to true to escape underscores as well to avoid them to act as wildcards
+     *                                        Highly recommended for LIKE statements !
      * @return string a string that can safely be used in SQL queries
      */
-    protected function _quote( $value )
+    protected function _quote( $value, $escapeUnderscoreWildcards = false )
     {
         if ( $value === null )
+        {
             return 'NULL';
+        }
         elseif ( is_integer( $value ) )
+        {
             return (string)$value;
+        }
         else
-            return "'" . mysqli_real_escape_string( $this->db, $value ) . "'";
+        {
+           if ( $escapeUnderscoreWildcards )
+                return "'" . addcslashes( mysqli_real_escape_string( $this->db, $value ), "_" ) . "'";
+           else
+                return "'" . mysqli_real_escape_string( $this->db, $value )."'";
+        }
     }
 
     /**
@@ -1433,10 +1507,7 @@ class eZDFSFileHandlerMySQLiBackend
                 }
             }
         }
-        else
-        {
-            return array( 'result' => 'ok', 'mtime' => $mtime );
-        }
+        return array( 'result' => 'ok', 'mtime' => $mtime );
     }
 
     /**
@@ -1571,8 +1642,10 @@ class eZDFSFileHandlerMySQLiBackend
         {
             $query = "SELECT mtime FROM " . self::TABLE_METADATA . " WHERE name_hash = {$nameHash}";
             $res = mysqli_query( $this->db, $query );
-            mysqli_fetch_row( $res );
-            if ( $res and isset( $row[0] ) and $row[0] == $generatingFileMtime );
+            if ( !$res )
+                return false;
+            $row = mysqli_fetch_row( $res );
+            if ( isset( $row[0] ) and $row[0] == $generatingFileMtime );
             {
                 return true;
             }
@@ -1702,6 +1775,31 @@ class eZDFSFileHandlerMySQLiBackend
     }
 
     /**
+     * Registers $listener as the cluster event listener.
+     *
+     * @param eZClusterEventListener $listener
+     * @return void
+     */
+    public function registerListener( eZClusterEventListener $listener )
+    {
+        $suppliedEvents = array(
+            'cluster/storeMetadata',
+            'cluster/loadMetadata',
+            'cluster/fileExists',
+            'cluster/deleteFile',
+            'cluster/deleteByLike',
+            'cluster/deleteByDirList',
+            'cluster/deleteByNametrunk'
+        );
+
+        foreach ( $suppliedEvents as $eventName )
+        {
+            list( $domain, $method ) = explode( '/', $eventName );
+            $this->eventHandler->attach( $eventName, array( $listener, $method ) );
+        }
+    }
+
+    /**
      * DB connexion handle
      * @var handle
      */
@@ -1738,6 +1836,11 @@ class eZDFSFileHandlerMySQLiBackend
      * @var eZDFSFileHandlerDFSBackend
      */
     protected $dfsbackend = null;
-}
 
+    /**
+     * Event handler
+     * @var ezpEvent
+     */
+    protected $eventHandler;
+}
 ?>

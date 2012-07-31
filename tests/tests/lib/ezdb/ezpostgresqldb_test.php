@@ -2,7 +2,7 @@
 /**
  * File containing the eZPostgreSQLDBTest class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -25,7 +25,20 @@ class eZPostgreSQLDBTest extends ezpDatabaseTestCase
 
         parent::setUp();
 
+        $this->sharedFixture = ezpTestDatabaseHelper::create( ezpTestRunner::dsn() );
+
         ezpTestDatabaseHelper::clean( $this->sharedFixture );
+    }
+
+    public static function tearDownAfterClass()
+    {
+        // We need to clean up after this test case, since database will not
+        // be reset by the suite it initialisation has happened once, see pull req. #234
+        // Next: Suite which always prepares the db for you.
+
+        $db = ezpTestDatabaseHelper::create( ezpTestRunner::dsn() );
+        ezpTestDatabaseHelper::clean( $db );
+        ezpTestDatabaseHelper::insertDefaultData( $db );
     }
 
     public function testRelationCounts()

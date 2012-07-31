@@ -44,7 +44,7 @@
     <p>{"The content object %1 was not accepted but is still available as a draft."|i18n('design/standard/collaboration/approval',,array($contentobject_link))}</p>
     {if $content_version|null()|not()}
       <p>{"You may re-edit the draft and publish it, in which case an approval is required again."|i18n('design/standard/collaboration/approval')}</p>
-      <p><a href={concat("content/edit/",$content_version.contentobject_id)|ezurl}>{"Edit the object"|i18n('design/standard/collaboration/approval')}</a></p>
+      <p><a href={concat( "content/edit/", $content_version.contentobject_id, "/", $content_version.version )|ezurl}>{"Edit the object"|i18n('design/standard/collaboration/approval')}</a></p>
     {/if}
   {else}
     <p>{"The content object %1 was not accepted but will be available as a draft for the author."|i18n('design/standard/collaboration/approval',,array($contentobject_link))}</p>

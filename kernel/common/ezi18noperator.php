@@ -2,7 +2,7 @@
 /**
  * File containing the eZi18nOperator class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -148,7 +148,7 @@ class eZi18nOperator
         return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 3 ) );
     }
 
-    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$value, $namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$value, $namedParameters, $placement )
     {
         switch ( $operatorName )
         {

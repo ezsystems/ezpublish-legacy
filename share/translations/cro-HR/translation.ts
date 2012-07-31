@@ -31,7 +31,7 @@
     </message>
     <message>
         <source>Last modified</source>
-        <translation>Zadnja promjena</translation>
+        <translation>Zadnja izmjena</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -67,7 +67,7 @@
     </message>
     <message>
         <source>Modified</source>
-        <translation>Promijenjeno</translation>
+        <translation>Izmijenjeno</translation>
     </message>
     <message>
         <source>Objects</source>
@@ -384,7 +384,7 @@
     </message>
     <message>
         <source>Default</source>
-        <translation type="unfinished">Unaprijed određeno</translation>
+        <translation>Unaprijed određeno</translation>
     </message>
     <message>
         <source>Category</source>
@@ -392,7 +392,7 @@
     </message>
     <message>
         <source>The draft of the class definition was successfully stored.</source>
-        <translation type="unfinished"></translation>
+        <translation>Radna verzija definicije klase je uspješno spremljena.</translation>
     </message>
     <message>
         <source>Edit &lt;%class_name&gt; (%object_count objects)</source>
@@ -1006,19 +1006,19 @@
     </message>
     <message>
         <source>Override templates (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Translations (%translations)</source>
-        <translation type="unfinished"></translation>
+        <translation>Prijevodi (%translations)</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Opis</translation>
+        <translation>Opis</translation>
     </message>
     <message>
         <source>Category</source>
-        <translation type="unfinished">Kategorija</translation>
+        <translation>Kategorija</translation>
     </message>
     <message>
         <source>Application name</source>
@@ -1026,7 +1026,7 @@
     </message>
     <message>
         <source>Confirm removal</source>
-        <translation type="unfinished">Potvrdi uklanjanje</translation>
+        <translation>Potvrdi uklanjanje</translation>
     </message>
 </context>
 <context>
@@ -1126,7 +1126,7 @@
     </message>
     <message>
         <source>Do you want to send a message to the person approving it?</source>
-        <translation type="unfinished"></translation>
+        <translation>Želite li poslati poruku osobi koja odobrava sadržaj?</translation>
     </message>
     <message>
         <source>The content object %1 was approved and will be published when the publishing workflow continues.</source>
@@ -1142,7 +1142,7 @@
     </message>
     <message>
         <source>The author can edit the draft and publish it again, in which case a new approval is required.</source>
-        <translation type="unfinished"></translation>
+        <translation>Autor može ponovno urediti i objaviti sadržaj, no u tom slučaju je potrebno ponovno odobrenje.</translation>
     </message>
 </context>
 <context>
@@ -1389,7 +1389,7 @@
     <name>design/admin/content/browse_export</name>
     <message>
         <source>Choose export node</source>
-        <translation>Odaberi izvozni čvor</translation>
+        <translation>Odaberi  čvor za izvoz</translation>
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
@@ -1397,7 +1397,7 @@
     </message>
     <message>
         <source>Select the item that you want to export using the checkboxes then click &quot;Select&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odaberite sadržaj koji želite izvesti u paket te klinite na &quot;Odaberi&quot;.</translation>
     </message>
 </context>
 <context>
@@ -2179,7 +2179,7 @@
     </message>
     <message>
         <source>You cannot add or remove locations because the object being edited belongs to a top node.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nije moguće dodati ili ukloniti lokacije jer objekt koji se uređuje pripada vršnom čvoru.</translation>
     </message>
     <message>
         <source>You do not have permission to view this object</source>
@@ -2187,11 +2187,11 @@
     </message>
     <message>
         <source>You cannot manage the versions of this object because there is only one version available (the one that is being edited).</source>
-        <translation type="unfinished"></translation>
+        <translation>Nije moguće upravljati s verzijama ovog objekta jer postoji samo jedna verzija (ova koja se uređuje).</translation>
     </message>
     <message>
         <source>The following data is invalid according to the custom validation rules</source>
-        <translation type="unfinished"></translation>
+        <translation>Sljedeći podatci ne zadovoljavaju validacijska pravila</translation>
     </message>
     <message>
         <source>States</source>
@@ -2199,7 +2199,7 @@
     </message>
     <message>
         <source>Toggle fullscreen editing!</source>
-        <translation>Uključi uređivanje na punom ekranu!</translation>
+        <translation type="obsolete">Uključi uređivanje na punom ekranu!</translation>
     </message>
     <message>
         <source>Store draft and exit</source>
@@ -2251,11 +2251,11 @@
     </message>
     <message>
         <source>View the draft that is being edited.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pregled skice koja se uređuje.</translation>
     </message>
     <message>
         <source>Path String</source>
-        <translation type="unfinished">Putanja</translation>
+        <translation>Putanja</translation>
     </message>
 </context>
 <context>
@@ -2393,7 +2393,7 @@
     </message>
     <message>
         <source>Publish data as it is (and overwriting the published data).</source>
-        <translation type="unfinished"></translation>
+        <translation>Objavi sadržaj kao što je prikazano (te prepiši preko trenutno objavljenog sadržaja).</translation>
     </message>
     <message>
         <source>Go back to editing and show the published data.</source>
@@ -2711,7 +2711,7 @@
     </message>
     <message>
         <source>Version #%version_number cannot be removed because it is either the published version of the object or because you do not have permission to remove it.</source>
-        <translation>Verziju #%version_number nije moguće ukloniti jer je to ili objavljena verzija ili nemate dozvolu za njezino uklanjanje.</translation>
+        <translation>Verziju #%version_number nije moguće ukloniti jer je to ili objavljena verzija ili nemate ovlasti za njezino uklanjanje.</translation>
     </message>
     <message>
         <source>There is no need to make copies of untouched drafts.</source>
@@ -2719,11 +2719,11 @@
     </message>
     <message>
         <source>You cannot make copies of versions because you do not have permission to edit the object.</source>
-        <translation>Ne možete kreirati klopije verzija jer nemate dozvolu uređivanja objekta.</translation>
+        <translation>Ne možete kreirati klopije verzija jer nemate ovlasti uređivanja objekta.</translation>
     </message>
     <message>
         <source>You cannot edit the contents of version #%version_number either because it is not a draft or because you do not have permission to edit the object.</source>
-        <translation>Ne možete uređivati sadržaj verzije #%version_number. Navedena verzija nije skica ili nemate dozvolu za uređivanje objekta.</translation>
+        <translation>Ne možete uređivati sadržaj verzije #%version_number. Navedena verzija nije skica ili nemate ovlasti za uređivanje objekta.</translation>
     </message>
     <message>
         <source>Versions for &lt;%object_name&gt; (%version_count)</source>
@@ -4457,15 +4457,15 @@
     </message>
     <message>
         <source>Dynamic tree not allowed for this siteaccess</source>
-        <translation type="unfinished"></translation>
+        <translation>Dinamičko stablo nije podržano za ovaj siteaccess</translation>
     </message>
     <message>
         <source>Node does not exist</source>
-        <translation type="unfinished"></translation>
+        <translation>Čvor ne postoji</translation>
     </message>
     <message>
         <source>Internal error</source>
-        <translation type="unfinished"></translation>
+        <translation>Interna pogreška</translation>
     </message>
     <message>
         <source>Click on the icon to display a context-sensitive menu.</source>
@@ -4481,18 +4481,14 @@
     </message>
     <message>
         <source>Dynamic tree menu is disabled for this siteaccess!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Internal errorD</source>
-        <translation type="unfinished"></translation>
+        <translation>Dinamičko stablo je isključeno za ovaj siteaccess!</translation>
     </message>
 </context>
 <context>
     <name>design/admin/dashboard/all_latest_content</name>
     <message>
         <source>All latest content</source>
-        <translation type="unfinished"></translation>
+        <translation>Zadnje uneseni sadržaj</translation>
     </message>
     <message>
         <source>Name</source>
@@ -4524,7 +4520,7 @@
     </message>
     <message>
         <source>Latest content list is empty.</source>
-        <translation></translation>
+        <translation>Popis zadnje unesenog sadržaja je prazan.</translation>
     </message>
 </context>
 <context>
@@ -4653,6 +4649,22 @@
         <source>Currently you do not have any products on your wish list.</source>
         <translation>Trenutno nemate proizvode na vašoj Listi želja.</translation>
     </message>
+    <message>
+        <source>Published</source>
+        <translation type="unfinished">Objavljeno</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit &lt;%item_name&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You do not have permission to edit &lt;%item_name&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/error/kernel</name>
@@ -4666,7 +4678,7 @@
     </message>
     <message>
         <source>Possible reasons</source>
-        <translation>Moguć razlog</translation>
+        <translation>Moguć razlozi</translation>
     </message>
     <message>
         <source>Your account does not have the proper privileges to access the requested page.</source>
@@ -4678,7 +4690,7 @@
     </message>
     <message>
         <source>The following permission setting is required</source>
-        <translation>Potrebne su ove ovlasti</translation>
+        <translation>Potrebne su sljedeće ovlasti</translation>
     </message>
     <message>
         <source>Module</source>
@@ -4703,15 +4715,15 @@
     </message>
     <message>
         <source>The resource you requested was not found.</source>
-        <translation>Izvor koji ste zatražili nije pronađen.</translation>
+        <translation>Sadržaj kojem pristupate nije pronađen.</translation>
     </message>
     <message>
         <source>The ID number or the name of the resource was misspelled. Try changing the URL.</source>
-        <translation>Identifikacija ili ime izvora je krivo napisano, pokušajte ga promijeniti. </translation>
+        <translation>ID broj ili ime je krivo napisano, pokušajte izmijeniti URL.</translation>
     </message>
     <message>
         <source>The resource is no longer available.</source>
-        <translation>Izvor podataka više nije dostupan.</translation>
+        <translation>Sadržaj više nije dostupan.</translation>
     </message>
     <message>
         <source>The requested page could not be displayed. (20)</source>
@@ -4719,15 +4731,15 @@
     </message>
     <message>
         <source>The requested address or module could not be found.</source>
-        <translation>Zatražena adresa ili modul %module nije pronađen.</translation>
+        <translation>Zatražena adresa ili modul nije pronađen.</translation>
     </message>
     <message>
         <source>The address was misspelled. Try changing the URL.</source>
-        <translation>Adresa je krivo upisana. Provjerite adresu URL-a.</translation>
+        <translation>Adresa je krivo upisana. Molimo provjerite URL.</translation>
     </message>
     <message>
         <source>The name of the module was misspelled. Try changing the URL.</source>
-        <translation>Naziv modula je krivo napisan.</translation>
+        <translation>Naziv modula je krivo napisan. Pokušajte izmijeniti URL.</translation>
     </message>
     <message>
         <source>There is no &lt;%module&gt; module available on this site.</source>
@@ -4743,7 +4755,7 @@
     </message>
     <message>
         <source>The name of the view was misspelled. Try changing the URL.</source>
-        <translation>Naziv modula je krivo napisan.</translation>
+        <translation>Naziv modula je krivo napisan. Pokušajte izmijeniti URL.</translation>
     </message>
     <message>
         <source>The &lt;%module&gt; module does not have a &lt;%view&gt; view.</source>
@@ -4759,11 +4771,11 @@
     </message>
     <message>
         <source>The requested object is not available.</source>
-        <translation>Zatraženi objekt nije dostupan.</translation>
+        <translation>Sadržaj koji ste zatražili nije dostupan.</translation>
     </message>
     <message>
         <source>The object is no longer available.</source>
-        <translation>Objekt više nije dostupan.</translation>
+        <translation>Sadržaj više nije dostupan.</translation>
     </message>
     <message>
         <source>The requested page could not be displayed. (4)</source>
@@ -4771,11 +4783,11 @@
     </message>
     <message>
         <source>The requested object has been moved and thus it is no longer available at the specified address.</source>
-        <translation>Zatraženi objekt je uklonjen i zato više nije dostupan na toj adresi.</translation>
+        <translation>Zatraženi sadržaj više nije dostupan na ovoj adresi.</translation>
     </message>
     <message>
         <source>The system should automatically redirect you to the new location of the object.</source>
-        <translation>Sustav će vas automatski preusmjeriti na novu lokaciju objekta.</translation>
+        <translation>Sustav će vas automatski preusmjeriti na novu lokaciju sadržaja.</translation>
     </message>
     <message>
         <source>The draft could not be created. (5)</source>
@@ -4783,15 +4795,15 @@
     </message>
     <message>
         <source>Invalid language code provided. The draft could not be created.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neispravan jezični kod. Skica ne može biti kreirana.</translation>
     </message>
     <message>
         <source>You are not logged in to the system. Please log in.</source>
-        <translation type="unfinished"></translation>
+        <translation>Niste prijavljeni, molimo prijavite se.</translation>
     </message>
     <message>
         <source>The site is using URL matching to determine which siteaccess to use, but the name of the siteaccess is missing from the URL. Try to add the name of the siteaccess; it should be specified before the name of the module.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stranice koriste URL matching koji nije naveden u URL-u. Molimo vas dodajte naziv siteaccessa prije naziva modula.</translation>
     </message>
     <message>
         <source>The requested view cannot be accessed.</source>
@@ -4799,23 +4811,23 @@
     </message>
     <message>
         <source>The &lt;%view&gt; within the &lt;%module&gt; is disabled and thus it cannot be accessed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaz &lt;%view&gt; unutar modula &lt;%module&gt; je isključen te mu se ne može pristupiti.</translation>
     </message>
     <message>
         <source>The requested module cannot be accessed.</source>
-        <translation>Navedenom modulu %module nije moguće pristupiti.</translation>
+        <translation>Navedenom modulu nije moguće pristupiti.</translation>
     </message>
     <message>
         <source>The &lt;%module&gt; module is disabled and thus it cannot be accessed.</source>
-        <translation>%module  je onemogućen te mu se ne može pristupiti.</translation>
+        <translation>%module je onemogućen te mu se ne može pristupiti.</translation>
     </message>
     <message>
         <source>The ID number of the object is incorrect. Check the URL for spelling mistakes.</source>
-        <translation type="unfinished"></translation>
+        <translation>ID objekta je neispravan. Molimo provjerite URL.</translation>
     </message>
     <message>
         <source>If redirection fails, click on the following address: %url.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukoliko vas sustav ne preusmjeri automatski, molimo kliknite na sljedeću adresu: %url.</translation>
     </message>
 </context>
 <context>
@@ -4846,11 +4858,11 @@
     </message>
     <message>
         <source>&apos;%1&apos; currency does not exist.</source>
-        <translation type="unfinished">Valuta &apos;%1&apos; ne postoji.</translation>
+        <translation>Valuta &apos;%1&apos; ne postoji.</translation>
     </message>
     <message>
         <source>&apos;%1&apos; cannot be used because it is inactive.</source>
-        <translation type="unfinished">&apos;%1&apos; se ne može koristiti jer je neaktivna.</translation>
+        <translation>&apos;%1&apos; se ne može koristiti jer je neaktivna.</translation>
     </message>
 </context>
 <context>
@@ -5219,11 +5231,11 @@
     <name>design/admin/node/view/embed</name>
     <message>
         <source>You do not have permission to view this object</source>
-        <translation>Nemate dozvolu da pregled ovog objekta</translation>
+        <translation>Nemate ovlasti za pregled ovog sadržaja</translation>
     </message>
     <message>
         <source> - You do not have permission to view this object</source>
-        <translation>- Nemate dozvolu da pregled ovog objekta</translation>
+        <translation>- Nemate ovlasti za pregled ovog sadržaja</translation>
     </message>
 </context>
 <context>
@@ -6042,7 +6054,7 @@
     </message>
     <message>
         <source>Translations (%translations)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Prijevodi (%translations)</translation>
     </message>
     <message>
         <source>Existing translations</source>
@@ -6097,6 +6109,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Close</source>
+        <translation type="unfinished">Zatvori</translation>
+    </message>
+    <message>
         <source>Select</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6144,6 +6160,22 @@
         <source>Path String</source>
         <translation type="unfinished">Putanja</translation>
     </message>
+    <message>
+        <source>Object state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node Remote ID and Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view/line</name>
@@ -6153,7 +6185,7 @@
     </message>
     <message>
         <source>Click on the icon to display a context-sensitive menu.</source>
-        <translation>Kliknite na ikonu za prikaz kontekstnog izbornika</translation>
+        <translation>Kliknite na ikonu za prikaz kontekstnog izbornika.</translation>
     </message>
 </context>
 <context>
@@ -6591,7 +6623,7 @@
     </message>
     <message>
         <source>License</source>
-        <translation type="unfinished">Licenca</translation>
+        <translation>Licenca</translation>
     </message>
     <message>
         <source>Provide information about the maintainer of the package.</source>
@@ -6728,7 +6760,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Ukloni</translation>
+        <translation>Ukloni</translation>
     </message>
 </context>
 <context>
@@ -6743,7 +6775,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Current location</source>
-        <translation>aktivna lokacija</translation>
+        <translation>Trenutna lokacija</translation>
     </message>
     <message>
         <source>The same location</source>
@@ -6755,11 +6787,11 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Current user</source>
-        <translation>Aktivni korisnik</translation>
+        <translation>Prijavljeni korisnik</translation>
     </message>
     <message>
         <source>Change information</source>
-        <translation>Izmjena podataka</translation>
+        <translation>Izmjena profila</translation>
     </message>
     <message>
         <source>Change password</source>
@@ -6783,7 +6815,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Search only from the current location.</source>
-        <translation>Traži samo sa aktivne lokacije.</translation>
+        <translation>Traži samo unutar trenutne lokacije.</translation>
     </message>
     <message>
         <source>Advanced search.</source>
@@ -6839,7 +6871,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Clear cache</source>
-        <translation>Čišćenje predmem.</translation>
+        <translation>Čišćenje predmemorije</translation>
     </message>
     <message>
         <source>Show clear cache menu.</source>
@@ -6854,20 +6886,32 @@ Note: The packages will not be uninstalled.</source>
         <translation>Sakrij brze postavke</translation>
     </message>
     <message>
+        <source>Siteaccess:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Global (override)</source>
+        <translation type="unfinished">Global (override)</translation>
+    </message>
+    <message>
+        <source>Set</source>
+        <translation type="unfinished">Postavi</translation>
+    </message>
+    <message>
         <source>Change name, email, password, etc.</source>
-        <translation>Promijena imena, adrese elektronske pošte, zaporke, itd.</translation>
+        <translation>Izmjena imena, adrese elektronske pošte, zaporke, itd.</translation>
     </message>
     <message>
         <source>[%classname] Click on the icon to display a context-sensitive menu.</source>
-        <translation type="unfinished">[%classname Kliknite na ikonu za prikaz kontekstnog izbornika.</translation>
+        <translation>[%classname] Kliknite na ikonu za prikaz kontekstnog izbornika.</translation>
     </message>
     <message>
         <source>Search in all content</source>
-        <translation type="unfinished"></translation>
+        <translation>Pretraga unutar kompletnog sadržaja</translation>
     </message>
     <message>
         <source>Search in &apos;%node&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Pretraga unutar &apos;%node&apos;</translation>
     </message>
     <message>
         <source>Content structure</source>
@@ -6891,7 +6935,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Manage users, user groups and permission settings.</source>
-        <translation>Upravljanje sa korisnicima, grupama korisnika i dozvolama.</translation>
+        <translation>Upravljanje sa korisnicima, grupama korisnika i ovlastima.</translation>
     </message>
     <message>
         <source>Webshop</source>
@@ -6919,7 +6963,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Dashboard</source>
-        <translation type="unfinished">Kontrolna ploča</translation>
+        <translation>Kontrolna ploča</translation>
     </message>
     <message>
         <source>Manage items and settings that belong to your account.</source>
@@ -6927,6 +6971,21 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>User preferences</source>
+        <translation>Korisničke postavke</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Zatvori</translation>
+    </message>
+    <message>
+        <source>Loading...</source>
+        <translation>Učitavanje...</translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/pagelayout/leftmenu</name>
+    <message>
+        <source>Show / Hide leftmenu</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7106,11 +7165,11 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Disable &amp;quot;Back to edit&amp;quot; checkbox when editing content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Isključi &amp;quot;Povratak na uređivanje&amp;quot; checkbox prilikom uređivanja sadržaja.</translation>
     </message>
     <message>
         <source>Enable &amp;quot;Back to edit&amp;quot; checkbox when editing content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi &amp;quot;Povratak na uređivanje&amp;quot; checkbox prilikom uređivanja sadržaja.</translation>
     </message>
     <message>
         <source>Edit profile</source>
@@ -7121,20 +7180,12 @@ Note: The packages will not be uninstalled.</source>
         <translation>Kontrolna ploča</translation>
     </message>
     <message>
-        <source>Enable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Disable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Enable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi &amp;quot;Tabove&amp;quot; za vrijeme pregledavanja sadržaja.</translation>
     </message>
     <message>
         <source>Disable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Isključi &amp;quot;Tabove&amp;quot; za vrijeme pregledavanja sadržaja.</translation>
     </message>
 </context>
 <context>
@@ -7239,15 +7290,15 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>URL wildcards</source>
-        <translation type="unfinished"></translation>
+        <translation>URL zamjene</translation>
     </message>
     <message>
         <source>States</source>
-        <translation type="unfinished">Stanja</translation>
+        <translation>Stanja</translation>
     </message>
     <message>
         <source>URL management</source>
-        <translation type="unfinished"></translation>
+        <translation>Upravljanje URL-ovima</translation>
     </message>
 </context>
 <context>
@@ -7330,6 +7381,10 @@ Note: The packages will not be uninstalled.</source>
     <message>
         <source>Roles and policies</source>
         <translation>Uloge i politike</translation>
+    </message>
+    <message>
+        <source>Unactivated users</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>View and manage the contents of the trash bin.</source>
@@ -7669,27 +7724,27 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Edit class in</source>
-        <translation type="unfinished"></translation>
+        <translation>Uredi klasu u</translation>
     </message>
     <message>
         <source>Manage URL aliases</source>
-        <translation type="unfinished"></translation>
+        <translation>Upravljanje URL aliasima</translation>
     </message>
     <message>
         <source>Copy subtree</source>
-        <translation type="unfinished">Kopiraj podstablo</translation>
+        <translation>Kopiraj podstablo</translation>
     </message>
     <message>
         <source>Choose siteaccess</source>
-        <translation type="unfinished"></translation>
+        <translation>Kreiraj siteaccess</translation>
     </message>
     <message>
         <source>Create RSS/ATOM feed</source>
-        <translation type="unfinished"></translation>
+        <translation>Kreiraj RSS/ATOM izvor</translation>
     </message>
     <message>
         <source>Remove RSS/ATOM feed</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukloni RSS/ATOM izvor</translation>
     </message>
     <message>
         <source>New translation</source>
@@ -7697,7 +7752,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Sitemap for subtree</source>
-        <translation type="unfinished"></translation>
+        <translation>Mapa sadržaja podstabla</translation>
     </message>
     <message>
         <source>Preview</source>
@@ -8228,7 +8283,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Toggle selection</source>
-        <translation>Odaberi selekciju</translation>
+        <translation>Obrni odabir</translation>
     </message>
     <message>
         <source>Select role for removal.</source>
@@ -8414,7 +8469,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Toggle selection</source>
-        <translation>Odaberi selekciju</translation>
+        <translation>Obrni odabir</translation>
     </message>
     <message>
         <source>Select user or user group for removal.</source>
@@ -9379,7 +9434,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Name contains illegal character(s).</source>
-        <translation>Naziv sadrži nedozvoljeni karakter.</translation>
+        <translation>Naziv sadrži nedozvoljeni znak.</translation>
     </message>
     <message>
         <source>Name should only contain A-Z and 0-9.</source>
@@ -10097,7 +10152,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Name of class</source>
-        <translation>Naziv klase</translation>
+        <translation>Ime klase</translation>
     </message>
     <message>
         <source>The creator of the datatype</source>
@@ -10394,7 +10449,11 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Country/region</source>
-        <translation type="unfinished">Država/regija</translation>
+        <translation>Država/regija</translation>
+    </message>
+    <message>
+        <source>Comment</source>
+        <translation type="unfinished">Komentar</translation>
     </message>
 </context>
 <context>
@@ -10457,7 +10516,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Archived orders (%count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Arhivirane narudžbe (%count)</translation>
     </message>
 </context>
 <context>
@@ -10588,23 +10647,23 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>You cannot remove any items because there are no items in the basket.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nije moguće ukloniti stavke jer je košarica prazna.</translation>
     </message>
     <message>
         <source>You cannot store any changes because the basket is empty.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ne možete spremiti izmjene jer je vaša košarica prazna.</translation>
     </message>
     <message>
         <source>You cannot check out because the basket is empty.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nije moguće izvršiti narudžbu jer je vaša košarica prazna.</translation>
     </message>
     <message>
         <source>Subtotal ex. VAT</source>
-        <translation type="unfinished">Međuzbroj bez PDV-a</translation>
+        <translation>Međuzbroj bez PDV-a</translation>
     </message>
     <message>
         <source>Shipping total ex. VAT</source>
-        <translation type="unfinished">Ukupna poštarina bez PDV-a</translation>
+        <translation>Ukupna poštarina bez PDV-a</translation>
     </message>
 </context>
 <context>
@@ -10863,7 +10922,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>The customer list is empty.</source>
-        <translation>Popis kupaca je prazan</translation>
+        <translation>Popis kupaca je prazan.</translation>
     </message>
     <message>
         <source>Customers [%customers]</source>
@@ -10871,7 +10930,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Customers (%customers)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kupci (%customers)</translation>
     </message>
 </context>
 <context>
@@ -10918,11 +10977,11 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Orders (%order_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Narudžbe (%order_count)</translation>
     </message>
     <message>
         <source>Purchased products (%product_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kupljeni proizvodi (%product_count)</translation>
     </message>
 </context>
 <context>
@@ -11240,7 +11299,7 @@ Note: The packages will not be uninstalled.</source>
     <name>design/admin/shop/editvatrule</name>
     <message>
         <source>Edit VAT charging rule</source>
-        <translation>Promijena pravila za naplatu PDV-a</translation>
+        <translation type="unfinished">Izmjena pravila za naplatu PDV-a</translation>
     </message>
     <message>
         <source>Create new VAT charging rule</source>
@@ -12679,11 +12738,11 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>Vaš je račun aktiviran.</translation>
+        <translation type="obsolete">Vaš je račun aktiviran.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>Nažalost, uneseni ključ nije odgovarajući ključ. Račn nije aktiviran.</translation>
+        <translation type="obsolete">Nažalost, uneseni ključ nije odgovarajući ključ. Račn nije aktiviran.</translation>
     </message>
     <message>
         <source>Your account was successfully created.</source>
@@ -12697,9 +12756,68 @@ Note: The packages will not be uninstalled.</source>
         <source>Your account was successfully created. An email will be sent to the specified
 email address. Follow the instructions in that mail to activate
 your account.</source>
-        <translation type="unfinished">Vaš korisnički račun je uspješno kreiran. Na vašu email adresu(new line)
+        <translation>Vaš korisnički račun je uspješno kreiran. Na vašu email adresu(new line)
 vam je poslana email poruka s uputama(new line)
 kako ga aktivirati.</translation>
+    </message>
+    <message>
+        <source>Unactivated users (%users_count)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle selection</source>
+        <translation type="unfinished">Obrni odabir</translation>
+    </message>
+    <message>
+        <source>Registration date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished">Prijava</translation>
+    </message>
+    <message>
+        <source>E-mail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Activate selected users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Activate selected users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/user/activations</name>
+    <message>
+        <source>The following users have been successfully activated:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been activated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following unactivated users have been successfully removed:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been removed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -12847,7 +12965,7 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>The password must be at least %1 characters long.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lozinka mora sadržavati barem %1 znakova.</translation>
     </message>
 </context>
 <context>
@@ -12963,7 +13081,7 @@ kako ga aktivirati.</translation>
     <name>design/admin/visual/templatecreate</name>
     <message>
         <source>Could not create template, permission denied.</source>
-        <translation>Nije bilo moguće kreirati predložak, uskraćena dozvola.</translation>
+        <translation>Nije  moguće kreirati predložak zbog nedovoljnih ovlasti.</translation>
     </message>
     <message>
         <source>Invalid name. You can only use the characters a-z, numbers and _.</source>
@@ -13098,15 +13216,15 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>You do not have permission to save the contents of the text field above to the template file.</source>
-        <translation type="unfinished">Nemate dozvole da bi snimili sadržaj tekstualnog polja na mjesto datoteke predloška.</translation>
+        <translation>Nemate ovlasti za pohranu sadržaja tekstualnog polja na mjesto datoteke predloška.</translation>
     </message>
     <message>
         <source>The template cannot be edited.</source>
-        <translation type="unfinished">Predložak nije moguće uređivati.</translation>
+        <translation>Predložak nije moguće uređivati.</translation>
     </message>
     <message>
         <source>Override template</source>
-        <translation type="unfinished"></translation>
+        <translation>Override predložak</translation>
     </message>
 </context>
 <context>
@@ -13212,7 +13330,7 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>The override.ini file could not be modified because of insufficient permission.</source>
-        <translation type="unfinished">Nije moguće mijenjati override.ini zbog nedovoljnih dozvola.</translation>
+        <translation type="unfinished">Nije moguće mijenjati override.ini zbog nedovoljnih ovlasti.</translation>
     </message>
     <message>
         <source>Overrides for &lt;%template_name&gt; template in &lt;%current_siteaccess&gt; siteaccess (%override_count)</source>
@@ -13799,6 +13917,125 @@ kako ga aktivirati.</translation>
     </message>
 </context>
 <context>
+    <name>design/admin2/ajaxupload</name>
+    <message>
+        <source>&lt;em&gt;%file&lt;/em&gt; has successfully been uploaded.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/ajaxuploader</name>
+    <message>
+        <source>Go to the parent level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Step 1/3: Upload a file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished">Vrsta</translation>
+    </message>
+    <message>
+        <source>Section</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>prev</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Step 2/3: Choose a location for the new &apos;%class&apos; object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose a location for the &apos;%class&apos; object that is going to be created from it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose this location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished">Zatvori</translation>
+    </message>
+    <message>
+        <source>Step 3/3: Preview of &apos;%name&apos; (%class)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Required</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The name will be autogenerated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload the file</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/content/datatype</name>
+    <message>
+        <source>Upload a file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload a file to create a new object and add it to the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose a location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some required fields are empty.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unable to parse the JSON response.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload a file and add the resulting object in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/content/edit</name>
+    <message>
+        <source>Go to the top</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/user/activations</name>
+    <message>
+        <source>There are no unactivated users</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/base</name>
     <message>
         <source>Back to poll</source>
@@ -13862,7 +14099,7 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>You are not allowed to create comments.</source>
-        <translation>Nemate dozvolu za unos komentara.</translation>
+        <translation>Nemate ovlasti za unos komentara.</translation>
     </message>
     <message>
         <source>Contacts</source>
@@ -14227,7 +14464,7 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>Anonymous users are not allowed to vote in this poll. Please log in.</source>
-        <translation>Anonimnim korisnicima nije dozvoljeno glasovanje u ovoj anketi. Molimo prijavite se.</translation>
+        <translation>Anonimnim korisnicima nije omogućeno glasovanje u ovoj anketi. Molimo prijavite se.</translation>
     </message>
 </context>
 <context>
@@ -14370,6 +14607,13 @@ kako ga aktivirati.</translation>
     </message>
 </context>
 <context>
+    <name>design/ezwebin/link</name>
+    <message>
+        <source>Printable version</source>
+        <translation type="unfinished">Verzija za ispis</translation>
+    </message>
+</context>
+<context>
     <name>design/ezwebin/node/removeobject</name>
     <message>
         <source>The items contain more than the maximum possible nodes for subtree removal and will not be deleted. You can remove this subtree using the ezsubtreeremove.php script.</source>
@@ -14454,7 +14698,7 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>Last modified classes</source>
-        <translation>Posljednje izmijenjene klase %1</translation>
+        <translation>Posljednje izmijenjene klase</translation>
     </message>
 </context>
 <context>
@@ -15588,7 +15832,7 @@ The approval can be viewed by using the URL below.</source>
     </message>
     <message>
         <source>Do you want to send a message to the person approving it?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Želite li poslati poruku osobi koja odobrava sadržaj?</translation>
     </message>
     <message>
         <source>The content object %1 was approved and will be published when the publishing workflow continues.</source>
@@ -15651,7 +15895,7 @@ If you want to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Pick one of the translations from the list to change to or enter a new custom one in the input fields.</source>
-        <translation>Odaberi jedan od ponuđenih prijevoda s liste radi promjene ili unesi novi posebno prilagođeni u polje za unos. </translation>
+        <translation>Odaberite jedan od ponuđenih prijevoda s liste za izmjenu ili unesite novi u polju za unos.</translation>
     </message>
     <message>
         <source>New translation for content</source>
@@ -15659,7 +15903,7 @@ If you want to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Pick one of the translations from the list to add or enter a new custom one in the input fields.</source>
-        <translation>Odaberi jedan od prijevoda s liste da bi ga dodao/la ili unesi posebno prilagođeni u polja za unos. </translation>
+        <translation>Odaberite jedan od ponuđenih prijevoda s liste za dodavanje ili unesite novi u polju za unos.</translation>
     </message>
     <message>
         <source>Translations</source>
@@ -16300,7 +16544,7 @@ If you want to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Add object</source>
-        <translation>Dodaj objekt</translation>
+        <translation type="obsolete">Dodaj objekt</translation>
     </message>
     <message>
         <source>Invert selection.</source>
@@ -16580,6 +16824,46 @@ If you want to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Confirm email</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add an object in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add an existing object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse to add an existing object in this relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Objects in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected elements from the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add objects in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add existing objects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse to add existing objects in this relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Html5 Video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Html5 Audio</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -17159,15 +17443,15 @@ If you want to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Version #%version_number cannot be removed because it is either the published version of the object or because you do not have permission to remove it.</source>
-        <translation>Verziju #%version_number nije moguće ukloniti jer je to ili objavljena verzija ili nemate dozvolu za njezino uklanjanje.</translation>
+        <translation>Verziju #%version_number nije moguće ukloniti jer je objavljena verzija ili nemate ovlasti za njezino uklanjanje.</translation>
     </message>
     <message>
         <source>You cannot make copies of versions because you do not have permission to edit the object.</source>
-        <translation>Ne možete kreirati klopije verzija jer nemate dozvolu uređivanja objekta.</translation>
+        <translation>Ne možete kreirati kopije verzija jer nemate ovlasti za uređivanje sadržaja.</translation>
     </message>
     <message>
         <source>You cannot edit the contents of version #%version_number either because it is not a draft or because you do not have permission to edit the object.</source>
-        <translation>Ne možete uređivati sadržaj verzije #%version_number. Navedena verzija nije skica ili nemate dozvolu za uređivanje objekta.</translation>
+        <translation>Ne možete uređivati sadržaj verzije #%version_number. Navedena verzija nije skica ili nemate ovlasti za uređivanje objekta.</translation>
     </message>
 </context>
 <context>
@@ -17232,7 +17516,7 @@ If you want to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Anonymous users are not allowed to vote in this poll. Please log in.</source>
-        <translation>Anonimnim korisnicima nije dozvoljeno glasovanje u ovoj anketi. Molimo prijavite se.</translation>
+        <translation>Anonimnim korisnicima nije omogućeno glasovanje u ovoj anketi. Molimo prijavite se.</translation>
     </message>
 </context>
 <context>
@@ -18384,7 +18668,7 @@ If you want to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Printable version</source>
-        <translation>Verzija za ispis</translation>
+        <translation type="obsolete">Verzija za ispis</translation>
     </message>
     <message>
         <source>Advanced search</source>
@@ -19432,6 +19716,18 @@ You can also remove the package without uninstalling it from the package list.</
         <source>Clear</source>
         <translation>Ukloni</translation>
     </message>
+    <message>
+        <source>Siteaccess:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Global (override)</source>
+        <translation type="unfinished">Global (override)</translation>
+    </message>
+    <message>
+        <source>Set</source>
+        <translation type="unfinished">Postavi</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/pdf/list</name>
@@ -20007,7 +20303,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Category</source>
-        <translation type="unfinished">Kategorija</translation>
+        <translation>Kategorija</translation>
     </message>
     <message>
         <source>optional</source>
@@ -20015,7 +20311,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Skip</source>
-        <translation type="unfinished">Preskoči</translation>
+        <translation>Preskoči</translation>
     </message>
     <message>
         <source>Enclosure (media)</source>
@@ -21673,7 +21969,7 @@ Da bi riješili taj problem morate učiniti sljedeće:</translation>
     </message>
     <message>
         <source>Please input database access information in the form below.</source>
-        <translation>Molimo da unesete podateke o pristupu bazi podataka u niže navedeni obrazac. </translation>
+        <translation>Molimo unesite podatke o pristupu bazi podataka u niže navedeni obrazac.</translation>
     </message>
     <message>
         <source>SMTP is recommended for MS Windows users.</source>
@@ -23206,7 +23502,7 @@ To do this you need to change the %chown commands under Alternative shell comman
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>PHP is currently not configured to register enviroment variables in the global variable $_ENV.</source>
+        <source>PHP is currently not configured to register environment variables in the global variable $_ENV.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -23242,7 +23538,7 @@ To do this you need to change the %chown commands under Alternative shell comman
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Since some extensions might use $_ENV it is recomended to fix it unless you have full controll over all extensions you use!</source>
+        <source>Since some extensions might use $_ENV it is recommended to fix it unless you have full control over all extensions you use!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -24282,7 +24578,7 @@ To do this you need to change the %chown commands under Alternative shell comman
     </message>
     <message>
         <source>Search: </source>
-        <translation>Traži</translation>
+        <translation>Traži:</translation>
     </message>
 </context>
 <context>
@@ -25531,154 +25827,154 @@ kako ga aktivirati.</translation>
     <name>extension/oauthadmin</name>
     <message>
         <source>New REST application</source>
-        <translation type="unfinished"></translation>
+        <translation>Nova REST aplikacija</translation>
     </message>
     <message>
         <source>oAuth admin</source>
-        <translation type="unfinished"></translation>
+        <translation>oAuth admin</translation>
     </message>
     <message>
         <source>Confirm removal</source>
-        <translation type="unfinished">Potvrdi uklanjanje</translation>
+        <translation>Potvrdi uklanjanje</translation>
     </message>
     <message>
         <source>Application &lt;%application_name&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Aplikacija: &lt;%application_name&gt;</translation>
     </message>
     <message>
         <source>Last modified</source>
-        <translation type="unfinished">Zadnja promjena</translation>
+        <translation>Zadnja izmjena</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Ime</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Opis</translation>
+        <translation>Opis</translation>
     </message>
     <message>
         <source>Client identifier</source>
-        <translation type="unfinished"></translation>
+        <translation>Korisnički identifikator</translation>
     </message>
     <message>
         <source>Client secret</source>
-        <translation type="unfinished"></translation>
+        <translation>Korisnička tajna informacija</translation>
     </message>
     <message>
         <source>Endpoint URI</source>
-        <translation type="unfinished"></translation>
+        <translation>Endpoint URI</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Uredi</translation>
     </message>
     <message>
         <source>Edit this application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uredi ovu aplikaciju.</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Obriši</translation>
+        <translation>Obriši</translation>
     </message>
     <message>
         <source>Delete this application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Obriši ovu aplikciju.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this application?</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeste li sigurni da želite ukloniti ovu aplikaciju?</translation>
     </message>
     <message>
         <source>Are you sure you want to remove these applications?</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeste li sigurni da želite ukloniti ove aplikacije?</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>Potvrdi</translation>
     </message>
     <message>
         <source>Confirm removal of these applications.</source>
-        <translation type="unfinished"></translation>
+        <translation>Poništi uklanjanje ovih aplikcija.</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Odustani</translation>
     </message>
     <message>
         <source>Edit application &lt;%application_name&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Uredi aplikaciju &lt;%application_name&gt;</translation>
     </message>
     <message>
         <source>Use this field to set the application name.</source>
-        <translation type="unfinished"></translation>
+        <translation>U ovom polju navedite ime aplikacije.</translation>
     </message>
     <message>
         <source>Use this field to set the informal application description.</source>
-        <translation type="unfinished"></translation>
+        <translation>U ovom polju navedite informativni opis aplikacije.</translation>
     </message>
     <message>
         <source>Use this field to set the application endpoint URI.</source>
-        <translation type="unfinished"></translation>
+        <translation>U ovom polju navedite endpoint URI aplikacije.</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>REST applications (%applications_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>REST aplikacije (%applications_count)</translation>
     </message>
     <message>
         <source>List of applications</source>
-        <translation type="unfinished"></translation>
+        <translation>Popis aplikacija</translation>
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished">Obrnuti odabir.</translation>
+        <translation>Obrnuti odabir.</translation>
     </message>
     <message>
         <source>Modifier</source>
-        <translation type="unfinished">Modifikator</translation>
+        <translation>Modifikator</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation type="unfinished"></translation>
+        <translation>Izmijenjeno</translation>
     </message>
     <message>
         <source>Select application for removal.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odaberi aplikaciju za brisanje.</translation>
     </message>
     <message>
         <source>Edit the &lt;%application_name&gt; application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uređivanje &lt;%application_name&gt; aaplikacije.</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished">Ukloni odabrano</translation>
+        <translation>Ukloni odabrano</translation>
     </message>
     <message>
         <source>Remove the selected applications.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukloni odabrane aplikacije.</translation>
     </message>
     <message>
         <source>New application</source>
-        <translation type="unfinished"></translation>
+        <translation>Nova aplikacija</translation>
     </message>
     <message>
         <source>Create a new application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kreiraj novu aplikaciju.</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Natrag</translation>
+        <translation>Natrag</translation>
     </message>
 </context>
 <context>
     <name>kernel/cache</name>
     <message>
         <source>Content view cache</source>
-        <translation>Predmemorija(cache) sadržaja</translation>
+        <translation>Predmemorija sadržaja</translation>
     </message>
     <message>
         <source>Global INI cache</source>
@@ -25690,19 +25986,19 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>Codepage cache</source>
-        <translation>Predmemorija jezika</translation>
+        <translation>Predmemorija Codepage</translation>
     </message>
     <message>
         <source>Class identifier cache</source>
-        <translation>Predmemorija identifikatora klasa</translation>
+        <translation>Predmemorija Class identifier</translation>
     </message>
     <message>
         <source>Sort key cache</source>
-        <translation>Predmemorija sortiranja</translation>
+        <translation>Predmemorija Sort key</translation>
     </message>
     <message>
         <source>URL alias cache</source>
-        <translation>Predmemorija URL</translation>
+        <translation>Predmemorija URL alias</translation>
     </message>
     <message>
         <source>Character transformation cache</source>
@@ -25710,7 +26006,7 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>Image alias</source>
-        <translation>Opis slike</translation>
+        <translation>Image alias</translation>
     </message>
     <message>
         <source>Template cache</source>
@@ -25718,15 +26014,15 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>Template block cache</source>
-        <translation>Predmemorija bloka predložaka</translation>
+        <translation>Predmemorija blokova u predlošcima</translation>
     </message>
     <message>
         <source>Template override cache</source>
-        <translation>Predmemorija zaobiđenih predložaka</translation>
+        <translation>Predmemorija zaoblizaka predložaka</translation>
     </message>
     <message>
         <source>Text to image cache</source>
-        <translation>Text to image predmemorija</translation>
+        <translation>Predmemorija Text to image </translation>
     </message>
     <message>
         <source>RSS cache</source>
@@ -25734,7 +26030,7 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>User info cache</source>
-        <translation>Predmemorija podataka o korisnicima</translation>
+        <translation>Predmemorija User info</translation>
     </message>
     <message>
         <source>Content tree menu (browser cache)</source>
@@ -25742,19 +26038,19 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>State limitations cache</source>
-        <translation type="unfinished"></translation>
+        <translation>Predmemorija State limitations</translation>
     </message>
     <message>
         <source>Design base cache</source>
-        <translation type="unfinished"></translation>
+        <translation>Predmemorija osnovnog dizajna</translation>
     </message>
     <message>
         <source>Active extensions cache</source>
-        <translation type="unfinished"></translation>
+        <translation>Predmemorija aktivnih ekstenzija</translation>
     </message>
     <message>
         <source>TS Translation cache</source>
-        <translation type="unfinished"></translation>
+        <translation>Predmemorija TS translacijskih datoteka</translation>
     </message>
 </context>
 <context>
@@ -25781,27 +26077,27 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>Could not load datatype: </source>
-        <translation type="unfinished"></translation>
+        <translation>Nije moguće učitati tip podatka:</translation>
     </message>
     <message>
         <source>Editing this content class may cause data corruption in your system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uređivanje ove klase sadržaja može uzrokovati oštećivanje podataka u sustavu.</translation>
     </message>
     <message>
         <source>Press &quot;Cancel&quot; to safely exit this operation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odaberite &quot;Odustani&quot; kako bi odustali od bilo kakvih izmjena.</translation>
     </message>
     <message>
         <source>Please contact your eZ Publish administrator to solve this problem.</source>
-        <translation type="unfinished"></translation>
+        <translation>Molimo kontaktirajte vašeg eZ Publish administratora kako bi riješili ovaj problem.</translation>
     </message>
     <message>
         <source>duplicate attribute placement</source>
-        <translation type="unfinished"></translation>
+        <translation>Smještaj dupliciranog atributa</translation>
     </message>
     <message>
         <source>duplicate attribute identifier</source>
-        <translation type="unfinished"></translation>
+        <translation>Identifikator dupliciranog atributa</translation>
     </message>
     <message>
         <source>The class should have nonempty &apos;Name&apos; attribute.</source>
@@ -26291,7 +26587,7 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>Input required</source>
-        <translation type="unfinished"></translation>
+        <translation>Potreban je unos</translation>
     </message>
     <message>
         <source>Add to basket</source>
@@ -26358,7 +26654,7 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>Missing range option input.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nije definiran raspon.</translation>
     </message>
     <message>
         <source>Selection</source>
@@ -26422,7 +26718,7 @@ kako ga aktivirati.</translation>
     <message>
         <source>The password cannot be empty.</source>
         <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Lozinka ne smije biti prazna.</translation>
     </message>
     <message>
         <source>The passwords do not match.</source>
@@ -26431,11 +26727,11 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>The password must be at least %1 characters long.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lozinka mora sadržavati barem %1 znakova.</translation>
     </message>
     <message>
         <source>The password must not be &quot;password&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lozinka ne smije biti &quot;password&quot;.</translation>
     </message>
     <message>
         <source>Cannot remove the account:</source>
@@ -26451,11 +26747,11 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>The account is currently used the administrator user.</source>
-        <translation type="unfinished"></translation>
+        <translation>Račun trenutno koristi administrator.</translation>
     </message>
     <message>
         <source>You cannot remove the last class holding user accounts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nije moguće ukloniti klasu koja sadrži korisničke račune.</translation>
     </message>
     <message>
         <source>XML block</source>
@@ -26468,7 +26764,7 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>Invalid reference in &amp;lt;embed&amp;gt; tag. Note that &lt;embed&gt; tag supports only &apos;eznode&apos; and &apos;ezobject&apos; protocols.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neispravna referenca u &amp;lt;embed&amp;gt; tagu. Tag &lt;embed&gt; podržava isključivo &apos;eznode&apos; i &apos;ezobject&apos; protokole.</translation>
     </message>
     <message>
         <source>Object %1 can not be embeded to itself.</source>
@@ -26482,35 +26778,35 @@ kako ga aktivirati.</translation>
     <message>
         <source>The emails do not match.</source>
         <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Email adrese se ne podudaraju.</translation>
     </message>
 </context>
 <context>
     <name>kernel/classes/datatypes/ezbinaryfile</name>
     <message>
         <source>Failed to store file %filename. Please contact the site administrator.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nije moguće pohraniti datoteku %filename. Molimo kontaktirajte administratora.</translation>
     </message>
 </context>
 <context>
     <name>kernel/classes/datatypes/ezimage</name>
     <message>
         <source>Failed to fetch Image Handler. Please contact the site administrator.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nije moguće pristupiti slici. Molimo kontaktirajte administratora.</translation>
     </message>
 </context>
 <context>
     <name>kernel/classes/datatypes/ezmedia</name>
     <message>
         <source>Failed to store media file %filename. Please contact the site administrator.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pohranjivanje multimedijalne datoteke %filename nije uspjelo. Molimo kontaktirajte administratora.</translation>
     </message>
 </context>
 <context>
     <name>kernel/classes/datatypes/ezxmltext</name>
     <message>
         <source>Wrong closing tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Neispravan zatvarajući tag</translation>
     </message>
     <message>
         <source>Wrong closing tag : &amp;lt;/%1&amp;gt;.</source>
@@ -26518,7 +26814,7 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>Wrong opening tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Neispravan otvarajući tag</translation>
     </message>
     <message>
         <source>Unknown tag: &amp;lt;%1&amp;gt;.</source>
@@ -26530,7 +26826,7 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>Class &apos;%1&apos; is not allowed for element &amp;lt;%2&amp;gt; (check content.ini).</source>
-        <translation type="unfinished"></translation>
+        <translation>Klasa &apos;%1&apos; nije dozvoljena za  element &amp;lt;%2&amp;gt; (provjerite content.ini).</translation>
     </message>
     <message>
         <source>Required attribute &apos;%1&apos; is not presented in tag &amp;lt;%2&amp;gt;.</source>
@@ -26538,11 +26834,11 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>Custom tag &apos;%1&apos; is not allowed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Custom tag &apos;%1&apos; nije dopušten.</translation>
     </message>
     <message>
         <source>&amp;lt;%1&amp;gt; tag can&apos;t be empty.</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;lt;%1&amp;gt; tag ne smije biti prazan.</translation>
     </message>
     <message>
         <source>%1 is not allowed to be a child of &amp;lt;%2&amp;gt;.</source>
@@ -26554,23 +26850,27 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>Incorrect headers nesting</source>
-        <translation type="unfinished"></translation>
+        <translation>Neispravno ugnježđivanje naslova</translation>
     </message>
     <message>
         <source>Node &apos;%1&apos; does not exist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Čvor &apos;%1&apos; ne postoji.</translation>
     </message>
     <message>
         <source>Using scripts in links is not allowed, link &apos;%1&apos; has been removed</source>
-        <translation type="unfinished"></translation>
+        <translation>Korištenje skripte u linkvu nije dopušteno, &apos;%1&apos; je ukljonjen</translation>
     </message>
     <message>
         <source>Invalid e-mail address: &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Neispravna e-mail adresa: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Object %1 can not be embeded to itself.</source>
-        <translation type="unfinished">Objekt %1 nije moguće pridružiti samom sebi.</translation>
+        <translation>Objekt %1 nije moguće ugraditi unutar samog sebe.</translation>
+    </message>
+    <message>
+        <source>%count invalid character(s) have been found and replaced by a space</source>
+        <translation>Pronađeno je %count neispravnih znakova koji su zamijenjeni razmakom</translation>
     </message>
 </context>
 <context>
@@ -26624,7 +26924,7 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>The request sent to the server was too big to be accepted. This probably means that you uploaded a file which was too big. The maximum allowed request size is %max_size_string.</source>
-        <translation type="unfinished"></translation>
+        <translation>Podatci poslani na server su preveliki za prihvat. Vjerojatno ste pokušali poslati datoteku koja je prevelika. Maksimalna dopuštena veličina je %max_size_string.</translation>
     </message>
     <message>
         <source>A node in the node assignment list has been deleted.</source>
@@ -26792,7 +27092,7 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>Publishing queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Red za objavu</translation>
     </message>
 </context>
 <context>
@@ -27095,7 +27395,7 @@ kako ga aktivirati.</translation>
     <name>kernel/oauthadmin</name>
     <message>
         <source>oAuth admin</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">oAuth admin</translation>
     </message>
     <message>
         <source>Edit REST application</source>
@@ -27733,7 +28033,7 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>Edit currency</source>
-        <translation>Promijena valute</translation>
+        <translation type="unfinished">Izmjena valute</translation>
     </message>
     <message>
         <source>Create new currency</source>
@@ -27862,7 +28162,7 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>Edit VAT charging rule</source>
-        <translation>Promijena pravila za naplatu PDV-a</translation>
+        <translation>Izmjena pravila za naplatu PDV-a</translation>
     </message>
     <message>
         <source>Create new VAT charging rule</source>
@@ -28046,14 +28346,18 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>Success</source>
-        <translation type="unfinished"></translation>
+        <translation>Uspješno</translation>
     </message>
     <message>
         <source>oAuth</source>
-        <translation type="unfinished"></translation>
+        <translation>oAuth</translation>
     </message>
     <message>
         <source>authorization</source>
+        <translation>autorizacija</translation>
+    </message>
+    <message>
+        <source>Unactivated users</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -28069,7 +28373,7 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>User registration approved</source>
-        <translation type="unfinished"></translation>
+        <translation>Registracija korisnika je odobrena</translation>
     </message>
 </context>
 <context>
@@ -28162,7 +28466,7 @@ kako ga aktivirati.</translation>
     </message>
     <message>
         <source>Finish User Registration</source>
-        <translation type="unfinished"></translation>
+        <translation>Završi registraciju korisnika</translation>
     </message>
 </context>
 <context>

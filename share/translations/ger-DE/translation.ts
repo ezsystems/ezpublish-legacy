@@ -2677,7 +2677,7 @@
     </message>
     <message>
         <source>Toggle fullscreen editing!</source>
-        <translation>Umschalten zum Bearbeiten im Vollbildmodus!</translation>
+        <translation type="obsolete">Umschalten zum Bearbeiten im Vollbildmodus!</translation>
     </message>
     <message>
         <source>Store draft and exit</source>
@@ -4289,7 +4289,7 @@
     </message>
     <message>
         <source>There are no items in the trash</source>
-        <translation>Es sind keine Gegenstände im Papierkorb</translation>
+        <translation>Es sind keine Objekte im Papierkorb</translation>
     </message>
     <message>
         <source>Name</source>
@@ -5618,10 +5618,6 @@
         <source>Dynamic tree menu is disabled for this siteaccess!</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Internal errorD</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>design/admin/dashboard/all_latest_content</name>
@@ -5787,6 +5783,22 @@
     <message>
         <source>Currently you do not have any products on your wish list.</source>
         <translation>Derzeit haben Sie keine Produkte auf der Wunschliste.</translation>
+    </message>
+    <message>
+        <source>Published</source>
+        <translation type="unfinished">Veröffentlicht</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished">Bearbeiten</translation>
+    </message>
+    <message>
+        <source>Edit &lt;%item_name&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You do not have permission to edit &lt;%item_name&gt;.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7712,6 +7724,10 @@
         <translation>Sichtbare Tabellenspalten:</translation>
     </message>
     <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Select</source>
         <translation>Auswählen</translation>
     </message>
@@ -7758,6 +7774,22 @@
     <message>
         <source>Path String</source>
         <translation type="unfinished">Pfad</translation>
+    </message>
+    <message>
+        <source>Object state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node Remote ID and Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object Remote ID</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8579,7 +8611,7 @@ Hinweis: Die Pakete werden nicht deinstalliert.</translation>
     </message>
     <message>
         <source>There is %basket_count item in the shopping basket.</source>
-        <translation>Es ist %basket_count Gegenstand im Warenkorb.</translation>
+        <translation>Es ist %basket_count Artikel im Warenkorb.</translation>
     </message>
     <message>
         <source>Shopping basket (%basket_count)</source>
@@ -8587,7 +8619,7 @@ Hinweis: Die Pakete werden nicht deinstalliert.</translation>
     </message>
     <message>
         <source>There are %basket_count items in the shopping basket.</source>
-        <translation>Es sind %basket_count Gegenstände im Warenkorb.</translation>
+        <translation>Es sind %basket_count Artikel im Warenkorb.</translation>
     </message>
     <message>
         <source>Logout from the system.</source>
@@ -8642,6 +8674,18 @@ Hinweis: Die Pakete werden nicht deinstalliert.</translation>
         <translation>Kurzeinstellungen ausblenden</translation>
     </message>
     <message>
+        <source>Siteaccess:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Global (override)</source>
+        <translation type="unfinished">Global (override)</translation>
+    </message>
+    <message>
+        <source>Set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Change name, email, password, etc.</source>
         <translation>Ändern von Name, E-Mail, Passwort etc.</translation>
     </message>
@@ -8668,6 +8712,21 @@ Hinweis: Die Pakete werden nicht deinstalliert.</translation>
     <message>
         <source>User preferences</source>
         <translation>Benutzereinstellungen</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/pagelayout/leftmenu</name>
+    <message>
+        <source>Show / Hide leftmenu</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8889,11 +8948,11 @@ Hinweis: Die Pakete werden nicht deinstalliert.</translation>
     </message>
     <message>
         <source>Enable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
-        <translation>Beim Browsen der Inhalte &amp;quot;Reiter&amp;quot; als Standard aktivieren.</translation>
+        <translation type="obsolete">Beim Browsen der Inhalte &amp;quot;Reiter&amp;quot; als Standard aktivieren.</translation>
     </message>
     <message>
         <source>Disable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
-        <translation>Beim Browsen der Inhalte &amp;quot;Reiter&amp;quot; als Standard deaktivieren.</translation>
+        <translation type="obsolete">Beim Browsen der Inhalte &amp;quot;Reiter&amp;quot; als Standard deaktivieren.</translation>
     </message>
     <message>
         <source>Enable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
@@ -9105,6 +9164,10 @@ Hinweis: Die Pakete werden nicht deinstalliert.</translation>
     <message>
         <source>Roles and policies</source>
         <translation>Rollen und Richtlinien</translation>
+    </message>
+    <message>
+        <source>Unactivated users</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>View and manage the contents of the trash bin.</source>
@@ -12644,6 +12707,10 @@ Hinweis: Die Pakete werden nicht deinstalliert.</translation>
         <source>Country/region</source>
         <translation>Land/Region</translation>
     </message>
+    <message>
+        <source>Comment</source>
+        <translation type="unfinished">Kommentar</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/shop/archivelist</name>
@@ -15081,11 +15148,11 @@ Hinweis: Die Pakete werden nicht deinstalliert.</translation>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>Ihr Konto ist nun aktiviert.</translation>
+        <translation type="obsolete">Ihr Konto ist nun aktiviert.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>Der übertragene Schlüssel konnte nicht validiert werden. Ihr Konto wurde nicht aktiviert.</translation>
+        <translation type="obsolete">Der übertragene Schlüssel konnte nicht validiert werden. Ihr Konto wurde nicht aktiviert.</translation>
     </message>
     <message>
         <source>Your account was successfully created. An e-mail will be sent to the specified
@@ -15114,6 +15181,65 @@ email address. Follow the instructions in that mail to activate
 your account.</source>
         <translation>Ihr Benutzerkonto wurde erfolgreich eingerichtet. Eine Email zur angegebenen Adresse wurde Ihnen zugestellt.
 Bitte folgen Sie den Instruktionen in der Email um Ihr Konto zu aktivieren.</translation>
+    </message>
+    <message>
+        <source>Unactivated users (%users_count)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle selection</source>
+        <translation type="unfinished">Auswahl umkehren</translation>
+    </message>
+    <message>
+        <source>Registration date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Name</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>E-mail</source>
+        <translation type="unfinished">E-Mail</translation>
+    </message>
+    <message>
+        <source>Activate selected users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Activate selected users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/user/activations</name>
+    <message>
+        <source>The following users have been successfully activated:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been activated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following unactivated users have been successfully removed:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been removed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -16336,6 +16462,125 @@ Bitte folgen Sie den Instruktionen in der Email um Ihr Konto zu aktivieren.</tra
     </message>
 </context>
 <context>
+    <name>design/admin2/ajaxupload</name>
+    <message>
+        <source>&lt;em&gt;%file&lt;/em&gt; has successfully been uploaded.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/ajaxuploader</name>
+    <message>
+        <source>Go to the parent level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Step 1/3: Upload a file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Name</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished">Typ</translation>
+    </message>
+    <message>
+        <source>Section</source>
+        <translation type="unfinished">Sektion</translation>
+    </message>
+    <message>
+        <source>prev</source>
+        <translation type="unfinished">zurück</translation>
+    </message>
+    <message>
+        <source>next</source>
+        <translation type="unfinished">weiter</translation>
+    </message>
+    <message>
+        <source>Step 2/3: Choose a location for the new &apos;%class&apos; object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose a location for the &apos;%class&apos; object that is going to be created from it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose this location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Step 3/3: Preview of &apos;%name&apos; (%class)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished">Hinzufügen</translation>
+    </message>
+    <message>
+        <source>File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Required</source>
+        <translation type="unfinished">Erforderlich</translation>
+    </message>
+    <message>
+        <source>The name will be autogenerated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload the file</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/content/datatype</name>
+    <message>
+        <source>Upload a file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload a file to create a new object and add it to the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose a location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some required fields are empty.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unable to parse the JSON response.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload a file and add the resulting object in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/content/edit</name>
+    <message>
+        <source>Go to the top</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/user/activations</name>
+    <message>
+        <source>There are no unactivated users</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/base</name>
     <message>
         <source>Back to poll</source>
@@ -17099,6 +17344,13 @@ Bitte folgen Sie den Instruktionen in der Email um Ihr Konto zu aktivieren.</tra
     <message>
         <source>Minute</source>
         <translation type="obsolete">Minute</translation>
+    </message>
+</context>
+<context>
+    <name>design/ezwebin/link</name>
+    <message>
+        <source>Printable version</source>
+        <translation type="unfinished">Druckversion</translation>
     </message>
 </context>
 <context>
@@ -19684,7 +19936,7 @@ Wenn Sie einen Kommentar zum Freigebenden schicken oder den Status sehen wollen,
     </message>
     <message>
         <source>Add existing objects</source>
-        <translation type="obsolete">Vorhandene Objekte hinzufügen</translation>
+        <translation type="unfinished">Vorhandene Objekte hinzufügen</translation>
     </message>
     <message>
         <source>Create new object</source>
@@ -19708,7 +19960,7 @@ Wenn Sie einen Kommentar zum Freigebenden schicken oder den Status sehen wollen,
     </message>
     <message>
         <source>Add object</source>
-        <translation>Objekt hinzufügen</translation>
+        <translation type="obsolete">Objekt hinzufügen</translation>
     </message>
     <message>
         <source>Invert selection.</source>
@@ -19989,6 +20241,42 @@ Wenn Sie einen Kommentar zum Freigebenden schicken oder den Status sehen wollen,
     <message>
         <source>Confirm email</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add an object in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add an existing object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse to add an existing object in this relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Objects in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected elements from the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add objects in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse to add existing objects in this relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Html5 Video</source>
+        <translation type="unfinished">Html5 Video</translation>
+    </message>
+    <message>
+        <source>Html5 Audio</source>
+        <translation type="unfinished">Html5 Audio</translation>
     </message>
 </context>
 <context>
@@ -22430,7 +22718,7 @@ Wenn Sie noch mehr Objekte hinzufügen wollen, klicken Sie die %emphasize_startL
     </message>
     <message>
         <source>Printable version</source>
-        <translation>Druckversion</translation>
+        <translation type="obsolete">Druckversion</translation>
     </message>
     <message>
         <source>Frontpage</source>
@@ -22632,7 +22920,7 @@ Falls Sie das machen, werden die Unterelemente ebenfalls entfernt.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove these items?</source>
-        <translation type="obsolete">Sind Sie sicher, dass Sie diese Gegenstände entfernen wollen?</translation>
+        <translation type="obsolete">Sind Sie sicher, dass Sie diese Objekte entfernen wollen?</translation>
     </message>
     <message>
         <source>%nodename and its %childcount children. %additionalwarning</source>
@@ -22648,7 +22936,7 @@ Falls Sie das machen, werden die Unterelemente ebenfalls entfernt.</translation>
     </message>
     <message>
         <source>If %trashname is checked you will find the removed items in the trash afterwards.</source>
-        <translation type="obsolete">Wenn %trashname ausgewählt ist, werden Sie die entfernten Gegenstände später im Papierkorb finden.</translation>
+        <translation type="obsolete">Wenn %trashname ausgewählt ist, werden Sie die entfernten Objekte später im Papierkorb finden.</translation>
     </message>
     <message>
         <source>Note</source>
@@ -23745,6 +24033,18 @@ Sie können das Paket auch entfernen ohne es von der Paketliste zu entfernen.</t
     <message>
         <source>Clear</source>
         <translation>Leeren</translation>
+    </message>
+    <message>
+        <source>Siteaccess:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Global (override)</source>
+        <translation type="unfinished">Global (override)</translation>
+    </message>
+    <message>
+        <source>Set</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -28589,7 +28889,7 @@ Um das zu tun, müssen Sie die %chown Kommandos unter den alternativen Shell-Bef
         <translation>PHP registriert keine Umgebungs-Variablen</translation>
     </message>
     <message>
-        <source>PHP is currently not configured to register enviroment variables in the global variable $_ENV.</source>
+        <source>PHP is currently not configured to register environment variables in the global variable $_ENV.</source>
         <translation>PHP ist derzeit nicht konfiguriert, Umgebungs-Variablen in der global Variable $_ENV zu registrieren.</translation>
     </message>
     <message>
@@ -28629,7 +28929,7 @@ Um das zu tun, müssen Sie die %chown Kommandos unter den alternativen Shell-Bef
         <translation>, aber die aktuellste stabile PHP Version wird immer empfohlen.</translation>
     </message>
     <message>
-        <source>Since some extensions might use $_ENV it is recomended to fix it unless you have full controll over all extensions you use!</source>
+        <source>Since some extensions might use $_ENV it is recommended to fix it unless you have full control over all extensions you use!</source>
         <translation>Einige Extensions können $_ENV verwenden. Daher wird es empfohlen, diese Einstellung zu ändern!</translation>
     </message>
     <message>
@@ -29033,7 +29333,7 @@ Um das zu tun, müssen Sie die %chown Kommandos unter den alternativen Shell-Bef
     </message>
     <message>
         <source>Subtotal of items:</source>
-        <translation type="obsolete">Zwischensumme der Gegenstände:</translation>
+        <translation type="obsolete">Zwischensumme der Artikel:</translation>
     </message>
     <message>
         <source>Order total:</source>
@@ -29045,7 +29345,7 @@ Um das zu tun, müssen Sie die %chown Kommandos unter den alternativen Shell-Bef
     </message>
     <message>
         <source>Remove items</source>
-        <translation>Entferne Gegenstände</translation>
+        <translation>Entferne Artikel</translation>
     </message>
     <message>
         <source>Selected options</source>
@@ -31271,7 +31571,7 @@ Bitte folgen Sie den Hinweisen in der Email, um Ihr Konto zu aktivieren.</transl
     <name>design/starndard/node</name>
     <message>
         <source>Are you sure you want to remove these items?</source>
-        <translation type="unfinished">Sind Sie sicher, dass Sie diese Gegenstände entfernen wollen?</translation>
+        <translation type="unfinished">Sind Sie sicher, dass Sie diese Objekte entfernen wollen?</translation>
     </message>
 </context>
 <context>
@@ -32624,6 +32924,10 @@ wenn Sie die Option &quot;%3&quot; von &quot;%4&quot; ausgewählt haben </transl
     <message>
         <source>Object %1 can not be embeded to itself.</source>
         <translation>Das Objekt %1 kann sich nicht selbst enthalten.</translation>
+    </message>
+    <message>
+        <source>%count invalid character(s) have been found and replaced by a space</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -34278,6 +34582,10 @@ wenn Sie die Option &quot;%3&quot; von &quot;%4&quot; ausgewählt haben </transl
     </message>
     <message>
         <source>authorization</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unactivated users</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

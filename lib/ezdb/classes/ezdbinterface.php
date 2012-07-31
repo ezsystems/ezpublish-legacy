@@ -2,20 +2,20 @@
 /**
  * File containing the eZDBInterface class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
  */
 
-/*!
-  \class eZDBInterface ezdbinterface.php
-  \ingroup eZDB
-  \brief The eZDBInterface defines the interface for all database implementations
-
-  \sa eZDB
-*/
-
+/**
+ * The eZDBInterface defines the interface for all database implementations
+ *
+ * @todo Convert methods and variables marked as protected/private to protected/private methods and variables
+ *
+ * @package lib
+ * @subpackage eZDB
+ */
 class eZDBInterface
 {
     const BINDING_NO = 0;
@@ -42,9 +42,11 @@ class eZDBInterface
     const SERVER_MASTER = 1;
     const SERVER_SLAVE = 2;
 
-    /*!
-      Create a new eZDBInterface object and connects to the database backend.
-    */
+    /**
+     * Creates a new eZDBInterface object and connects to the database backend.
+     *
+     * @param array $parameters
+     */
     function eZDBInterface( $parameters )
     {
         $server = $parameters['server'];
@@ -93,31 +95,21 @@ class eZDBInterface
 
         $this->OutputTextCodec = null;
         $this->InputTextCodec = null;
-/*
-        This is pseudocode, there is no such function as
-        mysql_supports_charset() of course
-        if ( $this->UseBuiltinEncoding and mysql_supports_charset( $charset ) )
-        {
-            mysql_session_set_charset( $charset );
-        }
-        else
-*/
-        {
-            $tmpOutputTextCodec = eZTextCodec::instance( $charset, false, false );
-            $tmpInputTextCodec = eZTextCodec::instance( false, $charset, false );
-            unset( $this->OutputTextCodec );
-            unset( $this->InputTextCodec );
-            $this->OutputTextCodec = null;
-            $this->InputTextCodec = null;
 
-            if ( $tmpOutputTextCodec && $tmpInputTextCodec )
+        $tmpOutputTextCodec = eZTextCodec::instance( $charset, false, false );
+        $tmpInputTextCodec = eZTextCodec::instance( false, $charset, false );
+        unset( $this->OutputTextCodec );
+        unset( $this->InputTextCodec );
+        $this->OutputTextCodec = null;
+        $this->InputTextCodec = null;
+
+        if ( $tmpOutputTextCodec && $tmpInputTextCodec )
+        {
+            if ( $tmpOutputTextCodec->conversionRequired() && $tmpInputTextCodec->conversionRequired() )
             {
-                if ( $tmpOutputTextCodec->conversionRequired() && $tmpInputTextCodec->conversionRequired() )
-                {
-                    $this->OutputTextCodec =& $tmpOutputTextCodec;
-                    $this->InputTextCodec =& $tmpInputTextCodec;
-                }
-            }
+                $this->OutputTextCodec =& $tmpOutputTextCodec;
+                $this->InputTextCodec =& $tmpInputTextCodec;
+            }        
         }
 
         $this->OutputSQL = false;
@@ -166,17 +158,22 @@ class eZDBInterface
             'retry_count' => 'ConnectRetries' );
     }
 
-    /*!
-     \return the available attributes for this database handler.
-    */
+    /**
+     * Returns the available attributes for this database handler.
+     *
+     * @return array
+     */
     function attributes()
     {
         return array_keys( $this->AttributeVariableMap );
     }
 
-    /*!
-     \return \c true if the attribute \a $name exists for this database handler.
-    */
+    /**
+     * Returns true if the attribute $name exists for this database handler.
+     *
+     * @param string $name
+     * @return bool
+     */
     function hasAttribute( $name )
     {
         if ( isset( $this->AttributeVariableMap[$name] ) )
@@ -186,9 +183,12 @@ class eZDBInterface
         return false;
     }
 
-    /*!
-     \return the value of the attribute \a $name if it exists, otherwise \c null.
-    */
+    /**
+     * Returns the value of the attribute $name if it exists, otherwise null.
+     *
+     * @param string $name
+     * @return null
+     */
     function attribute( $name )
     {
         if ( isset( $this->AttributeVariableMap[$name] ) )
@@ -203,28 +203,28 @@ class eZDBInterface
         }
     }
 
-    /*!
-      Checks if the requested character set matches the one used in the database.
-
-      \return \c true if it matches or \c false if it differs.
-      \param[out] $currentCharset The charset that the database uses,
-                                  will only be set if the match fails.
-                                  Note: This will be specific to the database.
-
-      \note The default is to always return \c true, see the specific database handler
-            for more information.
-    */
+    /**
+     * Checks if the requested character set matches the one used in the database.
+     *
+     * The default is to always return true, see the specific database handler for more information.
+     *
+     * @param string|array $charset
+     * @param string $currentCharset The charset that the database uses, will only be set if the match fails.
+     * @return bool true if it matches or false if it differs.
+     */
     function checkCharset( $charset, &$currentCharset )
     {
         return true;
     }
 
-    /*!
-     \private
-     Prepare the sql file so we can create the database.
-     \param $fd    The file descriptor
-     \param $buffer Reference to string buffer for SQL queries.
-    */
+    /**
+     * Prepare the sql file so we can create the database.
+     *
+     * @access private
+     * @param resource $fd The file descriptor
+     * @param string $buffer Reference to string buffer for SQL queries.
+     * @return array
+     */
     function prepareSqlQuery( &$fd, &$buffer )
     {
 
@@ -235,7 +235,7 @@ class eZDBInterface
             if ( $buffer )
             {
                 // Fix SQL file by deleting all comments and newlines
-//            eZDebug::writeDebug( $buffer, "read data" );
+                // eZDebug::writeDebug( $buffer, "read data" );
                 $sqlQuery = preg_replace( array( "/^#.*\n" . "/m",
                                                  "#^/\*.*\*/\n" . "#m",
                                                  "/^--.*\n" . "/m",
@@ -269,11 +269,14 @@ class eZDBInterface
         return $sqlQueryArray;
     }
 
-    /*!
-     Inserts the SQL file \a $sqlFile found in the path \a $path into
-     the currently connected database.
-     \return \c true if succesful.
-    */
+    /**
+     * Inserts the SQL file $sqlFile found in the path $path into the currently connected database.
+     *
+     * @param string $path
+     * @param string $sqlFile
+     * @param bool $usePathType
+     * @return bool true if succesful.
+     */
     function insertFile( $path, $sqlFile, $usePathType = true )
     {
         $type = $this->databaseName();
@@ -282,6 +285,11 @@ class eZDBInterface
             $sqlFileName = eZDir::path( array( $path, $type, $sqlFile ) );
         else
             $sqlFileName = eZDir::path( array( $path, $sqlFile ) );
+        if ( !file_exists( $sqlFileName ) )
+        {
+            eZDebug::writeError( "File not found: $sqlFileName", __METHOD__ );
+            return false;
+        }
         $sqlFileHandler = fopen( $sqlFileName, 'rb' );
         $buffer = '';
         $done = false;
@@ -318,10 +326,16 @@ class eZDBInterface
 
     }
 
-    /*!
-     \private
-     Writes a debug notice with query information.
-    */
+    /**
+     * Writes a debug notice with query information.
+     *
+     * @access private
+     * @param string $class
+     * @param string $sql
+     * @param int|string $numRows
+     * @param int|string $timeTaken
+     * @param bool $asDebug
+     */
     function reportQuery( $class, $sql, $numRows, $timeTaken, $asDebug = false )
     {
         $rowText = '';
@@ -334,29 +348,31 @@ class eZDBInterface
             eZDebug::writeNotice( "$sql", "$class::query($rowText" . number_format( $timeTaken, 3 ) . ' ms) query number per page:' . $this->NumQueries++, $backgroundClass );
     }
 
-    /*!
-     Enabled or disables sql output.
-    */
+    /**
+     * Enabled or disables sql output.
+     *
+     * @param bool $enabled
+     */
     function setIsSQLOutputEnabled( $enabled )
     {
         $this->OutputSQL = $enabled;
     }
 
-    /*!
-     \private
-     Records the current micro time. End the timer with endTimer() and
-     fetch the result with timeTaken();
-    */
+    /**
+     * Records the current micro time. End the timer with endTimer() and fetch the result with timeTaken();
+     *
+     * @access private
+     */
     function startTimer()
     {
         $this->StartTime = microtime( true );
     }
 
-    /*!
-     \private
-     Stops the current timer and calculates the time taken.
-     \sa startTimer, timeTaken
-    */
+    /**
+     * Stops the current timer and calculates the time taken.
+     *
+     * @access private
+     */
     function endTimer()
     {
         $this->EndTime = microtime( true );
@@ -365,148 +381,178 @@ class eZDBInterface
         $this->TimeTaken *= 1000.0;
     }
 
-    /*!
-     \private
-     \return the micro time when the timer was start or false if no timer.
-    */
+    /**
+     * Returns the micro time when the timer was start or false if no timer.
+     *
+     * @access private
+     * @return bool|float
+     */
     function startTime()
     {
         return $this->StartTime;
     }
 
-    /*!
-     \private
-     \return the micro time when the timer was ended or false if no timer.
-    */
+    /**
+     * Returns the micro time when the timer was ended or false if no timer.
+     *
+     * @access private
+     * @return bool|float
+     */
     function endTime()
     {
         return $this->EndTime;
     }
 
-    /*!
-     \private
-     \return the number of milliseconds the last operation took or false if no value.
-    */
+    /**
+     * Returns the number of milliseconds the last operation took or false if no value.
+     *
+     * @access private
+     * @return bool|float
+     */
     function timeTaken()
     {
         return $this->TimeTaken;
     }
 
-    /*!
-     \pure
-     Returns the name of driver, this is used to determine the name of the database type.
-     For instance multiple implementations of the MySQL database will all return \c 'mysql'.
-    */
+    /**
+     * Returns the name of driver, this is used to determine the name of the database type.
+     *
+     * For instance multiple implementations of the MySQL database will all return 'mysql'.
+     *
+     * @return string
+     */
     function databaseName()
     {
         return '';
     }
 
-    /*!
-     \return the socket path for the database or \c false if no socket path was defined.
-    */
+    /**
+     * Returns the socket path for the database or false if no socket path was defined.
+     *
+     * @return string|bool
+     */
     function socketPath()
     {
         return $this->SocketPath;
     }
 
-    /*!
-     \return the number of times the db handler should try to reconnect if it fails.
-    */
+    /**
+     * Returns the number of times the db handler should try to reconnect if it fails.
+     *
+     * @return int
+     */
     function connectRetryCount()
     {
         return $this->ConnectRetries;
     }
 
-    /*!
-     \return the number of seconds the db handler should wait before rereconnecting.
-     \note Currently returns 3 seconds.
-    */
+    /**
+     * Returns the number of seconds the db handler should wait before rereconnecting.
+     *
+     * @return int
+     */
     function connectRetryWaitTime()
     {
         return 3;
     }
 
-    /*!
-     \pure
-     \return a mask of the relation type it supports.
-    */
+    /**
+     * Returns a mask of the relation type it supports.
+     *
+     * @return int
+     */
     function supportedRelationTypeMask()
     {
         return eZDBInterface::RELATION_NONE;
     }
 
-    /*!
-     \pure
-     \return if the short column names should be used insted of default ones
-    */
+    /**
+     * Returns if the short column names should be used insted of default ones
+     *
+     * @return bool
+     */
     function useShortNames()
     {
         return false;
     }
 
-    /*!
-     \pure
-     \return an array of the relation types.
-    */
+    /**
+     * Returns an array of the relation types.
+     * @return array
+     */
     function supportedRelationTypes()
     {
         return array();
     }
 
-    /*!
-     \pure
-     \return a sql-expression(string) to get substring.
-    */
+    /**
+     * Returns a sql-expression(string) to get substring.
+     *
+     * @param string $string
+     * @param int $from
+     * @param int $len
+     * @return string
+     */
     function subString( $string, $from, $len = null )
     {
         return '';
     }
 
-    /*!
-     \pure
-     \return a sql-expression(string) to concatenate strings.
-    */
+    /**
+     * Returns a sql-expression(string) to concatenate strings.
+     *
+     * @param array $strings
+     * @return string
+     */
     function concatString( $strings = array() )
     {
         return '';
     }
 
-    /*!
-     \pure
-     \return a sql-expression(string) to generate a md5 sum of the string.
-    */
+    /**
+     * Returns a sql-expression(string) to generate a md5 sum of the string.
+     *
+     * @param string $str
+     * @return string
+     */
     function md5( $str )
     {
         return '';
     }
 
-    /*!
-     \pure
-     \return a sql-expression(string) to generate a bit and  of the argument.
-    */
+    /**
+     * Returns a sql-expression(string) to generate a bit and  of the argument.
+     *
+     * @param string $arg1
+     * @param string $arg2
+     * @return string
+     */
     function bitAnd( $arg1, $arg2 )
     {
         return '(' . $arg1 . ' & ' . $arg2 . ' ) ';
     }
 
-    /*!
-     \pure
-     \return a sql-expression(string) to generate a bit and  of the argument.
-    */
+    /**
+     * Returns a sql-expression(string) to generate a bit and  of the argument.
+     *
+     * @param string $arg1
+     * @param string $arg2
+     * @return string
+     */
     function bitOr( $arg1, $arg2 )
     {
         return '( ' . $arg1 . ' | ' . $arg2 . ' ) ';
     }
 
-    /*!
-     Checks if the version number of the server is equal or larger than \a $minVersion.
-     Will also check if the database type is correct if \a $name is set.
-
-     \param $minVersion A string denoting the min. required version.
-     \param $name The name of the database type it requires or \c false if it does not matter.
-     \return \c true if the server fulfills the requirements.
-    */
+    /**
+     * Checks if the version number of the server is equal or larger than $minVersion.
+     *
+     * Will also check if the database type is correct if $name is set.
+     *
+     * @param string $minVersion A string denoting the min. required version.
+     * @param string|bool $name The name of the database type it requires or false if it does not matter.
+     * @return bool true if the server fulfills the requirements.
+     */
     function hasRequiredServerVersion( $minVersion, $name = false )
     {
         if ( $name !== false and
@@ -518,116 +564,135 @@ class eZDBInterface
         return version_compare( $version, $minVersion ) >= 0;
     }
 
-    /*!
-     \virtual
-     \return the version of the database server or \c false if no version could be retrieved/
-    */
+    /**
+     * Returns the version of the database server or false if no version could be retrieved/
+     *
+     * @return string|bool
+     */
     function databaseServerVersion()
     {
     }
 
-    /*!
-     \pure
-     \return the version of the database client or \c false if no version could be retrieved/
-    */
+    /**
+     * Returns the version of the database client or false if no version could be retrieved/
+     *
+     * @return string|bool
+     */
     function databaseClientVersion()
     {
     }
 
-    /*!
-     \return \c true if the charset \a $charset is supported by the connected database.
-    */
+    /**
+     * Returns true if the charset $charset is supported by the connected database.
+     *
+     * @param string $charset
+     * @return bool
+     */
     function isCharsetSupported( $charset )
     {
         return false;
     }
 
-    /*!
-     Returns the charset which the database is encoded in.
-     \sa usesBuiltinEncoding
-    */
+    /**
+     * Returns the charset which the database is encoded in.
+     *
+     * @see usesBuiltinEncoding()
+     * @return string
+     */
     function charset()
     {
         return $this->Charset;
     }
 
-    /*!
-     Returns true if the database handles encoding itself, if not
-     all queries and returned data must be decoded yourselves.
-     \note This functionality might be removed in the future
-    */
+    /**
+     * Returns true if the database handles encoding itself. If not, all queries and returned data must be decoded yourselves.
+     *
+     * This functionality might be removed in the future
+     *
+     * @return bool
+     */
     function usesBuiltinEncoding()
     {
         return $this->UseBuiltinEncoding;
     }
 
-    /*!
-      \pure
-       Returns type of binding used in database plugin.
-    */
-    function bindingType( )
+    /**
+     * Returns type of binding used in database plugin.
+     *
+     * @return int
+     */
+    function bindingType()
     {
     }
 
-    /*!
-      \pure
-       Binds variable.
-    */
+    /**
+     * Binds variable.
+     *
+     * @param mixed $value
+     * @param mixed $fieldDef
+     * @return mixed
+     */
     function bindVariable( $value, $fieldDef = false )
     {
     }
 
-    /*!
-      \pure
-      Execute a query on the global MySQL database link.  If it returns an error,
-      the script is halted and the attempted SQL query and MySQL error message are printed.
-
-      \param $sql SQL query to execute.
-    */
+    /**
+     * Execute a query on the global MySQL database link.  If it returns an error, the script is halted and the
+     * attempted SQL query and MySQL error message are printed.
+     *
+     * @param string $sql SQL query to execute.
+     * @param int|bool $server
+     * @return mixed
+     */
     function query( $sql, $server = false )
     {
     }
 
-    /*!
-      \pure
-      Executes an SQL query and returns the result as an array of accociative arrays.
-
-      \param $sql SQL query to execute.
-      \param $params Associative array containing extra parameters, can contain:
-             - offset - The offset of the query.
-             - limit - The limit of the query.
-             - column - Limit returned row arrays to only contain this column.
-      \param $server Which server to execute the query on, either eZDBInterface::SERVER_MASTER or eZDBInterface::SERVER_SLAVE
-
-      An example would be:
-      \code
-      $db->arrayQuery( 'SELECT * FROM eztable', array( 'limit' => 10, 'offset' => 5 ) );
-      \endcode
-    */
+    /**
+     * Executes an SQL query and returns the result as an array of accociative arrays.
+     *
+     * Example:
+     * <code>
+     * $db->arrayQuery( 'SELECT * FROM eztable', array( 'limit' => 10, 'offset' => 5 ) );
+     * </code>
+     *
+     * @param string $sql SQL query to execute.
+     * @param array $params Associative array containing extra parameters, can contain:
+     *                      - offset -> The offset of the query.
+     *                      - limit -> The limit of the query.
+     *                      - column - Limit returned row arrays to only contain this column.
+     * @param int|bool $server Which server to execute the query on, either eZDBInterface::SERVER_MASTER or eZDBInterface::SERVER_SLAVE
+     * @return array
+     */
     function arrayQuery( $sql, $params = array(), $server = false )
     {
     }
 
-    /*!
-      \pure
-      Locks a table
-    */
+    /**
+     * Locks one or several tables
+     *
+     * @param string|array $table
+     */
     function lock( $table )
     {
     }
 
-    /*!
-      \pure
-      Releases table locks.
-    */
+    /**
+     * Releases table locks.
+     *
+     * @return void
+     */
     function unlock()
     {
     }
 
-    /*!
-      Begin a new transaction. If we are already in transaction then we omit
-      this new transaction and its matching commit or rollback.
-    */
+    /**
+     * Begin a new transaction.
+     *
+     * If we are already in transaction then we omit this new transaction and its matching commit or rollback.
+     *
+     * @return bool
+     */
     function begin()
     {
         $ini = eZINI::instance();
@@ -681,26 +746,28 @@ class eZDBInterface
         return true;
     }
 
-    /*!
-      \virtual
-      The query to start a transaction.
-      This function must be reimplemented in the subclasses.
-    */
+    /**
+     * The query to start a transaction.
+     *
+     * This function must be reimplemented in the subclasses.
+     *
+     * @return bool
+     */
      function beginQuery()
     {
         return false;
     }
 
-    /*!
-      Commits the current transaction. If this is not the outermost it will not commit
-      to the database immediately but instead decrease the transaction counter.
-
-      If the current transaction had any errors in it the transaction will be rollbacked
-      instead of commited. This ensures that the database is in a valid state.
-      Also the PHP execution will be stopped.
-
-      \return \c true if the transaction was successful, \c false otherwise.
-    */
+    /**
+     * Commits the current transaction. If this is not the outermost it will not commit
+     * to the database immediately but instead decrease the transaction counter.
+     *
+     * If the current transaction had any errors in it the transaction will be rollbacked
+     * instead of commited. This ensures that the database is in a valid state.
+     * Also the PHP execution will be stopped.
+     *
+     * @return bool true if the transaction was successful, false otherwise.
+     */
     function commit()
     {
         $ini = eZINI::instance();
@@ -763,19 +830,23 @@ class eZDBInterface
         return true;
     }
 
-    /*!
-      \virtual
-      The query to commit the transaction.
-      This function must be reimplemented in the subclasses.
-    */
+    /**
+     * The query to commit the transaction.
+     *
+     * This function must be reimplemented in the subclasses.
+     *
+     * @return bool
+     */
     function commitQuery()
     {
         return false;
     }
 
-    /*!
-      Cancels the transaction.
-    */
+    /**
+     * Cancels the transaction.
+     *
+     * @return bool
+     */
     function rollback()
     {
         if ( is_array( $this->TransactionStackTree ) )
@@ -806,10 +877,14 @@ class eZDBInterface
     }
 
     /*!
-      Goes through the transaction stack tree $this->TransactionStackTree and
-      generates the text output for it and returns it.
-      \returns The generated string or false if it is disabled.
+
     */
+    /**
+     * Goes through the transaction stack tree {@see eZDBInterface::$TransactionStackTree},
+     * generates the text output for it and returns it.
+     *
+     * @return bool|string The generated string or false if it is disabled.
+     */
     function generateFailedTransactionStack()
     {
         if ( !$this->TransactionStackTree )
@@ -819,10 +894,13 @@ class eZDBInterface
         return $this->generateFailedTransactionStackEntry( $this->TransactionStackTree, 0 );
     }
 
-    /*!
-     \private
-     Recursive helper function for generating stack tree output.
-     \returns The generated string
+    /**
+     * Recursive helper function for generating stack tree output.
+     *
+     * @access private
+     * @param array $stack
+     * @param int $indentCount
+     * @return string The generated string
      */
     function generateFailedTransactionStackEntry( $stack, $indentCount )
     {
@@ -866,10 +944,12 @@ class eZDBInterface
         return $stackText;
     }
 
-    /*!
-     \private
-     Helper function for generating output for one stack-trace entry.
-     \returns The generated string
+    /**
+     * Helper function for generating output for one stack-trace entry.
+     *
+     * @access private
+     * @param array $entry
+     * @return string The generated string
      */
     function generateTraceEntry( $entry )
     {
@@ -911,22 +991,24 @@ class eZDBInterface
         return $stackText;
     }
 
-    /*!
-      \virtual
-      The query to cancel the transaction.
-      This function must be reimplemented in the subclasses.
-    */
+    /**
+     * The query to cancel the transaction.
+     *
+     * This function must be reimplemented in the subclasses.
+     *
+     * @return bool
+     */
     function rollbackQuery()
     {
         return false;
     }
 
-    /*!
-      Invalidates the current transaction, see commit() for more details on this.
-      \return \c true if it was invalidated or \c false if there is no transaction to invalidate.
-
-      \sa isTransactionValid()
-    */
+    /**
+     * Invalidates the current transaction, see {@see commit()} for more details on this.
+     *
+     * @see isTransactionValid()
+     * @return bool true if it was invalidated or false if there is no transaction to invalidate.
+     */
     function invalidateTransaction()
     {
         if ( $this->TransactionCounter <= 0 )
@@ -935,11 +1017,14 @@ class eZDBInterface
         return true;
     }
 
-    /*!
-     \protected
-     This is called whenever an error occurs in one of the database handlers.
-     If a transaction is active it will be invalidated as well.
-    */
+    /**
+     * This is called whenever an error occurs in one of the database handlers.
+     *
+     * If a transaction is active it will be invalidated as well.
+     *
+     * @access protected
+     * @throws eZDBException
+     */
     function reportError()
     {
         // If we have a running transaction we must mark as invalid
@@ -953,11 +1038,7 @@ class eZDBInterface
 
             eZDebug::writeError( 'Transaction in progress failed due to DB error, transaction was rollbacked. Transaction ID is ' . $transID . '.', 'eZDBInterface::commit ' . $transID );
 
-            $oldRecordError = $this->RecordError;
-            // Turn off error handling while we rollback
-            $this->RecordError = false;
-            $this->rollbackQuery();
-            $this->RecordError = $oldRecordError;
+            $this->rollback();
 
             if ( $this->errorHandling == eZDB::ERROR_HANDLING_EXCEPTIONS )
             {
@@ -1023,74 +1104,91 @@ class eZDBInterface
         }
     }
 
-    /*!
-      \return \c true if the current or last running transaction was valid,
-              \c false otherwise.
-      \sa invalidateTransaction()
-    */
+    /**
+     * Returns if the current or last running transaction is valid
+     *
+     * @see invalidateTransaction()
+     * @return bool true if the current or last running transaction was valid, false otherwise
+     */
     function isTransactionValid()
     {
         return $this->TransactionIsValid;
     }
 
-    /*!
-     \return The current transaction counter.
-
-     0 means no transactions, 1 or higher means 1 or more transactions
-     are running and a negative value means something is wrong.
-    */
+    /**
+     * Returns the current transaction counter.
+     *
+     * 0 means no transactions, 1 or higher means 1 or more transactions are running and
+     * a negative value means something is wrong.
+     *
+     * @return int
+     */
     function transactionCounter()
     {
         return $this->TransactionCounter;
     }
 
-    /*!
-      \pure
-      \return the relation count for all relation types in the mask \a $relationMask.
-    */
+    /**
+     * Returns the relation count for all relation types in the mask $relationMask.
+     *
+     * @param int $relationMask
+     * @return int
+     */
     function relationCounts( $relationMask )
     {
     }
 
-    /*!
-      \pure
-      \return the number of relation objects in the database for the relation type \a $relationType.
-    */
+    /**
+     * Returns the number of relation objects in the database for the relation type $relationType.
+     *
+     * @param int $relationType
+     * @return int
+     */
     function relationCount( $relationType = eZDBInterface::RELATION_TABLE )
     {
     }
 
-    /*!
-     \pure
-     \return existing ez publish tables in database
-    */
+    /**
+     * Returns the existing ez publish tables in database
+     *
+     * @param int $server
+     * @return array
+     */
     function eZTableList( $server = self::SERVER_MASTER )
     {
     }
 
-    /*!
-      \pure
-      \return the relation names in the database as an array for the relation type \a $relationType.
-    */
+    /**
+     * Returns the relation names in the database as an array for the relation type $relationType.
+     *
+     * @param int $relationType
+     * @return array
+     */
     function relationList( $relationType = eZDBInterface::RELATION_TABLE )
     {
     }
 
-    /*!
-      \pure
-      Tries to remove the relation type \a $relationType named \a $relationName
-      \return \c true if successful
-    */
+    /**
+     * Tries to remove the relation type $relationType named $relationName
+     *
+     * @param string $relationName
+     * @param int $relationType
+     * @return bool true if successful
+     */
     function removeRelation( $relationName, $relationType )
     {
         return false;
     }
 
-    /*!
-     \protected
-     \return the name of the relation type which is usable in SQL or false if unknown type.
-     \note This function can be used by som database handlers which can operate on relation types using SQL.
-    */
+    /**
+     * Returns the name of the relation type which is usable in SQL or false if unknown type.
+     *
+     * This function can be used by some database handlers which can operate on relation types using SQL.
+     *
+     * @access protected
+     * @param int $relationType
+     * @return bool
+     */
     function relationName( $relationType )
     {
         $names = array( eZDBInterface::RELATION_TABLE => 'TABLE',
@@ -1103,35 +1201,39 @@ class eZDBInterface
         return $names[$relationType];
     }
 
-    /*!
-     \pure
-     \return A regexp (PCRE) that can be used to filter out certain relation elements.
-             If no special regexp is provided it will return \c false.
-     \param $relationType The type which needs to be filtered, this allows one regexp per type.
-
-     An example, will only match tables that start with 'ez'.
-     \code
-     return "#^ez#";
-     \endcode
-
-     \note This function is currently used by the eZDBTool class to remove relation elements
-           of a specific kind (Most likely eZ Publish related elements).
-    */
+    /**
+     * Return A regexp (PCRE) that can be used to filter out certain relation elements.
+     * If no special regexp is provided it will return false.
+     *
+     * An example, will only match tables that start with 'ez'.
+     * <code>
+     * return "#^ez#";
+     * </code>
+     *
+     * This function is currently used by the eZDBTool class to remove relation elements of a specific kind
+     * (Most likely eZ Publish related elements).
+     *
+     * @param int $relationType The type which needs to be filtered, this allows one regexp per type.
+     * @return bool
+     */
     function relationMatchRegexp( $relationType )
     {
         return false;
     }
 
     /**
-     * Casts elements of \a $pieces to type $type and returns them as string
-     * separated by $glue.
-     * @note: Use generateSQLINStatement() if you intent to use this for IN statments!
+     * Casts elements of $pieces to type $type and returns them as string separated by $glue.
+     *
+     * Use {@see generateSQLINStatement()} if you intend to use this for IN statments!
+     * Example:
+     * <code>
+     * $this->implodeWithTypeCast( ',', $myArray, 'int' );
+     * </code>
      *
      * @param string $glue The separator.
      * @param array $pieces The array containing the elements.
-     * @param $type The type to cast to.
+     * @param string $type The type to cast to.
      * @return string
-     * @example implodeWithTypeCast( ',', $myArray, 'int' )
      */
     function implodeWithTypeCast( $glue, &$pieces, $type )
     {
@@ -1148,122 +1250,158 @@ class eZDBInterface
         return $str;
     }
 
-    /*!
-      \pure
-      Returns the last serial ID generated with an auto increment field.
-    */
+    /**
+     * Returns the last serial ID generated with an auto increment field.
+     *
+     * @param string|bool $table
+     * @param string|bool $column
+     */
     function lastSerialID( $table = false, $column = false )
     {
     }
 
-    /*!
-      \pure
-      Will escape a string so it's ready to be inserted in the database.
-    */
+    /**
+     * Will escape a string so it's ready to be inserted in the database.
+     *
+     * @param string $str
+     * @return string mixed
+     */
     function escapeString( $str )
     {
         return $str;
     }
 
-    /*!
-      \pure
-      Will close the database connection.
-    */
+    /**
+     * Will close the database connection.
+     *
+     * @return void
+     */
     function close()
     {
     }
 
-    /*!
-      \protected
-      Returns true if we're connected to the database backend.
-    */
+    /**
+     * Returns true if we're connected to the database backend.
+     *
+     * @access protected
+     * @return bool
+     */
     function isConnected()
     {
         return $this->IsConnected;
     }
 
-    /*!
-      \pure
-      Create a new database
-    */
+    /**
+     * Create a new database
+     *
+     * @param string $dbName
+     * @return void
+     */
     function createDatabase( $dbName )
     {
     }
 
-    /*!
-      \pure
-      Removes a database
-    */
+    /**
+     * Removes a database
+     *
+     * @param string $dbName
+     * @return void
+     */
     function removeDatabase( $dbName )
     {
     }
 
-    /*!
-      Create a new temporary table
-    */
+    /**
+     * Create a new temporary table
+     *
+     * @param string $createTableQuery
+     * @param int $server
+     */
     function createTempTable( $createTableQuery = '', $server = self::SERVER_SLAVE )
     {
         $this->query( $createTableQuery, $server );
     }
 
-    /*!
-      Drop temporary table
-    */
+    /**
+     * Drop temporary table
+     *
+     * @param string $dropTableQuery
+     * @param int $server
+     * @return void
+     */
     function dropTempTable( $dropTableQuery = '', $server = self::SERVER_SLAVE )
     {
         $this->query( $dropTableQuery, $server );
     }
 
-    /*!
-      Drop temporary table list
-    */
+    /**
+     * Drop temporary table list
+     *
+     * @param array $tableList
+     * @param int $server
+     */
     function dropTempTableList( $tableList, $server = self::SERVER_SLAVE )
     {
         foreach( $tableList as $tableName )
             $this->dropTempTable( "DROP TABLE $tableName", $server );
     }
 
-    /*!
-      \pure
-      Sets the error message and error message number
-    */
+    /**
+     * Sets the error message and error message number
+     *
+     * @return void
+     */
     function setError()
     {
     }
 
-    /*!
-      Returns the error message
-    */
+    /**
+     * Returns the error message
+     *
+     * @return string
+     */
     function errorMessage()
     {
         return $this->ErrorMessage;
     }
 
-    /*!
-      Returns the error number
-    */
+    /**
+     * Returns the error number
+     *
+     * @return int
+     */
     function errorNumber()
     {
         return $this->ErrorNumber;
     }
 
-    /*!
-      Return alvailable databases in database.
-
-      \return array of available databases,
-              null of none available
-              false if listing databases not supported by database
-    */
+    /**
+     * Returns an array of available databases in the database, null of none available,
+     * false if listing databases not supported by database
+     *
+     * @return array|null|bool
+     */
     function availableDatabases()
     {
         return false;
     }
 
     /*!
-     Generate unique table name basing on the given pattern.
-     If the pattern contains a (%) character then the character
-     is replaced with a part providing uniqueness (e.g. random number).
+
+
+
     */
+    /**
+     * Generate unique table name basing on the given pattern.
+     *
+     * If the pattern contains a (%) character then the character
+     * is replaced with a part providing uniqueness (e.g. random number).
+     *
+     * @param string $pattern
+     * @param bool $randomizeIndex
+     * @param int $server
+     * @return string
+     */
     function generateUniqueTempTableName( $pattern, $randomizeIndex = false, $server = self::SERVER_SLAVE )
     {
         $tableList = array_keys( $this->eZTableList( $server ) );
@@ -1280,12 +1418,11 @@ class eZDBInterface
         return $uniqueTempTableName;
     }
 
-    /*!
-      Get database version number
-
-      \return version number
-              false if not supported
-    */
+    /**
+     * Get database version number
+     *
+     * @return string|bool Version number, false if not supported
+     */
     function version()
     {
         return false;
@@ -1312,7 +1449,7 @@ class eZDBInterface
      *        Column name of the database table the IN statement should be
      *        created for
      * @param bool $not
-     *        Will generate a "NOT IN" ( if set to \c true ) statement instead
+     *        Will generate a "NOT IN" ( if set to true ) statement instead
      *        of an "IN" ( if set to false , default )
      * @param $unique
      *        Wether or not to make the array unique. Not implemented in this
@@ -1342,6 +1479,11 @@ class eZDBInterface
         return $result;
     }
 
+    /**
+     * Returns true if the database handler support the insertion of default values, false if not
+     *
+     * @return bool
+     */
     function supportsDefaultValuesInsertion()
     {
         return true;
@@ -1364,73 +1506,265 @@ class eZDBInterface
         $this->errorHandling = $errorHandling;
     }
 
-    /// \protectedsection
-    /// Contains the current server
+    /**
+     * Contains the current server
+     *
+     * @access protected
+     * @var string
+     */
     public $Server;
-    /// Contains the current port
+
+    /**
+     * Contains the current port
+     *
+     * @access protected
+     * @var int
+     */
     public $Port;
-    /// The socket path, used by MySQL
+
+    /**
+     * The socket path, used by MySQL
+     *
+     * @access protected
+     * @var string
+     */
     public $SocketPath;
-    /// The current database name
+
+    /**
+     * The current database name
+     *
+     * @access protected
+     * @var string
+     */
     public $DB;
-    /// The current connection, \c false if not connection has been made
+
+    /**
+     * The current connection, false if not connection has been made
+     *
+     * @access protected
+     * @var resource|bool
+     */
     public $DBConnection;
-    /// Contains the write database connection if used
+
+    /**
+     * Contains the write database connection if used
+     *
+     * @access protected
+     * @var resource|bool
+     */
     public $DBWriteConnection;
-    /// Stores the database connection user
+
+    /**
+     * Stores the database connection user
+     *
+     * @access protected
+     * @var string
+     */
     public $User;
-    /// Stores the database connection password
+
+    /**
+     * Stores the database connection password
+     *
+     * @access protected
+     * @var string
+     */
     public $Password;
-    /// The charset used for the current database
+
+    /**
+     * The charset used for the current database
+     *
+     * @access protected
+     * @var string
+     */
     public $Charset;
-    /// The number of times to retry a connection if it fails
+
+    /**
+     * The number of times to retry a connection if it fails
+     *
+     * @access protected
+     * @var int
+     */
     public $ConnectRetries;
-    /// Instance of a textcodec which handles text conversion, may not be set if no builtin encoding is used
+
+    /**
+     * Instance of a textcodec which handles text conversion, may not be set if no builtin encoding is used
+     *
+     * @access protected
+     * @var eZTextCodec|null|bool
+     */
     public $OutputTextCodec;
+
+    /**
+     * Instance of a textcodec which handles text conversion, may not be set if no builtin encoding is used
+     *
+     * @access protected
+     * @var eZTextCodec|null|bool
+     */
     public $InputTextCodec;
 
-    /// True if a builtin encoder is to be used, this means that all input/output text is converted
+    /**
+     * True if a builtin encoder is to be used, this means that all input/output text is converted
+     *
+     * @access protected
+     * @var bool
+     */
     public $UseBuiltinEncoding;
-    /// Setting if SQL queries should be sent to debug output
+
+    /**
+     * Setting if SQL queries should be sent to debug output
+     *
+     * @access protected
+     * @var bool
+     */
     public $OutputSQL;
-    /// Contains true if we're connected to the database backend
+
+    /**
+     * Contains true if we're connected to the database backend
+     *
+     * @access protected
+     * @var bool
+     */
     public $IsConnected = false;
-    /// Contains number of queries sended to DB
+
+    /**
+     * Contains number of queries sended to DB
+     *
+     * @access protected
+     * @var int
+     */
     public $NumQueries = 0;
-    /// The start time of the timer
+
+    /**
+     * The start time of the timer
+     *
+     * @access protected
+     * @var bool|float
+     */
     public $StartTime;
-    /// The end time of the timer
+
+    /**
+     * The end time of the timer
+     *
+     * @access protected
+     * @var bool|float
+     */
     public $EndTime;
-    /// The total number of milliseconds the timer took
+
+    /**
+     * The total number of milliseconds the timer took
+     *
+     * @access protected
+     * @var bool|float
+     */
     public $TimeTaken;
-    /// The database error message of the last executed function
+
+    /**
+     * The database error message of the last executed function
+     *
+     * @access protected
+     * @var string
+     */
     public $ErrorMessage;
-    /// The database error message number of the last executed function
+
+    /**
+     * The database error message number of the last executed function
+     *
+     * @access protected
+     * @var int
+     */
     public $ErrorNumber = 0;
-    /// If true then ErrorMessage and ErrorNumber get filled
+
+    /**
+     * If true then ErrorMessage and ErrorNumber get filled
+     *
+     * @access protected
+     * @var bool
+     */
     public $RecordError = true;
-    /// If true then the database connection should be persistent
+
+    /**
+     * If true then the database connection should be persistent
+     *
+     * @access protected
+     * @var bool
+     */
     public $UsePersistentConnection = false;
-    /// Contains true if slave servers are enabled
+
+    /**
+     * True if slave servers are enabled
+     *
+     * @access protected
+     * @var bool
+     */
     public $UseSlaveServer;
-    /// The slave database name
+
+    /**
+     * The slave database name
+     *
+     * @access protected
+     * @var string
+     */
     public $SlaveDB;
-    /// The slave server name
+
+    /**
+     * The slave server name
+     *
+     * @access protected
+     * @var string
+     */
     public $SlaveServer;
-    /// The slave server port
+
+    /**
+     * The slave server port
+     *
+     * @access protected
+     * @var int
+     */
     public $SlavePort;
-    /// The slave database user
+
+    /**
+     * The slave database user
+     *
+     * @access protected
+     * @var string
+     */
     public $SlaveUser;
-    /// The slave database user password
+
+    /**
+     * The slave database user password
+     *
+     * @access protected
+     * @var string
+     */
     public $SlavePassword;
-    /// The transaction counter, 0 means no transaction
+
+    /**
+     * The transaction counter, 0 means no transaction
+     *
+     * @access protected
+     * @var int
+     */
     public $TransactionCounter;
-    /// Flag which tells if a transaction is considered valid or not
-    /// A transaction will be made invalid if SQL errors occur
+
+    /**
+     * Flag which tells if a transaction is considered valid or not. A transaction will be made invalid if SQL errors occur
+     *
+     * @access protected
+     * @var bool
+     */
     public $TransactionIsValid;
 
     /**
+     * Holds the transactions
+     *
+     * @access protected
+     * @var array|bool
+     */
+    public $TransactionStackTree;
+
+    /**
      * Error handling mechanism
+     *
      * @var int One of the eZDB::ERROR_HANDLING_* constants
      */
     protected $errorHandling = eZDB::ERROR_HANDLING_STANDARD;

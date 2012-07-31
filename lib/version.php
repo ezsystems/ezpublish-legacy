@@ -2,7 +2,7 @@
 /**
  * File containing the eZPublishSDK class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -14,12 +14,12 @@
 
 class eZPublishSDK
 {
-    const VERSION_MAJOR = 4;
-    const VERSION_MINOR = 5;
+    const VERSION_MAJOR = 5;
+    const VERSION_MINOR = 0;
     const VERSION_RELEASE = 0;
-    const VERSION_STATE = '';
-    const VERSION_DEVELOPMENT = false;
-    const VERSION_ALIAS = '4.5';
+    const VERSION_STATE = 'alpha1';
+    const VERSION_DEVELOPMENT = true;
+    const VERSION_ALIAS = '5.0';
 
     /*!
       \return the SDK version as a string

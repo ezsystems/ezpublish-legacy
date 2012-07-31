@@ -4,21 +4,59 @@
 <input class="defaultbutton hide" type="submit" id="ezedit-default-button" name="PublishButton" value="{'Send for publishing'|i18n( 'design/admin/content/edit' )}" />
 
 {* Current gui locale, to be used for class [attribute] name & description fields *}
-{def $content_language = ezini( 'RegionalSettings', 'Locale' )}
+{def $content_language = ezini( 'RegionalSettings', 'Locale' )
+     $edit_menu_collapsed = cond( ezpreference( 'admin_edit_menu_collapsed' ), 1, 0 )}
 
-<div id="leftmenu">
+<div id="leftmenu"{if $edit_menu_collapsed} style="margin-left:-13.5em;"{/if}>
+<a id="objectinfo-showhide" class="show-hide-control" title="{'Show / Hide leftmenu'|i18n( 'design/admin/pagelayout/leftmenu' )}" href="#">{cond( $edit_menu_collapsed, "&raquo;", "&laquo;" )}</a>
 <div id="leftmenu-design">
 
 {include uri='design:content/edit_menu.tpl'}
 
 </div>
 </div>
+<script type="text/javascript">
+{literal}
 
-<div id="maincontent">
+YUI(YUI3_config).use('ezcollapsiblemenu', 'event', 'io-ez', function (Y) {
+
+    Y.on('domready', function () {
+        var leftmenu = new Y.eZ.CollapsibleMenu({
+            link: '#objectinfo-showhide',
+            content: ['&laquo;', '&raquo;'],
+{/literal}
+            collapsed: "{$edit_menu_collapsed}",
+{literal}
+            elements:[{
+                selector: '#leftmenu',
+                duration: 0.4,
+                fullStyle: {marginLeft: '0'},
+                collapsedStyle: {marginLeft: '-13.5em'}
+            },{
+                selector: '#maincontent',
+                duration: 0.4,
+                // workaround to http://yuilibrary.com/projects/yui3/ticket/2531641
+                // for IE, margin has to be set in px
+                fullStyle: {marginLeft: Y.one('#leftmenu').getStyle('width')},
+                collapsedStyle: {marginLeft: '20px'}
+            }],
+            callback: function () {
+                Y.io.ez.setPreference('admin_edit_menu_collapsed', this.conf.collapsed);
+            }
+        });
+    });
+
+});
+
+{/literal}
+</script>
+
+
+<div id="maincontent"{if $edit_menu_collapsed} style="margin-left:20px"{/if}>
 <div id="maincontent-design" class="float-break"><div id="fix">
 
 
-<div id="controlbar-top" class="controlbar">
+<div id="controlbar-top" class="controlbar controlbar-fixed">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="button-left">
     <input class="defaultbutton" type="submit" name="PublishButton" value="{'Send for publishing'|i18n( 'design/admin/content/edit' )}" title="{'Publish the contents of the draft that is being edited. The draft will become the published version of the object.'|i18n( 'design/admin/content/edit' )}" />
@@ -26,9 +64,7 @@
     <input class="button" type="submit" name="StoreExitButton" value="{'Store draft and exit'|i18n( 'design/admin/content/edit' )}" title="{'Store the draft that is being edited and exit from edit mode. Use when you need to exit your work and return later to continue.'|i18n( 'design/admin/content/edit' )}" />
     <input class="button" type="submit" name="DiscardButton" value="{'Discard draft'|i18n( 'design/admin/content/edit' )}" onclick="return confirmDiscard( '{'Are you sure you want to discard the draft?'|i18n( 'design/admin/content/edit' )|wash(javascript)}' );" title="{'Discard the draft that is being edited. This will also remove the translations that belong to the draft (if any).'|i18n( 'design/admin/content/edit' ) }" />
 </div>
-<div class="button-right">
-    <a href="JavaScript:void(0);" onclick="jQuery('#page').toggleClass('main-column-only');" class="controlbar-top-full-screen-toggle" title="{'Toggle fullscreen editing!'|i18n( 'design/admin/content/edit' )}">&nbsp;</a>
-</div>
+<div class="button-right"></div>
 <div class="float-break"></div>
 {* DESIGN: Control bar END *}</div></div>
 </div>
@@ -95,6 +131,10 @@
 <div class="content-translation">
 {/if}
 
+{foreach ezini( 'EditSettings', 'AdditionalTemplates', 'content.ini' ) as $additional_tpl}
+    {include uri=concat( 'design:', $additional_tpl )}
+{/foreach}
+
 <div class="context-attributes">
     {include uri='design:content/edit_attribute.tpl' view_parameters=$view_parameters}
 </div>
@@ -120,6 +160,7 @@
 </div>
 
 </div>
+<a href="#path" class="scroll-to-top">&uarr;&nbsp;{'Go to the top'|i18n( 'design/admin2/content/edit' )}</a>
 
 
 {include uri='design:content/edit_relations.tpl'}
@@ -151,23 +192,6 @@
 
 {literal}
 <script type="text/javascript">
-jQuery(function( $ )//called on document.ready
-{
-    var docScrollTop = 0, el = $('#editform input:text:enabled:first');
-
-    if ( document.body.scrollTop !== undefined )
-    	docScrollTop = document.body.scrollTop;// DOM compliant
-    else if ( document.documentElement.scrollTop  !== undefined )
-    	docScrollTop = document.documentElement.scrollTop;// IE6 standards mode;
-
-    // Do not set focus if user has scrolled
-    if ( docScrollTop < 10 )
-    {
-    	window.scrollTo(0, Math.max( el.offset().top - 180, 0 ));
-        el.focus();
-    }
-});
-
 function confirmDiscard( question )
 {
     // Disable/bypass the reload-based (plain HTML) confirmation interface.

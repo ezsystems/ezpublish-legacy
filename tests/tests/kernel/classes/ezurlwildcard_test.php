@@ -2,14 +2,36 @@
 /**
  * File containing the eZURLWildcardTest class
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
  */
 
+/**
+ * @group urlWildcard
+ */
 class eZURLWildcardTest extends ezpDatabaseTestCase
 {
+    /**
+     * Array with following keys :
+     *  - source_url
+     *  - destination_url
+     *  - type
+     * @var array
+     */
+    private $wildcardRow;
+
+    /**
+     * @var eZURLWildcard[]
+     */
+    private $wildcards;
+
+    /**
+     * @var eZURLWildcard[]
+     */
+    private $wildcardObjects;
+
     /**
      * Test case setup
      * Changes INI settings that affect eZURLWildcard to known and predictable
@@ -40,6 +62,8 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
         $this->wildcardObjects["foobar/*/*"] = self::createWildcard( "foobar/*/*", '/', eZURLWildcard::TYPE_DIRECT );
         $this->wildcardObjects["testTranslate1/*/*"] = self::createWildcard( "testTranslate1/*/*", 'foobar/{1}/{2}', eZURLWildcard::TYPE_DIRECT );
         $this->wildcardObjects["testTranslate2/*/abc"] = self::createWildcard( "testTranslate2/*/abc", 'foobar/{1}', eZURLWildcard::TYPE_FORWARD );
+        $this->wildcardObjects["test/single-page"] = self::createWildcard( "test/single-page", 'foo/bar', eZURLWildcard::TYPE_FORWARD );
+        $this->wildcardObjects["is/it/working/*"] = self::createWildcard( "is/it/working/*", 'yes/no/maybe', eZURLWildcard::TYPE_FORWARD );
         eZURLWildcard::expireCache();
     }
 
@@ -83,7 +107,7 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
         $this->assertSame( 'test/*', $wildcard->attribute( 'source_url' ), "Source URL doesn't match" );
         $this->assertSame( '/', $wildcard->attribute( 'destination_url' ), "Destination URL doens't match" );
         $this->assertEquals( eZURLWildcard::TYPE_DIRECT, $wildcard->attribute( 'type' ), "Type doesn't match" );
-        $this->assertType( 'int', $wildcard->attribute( 'id' ), "ID is not an integer" );
+        $this->assertInternalType( 'int', $wildcard->attribute( 'id' ), "ID is not an integer" );
     }
 
     /**
@@ -94,7 +118,7 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     {
         $array = $this->wildcards[0]->asArray();
 
-        $this->assertType( 'array', $array );
+        $this->assertInternalType( 'array', $array );
         $this->assertSame( 'test/*', $array['source_url'] );
         $this->assertSame( '/', $array['destination_url'] );
         $this->assertEquals( eZURLWildcard::TYPE_DIRECT, $array['type'] );
@@ -203,7 +227,7 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     {
         $fetchedWildcard = eZURLWildcard::fetchBySourceURL( 'testPair/0/*', false );
 
-        $this->assertType( 'array', $fetchedWildcard, "Failed fetching the wildcard object as an array" );
+        $this->assertInternalType( 'array', $fetchedWildcard, "Failed fetching the wildcard object as an array" );
         $this->assertSame( 'testPair/0/*', $fetchedWildcard['source_url'] );
         $this->assertSame( '/', $fetchedWildcard['destination_url'] );
         $this->assertEquals( eZURLWildcard::TYPE_DIRECT, $fetchedWildcard['type'] );
@@ -354,6 +378,34 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
         $wildcard->store();
 
         return $wildcard;
+    }
+
+    /**
+     * @covers eZURLWildcard::wildcardExists
+     */
+    public function testWildcardExists()
+    {
+        self::assertFalse( eZURLWildcard::wildcardExists( __FUNCTION__ . md5( microtime() ) ) );
+        self::assertTrue(
+            eZURLWildcard::wildcardExists(
+                $this->wildcardObjects['test/single-page']->attribute( 'source_url' )
+            )
+        );
+        self::assertTrue(
+            eZURLWildcard::wildcardExists(
+                $this->wildcardObjects['is/it/working/*']->attribute( 'source_url' )
+            )
+        );
+        self::assertFalse(
+            eZURLWildcard::wildcardExists( 'is/it/' )
+        );
+        self::assertTrue(
+            eZURLWildcard::wildcardExists( 'is/it/working/now' )
+        );
+        self::assertTrue(
+            eZURLWildcard::wildcardExists( 'is/it/working/now/yes' )
+        );
+
     }
 }
 ?>

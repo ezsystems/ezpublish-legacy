@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -18,6 +18,8 @@ if ( version_compare( PHP_VERSION, '5.2' ) < 0 )
     exit;
 }
 
+$scriptStartTime = microtime( true );
+
 // Set a default time zone if none is given to avoid "It is not safe to rely
 // on the system's timezone settings" warnings. The time zone can be overriden
 // in config.php or php.ini.
@@ -30,7 +32,6 @@ require 'autoload.php';
 
 ignore_user_abort( true );
 
-$scriptStartTime = microtime( true );
 ob_start();
 
 $use_external_css = true;
@@ -176,17 +177,17 @@ function eZDBCleanup()
 function eZFatalError()
 {
     header("HTTP/1.1 500 Internal Server Error");
-    print( "<b>Fatal error</b>: eZ Publish did not finish its request<br/>" );
+    print( "<b>Fatal error</b>: The web server did not finish its request<br/>" );
     if ( ini_get('display_errors') == 1 )
     {
         if ( eZDebug::isDebugEnabled() )
             print( "<p>The execution of eZ Publish was abruptly ended, the debug output is present below.</p>" );
         else
-            print( "<p>The execution of eZ Publish was abruptly ended, debug information can be found in the log files normally placed in var/log/* or by enabling 'DebugOutput'</p>" );
+            print( "<p>Debug information can be found in the log files normally placed in var/log/* or by enabling 'DebugOutput' in site.ini</p>" );
     }
     else
     {
-        print( "<p>The execution of eZ Publish was abruptly ended. Contact website owner with current url and what you did, and owner will be able to debug the issue further(by enabling 'display_errors' and optionally 'DebugOutput').</p>" );
+        print( "<p>Contact website owner with current url and info on what you did, and owner will be able to debug the issue further (by enabling 'display_errors' in php.ini).</p>" );
     }
     $templateResult = null;
     eZDisplayResult( $templateResult );
@@ -209,6 +210,8 @@ function eZDisplayDebug()
     if ( $ini->variable( 'DebugSettings', 'DebugOutput' ) != 'enabled' )
         return null;
 
+    $scriptStopTime = microtime( true );
+
     $type = $ini->variable( "DebugSettings", "Debug" );
     //eZDebug::setHandleType( eZDebug::HANDLE_NONE );
     if ( $type == "inline" or $type == "popup" )
@@ -228,7 +231,9 @@ function eZDisplayDebug()
 
         eZDebug::appendBottomReport( 'Template Usage Statistics', eZTemplatesStatisticsReporter::generateStatistics( $as_html ) );
 
-        return eZDebug::printReport( $type == "popup", $as_html, true );
+        eZDebug::setScriptStop( $scriptStopTime );
+        return eZDebug::printReport( $type == "popup", $as_html, true, false, true,
+            true, $ini->variable( "DebugSettings", "DisplayIncludedFiles" ) == 'enabled' );
     }
     return null;
 }
@@ -238,6 +243,7 @@ function eZDisplayDebug()
 */
 function eZDisplayResult( $templateResult )
 {
+    ob_start();
     if ( $templateResult !== null )
     {
         $classname = eZINI::instance()->variable( "OutputSettings", "OutputFilterName" );//deprecated
@@ -245,7 +251,7 @@ function eZDisplayResult( $templateResult )
         {
             $templateResult = call_user_func( array ( $classname, 'filter' ), $templateResult );
         }
-        $templateResult = ezpEvent::getInstance()->filter('response/output', $templateResult );
+        $templateResult = ezpEvent::getInstance()->filter( 'response/preoutput', $templateResult );
         $debugMarker = '<!--DEBUG_REPORT-->';
         $pos = strpos( $templateResult, $debugMarker );
         if ( $pos !== false )
@@ -264,6 +270,8 @@ function eZDisplayResult( $templateResult )
     {
         eZDisplayDebug();
     }
+    $fullPage = ob_get_clean();
+    echo ezpEvent::getInstance()->filter( 'response/output', $fullPage );
 }
 
 function fetchModule( $uri, $check, &$module, &$module_name, &$function_name, &$params )
@@ -330,6 +338,20 @@ eZExtension::activateExtensions( 'access' );
 // Now that all extensions are activated and siteaccess has been changed, reset
 // all eZINI instances as they may not take into account siteaccess specific settings.
 eZINI::resetAllInstances( false );
+
+ezpEvent::getInstance()->registerEventListeners();
+
+// Be able to do general events early in process
+ezpEvent::getInstance()->notify( 'request/preinput', array( $uri ) );
+
+$mobileDeviceDetect = new ezpMobileDeviceDetect( ezpMobileDeviceDetectFilter::getFilter() );
+if( $mobileDeviceDetect->isEnabled() )
+{
+    $mobileDeviceDetect->process();
+
+    if ( $mobileDeviceDetect->isMobileDevice() )
+        $mobileDeviceDetect->redirect();
+}
 
 // Initialize module loading
 $moduleRepositories = eZModule::activeModuleRepositories();
@@ -765,7 +787,11 @@ if ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) !== 'true' )
 
     if ( $currentUser->isLoggedIn() )
     {
-        setcookie( 'is_logged_in', 'true', 0, $cookiePath );
+        // Only set the cookie if it doesnt exist. This way we are not constantly sending the set request in the headers.
+        if ( !isset( $_COOKIE['is_logged_in'] ) || $_COOKIE['is_logged_in'] != 'true' )
+        {
+            setcookie( 'is_logged_in', 'true', 0, $cookiePath );
+        }
     }
     else if ( isset( $_COOKIE['is_logged_in'] ) )
     {
@@ -884,7 +910,7 @@ if ( $module->exitStatus() == eZModule::STATUS_REDIRECT )
         $tpl->setVariable( 'redirect_uri', eZURI::encodeURL( $redirectURI ) );
         $templateResult = $tpl->fetch( 'design:redirect.tpl' );
 
-        eZDebug::addTimingPoint( "End" );
+        eZDebug::addTimingPoint( "Script end" );
 
         eZDisplayResult( $templateResult );
     }
@@ -944,6 +970,8 @@ if ( !isset( $moduleResult['ui_context'] ) )
     $moduleResult['ui_context'] = $module->uiContextName();
 }
 $moduleResult['ui_component'] = $module->uiComponentName();
+$moduleResult['is_mobile_device'] = $mobileDeviceDetect->isMobileDevice();
+$moduleResult['mobile_device_alias'] = $mobileDeviceDetect->getUserAgentAlias();
 
 $templateResult = null;
 
@@ -1076,7 +1104,7 @@ else
 }
 
 
-eZDebug::addTimingPoint( "End" );
+eZDebug::addTimingPoint( "Script end" );
 
 $out = ob_get_clean();
 echo trim( $out );

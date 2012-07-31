@@ -8,7 +8,7 @@
  * @param string $_GET[scope] the permissions scope the client requests (optional)
  * @param string $_GET[state] Not implemented yet (optional)
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package oauth
@@ -99,7 +99,7 @@ if ( !$application->isAuthorizedByUser( $pScope, eZUser::currentUser() ) )
     // authorization denied: redirect
     if ( $http->hasPostVariable( 'DenyButton' ) )
     {
-        error( 'access_denied' );
+        error( $pRedirectUri, 'access_denied' );
     }
 
     elseif ( $http->hasPostVariable( 'AuthorizeButton' ) )
@@ -252,7 +252,7 @@ function getHTTPVariable( $variable )
         $http = eZHTTPTool::instance();
 
     if ( $hasPost === null )
-        $hasPost = $http->hasPostVariable( 'AuthorizeButton' ) or $http->hasPostVariable( 'DenyButton' );
+        $hasPost = $http->hasPostVariable( 'AuthorizeButton' ) || $http->hasPostVariable( 'DenyButton' );
 
     if ( $hasPost )
         return $http->hasPostVariable( $variable ) ? $http->postVariable( $variable ) : false;

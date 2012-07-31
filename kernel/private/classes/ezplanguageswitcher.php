@@ -2,7 +2,7 @@
 /**
  * File containing the ezpLanguageSwitcher class
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -18,6 +18,7 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
 {
     protected $origUrl;
     protected $userParamString;
+    protected $queryString;
 
     protected $destinationSiteAccess;
     protected $destinationLocale;
@@ -43,6 +44,8 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
         {
             $this->userParamString .= "/($key)/$value";
         }
+
+        $this->queryString = isset( $params['QueryString'] ) ? $params['QueryString'] : '';
     }
 
     /**
@@ -164,6 +167,10 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
         {
             $finalUrl = $this->baseDestinationUrl . '/' . $urlAlias;
         }
+        if ( $this->queryString != '' )
+        {
+            $finalUrl .= '?' . $this->queryString;
+        }
         return $finalUrl;
     }
 
@@ -202,7 +209,7 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
 
             default:
                 $host = $saIni->variable( 'SiteSettings', 'SiteURL' );
-                $host = "http://{$host}/";
+                $host = eZSys::serverProtocol()."://".$host;
                 break;
         }
         $this->baseDestinationUrl = "{$host}{$indexFile}";
@@ -237,9 +244,11 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
             {
                 $switchLanguageLink .= $url;
             }
-            $ret[$siteAccessName] = array( 'url' => $switchLanguageLink,
-                                           'text' => $translationName
-                                         );
+            $ret[$siteAccessName] = array(
+                'url' => $switchLanguageLink,
+                'text' => $translationName,
+                'locale' => eZSiteAccess::getIni( $siteAccessName )->variable( 'RegionalSettings', 'ContentObjectLocale' )
+             );
         }
         return $ret;
     }

@@ -2,7 +2,7 @@
 /**
  * File containing the eZContentObjectTreeNodeTest class
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -99,7 +99,7 @@ class eZContentObjectTreeNodeTest extends ezpDatabaseTestCase
         {
             $mainNodeContentObjectID = $mainNode->attribute( 'contentobject_id' );
 
-            $this->assertType( 'eZContentObjectTreeNode', $mainNode );
+            $this->assertInstanceOf( 'eZContentObjectTreeNode', $mainNode );
             $this->assertTrue( $mainNode->attribute( 'is_main' ) );
             $this->assertTrue( in_array( $mainNodeContentObjectID, $objectsIDArray ),
                 "A returned node's contentobject_id isn't part of the original parameters" );

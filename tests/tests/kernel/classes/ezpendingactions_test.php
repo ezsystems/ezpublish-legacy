@@ -2,7 +2,7 @@
 /**
  * File containing the eZPendingActions class tests
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -47,17 +47,17 @@ class eZPendingActionsTest extends ezpDatabaseTestCase
         }
 
         $res = eZPendingActions::fetchByAction( 'test' );
-        $this->assertType( PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $res );
+        $this->assertInternalType( PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $res );
         foreach($res as $row)
         {
-            $this->assertType( 'eZPendingActions', $row );
+            $this->assertInstanceOf( 'eZPendingActions', $row );
         }
 
         unset($res);
 
         $dateFilter = array( '<=', time() );
         $res = eZPendingActions::fetchByAction( 'test', $dateFilter );
-        $this->assertType( PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $res );
+        $this->assertInternalType( PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $res );
     }
 
     /**

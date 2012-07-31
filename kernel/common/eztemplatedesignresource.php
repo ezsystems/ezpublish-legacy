@@ -2,7 +2,7 @@
 /**
  * File containing the eZTemplateDesignResource class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -267,7 +267,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $this->KeyStack[] = $this->Keys;
         $this->Keys = $matchKeys;
 
-        eZDebug::accumulatorStart( 'override_cache', 'override', 'Cache load' );
+        eZDebug::accumulatorStart( 'override_cache', 'Override', 'Cache load' );
 
         if( !isset( $GLOBALS['eZOverrideTemplateCacheMap'] ) )
         {
@@ -682,7 +682,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         if( $designLocationCache )
         {
-            $siteAccessName = $GLOBALS['eZCurrentAccess']['name'];
+            // Using current SA if none given
+            $siteAccessName = $siteAccess !== false ? $siteAccess : $GLOBALS['eZCurrentAccess']['name'];
 
             $cachePath = eZSys::cacheDirectory()
                          . '/'
@@ -855,7 +856,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         // Generate match cache for all templates
 
         // Build arrays of available files, start with standard design and end with most prefered design
-        $matchFilesArray = array();
+        $matchFileArray = array();
 
         $reverseBases = array_reverse( $bases );
 

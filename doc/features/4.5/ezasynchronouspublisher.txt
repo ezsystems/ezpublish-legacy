@@ -30,6 +30,22 @@ System configuration
 --------------------
 Publishing operations are handled by a system daemon. This daemon must be running, or content just won't be published.
 
+PHP
+'''
+The asynchronous publishing script/daemon requires the pcntl functions to be available in order to run, as it heavily
+requires on parallel publishing through forking and process control. Some distributions (Ubuntu 11.0 for instance)
+disable them by default. The daemon won't be able to run if one of the required ones isn't available.
+
+If they are disabled, either change your CLI php.ini configuration, or if the option isn't available to you, override
+them locally as follows::
+
+    php -d disabled_functions=0 bin/php/ezasynchronouspublisher.php
+
+Using the init scripts as described below in 'Settings', you can also add this option to your
+ezasynchronouspublisher.conf::
+
+    PHP_EXECUTABLE=/usr/bin/php -d disabled_functions=0
+
 Manual execution
 ''''''''''''''''
 The daemon can be started manually by running the following, as your webserver user::
@@ -231,13 +247,13 @@ This handler is the one in charge of reading from the queue and deciding what co
 A default queueReader handler is providing with your default eZ Publish distribution. It simply reads the oldest inactive
 item from the processes queue, and returns it.
 
-It can be changed to a new one by implementing the ``ezpContentPublishingQueueReaderInterface`` and configuring the new
-class in ``content.ini``.
+It can be changed to a new one by extending the ``ezpContentPublishingQueue`` class, with a new implementation for the
+``next`` method and configuring the new class in ``content.ini``.
 
 Here is a possible class definition::
 
     <?php
-    class myPublishingQueue implements ezpContentPublishingQueueReaderInterface
+    class myPublishingQueue extends ezpContentPublishingQueue
     {
         public static function next()
         {
@@ -254,3 +270,6 @@ And the matching INI (content.ini) configuration::
 
     [PublishingSettings]
     AsynchronousPublishingQueueReader=myContentPublishingQueue
+
+Other methods from ``ezpContentPublishingQueue`` can be overridden as well, but this is not officially supported as of
+now, and therefore not documented.

@@ -33,3 +33,5 @@
     {include uri='design:ordering.tpl'}
 <div class="break"></div>
 </div>
+
+{include uri='design:windows_extratabs.tpl'}

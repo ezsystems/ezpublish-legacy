@@ -2,7 +2,7 @@
 /**
  * File containing the eZMultiPriceTypeRegression class
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -48,20 +48,20 @@ class eZMultiPriceTypeRegression extends ezpDatabaseTestCase
         $currency->store();
 
         $currencyID = $currency->attribute( 'id' );
-        $this->assertType( 'integer', $currencyID );
+        $this->assertInternalType( 'integer', $currencyID );
 
         // create VAT type
         $row = array( 'name' => 'Test', 'percentage' => 10.0 );
         $vatType = new eZVatType( $row );
         $vatType->store();
         $vatTypeID = $vatType->attribute( 'id' );
-        $this->assertType( 'integer', $vatTypeID );
+        $this->assertInternalType( 'integer', $vatTypeID );
 
         $class = eZContentClass::create( false, array( 'name' => 'eZMultiPrice::testMultipleCallsToCalculatedPrice',
                                                        'identifier' => 'ezmultiprice_test' ) );
         $class->store();
         $classID = $class->attribute( 'id' );
-        $this->assertType( 'integer', $classID );
+        $this->assertInternalType( 'integer', $classID );
 
         $attributes = $class->fetchAttributes();
 

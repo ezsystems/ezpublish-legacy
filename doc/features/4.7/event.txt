@@ -1,0 +1,42 @@
+Event system
+============
+
+Intro
+-----
+See 4.5/event.txt for full information on this feature
+
+
+API Change
+----------
+{@see ezpEvent->filter()} can now take more then one variable.
+
+
+New events
+----------
+{@see ezpEvent->notify()}
+
+
+request/preinput ( eZURI $uri )
+
+Makes it possible to do logic straight after siteaccess and extensions settings has been loaded.
+
+
+New filters
+-----------
+{@see ezpEvent->filter()}
+
+
+response/preoutput  ( string $templateResult )
+
+This filter 'response/preoutput' is triggered before the debug report,
+which is printed at the end of the page, when debug is activated.
+That way, you can use accumulator or append debug report
+in your callback, they will appear in the final debug report
+(at the opposite of response/output filter which is triggered at the very end,
+after the report...)
+
+
+content/view        ( int $nodeId, eZINI $siteINI )
+
+Executed just after params has been set to variables, makes it possible to change node id based on some condition
+or change siteini settings for the request.

@@ -2,7 +2,7 @@
 /**
  * File containing the eZCountryTypeTest class
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -31,7 +31,7 @@ class eZCountryTypeTest extends ezpDatabaseTestCase
         ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'Locale', 'fre-FR' );
 
         $countries = eZCountryType::fetchCountryList();
-        $this->assertType( 'array', $countries, "eZCountryType::fetchCountryList() didn't return an array" );
+        $this->assertInternalType( 'array', $countries, "eZCountryType::fetchCountryList() didn't return an array" );
 
         $countryListIsSorted = true;
         foreach( $countries as $country )

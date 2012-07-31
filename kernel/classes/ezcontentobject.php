@@ -2,7 +2,7 @@
 /**
  * File containing the eZContentObject class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -1124,9 +1124,14 @@ class eZContentObject extends eZPersistentObject
         }
     }
 
-    /*!
-      \return an array of versions for the current object.
-    */
+    /**
+     * Returns an array of eZContentObjectVersion for the current object
+     * according to the conditions in $parameters.
+     *
+     * @param boolean $asObject
+     * @param array $parameters
+     * @return array
+     */
     function versions( $asObject = true, $parameters = array() )
     {
         $conditions = array( "contentobject_id" => $this->ID );
@@ -1145,10 +1150,12 @@ class eZContentObject extends eZPersistentObject
                 $conditions['initial_language_id'] = $parameters['conditions']['initial_language_id'];
             }
         }
+        $sort = isset( $parameters['sort'] ) ? $parameters['sort'] : null;
+        $limit = isset( $parameters['limit'] ) ? $parameters['limit'] : null;
 
         return eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
                                                     null, $conditions,
-                                                    null, null,
+                                                    $sort, $limit,
                                                     $asObject );
     }
 
@@ -2817,6 +2824,7 @@ class eZContentObject extends eZPersistentObject
                 $params['SortBy']           - related objects sorting mode.
                             Supported modes: class_identifier, class_name, modified, name, published, section
                 $params['IgnoreVisibility'] - ignores 'hidden' state of related objects if true
+                $params['RelatedClassIdentifiers'] - limit returned relations to objects of the specified class identifiers
      \param $reverseRelatedObjects : if "true" returns reverse related contentObjects
                                      if "false" returns related contentObjects
     */
@@ -2845,7 +2853,7 @@ class eZContentObject extends eZPersistentObject
         $sortingInfo = array( 'attributeFromSQL' => '',
                               'attributeWhereSQL' => '',
                               'attributeTargetSQL' => '' );
-
+        $relatedClassIdentifiersSQL = '';
         $showInvisibleNodesCond = '';
         // process params (only SortBy and IgnoreVisibility currently supported):
         // Supported sort_by modes:
@@ -2893,6 +2901,19 @@ class eZContentObject extends eZPersistentObject
             {
                 $showInvisibleNodesCond = self::createFilterByVisibilitySQLString( $params['IgnoreVisibility'] );
             }
+
+            // related class identifier filter
+            $relatedClassIdentifiersSQL = '';
+            if ( isset( $params['RelatedClassIdentifiers'] ) && is_array( $params['RelatedClassIdentifiers'] ) )
+            {
+                $relatedClassIdentifiers = array();
+                foreach( $params['RelatedClassIdentifiers'] as $classIdentifier )
+                {
+                    $relatedClassIdentifiers[] = "'" . $db->escapeString( $classIdentifier ) . "'";
+                }
+                $relatedClassIdentifiersSQL = $db->generateSQLINStatement( $relatedClassIdentifiers, 'ezcontentclass.identifier', false, true, 'string' ). " AND";
+                unset( $classIdentifier, $relatedClassIdentifiers );
+            }
         }
 
         $relationTypeMasking = '';
@@ -2918,13 +2939,6 @@ class eZContentObject extends eZPersistentObject
         }
 
         // Create SQL
-        $versionNameTables = ', ezcontentobject_name ';
-        $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
-
-        $versionNameJoins = " AND ezcontentobject.id = ezcontentobject_name.contentobject_id AND
-                                 ezcontentobject.current_version = ezcontentobject_name.content_version AND ";
-        $versionNameJoins .= eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' );
-
         $fromOrToContentObjectID = $reverseRelatedObjects == false ? " AND ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
                                                                       ezcontentobject_link.from_contentobject_id='$objectID' AND
                                                                       ezcontentobject_link.from_contentobject_version='$fromObjectVersion' "
@@ -2941,24 +2955,27 @@ class eZContentObject extends eZPersistentObject
                         ezcontentclass.serialized_name_list AS class_serialized_name_list,
                         ezcontentclass.identifier as contentclass_identifier,
                         ezcontentclass.is_container as is_container,
-                        ezcontentobject.* $versionNameTargets
+                        ezcontentobject.*, ezcontentobject_name.name as name, ezcontentobject_name.real_translation
                         $sortingInfo[attributeTargetSQL]
                      FROM
                         ezcontentclass,
                         ezcontentobject,
-                        ezcontentobject_link
-                        $versionNameTables
+                        ezcontentobject_link,
+                        ezcontentobject_name
                         $sortingInfo[attributeFromSQL]
                      WHERE
                         ezcontentclass.id=ezcontentobject.contentclass_id AND
                         ezcontentclass.version=0 AND
                         ezcontentobject.status=" . eZContentObject::STATUS_PUBLISHED . " AND
                         $sortingInfo[attributeWhereSQL]
+                        $relatedClassIdentifiersSQL
                         ezcontentobject_link.op_code='0'
                         $relationTypeMasking
                         $fromOrToContentObjectID
-                        $showInvisibleNodesCond
-                        $versionNameJoins
+                        $showInvisibleNodesCond AND
+                        ezcontentobject.id = ezcontentobject_name.contentobject_id AND
+                        ezcontentobject.current_version = ezcontentobject_name.content_version AND
+                        " . eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
                         $sortingString";
         if ( !$offset && !$limit )
         {
@@ -3024,6 +3041,7 @@ class eZContentObject extends eZPersistentObject
                 $params['SortBy']           - related objects sorting mode.
                             Supported modes: class_identifier, class_name, modified, name, published, section
                 $params['IgnoreVisibility'] - ignores 'hidden' state of related objects if true
+                $params['RelatedClassIdentifiers'] - limit returned relations to objects of the specified class identifiers
     */
     function relatedContentObjectList( $fromObjectVersion = false,
                                        $fromObjectID = false,
@@ -3138,7 +3156,7 @@ class eZContentObject extends eZPersistentObject
                                true  - return all relations groupped by attribute ID
                                This parameter makes sense only when $attributeID == false or $params['AllRelations'] = true
     \param $params : other parameters from template fetch function :
-               $params['AllRelations'] - relation type filter :
+                $params['AllRelations'] - relation type filter :
                            true - return ALL relations, including attribute-level
                            false    - return object-level relations
                            >0       - bit mask of EZ_CONTENT_OBJECT_RELATION_* values
@@ -3230,7 +3248,7 @@ class eZContentObject extends eZPersistentObject
         $objectID = $this->ID;
         if ( $version == false )
             $version = isset( $this->CurrentVersion ) ? $this->CurrentVersion : false;
-        $version == (int) $version;
+        $version = (int) $version;
 
         $db = eZDB::instance();
         $showInvisibleNodesCond = '';

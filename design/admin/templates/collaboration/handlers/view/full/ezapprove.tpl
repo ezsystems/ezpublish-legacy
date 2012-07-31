@@ -56,7 +56,7 @@
     {/if}
     {if $content_version|null()|not()}
       <p>{"You may edit the draft and publish it, in which case an approval is required again."|i18n('design/admin/collaboration/handler/view/full/ezapprove')}</p>
-      <p><a href={concat("content/edit/",$content_version.contentobject_id)|ezurl}>{"Edit the object"|i18n('design/admin/collaboration/handler/view/full/ezapprove')}</a></p>
+      <p><a href={concat( "content/edit/", $content_version.contentobject_id, "/", $content_version.version )|ezurl}>{"Edit the object"|i18n('design/admin/collaboration/handler/view/full/ezapprove')}</a></p>
     {/if}
   {else}
     {if and( is_set( $contentobject_link ),$contentobject_link )}

@@ -2,7 +2,7 @@
 /**
  * File containing the eZDFSFileHandler class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -67,6 +67,30 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
                            'iniSection'  => 'eZDFSClusteringSettings',
                            'iniVariable' => 'DBBackend' ) ) );
             self::$dbbackend->_connect( false );
+
+            $fileINI = eZINI::instance( 'file.ini' );
+            if (
+                $fileINI->variable( 'ClusterEventsSettings', 'ClusterEvents' ) === 'enabled'
+                && self::$dbbackend instanceof eZClusterEventNotifier
+            )
+            {
+                $listener = eZExtension::getHandlerClass(
+                    new ezpExtensionOptions(
+                        array(
+                            'iniFile'       => 'file.ini',
+                            'iniSection'    => 'ClusterEventsSettings',
+                            'iniVariable'   => 'Listener',
+                            'handlerParams' => array( new eZClusterEventLoggerEzdebug() )
+                        )
+                    )
+                );
+
+                if ( $listener instanceof eZClusterEventListener )
+                {
+                    self::$dbbackend->registerListener( $listener );
+                    $listener->initialize();
+                }
+            }
         }
 
         if ( $filePath !== false )
@@ -850,7 +874,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         if ( self::LOCAL_CACHE )
         {
             eZDebugSetting::writeDebug( 'kernel-clustering',
-                "Creating local copy of the file", "dfs::storeCache( '{$this->filePath}' )", __METHOD__ );
+                "Creating local copy of the file", "dfs::storeCache( '{$this->filePath}' )" );
             eZFile::create( basename( $this->filePath ), dirname( $this->filePath ), $binaryData, true );
         }
 
@@ -975,7 +999,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         }
         $commonPath = eZDBFileHandler::cleanPath( $commonPath );
         $commonSuffix = eZDBFileHandler::cleanPath( $commonSuffix );
-        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileDeleteByDirList( '$dirList', '$commonPath', '$commonSuffix' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileDeleteByDirList( '" . join( ", ", $dirList ) . "', '$commonPath', '$commonSuffix' )" );
 
         self::$dbbackend->_deleteByDirList( $dirList, $commonPath, $commonSuffix );
     }
@@ -1021,7 +1045,6 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::delete( '$path' )" );
 
         self::$dbbackend->_delete( $path );
-        self::$dbbackend->_deleteByLike( $path . '/%' );
 
         $this->metaData = null;
     }
@@ -1123,25 +1146,27 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
     /**
      * Check if given file/dir exists.
      * @param string $path File path to test existence for
+     * @param bool $checkDFSFile if true, also check on the DFS
      * @see eZDFSFileHandler::exists()
      * @return bool
      */
-    function fileExists( $path )
+    function fileExists( $path, $checkDFSFile = false )
     {
         $path = eZDBFileHandler::cleanPath( $path );
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileExists( '$path' )" );
-        return self::$dbbackend->_exists( $path );
+        return self::$dbbackend->_exists( $path, false, true, $checkDFSFile );
     }
 
     /**
      * Check if given file/dir exists.
+     * @param bool $checkDFSFile if true, also check on the DFS
      * @see eZDFSFileHandler::fileExists()
      * @return bool
      */
-    function exists()
+    function exists( $checkDFSFile = false )
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::exists( '$this->filePath' )" );
-        return self::$dbbackend->_exists( $this->filePath );
+        return self::$dbbackend->_exists( $this->filePath, false, true, $checkDFSFile );
     }
 
     /**
@@ -1227,7 +1252,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
     {
         eZDebugSetting::writeDebug( 'kernel-clustering',
                                     sprintf( "dfs::getFileList( array( %s ), %d )",
-                                             implode( ', ', $scopes ), (int) $excludeScopes ) );
+                                             is_array( $scopes ) ? implode( ', ', $scopes ) : '', (int) $excludeScopes ) );
         return self::$dbbackend->_getFileList( $scopes, $excludeScopes );
     }
 
@@ -1267,7 +1292,12 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         eZDebugSetting::writeDebug( 'kernel-clustering', "Starting cache generation", "dfs::startCacheGeneration( '{$this->filePath}' )" );
 
         $generatingFilePath = $this->filePath . '.generating';
-        $ret = self::$dbbackend->_startCacheGeneration( $this->filePath, $generatingFilePath );
+        try {
+            $ret = self::$dbbackend->_startCacheGeneration( $this->filePath, $generatingFilePath );
+        } catch( RuntimeException $e ) {
+            eZDebug::writeError( $e->getMessage() );
+            return false;
+        }
 
         // generation granted
         if ( $ret['result'] == 'ok' )
@@ -1296,17 +1326,27 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      */
     public function endCacheGeneration( $rename = true )
     {
-        eZDebugSetting::writeDebug( 'kernel-clustering', 'Ending cache generation', "dfs::endCacheGeneration( '{$this->realFilePath}' )" );
-        if ( self::$dbbackend->_endCacheGeneration( $this->realFilePath, $this->filePath, $rename ) )
+        if ( $this->realFilePath === null )
         {
-            $this->filePath = $this->realFilePath;
-            $this->realFilePath = null;
-            eZClusterFileHandler::removeGeneratingFile( $this );
-            return true;
-        }
-        else
-        {
+            eZDebugSetting::writeDebug( 'kernel-clustering', "$this->filePath is not generating", "dfs::endCacheGeneration( '{$this->filePath}' )" );
             return false;
+        }
+
+        eZDebugSetting::writeDebug( 'kernel-clustering', 'Ending cache generation', "dfs::endCacheGeneration( '{$this->realFilePath}' )" );
+        try {
+            if ( self::$dbbackend->_endCacheGeneration( $this->realFilePath, $this->filePath, $rename ) )
+            {
+                $this->filePath = $this->realFilePath;
+                $this->realFilePath = null;
+                eZClusterFileHandler::removeGeneratingFile( $this );
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        } catch( RuntimeException $e ) {
+            eZDebug::writeError( "An error occured ending cache generation on '$this->realFilePath'", 'cluster.log' );
         }
     }
 
@@ -1342,9 +1382,9 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      */
     protected function _cacheType()
     {
-        if ( strstr( $this->filePath, 'cache/content' ) !== false )
+        if ( strpos( $this->filePath, '/cache/content/' ) !== false )
             return 'viewcache';
-        elseif ( strstr( $this->filePath, 'cache/template-block' ) !== false )
+        elseif ( strpos( $this->filePath, '/cache/template-block/' ) !== false )
             return 'cacheblock';
         else
             return 'misc';
@@ -1359,10 +1399,9 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         {
             case 'cacheType':
             {
-                static $cacheType = null;
-                if ( $cacheType == null )
-                    $cacheType = $this->_cacheType();
-                return $cacheType;
+                if ( $this->_cacheType === null )
+                    $this->_cacheType = $this->_cacheType();
+                return $this->_cacheType;
             } break;
 
             // we only fetch metadata when the status of _metadata is unknown.
@@ -1445,6 +1484,11 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         return self::$dbbackend->expiredFilesList( $scopes, $limit, $expiry );
     }
 
+    public function hasStaleCacheSupport()
+    {
+        return true;
+    }
+
     /**
      * Database backend class
      * Provides metadata operations
@@ -1505,5 +1549,11 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      * @var array
      */
     protected static $nonExistantStaleCacheHandling = null;
+
+    /**
+     * Type of cache file, used by the nameTrunk feature to determine how nametrunk is computed
+     * @var string
+     */
+    protected $_cacheType = null;
 }
 ?>

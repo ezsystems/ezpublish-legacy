@@ -2,7 +2,7 @@
 /**
  * File containing the eZAuthor class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -59,7 +59,12 @@ class eZAuthor
     function addAuthor( $id, $name, $email )
     {
         if ( $id == -1 )
-            $id = $this->Authors[$this->AuthorCount - 1]['id'] + 1;
+        {
+            if ( isset( $this->Authors[$this->AuthorCount - 1] ) )
+                $id = $this->Authors[$this->AuthorCount - 1]['id'] + 1;
+            else
+                $id = 1;
+        }
 
         $this->Authors[] = array( "id" => $id,
                                   "name" => $name,

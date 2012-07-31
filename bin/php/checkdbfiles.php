@@ -3,7 +3,7 @@
 /**
  * File containing the checkdbfiles.php script.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -112,12 +112,39 @@ $versions45 = array( 'unstable' => array( array( '4.4.0', '4.5.0alpha1' ),
              'stable' => array( array( '4.4.0', '4.5.0' ) ),
            );
 
+$versions46 = array( 'unstable' => array( array( '4.5.0', '4.6.0alpha1' ),
+                                          array( '4.6.0alpha1', '4.6.0beta1' ),
+                                          array( '4.6.0beta1', '4.6.0rc1' ),
+                                          array( '4.6.0rc1', '4.6.0' ),
+                    ),
+             'unstable_subdir' => 'unstable',
+             'stable' => array( array( '4.5.0', '4.6.0' ) ),
+           );
+
+$versions47 = array( 'unstable' => array( array( '4.6.0', '4.7.0alpha1' ),
+                                          array( '4.7.0alpha1', '4.7.0beta1' ),
+                                          array( '4.7.0beta1', '4.7.0rc1' ),
+                                          array( '4.7.0rc1', '4.7.0' ),
+                    ),
+             'unstable_subdir' => 'unstable',
+             'stable' => array( array( '4.6.0', '4.7.0' ) ),
+           );
+
+$versions50 = array( 'unstable' => array( array( '4.7.0', '5.0.0alpha1' ),
+                    ),
+             'unstable_subdir' => 'unstable',
+             'stable' => array( ),
+           );
+
 
 $versions['4.1'] = $versions41;
 $versions['4.2'] = $versions42;
 $versions['4.3'] = $versions43;
 $versions['4.4'] = $versions44;
 $versions['4.5'] = $versions45;
+$versions['4.6'] = $versions46;
+$versions['4.7'] = $versions47;
+$versions['5.0'] = $versions50;
 
 $fileList = array();
 $missingFileList = array();

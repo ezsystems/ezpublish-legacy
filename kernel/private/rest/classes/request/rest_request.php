@@ -2,7 +2,7 @@
 /**
  * File containing the ezpRestRequest class
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package rest
@@ -31,6 +31,13 @@ class ezpRestRequest extends ezcMvcRequest
      * @var array
      */
     public $post;
+
+    /**
+     * Original request method
+     *
+     * @var string
+     */
+    public $originalProtocol;
 
     /**
      * Variables related to content, extracted from GET
@@ -68,13 +75,16 @@ class ezpRestRequest extends ezcMvcRequest
      * @param ezcMvcRawRequest $raw
      * @param array(ezcMvcRequestCookie) $cookies
      * @param bool $isFatal
+     * @param string|null $originalProtocol Uses $protocol if null
+     * @return ezpRestRequest
+     *
      */
     public function __construct( $date = null, $protocol = '',
         $host = '', $uri = '', $requestId = '', $referrer = '',
         $variables = array(), $get = array(), $post = array(),
         $contentVariables = array(), $isEncrypted = false, $body = '',
         $files = null, $accept = null, $agent = null, $authentication = null,
-        $raw = null, $cookies = array(), $isFatal = false )
+        $raw = null, $cookies = array(), $isFatal = false, $originalProtocol = null )
     {
         $this->date = $date;
         $this->protocol = $protocol;
@@ -94,6 +104,7 @@ class ezpRestRequest extends ezcMvcRequest
         $this->authentication = $authentication;
         $this->raw = $raw;
         $this->cookies = $cookies;
+        $this->originalProtocol = ( $originalProtocol === null ? $protocol : $originalProtocol );
     }
 
     /**
@@ -117,11 +128,12 @@ class ezpRestRequest extends ezcMvcRequest
             $array['post'], $array['contentVariables'], $array['isEncrypted'],
             $array['body'], $array['files'], $array['accept'], $array['agent'],
             $array['authentication'], $array['raw'], $array['cookies'],
-            $array['isFatal'] );
+            $array['isFatal'], $array['originalProtocol'] );
     }
 
     /**
      * Returns base URI with protocol and host (e.g. http://myhost.com/foo/bar)
+     *
      * @return string
      */
     public function getBaseURI()
@@ -137,6 +149,7 @@ class ezpRestRequest extends ezcMvcRequest
 
     /**
      * Returns the host with the protocol
+     *
      * @return string
      */
     public function getHostURI()
@@ -150,6 +163,7 @@ class ezpRestRequest extends ezcMvcRequest
 
     /**
      * Returns current content variables as a regular query string (e.g. "foo=bar&this=that")
+     *
      * @param bool $withQuestionMark If true, the question mark ("?") will be added
      * @return string
      */
@@ -169,6 +183,43 @@ class ezpRestRequest extends ezcMvcRequest
             $queryString .= implode( '&', $aParams );
         }
         return $queryString;
+    }
+
+    /**
+     * Get parsed request body based on content type as a php hash.
+     *
+     * Only supports application/x-www-form-urlencoded and application/json,
+     * for anything else use ->body atm. If POST then ->post is returned.
+     *
+     * @todo Add some sort of configurable lazy loaded request body handler for parsing misc content type.
+     * @return array|null Null on unsupported content type.
+     */
+    public function getParsedBody()
+    {
+        if ( $this->originalProtocol === 'http-post' )
+        {
+            if ( $this->raw['CONTENT_TYPE'] === 'application/json' )
+            {
+                return json_decode( $this->body, true );
+            }
+            return $this->post;
+        }
+        if ( !isset( $this->raw['CONTENT_TYPE'] ) )
+            return null;
+
+        if ( empty( $this->body ) )
+            return array();
+
+        if ( strpos( $this->raw['CONTENT_TYPE'], 'application/x-www-form-urlencoded' ) === 0 )
+        {
+            parse_str( $this->body, $parsedBody );
+            return $parsedBody;
+        }
+        else if ( strpos( $this->raw['CONTENT_TYPE'], 'application/json' ) === 0 )
+        {
+            return json_decode( $this->body, true );
+        }
+        return null;
     }
 }
 ?>

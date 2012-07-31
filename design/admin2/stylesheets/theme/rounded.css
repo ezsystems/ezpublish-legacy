@@ -120,7 +120,7 @@ ul.tabs li a, ul.tabs li span.disabled
 
 /* CSS Media Query's to adjust layout based on screen width */
 
-@media all and (max-width: 1080px)
+@media all and (max-width: 1124px)
 {
     #header-logo a, #header-logo span
     {
@@ -144,6 +144,16 @@ a.show-hide-control
     border-bottom-right-radius: 3px;
     border-top-right-radius: 3px;
     background-clip: padding-box;
+}
+
+
+#leftmenu a.show-hide-control
+{
+    border:1px solid #999;
+    border-right: 0;
+    border-radius:0;
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
 }
 
 a.show-hide-control:hover
@@ -186,14 +196,17 @@ a.show-hide-tabs:hover
 #controlbar-top .box-bc
 {
     border: 1px solid #ccc;
-    background: #fefefe;
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f5f5f5), to(#fff));
-    background-image: -moz-linear-gradient(top,  #f5f5f5,  #fff);
-    background-image: -ms-linear-gradient(top,  #f5f5f5,  #fff);
-    background-image: -o-linear-gradient(top,  #f5f5f5,  #fff);
-    background-image: linear-gradient(top,  #f5f5f5,  #fff);
+    background: #f4f4f4;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
+    background-image: -moz-linear-gradient(top,  #fdfdfd, #e4e3e4);
+    background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
     border-radius: 3px;
     background-clip: padding-box;
+    -moz-box-shadow: 0 4px 4px #aaa;
+    -webkit-box-shadow: 0 4px 4px #aaa;
+    box-shadow: 0 4px 4px #aaa;
 }
 
 .box-bc .box-ml, .box-header .box-ml
@@ -302,7 +315,7 @@ input.button, input.defaultbutton, input.button-disabled
     background-image: -ms-linear-gradient(top,  #5d7db1,  #445c89);
     background-image: -o-linear-gradient(top,  #5d7db1,  #445c89);
     background-image: linear-gradient(top,  #5d7db1,  #445c89);
-    border: 1px solid #aaa;
+    border: 1px solid #cfd1d3;
     border-radius: 3px;
     background-clip: padding-box;
 }
@@ -457,11 +470,20 @@ table.list th, table.special th
     background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
     background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
     background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    padding-top:0;
+    padding-bottom:0;
 }
 
 #leftmenu-design ul
 {
     color: #333;
+}
+
+#editform #leftmenu
+{
+    border:1px solid #ccc;
+    border-radius:3px;
+    background:#f5f5f5;
 }
 
 .settings .current
@@ -486,4 +508,9 @@ table.list th, table.special th
 {
     margin-bottom: -2px;
     padding-top: 9px;
+}
+
+#page .yui-calcontainer .title
+{
+position:absolute;
 }

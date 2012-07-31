@@ -2,7 +2,7 @@
 /**
  * File containing the eZUserDiscountRule class
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -55,13 +55,13 @@ class eZUserDiscountRuleTest extends ezpDatabaseTestCase
         // eZUserDiscountRule, and return the 5 rules, since no duplicates will
         // be returned
         $rules = eZUserDiscountRule::fetchByUserIDArray( array( 1, 2 ) );
-        $this->assertType( 'array', $rules,
+        $this->assertInternalType( 'array', $rules,
             "Return value should have been an array" );
         $this->assertEquals( 5, count( $rules ),
             "Return value should contain 5 items" );
         foreach( $rules as $rule )
         {
-            $this->assertType( 'eZDiscountRule', $rule );
+            $this->assertInstanceOf( 'eZDiscountRule', $rule );
         }
 
     }

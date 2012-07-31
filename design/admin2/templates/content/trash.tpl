@@ -105,7 +105,8 @@
          page_uri='/content/trash'
          item_count=$list_count
          view_parameters=$view_parameters
-         item_limit=$number_of_items}
+         item_limit=$number_of_items
+         show_google_navigator=true()}
 </div>
 
 
@@ -150,7 +151,6 @@
 </div>
 {literal}
 <script type="text/javascript">
-
 document.getElementById('trash-list-sort-control').style.display = '';
 
 function trashSortingSelection( trashUrl )
@@ -160,7 +160,6 @@ function trashSortingSelection( trashUrl )
     document.location = trashUrl;
     return false;
 }
-
 </script>
 {/literal}
 <div class="float-break"></div>

@@ -2,7 +2,7 @@
 /**
  * File containing the eZClusterFileHandlerInterface interface.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -391,5 +391,11 @@ interface eZClusterFileHandlerInterface
      * @return bool
      */
     public function requiresPurge();
+
+    /**
+     * Indicates if the handler supports the stalecache feature
+     * @return bool true if it does, false otherwise
+     */
+    public function hasStaleCacheSupport();
 }
 ?>

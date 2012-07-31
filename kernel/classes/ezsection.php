@@ -2,7 +2,7 @@
 /**
  * File containing the eZSection class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -239,6 +239,59 @@ class eZSection extends eZPersistentObject
         }
     }
 
+    public function applyTo( eZContentObject $object )
+    {
+        $sectionID = $this->attribute( "id" );
+
+        $currentUser = eZUser::currentUser();
+        if ( !$currentUser->canAssignSectionToObject( $sectionID, $object ) )
+        {
+            eZDebug::writeError(
+                "You do not have permissions to assign the section <" . $selectedSection->attribute( "name" ) .  "> to the object <" . $object->attribute( "name" ) . ">."
+            );
+            return false;
+        }
+
+        $db = eZDB::instance();
+        $db->begin();
+        $assignedNodes = $object->attribute( "assigned_nodes" );
+        if ( !empty( $assignedNodes ) )
+        {
+            if ( eZOperationHandler::operationIsAvailable( "content_updatesection" ) )
+            {
+                foreach ( $assignedNodes as $node )
+                {
+                    eZOperationHandler::execute(
+                        "content",
+                        "updatesection",
+                        array(
+                            "node_id" => $node->attribute( "node_id" ),
+                            "selected_section_id" => $sectionID
+                        ),
+                        null,
+                        true
+                    );
+                }
+            }
+            else
+            {
+                foreach ( $assignedNodes as $node )
+                {
+                    eZContentOperationCollection::updateSection( $node->attribute( "node_id" ), $sectionID );
+                }
+            }
+        }
+        else
+        {
+            // If there are no assigned nodes we should update db for the current object.
+            $objectID = $object->attribute( "id" );
+            $db->query( "UPDATE ezcontentobject SET section_id='$sectionID' WHERE id = '$objectID'" );
+            $db->query( "UPDATE ezsearch_object_word_link SET section_id='$sectionID' WHERE  contentobject_id = '$objectID'" );
+        }
+        eZContentCacheManager::clearContentCacheIfNeeded( $object->attribute( "id" ) );
+        $object->expireAllViewCache();
+        $db->commit();
+    }
 }
 
 ?>

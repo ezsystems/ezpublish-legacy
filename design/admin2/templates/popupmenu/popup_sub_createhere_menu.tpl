@@ -1,11 +1,9 @@
 <!-- Create here menu -->
 <script type="text/javascript">
-<!--
 menuArray['CreateHereMenu'] = {ldelim} 'depth': 1 {rdelim};
 menuArray['CreateHereMenu']['elements'] = {ldelim}{rdelim};
 menuArray['CreateHereMenu']['elements']['menu-classes'] = {ldelim} 'variable': '%classList%' {rdelim};
 menuArray['CreateHereMenu']['elements']['menu-classes']['content'] = '<a id="menu-item-create-here" href="#" onclick="ezpopmenu_submitForm( \'menu-form-create-here\', new Array( \'classID\', \'%classID%\' ) ); return false;">%name%<\/a>';
-// -->
 </script>
 
 <div class="popupmenu" id="CreateHereMenu">

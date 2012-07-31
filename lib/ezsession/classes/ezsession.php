@@ -2,7 +2,7 @@
 /**
  * File containing session interface
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -200,7 +200,7 @@ class eZSession
      */
     static public function garbageCollector()
     {
-        return self::getHandlerInstance()->gc( $_SERVER['REQUEST_TIME'] );
+        return self::getHandlerInstance()->gc( (int)$_SERVER['REQUEST_TIME'] );
     }
 
     /**
@@ -282,24 +282,38 @@ class eZSession
      * @since 4.4
      * @param int|false $lifetime Cookie timeout of session cookie, will read from ini if not set
     */
-    static protected function setCookieParams( $lifetime = false )
+    static public function setCookieParams( $lifetime = false )
     {
         $ini      = eZINI::instance();
         $params   = session_get_cookie_params();
         if ( $lifetime === false )
         {
-            if ( $ini->hasVariable('Session', 'CookieTimeout')
-              && $ini->variable('Session', 'CookieTimeout') )
+            if ( $ini->hasVariable( 'Session', 'CookieTimeout' )
+              && $ini->variable( 'Session', 'CookieTimeout' ) )
                 $lifetime = (int) $ini->variable('Session', 'CookieTimeout');
             else
                 $lifetime = $params['lifetime'];
         }
-        $path   = $ini->hasVariable('Session', 'CookiePath')     ? $ini->variable('Session', 'CookiePath')     : $params['path'];
-        $domain = $ini->hasVariable('Session', 'CookieDomain')   ? $ini->variable('Session', 'CookieDomain')   : $params['domain'];
-        $secure = $ini->hasVariable('Session', 'CookieSecure')   ? $ini->variable('Session', 'CookieSecure')   : $params['secure'];
+        $path   = $ini->hasVariable( 'Session', 'CookiePath' )     ? $ini->variable( 'Session', 'CookiePath' )     : $params['path'];
+        $domain = $ini->hasVariable( 'Session', 'CookieDomain' )   ? $ini->variable( 'Session', 'CookieDomain' )   : $params['domain'];
+        if ( $ini->hasVariable( 'Session', 'CookieSecure' ) )
+        {
+            $secure = ( $ini->variable( 'Session', 'CookieSecure' ) == 'true' ) ? true : false ;
+        }
+        else
+        {
+            $secure = $params['secure'];
+        }
         if ( isset( $params['httponly'] ) ) // only available on PHP 5.2 and up
         {
-            $httponly = $ini->hasVariable('Session', 'CookieHttponly') ? $ini->variable('Session', 'CookieHttponly') : $params['httponly'];
+            if ( $ini->hasVariable( 'Session', 'CookieHttponly') )
+            {
+                $httponly = ( $ini->variable( 'Session', 'CookieHttponly' ) == 'true' ) ? true : false ;
+            }
+            else
+            {
+                $httponly = $params['httponly'];
+            }
             session_set_cookie_params( $lifetime, $path, $domain, $secure, $httponly );
         }
         else

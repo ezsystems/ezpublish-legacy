@@ -2,7 +2,7 @@
 /**
  * File containing the ezpRegressionTest class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -41,17 +41,6 @@ abstract class ezpRegressionTest extends ezpTestCase
             usort( $this->files,
                    array( $this, 'sortTestsByName' ) );
         }
-    }
-
-    /**
-     * Get name of current test (uses file name)
-     *
-     * @param bool $withDataSet
-     * @return string
-     */
-    public function getName( $withDataSet = TRUE )
-    {
-        return $this->currentFile;
     }
 
     /**
@@ -171,13 +160,13 @@ abstract class ezpRegressionTest extends ezpTestCase
     abstract protected function testRunRegression( $file );
 
     /**
-     * Needs to be re implemented by child
+     * Needs to be re implemented by child if PHP < 5.3
      *
      * @return ezpTestRegressionSuite
      */
-    abstract public static function suite();
-    /*{
-        return new ezpTestRegressionSuite( __CLASS__ );
-    }*/
+    public static function suite()
+    {
+        return new ezpTestRegressionSuite( get_called_class() );
+    }
 }
 ?>

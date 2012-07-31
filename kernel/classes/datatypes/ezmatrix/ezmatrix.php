@@ -2,7 +2,7 @@
 /**
  * File containing the eZMatrix class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -88,10 +88,9 @@ class eZMatrix
     }
 
     /*!
-        Searches in matrix columns with identifiers that in \a $matrixColumnDefinition an
-        a) if column exists and \a $updateColumnsAttributesAllowed is true then modification of
-           column attributes is performed( index, name, etc.);
-        b) if column doesn't exists and \a $addNewColumnsAllowed then new column will be created.
+        Searches in matrix columns with identifiers that in \a $matrixColumnDefinition and
+        a) if column exists then modification of column attributes is performed ( index, name, etc. );
+        b) if column doesn't exist then new column will be created.
     */
     protected function updateColumns( $matrixColumnDefinition )
     {
@@ -201,7 +200,7 @@ class eZMatrix
         $matrixWasModified = false;
 
         $matrixWasModified |= $this->removeUselessColumns( $classColumnsDefinition );
-        $matrixWasModified |= $this->updateColumns( $classColumnsDefinition, true, true );
+        $matrixWasModified |= $this->updateColumns( $classColumnsDefinition );
 
         if ( $matrixWasModified )
         {

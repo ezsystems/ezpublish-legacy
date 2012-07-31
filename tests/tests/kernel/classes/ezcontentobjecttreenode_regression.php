@@ -2,7 +2,7 @@
 /**
  * File containing the eZContentObjectTreeNodeRegression class
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -94,7 +94,7 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
         $filterSQL = eZContentObjectTreeNode::createAttributeFilterSQLStrings(
             $attributeFilter );
 
-        $this->assertType( 'array', $filterSQL );
+        $this->assertInternalType( 'array', $filterSQL );
         $this->assertArrayHasKey( 'from', $filterSQL );
         $this->assertArrayHasKey( 'where', $filterSQL );
     }
@@ -118,7 +118,7 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
 
         $sqlArray = eZContentObjectTreeNode::createPermissionCheckingSQL( $policyLimitationArray );
 
-        $this->assertType( 'array', $sqlArray );
+        $this->assertInternalType( 'array', $sqlArray );
         $this->assertArrayHasKey( 'from', $sqlArray );
 
         // we need to check that each identifier in the 'from' of this array
@@ -148,7 +148,7 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
         $node = eZContentObjectTreeNode::fetch( $nodeID, false, true,
             array( 'contentobject_version' => 1 ) );
 
-        $this->assertType( 'eZContentObjectTreeNode', $node);
+        $this->assertInstanceOf( 'eZContentObjectTreeNode', $node );
     }
 
 

@@ -43,7 +43,6 @@
 {/if}
 
 <script type="text/javascript">
-<!--
 var treeMenu;
 (function(){ldelim}
 
@@ -111,7 +110,7 @@ var treeMenu;
             *}"hiddenbyparent":"{'Hidden by superior'|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)}",{*
             *}"disabled":"{'Dynamic tree menu is disabled for this siteaccess!'|i18n("design/admin/contentstructuremenu")|wash("javascript")}",{*
             *}"not_exist":"{'Node does not exist'|i18n("design/admin/contentstructuremenu")|wash("javascript")}",{*
-            *}"internal_error":"{'Internal error̈́'|i18n("design/admin/contentstructuremenu")|wash("javascript")}"{rdelim};
+            *}"internal_error":"{'Internal error'|i18n("design/admin/contentstructuremenu")|wash("javascript")}"{rdelim};
         {undef $iconInfo $classIconsSize}
     {/cache-block}
 {/cache-block}
@@ -135,5 +134,4 @@ var treeMenu;
 
     treeMenu.load( false, rootNode.node_id, rootNode.modified_subnode );
 {rdelim})();
-// -->
 </script>

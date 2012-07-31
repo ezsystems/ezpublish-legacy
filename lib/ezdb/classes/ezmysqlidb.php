@@ -2,7 +2,7 @@
 /**
  * File containing the eZMySQLiDB class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -42,6 +42,8 @@ class eZMySQLiDB extends eZDBInterface
             return;
         }
 
+        eZDebug::createAccumulatorGroup( 'mysqli_total', 'Mysql Total' );
+
         /// Connect to master server
         if ( !$this->DBWriteConnection )
         {
@@ -73,8 +75,6 @@ class eZMySQLiDB extends eZDBInterface
 
         // Initialize TempTableList
         $this->TempTableList = array();
-
-        eZDebug::createAccumulatorGroup( 'mysqli_total', 'Mysql Total' );
     }
 
     /*!
@@ -100,9 +100,11 @@ class eZMySQLiDB extends eZDBInterface
         }
 
         $oldHandling = eZDebug::setHandleType( eZDebug::HANDLE_EXCEPTION );
+        eZDebug::accumulatorStart( 'mysqli_connection', 'mysqli_total', 'Database connection' );
         try {
             $connection = mysqli_connect( $server, $user, $password, null, (int)$port, $socketPath );
         } catch( ErrorException $e ) {}
+        eZDebug::accumulatorStop( 'mysqli_connection' );
         eZDebug::setHandleType( $oldHandling );
 
         $maxAttempts = $this->connectRetryCount();
@@ -113,9 +115,11 @@ class eZMySQLiDB extends eZDBInterface
             sleep( $waitTime );
 
             $oldHandling = eZDebug::setHandleType( eZDebug::HANDLE_EXCEPTION );
+            eZDebug::accumulatorStart( 'mysqli_connection', 'mysqli_total', 'Database connection' );
             try {
                 $connection = mysqli_connect( $this->Server, $this->User, $this->Password, null, (int)$this->Port, $this->SocketPath );
             } catch( ErrorException $e ) {}
+            eZDebug::accumulatorStop( 'mysqli_connection' );
             eZDebug::setHandleType( $oldHandling );
 
             $numAttempts++;
@@ -327,7 +331,7 @@ class eZMySQLiDB extends eZDBInterface
                             $columns[$col]['size'] = max( $columns[$col]['size'], strlen( $data ) );
                         }
                     }
-                    
+
                     $delimiterLine = array();
                     $colLine = array();
                     // Generate the column line and the vertical delimiter
@@ -830,7 +834,7 @@ class eZMySQLiDB extends eZDBInterface
         else
         {
             eZDebug::writeDebug( 'escapeString called before connection is made', __METHOD__ );
-            return $str;
+            return mysql_escape_string( $str );
         }
     }
 

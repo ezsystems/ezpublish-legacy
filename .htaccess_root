@@ -6,7 +6,7 @@ DirectoryIndex index.php
 RewriteEngine On
 RewriteRule ^api/ index_rest.php [L]
 RewriteRule ^index_rest\.php - [L]
-RewriteRule ^([^/]+/)?content/treemenu.* index_treemenu\.php [L]
+RewriteRule ^([^/]+/)?content/treemenu.* index_treemenu.php [L]
 RewriteRule ^var/([^/]+/)?storage/images(-versioned)?/.* - [L]
 RewriteRule ^var/([^/]+/)?cache/(texttoimage|public)/.* - [L]
 RewriteRule ^design/[^/]+/(stylesheets|images|javascript)/.* - [L]
@@ -22,7 +22,7 @@ RewriteRule ^favicon\.ico - [L]
 #  Uncomment the line below if you want you favicon be served from the standard design.
 #  You can customize the path to favicon.ico by replacing design/standard/images/favicon.ico
 #  by the adequate path.
-#RewriteRule ^favicon\.ico /design/standard/images/favicon\.ico [L]
+#RewriteRule ^favicon\.ico /design/standard/images/favicon.ico [L]
 RewriteRule ^design/standard/images/favicon\.ico - [L]
 
 # Give direct access to robots.txt for use by crawlers (Google, Bing, Spammers..)
@@ -36,4 +36,4 @@ RewriteRule ^robots\.txt - [L]
 # More info here : http://en.wikipedia.org/wiki/P3p
 RewriteRule ^w3c/p3p\.xml - [L]
 
-RewriteRule .* index\.php
+RewriteRule .* index.php

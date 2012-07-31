@@ -2,7 +2,7 @@
 /**
  * File containing the eZTemplatesStatisticsReporter class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -21,7 +21,6 @@ class eZTemplatesStatisticsReporter
     */
     static function generateStatistics( $as_html = true )
     {
-        $statStartTime = microtime( true );
         $stats = '';
 
         if ( !eZTemplate::isTemplatesUsageStatisticsEnabled() )
@@ -126,13 +125,10 @@ class eZTemplatesStatisticsReporter
 
         $totalTemplatesCount = count( $templatesUsageStatistics );
         $totalUniqueTemplatesCopunt = count( array_keys( $alreadyListedTemplate ) );
-        $statEndTime = microtime( true );
-        $timeUsage = number_format( $statEndTime - $statStartTime, 4 );
 
         if ( $as_html )
         {
             $stats .= "<tr><td colspan=\"6\"><b>&nbsp;Number of times templates used: $totalTemplatesCount<br />&nbsp;Number of unique templates used: $totalUniqueTemplatesCopunt</b></td></tr>";
-            $stats .= "<tr><td colspan=\"6\"><b>&nbsp;Time used to render template usage: $timeUsage secs</b></td></tr>";
             $stats .= "</table>";
         }
         else

@@ -1,10 +1,52 @@
 Changes to BC and behavior in version 4.6.0
 ===========================================
 
+INI setting changes
+-------------------
+
+- subtreeexpirycleanup.php cronjob is not activated by default.
+
+  As DelayedCacheBlockCleanup is disabled this script is not activated by
+  default. You can re-enable it by adding Scripts[]=subtreeexpirycleanup.php
+  to cronjob.ini[CronjobSettings]
+
 Change of behavior
 ------------------
 
+- #016171: admin2: window_controls_user.tpl- adding new tabs in own extension
 
+  The fix for this enhancement made it possible to extend tabs in admin2 without
+  overriding the templates, this means the overrides for user tabs needs to be removed
+  as the templates have been removed. The override.ini rules to remove are:
+
+  [window_controls]
+  Source=window_controls.tpl
+  MatchFile=window_controls_user.tpl
+  Subdir=templates
+  Match[navigation_part_identifier]=ezusernavigationpart
+
+  [windows]
+  Source=windows.tpl
+  MatchFile=windows_user.tpl
+  Subdir=templates
+  Match[navigation_part_identifier]=ezusernavigationpart
+
+- #17656: Subtree limitation is not properly honored for multi-located contents
+
+  Content read access is now checked at the node level instead of content object.
+  For the record, this access is checked in eZNodeViewFunctions::contentViewGenerate()
+
+- #18703: A user can remove any locations if he has right to delete one of them
+
+  While removing a node, the content remove access is now checked at the node
+  level instead of the content object.
+
+- #18258: Ensure that indexing succeeds
+
+  Search engine plugins, like eZ Find, must now implement the ezpSearchEngine interface
+  in order to be accepted as a search plugin. The native eZSearchEngine is of course
+  compatible in the 4.6 release, but eZ Find 2.6 is now required. Earlier versions
+  of eZ Find won't run with eZ Publish 4.6 or later.
 
 Removed features
 ----------------
@@ -25,4 +67,12 @@ Removed globals
 
 Deprecated
 ----------
+
+- eZSoap library
+
+  Deprecated in favour of native PHP functionality.
+
+- Method 'fileDeleteByRegex()' in various file handlers
+
+  Said methods are unused and have undesirable performance characteristics.
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -15,10 +15,29 @@ require 'kernel/content/section_edit.php';
 initializeSectionEdit( $Module );
 require 'kernel/content/state_edit.php';
 initializeStateEdit( $Module );
+
+$http = eZHTTPTool::instance();
+
 $obj = eZContentObject::fetch( $ObjectID );
 
 if ( !$obj )
     return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
+
+if ( $http->hasPostVariable( 'ChangeSectionOnly' ) )
+{
+    if ( $http->hasPostVariable( 'SelectedSectionId' ) )
+    {
+        $section = eZSection::fetch( (int)$http->postVariable( 'SelectedSectionId' ) );
+        if ( $section instanceof eZSection )
+            $section->applyTo( $obj );
+    }
+    $Module->redirectTo(
+        $Module->hasActionParameter( 'RedirectRelativeURI' )
+        ? $Module->actionParameter( 'RedirectRelativeURI' )
+        : '/'
+    );
+    return eZModule::HOOK_STATUS_CANCEL_RUN;
+}
 
 // If the object has status Archived (trash) we redirect to content/restore
 // which can handle this status properly.
@@ -35,7 +54,6 @@ eZSSLZone::checkObject( 'content', 'edit', $obj );
 $isAccessChecked = false;
 $classID = $obj->attribute( 'contentclass_id' );
 $class = eZContentClass::fetch( $classID );
-$http = eZHTTPTool::instance();
 
 // Action for the edit_draft.tpl/edit_languages.tpl page.
 // CancelDraftButton is set for the Cancel button.

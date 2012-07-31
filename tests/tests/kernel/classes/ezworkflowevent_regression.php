@@ -2,7 +2,7 @@
 /**
  * File containing the eZWorkflowEventRegression class
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -139,7 +139,7 @@ class eZWorkflowEventRegression extends ezpDatabaseTestCase
         $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $objectID,
                                                                                      'version'   => 1 ) );
 
-        $this->assertType( 'array', $operationResult );
+        $this->assertInternalType( 'array', $operationResult );
         $this->assertEquals( $operationResult['status'], eZModuleOperationInfo::STATUS_CONTINUE,
             "The operation result wasn't CONTINUE" );
 

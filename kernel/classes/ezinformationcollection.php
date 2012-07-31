@@ -2,7 +2,7 @@
 /**
  * File containing the eZInformationCollection class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -689,7 +689,7 @@ class eZInformationCollection extends eZPersistentObject
         else
         {
             $userIdentifier = session_id();
-            //$userIdentifierBase = 'ezuser-anonymous-' . eZSys::serverVariable( 'REMOTE_ADDR' );
+            //$userIdentifierBase = 'ezuser-anonymous-' . eZSys::clientIP();
         }
         return $userIdentifier;
     }

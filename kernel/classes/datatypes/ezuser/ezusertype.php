@@ -2,7 +2,7 @@
 /**
  * File containing the eZUserType class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -37,7 +37,8 @@ class eZUserType extends eZDataType
         $res = $db->arrayQuery( "SELECT COUNT(*) AS version_count FROM ezcontentobject_version WHERE contentobject_id = $userID" );
         $versionCount = $res[0]['version_count'];
 
-        if ( $version == null || $versionCount <= 1 )
+        if ( ( $version == null || $versionCount <= 1 )
+                && eZUser::fetch( $userID ) !== null )
         {
             eZUser::removeUser( $userID );
             $db->query( "DELETE FROM ezuser_role WHERE contentobject_id = '$userID'" );
@@ -444,8 +445,16 @@ class eZUserType extends eZDataType
         $login = $userData[0];
         $email = $userData[1];
 
-        if ( eZUser::fetchByName( $login ) || ( eZUser::requireUniqueEmail() && eZUser::fetchByEmail( $email ) ) )
+        $userByUsername = eZUser::fetchByName( $login );
+        if( $userByUsername && $userByUsername->attribute( 'contentobject_id' ) != $contentObjectAttribute->attribute( 'contentobject_id' ) )
             return false;
+
+        if( eZUser::requireUniqueEmail() )
+        {
+            $userByEmail = eZUser::fetchByEmail( $email );
+            if( $userByEmail && $userByEmail->attribute( 'contentobject_id' ) != $contentObjectAttribute->attribute( 'contentobject_id' ) )
+                return false;
+        }
 
         $user = eZUser::create( $contentObjectAttribute->attribute( 'contentobject_id' ) );
 

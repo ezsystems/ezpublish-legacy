@@ -77,7 +77,6 @@
 
 {literal}
 <script type="text/javascript">
-<!--
     window.onload=function()
     {
         var lastAddedItem = document.getElementById('LastAdded');
@@ -88,7 +87,6 @@
             lastAddedItem.focus();
         }
     }
--->
 </script>
 {/literal}
 

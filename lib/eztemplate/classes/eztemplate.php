@@ -2,7 +2,7 @@
 /**
  * File containing the eZTemplate class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -604,7 +604,7 @@ class eZTemplate
         {
             $variableData = $node[2];
             $variablePlacement = $node[3];
-            $rslt = $this->processVariable( $textElements, $variableData, $variablePlacement, $rootNamespace, $currentNamespace );
+            $this->processVariable( $textElements, $variableData, $variablePlacement, $rootNamespace, $currentNamespace );
             if ( !is_array( $textElements ) )
                 eZDebug::writeError( "Textelements is no longer array: '$textElements'", __METHOD__ . '::variable' );
         }
@@ -651,6 +651,7 @@ class eZTemplate
         else
         {
             $this->warning( "", "Function \"$functionName\" is not registered" );
+            return null;
         }
     }
 
@@ -1750,15 +1751,26 @@ class eZTemplate
         $path = $resourceData['template-filename'];
         // Do not ouput debug on pagelayout templates to avoid trigering
         // browser quirks mode
-        if ( isset( $root[1][0][2] ) && is_string( $root[1][0][2] ) && strpos( $root[1][0][2], '<!DOCTYPE' ) === 0 )
+        if ( isset( $root[1][0][2] ) && is_string( $root[1][0][2] ) && stripos( $root[1][0][2], '<!DOCTYPE' ) === 0 )
             return;
         $uri = $resourceData['uri'];
         $preText = "\n<!-- START: including template: $path ($uri) -->\n";
         if ( eZTemplate::isXHTMLCodeIncluded() )
             $preText .= "<p class=\"small\">$path</p><br/>\n";
         $postText = "\n<!-- STOP: including template: $path ($uri) -->\n";
-        $root[1] = array_merge( array( eZTemplateNodeTool::createTextNode( $preText ) ), $root[1] );
-        $root[1][] = eZTemplateNodeTool::createTextNode( $postText );
+
+        $preNode = eZTemplateNodeTool::createTextNode( $preText );
+        $postNode = eZTemplateNodeTool::createTextNode( $postText );
+
+        if ( is_array( $root[1] ) )
+        {
+            $root[1] = array_merge( array( $preNode ), $root[1] );
+        }
+        else
+        {
+            $root[1] = array( $preNode );
+        }
+        $root[1][] = $postNode;
     }
 
     /*!
@@ -2383,7 +2395,7 @@ class eZTemplate
             $instance = self::instance();
 
             $ini = eZINI::instance();
-            if ( $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled' )
+            if (!isset($GLOBALS['eZTemplateDebugInternalsEnabled']) && $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled' )
                 eZTemplate::setIsDebugEnabled( true );
 
             $compatAutoLoadPath = $ini->variableArray( 'TemplateSettings', 'AutoloadPath' );

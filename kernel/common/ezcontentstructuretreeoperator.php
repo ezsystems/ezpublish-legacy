@@ -2,7 +2,7 @@
 /**
  * File containing the eZContentStructureTreeOperator class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -56,7 +56,7 @@ class eZContentStructureTreeOperator
                                                'default' => 0 ) );
     }
 
-    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters, $placement )
     {
         $sortArray = false;
         $fetchHidden = false;
@@ -129,12 +129,6 @@ class eZContentStructureTreeOperator
 
         $permissionChecking = eZContentObjectTreeNode::createPermissionCheckingSQL( $limitationList );
 
-        // version
-        $useVersionName = true;
-        $versionNameTables = eZContentObjectTreeNode::createVersionNameTablesSQLString( $useVersionName );
-        $versionNameTargets = eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
-        $versionNameJoins = eZContentObjectTreeNode::createVersionNameJoinsSQLString( $useVersionName );
-
         // invisible nodes.
         $showInvisibleNodesCond = eZContentObjectTreeNode::createShowInvisibleSQLString( false, $params['FetchHidden'] );
 
@@ -143,17 +137,19 @@ class eZContentStructureTreeOperator
         {
             $query = "SELECT count(*) as count
                           FROM
-                               ezcontentobject_tree,
-                               ezcontentobject,ezcontentclass
-                               $versionNameTables
+                               ezcontentobject_tree
+                               INNER JOIN ezcontentobject ON (ezcontentobject.id = ezcontentobject_tree.contentobject_id)
+                               INNER JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id)
+                               INNER JOIN ezcontentobject_name ON (
+                                   ezcontentobject_name.contentobject_id = ezcontentobject_tree.contentobject_id AND
+                                   ezcontentobject_name.content_version = ezcontentobject_tree.contentobject_version
+                               )
                                $permissionChecking[from]
                           WHERE $pathStringCond
                                 $classCondition
                                 ezcontentclass.version=0 AND
                                 $notEqParentString
-                                ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
-                                ezcontentclass.id = ezcontentobject.contentclass_id
-                                $versionNameJoins
+                                " . eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
                                 $permissionChecking[where] ";
         }
         else
@@ -162,12 +158,17 @@ class eZContentStructureTreeOperator
                              ezcontentobject_tree.*,
                              ezcontentclass.serialized_name_list as class_serialized_name_list,
                              ezcontentclass.identifier as class_identifier,
-                             ezcontentclass.is_container as is_container
-                             $versionNameTargets
+                             ezcontentclass.is_container as is_container,
+                             ezcontentobject_name.name as name,
+                             ezcontentobject_name.real_translation
                       FROM
-                             ezcontentobject_tree,
-                             ezcontentobject,ezcontentclass
-                             $versionNameTables
+                             ezcontentobject_tree
+                             INNER JOIN ezcontentobject ON (ezcontentobject.id = ezcontentobject_tree.contentobject_id)
+                             INNER JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id)
+                             INNER JOIN ezcontentobject_name ON (
+                                 ezcontentobject_name.contentobject_id = ezcontentobject_tree.contentobject_id AND
+                                 ezcontentobject_name.content_version = ezcontentobject_tree.contentobject_version
+                             )
                              $sortingInfo[attributeFromSQL]
                              $permissionChecking[from]
                       WHERE
@@ -175,11 +176,9 @@ class eZContentStructureTreeOperator
                              $sortingInfo[attributeWhereSQL]
                              ezcontentclass.version=0 AND
                              $notEqParentString
-                             ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
-                             ezcontentclass.id = ezcontentobject.contentclass_id AND
                              $classCondition
                              ezcontentobject_tree.contentobject_is_published = 1
-                             $versionNameJoins
+                             " . eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
                              $showInvisibleNodesCond
                              $permissionChecking[where]
                       ORDER BY $sortingInfo[sortingFields]";

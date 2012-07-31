@@ -19,7 +19,7 @@
       <email>@ezp_admin_email@</email>
     </author>
     <link href="http://@ezp_server@/testCreateATOMWithnbsp/Test-object-0-for-testCreateATOMWithnbsp"/>
-    <summary>&lt;p&gt;Summary for Test object #0 for testCreateATOMWithnbsp &amp; with a nbsp char right here&amp;nbsp;.&lt;/p&gt;</summary>
+    <summary>&lt;p&gt;Summary for Test object #0 for testCreateATOMWithnbsp &amp;amp; with a nbsp char right here&amp;nbsp;.&lt;/p&gt;</summary>
     <published>XXX</published>
   </entry>
 </feed>

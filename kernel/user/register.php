@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -119,7 +119,12 @@ if ( !$http->hasSessionVariable( "RegisterUserID" ) )
 
     $userCreatorID = $ini->variable( "UserSettings", "UserCreatorID" );
     $defaultSectionID = $ini->variable( "UserSettings", "DefaultSectionID" );
-    // Create object by user 14 in section 1
+    if ( $defaultSectionID == 0 && $count > 0 )
+    {
+        $parentContentObject = eZContentObject::fetchByNodeID( $defaultUserPlacement );
+        $defaultSectionID = $parentContentObject->attribute( 'section_id' );
+    }
+
     $contentObject = $class->instantiate( $userCreatorID, $defaultSectionID );
     $objectID = $contentObject->attribute( 'id' );
 

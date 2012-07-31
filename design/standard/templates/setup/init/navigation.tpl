@@ -15,7 +15,7 @@
       <input class="button" type="submit" name="eZSetup_finetune_button" value="{"Finetune"|i18n("design/standard/setup/init", "Finetune button in installation")}" />
     {/if}
     {if eq( $dont_show_forward, 0 )}
-        <input class="defaultbutton" type="submit" name="eZSetup_next_button" value="{"Next"|i18n("design/standard/setup/init", "next button in installation")} &gt;" />
+        <input class="defaultbutton" type="submit" name="eZSetup_next_button" id accept="eZSetup_next_button" value="{"Next"|i18n("design/standard/setup/init", "next button in installation")} &gt;" />
     {/if}
   </div>
 {/default}

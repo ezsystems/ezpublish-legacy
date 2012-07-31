@@ -22,6 +22,18 @@ span.vertical-seperator
 
 label.inline { padding-right: 0.1em; }
 
+#leftmenu a.show-hide-control
+{
+    display:none;
+    float:right;
+    margin-top:1.5em;
+}
+
+.yui3-js-enabled #leftmenu a.show-hide-control
+{
+    display:block;
+}
+
 a.show-hide-control
 {
     float: left;
@@ -72,12 +84,12 @@ a.image-text:hover > span
 #header-logo a, #header-logo span
 {
     float: left;
-    width: 110px;
+    width: 108px;
     height: 45px;
     display: block;
     text-align: left;
     text-decoration: none;
-    background: transparent url('../images/2/ez-logo-white.png') no-repeat 8px 8px scroll;
+    background: transparent url('../images/2/ez-logo-white.png') no-repeat 7px 7px scroll;
 }
 
 #header-search
@@ -617,13 +629,18 @@ div.popupmenu hr
 #controlbar-top .box-bc
 {
     margin-top: 0.5em;
-    margin-bottom: 1em;
+    margin-bottom: 0.5em;
 }
 
 #controlbar-top .box-bc .box-ml
 {
     margin: 0px 3px 0px 3px;
     padding: 0.5em;
+}
+
+#controlbar-top .block
+{
+    margin:0;
 }
 
 h1.context-title
@@ -694,8 +711,8 @@ div.context-block
 
 div.context-block h1.context-title img, div.context-block h2.context-title img
 {
-    vertical-align: bottom;
-    margin: -13px 8px 2px 0;
+    vertical-align: middle;
+    margin: -4px 8px 2px 0;
 }
 
 /* MENU-BLOCK */
@@ -770,7 +787,7 @@ input.button, input.defaultbutton, input.button-disabled
 {
     width: auto;
     overflow: visible;
-    padding: 0em 0.5em;;
+    padding: 0.26em 0.7em;
 }
 
 /* SEARCH */
@@ -805,40 +822,34 @@ input.button, input.defaultbutton, input.button-disabled
     cursor: pointer;
 }
 
-/* FULL EDIT VIEW ( main-column-only class toggle ) */
-
-#page.main-column-only #header, #page.main-column-only #path,
-#page.main-column-only #leftmenu, #page.main-column-only #rightmenu,
-#page.main-column-only #footer, #page.main-column-only #debug
+/* FIXED CONTROLBAR DEPENDING ON SCROLL */
+.yui3-js-enabled .controlbar-fixed
 {
-    display: none;
+    position:fixed;
+    width:100%;
+    top: -0.6em;
+    left:0;
+    border-radius:0;
 }
 
-div#page.main-column-only div#maincontent
+.scroll-to-top
 {
-    margin: 0;
+    position:fixed;
+    bottom:0;
+    right:0;
+    background:#000;
+    opacity:0;
+    padding:0.5em;
+    border-top-left-radius:5px;
+    color:#fff;
+    text-decoration:none;
+    display:none;
 }
-
-div#page.main-column-only #controlbar-top
+.yui3-js-enabled .scroll-to-top
 {
-    position: fixed;
-    min-width: 49%;
-    right: 0;
-    top: 0;
+    display:block;
 }
-
-a.controlbar-top-full-screen-toggle
+.scroll-to-top:hover
 {
-    height: 16px;
-    width: 16px;
-    display: block;
-    text-decoration: none;
-    background-image: url('../images/view-fullscreen.png');
-    background-repeat: no-repeat;
-    background-position: left top;
-}
-
-div#page.main-column-only a.controlbar-top-full-screen-toggle
-{
-    background-image: url('../images/2/exit-fullscreen.png');
+color:#fff;
 }

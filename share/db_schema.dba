@@ -326,6 +326,13 @@ $schema = array (
         'not_null' => '1',
         'default' => '',
       ),
+      'real_language_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
     ),
     'indexes' => 
     array (
@@ -335,7 +342,7 @@ $schema = array (
         'fields' => 
         array (
           0 => 'contentobject_state_group_id',
-          1 => 'language_id',
+          1 => 'real_language_id',
         ),
       ),
     ),
@@ -1452,22 +1459,22 @@ $schema = array (
       ),
       'data_float1' => 
       array (
-        'type' => 'float',
+        'type' => 'double',
         'default' => NULL,
       ),
       'data_float2' => 
       array (
-        'type' => 'float',
+        'type' => 'double',
         'default' => NULL,
       ),
       'data_float3' => 
       array (
-        'type' => 'float',
+        'type' => 'double',
         'default' => NULL,
       ),
       'data_float4' => 
       array (
-        'type' => 'float',
+        'type' => 'double',
         'default' => NULL,
       ),
       'data_int1' => 
@@ -1953,7 +1960,7 @@ $schema = array (
       ),
       'data_float' => 
       array (
-        'type' => 'float',
+        'type' => 'double',
         'default' => NULL,
       ),
       'data_int' => 
@@ -4913,6 +4920,11 @@ $schema = array (
     'name' => 'ezpending_actions',
     'fields' => 
     array (
+      'id' =>
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
       'action' => 
       array (
         'length' => 64,
@@ -4934,6 +4946,14 @@ $schema = array (
     ),
     'indexes' => 
     array (
+      'PRIMARY' =>
+      array (
+        'type' => 'primary',
+        'fields' =>
+        array (
+          0 => 'id',
+        ),
+      ),
       'ezpending_actions_action' => 
       array (
         'type' => 'non-unique',

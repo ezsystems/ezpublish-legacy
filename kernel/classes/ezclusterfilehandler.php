@@ -2,7 +2,7 @@
 /**
  * File containing the eZClusterFileHandler class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -11,7 +11,7 @@ class eZClusterFileHandler
 {
     /**
      * Returns the configured instance of an eZClusterFileHandlerInterface
-     * See ClusteringSettings.FileHandler in php.ini
+     * See ClusteringSettings.FileHandler in file.ini
      *
      * @param string|bool $filename
      *        Optional filename the handler should be initialized with
@@ -62,6 +62,15 @@ class eZClusterFileHandler
     }
 
     /**
+      * Resets the handler so that a new one can be loaded
+      */
+    public static function resetHandler()
+    {
+        self::cleanupGeneratingFiles();
+        self::$globalHandler = null;
+    }
+
+    /**
      * @deprecated 4.3 No longer used as we rely on ezpExtension & autoloads
      * @return array list of directories used to search cluster file handlers for
      */
@@ -108,8 +117,8 @@ class eZClusterFileHandler
                 $generatingFile->abortCacheGeneration();
                 self::removeGeneratingFile( $generatingFile );
             }
+            return true;
         }
-
     }
 
     /**
@@ -140,7 +149,9 @@ class eZClusterFileHandler
      */
     public static function addGeneratingFile( $file )
     {
-        if ( !( $file instanceof eZDBFileHandler ) && !( $file instanceof eZDFSFileHandler ) )
+        if ( !( $file instanceof eZDBFileHandler )
+                && !( $file instanceof eZDFSFileHandler )
+                && !( $file instanceof eZFS2FileHandler ) )
             return false; // @todo Exception
 
         self::$generatingFiles[$file->filePath] = $file;
@@ -156,7 +167,9 @@ class eZClusterFileHandler
      */
     public static function removeGeneratingFile( $file )
     {
-        if ( !( $file instanceof eZDBFileHandler ) && !( $file instanceof eZDFSFileHandler ) )
+        if ( !( $file instanceof eZDBFileHandler )
+                && !( $file instanceof eZDFSFileHandler )
+                && !( $file instanceof eZFS2FileHandler ) )
             return false; // @todo Exception
 
         if ( isset( self::$generatingFiles[$file->filePath] ) )

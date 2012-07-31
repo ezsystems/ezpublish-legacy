@@ -2,7 +2,7 @@
 /**
  * File containing the eZAudit class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -10,20 +10,21 @@
 
 class eZAudit
 {
-    const DEFAULT_LOG_DIR = 'var/log/audit';
+    const DEFAULT_LOG_DIR = 'log/audit';
 
-    /*!
-      Creates a new audit object.
-    */
-    function eZAudit( )
+    /**
+     * Creates a new audit object.
+     */
+    function eZAudit()
     {
     }
 
-    /*
-     \static
-     Returns an associative array of all names of audit and the log files used by this class,
-     Will be fetched from ini settings.
-    */
+    /**
+     * Returns an associative array of all names of audit and the log files used by this class,
+     * Will be fetched from ini settings.
+     *
+     * @return array
+     */
     static function fetchAuditNameSettings()
     {
         $ini = eZINI::instance( 'audit.ini' );
@@ -31,7 +32,10 @@ class eZAudit
         $auditNames = $ini->hasVariable( 'AuditSettings', 'AuditFileNames' )
                       ? $ini->variable( 'AuditSettings', 'AuditFileNames' )
                       : array();
-        $logDir = $ini->hasVariable( 'AuditSettings', 'LogDir' ) ? $ini->variable( 'AuditSettings', 'LogDir' ): self::DEFAULT_LOG_DIR;
+        $varDir = eZINI::instance()->variable( 'FileSettings', 'VarDir' );
+        // concat varDir setting with LogDir setting
+        $logDir = $varDir . '/';
+        $logDir .= $ini->hasVariable( 'AuditSettings', 'LogDir' ) ? $ini->variable( 'AuditSettings', 'LogDir' ): self::DEFAULT_LOG_DIR;
 
         $resultArray = array();
         foreach ( array_keys( $auditNames ) as $auditNameKey )
@@ -43,11 +47,14 @@ class eZAudit
         return $resultArray;
     }
 
-    /*!
-     \static
-     Writes $auditName with $auditAttributes as content
-     to file name that will be fetched from ini settings by auditNameSettings() for logging.
-    */
+    /**
+     * Writes $auditName with $auditAttributes as content
+     * to file name that will be fetched from ini settings by auditNameSettings() for logging.
+     *
+     * @param string $auditName
+     * @param array $auditAttributes
+     * @return bool
+     */
     static function writeAudit( $auditName, $auditAttributes = array() )
     {
         $enabled = eZAudit::isAuditEnabled();
@@ -59,7 +66,7 @@ class eZAudit
         if ( !isset( $auditNameSettings[$auditName] ) )
             return false;
 
-        $ip = eZSys::serverVariable( 'REMOTE_ADDR', true );
+        $ip = eZSys::clientIP();
         if ( !$ip )
             $ip = eZSys::serverVariable( 'HOSTNAME', true );
 
@@ -82,10 +89,11 @@ class eZAudit
         return true;
     }
 
-    /*!
-     \static
-     \return true if audit should be enabled.
-    */
+    /**
+     * Returns true if audit should be enabled.
+     *
+     * @return boolean
+     */
     static function isAuditEnabled()
     {
         if ( isset( $GLOBALS['eZAuditEnabled'] ) )
@@ -97,11 +105,12 @@ class eZAudit
         return $enabled;
     }
 
-    /*!
-     \static
-     \return true if audit should be enabled.
-     \note Will fetch from ini setting.
-    */
+    /**
+     * Returns true if audit should be enabled.
+     * Will fetch from ini setting.
+     *
+     * @return bool
+     */
     static function fetchAuditEnabled()
     {
         $ini = eZINI::instance( 'audit.ini' );
@@ -112,10 +121,11 @@ class eZAudit
         return $enabled;
     }
 
-    /*!
-     \static
-     Returns an associative array of all names of audit and the log files used by this class
-    */
+    /**
+     * Returns an associative array of all names of audit and the log files used by this class
+     *
+     * @return array
+     */
     static function auditNameSettings()
     {
         if ( isset( $GLOBALS['eZAuditNameSettings'] ) )

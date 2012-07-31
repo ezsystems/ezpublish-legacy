@@ -2,7 +2,7 @@
 /**
  * File containing the eZContentClassRegression class
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -27,7 +27,7 @@ class ezpContentPublishingBehaviourTest extends ezpTestCase
     public function testGetDefaultBehaviour()
     {
         $behaviour = ezpContentPublishingBehaviour::getBehaviour();
-        self::assertType( 'ezpContentPublishingBehaviour', $behaviour );
+        self::assertInstanceOf( 'ezpContentPublishingBehaviour', $behaviour );
         self::assertEquals( true, $behaviour->disableAsynchronousPublishing, "disableAsynchronousPublishing should be true by default" );
         self::assertEquals( false, $behaviour->isTemporary, "isTemporary should be false by default" );
     }

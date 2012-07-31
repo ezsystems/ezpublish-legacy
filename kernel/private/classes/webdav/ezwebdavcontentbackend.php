@@ -2,7 +2,7 @@
 /**
  * File containing the eZWebDAVContentBackend class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -886,7 +886,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
             return false; // @as self::FAILED_FORBIDDEN;
         }
 
-        $result = $this->putVirtualFolderData( $currentSite, $target, $tempFile, $fullPath );
+        $result = $this->putVirtualFolderData( $currentSite, $target, $tempFile );
 
         unlink( $tempFile );
         eZDir::cleanupEmptyDirectories( dirname( $tempFile ) );
@@ -1004,7 +1004,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
         $fullPath = $target;
         $target = $this->splitFirstPathElement( $target, $currentSite );
 
-        $status = $this->deleteVirtualFolder( $currentSite, $target, $fullPath );
+        $status = $this->deleteVirtualFolder( $currentSite, $target );
         // @as @todo return based on $status
 
         // Return success
@@ -1430,6 +1430,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
         $classIdentifier = $node->attribute( 'class_identifier' );
 
         $object = $node->attribute( 'object' );
+        $urlAlias = $node->urlAlias();
 
         // By default, everything is displayed as a folder:
         // Trim the name of the node, it is in some cases whitespace in eZ Publish
@@ -1440,7 +1441,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
         $entry["name"] = ( $name !== '' && $name !== NULL ) ? $name : $node->attribute( 'node_id' );
         $entry["size"] = 0;
         $entry["mimetype"] = self::DIRECTORY_MIMETYPE;
-        eZWebDAVContentBackend::appendLogEntry( 'FetchNodeInfo:' . $node->attribute( 'name' ) . '/' . $node->urlAlias() );
+        eZWebDAVContentBackend::appendLogEntry( 'FetchNodeInfo:' . $node->attribute( 'name' ) . '/' . $urlAlias );
 
         // @todo handle articles as files
         // if ( $classIdentifier === 'article' )
@@ -1553,6 +1554,18 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
             {
                 $startURL = '/' . $siteAccess . '/' . $virtualFolder . '/';
             }
+            // Media folder is special since the virtual folder name is translated via ezpI18n (@see self::virtualMediaFolderName())
+            // but the URL Alias of this top node can vary (depends if content objects are available in the current siteaccess's language).
+            // So we need to replace the media folder URL Alias part by the one translated via ezpI18n, which never varies.
+            // Otherwise unexpected errors can occurred, depending on WebDAV client, especially when URL Alias from media child nodes
+            // doesn't match EXACTLY with the virtual media folder name.
+            // e.g. : having "Média" as virtual media folder name and a child node with Media/Images (without accent) as URL alias will break.
+            // See http://issues.ez.no/15035
+            else if ( $virtualFolder === self::virtualMediaFolderName() )
+            {
+                $startURL = '/' . $siteAccess . '/' . $virtualFolder . '/';
+                $urlAlias = substr( $urlAlias, strpos( $urlAlias, '/' ) + 1 );
+            }
             else
             {
                 $startURL = '/' . $siteAccess . '/';
@@ -1572,7 +1585,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
                 $suffix = '.' . $suffix;
             }
 
-            $entry["href"] = $startURL . $node->urlAlias() . $suffix;
+            $entry["href"] = $startURL . $urlAlias . $suffix;
         }
 
         // Return array of attributes/properties (name, size, mime, times, etc.).

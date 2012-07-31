@@ -2,7 +2,7 @@
 /**
  * File containing the eZRSSExport class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -846,38 +846,53 @@ class eZRSSExport extends eZPersistentObject
 
         $feed = new ezcFeed();
 
-        $feed->title = $this->attribute( 'title' );
+        $feed->title = htmlspecialchars(
+            $this->attribute( 'title' ), ENT_NOQUOTES, 'UTF-8'
+        );
 
         $link = $feed->add( 'link' );
-        $link->href = $baseItemURL;
+        $link->href = htmlspecialchars( $baseItemURL, ENT_NOQUOTES, 'UTF-8' );
 
-        $feed->description = $this->attribute( 'description' );
+        $feed->description = htmlspecialchars(
+            $this->attribute( 'description' ), ENT_NOQUOTES, 'UTF-8'
+        );
         $feed->language = $locale->httpLocaleCode();
 
         // to add the <atom:link> element needed for RSS2
-        $feed->id = $baseItemURL . 'rss/feed/' . $this->attribute( 'access_url' );
+        $feed->id = htmlspecialchars(
+            $baseItemURL . 'rss/feed/' . $this->attribute( 'access_url' ),
+            ENT_NOQUOTES, 'UTF-8'
+        );
 
         // required for ATOM
         $feed->updated = time();
         $author        = $feed->add( 'author' );
-        $author->email = $config->variable( 'MailSettings', 'AdminEmail' );
+        $author->email = htmlspecialchars(
+            $config->variable( 'MailSettings', 'AdminEmail' ),
+            ENT_NOQUOTES, 'UTF-8'
+        );
         $creatorObject = eZContentObject::fetch( $this->attribute( 'creator_id' ) );
         if ( $creatorObject instanceof eZContentObject )
         {
-            $author->name = $creatorObject->attribute('name');
+            $author->name = htmlspecialchars(
+                $creatorObject->attribute('name'), ENT_NOQUOTES, 'UTF-8'
+            );
         }
 
         $imageURL = $this->fetchImageURL();
         if ( $imageURL !== false )
         {
+            $imageURL = htmlspecialchars( $imageURL, ENT_NOQUOTES, 'UTF-8' );
             $image = $feed->add( 'image' );
 
             // Required for RSS1
             $image->about = $imageURL;
 
             $image->url = $imageURL;
-            $image->title = $this->attribute( 'title' );
-            $image->link = $baseItemURL;
+            $image->title = htmlspecialchars(
+                $this->attribute( 'title' ), ENT_NOQUOTES, 'UTF-8'
+            );
+            $image->link = $link->href;
         }
 
         $cond = array(
@@ -957,10 +972,10 @@ class eZRSSExport extends eZPersistentObject
 
                 $item = $feed->add( 'item' );
 
-                $item->title = $itemTitleText;
+                $item->title = htmlspecialchars( $itemTitleText, ENT_NOQUOTES, 'UTF-8' );
 
                 $link = $item->add( 'link' );
-                $link->href = $nodeURL;
+                $link->href = htmlspecialchars( $nodeURL, ENT_NOQUOTES, 'UTF-8' );
 
                 switch ( $type )
                 {
@@ -976,7 +991,9 @@ class eZRSSExport extends eZPersistentObject
                 if ( $itemCreatorObject instanceof eZContentObject )
                 {
                     $author = $item->add( 'author' );
-                    $author->name = $itemCreatorObject->attribute('name');
+                    $author->name = htmlspecialchars(
+                        $itemCreatorObject->attribute('name'), ENT_NOQUOTES, 'UTF-8'
+                    );
                     $author->email = $config->variable( 'MailSettings', 'AdminEmail' );
                 }
 
@@ -987,7 +1004,9 @@ class eZRSSExport extends eZPersistentObject
                     if ( $descContent instanceof eZXMLText )
                     {
                         $outputHandler =  $descContent->attribute( 'output' );
-                        $itemDescriptionText = str_replace( '&nbsp;', '&amp;nbsp;', $outputHandler->attribute( 'output_text' ) );
+                        $itemDescriptionText = htmlspecialchars(
+                            $outputHandler->attribute( 'output_text' ), ENT_NOQUOTES, 'UTF-8'
+                        );
                     }
                     else if ( $descContent instanceof eZImageAliasHandler )
                     {
@@ -1004,7 +1023,9 @@ class eZRSSExport extends eZPersistentObject
                     }
                     else
                     {
-                        $itemDescriptionText = $descContent;
+                        $itemDescriptionText = htmlspecialchars(
+                            $descContent, ENT_NOQUOTES, 'UTF-8'
+                        );
                     }
                     $item->description = $itemDescriptionText;
                 }
@@ -1030,7 +1051,9 @@ class eZRSSExport extends eZPersistentObject
                     if ( $itemCategoryText )
                     {
                         $cat = $item->add( 'category' );
-                        $cat->term = $itemCategoryText;
+                        $cat->term = htmlspecialchars(
+                            $itemCategoryText, ENT_NOQUOTES, 'UTF-8'
+                        );
                     }
                 }
 
@@ -1072,7 +1095,7 @@ class eZRSSExport extends eZPersistentObject
 
                     if ( $encItemURL )
                     {
-                        $enc->url = $encItemURL;
+                        $enc->url = htmlspecialchars( $encItemURL, ENT_NOQUOTES, 'UTF-8' );
                     }
                 }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.0" language="es_ES">
 <context>
     <name>contentstructuremenu/show_content_structure</name>
     <message>
@@ -2203,7 +2203,7 @@
     </message>
     <message>
         <source>Toggle fullscreen editing!</source>
-        <translation>Editar en modo pantalla completa!</translation>
+        <translation type="obsolete">Editar en modo pantalla completa!</translation>
     </message>
     <message>
         <source>Store draft and exit</source>
@@ -2259,7 +2259,7 @@
     </message>
     <message>
         <source>Path String</source>
-        <translation type="unfinished">Ruta</translation>
+        <translation>Ruta</translation>
     </message>
 </context>
 <context>
@@ -4517,7 +4517,7 @@
     </message>
     <message>
         <source>Internal errorD</source>
-        <translation>Error interno</translation>
+        <translation type="obsolete">Error interno</translation>
     </message>
 </context>
 <context>
@@ -4684,6 +4684,22 @@
     <message>
         <source>Currently you do not have any products on your wish list.</source>
         <translation>No tienes ningún producto en tu lista de deseos.</translation>
+    </message>
+    <message>
+        <source>Published</source>
+        <translation>Publicado</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Editar</translation>
+    </message>
+    <message>
+        <source>Edit &lt;%item_name&gt;.</source>
+        <translation>Editar &lt;%item_name&gt;</translation>
+    </message>
+    <message>
+        <source>You do not have permission to edit &lt;%item_name&gt;.</source>
+        <translation>No tienes permisos para editar &lt;%item_name&gt;</translation>
     </message>
 </context>
 <context>
@@ -6149,6 +6165,10 @@
         <translation>Columnas visibles en la tabla:</translation>
     </message>
     <message>
+        <source>Close</source>
+        <translation type="unfinished">Cerrar</translation>
+    </message>
+    <message>
         <source>Select</source>
         <translation>Seleccionar</translation>
     </message>
@@ -6194,7 +6214,23 @@
     </message>
     <message>
         <source>Path String</source>
-        <translation type="unfinished">Ruta</translation>
+        <translation>Ruta</translation>
+    </message>
+    <message>
+        <source>Object state</source>
+        <translation>Estado del objeto</translation>
+    </message>
+    <message>
+        <source>Node Remote ID and Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object Remote ID</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6968,6 +7004,18 @@ Nota: los paquetes no serán desinstalados.</translation>
         <translation>Esconder la configuración rápida</translation>
     </message>
     <message>
+        <source>Siteaccess:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Global (override)</source>
+        <translation type="unfinished">Global (sobreescritura)</translation>
+    </message>
+    <message>
+        <source>Set</source>
+        <translation type="unfinished">Fijar</translation>
+    </message>
+    <message>
         <source>Change name, email, password, etc.</source>
         <translation>Cambiar nombre, email, contraseña, etc.</translation>
     </message>
@@ -6994,6 +7042,21 @@ Nota: los paquetes no serán desinstalados.</translation>
     <message>
         <source>User preferences</source>
         <translation>Preferencias de usuario</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Cerrar</translation>
+    </message>
+    <message>
+        <source>Loading...</source>
+        <translation>Cargando...</translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/pagelayout/leftmenu</name>
+    <message>
+        <source>Show / Hide leftmenu</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7200,11 +7263,11 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Enable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
-        <translation>Habilitar &amp;quot;Pestañas&amp;quot; por defecto  mientras navegas por el contenido.</translation>
+        <translation type="obsolete">Habilitar &amp;quot;Pestañas&amp;quot; por defecto  mientras navegas por el contenido.</translation>
     </message>
     <message>
         <source>Disable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
-        <translation>Deshabilita &amp;quot;Pestañas&amp;quot; por defecto  mientras navegas por el contenido.</translation>
+        <translation type="obsolete">Deshabilita &amp;quot;Pestañas&amp;quot; por defecto  mientras navegas por el contenido.</translation>
     </message>
     <message>
         <source>Enable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
@@ -7416,6 +7479,10 @@ Nota: los paquetes no serán desinstalados.</translation>
     <message>
         <source>Roles and policies</source>
         <translation>Roles y políticas</translation>
+    </message>
+    <message>
+        <source>Unactivated users</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Change the left menu width to small size.</source>
@@ -10503,6 +10570,10 @@ Nota: los paquetes no serán desinstalados.</translation>
         <source>Country/region</source>
         <translation>País/región</translation>
     </message>
+    <message>
+        <source>Comment</source>
+        <translation>Comentario</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/shop/archivelist</name>
@@ -12786,11 +12857,11 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>Tu cuenta está ahora activada.</translation>
+        <translation type="obsolete">Tu cuenta está ahora activada.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>Perdón, la clave enviada no es válida. La cuenta no ha sido activada.</translation>
+        <translation type="obsolete">Perdón, la clave enviada no es válida. La cuenta no ha sido activada.</translation>
     </message>
     <message>
         <source>User registered</source>
@@ -12811,6 +12882,65 @@ your account.</source>
         <translation>Tu cuenta se ha creado correctamente. Se te enviará un email a la dirección
 email especificada. Sigue las instrucciones de ese correo para activar
 tu cuenta.</translation>
+    </message>
+    <message>
+        <source>Unactivated users (%users_count)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle selection</source>
+        <translation type="unfinished">Invertir la selección</translation>
+    </message>
+    <message>
+        <source>Registration date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Nombre</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>E-mail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Activate selected users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Activate selected users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/user/activations</name>
+    <message>
+        <source>The following users have been successfully activated:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been activated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following unactivated users have been successfully removed:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been removed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -13914,6 +14044,125 @@ tu cuenta.</translation>
     </message>
 </context>
 <context>
+    <name>design/admin2/ajaxupload</name>
+    <message>
+        <source>&lt;em&gt;%file&lt;/em&gt; has successfully been uploaded.</source>
+        <translation>&lt;em&gt;%file&lt;/em&gt; se ha subido correctamente.</translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/ajaxuploader</name>
+    <message>
+        <source>Go to the parent level</source>
+        <translation>Ir al nivel superior</translation>
+    </message>
+    <message>
+        <source>Step 1/3: Upload a file</source>
+        <translation type="unfinished">Paso 1/3: Subir un fichero</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Nombre</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Tipo</translation>
+    </message>
+    <message>
+        <source>Section</source>
+        <translation>Sección</translation>
+    </message>
+    <message>
+        <source>prev</source>
+        <translation>anterior</translation>
+    </message>
+    <message>
+        <source>next</source>
+        <translation>siguiente</translation>
+    </message>
+    <message>
+        <source>Step 2/3: Choose a location for the new &apos;%class&apos; object</source>
+        <translation>Paso 2/3: Elige una ubicación para el nuevo objeto de la clase &apos;%class&apos;</translation>
+    </message>
+    <message>
+        <source>Please choose a location for the &apos;%class&apos; object that is going to be created from it.</source>
+        <translation>Por favor, elige una ubicación para el objeto &apos;%class&apos; que va ser creado desde él.</translation>
+    </message>
+    <message>
+        <source>Choose this location</source>
+        <translation>Escoger esta ubicación</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Cerrar</translation>
+    </message>
+    <message>
+        <source>Step 3/3: Preview of &apos;%name&apos; (%class)</source>
+        <translation>Paso 3/3: Previsualización de &apos;%name&apos; (%class)</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>Añadir</translation>
+    </message>
+    <message>
+        <source>File</source>
+        <translation>Archivo</translation>
+    </message>
+    <message>
+        <source>Required</source>
+        <translation>Obligatorio</translation>
+    </message>
+    <message>
+        <source>The name will be autogenerated</source>
+        <translation>El nombre será generado de forma automática</translation>
+    </message>
+    <message>
+        <source>Upload the file</source>
+        <translation>Subir el fichero</translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/content/datatype</name>
+    <message>
+        <source>Upload a file</source>
+        <translation>Subir un fichero</translation>
+    </message>
+    <message>
+        <source>Upload a file to create a new object and add it to the relation</source>
+        <translation>Subir un fichero para crear un nuevo objeto y añadirlo a la relación</translation>
+    </message>
+    <message>
+        <source>Please choose a location</source>
+        <translation>Por favor, escoge una ubicación</translation>
+    </message>
+    <message>
+        <source>Some required fields are empty.</source>
+        <translation>Algunos campos obligatorios están vacíos.</translation>
+    </message>
+    <message>
+        <source>Unable to parse the JSON response.</source>
+        <translation>No se ha podido parsear la respuesta JSON.</translation>
+    </message>
+    <message>
+        <source>Upload a file and add the resulting object in the relation</source>
+        <translation>Subir un fichero y añadir el objeto resultado a la relación</translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/content/edit</name>
+    <message>
+        <source>Go to the top</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/user/activations</name>
+    <message>
+        <source>There are no unactivated users</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/base</name>
     <message>
         <source>Back to poll</source>
@@ -14505,6 +14754,13 @@ tu cuenta.</translation>
     <message>
         <source>Minute</source>
         <translation type="obsolete">Minuto</translation>
+    </message>
+</context>
+<context>
+    <name>design/ezwebin/link</name>
+    <message>
+        <source>Printable version</source>
+        <translation>Versión imprimible</translation>
     </message>
 </context>
 <context>
@@ -16445,7 +16701,7 @@ Si quieres enviar comentarios al encargado de aprobar el contenido o ver el esta
     </message>
     <message>
         <source>Add object</source>
-        <translation>Añadir objeto</translation>
+        <translation type="obsolete">Añadir objeto</translation>
     </message>
     <message>
         <source>Invert selection.</source>
@@ -16726,6 +16982,46 @@ Si quieres enviar comentarios al encargado de aprobar el contenido o ver el esta
     <message>
         <source>Confirm email</source>
         <translation>Confirmar email</translation>
+    </message>
+    <message>
+        <source>Add an object in the relation</source>
+        <translation>Añadir un objeto a la relación</translation>
+    </message>
+    <message>
+        <source>Add an existing object</source>
+        <translation>Añadir un objeto existente</translation>
+    </message>
+    <message>
+        <source>Browse to add an existing object in this relation</source>
+        <translation>Navegar para añadir un objeto existente a esta relación</translation>
+    </message>
+    <message>
+        <source>Objects in the relation</source>
+        <translation>Objetos en esta relación</translation>
+    </message>
+    <message>
+        <source>Remove selected elements from the relation</source>
+        <translation>Borrar los elementos seleccionados de la relación</translation>
+    </message>
+    <message>
+        <source>Add objects in the relation</source>
+        <translation>Añadir objetos a la relación</translation>
+    </message>
+    <message>
+        <source>Add existing objects</source>
+        <translation>Añadir objetos existentes</translation>
+    </message>
+    <message>
+        <source>Browse to add existing objects in this relation</source>
+        <translation>Navegar para añadir objetos existentes a la relación</translation>
+    </message>
+    <message>
+        <source>Html5 Video</source>
+        <translation>Vídeo Html5</translation>
+    </message>
+    <message>
+        <source>Html5 Audio</source>
+        <translation>Audio Html5</translation>
     </message>
 </context>
 <context>
@@ -18570,7 +18866,7 @@ Gracias por tu feedback</translation>
     <name>design/standard/layout</name>
     <message>
         <source>Printable version</source>
-        <translation>Versión imprimible</translation>
+        <translation type="obsolete">Versión imprimible</translation>
     </message>
     <message>
         <source>To log in enter a valid login and password.</source>
@@ -19649,6 +19945,18 @@ También puedes borrar el paquete sin desinstalarlo de la lista de paquetes.</tr
     <message>
         <source>Clear</source>
         <translation>Borrar</translation>
+    </message>
+    <message>
+        <source>Siteaccess:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Global (override)</source>
+        <translation type="unfinished">Global (sobreescritura)</translation>
+    </message>
+    <message>
+        <source>Set</source>
+        <translation type="unfinished">Fijar</translation>
     </message>
 </context>
 <context>
@@ -23494,7 +23802,7 @@ Para hacer esto necesitas cambiar los comandos %chown en comandos de consola alt
         <translation>PHP no registra variables de entorno</translation>
     </message>
     <message>
-        <source>PHP is currently not configured to register enviroment variables in the global variable $_ENV.</source>
+        <source>PHP is currently not configured to register environment variables in the global variable $_ENV.</source>
         <translation>PHP no está configurado para registrar variables de entorno en la variable global $_ENV.</translation>
     </message>
     <message>
@@ -23534,7 +23842,7 @@ Para hacer esto necesitas cambiar los comandos %chown en comandos de consola alt
         <translation>, pero siempre se recomienda la última versión estable de PHP.</translation>
     </message>
     <message>
-        <source>Since some extensions might use $_ENV it is recomended to fix it unless you have full controll over all extensions you use!</source>
+        <source>Since some extensions might use $_ENV it is recommended to fix it unless you have full control over all extensions you use!</source>
         <translation>Algunas extensiones pueden estar usando $_ENV, recomendamos corregirlo a no ser que tengas control total sobre todas las extensiones que usas!</translation>
     </message>
     <message>
@@ -26888,6 +27196,10 @@ si has elegido la opción &quot;%3&quot; desde &quot;%4&quot; </translation>
         <source>Object %1 can not be embeded to itself.</source>
         <translation>El objeto %1 no puede ser encajado en si mismo.</translation>
     </message>
+    <message>
+        <source>%count invalid character(s) have been found and replaced by a space</source>
+        <translation>%count caracteres no válidos han sido hallados y sustituidos por un espacio en blanco</translation>
+    </message>
 </context>
 <context>
     <name>kernel/collaboration</name>
@@ -28412,6 +28724,10 @@ si has elegido la opción &quot;%3&quot; desde &quot;%4&quot; </translation>
     <message>
         <source>authorization</source>
         <translation>autorización</translation>
+    </message>
+    <message>
+        <source>Unactivated users</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -2,7 +2,7 @@
 /**
  * File containing ezpRestControllerTest class
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -26,6 +26,7 @@ class ezpRestControllerTest extends ezpRestTestCase
     {
         $r = new ezpRestRequest();
         $r->variables['ResponseGroups'] = array( 'foo', 'bar' );
+        $r->protocol = 'http-get';
         $controller = new ezpRestTestController( 'test', $r );
 
         $refObj = new ReflectionObject( $controller );
@@ -45,6 +46,7 @@ class ezpRestControllerTest extends ezpRestTestCase
     {
         $r = new ezpRestRequest();
         $r->variables['ResponseGroups'] = array( 'foo', 'bar' );
+        $r->protocol = 'http-get';
         $controller = new ezpRestTestController( 'test', $r );
 
         $refObj = new ReflectionObject( $controller );
@@ -52,7 +54,7 @@ class ezpRestControllerTest extends ezpRestTestCase
         $refMethod->setAccessible( true ); // Make the method public so we can test it individually. Won't work with PHP < 5.3.2
 
         $res = $refMethod->invoke( $controller );
-        self::assertType( PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $res );
+        self::assertInternalType( PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $res );
         self::assertContains( 'foo', $res );
         self::assertContains( 'bar', $res );
     }
@@ -65,6 +67,7 @@ class ezpRestControllerTest extends ezpRestTestCase
     {
         $r = new ezpRestRequest();
         $r->variables['ResponseGroups'] = array( 'foo', 'bar' );
+        $r->protocol = 'http-get';
         $controller = new ezpRestTestController( 'test', $r );
 
         $refObj = new ReflectionObject( $controller );
@@ -78,7 +81,7 @@ class ezpRestControllerTest extends ezpRestTestCase
         $getResponseGroupsRefMethod = $refObj->getMethod( 'getResponseGroups' );
         $getResponseGroupsRefMethod->setAccessible( true );
         $res = $getResponseGroupsRefMethod->invoke( $controller );
-        self::assertType( PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $res );
+        self::assertInternalType( PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $res );
         self::assertContains( $defaultResponseGroup, $res, 'Default response groups must be considered as valid response groups, even if not provided in URI string' );
     }
 
@@ -89,6 +92,7 @@ class ezpRestControllerTest extends ezpRestTestCase
     public function testHasContentVariable()
     {
         $r = new ezpRestRequest();
+        $r->protocol = 'http-get';
         $translation = 'eng-GB';
         $r->contentVariables = array( 'Translation' => $translation );
         $controller = new ezpRestTestController( 'test', $r );
@@ -109,6 +113,7 @@ class ezpRestControllerTest extends ezpRestTestCase
         $r = new ezpRestRequest();
         $translation = 'eng-GB';
         $r->contentVariables = array( 'Translation' => $translation );
+        $r->protocol = 'http-get';
         $controller = new ezpRestTestController( 'test', $r );
 
         $refObj = new ReflectionObject( $controller );
@@ -125,6 +130,7 @@ class ezpRestControllerTest extends ezpRestTestCase
     public function testGetAllContentVariables()
     {
         $r = new ezpRestRequest();
+        $r->protocol = 'http-get';
         $providedContentVariables = array(
             'Translation' => 'eng-GB',
             'Foo' => 'FooValue',

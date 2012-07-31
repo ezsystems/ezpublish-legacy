@@ -2,7 +2,7 @@
 /**
  * File containing the eZStepInstaller class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -13,7 +13,6 @@
   \brief The class EZStepInstaller provide a framework for eZStep installer classes
 
 */
-
 class eZStepInstaller
 {
     const DB_ERROR_EMPTY_PASSWORD = 1;
@@ -31,15 +30,17 @@ class eZStepInstaller
     const DB_DATA_KEEP = 3;
     const DB_DATA_CHOOSE = 4;
 
-    /*!
-     Default constructor for eZ Publish installer classes
-
-    \param template
-    \param http object
-    \param ini settings object
-    \param persistencelist, all previous posted data
-    */
-    function eZStepInstaller( $tpl, $http, $ini, &$persistenceList,
+    /**
+     * Default constructor for eZ Publish installer classes
+     *
+     * @param \eZTemplate $tpl
+     * @param \eZHTTPTool $http
+     * @param \eZINI $ini
+     * @param array $persistenceList
+     * @param string $identifier
+     * @param string $name
+     */
+    function eZStepInstaller( eZTemplate $tpl, eZHTTPTool $http, eZINI $ini, array &$persistenceList,
                               $identifier, $name )
     {
         $this->Tpl = $tpl;
@@ -67,12 +68,13 @@ class eZStepInstaller
         }
     }
 
-    /*!
-     \virtual
-
-     Processespost data from this class.
-     \return  true if post data accepted, or false if post data is rejected.
-    */
+    /**
+     * Processespost data from this class.
+     *
+     * Abstract (virtual) method for step classes to use.
+     *
+     * @return bool True if post data accepted, or false if post data is rejected.
+     */
     function processPostData()
     {
     }
@@ -91,18 +93,26 @@ class eZStepInstaller
     {
     }
 
-    /*!
-    \virtual
-
-    Display information and forms needed to pass this step.
-    \return result to use in template
-    */
+    /**
+     * Virtual (abstract)
+     *
+     * Display information and forms needed to pass this step.
+     * return result to use in template.
+     *
+     * @return array
+     */
     function display()
     {
         $result = array();
         return $result;
     }
 
+    /**
+     * @param \eZLocale $primaryLanguage
+     * @param \eZLocale[]|null $allLanguages
+     * @param bool $canUseUnicode
+     * @return bool|string
+     */
     function findAppropriateCharset( $primaryLanguage, $allLanguages, $canUseUnicode )
     {
         $commonCharsets = array();
@@ -155,6 +165,12 @@ class eZStepInstaller
         return $charset;
     }
 
+    /**
+     * @param \eZLocale $primaryLanguage
+     * @param \eZLocale[]|null $allLanguages
+     * @param bool $canUseUnicode
+     * @return array
+     */
     function findAppropriateCharsetsList( $primaryLanguage, $allLanguages, $canUseUnicode )
     {
         $commonCharsets = array();
@@ -204,6 +220,9 @@ class eZStepInstaller
         return $usableCharsets;
     }
 
+    /**
+     * @return array
+     */
     function availableSitePackages()
     {
         $packageList = eZPackage::fetchPackages( array(), array( 'type' => 'site' ) );
@@ -211,6 +230,9 @@ class eZStepInstaller
         return $packageList;
     }
 
+    /**
+     * @return array
+     */
     function extraDataList()
     {
         return array( 'title', 'url', 'database',
@@ -218,6 +240,9 @@ class eZStepInstaller
                       'existing_database' );
     }
 
+    /**
+     * @return bool
+     */
     function chosenSitePackage()
     {
         if ( isset( $this->PersistenceList['chosen_site_package']['0'] ) )
@@ -228,6 +253,9 @@ class eZStepInstaller
             return false;
     }
 
+    /**
+     * @return array
+     */
     function chosenSiteType()
     {
         if ( isset( $this->PersistenceList['chosen_site_package']['0'] ) )
@@ -247,6 +275,10 @@ class eZStepInstaller
         return $chosenSiteType;
     }
 
+    /**
+     * @param string $sitePackageName
+     * @return bool
+     */
     function selectSiteType( $sitePackageName )
     {
         $package = eZPackage::fetch( $sitePackageName );
@@ -259,6 +291,9 @@ class eZStepInstaller
         return true;
     }
 
+    /**
+     * @param array $siteType
+     */
     function storeSiteType( $siteType )
     {
         $extraList = $this->extraDataList();
@@ -275,6 +310,9 @@ class eZStepInstaller
             $this->storePersistenceData();
     }
 
+    /**
+     *
+     */
     function storePersistenceData()
     {
         foreach ( $this->PersistenceList as $key => $value )
@@ -290,6 +328,10 @@ class eZStepInstaller
         $this->PersistenceList['site_extra_data_' . $dataIdentifier][$siteIdentifier] = $value;
     }
 
+    /**
+     * @param string $dataIdentifier
+     * @return bool
+     */
     function extraData( $dataIdentifier )
     {
         if ( isset( $this->PersistenceList['site_extra_data_' . $dataIdentifier] ) )
@@ -297,6 +339,11 @@ class eZStepInstaller
         return false;
     }
 
+    /**
+     * @param string $siteIdentifier
+     * @param string $dataIdentifier
+     * @return bool
+     */
     function extraSiteData( $siteIdentifier, $dataIdentifier )
     {
         if ( isset( $this->PersistenceList['site_extra_data_' . $dataIdentifier][$siteIdentifier] ) )
@@ -304,6 +351,11 @@ class eZStepInstaller
         return false;
     }
 
+    /**
+     * @param string|bool $dbCharset Default charset used if false
+     * @param array $overrideDBParameters
+     * @return array
+     */
     function checkDatabaseRequirements( $dbCharset = false, $overrideDBParameters = array() )
     {
         $result = array( 'error_code' => false,
@@ -467,6 +519,10 @@ class eZStepInstaller
         return $result;
     }
 
+    /**
+     * @param array $errorInfo
+     * @return array|bool
+     */
     function databaseErrorInfo( $errorInfo )
     {
         $code = $errorInfo['error_code'];
@@ -564,9 +620,9 @@ See the requirements page for more information.",
         return $dbError;
     }
 
-    /*!
-     \return \c true if the step has kickstart data available.
-    */
+    /**
+     * @return bool True if the step has kickstart data available.
+     */
     function hasKickstartData()
     {
         if ( !$this->isKickstartAllowed() )
@@ -574,17 +630,17 @@ See the requirements page for more information.",
         return $this->KickstartData !== false;
     }
 
-    /*!
-     \return All kickstart data as an associative array
-    */
+    /**
+     * @return array|bool All kickstart data as an associative array or false if no data available
+     */
     function kickstartData()
     {
         return $this->KickstartData;
     }
 
-    /*!
-     \return \c true if kickstart functionality can be used.
-    */
+    /**
+     * @return bool True if kickstart functionality can be used.
+     */
     function isKickstartAllowed()
     {
         $identifier = $this->Identifier;
@@ -598,9 +654,9 @@ See the requirements page for more information.",
         return true;
     }
 
-    /*!
-     \return \c true if the kickstart functionality should continue to the next step.
-    */
+    /**
+     * @return bool True if the kickstart functionality should continue to the next step.
+     */
     function kickstartContinueNextStep()
     {
         if ( isset( $this->KickstartData['Continue'] ) and
@@ -617,9 +673,9 @@ See the requirements page for more information.",
         $GLOBALS['eZStepAllowKickstart'] = $allow;
     }
 
-    /*!
-     \return Urls to access user and admin siteaccesses
-    */
+    /**
+     * @return array Urls to access user and admin siteaccesses
+     */
     function siteaccessURLs()
     {
         $siteType = $this->chosenSiteType();

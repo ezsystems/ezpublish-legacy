@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -39,7 +39,8 @@ $ViewList['edit'] = array(
     'post_action_parameters' => array( 'EditLanguage' => array( 'SelectedLanguage' => 'EditSelectedLanguage' ),
                                        'FromLanguage' => array( 'FromLanguage' => 'FromLanguage' ),
                                        'TranslateLanguage' => array( 'SelectedLanguage' => 'EditSelectedLanguage' ),
-                                       'UploadFileRelation' => array( 'UploadRelationLocation' => 'UploadRelationLocationChoice' ) ),
+                                       'UploadFileRelation' => array( 'UploadRelationLocation' => 'UploadRelationLocationChoice' ),
+                                       'SectionEdit' => array( 'RedirectRelativeURI' => 'RedirectRelativeURI' ) ),
     'post_actions' => array( 'BrowseActionName' ),
     'script' => 'edit.php',
     'params' => array( 'ObjectID', 'EditVersion', 'EditLanguage', 'FromLanguage' ) );

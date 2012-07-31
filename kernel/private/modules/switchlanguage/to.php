@@ -2,7 +2,7 @@
 /**
  * File containing the switchlanguage module
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -12,6 +12,11 @@ $handlerOptions = new ezpExtensionOptions();
 $handlerOptions->iniFile = 'site.ini';
 $handlerOptions->iniSection = 'RegionalSettings';
 $handlerOptions->iniVariable = 'LanguageSwitcherClass';
+
+if ( isset( $_SERVER['QUERY_STRING'] ) && $_SERVER['QUERY_STRING'] )
+{
+    $Params['QueryString'] = $_SERVER['QUERY_STRING'];
+}
 
 // 0. Module params are sent to constructor to process the request.
 $handlerOptions->handlerParams = array( $Params );

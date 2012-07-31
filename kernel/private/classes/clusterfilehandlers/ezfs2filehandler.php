@@ -2,7 +2,7 @@
 /**
  * File containing the eZFS2FileHandler class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -145,7 +145,7 @@ class eZFS2FileHandler extends eZFSFileHandler
                     // generate the dynamic data without storage
                     if ( $this->nonExistantStaleCacheHandling[ $this->cacheType ] == 'generate' )
                     {
-                        eZDebugSetting::writeDebug( 'kernel-clustering', $this->filePath, "Generation is being processed, generating own version", __METHOD__ );
+                        eZDebugSetting::writeDebug( 'kernel-clustering', $this->filePath, "Generation is being processed, generating own version" );
                         break;
                     }
                     // wait for the generating process to be finished (or timedout)
@@ -384,7 +384,7 @@ class eZFS2FileHandler extends eZFSFileHandler
                 // process in between. Not likely, though.
                 if ( !$fp = @fopen( $generatingFilePath, 'x' ) )
                 {
-                    $ret = $this->remainingCacheGenerationTime();
+                    $ret = $this->remainingCacheGenerationTime( $generatingFilePath );
                 }
             }
             // directory exists, we now check for timeout
@@ -418,6 +418,7 @@ class eZFS2FileHandler extends eZFSFileHandler
             if ( $fp )
                 fclose( $fp );
 
+            eZClusterFileHandler::addGeneratingFile( $this );
             $this->realFilePath = $this->filePath;
             $this->filePath = $generatingFilePath;
             $this->generationStartTimestamp = filemtime( $this->filePath );
@@ -443,6 +444,13 @@ class eZFS2FileHandler extends eZFSFileHandler
      */
     public function endCacheGeneration( $rename = true)
     {
+        if ( $this->realFilePath === null )
+        {
+            $this->loadMetaData();
+            eZDebugSetting::writeDebug( 'kernel-clustering', "$this->filePath is not generating", "fs2::endCacheGeneration( '{$this->filePath}' )" );
+            return false;
+        }
+
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
         $ret = false;
@@ -451,12 +459,14 @@ class eZFS2FileHandler extends eZFSFileHandler
         // rename the file to its final name
         if ( $rename === true )
         {
-            if ( eZFile::rename( $this->filePath, $this->realFilePath ) )
+            if ( eZFile::rename( $this->filePath, $this->realFilePath, false, eZFile::CLEAN_ON_FAILURE ) )
             {
                 $this->filePath = $this->realFilePath;
                 $this->realFilePath = null;
+                eZClusterFileHandler::removeGeneratingFile( $this );
                 $this->remainingCacheGenerationTime = false;
                 $ret = true;
+                $this->loadMetaData();
             }
             else
             {
@@ -468,6 +478,8 @@ class eZFS2FileHandler extends eZFSFileHandler
             unlink( $this->filePath );
             $this->filePath = $this->realFilePath;
             $this->realFilePath = null;
+            eZClusterFileHandler::removeGeneratingFile( $this );
+            $this->loadMetaData();
         }
 
         eZDebug::accumulatorStop( 'dbfile' );
@@ -488,6 +500,7 @@ class eZFS2FileHandler extends eZFSFileHandler
         $this->filePath = $this->realFilePath;
         $this->realFilePath = null;
         $this->remainingCacheGenerationTime = false;
+        eZClusterFileHandler::removeGeneratingFile( $this );
     }
 
     /**
@@ -739,9 +752,11 @@ class eZFS2FileHandler extends eZFSFileHandler
         {
             case 'cacheType':
             {
-                if ( $this->cacheType === null )
-                    $this->cacheType = $this->_cacheType();
-                return $this->cacheType;
+                if ( $this->internalCacheType === null )
+                {
+                    $this->internalCacheType = $this->_cacheType();
+                }
+                return $this->internalCacheType;
             } break;
         }
     }
@@ -779,6 +794,52 @@ class eZFS2FileHandler extends eZFSFileHandler
     {
         return false;
     }
+
+    public function hasStaleCacheSupport()
+    {
+        return true;
+    }
+
+    /**
+     * Checks if the given $path exists.
+     *
+     * @param string $path
+     * @return bool
+     */
+    function fileExists( $path )
+    {
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileExists( '$path' )", __METHOD__ );
+
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
+        $rc = file_exists( $path ) && ( filemtime( $path ) != self::EXPIRY_TIMESTAMP );
+        eZDebug::accumulatorStop( 'dbfile' );
+
+        return $rc;
+    }
+
+    /**
+     * Check if given file/dir exists.
+     *
+     * NOTE: this function does not interact with filesystem.
+     * Instead, it just returns existance status determined in the constructor.
+     *
+     * \public
+     */
+    function exists()
+    {
+        $path = $this->filePath;
+        if ( isset( $this->metaData['mtime'] ) )
+        {
+            $return = ( $this->metaData['mtime'] != self::EXPIRY_TIMESTAMP );
+        }
+        else
+        {
+            $return = false;
+        }
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs2::exists( '$path' ): " . ( $return ? 'true' :'false' ), __METHOD__ );
+        return $return;
+    }
+
 
     /**
      * holds the real file path. This is only used when we are generating a cache
@@ -827,6 +888,6 @@ class eZFS2FileHandler extends eZFSFileHandler
      *
      * @var string|null
      */
-    protected $cacheType = null;
+    protected $internalCacheType = null;
 }
 ?>

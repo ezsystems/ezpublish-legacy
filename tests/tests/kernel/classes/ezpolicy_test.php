@@ -2,7 +2,7 @@
 /**
  * File containing the eZPolicyTest class
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -24,12 +24,12 @@ class eZPolicyTest extends ezpDatabaseTestCase
     public function testFetchTemporaryCopy()
     {
         // Get the first policy from the anonymous role
-        $role = $this->getRole();
-        $policy = array_shift( $role->policyList() );
+        $policyList = $this->getRole()->policyList();
+        $policy = current( $policyList );
 
         // The first fetch should create the temporary copy
         $temporaryPolicy = eZPolicy::fetchTemporaryCopy( $policy->attribute( 'id' ) );
-        $this->assertType( 'eZPolicy', $temporaryPolicy,
+        $this->assertInstanceOf( 'eZPolicy', $temporaryPolicy,
             'The temporary policy isn\'t an eZPolicy' );
         $this->assertEquals( $policy->attribute( 'id' ), $temporaryPolicy->attribute( 'original_id' ),
             'The temporary policy\'s original_id should matche the ID of the attribute it was fetch as a copy of' );
@@ -38,7 +38,7 @@ class eZPolicyTest extends ezpDatabaseTestCase
 
         // The second one should transparently fetch it
         $temporaryPolicy = eZPolicy::fetchTemporaryCopy( $policy->attribute( 'id' ) );
-        $this->assertType( 'eZPolicy', $temporaryPolicy,
+        $this->assertInstanceOf( 'eZPolicy', $temporaryPolicy,
             'The temporary policy isn\'t an eZPolicy' );
         $this->assertEquals( $policy->attribute( 'id' ), $temporaryPolicy->attribute( 'original_id' ),
             'The temporary policy\'s original_id should matche the ID of the attribute it was fetch as a copy of' );
@@ -51,8 +51,8 @@ class eZPolicyTest extends ezpDatabaseTestCase
     public function testSaveTemporary()
     {
         // Get the first policy from the anonymous role
-        $role = $this->getRole();
-        $policy = array_shift( $role->policyList() );
+        $policyList = $this->getRole()->policyList();
+        $policy = current( $policyList );
         $originalPolicyID = $policy->attribute( 'id' );
 
         // The first fetch should create the temporary copy
@@ -73,8 +73,8 @@ class eZPolicyTest extends ezpDatabaseTestCase
      */
     protected function getRole()
     {
-        $anonymousUser = eZUser::fetch( eZINI::instance()->variable( 'UserSettings', 'AnonymousUserID' ) );
-        return array_shift( $anonymousUser->roles() );
+        $roles = eZUser::fetch( eZINI::instance()->variable( 'UserSettings', 'AnonymousUserID' ) )->roles();
+        return current( $roles );
     }
 }
 ?>

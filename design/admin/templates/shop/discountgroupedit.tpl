@@ -35,12 +35,10 @@
 
 {literal}
 <script type="text/javascript">
-<!--
     window.onload=function()
     {
         document.getElementById('discountgroupName').select();
         document.getElementById('discountgroupName').focus();
     }
--->
 </script>
 {/literal}

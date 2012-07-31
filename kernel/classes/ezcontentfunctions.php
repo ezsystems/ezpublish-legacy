@@ -2,7 +2,7 @@
 /**
  * File containing the eZContentFunctions class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -83,8 +83,7 @@ class eZContentFunctions
      *                      - 'storage_dir'      :
      *                      - 'remote_id'        : The value for the remoteID  (optional)
      *                      - 'section_id'       : The value for the sectionID (optional)
-     * @static
-     * @return an eZContentObject object if success, false otherwise
+     * @return eZContentObject|false An eZContentObject object if success, false otherwise
      */
     static function createAndPublishObject( $params )
     {
@@ -101,7 +100,7 @@ class eZContentFunctions
         if ( is_array( $parentNode ) )
         {
             $contentClass = eZContentClass::fetchByIdentifier( $classIdentifier );
-            if ( is_object( $contentClass ) )
+            if ( $contentClass instanceof eZContentClass )
             {
                 $db = eZDB::instance();
                 $db->begin();
@@ -129,7 +128,7 @@ class eZContentFunctions
                 $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
                 $version->store();
 
-                if ( is_array( $attributesData ) && count( $attributesData ) > 0 )
+                if ( is_array( $attributesData ) && !empty( $attributesData ) )
                 {
                     $attributes = $contentObject->attribute( 'contentobject_attributes' );
 

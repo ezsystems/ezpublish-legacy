@@ -2,7 +2,7 @@
 /**
  * File containing the eZContentObjectTrashNode class.
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -209,13 +209,6 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
             return null;
         }
 
-        $useVersionName     = true;
-        $versionNameTables  = eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
-        $versionNameTargets = eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
-        $versionNameJoins   = eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false, false, false, 'ezcot' );
-
-        $languageFilter = ' AND ' . eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
-
         $objectNameFilterSQL = eZContentObjectTreeNode::createObjectNameFilterConditionSQLString( $objectNameFilter );
 
         $limitation = ( isset( $params['Limitation']  ) && is_array( $params['Limitation']  ) ) ? $params['Limitation']: false;
@@ -232,29 +225,30 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
                         ezcontentobject.*,
                         ezcot.*,
                         ezcontentclass.serialized_name_list as class_serialized_name_list,
-                        ezcontentclass.identifier as class_identifier
-                        $versionNameTargets
+                        ezcontentclass.identifier as class_identifier,
+                        ezcontentobject_name.name as name,
+                        ezcontentobject_name.real_translation
                         $sortingInfo[attributeTargetSQL] ";
         }
         $query .= "FROM
-                        ezcontentobject_trash ezcot,
-                        ezcontentobject,
-                        ezcontentclass
-                        $versionNameTables
+                        ezcontentobject_trash ezcot
+                        INNER JOIN ezcontentobject ON ezcot.contentobject_id = ezcontentobject.id
+                        INNER JOIN ezcontentclass ON ezcontentclass.version = 0 AND ezcontentclass.id = ezcontentobject.contentclass_id
+                        INNER JOIN ezcontentobject_name ON (
+                            ezcot.contentobject_id = ezcontentobject_name.contentobject_id AND
+                            ezcot.contentobject_version = ezcontentobject_name.content_version
+                        )
                         $sortingInfo[attributeFromSQL]
                         $attributeFilter[from]
                         $sqlPermissionChecking[from]
                    WHERE
-                        ezcontentclass.version=0 AND
-                        ezcot.contentobject_id = ezcontentobject.id  AND
-                        ezcontentclass.id = ezcontentobject.contentclass_id AND
                         $sortingInfo[attributeWhereSQL]
                         $attributeFilter[where]
-                        $versionNameJoins
+                        " . eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
                         $sqlPermissionChecking[where]
                         $objectNameFilterSQL
-                        $languageFilter
-                        ";
+                        AND " . eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
+
         if ( !$asCount && $sortingInfo['sortingFields'] && strlen( $sortingInfo['sortingFields'] ) > 5  )
             $query .= " ORDER BY $sortingInfo[sortingFields]";
 

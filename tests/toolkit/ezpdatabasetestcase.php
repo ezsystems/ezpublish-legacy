@@ -2,7 +2,7 @@
 /**
  * File containing the ezpDatabaseTestCase class
  *
- * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -31,13 +31,13 @@ class ezpDatabaseTestCase extends ezpTestCase
 
     /**
      * Hold shared fixtures
-     * 
+     *
      * @var mixed
      */
     protected $sharedFixture;
 
     /**
-     * Sets up the database enviroment
+     * Sets up the database environment
      */
     protected function setUp()
     {
@@ -50,10 +50,11 @@ class ezpDatabaseTestCase extends ezpTestCase
             if ( $this->insertDefaultData === true )
                 ezpTestDatabaseHelper::insertDefaultData( $this->sharedFixture );
 
-            if ( count( $this->sqlFiles > 0 ) )
+            if ( count( $this->sqlFiles ) > 0 )
                 ezpTestDatabaseHelper::insertSqlData( $this->sharedFixture, $this->sqlFiles );
+
+            eZDB::setInstance( $this->sharedFixture );
         }
-        eZDB::setInstance( $this->sharedFixture );
     }
 
     protected function tearDown()
