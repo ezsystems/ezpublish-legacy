@@ -1617,13 +1617,15 @@ class eZContentObject extends eZPersistentObject
                                           link.to_contentobject_id=$objectID" );
         if ( count( $result ) > 0 )
         {
+            $objectIDList = array();
             foreach( $result as $row )
             {
                 $attr = new eZContentObjectAttribute( $row );
                 $dataType = $attr->dataType();
                 $dataType->fixRelatedObjectItem( $attr, $objectID, $mode );
-                eZContentCacheManager::clearObjectViewCache( $attr->attribute( 'contentobject_id' ), true );
+                $objectIDList[] = $attr->attribute( 'contentobject_id' );
             }
+            eZContentCacheManager::clearObjectViewCacheArray( $objectIDList );
         }
     }
 
@@ -1652,6 +1654,7 @@ class eZContentObject extends eZPersistentObject
                 $attr = new eZContentObjectAttribute( $row );
                 $dataType = $attr->dataType();
                 $dataType->removeRelatedObjectItem( $attr, $objectID );
+                // @todo Check whether we can use eZContentCacheManager::clearObjectViewCacheArray() instead
                 eZContentCacheManager::clearObjectViewCache( $attr->attribute( 'contentobject_id' ), true );
                 $attr->storeData();
             }
