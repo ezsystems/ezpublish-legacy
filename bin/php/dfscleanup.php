@@ -106,9 +106,7 @@ if ( $checkDFS )
 
     $dfsBackend = new eZDFSFileHandlerDFSBackend();
     $base = realpath( $dfsBackend->getMountPoint() );
-    if ( eZSys::osType() == 'win32' )
-        $base = str_replace( '\\', '/', $base );
-    $cleanPregExpr = preg_quote( $base, '@' );
+    $cleanPregExpr = preg_quote( fixWinPath( $base ), '@' );
     foreach (
         new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator( $base )
@@ -116,9 +114,7 @@ if ( $checkDFS )
     {
         if ( $current->isFile() )
         {
-            if ( eZSys::osType() == 'win32' )
-                $filename = str_replace( '\\', '/', $filename );
-            $relativePath = trim( preg_replace( '@^' . $cleanPregExpr . '@', '', $filename ), '/' );
+            $relativePath = trim( preg_replace( '@^' . $cleanPregExpr . '@', '', fixWinPath( $filename ) ), '/' );
             if ( !$fileHandler->fileExists( $relativePath ) )
             {
                 $cli->output( '  - ' . $relativePath );
@@ -135,4 +131,15 @@ if ( $checkDFS )
 
 $script->shutdown();
 
-?>
+/**
+ * Replaces backslashes in $path with forward slashes.
+ *
+ * Clustering only references path using forward slashes. This makes sure input path are consistent
+ *
+ * @param string $path The path to update
+ * @return string The modified path.
+ */
+function fixWinPath( $path )
+{
+    return str_replace( '\\', '/', $path );
+}
