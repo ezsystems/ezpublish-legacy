@@ -141,5 +141,8 @@ $script->shutdown();
  */
 function fixWinPath( $path )
 {
-    return str_replace( '\\', '/', $path );
+    if ( DIRECTORY_SEPARATOR == '\\' )
+        return str_replace( '\\', '/', $path );
+    else
+        return $path;
 }
