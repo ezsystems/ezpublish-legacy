@@ -106,6 +106,8 @@ if ( $checkDFS )
 
     $dfsBackend = new eZDFSFileHandlerDFSBackend();
     $base = realpath( $dfsBackend->getMountPoint() );
+    if ( eZSys::osType() == 'win32' )
+        $base = str_replace( '\\', '/', $base );
     $cleanPregExpr = preg_quote( $base, '@' );
     foreach (
         new RecursiveIteratorIterator(
@@ -114,6 +116,8 @@ if ( $checkDFS )
     {
         if ( $current->isFile() )
         {
+            if ( eZSys::osType() == 'win32' )
+                $filename = str_replace( '\\', '/', $filename );
             $relativePath = trim( preg_replace( '@^' . $cleanPregExpr . '@', '', $filename ), '/' );
             if ( !$fileHandler->fileExists( $relativePath ) )
             {
