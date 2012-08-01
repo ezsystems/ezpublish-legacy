@@ -352,6 +352,10 @@ class eZURLAliasML extends eZPersistentObject
 
             if ( count( $rows ) == 0 )
             {
+                if ( $incomingLanguageList !== null )
+                {
+                    eZContentLanguage::clearPrioritizedLanguages();
+                }
                 break;
             }
             $result = eZURLAliasML::choosePrioritizedRow( $rows );
