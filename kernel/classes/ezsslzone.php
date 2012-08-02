@@ -233,8 +233,8 @@ class eZSSLZone
         if ( $nowSSL && !$inSSL )
         {
             // switch to plain HTTP
-            $ini = eZINI::instance();
-            $host = $ini->variable( 'SiteSettings', 'SiteURL' );
+            $host = eZSys::serverVariable( 'HTTP_HOST' );
+            $host = preg_replace( '/:\d+$/', '', $host );
             $sslZoneRedirectionURL = "http://" . $host . $indexDir . $requestURI;
         }
         elseif ( !$nowSSL && $inSSL )
