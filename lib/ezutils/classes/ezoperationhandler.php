@@ -54,7 +54,7 @@ class eZOperationHandler
             eZDebug::writeError( "Cannot execute operation '$operationName' in module '$moduleName', no valid data", __METHOD__ );
             return null;
         }
-        return $moduleOperationInfo->execute( $operationName, $operationParameters, $lastTriggerName, $useTriggers );
+        return $moduleOperationInfo->execute( $operationName, $operationParameters, $lastTriggerName );
     }
 
     /**
