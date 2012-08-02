@@ -26,7 +26,7 @@ if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
     exit();
 }
 
-require 'autoload.php';
+require __DIR__ . '/autoload.php';
 
 // Tweaks ini filetime checks if not defined!
 // This makes ini system not check modified time so

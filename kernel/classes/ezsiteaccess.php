@@ -29,6 +29,7 @@ class eZSiteAccess
     const TYPE_SERVER_VAR = 7;
     const TYPE_URL = 8;
     const TYPE_HTTP_HOST_URI = 9;
+    const TYPE_CUSTOM = 10;
 
     const SUBTYPE_PRE = 1;
     const SUBTYPE_POST = 2;
