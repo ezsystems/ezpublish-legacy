@@ -400,6 +400,12 @@ class eZNodeviewfunctions
             $contents = file_get_contents( $file );
             $Result = unserialize( $contents );
 
+            if( !is_array( $Result ) )
+            {
+                $expiryReason = 'Unexpected cache file content';
+                $cacheExpired = true;
+            }
+
             // Check if a no_cache key has been set in the viewcache, and
             // return an eZClusterFileFailure if it has
             if ( isset( $Result['no_cache'] ) )
