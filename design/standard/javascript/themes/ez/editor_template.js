@@ -1756,8 +1756,14 @@
          */
         __appendHiddenInputAndSubmit : function( name, value )
         {
-            var ed = this.editor, inp, formObj = tinymce.DOM.get(ed.id).form || tinymce.DOM.getParent(ed.id, 'form');
+            var ed = this.editor, inp, edElement, formObj;
 
+            if ( ed.getParam('fullscreen_is_enabled') ) {
+                edElement = tinymce.get(ed.getParam('fullscreen_editor_id')).getElement();
+            } else {
+                edElement = ed.getElement();
+            }
+            formObj = edElement.form || false;
             if ( formObj )
             {
                 inp = document.createElement('input');
