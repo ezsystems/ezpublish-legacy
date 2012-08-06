@@ -394,6 +394,7 @@ class eZOrder extends eZPersistentObject
 
         // add last product info
         if ( !empty( $productArray ) )
+        {
             $productItemArray[] = array(
                 'name' => $name,
                 // Reference to the entry that will contain the ContentObject at the end
@@ -401,10 +402,11 @@ class eZOrder extends eZPersistentObject
                 'product_info' => $productInfo
             );
         
-        // Fetching all ContentObject ids in one query, filling the hash with the corresponding ContentObject
-        foreach ( eZContentObject::fetchList( true, array( "id" => array( array_keys( $contentObjectIDHash ) ) ) ) as $contentObject )
-        {
-            $contentObjectIDHash[$contentObject->ID] = $contentObject;
+            // Fetching all ContentObject ids in one query, filling the hash with the corresponding ContentObject
+            foreach ( eZContentObject::fetchList( true, array( "id" => array( array_keys( $contentObjectIDHash ) ) ) ) as $contentObject )
+            {
+                $contentObjectIDHash[$contentObject->ID] = $contentObject;
+            }
         }
 
         return array(
