@@ -238,7 +238,7 @@ class eZSSLZone
             $port = parse_url( "http://$host", PHP_URL_PORT );
             $host = eZSys::serverVariable( 'HTTP_HOST' );
             $host = preg_replace( '/:\d+$/', '', $host );
-            if( $port && $port != 80 )
+            if ( $port && $port != 80 )
                 $host .= ":$port";
             $sslZoneRedirectionURL = "http://" . $host . $indexDir . $requestURI;
         }
