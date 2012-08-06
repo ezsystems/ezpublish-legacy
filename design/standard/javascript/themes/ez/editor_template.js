@@ -242,23 +242,6 @@
                 {
                     var body = ed.getBody();
 
-                    // Replace the content of the embed tags that are just there for oe preview
-                    // by 'ezembed'. This is to avoid that the ez xml parsers in some cases
-                    // duplicates the embed tag and to avoid that TinyMCE strips too much the HTML code
-                    // see http://issues.ez.no/18264
-                    jQuery.each( body.getElementsByTagName('div'), function( i, node )
-                    {
-                        if ( node && node.className.indexOf('ezoeItemNonEditable') !== -1 )
-                            $(node).html('ezembed');
-                    });
-                    jQuery.each( body.getElementsByTagName('span'), function( i, node )
-                    {
-                        if ( node && node.className.indexOf('ezoeItemNonEditable') !== -1 )
-                            $(node).html('ezembed');
-                        else if ( node && node.className.indexOf('ezoeItemTempSpan') !== -1 && node.innerHTML.indexOf('&nbsp;') === 0 )
-                            node.firstChild.replaceData( 0, 1, ' ' );
-                    });
-
                     // @todo: Might not be needed anymore now that we don't use save handler and overwrite html
                     // Fix link cleanup issues in IE 6 / 7 (it adds the current url before the anchor and invalid urls)
                     var currenthost = document.location.protocol + '//' + document.location.host;
@@ -268,6 +251,29 @@
                             node.href = node.getAttribute('data-mce-href');
                     });
                 }
+            });
+
+            // eZ: custom cleanup code to only affect the content of the textarea,
+            // not the visible text in the editor
+            ed.onSaveContent.add(function(ed, o) {
+                var $f = $('<div>' + o.content + '</div>', null);
+
+                // Replace the content of the embed tags that are just there for oe preview
+                // by 'ezembed'. This is to avoid that the ez xml parsers in some cases
+                // duplicates the embed tag and to avoid that TinyMCE strips too much the HTML code
+                // see http://issues.ez.no/18264
+                $f.find('div.ezoeItemNonEditable').each(function(i, node) {
+                    $(node).html('ezembed');
+                });
+
+                $f.find('span').each(function(i, node) {
+                    if ( node && node.className.indexOf('ezoeItemNonEditable') !== -1 )
+                        $(node).html('ezembed');
+                    else if ( node && node.className.indexOf('ezoeItemTempSpan') !== -1 && node.innerHTML.indexOf('&nbsp;') === 0 )
+                        node.firstChild.replaceData( 0, 1, ' ' );
+                });
+
+                o.content = $f.html();
             });
 
             // eZ: Support several editor content css files using custom ez setting
