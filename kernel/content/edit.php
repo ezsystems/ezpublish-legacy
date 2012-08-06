@@ -617,55 +617,49 @@ if ( !function_exists( 'checkContentActions' ) )
                 }
                 else if ( $node !== null )
                 {
-                    $ini = eZINI::instance('site.ini');
-                    $redirection= $ini->variable("ContentSettings", "RedirectAfterPublish" );
+                    $ini = eZINI::instance( 'site.ini' );
+                    $redirection = $ini->variable( "ContentSettings", "RedirectAfterPublish" );
                     
-                    switch ($redirection)
+                    switch ( $redirection )
                     {
                          case 'node':
-
                             $nodeNode = $node->attribute( 'node_id' );
-
                             $module->redirectToView( 'view', array( 'full', $nodeNode ) );
-
                             break;
 
                          case 'mainNode':
-
                             $mainNode = $node->attribute( 'main_node_id' );
-                            
                             $module->redirectToView( 'view', array( 'full', $mainNode ) );
-
                             break;
 
                         case 'rootNode':
                             $contentINI = eZINI::instance( 'content.ini' );
-
                             $rootNodeID = $contentINI->variable( 'NodeSettings', 'RootNode' );
-
                             $module->redirectToView( 'view', array( 'full', $rootNodeID ) );
-
                             break;
 
                         case 'uri':
-
-                            $uri= $ini->variable("ContentSettings", "RedirectAfterPublishUri" );
+                            $http = eZHTTPTool::instance();
+                            $uri = $http->postVariable(
+                                'RedirectAfterPublishUri',
+                                $ini->variable( 'ContentSettings', 'RedirectAfterPublishUri' )
+                            );
                                
-                            if(!empty($uri))
+                            if( !empty( $uri ) )
                             {
                                 $module->redirectTo( $uri );
+                                // Intentionally break inside the if condition block. Will fallback to the next case if $uri is empty.
+                                break;
                             }
-
-                            break;
 
                         case 'parentNode':
                         default:
-                    $parentNode = $node->attribute( 'parent_node_id' );
-                    if ( $parentNode == 1 )
-                    {
-                        $parentNode = $node->attribute( 'node_id' );
-                    }
-                    $module->redirectToView( 'view', array( 'full', $parentNode ) );
+                            $parentNode = $node->attribute( 'parent_node_id' );
+                            if ( $parentNode == 1 )
+                            {
+                                $parentNode = $node->attribute( 'node_id' );
+                            }
+                            $module->redirectToView( 'view', array( 'full', $parentNode ) );
                             break;
                     }
                 }
