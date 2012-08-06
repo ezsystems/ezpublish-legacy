@@ -249,12 +249,12 @@
                     jQuery.each( body.getElementsByTagName('div'), function( i, node )
                     {
                         if ( node && node.className.indexOf('ezoeItemNonEditable') !== -1 )
-                            node.innerHTML = 'ezembed';
+                            $(node).html('ezembed');
                     });
                     jQuery.each( body.getElementsByTagName('span'), function( i, node )
                     {
                         if ( node && node.className.indexOf('ezoeItemNonEditable') !== -1 )
-                            node.innerHTML = 'ezembed';
+                            $(node).html('ezembed');
                         else if ( node && node.className.indexOf('ezoeItemTempSpan') !== -1 && node.innerHTML.indexOf('&nbsp;') === 0 )
                             node.firstChild.replaceData( 0, 1, ' ' );
                     });
