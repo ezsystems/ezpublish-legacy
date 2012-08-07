@@ -116,6 +116,7 @@ $optionsWithData = array( 's' );
 $longOptionsWithData = array( 'siteaccess' );
 
 $readOptions = true;
+$siteAccessSet = false;
 
 for ( $i = 1, $count = count( $argv ); $i < $count; ++$i )
 {
@@ -140,7 +141,7 @@ for ( $i = 1, $count = count( $argv ); $i < $count; ++$i )
             }
             else if ( $flag == 'siteaccess' )
             {
-                changeSiteAccessSetting( $siteaccess, $optionData );
+                $siteAccessSet = $optionData;
             }
             else if ( $flag == 'debug' )
             {
@@ -250,7 +251,7 @@ for ( $i = 1, $count = count( $argv ); $i < $count; ++$i )
             }
             else if ( $flag == 's' )
             {
-                changeSiteAccessSetting( $siteaccess, $optionData );
+                $siteAccessSet = $optionData;
             }
         }
     }
@@ -269,6 +270,9 @@ $script->setUseDebugAccumulators( $useDebugAccumulators );
 $script->setUseDebugTimingPoints( $useDebugTimingpoints );
 $script->setUseIncludeFiles( $useIncludeFiles );
 $script->setIsQuiet( $isQuiet );
+
+if ( $siteAccessSet )
+    changeSiteAccessSetting( $siteaccess, $siteAccessSet );
 
 if ( $webOutput )
     $useColors = true;
