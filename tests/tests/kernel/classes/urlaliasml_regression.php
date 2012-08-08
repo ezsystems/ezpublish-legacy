@@ -39,6 +39,7 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
     public function setUp()
     {
         parent::setUp();
+        eZContentLanguage::clearPrioritizedLanguages();
         $this->norskLanguage = eZContentLanguage::addLanguage( "nor-NO", "Norsk" );
         $this->englishLanguage = eZContentLanguage::fetchByLocale( "eng-GB" );
         $this->frenchLanguage = eZContentLanguage::addLanguage( "fre-FR", "Français" );
