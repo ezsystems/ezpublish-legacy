@@ -8,6 +8,9 @@
  * @package tests
  */
 
+/**
+ * @group urlaliasml
+ */
 class eZURLAliasMLTest extends ezpDatabaseTestCase
 {
     public function __construct()
