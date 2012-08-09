@@ -634,12 +634,12 @@ if ( $validationRequired )
         for ( $attrIndex = 0; $attrIndex < $attributesCount - 1; $attrIndex++ )
         {
             $classAttribute = $attributesValues[$attrIndex];
-            $identifier = $classAttribute->attribute( 'identifier' );
+            $identifier = substr( $classAttribute->attribute( 'identifier' ), 0, 50 );
             $placement = $classAttribute->attribute( 'placement' );
             for ( $attrIndex2 = $attrIndex + 1; $attrIndex2 < $attributesCount; $attrIndex2++ )
             {
                 $classAttribute2 = $attributesValues[$attrIndex2];
-                $identifier2 = $classAttribute2->attribute( 'identifier' );
+                $identifier2 = substr( $classAttribute2->attribute( 'identifier' ), 0, 50 );
                 $placement2 = $classAttribute2->attribute( 'placement' );
                 if (  $placement ==  $placement2 )
                 {
@@ -678,7 +678,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
 
     $basicClassPropertiesValid = true;
     $className       = $class->attribute( 'name' );
-    $classIdentifier = $class->attribute( 'identifier' );
+    $classIdentifier = substr( $class->attribute( 'identifier' ), 0, 50 );
     $classID         = $class->attribute( 'id' );
 
     // validate class name
