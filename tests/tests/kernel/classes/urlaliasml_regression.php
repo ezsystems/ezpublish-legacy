@@ -1448,6 +1448,246 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         $wildcard->remove();
         $wildcard2->remove();
     }
+
+    protected function _testURLAliasAlwaysAvailableBit( $classIdentifier, $nameAttr, $baseName )
+    {
+        $object = new ezpObject( $classIdentifier, 2 );
+        $object->{$nameAttr} = $baseName;
+        $object->publish();
+
+        $db = eZDB::instance();
+        $queryAll = self::buildSql( array( $object->mainNode->node_id ) );
+        $queryFR = self::buildSql(
+            array( $object->mainNode->node_id ),
+            $this->frenchLanguage->attribute( 'id' )
+        );
+        $queryEN = self::buildSql(
+            array( $object->mainNode->node_id ),
+            $this->englishLanguage->attribute( 'id' )
+        );
+
+
+        $result = $db->arrayQuery( $queryAll );
+        self::assertEquals(
+            $this->englishLanguage->attribute( 'id' ) + 1,
+            (int)$result[0]['lang_mask']
+        );
+
+        $object->addTranslation( "nor-NO", array( $nameAttr => $baseName ) );
+
+        $result = $db->arrayQuery( $queryAll );
+        self::assertEquals(
+            $this->englishLanguage->attribute( 'id' ) + $this->norskLanguage->attribute( 'id' ) + 1,
+            (int)$result[0]['lang_mask']
+        );
+
+
+        $object->addTranslation( "fre-FR", array( $nameAttr => $baseName . '_fre-FR' ) );
+
+        $result = $db->arrayQuery( $queryFR );
+        self::assertEquals(
+            $this->frenchLanguage->attribute( 'id' ),
+            (int)$result[0]['lang_mask']
+        );
+
+        $result = $db->arrayQuery( $queryEN );
+        self::assertEquals(
+            $this->englishLanguage->attribute( 'id' ) + $this->norskLanguage->attribute( 'id' ) + 1,
+            (int)$result[0]['lang_mask']
+        );
+
+        eZContentOperationCollection::updateInitialLanguage(
+            $object->object->attribute( 'id' ),
+            $this->frenchLanguage->attribute( 'id' )
+        );
+        $result = $db->arrayQuery( $queryFR );
+        self::assertEquals(
+            $this->frenchLanguage->attribute( 'id' ) + 1,
+            (int)$result[0]['lang_mask']
+        );
+        $result = $db->arrayQuery( $queryEN );
+        self::assertEquals(
+            $this->englishLanguage->attribute( 'id' ) + $this->norskLanguage->attribute( 'id' ),
+            (int)$result[0]['lang_mask']
+        );
+
+        eZContentOperationCollection::updateAlwaysAvailable(
+            $object->object->attribute( 'id' ),
+            !$object->object->isAlwaysAvailable()
+        );
+        $result = $db->arrayQuery( $queryFR );
+        self::assertEquals(
+            $this->frenchLanguage->attribute( 'id' ) + 1,
+            (int)$result[0]['lang_mask']
+        );
+        $result = $db->arrayQuery( $queryEN );
+        self::assertEquals(
+            $this->englishLanguage->attribute( 'id' ) + $this->norskLanguage->attribute( 'id' ),
+            (int)$result[0]['lang_mask']
+        );
+
+        $object->remove();
+    }
+
+    /**
+     * Test that the bit 0 of the URL alias lang_mask is set for the main
+     * language only for a not always available content object.
+     *
+     * @see http://issues.ez.no/19549
+     * @group issue19549
+     */
+    public function testURLAliasAlwaysAvailableBitOnNotAlwaysAvailableObject()
+    {
+        $this->_testURLAliasAlwaysAvailableBit( 'article', 'title', __FUNCTION__ );
+    }
+
+
+    /**
+     * Test that the bit 0 of the URL alias lang_mask is set for the main
+     * language only for an always available content object.
+     *
+     * @see http://issues.ez.no/19549
+     * @group issue19549
+     */
+    public function testURLAliasAlwaysAvailableBitOnAlwaysAvailableObject()
+    {
+        $this->_testURLAliasAlwaysAvailableBit( 'folder', 'name', __FUNCTION__ );
+    }
+
+    /**
+     * Test the URL alias generated for a node translated in a language A while
+     * its parent is not translated in A in a siteaccess that is only able to
+     * display objects translated into A. In this case, the parent URL should
+     * be based on the main language.
+     *
+     * @see http://issues.ez.no/19549
+     * @group issue19549
+     */
+    public function testNodeURLAliasWithUntranslatedNotAlwaysAvailableParent()
+    {
+        $this->_testNodeURLAliasWithUntranslatedParent(
+            'article', 'title', __FUNCTION__
+        );
+    }
+
+    /**
+     * Test the URL alias generated for a node translated in a language A while
+     * its parent is not translated in A in a siteaccess that is only able to
+     * display objects translated into A. In this case, the parent URL should
+     * be based on the main language.
+     *
+     * @see http://issues.ez.no/19549
+     * @group issue19549
+     */
+    public function testNodeURLAliasWithUntranslatedAlwaysAvailableParent()
+    {
+        $this->_testNodeURLAliasWithUntranslatedParent(
+            'folder', 'name', __FUNCTION__
+        );
+    }
+
+    protected function _testNodeURLAliasWithUntranslatedParent( $classIdentifier, $nameAttr, $baseName )
+    {
+        $objectENName = 'eng' . $baseName;
+        $objectNOName = 'nor' . $baseName;
+        $object = new ezpObject( $classIdentifier, 2 );
+        $object->{$nameAttr} = $objectENName;
+        $object->publish();
+        $object->addTranslation( 'nor-NO', array( $nameAttr => $objectNOName ) );
+
+        $articleName = 'article' . $baseName;
+        $article = new ezpObject( 'article', $object->mainNode->node_id );
+        $article->title = $articleName;
+        $article->publish();
+
+        $article->addTranslation( 'fre-FR', array( 'title' => 'fre' . $articleName ) );
+
+
+        ezpINIHelper::setINISettings(
+            array(
+                array( 'site.ini', 'RegionalSettings', 'ContentObjectLocale', 'fre-FR' ),
+                array( 'site.ini', 'RegionalSettings', 'SiteLanguageList', array( 'fre-FR' ) ),
+                array( 'site.ini', 'RegionalSettings', 'ShowUntranslatedObjects', 'disabled' )
+            )
+        );
+        eZContentLanguage::clearPrioritizedLanguages();
+        // since the settings make possible to only use french content
+        // and the parent element of the article is not translated into
+        // french, the URL of the french article will begin the URL of
+        // the main language of its parent.
+
+        self::assertEquals(
+            $objectENName . '/fre' . $articleName,
+            $article->mainNode->url_alias
+        );
+
+        eZContentOperationCollection::updateInitialLanguage(
+            $object->object->attribute( 'id' ),
+            $this->norskLanguage->attribute( 'id' )
+        );
+
+        self::assertEquals(
+            $objectNOName . '/fre' . $articleName,
+            $article->mainNode->url_alias
+        );
+
+        eZContentOperationCollection::updateAlwaysAvailable(
+            $object->object->attribute( 'id' ),
+            !$object->object->isAlwaysAvailable()
+        );
+
+        self::assertEquals(
+            $objectNOName . '/fre' . $articleName,
+            $article->mainNode->url_alias
+        );
+
+        eZContentOperationCollection::updateInitialLanguage(
+            $object->object->attribute( 'id' ),
+            $this->englishLanguage->attribute( 'id' )
+        );
+
+        self::assertEquals(
+            $objectENName . '/fre' . $articleName,
+            $article->mainNode->url_alias
+        );
+
+        ezpINIHelper::restoreINISettings();
+        eZContentLanguage::clearPrioritizedLanguages();
+
+        ezpINIHelper::setINISettings(
+            array(
+                array( 'site.ini', 'RegionalSettings', 'ContentObjectLocale', 'fre-FR' ),
+                array( 'site.ini', 'RegionalSettings', 'SiteLanguageList', array( 'nor-NO', 'fre-FR' ) ),
+                array( 'site.ini', 'RegionalSettings', 'ShowUntranslatedObjects', 'disabled' )
+            )
+        );
+        eZContentLanguage::clearPrioritizedLanguages();
+        // make sure we still use the available the right language
+        // when it's available, no matter if the parent is
+        // always available or not
+
+        self::assertEquals(
+            $objectNOName . '/fre' . $articleName,
+            $article->mainNode->url_alias
+        );
+
+        eZContentOperationCollection::updateAlwaysAvailable(
+            $object->object->attribute( 'id' ),
+            !$object->object->isAlwaysAvailable()
+        );
+
+        self::assertEquals(
+            $objectNOName . '/fre' . $articleName,
+            $article->mainNode->url_alias
+        );
+
+        ezpINIHelper::restoreINISettings();
+        eZContentLanguage::clearPrioritizedLanguages();
+
+        $article->remove();
+        $object->remove();
+    }
+
 }
 
 ?>
