@@ -3598,11 +3598,31 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $languageID = $obj->attribute( 'initial_language_id' );
         $cleanup    = false;
+        $mainEntry = false;
         foreach ( $nameList as $nameEntry )
         {
             $text     = $nameEntry['text'];
             $language = $nameEntry['language'];
-            $result = eZURLAliasML::storePath( $text, 'eznode:' . $nodeID, $language, false, $alwaysMask, $parentElementID, $cleanup );
+            if ( $language->attribute( 'id' ) == $languageID )
+            {
+                $mainEntry = $nameEntry;
+            }
+            else
+            {
+                $result = eZURLAliasML::storePath(
+                    $text, 'eznode:' . $nodeID, $language, false,
+                    false, $parentElementID, $cleanup
+                );
+                if ( $result['status'] === true )
+                    $changeCount++;
+            }
+        }
+        if ( $mainEntry !== false )
+        {
+            $result = eZURLAliasML::storePath(
+                $mainEntry['text'], 'eznode:' . $nodeID, $mainEntry['language'],
+                false, true, $parentElementID, $cleanup
+            );
             if ( $result['status'] === true )
                 $changeCount++;
         }
