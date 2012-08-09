@@ -183,9 +183,9 @@ class eZURLAliasMLTest extends ezpDatabaseTestCase
         // Update lang_mask by removing always available,
         eZURLAliasML::setLangMaskAlwaysAvailable( false, "eznode", $nodeID );
 
-        // Verify that language mask was reduced back to 2.
+        // Verify that language mask was not changed
         $urls = eZURLAliasML::fetchByAction( 'eznode', $nodeID );
-        self::assertEquals( 2, (int) $urls[0]->attribute( 'lang_mask' ) );
+        self::assertEquals( 3, (int) $urls[0]->attribute( 'lang_mask' ) );
     }
 
     //

@@ -539,7 +539,7 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         $result = $db->arrayQuery( $query );
 
         self::assertEquals(
-            $this->englishLanguage->attribute( 'id' ) + $this->norskLanguage->attribute( 'id' ),
+            $this->englishLanguage->attribute( 'id' ) + $this->norskLanguage->attribute( 'id' ) + 1,
             (int)$result[0]['lang_mask']
         );
     }
@@ -554,7 +554,8 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
      * 2. Add a ChildNode of folder.
      * 3. Add a translation (nor-NO) to ChildNode (lang_mask should be 6 now).
      * 4. Remove ChildNode's translation (nor-NO).
-     * 5. Make sure lang_mask was decreased back down to 2.
+     * 5. Make sure lang_mask was decreased back down to 3 (2 +
+     * always_available field).
      */
     public function testURLAliasEntryWhenTranslationRemoved()
     {
@@ -581,7 +582,7 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         $query = self::buildSql( array( $child->mainNode->node_id ) );
         $result = $db->arrayQuery( $query );
 
-        self::assertEquals( 2, (int) $result[0]['lang_mask'] );
+        self::assertEquals( 3, (int) $result[0]['lang_mask'] );
     }
 
     /**
@@ -684,7 +685,7 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         $article->title = "ChildNodeRenamed";
         $article->publish();
 
-        $expectedLangMask = $article->language_mask;
+        $expectedLangMask = (int)$article->language_mask + 1;
 
         $db = eZDB::instance();
 
@@ -1234,7 +1235,7 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
 
         // Assert that language has been set back to main translation only
         self::assertEquals(
-            $this->englishLanguage->attribute( 'id' ),
+            $this->englishLanguage->attribute( 'id' ) + 1,
             (int)$childRawData['lang_mask'], "Pre-existing URL entry did not have its language mask updated to remove changed translation."
         );
 
