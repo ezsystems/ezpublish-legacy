@@ -1765,7 +1765,9 @@
             var ed = this.editor, inp, edElement, formObj;
 
             if ( ed.getParam('fullscreen_is_enabled') ) {
-                edElement = tinymce.get(ed.getParam('fullscreen_editor_id')).getElement();
+                var normalEditor = tinymce.get(ed.getParam('fullscreen_editor_id'));
+                edElement = normalEditor.getElement();
+                normalEditor.setContent(ed.getContent());
             } else {
                 edElement = ed.getElement();
             }
