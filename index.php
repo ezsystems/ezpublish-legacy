@@ -784,18 +784,22 @@ if ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) !== 'true' )
     // On host based site accesses this can be empty, causing the cookie to be set for the current dir,
     // but we want it to be set for the whole eZ publish site
     $cookiePath = $wwwDir != '' ? $wwwDir : '/';
+    $cookieDomain = $ini->hasVariable( 'Session', 'CookieDomain' ) ? $ini->variable( 'Session', 'CookieDomain' ) : null;
+    $cookieSecure = $ini->hasVariable( 'Session', 'CookieSecure' ) && $ini->variable( 'Session', 'CookieSecure' ) == 'true';
+    $cookieHttponly = $ini->hasVariable( 'Session', 'CookieHttponly' ) && $ini->variable( 'Session', 'CookieHttponly' ) == 'true';
+
 
     if ( $currentUser->isLoggedIn() )
     {
         // Only set the cookie if it doesnt exist. This way we are not constantly sending the set request in the headers.
         if ( !isset( $_COOKIE['is_logged_in'] ) || $_COOKIE['is_logged_in'] != 'true' )
         {
-            setcookie( 'is_logged_in', 'true', 0, $cookiePath );
+            setcookie( 'is_logged_in', 'true', 0, $cookiePath, $cookieDomain, $cookieSecure, $cookieHttponly );
         }
     }
     else if ( isset( $_COOKIE['is_logged_in'] ) )
     {
-        setcookie( 'is_logged_in', false, 0, $cookiePath );
+        setcookie( 'is_logged_in', false, 0, $cookiePath, $cookieDomain, $cookieSecure, $cookieHttponly );
     }
 }
 
