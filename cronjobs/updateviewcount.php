@@ -190,11 +190,11 @@ foreach ( $pathHashCounter as $path => $count )
     {
         if ( !isset( $nodeIDHashCounter[$nodeID] ) )
         {
-            $nodeIDHashCounter[$nodeID] = 1;
+            $nodeIDHashCounter[$nodeID] = $count;
         }
         else
         {
-            ++$nodeIDHashCounter[$nodeID];
+            $nodeIDHashCounter[$nodeID] += $count;
         }
     }
 }

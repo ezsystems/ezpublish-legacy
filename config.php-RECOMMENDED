@@ -60,9 +60,16 @@
     the file system, and thus increasing performance.
 
     Set EZP_INI_FILEMTIME_CHECK constant to false to improve performance by
-    not checking modified time on ini files. You can also set it to a string, the name
-    of a ini file you still want to check modified time on, best example would be to
-    set it to 'site.ini' to make the system still check that but not the rest.
+    not checking modified time on ini files.
+    You can also set it to the name of an ini file you still want to check
+    modified time for. For example, set it to 'site.ini' to make the system
+    still check if that file has been modified, while ignoring changes for
+    any other file.
+
+    Note that independently of this setting, new INI override files will NEVER
+    be found automatically. You will need to clear at least the INI cache
+    when a new INI file override is added to the structure. Note that new files
+    are not affected, but this is an edge situation.
 */
 //define( 'EZP_INI_FILEMTIME_CHECK', false );
 
@@ -149,7 +156,7 @@
  * Cluster storage host.
  * Required.
  */
-define( 'CLUSTER_STORAGE_HOST', 'localhost' );
+// define( 'CLUSTER_STORAGE_HOST', 'localhost' );
 
 /**
  * Cluster storage port.
@@ -167,7 +174,7 @@ define( 'CLUSTER_STORAGE_HOST', 'localhost' );
  * Cluster storage password
  * Required
  */
-define( 'CLUSTER_STORAGE_PASS', 'dbpassword' );
+// define( 'CLUSTER_STORAGE_PASS', 'dbpassword' );
 
 /**
  * Database name

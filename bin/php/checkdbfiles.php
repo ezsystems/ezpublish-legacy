@@ -124,9 +124,16 @@ $versions46 = array( 'unstable' => array( array( '4.5.0', '4.6.0alpha1' ),
 $versions47 = array( 'unstable' => array( array( '4.6.0', '4.7.0alpha1' ),
                                           array( '4.7.0alpha1', '4.7.0beta1' ),
                                           array( '4.7.0beta1', '4.7.0rc1' ),
+                                          array( '4.7.0rc1', '4.7.0' ),
                     ),
              'unstable_subdir' => 'unstable',
-             'stable' => array(),
+             'stable' => array( array( '4.6.0', '4.7.0' ) ),
+           );
+
+$versions50 = array( 'unstable' => array( array( '4.7.0', '5.0.0alpha1' ),
+                    ),
+             'unstable_subdir' => 'unstable',
+             'stable' => array( ),
            );
 
 
@@ -137,6 +144,7 @@ $versions['4.4'] = $versions44;
 $versions['4.5'] = $versions45;
 $versions['4.6'] = $versions46;
 $versions['4.7'] = $versions47;
+$versions['5.0'] = $versions50;
 
 $fileList = array();
 $missingFileList = array();

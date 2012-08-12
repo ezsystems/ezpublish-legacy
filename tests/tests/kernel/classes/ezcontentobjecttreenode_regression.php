@@ -123,7 +123,7 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
 
         // we need to check that each identifier in the 'from' of this array
         // doesn't exceed 30 characters
-        $matches = explode( 'INNER JOIN ', str_replace( "\r\n", '', $sqlArray['from'] ) );
+        $matches = explode( ', ', str_replace( "\r\n", '', $sqlArray['from'] ) );
         foreach( $matches as $match )
         {
             if ( $match == '' )

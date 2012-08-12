@@ -1,0 +1,8 @@
+Changes to BC and behaviour in version 5.0
+==========================================
+
+Supported features
+------------------
+
+- setting either VarDir or CacheDir to an absolute directory in site.ini is no longer officially supported.
+  the value will be accepted, but some features will have an unpredictable behaviour

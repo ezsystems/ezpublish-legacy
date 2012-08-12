@@ -13,6 +13,11 @@ $handlerOptions->iniFile = 'site.ini';
 $handlerOptions->iniSection = 'RegionalSettings';
 $handlerOptions->iniVariable = 'LanguageSwitcherClass';
 
+if ( isset( $_SERVER['QUERY_STRING'] ) && $_SERVER['QUERY_STRING'] )
+{
+    $Params['QueryString'] = $_SERVER['QUERY_STRING'];
+}
+
 // 0. Module params are sent to constructor to process the request.
 $handlerOptions->handlerParams = array( $Params );
 

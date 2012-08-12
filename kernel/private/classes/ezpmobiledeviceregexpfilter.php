@@ -47,8 +47,17 @@ class ezpMobileDeviceRegexpFilter implements ezpMobileDeviceDetectFilterInterfac
      */
     public function __construct()
     {
-        $this->httpUserAgent = $_SERVER['HTTP_USER_AGENT'];
-        $this->httpAccept = $_SERVER['HTTP_ACCEPT'];
+        $this->httpUserAgent = '';
+        if ( isset( $_SERVER['HTTP_USER_AGENT'] ) )
+        {
+            $this->httpUserAgent = $_SERVER['HTTP_USER_AGENT'];
+        }
+
+        $this->httpAccept = '';
+        if ( isset( $_SERVER['HTTP_ACCEPT'] ) )
+        {
+            $this->httpAccept = $_SERVER['HTTP_ACCEPT'];
+        }
     }
 
     /**

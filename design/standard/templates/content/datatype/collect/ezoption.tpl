@@ -9,14 +9,14 @@
 {section var=Options loop=$attribute.content.option_list}
 <label>
 <input type="radio" name="ContentObjectAttribute_data_option_value_{$attribute.id}" value="{$Options.item.id}" {if $Options.item.id|eq( $option_id )}checked="checked"{/if} />
-{$Options.item.value}
+{$Options.item.value|wash()}
 </label>
 {/section}
 
 {section-else}
 <select name="ContentObjectAttribute_data_option_value_{$attribute.id}">
 {section var=Options loop=$attribute.content.option_list}
-<option value="{$Options.item.id}" {if $Options.item.id|eq( $option_id )}selected="selected"{/if}>{$Options.item.value}</option>
+<option value="{$Options.item.id}" {if $Options.item.id|eq( $option_id )}selected="selected"{/if}>{$Options.item.value|wash()}</option>
 {/section}
 </select>
 {/section}

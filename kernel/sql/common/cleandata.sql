@@ -45,11 +45,13 @@ INSERT INTO ezcobj_state_group_language (
   contentobject_state_group_id,
   description,
   language_id,
+  real_language_id,
   name
 ) VALUES (
   2,
   '',
   3,
+  2,
   'Lock'
 );
 
@@ -36889,7 +36891,7 @@ INSERT INTO ezsite_data (
   value
 ) VALUES (
   'ezpublish-version',
-  '4.7.0rc1'
+  '5.0.0alpha1'
 );
 
 INSERT INTO ezurl (

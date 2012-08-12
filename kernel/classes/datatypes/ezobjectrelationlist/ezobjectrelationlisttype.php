@@ -1150,6 +1150,21 @@ class eZObjectRelationListType extends eZDataType
         }
 
         $hostObject = $contentObjectAttribute->attribute( 'object' );
+        $hostObjectID = $hostObject->attribute( 'id' );
+
+        // Do not try removing the object if present in trash
+        // Only objects being really orphaned (not even being in trash) should be removed by this method.
+        // See issue #019457
+        if (
+            (int)eZPersistentObject::count(
+                eZContentObjectTrashNode::definition(),
+                array( "contentobject_id" => $hostObjectID )
+            ) > 0
+        )
+        {
+            return;
+        }
+
         $hostObjectVersions = $hostObject->versions();
         $isDeletionAllowed = true;
 
@@ -1162,7 +1177,7 @@ class eZObjectRelationListType extends eZDataType
                 $relationAttribute = eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
                                                                            null,
                                                                            array( 'version' => $version->attribute( 'version' ),
-                                                                                  'contentobject_id' => $hostObject->attribute( 'id' ),
+                                                                                  'contentobject_id' => $hostObjectID,
                                                                                   'contentclassattribute_id' => $contentObjectAttribute->attribute( 'contentclassattribute_id' ) ) );
 
                 if ( count( $relationAttribute ) > 0 )
