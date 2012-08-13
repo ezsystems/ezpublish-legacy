@@ -588,7 +588,24 @@ class eZRole extends eZPersistentObject
                 }
             }
         }
+        $accessArray = static::super_unique( $accessArray );
         return $accessArray;
+    }
+
+    /*!
+     Array unique recursive
+     */
+    static function super_unique( $array )
+    {
+        $result = array_map("unserialize", array_unique(array_map("serialize", $array)));
+        foreach ($result as $key => $value)
+        {
+            if ( is_array($value) )
+            {
+                $result[$key] = static::super_unique($value);
+            }
+        }
+        return $result;
     }
 
     /*!
