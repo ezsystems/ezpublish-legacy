@@ -9,6 +9,10 @@
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 
+/* We retrieve the class ID for users as this is used in many places in this
+ * code in order to be able to cleanup the user-policy cache. */
+$userClassIDArray = eZUser::contentClassIDs();
+
 if ( $module->hasActionParameter( 'LanguageCode' ) )
     $languageCode = $module->actionParameter( 'LanguageCode' );
 else
@@ -386,6 +390,7 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     if ( !$object )
         return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel', array() );
     $objectID = $object->attribute( 'id' );
+    $objectVersion = $object->attribute( 'current_version' );
 
     if ( $module->hasActionParameter( 'NewNode' ) )
     {
@@ -415,6 +420,8 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
     $selectedObject = $selectedNode->object();
+    $selectedObjectID = $selectedObject->attribute( 'id' );
+    $selectedObjectVersion = $selectedObject->attribute( 'current_version' );
     $selectedNodeParentNodeID = $selectedNode->attribute( 'parent_node_id' );
 
 
@@ -997,6 +1004,7 @@ else if ( $http->hasPostVariable( 'MoveButton' ) )
             if ( !$parentObject )
                 return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel', array() );
             $parentObjectID = $parentObject->attribute( 'id' );
+            $parentClass = $parentObject->contentClass();
 
             $ignoreNodesSelect = array_unique( $ignoreNodesSelect );
             $ignoreNodesSelectSubtree = array_unique( $ignoreNodesSelectSubtree );
@@ -1124,6 +1132,8 @@ else if ( $http->hasPostVariable( "ActionAddToNotification" ) )
 else if ( $http->hasPostVariable( "ContentObjectID" )  )
 {
     $objectID = $http->postVariable( "ContentObjectID" );
+    $action = $http->postVariable( "ContentObjectID" );
+
 
     // Check which action to perform
     if ( $http->hasPostVariable( "ActionAddToBasket" ) )

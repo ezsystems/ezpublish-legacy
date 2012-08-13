@@ -117,7 +117,7 @@ else if ( $options['clear-subtree'] )
                          'Limitation' => array() ); // Empty array means no permission checking
 
         $subtreeCount = $node->subTreeCount( $params );
-        $script->resetIteration( $subtreeCount / $limit );
+        $script->resetIteration( $subtreeCount );
         while ( $offset < $subtreeCount )
         {
             $params['Offset'] = $offset;
@@ -137,11 +137,11 @@ else if ( $options['clear-subtree'] )
             $objectIDList = array_unique( $objectIDList );
             unset( $subtree );
 
-            $script->iterate(
-                $cli,
-                eZContentCacheManager::clearContentCache( $objectIDList ),
-                "Cleared view cache for object(s): " . implode( ", ", $objectIDList )
-            );
+            foreach ( $objectIDList as $objectID )
+            {
+                $status = eZContentCacheManager::clearContentCache( $objectID );
+                $script->iterate( $cli, $status, "Cleared view cache for object $objectID" );
+            }
             eZContentObject::clearCache();// Clear all object memory cache to free memory
         }
     }

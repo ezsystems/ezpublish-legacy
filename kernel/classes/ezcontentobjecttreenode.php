@@ -6005,7 +6005,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     static function clearViewCacheForSubtree( eZContentObjectTreeNode $node, $clearForRootNode = true )
     {
         // Max nodes to fetch at a time
-        static $limit = 200;
+        static $limit = 50;
 
         if ( $clearForRootNode )
         {
@@ -6032,9 +6032,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $objectIDList = array();
             foreach ( $subtreeChunk as $curNode )
                 $objectIDList[] = $curNode['contentobject_id'];
+            $objectIDList = array_unique( $objectIDList );
             unset( $subtreeChunk );
 
-            eZContentCacheManager::clearContentCacheIfNeeded( array_unique( $objectIDList ) );
+            foreach ( $objectIDList as $objectID )
+                eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
         }
 
         return true;
