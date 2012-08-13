@@ -86,6 +86,22 @@ class eZGeneralDigestUserSettings extends eZPersistentObject
         $db->query( "DELETE FROM ezgeneral_digest_user_settings WHERE address='" . $db->escapeString( $address ) . "'" );
     }
 
+    /**
+     * Update the email address in the database
+     *
+     * @param string $oldAddr the old email address
+     * @param string $newAddr the new email address
+     */
+    static function updateAddress( $oldAddr, $newAddr )
+    {
+        $db = eZDB::instance();
+        $db->query(
+            "UPDATE ezgeneral_digest_user_settings SET address='"
+            . $db->escapeString( $newAddr ) . "' WHERE address='"
+            . $db->escapeString( $oldAddr ) . "'"
+        );
+    }
+
     /*!
      \static
      Removes all general digest settings for all users.
