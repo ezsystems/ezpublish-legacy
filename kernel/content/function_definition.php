@@ -1075,7 +1075,7 @@ $FunctionList['related_objects'] = array( 'name' => 'object',
                                                         array( 'name' => 'version',
                                                                'type' => 'integer',
                                                                'required' => false,
-                                                               'default' => "abc" ) ) );
+                                                               'default' => false ) ) );
 
 $FunctionList['related_objects_count'] = array( 'name' => 'object',
                                  'operation_types' => array( 'read' ),
