@@ -24,8 +24,7 @@ var sortableSubitems = function () {
         YAHOO.util.Cookie.setSub(confObj.cookieName, subName, escape(joined), {
             path : "/",
             expires : expiresDate,
-            secure : confObj.cookieSecure,
-            domain : confObj.cookieDomain
+            secure : confObj.cookieSecure
         });
     }
 
