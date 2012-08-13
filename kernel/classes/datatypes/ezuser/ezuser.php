@@ -198,76 +198,15 @@ class eZUser extends eZPersistentObject
         return new eZUser( $row );
     }
 
-    /**
-     * Magic setter. Currently only handles the Email to store the previous
-     * email address.;
-     *
-     * @param string $name
-     * @param string $value
-     */
-    function __set( $name, $value )
-    {
-        if ( $name === 'Email' )
-        {
-            $this->OldEmail = $this->Email;
-            $this->Email = trim( $value );
-        }
-    }
-
-    /**
-     * Returns the property $name. Currently, it's only able to handle 'Email'.
-     * For others $name, it returns null.
-     *
-     * @param string $name
-     * @return null|string
-     */
-    function __get( $name )
-    {
-        if ( $name === 'Email' )
-        {
-            return $this->Email;
-        }
-        eZDebug::writeError(
-            "Trying to get inexistent property '{$name}' on eZUser",
-            __METHOD__
-        );
-        return null;
-    }
-
-    /**
-     * Reimplements eZPersistentObject::setAttribute() to store the old email
-     * adress.
-     *
-     * @param string $attr
-     * @param mixed $val
-     */
-    function setAttribute( $attr, $val )
-    {
-        if ( $attr === 'email' )
-        {
-            $this->OldEmail = $this->Email;
-            $val = trim( $val );
-        }
-        parent::setAttribute( $attr, $val );
-    }
-
     function store( $fieldFilters = null )
     {
-        $db = eZDB::instance();
+        $this->Email = trim( $this->Email );
         $userID = $this->attribute( 'contentobject_id' );
         // Clear memory cache
         unset( $GLOBALS['eZUserObject_' . $userID] );
         $GLOBALS['eZUserObject_' . $userID] = $this;
         self::purgeUserCacheByUserId( $userID );
-
-        $db->begin();
         eZPersistentObject::store( $fieldFilters );
-        if ( $this->OldEmail !== null && $this->OldEmail != $this->Email )
-        {
-            eZGeneralDigestUserSettings::updateAddress( $this->OldEmail, $this->Email );
-            $this->OldEmail = null;
-        }
-        $db->commit();
     }
 
     function originalPassword()
@@ -2872,32 +2811,13 @@ WHERE user_id = '" . $userID . "' AND
     }
 
     /// \privatesection
-    public $ContentObjectID;
     public $Login;
+    public $Email;
     public $PasswordHash;
     public $PasswordHashType;
     public $Groups;
     public $OriginalPassword;
     public $OriginalPasswordConfirm;
-    public $AccessArray;
-
-
-    /**
-     * Contains the email address of the user.
-     * To not break BC, this property is still publicly
-     * available through eZUser::__get()
-     *
-     * @var string
-     */
-    protected $Email;
-
-    /**
-     * Contains the old email address of the user.
-     * @see eZUser::__set() and eZUser::setAttribute()
-     *
-     * @var null|string
-     */
-    protected $OldEmail = null;
 
     /**
      * Holds user cache like user info and access array
