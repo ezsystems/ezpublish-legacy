@@ -256,7 +256,7 @@ class eZScript
             }
             else
             {
-                $this->IsInitialized = false;
+                $this->setIsInitialized( false );
                 $this->InitializationErrorMessage = 'database error: ' . $db->errorMessage();
                 return;
             }
@@ -286,12 +286,17 @@ class eZScript
             $moduleRepositories = eZModule::activeModuleRepositories( $this->UseExtensions );
             eZModule::setGlobalPathList( $moduleRepositories );
         }
-        $this->IsInitialized = true;
+        $this->setIsInitialized( true );
     }
 
     function isInitialized()
     {
         return $this->IsInitialized;
+    }
+
+    public function setIsInitialized( $isInitialized )
+    {
+        $this->IsInitialized = (bool)$isInitialized;
     }
 
     function initializationError()
@@ -343,7 +348,7 @@ class eZScript
 
         eZExecution::cleanup();
         eZExecution::setCleanExit();
-        $this->IsInitialized = false;
+        $this->setIsInitialized( false );
         if ( $exitCode !== false )
             $this->ExitCode = $exitCode;
         if ( $this->ExitCode !== false )
@@ -1101,6 +1106,7 @@ class eZScript
     }
 
     /// \privatesection
+    public $IsInitialized;
     public $InitializationErrorMessage;
     public $DebugMessage;
     public $UseDebugOutput;

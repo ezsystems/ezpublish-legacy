@@ -1,0 +1,10 @@
+{
+    "name":        "ezsystems/ezpublish-legacy",
+    "description": "eZ Publish legacy, ready for Symfony integration",
+    "version":     "5.0-dev",
+    "homepage": "http://share.ez.no",
+    "licence": "GPL-2.0",
+    "require": {
+        "php": ">5.3.3"
+    }
+}

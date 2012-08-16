@@ -25,9 +25,9 @@ class eZExecution
      Sets the clean exit flag to on,
      this notifies the exit handler that everything finished properly.
     */
-    static function setCleanExit()
+    static function setCleanExit( $hasCleanExit = true )
     {
-        self::$hasCleanExit = true;
+        self::$hasCleanExit = $hasCleanExit;
     }
 
     /*!

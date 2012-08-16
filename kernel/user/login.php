@@ -99,7 +99,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
             && ( $rememberMeTimeout = $ini->variable( 'Session', 'RememberMeTimeout' ) )
         )
         {
-            eZSession::setCookieParams( $rememberMeTimeout );
+            eZSession::setCookieLifetime( $rememberMeTimeout );
         }
 
         foreach ( array_keys ( $loginHandlers ) as $key )
