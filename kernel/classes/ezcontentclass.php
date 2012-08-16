@@ -75,7 +75,8 @@ class eZContentClass extends eZPersistentObject
                                          "identifier" => array( 'name' => "Identifier",
                                                                 'datatype' => 'string',
                                                                 'default' => '',
-                                                                'required' => true ),
+                                                                'required' => true,
+                                                                'max_length' => 50 ),
                                          "contentobject_name" => array( 'name' => "ContentObjectName",
                                                                         'datatype' => 'string',
                                                                         'default' => '',
@@ -951,6 +952,9 @@ You will need to change the class of the node by using the swap functionality.' 
             ++$count;
             $name .= $count;
             $identifier .= $count;
+            if ( strlen( $identifier ) > 50 ){
+                $identifier = "copy_{$count}_of_" . $originalClass->attribute( 'identifier' );
+            } 
         }
         $this->setName( $name );
         $this->setAttribute( 'identifier', $identifier );
