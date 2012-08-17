@@ -180,42 +180,46 @@ class eZMultiplexerType extends eZWorkflowEventType
         $processParameters = $process->attribute( 'parameter_list' );
         $storeProcessParameters = false;
         $classID = false;
-        $objectID = false;
+        $object = false;
         $sectionID = false;
         $languageID = 0;
 
         if ( isset( $processParameters['object_id'] ) )
         {
-            $objectID = $processParameters['object_id'];
-            $object = eZContentObject::fetch( $objectID );
-            if ( $object )
+            $object = eZContentObject::fetch( $processParameters['object_id'] );
+        }
+        else if ( isset( $processParameters['node_id'] ) )
+        {
+            $object = eZContentObject::fetchByNodeID( $processParameters['node_id'] );
+        }
+
+        if ( $object instanceof eZContentObject )
+        {
+            // Examine if the published version contains one of the languages we
+            // match for.
+            if ( isset( $processParameters['version'] ) )
             {
-                // Examine if the published version contains one of the languages we
-                // match for.
-                if ( isset( $processParameters['version'] ) )
-                {
-                    $versionID = $processParameters['version'];
-                    $version = $object->version( $versionID );
+                $versionID = $processParameters['version'];
+                $version = $object->version( $versionID );
 
-                    if ( is_object( $version ) )
+                if ( is_object( $version ) )
+                {
+                    $version_option = $event->attribute( 'version_option' );
+                    if ( ( $version_option == eZMultiplexerType::VERSION_OPTION_FIRST_ONLY and $processParameters['version'] > 1 ) or
+                         ( $version_option == eZMultiplexerType::VERSION_OPTION_EXCEPT_FIRST and $processParameters['version'] == 1 ) )
                     {
-                        $version_option = $event->attribute( 'version_option' );
-                        if ( ( $version_option == eZMultiplexerType::VERSION_OPTION_FIRST_ONLY and $processParameters['version'] > 1 ) or
-                             ( $version_option == eZMultiplexerType::VERSION_OPTION_EXCEPT_FIRST and $processParameters['version'] == 1 ) )
-                        {
-                            return eZWorkflowType::STATUS_ACCEPTED;
-                        }
-
-                        // If the language ID is part of the mask the result is non-zero.
-                        $languageID = (int)$version->attribute( 'initial_language_id' );
+                        return eZWorkflowType::STATUS_ACCEPTED;
                     }
+
+                    // If the language ID is part of the mask the result is non-zero.
+                    $languageID = (int)$version->attribute( 'initial_language_id' );
                 }
-                $sectionID = $object->attribute( 'section_id' );
-                $class = $object->attribute( 'content_class' );
-                if ( $class )
-                {
-                    $classID = $class->attribute( 'id' );
-                }
+            }
+            $sectionID = $object->attribute( 'section_id' );
+            $class = $object->attribute( 'content_class' );
+            if ( $class )
+            {
+                $classID = $class->attribute( 'id' );
             }
         }
 
