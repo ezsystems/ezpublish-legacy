@@ -549,7 +549,8 @@ var eZOEPopupUtils = {
         for(var i = 0, l = arr.length; i < l; i++)
         {
             t = arr[i].split('|');
-            values[t[0]] = t[1];
+            var key = t.shift();
+            values[key] = t.join('|');
         }
         jQuery( '#' + node + ' input,#' + node + ' select' ).each(function( i, el )
         {
