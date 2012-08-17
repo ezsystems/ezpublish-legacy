@@ -3,8 +3,10 @@
          offset=$view_parameters.offset item_limit=10
          summary_indentation=10}
 
+{* Status 1 corresponds to eZCollaborationItem::STATUS_ACTIVE *}
+{def $status = array( 1 )}
 {let group_tree=fetch("collaboration","group_tree",hash("parent_group_id",$parent_group_id))
-     latest_item_count=fetch("collaboration","item_count",hash("is_active",true(),"parent_group_id",$parent_group_id))}
+     latest_item_count=fetch("collaboration","item_count",hash("is_active",true(),"parent_group_id",$parent_group_id,"status",$status))}
 
 
  <div class="context-block">
@@ -21,7 +23,7 @@
 
 {if $latest_item_count}
 
-{include uri="design:collaboration/item_list.tpl" item_list=fetch( "collaboration", "item_list", hash( "limit", $item_limit, "offset", $offset, "is_active", true() ) )}
+{include uri="design:collaboration/item_list.tpl" item_list=fetch( "collaboration", "item_list", hash( "limit", $item_limit, "offset", $offset, "is_active", true(), "status", $status ) )}
 
 {include name=Navigator
          uri='design:navigator/google.tpl'
