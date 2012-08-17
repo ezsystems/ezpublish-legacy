@@ -225,7 +225,7 @@ class eZHTTPTool
         if ( $uriPort && !$port )
             $port = $uriPort;
         else if ( !$port )
-            $port = 80;
+            $port = ( $protocol === 'https://' ? 443 : 80 );
 
         if ( !$path )
         {
