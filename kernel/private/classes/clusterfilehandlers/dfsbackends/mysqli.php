@@ -657,7 +657,8 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         }
 
         // Make sure all data is written correctly
-        clearstatcache();
+        usleep( 1000 );
+        clearstatcache( false, $tmpFilePath );
         $tmpSize = filesize( $tmpFilePath );
         // @todo Throw an exception
         if ( $tmpSize != $metaData['size'] )
@@ -668,7 +669,8 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
 
         if ( $uniqueName !== true )
         {
-            eZFile::rename( $tmpFilePath, $filePath, false, eZFile::CLEAN_ON_FAILURE | eZFile::APPEND_DEBUG_ON_FAILURE );
+            if ( !eZFile::rename( $tmpFilePath, $filePath, false, eZFile::CLEAN_ON_FAILURE | eZFile::APPEND_DEBUG_ON_FAILURE ) )
+                return false;
         }
         else
         {
