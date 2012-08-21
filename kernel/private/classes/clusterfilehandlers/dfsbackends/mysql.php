@@ -597,10 +597,11 @@ class eZDFSFileHandlerMySQLBackend
         }
 
         // create temporary file
+        $tmpid = getmypid() . '-' . rand() .'tmp';
         if ( strrpos( $filePath, '.' ) > 0 )
-            $tmpFilePath = substr_replace( $filePath, getmypid().'tmp', strrpos( $filePath, '.' ), 0  );
+            $tmpFilePath = substr_replace( $filePath, $tmpid, strrpos( $filePath, '.' ), 0  );
         else
-            $tmpFilePath = $filePath . '.' . getmypid().'tmp';
+            $tmpFilePath = $filePath . '.' . $tmpid;
         $this->__mkdir_p( dirname( $tmpFilePath ) );
 
         // copy DFS file to temporary FS path
