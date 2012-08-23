@@ -228,7 +228,7 @@ class eZSSLZone
 
         $requestURI = eZSys::requestURI();
         $indexDir = eZSys::indexDir( false );
-        
+
         // If there are any $_GET parameters, those should be passed into the new URI
         $getString = eZSys::queryString();
 
