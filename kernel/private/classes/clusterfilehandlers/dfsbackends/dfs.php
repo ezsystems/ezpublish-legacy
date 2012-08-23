@@ -48,7 +48,11 @@ class eZDFSFileHandlerDFSBackend
         }
         else
         {
-            $ret = $this->createFile( $dstFilePath, file_get_contents( $srcFilePath ), false );
+            $contents = file_get_contents( $srcFilePath );
+            if ( $contents === false )
+                $ret = false;
+            else
+                $ret = $this->createFile( $dstFilePath, $contents, false );
         }
 
         $this->accumulatorStop();
@@ -82,7 +86,11 @@ class eZDFSFileHandlerDFSBackend
         }
         else
         {
-            $ret = $this->createFile( $dstFilePath, file_get_contents( $srcFilePath ) );
+            $contents = file_get_contents( $srcFilePath );
+            if ( $contents === false )
+                $ret = false;
+            else
+                $ret = $this->createFile( $dstFilePath, $contents );
         }
 
         $this->accumulatorStop();
