@@ -46,9 +46,6 @@
 {include uri='design:page_head_style.tpl'}
 {include uri='design:page_head_script.tpl'}
 
-{* Pr tab header cache *}
-{cache-block keys=array( $ui_context, $ui_component, $user_hash, $access_type, first_set( $module_result.navigation_part, $navigation_part.identifier ) ) ignore_content_expiry}
-
 </head>
 <body>
 
@@ -59,6 +56,9 @@
 
 {* HEADER ( SEARCH, LOGO AND USERMENU ) *}
 {include uri='design:page_header.tpl'}
+
+{* Pr tab header cache *}
+{cache-block keys=array( $ui_context, $ui_component, $user_hash, $access_type, first_set( $module_result.navigation_part, $navigation_part.identifier ) ) ignore_content_expiry}
 
 {* TOP MENU / TABS *}
 {include uri='design:page_topmenu.tpl'}
