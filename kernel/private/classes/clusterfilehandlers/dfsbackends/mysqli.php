@@ -672,6 +672,8 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         if ( $tmpSize != $metaData['size'] )
         {
             eZDebug::writeError( "Size ($tmpSize) of written data for file '$tmpFilePath' does not match expected size " . $metaData['size'], __METHOD__ );
+            if ( $tmpSize === 0 )
+                unlink($tmpFilePath);
             return false;
         }
 
