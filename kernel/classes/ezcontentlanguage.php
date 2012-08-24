@@ -698,9 +698,10 @@ class eZContentLanguage extends eZPersistentObject
      *                               the language id. 'language_id' by default.
      * \param languageListAttributeName Optional. Name of the attribute in $languageListTable which contains
      *                                  the bitmap mask. 'language_mask' by default.
+     * \param lang Optional. the prioritized language to use.
      * \return SQL where-condition described above.
      */
-    static function sqlFilter( $languageTable, $languageListTable = null, $languageAttributeName = 'language_id', $languageListAttributeName = 'language_mask' )
+    static function sqlFilter( $languageTable, $languageListTable = null, $languageAttributeName = 'language_id', $languageListAttributeName = 'language_mask', $lang = false )
     {
         $db = eZDB::instance();
 
@@ -710,6 +711,11 @@ class eZContentLanguage extends eZPersistentObject
         }
 
         $prioritizedLanguages = eZContentLanguage::prioritizedLanguages();
+        if ( is_string($lang) )
+            $lang = eZContentLanguage::fetchByLocale($lang);
+        if ( $lang instanceof eZContentLanguage )
+            array_unshift($prioritizedLanguages, $lang);
+
         if ( $db->databaseName() == 'oracle' )
         {
             $leftSide = "bitand( $languageListTable.$languageListAttributeName - bitand( $languageListTable.$languageListAttributeName, $languageTable.$languageAttributeName ), 1 )\n";
