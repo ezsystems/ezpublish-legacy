@@ -228,6 +228,9 @@ class eZSSLZone
 
         $requestURI = eZSys::requestURI();
         $indexDir = eZSys::indexDir( false );
+        
+        // If there are any $_GET parameters, those should be passed into the new URI
+        $getString = eZSys::queryString();
 
         $sslZoneRedirectionURL = false;
         if ( $nowSSL && !$inSSL )
@@ -240,7 +243,7 @@ class eZSSLZone
             $host = preg_replace( '/:\d+$/', '', $host );
             if ( $port && $port != 80 )
                 $host .= ":$port";
-            $sslZoneRedirectionURL = "http://" . $host . $indexDir . $requestURI;
+            $sslZoneRedirectionURL = "http://" . $host . $indexDir . $requestURI . $getString;
         }
         elseif ( !$nowSSL && $inSSL )
         {
@@ -251,7 +254,7 @@ class eZSSLZone
             $ini = eZINI::instance();
             $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
             $sslPortString = ( $sslPort == eZSSLZone::DEFAULT_SSL_PORT ) ? '' : ":$sslPort";
-            $sslZoneRedirectionURL = "https://" . $host  . $sslPortString . $indexDir . $requestURI;
+            $sslZoneRedirectionURL = "https://" . $host  . $sslPortString . $indexDir . $requestURI . $getString;
         }
 
         if ( $sslZoneRedirectionURL ) // if a redirection URL is found
