@@ -8,7 +8,7 @@ function toggleClass( selection )
         {$class.id} : {ldelim}
         {foreach fetch( 'class', 'attribute_list', hash( 'class_id', $class.id ) ) as $attribute}
             {delimiter},{/delimiter}
-            {$attribute.id} : "{$attribute.name}"
+            {$attribute.id} : '{$attribute.name}'
         {/foreach}
         {rdelim}
     {/foreach}
