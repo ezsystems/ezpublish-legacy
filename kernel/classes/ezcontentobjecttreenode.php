@@ -5614,10 +5614,45 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( count( $pathArray ) > 0 )
         {
-            $db = eZDB::instance();
-            $db->query( 'UPDATE ezcontentobject_tree SET modified_subnode=' . time() .
-                        ' WHERE ' . $db->generateSQLINStatement( $pathArray, 'node_id', false, true, 'int' ) );
+            if ( self::$inBulkOperation === true )
+            {
+                // Postponing clear cache
+                self::$bulkOperationNodeArray = array_merge( self::$bulkOperationNodeArray, $pathArray );
+                eZDebug::writeNotice(self::$bulkOperationNodeArray, 'Accumulated nodes to clear cache');
+            }
+            else
+            {
+                $db = eZDB::instance();
+                $db->query( 'UPDATE ezcontentobject_tree SET modified_subnode=' . time() .
+                            ' WHERE ' . $db->generateSQLINStatement( $pathArray, 'node_id', false, true, 'int' ) );
+            }
         }
+    }
+
+    static $inBulkOperation = false;
+    static $bulkOperationNodeArray = array(); 
+
+    /*!
+     \static
+     Inititalize bulk expire operation mode.
+    */
+    static function initBulkOperation()
+    {
+        self::$inBulkOperation = true;
+    }
+    
+    /*!
+     \static
+     Performs the bulk operation
+    */
+    static function commitBulkOperation()
+    {
+        self::$inBulkOperation = false;
+        self::$bulkOperationNodeArray = array_unique( self::$bulkOperationNodeArray );
+        $nodeStr = implode(', ', self::$bulkOperationNodeArray );
+        $db = eZDB::instance();
+        $db->query( 'UPDATE ezcontentobject_tree SET modified_subnode=' . time() . " WHERE node_id IN ( $nodeStr )" );
+        self::$bulkOperationNodeArray = array();
     }
 
     /*!
