@@ -611,6 +611,7 @@ return array(
       'ezpKernel'                                          => 'kernel/private/classes/ezpkernel.php',
       'ezpKernelHandler'                                   => 'kernel/private/interfaces/ezpkernelhandler.php',
       'ezpKernelResult'                                    => 'kernel/private/classes/ezpkernelresult.php',
+      'ezpKernelTreeMenu'                                  => 'kernel/private/classes/ezpkerneltreemenu.php',
       'ezpKernelWeb'                                       => 'kernel/private/classes/ezpkernelweb.php',
       'ezpLanguageNotFound'                                => 'kernel/private/classes/exceptions/kernel/languagenotfound.php',
       'ezpLanguageSwitcher'                                => 'kernel/private/classes/ezplanguageswitcher.php',
