@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <software>
     <metadata>
-        <name>eZ JSCore extension</name>
+        <name>eZ JSCore LS</name>
         <version>//autogentag//</version>
         <copyright>Copyright (C) 1999-2012 eZ Systems AS</copyright>
         <license>//EZP_LICENSE//</license>
