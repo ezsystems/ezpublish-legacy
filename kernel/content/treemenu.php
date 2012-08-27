@@ -13,6 +13,8 @@ if ( !defined( 'MAX_AGE' ) )
     define( 'MAX_AGE', 86400 );
 }
 
+$Result['pagelayout'] = false;
+
 // We use aggressive browser caching by default, by manually set appropriate HTTP headers.
 // This behavior can be deactivated by setting 'use-cache-headers' user parameter to false.
 $useCacheHeaders = isset( $UserParameters['use-cache-headers'] ) ? (bool)$UserParameters['use-cache-headers'] : true;
