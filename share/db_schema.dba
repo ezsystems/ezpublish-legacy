@@ -3094,13 +3094,6 @@ $schema = array (
     'name' => 'ezgeneral_digest_user_settings',
     'fields' => 
     array (
-      'address' => 
-      array (
-        'length' => 255,
-        'type' => 'varchar',
-        'not_null' => '1',
-        'default' => '',
-      ),
       'day' => 
       array (
         'length' => 255,
@@ -3145,12 +3138,12 @@ $schema = array (
           0 => 'id',
         ),
       ),
-      'ezgeneral_digest_user_settings_address' => 
+      'ezgeneral_digest_user_id' => 
       array (
         'type' => 'unique',
         'fields' => 
         array (
-          0 => 'address',
+          0 => 'user_id',
         ),
       ),
     ),
@@ -3802,6 +3795,13 @@ $schema = array (
         'type' => 'varchar',
         'not_null' => '1',
         'default' => '',
+      ),
+      'user_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
       ),
     ),
     'indexes' => 
