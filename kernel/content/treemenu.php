@@ -13,58 +13,6 @@ if ( !defined( 'MAX_AGE' ) )
     define( 'MAX_AGE', 86400 );
 }
 
-function washJS( $string )
-{
-    return str_replace( array( "\\", "/", "\n", "\t", "\r", "\b", "\f", '"' ), array( '\\\\', '\\/', '\\n', '\\t', '\\r', '\\b', '\\f', '\"' ), $string );
-}
-
-function arrayToJSON( $array )
-{
-    if ( $array )
-    {
-        $result = array();
-        $resultDict = array();
-        $isDict = false;
-        $index = 0;
-        foreach( $array as $key => $value )
-        {
-            if ( $key != $index++ )
-            {
-                $isDict = true;
-            }
-
-            if ( is_array( $value ) )
-            {
-                $value = arrayToJSON( $value );
-            }
-            else if ( !is_numeric( $value ) or $key == 'name' )
-            {
-                $value = '"' . washJS( $value ) . '"';
-            }
-
-            $result[] = $value;
-            $resultDict[] = '"' . washJS( $key ) . '":' . $value;
-        }
-        if ( $isDict )
-        {
-            return '{' . implode( $resultDict, ',' ) . '}';
-        }
-        else
-        {
-            return '[' . implode( $result, ',' ) . ']';
-        }
-    }
-    else
-    {
-        return '[]';
-    }
-}
-
-for ( $i = 0, $obLevel = ob_get_level(); $i < $obLevel; ++$i )
-{
-    ob_end_clean();
-}
-
 if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
 {
     header( $_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified' );
@@ -137,11 +85,13 @@ if ( !$node )
 }
 else if ( !$node->canRead() )
 {
-    $jsonText= arrayToJSON( array(
-        'error_code' => -1,
-        'error_message' => ezpI18n::tr( 'kernel/content', 'You do not have enough rights to access the requested node' ),
-        'node_id' => $nodeID,
-    ) );
+    $jsonText= json_encode(
+        array(
+            'error_code' => -1,
+            'error_message' => ezpI18n::tr( 'kernel/content', 'You do not have enough rights to access the requested node' ),
+            'node_id' => $nodeID,
+        )
+    );
 
     header( 'Content-Type: application/json' );
     header( 'Content-Length: '.strlen( $jsonText ) );
@@ -206,27 +156,27 @@ else
     {
         $childObject = $child->object();
         $childResponse = array();
-        $childResponse['node_id'] = $child->NodeID;
-        $childResponse['object_id'] = $child->ContentObjectID;
+        $childResponse['node_id'] = (int)$child->NodeID;
+        $childResponse['object_id'] = (int)$child->ContentObjectID;
         $object = $child->object();
-        $childResponse['class_id'] = $object->ClassID;
-        $childResponse['has_children'] = ( $child->subTreeCount( $conditions ) )? 1: 0;
+        $childResponse['class_id'] = (int)$object->ClassID;
+        $childResponse['has_children'] = $child->subTreeCount( $conditions ) > 0;
         $childResponse['name'] = $child->getName();
         $childResponse['url'] = $child->url();
         // force system url on empty urls (root node)
         if ( $childResponse['url'] === '' )
             $childResponse['url'] = 'content/view/full/' . $childResponse['node_id'];
         eZURI::transformURI( $childResponse['url'] );
-        $childResponse['modified_subnode'] = $child->ModifiedSubNode;
+        $childResponse['modified_subnode'] = (int)$child->ModifiedSubNode;
         $childResponse['languages'] = $childObject->availableLanguages();
-        $childResponse['is_hidden'] = $child->IsHidden;
-        $childResponse['is_invisible'] = $child->IsInvisible;
+        $childResponse['is_hidden'] = (bool)$child->IsHidden;
+        $childResponse['is_invisible'] = (bool)$child->IsInvisible;
         if ( $createHereMenu == 'full' )
         {
             $childResponse['class_list'] = array();
             foreach ( $child->canCreateClassList() as $class )
             {
-                $childResponse['class_list'][] = $class['id'];
+                $childResponse['class_list'][] = (int)$class['id'];
             }
         }
         $response['children'][] = $childResponse;
@@ -237,7 +187,7 @@ else
 
     $httpCharset = eZTextCodec::httpCharset();
 
-    $jsonText= arrayToJSON( $response );
+    $jsonText= json_encode( $response );
 
     $codec = eZTextCodec::instance( $httpCharset, 'unicode' );
     $jsonTextArray = $codec->convertString( $jsonText );
