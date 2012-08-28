@@ -5618,7 +5618,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             {
                 // Postponing clear cache
                 self::$bulkOperationNodeArray = array_merge( self::$bulkOperationNodeArray, $pathArray );
-                eZDebug::writeNotice(self::$bulkOperationNodeArray, 'Accumulated nodes to clear cache');
             }
             else
             {
