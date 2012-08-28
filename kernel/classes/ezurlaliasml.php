@@ -698,11 +698,14 @@ class eZURLAliasML extends eZPersistentObject
             {
                 $rowsToUpdate[] = (int)$row['id'];
             }
-            $oldParentIDs = implode( ',', $rowsToUpdate );
-            $query = "UPDATE ezurlalias_ml SET parent = {$newElementID} " .
-                     "WHERE parent in ($oldParentIDs) AND (${bitAnd} > 0)";
-            $res = $db->query( $query );
-            if ( !$res ) return eZURLAliasML::dbError( $db );
+            if( count( $oldParentIDs ) > 0 )
+            {
+                $oldParentIDs = implode( ',', $rowsToUpdate );
+                $query = "UPDATE ezurlalias_ml SET parent = {$newElementID} " .
+                         "WHERE parent in ($oldParentIDs) AND (${bitAnd} > 0)";
+                $res = $db->query( $query );
+                if ( !$res ) return eZURLAliasML::dbError( $db );
+            }
         }
         else
         {
