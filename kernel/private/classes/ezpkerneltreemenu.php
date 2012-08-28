@@ -40,11 +40,13 @@ class ezpKernelTreeMenu implements ezpKernelHandler
         $this->settings = $settings + array(
             'use-cache-headers'         => true,
             'max-age'                   => 86400,
-            'siteaccess'                => null
+            'siteaccess'                => null,
+            'use-exceptions'            => false
         );
         unset( $settings );
 
         require_once __DIR__ . '/treemenu_functions.php';
+        $this->setUseExceptions( $this->settings['use-exceptions'] );
 
         header( 'X-Powered-By: eZ Publish (index_treemenu)' );
         if ( $this->settings['use-cache-headers'] === true )
