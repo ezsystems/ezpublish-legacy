@@ -233,6 +233,7 @@ else
         header( 'Content-Length: '.strlen( $jsonText ) );
     }
 
+    $Result['lastModified'] = new DateTime( "@$node->ModifiedSubNode" );
     $Result['content'] = $jsonText;
 
     if ( $handler )

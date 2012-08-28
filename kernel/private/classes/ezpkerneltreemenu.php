@@ -195,7 +195,6 @@ class ezpKernelTreeMenu implements ezpKernelHandler
 
         $GLOBALS['eZRequestedModule'] = $module;
 
-        $result = new ezpKernelResult();
         $content = $module->run(
             $function_name,
             $this->uri->elements( false ),
@@ -204,9 +203,9 @@ class ezpKernelTreeMenu implements ezpKernelHandler
                  'use-cache-headers' => $this->settings['use-cache-headers']
             )
         );
-        $result->content = $content['content'];
+        $attributes = isset( $content['lastModified'] ) ? array( 'lastModified' => $content['lastModified'] ) : array();
         $this->shutdown();
-        return $result;
+        return new ezpKernelResult( $content['content'], $attributes );
     }
 
     /**
@@ -283,14 +282,14 @@ class ezpKernelTreeMenu implements ezpKernelHandler
             eZExecution::cleanup();
             eZExecution::setCleanExit();
 
-            $result = new ezpKernelResult();
-            $result->content = json_encode(
-                array(
-                     'error'        => $errorMessage,
-                     'code'         => $errorCode
+            return new ezpKernelResult(
+                json_encode(
+                    array(
+                         'error'        => $errorMessage,
+                         'code'         => $errorCode
+                    )
                 )
             );
-            return $result;
         }
     }
 }
