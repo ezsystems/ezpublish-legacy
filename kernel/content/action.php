@@ -272,6 +272,7 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
     }
 
     // move selected nodes, this should probably be inside a transaction
+    eZContentObjectTreeNode::initBulkOperation();
     foreach( $nodeToMoveList as $nodeToMove )
     {
         if ( eZOperationHandler::operationIsAvailable( 'content_move' ) )
@@ -288,6 +289,7 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
             eZContentOperationCollection::moveNode( $nodeToMove['node_id'], $nodeToMove['object_id'], $selectedNodeID );
         }
     }
+    eZContentObjectTreeNode::commitBulkOperation();
 
     return $module->redirectToView( 'view', array( $viewMode, $selectedNodeID, $languageCode ) );
 }
