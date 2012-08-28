@@ -1089,7 +1089,7 @@ class eZDebug
             $GLOBALS['eZDebugLogOnly'] = ( $settings['log-only'] == 'enabled' );
         }
 
-        $GLOBALS['eZDebugAllowedByIP'] = $settings['debug-by-ip'] ? self::isAllowedByCurrentIP( $settings['debug-ip-list'] ) : true;
+        $GLOBALS['eZDebugAllowedByIP'] = isset( $settings['debug-by-ip'] ) ? self::isAllowedByCurrentIP( $settings['debug-ip-list'] ) : true;
 
         // updateSettings is meant to be called before the user session is started
         // so we do not take debug-by-user into account yet, but store the debug-user-list in $GLOBALS
