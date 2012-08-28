@@ -13,7 +13,13 @@ if ( !defined( 'MAX_AGE' ) )
     define( 'MAX_AGE', 86400 );
 }
 
+// Ensure to deactivate pagelayout and debug output in case we're going through index_tree_menu.php
 $Result['pagelayout'] = false;
+eZDebug::updateSettings(
+    array(
+         'debug-enabled' => false
+    )
+);
 
 // We use aggressive browser caching by default, by manually set appropriate HTTP headers.
 // This behavior can be deactivated by setting 'use-cache-headers' user parameter to false.
