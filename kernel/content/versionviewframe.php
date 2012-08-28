@@ -115,6 +115,10 @@ if ( $Module->isCurrentAction( 'Publish' ) and
             $Module->redirectToView( 'view', array( 'full', $object->attribute( 'main_parent_node_id' ) ) );
         }
     }
+    else if ( $node instanceof eZContentObjectTreeNode && $node->attribute( 'parent_node_id' ) )
+    {
+        $Module->redirectToView( 'view', array( 'full', $node->attribute( 'parent_node_id' ) ) );
+    }
     else
     {
         $Module->redirectToView( 'view', array( 'sitemap', 2 ) );
