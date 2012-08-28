@@ -693,14 +693,16 @@ class eZURLAliasML extends eZPersistentObject
             $query = "SELECT id FROM ezurlalias_ml " .
                      "WHERE action = '{$actionStr}' AND is_alias = 0 AND (parent != $parentID OR text_md5 != {$textMD5})";
             $rows = $db->arrayQuery( $query );
+            $rowsToUpdate = array();
             foreach ( $rows as $row )
             {
-                $oldParentID = (int)$row['id'];
-                $query = "UPDATE ezurlalias_ml SET parent = {$newElementID} " .
-                         "WHERE parent = {$oldParentID} AND (${bitAnd} > 0)";
-                $res = $db->query( $query );
-                if ( !$res ) return eZURLAliasML::dbError( $db );
+                $rowsToUpdate[] = (int)$row['id'];
             }
+            $oldParentIDs = implode( ',', $rowsToUpdate );
+            $query = "UPDATE ezurlalias_ml SET parent = {$newElementID} " .
+                     "WHERE parent in ($oldParentIDs) AND (${bitAnd} > 0)";
+            $res = $db->query( $query );
+            if ( !$res ) return eZURLAliasML::dbError( $db );
         }
         else
         {
