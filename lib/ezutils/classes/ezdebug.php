@@ -852,13 +852,11 @@ class eZDebug
                 if ( $i == $maxLogrotateFiles )
                 {
                     @unlink( $logRotateName );
-//                     print( "@unlink( $logRotateName )<br/>" );
                 }
                 else
                 {
                     $newLogRotateName = $fileName . '.' . ($i + 1);
                     eZFile::rename( $logRotateName, $newLogRotateName );
-//                     print( "@rename( $logRotateName, $newLogRotateName )<br/>" );
                 }
             }
         }
@@ -866,7 +864,6 @@ class eZDebug
         {
             $newLogRotateName = $fileName . '.' . 1;
             eZFile::rename( $fileName, $newLogRotateName );
-//             print( "@rename( $fileName, $newLogRotateName )<br/>" );
             return true;
         }
         return false;
