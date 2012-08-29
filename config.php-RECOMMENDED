@@ -255,6 +255,7 @@
 
 /**
  * Number of files to keep while rotating eZ Publish generated log.
+ * Set this constant to 0 to disable the built-in log rotation.
  */
 // define( 'EZPUBLISH_LOG_ROTATE_FILES', 3 );
 
@@ -265,6 +266,7 @@
 
 /**
  * Number of files to keep while rotating custom log file.
+ * Set this constant to 0 to disable the built-in log rotation.
  */
 // define( 'CUSTOM_LOG_ROTATE_FILES', 3 );
 
