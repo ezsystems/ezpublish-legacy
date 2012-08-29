@@ -698,7 +698,7 @@ class eZURLAliasML extends eZPersistentObject
             {
                 $rowsToUpdate[] = (int)$row['id'];
             }
-            if( count( $oldParentIDs ) > 0 )
+            if( count( $rowsToUpdate ) > 0 )
             {
                 $oldParentIDs = implode( ',', $rowsToUpdate );
                 $query = "UPDATE ezurlalias_ml SET parent = {$newElementID} " .
