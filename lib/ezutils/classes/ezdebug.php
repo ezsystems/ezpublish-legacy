@@ -786,6 +786,11 @@ class eZDebug
         {
             return $GLOBALS['eZDebugMaxLogSize'];
         }
+        else if ( defined( 'EZPUBLISH_LOG_MAX_FILE_SIZE' ) )
+        {
+            self::setMaxLogSize( (int)EZPUBLISH_LOG_MAX_FILE_SIZE );
+            return (int)EZPUBLISH_LOG_MAX_FILE_SIZE;
+        }
         return self::MAX_LOGFILE_SIZE;
     }
 
@@ -807,6 +812,11 @@ class eZDebug
         if ( isset( $GLOBALS['eZDebugMaxLogrotateFiles'] ) )
         {
             return $GLOBALS['eZDebugMaxLogrotateFiles'];
+        }
+        else if ( defined( 'EZPUBLISH_LOG_MAX_FILE_SIZE' ) )
+        {
+            self::setLogrotateFiles( (int)EZPUBLISH_LOG_ROTATE_FILES );
+            return (int)EZPUBLISH_LOG_ROTATE_FILES;
         }
         return self::MAX_LOGROTATE_FILES;
     }
@@ -830,6 +840,10 @@ class eZDebug
     static function rotateLog( $fileName )
     {
         $maxLogrotateFiles = eZDebug::maxLogrotateFiles();
+        if ( $maxLogrotateFiles == 0 )
+        {
+            return;
+        }
         for ( $i = $maxLogrotateFiles; $i > 0; --$i )
         {
             $logRotateName = $fileName . '.' . $i;
@@ -838,13 +852,11 @@ class eZDebug
                 if ( $i == $maxLogrotateFiles )
                 {
                     @unlink( $logRotateName );
-//                     print( "@unlink( $logRotateName )<br/>" );
                 }
                 else
                 {
                     $newLogRotateName = $fileName . '.' . ($i + 1);
                     eZFile::rename( $logRotateName, $newLogRotateName );
-//                     print( "@rename( $logRotateName, $newLogRotateName )<br/>" );
                 }
             }
         }
@@ -852,7 +864,6 @@ class eZDebug
         {
             $newLogRotateName = $fileName . '.' . 1;
             eZFile::rename( $fileName, $newLogRotateName );
-//             print( "@rename( $fileName, $newLogRotateName )<br/>" );
             return true;
         }
         return false;
