@@ -131,7 +131,7 @@ $contentObject->setAttribute( 'current_version', $EditVersion );
 
 $ini = eZINI::instance();
 
-$siteaccess = $ini->variable( 'SiteSettings', 'DefaultAccess' );
+$siteaccess = false;
 if ( $Module->hasActionParameter( 'SiteAccess' ) )
 {
     $siteaccess = $Module->actionParameter( 'SiteAccess' );
@@ -140,7 +140,19 @@ if ( $Module->hasActionParameter( 'SiteAccess' ) )
 // Find ContentObjectLocale for all site accesses in RelatedSiteAccessList
 foreach ( $ini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' ) as $relatedSA )
 {
-    $siteaccessLocaleMap[$relatedSA] = eZSiteAccess::getIni( $relatedSA, 'site.ini' )->variable( 'RegionalSettings', 'ContentObjectLocale' );
+    $relatedSALocale = eZSiteAccess::getIni( $relatedSA, 'site.ini' )->variable(
+        'RegionalSettings', 'ContentObjectLocale'
+    );
+    $siteaccessLocaleMap[$relatedSA] = $relatedSALocale;
+    if ( !$siteaccess && $LanguageCode && $LanguageCode === $relatedSALocale )
+    {
+        $siteaccess = $relatedSA;
+    }
+}
+
+if ( !$siteaccess )
+{
+    $siteaccess = $ini->variable( 'SiteSettings', 'DefaultAccess' );
 }
 
 // Try to find a version that has the language we want, by going backwards in the version history
