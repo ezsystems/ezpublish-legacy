@@ -786,6 +786,11 @@ class eZDebug
         {
             return $GLOBALS['eZDebugMaxLogSize'];
         }
+        else if ( defined( 'EZPUBLISH_LOG_MAX_FILE_SIZE' ) )
+        {
+            self::setMaxLogSize( (int)EZPUBLISH_LOG_MAX_FILE_SIZE );
+            return (int)EZPUBLISH_LOG_MAX_FILE_SIZE;
+        }
         return self::MAX_LOGFILE_SIZE;
     }
 
@@ -807,6 +812,11 @@ class eZDebug
         if ( isset( $GLOBALS['eZDebugMaxLogrotateFiles'] ) )
         {
             return $GLOBALS['eZDebugMaxLogrotateFiles'];
+        }
+        else if ( defined( 'EZPUBLISH_LOG_MAX_FILE_SIZE' ) )
+        {
+            self::setLogrotateFiles( (int)EZPUBLISH_LOG_ROTATE_FILES );
+            return (int)EZPUBLISH_LOG_ROTATE_FILES;
         }
         return self::MAX_LOGROTATE_FILES;
     }
