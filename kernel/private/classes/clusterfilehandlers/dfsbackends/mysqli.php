@@ -1696,7 +1696,9 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         {
             case 'viewcache':
             {
-                $nameTrunk = substr( $filePath, 0, strrpos( $filePath, '-' ) + 1 );
+                $dirPart = dirname( $filePath );
+                $fileName = basename( $filePath );
+                $nameTrunk = $dirPart . '/' . substr( $fileName, 0, strpos( $fileName, '-' ) + 1 );
             } break;
 
             case 'template-block':
