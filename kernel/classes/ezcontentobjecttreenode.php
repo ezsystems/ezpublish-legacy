@@ -6077,7 +6077,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             eZDebug::writeDebug( "Expiring all view cache since list of nodes({$subtreeCount}) related to object({$objectID}) exeeds site.ini\[ContentSettings]\CacheThreshold", __METHOD__ );
             eZContentObject::expireAllViewCache();
-            eZContentCacheManager::clearTemplateBlockCacheIfNeeded( $objectID );
+            eZContentObject::expireTemplateBlockCacheIfNeeded();
 
             // Clear cached path strings of content SSL zones.
             eZSSLZone::clearCacheIfNeeded();
