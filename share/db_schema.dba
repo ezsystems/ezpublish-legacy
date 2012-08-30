@@ -3127,6 +3127,13 @@ $schema = array (
         'not_null' => '1',
         'default' => '',
       ),
+      'user_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
     ),
     'indexes' => 
     array (
@@ -3795,13 +3802,6 @@ $schema = array (
         'type' => 'varchar',
         'not_null' => '1',
         'default' => '',
-      ),
-      'user_id' => 
-      array (
-        'length' => 11,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
       ),
     ),
     'indexes' => 
