@@ -242,7 +242,7 @@ class eZXMLOutputHandler
 
         if ( count( $relatedObjectIDArray ) > 0 )
         {
-            $this->ObjectArray = eZContentObject::fetchIDArray( $relatedObjectIDArray );
+            $this->ObjectArray = eZContentObject::fetchIDArray( $relatedObjectIDArray , true, $this->ContentObjectAttribute->LanguageCode );
         }
 
         $nodeIDArray = array_merge(

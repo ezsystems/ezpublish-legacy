@@ -974,12 +974,13 @@ class eZContentObject extends eZPersistentObject
      * @param bool $asObject
      *        Wether to get the result as an array of eZContentObject or an
      *        array of associative arrays
+     * @param string $lang Optional - the prioritized language to use.
      *
      * @return array(contentObjectID => eZContentObject|array)
      *         array of eZContentObject (if $asObject = true) or array of
      *         associative arrays (if $asObject = false)
      */
-    static function fetchIDArray( $idArray, $asObject = true )
+    static function fetchIDArray( $idArray, $asObject = true , $lang = false )
     {
         global $eZContentObjectContentObjectCache;
 
@@ -997,7 +998,7 @@ class eZContentObject extends eZPersistentObject
                 $db->generateSQLINStatement( $idArray, 'ezcontentobject.id', false, true, 'int' ) . " AND
                 ezcontentobject.id = ezcontentobject_name.contentobject_id AND
                 ezcontentobject.current_version = ezcontentobject_name.content_version AND " .
-                eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' )
+                eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' , 'language_id', 'language_mask', $lang )
         );
 
         $objectRetArray = array();
