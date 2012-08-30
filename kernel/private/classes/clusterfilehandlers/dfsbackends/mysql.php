@@ -505,22 +505,9 @@ class eZDFSFileHandlerMySQLBackend
 
     protected function _deleteByDirListInner( $dirList, $commonPath, $commonSuffix, $fname )
     {
-        // check if ViewCacheTweaks is set globally to 'pr_user'.
-        static $commonSuffixLike = null;
-        if ($commonSuffixLike === null) {
-            $commonSuffixLike = false;
-            $ini = eZINI::instance( 'site.ini' );
-            if ( $ini->hasVariable( 'ContentSettings', 'ViewCacheTweaks' ) )
-            {
-                $viewCacheTweaks = $ini->variable( 'ContentSettings', 'ViewCacheTweaks' );
-                if ( isset( $viewCacheTweaks['global'] ) && strpos( $viewCacheTweaks['global'], 'pr_user' ) !== false )
-                    $commonSuffixLike = true;
-            }
-		}
-
         foreach ( $dirList as $dirItem )
         {
-            if ( !$commonSuffixLike AND ( strstr( $commonPath, '/cache/content' ) !== false or strstr( $commonPath, '/cache/template-block' ) !== false ) )
+            if ( strstr( $commonPath, '/cache/content' ) !== false or strstr( $commonPath, '/cache/template-block' ) !== false )
             {
                 $where = "WHERE name_trunk = '$commonPath/$dirItem/$commonSuffix'";
             }
