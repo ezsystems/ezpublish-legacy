@@ -6052,23 +6052,37 @@ class eZContentObjectTreeNode extends eZPersistentObject
                          'Depth' => false,
                          'Limitation' => array() ); // Empty array means no permission checking
         $subtreeCount = $node->subTreeCount( $params );
-        while ( $offset < $subtreeCount )
+        if ( eZContentCache::inCleanupThresholdRange( $subtreeCount ) )
         {
-            $params['Offset'] = $offset;
-            $params['Limit'] = $limit;
+            while ( $offset < $subtreeCount )
+            {
+                $params['Offset'] = $offset;
+                $params['Limit'] = $limit;
 
-            $subtreeChunk = $node->subTree( $params );
-            $nNodesInChunk = count( $subtreeChunk );
-            $offset += $nNodesInChunk;
-            if ( $nNodesInChunk == 0 )
-                break;
+                $subtreeChunk = $node->subTree( $params );
+                $nNodesInChunk = count( $subtreeChunk );
+                $offset += $nNodesInChunk;
+                if ( $nNodesInChunk == 0 )
+                    break;
 
-            $objectIDList = array();
-            foreach ( $subtreeChunk as $curNode )
-                $objectIDList[] = $curNode['contentobject_id'];
-            unset( $subtreeChunk );
+                $objectIDList = array();
+                foreach ( $subtreeChunk as $curNode )
+                    $objectIDList[] = $curNode['contentobject_id'];
+                unset( $subtreeChunk );
 
-            eZContentCacheManager::clearContentCacheIfNeeded( array_unique( $objectIDList ) );
+                eZContentCacheManager::clearContentCacheIfNeeded( array_unique( $objectIDList ) );
+            }
+        }   
+        else
+        {
+            eZDebug::writeDebug( "Expiring all view cache since list of nodes({$subtreeCount}) related to object({$objectID}) exeeds site.ini\[ContentSettings]\CacheThreshold", __METHOD__ );
+            eZContentObject::expireAllViewCache();
+            eZContentCacheManager::clearTemplateBlockCacheIfNeeded( $objectID );
+
+            // Clear cached path strings of content SSL zones.
+            eZSSLZone::clearCacheIfNeeded();
+
+            eZDebug::accumulatorStop( 'check_cache' );
         }
 
         return true;
