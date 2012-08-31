@@ -888,7 +888,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
     function _storeInner( $filePath, $datatype, $scope, $fname )
     {
         // Insert file metadata.
-        clearstatcache();
+        clearstatcache( false, $filePath );
         $fileMTime = filemtime( $filePath );
         $contentLength = filesize( $filePath );
         $filePathHash = md5( $filePath );
@@ -910,7 +910,8 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         }
 
         // copy given $filePath to DFS
-        if ( !$this->dfsbackend->copyToDFS( $filePath ) )
+        $ret = $this->dfsbackend->copyToDFS( $filePath ); 
+        if ( $ret === false || $ret != $contentLength )
         {
             return $this->_fail( "Failed to copy FS://$filePath to DFS://$filePath" );
         }

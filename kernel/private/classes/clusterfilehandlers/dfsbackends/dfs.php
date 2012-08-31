@@ -105,17 +105,39 @@ class eZDFSFileHandlerDFSBackend
      * @param string $srcFilePath Local file path to copy from
      * @param string $dstFilePath
      *        Optional path to copy to. If not specified, $srcFilePath is used
+     * @return int Returns the written file size on success, or false on error.
      */
     public function copyToDFS( $srcFilePath, $dstFilePath = false )
     {
         $this->accumulatorStart();
 
-        if ( $dstFilePath === false )
-        {
-            $dstFilePath = $srcFilePath;
+        $srcFileContents = file_get_contents( $srcFilePath );
+
+        if ( $srcFileContents === false ) {
+            eZDebug::writeError( "Error getting contents of file '$srcFilePath'.", __METHOD__ );
+            $ret = false;
+        } else {
+
+            if ( $dstFilePath === false )
+            {
+                $dstFilePath = $srcFilePath;
+            }
+            $dstFilePath = $this->makeDFSPath( $dstFilePath );
+
+            $ret = eZFile::create( basename( $dstFilePath ), dirname( $dstFilePath ), $srcFileContents, true );
+
+            if ( $ret )
+            {
+                $srcFileSize = strlen( $srcFileContents );
+                clearstatcache( false, $dstFilePath );
+                $ret = filesize( $dstFilePath );
+                if ( $ret != $srcFileSize )
+                {
+                    eZDebug::writeError( "Size ($ret) of written data for file '$dstFilePath' does not match expected size " . $srcFileSize, __METHOD__ );
+                    $ret = false;
+                }
+            }
         }
-        $dstFilePath = $this->makeDFSPath( $dstFilePath );
-        $ret = $this->createFile( $dstFilePath, file_get_contents( $srcFilePath ), true );
 
         $this->accumulatorStop();
 
