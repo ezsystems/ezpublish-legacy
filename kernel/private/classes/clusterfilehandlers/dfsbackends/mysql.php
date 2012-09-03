@@ -902,7 +902,15 @@ class eZDFSFileHandlerMySQLBackend
         return true;
     }
 
-    public function _getFileList( $scopes = false, $excludeScopes = false )
+    /**
+     * gets the list of cluster files, filtered by the optional params
+     * @param array $scopes filter by array of scopes to include in the list
+     * @param bool $excludescopes if true, $scopes param acts as an exclude filter
+     * @param string $path filter to include entries only including $path
+     * @param array $limit limits the search to offset limit[0], limit limit[1]
+     * @return array|false the db list of entries of false if none found
+     */
+    public function _getFileList( $scopes = false, $excludeScopes = false, $limit = false, $path = false )
     {
         $query = 'SELECT name FROM ' . self::TABLE_METADATA;
 
@@ -913,7 +921,18 @@ class eZDFSFileHandlerMySQLBackend
                 $query .= 'NOT ';
             $query .= "IN ('" . implode( "', '", $scopes ) . "')";
         }
-
+        if ($path != false && $scopes == false)
+        {
+             $query .= " WHERE name LIKE '" . $path . "%'";
+        }
+        else if ($path != false)
+        {
+             $query .= " AND name LIKE '" . $path . "%'";
+        }
+        if ( $limit && array_sum($limit) )
+        {
+            $query .= " LIMIT {$limit[0]}, {$limit[1]}";
+        }
         $rslt = $this->_query( $query, "_getFileList( array( " . implode( ', ', is_array( $scopes ) ? $scopes : array() ) . " ), $excludeScopes )" );
         if ( !$rslt )
         {
