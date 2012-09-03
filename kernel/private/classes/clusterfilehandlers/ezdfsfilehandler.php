@@ -1248,12 +1248,12 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      * @param boolean $excludeScopes if true, then reverse the meaning of $scopes, which is
      *                               return only files that do not belong to any of the scopes listed in $scopes
      */
-    function getFileList( $scopes = false, $excludeScopes = false )
+    function getFileList( $scopes = false, $excludeScopes = false,  $limit = false, $path = false  )
     {
         eZDebugSetting::writeDebug( 'kernel-clustering',
                                     sprintf( "dfs::getFileList( array( %s ), %d )",
                                              is_array( $scopes ) ? implode( ', ', $scopes ) : '', (int) $excludeScopes ) );
-        return self::$dbbackend->_getFileList( $scopes, $excludeScopes );
+        return self::$dbbackend->_getFileList( $scopes, $excludeScopes, $limit, $path );
     }
 
     /**
