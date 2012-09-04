@@ -815,6 +815,8 @@ input.button, input.defaultbutton, input.button-disabled
     right: 3px;
     top: 3px;
     width: 17px;
+    background: url(../images/icons-sprite.png) no-repeat 2px -366px;
+    cursor:pointer;
 }
 
 .searchbuttonfield:hover
