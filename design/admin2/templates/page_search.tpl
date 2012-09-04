@@ -1,5 +1,9 @@
 {def $search_node_id = first_set( $search_subtree_array[0], $module_result.path[0].node_id, 1 )
-     $search_title = "Search in all content"|i18n( 'design/admin/pagelayout' )}
+     $search_title = "Search in all content"|i18n( 'design/admin/pagelayout' )
+     $section_id = -1}
+{if ezhttp_hasvariable( 'SectionID', 'get' )}
+    {set $section_id = ezhttp( 'SectionID', 'get' )}
+{/if}
 <div class="searchblock">
 <form action={'/content/search/'|ezurl} method="get">
     {if $ui_context_edit}
@@ -58,7 +62,7 @@
                     <select name="SectionID"{if $disabled} disabled="disabled"{/if}>
                         <option value="-1">{'All'|i18n( 'design/admin/pagelayout' )}</option>
                         {foreach fetch( 'section', 'list' ) as $section}
-                        <option value="{$section.id}">{$section.name|wash()}</option>
+                        <option value="{$section.id}"{if eq( $section.id, $section_id )} selected="selected"{/if}>{$section.name|wash()}</option>
                         {/foreach}
                     </select>
 
@@ -98,4 +102,4 @@
 })( jQuery );
 {/literal}
 </script>
-{undef $search_node_id}
+{undef $search_node_id $section_id}
