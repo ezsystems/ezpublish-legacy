@@ -76,7 +76,7 @@ class eZTemplateOptimizer
         {
             foreach ( $node[3] as $key => $parameter )
             {
-                $ret = eZTemplateOptimizer::optimizeVariable( $useComments, $php, $tpl, $node[3][$key], $resourceData );
+                $ret = $ret | eZTemplateOptimizer::optimizeVariable( $useComments, $php, $tpl, $node[3][$key], $resourceData );
             }
         }
         return $ret;
