@@ -351,7 +351,7 @@ input.button-disabled, input.button[disabled="disabled"]
 {
     border: 1px solid #666;
     border-radius: 3px;
-    background: #fff url(../../images/icons-sprite.png) no-repeat right -365px;
+    background: #fff;
     background-clip: padding-box;
     line-height: 18px !important;
 }

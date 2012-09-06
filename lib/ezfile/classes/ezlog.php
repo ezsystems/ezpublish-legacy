@@ -134,7 +134,14 @@ class eZLog
     {
         $maxLogSize =& $GLOBALS['eZMaxLogSize'];
         if ( isset( $maxLogSize ) )
+        {
             return $maxLogSize;
+        }
+        else if ( defined( 'CUSTOM_LOG_MAX_FILE_SIZE' ) )
+        {
+            self::setMaxLogSize( (int)CUSTOM_LOG_MAX_FILE_SIZE );
+            return (int)CUSTOM_LOG_MAX_FILE_SIZE;
+        }
         return self::MAX_LOGFILE_SIZE;
     }
 
@@ -155,7 +162,14 @@ class eZLog
     {
         $maxLogrotateFiles =& $GLOBALS['eZMaxLogrotateFiles'];
         if ( isset( $maxLogrotateFiles ) )
+        {
             return $maxLogrotateFiles;
+        }
+        else if ( defined( 'CUSTOM_LOG_ROTATE_FILES' ) )
+        {
+            self::setLogrotateFiles( (int)CUSTOM_LOG_ROTATE_FILES );
+            return (int)CUSTOM_LOG_ROTATE_FILES;
+        }
         return self::MAX_LOGROTATE_FILES;
     }
 
@@ -169,6 +183,10 @@ class eZLog
     static function rotateLog( $fileName )
     {
         $maxLogrotateFiles = eZLog::maxLogrotateFiles();
+        if ( $maxLogrotateFiles == 0 )
+        {
+            return;
+        }
         for ( $i = $maxLogrotateFiles; $i > 0; --$i )
         {
             $logRotateName = $fileName . '.' . $i;

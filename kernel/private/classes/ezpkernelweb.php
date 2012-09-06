@@ -110,9 +110,15 @@ class ezpKernelWeb implements ezpKernelHandler
      */
     public function __construct( array $settings = array() )
     {
-        require_once __DIR__ . '/global_functions.php';
+        $this->settings = $settings + array(
+            'siteaccess'            => null,
+            'use-exceptions'        => false,
+            'session'               => null
+        );
+        unset( $settings );
 
-        $this->settings = $settings;
+        require_once __DIR__ . '/global_functions.php';
+        $this->setUseExceptions( $this->settings['use-exceptions'] );
 
         $GLOBALS['eZSiteBasics'] = array(
             'external-css' => true,
@@ -531,9 +537,7 @@ class ezpKernelWeb implements ezpKernelHandler
 
         $this->shutdown();
 
-        $result = new ezpKernelResult();
-        $result->content = $content;
-        return $result;
+        return new ezpKernelResult( $content );
     }
 
     /**

@@ -853,9 +853,10 @@ class eZContentCacheManager
 
     /**
      * Clears template-block cache and template-block with subtree_expiry parameter caches for specified object
-     * without checking 'TemplateCache' ini setting. If $objectID is \c false all template block caches will be cleared.
+     * without checking 'TemplateCache' ini setting.
      *
-     * @param int|array $objectID (list of) object ID.
+     * @param int|array|bool $objectID (list of) object ID, if false only ordinary template block caches will be cleared
+     *                                 Support for array value available {@since 5.0}.
      * @param bool $checkViewCacheClassSettings Check whether ViewCache class settings should be verified
      */
     public static function clearTemplateBlockCache( $objectID, $checkViewCacheClassSettings = false )
@@ -863,26 +864,24 @@ class eZContentCacheManager
         // ordinary template block cache
         eZContentObject::expireTemplateBlockCache();
 
+        if ( empty( $objectID ) )
+            return;
+
         // subtree template block cache
         $nodeList = false;
-        $object = false;
-        if ( $objectID )
+
+        if ( is_array( $objectID ) )
         {
-            if ( is_array( $objectID ) )
-            {
-                $objects = eZContentObject::fetchIDArray( $objectID );
-            }
-            else
-            {
-                $objects = array( $objectID => eZContentObject::fetch( $objectID ) );
-            }
+            $objects = eZContentObject::fetchIDArray( $objectID );
+        }
+        else
+        {
+            $objects = array( $objectID => eZContentObject::fetch( $objectID ) );
         }
 
         $ini = eZINI::instance( 'viewcache.ini' );
-
         foreach ( $objects as $object )
         {
-            $nodeList = array();
             if ( $object instanceof eZContentObject )
             {
                 $getAssignedNodes = true;
@@ -898,7 +897,7 @@ class eZContentCacheManager
 
                 if ( $getAssignedNodes )
                 {
-                    $nodeList = array_merge( $nodeList, $object->assignedNodes() );
+                    $nodeList = array_merge( ( $nodeList !== false ? $nodeList : array() ), $object->assignedNodes() );
                 }
             }
         }

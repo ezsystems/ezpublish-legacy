@@ -1815,7 +1815,7 @@ CREATE TABLE ezforgot_password (
 
 
 CREATE TABLE ezgeneral_digest_user_settings (
-    address character varying(255) DEFAULT ''::character varying NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL,
     "day" character varying(255) DEFAULT ''::character varying NOT NULL,
     digest_type integer DEFAULT 0 NOT NULL,
     id integer DEFAULT nextval('ezgeneral_digest_user_settings_s'::text) NOT NULL,
@@ -3429,7 +3429,7 @@ CREATE INDEX ezforgot_password_user ON ezforgot_password USING btree (user_id);
 
 
 
-CREATE UNIQUE INDEX ezgeneral_digest_user_settings_address ON ezgeneral_digest_user_settings USING btree (address);
+CREATE UNIQUE INDEX ezgeneral_digest_user_settings_user_id ON ezgeneral_digest_user_settings USING btree (user_id);
 
 
 

@@ -659,14 +659,14 @@ CREATE TABLE ezforgot_password (
 
 
 CREATE TABLE ezgeneral_digest_user_settings (
-  address varchar(255) NOT NULL default '',
+  user_id int(11) NOT NULL default '0',
   day varchar(255) NOT NULL default '',
   digest_type int(11) NOT NULL default '0',
   id int(11) NOT NULL auto_increment,
   receive_digest int(11) NOT NULL default '0',
   time varchar(255) NOT NULL default '',
   PRIMARY KEY  (id),
-  UNIQUE KEY ezgeneral_digest_user_settings_address (address)
+  UNIQUE KEY ezgeneral_digest_user_id (user_id)
 ) ENGINE=InnoDB;
 
 
