@@ -445,6 +445,7 @@ return array(
       'eZTemplateDoFunction'                               => 'lib/eztemplate/classes/eztemplatedofunction.php',
       'eZTemplateElementParser'                            => 'lib/eztemplate/classes/eztemplateelementparser.php',
       'eZTemplateExecuteOperator'                          => 'lib/eztemplate/classes/eztemplateexecuteoperator.php',
+      'eZTemplateFailedExecutingCompiledTemplate'          => 'lib/eztemplate/classes/exceptions/failedexecutingcompiledtemplate.php',
       'eZTemplateFileResource'                             => 'lib/eztemplate/classes/eztemplatefileresource.php',
       'eZTemplateForFunction'                              => 'lib/eztemplate/classes/eztemplateforfunction.php',
       'eZTemplateForeachFunction'                          => 'lib/eztemplate/classes/eztemplateforeachfunction.php',

@@ -368,10 +368,22 @@ class eZTemplateCompiler
         return $canRestore;
     }
 
-    /*!
-     Tries to execute the compiled template and returns \c true if succsesful.
-     Returns \c false if caching is disabled or the compiled template could not be executed.
-    */
+    /**
+     * Tries to execute the compiled template. Returns true if successful,
+     * returns false if the compilation is disabled or the compiled template
+     * does not exist.
+     *
+     * @param eZTemplate $tpl
+     * @param array $textElements
+     * @param string $key
+     * @param array $resourceData
+     * @param $rootNamespace
+     * @param $currentNamespace
+     *
+     * @throws eZTemplateFailedExecutingCompiledTemplate if the compiled
+     *         template could not be executed
+     * @return bool
+     */
     static function executeCompilation( $tpl, &$textElements, $key, &$resourceData,
                                  $rootNamespace, $currentNamespace )
      {
@@ -396,7 +408,17 @@ class eZTemplateCompiler
                 return true;
             }
             else
-                eZDebug::writeError( "Failed executing compiled template '$phpScript'", __METHOD__ );
+            {
+                eZDebug::writeError(
+                    "Failed executing compiled template '$phpScript',"
+                        . " if this file is valid, then the error is probably"
+                        . "  related to APC usage, try restarting the webserver",
+                    __METHOD__
+                );
+                throw new eZTemplateFailedExecutingCompiledTemplate(
+                    "Failed executing a compiled template, see error.log for details"
+                );
+            }
         }
         else
             eZDebug::writeError( "Unknown compiled template '$phpScript'", __METHOD__ );
