@@ -1824,10 +1824,15 @@ class eZURLAliasML extends eZPersistentObject
         }
     }
 
-    /*!
-     \static
-     Updates the lang_mask field for path elements which matches action $actionName and value $actionValue.
-     If $langID is false then bit 0 (the *always available* bit) will be removed, otherwise it will set bit 0 for the chosen language and remove it for other languages.
+    /**
+     * Updates the lang_mask field for path elements which matches action
+     * $actionName and value $actionValue.
+     *
+     * @since 5.0 $langID can not be false anymore
+     *
+     * @param int $langID
+     * @param string|array $actionName
+     * @param string $actionValue not used if $actionName is an array
      */
     static public function setLangMaskAlwaysAvailable( $langID, $actionName, $actionValue )
     {
@@ -1870,9 +1875,10 @@ class eZURLAliasML extends eZPersistentObject
         }
         else
         {
-            $bitOp = $db->bitAnd( 'lang_mask', ~1 );
-            $query = "UPDATE ezurlalias_ml SET lang_mask = $bitOp WHERE $actionSql";
-            $db->query( $query );
+            // since 5.0 $langID === false is not supported any more
+            // since we want to keep the main language id in ezurlalias_ml
+            // table to be able to generate URL alias for edge cases
+            // http://issues.ez.no/19549
         }
     }
 
