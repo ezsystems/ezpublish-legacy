@@ -91,7 +91,7 @@ class eZFile
             if ( $atomic )
             {
                 // If the renaming process fails, delete the temporary file
-                eZFile::rename( $filepath, $realpath, false, eZFile::CLEAN_ON_FAILURE );
+                return eZFile::rename( $filepath, $realpath, false, eZFile::CLEAN_ON_FAILURE );
             }
             return true;
         }

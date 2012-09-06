@@ -642,10 +642,11 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         }
 
         // create temporary file
+        $tmpid = getmypid() . '-' . rand() .'tmp';
         if ( strrpos( $filePath, '.' ) > 0 )
-            $tmpFilePath = substr_replace( $filePath, getmypid().'tmp', strrpos( $filePath, '.' ), 0  );
+            $tmpFilePath = substr_replace( $filePath, $tmpid, strrpos( $filePath, '.' ), 0  );
         else
-            $tmpFilePath = $filePath . '.' . getmypid().'tmp';
+            $tmpFilePath = $filePath . '.' . $tmpid;
         $this->__mkdir_p( dirname( $tmpFilePath ) );
 
         // copy DFS file to temporary FS path
@@ -657,18 +658,29 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         }
 
         // Make sure all data is written correctly
-        clearstatcache();
+        clearstatcache( false, $tmpFilePath );
         $tmpSize = filesize( $tmpFilePath );
+
+        // copy() can return before final flush to disk. see https://bugs.php.net/bug.php?id=60110
+        for ($retries = 0; $tmpSize == 0 && $retries < 3; $retries++) {
+            usleep(1000);
+            clearstatcache( false, $tmpFilePath );
+            $tmpSize = filesize( $tmpFilePath );
+        }
+
         // @todo Throw an exception
         if ( $tmpSize != $metaData['size'] )
         {
             eZDebug::writeError( "Size ($tmpSize) of written data for file '$tmpFilePath' does not match expected size " . $metaData['size'], __METHOD__ );
+            if ( $tmpSize === 0 )
+                unlink($tmpFilePath);
             return false;
         }
 
         if ( $uniqueName !== true )
         {
-            eZFile::rename( $tmpFilePath, $filePath, false, eZFile::CLEAN_ON_FAILURE | eZFile::APPEND_DEBUG_ON_FAILURE );
+            if ( !eZFile::rename( $tmpFilePath, $filePath, false, eZFile::CLEAN_ON_FAILURE | eZFile::APPEND_DEBUG_ON_FAILURE ) )
+                return false;
         }
         else
         {
@@ -876,7 +888,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
     function _storeInner( $filePath, $datatype, $scope, $fname )
     {
         // Insert file metadata.
-        clearstatcache();
+        clearstatcache( false, $filePath );
         $fileMTime = filemtime( $filePath );
         $contentLength = filesize( $filePath );
         $filePathHash = md5( $filePath );
@@ -898,7 +910,8 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         }
 
         // copy given $filePath to DFS
-        if ( !$this->dfsbackend->copyToDFS( $filePath ) )
+        $ret = $this->dfsbackend->copyToDFS( $filePath ); 
+        if ( $ret === false || $ret != $contentLength )
         {
             return $this->_fail( "Failed to copy FS://$filePath to DFS://$filePath" );
         }
