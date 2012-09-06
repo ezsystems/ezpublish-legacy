@@ -16,4 +16,4 @@
                                                                             '%usersite',concat('<nobr><b>www.ez.no</b></nobr>')))}</p>
 <p>{"* Requires DNS setup."|i18n('design/standard/setup/init')}</p>
 <p/>
-<p>{"For more detailed information on site access, refer to the %1"|i18n("design/standard/setup/init",,array(concat( '<a href="http://ez.no/developer/ez_publish_3/documentation/installation_and_configuration/configuration/site_access" target="_blank">', "online documentation"|i18n("design/standard/setup/init",'site access documentation link'), '</a>' ) ) )}</p>
+<p>{"For more detailed information on site access, refer to the %1"|i18n("design/standard/setup/init",,array(concat( '<a href="http://doc.ez.no/eZ-Publish/Technical-manual/4.x/Installation/Manual-installation/Manual-configuration-of-eZ-Publish" target="_blank">', "online documentation"|i18n("design/standard/setup/init",'site access documentation link'), '</a>' ) ) )}</p>
