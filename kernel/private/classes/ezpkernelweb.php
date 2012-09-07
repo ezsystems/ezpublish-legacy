@@ -912,7 +912,12 @@ class ezpKernelWeb implements ezpKernelHandler
             $redirectURI .= $moduleRedirectUri;
         }
 
-        eZStaticCache::executeActions();
+        $ini = eZINI::instance();
+        if ( $ini->variable( 'ContentSettings', 'StaticCache' ) == 'enabled' )
+        {
+            $StaticCacheHandlerClassName = $ini->variable( 'ContentSettings', 'StaticCacheHandler' );
+            $StaticCacheHandlerClassName::executeActions();
+        }
 
         eZDB::checkTransactionCounter();
 
