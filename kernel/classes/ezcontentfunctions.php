@@ -105,7 +105,8 @@ class eZContentFunctions
                 $db = eZDB::instance();
                 $db->begin();
 
-                $contentObject = $contentClass->instantiate( $creatorID );
+                $languageCode = array_key_exists( 'language', $params ) ? $params['language'] : false;
+                $contentObject = $contentClass->instantiate( $creatorID , 0, false, $languageCode );
 
                 if ( array_key_exists( 'remote_id', $params ) )
                     $contentObject->setAttribute( 'remote_id', $params['remote_id'] );
