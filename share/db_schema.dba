@@ -7383,6 +7383,14 @@ $schema = array (
           0 => 'contentobject_id',
         ),
       ),
+      'ezuser_login' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'login',
+        ),
+      ),
     ),
   ),
   'ezuser_accountkey' => 
