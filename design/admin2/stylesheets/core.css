@@ -9,7 +9,7 @@ html
 
 body /* These becomes the initial settings for most other elements */
 {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Calibri',Arial, Helvetica, sans-serif;
     font-size: 0.8em;
     background-color: #ffffff;
     margin: 0;
@@ -20,7 +20,7 @@ body /* These becomes the initial settings for most other elements */
 
 h1, h2, h3, h4, h5, h6 /* Set general styles for all headings; some may be overridden later */
 {
-    font-family: Helvetica, Arial, sans-serif;
+    font-family: 'Calibri',Helvetica, Arial, sans-serif;
     margin: 1em 0 0.2em 0;
     padding: 0;
 }
@@ -270,7 +270,7 @@ label
 
 input, select
 {
-    font-family: Arial, Helvetica, sans-serif; /* Needs to be set for some browsers, to prevent other default font from being used */
+    font-family: 'Calibri',Arial, Helvetica, sans-serif; /* Needs to be set for some browsers, to prevent other default font from being used */
     font-size: 0.9em;
 }
 
@@ -281,7 +281,7 @@ input.box, input.halfbox
 
 textarea
 {
-    font-family: Arial, Helvetica, sans-serif; /* Usually defaulted to monospaced font; so it needs to be set if to change */
+    font-family: 'Calibri',Arial, Helvetica, sans-serif; /* Usually defaulted to monospaced font; so it needs to be set if to change */
     font-size: 1em; /* Needs to be specified for IE */
 }
 
@@ -293,7 +293,7 @@ optgroup
 
 input.button, button, input.defaultbutton, input.button-disabled
 {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-family: 'Calibri',Verdana, Arial, Helvetica, sans-serif;
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
@@ -305,10 +305,10 @@ input.button, button, input.defaultbutton, input.button-disabled
 
 input.defaultbutton
 {
-	font-weight: bold;
-	padding-left: 0.45em;
-	padding-right: 0.45em;
-	color: #094564;
+        font-weight: bold;
+        padding-left: 0.45em;
+        padding-right: 0.45em;
+        color: #094564;
 }
 
 input.button-disabled, input.button[disabled="disabled"]
@@ -319,8 +319,8 @@ input.button-disabled, input.button[disabled="disabled"]
 
 input.disabled[type="image"]
 {
-	opacity: 0.7;
-	cursor: default;
+        opacity: 0.7;
+        cursor: default;
 }
 
 input.box, textarea.box
