@@ -113,7 +113,8 @@ class ezpKernelWeb implements ezpKernelHandler
         $this->settings = $settings + array(
             'siteaccess'            => null,
             'use-exceptions'        => false,
-            'session'               => null
+            'session'               => null,
+            'symfony-dic'           => null,
         );
         unset( $settings );
 
@@ -1186,5 +1187,31 @@ class ezpKernelWeb implements ezpKernelHandler
     public function reInitialize()
     {
         $this->isInitialized = false;
+    }
+
+    /**
+     * Checks whether the kernel handler has the Symfony Dependency Injection
+     * container or not.
+     *
+     * @return bool
+     */
+    public function hasSymfonyDIContainer()
+    {
+        return isset( $this->settings['symfony-dic'] );
+    }
+
+    /**
+     * Returns the Symfony Dependency Injection if it has been injected,
+     * otherwise returns null.
+     *
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface|null
+     */
+    public function getSymfonyDIContainer()
+    {
+        if ( $this->hasSymfonyDIContainer() )
+        {
+            return $this->settings['symfony-dic'];
+        }
+        return null;
     }
 }

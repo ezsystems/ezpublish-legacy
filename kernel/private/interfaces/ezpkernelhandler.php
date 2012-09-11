@@ -46,4 +46,20 @@ interface ezpKernelHandler
      * @return void
      */
     public function reInitialize();
+
+    /**
+     * Checks whether the kernel handler has the Symfony Dependency Injection
+     * container or not.
+     *
+     * @return bool
+     */
+    public function hasSymfonyDIContainer();
+
+    /**
+     * Returns the Symfony Dependency Injection if it has been injected,
+     * otherwise returns null.
+     *
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface|null
+     */
+    public function getSymfonyDIContainer();
 }
