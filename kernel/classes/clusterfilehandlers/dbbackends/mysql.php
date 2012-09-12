@@ -592,8 +592,9 @@ class eZDBFileHandlerMysqlBackend
      *
      * @param string $filePath File path
      * @param int $startOffset Starting offset
-     * @param false|int $length Length to transmit, false means everything
-     * @param false|string $fname The function name that started the query
+     * @param bool|int $length Length to transmit, false means everything
+     * @param bool|string $fname The function name that started the query
+     * @return bool False if the file or its meta data couldn't be retrieved
      */
     function _passThrough( $filePath, $startOffset = 0, $length = false, $fname = false )
     {

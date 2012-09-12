@@ -148,7 +148,7 @@ class eZDFSFileHandlerDFSBackend
      *
      * @param string $filePath File path
      * @param int $startOffset Starting offset
-     * @param false|int $length Length to transmit, false means everything
+     * @param bool|int $length Length to transmit, false means everything
      * @return bool true, or false if operation failed
      */
     public function passthrough( $filePath, $startOffset = 0, $length = false )
