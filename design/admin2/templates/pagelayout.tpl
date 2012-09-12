@@ -126,12 +126,6 @@
 {* Pr uri Path/Left menu cache (dosn't use ignore_content_expiry because of content structure menu  ) *}
 {cache-block keys=array( $module_result.uri, $user_hash, $left_size_hash, $access_type, first_set( $module_result.navigation_part, $navigation_part.identifier ) )}
 
-<div id="path">
-<div id="path-design">
-    {include uri='design:page_toppath.tpl'}
-</div>
-</div>
-
 <hr class="hide" />
 
 {* LEFT MENU / CONTENT STRUCTURE MENU *}

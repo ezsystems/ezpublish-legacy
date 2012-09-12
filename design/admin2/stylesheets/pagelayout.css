@@ -213,7 +213,7 @@ div.tabs-content.disabled div.tab-content
 
 #columns
 {
-    background-color: #f5f5f5;
+
 }
 
 #maincolumn
@@ -227,6 +227,10 @@ div.tabs-content.disabled div.tab-content
     margin: 0 0 0 15em;
     min-height: 200px;
     padding: 0 1em 1em 1em;
+    background: url('../images/3/textile.png');
+    box-shadow: 0 0 5px black;
+    border-radius: 2px;
+    
 }
 
 #leftmenu
@@ -812,20 +816,13 @@ input.button, input.defaultbutton, input.button-disabled
     font-size: 1.2em;
     font-weight: bold;
     font-style: italic;
-}
-
-#searchtext.passive
-{
-    color: #888;
+    box-shadow: -1px -1px 1px #464a4b;
+    background: #abadac;
 }
 
 #searchtext:focus
 {
     font-style:normal;
-}
-
-#searchtext.disabled
-{
     background-color: #efefef;
 }
 
