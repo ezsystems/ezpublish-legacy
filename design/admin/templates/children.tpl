@@ -160,7 +160,10 @@
     <div class="left">
         {if $can_remove}
             <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'Remove the selected items from the list above.'|i18n( 'design/admin/node/view/full' )}" />
-        {else}
+            {if ezini( 'RemoveSettings', 'HideRemoveConfirmation', 'content.ini' )|eq('true')}
+                <input type="hidden" name="HideRemoveConfirmation" value="true" />
+            {/if}
+		{else}
             <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to remove any of the items from the list above.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
         {/if}
         {if $can_move}
