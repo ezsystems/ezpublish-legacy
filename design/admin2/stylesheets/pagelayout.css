@@ -96,7 +96,7 @@ a.image-text:hover > span
 {
     text-align: right;
     float: right;
-    padding: 1.4em 5px 0;
+    padding: 10px 20px 0;
     text-align: right;
 }
 
@@ -791,12 +791,27 @@ input.button, input.defaultbutton, input.button-disabled
 .searchblock
 {
     position: relative;
+    float:left;
+}
+
+#searchtextwrapper
+{
+    float:left;
+    
+    border: 4px solid rgba(255,255,255,0.1);    
+    border-radius: 5px;
 }
 
 #searchtext
 {
-    height: 18px;
-    padding: 4px 20px 0 25px;
+    height: 35px;
+    padding: 0 5px 0 25px;
+    border:none;
+    border-radius: 5px;
+    line-height: 18px !important;
+    font-size: 1.2em;
+    font-weight: bold;
+    font-style: italic;
 }
 
 #searchtext.passive
@@ -804,18 +819,32 @@ input.button, input.defaultbutton, input.button-disabled
     color: #888;
 }
 
+#searchtext:focus
+{
+    font-style:normal;
+}
+
+#searchtext.disabled
+{
+    background-color: #efefef;
+}
+
 .searchbuttonfield
 {
-    height: 17px;
-    position: absolute;
-    right: 3px;
-    top: 3px;
-    width: 17px;
+    height: 35px;
+    float:left;
+    width: 35px;
+    margin-left:5px;
+    border: 4px solid rgba(255,255,255,0.1);
+    border-radius: 5px;
+    background: url(../images/3/search.png) 9px 10px no-repeat;
+
 }
 
 .searchbuttonfield:hover
 {
     cursor: pointer;
+    border-color: #567975;
 }
 
 .searchscope
@@ -823,8 +852,8 @@ input.button, input.defaultbutton, input.button-disabled
     width: 14px;
     height: 14px;
     position: absolute;
-    top: 5px;
-    left: 6px;
+    top: 15px;
+    left: 10px;
     background-image: url(../images/search-scope.png);
 }
 

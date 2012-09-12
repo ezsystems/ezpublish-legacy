@@ -339,25 +339,6 @@ input.button-disabled, input.button[disabled="disabled"]
     background-image: linear-gradient(top,  #fefefe,  #dfdfdf);
 }
 
-/* SEARCH */
-#searchtext
-{
-    border: 1px solid #666;
-    border-radius: 3px;
-    background: #fff url(../../images/icons-sprite.png) no-repeat right -365px;
-    background-clip: padding-box;
-    line-height: 18px !important;
-}
-
-#searchtext:focus
-{
-    border-color: #000;
-}
-
-#searchtext.disabled
-{
-    background-color: #efefef;
-}
 
 /* DASHBOARD */
 #ez-version
