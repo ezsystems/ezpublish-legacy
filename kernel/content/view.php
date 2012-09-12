@@ -6,8 +6,6 @@
  * @package kernel
  */
 
-$http = eZHTTPTool::instance();
-
 $tpl = eZTemplate::factory();
 
 $ViewMode = $Params['ViewMode'];

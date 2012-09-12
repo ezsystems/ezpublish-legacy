@@ -236,8 +236,6 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         $filePath = $this->filePath;
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::storeContents( '$filePath' )" );
 
-        $mtime = time();
-
         // the file is stored with the current time as mtime
         self::$dbbackend->_storeContents( $filePath, $contents, $scope, $datatype );
 
@@ -405,7 +403,6 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
     function processCache( $retrieveCallback, $generateCallback = null, $ttl = null, $expiry = null, $extraData = null )
     {
         $forceDB   = false;
-        $timestamp = null;
         $curtime   = time();
         $tries     = 0;
         $noCache   = false;
@@ -806,7 +803,6 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         if ( $store and $this->checkCacheGenerationTimeout() )
             $storeCache = true;
 
-        $mtime = false;
         $result = null;
         if ( $binaryData === null &&
              $fileContent === null )

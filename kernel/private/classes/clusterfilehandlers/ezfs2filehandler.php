@@ -303,7 +303,6 @@ class eZFS2FileHandler extends eZFSFileHandler
         if ( $store and !$this->checkCacheGenerationTimeout() )
             $storeCache = false;
 
-        $mtime = false;
         $result = null;
         if ( $binaryData === null &&
             $fileContent === null )
