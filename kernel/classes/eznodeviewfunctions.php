@@ -65,11 +65,11 @@ class eZNodeviewfunctions
      * @param eZTemplate $tpl
      * @param eZContentObjectTreeNode $node
      * @param eZContentObject $object
-     * @param false|string $languageCode
+     * @param bool|string $languageCode
      * @param string $viewMode
      * @param int $offset
      * @param array $viewParameters
-     * @param false|array $collectionAttributes
+     * @param bool|array $collectionAttributes
      * @param bool $validation
      * @return array Result array for view
      */
