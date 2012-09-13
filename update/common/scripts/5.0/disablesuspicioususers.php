@@ -32,27 +32,38 @@ $script->startup();
 
 $db = eZDB::instance();
 
-$rows = $db->arrayQuery( "SELECT DISTINCT login FROM ezuser, ezuser_setting
-                            WHERE ( ezuser.login LIKE '%<%' OR ezuser.login LIKE '%>%' )
-                                AND ezuser.contentobject_id = ezuser_setting.user_id
-                                    AND ezuser_setting.is_enabled = '1'" );
+$rows = $db->arrayQuery( "SELECT DISTINCT login FROM ezuser" );
 
-$cli->output( 'Script found ' . count( $rows ) . ' user accounts with suspicious login.' );
+$cli->output( 'Script found ' . count( $rows ) . ' user accounts' );
 $cli->output( 'Login list' );
 
-foreach( $rows as $index => $row )
+foreach ( $rows as $index => $row )
 {
-    $user = eZUser::fetchByName( $row['login'] );
-    $userSetting = eZUserSetting::fetch( $user->attribute( 'contentobject_id' ) );
+    $fixedLogin = str_replace( '&amp;', '&', htmlspecialchars( $row['login'], ENT_QUOTES, 'UTF-8' ) );
+    if( $fixedLogin === $row['login'] ) {
+        continue;
+    }
 
-    $cli->output( $index + 1 . '. '. $row['login'] );
-
-    if ( $options['disable'] )
+    $i = 0;
+    $newLogin = $row['login'];
+    // There may be already user with the same login
+    if ( eZUser::fetchByName( $newLogin ) instanceof eZUser !== false )
     {
-        $userSetting->setAttribute( 'is_enabled', 0 );
-        $userSetting->store();
+        do
+        {
+            $newLogin = $fixedLogin . '_' . ++$i;
+        }
+        while( eZUser::fetchByName( $newLogin ) instanceof eZUser !== false && $i < 100 );
+    }
 
-        $cli->output( 'Disabled user account for login "' . $row['login'] . '" with ID "' . $user->attribute( 'contentobject_id' ) . "'" );
+    if ( eZUser::fetchByName( $newLogin ) instanceof eZUser === false )
+    {
+        $user = eZUser::fetchByName( $row['login'] );
+        $user->setAttribute( 'login', $newLogin );
+        $user->store();
+        // Maybe email should be send to the user about his login change?
+
+        $cli->output( 'Login was changed from "' . $row['login'] . '" to "' . $newLogin . "'" );
     }
 }
 

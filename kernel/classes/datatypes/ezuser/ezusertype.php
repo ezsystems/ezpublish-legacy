@@ -57,7 +57,7 @@ class eZUserType extends eZDataType
              $http->hasPostVariable( $base . "_data_user_password_confirm_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $classAttribute = $contentObjectAttribute->contentClassAttribute();
-            $loginName = strip_tags( $http->postVariable( $base . "_data_user_login_" . $contentObjectAttribute->attribute( "id" ) ) );
+            $loginName = htmlspecialchars( $http->postVariable( $base . "_data_user_login_" . $contentObjectAttribute->attribute( "id" ), ENT_QUOTES, 'UTF-8' ) );
             $email = $http->postVariable( $base . "_data_user_email_" . $contentObjectAttribute->attribute( "id" ) );
             $password = $http->postVariable( $base . "_data_user_password_" . $contentObjectAttribute->attribute( "id" ) );
             $passwordConfirm = $http->postVariable( $base . "_data_user_password_confirm_" . $contentObjectAttribute->attribute( "id" ) );
@@ -180,7 +180,7 @@ class eZUserType extends eZDataType
     {
         if ( $http->hasPostVariable( $base . "_data_user_login_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
-            $login = strip_tags( $http->postVariable( $base . "_data_user_login_" . $contentObjectAttribute->attribute( "id" ) ) );
+            $login = htmlspecialchars( $http->postVariable( $base . "_data_user_login_" . $contentObjectAttribute->attribute( "id" ) ), ENT_QUOTES, 'UTF-8' );
             $email = $http->hasPostVariable( $base . "_data_user_email_" . $contentObjectAttribute->attribute( "id" ) ) ? $http->postVariable( $base . "_data_user_email_" . $contentObjectAttribute->attribute( "id" ) ) : '';
             $password = $http->hasPostVariable( $base . "_data_user_password_" . $contentObjectAttribute->attribute( "id" ) ) ? $http->postVariable( $base . "_data_user_password_" . $contentObjectAttribute->attribute( "id" ) ) : '';
             $passwordConfirm = $http->hasPostVariable( $base . "_data_user_password_confirm_" . $contentObjectAttribute->attribute( "id" ) ) ? $http->postVariable( $base . "_data_user_password_confirm_" . $contentObjectAttribute->attribute( "id" ) ) : '';
