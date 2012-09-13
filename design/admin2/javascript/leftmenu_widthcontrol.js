@@ -27,8 +27,8 @@ jQuery(function( $ )
                 {
                     var els = leftMenuDrag.elements, offset = els[0].offset().left, pos = e.pageX, size = pos - offset;
                     if ( size < 20 ) size = 20;
-                    els[0].css( 'width', ( size + 3 )  + 'px' );
-                    els[1].css( 'marginLeft', ( size ) + 'px' );
+                    els[0].css( 'width', ( size )  + 'px' );
+                    els[1].css( 'marginLeft', ( size + 10 ) + 'px' );
                 }
             },
             save: function()
@@ -55,5 +55,8 @@ jQuery(function( $ )
         $( document ).bind('mouseup click', leftMenuDrag.up );
         $( document ).bind('mousemove', leftMenuDrag.on );
         $('#leftmenu').addClass( 'widthcontroled' );
+        
+        // Temporary measure - not good approach, but least messy.
+        $( '#maincontent' ).css( 'marginLeft', (parseInt($('#leftmenu').css( 'width'),10) + 10) + 'px' );
     }
 });
