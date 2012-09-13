@@ -18,3 +18,4 @@ UPDATE ezgeneral_digest_user_settings SET user_id = (SELECT ezuser.contentobject
            FROM ezuser WHERE ezuser.email = ezgeneral_digest_user_settings.address);
 ALTER TABLE ezgeneral_digest_user_settings ADD UNIQUE INDEX ezgeneral_digest_user_id (user_id);
 ALTER TABLE ezgeneral_digest_user_settings DROP COLUMN address;
+ALTER TABLE ezuser ADD INDEX ezuser_login (login);

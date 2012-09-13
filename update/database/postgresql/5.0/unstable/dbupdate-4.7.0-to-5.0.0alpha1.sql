@@ -17,3 +17,4 @@ UPDATE ezgeneral_digest_user_settings SET user_id = (SELECT ezuser.contentobject
            FROM ezuser WHERE ezuser.email = ezgeneral_digest_user_settings.address);
 CREATE INDEX ezgeneral_digest_user_id ON ezgeneral_digest_user_settings USING btree (user_id);
 ALTER TABLE ezgeneral_digest_user_settings DROP COLUMN address;
+CREATE INDEX ezuser_login ON ezuser USING btree (login);
