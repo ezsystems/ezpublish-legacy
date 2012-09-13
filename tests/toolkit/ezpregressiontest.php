@@ -69,7 +69,8 @@ abstract class ezpRegressionTest extends ezpTestCase
      *
      * @param string $dir
      * @param array $total By ref list of files (the result of this function)
-     * @param false|string $onlyWithExtension
+     * @param bool|string $onlyWithExtension
+     * @return void
      */
     final protected function readDirRecursively( $dir, &$total, $onlyWithExtension = false )
     {
