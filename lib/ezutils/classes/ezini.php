@@ -1538,11 +1538,11 @@ class eZINI
             $ret = null;
             return $ret;
         }
-        if ( isset( self::$injectSettings[$this->FileName][$blockName] ) )
+        if ( isset( self::$injectedSettings[$this->FileName][$blockName] ) )
         {
             $ret = array_merge(
                 $this->BlockValues[$blockName],
-                self::$injectSettings[$this->FileName][$blockName]
+                self::$injectedSettings[$this->FileName][$blockName]
             );
         }
         else
@@ -1779,11 +1779,11 @@ class eZINI
      */
     function getNamedArray()
     {
-        if ( isset( self::$injectSettings[$this->Filename] ) )
+        if ( isset( self::$injectedSettings[$this->Filename] ) )
         {
             return array_merge(
                 $this->BlockValues,
-                self::$injectSettings[$this->FileName]
+                self::$injectedSettings[$this->FileName]
             );
         }
         return $this->BlockValues;
