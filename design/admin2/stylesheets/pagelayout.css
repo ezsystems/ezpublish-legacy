@@ -22,30 +22,24 @@ span.vertical-seperator
 
 label.inline { padding-right: 0.1em; }
 
-#leftmenu a.show-hide-control
+div.widthcontrol-grippy
 {
-    display:none;
-    float:right;
-    margin-top:1.5em;
-}
-
-.yui3-js-enabled #leftmenu a.show-hide-control
-{
-    display:block;
+    position:absolute;
+    top:200px;
+    left:-15px;
+    height: 33px;
+    width: 15px;
+    background: url('../images/3/panel_handler_opened_left.png') left top no-repeat scroll;
+    z-index: 9;
 }
 
 a.show-hide-control
 {
     position:absolute;
-    text-align: center;
     margin: 200px 0 0 0;
     height: 33px;
     width: 15px;
-    line-height: 7px;
-    font-size: 16px;
-    text-decoration: none;
-    background: url('../images/3/panel_handler_opened_right.png') left top no-repeat scroll;
-    
+    background: url('../images/3/panel_handler_closed_right.png') left top no-repeat scroll;
 }
 
 /* link with image and text (in a span) inside it */
@@ -228,15 +222,20 @@ div.tabs-content.disabled div.tab-content
 {
     margin: 0 0 0 15em;
     min-height: 200px;
-    padding: 0 1em 1em 1em;
     background: url('../images/3/textile.png');
     box-shadow: 0 0 5px black;
     border-radius: 2px 2px 0 0;
+    position: relative;
+    padding-top:20px;
 }
 
 #maincontent-design
 {
-    
+    margin: 0 20px;
+    box-shadow: 0 0 5px black;
+    background:white;
+    padding: 0.8em 1.5em 0 1.5em;
+    position:relative;
 }
 
 #leftmenu
@@ -274,10 +273,9 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
 
 #rightmenu-design
 {
-    margin: 1.8em 0 0 1.8em;
+    margin: 20px 0 0 20px;
     padding: 0 1em 0 1.5em;
     box-shadow: 0 0 5px black;
-    border-radius: 2px 0 0 0;
     background:white;
     min-height: 100%;
     position: relative;    
@@ -309,10 +307,9 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
 
 #leftmenu-design
 {
-    margin: 1.8em 1.8em 0 0;
+    margin: 20px 20px 0 0;
     padding: 0 0 0 0.8em;
     box-shadow: 0 0 5px black;
-    border-radius: 0 2px 0 0;
     background:white;
     min-height: 100%;
     position: relative;
@@ -351,12 +348,11 @@ ul.leftmenu-items li.current a
 #widthcontrol-handler
 {
     position: absolute;
-    right: -33px;
-    top:-23px;
+    right: -30px;
+    top:-20px;
     bottom: 0; /* strech div to full width of relative box */
     width: 10px;
     cursor: e-resize;
-    overflow: hidden;
 /*    background: #f8f8f8;*/
 }
 

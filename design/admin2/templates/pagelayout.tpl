@@ -92,18 +92,18 @@
         Y.on('domready', function () {
             var rightmenu = new Y.eZ.CollapsibleMenu({
                 link: '#rightmenu-showhide',
-                content: ['&raquo;', '&laquo;'],
+                content: ['', ''],
                 collapsed: 0,
                 elements:[{
                     selector: '#rightmenu',
                     duration: 0.4,
-                    fullStyle: {width: '181px'},
+                    fullStyle: {width: '201px'},
                     collapsedStyle: {width: '18px'}
                 },{
                     selector: '#maincolumn',
                     duration: 0.4,
-                    fullStyle: {marginRight: '180px'},
-                    collapsedStyle: {marginRight: '17px'}
+                    fullStyle: {marginRight: '210px'},
+                    collapsedStyle: {marginRight: '27px'}
                 }],
                 callback: function () {
                     var p = 1;
