@@ -36,15 +36,16 @@ label.inline { padding-right: 0.1em; }
 
 a.show-hide-control
 {
-    float: left;
+    position:absolute;
     text-align: center;
-    padding: 3px;
-    margin: 10px 0 0 2px;
-    height: 9px;
-    width: 8px;
+    margin: 200px 0 0 0;
+    height: 33px;
+    width: 15px;
     line-height: 7px;
     font-size: 16px;
     text-decoration: none;
+    background: url('../images/3/panel_handler_opened_right.png') left top no-repeat scroll;
+    
 }
 
 /* link with image and text (in a span) inside it */
@@ -213,13 +214,13 @@ div.tabs-content.disabled div.tab-content
 
 #columns
 {
-
+    min-height:100%;
 }
 
 #maincolumn
 {
     border-right: 1px #999 solid;
-    margin-right: 180px;
+    margin-right: 190px;
     position: relative;
 }
 
@@ -253,10 +254,15 @@ div.tabs-content.disabled div.tab-content
 
 #rightmenu
 { 
-    float: right;
+
+    float:right;
+    position:relative;
+    min-height: 100%;
+    
     width: 181px;
-    overflow-x: hidden;
-    margin-top: 5px;
+    border-radius: 2px 0 0 0;
+    box-shadow: 0 0 5px black;
+    background: url('../images/3/textile.png');
 }
 
 div#columns.hide-rightmenu div#rightmenu  { display: none; }
@@ -268,8 +274,13 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
 
 #rightmenu-design
 {
-    margin: 3.5em 1em 0 1.5em;
-    position: relative;
+    margin: 1.8em 0 0 1.8em;
+    padding: 0 1em 0 1.5em;
+    box-shadow: 0 0 5px black;
+    border-radius: 2px 0 0 0;
+    background:white;
+    min-height: 100%;
+    position: relative;    
 }
 
 /* This is not supported by IE6, some DOM cleanup is needed to avoid it */
@@ -290,13 +301,28 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
 
 /* LEFTMENU */
 
+#leftmenu-design-wrapper
+{
+    position:relative;
+    min-height: 100%;
+}
+
 #leftmenu-design
 {
-    margin: 0 1.8em 0 0.8em;
+    margin: 1.8em 1.8em 0 0;
+    padding: 0 0 0 0.8em;
+    box-shadow: 0 0 5px black;
+    border-radius: 0 2px 0 0;
+    background:white;
+    min-height: 100%;
+    position: relative;
 }
 
 #leftmenu-design ul { margin-left: 1.5em; color: #aaa; }
 #leftmenu-design div.box-header { margin-top: 0.5em; }
+
+
+
 
 div#leftmenu div.translations label
 {
@@ -325,8 +351,8 @@ ul.leftmenu-items li.current a
 #widthcontrol-handler
 {
     position: absolute;
-    right: -10px;
-    top:0;
+    right: -33px;
+    top:-23px;
     bottom: 0; /* strech div to full width of relative box */
     width: 10px;
     cursor: e-resize;
@@ -342,6 +368,8 @@ ul.leftmenu-items li.current a
 {
     text-align: center;
     padding: 0.8em;
+    position:relative;
+    z-index:10;
 }
 
 

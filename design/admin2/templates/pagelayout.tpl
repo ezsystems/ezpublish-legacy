@@ -21,7 +21,7 @@
 <style type="text/css">
 {if $collapse_right_menu}
     div#page div#rightmenu  {ldelim} width: 18px; {rdelim}
-    div#page div#maincolumn {ldelim} margin-right: 17px; {rdelim}
+    div#page div#maincolumn {ldelim} margin-right: 27px; {rdelim}
 {/if}
 {if $admin_left_size}
     {def $left_menu_widths = ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini')}
@@ -76,10 +76,10 @@
 {* RIGHT MENU *}
 <div id="rightmenu">
 {if or( $hide_right_menu, $collapse_right_menu )}
-    <a id="rightmenu-showhide" class="show-hide-control" title="{'Show / Hide rightmenu'|i18n( 'design/admin/pagelayout/rightmenu' )}" href={'/user/preferences/set/admin_right_menu_show/1'|ezurl}>&laquo;</a>
+    <a id="rightmenu-showhide" class="show-hide-control" title="{'Show / Hide rightmenu'|i18n( 'design/admin/pagelayout/rightmenu' )}" href={'/user/preferences/set/admin_right_menu_show/1'|ezurl}></a>
     <div id="rightmenu-design"></div>
 {else}
-    <a id="rightmenu-showhide" class="show-hide-control" title="{'Hide / Show rightmenu'|i18n( 'design/admin/pagelayout/rightmenu' )}" href={'/user/preferences/set/admin_right_menu_show/0'|ezurl}>&raquo;</a>
+    <a id="rightmenu-showhide" class="show-hide-control" title="{'Hide / Show rightmenu'|i18n( 'design/admin/pagelayout/rightmenu' )}" href={'/user/preferences/set/admin_right_menu_show/0'|ezurl}></a>
     <div id="rightmenu-design">
         {tool_bar name='admin_right' view='full'}
         {tool_bar name='admin_developer' view='full'}
