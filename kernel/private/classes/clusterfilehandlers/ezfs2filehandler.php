@@ -418,6 +418,7 @@ class eZFS2FileHandler extends eZFSFileHandler
             if ( $fp )
                 fclose( $fp );
 
+            eZClusterFileHandler::addGeneratingFile( $this );
             $this->realFilePath = $this->filePath;
             $this->filePath = $generatingFilePath;
             $this->generationStartTimestamp = filemtime( $this->filePath );
@@ -445,6 +446,7 @@ class eZFS2FileHandler extends eZFSFileHandler
     {
         if ( $this->realFilePath === null )
         {
+            $this->loadMetaData();
             eZDebugSetting::writeDebug( 'kernel-clustering', "$this->filePath is not generating", "fs2::endCacheGeneration( '{$this->filePath}' )" );
             return false;
         }
@@ -461,8 +463,10 @@ class eZFS2FileHandler extends eZFSFileHandler
             {
                 $this->filePath = $this->realFilePath;
                 $this->realFilePath = null;
+                eZClusterFileHandler::removeGeneratingFile( $this );
                 $this->remainingCacheGenerationTime = false;
                 $ret = true;
+                $this->loadMetaData();
             }
             else
             {
@@ -474,6 +478,8 @@ class eZFS2FileHandler extends eZFSFileHandler
             unlink( $this->filePath );
             $this->filePath = $this->realFilePath;
             $this->realFilePath = null;
+            eZClusterFileHandler::removeGeneratingFile( $this );
+            $this->loadMetaData();
         }
 
         eZDebug::accumulatorStop( 'dbfile' );
@@ -494,6 +500,7 @@ class eZFS2FileHandler extends eZFSFileHandler
         $this->filePath = $this->realFilePath;
         $this->realFilePath = null;
         $this->remainingCacheGenerationTime = false;
+        eZClusterFileHandler::removeGeneratingFile( $this );
     }
 
     /**
@@ -791,6 +798,23 @@ class eZFS2FileHandler extends eZFSFileHandler
     public function hasStaleCacheSupport()
     {
         return true;
+    }
+
+    /**
+     * Checks if the given $path exists.
+     *
+     * @param string $path
+     * @return bool
+     */
+    function fileExists( $path )
+    {
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileExists( '$path' )", __METHOD__ );
+
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
+        $rc = file_exists( $path ) && ( filemtime( $path ) != self::EXPIRY_TIMESTAMP );
+        eZDebug::accumulatorStop( 'dbfile' );
+
+        return $rc;
     }
 
     /**

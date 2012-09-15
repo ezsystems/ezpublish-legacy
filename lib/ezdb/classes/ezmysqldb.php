@@ -40,6 +40,8 @@ class eZMySQLDB extends eZDBInterface
             return;
         }
 
+        eZDebug::createAccumulatorGroup( 'mysql_total', 'Mysql Total' );
+
         /// Connect to master server
         if ( !$this->DBWriteConnection )
         {
@@ -71,8 +73,6 @@ class eZMySQLDB extends eZDBInterface
 
         // Initialize TempTableList
         $this->TempTableList = array();
-
-        eZDebug::createAccumulatorGroup( 'mysql_total', 'Mysql Total' );
     }
 
     /*!
@@ -115,6 +115,7 @@ class eZMySQLDB extends eZDBInterface
         {
             sleep( $waitTime );
             $oldHandling = eZDebug::setHandleType( eZDebug::HANDLE_EXCEPTION );
+            eZDebug::accumulatorStart( 'mysql_connection', 'mysql_total', 'Database connection' );
             try {
                 if ( $this->UsePersistentConnection == true )
                 {
@@ -125,6 +126,7 @@ class eZMySQLDB extends eZDBInterface
                     $connection = mysql_connect( $this->Server, $this->User, $this->Password );
                 }
             } catch( ErrorException $e ) {}
+            eZDebug::accumulatorStop( 'mysql_connection' );
             eZDebug::setHandleType( $oldHandling );
             $numAttempts++;
         }
@@ -336,7 +338,7 @@ class eZMySQLDB extends eZDBInterface
                             $columns[$col]['size'] = max( $columns[$col]['size'], strlen( $data ) );
                         }
                     }
-                    
+
                     $delimiterLine = array();
                     $colLine = array();
                     // Generate the column line and the vertical delimiter

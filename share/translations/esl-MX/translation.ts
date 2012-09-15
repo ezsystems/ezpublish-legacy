@@ -2468,7 +2468,7 @@
     </message>
     <message>
         <source>Toggle fullscreen editing!</source>
-        <translation>Cambiar a edición en vista completa!</translation>
+        <translation type="obsolete">Cambiar a edición en vista completa!</translation>
     </message>
     <message>
         <source>Store draft and exit</source>
@@ -7121,6 +7121,18 @@
         <source>Object state</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Node Remote ID and Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view/line</name>
@@ -7987,6 +7999,18 @@ Nota: los paquetes no se desinstalarán.</translation>
         <translation>Ocultar la configuración rápida</translation>
     </message>
     <message>
+        <source>Siteaccess:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Global (override)</source>
+        <translation type="unfinished">Global (sobreescritura)</translation>
+    </message>
+    <message>
+        <source>Set</source>
+        <translation type="unfinished">Fijar</translation>
+    </message>
+    <message>
         <source>Change name, email, password, etc.</source>
         <translation>Cambiar nombre, correo electrónico, contraseña, etc.</translation>
     </message>
@@ -8016,6 +8040,13 @@ Nota: los paquetes no se desinstalarán.</translation>
     </message>
     <message>
         <source>Loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/pagelayout/leftmenu</name>
+    <message>
+        <source>Show / Hide leftmenu</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8435,6 +8466,10 @@ Nota: los paquetes no se desinstalarán.</translation>
     <message>
         <source>Roles and policies</source>
         <translation>Roles y políticas</translation>
+    </message>
+    <message>
+        <source>Unactivated users</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Change the left menu width to small size.</source>
@@ -11887,6 +11922,10 @@ Nota: los paquetes no se desinstalarán.</translation>
         <source>Country/region</source>
         <translation>País/región</translation>
     </message>
+    <message>
+        <source>Comment</source>
+        <translation type="unfinished">Comentario</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/shop/archivelist</name>
@@ -14280,6 +14319,65 @@ your account.</source>
         <translation>Su cuenta se ha creado correctamente. Se le enviará un correo electrónico a la dirección
 especificada. Sigua las instrucciones de ese correo para activar su cuenta.</translation>
     </message>
+    <message>
+        <source>Unactivated users (%users_count)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Registration date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Nombre</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>E-mail</source>
+        <translation type="unfinished">E-mail</translation>
+    </message>
+    <message>
+        <source>Activate selected users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Activate selected users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/user/activations</name>
+    <message>
+        <source>The following users have been successfully activated:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been activated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following unactivated users have been successfully removed:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been removed</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/user/login</name>
@@ -15567,6 +15665,20 @@ especificada. Sigua las instrucciones de ese correo para activar su cuenta.</tra
     </message>
     <message>
         <source>Upload a file and add the resulting object in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/content/edit</name>
+    <message>
+        <source>Go to the top</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/user/activations</name>
+    <message>
+        <source>There are no unactivated users</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -18702,6 +18814,14 @@ Si se desean enviar comentarios al encargado de aprobar el contenido o ver el es
     <message>
         <source>Browse to add existing objects in this relation</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Html5 Video</source>
+        <translation type="unfinished">Video Html5</translation>
+    </message>
+    <message>
+        <source>Html5 Audio</source>
+        <translation type="unfinished">Audio Html5</translation>
     </message>
 </context>
 <context>
@@ -22073,6 +22193,18 @@ También se puede eliminar el paquete sin desinstalarlo de la lista de paquetes.
     <message>
         <source>Clear</source>
         <translation>Borrar</translation>
+    </message>
+    <message>
+        <source>Siteaccess:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Global (override)</source>
+        <translation type="unfinished">Global (sobreescritura)</translation>
+    </message>
+    <message>
+        <source>Set</source>
+        <translation type="unfinished">Fijar</translation>
     </message>
 </context>
 <context>
@@ -31750,6 +31882,10 @@ si se elegió la opción &quot;%3&quot; desde &quot;%4&quot; </translation>
     <message>
         <source>authorization</source>
         <translation>autorización</translation>
+    </message>
+    <message>
+        <source>Unactivated users</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

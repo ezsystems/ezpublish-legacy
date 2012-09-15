@@ -41,6 +41,13 @@ class ezpEvent
     protected static $instance = null;
 
     /**
+     * Load global events from ini settings or not
+     *
+     * @var bool
+     */
+    protected $loadGlobalEvents;
+
+    /**
      * Constructer
      * In most cases you would want to use {@see getInstance()} instead
      *
@@ -48,13 +55,21 @@ class ezpEvent
      */
     public function __construct( $loadGlobalEvents = true )
     {
-        if ( $loadGlobalEvents )
+        $this->loadGlobalEvents = $loadGlobalEvents;
+    }
+
+    /**
+     * Registers the event listeners defined the site.ini files.
+     */
+    public function registerEventListeners()
+    {
+        if ( $this->loadGlobalEvents )
         {
             $listeners = eZINI::instance()->variable( 'Event', 'Listeners' );
             foreach ( $listeners as $listener )
             {
                 // $listener may be empty if some override logic has been involved
-                if ($listener == "")
+                if ( $listener == "" )
                 {
                     continue;
                 }

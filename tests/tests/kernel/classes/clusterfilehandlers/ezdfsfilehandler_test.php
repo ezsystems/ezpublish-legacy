@@ -46,6 +46,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
     public function setUp()
     {
         parent::setUp();
+        eZClusterFileHandler::resetHandler();
 
         self::setUpDatabase( $this->clusterClass );
 
@@ -73,6 +74,8 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
             case 'postgresql':
                 $backend = 'eZDFSFileHandlerPostgresqlBackend';
+                if ( !class_exists( 'eZDFSFileHandlerPostgresqlBackend' ) )
+                    self::markTestSkipped( "Missing extension 'ezpostgresqlcluster', skipping PostgreSQL DFS tests" );
                 break;
 
             default:
@@ -82,9 +85,6 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
         // We need to clear the existing handler if it was loaded before the INI
         // settings changes
         eZClusterFileHandler::resetHandler();
-        if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) and
-            !$GLOBALS['eZClusterFileHandler_chosen_handler'] instanceof eZDFSFileHandler )
-            unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
 
         unset( $GLOBALS['eZClusterInfo'] );
 
@@ -104,9 +104,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
     public function tearDown()
     {
         ezpINIHelper::restoreINISettings();
-
-        if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) )
-            unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
+        eZClusterFileHandler::resetHandler();
 
         if ( $this->haveToRemoveDFSPath )
         {

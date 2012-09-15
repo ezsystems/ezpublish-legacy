@@ -50,7 +50,11 @@ if ( $Module->isCurrentAction( 'Login' ) and
         $requireUserLogin = ( $ini->variable( "SiteAccessSettings", "RequireUserLogin" ) == "true" );
         if ( !$requireUserLogin )
         {
-            $userRedirectURI = $http->postVariable( 'RedirectURI', $http->sessionVariable( 'LastAccessesURI', '/' ) );
+            $userRedirectURI = trim( $http->postVariable( 'RedirectURI', '' ) );
+            if ( empty( $userRedirectURI ) )
+            {
+                $userRedirectURI = $http->sessionVariable( 'LastAccessesURI', '/' );
+            }
         }
 
         if ( $http->hasSessionVariable( "RedirectAfterLogin", false ) )
@@ -95,7 +99,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
             && ( $rememberMeTimeout = $ini->variable( 'Session', 'RememberMeTimeout' ) )
         )
         {
-            eZSession::setCookieParams( $rememberMeTimeout );
+            eZSession::setCookieLifetime( $rememberMeTimeout );
         }
 
         foreach ( array_keys ( $loginHandlers ) as $key )

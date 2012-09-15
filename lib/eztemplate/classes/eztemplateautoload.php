@@ -43,7 +43,7 @@ $eZTemplateOperatorArray[] = array( 'class' => 'eZTemplateExecuteOperator',
 $eZTemplateOperatorArray[] = array( 'class' => 'eZTemplateLocaleOperator',
                                     'operator_names' => array( 'l10n', 'locale', 'datetime', 'currentdate', 'maketime', 'makedate', 'gettime' ) );
 $eZTemplateOperatorArray[] = array( 'class' => 'eZTemplateAttributeOperator',
-                                    'operator_names' => array( 'attribute' ) );
+                                    'operator_names' => array( 'attribute', 'dump' ) );
 $eZTemplateOperatorArray[] = array( 'class' => 'eZTemplateNl2BrOperator',
                                     'operator_names' => array( 'nl2br' ) );
 $eZTemplateOperatorArray[] = array( 'class' => 'eZTemplateTextOperator',

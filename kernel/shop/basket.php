@@ -41,6 +41,10 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
     {
         $fromPage = $http->sessionVariable( 'LastAccessesURI' );
     }
+    else
+    {
+        $fromPage = eZSys::serverVariable ( 'HTTP_REFERER', true );
+    }
     $http->setSessionVariable( "FromPage", $fromPage );
     $http->setSessionVariable( "AddToBasket_OptionList_" . $objectID, $optionList );
 

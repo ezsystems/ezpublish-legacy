@@ -590,7 +590,7 @@ class eZURI
      * Returns a shared instance of the eZURI class IF $uri is false or the same as current
      * request uri, if not then a new non shared instance is created.
      *
-     * @param false|string $uri Shared uri instance if false
+     * @param bool|string $uri Shared uri instance if false
      * @return eZURI
      */
     public static function instance( $uri = false )

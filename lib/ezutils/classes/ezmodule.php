@@ -83,6 +83,166 @@ class eZModule
     const HOOK_STATUS_FAILED = 2;
 
     /**
+     * List of defined views for the module, as defined in the $ViewList variable
+     * in module.php
+     * @var array
+     * @private
+     */
+    public $Functions;
+
+    /**
+     * Array of module information.
+     * Available keys:
+     * - string  name: the module name
+     * - array   function: the known function (view) list
+     * - boolean variable_params
+     * - string  ui_component_match
+     * @var array
+     * @private
+     */
+    public $Module;
+
+    /**
+     * The module name
+     * @var string
+     */
+    public $Name;
+
+    /**
+     * The module's path, without the module name and module.php
+     * Examples: kernel, extension/mymoduleextension/modules
+     * @var string
+     */
+    public $Path;
+
+    /**
+     * The last execution's exit status.
+     * Accepts one of the STATUS_ constants.
+     * @see STATUS_OK, STATUS_FAILED, STATUS_REDIRECT, STATUS_RERUN
+     * @see setExitStatus(), exitStatus()
+     * @var int
+     */
+    public $ExitStatus;
+
+    /**
+     * The last execution's error code, if an error occured
+     * @see errorCode(), setErrorCode()
+     * @var int
+     */
+    public $ErrorCode;
+
+    /**
+     * The redirection URI that will be used to redirect after execution has ended.
+     * @see redirectURI(), setRedirectURI(), redirectTo(), STATUS_REDIRECT
+     * @var string
+     */
+    public $RedirectURI;
+
+    /**
+     * The redirection HTTP status
+     * @see setRedirectStatus(), redirectStatus(), STATUS_REDIRECT
+     * @var string
+     */
+    public $RedirectStatus;
+
+    /**
+     * The last execution's result title
+     * @var string
+     * @see title(), setTitle()
+     */
+    public $Title;
+
+    /**
+     * The hook list for this module
+     * @see addHook(), runHooks()
+     * @var array
+     */
+    public $HookList;
+
+    /**
+     * Current action per view, as an associative array.
+     * Each key is a view name, and the value the current action
+     * @var array
+     * @see viewAction(), setCurrentAction(), isCurrentAction()
+     */
+    public $ViewActions;
+
+    /**
+     * The last execution view result, as an array
+     * Common keys: content, title, url...
+     * @var array
+     */
+    public $ViewResult;
+
+    /**
+     * Ordered view parameters values
+     * @var array
+     * @private
+     */
+    public $ViewParameters;
+
+    /**
+     * Original parameters, before they're mapped to view/unordered/user
+     * @var array
+     * @private
+     */
+    public $OriginalParameters;
+
+    /**
+     * View parameters values
+     * @var array
+     * @private
+     */
+    public $OriginalViewParameters;
+
+    /**
+     * Named parameters, indexed by name
+     * @var array
+     * @private
+     */
+    public $NamedParameters;
+
+    /**
+     * Unordered parameters
+     * @var array
+     * @private
+     */
+    public $OriginalUnorderedParameters;
+
+    /**
+     * User parameters (customized ones, as the content/view "view" parameters)
+     * @var array
+     * @private
+     */
+    public $UserParameters;
+
+    /**
+     * The current UI context
+     * By default 'navigation' but can be changed depending on module or PHP code
+     * @var string
+     * @private
+     */
+    public $UIContext;
+
+    /**
+     * The current UI context
+     * By default the current module but can be changed depending on module or PHP code
+     * @var string
+     * @private
+     */
+    public $UIComponent;
+
+    /**
+     * Controls at which level UI component matching is done:
+     * either 'module' which uses module name or 'view' which uses view name
+     * @var string
+     * @private
+     */
+    public $UIComponentMatch;
+
+    public static $useExceptions;
+
+    /**
      * Constructor. Initializes the module.
      *
      * @param string $path
@@ -172,7 +332,7 @@ class eZModule
             $this->UIComponentMatch = 'module';
         }
         $this->HookList = array();
-        $this->ExitStatus = eZModule::STATUS_IDLE;
+        $this->ExitStatus = self::STATUS_IDLE;
         $this->ErrorCode = 0;
         $this->ViewActions = array();
         $this->OriginalParameters = null;
@@ -428,6 +588,37 @@ class eZModule
      */
     function handleError( $errorCode, $errorType = false, $parameters = array(), $userParameters = false )
     {
+        if ( self::$useExceptions && $errorType === "kernel" )
+        {
+            switch ( $errorCode )
+            {
+                case eZError::KERNEL_MODULE_NOT_FOUND:
+                    throw new ezpModuleNotFound( $parameters["module"] );
+
+                case eZError::KERNEL_MODULE_DISABLED:
+                    if ( $parameters["check"]["view_checked"] )
+                        throw new ezpModuleViewDisabled( $parameters["check"]['module'], $parameters["check"]['view'] );
+
+                    throw new ezpModuleDisabled( $parameters["check"]['module'] );
+
+                case eZError::KERNEL_MODULE_VIEW_NOT_FOUND:
+                    throw new ezpModuleViewNotFound( $parameters["check"]['module'], $parameters["check"]['view'] );
+
+                case eZError::KERNEL_ACCESS_DENIED:
+                    throw new ezpAccessDenied;
+
+                //case eZError::KERNEL_MOVED:
+                // @todo ?
+
+                case eZError::KERNEL_NOT_AVAILABLE:
+                case eZError::KERNEL_NOT_FOUND:
+                    throw new ezpContentNotFoundException( "" );
+
+                case eZError::KERNEL_LANGUAGE_NOT_FOUND:
+                        throw new ezpLanguageNotFound;
+            }
+        }
+
         if ( !$errorType )
         {
             eZDebug::writeWarning( "No error type specified for error code $errorCode, assuming kernel.\nA specific error type should be supplied, please check your code.", __METHOD__ );
@@ -435,7 +626,7 @@ class eZModule
         }
         $errorModule = $this->errorModule();
 
-        $module = eZModule::findModule( $errorModule['module'], $this );
+        $module = self::findModule( $errorModule['module'], $this );
 
         if ( $module === null )
         {
@@ -444,10 +635,10 @@ class eZModule
 
         $result = $module->run( $errorModule['view'], array( $errorType, $errorCode, $parameters, $userParameters ) );
         // The error module may want to redirect to another URL, see error.ini
-        if ( $this->exitStatus() != eZModule::STATUS_REDIRECT and
-             $this->exitStatus() != eZModule::STATUS_RERUN )
+        if ( $this->exitStatus() != self::STATUS_REDIRECT and
+             $this->exitStatus() != self::STATUS_RERUN )
         {
-            $this->setExitStatus( eZModule::STATUS_FAILED );
+            $this->setExitStatus( self::STATUS_FAILED );
             $this->setErrorCode( $errorCode );
         }
         return $result;
@@ -474,7 +665,7 @@ class eZModule
                        $unorderedParameters = null, $userParameters = false,
                        $anchor = false )
     {
-        $module = eZModule::exists( $moduleName );
+        $module = self::exists( $moduleName );
         if ( $module )
         {
             return $this->redirectModule( $module, $viewName, $parameters,
@@ -554,7 +745,7 @@ class eZModule
                              $unorderedParameters = null, $userParameters = false,
                              $anchor = false )
     {
-        $module = eZModule::exists( $moduleName );
+        $module = self::exists( $moduleName );
         if ( $module )
         {
             return $this->redirectionURIForModule( $module, $viewName, $parameters,
@@ -575,7 +766,7 @@ class eZModule
     function currentRedirectionURI()
     {
         $module = $this;
-        $viewName = eZModule::currentView();
+        $viewName = self::currentView();
         $parameters = $this->OriginalViewParameters;
         $unorderedParameters = $this->OriginalUnorderedParameters;
         $userParameters = $this->UserParameters;
@@ -621,7 +812,7 @@ class eZModule
                                       $anchor = false )
     {
         if ( $viewName == '' )
-            $viewName = eZModule::currentView();
+            $viewName = self::currentView();
         $uri = $module->functionURI( $viewName );
         $uri .= '/';
         $viewParameters = $module->parameters( $viewName );
@@ -693,7 +884,7 @@ class eZModule
     function parameters( $viewName = '' )
     {
         if ( $viewName == '' )
-            $viewName = eZModule::currentView();
+            $viewName = self::currentView();
         $viewData = $this->viewData( $viewName );
         if ( isset( $viewData['params'] ) )
         {
@@ -716,7 +907,7 @@ class eZModule
     function unorderedParameters( $viewName = '' )
     {
         if ( $viewName == '' )
-            $viewName = eZModule::currentView();
+            $viewName = self::currentView();
         $viewData = $this->viewData( $viewName );
         if ( isset( $viewData['unordered_params'] ) )
         {
@@ -737,7 +928,7 @@ class eZModule
     function viewData( $viewName = '' )
     {
         if ( $viewName == '' )
-            $viewName = eZModule::currentView();
+            $viewName = self::currentView();
         if ( $this->singleFunction() )
             $viewData = $this->Module["function"];
         else
@@ -762,7 +953,7 @@ class eZModule
              strlen( $uri ) == 0 )
             $uri = '/';
         $this->RedirectURI = $uri;
-        $this->setExitStatus( eZModule::STATUS_REDIRECT );
+        $this->setExitStatus( self::STATUS_REDIRECT );
     }
 
     /**
@@ -893,7 +1084,7 @@ class eZModule
     function setCurrentAction( $actionName, $view = '' )
     {
         if ( $view == '' )
-            $view = eZModule::currentView();
+            $view = self::currentView();
         if ( $view == '' or $actionName == '' )
             return false;
         $this->ViewActions[$view] = $actionName;
@@ -926,7 +1117,7 @@ class eZModule
     function currentAction( $view = '' )
     {
         if ( $view == '' )
-            $view = eZModule::currentView();
+            $view = self::currentView();
         if ( isset( $this->ViewActions[$view] ) )
             return $this->ViewActions[$view];
         $http = eZHTTPTool::instance();
@@ -1006,7 +1197,7 @@ class eZModule
     function setActionParameter( $parameterName, $parameterValue, $view = '' )
     {
         if ( $view == '' )
-            $view = eZModule::currentView();
+            $view = self::currentView();
         $this->ViewActionParameters[$view][$parameterName] = $parameterValue;
     }
 
@@ -1023,7 +1214,7 @@ class eZModule
     function actionParameter( $parameterName, $view = '' )
     {
         if ( $view == '' )
-            $view = eZModule::currentView();
+            $view = self::currentView();
         if ( isset( $this->ViewActionParameters[$view][$parameterName] ) )
             return $this->ViewActionParameters[$view][$parameterName];
         $currentAction = $this->currentAction( $view );
@@ -1075,7 +1266,7 @@ class eZModule
     function hasActionParameter( $parameterName, $view = '' )
     {
         if ( $view == '' )
-            $view = eZModule::currentView();
+            $view = self::currentView();
         if ( isset( $this->ViewActionParameters[$view][$parameterName] ) )
             return true;
         $currentAction = $this->currentAction( $view );
@@ -1124,7 +1315,7 @@ class eZModule
     function isCurrentAction( $actionName, $view = '' )
     {
         if ( $view == '' )
-            $view = eZModule::currentView();
+            $view = self::currentView();
         if ( $view == '' or $actionName == '' )
             return false;
         return $this->currentAction( $view ) == $actionName;
@@ -1267,16 +1458,16 @@ class eZModule
 
                 switch( $retVal )
                 {
-                    case eZModule::HOOK_STATUS_OK:
+                    case self::HOOK_STATUS_OK:
                     {
                     } break;
 
-                    case eZModule::HOOK_STATUS_FAILED:
+                    case self::HOOK_STATUS_FAILED:
                     {
                         eZDebug::writeWarning( 'Hook execution failed in hook: ' . $hookName, __METHOD__ );
                     } break;
 
-                    case eZModule::HOOK_STATUS_CANCEL_RUN:
+                    case self::HOOK_STATUS_CANCEL_RUN:
                     {
                         return $retVal;
                     } break;
@@ -1351,7 +1542,7 @@ class eZModule
         $Return = null;
         if ( $module && $functionName )
         {
-            $viewName = eZModule::currentView();
+            $viewName = self::currentView();
 
             if ( $parameters === false)
             {
@@ -1407,7 +1598,7 @@ class eZModule
         {
             eZDebug::writeError( "Undefined view: " . $this->Module["name"] . "::$functionName ",
                                  "eZModule" );
-            $this->setExitStatus( eZModule::STATUS_FAILED );
+            $this->setExitStatus( self::STATUS_FAILED );
             $Return = null;
             return $Return;
         }
@@ -1534,7 +1725,7 @@ class eZModule
         $params["FunctionName"] = $functionName;
         $params["Parameters"] = $parameters;
         $params_as_var = isset( $this->Module["variable_params"] ) ? $this->Module["variable_params"] : false;
-        $this->ExitStatus = eZModule::STATUS_OK;
+        $this->ExitStatus = self::STATUS_OK;
 //        eZDebug::writeNotice( $params, 'module parameters1' );
 
         $currentView =& $GLOBALS['eZModuleCurrentView'];
@@ -1740,7 +1931,7 @@ class eZModule
     static function exists( $moduleName, $pathList = null, $showError = false )
     {
         $module = null;
-        return eZModule::findModule( $moduleName, $module, $pathList, $showError );
+        return self::findModule( $moduleName, $module, $pathList, $showError );
     }
 
     /**
@@ -1764,7 +1955,7 @@ class eZModule
             $pathList = array();
         else if ( !is_array( $pathList ) )
             $pathList = array( $pathList );
-        $searchPathList = eZModule::globalPathList();
+        $searchPathList = self::globalPathList();
         if ( $searchPathList === null )
             $searchPathList = array();
         $searchPathList = array_merge( $searchPathList, $pathList );
@@ -1778,7 +1969,7 @@ class eZModule
             if ( file_exists( $file ) )
             {
                 if ( $module === null )
-                    $module = new eZModule( $path, $file, $moduleName, false );
+                    $module = new self( $path, $file, $moduleName, false );
                 else
                     $module->initialize( $path, $file, $moduleName, false );
                 return $module;
@@ -1897,164 +2088,6 @@ class eZModule
         $check['result'] = $access;
         return $check;
     }
-
-    /**
-     * List of defined views for the module, as defined in the $ViewList variable
-     * in module.php
-     * @var array
-     * @private
-     */
-    public $Functions;
-
-    /**
-     * Array of module information.
-     * Available keys:
-     * - string  name: the module name
-     * - array   function: the known function (view) list
-     * - boolean variable_params
-     * - string  ui_component_match
-     * @var array
-     * @private
-     */
-    public $Module;
-
-    /**
-     * The module name
-     * @var string
-     */
-    public $Name;
-
-    /**
-     * The module's path, without the module name and module.php
-     * Examples: kernel, extension/mymoduleextension/modules
-     * @var string
-     */
-    public $Path;
-
-    /**
-     * The last execution's exit status.
-     * Accepts one of the STATUS_ constants.
-     * @see STATUS_OK, STATUS_FAILED, STATUS_REDIRECT, STATUS_RERUN
-     * @see setExitStatus(), exitStatus()
-     * @var int
-     */
-    public $ExitStatus;
-
-    /**
-     * The last execution's error code, if an error occured
-     * @see errorCode(), setErrorCode()
-     * @var int
-     */
-    public $ErrorCode;
-
-    /**
-     * The redirection URI that will be used to redirect after execution has ended.
-     * @see redirectURI(), setRedirectURI(), redirectTo(), STATUS_REDIRECT
-     * @var string
-     */
-    public $RedirectURI;
-
-    /**
-     * The redirection HTTP status
-     * @see setRedirectStatus(), redirectStatus(), STATUS_REDIRECT
-     * @var string
-     */
-    public $RedirectStatus;
-
-    /**
-     * The last execution's result title
-     * @var string
-     * @see title(), setTitle()
-     */
-    public $Title;
-
-    /**
-     * The hook list for this module
-     * @see addHook(), runHooks()
-     * @var array
-     */
-    public $HookList;
-
-    /**
-     * Current action per view, as an associative array.
-     * Each key is a view name, and the value the current action
-     * @var array
-     * @see viewAction(), setCurrentAction(), isCurrentAction()
-     */
-    public $ViewActions;
-
-    /**
-     * The last execution view result, as an array
-     * Common keys: content, title, url...
-     * @var array
-     */
-    public $ViewResult;
-
-    /**
-     * Ordered view parameters values
-     * @var array
-     * @private
-     */
-    public $ViewParameters;
-
-    /**
-     * Original parameters, before they're mapped to view/unordered/user
-     * @var array
-     * @private
-     */
-    public $OriginalParameters;
-
-    /**
-     * View parameters values
-     * @var array
-     * @private
-     */
-    public $OriginalViewParameters;
-
-    /**
-     * Named parameters, indexed by name
-     * @var array
-     * @private
-     */
-    public $NamedParameters;
-
-    /**
-     * Unordered parameters
-     * @var array
-     * @private
-     */
-    public $OriginalUnorderedParameters;
-
-    /**
-     * User parameters (customized ones, as the content/view "view" parameters)
-     * @var array
-     * @private
-     */
-    public $UserParameters;
-
-    /**
-     * The current UI context
-     * By default 'navigation' but can be changed depending on module or PHP code
-     * @var string
-     * @private
-     */
-    public $UIContext;
-
-    /**
-     * The current UI context
-     * By default the current module but can be changed depending on module or PHP code
-     * @var string
-     * @private
-     */
-    public $UIComponent;
-
-    /**
-     * Controls at which level UI component matching is done:
-     * either 'module' which uses module name or 'view' which uses view name
-     * @var string
-     * @private
-     */
-    public $UIComponentMatch;
 }
 
 ?>

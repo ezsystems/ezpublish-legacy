@@ -151,11 +151,11 @@ $tpl->setVariable( 'module', $Module );
 $functions = $Module->attribute( 'functions' );
 $Result['path'] = array(
     array(
-        'text' => ezpI18n::tr( 'kernel/content', 'User' ),
+        'text' => ezpI18n::tr( 'kernel/user', 'User' ),
         'url' => false
     ),
     array(
-        'text' => ezpI18n::tr( 'kernel/content', 'Unactivated users' ),
+        'text' => ezpI18n::tr( 'kernel/user', 'Unactivated users' ),
         'url' => $functions['unactivated']['uri']
     )
 );

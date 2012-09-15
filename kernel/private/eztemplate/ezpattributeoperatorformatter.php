@@ -7,7 +7,7 @@
  * @version //autogentag//
  * @package kernel
  */
- 
+
 class ezpAttributeOperatorFormatter
 {
     /**
@@ -47,5 +47,13 @@ class ezpAttributeOperatorFormatter
             $value = $item;
 
         return $value;
+    }
+
+    /**
+     * @see ezpAttributeOperatorFormatterInterface::exportScalar()
+     */
+    public function exportScalar( $value )
+    {
+        return var_export( $value, true );
     }
 }

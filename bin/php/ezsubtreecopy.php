@@ -359,7 +359,7 @@ while ( count( $sourceNodeList ) > 0 )
             array_splice( $sourceNodeList, $i, 1 );
         else
         {
-            $sourceObject =& $sourceNodeList[ $i ]->object();
+            $sourceObject = $sourceNodeList[$i]->object();
             $srcSubtreeNodeIDlist = ($sourceNodeID == $sourceSubTreeMainNodeID) ? $syncNodeIDListSrc : $sourceNodeIDList;
 
             $copyResult = copyPublishContentObject( $sourceObject,

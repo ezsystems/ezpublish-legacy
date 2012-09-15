@@ -39,7 +39,8 @@ $ViewList['edit'] = array(
     'post_action_parameters' => array( 'EditLanguage' => array( 'SelectedLanguage' => 'EditSelectedLanguage' ),
                                        'FromLanguage' => array( 'FromLanguage' => 'FromLanguage' ),
                                        'TranslateLanguage' => array( 'SelectedLanguage' => 'EditSelectedLanguage' ),
-                                       'UploadFileRelation' => array( 'UploadRelationLocation' => 'UploadRelationLocationChoice' ) ),
+                                       'UploadFileRelation' => array( 'UploadRelationLocation' => 'UploadRelationLocationChoice' ),
+                                       'SectionEdit' => array( 'RedirectRelativeURI' => 'RedirectRelativeURI' ) ),
     'post_actions' => array( 'BrowseActionName' ),
     'script' => 'edit.php',
     'params' => array( 'ObjectID', 'EditVersion', 'EditLanguage', 'FromLanguage' ) );

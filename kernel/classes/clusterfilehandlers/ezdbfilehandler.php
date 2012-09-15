@@ -61,6 +61,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
             unset( $fileINI );
         }
         $this->nonExistantStaleCacheHandling = $GLOBALS['eZDBFileHandler_Settings']['NonExistantStaleCacheHandling'];
+        $this->filePermissionMask = octdec( eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' ) );
     }
 
     /**
@@ -207,7 +208,11 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
         $filePath = eZDBFileHandler::cleanPath( $filePath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileFetch( '$filePath' )" );
 
-        return self::$dbbackend->_fetch( $filePath );
+        $fetchReturn = self::$dbbackend->_fetch( $filePath );
+
+        $this->fixPermissions( $filePath );
+
+        return $fetchReturn;
     }
 
     /**
@@ -801,6 +806,8 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
             eZDebugSetting::writeDebug( 'kernel-clustering', "db::fetch( '$filePath' )" );
             self::$dbbackend->_fetch( $filePath );
         }
+
+        $this->fixPermissions( $filePath );
     }
 
     /**
@@ -929,7 +936,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
         }
         $commonPath = eZDBFileHandler::cleanPath( $commonPath );
         $commonSuffix = eZDBFileHandler::cleanPath( $commonSuffix );
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDeleteByDirList( '$dirList', '$commonPath', '$commonSuffix' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDeleteByDirList( '" . join( ", ", $dirList ) . "', '$commonPath', '$commonSuffix' )" );
 
         self::$dbbackend->_deleteByDirList( $dirList, $commonPath, $commonSuffix );
     }
@@ -1377,6 +1384,12 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
         return true;
     }
 
+    protected function fixPermissions( $filePath )
+    {
+        if ( file_exists( $filePath ) )
+            chmod( $filePath, $this->filePermissionMask );
+    }
+
     /**
      * Database backend class
      * @var eZDBFileHandlerMysqlBackend
@@ -1444,6 +1457,12 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
      * @var string
      */
     protected $_cacheType;
+
+    /**
+     * Permission mask that must be applied to created files
+     * @var int
+     */
+    private $filePermissionMask;
 
 }
 ?>

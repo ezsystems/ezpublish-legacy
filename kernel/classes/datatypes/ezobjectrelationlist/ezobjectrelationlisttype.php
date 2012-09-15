@@ -1144,6 +1144,21 @@ class eZObjectRelationListType extends eZDataType
         }
 
         $hostObject = $contentObjectAttribute->attribute( 'object' );
+        $hostObjectID = $hostObject->attribute( 'id' );
+
+        // Do not try removing the object if present in trash
+        // Only objects being really orphaned (not even being in trash) should be removed by this method.
+        // See issue #019457
+        if (
+            (int)eZPersistentObject::count(
+                eZContentObjectTrashNode::definition(),
+                array( "contentobject_id" => $hostObjectID )
+            ) > 0
+        )
+        {
+            return;
+        }
+
         $hostObjectVersions = $hostObject->versions();
         $isDeletionAllowed = true;
 
@@ -1156,7 +1171,7 @@ class eZObjectRelationListType extends eZDataType
                 $relationAttribute = eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
                                                                            null,
                                                                            array( 'version' => $version->attribute( 'version' ),
-                                                                                  'contentobject_id' => $hostObject->attribute( 'id' ),
+                                                                                  'contentobject_id' => $hostObjectID,
                                                                                   'contentclassattribute_id' => $contentObjectAttribute->attribute( 'contentclassattribute_id' ) ) );
 
                 if ( count( $relationAttribute ) > 0 )
@@ -1221,9 +1236,23 @@ class eZObjectRelationListType extends eZDataType
         return $relationItem;
     }
 
-    function appendObject( $objectID, $priority, $contentObjectAttribute )
+    /**
+     * Generate array with object relation info
+     *
+     * @param integer $objectID The id of the object to add as relation
+     * @param integer $priority The priortity of the relation
+     * @param eZContentObjectAttribute $contentObjectAttribute Not used
+     * @return array|null A array containing relation information or null if object does not exist
+     */
+    public function appendObject( $objectID, $priority, $contentObjectAttribute )
     {
         $object = eZContentObject::fetch( $objectID );
+
+        if ( null === $object )
+        {
+            return;
+        }
+
         $class = $object->attribute( 'content_class' );
         $sectionID = $object->attribute( 'section_id' );
         $relationItem = array( 'identifier' => false,

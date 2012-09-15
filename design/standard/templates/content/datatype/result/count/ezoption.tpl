@@ -16,7 +16,7 @@
         {set item_count=$item_counts[$Options.item.id]}
     {/if}
     <li>
-        <span class="option">{$Options.item.value} <span class="votes">({$:item_count})</span></span> <span class="value">{concat( div( mul( $:item_count, 100 ), $total_count ), '' )|extract_left( 5 )}%</span>
+        <span class="option">{$Options.item.value|wash()} <span class="votes">({$:item_count})</span></span> <span class="value">{concat( div( mul( $:item_count, 100 ), $total_count ), '' )|extract_left( 5 )}%</span>
 
         <div class="resultblock"><div class="resultedge-start"><div class="resultedge-end"><div class="resultbox">
             <div class="resultbar" style="width: {concat( div( mul( $:item_count, 100 ), $total_count ), '' )|extract_left( 5 )}%;">
@@ -24,7 +24,7 @@
             </div>
             </div>
         </div></div></div></div>
-        
+
     </li>
     {/let}
 {/section}

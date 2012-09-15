@@ -48,6 +48,16 @@ class ezpRestErrorController extends ezcMvcController
             $result->status = new ezpRestHttpResponse( ezpHttpResponseCodes::FORBIDDEN, $this->exception->getMessage() );
             return $result;
         }
+        else if ( $this->exception instanceof ezpRouteMethodNotAllowedException )
+        {
+            $result = new ezpRestMvcResult;
+            $result->status = new ezpRestStatusResponse(
+                ezpHttpResponseCodes::METHOD_NOT_ALLOWED,
+                $this->exception->getMessage(),
+                array( 'Allow' => implode( ', ', $this->exception->getAllowedMethods() ) )
+            );
+            return $result;
+        }
 
         $result = new ezcMvcResult;
         $result->variables['message'] = $this->exception->getMessage();

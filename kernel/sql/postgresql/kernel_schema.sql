@@ -1238,6 +1238,7 @@ CREATE TABLE ezcobj_state_group_language (
     contentobject_state_group_id integer DEFAULT 0 NOT NULL,
     description text NOT NULL,
     language_id integer DEFAULT 0 NOT NULL,
+    real_language_id integer DEFAULT 0 NOT NULL,
     name character varying(45) DEFAULT ''::character varying NOT NULL
 );
 
@@ -1500,10 +1501,10 @@ CREATE TABLE ezcontentclass_attribute (
     can_translate integer DEFAULT 1,
     category character varying(25) DEFAULT ''::character varying NOT NULL,
     contentclass_id integer DEFAULT 0 NOT NULL,
-    data_float1 real,
-    data_float2 real,
-    data_float3 real,
-    data_float4 real,
+    data_float1 double precision,
+    data_float2 double precision,
+    data_float3 double precision,
+    data_float4 double precision,
     data_int1 integer,
     data_int2 integer,
     data_int3 integer,
@@ -1599,7 +1600,7 @@ CREATE TABLE ezcontentobject_attribute (
     attribute_original_id integer DEFAULT 0,
     contentclassattribute_id integer DEFAULT 0 NOT NULL,
     contentobject_id integer DEFAULT 0 NOT NULL,
-    data_float real,
+    data_float double precision,
     data_int integer,
     data_text text,
     data_type_string character varying(50) DEFAULT ''::character varying,
@@ -1814,7 +1815,7 @@ CREATE TABLE ezforgot_password (
 
 
 CREATE TABLE ezgeneral_digest_user_settings (
-    address character varying(255) DEFAULT ''::character varying NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL,
     "day" character varying(255) DEFAULT ''::character varying NOT NULL,
     digest_type integer DEFAULT 0 NOT NULL,
     id integer DEFAULT nextval('ezgeneral_digest_user_settings_s'::text) NOT NULL,
@@ -3428,7 +3429,7 @@ CREATE INDEX ezforgot_password_user ON ezforgot_password USING btree (user_id);
 
 
 
-CREATE UNIQUE INDEX ezgeneral_digest_user_settings_address ON ezgeneral_digest_user_settings USING btree (address);
+CREATE UNIQUE INDEX ezgeneral_digest_user_settings_user_id ON ezgeneral_digest_user_settings USING btree (user_id);
 
 
 
@@ -4124,6 +4125,14 @@ CREATE INDEX ezurlalias_ml_text_lang ON ezurlalias_ml USING btree (text, lang_ma
 
 
 
+CREATE INDEX ezuser_login ON ezuser USING btree (login);
+
+
+
+
+
+
+
 CREATE INDEX hash_key ON ezuser_accountkey USING btree (hash_key);
 
 
@@ -4227,7 +4236,7 @@ ALTER TABLE ONLY ezcobj_state_group
 
 
 ALTER TABLE ONLY ezcobj_state_group_language
-    ADD CONSTRAINT ezcobj_state_group_language_pkey PRIMARY KEY (contentobject_state_group_id, language_id);
+    ADD CONSTRAINT ezcobj_state_group_language_pkey PRIMARY KEY (contentobject_state_group_id, real_language_id);
 
 
 

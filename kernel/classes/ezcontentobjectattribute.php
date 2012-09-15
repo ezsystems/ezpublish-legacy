@@ -1472,6 +1472,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     public $ContentClassAttributeName;
     public $ContentClassAttributeIsInformationCollector;
     public $ContentClassAttributeIsRequired;
+
+    public $ValidationParameters = array();
 }
 
 ?>

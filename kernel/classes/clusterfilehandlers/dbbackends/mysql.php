@@ -16,7 +16,7 @@ if ( !defined( 'TABLE_DATA' ) )
 
 /*
 CREATE TABLE ezdbfile (
-  datatype      VARCHAR(60)   NOT NULL DEFAULT 'application/octet-stream',
+  datatype      VARCHAR(255)   NOT NULL DEFAULT 'application/octet-stream',
   name          TEXT          NOT NULL,
   name_trunk    TEXT          NOT NULL,
   name_hash     VARCHAR(34)   NOT NULL DEFAULT '',
@@ -79,12 +79,14 @@ class eZDBFileHandlerMysqlBackend
 
         $maxTries = $params['max_connect_tries'];
         $tries = 0;
+        eZDebug::accumulatorStart( 'mysql_cluster_connect', 'mysql_cluster_total', 'Cluster_database_connection' );
         while ( $tries < $maxTries )
         {
             if ( $this->db = mysql_connect( $serverString, $params['user'], $params['pass'], $newLink ) )
                 break;
             ++$tries;
         }
+        eZDebug::accumulatorStop( 'mysql_cluster_connect' );
         if ( !$this->db )
             return $this->_die( "Unable to connect to storage server" );
 
@@ -349,9 +351,9 @@ class eZDBFileHandlerMysqlBackend
     function _deleteByDirList( $dirList, $commonPath, $commonSuffix, $fname = false )
     {
         if ( $fname )
-            $fname .= "::_deleteByDirList($dirList, $commonPath, $commonSuffix)";
+            $fname .= "::_deleteByDirList(" . join( ", ", $dirList ) . ", $commonPath, $commonSuffix)";
         else
-            $fname = "_deleteByDirList($dirList, $commonPath, $commonSuffix)";
+            $fname = "_deleteByDirList(" . join( ", ", $dirList ) . ", $commonPath, $commonSuffix)";
         return $this->_protect( array( $this, '_deleteByDirListInner' ), $fname,
                                 $dirList, $commonPath, $commonSuffix, $fname );
     }
@@ -592,8 +594,9 @@ class eZDBFileHandlerMysqlBackend
      *
      * @param string $filePath File path
      * @param int $startOffset Starting offset
-     * @param false|int $length Length to transmit, false means everything
-     * @param false|string $fname The function name that started the query
+     * @param bool|int $length Length to transmit, false means everything
+     * @param bool|string $fname The function name that started the query
+     * @return bool False if the file or its meta data couldn't be retrieved
      */
     function _passThrough( $filePath, $startOffset = 0, $length = false, $fname = false )
     {
@@ -1652,8 +1655,10 @@ class eZDBFileHandlerMysqlBackend
         {
             $query = "SELECT mtime FROM " . TABLE_METADATA . " WHERE name_hash = {$nameHash}";
             $res = mysql_query( $query, $this->db );
-            mysql_fetch_row( $res );
-            if( $res and isset( $row[0] ) and $row[0] == $generatingFileMtime );
+            if ( !$res )
+                return false;
+            $row = mysql_fetch_row( $res );
+            if( isset( $row[0] ) and $row[0] == $generatingFileMtime );
                 return true;
 
             return false;

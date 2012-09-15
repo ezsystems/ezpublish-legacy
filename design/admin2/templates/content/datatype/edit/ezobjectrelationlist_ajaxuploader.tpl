@@ -19,14 +19,14 @@
     <script type="text/javascript">
     {literal}
     (function () {
-        YUI().use('ezmodalwindow', 'ezajaxuploader', function (Y) {
+        YUI(YUI3_config).use('ezmodalwindow', 'ezajaxuploader', function (Y) {
             var uploaderConf = {
                 target: {},
                 open: {
                     action: 'ezajaxuploader::uploadform::ezobjectrelationlist'
                 },
                 upload: {
-                    action: 'ezajaxuploader::upload::ezobjectrelationlist',
+                    action: 'ezajaxuploader::upload::ezobjectrelationlist?ContentType=html',
                     form: 'form.ajaxuploader-upload'
                 },
                 location: {

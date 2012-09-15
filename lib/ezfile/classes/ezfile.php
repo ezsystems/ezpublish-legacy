@@ -269,13 +269,15 @@ class eZFile
         }
 
         header( 'X-Powered-By: eZ Publish' );
-        header( "Content-Length: $fileSize" );
         $mimeinfo = eZMimeType::findByURL( $file );
         header( "Content-Type: {$mimeinfo['name']}" );
 
         // Fixes problems with IE when opening a file directly
         header( "Pragma: " );
         header( "Cache-Control: " );
+        // Last-Modified header cannot be set, otherwise browser like FF will fail while resuming a paused download
+        // because it compares the value of Last-Modified headers between requests.
+        header( "Last-Modified: " );
         /* Set cache time out to 10 minutes, this should be good enough to work
            around an IE bug */
         header( "Expires: ". gmdate( 'D, d M Y H:i:s', time() + 600 ) . ' GMT' );
@@ -289,8 +291,13 @@ class eZFile
         if ( $startOffset !== 0 )
         {
             $endOffset = ( $length !== false ) ? ( $length + $startOffset - 1 ) : $fileSize - 1;
+            header( "Content-Length: " . ( $endOffset - $startOffset + 1 ) );
             header( "Content-Range: bytes {$startOffset}-{$endOffset}/{$fileSize}" );
             header( "HTTP/1.1 206 Partial Content" );
+        }
+        else
+        {
+            header( "Content-Length: $fileSize" );
         }
         header( 'Content-Transfer-Encoding: binary' );
         header( 'Accept-Ranges: bytes' );

@@ -65,11 +65,11 @@ class eZNodeviewfunctions
      * @param eZTemplate $tpl
      * @param eZContentObjectTreeNode $node
      * @param eZContentObject $object
-     * @param false|string $languageCode
+     * @param bool|string $languageCode
      * @param string $viewMode
      * @param int $offset
      * @param array $viewParameters
-     * @param false|array $collectionAttributes
+     * @param bool|array $collectionAttributes
      * @param bool $validation
      * @return array Result array for view
      */
@@ -399,6 +399,12 @@ class eZNodeviewfunctions
 //        $contents = $cacheFile->fetchContents();
             $contents = file_get_contents( $file );
             $Result = unserialize( $contents );
+
+            if( !is_array( $Result ) )
+            {
+                $expiryReason = 'Unexpected cache file content';
+                $cacheExpired = true;
+            }
 
             // Check if a no_cache key has been set in the viewcache, and
             // return an eZClusterFileFailure if it has

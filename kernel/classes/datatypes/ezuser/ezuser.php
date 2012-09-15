@@ -300,6 +300,7 @@ class eZUser extends eZPersistentObject
     static public function fetchUnactivated( $sort = false, $limit = 10, $offset = 0 )
     {
         $accountDef = eZUserAccountKey::definition();
+        $settingsDef = eZUserSetting::definition();
 
         return eZPersistentObject::fetchObjectList(
             eZUser::definition(), null, null, $sort,
@@ -307,8 +308,11 @@ class eZUser extends eZPersistentObject
                 'limit' => $limit,
                 'offset' => $offset
             ),
-            true, false, null, array( $accountDef['name'] ),
-            " WHERE contentobject_id = user_id"
+            true, false, null,
+            array( $accountDef['name'], $settingsDef['name'] ),
+            " WHERE contentobject_id = {$accountDef['name']}.user_id"
+                . " AND {$settingsDef['name']}.user_id = contentobject_id"
+                . " AND is_enabled = 0"
         );
     }
 
@@ -552,14 +556,7 @@ WHERE user_id = '" . $userID . "' AND
         eZUserAccountKey::removeByUserID( $userID );
         eZForgotPassword::removeByUserID( $userID );
         eZWishList::removeByUserID( $userID );
-
-        // only remove general digest setting if there are no other users with the same e-mail
-        $email = $user->attribute( 'email' );
-        $usersWithEmailCount = eZPersistentObject::count( eZUser::definition(), array( 'email' => $email ) );
-        if ( $usersWithEmailCount == 1 )
-        {
-            eZGeneralDigestUserSettings::removeByAddress( $email );
-        }
+        eZGeneralDigestUserSettings::removeByUserId( $userID );
 
         eZPersistentObject::removeObject( eZUser::definition(),
                                           array( 'contentobject_id' => $userID ) );
@@ -1130,53 +1127,39 @@ WHERE user_id = '" . $userID . "' AND
                 $ssoUser = false;
                 foreach ( $ssoHandlerArray as $ssoHandler )
                 {
-                    // Load handler
-                    $handlerFile = 'kernel/classes/ssohandlers/ez' . strtolower( $ssoHandler ) . 'ssohandler.php';
-                    if ( file_exists( $handlerFile ) )
+                    $className = 'eZ' . $ssoHandler . 'SSOHandler';
+                    if( class_exists( $className ) )
                     {
-                        include_once( $handlerFile );
-                        $className = 'eZ' . $ssoHandler . 'SSOHandler';
                         $impl = new $className();
                         $ssoUser = $impl->handleSSOLogin();
-                    }
-                    else // check in extensions
-                    {
-                        $extensionDirectories = $ini->variable( 'UserSettings', 'ExtensionDirectory' );
-                        $directoryList = eZExtension::expandedPathList( $extensionDirectories, 'sso_handler' );
-                        foreach( $directoryList as $directory )
+                        // If a user was found via SSO, then use it
+                        if ( $ssoUser !== false )
                         {
-                            $handlerFile = $directory . '/ez' . strtolower( $ssoHandler ) . 'ssohandler.php';
-                            if ( file_exists( $handlerFile ) )
-                            {
-                                include_once( $handlerFile );
-                                $className = 'eZ' . $ssoHandler . 'SSOHandler';
-                                $impl = new $className();
-                                $ssoUser = $impl->handleSSOLogin();
-                            }
+                            $currentUser = $ssoUser;
+                            $userId = $currentUser->attribute( 'contentobject_id' );
+
+                            $userInfo = array();
+                            $userInfo[$userId] = array( 
+                                'contentobject_id' => $userId,
+                                'login' => $currentUser->attribute( 'login' ),
+                                'email' => $currentUser->attribute( 'email' ),
+                                'password_hash' => $currentUser->attribute( 'password_hash' ),
+                                'password_hash_type' => $currentUser->attribute( 'password_hash_type' )
+                            );
+                            eZSession::setUserID( $userId );
+                            $http->setSessionVariable( 'eZUserLoggedInID', $userId );
+
+                            eZUser::updateLastVisit( $userId );
+                            eZUser::setCurrentlyLoggedInUser( $currentUser, $userId );
+                            eZHTTPTool::redirect( eZSys::wwwDir() . eZSys::indexFile( false ) . eZSys::requestURI(), array(), 302 );
+                            eZExecution::cleanExit();
                         }
                     }
-                }
-                // If a user was found via SSO, then use it
-                if ( $ssoUser !== false )
-                {
-                    $currentUser = $ssoUser;
-                    $userId = $currentUser->attribute( 'contentobject_id' );
-
-                    $userInfo = array();
-                    $userInfo[$userId] = array( 'contentobject_id' => $userId,
-                                            'login' => $currentUser->attribute( 'login' ),
-                                            'email' => $currentUser->attribute( 'email' ),
-                                            'password_hash' => $currentUser->attribute( 'password_hash' ),
-                                            'password_hash_type' => $currentUser->attribute( 'password_hash_type' )
-                                            );
-                    eZSession::setUserID( $userId );
-                    $http->setSessionVariable( 'eZUserLoggedInID', $userId );
-
-                    eZUser::updateLastVisit( $userId );
-                    eZUser::setCurrentlyLoggedInUser( $currentUser, $userId );
-                    eZHTTPTool::redirect( eZSys::wwwDir() . eZSys::indexFile( false ) . eZSys::requestURI(), array(), 302 );
-                    eZExecution::cleanExit();
-                }
+                    else
+                    {
+                        eZDebug::writeError( "Undefined ssoHandler class: $className", __METHOD__ );
+                    }
+                }                
             }
         }
 
@@ -1339,6 +1322,7 @@ WHERE user_id = '" . $userID . "' AND
             $data['info'][$userId] = array( 'contentobject_id'   => $user->attribute( 'contentobject_id' ),
                                             'login'              => $user->attribute( 'login' ),
                                             'email'              => $user->attribute( 'email' ),
+                                            'is_enabled'         => $user->isEnabled( false ),
                                             'password_hash'      => $user->attribute( 'password_hash' ),
                                             'password_hash_type' => $user->attribute( 'password_hash_type' ) );
 
@@ -1529,11 +1513,11 @@ WHERE user_id = '" . $userID . "' AND
     /*!
      \return \c true if the user is enabled and can be used on the site.
     */
-    function isEnabled()
+    function isEnabled( $useCache = true )
     {
-        if ( $this == eZUser::currentUser() )
+        if ( isset( $this->UserCache['info'][$this->ContentObjectID]['is_enabled'] ) && $useCache )
         {
-            return true;
+            return $this->UserCache['info'][$this->ContentObjectID]['is_enabled'];
         }
 
         $setting = eZUserSetting::fetch( $this->attribute( 'contentobject_id' ) );
@@ -1562,8 +1546,13 @@ WHERE user_id = '" . $userID . "' AND
     */
     static function currentUser()
     {
-        $user = eZUser::instance();
-        return $user;
+        $user = self::instance();
+        if ( $user->isAnonymous() || $user->isEnabled() )
+        {
+            return $user;
+        }
+        self::logoutCurrent();
+        return self::instance();
     }
 
     /*!
@@ -1572,10 +1561,7 @@ WHERE user_id = '" . $userID . "' AND
     */
     static function currentUserID()
     {
-        $user = eZUser::instance();
-        if ( !$user )
-            return 0;
-        return $user->attribute( 'contentobject_id' );
+        return self::currentUser()->attribute( 'contentobject_id' );
     }
 
     /*!

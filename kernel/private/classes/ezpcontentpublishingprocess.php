@@ -146,8 +146,11 @@ class ezpContentPublishingProcess extends eZPersistentObject
     }
 
     /**
-     * Starts the publishing process for the linked version
-     * @return bool
+     * Starts the publishing process for the linked version. After publishing,
+     * the child process is terminated.
+     *
+     * @return false|int false if the fork fails, the pid of the child process
+     *                   after the fork
      */
     public function publish()
     {
@@ -183,13 +186,12 @@ class ezpContentPublishingProcess extends eZPersistentObject
         {
             return $pid;
         }
+
         // child process
-        else
+        try
         {
             $myPid = getmypid();
             pcntl_signal( SIGCHLD, SIG_IGN );
-
-            fclose( STDERR );
 
             $this->setAttribute( 'pid', $myPid );
             $this->setAttribute( 'started', time() );
@@ -233,12 +235,13 @@ class ezpContentPublishingProcess extends eZPersistentObject
 
             // Call the postProcessing hook
             ezpContentPublishingQueue::signals()->emit( 'postHandling', $contentObjectId, $contentObjectVersion, $processStatus );
-
-            eZScript::instance()->shutdown();
-            exit;
         }
-
-        return true;
+        catch( eZDBException $e )
+        {
+            $this->reset();
+        }
+        eZScript::instance()->shutdown();
+        exit;
     }
 
     /**

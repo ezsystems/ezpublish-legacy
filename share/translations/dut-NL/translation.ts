@@ -2204,7 +2204,7 @@
     </message>
     <message>
         <source>Toggle fullscreen editing!</source>
-        <translation>Bewerken in volledig scherm schakelen!</translation>
+        <translation type="obsolete">Bewerken in volledig scherm schakelen!</translation>
     </message>
     <message>
         <source>Store draft and exit</source>
@@ -3822,7 +3822,7 @@
     <name>design/admin/content/urlalias_global</name>
     <message>
         <source>Alias should redirect to its destination</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Doorsturen naar de bestemming (redirect)</translation>
     </message>
     <message>
         <source>Create</source>
@@ -3834,7 +3834,7 @@
     </message>
     <message>
         <source>The selected aliases were successfully removed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">De geselecteerde aliasses zijn verwijderd.</translation>
     </message>
     <message>
         <source>All global aliases were successfully removed.</source>
@@ -3842,15 +3842,15 @@
     </message>
     <message>
         <source>The specified language code &lt;%language&gt; is not valid.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">De opgegeven taalcode &lt;%language&gt; is ongeldig.</translation>
     </message>
     <message>
         <source>Text is missing for the URL alias</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tekst voor de URL alias ontbreekt</translation>
     </message>
     <message>
         <source>Enter text in the input box to create a new alias.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Voer iets in het veld in om een nieuwe alias aan te maken.</translation>
     </message>
     <message>
         <source>Text is missing for the URL alias destination</source>
@@ -3878,7 +3878,7 @@
     </message>
     <message>
         <source>The URL alias was successfully created, but was modified by the system to &lt;%new_alias&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">De URL alias is aangemaakt, maar is door het systeem veranderd in &lt;%new_alias&gt;</translation>
     </message>
     <message>
         <source>Note that the new alias points to a node and will not be displayed in the global list. It can be examined on the URL-Alias page of the node, %node_link.</source>
@@ -3886,19 +3886,19 @@
     </message>
     <message>
         <source>Invalid characters will be removed or transformed to valid characters.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ingeldige tekens worden verwijderd of veranderd in geldige tekens.</translation>
     </message>
     <message>
         <source>Existing objects or functionality with the same name take precedence on the name.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bestaande objecten of andere functionaliteit met dezelfde naam krijgen prioriteit.</translation>
     </message>
     <message>
         <source>The URL alias &lt;%new_alias&gt; was successfully created</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">De URL alias &lt;%new_alias&gt; is aangemaakt</translation>
     </message>
     <message>
         <source>The URL alias &amp;lt;%new_alias&amp;gt; already exists, and it points to &amp;lt;%action_url&amp;gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">De URL alias &amp;lt;%new_alias&amp;gt; bestaat al en verwijst naar &amp;lt;%action_url&amp;gt;</translation>
     </message>
     <message>
         <source>Globally defined URL aliases [%alias_count]</source>
@@ -3918,7 +3918,7 @@
     </message>
     <message>
         <source>URL alias</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">URL alias</translation>
     </message>
     <message>
         <source>Destination</source>
@@ -3942,7 +3942,7 @@
     </message>
     <message>
         <source>Direct</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Direct</translation>
     </message>
     <message>
         <source>Remove selected</source>
@@ -3954,7 +3954,7 @@
     </message>
     <message>
         <source>Are you sure you want to remove the selected aliases?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Weet u zeker dat u de geselecteerde aliassen wilt verwijderen?</translation>
     </message>
     <message>
         <source>Remove all</source>
@@ -3978,7 +3978,7 @@
     </message>
     <message>
         <source>Enter the URL for the new alias. Use forward slashes (/) to create subentries.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Voer de URL voor de nieuwe alias in. Gebruik slashes (/) om subentries aan te maken.</translation>
     </message>
     <message>
         <source>Enter the destination URL for the new alias. Use forward slashes (/) to create subentries.</source>
@@ -3986,7 +3986,7 @@
     </message>
     <message>
         <source>Choose the language for the new URL alias.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kies de taal voor de nieuwe URL alias.</translation>
     </message>
     <message>
         <source>Makes the alias available in languages other than the one specified.</source>
@@ -4005,7 +4005,7 @@
     <name>design/admin/content/urlalias_wildcard</name>
     <message>
         <source>The selected aliases were successfully removed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">De geselecteerde aliasses zijn verwijderd.</translation>
     </message>
     <message>
         <source>All wildcard aliases were successfully removed.</source>
@@ -4013,11 +4013,11 @@
     </message>
     <message>
         <source>Text is missing for the URL alias</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tekst voor de URL alias ontbreekt</translation>
     </message>
     <message>
         <source>Enter text in the input box to create a new alias.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Voer iets in het veld in om een nieuwe alias aan te maken.</translation>
     </message>
     <message>
         <source>Text is missing for the URL alias destination</source>
@@ -4069,7 +4069,7 @@
     </message>
     <message>
         <source>Direct</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Direct</translation>
     </message>
     <message>
         <source>Undefined</source>
@@ -6127,7 +6127,7 @@
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sluiten</translation>
     </message>
     <message>
         <source>Select</source>
@@ -6180,6 +6180,18 @@
     <message>
         <source>Object state</source>
         <translation>Objectstand</translation>
+    </message>
+    <message>
+        <source>Node Remote ID and Object Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node Remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object Remote ID</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6924,6 +6936,18 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
         <translation>Snel instellen verbergen</translation>
     </message>
     <message>
+        <source>Siteaccess:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Global (override)</source>
+        <translation type="unfinished">Globaal (negeren)</translation>
+    </message>
+    <message>
+        <source>Set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Change name, email, password, etc.</source>
         <translation>Dingen zoals naam, e-mailadres, wachtwoord aanpassen.</translation>
     </message>
@@ -6982,6 +7006,13 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     <message>
         <source>Loading...</source>
         <translation>Bezig met laden...</translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/pagelayout/leftmenu</name>
+    <message>
+        <source>Show / Hide leftmenu</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7376,6 +7407,10 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     <message>
         <source>Roles and policies</source>
         <translation>Rollen en regels</translation>
+    </message>
+    <message>
+        <source>Unactivated users</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>View and manage the contents of the trash bin.</source>
@@ -10451,6 +10486,10 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
         <source>Country/region</source>
         <translation>Land/regio</translation>
     </message>
+    <message>
+        <source>Comment</source>
+        <translation type="unfinished">Reactie</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/shop/archivelist</name>
@@ -10895,7 +10934,7 @@ Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan 
     </message>
     <message>
         <source>Use these checkboxes to select items for removal. Click the &quot;Remove selected&quot; button to  remove the selected items.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gebruik deze checkboxen om de items te selecteren die u wilt verwijderen. Klik op de knop &quot;Selectie verwijderen&quot; om de selecteerde items te verwijderen.</translation>
     </message>
 </context>
 <context>
@@ -12755,6 +12794,65 @@ your account.</source>
         <translation>Uw account is aangemaakt. Er is een bevestigingsmail naar het door u opgegeven
 adres verzonden. Volg de instructies in deze e-mail om uw account te activeren.</translation>
     </message>
+    <message>
+        <source>Unactivated users (%users_count)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Registration date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>E-mail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Activate selected users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Activate selected users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/user/activations</name>
+    <message>
+        <source>The following users have been successfully activated:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been activated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following unactivated users have been successfully removed:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some users have not been removed</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/user/login</name>
@@ -13903,7 +14001,7 @@ adres verzonden. Volg de instructies in deze e-mail om uw account te activeren.<
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sluiten</translation>
     </message>
     <message>
         <source>Step 3/3: Preview of &apos;%name&apos; (%class)</source>
@@ -13954,6 +14052,20 @@ adres verzonden. Volg de instructies in deze e-mail om uw account te activeren.<
     </message>
     <message>
         <source>Upload a file and add the resulting object in the relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/content/edit</name>
+    <message>
+        <source>Go to the top</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin2/user/activations</name>
+    <message>
+        <source>There are no unactivated users</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -16811,6 +16923,14 @@ Indien u aanvullende opmerkingen voor de goedkeurder heeft of de status wilt zie
     <message>
         <source>Browse to add existing objects in this relation</source>
         <translation>Bladeren om bestaande objecten aan de lijst toe te voegen</translation>
+    </message>
+    <message>
+        <source>Html5 Video</source>
+        <translation type="unfinished">HTML5 Video</translation>
+    </message>
+    <message>
+        <source>Html5 Audio</source>
+        <translation type="unfinished">HTML5 Audio</translation>
     </message>
 </context>
 <context>
@@ -19731,6 +19851,18 @@ U kunt ook het pakket verwijderen zonder de installatie ongedaan te maken vanaf 
     <message>
         <source>Clear</source>
         <translation>Legen</translation>
+    </message>
+    <message>
+        <source>Siteaccess:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Global (override)</source>
+        <translation type="unfinished">Globaal (negeren)</translation>
+    </message>
+    <message>
+        <source>Set</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -28470,6 +28602,10 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     <message>
         <source>authorization</source>
         <translation>authorisatie</translation>
+    </message>
+    <message>
+        <source>Unactivated users</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

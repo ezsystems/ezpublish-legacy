@@ -787,6 +787,9 @@ class eZSys
      * Note: X-Forwarded-For is transformed by PHP
      *       into $_SERVER['HTTP_X_FORWARDED_FOR]
      *
+     * eZDebug calls in this method should be avoided as there is a risk of infinite recurstion
+     * due to IP check (http://issues.ez.no/19045
+     *
      * @return string
      */
     public static function clientIP()
@@ -809,10 +812,6 @@ class eZSys
                     return trim( $forwardedClients[0] );
                 }
             }
-
-            // Fallback on $_SERVER['REMOTE_ADDR']
-            eZDebug::writeWarning( "Could not get ip with ClientIpByCustomHTTPHeader={$customHTTPHeader}, fallback to using REMOTE_ADDR",
-                                   __METHOD__ );
         }
 
         return self::serverVariable( 'REMOTE_ADDR', true );

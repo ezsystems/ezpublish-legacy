@@ -185,6 +185,7 @@ abstract class eZClusterStaleCacheTest extends ezpDatabaseTestCase
             null, null, $extradata );
         self::assertNotEquals( $content, $result, "Generation start" );
         self::assertInstanceOf( 'eZClusterFileFailure', $result, "Generation start" );
+        $chGenerate->abortCacheGeneration();
 
         // call the same function another time to trigger stalecache
         $ch = eZClusterFileHandler::instance( $path );
@@ -251,7 +252,7 @@ abstract class eZClusterStaleCacheTest extends ezpDatabaseTestCase
           null,
           null, null, $extradata );
         self::assertNotEquals( $content, $result, "Generation start" );
-        self::assertType( 'eZClusterFileFailure', $result, "Generation start" );
+        self::assertInstanceOf( 'eZClusterFileFailure', $result, "Generation start" );
 
         // call the same function another time to trigger stalecache
         $ch = eZClusterFileHandler::instance( $path );

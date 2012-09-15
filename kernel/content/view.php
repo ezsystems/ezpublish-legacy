@@ -48,6 +48,15 @@ if ( $NodeID < 2 )
 }
 
 $ini = eZINI::instance();
+
+// Be able to filter node id for general use
+$NodeID = ezpEvent::getInstance()->filter( 'content/view', $NodeID, $ini );
+
+$testingHandler = new ezpMultivariateTest( ezpMultivariateTest::getHandler() );
+
+if ( $testingHandler->isEnabled() )
+    $NodeID = $testingHandler->execute( $NodeID );
+
 $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
 
 if ( isset( $Params['ViewCache'] ) )

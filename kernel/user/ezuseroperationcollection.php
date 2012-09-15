@@ -54,6 +54,10 @@ class eZUserOperationCollection
             {
                 eZUser::removeSessionData( $userID );
             }
+            else
+            {
+                eZUserAccountKey::removeByUserID( $userID );
+            }
             return array( 'status' => true );
         }
         else

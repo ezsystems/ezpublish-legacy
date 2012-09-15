@@ -21,7 +21,7 @@ $OperationList['read'] = array( 'name' => 'read',
                                                               'type' => 'string',
                                                               'default' => '',
                                                               'required' => false ) ),
-                                'keys' => array( 'node_id' ),
+                                'keys' => array( 'node_id', 'user_id' ),
                                 'body' => array( array( 'type' => 'trigger',
                                                         'name' => 'pre_read',
                                                         'keys' => array( 'node_id',
@@ -518,7 +518,7 @@ $OperationList['updatepriority'] = array( 'name' => 'updatepriority',
                                                  )
                               );
 
-$OperationList['updatemainassignment'] = array( 'name' => 'UpdateMainAssignment',
+$OperationList['updatemainassignment'] = array( 'name' => 'updatemainassignment',
                                 'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
                                                                 'class' => 'eZContentOperationCollection' ),
                                 'parameter_type' => 'standard',
@@ -534,16 +534,16 @@ $OperationList['updatemainassignment'] = array( 'name' => 'UpdateMainAssignment'
                                                       ),
                                 'keys' => array( 'main_assignment_id', 'object_id', 'main_assignment_parent_id' ),
                                 'body' => array( array( 'type' => 'trigger',
-                                                        'name' => 'pre_UpdateMainAssignment',
+                                                        'name' => 'pre_updatemainassignment',
                                                         'keys' => array( 'main_assignment_id' ),
                                                        ),
                                                  array( 'type' => 'method',
                                                         'name' => 'updatemainassignment',
                                                         'frequency' => 'once',
-                                                        'method' => 'UpdateMainAssignment',
+                                                        'method' => 'updateMainAssignment',
                                                         ),
                                                  array( 'type' => 'trigger',
-                                                        'name' => 'post_UpdateMainAssignment',
+                                                        'name' => 'post_updatemainassignment',
                                                         'keys' => array( 'main_assignment_id' )
                                                        )
                                                  )

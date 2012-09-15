@@ -31,6 +31,7 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
         $req = clone $request;
         $req->uri = $this->apiPrefix . '/fatal';
         $req->variables['exception'] = $e;
+        $req->protocol = 'http-get';
         return $req;
     }
 

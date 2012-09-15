@@ -1,7 +1,7 @@
 {* Class *}
 <div class="block">
     <label>{'Class'|i18n( 'design/admin/workflow/eventtype/edit' )}:</label>
-    <select name="WorkflowEvent_event_ezwaituntildate_class_{$event.id}[]">
+    <select id="workflowevent-event-ezwaituntildate-class-{$event.id}" name="WorkflowEvent_event_ezwaituntildate_class_{$event.id}[]">
     {section var=Classes loop=$event.workflow_type.contentclass_list}
         {if and( and( is_set( $selectedClass ), $selectedClass ), eq( $selectedClass, $Classes.item.id ) )}
         <option value="{$Classes.item.id}" selected=true>{$Classes.item.name|wash}</option>
@@ -10,16 +10,15 @@
     {/if}
     {/section}
     </select>
-    <input class="button" type="submit" name="CustomActionButton[{$event.id}_load_class_attribute_list]" value="{'Update attributes'|i18n( 'design/admin/workflow/eventtype/edit' )}" />
+    <input class="button" type="submit" id="custom-action-button-{$event.id}-load-class-attribute-list" name="CustomActionButton[{$event.id}_load_class_attribute_list]" value="{'Update attributes'|i18n( 'design/admin/workflow/eventtype/edit' )}" />
 </div>
 
 
 {* Attributes *}
-{section show=$event.workflow_type.has_class_attributes}
 <div class="block">
     {let possibleClassAttributes=$event.workflow_type.contentclassattribute_list}
     <label>{'Attribute'|i18n( 'design/admin/workflow/eventtype/edit' )}:</label>
-    <select name="WorkflowEvent_event_ezwaituntildate_classattribute_{$event.id}[]">
+    <select id="workflowevent-event-ezwaituntildate-class-attribute-{$event.id}" name="WorkflowEvent_event_ezwaituntildate_classattribute_{$event.id}[]">
     {section name=HasClassAttributes loop=$possibleClassAttributes}
         <option value="{$HasClassAttributes:item.id}">{$HasClassAttributes:item.name|wash}</option>
     {/section}
@@ -27,7 +26,6 @@
     {/let}
     <input class="button" type="submit" name="CustomActionButton[{$event.id}_new_classelement]" value="{'Select attribute'|i18n( 'design/admin/workflow/eventtype/edit' )}" />
 </div>
-{/section}
 
 
 {* Class/attribute list *}
@@ -63,3 +61,32 @@
 <input type="checkbox" name="WorkflowEvent_data_waituntildate_modifydate_{$event.id}[]" value="1" {if $event.data_int1}checked="checked"{/if} />
 </div>
 
+<script type="text/javascript">
+(function ()
+{ldelim}
+    document.getElementById( "custom-action-button-{$event.id}-load-class-attribute-list" ).style.display = 'none';
+    var classSelect = document.getElementById( "workflowevent-event-ezwaituntildate-class-{$event.id}" );
+    classSelect.onchange = ( function()
+    {ldelim}
+        var classAttributeSelect = document.getElementById( "workflowevent-event-ezwaituntildate-class-attribute-{$event.id}" );
+        var classAttributesHash = {ldelim}
+        {foreach $event.workflow_type.contentclass_list as $class}
+            {delimiter},{/delimiter}
+            {$class.id} : {ldelim}
+            {foreach fetch( 'class', 'attribute_list', hash( 'class_id', $class.id ) ) as $attribute}
+                {delimiter},{/delimiter}
+                {$attribute.id} : "{$attribute.name|wash( 'javascript' )}"
+            {/foreach}
+            {rdelim}
+        {/foreach}
+        {rdelim};
+        classAttributeSelect.options.length = 0;
+        for ( var classAttributeId in classAttributesHash[classSelect.options[classSelect.selectedIndex].value] )
+        {ldelim}
+            classAttributeSelect.options.add( new Option( classAttributesHash[classSelect.value][classAttributeId], classAttributeId ) );
+        {rdelim}
+    {rdelim}
+    );
+{rdelim}
+)();
+</script>

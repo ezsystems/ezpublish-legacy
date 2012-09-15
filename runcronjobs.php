@@ -53,6 +53,7 @@ function help()
                   "  --sql              display sql queries\n" .
                   "  --logfiles         create log files\n" .
                   "  --no-logfiles      do not create log files (default)\n" .
+                  "  --list             list all cronjobs parts and the scripts contained by each one\n" .
                   "  --no-colors        do not use ANSI coloring (default)\n" );
 }
 
@@ -109,13 +110,15 @@ $isQuiet = false;
 $useLogFiles = false;
 $showSQL = false;
 $cronPart = false;
+$listCronjobs = false;
 
 $optionsWithData = array( 's' );
 $longOptionsWithData = array( 'siteaccess' );
 
 $readOptions = true;
+$siteAccessSet = false;
 
-for ( $i = 1; $i < count( $argv ); ++$i )
+for ( $i = 1, $count = count( $argv ); $i < $count; ++$i )
 {
     $arg = $argv[$i];
     if ( $readOptions and
@@ -138,7 +141,7 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             }
             else if ( $flag == 'siteaccess' )
             {
-                changeSiteAccessSetting( $siteaccess, $optionData );
+                $siteAccessSet = $optionData;
             }
             else if ( $flag == 'debug' )
             {
@@ -163,6 +166,10 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             else if ( $flag == 'logfiles' )
             {
                 $useLogFiles = true;
+            }
+            else if ( $flag == 'list' )
+            {
+                $listCronjobs = true;
             }
             else if ( $flag == 'sql' )
             {
@@ -244,7 +251,7 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             }
             else if ( $flag == 's' )
             {
-                changeSiteAccessSetting( $siteaccess, $optionData );
+                $siteAccessSet = $optionData;
             }
         }
     }
@@ -263,6 +270,9 @@ $script->setUseDebugAccumulators( $useDebugAccumulators );
 $script->setUseDebugTimingPoints( $useDebugTimingpoints );
 $script->setUseIncludeFiles( $useIncludeFiles );
 $script->setIsQuiet( $isQuiet );
+
+if ( $siteAccessSet )
+    changeSiteAccessSetting( $siteaccess, $siteAccessSet );
 
 if ( $webOutput )
     $useColors = true;
@@ -291,6 +301,35 @@ $scriptDirectories = $ini->variable( 'CronjobSettings', 'ScriptDirectories' );
 /* Include extension directories */
 $extensionDirectories = $ini->variable( 'CronjobSettings', 'ExtensionDirectories' );
 $scriptDirectories = array_merge( $scriptDirectories, eZExtension::expandedPathList( $extensionDirectories, 'cronjobs' ) );
+
+if ( $listCronjobs )
+{
+    foreach ( $ini->groups() as $block => $blockValues )
+    {
+        if ( strpos( $block, 'Cronjob' ) !== false )
+        {
+            $cli->output( $cli->endLineString() );
+            $cli->output( "{$block}:" );
+
+            foreach ( $blockValues['Scripts'] as $fileName )
+            {
+                $fileExists = false;
+                foreach ( $scriptDirectories as $scriptDirectory )
+                {
+                    $filePath = $scriptDirectory . "/" . $fileName;
+                    if ( file_exists( $filePath ) )
+                    {
+                        $fileExists = true;
+                        $cli->output( "{$cli->goToColumn( 4 )} {$filePath}" );
+                    }
+                }
+                if ( !$fileExists )
+                    $cli->output( "{$cli->goToColumn( 4 )} Error: No {$fileName} file in any of configured directories!" );
+            }
+        }   
+    }
+    $script->shutdown( 0 );
+}
 
 $scriptGroup = 'CronjobSettings';
 if ( $cronPart !== false )

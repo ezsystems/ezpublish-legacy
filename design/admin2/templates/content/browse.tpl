@@ -175,7 +175,8 @@
          item_count=$browse_list_count
          view_parameters=$view_parameters
          node_id=$node_id
-         item_limit=$number_of_items}
+         item_limit=$number_of_items
+         show_google_navigator=true()}
 
 <div class="float-break"></div>
 </div>

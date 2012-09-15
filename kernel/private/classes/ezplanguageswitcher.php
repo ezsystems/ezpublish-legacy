@@ -18,6 +18,7 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
 {
     protected $origUrl;
     protected $userParamString;
+    protected $queryString;
 
     protected $destinationSiteAccess;
     protected $destinationLocale;
@@ -43,6 +44,8 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
         {
             $this->userParamString .= "/($key)/$value";
         }
+
+        $this->queryString = isset( $params['QueryString'] ) ? $params['QueryString'] : '';
     }
 
     /**
@@ -164,6 +167,10 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
         {
             $finalUrl = $this->baseDestinationUrl . '/' . $urlAlias;
         }
+        if ( $this->queryString != '' )
+        {
+            $finalUrl .= '?' . $this->queryString;
+        }
         return $finalUrl;
     }
 
@@ -237,9 +244,11 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
             {
                 $switchLanguageLink .= $url;
             }
-            $ret[$siteAccessName] = array( 'url' => $switchLanguageLink,
-                                           'text' => $translationName
-                                         );
+            $ret[$siteAccessName] = array(
+                'url' => $switchLanguageLink,
+                'text' => $translationName,
+                'locale' => eZSiteAccess::getIni( $siteAccessName )->variable( 'RegionalSettings', 'ContentObjectLocale' )
+             );
         }
         return $ret;
     }

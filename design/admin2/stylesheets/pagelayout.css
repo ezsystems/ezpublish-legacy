@@ -787,8 +787,7 @@ input.button, input.defaultbutton, input.button-disabled
 {
     width: auto;
     overflow: visible;
-    padding-left:0.7em;
-    padding-right:0.7em;
+    padding: 0.26em 0.7em;
 }
 
 /* SEARCH */
@@ -801,12 +800,12 @@ input.button, input.defaultbutton, input.button-disabled
 #searchtext
 {
     height: 18px;
-    padding: 4px 20px 0 5px;
+    padding: 4px 20px 0 25px;
 }
 
 #searchtext.passive
 {
-	color: #888;
+    color: #888;
 }
 
 .searchbuttonfield
@@ -816,11 +815,102 @@ input.button, input.defaultbutton, input.button-disabled
     right: 3px;
     top: 3px;
     width: 17px;
+    background: url(../images/icons-sprite.png) no-repeat 2px -366px;
+    cursor:pointer;
 }
 
 .searchbuttonfield:hover
 {
     cursor: pointer;
+}
+
+.searchscope
+{
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    top: 5px;
+    left: 6px;
+    background-image: url(../images/search-scope.png);
+}
+
+.searchscope:hover
+{
+    cursor: pointer;
+}
+
+.searchscope-menu-container .searchscope-pane
+{
+    display: none;
+}
+
+.searchscope-pane
+{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #C1C1C1;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0 0 13px rgba(0, 0, 0, 0.31);
+    margin-top: 6px;
+    position: absolute;
+    left: -80px;
+    width: 250px;
+    z-index: 21;
+    text-align: left;
+}
+
+.searchscope-pane.active,
+.searchscope-menu-container.active .searchscope-pane
+{
+    display: block;
+}
+
+.searchscope-pane,
+.searchscope-pane > .searchscope-body
+{
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.searchscope-pane > .searchscope-body
+{
+    border-top: 1px solid #DDDDDD;
+    display: block;
+    padding: 8px 10px;
+    position: relative;
+}
+
+.searchscope-pane > .searchscope-title
+{
+    font-weight: bold;
+    font-size: 12px;
+    color: #111111;
+    text-shadow: 1px 1px 0 white;
+    padding: 8px 10px 5px 10px;
+    background: #f5f5f5;
+    background: -moz-linear-gradient(#f4f4f4, #f5f5f5);
+    background: -webkit-linear-gradient(#f4f4f4, #f5f5f5);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#f4f4f4', endColorstr='#f5f5f5')";
+    border-bottom: 1px solid #f0f3f3;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px
+}
+
+.searchscope-pane .close
+{
+    display: block;
+    float: right;
+    margin-right: 8px;
+    margin-top: 7px;
+    width: 16px;
+    height: 16px;
+    background: url(../images/close.gif) no-repeat center center;
+}
+
+.searchscope-pane .close .mini-icon-remove-close
+{
+    line-height: 16px;
+    height: 16px;
+    color: #CCC;
 }
 
 /* FIXED CONTROLBAR DEPENDING ON SCROLL */

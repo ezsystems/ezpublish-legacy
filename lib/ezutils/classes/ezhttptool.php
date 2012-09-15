@@ -225,7 +225,7 @@ class eZHTTPTool
         if ( $uriPort && !$port )
             $port = $uriPort;
         else if ( !$port )
-            $port = 80;
+            $port = ( $protocol === 'https://' ? 443 : 80 );
 
         if ( !$path )
         {
@@ -567,7 +567,7 @@ class eZHTTPTool
             }
         }
         if ( $parameters['override_protocol'] )
-            $host = $parameters['override_protocol'];
+            $protocol = $parameters['override_protocol'];
 
         $uri = $protocol . '://';
         if ( $parameters['override_username'] )

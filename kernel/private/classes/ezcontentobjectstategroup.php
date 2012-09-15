@@ -207,7 +207,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
 
                 if ( !array_key_exists( $languageID, $allTranslations ) )
                 {
-                    $row = array( 'language_id' => $languageID );
+                    $row = array( 'real_language_id' => $languageID );
                     if ( isset( $this->ID ) )
                     {
                         $row['contentobject_state_group_id'] = $this->ID;
@@ -231,7 +231,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
             $translations = $this->allTranslations();
             foreach ( $translations as $translation )
             {
-                if ( $translation->realLanguageID() == $languageID )
+                if ( $translation->attribute( 'real_language_id' ) == $languageID )
                 {
                     return $translation;
                 }
@@ -307,7 +307,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
         {
             if ( $translation->hasData() )
             {
-                $languageID = $translation->attribute( 'language_id' );
+                $languageID = $translation->attribute( 'real_language_id' );
                 if ( empty( $this->DefaultLanguageID ) )
                 {
                     $this->DefaultLanguageID = $languageID & ~1;
@@ -318,7 +318,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
                     $translation->setAttribute( 'language_id', $languageID | 1 );
                 }
                 // otherwise, remove always available flag if it's set
-                else if ( $languageID & 1 )
+                else
                 {
                     $translation->setAttribute( 'language_id',  $languageID & ~1 );
                 }

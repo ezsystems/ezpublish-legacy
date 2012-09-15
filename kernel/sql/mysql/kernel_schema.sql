@@ -71,8 +71,9 @@ CREATE TABLE ezcobj_state_group_language (
   contentobject_state_group_id int(11) NOT NULL default '0',
   description longtext NOT NULL,
   language_id int(11) NOT NULL default '0',
+  real_language_id int(11) NOT NULL default '0',
   name varchar(45) NOT NULL default '',
-  PRIMARY KEY  (contentobject_state_group_id,language_id)
+  PRIMARY KEY  (contentobject_state_group_id,real_language_id)
 ) ENGINE=InnoDB;
 
 
@@ -323,10 +324,10 @@ CREATE TABLE ezcontentclass_attribute (
   can_translate int(11) default '1',
   category varchar(25) NOT NULL default '',
   contentclass_id int(11) NOT NULL default '0',
-  data_float1 float default NULL,
-  data_float2 float default NULL,
-  data_float3 float default NULL,
-  data_float4 float default NULL,
+  data_float1 double default NULL,
+  data_float2 double default NULL,
+  data_float3 double default NULL,
+  data_float4 double default NULL,
   data_int1 int(11) default NULL,
   data_int2 int(11) default NULL,
   data_int3 int(11) default NULL,
@@ -425,7 +426,7 @@ CREATE TABLE ezcontentobject_attribute (
   attribute_original_id int(11) default '0',
   contentclassattribute_id int(11) NOT NULL default '0',
   contentobject_id int(11) NOT NULL default '0',
-  data_float float default NULL,
+  data_float double default NULL,
   data_int int(11) default NULL,
   data_text longtext,
   data_type_string varchar(50) default '',
@@ -658,14 +659,14 @@ CREATE TABLE ezforgot_password (
 
 
 CREATE TABLE ezgeneral_digest_user_settings (
-  address varchar(255) NOT NULL default '',
+  user_id int(11) NOT NULL default '0',
   day varchar(255) NOT NULL default '',
   digest_type int(11) NOT NULL default '0',
   id int(11) NOT NULL auto_increment,
   receive_digest int(11) NOT NULL default '0',
   time varchar(255) NOT NULL default '',
   PRIMARY KEY  (id),
-  UNIQUE KEY ezgeneral_digest_user_settings_address (address)
+  UNIQUE KEY ezgeneral_digest_user_id (user_id)
 ) ENGINE=InnoDB;
 
 
@@ -1627,7 +1628,8 @@ CREATE TABLE ezuser (
   login varchar(150) NOT NULL default '',
   password_hash varchar(50) default NULL,
   password_hash_type int(11) NOT NULL default '1',
-  PRIMARY KEY  (contentobject_id)
+  PRIMARY KEY  (contentobject_id),
+  KEY ezuser_login (login)
 ) ENGINE=InnoDB;
 
 

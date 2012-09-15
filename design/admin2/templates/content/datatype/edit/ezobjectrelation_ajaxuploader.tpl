@@ -15,14 +15,14 @@
     <script type="text/javascript">
     {literal}
     (function () {
-        YUI().use('ezmodalwindow', 'ezajaxuploader', function (Y) {
+        YUI(YUI3_config).use('ezmodalwindow', 'ezajaxuploader', function (Y) {
             var uploaderConf = {
                 target: {},
                 open: {
                     action: 'ezajaxuploader::uploadform::ezobjectrelation'
                 },
                 upload: {
-                    action: 'ezajaxuploader::upload::ezobjectrelation',
+                    action: 'ezajaxuploader::upload::ezobjectrelation?ContentType=html',
                     form: 'form.ajaxuploader-upload'
                 },
                 location: {

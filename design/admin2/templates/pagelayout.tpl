@@ -10,6 +10,7 @@
      $admin_left_size      = ezpreference( 'admin_left_menu_size' )
      $admin_theme          = ezpreference( 'admin_theme' )
      $left_size_hash       = 0
+     $search_hash          = array( cond( ezhttp_hasvariable( 'SectionID', 'get' ), ezhttp( 'SectionID', 'get' ) ) )
      $user_hash = concat( $current_user.role_id_list|implode( ',' ), ',', $current_user.limited_assignment_value_list|implode( ',' ) )
 }
 {if $hide_right_menu}
@@ -39,15 +40,12 @@
 
 {* Pr uri header cache
  Need navigation part for cases like content/browse where node id is taken from caller params *}
-{cache-block keys=array( $module_result.uri, $user_hash, $admin_theme, $access_type, first_set( $module_result.navigation_part, $navigation_part.identifier ) ) ignore_content_expiry}
+{cache-block keys=array( $module_result.uri, $user_hash, $admin_theme, $access_type, first_set( $module_result.navigation_part, $navigation_part.identifier ), $search_hash ) ignore_content_expiry}
 
 {include uri='design:page_head.tpl'}
 
 {include uri='design:page_head_style.tpl'}
 {include uri='design:page_head_script.tpl'}
-
-{* Pr tab header cache *}
-{cache-block keys=array( $ui_context, $ui_component, $user_hash, $access_type, first_set( $module_result.navigation_part, $navigation_part.identifier ) ) ignore_content_expiry}
 
 </head>
 <body>
@@ -59,6 +57,9 @@
 
 {* HEADER ( SEARCH, LOGO AND USERMENU ) *}
 {include uri='design:page_header.tpl'}
+
+{* Pr tab header cache *}
+{cache-block keys=array( $ui_context, $ui_component, $user_hash, $access_type, first_set( $module_result.navigation_part, $navigation_part.identifier ) ) ignore_content_expiry}
 
 {* TOP MENU / TABS *}
 {include uri='design:page_topmenu.tpl'}

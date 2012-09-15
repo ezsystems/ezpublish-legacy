@@ -63,6 +63,7 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
         $this->wildcardObjects["testTranslate1/*/*"] = self::createWildcard( "testTranslate1/*/*", 'foobar/{1}/{2}', eZURLWildcard::TYPE_DIRECT );
         $this->wildcardObjects["testTranslate2/*/abc"] = self::createWildcard( "testTranslate2/*/abc", 'foobar/{1}', eZURLWildcard::TYPE_FORWARD );
         $this->wildcardObjects["test/single-page"] = self::createWildcard( "test/single-page", 'foo/bar', eZURLWildcard::TYPE_FORWARD );
+        $this->wildcardObjects["is/it/working/*"] = self::createWildcard( "is/it/working/*", 'yes/no/maybe', eZURLWildcard::TYPE_FORWARD );
         eZURLWildcard::expireCache();
     }
 
@@ -390,6 +391,21 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
                 $this->wildcardObjects['test/single-page']->attribute( 'source_url' )
             )
         );
+        self::assertTrue(
+            eZURLWildcard::wildcardExists(
+                $this->wildcardObjects['is/it/working/*']->attribute( 'source_url' )
+            )
+        );
+        self::assertFalse(
+            eZURLWildcard::wildcardExists( 'is/it/' )
+        );
+        self::assertTrue(
+            eZURLWildcard::wildcardExists( 'is/it/working/now' )
+        );
+        self::assertTrue(
+            eZURLWildcard::wildcardExists( 'is/it/working/now/yes' )
+        );
+
     }
 }
 ?>

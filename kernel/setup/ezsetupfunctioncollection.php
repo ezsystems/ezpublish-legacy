@@ -64,6 +64,11 @@ class eZSetupFunctionCollection
     {
         return array( 'result' => eZPublishSDK::databaseRelease() );
     }
+
+    function fetchEdition()
+    {
+        return array( 'result' => eZPublishSDK::EDITION );
+    }
 }
 
 ?>

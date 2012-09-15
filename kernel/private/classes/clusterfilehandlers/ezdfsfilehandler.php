@@ -67,6 +67,30 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
                            'iniSection'  => 'eZDFSClusteringSettings',
                            'iniVariable' => 'DBBackend' ) ) );
             self::$dbbackend->_connect( false );
+
+            $fileINI = eZINI::instance( 'file.ini' );
+            if (
+                $fileINI->variable( 'ClusterEventsSettings', 'ClusterEvents' ) === 'enabled'
+                && self::$dbbackend instanceof eZClusterEventNotifier
+            )
+            {
+                $listener = eZExtension::getHandlerClass(
+                    new ezpExtensionOptions(
+                        array(
+                            'iniFile'       => 'file.ini',
+                            'iniSection'    => 'ClusterEventsSettings',
+                            'iniVariable'   => 'Listener',
+                            'handlerParams' => array( new eZClusterEventLoggerEzdebug() )
+                        )
+                    )
+                );
+
+                if ( $listener instanceof eZClusterEventListener )
+                {
+                    self::$dbbackend->registerListener( $listener );
+                    $listener->initialize();
+                }
+            }
         }
 
         if ( $filePath !== false )
@@ -975,7 +999,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         }
         $commonPath = eZDBFileHandler::cleanPath( $commonPath );
         $commonSuffix = eZDBFileHandler::cleanPath( $commonSuffix );
-        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileDeleteByDirList( '$dirList', '$commonPath', '$commonSuffix' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileDeleteByDirList( '" . join( ", ", $dirList ) . "', '$commonPath', '$commonSuffix' )" );
 
         self::$dbbackend->_deleteByDirList( $dirList, $commonPath, $commonSuffix );
     }

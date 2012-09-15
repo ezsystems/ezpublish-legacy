@@ -4,9 +4,9 @@
 <select name="eZOption[{$attribute.id}]">
 {section var=Options loop=$attribute.content.option_list}
     {if ne( $Options.item.additional_price, '' )}
-        <option value="{$Options.item.id}">{$Options.item.value} - {$Options.item.additional_price|l10n( currency )}</option>
+        <option value="{$Options.item.id}">{$Options.item.value|wash()} - {$Options.item.additional_price|l10n( currency )}</option>
     {else}
-        <option value="{$Options.item.id}">{$Options.item.value}</option>
+        <option value="{$Options.item.id}">{$Options.item.value|wash()}</option>
     {/if}
 {/section}
 </select>

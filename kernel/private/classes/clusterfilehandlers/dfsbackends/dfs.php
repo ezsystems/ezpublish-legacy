@@ -24,6 +24,8 @@ class eZDFSFileHandlerDFSBackend
             $mountPointPath = "$mountPointPath/";
 
         $this->mountPointPath = $mountPointPath;
+
+        $this->filePermissionMask = octdec( eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' ) );
     }
 
     /**
@@ -41,10 +43,12 @@ class eZDFSFileHandlerDFSBackend
         if ( file_exists( dirname( $dstFilePath ) ) )
         {
             $ret = copy( $srcFilePath, $dstFilePath );
+            if ( $ret )
+                $this->fixPermissions( $dstFilePath );
         }
         else
         {
-            $ret = eZFile::create( basename( $dstFilePath ), dirname( $dstFilePath ), file_get_contents( $srcFilePath ), false );
+            $ret = $this->createFile( $dstFilePath, file_get_contents( $srcFilePath ), false );
         }
 
         $this->accumulatorStop();
@@ -71,9 +75,15 @@ class eZDFSFileHandlerDFSBackend
         $srcFilePath = $this->makeDFSPath( $srcFilePath );
 
         if ( file_exists( dirname( $dstFilePath ) ) )
+        {
             $ret = copy( $srcFilePath, $dstFilePath );
+            if ( $ret )
+                $this->fixPermissions( $dstFilePath );
+        }
         else
-            $ret = eZFile::create( basename( $dstFilePath ), dirname( $dstFilePath ), file_get_contents( $srcFilePath ) );
+        {
+            $ret = $this->createFile( $dstFilePath, file_get_contents( $srcFilePath ) );
+        }
 
         $this->accumulatorStop();
 
@@ -97,7 +107,7 @@ class eZDFSFileHandlerDFSBackend
             $dstFilePath = $srcFilePath;
         }
         $dstFilePath = $this->makeDFSPath( $dstFilePath );
-        $ret = eZFile::create( basename( $dstFilePath ), dirname( $dstFilePath ), file_get_contents( $srcFilePath ), true );
+        $ret = $this->createFile( $dstFilePath, file_get_contents( $srcFilePath ), true );
 
         $this->accumulatorStop();
 
@@ -148,7 +158,7 @@ class eZDFSFileHandlerDFSBackend
      *
      * @param string $filePath File path
      * @param int $startOffset Starting offset
-     * @param false|int $length Length to transmit, false means everything
+     * @param bool|int $length Length to transmit, false means everything
      * @return bool true, or false if operation failed
      */
     public function passthrough( $filePath, $startOffset = 0, $length = false )
@@ -193,7 +203,7 @@ class eZDFSFileHandlerDFSBackend
         $this->accumulatorStart();
 
         $filePath = $this->makeDFSPath( $filePath );
-        $ret = eZFile::create( basename( $filePath ), dirname( $filePath ), $contents, false );
+        $ret = $this->createFile( $filePath, $contents, false );
 
         $this->accumulatorStop();
 
@@ -265,10 +275,31 @@ class eZDFSFileHandlerDFSBackend
         eZDebug::accumulatorStop( 'mysql_cluster_dfs_operations' );
     }
 
+    protected function fixPermissions( $filePath )
+    {
+        chmod( $filePath, $this->filePermissionMask );
+    }
+
+    protected function createFile( $filePath, $contents, $atomic = true )
+    {
+        $createResult = eZFile::create( basename( $filePath ), dirname( $filePath ), $contents, $atomic );
+
+        if ( $createResult )
+            $this->fixPermissions( $filePath );
+
+        return $createResult;
+    }
+
     /**
      * Path to the local distributed filesystem mount point
      * @var string
      */
     protected $mountPointPath;
+
+    /**
+     * Permission mask that must be applied to created files
+     * @var int
+     */
+    private $filePermissionMask;
 }
 ?>

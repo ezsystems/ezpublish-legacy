@@ -326,6 +326,13 @@ $schema = array (
         'not_null' => '1',
         'default' => '',
       ),
+      'real_language_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
     ),
     'indexes' => 
     array (
@@ -335,7 +342,7 @@ $schema = array (
         'fields' => 
         array (
           0 => 'contentobject_state_group_id',
-          1 => 'language_id',
+          1 => 'real_language_id',
         ),
       ),
     ),
@@ -1452,22 +1459,22 @@ $schema = array (
       ),
       'data_float1' => 
       array (
-        'type' => 'float',
+        'type' => 'double',
         'default' => NULL,
       ),
       'data_float2' => 
       array (
-        'type' => 'float',
+        'type' => 'double',
         'default' => NULL,
       ),
       'data_float3' => 
       array (
-        'type' => 'float',
+        'type' => 'double',
         'default' => NULL,
       ),
       'data_float4' => 
       array (
-        'type' => 'float',
+        'type' => 'double',
         'default' => NULL,
       ),
       'data_int1' => 
@@ -1953,7 +1960,7 @@ $schema = array (
       ),
       'data_float' => 
       array (
-        'type' => 'float',
+        'type' => 'double',
         'default' => NULL,
       ),
       'data_int' => 
@@ -3087,13 +3094,6 @@ $schema = array (
     'name' => 'ezgeneral_digest_user_settings',
     'fields' => 
     array (
-      'address' => 
-      array (
-        'length' => 255,
-        'type' => 'varchar',
-        'not_null' => '1',
-        'default' => '',
-      ),
       'day' => 
       array (
         'length' => 255,
@@ -3127,6 +3127,13 @@ $schema = array (
         'not_null' => '1',
         'default' => '',
       ),
+      'user_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
     ),
     'indexes' => 
     array (
@@ -3138,12 +3145,12 @@ $schema = array (
           0 => 'id',
         ),
       ),
-      'ezgeneral_digest_user_settings_address' => 
+      'ezgeneral_digest_user_id' => 
       array (
         'type' => 'unique',
         'fields' => 
         array (
-          0 => 'address',
+          0 => 'user_id',
         ),
       ),
     ),
@@ -7374,6 +7381,14 @@ $schema = array (
         'fields' => 
         array (
           0 => 'contentobject_id',
+        ),
+      ),
+      'ezuser_login' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'login',
         ),
       ),
     ),

@@ -120,7 +120,7 @@ ul.tabs li a, ul.tabs li span.disabled
 
 /* CSS Media Query's to adjust layout based on screen width */
 
-@media all and (max-width: 1080px)
+@media all and (max-width: 1124px)
 {
     #header-logo a, #header-logo span
     {
@@ -315,7 +315,7 @@ input.button, input.defaultbutton, input.button-disabled
     background-image: -ms-linear-gradient(top,  #5d7db1,  #445c89);
     background-image: -o-linear-gradient(top,  #5d7db1,  #445c89);
     background-image: linear-gradient(top,  #5d7db1,  #445c89);
-    border: 1px solid #aaa;
+    border: 1px solid #cfd1d3;
     border-radius: 3px;
     background-clip: padding-box;
 }
@@ -351,7 +351,7 @@ input.button-disabled, input.button[disabled="disabled"]
 {
     border: 1px solid #666;
     border-radius: 3px;
-    background: #fff url(../../images/icons-sprite.png) no-repeat right -365px;
+    background: #fff;
     background-clip: padding-box;
     line-height: 18px !important;
 }
@@ -508,4 +508,9 @@ table.list th, table.special th
 {
     margin-bottom: -2px;
     padding-top: 9px;
+}
+
+#page .yui-calcontainer .title
+{
+position:absolute;
 }

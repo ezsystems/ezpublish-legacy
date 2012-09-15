@@ -14,8 +14,11 @@ class ezpRestBasicAuthStyle extends ezpRestAuthenticationStyle implements ezpRes
     {
         if ( $request->authentication === null )
         {
-            $request->uri = "{$this->prefix}/auth/http-basic-auth";
-            return new ezcMvcInternalRedirect( $request );
+            $authRequest = clone $request;
+            $authRequest->uri = "{$this->prefix}/auth/http-basic-auth";
+            $authRequest->protocol = "http-get";
+
+            return new ezcMvcInternalRedirect( $authRequest );
         }
 
         $cred = new ezcAuthenticationPasswordCredentials( $request->authentication->identifier,

@@ -83,6 +83,15 @@ class eZHTTPPersistence
                     $post_value = $http->postVariable( $post_var );
                     if ( $index === false )
                     {
+                        if ( $post_value !== null                              &&
+                             $field_member['datatype'] === 'string'            &&
+                             array_key_exists( 'max_length', $field_member )   &&
+                             $field_member['max_length'] > 0                   &&
+                             strlen( $post_value ) > $field_member['max_length'] )
+                        {
+                            $post_value = substr( $post_value, 0, $field_member['max_length'] );
+                            eZDebug::writeDebug( $post_value, "truncation of $field_name to max_length=". $field_member['max_length'] );
+                        }
                         $object->setAttribute( $field_name, $post_value );
                     }
                     else if ( is_string( $index ) )

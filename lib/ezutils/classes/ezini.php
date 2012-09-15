@@ -301,6 +301,8 @@ class eZINI
             $fileName = "site.ini";
         if ( $rootDir == "" )
             $rootDir = "settings";
+        if ( $rootDir[0] !== "/" )
+            $rootDir = __DIR__ . "/../../../" . $rootDir;
         if ( file_exists( $rootDir . '/' . $fileName ) )
             return true;
         else if ( file_exists( $rootDir . '/' . $fileName . '.append.php' ) )
@@ -354,10 +356,11 @@ class eZINI
     */
     function findInputFiles( &$inputFiles, &$iniFile )
     {
+        $iniFile = __DIR__ . "/../../../";
         if ( $this->RootDir !== false )
-            $iniFile = eZDir::path( array( $this->RootDir, $this->FileName ) );
+            $iniFile .= eZDir::path( array( $this->RootDir, $this->FileName ) );
         else
-            $iniFile = eZDir::path( array( $this->FileName ) );
+            $iniFile .= eZDir::path( array( $this->FileName ) );
 
         $inputFiles = array();
 
@@ -461,10 +464,10 @@ class eZINI
      */
     function loadCache( $reset = true, $placement = false )
     {
-        eZDebug::accumulatorStart( 'ini', 'ini_load', 'Load cache' );
+        eZDebug::accumulatorStart( 'ini', 'Ini load', 'Load cache' );
         if ( $reset )
             $this->reset();
-        $cachedDir = self::CONFIG_CACHE_DIR;
+        $cachedDir = __DIR__ . "/../../../" . self::CONFIG_CACHE_DIR;
 
         $fileName = $this->cacheFileName( $placement );
         $cachedFile = $cachedDir . $fileName;
@@ -494,7 +497,7 @@ class eZINI
             }
             else if ( self::$checkFileMtime === true || self::$checkFileMtime === $this->FileName )
             {
-                eZDebug::accumulatorStart( 'ini_check_mtime', 'ini_load', 'Check MTime' );
+                eZDebug::accumulatorStart( 'ini_check_mtime', 'Ini load', 'Check MTime' );
                 $currentTime = time();
                 $cacheCreatedTime = strtotime( $data['created'] );
                 $iniFile = $data['file'];// used by findInputFiles further down
@@ -538,7 +541,7 @@ class eZINI
         {
             if ( !isset( $inputFiles ) )// use $inputFiles from cache if defined
             {
-                eZDebug::accumulatorStart( 'ini_find_files', 'ini_load', 'Find INI Files' );
+                eZDebug::accumulatorStart( 'ini_find_files', 'Ini load', 'Find INI Files' );
                 $this->findInputFiles( $inputFiles, $iniFile );
                 eZDebug::accumulatorStop( 'ini_find_files' );
                 if ( count( $inputFiles ) === 0 )
@@ -548,10 +551,10 @@ class eZINI
                 }
             }
 
-            eZDebug::accumulatorStart( 'ini_files_parse', 'ini_load', 'Parse' );
+            eZDebug::accumulatorStart( 'ini_files_parse', 'Ini load', 'Parse' );
             $this->parse( $inputFiles, $iniFile, false, $placement );
             eZDebug::accumulatorStop( 'ini_files_parse' );
-            eZDebug::accumulatorStart( 'ini_files_save', 'ini_load', 'Save Cache' );
+            eZDebug::accumulatorStart( 'ini_files_save', 'Ini load', 'Save Cache' );
             $cacheSaved = $this->saveCache( $cachedDir, $cachedFile, $placement ? $this->BlockValuesPlacement : $this->BlockValues, $inputFiles, $iniFile );
             eZDebug::accumulatorStop( 'ini_files_save' );
 
@@ -637,7 +640,7 @@ class eZINI
         if ( $inputFiles === false or
              $iniFile === false )
         {
-            eZDebug::accumulatorStart( 'ini_parse_find_files', 'ini_load', 'Find INI Files2' );
+            eZDebug::accumulatorStart( 'ini_parse_find_files', 'Ini load', 'Find INI Files2' );
             $this->findInputFiles( $inputFiles, $iniFile );
             eZDebug::accumulatorStop( 'ini_parse_find_files' );
         }
@@ -1225,8 +1228,10 @@ class eZINI
         }
         else
         {
+            // array_merge() is to be used below instead of the "+" operator because the
+            // position of elements in this mixed hash/list is important!
             if ( $identifier )
-                $dirs[$scope][$identifier] = array( $dir, $globalDir );
+                $dirs[$scope] = array_merge( array( $identifier => array( $dir, $globalDir ) ), $dirs[$scope] );
             else
                 $dirs[$scope] = array_merge( array( array( $dir, $globalDir ) ), $dirs[$scope] );
         }
