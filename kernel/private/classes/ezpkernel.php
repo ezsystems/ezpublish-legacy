@@ -87,25 +87,25 @@ class ezpKernel implements ezpKernelHandler
     }
 
     /**
-     * Checks whether the kernel handler has the Symfony Dependency Injection
+     * Checks whether the kernel handler has the Symfony service container
      * container or not.
      *
      * @return bool
      */
-    public function hasSymfonyDIContainer()
+    public function hasServiceContainer()
     {
-        return $this->kernelHandler->hasSymfonyDIContainer();
+        return $this->kernelHandler->hasServiceContainer();
     }
 
     /**
-     * Returns the Symfony Dependency Injection if it has been injected,
+     * Returns the Symfony service container if it has been injected,
      * otherwise returns null.
      *
      * @return \Symfony\Component\DependencyInjection\ContainerInterface|null
      */
-    public function getSymfonyDIContainer()
+    public function getServiceContainer()
     {
-        return $this->kernelHandler->getSymfonyDIContainer();
+        return $this->kernelHandler->getServiceContainer();
     }
 
     /**
