@@ -80,7 +80,7 @@
 
 /* TOP MENU (TABS) */
 
-#header-topmenu ul li a, #header-topmenu ul li span.disabled, ul.tabs li a, ul.tabs li span.disabled
+#header-topmenu ul li a, #header-topmenu ul li span.disabled
 {
     color: #B7B7B7;
     text-shadow: -1px -1px 1px black;
@@ -88,9 +88,12 @@
     text-decoration: underline;
 }
 
+
 ul.tabs li a, ul.tabs li span.disabled
 {
-    border-color: #ccc;
+    color: #005b7f;
+    font-size: 1.2em;
+    text-decoration: underline;
 }
 
 #header-topmenu ul li.selected a, #header-topmenu ul li.selected span.disabled, ul.tabs li.selected a
@@ -98,6 +101,7 @@ ul.tabs li a, ul.tabs li span.disabled
     background: #444 none;
     border-radius: 5px;
     color:#f5f3dd;
+    text-decoration: none;
 }
 
 .tab-content
@@ -160,9 +164,15 @@ a.show-hide-tabs:hover
     border-color: #999;
 }
 
+.tab-block
+{
+    padding-top: 0.8em;
+    border-top: 1px dashed #ddd;
+}
+
 .tab-block .button-left 
 {
-    margin: 3px 7px 0 0;
+    margin: 5px 5px 0 0;
 }
 
 #controlbar-top .box-bc
@@ -189,7 +199,13 @@ a.show-hide-tabs:hover
 
 .box-header
 {
-    border-bottom: 1px solid #ccc;
+    border-top: 1px dashed #ccc;
+    font-size:1.5em;
+}
+
+.box-header h4
+{
+    font-size:1.3em;
 }
 
 #controlbar-top .box-bc .box-ml
@@ -197,19 +213,6 @@ a.show-hide-tabs:hover
     border-top-width: 0;
 }
 
-.context-information, .subitems-controlbar
-{
-    background-color: #F5F5F5;
-    border: 1px solid #ccc;
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
-    background-clip: padding-box;
-}
-
-.context-information
-{
-    border-top: 0 none;
-}
 
 .subitems-controlbar
 {

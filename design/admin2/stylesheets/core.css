@@ -24,7 +24,7 @@ body /* These becomes the initial settings for most other elements */
 h1, h2, h3, h4, h5, h6 /* Set general styles for all headings; some may be overridden later */
 {
     font-family: 'Calibri',Helvetica, Arial, sans-serif;
-    margin: 1em 0 0.2em 0;
+    margin: 0.5em 0 0.2em 0;
     padding: 0;
 }
 
@@ -487,7 +487,6 @@ div.block div.right /* Floats elements to the right in a block */
 div.button-left
 {
     float: left;
-    margin-right: 1em;
 }
 
 div.button-right

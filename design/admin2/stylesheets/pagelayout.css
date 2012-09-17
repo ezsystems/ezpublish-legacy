@@ -114,7 +114,6 @@ a.image-text:hover > span
 ul.tabs
 {
     width: 100%;
-    margin: 0.5em 0 0 0;
 }
 
 #header-topmenu ul li, ul.tabs li
@@ -125,7 +124,7 @@ ul.tabs
     margin: 0;
 }
 
-#header-topmenu ul li a, #header-topmenu ul li span.disabled, ul.tabs li a, ul.tabs li span.disabled
+#header-topmenu ul li a, #header-topmenu ul li span.disabled
 {
     display: block;
     font-weight: bold;
@@ -138,20 +137,25 @@ ul.tabs
 
 ul.tabs li a, ul.tabs li span.disabled
 {
+    display: block;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 2px 15px;
+    margin:2px 0 5px 1px;
+
     min-height: 16px;
-    min-width: 80px;
 }
 
-#header-topmenu ul li.selected a, #header-topmenu ul li a:hover, #header-topmenu ul li.active a,
-ul.tabs li.selected a, ul.tabs li a:hover
+#header-topmenu ul li.selected a, #header-topmenu ul li a:hover, #header-topmenu ul li.active a
 {
     color:#ffe9bd;
 }
 
 ul.tabs li.selected a, ul.tabs li a:hover
 {
-    min-height: 18px;
+    color:#2121fe;
 }
+
 
 #header-topmenu ul li.selected a, #header-topmenu ul li.selected span.disabled, ul.tabs li.selected a
 {
@@ -276,7 +280,7 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
 #rightmenu-design
 {
     margin: 20px 0 0 20px;
-    padding: 0 1em 0 1.5em;
+    padding: 0.8em 1em 0 1em;
     box-shadow: 0 0 5px black;
     background:white;
     min-height: 100%;
@@ -310,7 +314,7 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
 #leftmenu-design
 {
     margin: 20px 20px 0 0;
-    padding: 0 0 0 0.8em;
+    padding: 0.8em 0.8em 0 0.8em;
     box-shadow: 0 0 5px black;
     background:white;
     min-height: 100%;
@@ -318,7 +322,7 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
 }
 
 #leftmenu-design ul { margin-left: 1.5em; color: #aaa; }
-#leftmenu-design div.box-header { margin-top: 0.5em; }
+div.box-header { margin-top: 0.5em; }
 
 
 
@@ -642,11 +646,6 @@ div.popupmenu hr
     padding-bottom: 1em;
 }
 
-.box-header
-{
-    padding: 0.1em 0em 0.1em 0em; /* 0.1 needed to avoid gaps in border */
-}
-
 .box-bc .box-ml, .box-ml
 {
     padding: 0em;
@@ -671,7 +670,7 @@ div.popupmenu hr
 
 h1.context-title
 {
-    font-size: 1.4em;
+    font-size: 1.3em;
 }
 
 h2.context-title
@@ -682,7 +681,7 @@ h2.context-title
 div.context-information, span.classattribute-description
 {
     color: #333;
-    font-size: 0.8em;
+    font-size: 1em;
     padding: 0 0.5em 0 0.5em;
     margin-bottom: 1.5em;
 }
@@ -702,12 +701,14 @@ span.classattribute-description:hover, p.class-description:hover, div.context-in
 div.context-information p.left
 {
     width: 48.5%;
+    margin-top:0;
     float: left;
 }
 
 div.context-information p.right
 {
     width: 48.5%;
+    margin-top:0;
     float: right;
     text-align: right;
 }
