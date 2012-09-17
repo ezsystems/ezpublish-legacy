@@ -1208,10 +1208,6 @@ class ezpKernelWeb implements ezpKernelHandler
      */
     public function getServiceContainer()
     {
-        if ( $this->hasSymfonyDIContainer() )
-        {
-            return $this->settings['symfony-dic'];
-        }
-        return null;
+        return $this->settings['service-container'];
     }
 }
