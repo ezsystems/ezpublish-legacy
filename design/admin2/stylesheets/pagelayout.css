@@ -683,7 +683,7 @@ div.context-information, span.classattribute-description
     color: #333;
     font-size: 1em;
     padding: 0 0.5em 0 0.5em;
-    margin-bottom: 1.5em;
+    margin-bottom: 1em;
 }
 
 span.classattribute-description, p.class-description
@@ -728,6 +728,9 @@ div.content-navigation div.context-information p.left
 
 div.content-navigation div.context-information p.right
 {
+    position:absolute;
+    right: 1.5em;
+    top: 3em;
     width: 30%;
 }
 

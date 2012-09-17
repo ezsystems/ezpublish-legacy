@@ -107,7 +107,7 @@ ul.tabs li a, ul.tabs li span.disabled
 .tab-content
 {
     border: 1px solid #ccc;
-    background-color: #fff;
+    background-color: #f5f5f5;
 }
 
 .tabs-content.disabled
