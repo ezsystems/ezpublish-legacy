@@ -110,6 +110,12 @@ class ezpKernelWeb implements ezpKernelHandler
      */
     public function __construct( array $settings = array() )
     {
+        if ( isset( $settings['injected-settings'] ) )
+        {
+            // those settings override anything else in local .ini files and
+            // their overrides
+            eZINI::injectSettings( $settings['injected-settings'] );
+        }
         $this->settings = $settings + array(
             'siteaccess'            => null,
             'use-exceptions'        => false,
