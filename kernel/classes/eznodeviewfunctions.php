@@ -386,8 +386,19 @@ class eZNodeviewfunctions
                       'cache_file' => $cacheFile );
     }
 
-
-    static function contentViewRetrieve( $file, $mtime, $args )
+    /**
+     * Retrieve content view data
+     *
+     * @see contentViewGenerate()
+     *
+     * @param string $file
+     * @param int $mtime File modification time
+     * @param array $args Hash containing arguments, the used ones are:
+     *  - ini
+     *
+     * @return \eZClusterFileFailure
+     */
+    static public function contentViewRetrieve( $file, $mtime, $args )
     {
         extract( $args );
 
@@ -453,6 +464,10 @@ class eZNodeviewfunctions
 
             if ( !$cacheExpired )
             {
+                if ( !isset( $Result['content_info'] ) )
+                {
+                    return $Result;
+                }
                 $keyArray = array( array( 'object', $Result['content_info']['object_id'] ),
                                    array( 'node', $Result['content_info']['node_id'] ),
                                    array( 'parent_node', $Result['content_info']['parent_node_id'] ),
@@ -494,78 +509,99 @@ class eZNodeviewfunctions
         return new eZClusterFileFailure( 1, $expiryReason );
     }
 
-    static function contentViewGenerate( $file, $args )
+    /**
+     * Generate convent view data
+     *
+     * @see contentViewRetrieve()
+     *
+     * @param string|false $file File in which the result will be cached
+     * @param array $args Hash containing arguments, the used ones are:
+     *  - NodeID
+     *  - Module
+     *  - tpl
+     *  - LanguageCode
+     *  - ViewMode
+     *  - Offset
+     *  - viewParameters
+     *  - collectionAttributes
+     *  - validation
+     *  - noCache (optional)
+     *
+     * @return array
+     */
+    static public function contentViewGenerate( $file, $args )
     {
         extract( $args );
         $node = eZContentObjectTreeNode::fetch( $NodeID );
+        $error = null;
+        $storeError = true;
+        $errorParameters = array();
 
         if ( !is_object( $node ) )
         {
             if ( !eZDB::instance()->isConnected())
             {
-                return  array( 'content' => $Module->handleError( eZError::KERNEL_NO_DB_CONNECTION, 'kernel' ),
-                               'store'   => false );
-
+                $error = eZError::KERNEL_NO_DB_CONNECTION;
+                $storeError = false;
             }
             else
             {
-                return  array( 'content' => $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' ),
-                               'store'   => false );
+                $error = eZError::KERNEL_NOT_AVAILABLE;
             }
         }
 
         $object = $node->attribute( 'object' );
 
-        if ( !is_object( $object ) )
-        {
-            return  array( 'content' => $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' ),
-                           'store'   => false );
-        }
-
         if ( !$object instanceof eZContentObject )
         {
-            return  array( 'content' => $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' ),
-                           'store'   => false );
-        }
-        if ( $node === null )
-        {
-            return  array( 'content' => $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' ),
-                           'store'   => false );
-        }
-
-        if ( $object === null )
-        {
-            return  array( 'content' => $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' ),
-                           'store'   => false );
+            $error = eZError::KERNEL_NOT_AVAILABLE;
         }
 
         if ( $node->attribute( 'is_invisible' ) && !eZContentObjectTreeNode::showInvisibleNodes() )
         {
-            return array( 'content' => $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' ),
-                          'store'   => false );
+            $error = eZError::KERNEL_ACCESS_DENIED;
         }
 
         if ( !$node->canRead() )
         {
-            return array( 'content' => $Module->handleError( eZError::KERNEL_ACCESS_DENIED,
-                                                             'kernel',
-                                                             array( 'AccessList' => $node->checkAccess( 'read', false, false, true ) ) ),
-                          'store'   => false );
+            $error = eZError::KERNEL_ACCESS_DENIED;
+            $errorParameters = array( 'AccessList' => $node->checkAccess( 'read', false, false, true ) );
         }
 
-        $Result = eZNodeviewfunctions::generateNodeViewData( $tpl, $node, $object,
-                                                              $LanguageCode, $ViewMode, $Offset,
-                                                              $viewParameters, $collectionAttributes,
-                                                              $validation );
+        if ( $error !== null )
+        {
+            return array(
+                'content' =>
+                    $content = $Module->handleError(
+                        $error,
+                        'kernel',
+                        $errorParameters
+                    ),
+                'store' => $storeError,
+                'binarydata' => serialize( $content ),
+            );
+        }
+
+        $result = self::generateNodeViewData(
+            $tpl,
+            $node,
+            $object,
+            $LanguageCode,
+            $ViewMode,
+            $Offset,
+            $viewParameters,
+            $collectionAttributes,
+            $validation
+        );
 
         // 'store' depends on noCache: if $noCache is set, this means that retrieve
         // returned it, and the noCache fake cache file is already stored
         // and should not be stored again
-        $retval = array( 'content' => $Result,
+        $retval = array( 'content' => $result,
                          'scope'   => 'viewcache',
                          'store'   => !( isset( $noCache ) and $noCache ) );
         if ( $file !== false && $retval['store'] )
-            $retval['binarydata'] = serialize( $Result );
+            $retval['binarydata'] = serialize( $result );
         return $retval;
     }
 }
