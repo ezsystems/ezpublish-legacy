@@ -257,6 +257,11 @@ p.versions a
     font-size: 1em;
 }
 
+p.versions a:hover
+{
+    font-weight: bold;
+}
+
 p.table-preferences
 {
     border-bottom-left-radius: 3px;

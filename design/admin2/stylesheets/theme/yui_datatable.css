@@ -451,23 +451,18 @@ a.yui-dt-page {
 }
 
 .yui-pg-first,.yui-pg-previous,.yui-pg-next,.yui-pg-last {
-    background-color: #f0f0f0;
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
-    background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    border-color: -moz-use-text-color #CCCCCC #CCCCCC;
-    border: 1px solid #CCCCCC;
-    text-decoration: none;
-    border-radius: 2px;
-    overflow: visible;
-    width: auto;
+
+    background: #fff;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#eee));
+    background-image: -moz-linear-gradient(top,  #fff,  #eee);
+    background-image: -ms-linear-gradient(top,  #fff,  #eee);
+    background-image: -o-linear-gradient(top,  #fff,  #eee);
+    background-image: linear-gradient(top,  #fff,  #eee);
+    border: 1px solid #cfd1d3;
+    border-radius: 3px;    
+    width: 31px;
+    height:26px;
     cursor: pointer;
-    font-weight: normal;
-    text-align: center;
-    margin: 0px 2px;
-    padding: 0.1em 0.4em;
 }
 
 .yui-pg-first:hover,.yui-pg-previous:hover,.yui-pg-next:hover,.yui-pg-last:hover,.yui-pg-page:hover{
