@@ -14,6 +14,10 @@ Change of behavior
 
   This method now expects the first parameter to be the user id instead of the an email address.
 
+- eZINI::group() and eZINI::groups() do not return the array by reference anymore
+
+  Those methods used to returns the array by reference to an internal array in the eZINI instance.
+
 Deprecated
 ----------
 
