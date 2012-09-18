@@ -139,29 +139,24 @@ a.show-hide-control:hover
 
 a.show-hide-tabs
 {
+    border:none;
     padding: 0 5px;
-    border-radius: 3px;
-    background-color: #f0f0f0;
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
-    background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    border: 1px solid #CCCCCC;
+    background-color: red;
     cursor: pointer;
-    font-weight: normal;
-    font-size: 1em;
     overflow: visible;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: text-bottom;
     width: auto;
-    background-clip: padding-box;
+    text-decoration: none;
+    background: url('../../images/3/arrow_small_down.png') 1px 5px no-repeat ;
+}
+
+a#maincontent-hide
+{
+    background-image: url('../../images/3/arrow_small_up.png')
 }
 
 a.show-hide-tabs:hover
 {
-    border-color: #999;
+/*    border-color: white;*/
 }
 
 .tab-block
@@ -173,6 +168,21 @@ a.show-hide-tabs:hover
 .tab-block .button-left 
 {
     margin: 5px 5px 0 0;
+}
+
+.controlbar form .button-left
+{
+    margin-top:5px;
+}
+
+.controlbar form .button-left .block select
+{
+    height:25px;
+}
+
+.controlbar form .button-left .block input.button, .controlbar form .button-left .block input.button-disabled
+{
+    margin-top: -3px; 
 }
 
 #controlbar-top .box-bc
@@ -237,21 +247,14 @@ a.show-hide-tabs:hover
 /* BUTTONS */
 p.versions
 {
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
-    border: 1px solid #CCCCCC;
-    border-top: 0 none;
-    background-color: #f0f0f0;
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
-    background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    background-clip: padding-box;
+    padding-top:10px;
+    padding-right:20px;
+    background: url('../../images/3/versions.png') right 12px no-repeat ;
 }
 p.versions a
 {
-    text-decoration: none;
+    color:#005b7f;
+    font-size: 1em;
 }
 
 p.table-preferences
@@ -283,16 +286,19 @@ p.table-preferences :last-child
 
 input.button, input.defaultbutton, input.button-disabled
 {
-    color: #fff;
-    background: #516e9e;
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#5d7db1), to(#445c89));
-    background-image: -moz-linear-gradient(top,  #5d7db1,  #445c89);
-    background-image: -ms-linear-gradient(top,  #5d7db1,  #445c89);
-    background-image: -o-linear-gradient(top,  #5d7db1,  #445c89);
-    background-image: linear-gradient(top,  #5d7db1,  #445c89);
+    color: #44484d;
+    background: #fff;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#eee));
+    background-image: -moz-linear-gradient(top,  #fff,  #eee);
+    background-image: -ms-linear-gradient(top,  #fff,  #eee);
+    background-image: -o-linear-gradient(top,  #fff,  #eee);
+    background-image: linear-gradient(top,  #fff,  #eee);
     border: 1px solid #cfd1d3;
     border-radius: 3px;
     background-clip: padding-box;
+    text-shadow: 0 1px #fff;
+    font-size: 1.2em;
+    margin-left:5px;
 }
 
 input.defaultbutton, input.button-disabled, input.button[disabled="disabled"]
@@ -312,13 +318,11 @@ input.defaultbutton
 
 input.button-disabled, input.button[disabled="disabled"]
 {
-    color: #888;
-    background: #f3f3f3;
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fefefe), to(#dfdfdf));
-    background-image: -moz-linear-gradient(top,  #fefefe,  #dfdfdf);
-    background-image: -ms-linear-gradient(top,  #fefefe,  #dfdfdf);
-    background-image: -o-linear-gradient(top,  #fefefe,  #dfdfdf);
-    background-image: linear-gradient(top,  #fefefe,  #dfdfdf);
+    color: #b7b7b7;
+    background: #fff;
+
+    background-image: url('../../images/3/diagonal_pattern.png');
+    
 }
 
 

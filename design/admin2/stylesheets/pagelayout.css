@@ -132,7 +132,7 @@ ul.tabs
     padding: 2px 15px 2px 15px;
     margin-left: 1px;
     margin-top: 2px;
-    min-height: 20px;
+    min-height: 18px;
 }
 
 ul.tabs li a, ul.tabs li span.disabled
@@ -817,7 +817,12 @@ input.button, input.defaultbutton, input.button-disabled
 {
     width: auto;
     overflow: visible;
-    padding: 0.26em 0.7em;
+    padding: 0.1em 0.5em;
+}
+
+input.button:hover
+{
+    font-weight: bold;
 }
 
 /* SEARCH */

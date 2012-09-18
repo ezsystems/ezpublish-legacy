@@ -274,7 +274,7 @@ label
 input, select
 {
     font-family: 'Calibri',Arial, Helvetica, sans-serif; /* Needs to be set for some browsers, to prevent other default font from being used */
-    font-size: 0.9em;
+    font-size: 1.2em;
 }
 
 input.box, input.halfbox
