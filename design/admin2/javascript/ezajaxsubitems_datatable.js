@@ -190,10 +190,10 @@ var sortableSubitems = function () {
 
         var paginator = new YAHOO.widget.Paginator({ rowsPerPage:confObj.rowsPrPage,
                                                      containers: ["bpg"],
-                                                     firstPageLinkLabel : "",
-                                                     lastPageLinkLabel : "",
-                                                     previousPageLinkLabel : labelsObj.ACTION_BUTTONS.previous_page,
-                                                     nextPageLinkLabel : labelsObj.ACTION_BUTTONS.next_page,
+                                                     firstPageLinkLabel : "<span data-icon='&#xe065;'></span>",
+                                                     lastPageLinkLabel : "<span data-icon='&#xe068;'></span>",
+                                                     previousPageLinkLabel : "<span data-icon='&#xe01e;'></span>",
+                                                     nextPageLinkLabel : "<span data-icon='&#xe01c;'></span>",
                                                      template : '<div class="yui-pg-backward"> {FirstPageLink} {PreviousPageLink} </div>' +
                                                                 '{PageLinks}' +
                                                                 '<div class="yui-pg-forward"> {NextPageLink} {LastPageLink} </div>'

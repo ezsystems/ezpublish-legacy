@@ -445,13 +445,13 @@ a.yui-dt-page {
 
 .yui-pg-first,.yui-pg-previous,.yui-pg-next,.yui-pg-last,.yui-pg-current,.yui-pg-pages,.yui-pg-page {
     display: inline-block;
-    font-family: Verdana,Arial,Helvetica,sans-serif;
-    font-size: 0.8em;
+    font-family: "Calibri",Verdana,Arial,Helvetica,sans-serif;
+    font-size: 1em;
     zoom: 1;
 }
 
 .yui-pg-first,.yui-pg-previous,.yui-pg-next,.yui-pg-last {
-
+    color: black;
     background: #fff;
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#eee));
     background-image: -moz-linear-gradient(top,  #fff,  #eee);
@@ -461,13 +461,27 @@ a.yui-dt-page {
     border: 1px solid #cfd1d3;
     border-radius: 3px;    
     width: 31px;
-    height:26px;
+    height:25px;
     cursor: pointer;
+    text-decoration: none;
+    font-size: 2em;
+    line-height: 24px;
+    margin-left:5px;
 }
 
-.yui-pg-first:hover,.yui-pg-previous:hover,.yui-pg-next:hover,.yui-pg-last:hover,.yui-pg-page:hover{
-    text-decoration: none;
+span.yui-pg-first,span.yui-pg-previous,span.yui-pg-next,span.yui-pg-last
+{
+    color: #A6A6A6;
+    background-image: url('../../images/3/diagonal_pattern.png');
+}
+
+a.yui-pg-first:hover,a.yui-pg-previous:hover,a.yui-pg-next:hover,a.yui-pg-last:hover,a.yui-pg-page:hover{
     border: 1px solid #999;
+}
+
+.yui-pg-previous span, .yui-pg-next span
+{
+    margin: 0 5px 0 2px;
 }
 
 
