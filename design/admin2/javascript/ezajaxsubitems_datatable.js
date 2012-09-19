@@ -34,7 +34,7 @@ var sortableSubitems = function () {
         }
 
         var customCheckbox = function(cell, record, column, data) {
-            cell.innerHTML = '<input type="checkbox" name="DeleteIDArray[]" value="' + record.getData('node_id') + '" />';
+            cell.innerHTML = '<input type="checkbox" class="ezsubitems_delete_checkbox" name="DeleteIDArray[]" value="' + record.getData('node_id') + '" />';
         }
 
         var customMenu = function(cell, rec, column, data) {
@@ -403,7 +403,7 @@ var sortableSubitems = function () {
 
 
         var moreActBtnAction = function( type, args, item ) {
-            if ($('form[name=children] input[name=DeleteIDArray[]]:checked').length == 0)
+            if ($('form[name=children] input.ezsubitems_delete_checkbox:checked').length == 0)
                 return;
 
             if (item.value == 0) {
@@ -430,8 +430,8 @@ var sortableSubitems = function () {
                                                    container:"action-controls" });
 
         //  enable 'more actions' when rows are checked
-        moreActBtn.getMenu().subscribe("beforeShow", function () {
-            if ($('form[name=children] input[name=DeleteIDArray[]]:checked').length == 0) {
+        moreActBtn.getMenu().subscribe("beforeShow", function (){
+            if ($('form[name=children] input.ezsubitems_delete_checkbox:checked').length == 0) {
                 this.clearContent();
                 this.addItems(noMoreActBtnActions);
                 this.render();
