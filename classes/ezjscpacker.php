@@ -268,6 +268,7 @@ class ezjscPacker
             $data['cache_name'] = $data['index_dir'];
         }
 
+        $originalFileArray = $fileArray;
         while ( !empty( $fileArray ) )
         {
             $file = array_shift( $fileArray );
@@ -299,9 +300,10 @@ class ezjscPacker
                    $data['www'][] = $server->call( $fileArray );
                 }
                 // Always generate functions with file_time=-1 (they modify $fileArray )
+                // or they return content that should not be part of the cache file
                 else if ( $fileTime === -1 )
                 {
-                    $data['locale'][] = $server->call( $fileArray );
+                    $data['http'][] = $server->call( $fileArray );
                 }
                 else
                 {
@@ -380,9 +382,15 @@ class ezjscPacker
             // if packing is disabled, return the valid paths / content we have generated
             return array_merge( $data['http'], $data['www'] );
         }
-        else if ( !$data['locale'] )
+        else if ( empty($data['locale']) && !empty($data['http']) )
         {
-            eZDebug::writeWarning( "Could not find any files: " . var_export( $fileArray, true ), __METHOD__ );
+            self::$log[] = $data;
+            // return if there are only external scripts and no local files to cache
+            return array_merge( $data['http'], $data['www'] );
+        }
+        else if ( empty($data['locale']) )
+        {
+            eZDebug::writeWarning( "Could not find any files: " . var_export( $originalFileArray, true ), __METHOD__ );
             return array();
         }
 
@@ -592,7 +600,9 @@ class ezjscPacker
             if ( !isset( $data['http'][$i+1] ) && $data['cache_path'] !== '' )
                 break;
 
-            if ( $stats !== '' )
+            if ( !$file )
+                continue;
+            else if ( $stats !== '' )
                 $stats .= '<br />';
 
             $stats .= "<span class='debuginfo' title='Served directly from external source(not part of cache file)'>{$file}</span>";
