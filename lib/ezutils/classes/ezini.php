@@ -1779,7 +1779,7 @@ class eZINI
      */
     function getNamedArray()
     {
-        if ( isset( self::$injectedSettings[$this->Filename] ) )
+        if ( isset( self::$injectedSettings[$this->FileName] ) )
         {
             return array_merge(
                 $this->BlockValues,
