@@ -114,7 +114,7 @@ class ezjscPacker
     static function buildStylesheetTag( $cssFiles, $media = 'all', $type = 'text/css', $rel = 'stylesheet', $packLevel = 3, $indexDirInCacheHash = true )
     {
         $ret = '';
-        $packedFiles = ezjscPacker::packFiles( $cssFiles, 'stylesheets/', '_' . $media . '.css', $packLevel, $indexDirInCacheHash );
+        $packedFiles = ezjscPacker::packFiles( $cssFiles, 'stylesheets/', '.css', $packLevel, $indexDirInCacheHash, '_' . $media );
         $http = eZHTTPTool::instance();
         $useFullUrl = ( isset( $http->UseFullUrl ) && $http->UseFullUrl );
         $media = $media && $media !== 'all' ? ' media="' . $media . '"' : '';
@@ -212,9 +212,11 @@ class ezjscPacker
      * @param string $fileExtension File extension name (for use on cache file)
      * @param int $packLevel Level of packing, values: 0-3
      * @param bool $indexDirInCacheHash To add index path in cache hash or not
+     * @param string $filePostName Extra file name part, example "_screen" in case of medai use for css
+     *
      * @return array List of css files
      */
-    static function packFiles( $fileArray, $subPath = '', $fileExtension = '.js', $packLevel = 2, $indexDirInCacheHash = false )
+    static function packFiles( $fileArray, $subPath = '', $fileExtension = '.js', $packLevel = 2, $indexDirInCacheHash = false, $filePostName = '' )
     {
         if ( !$fileArray )
         {
@@ -237,6 +239,7 @@ class ezjscPacker
             'cache_path'     => '',
             'last_modified'  => 0,
             'file_extension' => $fileExtension,
+            'file_post_name' => $filePostName,
             'pack_level'     => $packLevel,
             'sub_path'       => $subPath,
             'cache_dir'      => self::getCacheDir(),
@@ -397,7 +400,8 @@ class ezjscPacker
         // See if cahe file exists and if it has expired (only if time is not part of name)
         if ( $ezjscINI->variable( 'Packer', 'AppendLastModifiedTime' ) === 'enabled' )
         {
-            $data['cache_hash'] = md5( $data['cache_name'] . $data['pack_level'] ). '_' . $data['last_modified'] . $data['file_extension'];
+            $data['cache_hash'] = md5( $data['cache_name'] . $data['pack_level'] ) . '_' . $data['last_modified'] .
+                $data['file_post_name'] . $data['file_extension'];
             $data['cache_path'] = $data['cache_dir'] . $subPath . $data['cache_hash'];
             $clusterFileHandler = eZClusterFileHandler::instance( $data['cache_path'] );
             if ( $clusterFileHandler->fileExists( $data['cache_path'] ) )
@@ -409,7 +413,8 @@ class ezjscPacker
         }
         else
         {
-            $data['cache_hash'] = md5( $data['cache_name'] . $data['pack_level'] ). $data['file_extension'];
+            $data['cache_hash'] = md5( $data['cache_name'] . $data['pack_level'] ) .
+               $data['file_post_name'] . $data['file_extension'];
             $data['cache_path'] = $data['cache_dir'] . $subPath . $data['cache_hash'];
             $clusterFileHandler = eZClusterFileHandler::instance( $data['cache_path'] );
             // Check last modified time and return path to cache file if valid
@@ -423,7 +428,7 @@ class ezjscPacker
 
         // Merge file content and create new cache file
         $content = '';
-        $isCSS = strpos( $data['file_extension'], '.css' ) !== false;
+        $isCSS = $data['file_extension'] === '.css';
         foreach( $data['locale'] as $i => $file )
         {
             // if this is a js / css generator, call to get content
