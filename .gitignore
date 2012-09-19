@@ -1,4 +1,7 @@
-extension/
+extension/*
+!extension/ezoe/
+!extension/ezjscore/
+!extension/ezformtoken/
 settings/override/
 lib/ezc/
 var/autoload/

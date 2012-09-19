@@ -1,0 +1,29 @@
+
+
+KNOWN ISSUES:
+* Update translations
+
+
+KNOWN ENHANCEMENT REQUESTS:
+
+
+
+
+KNOWN ENHANCEMENT REQUESTS Postponed to future version:
+* Support for target attribute on embed tags, anchor_name on headers
+
+* Preview table style classes as used on web page (webin) using css 3.0
+
+* Custimizable formats selector w/ classes (needs support for classes in TinyMCE FormatBlock call)
+  See: issue #008781
+
+* Improve support for flash and video (look into using the media pugin in TinyMCE)
+
+* Improve Browse view (also used in search and bookmarks), look at MCFileMangager & MCImageManager
+ plugins demo for tinymce (on their website) for alternative approach (especially for browsing media)
+ 
+* Support custom attributes in embed tag preview (in dialog)
+
+* Better support for using editor outside of content/edit, where you don't know the object_id yet.
+
+* Provide property++ buttons on embed images, objects and custom block tags like wp does on images.

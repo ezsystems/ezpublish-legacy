@@ -59,4 +59,11 @@ $FunctionList['database_release'] = array( 'name' => 'database_release',
                                                                    'method' => 'fetchDatabaseRelease' ),
                                            'parameter_type' => 'standard',
                                            'parameters' => array( ) );
+
+$FunctionList['edition'] = array( 'name' => 'edition',
+                                  'operation_types' => array( 'read' ),
+                                  'call_method' => array( 'class' => 'eZSetupFunctionCollection',
+                                                          'method' => 'fetchEdition' ),
+                                  'parameter_type' => 'standard',
+                                  'parameters' => array( ) );
 ?>
