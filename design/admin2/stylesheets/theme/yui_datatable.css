@@ -107,10 +107,8 @@ th.yui-dt-hidden, tr.yui-dt-odd .yui-dt-hidden, tr.yui-dt-even .yui-dt-hidden {
     border-collapse: separate; *
     border-collapse: collapse;
     border-spacing: 0;
-    border: 1px solid #CCCCCC;
     width: 100%;
     clear: both;
-    border-radius: 2px;
 }
 
 .yui-dt thead {
@@ -127,26 +125,19 @@ th.yui-dt-hidden, tr.yui-dt-odd .yui-dt-hidden, tr.yui-dt-even .yui-dt-hidden {
     text-align: center;
 }
 
-.yui-dt th {
-    background-color: #f0f0f0;
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
-    background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
-}
-
 .yui-dt th,.yui-dt th a {
     text-decoration: none;
     text-align: left;
     vertical-align: bottom;
+    color:#eee;
 }
 
 .yui-dt th {
+    background-color: #6f6e6b;
     margin: 0;
     padding: 0;
     border: none;
-    border-left: 1px dotted #CBCBCB;
+    border-left: 1px solid #a9a9a9;
 }
 
 .yui-dt tr.yui-dt-first td {
@@ -172,7 +163,6 @@ th.yui-dt-hidden, tr.yui-dt-odd .yui-dt-hidden, tr.yui-dt-even .yui-dt-hidden {
     margin: 0;
     padding: 0;
     border: none;
-    border-bottom: 1px dotted #CBCBCB;
     text-align: left;
     vertical-align:middle;
 }
@@ -226,12 +216,7 @@ th.yui-dt-hidden, tr.yui-dt-odd .yui-dt-hidden, tr.yui-dt-even .yui-dt-hidden {
 }
 
 th.yui-dt-asc,th.yui-dt-desc {
-    background-color: #f0f0f0;
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
-    background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-color: #6f6e6b;
 }
 
 th.yui-dt-sortable .yui-dt-label {
@@ -239,11 +224,11 @@ th.yui-dt-sortable .yui-dt-label {
 }
 
 th.yui-dt-asc .yui-dt-liner {
-    background:url(../../images/icons-sprite.png) no-repeat right -267px;
+    background:url(../../images/3/arrow_smallest_white_up.png) no-repeat 90% 50%;
 }
 
 th.yui-dt-desc .yui-dt-liner {
-    background:url(../../images/icons-sprite.png) no-repeat right -247px;
+    background:url(../../images/3/arrow_smallest_white_down.png) no-repeat 90% 50%;
 }
 
 tbody .yui-dt-editable {
@@ -308,7 +293,7 @@ tr.yui-dt-even {
 }
 
 tr.yui-dt-odd {
-    background-color: #F5F5F5;
+    background-color: #f3f3f3;
 }
 
 .yui-dt tbody tr:hover {
@@ -479,11 +464,15 @@ a.yui-pg-first:hover,a.yui-pg-previous:hover,a.yui-pg-next:hover,a.yui-pg-last:h
     border: 1px solid #999;
 }
 
-.yui-pg-previous span, .yui-pg-next span
+.yui-pg-previous span 
 {
     margin: 0 5px 0 2px;
 }
 
+.yui-pg-next span
+{
+    margin: 0 5px 0 4px;
+}
 
 .yui-pg-pages {
     padding: 0;
