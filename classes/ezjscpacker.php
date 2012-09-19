@@ -385,12 +385,6 @@ class ezjscPacker
             eZDebug::writeWarning( "Could not find any files: " . var_export( $fileArray, true ), __METHOD__ );
             return array();
         }
-        else if ( !isset( $data['locale'][1] ) && $data['locale'][0] && !$data['locale'][0] instanceof ezjscServerRouter )
-        {
-            self::$log[] = $data;
-            // return if there is only one file in array to save us from caching it
-            return array_merge( $data['http'], $data['www'] );
-        }
 
         // See if cahe file exists and if it has expired (only if time is not part of name)
         if ( $ezjscINI->variable( 'Packer', 'AppendLastModifiedTime' ) === 'enabled' )
