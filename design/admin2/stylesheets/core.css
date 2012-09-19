@@ -133,15 +133,20 @@ table
     padding: 0;
 }
 
+tr
+{
+    background: white;
+}
+
 th, td
 {
     padding: 0;
+    font-size: 1.2em;
 }
 
 table.list, table.special /* Standard class usable for most regular tables presenting lists, with additional related styles */
 {
     width: 100%;
-    border: 1px solid #ccc;
     empty-cells: show;
 }
 
@@ -154,14 +159,12 @@ table.list th, table.list td, table.special th, table.special td
 
 table.list th, table.special th
 {
-    border-top-width: 2px;
     font-weight: normal;
     white-space: nowrap;
 }
 
 table.list td
 {
-    border-top: 1px solid #f0f0f0;
     font-weight: normal;
 }
 

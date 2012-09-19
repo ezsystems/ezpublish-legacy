@@ -140,6 +140,11 @@ th.yui-dt-hidden, tr.yui-dt-odd .yui-dt-hidden, tr.yui-dt-even .yui-dt-hidden {
     border-left: 1px solid #a9a9a9;
 }
 
+.yui-dt th.yui-dt-sortable
+{
+    background: #44484d;
+}
+
 .yui-dt tr.yui-dt-first td {
     border-top: 1px solid #CCCCCC;
 }
@@ -229,6 +234,11 @@ th.yui-dt-asc .yui-dt-liner {
 
 th.yui-dt-desc .yui-dt-liner {
     background:url(../../images/3/arrow_smallest_white_down.png) no-repeat 90% 50%;
+}
+
+th.yui-dt-asc, th.yui-dt-desc
+{
+    background: black !important;
 }
 
 tbody .yui-dt-editable {

@@ -323,7 +323,7 @@ input.defaultbutton
 
 input.button-disabled, input.button[disabled="disabled"]
 {
-    color: #b7b7b7;
+    color: #999;
     background: #fff;
 
     background-image: url('../../images/3/diagonal_pattern.png');
@@ -429,14 +429,10 @@ div.alphabetical
 /* MISC */
 table.list th, table.special th
 {
-    background-color: #f0f0f0;
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
-    background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-color: #6F6E6B;
     padding-top:0;
     padding-bottom:0;
+    border-left: 1px solid #a9a9a9;
 }
 
 #leftmenu-design ul

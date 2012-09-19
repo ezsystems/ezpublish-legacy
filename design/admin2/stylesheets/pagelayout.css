@@ -245,24 +245,17 @@ div.tabs-content.disabled div.tab-content
 
 #leftmenu
 {
-    position: absolute;
     float:left;
     width: 15em;
     background: url('../images/3/textile.png');
     box-shadow: 0 0 5px black;
     border-radius: 0 2px 0 0;
     min-height:100%;
-    top:0;
-    bottom:0;/* strech div to full height of relative box */
 }
 
 #rightmenu
 { 
-
-    position:absolute;
-    right:0;
-    top:0;
-    bottom:0;/* strech div to full height of relative box */
+    float: right;
     overflow: hidden;
     width: 181px;
     border-radius: 2px 0 0 0;
