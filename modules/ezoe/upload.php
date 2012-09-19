@@ -121,6 +121,14 @@ if ( $http->hasPostVariable( 'uploadButton' ) || $forcedUpload )
         $newObjectName = $newObject->attribute( 'name' );
         $newObjectNodeID = (int) $newObject->attribute( 'main_node_id' ); // this will be empty if object is stopped by approve workflow
 
+        // set parent section for new object
+        if ( isset( $newObjectNodeID ) && $newObjectNodeID )
+        {
+            $newObjectParentNodeObject = $newObject->attribute( 'main_node' )->attribute( 'parent' )->attribute( 'object' );
+            $newObject->setAttribute( 'section_id', $newObjectParentNodeObject->attribute( 'section_id' ) );
+            $newObject->store();
+        }
+
         // edit attributes
         $newVersionObject  = $newObject->attribute( 'current' );
         $newObjectDataMap  = $newVersionObject->attribute('data_map');
