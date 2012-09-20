@@ -1630,7 +1630,8 @@ class eZContentObject extends eZPersistentObject
                 $dataType->fixRelatedObjectItem( $attr, $objectID, $mode );
                 $objectIDList[] = $attr->attribute( 'contentobject_id' );
             }
-            eZContentCacheManager::clearObjectViewCacheArray( $objectIDList );
+            if ( eZINI::instance()->variable( 'ContentSettings', 'ViewCaching' ) === 'enabled' )
+                eZContentCacheManager::clearObjectViewCacheArray( $objectIDList );
         }
     }
 
