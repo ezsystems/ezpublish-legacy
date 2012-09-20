@@ -20,6 +20,7 @@ class eZPublishSDK
     const VERSION_STATE = 'alpha1';
     const VERSION_DEVELOPMENT = true;
     const VERSION_ALIAS = '5.0';
+    const EDITION = 'eZ Publish Community Project';
 
     /*!
       \return the SDK version as a string

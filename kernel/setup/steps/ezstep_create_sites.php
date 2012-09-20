@@ -1015,8 +1015,8 @@ language_locale='eng-GB'";
         // Enable OE and ODF extensions by default
         $extensionsToEnable = array();
         // Included in "fat" install, needs to override $extraCommonSettings extensions
-        $extensionsPrepended = array( /*@EZP_BUILD_EXTENSION_ACTIVATE@*/ 'ezjscore' );
-        foreach ( array( 'ezie', 'ezoe', 'ezodf', 'ezprestapiprovider' ) as $extension )
+        $extensionsPrepended = array( 'ezjscore', /*@EZP_BUILD_EXTENSION_ACTIVATE@*/ 'ezoe', 'ezformtoken' );
+        foreach ( array( 'ezie', 'ezodf', 'ezprestapiprovider' ) as $extension )
         {
             if ( file_exists( "extension/$extension" ) )
             {

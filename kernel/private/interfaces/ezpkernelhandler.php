@@ -46,4 +46,20 @@ interface ezpKernelHandler
      * @return void
      */
     public function reInitialize();
+
+    /**
+     * Checks whether the kernel handler has the Symfony service container
+     * container or not.
+     *
+     * @return bool
+     */
+    public function hasServiceContainer();
+
+    /**
+     * Returns the Symfony service container if it has been injected,
+     * otherwise returns null.
+     *
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface|null
+     */
+    public function getServiceContainer();
 }

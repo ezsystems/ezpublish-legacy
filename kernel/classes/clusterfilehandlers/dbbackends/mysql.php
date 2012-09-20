@@ -594,8 +594,9 @@ class eZDBFileHandlerMysqlBackend
      *
      * @param string $filePath File path
      * @param int $startOffset Starting offset
-     * @param false|int $length Length to transmit, false means everything
-     * @param false|string $fname The function name that started the query
+     * @param bool|int $length Length to transmit, false means everything
+     * @param bool|string $fname The function name that started the query
+     * @return bool False if the file or its meta data couldn't be retrieved
      */
     function _passThrough( $filePath, $startOffset = 0, $length = false, $fname = false )
     {
@@ -1698,7 +1699,8 @@ class eZDBFileHandlerMysqlBackend
         {
             case 'viewcache':
             {
-                $nameTrunk = substr( $filePath, 0, strrpos( $filePath, '-' ) + 1 );
+                $fileName = basename( $filePath );
+                $nameTrunk = dirname( $filePath ) . '/' . substr( $fileName, 0, strpos( $fileName, '-' ) + 1 );
             } break;
 
             case 'template-block':

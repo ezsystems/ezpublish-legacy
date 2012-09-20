@@ -110,10 +110,17 @@ class ezpKernelWeb implements ezpKernelHandler
      */
     public function __construct( array $settings = array() )
     {
+        if ( isset( $settings['injected-settings'] ) )
+        {
+            // those settings override anything else in local .ini files and
+            // their overrides
+            eZINI::injectSettings( $settings['injected-settings'] );
+        }
         $this->settings = $settings + array(
             'siteaccess'            => null,
             'use-exceptions'        => false,
-            'session'               => null
+            'session'               => null,
+            'service-container'     => null,
         );
         unset( $settings );
 
@@ -1186,5 +1193,27 @@ class ezpKernelWeb implements ezpKernelHandler
     public function reInitialize()
     {
         $this->isInitialized = false;
+    }
+
+    /**
+     * Checks whether the kernel handler has the Symfony service container
+     * container or not.
+     *
+     * @return bool
+     */
+    public function hasServiceContainer()
+    {
+        return isset( $this->settings['service-container'] );
+    }
+
+    /**
+     * Returns the Symfony service container if it has been injected,
+     * otherwise returns null.
+     *
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface|null
+     */
+    public function getServiceContainer()
+    {
+        return $this->settings['service-container'];
     }
 }

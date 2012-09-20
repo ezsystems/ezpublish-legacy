@@ -2,7 +2,7 @@
 {*?template charset=latin1?*}
 
 <div align="center">
-  <h1>{"Welcome to eZ Publish %1"|i18n("design/standard/setup/init",,array($#version.alias))}</h1>
+  <h1>{"Welcome to %edition %version"|i18n("design/standard/setup/init",,hash( '%edition', fetch( 'setup', 'edition' ), '%version', $#version.alias ))}</h1>
 </div>
 
 {if eq( $optional_test.result, 2 )}

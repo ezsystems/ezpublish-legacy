@@ -67,6 +67,10 @@
     {/section}
 
     <input type="hidden" name="NodeID" value="{$node.node_id}" />
+    
+    {if and( $can_remove, ezini( 'RemoveSettings', 'HideRemoveConfirmation', 'content.ini' )|eq('true') )}
+        <input type="hidden" name="HideRemoveConfirmation" value="true" />
+    {/if}
 
     {* Display the actual list of nodes. *}
     {include uri='design:children_detailed.tpl'}
