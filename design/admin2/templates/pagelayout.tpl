@@ -160,11 +160,14 @@
 
 
 {cache-block keys=array( $access_type ) ignore_content_expiry}
+
+{*
 <div id="footer" class="float-break">
 <div id="footer-design">
     {include uri='design:page_copyright.tpl'}
 </div>
 </div>
+*}
 
 <div class="break"></div>
 

@@ -9,6 +9,9 @@
 #page
 {
     background: url('../../images/3/dark_back.png');
+    overflow: hidden;
+    margin: 0 auto -1px;
+    min-height: 100%;
 }
 
 /* LOGIN PAGE (center it) */
@@ -429,6 +432,7 @@ div.alphabetical
 /* MISC */
 table.list th, table.special th
 {
+    color: #EEE;
     background-color: #6F6E6B;
     padding-top:0;
     padding-bottom:0;
