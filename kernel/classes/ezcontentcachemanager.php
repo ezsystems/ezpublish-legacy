@@ -750,7 +750,7 @@ class eZContentCacheManager
         // If the all view cache is expired once in this request, don't clear cache again. This is to improve performance in node list calculation, see self::nodeList().
         if( self::$isAllViewCacheExpired )
         {
-            eZDebug::writeDebug( "Can't clear view cache since all view cache is expired once." , __METHOD__ );
+            eZDebug::writeNotice( "Can't clear view cache since all view cache is already expired in this request." , __METHOD__ );
             return false;
         }
         else
