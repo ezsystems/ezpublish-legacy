@@ -7,9 +7,15 @@
  */
 
 $http = eZHTTPTool::instance();
-$Offset = $Params['Offset'];
+$Offset = (int)$Params['Offset'];
+$ObjectID = (int)$ObjectID;
+$EditVersion = (int)$EditVersion;
+$LanguageCode = htmlspecialchars( $LanguageCode );
 $viewParameters = array( 'offset' => $Offset );
 
+// Will be sent from the content/edit page and should be kept
+// incase the user decides to continue editing.
+$FromLanguage = htmlspecialchars( $Params['FromLanguage'] );
 
 if ( $http->hasPostVariable( 'BackButton' )  )
 {
@@ -24,10 +30,6 @@ if ( $http->hasPostVariable( 'BackButton' )  )
         $userRedirectURI = $http->sessionVariable( "LastAccessesURI" );
     return $Module->redirectTo( $userRedirectURI );
 }
-
-// Will be sent from the content/edit page and should be kept
-// incase the user decides to continue editing.
-$FromLanguage = $Params['FromLanguage'];
 
 $contentObject = eZContentObject::fetch( $ObjectID );
 if ( $contentObject === null )
@@ -204,7 +206,7 @@ $node->setContentObject( $contentObject );
 
 if ( $Params['SiteAccess'] )
 {
-    $siteAccess = $Params['SiteAccess'];
+    $siteAccess = htmlspecialchars( $Params['SiteAccess'] );
 }
 else
 {
