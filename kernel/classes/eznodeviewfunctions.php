@@ -533,52 +533,34 @@ class eZNodeviewfunctions
     {
         extract( $args );
         $node = eZContentObjectTreeNode::fetch( $NodeID );
-        $error = null;
-        $storeError = true;
-        $errorParameters = array();
-
-        if ( !is_object( $node ) )
+        if ( !$node instanceof eZContentObjectTreeNode )
         {
             if ( !eZDB::instance()->isConnected())
             {
-                $error = eZError::KERNEL_NO_DB_CONNECTION;
-                $storeError = false;
+                return self::contentViewGenerateError( $Module, eZError::KERNEL_NO_DB_CONNECTION, false );
             }
-            else
-            {
-                $error = eZError::KERNEL_NOT_AVAILABLE;
-            }
+
+            return self::contentViewGenerateError( $Module, eZError::KERNEL_NOT_AVAILABLE );
         }
 
         $object = $node->attribute( 'object' );
-
         if ( !$object instanceof eZContentObject )
         {
-            $error = eZError::KERNEL_NOT_AVAILABLE;
+            return self::contentViewGenerateError( $Module, eZError::KERNEL_NOT_AVAILABLE );
         }
 
         if ( $node->attribute( 'is_invisible' ) && !eZContentObjectTreeNode::showInvisibleNodes() )
         {
-            $error = eZError::KERNEL_ACCESS_DENIED;
+            return self::contentViewGenerateError( $Module, eZError::KERNEL_ACCESS_DENIED );
         }
 
         if ( !$node->canRead() )
         {
-            $error = eZError::KERNEL_ACCESS_DENIED;
-            $errorParameters = array( 'AccessList' => $node->checkAccess( 'read', false, false, true ) );
-        }
-
-        if ( $error !== null )
-        {
-            return array(
-                'content' =>
-                    $content = $Module->handleError(
-                        $error,
-                        'kernel',
-                        $errorParameters
-                    ),
-                'store' => $storeError,
-                'binarydata' => serialize( $content ),
+            return self::contentViewGenerateError(
+                $Module,
+                eZError::KERNEL_ACCESS_DENIED,
+                true,
+                array( 'AccessList' => $node->checkAccess( 'read', false, false, true ) )
             );
         }
 
@@ -603,6 +585,28 @@ class eZNodeviewfunctions
         if ( $file !== false && $retval['store'] )
             $retval['binarydata'] = serialize( $result );
         return $retval;
+    }
+
+    /**
+     * @param eZModule $Module
+     * @param int $error
+     * @param bool $store
+     * @param array $errorParameters
+     *
+     * @return array
+     */
+    static protected function contentViewGenerateError( eZModule $Module, $error, $store = true, array $errorParameters = array() )
+    {
+        return array(
+            'content' =>
+                $content = $Module->handleError(
+                    $error,
+                    'kernel',
+                    $errorParameters
+                ),
+            'store' => $store,
+            'binarydata' => serialize( $content ),
+        );
     }
 }
 
