@@ -549,23 +549,25 @@ class eZNodeviewfunctions
                 $error = eZError::KERNEL_NOT_AVAILABLE;
             }
         }
-
-        $object = $node->attribute( 'object' );
-
-        if ( !$object instanceof eZContentObject )
+        else
         {
-            $error = eZError::KERNEL_NOT_AVAILABLE;
-        }
+            $object = $node->attribute( 'object' );
 
-        if ( $node->attribute( 'is_invisible' ) && !eZContentObjectTreeNode::showInvisibleNodes() )
-        {
-            $error = eZError::KERNEL_ACCESS_DENIED;
-        }
+            if ( !$object instanceof eZContentObject )
+            {
+                $error = eZError::KERNEL_NOT_AVAILABLE;
+            }
 
-        if ( !$node->canRead() )
-        {
-            $error = eZError::KERNEL_ACCESS_DENIED;
-            $errorParameters = array( 'AccessList' => $node->checkAccess( 'read', false, false, true ) );
+            if ( $node->attribute( 'is_invisible' ) && !eZContentObjectTreeNode::showInvisibleNodes() )
+            {
+                $error = eZError::KERNEL_ACCESS_DENIED;
+            }
+
+            if ( !$node->canRead() )
+            {
+                $error = eZError::KERNEL_ACCESS_DENIED;
+                $errorParameters = array( 'AccessList' => $node->checkAccess( 'read', false, false, true ) );
+            }
         }
 
         if ( $error !== null )
