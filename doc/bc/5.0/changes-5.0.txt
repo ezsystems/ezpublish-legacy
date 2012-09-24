@@ -128,6 +128,10 @@ Removed features
 
   Contained old ezi18n() and ezx18n() functions deprecated in 4.3.
 
+- kernel/common/template.php
+
+  Contained old deprecated templateInit() function.
+
 Deprecated
 ----------
 
