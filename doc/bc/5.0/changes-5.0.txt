@@ -33,6 +33,10 @@ Removed features
 
   Unused and deprecated method.
 
+- eZContentObject::revertTo()
+
+  Unused and deprecated method.
+
 Deprecated
 ----------
 

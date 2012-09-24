@@ -1558,44 +1558,6 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-      Reverts the object to the given version. All versions newer then the given version will
-      be deleted.
-      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
-    function revertTo( $version )
-    {
-        $db = eZDB::instance();
-        $db->begin();
-
-        // Delete stored attribute from other tables
-        $contentobjectAttributes = $this->allContentObjectAttributes( $this->ID );
-        foreach (  $contentobjectAttributes as $contentobjectAttribute )
-        {
-            $contentobjectAttributeVersion = $contentobjectAttribute->attribute("version");
-            if( $contentobjectAttributeVersion > $version )
-            {
-                $classAttribute = $contentobjectAttribute->contentClassAttribute();
-                $dataType = $classAttribute->dataType();
-                $dataType->deleteStoredObjectAttribute( $contentobjectAttribute, $contentobjectAttributeVersion );
-            }
-        }
-        $version =(int) $version;
-        $db->query( "DELETE FROM ezcontentobject_attribute
-                          WHERE contentobject_id='$this->ID' AND version>'$version'" );
-
-        $db->query( "DELETE FROM ezcontentobject_version
-                          WHERE contentobject_id='$this->ID' AND version>'$version'" );
-
-        $db->query( "DELETE FROM eznode_assignment
-                          WHERE contentobject_id='$this->ID' AND contentobject_version > '$version'" );
-
-        $this->CurrentVersion = $version;
-        $this->store();
-        $db->commit();
-    }
-
-    /*!
      Copies the given version of the object and creates a new current version.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
