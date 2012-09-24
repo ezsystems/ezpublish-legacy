@@ -51,6 +51,14 @@ Removed features
   kernel_include(), kernel_common(), datatype_class(), extension_path(),
   ext_include(), ext_activate(), ext_class(), lib_include(), lib_class() and kernel_class().
 
+- access.php
+
+  All functions in this file have been deprecated previously and are now removed:
+  accessType(), changeAccess(), accessMatchRegexp(), accessMatchText(), accessDebugEnabled(),
+  accessExtraDebugEnabled() and accessAllowed()
+
+  The EZ_ACCESS_* constants of those files are removed as well.
+
 Deprecated
 ----------
 
