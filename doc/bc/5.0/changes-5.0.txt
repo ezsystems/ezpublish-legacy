@@ -37,6 +37,10 @@ Removed features
 
   Unused and deprecated method.
 
+- eZContentObject::expireTemplateBlockCacheIfNeeded()
+
+  Unused and deprecated method.
+
 Deprecated
 ----------
 

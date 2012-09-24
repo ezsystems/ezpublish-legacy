@@ -5406,17 +5406,6 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-    \static
-     Callse eZContentObject::xpireTemplateBlockCache() unless template caching is disabled.
-     */
-    static function expireTemplateBlockCacheIfNeeded()
-    {
-        $ini = eZINI::instance();
-        if ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' )
-            eZContentObject::expireTemplateBlockCache();
-    }
-
-    /*!
      Sets all complex viewmode content cache files to be expired.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
