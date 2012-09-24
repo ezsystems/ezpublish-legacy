@@ -25,6 +25,10 @@ Removed features
 
   Those classes were used prior the switch to ezc Webdav component.
 
+- Class eZOverride
+
+  Unused class since SVN revision 20881 and deprecated in 4.5.
+
 Deprecated
 ----------
 

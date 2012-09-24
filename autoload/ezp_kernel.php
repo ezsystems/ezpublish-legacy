@@ -296,7 +296,6 @@ return array(
       'eZOrderItem'                                        => 'kernel/classes/ezorderitem.php',
       'eZOrderStatus'                                      => 'kernel/classes/ezorderstatus.php',
       'eZOrderStatusHistory'                               => 'kernel/classes/ezorderstatushistory.php',
-      'eZOverride'                                         => 'kernel/common/ezoverride.php',
       'eZPDF'                                              => 'lib/ezpdf/classes/ezpdf.php',
       'eZPDFExport'                                        => 'kernel/classes/ezpdfexport.php',
       'eZPDFParser'                                        => 'kernel/classes/datatypes/ezbinaryfile/plugins/ezpdfparser.php',
