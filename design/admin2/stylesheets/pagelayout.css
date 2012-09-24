@@ -35,8 +35,8 @@ div.widthcontrol-grippy
 
 a.show-hide-control
 {
-    position:absolute;
-    margin: 200px 0 0 0;
+    position:fixed;
+    top:50%;
     height: 33px;
     width: 15px;
     background: url('../images/3/panel_handler_closed_right.png') left top no-repeat scroll;
