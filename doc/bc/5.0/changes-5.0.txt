@@ -59,6 +59,12 @@ Removed features
 
   The EZ_ACCESS_* constants of those files are removed as well.
 
+- pre_check.php
+
+  All functions in this file have been deprecated previously and are now removed:
+  eZCheckValidity(), eZCheckList(), eZCheckUser(), eZCheckOrder(), eZHandlePreChecks() and
+  precheckAllowed().
+
 Deprecated
 ----------
 

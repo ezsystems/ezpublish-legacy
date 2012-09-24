@@ -4,7 +4,6 @@ DIR_MODE=777
 FILE_MODE=666
 
 if [ ! -f "index.php" -a \
-     ! -f "pre_check.php" -a \
      ! -d "bin" -a \
      ! -d "lib" -a \
      ! -d "kernel" ] ; then
