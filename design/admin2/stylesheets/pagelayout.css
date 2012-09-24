@@ -226,21 +226,22 @@ div.tabs-content.disabled div.tab-content
 
 #maincontent
 {
-    margin: 0 0 0 15em;
+    margin: 0 0 20px 15em;
     min-height: 200px;
     background: url('../images/3/textile.png');
     box-shadow: 0 0 5px black;
-    border-radius: 2px 2px 0 0;
+    border-radius: 2px;
     position: relative;
     padding-top:1px;
+    padding-bottom:1px;
 }
 
 #maincontent-design
 {
-    margin: 20px 20px 0 20px;
+    margin: 20px 20px 20px 20px;
     box-shadow: 0 0 5px black;
     background:white;
-    padding: 0.8em 1.5em 0 1.5em;
+    padding: 0.8em 1.5em 10px 1.5em;
     position:relative;
 }
 
@@ -250,9 +251,12 @@ div.tabs-content.disabled div.tab-content
     width: 15em;
     background: url('../images/3/textile.png');
     box-shadow: 0 0 5px black;
-    border-radius: 0 2px 0 0;
+    border-radius: 0 2px 2px 0;
     min-height:100%;
     padding-top:1px;
+    padding-bottom:1px;
+    min-height: 400px;
+    margin-bottom: 20px;
 }
 
 #rightmenu
@@ -260,10 +264,13 @@ div.tabs-content.disabled div.tab-content
     float: right;
     overflow: hidden;
     width: 181px;
-    border-radius: 2px 0 0 0;
+    border-radius: 2px 0 0 2px;
     box-shadow: 0 0 5px black;
     background: url('../images/3/textile.png');
     padding-top:1px;
+    padding-bottom: 1px;
+    min-height: 400px;
+    margin-bottom: 20px;
 }
 
 div#columns.hide-rightmenu div#rightmenu  { display: none; }
@@ -275,11 +282,10 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
 
 #rightmenu-design
 {
-    margin: 20px 0 0 20px;
-    padding: 0.8em 1em 0 1em;
+    margin: 20px 0 20px 20px;
+    padding: 0.8em 1em 10px 1em;
     box-shadow: 0 0 5px black;
     background:white;
-    min-height: 100%;
     position: relative;    
 }
 
@@ -309,12 +315,13 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
 
 #leftmenu-design
 {
-    margin: 20px 20px 0 0;
-    padding: 0.8em 0.8em 0 0.8em;
+    margin: 20px 20px 20px 0;
+    padding: 0.8em 0.8em 0.8em 0.8em;
     box-shadow: 0 0 5px black;
     background:white;
     min-height: 100%;
     position: relative;
+    min-height: 350px;
 }
 
 #leftmenu-design ul { margin-left: 1.5em; color: #aaa; }
@@ -994,4 +1001,10 @@ input.button:hover
 .scroll-to-top:hover
 {
 color:#fff;
+}
+
+#content-sub-items-list
+{
+    width:100%;
+    overflow-x:scroll;
 }

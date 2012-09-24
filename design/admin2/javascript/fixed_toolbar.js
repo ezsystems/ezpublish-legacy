@@ -1,15 +1,18 @@
+function updatePanelsHeight() {
+    YUI(YUI3_config).use('node', function (Y) {
+        // Stretching all interface panels to max height
+        var columnsHeight = parseInt(Y.one('#page').getComputedStyle('height'),10) - parseInt(Y.one('#header').getComputedStyle('height'),10);
+            
+            Y.all('#columns, #leftmenu, #rightmenu, #maincontent').setStyle('height', columnsHeight);
+            Y.all('#leftmenu-design, #rightmenu-design, #maincontent-design').setStyle('height', columnsHeight - 60);
+    });
+}
+
 YUI(YUI3_config).use('event', 'node-screen', 'node-style', 'selector-css3', 'transition', function (Y) {
 
     Y.on('domready', function() {
         
-        // ****
-        // Stretching all interface panels to max height and pushing down footer (even if it's invisible) 
-        var columnsHeight = parseInt(Y.one('#page').getComputedStyle('height'),10) - parseInt(Y.one('#header').getComputedStyle('height'),10);
-            
-            Y.all('#columns, #leftmenu, #rightmenu, #maincontent').setStyle('height', columnsHeight);
-            Y.all('#leftmenu-design, #rightmenu-design, #maincontent-design').setStyle('height', columnsHeight - 20);
-        // End of stretching
-        // ****
+        updatePanelsHeight();
         
         var toolbar, formY, form, fixed = true, firstInput,
             toolbarHeight, toTop = Y.one('.scroll-to-top');
@@ -52,14 +55,11 @@ YUI(YUI3_config).use('event', 'node-screen', 'node-style', 'selector-css3', 'tra
     });
     
     Y.on('windowresize',function() {
-        // ****
-        // Stretching all interface panels to max height and pushing down footer (even if it's invisible) 
-        var columnsHeight = parseInt(Y.one('#page').getComputedStyle('height'),10) - parseInt(Y.one('#header').getComputedStyle('height'),10);
-            
-            Y.all('#columns, #leftmenu, #rightmenu, #maincontent').setStyle('height', columnsHeight);
-            Y.all('#leftmenu-design, #rightmenu-design, #maincontent-design').setStyle('height', columnsHeight - 20);
-        // End of stretching
-        // ****
+        
+        updatePanelsHeight();
+        
     });
+
+    
 });
 
