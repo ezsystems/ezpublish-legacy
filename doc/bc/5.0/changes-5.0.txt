@@ -45,6 +45,12 @@ Removed features
 
   Unused and deprecated method.
 
+- kernel/common/ezincludefunctions.php
+
+  All functions in this file have been deprecated previously and are now removed:
+  kernel_include(), kernel_common(), datatype_class(), extension_path(),
+  ext_include(), ext_activate(), ext_class(), lib_include(), lib_class() and kernel_class().
+
 Deprecated
 ----------
 
