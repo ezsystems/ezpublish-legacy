@@ -24,9 +24,9 @@ label.inline { padding-right: 0.1em; }
 
 div.widthcontrol-grippy
 {
-    position:absolute;
-    top:200px;
-    left:-15px;
+    position:fixed;
+    top:50%;
+    display: none;
     height: 33px;
     width: 15px;
     background: url('../images/3/panel_handler_opened_left.png') left top no-repeat scroll;
