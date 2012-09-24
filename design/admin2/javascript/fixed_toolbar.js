@@ -1,7 +1,10 @@
-function updatePanelsHeight() {
+function updatePanelsHeight() { // Stretching all interface panels to max height
     YUI(YUI3_config).use('node', function (Y) {
-        // Stretching all interface panels to max height
-        var columnsHeight = parseInt(Y.one('#page').getComputedStyle('height'),10) - parseInt(Y.one('#header').getComputedStyle('height'),10);
+        // at first "releasing" fixed height
+        Y.all('#columns, #leftmenu, #rightmenu, #maincontent,#leftmenu-design, #rightmenu-design, #maincontent-design').setStyle('height', 'auto');
+        
+        // setting height
+        var columnsHeight = parseInt(Y.one('#page').getComputedStyle('height'),10) - parseInt(Y.one('#header').getComputedStyle('height'),10) - 25;
             
             Y.all('#columns, #leftmenu, #rightmenu, #maincontent').setStyle('height', columnsHeight);
             Y.all('#leftmenu-design, #rightmenu-design, #maincontent-design').setStyle('height', columnsHeight - 60);

@@ -286,7 +286,8 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
     padding: 0.8em 1em 10px 1em;
     box-shadow: 0 0 5px black;
     background:white;
-    position: relative;    
+    position: relative;  
+    
 }
 
 /* This is not supported by IE6, some DOM cleanup is needed to avoid it */
