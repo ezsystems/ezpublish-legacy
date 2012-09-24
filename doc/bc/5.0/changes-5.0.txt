@@ -18,6 +18,13 @@ Change of behavior
 
   Those methods used to returns the array by reference to an internal array in the eZINI instance.
 
+Removed features
+----------------
+
+- Classes eZWebDAVServer, eZWebDAVFileServer, eZWebDAVContentServer and eZWebDAVContentServerWrapper
+
+  Those classes were used prior the switch to ezc Webdav component.
+
 Deprecated
 ----------
 
