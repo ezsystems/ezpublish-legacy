@@ -41,6 +41,10 @@ Removed features
 
   Unused and deprecated method.
 
+- eZContentObjectTrashNode::fetchListForObject()
+
+  Unused and deprecated method.
+
 Deprecated
 ----------
 
