@@ -29,6 +29,10 @@ Removed features
 
   Unused class since SVN revision 20881 and deprecated in 4.5.
 
+- eZContentObject::removeReverseRelations()
+
+  Unused and deprecated method.
+
 Deprecated
 ----------
 

@@ -1635,44 +1635,6 @@ class eZContentObject extends eZPersistentObject
         }
     }
 
-    function removeReverseRelations( $objectID )
-    {
-        $db = eZDB::instance();
-        $objectID = (int) $objectID;
-        // Get list of objects referring to this one.
-        $relatingObjects = $this->reverseRelatedObjectList( false, 0, false, array( 'AllRelations' => true ) );
-
-        // Finds all the attributes that store relations to the given object.
-
-        $result = $db->arrayQuery( "SELECT attr.*
-                                    FROM ezcontentobject_link link,
-                                         ezcontentobject_attribute attr
-                                    WHERE link.from_contentobject_id=attr.contentobject_id AND
-                                          link.from_contentobject_version=attr.version AND
-                                          link.contentclassattribute_id=attr.contentclassattribute_id AND
-                                          link.to_contentobject_id=$objectID" );
-
-        // Remove references from XML.
-        if ( count( $result ) > 0 )
-        {
-            foreach( $result as $row )
-            {
-                $attr = new eZContentObjectAttribute( $row );
-                $dataType = $attr->dataType();
-                $dataType->removeRelatedObjectItem( $attr, $objectID );
-                // @todo Check whether we can use eZContentCacheManager::clearObjectViewCacheArray() instead
-                eZContentCacheManager::clearObjectViewCache( $attr->attribute( 'contentobject_id' ), true );
-                $attr->storeData();
-            }
-        }
-
-        // Remove references in ezcontentobject_link.
-        foreach ( $relatingObjects as $fromObject )
-        {
-            $fromObject->removeContentObjectRelation( $this->attribute( 'id' ), false, false );
-        }
-    }
-
     /*!
       If nodeID is not given, this function will remove object from database. All versions and translations of this object will be lost.
       Otherwise, it will check node assignment and only delete the object from this node if it was assigned to other nodes as well.
