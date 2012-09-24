@@ -69,6 +69,10 @@ Removed features
 
   The imageInit() function in this file has been deprecated previously and is now removed.
 
+- Section [CountrySettings] of content.ini file
+
+  The content of this section was deprecated in favor of country.ini.
+
 Deprecated
 ----------
 
