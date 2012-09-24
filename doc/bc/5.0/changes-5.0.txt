@@ -73,6 +73,10 @@ Removed features
 
   The content of this section was deprecated in favor of country.ini.
 
+- kernel/error/errors.php
+
+  Contained old deprecated contants.
+
 Deprecated
 ----------
 
