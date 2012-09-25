@@ -76,15 +76,26 @@ a.image-text:hover > span
     display: block;
 }
 
+#header-logo #text-push
+{
+    display: block;
+    height:40px;
+    width:90px;
+}
+
 #header-logo a, #header-logo span
 {
     float: left;
-    width: 64px;
+    width: 90px;
     height: 64px;
     display: block;
     text-align: left;
     text-decoration: none;
-    background: transparent url('../images/3/ez_logo_white.png') no-repeat 11px 11px scroll;
+    color:#f4f4f4;
+    font-size:11px;
+    background: transparent url('../images/3/ez_logo_white_full.png') no-repeat 11px 11px;
+    padding-left:11px;
+    padding-right:11px;
 }
 
 #header-search
