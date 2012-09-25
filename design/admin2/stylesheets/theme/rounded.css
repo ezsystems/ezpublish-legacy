@@ -419,13 +419,17 @@ div.alphabetical
 
 #footer
 {
-    border-top: 1px solid #999;
-    background: #fefefe;
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f5f5f5), to(#fefefe));
-    background-image: -moz-linear-gradient(top,  #f5f5f5,  #fefefe);
-    background-image: -ms-linear-gradient(top,  #f5f5f5,  #fefefe);
-    background-image: -o-linear-gradient(top,  #f5f5f5,  #fefefe);
-    background-image: linear-gradient(top,  #f5f5f5,  #fefefe);
+    
+}
+
+#footer-design
+{
+    color:#aaa;
+}
+
+#footer-design a
+{
+    color:#6dcff6;
 }
 
 

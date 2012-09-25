@@ -4,10 +4,15 @@ function updatePanelsHeight() { // Stretching all interface panels to max height
         Y.all('#columns, #leftmenu, #rightmenu, #maincontent,#leftmenu-design, #rightmenu-design, #maincontent-design').setStyle('height', 'auto');
         
         // setting height
-        var columnsHeight = parseInt(Y.one('#page').getComputedStyle('height'),10) - parseInt(Y.one('#header').getComputedStyle('height'),10) - 25;
+        var columnsHeight = parseInt(Y.one('#page').getComputedStyle('height'),10) - parseInt(Y.one('#header').getComputedStyle('height'),10) - 25,
+            footer = Y.one('#footer');
             
-            Y.all('#columns, #leftmenu, #rightmenu, #maincontent').setStyle('height', columnsHeight);
-            Y.all('#leftmenu-design, #rightmenu-design, #maincontent-design').setStyle('height', columnsHeight - 60);
+        if (footer){
+            columnsHeight -= parseInt(footer.getComputedStyle('height'),10);
+        }
+            
+        Y.all('#columns, #leftmenu, #rightmenu, #maincontent').setStyle('height', columnsHeight);
+        Y.all('#leftmenu-design, #rightmenu-design, #maincontent-design').setStyle('height', columnsHeight - 60);
     });
 }
 
