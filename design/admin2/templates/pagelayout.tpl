@@ -18,6 +18,7 @@
 {/if}
 
 {* Temporary - for debugging purposes :*}
+{set-block scope=global variable=community_project_block}1{/set-block}
 {def $community_project=true()}
 
 {if and( $ui_context_edit|not, or( $collapse_right_menu, $admin_left_size ))}

@@ -340,20 +340,18 @@ input.button-disabled, input.button[disabled="disabled"]
     color: #E24602;
 }
 
-.content-dashboard .box-header
-{
-     background: transparent url('../../images/2/welcome.png') no-repeat scroll right bottom;
-     padding: 35px 0 0;
-}
-
-.content-dashboard .box-header h1
-{
-     visibility: hidden;
-}
-
 .dashboard-item
 {
-    margin-top: 2em;
+    margin: 1.5em 0 0.5em 0;
+    overflow-x: auto;
+    border-top: 1px dashed #ccc;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 1em;
+}
+
+.dashboard-item h2
+{
+    font-size:1.8em;
 }
 
 
