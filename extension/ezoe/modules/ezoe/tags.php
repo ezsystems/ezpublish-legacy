@@ -142,6 +142,7 @@ else
     }
 }
 
+include_once( 'kernel/common/template.php' );
 $tpl = eZTemplate::factory();
 $tpl->setVariable( 'object', $object );
 $tpl->setVariable( 'object_id', $objectID );
