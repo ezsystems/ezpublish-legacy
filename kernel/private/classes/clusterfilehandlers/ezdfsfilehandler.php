@@ -941,25 +941,6 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
     }
 
     /**
-     * Deletes multiple files by regex
-     * @param string $dir An optional directory that will be prepended to the
-     *                    regex. Set to false to disable
-     * @param string $fileRegex The regular expression applied to files
-     * @return void
-     * @todo -ceZDFSFileHandler write unit test
-     */
-    public function fileDeleteByRegex( $dir, $fileRegex )
-    {
-        $dir = eZDBFileHandler::cleanPath( $dir );
-        $fileRegex = eZDBFileHandler::cleanPath( $fileRegex );
-        eZDebug::writeWarning( "Using eZDBFileHandler::fileDeleteByRegex is not recommended since it has some severe performance issues" );
-        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileDeleteByRegex( '$dir', '$fileRegex' )" );
-
-        $regex = '^' . ( $dir ? $dir . '/' : '' ) . $fileRegex;
-        self::$dbbackend->_deleteByRegex( $regex );
-    }
-
-    /**
      * Deletes a list of files by wildcard
      *
      * @param string $wildcard The wildcard used to look for files. Can contain

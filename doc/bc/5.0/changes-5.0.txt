@@ -103,6 +103,10 @@ Removed features
 
   Those were deprecated since 4.4.
 
+- Method 'fileDeleteByRegex()' in various file handlers
+
+  Those were deprecated previously because of severe performance issues.
+
 Deprecated
 ----------
 

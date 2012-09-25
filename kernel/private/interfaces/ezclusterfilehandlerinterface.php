@@ -235,11 +235,6 @@ interface eZClusterFileHandlerInterface
     public function name();
 
     /**
-     * @note has severe performance issues
-     */
-    public function fileDeleteByRegex( $dir, $fileRegex );
-
-    /**
      * @note has some severe performance issues
      */
     public function fileDeleteByWildcard( $wildcard );

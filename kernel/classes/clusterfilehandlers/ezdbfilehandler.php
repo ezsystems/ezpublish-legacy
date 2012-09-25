@@ -896,23 +896,6 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
     /**
      * \public
      * \static
-     * \sa fileDeleteByWildcard()
-     */
-    function fileDeleteByRegex( $dir, $fileRegex )
-    {
-        $dir = eZDBFileHandler::cleanPath( $dir );
-        $fileRegex = eZDBFileHandler::cleanPath( $fileRegex );
-        eZDebug::writeWarning( "Using eZDBFileHandler::fileDeleteByRegex is not recommended since it has some severe performance issues" );
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDeleteByRegex( '$dir', '$fileRegex' )" );
-
-        $regex = '^' . ( $dir ? $dir . '/' : '' ) . $fileRegex;
-        self::$dbbackend->_deleteByRegex( $regex );
-    }
-
-    /**
-     * \public
-     * \static
-     * \sa fileDeleteByRegex()
      */
     function fileDeleteByWildcard( $wildcard )
     {

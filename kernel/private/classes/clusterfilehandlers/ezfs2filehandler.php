@@ -549,7 +549,6 @@ class eZFS2FileHandler extends eZFSFileHandler
      *
      * \public
      * \static
-     * \sa fileDeleteByRegex()
      */
     function fileDeleteByDirList( $dirList, $commonPath, $commonSuffix )
     {
