@@ -2,7 +2,14 @@
 {if $ui_context_edit}
     <span title="eZ Publish {fetch( 'setup', 'version' )}">&nbsp;</span>
 {else}
-    <a href="{ezini('SiteSettings', 'DefaultPage', 'site.ini')|ezurl( 'no' )}" title="eZ Publish {fetch( 'setup', 'version' )}"><div id="text-push"></div>eZ Publish System</a>
+    <a href="{ezini('SiteSettings', 'DefaultPage', 'site.ini')|ezurl( 'no' )}" title="eZ Publish {fetch( 'setup', 'version' )}">
+        <div id="text-push"></div>
+        {if $community_project}
+            Community Project
+        {else}
+            eZ Publish System
+        {/if}
+    </a>
 {/if}
 </div>
 
