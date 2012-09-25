@@ -115,6 +115,10 @@ Removed features
 
   mysql connectivity is replaced by mysqli one. Use eZDFSFileHandlerMySQLiBackend instead.
 
+- eZDBFileHandlerMysqlBackend
+
+  mysql connectivity is replaced by mysqli one. Use eZDBFileHandlerMysqliBackend instead.
+
 Deprecated
 ----------
 

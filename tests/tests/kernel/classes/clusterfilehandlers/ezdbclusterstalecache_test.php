@@ -44,9 +44,6 @@ class eZDBClusterStaleCacheTest extends eZClusterStaleCacheTest
         switch ( $dsn['phptype'] )
         {
             case 'mysql':
-                $backend = 'eZDBFileHandlerMysqlBackend';
-                break;
-
             case 'mysqli':
                 $backend = 'eZDBFileHandlerMysqliBackend';
                 break;

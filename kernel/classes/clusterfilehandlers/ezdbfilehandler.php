@@ -1375,7 +1375,7 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
 
     /**
      * Database backend class
-     * @var eZDBFileHandlerMysqlBackend
+     * @var eZDBFileHandlerMysqliBackend
      */
     public static $dbbackend;
 
