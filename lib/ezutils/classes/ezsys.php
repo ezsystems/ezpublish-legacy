@@ -254,61 +254,6 @@ class eZSys
     }
 
     /**
-     * The PHP version as text.
-     *
-     * @deprecated Since 4.5, use PHP_VERSION
-     *
-     * @return string
-     */
-    public static function phpVersionText()
-    {
-        return PHP_VERSION;
-    }
-
-    /**
-     * Returns the PHP version as an array with the version elements.
-     *
-     * @deprecated Since 4.5
-     *
-     * @return array
-     */
-    public static function phpVersion()
-    {
-        $elements = explode( '.', PHP_VERSION );
-        return $elements;
-    }
-
-    /**
-     * Checks if the given version is greater than or equal to the current PHP version
-     *
-     * Usage:
-     * <code>
-     * eZSys::isPHPVersionSufficient( array( 4, 1, 0 ) );
-     * </code>
-     *
-     * @deprecated Since 4.5
-     * @param array $requiredVersion Must be an array with version number
-     * @return bool
-    */
-    static function isPHPVersionSufficient( $requiredVersion )
-    {
-        if ( !is_array( $requiredVersion ) )
-            return false;
-        $phpVersion = self::phpVersion();
-        $len = min( count( $phpVersion ), count( $requiredVersion ) );
-
-        for ( $i = 0; $i < $len; ++$i )
-        {
-            if ( (int) $phpVersion[$i] > (int) $requiredVersion[$i] )
-                return true;
-            if ( (int) $phpVersion[$i] < (int) $requiredVersion[$i] )
-                return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Determines if the current process has been started from the web or the shell
      *
      * @return bool

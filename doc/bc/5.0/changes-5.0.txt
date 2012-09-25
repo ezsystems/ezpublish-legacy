@@ -81,6 +81,10 @@ Removed features
 
   Those were deprecated since 4.5 and magic quotes has been deprecated in PHP 5.3
 
+- eZSys::phpVersionText(), eZSys::phpVersion() & eZSys::isPHPVersionSufficient()
+
+  Those were deprecated since 4.5, use PHP_VERSION and other native php features instead.
+
 Deprecated
 ----------
 
