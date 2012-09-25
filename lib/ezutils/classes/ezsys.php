@@ -164,8 +164,7 @@ class eZSys
             $this->Params['_SERVER']['REQUEST_TIME'] = (int)$this->Params['_SERVER']['REQUEST_TIME'];
         }
 
-        $this->Attributes = array( 'magickQuotes' => true,
-                                   'hostname'     => true );
+        $this->Attributes = array( 'hostname' => true );
         $this->FileSeparator = $this->Params['DIRECTORY_SEPARATOR'];
         $this->EnvSeparator  = $this->Params['PATH_SEPARATOR'];
 
@@ -204,35 +203,8 @@ class eZSys
             $this->BackupFilename = '~';
         }
 
-        if ( get_magic_quotes_gpc() == 1 )
-        {
-            self::removeMagicQuotes();
-        }
-
         $this->AccessPath = array( 'siteaccess' => array( 'name' => '', 'url' => array() ),
                                    'path'       => array( 'name' => '', 'url' => array() ) );
-    }
-
-    /**
-     * Removes magic quotes
-     *
-     * @deprecated Since 4.5, magic quotes setting has been deprecated in PHP 5.3
-     *
-     * @return void
-     */
-    public static function removeMagicQuotes()
-    {
-        $globalVariables = array( '_SERVER', '_ENV' );
-        foreach ( $globalVariables as $globalVariable )
-        {
-            foreach ( array_keys( $GLOBALS[$globalVariable] ) as $key )
-            {
-                if ( !is_array( $GLOBALS[$globalVariable][$key] ) )
-                {
-                    $GLOBALS[$globalVariable][$key] = stripslashes( $GLOBALS[$globalVariable][$key] );
-                }
-            }
-        }
     }
 
     /**
@@ -923,18 +895,6 @@ class eZSys
             $GLOBALS['eZSysServerPort'] = $port;
         }
         return $GLOBALS['eZSysServerPort'];
-    }
-
-    /**
-     * Should return true when magick quotes are enabled, but instead return null.
-     *
-     * @deprecated since 4.5
-     *
-     * @return null
-     */
-    public static function magickQuotes()
-    {
-        return null;
     }
 
     /**

@@ -77,6 +77,10 @@ Removed features
 
   Contained old deprecated contants.
 
+- eZSys::removeMagicQuotes() & eZSys::magickQuotes()
+
+  Those were deprecated since 4.5 and magic quotes has been deprecated in PHP 5.3
+
 Deprecated
 ----------
 
