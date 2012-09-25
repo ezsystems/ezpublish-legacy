@@ -27,8 +27,6 @@ class eZUser extends eZPersistentObject
     const PASSWORD_HASH_MYSQL = 4;
     /// Passwords in plaintext, should not be used for real sites
     const PASSWORD_HASH_PLAINTEXT = 5;
-    // Crypted passwords
-    const PASSWORD_HASH_CRYPT = 6;
 
     /// Authenticate by matching the login field
     const AUTHENTICATE_LOGIN = 1;
@@ -130,10 +128,6 @@ class eZUser extends eZPersistentObject
             {
                 return 'plaintext';
             } break;
-            case self::PASSWORD_HASH_CRYPT:
-            {
-                return 'crypt';
-            } break;
         }
     }
 
@@ -164,10 +158,6 @@ class eZUser extends eZPersistentObject
             case 'plaintext':
             {
                 return self::PASSWORD_HASH_PLAINTEXT;
-            } break;
-            case 'crypt':
-            {
-                return self::PASSWORD_HASH_CRYPT;
             } break;
         }
     }
@@ -595,8 +585,6 @@ WHERE user_id = '" . $userID . "' AND
             return self::PASSWORD_HASH_MD5_USER;
         else if ( $type == 'plaintext' )
             return self::PASSWORD_HASH_PLAINTEXT;
-        else if ( $type == 'crypt' )
-            return self::PASSWORD_HASH_CRYPT;
         else
             return self::PASSWORD_HASH_MD5_PASSWORD;
     }
@@ -1692,17 +1680,6 @@ WHERE user_id = '" . $userID . "' AND
         else if ( $type == self::PASSWORD_HASH_PLAINTEXT )
         {
             $str = $password;
-        }
-        else if ( $type == self::PASSWORD_HASH_CRYPT )
-        {
-            if ( $hash )
-            {
-                $str = crypt( $password, $hash );
-            }
-            else
-            {
-                $str = crypt( $password );
-            }
         }
         else // self::PASSWORD_HASH_MD5_PASSWORD
         {

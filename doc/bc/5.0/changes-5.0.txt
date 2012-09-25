@@ -98,6 +98,11 @@ Removed features
 
   Was deprecated since 4.4, use microtime( true ) instead.
 
+- Crypt hash type method for password.
+  eZUser::PASSWORD_HASH_CRYPT
+
+  Those were deprecated since 4.4.
+
 Deprecated
 ----------
 
