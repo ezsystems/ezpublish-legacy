@@ -1469,7 +1469,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
     /**
      * Database backend class
      * Provides metadata operations
-     * @var eZDFSFileHandlerMySQLBackend
+     * @var eZDFSFileHandlerMySQLiBackend
      */
     protected static $dbbackend = null;
 

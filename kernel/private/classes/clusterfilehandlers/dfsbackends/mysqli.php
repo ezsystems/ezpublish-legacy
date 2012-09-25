@@ -870,7 +870,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
      * @param string $datatype
      * @param string $scope
      * @param string $fname
-     * @see eZDFSFileHandlerMySQLBackend::_store()
+     * @see eZDFSFileHandlerMySQLiBackend::_store()
      * @return bool
      */
     function _storeInner( $filePath, $datatype, $scope, $fname )

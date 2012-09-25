@@ -111,6 +111,10 @@ Removed features
 
   This driver has been deprecated in 4.5 in favor of eZMySQLiDB, aka ezmysqli driver.
 
+- eZDFSFileHandlerMySQLBackend
+
+  mysql connectivity is replaced by mysqli one. Use eZDFSFileHandlerMySQLiBackend instead.
+
 Deprecated
 ----------
 
