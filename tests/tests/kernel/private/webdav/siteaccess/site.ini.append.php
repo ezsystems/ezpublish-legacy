@@ -5,7 +5,7 @@
 
 
 [DatabaseSettings]
-DatabaseImplementation=ezmysql
+DatabaseImplementation=ezmysqli
 Server=localhost
 Port=
 User=root

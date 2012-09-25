@@ -107,6 +107,10 @@ Removed features
 
   Those were deprecated previously because of severe performance issues.
 
+- eZMySQLDB aka ezmysql driver
+
+  This driver has been deprecated in 4.5 in favor of eZMySQLiDB, aka ezmysqli driver.
+
 Deprecated
 ----------
 

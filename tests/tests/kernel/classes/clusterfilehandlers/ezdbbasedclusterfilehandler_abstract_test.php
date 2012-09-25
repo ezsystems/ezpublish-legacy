@@ -14,7 +14,7 @@
 abstract class eZDBBasedClusterFileHandlerAbstractTest extends eZClusterFileHandlerAbstractTest
 {
     /**
-     * @var eZMySQLDB
+     * @var eZMySQLiDB
      **/
     protected $db;
 

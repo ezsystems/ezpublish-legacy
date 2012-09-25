@@ -31,7 +31,7 @@ class ezpTestRunner extends PHPUnit_TextUI_Command
         $dsn = new ezcConsoleOption( 'D', 'dsn', ezcConsoleInput::TYPE_STRING );
         $dsn->shorthelp = "Use the database specified with a DSN: type://user:password@host/database.";
         $dsn->longhelp = "An example to connect with the local MySQL database is:\n";
-        $dsn->longhelp .= "mysql://root@mypass@localhost/unittests";
+        $dsn->longhelp .= "mysqli://root@mypass@localhost/unittests";
         self::$consoleInput->registerOption( $dsn );
 
         // Database-per-test option
@@ -98,7 +98,7 @@ class ezpTestRunner extends PHPUnit_TextUI_Command
   --db-per-test             Use a clean database per test
   --dsn <resource>          Use the database specified with a DSN: type://user:password@host/database.
                             An example to connect with the local MySQL database is:
-                            mysql://root@mypass@localhost/unittests
+                            mysqli://root@mypass@localhost/unittests
   --list-tests              Lists all tests
 
 EOT;
