@@ -1090,28 +1090,6 @@ class eZSys
     }
 
     /**
-     * Returns true if debugging of internals is enabled, this will display
-     * which server variables are read.
-     * Set the option with setIsDebugEnabled().
-     *
-     * @deprecated Since 4.5, not used
-     * @return bool
-     */
-    public static function isDebugEnabled()
-    {
-    }
-
-    /**
-     * Sets whether internal debugging is enabled or not.
-     *
-     * @deprecated Since 4.5, has not effect anymore
-     * @param bool $debug
-     */
-    public static function setIsDebugEnabled( $debug )
-    {
-    }
-
-    /**
      * Initializes some variables according to some global PHP values.
      * This function should be called once in the index file with the parameters
      * stated in the parameter list.

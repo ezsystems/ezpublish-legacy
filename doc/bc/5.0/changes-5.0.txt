@@ -85,6 +85,10 @@ Removed features
 
   Those were deprecated since 4.5, use PHP_VERSION and other native php features instead.
 
+- eZSys::isDebugEnabled() & eZSys::setIsDebugEnabled()
+
+  Those were deprecated since 4.5.
+
 Deprecated
 ----------
 
