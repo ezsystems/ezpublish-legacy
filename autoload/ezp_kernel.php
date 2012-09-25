@@ -594,7 +594,6 @@ return array(
       'ezpContentSortingCriteria'                          => 'kernel/private/api/content/criteria/sorting.php',
       'ezpContentXHTMLRenderer'                            => 'kernel/private/rest/classes/renderers/xhtml_content_renderer.php',
       'ezpDatabaseBasedClusterFileHandler'                 => 'kernel/private/interfaces/ezpdatabasebasedclusterfilehandler.php',
-      'ezpDbMySQLClusterGateway'                           => 'kernel/clustering/dbmysql.php',
       'ezpDbMySQLiClusterGateway'                          => 'kernel/clustering/dbmysqli.php',
       'ezpDfsMySQLiClusterGateway'                         => 'kernel/clustering/dfsmysqli.php',
       'ezpEvent'                                           => 'kernel/private/classes/ezpevent.php',
