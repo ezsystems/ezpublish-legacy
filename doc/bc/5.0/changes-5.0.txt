@@ -94,6 +94,10 @@ Removed features
 
   Those were deprecated since 4.5.
 
+- eZDebug::timeToFloat()
+
+  Was deprecated since 4.4, use microtime( true ) instead.
+
 Deprecated
 ----------
 
