@@ -89,6 +89,11 @@ Removed features
 
   Those were deprecated since 4.5.
 
+- eZSiteAccess::debugEnabled() & eZSiteAccess::extraDebugEnabled()
+  site.ini\[SiteAccessSettings]DebugAccess & DebugExtraAccess
+
+  Those were deprecated since 4.5.
+
 Deprecated
 ----------
 
