@@ -153,6 +153,10 @@ Removed features
 
   Setting has been deprecated since 3.2 and replaced by AutoloadPathList.
 
+- site.ini/[UserSettings]/VerifyUserEmail
+
+  Setting has been deprecated since 4.1, use site.ini/[UserSettings]/VerifyUserType instead.
+
 Deprecated
 ----------
 
