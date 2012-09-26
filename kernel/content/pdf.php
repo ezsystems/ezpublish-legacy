@@ -53,17 +53,7 @@ if ( isset( $Params['AttributeValidation'] ) )
     $validation = $Params['AttributeValidation'];
 
 // Check if read operations should be used
-$workflowINI = eZINI::instance( 'workflow.ini' );
-$operationList = $workflowINI->variableArray( 'OperationSettings', 'AvailableOperations' );
-$operationList = array_unique( array_merge( $operationList, $workflowINI->variable( 'OperationSettings', 'AvailableOperationList' ) ) );
-if ( in_array( 'content_read', $operationList ) )
-{
-    $useTriggers = true;
-}
-else
-{
-    $useTriggers = false;
-}
+$useTriggers = in_array( 'content_read', array_unique( eZINI::instance( 'workflow.ini' )->variable( 'OperationSettings', 'AvailableOperationList' ) ) );
 
 $res = eZTemplateDesignResource::instance();
 $keys = $res->keys();

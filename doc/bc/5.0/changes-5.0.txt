@@ -162,6 +162,10 @@ Removed features
 
   Those have been deprecated since 3.5.
 
+- workflow.ini/[OperationSettings]/AvailableOperations
+
+  This setting has been deprecated since 3.8 and AvailableOperationList should be used instead.
+
 Deprecated
 ----------
 
