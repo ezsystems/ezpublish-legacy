@@ -29,19 +29,22 @@
 .loginpage #columns
 {
     height: 85%;
-    background-color: #fff;
 }
 
 .loginpage #columns #maincolumn
 {
     border-right: 0 none;
     margin-right: 0px;
+    border-bottom: 1px solid #6f6e6b;
+    box-shadow: inset 0 -1px #3a3d41;
 }
 
 .loginpage #columns #maincontent
 {
     width: 48em;
     margin: 0 auto;
+    background-image:none;
+    box-shadow: none;
 }
 
 .loginpage #columns #maincontent .box-header
@@ -72,13 +75,8 @@
 
 .loginpage #header
 {
-    border-bottom-width: 0;
-    background: #fefefe;
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f5f5f5), to(#fff));
-    background-image: -moz-linear-gradient(top,  #f5f5f5,  #fff);
-    background-image: -ms-linear-gradient(top,  #f5f5f5,  #fff);
-    background-image: -o-linear-gradient(top,  #f5f5f5,  #fff);
-    background-image: linear-gradient(top,  #f5f5f5,  #fff);
+    border-bottom: 1px solid #6f6e6b;
+    box-shadow: inset 0 -1px #3a3d41;
 }
 
 /* TOP MENU (TABS) */

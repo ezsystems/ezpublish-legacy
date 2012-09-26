@@ -106,6 +106,12 @@ a.image-text:hover > span
     text-align: right;
 }
 
+.loginpage #header #header-design
+{
+    height: 100%;
+    background: transparent url('../images/3/ez_logo_white_long.png') no-repeat center 80%;
+}
+
 
 /* TOP MENU (TABS) */
 

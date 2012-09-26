@@ -12,7 +12,7 @@ YUI.add('ez-expandable', function (Y) {
 
     /**
      * Expandable widget is pretty universal. 
-     * srcNode should contain header(.ez-ei-expandable-header) and content(.ez-ei-expandable-content) divs.
+     * srcNode should contains header and content divs. 
      *
      *
      * @class Y.eZ.Expandable
