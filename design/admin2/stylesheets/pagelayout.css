@@ -109,7 +109,7 @@ a.image-text:hover > span
 .loginpage #header #header-design
 {
     height: 100%;
-    background: transparent url('../images/3/ez_logo_white_long.png') no-repeat center 90%;
+    background: transparent url('../images/3/ez_logo_white_long.png') no-repeat center 80%;
 }
 
 
@@ -995,6 +995,12 @@ input.button:hover
     color: #CCC;
 }
 
+.login-inputs
+{
+    padding-top:10px;
+    padding-bottom: 10px;
+}
+
 .login-input-wrapper
 {
     border: 4px solid rgba(255, 255, 255, 0.1);
@@ -1012,27 +1018,39 @@ input.button:hover
 
 .login-text-wrapper
 {
+    color:#b7b7b7;
+    margin-top:15px;
     text-align: center;
+    font-size: 1.1em;
 }
 
 .login-text-wrapper a
 {
+    display:block;
+    margin-top:15px;
     color: #6DCFF6;
+    font-weight: bold;
 }
 
 #logintext, #passwordtext
 {
     height: 35px;
-    padding: 0 5px 0 25px;
+    padding: 0 5px 0 45px;
     border:none;
     border-radius: 5px;
     line-height: 18px !important;
-    font-size: 1.2em;
+    font-size: 1.6em;
     font-weight: bold;
     font-style: italic;
     box-shadow: -1px -1px 1px #464a4b;
-    background: #abadac;
-    width:300px;
+    background: #d5d6d6 url(../images/3/ico_login.png) 9px 6px no-repeat;
+    width:250px;
+    color:#a2a2a2;
+}
+
+#passwordtext
+{
+    background: #d5d6d6 url(../images/3/ico_password.png) 9px 12px no-repeat;
 }
 
 #loginbutton
@@ -1041,7 +1059,7 @@ input.button:hover
     color:#b7b7b7;
     border-radius: 5px;
     line-height: 18px !important;
-    font-size: 1.2em;
+    font-size: 1.3em;
     font-weight: bold;
     width:60px;
     margin:0;

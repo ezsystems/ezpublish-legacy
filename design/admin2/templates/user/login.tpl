@@ -40,7 +40,7 @@
 
     <div class="block">
         <div class="login-input-wrapper">
-            <input class="halfbox" type="password" size="10" name="Password" id="passwordtext" value="{'Password'|i18n( 'design/admin/user/login' )}" tabindex="1" title="{'Enter a valid password in this field.'|i18n( 'design/admin/user/login' )}" />
+            <input class="halfbox" type="text" size="10" name="Password" id="passwordtext" value="{'Password'|i18n( 'design/admin/user/login' )}" tabindex="1" title="{'Enter a valid password in this field.'|i18n( 'design/admin/user/login' )}" />
         </div>
     </div>
 
