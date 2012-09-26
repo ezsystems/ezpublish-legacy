@@ -170,6 +170,10 @@ Removed features
 
   This section has been deprecated since 4.1.
 
+- site.ini/[DatabaseSettings]/DatabasePluginPath
+
+  This setting has been deprecated since 4.1.
+
 Deprecated
 ----------
 
