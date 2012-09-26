@@ -166,6 +166,10 @@ Removed features
 
   This setting has been deprecated since 3.8 and AvailableOperationList should be used instead.
 
+- file.ini/[ArchiveSettings] section
+
+  This section has been deprecated since 4.1.
+
 Deprecated
 ----------
 
