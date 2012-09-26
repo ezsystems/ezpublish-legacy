@@ -2398,15 +2398,17 @@ class eZTemplate
             if (!isset($GLOBALS['eZTemplateDebugInternalsEnabled']) && $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled' )
                 eZTemplate::setIsDebugEnabled( true );
 
-            $compatAutoLoadPath = $ini->variableArray( 'TemplateSettings', 'AutoloadPath' );
-            $autoLoadPathList   = $ini->variable( 'TemplateSettings', 'AutoloadPathList' );
-
-            $extensionAutoloadPath = $ini->variable( 'TemplateSettings', 'ExtensionAutoloadPath' );
-            $extensionPathList     = eZExtension::expandedPathList( $extensionAutoloadPath, 'autoloads/' );
-
-            $autoLoadPathList = array_unique( array_merge( $compatAutoLoadPath, $autoLoadPathList, $extensionPathList ) );
-
-            $instance->setAutoloadPathList( $autoLoadPathList );
+            $instance->setAutoloadPathList(
+                array_unique(
+                    array_merge(
+                        $ini->variable( 'TemplateSettings', 'AutoloadPathList' ),
+                        eZExtension::expandedPathList(
+                            $ini->variable( 'TemplateSettings', 'ExtensionAutoloadPath' ),
+                            'autoloads/'
+                        )
+                    )
+                )
+            );
             $instance->autoload();
 
             $instance->registerResource( eZTemplateDesignResource::instance() );
