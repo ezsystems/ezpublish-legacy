@@ -109,7 +109,7 @@ a.image-text:hover > span
 .loginpage #header #header-design
 {
     height: 100%;
-    background: transparent url('../images/3/ez_logo_white_long.png') no-repeat center 80%;
+    background: transparent url('../images/3/ez_logo_white_long.png') no-repeat center 90%;
 }
 
 
@@ -260,6 +260,12 @@ div.tabs-content.disabled div.tab-content
     background:white;
     padding: 0.8em 1.5em 10px 1.5em;
     position:relative;
+}
+
+.loginpage #maincontent-design
+{
+    box-shadow: none;
+    background: none;
 }
 
 #leftmenu
@@ -987,6 +993,60 @@ input.button:hover
     line-height: 16px;
     height: 16px;
     color: #CCC;
+}
+
+.login-input-wrapper
+{
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-radius: 5px 5px 5px 5px;
+    text-align: left;
+    display: table;
+    margin: 0 auto;
+
+}
+
+.login-input-wrapper:hover
+{
+    border-color:#567975;
+}
+
+.login-text-wrapper
+{
+    text-align: center;
+}
+
+.login-text-wrapper a
+{
+    color: #6DCFF6;
+}
+
+#logintext, #passwordtext
+{
+    height: 35px;
+    padding: 0 5px 0 25px;
+    border:none;
+    border-radius: 5px;
+    line-height: 18px !important;
+    font-size: 1.2em;
+    font-weight: bold;
+    font-style: italic;
+    box-shadow: -1px -1px 1px #464a4b;
+    background: #abadac;
+    width:300px;
+}
+
+#loginbutton
+{
+    background: none;
+    color:#b7b7b7;
+    border-radius: 5px;
+    line-height: 18px !important;
+    font-size: 1.2em;
+    font-weight: bold;
+    width:60px;
+    margin:0;
+    border:none;
+    text-shadow: none;
 }
 
 /* FIXED CONTROLBAR DEPENDING ON SCROLL */
