@@ -180,6 +180,10 @@ Removed features
   clear_parent_nodes_caches_only, clear_parent_nodes_and_relating_caches, clear_relating_caches_only,
   clear_keyword_caches_only and clear_all_caches.
 
+- site.ini/[URLTranslator]/Extensions and site.ini/[URLTranslator]/Filters
+
+  Those settings have been deprecated since 4.3.
+
 Deprecated
 ----------
 
