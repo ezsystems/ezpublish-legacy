@@ -200,6 +200,10 @@ Removed features
 
   This file has been deprecated since 4.3.
 
+- site.ini\[RoleSettings]\UserPolicyCache
+
+  This setting has been deprecated since 4.4.
+
 Deprecated
 ----------
 
