@@ -350,42 +350,6 @@ class eZContentCacheManager
                                 $info['clear_cache_type'] |= self::CLEAR_CHILDREN_CACHE;
                         }
                     }
-                    else
-                    {
-                        // deprecated
-                        if ( $type == 'clear_all_caches' )
-                        {
-                            $info['clear_cache_type'] = self::CLEAR_ALL_CACHE;
-                        }
-                        else
-                        {
-                            if ( $type == 'clear_object_caches_only' ||
-                                 $type == 'clear_object_and_parent_nodes_caches' ||
-                                 $type == 'clear_object_and_relating_objects_caches' )
-                            {
-                                $info['clear_cache_type'] |= self::CLEAR_NODE_CACHE;
-                            }
-
-                            if ( $type == 'clear_object_and_parent_nodes_caches' ||
-                                 $type == 'clear_parent_nodes_caches_only' ||
-                                 $type == 'clear_parent_nodes_and_relating_caches' )
-                            {
-                                $info['clear_cache_type'] |= self::CLEAR_PARENT_CACHE;
-                            }
-
-                            if ( $type == 'clear_object_and_relating_objects_caches' ||
-                                 $type == 'clear_parent_nodes_and_relating_caches' ||
-                                 $type == 'clear_relating_caches_only' )
-                            {
-                                $info['clear_cache_type'] |= self::CLEAR_RELATING_CACHE;
-                            }
-
-                            if ( $type == 'clear_keyword_caches_only' )
-                            {
-                                $info['clear_cache_type'] |= self::CLEAR_KEYWORD_CACHE;
-                            }
-                        }
-                    }
                 }
                 else
                 {
