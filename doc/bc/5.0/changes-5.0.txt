@@ -157,6 +157,11 @@ Removed features
 
   Setting has been deprecated since 4.1, use site.ini/[UserSettings]/VerifyUserType instead.
 
+- webdav.ini sections: [DisplaySettings], [GetSettings], [PutSettings], [RenameSettings] and entry:
+  [FolderSettings]/NameAttribute
+
+  Those have been deprecated since 3.5.
+
 Deprecated
 ----------
 
