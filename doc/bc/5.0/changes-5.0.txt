@@ -184,6 +184,10 @@ Removed features
 
   Those settings have been deprecated since 4.3.
 
+- site.ini/[OutputSettings] section
+
+  This section has been deprecated since 4.5.
+
 Deprecated
 ----------
 
