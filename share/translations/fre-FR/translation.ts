@@ -13996,14 +13996,14 @@ your account.</source>
     </message>
 </context>
 <context>
-    <name>design/admin2/ajaxupload</name>
+    <name>design/admin/ajaxupload</name>
     <message>
         <source>&lt;em&gt;%file&lt;/em&gt; has successfully been uploaded.</source>
         <translation>&lt;em&gt;%file&lt;/em&gt; a été transféré avec succès.</translation>
     </message>
 </context>
 <context>
-    <name>design/admin2/ajaxuploader</name>
+    <name>design/admin/ajaxuploader</name>
     <message>
         <source>Go to the parent level</source>
         <translation>Aller au niveau parent</translation>
@@ -14074,7 +14074,7 @@ your account.</source>
     </message>
 </context>
 <context>
-    <name>design/admin2/content/datatype</name>
+    <name>design/admin/content/datatype</name>
     <message>
         <source>Upload a file</source>
         <translation>Transférer un fichier</translation>
@@ -14101,14 +14101,14 @@ your account.</source>
     </message>
 </context>
 <context>
-    <name>design/admin2/content/edit</name>
+    <name>design/admin/content/edit</name>
     <message>
         <source>Go to the top</source>
         <translation>Retour en haut</translation>
     </message>
 </context>
 <context>
-    <name>design/admin2/user/activations</name>
+    <name>design/admin/user/activations</name>
     <message>
         <source>There are no unactivated users</source>
         <translation>Il n&apos;y a pas d&apos;utilisateurs désactivés</translation>

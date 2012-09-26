@@ -5,10 +5,10 @@
      $merge_unique_count = $uploadable_classes|merge( $allowed_class_list )|unique()|count()}
 {if and( ezmodule( 'ezjscore' ),
         or( $allowed_class_list|count()|eq( 0 ), $merge_count|gt( $merge_unique_count ) ) )}
-    <input type="submit" value="{'Upload a file'|i18n( 'design/admin2/content/datatype' )}"
+    <input type="submit" value="{'Upload a file'|i18n( 'design/admin/content/datatype' )}"
             name="RelationUploadNew{$attribute.id}-{$attribute.version}"
             class="button relation-upload-new hide"
-            title="{'Upload a file to create a new object and add it to the relation'|i18n( 'design/admin2/content/datatype' )}" />
+            title="{'Upload a file to create a new object and add it to the relation'|i18n( 'design/admin/content/datatype' )}" />
 
     {run-once}
     {ezscript_require( array( 'ezjsc::yui3', 'ezjsc::yui3io', 'ezmodalwindow.js', 'ezajaxuploader.js' ) )}
@@ -34,7 +34,7 @@
                     form: 'form.ajaxuploader-location',
                     browse: 'div.ajaxuploader-browse',
         {/literal}
-                    required: "{'Please choose a location'|i18n( 'design/admin2/content/datatype' )|wash( 'javascript' )}"
+                    required: "{'Please choose a location'|i18n( 'design/admin/content/datatype' )|wash( 'javascript' )}"
         {literal}
                 },
 
@@ -81,9 +81,9 @@
                     }
                 },
         {/literal}
-                validationErrorText: "{'Some required fields are empty.'|i18n( 'design/admin2/content/datatype' )|wash( 'javascript' )}",
-                parseJSONErrorText: "{'Unable to parse the JSON response.'|i18n( 'design/admin2/content/datatype' )|wash( 'javascript' )}",
-                title: "{'Upload a file and add the resulting object in the relation'|i18n( 'design/admin2/content/datatype' )|wash( 'javascript' )}"
+                validationErrorText: "{'Some required fields are empty.'|i18n( 'design/admin/content/datatype' )|wash( 'javascript' )}",
+                parseJSONErrorText: "{'Unable to parse the JSON response.'|i18n( 'design/admin/content/datatype' )|wash( 'javascript' )}",
+                title: "{'Upload a file and add the resulting object in the relation'|i18n( 'design/admin/content/datatype' )|wash( 'javascript' )}"
         {literal}
             };
 

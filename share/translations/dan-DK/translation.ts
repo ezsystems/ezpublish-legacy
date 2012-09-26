@@ -13932,14 +13932,14 @@ din konto.</translation>
     </message>
 </context>
 <context>
-    <name>design/admin2/ajaxupload</name>
+    <name>design/admin/ajaxupload</name>
     <message>
         <source>&lt;em&gt;%file&lt;/em&gt; has successfully been uploaded.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>design/admin2/ajaxuploader</name>
+    <name>design/admin/ajaxuploader</name>
     <message>
         <source>Go to the parent level</source>
         <translation type="unfinished"></translation>
@@ -14010,7 +14010,7 @@ din konto.</translation>
     </message>
 </context>
 <context>
-    <name>design/admin2/content/datatype</name>
+    <name>design/admin/content/datatype</name>
     <message>
         <source>Upload a file</source>
         <translation type="unfinished"></translation>
@@ -14037,14 +14037,14 @@ din konto.</translation>
     </message>
 </context>
 <context>
-    <name>design/admin2/content/edit</name>
+    <name>design/admin/content/edit</name>
     <message>
         <source>Go to the top</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>design/admin2/user/activations</name>
+    <name>design/admin/user/activations</name>
     <message>
         <source>There are no unactivated users</source>
         <translation type="unfinished"></translation>
