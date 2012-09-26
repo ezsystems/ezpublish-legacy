@@ -192,6 +192,10 @@ Removed features
 
   This setting has been deprecated since 4.5.
 
+- cronjobs/ldapusermanage.php file
+
+  This file has been deprecated since 4.3.
+
 Deprecated
 ----------
 
