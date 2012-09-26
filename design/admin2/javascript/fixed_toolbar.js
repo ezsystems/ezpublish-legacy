@@ -60,6 +60,7 @@ YUI(YUI3_config).use('event', 'node-screen', 'node-style', 'selector-css3', 'tra
             }
             handleScroll();
         }
+        
     });
     
     Y.on('windowresize',function() {

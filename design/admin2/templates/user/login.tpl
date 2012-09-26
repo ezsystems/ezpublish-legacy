@@ -83,7 +83,23 @@
 <script type="text/javascript">
 jQuery(function( $ )//called on document.ready
 {
-    document.getElementById('id1').focus();
+//    document.getElementById('id1').focus();
+
+    $('#passwordtext').focus(function(){
+        if ($('#passwordtext')[0].type == 'text') {
+            $('#passwordtext').val("");
+            $('#passwordtext')[0].type = 'password';
+            $('#passwordtext').addClass('active');
+        }
+    });
+
+    $('#logintext').focus(function(){
+        if (!$('#logintext').hasClass('active')) {
+            $('#logintext').val("");
+            $('#logintext').addClass('active');
+        }
+    });
+
 });
 </script>
 {/literal}

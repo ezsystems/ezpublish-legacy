@@ -1053,6 +1053,14 @@ input.button:hover
     background: #d5d6d6 url(../images/3/ico_password.png) 9px 12px no-repeat;
 }
 
+#logintext.active, #passwordtext.active
+{
+    background-color: #eee;
+    color:#333;
+    font-style: normal;
+}
+
+
 #loginbutton
 {
     background: none;
