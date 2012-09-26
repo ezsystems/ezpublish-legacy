@@ -227,75 +227,52 @@ class eZURI
         $this->URIArray = explode( '/', $uri );
         $this->Index = 0;
 
-        if ( $fullInitialize )
+        if ( !$fullInitialize )
+            return;
+
+        $this->OriginalURI = $uri;
+        $this->UserArray = array();
+
+        unset( $paramName, $paramValue );
+        foreach ( array_keys( $this->URIArray ) as $key )
         {
-            $this->OriginalURI = $uri;
-            $this->UserArray = array();
+            if ( !isset( $this->URIArray[$key] ) )
+                continue;
 
-            $ini = eZINI::instance( 'template.ini' );
-
-            if ( $ini->variable( 'ControlSettings', 'OldStyleUserVariables' ) == 'enabled' )
+            if ( preg_match( "/^[\(][a-zA-Z0-9_]+[\)]/", $this->URIArray[$key] ) )
             {
-                foreach( array_keys( $this->URIArray ) as $key )
+                if ( isset( $paramName, $paramValue ) )
                 {
-                    if ( isset( $this->URIArray[$key] ) && preg_match( "(^[\(][a-zA-Z0-9_]+[\)])", $this->URIArray[$key] ) )
-                    {
-                        $this->UserArray[substr( $this->URIArray[$key], 1, strlen( $this->URIArray[$key] ) - 2 )] = $this->URIArray[$key+1];
-                        unset( $this->URIArray[$key] );
-                        unset( $this->URIArray[$key+1] );
-                    }
+                    $this->UserArray[ $paramName ] = $paramValue;
+                    unset( $paramName, $paramValue );
                 }
-            }
-            else
-            {
-                unset( $paramName );
-                unset( $paramValue );
-                foreach( array_keys( $this->URIArray ) as $key )
+                $paramName = substr( $this->URIArray[$key], 1, strlen( $this->URIArray[$key] ) - 2 );
+                if ( isset( $this->URIArray[$key+1] ) )
                 {
-                    if ( isset( $this->URIArray[$key] ) )
-                    {
-                        if ( preg_match( "/^[\(][a-zA-Z0-9_]+[\)]/", $this->URIArray[$key] ) )
-                        {
-                            if ( isset( $paramName ) and isset( $paramValue ) )
-                            {
-                                $this->UserArray[ $paramName ] = $paramValue;
-                                unset( $paramName );
-                                unset( $paramValue );
-                            }
-                            $paramName = substr( $this->URIArray[$key], 1, strlen( $this->URIArray[$key] ) - 2 );
-                            if ( isset( $this->URIArray[$key+1] ) )
-                            {
-                                $this->UserArray[ $paramName ] = $this->URIArray[$key+1];
-                                unset( $this->URIArray[$key+1] );
-                            }
-                            else
-                                $this->UserArray[ $paramName ] = "";
-                            unset( $this->URIArray[$key] );
-                        }
-                        else
-                        {
-                            if ( isset( $paramName ) )
-                            {
-                                if ( !empty( $this->URIArray[$key] ) )
-                                    $this->UserArray[ $paramName ] .= '/' . $this->URIArray[$key];
-                                unset( $this->URIArray[$key] );
-                            }
-                        }
-                    }
+                    $this->UserArray[ $paramName ] = $this->URIArray[$key+1];
+                    unset( $this->URIArray[$key+1] );
                 }
+                else
+                    $this->UserArray[ $paramName ] = "";
+                unset( $this->URIArray[$key] );
             }
-
-            // Remake the URI without any user parameters
-            $this->URI = implode( '/', $this->URIArray );
-
-            $ini = eZINI::instance( 'template.ini' );
-            if ( $ini->variable( 'ControlSettings', 'AllowUserVariables' ) == 'false' )
+            else if ( isset( $paramName ) )
             {
-                $this->UserArray = array();
+                if ( !empty( $this->URIArray[$key] ) )
+                    $this->UserArray[ $paramName ] .= '/' . $this->URIArray[$key];
+                unset( $this->URIArray[$key] );
             }
-            // Convert filter string to current locale
-            $this->convertFilterString();
         }
+
+        // Remake the URI without any user parameters
+        $this->URI = implode( '/', $this->URIArray );
+
+        if ( eZINI::instance( 'template.ini' )->variable( 'ControlSettings', 'AllowUserVariables' ) == 'false' )
+        {
+            $this->UserArray = array();
+        }
+        // Convert filter string to current locale
+        $this->convertFilterString();
     }
 
     /**

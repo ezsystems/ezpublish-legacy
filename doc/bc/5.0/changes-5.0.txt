@@ -188,6 +188,10 @@ Removed features
 
   This section has been deprecated since 4.5.
 
+- template.ini/[ControlSettings]/OldStyleUserVariables
+
+  This setting has been deprecated since 4.5.
+
 Deprecated
 ----------
 
