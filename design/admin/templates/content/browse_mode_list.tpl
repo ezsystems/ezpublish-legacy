@@ -2,7 +2,7 @@
 <tr>
     <th class="tight">
     {if eq( $select_type, 'checkbox' )}
-        <img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/content/browse' )}" title="{'Invert selection.'|i18n( 'design/admin/content/browse' )}" onclick="ezjs_toggleCheckboxes( document.browse, '{$select_name}[]' ); return false;" />
+        <img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/content/browse' )}" title="{'Invert selection.'|i18n( 'design/admin/content/browse' )}" onclick="ezjs_toggleCheckboxes( document.browse, '{$select_name}[]' ); return false;" />
     {else}
         &nbsp;
     {/if}
@@ -31,15 +31,15 @@
         {if $browse.permission.contentclass_id}
             {if is_array( $browse.permission.contentclass_id )}
                 {foreach $browse.permission.contentclass_id as $contentclass_id}
-		            {set $browse_permission = fetch( 'content', 'access', hash( 'access', $browse.permission.access,
-		                                                               'contentobject',   $Nodes.item,
-		                                                               'contentclass_id', $contentclass_id ) )}
-		            {if $browse_permission|not}{break}{/if}
-		        {/foreach}
+                    {set $browse_permission = fetch( 'content', 'access', hash( 'access', $browse.permission.access,
+                                                                       'contentobject',   $Nodes.item,
+                                                                       'contentclass_id', $contentclass_id ) )}
+                    {if $browse_permission|not}{break}{/if}
+                {/foreach}
             {else}
-	            {set $browse_permission = fetch( 'content', 'access', hash( 'access', $browse.permission.access,
-	                                                               'contentobject',   $Nodes.item,
-	                                                               'contentclass_id', $browse.permission.contentclass_id ) )}
+                {set $browse_permission = fetch( 'content', 'access', hash( 'access', $browse.permission.access,
+                                                                   'contentobject',   $Nodes.item,
+                                                                   'contentclass_id', $browse.permission.contentclass_id ) )}
             {/if}
         {else}
             {set $browse_permission = fetch( 'content', 'access', hash( 'access', $browse.permission.access,
@@ -54,7 +54,7 @@
             {if $browse.class_array|contains( $Nodes.item.object.content_class.identifier )}
                 <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item[$select_attribute]}" />
             {else}
-                <input type="{$select_type}" name="" value="" disabled="disabled" />
+                <input type="{$select_type}" name="_Disabled" value="" disabled="disabled" />
             {/if}
         {else}
             {if and( or( eq( $browse.action_name, 'MoveNode' ), eq( $browse.action_name, 'CopyNode' ), eq( $browse.action_name, 'AddNodeAssignment' ) ), $Nodes.item.object.content_class.is_container|not )}
@@ -64,7 +64,7 @@
             {/if}
         {/if}
     {else}
-        <input type="{$select_type}" name="" value="" disabled="disabled" />
+        <input type="{$select_type}" name="_Disabled" value="" disabled="disabled" />
     {/if}
     {/let}
     </td>
@@ -92,7 +92,7 @@
     {/let}
 
     </td>
-    <td class="class">
+    <td class="class nowrap">
     {$Nodes.item.object.content_class.name|wash}
     </td>
  </tr>

@@ -50,13 +50,13 @@
 
 <div class="block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'Edit <%workflow_name> [Workflow]'|i18n( 'design/admin/workflow/edit',, hash( '%workflow_name', $workflow.name ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -77,25 +77,34 @@
 <th>
 <input type="checkbox" name="WorkflowEvent_id_checked[]" value="{$Events.item.id}" />
 &nbsp;
-{$Events.number}({$Events.item.placement})&nbsp;{$Events.item.workflow_type.group_name}&nbsp;/&nbsp;{$Events.item.workflow_type.name|wash}
-<div class="right">
-<a href={concat( $module.functions.down.uri, '/', $workflow.id, '/', $Events.item.id )|ezurl}><img src={'button-move_down.gif'|ezimage} height="16" width="16" alt="{'Move down'|i18n( 'design/admin/workflow/edit' )}" title="{'Move down'|i18n( 'design/admin/workflow/edit' )}" /></a>
-&nbsp;
-<a href={concat( $module.functions.up.uri, '/', $workflow.id, '/', $Events.item.id )|ezurl}><img src={'button-move_up.gif'|ezimage} height="16" width="16" alt="{'Move up'|i18n( 'design/admin/workflow/edit' )}" title="{'Move up'|i18n( 'design/admin/workflow/edit' )}" /></a>
-</div>
+{if $Events.item.workflow_type|is_null}
+    <span class="error">{$Events.number}({$Events.item.placement})&nbsp;{'Error : Could not load workflow event "%eventtype" (event type not available)'|i18n( 'design/admin/workflow/edit',, hash( '%eventtype', $Events.item.workflow_type_string ) )}</span>
 </th>
 </tr>
+<tr>
+    <td><em>{'Hint : This can happen when a workflow extension has been disabled'|i18n( 'design/admin/workflow/edit' )}</em></td>
+</tr>
+{else}
+	{$Events.number}({$Events.item.placement})&nbsp;{$Events.item.workflow_type.group_name}&nbsp;/&nbsp;{$Events.item.workflow_type.name|wash}
+	<div class="button-right">
+	<a href={concat( $module.functions.down.uri, '/', $workflow.id, '/', $Events.item.id )|ezurl}><img src={'button-move_down.gif'|ezimage} height="16" width="16" alt="{'Move down'|i18n( 'design/admin/workflow/edit' )}" title="{'Move down'|i18n( 'design/admin/workflow/edit' )}" /></a>
+	&nbsp;
+	<a href={concat( $module.functions.up.uri, '/', $workflow.id, '/', $Events.item.id )|ezurl}><img src={'button-move_up.gif'|ezimage} height="16" width="16" alt="{'Move up'|i18n( 'design/admin/workflow/edit' )}" title="{'Move up'|i18n( 'design/admin/workflow/edit' )}" /></a>
+	</div>
+	</th>
+	</tr>
 
-<tr><td>
-<div class="block">
-<label>{'Description / comments'|i18n( 'design/admin/workflow/edit' )}:</label>
-<input class="halfbox" type="text" name="WorkflowEvent_description[]" value="{$Events.item.description}" />
-</div>
+	<tr><td>
+	<div class="block">
+	<label>{'Description / comments'|i18n( 'design/admin/workflow/edit' )}:</label>
+	<input class="halfbox" type="text" name="WorkflowEvent_description[]" value="{$Events.item.description}" />
+	</div>
 
-{if and( is_set( $selectedClass ), $selectedClass )}
+	{if and( is_set( $selectedClass ), $selectedClass )}
         {event_edit_gui event=$Events.item selectedClass=$selectedClass}
-{else}	
+    {else}
         {event_edit_gui event=$Events.item}
+    {/if}
 {/if}
 
 <input type="hidden" name="WorkflowEvent_id[]" value="{$Events.item.id}" />
@@ -134,12 +143,12 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 <input class="button" type="submit" name="StoreButton" value="{'OK'|i18n( 'design/admin/workflow/edit' )}" />
 <input class="button" type="submit" name="DiscardButton" value="{'Cancel'|i18n( 'design/admin/workflow/edit' )}" />
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 
@@ -149,10 +158,10 @@
 
 {literal}
 <script type="text/javascript">
-    window.onload=function()
-    {
-        document.getElementById('workflowName').select();
-        document.getElementById('workflowName').focus();
-    }
+jQuery(function( $ )//called on document.ready
+{
+    document.getElementById('workflowName').select();
+    document.getElementById('workflowName').focus();
+});
 </script>
 {/literal}

@@ -1,13 +1,13 @@
 {* Section window. *}
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'section'|icon( 'normal', 'Section'|i18n( 'design/admin/section/view' ) )}&nbsp;{'%section_name [Section]'|i18n( 'design/admin/section/view',, hash( '%section_name', $section.name ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -16,6 +16,11 @@
 <div class="block">
 <label>{'Name'|i18n( 'design/admin/section/view' )}:</label>
 {$section.name|wash}
+</div>
+
+<div class="block">
+<label>{'Identifier'|i18n( 'design/admin/section/view' )}:</label>
+{$section.identifier|wash}
 </div>
 
 <div class="block">
@@ -29,13 +34,13 @@
 
 {* Buttons. *}
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 <form method="post" action={concat( '/section/edit/', $section.id )|ezurl}>
-<input class="button" type="submit" name="" value="{'Edit'|i18n( 'design/admin/section/view' )}" title="{'Edit this section.'|i18n( 'design/admin/section/view' )}" />
+<input class="button" type="submit" name="_DefaultButton" value="{'Edit'|i18n( 'design/admin/section/view' )}" title="{'Edit this section.'|i18n( 'design/admin/section/view' )}" />
 </form>
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>
@@ -50,18 +55,14 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h2 class="context-title">{'Roles containing limitations associated with this section [%number_of_roles]'|i18n( 'design/admin/section/view',, hash( '%number_of_roles', $roles|count ) )}</h2>
+<h2 class="context-title">{'Roles containing limitations associated with this section (%number_of_roles)'|i18n( 'design/admin/section/view',, hash( '%number_of_roles', $roles|count ) )}</h2>
 
-{* DESIGN: Mainline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
-{* DESIGN: Content START *}
-<div class="box-bc"><div class="box-ml"><div class="box-mr">
-<div class="box-bl"><div class="box-br">
-<div class="box-content">
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {section show=$roles}
 <table class="list" cellspacing="0">
@@ -89,7 +90,7 @@
 </div>
 {/section}
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 {/let}
@@ -101,15 +102,15 @@
 {let user_roles=fetch('section','user_roles',hash('section_id',$section.id))}
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h2 class="context-title">{'Users and user groups with role limitations associated with this section [%number_of_roles]'|i18n( 'design/admin/section/view',, hash( '%number_of_roles', $user_roles|count ) )}</h2>
+<h2 class="context-title">{'Users and user groups with role limitations associated with this section (%number_of_roles)'|i18n( 'design/admin/section/view',, hash( '%number_of_roles', $user_roles|count ) )}</h2>
 
-{* DESIGN: Mainline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Header END *}</div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 {section show=$user_roles}
 <table class="list" cellspacing="0">
@@ -132,7 +133,7 @@
 {/section}
 
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 {/let}
@@ -147,15 +148,15 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h2 class="context-title">{'Objects within this section [%number_of_objects]'|i18n( 'design/admin/section/view',, hash( '%number_of_objects', $objects_count ) )}</h2>
+<h2 class="context-title">{'Objects within this section (%number_of_objects)'|i18n( 'design/admin/section/view',, hash( '%number_of_objects', $objects_count ) )}</h2>
 
-{* DESIGN: Mainline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Header END *}</div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 {if $objects_count}
 <table class="list" cellspacing="0">
@@ -188,7 +189,18 @@
          item_limit=$number_of_items}
 </div>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
+
+
+<div class='block'>
+<div class="controlbar">{* DESIGN: Control bar START *}
+
+<form method="post" action={concat( '/section/assign/', $section.id )|ezurl}>
+<input class="button" type="submit" name="_DefaultButton" value="{'Assign subtree'|i18n( 'design/admin/section/view' )}" title="{'Assign subtree of objects to this section'|i18n( 'design/admin/section/view' )}" />
+</form>
+
+{* DESIGN: Control bar END *}</div>
+</div>
 
 </div>
 {/let}

@@ -1,32 +1,37 @@
-{* Details window. *}
-{if ezpreference( 'admin_navigation_details' )}
+{* (Pre)view window *}
+<div id="node-tab-view-content" class="tab-content{if $node_tab_index|ne('view')} hide{else} selected{/if}">
+    {include uri='design:preview.tpl'}
+<div class="break"></div>
+</div>
+
+{* Details window *}
+<div id="node-tab-details-content" class="tab-content{if $node_tab_index|ne('details')} hide{else} selected{/if}">
     {include uri='design:details.tpl'}
-{/if}
+<div class="break"></div>
+</div>
 
-{* Translations window. *}
-{if ezpreference( 'admin_navigation_translations' )}
+{* Translations window *}
+<div id="node-tab-translations-content" class="tab-content{if $node_tab_index|ne('translations')} hide{else} selected{/if}">
     {include uri='design:translations.tpl'}
-{/if}
+<div class="break"></div>
+</div>
 
-{* Locations window. *}
-{if ezpreference( 'admin_navigation_locations' )}
+{* Locations window *}
+<div id="node-tab-locations-content" class="tab-content{if $node_tab_index|ne('locations')} hide{else} selected{/if}">
     {include uri='design:locations.tpl'}
-{/if}
+<div class="break"></div>
+</div>
 
-{* Relations window. *}
-{if or( ezpreference( 'admin_navigation_relations' ),
-                  and( is_set( $view_parameters.show_relations ), eq( $view_parameters.show_relations, 1 ) ) )}
+{* Relations window *}
+<div id="node-tab-relations-content" class="tab-content{if $node_tab_index|ne('relations')} hide{else} selected{/if}">
     {include uri='design:relations.tpl'}
-{/if}
+<div class="break"></div>
+</div>
 
-{* States window. *}
-{if eq( ezpreference( 'admin_navigation_states' ), 1)}
-    {include uri='design:states.tpl'}
-{/if}
+{* Published ordering window *}
+<div id="node-tab-ordering-content" class="tab-content{if $node_tab_index|ne('ordering')} hide{else} selected{/if}">
+    {include uri='design:ordering.tpl'}
+<div class="break"></div>
+</div>
 
-{* Children window.*}
-{if $node.object.content_class.is_container}
-    {include uri='design:children.tpl'}
-{else}
-    {include uri='design:no_children.tpl'}
-{/if}
+{include uri='design:windows_extratabs.tpl'}

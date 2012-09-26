@@ -1,28 +1,28 @@
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 {* DESIGN: Mainline and Template filter form START*}
 <table cellspacing="0" width="100%" >
 <tr>
    <td>
-	<h1 class="context-title">{'Template list'|i18n( 'design/admin/visual/templatelist' )}</h1>
+    <h1 class="context-title">{'Template list'|i18n( 'design/admin/visual/templatelist' )}</h1>
    </td>
    <th align=right >
-	<div class="content-search" >
-       	<form action={"/visual/templatelist"|ezurl} method="get">
-       	    <input class="halfbox" type="text" size="15" name="filterString" id="Filter" value="{$filterString}" />
-       	    <input class="button" name="FilterButton" type="submit" value="{'Filter'|i18n('design/standard/layout')}" />&nbsp; &nbsp;
-       	</form>
-	</div>
+    <div class="content-search" >
+           <form action={"/visual/templatelist"|ezurl} method="get">
+               <input class="halfbox" type="text" size="15" name="filterString" id="Filter" value="{$filterString}" />
+               <input class="button" name="FilterButton" type="submit" value="{'Filter'|i18n('design/standard/layout')}" />&nbsp; &nbsp;
+           </form>
+    </div>
    </th>
 </tr>
 </table>
 
 {* DESIGN: Mainline and Template filter form END *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <table class="list" cellspacing="0">
 <tr>
@@ -45,27 +45,27 @@
 {include name=navigator
          uri='design:navigator/google.tpl'
          page_uri='/visual/templatelist'
-         page_uri_suffix=concat('?filterString=',$filterString|urlencode )	
+         page_uri_suffix=concat('?filterString=',$filterString|urlencode )    
          item_count=$template_count
          view_parameters=$view_parameters
          item_limit=20}
 </div>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 
 
 
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h2 class="context-title">{'Most common templates'|i18n( 'design/admin/visual/templatelist' )}</h2>
 
-{* DESIGN: Mainline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Header END *}</div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <table class="list" cellspacing="0">
 <tr>
@@ -80,6 +80,6 @@
 {/section}
 </table>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>

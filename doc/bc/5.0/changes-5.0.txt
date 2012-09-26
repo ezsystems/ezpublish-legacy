@@ -10,6 +10,21 @@ Supported features
 Change of behavior
 ------------------
 
+- "admin2" design has been renamed "admin"
+
+  Everything specific to the old admin interface has been removed (see "Removed features").
+  Since admin2 relied on admin, a merge of both directories has been operated.
+
+  site.ini configuration of your admin backend:
+  To avoid breakages, the "admin2" design is still referenced as SiteDesign or AdditionalSiteDesignList.
+  If you are not overriding anything from admin2, it is suggested to update any references to it.
+  Note that if you change "SiteDesign=admin2" to "SiteDesign=admin", you should probably remove
+  AdditionalSiteDesignList[]=admin to avoid having "admin" twice in the list of site designs.
+
+  content.ini configuration of all siteaccesses:
+  In the case you are not overriding anything from admin2, you might want to update as well the
+  AvailableSiteDesignList setting of all you siteaccesses.
+
 - #19397: eZGeneralDigestUserSettings::create() signature change
 
   This method now expects the first parameter to be the user id instead of the an email address.
@@ -20,6 +35,12 @@ Change of behavior
 
 Removed features
 ----------------
+
+- Old "admin" interface
+
+  The old "admin" interface, deprecated since 4.4, has been removed. What exists in design/admin is the
+  result of the merge of the newer admin interface "admin2" inside this directory.
+  Everything that was specific to that old "admin" interface is now removed.
 
 - Classes eZWebDAVServer, eZWebDAVFileServer, eZWebDAVContentServer and eZWebDAVContentServerWrapper
 

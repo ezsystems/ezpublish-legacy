@@ -1,117 +1,191 @@
-<div class="content-navigation-childlist">
-    <table class="list" cellspacing="0">
-    <tr>
-        {* Remove column *}
-        <th class="remove"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" onclick="ezjs_toggleCheckboxes( document.children, 'DeleteIDArray[]' ); return false;" /></th>
+{def $section         = fetch( 'section', 'object', hash( 'section_id', $node.object.section_id ) )
+    $visible_columns  = ezini('SubItems', 'VisibleColumns', 'admininterface.ini')
+    $locales          = fetch( 'content', 'translation_list' ) }
 
-        {* Name column *}
-        <th class="name">{'Name'|i18n( 'design/admin/node/view/full' )}</th>
+{literal}
+<script type="text/javascript">
+(function() {
+{/literal}
 
-        {* Hidden/Invisible column *}
-        <th class="hidden_invisible">{'Visibility'|i18n( 'design/admin/node/view/full' )}</th>
+var availableLanguages = {ldelim}{*
+    *}{foreach $locales as $language}{*
+        *}'{$language.locale_code|wash(javascript)}': '{$language.intl_language_name|wash(javascript)}'{*
+        *}{delimiter},{/delimiter}{*
+    *}{/foreach}{*
+*}{rdelim};
 
-        {* Class type column *}
-        <th class="class">{'Type'|i18n( 'design/admin/node/view/full' )}</th>
+var icons = {ldelim}{*
+    *}{foreach $locales as $locale}{*
+        *}'{$locale.locale_code}': '{$locale.locale_code|flag_icon()}'{*
+        *}{delimiter},{/delimiter}{*
+    *}{/foreach}{*
+*}{rdelim};
 
-        {* Modifier column *}
-        <th class="modifier">{'Modifier'|i18n( 'design/admin/node/view/full' )}</th>
+var vcols = {ldelim}
 
-        {* Modified column *}
-        <th class="modified">{'Modified'|i18n( 'design/admin/node/view/full' )}</th>
+{foreach $visible_columns as $index => $object}
+    {$index} : '{$object}'.split(';'){delimiter},
 
-        {* Section column *}
-        <th class="section">{'Section'|i18n( 'design/admin/node/view/full' )}</th>
+{/delimiter}
+{/foreach}
 
-        {* Priority column *}
-        {if eq( $node.sort_array[0][0], 'priority' )}
-            <th class="priority">{'Priority'|i18n( 'design/admin/node/view/full' )}</th>
-        {/if}
+{rdelim};
 
-        {* Copy column *}
-        <th class="copy">&nbsp;</th>
+var confObj = {ldelim}
 
-        {* Move column *}
-        <th class="move">&nbsp;</th>
 
-        {* Edit column *}
-        <th class="edit">&nbsp;</th>
-    </tr>
+{switch match=$node.sort_field}
+{case match='2'}    sortKey: "published_date",{/case}
+{case match='3'}    sortKey: "modified_date",{/case}
+{case match='4'}    sortKey: "section",{/case}
+{case match='7'}    sortKey: "class_name",{/case}
+{case match='8'}    sortKey: "priority",{/case}
+{case match='9'}    sortKey: "name",{/case}
+{case}    sortKey: "published_date",{/case}
+{/switch}
 
-    {section var=Nodes loop=$children sequence=array( bglight, bgdark )}
-    {let child_name=$Nodes.item.name|wash
-         node_name=$node.name
-         section_object=fetch( section, object, hash( section_id, $Nodes.object.section_id ) )}
+    dataSourceURL: "{concat('ezjscore/call/ezjscnode::subtree::', $node.node_id)|ezurl('no')}",
+    editPrefixURL: {'/content/edit/'|ezurl},
+    rowsPrPage: {$number_of_items},
+    sortOrder: {$node.sort_order},
+    nameFilter: '{$view_parameters.namefilter}',
+    defaultShownColumns: vcols,
+    navigationPart: "{$section.navigation_part_identifier}",
+    cookieName: "eZSubitemColumns",
+    cookieSecure: false,
+    cookieDomain: "{ezsys(hostname)}",
+    languages: availableLanguages,
+    classesString: {$node.classes_js_array},
+    flagIcons: icons
 
-        <tr class="{$Nodes.sequence}">
+{rdelim}
 
-        {* Remove checkbox *}
-        <td>
-        {if $Nodes.item.can_remove}
-            <input type="checkbox" name="DeleteIDArray[]" value="{$Nodes.item.node_id}" title="{'Use these checkboxes to select items for removal. Click the "Remove selected" button to remove the selected items.'|i18n( 'design/admin/node/view/full' )|wash}" />
-            {else}
-            <input type="checkbox" name="DeleteIDArray[]" value="{$Nodes.item.node_id}" title="{'You do not have permission to remove this item.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
-        {/if}
-        </td>
 
-        {* Name *}
-        <td>{node_view_gui view=line content_node=$Nodes.item}</td>
+var labelsObj = {ldelim}
 
-        {* Visibility. *}
-        <td class="nowrap">{$Nodes.item.hidden_status_string}</td>
 
-        {* Class type *}
-        <td class="class">{$Nodes.item.class_name|wash}</td>
+    DATA_TABLE: {ldelim}
 
-        {* Modifier *}
-        <td class="modifier"><a href={$Nodes.item.object.current.creator.main_node.url_alias|ezurl}>{$Nodes.item.object.current.creator.name|wash}</a></td>
+                        msg_loading: "{'Loading ...'|i18n( 'design/admin/node/view/full' )|wash('javascript')}"
+                    {rdelim},
 
-        {* Modified *}
-        <td class="modified">{$Nodes.item.object.modified|l10n( shortdatetime )}</td>
+    DATA_TABLE_COLS: {ldelim}
 
-        {* Section *}
-        <td>{section show=$section_object}<a href={concat( '/section/view/', $Nodes.object.section_id )|ezurl}>{$section_object.name|wash}</a>{section-else}<i>{'Unknown'|i18n( 'design/admin/node/view/full' )}</i>{/section}</td>
+                        thumbnail: "{'Thumbnail'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        name: "{'Name'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        visibility: "{'Visibility'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        type: "{'Type'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        modifier: "{'Modifier'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        modified: "{'Modified'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        published: "{'Published'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        section: "{'Section'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        translations: "{'Translations'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        priority: "{'Priority'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        nodeid: "{'Node ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        objectid: "{'Object ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        noderemoteid: "{'Node remote ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        objectremoteid: "{'Object remote ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        objectstate: "{'Object state'|i18n( 'design/admin/node/view/full' )|wash('javascript')}"
+                    {rdelim},
 
-        {* Priority *}
-        {if eq( $node.sort_array[0][0], 'priority' )}
-            <td>
-            {if $node.can_edit}
-                <input class="priority" type="text" name="Priority[]" size="3" value="{$Nodes.item.priority}" title="{'Use the priority fields to control the order in which the items appear. You can use both positive and negative integers. Click the "Update priorities" button to apply the changes.'|i18n( 'design/admin/node/view/full' )|wash}" />
-                <input type="hidden" name="PriorityID[]" value="{$Nodes.item.node_id}" />
-                {else}
-                <input class="priority" type="text" name="Priority[]" size="3" value="{$Nodes.item.priority}" title="{'You are not allowed to update the priorities because you do not have permission to edit <%node_name>.'|i18n( 'design/admin/node/view/full',, hash( '%node_name', $node_name ) )|wash}" disabled="disabled" />
-            {/if}
-            </td>
-        {/if}
+    TABLE_OPTIONS: {ldelim}
 
-    {* Copy button *}
-    <td>
-    {if $can_copy}
-    <a href={concat( 'content/copy/', $Nodes.item.contentobject_id )|ezurl}><img src={'copy.gif'|ezimage} alt="{'Copy'|i18n( 'design/admin/node/view/full' )}" title="{'Create a copy of <%child_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name ) )|wash}" /></a>
+                        header: "{'Table options'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        header_noipp: "{'Number of items per page:'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        header_vtc: "{'Visible table columns:'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        button_close: "{'Close'|i18n( 'design/admin/node/view/full' )|wash('javascript')}"
+                   {rdelim},
+
+    ACTION_BUTTONS: {ldelim}
+
+                        select: "{'Select'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        select_sav: "{'Select all visible'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        select_sn: "{'Select none'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        select_inv: "{'Invert selection'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        create_new: "{'Create new'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        more_actions: "{'More actions'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        more_actions_rs: "{'Remove selected'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        more_actions_ms: "{'Move selected'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        more_actions_no: "{'Use the checkboxes to select one or more items.'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        table_options: "{'Table options'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        first_page: "&laquo;&nbsp;{'first'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        previous_page: "&lsaquo;&nbsp;{'prev'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        next_page: "{'next'|i18n( 'design/admin/node/view/full' )|wash('javascript')}&nbsp;&rsaquo;",
+                        last_page: "{'last'|i18n( 'design/admin/node/view/full' )|wash('javascript')}&nbsp;&raquo;"
+                    {rdelim}
+
+
+{rdelim};
+
+{if and( $node.is_container,  $node.can_create)}
+    {if $node.path_array|contains( ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) )}
+        {def $group_id = array( ezini( 'ClassGroupIDs', 'Users', 'content.ini' ),
+                                ezini( 'ClassGroupIDs', 'Setup', 'content.ini' ) )}
+    {elseif $node.path_array|contains( ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) )}
+        {def $group_id = array( ezini( 'ClassGroupIDs', 'Setup', 'content.ini' ),
+                                ezini( 'ClassGroupIDs', 'Content', 'content.ini' ),
+                                ezini( 'ClassGroupIDs', 'Media', 'content.ini' ) )}
     {else}
-    <img src={'copy-disabled.gif'|ezimage} alt="{'Copy'|i18n( 'design/admin/node/view/full' )}" title="{'You cannot make a copy of <%child_name> because you do not have create permission for <%node_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name, '%node_name', $node_name ) )|wash}" />
+        {def $group_id = false()}
     {/if}
-    </td>
 
-    {* Move button. *}
-    <td>
-    <a href={concat( 'content/move/', $Nodes.item.node_id )|ezurl}><img src={'move.gif'|ezimage} alt="{'Move'|i18n( 'design/admin/node/view/full' )}" title="{'Move <%child_name> to another location.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name ) )|wash}" /></a>
-    </td>
+    {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'parent_node', $node,
+                                                                                     'filter_type', 'exclude',
+                                                                                     'group_id', $group_id,
+                                                                                     'group_by_class_group', true() ) )}
 
-        {* Edit button *}
-        {* section show=$can_edit *}
-        <td>
-        {if $Nodes.item.can_edit}
-            <a href={concat( 'content/edit/', $Nodes.item.contentobject_id )|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'Edit <%child_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name ) )|wash}" /></a>
-        {else}
-            <img src={'edit-disabled.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to edit <%child_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name ) )|wash}" />
-        {/if}
-        </td>
-        {* /section *}
-  </tr>
+    var createGroups = [
 
-{/let}
-{/section}
+    {foreach $can_create_classes as $group}
+        "{$group.group_name}"
+        {delimiter}
+        ,
+        {/delimiter}
+    {/foreach}
 
-</table>
+    ];
+
+    var createOptions = [
+
+    {foreach $can_create_classes as $group}
+        [
+        {foreach $group.items as $can_create_class}
+            {if $can_create_class.can_instantiate_languages}
+            {ldelim} text: "{$can_create_class.name|wash()}", value: {$can_create_class.id} {rdelim}
+
+            {/if}
+            {delimiter}{if $can_create_class.can_instantiate_languages},{/if}{/delimiter}
+        {/foreach}
+        ]
+        {delimiter}
+        ,
+        {/delimiter}
+    {/foreach}
+    ];
+
+{else}
+    var createGroups = [];
+    var createOptions = [];
+{/if}
+
+{literal}
+YUILoader.require(['datatable', 'button', 'container', 'cookie', 'element']);
+YUILoader.onSuccess = function() {
+    sortableSubitems.init(confObj, labelsObj, createGroups, createOptions);
+};
+var options = [];
+YUILoader.insert(options, 'js');
+
+})();
+{/literal}
+{undef $section $visible_columns $locales}
+</script>
+
+<div id="action-controls-container">
+    <div id="action-controls"></div>
+    <div id="tpg"></div>
 </div>
+<div id="content-sub-items-list" class="content-navigation-childlist"></div>
+<div id="bpg"></div>
 
+<div id="to-dialog-container"></div>

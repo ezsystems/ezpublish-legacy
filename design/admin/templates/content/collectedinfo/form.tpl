@@ -11,21 +11,21 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'Collected information'|i18n( 'design/admin/content/collectedinfo/form' )}&nbsp;({$object.name|wash})</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <div class="context-attributes">
 
     {section var=CollectedAttributes loop=$collection.attributes}
         <div class="block">
-            <label>{$CollectedAttributes.item.contentclass_attribute_name|wash}:</label>
+            <h6>{$CollectedAttributes.item.contentclass_attribute_name|wash}:</h6>
             {attribute_result_gui view=info attribute=$CollectedAttributes.item}
         </div>
     {/section}
@@ -35,7 +35,7 @@
 
 </div>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 

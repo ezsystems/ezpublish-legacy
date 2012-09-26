@@ -2,13 +2,13 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'role'|icon( 'normal', 'Role'|i18n( 'design/admin/role/edit' ) )}&nbsp;{'Edit <%role_name> [Role]'|i18n( 'design/admin/role/edit',, hash( '%role_name', $role.name ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -16,7 +16,7 @@
 
 {* Name. *}
 <div class="block">
-    <label>{'Name'|i18n( 'design/admin/role/edit' )}:</label>
+    <label for="roleName">{'Name'|i18n( 'design/admin/role/edit' )}:</label>
     <input class="box" id="roleName" type="text" name="NewName" value="{$role.name|wash}" />
 </div>
 
@@ -27,7 +27,7 @@
 {section show=$policies}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/role/edit' )}" title="{'Invert selection.'|i18n( 'design/admin/role/edit' )}" onclick="ezjs_toggleCheckboxes( document.roleedit, 'DeleteIDArray[]' ); return false;" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/role/edit' )}" title="{'Invert selection.'|i18n( 'design/admin/role/edit' )}" onclick="ezjs_toggleCheckboxes( document.roleedit, 'DeleteIDArray[]' ); return false;" /></th>
     <th>{'Module'|i18n( 'design/admin/role/edit' )}</th>
     <th>{'Function'|i18n( 'design/admin/role/edit' )}</th>
     <th>{'Limitations'|i18n( 'design/admin/role/edit' )}</th>
@@ -87,6 +87,7 @@
 {/section}
 
 {* Policy manipulation buttons. *}
+<div class="block">
 {if $policies}
 <input class="button" type="submit" name="RemovePolicies" value="{'Remove selected'|i18n( 'design/admin/role/edit' )}" title="{'Remove selected policies.'|i18n( 'design/admin/role/edit' )}" />
 {else}
@@ -94,6 +95,7 @@
 {/if}
 
 <input class="button" type="submit" name="CreatePolicy" value="{'New policy'|i18n( 'design/admin/role/edit' )}" title="{'Create a new policy.'|i18n( 'design/admin/role/edit' )}" />
+</div>
 </fieldset>
 </div>
 
@@ -103,12 +105,12 @@
 
 {* Buttons. *}
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
-<input class="button" type="submit" name="Apply" value="{'OK'|i18n( 'design/admin/role/edit' )}" />
+<input class="defaultbutton" type="submit" name="Apply" value="{'Save'|i18n( 'design/admin/role/edit' )}" title="{'Save policy changes to this role'|i18n( 'design/admin/role/edit' )}" />
 <input class="button" type="submit" name="Discard" value="{'Cancel'|i18n( 'design/admin/role/edit' )}" />
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>
@@ -117,10 +119,10 @@
 
 {literal}
 <script type="text/javascript">
-    window.onload=function()
-    {
-        document.getElementById('roleName').select();
-        document.getElementById('roleName').focus();
-    }
+jQuery(function( $ )//called on document.ready
+{
+    document.getElementById('roleName').select();
+    document.getElementById('roleName').focus();
+});
 </script>
 {/literal}
