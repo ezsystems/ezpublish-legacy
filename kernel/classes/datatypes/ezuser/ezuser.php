@@ -2565,32 +2565,6 @@ WHERE user_id = '" . $userID . "' AND
         $handler->store();
     }
 
-    /**
-     * Returns the filename for a cache file with user information
-     *
-     * @deprecated In 4.4.0
-     * @params int $userId
-     * @return string|false Filename of the cachefile, or false when the user should not be cached
-     */
-    static function getCacheFilename( $userId )
-    {
-        $ini = eZINI::instance();
-        $cacheUserPolicies = $ini->variable( 'RoleSettings', 'UserPolicyCache' );
-        if ( $cacheUserPolicies === 'enabled' )
-        {
-            return eZUser::getCacheDir( $userId ). '/user-'. $userId . '.cache.php';
-        }
-        else if ( $cacheUserPolicies !== 'disabled' )
-        {
-            $cachableIDs = explode( ',', $cacheUserPolicies );
-            if ( in_array( $userId, $cachableIDs ) )
-            {
-                return eZUser::getCacheDir( $userId ). '/user-'. $userId . '.cache.php';
-            }
-        }
-        return false;
-    }
-
     static function fetchUserClassList( $asObject = false, $fields = false )
     {
         // Get names of user classes
