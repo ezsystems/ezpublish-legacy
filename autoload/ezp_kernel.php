@@ -174,7 +174,6 @@ return array(
       'eZFS2FileHandler'                                   => 'kernel/private/classes/clusterfilehandlers/ezfs2filehandler.php',
       'eZFSFileHandler'                                    => 'kernel/classes/clusterfilehandlers/ezfsfilehandler.php',
       'eZFile'                                             => 'lib/ezfile/classes/ezfile.php',
-      'eZFileDirectHandler'                                => 'kernel/classes/binaryhandlers/ezfiledirect/ezfiledirecthandler.php',
       'eZFileHandler'                                      => 'lib/ezfile/classes/ezfilehandler.php',
       'eZFilePackageHandler'                               => 'kernel/classes/packagehandlers/ezfile/ezfilepackagehandler.php',
       'eZFilePassthroughHandler'                           => 'kernel/classes/binaryhandlers/ezfilepassthrough/ezfilepassthroughhandler.php',

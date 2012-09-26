@@ -50,6 +50,10 @@ Removed features
 
   Unused class since SVN revision 20881 and deprecated in 4.5.
 
+- Class eZFileDirectHandler
+
+  Direct binary file downloads is deprecated since 4.1.
+
 - eZContentObject::removeReverseRelations()
 
   Unused and deprecated method.
