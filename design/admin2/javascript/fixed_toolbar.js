@@ -1,9 +1,12 @@
 function updatePanelsHeight() { // Stretching all interface panels to max height
     YUI(YUI3_config).use('node', function (Y) {
+        // do not use this script on login and register pages
+        if (Y.one('body').hasClass('loginpage')) {return true}
+
         // at first "releasing" fixed height
         Y.all('#columns, #leftmenu, #rightmenu, #maincontent,#leftmenu-design, #rightmenu-design, #maincontent-design').setStyle('height', 'auto');
         
-        // setting height
+        // counting and setting height
         var columnsHeight = parseInt(Y.one('#page').getComputedStyle('height'),10) - parseInt(Y.one('#header').getComputedStyle('height'),10) - 25,
             footer = Y.one('#footer');
             

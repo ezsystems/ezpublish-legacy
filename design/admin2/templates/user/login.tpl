@@ -34,12 +34,14 @@
 
     <div class="block">
         <div class="login-input-wrapper">
+            <div id="ico_login"></div>
             <input class="halfbox" type="text" autofocus="autofocus" size="10" name="Login" id="logintext" placeholder="{'Username'|i18n( 'design/admin/user/login' )}" tabindex="1" title="{'Enter a valid username in this field.'|i18n( 'design/admin/user/login' )}" />
         </div>
     </div>
 
     <div class="block">
         <div class="login-input-wrapper">
+            <div id="ico_password"></div>
             <input class="halfbox" type="password" size="10" name="Password" id="passwordtext" placeholder="{'Password'|i18n( 'design/admin/user/login' )}" tabindex="2" title="{'Enter a valid password in this field.'|i18n( 'design/admin/user/login' )}" />
         </div>
     </div>

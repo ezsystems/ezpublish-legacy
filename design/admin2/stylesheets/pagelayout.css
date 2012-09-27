@@ -1018,6 +1018,7 @@ input:-moz-placeholder {
     text-align: left;
     display: table;
     margin: 0 auto;
+    position:relative;
 
 }
 
@@ -1058,7 +1059,7 @@ input:-moz-placeholder {
     font-size: 1.6em;
     font-weight: bold;
     box-shadow: -1px -1px 1px #464a4b;
-    background: #d5d6d6 url(../images/3/ico_login.png) 9px 6px no-repeat;
+    background: #d5d6d6;
     width:250px;
 }
 
@@ -1070,15 +1071,30 @@ input:-moz-placeholder {
     font-weight: normal;
 }
 
-#passwordtext
-{
-    background: #d5d6d6 url(../images/3/ico_password.png) 9px 12px no-repeat;
-}
-
 #logintext:focus, #passwordtext:focus
 {
-    background-color: #fff;
+    background-color: #f5f3dd;
     font-style: normal;
+}
+
+#ico_login
+{
+    position:absolute;
+    left:11px;
+    top:8px;
+    background: url(../images/3/ico_login.png) left top no-repeat;
+    width: 26px;
+    height:26px;
+}
+
+#ico_password
+{
+    position:absolute;
+    left:11px;
+    top:14px;
+    background: url(../images/3/ico_password.png) left top no-repeat;
+    width: 24px;
+    height:11px;
 }
 
 

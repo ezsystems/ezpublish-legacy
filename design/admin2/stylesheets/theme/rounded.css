@@ -38,7 +38,6 @@
 
 .loginpage #columns
 {
-    overflow: auto;
     min-height: 0;
 }
 
@@ -54,12 +53,6 @@
     margin: 0 auto;
     background-image:none;
     box-shadow: none;
-}
-
-.loginpage #columns #maincontent .box-header
-{
-    background: transparent url('../../images/2/ez-logo-black.png') no-repeat top right scroll;
-    padding-top: 1em;
 }
 
 .loginpage #footer

@@ -18,7 +18,9 @@
 <form name="registerform" method="post" action={'/user/register/'|ezurl} enctype="multipart/form-data">
 {if count($content_attributes)|gt(0)}
 
-<h1 class="context-title">{'Register new user'|i18n( 'design/admin/user/register' )}</h1>
+<div class="box-header">
+    <h1 class="context-title">{'Register new user'|i18n( 'design/admin/user/register' )}</h1>
+</div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -60,6 +62,16 @@
 
 
 {literal}
+<style type="text/css">
+.loginpage #columns #maincontent
+{
+    background:white;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 5px black;
+}
+</style>
+
 <script type="text/javascript">
 jQuery(function( $ )//called on document.ready
 {
