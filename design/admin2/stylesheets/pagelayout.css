@@ -168,12 +168,6 @@ ul.tabs li a, ul.tabs li span.disabled
     color:#ffe9bd;
 }
 
-ul.tabs li.selected a, ul.tabs li a:hover
-{
-    color:#2121fe;
-}
-
-
 #header-topmenu ul li.selected a, #header-topmenu ul li.selected span.disabled, ul.tabs li.selected a
 {
     margin-bottom: -1px;
@@ -885,7 +879,7 @@ input.button:hover
 #searchtext:focus
 {
     font-style:normal;
-    background-color: #efefef;
+    background-color: #f5f3dd;
 }
 
 .searchbuttonfield

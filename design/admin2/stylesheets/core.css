@@ -72,7 +72,7 @@ a
 
 a:hover
 {
-    color: #E24602;
+    color: black;
     text-decoration: underline;
     cursor: pointer;
 }

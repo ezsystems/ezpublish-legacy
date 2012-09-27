@@ -98,6 +98,11 @@ ul.tabs li a, ul.tabs li span.disabled
     text-decoration: underline;
 }
 
+ul.tabs li a:hover
+{
+    color:black;
+}
+
 #header-topmenu ul li.selected a, #header-topmenu ul li.selected span.disabled, ul.tabs li.selected a
 {
     background: #444 none;
@@ -261,8 +266,9 @@ p.versions a
 
 p.versions a:hover
 {
-    font-weight: bold;
+    color:black;
 }
+
 
 p.table-preferences
 {
@@ -428,6 +434,11 @@ div.alphabetical
 {
     color:#6dcff6;
 }
+#footer-design a:hover
+{
+    color:#ffe9bd;
+}
+
 
 
 /* MISC */
@@ -443,13 +454,6 @@ table.list th, table.special th
 #leftmenu-design ul
 {
     color: #333;
-}
-
-#editform #leftmenu
-{
-    border:1px solid #ccc;
-    border-radius:3px;
-    background:#f5f5f5;
 }
 
 .settings .current
