@@ -1115,6 +1115,10 @@ WHERE user_id = '" . $userID . "' AND
                 $ssoUser = false;
                 foreach ( $ssoHandlerArray as $ssoHandler )
                 {
+                    if ( $ssoUser !== false )
+                    {
+                        break;
+                    }
                     $className = 'eZ' . $ssoHandler . 'SSOHandler';
                     if( class_exists( $className ) )
                     {
