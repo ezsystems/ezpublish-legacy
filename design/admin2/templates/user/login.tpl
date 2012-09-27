@@ -34,19 +34,19 @@
 
     <div class="block">
         <div class="login-input-wrapper">
-            <input class="halfbox" type="text" size="10" name="Login" id="logintext" placeholder="{'Username'|i18n( 'design/admin/user/login' )}" tabindex="1" title="{'Enter a valid username in this field.'|i18n( 'design/admin/user/login' )}" />
+            <input class="halfbox" type="text" autofocus="autofocus" size="10" name="Login" id="logintext" placeholder="{'Username'|i18n( 'design/admin/user/login' )}" tabindex="1" title="{'Enter a valid username in this field.'|i18n( 'design/admin/user/login' )}" />
         </div>
     </div>
 
     <div class="block">
         <div class="login-input-wrapper">
-            <input class="halfbox" type="password" size="10" name="Password" id="passwordtext" placeholder="{'Password'|i18n( 'design/admin/user/login' )}" tabindex="1" title="{'Enter a valid password in this field.'|i18n( 'design/admin/user/login' )}" />
+            <input class="halfbox" type="password" size="10" name="Password" id="passwordtext" placeholder="{'Password'|i18n( 'design/admin/user/login' )}" tabindex="2" title="{'Enter a valid password in this field.'|i18n( 'design/admin/user/login' )}" />
         </div>
     </div>
 
     {if and( ezini_hasvariable( 'Session', 'RememberMeTimeout' ), ezini( 'Session', 'RememberMeTimeout' ) )}
         <div class="block">
-            <input type="checkbox" tabindex="1" name="Cookie" id="id3" /><label for="id3" style="display:inline;">{"Remember me"|i18n("design/admin/user/login")}</label>
+            <input type="checkbox" name="Cookie" id="id3" /><label for="id3" style="display:inline;">{"Remember me"|i18n("design/admin/user/login")}</label>
         </div>
     {/if}
 
@@ -58,7 +58,7 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
     <div class="login-input-wrapper">
-        <input class="defaultbutton" type="submit" id="loginbutton" name="LoginButton" value="{'Log in'|i18n( 'design/admin/user/login', 'Login button' )}" tabindex="1" title="{'Click here to log in using the username/password combination entered in the fields above.'|i18n( 'design/admin/user/login' )}" />
+        <input class="defaultbutton" type="submit" id="loginbutton" name="LoginButton" value="{'Log in'|i18n( 'design/admin/user/login', 'Login button' )}" tabindex="3" title="{'Click here to log in using the username/password combination entered in the fields above.'|i18n( 'design/admin/user/login' )}" />
     </div>
     <div class="login-text-wrapper">
         {'or'|i18n( 'design/admin/user/login')}
@@ -75,31 +75,3 @@
 </form>
 
 </div>
-
-
-
-
-{literal}
-<script type="text/javascript">
-jQuery(function( $ )//called on document.ready
-{
-//    document.getElementById('id1').focus();
-
-//    $('#passwordtext').focus(function(){
-//        if ($('#passwordtext')[0].type == 'text') {
-//            $('#passwordtext').val("");
-//            $('#passwordtext')[0].type = 'password';
-//            $('#passwordtext').addClass('active');
-//        }
-//    });
-//
-//    $('#logintext').focus(function(){
-//        if (!$('#logintext').hasClass('active')) {
-//            $('#logintext').val("");
-//            $('#logintext').addClass('active');
-//        }
-//    });
-
-});
-</script>
-{/literal}

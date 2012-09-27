@@ -1024,11 +1024,11 @@ input:-moz-placeholder {
 .login-input-wrapper:hover
 {
     border-color:#567975;
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
-.login-input-wrapper input:hover
-{
-    background-color:#f5f3dd;
+.login-input-wrapper:hover #loginbutton {
+    color: #ffe9bd;
 }
 
 
@@ -1042,16 +1042,16 @@ input:-moz-placeholder {
 
 .login-text-wrapper a
 {
-    display:block;
-    margin-top:15px;
+    display: inline-block;
+    margin-top: 13px;
+    padding: 2px;
     color: #6DCFF6;
-    font-weight: bold;
 }
 
 #logintext, #passwordtext
 {
-    height: 35px;
-    padding: 0 5px 0 45px;
+    line-height: 35px;
+    padding: 4px 5px 4px 45px;
     border:none;
     border-radius: 5px;
     line-height: 18px !important;
@@ -1060,6 +1060,14 @@ input:-moz-placeholder {
     box-shadow: -1px -1px 1px #464a4b;
     background: #d5d6d6 url(../images/3/ico_login.png) 9px 6px no-repeat;
     width:250px;
+}
+
+#logintext::-webkit-input-placeholder,
+#passwordtext::-webkit-input-placeholder,
+#logintext::-moz-placeholder,
+#passwordtext::-moz-placeholder {
+    line-height: 24px;
+    font-weight: normal;
 }
 
 #passwordtext
@@ -1079,11 +1087,13 @@ input:-moz-placeholder {
     background: none;
     color:#b7b7b7;
     border-radius: 5px;
-    border: 1px solid #494949;
-    line-height: 18px !important;
+    border: 1px solid #3a3d41;
+    -moz-box-shadow: inset 1px 1px #6f6e6b, 1px 1px #6f6e6b;
+    -webkit-box-shadow: inset 1px 1px #6f6e6b, 1px 1px #6f6e6b;
+    box-shadow: inset 1px 1px #6f6e6b, 1px 1px #6f6e6b;
+    line-height: 30px;
     font-size: 1.3em;
     font-weight: bold;
-    width:54px;
     margin:0;
     text-shadow: none;
 }
