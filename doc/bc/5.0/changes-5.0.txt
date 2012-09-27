@@ -74,6 +74,10 @@ Removed features
 
   Unused and deprecated method since 4.4.
 
+- eZFile::getContents() method
+
+  Unused and deprecated method since 4.1. Use file_get_contents() instead.
+
 - kernel/common/ezincludefunctions.php
 
   All functions in this file have been deprecated previously and are now removed:

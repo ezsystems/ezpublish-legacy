@@ -101,37 +101,6 @@ class eZFile
 
     /*!
      \static
-     Read all content of file.
-
-     \param filename
-
-     \return file contents, false if error
-
-     \deprecated since eZ Publish 4.1, use file_get_contents() instead
-    */
-    static function getContents( $filename )
-    {
-        eZDebug::writeWarning( __METHOD__ . ' is deprecated, use file_get_contents() instead' );
-
-        if ( function_exists( 'file_get_contents' ) )
-        {
-            return file_get_contents( $filename );
-        }
-        else
-        {
-            $fp = fopen( $filename, 'r' );
-            if ( !$fp )
-            {
-                eZDebug::writeError( 'Could not read contents of ' . $filename, __METHOD__ );
-                return false;
-            }
-
-            return fread( $fp, filesize( $filename ) );
-        }
-    }
-
-    /*!
-     \static
      Get suffix from filename
 
      \param filename
