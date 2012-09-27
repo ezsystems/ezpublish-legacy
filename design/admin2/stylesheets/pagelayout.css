@@ -109,7 +109,7 @@ a.image-text:hover > span
 .loginpage #header #header-design
 {
     height: 100%;
-    background: transparent url('../images/3/ez_logo_white_long.png') no-repeat center 80%;
+    background: transparent url('../images/3/ez_logo_color_comt.png') no-repeat center 80%;
 }
 
 
@@ -1001,6 +1001,16 @@ input.button:hover
     padding-bottom: 10px;
 }
 
+input::-webkit-input-placeholder {
+   color:#a2a2a2;
+   font-style: italic;
+}
+
+input:-moz-placeholder {
+   color:#a2a2a2;
+   font-style: italic;
+}
+
 .login-input-wrapper
 {
     border: 4px solid rgba(255, 255, 255, 0.1);
@@ -1015,6 +1025,12 @@ input.button:hover
 {
     border-color:#567975;
 }
+
+.login-input-wrapper input:hover
+{
+    background-color:#f5f3dd;
+}
+
 
 .login-text-wrapper
 {
@@ -1041,11 +1057,9 @@ input.button:hover
     line-height: 18px !important;
     font-size: 1.6em;
     font-weight: bold;
-    font-style: italic;
     box-shadow: -1px -1px 1px #464a4b;
     background: #d5d6d6 url(../images/3/ico_login.png) 9px 6px no-repeat;
     width:250px;
-    color:#a2a2a2;
 }
 
 #passwordtext
@@ -1053,10 +1067,9 @@ input.button:hover
     background: #d5d6d6 url(../images/3/ico_password.png) 9px 12px no-repeat;
 }
 
-#logintext.active, #passwordtext.active
+#logintext:focus, #passwordtext:focus
 {
-    background-color: #eee;
-    color:#333;
+    background-color: #fff;
     font-style: normal;
 }
 
@@ -1066,12 +1079,12 @@ input.button:hover
     background: none;
     color:#b7b7b7;
     border-radius: 5px;
+    border: 1px solid #494949;
     line-height: 18px !important;
     font-size: 1.3em;
     font-weight: bold;
-    width:60px;
+    width:54px;
     margin:0;
-    border:none;
     text-shadow: none;
 }
 

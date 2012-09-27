@@ -34,13 +34,13 @@
 
     <div class="block">
         <div class="login-input-wrapper">
-            <input class="halfbox" type="text" size="10" name="Login" id="logintext" value="{'Username'|i18n( 'design/admin/user/login' )}" tabindex="1" title="{'Enter a valid username in this field.'|i18n( 'design/admin/user/login' )}" />
+            <input class="halfbox" type="text" size="10" name="Login" id="logintext" placeholder="{'Username'|i18n( 'design/admin/user/login' )}" tabindex="1" title="{'Enter a valid username in this field.'|i18n( 'design/admin/user/login' )}" />
         </div>
     </div>
 
     <div class="block">
         <div class="login-input-wrapper">
-            <input class="halfbox" type="text" size="10" name="Password" id="passwordtext" value="{'Password'|i18n( 'design/admin/user/login' )}" tabindex="1" title="{'Enter a valid password in this field.'|i18n( 'design/admin/user/login' )}" />
+            <input class="halfbox" type="password" size="10" name="Password" id="passwordtext" placeholder="{'Password'|i18n( 'design/admin/user/login' )}" tabindex="1" title="{'Enter a valid password in this field.'|i18n( 'design/admin/user/login' )}" />
         </div>
     </div>
 
@@ -85,20 +85,20 @@ jQuery(function( $ )//called on document.ready
 {
 //    document.getElementById('id1').focus();
 
-    $('#passwordtext').focus(function(){
-        if ($('#passwordtext')[0].type == 'text') {
-            $('#passwordtext').val("");
-            $('#passwordtext')[0].type = 'password';
-            $('#passwordtext').addClass('active');
-        }
-    });
-
-    $('#logintext').focus(function(){
-        if (!$('#logintext').hasClass('active')) {
-            $('#logintext').val("");
-            $('#logintext').addClass('active');
-        }
-    });
+//    $('#passwordtext').focus(function(){
+//        if ($('#passwordtext')[0].type == 'text') {
+//            $('#passwordtext').val("");
+//            $('#passwordtext')[0].type = 'password';
+//            $('#passwordtext').addClass('active');
+//        }
+//    });
+//
+//    $('#logintext').focus(function(){
+//        if (!$('#logintext').hasClass('active')) {
+//            $('#logintext').val("");
+//            $('#logintext').addClass('active');
+//        }
+//    });
 
 });
 </script>
