@@ -434,6 +434,7 @@ div.message-feedback h2
 div.message-warning
 {
     border-color: #ff910d;
+    background: #fff;
 }
 
 div.message-warning h2

@@ -10,9 +10,10 @@ function updatePanelsHeight() { // Stretching all interface panels to max height
         if (footer){
             columnsHeight -= parseInt(footer.getComputedStyle('height'),10);
         }
-            
-        Y.all('#columns, #leftmenu, #rightmenu, #maincontent').setStyle('height', columnsHeight);
-        Y.all('#leftmenu-design, #rightmenu-design, #maincontent-design').setStyle('height', columnsHeight - 60);
+        
+        Y.one('#columns').setStyle('height', columnsHeight);
+        Y.all('#leftmenu, #rightmenu, #maincontent').setStyle('height', columnsHeight - 3);
+        Y.all('#leftmenu-design, #rightmenu-design, #maincontent-design').setStyle('height', columnsHeight - 63);
     });
 }
 
