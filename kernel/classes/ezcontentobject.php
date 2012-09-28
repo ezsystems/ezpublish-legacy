@@ -4644,17 +4644,6 @@ class eZContentObject extends eZPersistentObject
      Check if the object can be moved. (actually checks 'edit' and 'remove' permissions)
      \return \c true if the object can be moved by the current user.
      \sa checkAccess().
-     \deprecated The function canMove() is preferred since its naming is clearer.
-    */
-    function canMove( )
-    {
-        return $this->canMoveFrom();
-    }
-
-    /*!
-     Check if the object can be moved. (actually checks 'edit' and 'remove' permissions)
-     \return \c true if the object can be moved by the current user.
-     \sa checkAccess().
     */
     function canMoveFrom( )
     {
