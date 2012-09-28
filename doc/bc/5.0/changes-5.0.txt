@@ -135,6 +135,12 @@ Removed features
 
   Unused and deprecated method since 4.2.
 
+- eZCacheClear* functions:
+  eZCacheClearImageAlias(), eZCacheClearClassID(), eZCacheClearGlobalINI(), eZCacheClearSortKey(),
+  eZCacheClearTemplateBlockCache() and eZCacheClearContentTreeMenu()
+
+  Unused and deprecated method since 4.3.
+
 - kernel/common/ezincludefunctions.php
 
   All functions in this file have been deprecated previously and are now removed:
