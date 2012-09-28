@@ -189,6 +189,10 @@ Removed features
 
   Unused and deprecated methods since 3.9.
 
+- eZURLWildcard::isCacheExpired()
+
+  Unused and deprecated method since 4.2.
+
 - kernel/common/ezincludefunctions.php
 
   All functions in this file have been deprecated previously and are now removed:
