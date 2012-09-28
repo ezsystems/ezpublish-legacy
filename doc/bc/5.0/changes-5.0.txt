@@ -91,6 +91,10 @@ Removed features
 
   Unused and deprecated method since 4.1.
 
+- eZTemplate::setVariableRef() method
+
+  Unused and deprecated method since 4.4.
+
 - kernel/common/ezincludefunctions.php
 
   All functions in this file have been deprecated previously and are now removed:

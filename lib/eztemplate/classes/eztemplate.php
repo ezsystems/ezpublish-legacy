@@ -1497,21 +1497,6 @@ class eZTemplate
     }
 
     /**
-     * Sets the template variable $var to the value $val by ref
-     *
-     * @deprecated Since 4.4, have not used references since 3.10
-     * @uses eZTemplate::setVariable()
-     *
-     * @param string $var
-     * @param string $val
-     * @param string $namespace (optional)
-     */
-    function setVariableRef( $var, $val, $namespace = '' )
-    {
-        $this->setVariable( $var, $val, $namespace );
-    }
-
-    /**
      * Unsets the template variable $var.
      *
      * @param string $var
