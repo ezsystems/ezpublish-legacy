@@ -104,6 +104,10 @@ Removed features
 
   Unused and deprecated functions since 3.0.
 
+- eZDebugSetting:setDebugINI()
+
+  Deprecated function since 4.5. This function did nothing.
+
 - kernel/common/ezincludefunctions.php
 
   All functions in this file have been deprecated previously and are now removed:

@@ -181,8 +181,6 @@ class eZScript
     {
         if( ob_get_length() != 0 )
             ob_end_clean();
-        $debugINI = eZINI::instance( 'debug.ini' );
-        eZDebugSetting::setDebugINI( $debugINI );
 
         // Initialize text codec settings
         $this->updateTextCodecSettings();
