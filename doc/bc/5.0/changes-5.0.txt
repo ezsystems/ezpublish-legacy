@@ -169,6 +169,10 @@ Removed features
 
   Unused and deprecated method since 3.3.
 
+- eZContentObjectTreeNode::updateURLAlias()
+
+  Unused and deprecated method since 3.1.
+
 - kernel/common/ezincludefunctions.php
 
   All functions in this file have been deprecated previously and are now removed:

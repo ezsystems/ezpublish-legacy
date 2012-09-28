@@ -3428,17 +3428,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
-     \deprecated Use updateSubTreePath() instead.
-     */
-    function updateURLAlias()
-    {
-        eZDebug::writeWarning( __METHOD__ . " is deprecated, use updateSubTreePath() instead" );
-        return $this->updateSubTreePath();
-    }
-
-    /*!
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function updateSubTreePath( $updateParent = true, $nodeMove = false )
     {
