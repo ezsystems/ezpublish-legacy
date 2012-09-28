@@ -165,6 +165,10 @@ Removed features
 
   Unused and deprecated method since 3.9.
 
+- eZContentObjectTreeNode::createObject()
+
+  Unused and deprecated method since 3.3.
+
 - kernel/common/ezincludefunctions.php
 
   All functions in this file have been deprecated previously and are now removed:

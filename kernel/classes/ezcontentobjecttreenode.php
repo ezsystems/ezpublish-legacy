@@ -3224,28 +3224,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
-     \deprecated This function should no longer be used, use the eZContentClass::instantiate and eZNodeAssignment::create instead.
-    */
-    function createObject( $contentClassID, $parentNodeID = 2 )
-    {
-        $class = eZContentClass::fetch( $contentClassID );
-        $parentNode = eZContentObjectTreeNode::fetch( $parentNodeID );
-        $parentContentObject = $parentNode->attribute( 'object' );
-        $sectionID = $parentContentObject->attribute( 'section_id' );
-        $object = $class->instantiate( false, $sectionID );
-
-//        $parentContentObject = $parentNode->attribute( 'contentobject' );
-
-        $node = eZContentObjectTreeNode::addChildTo( $object->attribute( "id" ), $parentNodeID, true );
-//        $object->setAttribute( "main_node_id", $node->attribute( 'node_id' ) );
-        $node->setAttribute( 'main_node_id', $node->attribute( 'node_id' ) );
-        $object->store();
-        $node->store();
-
-        return $object;
-    }
-
-    /*!
      Add a child for this node to the object tree.
      \param $contentobjectID      The ID of the contentobject the child-node should point to.
      \param $asObject             If true it will return the new child-node as an object, if not it returns the ID.
