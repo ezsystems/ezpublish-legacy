@@ -322,59 +322,6 @@ class eZTemplateCacheFunction
         return true;
     }
 
-    // Deprecated functions follow
-
-    /*!
-     \static
-     \deprecated
-     Returns base directory where 'subtree_expiry' caches are stored.
-    */
-    static function subtreeCacheBaseSubDir()
-    {
-        return eZTemplateCacheBlock::subtreeCacheBaseSubDir();
-    }
-
-    /*!
-     \static
-     \deprecated Does not seem to be used
-     Returns base directory where expired 'subtree_expiry' caches are stored.
-    */
-    static function expiryTemplateBlockCacheDir()
-    {
-        $expiryCacheDir = eZSys::cacheDirectory() . '/' . 'template-block-expiry';
-        return $expiryCacheDir;
-    }
-
-    /*!
-     \static
-     \deprecated
-     Returns base directory where template block caches are stored.
-    */
-    static function templateBlockCacheDir()
-    {
-        return eZTemplateCacheBlock::templateBlockCacheDir();
-    }
-
-    /*!
-     \static
-     \deprecated
-     Returns path of the directory where 'subtree_expiry' caches are stored.
-    */
-    static function subtreeCacheSubDir( $subtreeExpiryParameter, $cacheFilename )
-    {
-        return eZTemplateCacheBlock::subtreeCacheSubDir( $subtreeExpiryParameter, $cacheFilename );
-    }
-
-    /*!
-     \static
-     \deprecated
-     Builds and returns path from $nodeID, e.g. if $nodeID = 23 then path = subtree/2/3
-    */
-    static function subtreeCacheSubDirForNode( $nodeID )
-    {
-        return eZTemplateCacheBlock::subtreeCacheSubDirForNode( $nodeID );
-    }
-
     /// \privatesection
     /// Name of the function
     public $BlockName;

@@ -59,7 +59,7 @@ class eZSubtreeCache
         if ( !is_array( $nodeList ) )
             return;
 
-        $cacheDir = eZTemplateCacheFunction::templateBlockCacheDir();
+        $cacheDir = eZTemplateCacheBlock::templateBlockCacheDir();
 
         foreach ( $nodeList as $node )
         {
@@ -69,7 +69,7 @@ class eZSubtreeCache
 
             foreach( $nodeListID as $nodeID )
             {
-                $cachePath = $cacheDir . eZTemplateCacheFunction::subtreeCacheSubDirForNode( $nodeID );
+                $cachePath = $cacheDir . eZTemplateCacheBlock::subtreeCacheSubDirForNode( $nodeID );
                 eZSubtreeCache::cleanupCacheDir( $cachePath );
             }
         }
@@ -81,7 +81,7 @@ class eZSubtreeCache
     */
     static function cleanupAll()
     {
-        $subtreeCacheDir = eZTemplateCacheFunction::templateBlockCacheDir() . eZTemplateCacheFunction::subtreeCacheBaseSubDir();
+        $subtreeCacheDir = eZTemplateCacheBlock::templateBlockCacheDir() . eZTemplateCacheBlock::subtreeCacheBaseSubDir();
         eZSubtreeCache::cleanupCacheDir( $subtreeCacheDir );
     }
 
@@ -119,10 +119,8 @@ class eZSubtreeCache
         {
             if ( is_dir( $dir ) )
             {
-                $expiryCacheDir = eZTemplateCacheFunction::expiryTemplateBlockCacheDir();
-
                 $uniqid = md5( uniqid( 'ezpsubtreecache'. getmypid(), true ) );
-                $expiryCacheDir .= '/' . $uniqid[0] . '/' . $uniqid[1] . '/' . $uniqid[2] . '/' . $uniqid;
+                $expiryCacheDir = eZSys::cacheDirectory() . '/template-block-expiry/' . $uniqid[0] . '/' . $uniqid[1] . '/' . $uniqid[2] . '/' . $uniqid;
 
                 if ( !file_exists( $expiryCacheDir ) )
                 {
@@ -142,8 +140,7 @@ class eZSubtreeCache
     */
     static function removeAllExpiryCacheFromDisk()
     {
-        $expiryCachePath = eZTemplateCacheFunction::expiryTemplateBlockCacheDir();
-        eZSubtreeCache::removeExpiryCacheFromDisk( $expiryCachePath );
+        eZSubtreeCache::removeExpiryCacheFromDisk( eZSys::cacheDirectory() . '/template-block-expiry' );
     }
 
     /*!

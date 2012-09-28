@@ -78,6 +78,11 @@ Removed features
 
   Unused and deprecated method since 4.1. Use file_get_contents() instead.
 
+- eZTemplateCacheFunction functions: subtreeCacheBaseSubDir(), expiryTemplateBlockCacheDir(),
+  templateBlockCacheDir(), subtreeCacheSubDir() and subtreeCacheSubDirForNode().
+
+  Unused and deprecated functions since 3.10.
+
 - kernel/common/ezincludefunctions.php
 
   All functions in this file have been deprecated previously and are now removed:
