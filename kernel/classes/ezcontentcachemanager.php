@@ -622,16 +622,6 @@ class eZContentCacheManager
 
     /*!
      \static
-     Deprecated. Use 'clearObjectViewCache' instead
-    */
-    static function clearViewCache( $objectID, $versionNum = true , $additionalNodeList = false )
-    {
-        eZDebug::writeWarning( "'clearViewCache' function was deprecated. Use 'clearObjectViewCache' instead", __METHOD__ );
-        eZContentCacheManager::clearObjectViewCache( $objectID, $versionNum, $additionalNodeList );
-    }
-
-    /*!
-     \static
      Clears view caches of nodes, parent nodes and relating nodes
      of content objects with id \a $objectID.
      It will use 'viewcache.ini' to determine additional nodes.
