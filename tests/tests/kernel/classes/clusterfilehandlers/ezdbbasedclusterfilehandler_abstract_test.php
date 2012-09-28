@@ -305,10 +305,5 @@ abstract class eZDBBasedClusterFileHandlerAbstractTest extends eZClusterFileHand
     {
         self::assertTrue( eZClusterFileHandler::instance()->requiresClusterizing() );
     }
-
-    public function testRequiresBinaryPurge()
-    {
-        self::assertTrue( eZClusterFileHandler::instance()->requiresBinaryPurge() );
-    }
 }
 ?>

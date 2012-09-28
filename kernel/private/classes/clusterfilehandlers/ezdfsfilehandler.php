@@ -1410,20 +1410,6 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      * It does store files in DB + on NFS, and therefore doesn't remove files
      * in real time
      *
-     * @since 4.3
-     * @deprecated Deprecated as of 4.5, use {@link eZDFSFileHandler::requiresPurge()} instead.
-     * @return bool
-     */
-    public function requiresBinaryPurge()
-    {
-        return true;
-    }
-
-    /**
-     * eZDFS does require binary purge.
-     * It does store files in DB + on NFS, and therefore doesn't remove files
-     * in real time
-     *
      * @since 4.5.0
      * @return bool
      */

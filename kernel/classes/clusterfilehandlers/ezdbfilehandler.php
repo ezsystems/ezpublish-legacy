@@ -1310,19 +1310,6 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
      * eZDB does require binary purge.
      * It does store files in DB and therefore doesn't remove files in real time
      *
-     * @since 4.3.0
-     * @deprecated Deprecated as of 4.5, use {@link eZDBFileHandler::requiresPurge()} instead.
-     * @return bool
-     */
-    public function requiresBinaryPurge()
-    {
-        return true;
-    }
-
-    /**
-     * eZDB does require binary purge.
-     * It does store files in DB and therefore doesn't remove files in real time
-     *
      * @since 4.5.0
      * @return bool
      */
