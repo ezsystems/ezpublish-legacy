@@ -1319,22 +1319,6 @@ class eZDBFileHandler implements ezpDatabaseBasedClusterFileHandler
     }
 
     /**
-     * Fetches the first $limit expired binary items from the DB
-     *
-     * @param array $limit A 2 items array( offset, limit )
-     *
-     * @return array(eZClusterFileHandlerInterace)
-     * @since 4.3.0
-     * @deprecated Deprecated as of 4.5, use {@link eZDBFileHandler::fetchExpiredItems()} instead.
-     *
-     * @todo handle output using $cli or something
-     */
-    public function fetchExpiredBinaryItems( $limit = array( 0, 100 ) )
-    {
-        return self::$dbbackend->fetchExpiredItems( array( 'image', 'binaryfile' ), $limit );
-    }
-
-    /**
      * Fetches the first $limit expired files from the DB
      *
      * @param array $scopes Array of scopes to fetch from
