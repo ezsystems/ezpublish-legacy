@@ -109,7 +109,7 @@ class eZDBInterface
             {
                 $this->OutputTextCodec =& $tmpOutputTextCodec;
                 $this->InputTextCodec =& $tmpInputTextCodec;
-            }        
+            }
         }
 
         $this->OutputSQL = false;
@@ -1439,7 +1439,7 @@ class eZDBInterface
      *
      * Usage:
      *
-     * $db =& eZDb::instance();
+     * $db =& eZDB::instance();
      * $db->generateSQLINStatement( array( 2, 5, 43, ) );
      *
      * @param int|array $elements

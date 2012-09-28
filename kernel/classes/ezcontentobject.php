@@ -344,7 +344,7 @@ class eZContentObject extends eZPersistentObject
             eZDebug::writeNotice( "There is no object name for version($version) of the content object ($contentObjectID) in language($lang)", __METHOD__ );
             return $name;
         }
-        $db = eZDb::instance();
+        $db = eZDB::instance();
         $contentObjectID = $this->attribute( 'id' );
         if ( !$lang )
         {
