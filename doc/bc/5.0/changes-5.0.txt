@@ -50,6 +50,10 @@ Removed features
 
   Attribute 'rss-xml-content' is to be used instead. This attribute has been deprecated since 4.3.
 
+- "forgetpassword" misspelled view from "user" module
+
+  This misspelled view was kept for BC and has been deprecated since 3.0.
+
 - Classes eZWebDAVServer, eZWebDAVFileServer, eZWebDAVContentServer and eZWebDAVContentServerWrapper
 
   Those classes were used prior the switch to ezc Webdav component.

@@ -48,20 +48,6 @@ $ViewList['password'] = array(
     'default_navigation_part' => 'ezmynavigationpart',
     'params' => array( 'UserID' ) );
 
-/// \deprecated This view is kept for compatibility
-$ViewList['forgetpassword'] = array(
-    'functions' => array( 'password' ),
-    'script' => 'forgotpassword.php',
-    'deprecated' => true,
-    'params' => array( ),
-    'ui_context' => 'administration',
-    'ui_component' => 'forgotpassword',
-    'single_post_actions' => array( 'GenerateButton' => 'Generate' ),
-    'post_action_parameters' => array( 'Generate' => array( 'Login' => 'UserLogin',
-                                                            'Email' => 'UserEmail' ) ),
-    'params' => array( 'HashKey' ) );
-
-/// Note the function above is misspelled and should be removed
 $ViewList['forgotpassword'] = array(
     'functions' => array( 'password' ),
     'script' => 'forgotpassword.php',
