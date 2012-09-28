@@ -584,28 +584,6 @@ class eZContentOperationCollection
     }
 
     /*!
-      Start global transaction.
-
-      \deprecated since version 4.1.0, this method will be removed in future major releases
-     */
-    function beginPublish()
-    {
-        $db = eZDB::instance();
-        $db->begin();
-    }
-
-    /*!
-     Stop (commit) global transaction.
-
-     \deprecated since version 4.1.0, this method will be removed in future major releases
-     */
-    function endPublish()
-    {
-        $db = eZDB::instance();
-        $db->commit();
-    }
-
-    /*!
      Copies missing translations from published version to the draft.
      */
     static public function copyTranslations( $objectID, $versionNum )
