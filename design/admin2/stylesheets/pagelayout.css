@@ -290,6 +290,11 @@ ul.leftmenu-items
     font-size: 1.2em;
 }
 
+#leftmenu input[type="text"]
+{
+    width: 90%;
+}
+
 #rightmenu
 { 
     float: right;
