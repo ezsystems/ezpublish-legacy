@@ -128,6 +128,9 @@ Removed features
 
   Unused and deprecated method since 4.5.
 
+- Deprecated and unused methods of eZBinaryFileHandler: storedFilename(),
+  downloadType() and downloadURL();
+
 - kernel/common/ezincludefunctions.php
 
   All functions in this file have been deprecated previously and are now removed:
