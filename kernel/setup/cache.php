@@ -92,7 +92,10 @@ if ( $module->isCurrentAction( 'RegenerateStaticCache' ) )
     $staticCacheHandler = eZExtension::getHandlerClass( $options );
 	
     $staticCacheHandler->generateCache( true, true );
-    eZStaticCache::executeActions();
+
+    $staticCacheHandlerClassName = $ini->variable( 'ContentSettings', 'StaticCacheHandler' );
+    $staticCacheHandlerClassName::executeActions();
+
     $cacheCleared['static'] = true;
 }
 
