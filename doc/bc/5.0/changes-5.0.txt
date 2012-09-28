@@ -33,6 +33,10 @@ Change of behavior
 
   Those methods used to returns the array by reference to an internal array in the eZINI instance.
 
+- kernel/user/activate.php doesn't set the 'account_avtivated' template variable anymore (kept previously for BC)
+
+  The variable has been deprecated since 3.4.1.
+
 Removed features
 ----------------
 
