@@ -181,6 +181,10 @@ Removed features
 
   Deprecated method since 4.3.
 
+- eZSection methods: initGlobalID(), setGlobalID() and globalID()
+
+  Unused and deprecated methods since 4.4.
+
 - kernel/common/ezincludefunctions.php
 
   All functions in this file have been deprecated previously and are now removed:
