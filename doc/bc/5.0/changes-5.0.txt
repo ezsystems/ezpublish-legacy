@@ -185,6 +185,10 @@ Removed features
 
   Unused and deprecated methods since 4.4.
 
+- eZTipafriendCounter methods: clear() and increase()
+
+  Unused and deprecated methods since 3.9.
+
 - kernel/common/ezincludefunctions.php
 
   All functions in this file have been deprecated previously and are now removed:
