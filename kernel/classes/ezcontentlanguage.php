@@ -859,13 +859,6 @@ class eZContentLanguage extends eZPersistentObject
     }
 
     /**
-     * \deprecated
-     */
-    function updateObjectNames()
-    {
-    }
-
-    /**
      * Switches on the cronjob mode. In this mode, the languages which are not in the list of the prioritized languages
      * will be automatically added to it.
      *
