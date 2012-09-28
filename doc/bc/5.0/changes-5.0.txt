@@ -112,6 +112,10 @@ Removed features
 
   Deprecated methods since 4.4.
 
+- eZMimeType::mimeTypeFor()
+
+  Unused and deprecated function since 3.3.
+
 - kernel/common/ezincludefunctions.php
 
   All functions in this file have been deprecated previously and are now removed:

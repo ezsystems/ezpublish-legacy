@@ -344,27 +344,6 @@ class eZMimeType
     }
 
     /*!
-     \deprecated
-     \static
-     \return the MIME-Type name for the file \a $file.
-    */
-    static function mimeTypeFor( $path, $file )
-    {
-        eZDebug::writeWarning( 'eZMimeType::mimeTypeFor() is deprecated, use eZMimeType::findByURL() instead',
-                               'DEPRECATED FUNCTION eZMimeType::mimeTypeFor' );
-        $url = $path;
-        if ( $url )
-            $url .= '/' . $file;
-        else
-            $url = $file;
-        $match = eZMimeType::findByURL( $url, false );
-        if ( $match )
-            return $match['name'];
-        else
-            return false;
-    }
-
-    /*!
      \private
      Goes trough the mime list and creates a reference to the mime entry using the primary suffix.
     */
