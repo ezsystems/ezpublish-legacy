@@ -85,7 +85,7 @@ function changeSiteAccessSetting( $siteAccess )
     }
 }
 
-$db = eZDb::instance();
+$db = eZDB::instance();
 
 if ( $dbHost or $dbName or $dbUser or $dbImpl )
 {

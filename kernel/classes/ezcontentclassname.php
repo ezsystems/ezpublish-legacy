@@ -121,7 +121,7 @@ class eZContentClassName extends eZPersistentObject
 
     static function removeClassName( $contentClassID, $contentClassVersion )
     {
-        $db = eZDb::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         $sql = "DELETE FROM ezcontentclass_name WHERE contentclass_id = $contentClassID AND contentclass_version = $contentClassVersion";
