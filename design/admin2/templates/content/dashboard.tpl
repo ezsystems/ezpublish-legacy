@@ -4,7 +4,7 @@
 
 {if not($community_project)}
     <div class="box-header">
-        Something or other about Enterprise version
+        {include uri=concat( 'design:dashboard/', 'maintenance.tpl' )}
     </div>
 {/if}
 

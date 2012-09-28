@@ -285,6 +285,11 @@ div.tabs-content.disabled div.tab-content
     margin-bottom: 20px;
 }
 
+ul.leftmenu-items
+{
+    font-size: 1.2em;
+}
+
 #rightmenu
 { 
     float: right;
@@ -482,6 +487,7 @@ div#contentstructure a.nodeicon
 div#contentstructure li span.node-name-normal
 {
     font-weight: normal;
+    font-size: 1.2em;
 }
 
 div#contentstructure li.currentnode > a.image-text span.node-name-normal, div#contentstructure li.currentnode > a.image-text span.node-name-hidden, div#contentstructure li.currentnode > a.image-text span.node-name-hiddenbyparent /* Highlighting of current node */
@@ -1167,3 +1173,21 @@ color:#fff;
     width:100%;
     overflow-x:auto;
 }
+
+#dashboard-logo
+{
+    float:left;
+    width:134px;
+    background: url(../images/3/ez_logo_big_black_enterprise.png) left top no-repeat;
+/*    background: red;*/
+    height:69px;
+    margin-top:20px;
+    margin-left:20px;
+}
+
+#mainteinance-text
+{
+    margin-left: 182px;
+    font-size: 0.8em;
+}
+
