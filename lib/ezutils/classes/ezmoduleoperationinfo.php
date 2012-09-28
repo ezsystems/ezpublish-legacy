@@ -687,7 +687,7 @@ class eZModuleOperationInfo
 
         $keyArray = $this->makeKeyArray( $operationKeys, $operationParameterDefinitions, $operationParameters );
         $http = eZHTTPTool::instance();
-        $keyArray['session_key'] = $http->getSessionKey();
+        $keyArray['session_key'] = $http->sessionID();
         $mementoData = array();
         $mementoData['name'] = $bodyName;
         $mementoData['parameters'] = $operationParameters;

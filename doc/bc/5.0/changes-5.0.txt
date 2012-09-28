@@ -108,6 +108,10 @@ Removed features
 
   Deprecated function since 4.5. This function did nothing.
 
+- eZHTTPTool methods: getSessionKey() and setSessionKey()
+
+  Deprecated methods since 4.4.
+
 - kernel/common/ezincludefunctions.php
 
   All functions in this file have been deprecated previously and are now removed:

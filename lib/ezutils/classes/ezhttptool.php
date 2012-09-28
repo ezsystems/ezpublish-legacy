@@ -655,29 +655,6 @@ class eZHTTPTool
     }
 
     /**
-     * Return the session id
-     *
-     * @deprecated Since 4.4, use ->sessionID instead!
-     * @return string
-     */
-    function getSessionKey()
-    {
-        return session_id();
-    }
-
-    /**
-     * Sets a new session id
-     *
-     * @deprecated Since 4.4, use ->setSessionID instead!
-     * @param string $sessionKey Allowed characters in the range a-z A-Z 0-9 , (comma) and - (minus)
-     * @return string Current(old) session id
-    */
-    function setSessionKey( $sessionKey )
-    {
-        return session_id( $sessionKey );
-    }
-
-    /**
      * Sets the session variable $name to value $value.
      *
      * @param string $name
