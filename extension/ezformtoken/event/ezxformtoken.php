@@ -99,32 +99,20 @@ class ezxFormToken
         $token = self::getToken();
         $field = self::FORM_FIELD;
         $replaceKey = self::REPLACE_KEY;
-
+        $tag = "\n<span style='display:none;' id=\"{$field}_js\" title=\"{$token}\"></span>\n";
+        $input = "\n<input type=\"hidden\" name=\"{$field}\" value=\"{$token}\" />\n";
+               
         eZDebugSetting::writeDebug( 'ezformtoken', 'Output protected (all forms will be modified)', __METHOD__ );
 
-        // If document has head tag, insert in a html5 valid and semi standard way
-        if ( strpos( $templateResult, '<head>' ) !== false )
-        {
-            $templateResult = str_replace(
-                '<head>',
-                "<head>\n<meta name=\"csrf-param\" content=\"{$field}\" />\n"
-                    . "\n<meta name=\"csrf-token\" id=\"{$field}_js\" title=\"{$token}\" content=\"{$token}\" />\n",
-                $templateResult
-            );
-        }
-        // else fallback to hidden span inside body
-        else
-        {
-            $templateResult = preg_replace(
-                '/(<body[^>]*>)/i',
-                '\\1' . "\n<span style='display:none;' id=\"{$field}_js\" title=\"{$token}\"></span>\n",
-                $templateResult
-            );
-        }
+        $templateResult = preg_replace(
+            '/(<body[^>]*>)/i',
+            '\\1' . $tag,
+            $templateResult
+        );
 
         $templateResult = preg_replace(
             '/(<form\W[^>]*\bmethod=(\'|"|)POST(\'|"|)\b[^>]*>)/i',
-            '\\1' . "\n<input type=\"hidden\" name=\"{$field}\" value=\"{$token}\" />\n",
+            '\\1' . $input,
             $templateResult
         );
 
