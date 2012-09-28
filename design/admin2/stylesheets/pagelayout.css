@@ -333,6 +333,11 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
     margin-left: 1.5em;
 }
 
+#rightmenu-design select
+{
+    width:145px;
+}
+
 #rightmenu label { font-weight:normal; }
 
 
@@ -1190,4 +1195,5 @@ color:#fff;
     margin-left: 182px;
     font-size: 0.8em;
 }
+
 
