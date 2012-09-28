@@ -42,6 +42,10 @@ Removed features
   result of the merge of the newer admin interface "admin2" inside this directory.
   Everything that was specific to that old "admin" interface is now removed.
 
+- 'rss-xml' function attribute of eZRSSExport
+
+  Attribute 'rss-xml-content' is to be used instead. This attribute has been deprecated since 4.3.
+
 - Classes eZWebDAVServer, eZWebDAVFileServer, eZWebDAVContentServer and eZWebDAVContentServerWrapper
 
   Those classes were used prior the switch to ezc Webdav component.
@@ -172,6 +176,10 @@ Removed features
 - eZContentObjectTreeNode::updateURLAlias()
 
   Unused and deprecated method since 3.1.
+
+- eZRSSExport methods: rssXml(), fetchRSS1_0() and fetchRSS2_0()
+
+  Deprecated method since 4.3.
 
 - kernel/common/ezincludefunctions.php
 

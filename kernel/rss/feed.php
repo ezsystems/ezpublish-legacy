@@ -33,8 +33,6 @@ eZURI::setTransformURIMode( 'full' );
 
 if ( $cacheTime <= 0 )
 {
-    // use the new attribute rss-xml-content instead of the deprecated attribute rss-xml
-    // it returns the RSS as an XML string instead of a DomDocument object
     $xmlDoc = $RSSExport->attribute( 'rss-xml-content' );
     $rssContent = $xmlDoc;
 }
@@ -53,8 +51,6 @@ else
 
     if ( !$cacheFile->exists() or ( time() - $cacheFile->mtime() > $cacheTime ) )
     {
-        // use the new attribute rss-xml-content instead of the deprecated attribute rss-xml
-        // it returns the RSS as an XML string instead of a DomDocument object
         $xmlDoc = $RSSExport->attribute( 'rss-xml-content' );
         // Get current charset
         $charset = eZTextCodec::internalCharset();
