@@ -58,9 +58,11 @@ a.image-text:hover > span
 
 #header-usermenu
 {
+    display: block;
     float: right;
     text-align: center;
-    padding: 1em 10px 0;
+    padding: 2px;
+    margin-top: 12px;
 }
 
 #header-usermenu a
@@ -123,6 +125,15 @@ a.image-text:hover > span
     min-height: 25px;
 }
 
+a
+{
+    -webkit-transition: all 300ms ease;
+    -moz-transition: all 300ms ease;
+    -ms-transition: all 300ms ease;
+    -o-transition: all 300ms ease;
+    transition: all 300ms ease;
+}
+
 #header-topmenu ul, ul.tabs
 {
     margin: 0;
@@ -144,7 +155,6 @@ ul.tabs
 #header-topmenu ul li a, #header-topmenu ul li span.disabled
 {
     display: block;
-    font-weight: bold;
     text-decoration: none;
     padding: 2px 15px 2px 15px;
     margin-left: 1px;
@@ -159,7 +169,6 @@ ul.tabs li a, ul.tabs li span.disabled
     text-decoration: none;
     padding: 2px 15px;
     margin:2px 0 5px 1px;
-
     min-height: 16px;
 }
 
@@ -389,10 +398,17 @@ ul.leftmenu-items li.current a
 
 #footer
 {
+    padding: 0 0.8em;
+    position: relative;
+    z-index: 10;
+    display: block;
+    float: none;
+    clear: both;
+}
+
+#footer p {
+    display: block;
     text-align: center;
-    padding: 0.8em;
-    position:relative;
-    z-index:10;
 }
 
 #footer.hidden
@@ -883,7 +899,6 @@ input.button:hover
 
 #searchtext:focus
 {
-    font-style:normal;
     background-color: #f5f3dd;
 }
 
@@ -895,7 +910,7 @@ input.button:hover
     margin-left:5px;
     border: 4px solid rgba(255,255,255,0.1);
     border-radius: 5px;
-    background: url(../images/3/search.png) 9px 10px no-repeat;
+    background: transparent url(../images/3/search.png) 9px 10px no-repeat;
 
 }
 
@@ -903,6 +918,7 @@ input.button:hover
 {
     cursor: pointer;
     border-color: #567975;
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 .searchscope
@@ -1060,6 +1076,7 @@ input:-moz-placeholder {
     box-shadow: -1px -1px 1px #464a4b;
     background: #d5d6d6;
     width:250px;
+    outline: none;
 }
 
 #logintext::-webkit-input-placeholder,
