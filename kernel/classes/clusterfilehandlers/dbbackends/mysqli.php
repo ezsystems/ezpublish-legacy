@@ -291,26 +291,6 @@ class eZDBFileHandlerMysqliBackend
         return true;
     }
 
-    function _deleteByRegex( $regex, $fname = false )
-    {
-        if ( $fname )
-            $fname .= "::_deleteByRegex($regex)";
-        else
-            $fname = "_deleteByRegex($regex)";
-        return $this->_protect( array( $this, '_deleteByRegexInner' ), $fname,
-                                $regex, $fname );
-    }
-
-    function _deleteByRegexInner( $regex, $fname )
-    {
-        $sql = "UPDATE " . TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\nWHERE name REGEXP " . $this->_quote( $regex );
-        if ( !$res = $this->_query( $sql, $fname ) )
-        {
-            return $this->_fail( "Failed to delete files by regex: '$regex'" );
-        }
-        return true;
-    }
-
     function _deleteByWildcard( $wildcard, $fname = false )
     {
         if ( $fname )

@@ -432,47 +432,6 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
     }
 
     /**
-     * Deletes DB files by using a SQL regular expression applied to file names
-     *
-     * @param string $regex
-     * @param mixed $fname
-     * @return bool
-     * @deprecated Has severe performance issues
-     */
-    public function _deleteByRegex( $regex, $fname = false )
-    {
-        if ( $fname )
-            $fname .= "::_deleteByRegex($regex)";
-        else
-            $fname = "_deleteByRegex($regex)";
-        $return = $this->_protect( array( $this, '_deleteByRegexInner' ), $fname,
-                                   $regex, $fname );
-
-        if ( $return )
-            $this->eventHandler->notify( 'cluster/deleteByRegex', array( $regex ) );
-
-        return $return;
-    }
-
-    /**
-     * Callback used by _deleteByRegex to perform the deletion
-     *
-     * @param mixed $regex
-     * @param mixed $fname
-     * @return
-     * @deprecated Has severe performances issues
-     */
-    public function _deleteByRegexInner( $regex, $fname )
-    {
-        $sql = "UPDATE " . self::TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\nWHERE name REGEXP " . $this->_quote( $regex );
-        if ( !$res = $this->_query( $sql, $fname ) )
-        {
-            return $this->_fail( "Failed to delete files by regex: '$regex'" );
-        }
-        return true;
-    }
-
-    /**
      * Deletes multiple DB files by wildcard
      *
      * @param string $wildcard

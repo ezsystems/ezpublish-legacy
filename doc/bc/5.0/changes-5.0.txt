@@ -201,6 +201,10 @@ Removed features
 
   Unused and deprecated method since 4.3.
 
+- _deleteByRegex() and _deleteByRegexInner() methods of file handlers.
+
+  Unused since the removal of 'fileDeleteByRegex()' methods.
+
 - kernel/common/ezincludefunctions.php
 
   All functions in this file have been deprecated previously and are now removed:
