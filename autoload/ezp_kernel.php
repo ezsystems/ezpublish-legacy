@@ -73,7 +73,6 @@ return array(
       'eZContentCacheManager'                              => 'kernel/classes/ezcontentcachemanager.php',
       'eZContentClass'                                     => 'kernel/classes/ezcontentclass.php',
       'eZContentClassAttribute'                            => 'kernel/classes/ezcontentclassattribute.php',
-      'eZContentClassAttributeNameList'                    => 'kernel/classes/ezcontentclassattributenamelist.php',
       'eZContentClassClassGroup'                           => 'kernel/classes/ezcontentclassclassgroup.php',
       'eZContentClassEditHandler'                          => 'kernel/classes/ezcontentclassedithandler.php',
       'eZContentClassGroup'                                => 'kernel/classes/ezcontentclassgroup.php',

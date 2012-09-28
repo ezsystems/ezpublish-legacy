@@ -54,6 +54,10 @@ Removed features
 
   Direct binary file downloads is deprecated since 4.1.
 
+- Class eZContentClassAttributeNameList
+
+  Class deprecated since 4.3, use eZSerializedObjectNameList directly instead.
+
 - eZContentObject::removeReverseRelations()
 
   Unused and deprecated method.
