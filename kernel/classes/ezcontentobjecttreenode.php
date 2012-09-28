@@ -1556,16 +1556,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     /*!
         \a static
-        Deprecated. Use 'createPermissionCheckingSQL' instead.
-    */
-    static function createPermissionCheckingSQLString( $limitationList )
-    {
-        $sqlPermissionChecking = eZContentObjectTreeNode::createPermissionCheckingSQL( $limitationList );
-        return $sqlPermissionChecking['where'];
-    }
-
-    /*!
-        \a static
     */
     static function createPermissionCheckingSQL( $limitationList, $treeTableName = 'ezcontentobject_tree', $tableAliasName = 'ezcontentobject_tree' )
     {
