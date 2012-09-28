@@ -126,10 +126,6 @@ ul.tabs li a:hover
 
 @media all and (max-width: 1124px)
 {
-    #header-logo a, #header-logo span
-    {
-        width: 50px;/* Use only eZ logo on small screens */
-    }
 
     #header-topmenu ul li a, #header-topmenu ul li span.disabled
     {

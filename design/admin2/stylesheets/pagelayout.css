@@ -86,14 +86,14 @@ a.image-text:hover > span
 #header-logo a, #header-logo span
 {
     float: left;
-    width: 90px;
-    height: 64px;
+    width: 94px;
+    height: 65px;
     display: block;
     text-align: left;
     text-decoration: none;
     color:#f4f4f4;
     font-size:11px;
-    background: transparent url('../images/3/ez_logo_white_full.png') no-repeat 11px 11px;
+    background: transparent url('../images/3/ez_logo_small_community.png') 11px 11px no-repeat;
     padding-left:11px;
     padding-right:11px;
 }
@@ -109,7 +109,7 @@ a.image-text:hover > span
 .loginpage #header #header-design
 {
     height: 100%;
-    background: transparent url('../images/3/ez_logo_color_comt.png') no-repeat center 80%;
+    background: transparent url('../images/3/ez_logo_big_community.png') no-repeat center 80%;
 }
 
 
@@ -393,6 +393,11 @@ ul.leftmenu-items li.current a
     padding: 0.8em;
     position:relative;
     z-index:10;
+}
+
+#footer.hidden
+{
+    display: none;
 }
 
 
