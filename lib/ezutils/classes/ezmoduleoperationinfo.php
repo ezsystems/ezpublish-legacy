@@ -828,15 +828,6 @@ class eZModuleOperationInfo
         return $GLOBALS['eZModuleOperationClassObjectList'][$className] = new $className();
     }
 
-    /**
-     * @deprecated use call_user_func_array() instead
-     */
-    function callClassMethod( $methodName, $classObject, $parameterArray )
-    {
-        return call_user_func_array( array( $classObject, $methodName ), $parameterArray );
-    }
-
-
     /// \privatesection
     public $ModuleName;
     public $FunctionList;

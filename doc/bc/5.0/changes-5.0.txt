@@ -116,6 +116,10 @@ Removed features
 
   Unused and deprecated function since 3.3.
 
+- callClassMethod() method from eZModuleOperationInfo and eZModuleFunctionInfo
+
+  Unused and deprecated methods since 4.1.
+
 - kernel/common/ezincludefunctions.php
 
   All functions in this file have been deprecated previously and are now removed:
