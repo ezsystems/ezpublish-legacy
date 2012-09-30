@@ -290,7 +290,7 @@ class ezpKernelWeb implements ezpKernelHandler
                 'Last-Modified' => gmdate( 'D, d M Y H:i:s' ) . ' GMT',
                 'Cache-Control' => 'no-cache, must-revalidate',
                 'Pragma' => 'no-cache',
-                'X-Powered-By' => 'eZ Publish',
+                'X-Powered-By' => eZPublishSDK::EDITION,
                 'Content-Type' => 'text/html; charset=' . $this->httpCharset,
                 'Served-by' => $_SERVER["SERVER_NAME"],
                 'Content-language' => $this->languageCode

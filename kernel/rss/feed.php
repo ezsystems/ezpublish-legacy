@@ -74,7 +74,7 @@ else
             {
                 header( 'HTTP/1.1 304 Not Modified' );
                 header( 'Last-Modified: ' . $lastModified );
-                header( 'X-Powered-By: eZ Publish' );
+                header( 'X-Powered-By: ' . eZPublishSDK::EDITION );
                 eZExecution::cleanExit();
            }
         }
@@ -92,7 +92,7 @@ else
     header( 'Content-Type: application/rss+xml; charset=' . $httpCharset );
 
 header( 'Content-Length: ' . strlen( $rssContent ) );
-header( 'X-Powered-By: eZ Publish' );
+header( 'X-Powered-By: ' . eZPublishSDK::EDITION );
 
 for ( $i = 0, $obLevel = ob_get_level(); $i < $obLevel; ++$i )
 {

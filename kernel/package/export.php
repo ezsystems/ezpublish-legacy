@@ -51,7 +51,7 @@ if ( $fileName != "" and file_exists( $fileName ) )
     header( "Cache-Control: " );
     header( "Content-Length: $contentLength" );
     header( "Content-Type: $mimeType" );
-    header( "X-Powered-By: eZ Publish" );
+    header( "X-Powered-By: " . eZPublishSDK::EDITION );
     header( "Content-disposition: attachment; filename=$originalFileName" );
     header( "Content-Transfer-Encoding: binary" );
     header( "Accept-Ranges: bytes" );

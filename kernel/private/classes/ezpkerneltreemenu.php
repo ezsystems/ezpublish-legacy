@@ -48,7 +48,7 @@ class ezpKernelTreeMenu implements ezpKernelHandler
         require_once __DIR__ . '/treemenu_functions.php';
         $this->setUseExceptions( $this->settings['use-exceptions'] );
 
-        header( 'X-Powered-By: eZ Publish (index_treemenu)' );
+        header( 'X-Powered-By: ' . eZPublishSDK::EDITION . ' (index_treemenu)' );
         if ( $this->settings['use-cache-headers'] === true )
         {
             define( 'MAX_AGE', $this->settings['max-age'] );
