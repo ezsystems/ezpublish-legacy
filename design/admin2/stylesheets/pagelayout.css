@@ -1187,10 +1187,9 @@ color:#fff;
 #dashboard-logo
 {
     float:left;
-    width:134px;
-    background: url(../images/3/ez_logo_big_black_enterprise.png) left top no-repeat;
-/*    background: red;*/
-    height:69px;
+    width:151px;
+    background: url(../images/3/ez_logo_big_black_community.png) left top no-repeat;
+    height:72px;
     margin-top:20px;
     margin-left:20px;
 }
