@@ -70,7 +70,7 @@
 
 /* HEADER */
 #header
-{ 
+{
     border-top: 1px solid #696969;
 }
 
@@ -174,7 +174,7 @@ a.show-hide-tabs:hover
     border-top: 1px dashed #ddd;
 }
 
-.tab-block .button-left 
+.tab-block .button-left
 {
     margin: 5px 5px 0 0;
 }
@@ -360,6 +360,63 @@ input.button-disabled, input.button[disabled="disabled"]
 #ez-version
 {
     color: #E24602;
+}
+
+#ez-publish-community-project-is-innovative-and-cutting-edge
+{
+    color: #ff5500;
+    font-style: italic;
+}
+
+div.community-block-title h2,
+div.community-block-title span
+{
+    float: left;
+}
+
+div.community-block-title span
+{
+    margin-top: 1.5em;
+    margin-left: 4px;
+}
+
+div.community-block-title span.first
+{
+    margin-left: 8px;
+}
+
+div.community-activity
+{
+    border: 1px solid;
+    border-color: #ff5500;
+    border-color: rgba(255, 85, 0, 0.31);
+    padding: 1em 1em;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+div.community-activity div.loading
+{
+    font-style: italic;
+}
+
+div.community-activity #feed-elements ul h5
+{
+    margin-top: 0.5em;
+}
+
+div.community-activity #feed-elements ul
+{
+    list-style-type: none;
+    margin:0;
+    padding:0;
+}
+
+div.community-activity #feed-elements ul li p
+{
+    margin: 0.2em 0;
+    font-size: 0.8em;
 }
 
 .dashboard-item
