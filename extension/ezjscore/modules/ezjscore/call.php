@@ -71,6 +71,10 @@ else if ( $contentType === 'json' )
 {
     header('Content-Type: application/json; charset=utf-8');
 }
+else if ( $contentType === 'html' )
+{
+    header('Content-Type: text/html; charset=utf-8');
+}
 else
 {
     $contentType = 'text';
