@@ -1,11 +1,11 @@
 /**
  * Serializer.js
  *
- * Copyright 2009, Moxiecode Systems AB
+ * Copyright, Moxiecode Systems AB
  * Released under LGPL License.
  *
- * License: http://tinymce.moxiecode.com/license
- * Contributing: http://tinymce.moxiecode.com/contributing
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
  */
 
 (function(tinymce) {
@@ -96,13 +96,13 @@
 			}
 		});
 
-		// Remove internal classes mceItem<..>
+		// Remove internal classes mceItem<..> or mceSelected
 		htmlParser.addAttributeFilter('class', function(nodes, name) {
 			var i = nodes.length, node, value;
 
 			while (i--) {
 				node = nodes[i];
-				value = node.attr('class').replace(/\s*mce(Item\w+|Selected)\s*/g, '');
+				value = node.attr('class').replace(/(?:^|\s)mce(Item\w+|Selected)(?!\S)/g, '');
 				node.attr('class', value.length > 0 ? value : null);
 			}
 		});
@@ -116,6 +116,27 @@
 
 				if (node.attributes.map['data-mce-type'] === 'bookmark' && !args.cleanup)
 					node.remove();
+			}
+		});
+
+		// Remove expando attributes
+		htmlParser.addAttributeFilter('data-mce-expando', function(nodes, name, args) {
+			var i = nodes.length;
+
+			while (i--) {
+				nodes[i].attr(name, null);
+			}
+		});
+
+		htmlParser.addNodeFilter('noscript', function(nodes) {
+			var i = nodes.length, node;
+
+			while (i--) {
+				node = nodes[i].firstChild;
+
+				if (node) {
+					node.value = tinymce.html.Entities.decode(node.value);
+				}
 			}
 		});
 
@@ -330,12 +351,12 @@
 
 				// Parse and serialize HTML
 				args.content = htmlSerializer.serialize(
-					htmlParser.parse(args.getInner ? node.innerHTML : tinymce.trim(dom.getOuterHTML(node), args), args)
+					htmlParser.parse(tinymce.trim(args.getInner ? node.innerHTML : dom.getOuterHTML(node)), args)
 				);
 
 				// Replace all BOM characters for now until we can find a better solution
 				if (!args.cleanup)
-					args.content = args.content.replace(/\uFEFF|\u200B/g, '');
+					args.content = args.content.replace(/\uFEFF/g, '');
 
 				// Post process
 				if (!args.no_events)
