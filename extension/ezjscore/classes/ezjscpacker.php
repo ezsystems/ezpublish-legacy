@@ -469,7 +469,10 @@ class ezjscPacker
         {
             foreach( $ezjscINI->variable( 'eZJSCore', $isCSS ? 'CssOptimizer' : 'JavaScriptOptimizer' ) as $optimizer )
             {
-                $content = call_user_func( array( $optimizer, 'optimize' ), $content, $data['pack_level'] );
+                if ( is_callable( array( $optimizer, 'optimize' ) ) )
+                    $content = call_user_func( array( $optimizer, 'optimize' ), $content, $data['pack_level'] );
+                else
+                    eZDebug::writeWarning( "Could not call optimizer '{$optimizer}'", __METHOD__ );
             }
         }
 
