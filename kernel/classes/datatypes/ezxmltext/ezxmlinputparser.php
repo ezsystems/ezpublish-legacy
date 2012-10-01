@@ -647,7 +647,7 @@ class eZXMLInputParser
                 if( $embedObject instanceof eZContentObject )
                 {
                     $embedClassIdentifier = $embedObject->attribute( 'class_identifier' );
-                    $contentType = eZOEXMLInput::embedTagContentType( $embedClassIdentifier, $embedClassID );
+                    $contentType = self::embedTagContentType( $embedClassIdentifier, $embedClassID );
                     if ( $contentIni->hasVariable( 'embed_' . $embedClassIdentifier, 'AvailableClasses' ) )
                         $classListData = $contentIni->variable( 'embed_' . $embedClassIdentifier, 'AvailableClasses' );
                     else if ( $contentIni->hasVariable( 'embed-type_' . $contentType, 'AvailableClasses' ) )
@@ -713,6 +713,29 @@ class eZXMLInputParser
                 }
             }
         }
+    }
+
+    /*
+     * Get content type by class identifier (Copied from eZOE)
+     */
+    public static function embedTagContentType( $classIdentifier  )
+    {
+        $contentIni = eZINI::instance('content.ini');
+
+        foreach ( $contentIni->variable( 'RelationGroupSettings', 'Groups' ) as $group )
+        {
+            $settingName = ucfirst( $group ) . 'ClassList';
+            if ( $contentIni->hasVariable( 'RelationGroupSettings', $settingName ) )
+            {
+                if ( in_array( $classIdentifier, $contentIni->variable( 'RelationGroupSettings', $settingName ) ) )
+                    return $group;
+            }
+            else
+                eZDebug::writeDebug( "Missing content.ini[RelationGroupSettings]$settingName setting.",
+                                     __METHOD__ );
+        }
+
+        return $contentIni->variable( 'RelationGroupSettings', 'DefaultGroup' );
     }
 
     function washText( $textContent )
