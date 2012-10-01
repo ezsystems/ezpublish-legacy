@@ -163,7 +163,7 @@ class ezjscPacker
      */
     static function buildStylesheetFiles( $cssFiles, $packLevel = 3, $indexDirInCacheHash = true )
     {
-        return ezjscPacker::packFiles( $cssFiles, 'stylesheets/', '_all.css', $packLevel, $indexDirInCacheHash );
+        return ezjscPacker::packFiles( $cssFiles, 'stylesheets/', '.css', $packLevel, $indexDirInCacheHash, '_all' );
     }
 
     // static :: gets the cache dir
@@ -497,6 +497,7 @@ class ezjscPacker
         {
            $urlMatches = array_unique( $urlMatches[1] );
            $cssPathArray   = explode( '/', $file );
+           $wwwDir = self::getWwwDir();
            // Pop the css file name
            array_pop( $cssPathArray );
            $cssPathCount = count( $cssPathArray );
@@ -508,7 +509,7 @@ class ezjscPacker
                if ( $match[0] !== '/' and strpos( $match, 'http:' ) === false )
                {
                    $cssPathSlice = $relativeCount === 0 ? $cssPathArray : array_slice( $cssPathArray  , 0, $cssPathCount - $relativeCount  );
-                   $newMatchPath = self::getWwwDir();
+                   $newMatchPath = $wwwDir;
                    if ( !empty( $cssPathSlice ) )
                    {
                        $newMatchPath .= implode( '/', $cssPathSlice ) . '/';
