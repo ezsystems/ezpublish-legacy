@@ -48,8 +48,6 @@
 
             html += '</ul>';
 
-            console.log( html );
-
             // Show the results
             $( 'div.community-activity #feed-elements' ).append( html );
         }
