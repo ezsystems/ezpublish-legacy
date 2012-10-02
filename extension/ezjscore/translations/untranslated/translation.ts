@@ -53,6 +53,7 @@
     </message>
     <message>
         <location filename="ezjscserverfunctionsajaxuploader.php" line="81"/>
+        <location filename="ezjscserverfunctionsajaxuploader.php" line="327"/>
         <source>You are not allowed to upload a file.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -64,11 +65,12 @@
     <message>
         <location filename="ezjscserverfunctionsajaxuploader.php" line="268"/>
         <location filename="ezjscserverfunctionsajaxuploader.php" line="285"/>
+        <location filename="ezjscserverfunctionsajaxuploader.php" line="293"/>
         <source>Arguments error.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ezjscserverfunctionsajaxuploader.php" line="324"/>
+        <location filename="ezjscserverfunctionsajaxuploader.php" line="341"/>
         <source>Unable to retrieve the uploaded file.</source>
         <translation type="unfinished"></translation>
     </message>
