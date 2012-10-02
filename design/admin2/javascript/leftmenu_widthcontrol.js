@@ -29,7 +29,6 @@ jQuery(function( $ )
                     if ( size < 20 ) size = 20;
                     els[0].css( 'width', ( size )  + 'px' );
                     els[1].css( 'marginLeft', ( size + 10 ) + 'px' );
-                    $("div.widthcontrol-grippy").css('left', $('#leftmenu').width() - 15 );
                 }
             },
             save: function()
@@ -60,10 +59,6 @@ jQuery(function( $ )
         // Temporary measure - not good approach, but least messy.
         $( '#maincontent' ).css( 'marginLeft', (parseInt($('#leftmenu').css( 'width'),10) + 10) + 'px' );
     }
-    
-    // Adjusting starting grip position
-    $("div.widthcontrol-grippy").css('left', $('#leftmenu').width() - 15 );
-    $("div.widthcontrol-grippy").css('display','block');
     
 });
 
