@@ -12,7 +12,6 @@ function updatePanelsHeight() { // Stretching all interface panels to max height
             
         if (footer && !(footer.getStyle('display') == 'none')){
             columnsHeight -= parseInt(footer.getComputedStyle('height'),10);
-            console.log('footer is here!');
         }
         
         Y.one('#columns').setStyle('height', columnsHeight);
