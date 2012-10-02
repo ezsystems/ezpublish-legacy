@@ -207,9 +207,11 @@ document.getElementById('header-usermenu-logout').innerHTML += '<span class="hea
 {/literal}
 </script>
 
+
+</div><!-- div id="page" -->
+
 {* This comment will be replaced with actual debug report (if debug is on). *}
 <!--DEBUG_REPORT-->
-</div><!-- div id="page" -->
 
 {* modal window and AJAX stuff *}
 <div id="overlay-mask" style="display:none;"></div>
