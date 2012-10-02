@@ -2,11 +2,10 @@
 
 <div class="context-block content-dashboard">
 
-{if not($community_project)}
-    <div class="box-header">
-        {include uri=concat( 'design:dashboard/', 'maintenance.tpl' )}
-    </div>
-{/if}
+<div class="box-header">
+    {include uri=concat( 'design:dashboard/', 'maintenance.tpl' )}
+</div>
+
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 

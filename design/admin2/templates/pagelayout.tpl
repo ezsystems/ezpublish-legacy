@@ -17,10 +17,6 @@
 {set $collapse_right_menu = false()}
 {/if}
 
-{* Temporary - for debugging purposes :*}
-{set-block scope=global variable=community_project_block}1{/set-block}
-{def $community_project=true()}
-
 {if and( $ui_context_edit|not, or( $collapse_right_menu, $admin_left_size ))}
 <style type="text/css">
 {if $collapse_right_menu}
@@ -165,13 +161,13 @@
 
 {cache-block keys=array( $access_type ) ignore_content_expiry}
 
-{if $community_project}
-    <div id="footer" class="float-break">
-    <div id="footer-design">
-        {include uri='design:page_copyright.tpl'}
-    </div>
-    </div>
-{/if}
+
+<div id="footer" class="float-break">
+<div id="footer-design">
+    {include uri='design:page_copyright.tpl'}
+</div>
+</div>
+
 
 <div class="break"></div>
 
