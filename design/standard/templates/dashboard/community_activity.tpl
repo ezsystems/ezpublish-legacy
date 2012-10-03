@@ -1,10 +1,11 @@
 {* $block.number_of_items *}
-{def $forumsRssUrl='http://share.ez.no/rss/feed/all_forums'}
+{def $forumsRssUrl='http://share.ez.no/rss/feed/all_forums'
+     $versionString=fetch( 'setup', 'version' )}
 <div class="community-block-title">
     <h2>{'What\'s happening in the eZ Community'|i18n( 'design/admin/dashboard/community' )}</h2>
-    <span class="first"><a href="http://share.ez.no/get-involved/exchange#RSS"><img width="16px" height="16px" src={"rss-icon.gif"|ezimage} /></a></span>
-    <span><a href="http://share.ez.no/get-involved/exchange#twitter"><img width="16px" height="16px" src={"twitter-icon.png"|ezimage} /></a></span>
-    <span><a href="http://share.ez.no/get-involved/exchange#googleplus"><img width="16px" height="16px" src={"googleplus-icon.png"|ezimage} /></a></span>
+    <span class="first"><a href="http://share.ez.no/get-involved/exchange#RSS?{concat( 'utm_content=eZ+Publish+Community+Project+', $versionString , '&utm_source=eZ+Publish+Community+Project+Dashboard&utm_medium=eZ+Publish+Community+Project+Dashboard&utm_campaign=eZ+Publish+Community+Project+Dashboard' )}"><img width="16px" height="16px" src={"rss-icon.gif"|ezimage} /></a></span>
+    <span><a href="http://share.ez.no/get-involved/exchange#twitter?{concat( 'utm_content=eZ+Publish+Community+Project+', $versionString , '&utm_source=eZ+Publish+Community+Project+Dashboard&utm_medium=eZ+Publish+Community+Project+Dashboard&utm_campaign=eZ+Publish+Community+Project+Dashboard' )}"><img width="16px" height="16px" src={"twitter-icon.png"|ezimage} /></a></span>
+    <span><a href="http://share.ez.no/get-involved/exchange#googleplus?{concat( 'utm_content=eZ+Publish+Community+Project+', $versionString , '&utm_source=eZ+Publish+Community+Project+Dashboard&utm_medium=eZ+Publish+Community+Project+Dashboard&utm_campaign=eZ+Publish+Community+Project+Dashboard' )}"><img width="16px" height="16px" src={"googleplus-icon.png"|ezimage} /></a></span>
 </div>
 <div class="break"></div>
 <div class="community-activity">
@@ -40,7 +41,7 @@
 
                 //trace( $item.attr("link") );
                 html += '<li>' +
-                        '<h5><a href ="' + $item.attr( "link" ) + '?utm_content=eZ+Publish+Community+-+Forums&utm_source=ezpublish_dashboard&utm_medium=direct&utm_campaign=eZ+Publish+Community+Project+-+Dashboard' + '">' + $item.attr( "title" ) + '</a></h5> ' +
+                        '<h5><a href ="' + $item.attr( "link" ) + '?utm_content=eZ+Publish+Community+Project+{/literal}{$versionString}{literal}&utm_source=eZ+Publish+Community+Project+Dashboard&utm_medium=eZ+Publish+Community+Project+Dashboard&utm_campaign=eZ+Publish+Community+Project+Dashboard' + '">' + $item.attr( "title" ) + '</a></h5> ' +
                         '<p>' + $item.attr("author") + ' - <em>' + $date.getDate() + '/' + $date.getMonth() + '/' + $date.getFullYear() + ' ' + $date.getHours() + ':' + $date.getMinutes() + '</em></p>' +
                     // '<p>' + $item.attr("c:date") + '</p>' +
                         '</li>';
