@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the eZDBFileHandlerMysqlBackend class.
+ * File containing the eZDBFileHandlerMysqliBackend class.
  *
  * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
@@ -47,7 +47,7 @@ class eZDBFileHandlerMysqliBackend
     function _connect( /*$newLink = false*/ )
     {
         $siteINI = eZINI::instance( 'site.ini' );
-        if ( !isset( $GLOBALS['eZDBFileHandlerMysqlBackend_dbparams'] ) )
+        if ( !isset( $GLOBALS['eZDBFileHandlerMysqliBackend_dbparams'] ) )
         {
             $fileINI = eZINI::instance( 'file.ini' );
 
@@ -66,10 +66,10 @@ class eZDBFileHandlerMysqliBackend
 
             $params['cache_generation_timeout'] = $siteINI->variable( "ContentSettings", "CacheGenerationTimeout" );
 
-            $GLOBALS['eZDBFileHandlerMysqlBackend_dbparams'] = $params;
+            $GLOBALS['eZDBFileHandlerMysqliBackend_dbparams'] = $params;
         }
         else
-            $params = $GLOBALS['eZDBFileHandlerMysqlBackend_dbparams'];
+            $params = $GLOBALS['eZDBFileHandlerMysqliBackend_dbparams'];
         $this->dbparams = $params;
 
         $maxTries = $params['max_connect_tries'];
@@ -287,26 +287,6 @@ class eZDBFileHandlerMysqliBackend
         if ( !$res = $this->_query( $sql, $fname ) )
         {
             return $this->_fail( "Failed to delete files by like: '$like'" );
-        }
-        return true;
-    }
-
-    function _deleteByRegex( $regex, $fname = false )
-    {
-        if ( $fname )
-            $fname .= "::_deleteByRegex($regex)";
-        else
-            $fname = "_deleteByRegex($regex)";
-        return $this->_protect( array( $this, '_deleteByRegexInner' ), $fname,
-                                $regex, $fname );
-    }
-
-    function _deleteByRegexInner( $regex, $fname )
-    {
-        $sql = "UPDATE " . TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\nWHERE name REGEXP " . $this->_quote( $regex );
-        if ( !$res = $this->_query( $sql, $fname ) )
-        {
-            return $this->_fail( "Failed to delete files by regex: '$regex'" );
         }
         return true;
     }

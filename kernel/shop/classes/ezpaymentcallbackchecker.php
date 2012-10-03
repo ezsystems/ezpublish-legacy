@@ -34,7 +34,6 @@ class eZPaymentCallbackChecker
         $this->logger->writeTimedString( 'createDataFromPOST' );
         $this->callbackData = array();
 
-        eZSys::removeMagicQuotes();
         foreach( $_POST as $key => $value )
         {
             $this->callbackData[$key] = $value;

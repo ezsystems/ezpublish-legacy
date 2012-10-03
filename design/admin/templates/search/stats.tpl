@@ -3,21 +3,20 @@
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )}
 
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h1 class="context-title">{'Search statistics'|i18n( 'design/admin/search/stats' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {section show=$most_frequent_phrase_array}
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
-    <p>
+<div class="button-left">
+    <p class="table-preferences">
     {switch match=$number_of_items}
     {case match=25}
         <a href={'/user/preferences/set/admin_search_stats_limit/1'|ezurl}>10</a>
@@ -41,9 +40,7 @@
         {/switch}
     </p>
 </div>
-<div class="right"></div>
-<div class="break"></div>
-</div>
+<div class="float-break"></div>
 </div>
 
 <table class="list" cellspacing="0">
@@ -78,7 +75,7 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 
 {if $most_frequent_phrase_array|count}
@@ -88,7 +85,7 @@
 {/if}
 
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>

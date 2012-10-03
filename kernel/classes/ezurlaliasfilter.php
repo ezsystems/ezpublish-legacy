@@ -50,9 +50,7 @@ abstract class eZURLAliasFilter
      *
      * Process all configured filters and return the resulting text.
      *
-     * Filters are found in the INI group URLTranslator and the setting Filters.
-     * This is done in combination with the setting Extensions which controls
-     * which extensions have filter classes.
+     * Filters are found in the INI group URLTranslator and the setting FilterClasses.
      *
      * The parameters $text, $languageObject and $caller are sent to the method
      * process on the filter object.

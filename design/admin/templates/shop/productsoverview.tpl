@@ -2,13 +2,13 @@
 <form name="productsoverview" action={'shop/productsoverview'|ezurl} method="post">
 
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'Products overview'|i18n( 'design/admin/shop/productsoverview' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -59,9 +59,8 @@
 
 {* Items per page selector. *}
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
-    <p>
+<div class="button-left">
+    <p class="table-preferences">
     {switch match=$limit}
 
         {case match=25}
@@ -85,20 +84,19 @@
         {/switch}
     </p>
 </div>
-<div class="break"></div>
-</div>
+<div class="float-break"></div>
 </div>
 
 <table class="list" cellspacing="0">
 <tr>
     <th class="name">{'Name'|i18n( 'design/admin/shop/productsoverview' )}</th>
-    <th class="class">{'Price'|i18n( 'design/admin/shop/productsoverview' )}</th>
+    <th class="nowrap">{'Price'|i18n( 'design/admin/shop/productsoverview' )}</th>
 </tr>
 
 {foreach $product_list as $product sequence array( bglight, bgdark ) as $bg_class_style}
     <tr class="{$bg_class_style}">
         <td class="name"><a href={$product.url_alias|ezurl}>{$product.object.name|wash()}</a></td>
-        <td class="class">{$product.data_map[$price_attribute_identifier].content.inc_vat_price|l10n('currency', $locale, $symbol )}</td>
+        <td class="nowrap">{$product.data_map[$price_attribute_identifier].content.inc_vat_price|l10n('currency', $locale, $symbol )}</td>
     </tr>
 {/foreach}
 
@@ -123,41 +121,39 @@
 {* Button bar for filter and sorting. *}
 <div class="controlbar">
 
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
-<div class="block">
-    {if $product_class_list_valid}
-        <div class="left">
-            <select name="ProductClass" title="{'Select product class.'|i18n( 'design/admin/shop/productsoverview' )}">
-                {foreach $product_class_list as $class}
-                    <option value="{$class.identifier}" {if and( $product_class, eq( $class.identifier, $product_class.identifier ))}selected="selected"{/if}>{$class.name|wash()}</option>
-                {/foreach}
-            </select>
-            {* Show button *}
-            <input class="button" type="submit" name="ShowProductsButton" value="{'Show products'|i18n( 'design/admin/shop/productsoverview' )}" title="{'Show products of selected class.'|i18n( 'design/admin/shop/productsoverview' )}" />
-        </div>
-        <div class="right">
-            <label>{'Sorting'|i18n( 'design/admin/shop/productsoverview' )}:</label>
+{if $product_class_list_valid}
+    <div class="button-left">
+        <select name="ProductClass" title="{'Select product class.'|i18n( 'design/admin/shop/productsoverview' )}">
+            {foreach $product_class_list as $class}
+                <option value="{$class.identifier}" {if and( $product_class, eq( $class.identifier, $product_class.identifier ))}selected="selected"{/if}>{$class.name|wash()}</option>
+            {/foreach}
+        </select>
+        {* Show button *}
+        <input class="button" type="submit" name="ShowProductsButton" value="{'Show products'|i18n( 'design/admin/shop/productsoverview' )}" title="{'Show products of selected class.'|i18n( 'design/admin/shop/productsoverview' )}" />
+    </div>
+    <div class="button-right">
+        <label>{'Sorting'|i18n( 'design/admin/shop/productsoverview' )}:</label>
 
-            <select name="SortingField" title="{'Select sorting field.'|i18n( 'design/admin/shop/productsoverview' )}">
-                {foreach $sorting_field_list as $field => $fieldTitle}
-                    <option value="{$field}" {if eq( $sorting_field, $field)}selected="selected"{/if}>{$fieldTitle}</option>
-                {/foreach}
-            </select>
+        <select name="SortingField" title="{'Select sorting field.'|i18n( 'design/admin/shop/productsoverview' )}">
+            {foreach $sorting_field_list as $field => $fieldTitle}
+                <option value="{$field}" {if eq( $sorting_field, $field)}selected="selected"{/if}>{$fieldTitle}</option>
+            {/foreach}
+        </select>
 
-            <select name="SortingOrder" title="{'Select sorting order.'|i18n( 'design/admin/shop/productsoverview' )}">
-                <option value="0" {if eq( $sorting_order, 0)}selected="selected"{/if}>{'Descending'|i18n( 'design/admin/shop/productsoverview' )}</option>
-                <option value="1" {if eq( $sorting_order, 1)}selected="selected"{/if}>{'Ascending'|i18n( 'design/admin/shop/productsoverview' )}</option>
-            </select>
+        <select name="SortingOrder" title="{'Select sorting order.'|i18n( 'design/admin/shop/productsoverview' )}">
+            <option value="0" {if eq( $sorting_order, 0)}selected="selected"{/if}>{'Descending'|i18n( 'design/admin/shop/productsoverview' )}</option>
+            <option value="1" {if eq( $sorting_order, 1)}selected="selected"{/if}>{'Ascending'|i18n( 'design/admin/shop/productsoverview' )}</option>
+        </select>
 
-            {* Sort button *}
-            <input class="button" type="submit" name="SortButton" value="{'Sort products'|i18n( 'design/admin/shop/productsoverview' )}" title="{'Sort products.'|i18n( 'design/admin/shop/productsoverview' )}" />
-        </div>
-    {/if}
+        {* Sort button *}
+        <input class="button" type="submit" name="SortButton" value="{'Sort products'|i18n( 'design/admin/shop/productsoverview' )}" title="{'Sort products.'|i18n( 'design/admin/shop/productsoverview' )}" />
+    </div>
+{/if}
 
-    <div class="break"></div>
-</div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+<div class="float-break"></div>
+{* DESIGN: Control bar END *}</div></div>
 
 </div>
 </div>

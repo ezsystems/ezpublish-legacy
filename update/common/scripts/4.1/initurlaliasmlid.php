@@ -37,7 +37,7 @@ $db->query( 'TRUNCATE TABLE ezurlalias_ml_incr' );
 
 $cli->output( 'Setting next auto_increment value to highest existing ID + 1' );
 
-if ( $db instanceof eZMySQLDB || $db instanceof eZMySQLiDB )
+if ( $db instanceof eZMySQLiDB )
 {
     $db->query( "ALTER TABLE ezurlalias_ml_incr AUTO_INCREMENT=$autoInc" );
 }

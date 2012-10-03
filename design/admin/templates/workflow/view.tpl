@@ -17,7 +17,7 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'%workflow_name [Workflow]'|i18n( 'design/admin/workflow/view' ,, hash( '%workflow_name', $workflow.name ) )|wash}</h1>
 
@@ -27,7 +27,7 @@
 <p>{'Last modified'|i18n( 'design/admin/workflow/view' )}:&nbsp;{$workflow.modified|l10n( shortdatetime )}&nbsp;<a href={$workflow.creator.contentobject.main_node.url_alias|ezurl}>{$workflow.creator.contentobject.name|wash}</a></p>
 </div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -48,13 +48,13 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 <form action={concat( '/workflow/edit/', $workflow.id )|ezurl} method="post">
-<input class="button" type="submit" name="" value="{'Edit'|i18n( 'design/admin/workflow/view' )}" />
+<input class="button" type="submit" name="_DefaultButton" value="{'Edit'|i18n( 'design/admin/workflow/view' )}" />
 </form>
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>
@@ -67,19 +67,19 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h2 class="context-title">{'Member of groups [%group_count]'|i18n( 'design/admin/workflow/view',, hash( '%group_count', $workflow.ingroup_list|count ) )}</h2>
+<h2 class="context-title">{'Member of groups (%group_count)'|i18n( 'design/admin/workflow/view',, hash( '%group_count', $workflow.ingroup_list|count ) )}</h2>
 
-{* DESIGN: Mainline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/workflow/view' )}" title="{'Invert selection.'|i18n( 'design/admin/workflow/view' )}" onclick="ezjs_toggleCheckboxes( document.workflowgroups, 'group_id_checked[]' ); return false;" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/workflow/view' )}" title="{'Invert selection.'|i18n( 'design/admin/workflow/view' )}" onclick="ezjs_toggleCheckboxes( document.workflowgroups, 'group_id_checked[]' ); return false;" /></th>
     <th class="wide">{'Group'|i18n( 'design/admin/workflow/view' )}</th>
 </tr>
 {section var=Groups loop=$workflow.ingroup_list sequence=array( bglight, bgdark )}
@@ -93,7 +93,7 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
     <div class="block">
     <input class="button" type="submit" name="DeleteGroupButton" value="{'Remove selected'|i18n( 'design/admin/workflow/view' )}" />
     </div>
@@ -115,7 +115,7 @@
     {/section}
     </div>
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </form>
@@ -124,14 +124,14 @@
 
 {* Events *}
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title">{'Events [%event_count]'|i18n( 'design/admin/workflow/view',, hash( '%event_count', $event_list|count ) )}</h2>
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+<h2 class="context-title">{'Events (%event_count)'|i18n( 'design/admin/workflow/view',, hash( '%event_count', $event_list|count ) )}</h2>
 
-{* DESIGN: Mainline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Header END *}</div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <table class="list" cellspacing="0">
 <tr>
@@ -144,12 +144,21 @@
 <tr class="{$Events.sequence}">
     <td>{$Events.item.placement}</td>
     <td>{$Events.item.description}</td>
-    <td>{$Events.item.workflow_type.group_name|wash}/{$Events.item.workflow_type.name|wash}</td>
-    <td>{event_view_gui event=$Events.item}</td>
+    <td>{if $Events.item.workflow_type|is_null|not}{$Events.item.workflow_type.group_name|wash}/{$Events.item.workflow_type.name|wash}{/if}</td>
+    <td>
+    {if $Events.item.workflow_type|is_null}
+        <span class="error"><em>
+        {'Error : Could not load workflow event "%eventtype" (event type not available)'|i18n( 'design/admin/workflow/edit',, hash( '%eventtype', $Events.item.workflow_type_string ) )}<br />
+        {'Hint : This can happen when a workflow extension has been disabled'|i18n( 'design/admin/workflow/edit' )}
+        </em></span>
+    {else}
+        {event_view_gui event=$Events.item}
+    {/if}
+    </td>
 </tr>
 {/section}
 </table>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>

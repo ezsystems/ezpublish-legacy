@@ -54,7 +54,6 @@ function eZUpdateTextCodecSettings()
 eZUpdateTextCodecSettings();
 
 // Check for extension
-require_once( 'kernel/common/ezincludefunctions.php' );
 eZExtension::activateExtensions( 'default' );
 // Extension check end
 
@@ -101,7 +100,6 @@ if ( $enable === 'true' )
         // e.g. if run from the shell
         eZExecution::cleanExit();
     }
-    include_once( "access.php" );
 
     eZModule::setGlobalPathList( array( "kernel" ) );
     eZWebDAVContentBackend::appendLogEntry( "========================================" );

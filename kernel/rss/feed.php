@@ -33,8 +33,6 @@ eZURI::setTransformURIMode( 'full' );
 
 if ( $cacheTime <= 0 )
 {
-    // use the new attribute rss-xml-content instead of the deprecated attribute rss-xml
-    // it returns the RSS as an XML string instead of a DomDocument object
     $xmlDoc = $RSSExport->attribute( 'rss-xml-content' );
     $rssContent = $xmlDoc;
 }
@@ -53,8 +51,6 @@ else
 
     if ( !$cacheFile->exists() or ( time() - $cacheFile->mtime() > $cacheTime ) )
     {
-        // use the new attribute rss-xml-content instead of the deprecated attribute rss-xml
-        // it returns the RSS as an XML string instead of a DomDocument object
         $xmlDoc = $RSSExport->attribute( 'rss-xml-content' );
         // Get current charset
         $charset = eZTextCodec::internalCharset();
@@ -78,7 +74,7 @@ else
             {
                 header( 'HTTP/1.1 304 Not Modified' );
                 header( 'Last-Modified: ' . $lastModified );
-                header( 'X-Powered-By: eZ Publish' );
+                header( 'X-Powered-By: ' . eZPublishSDK::EDITION );
                 eZExecution::cleanExit();
            }
         }
@@ -96,7 +92,7 @@ else
     header( 'Content-Type: application/rss+xml; charset=' . $httpCharset );
 
 header( 'Content-Length: ' . strlen( $rssContent ) );
-header( 'X-Powered-By: eZ Publish' );
+header( 'X-Powered-By: ' . eZPublishSDK::EDITION );
 
 for ( $i = 0, $obLevel = ob_get_level(); $i < $obLevel; ++$i )
 {

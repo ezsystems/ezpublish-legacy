@@ -7,15 +7,15 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h2 class="context-title">{'Translations [%translations]'|i18n( 'design/admin/class/view',, hash( '%translations', $translations_count ) )}</h2>
+<h2 class="context-title">{'Translations (%translations)'|i18n( 'design/admin/class/view',, hash( '%translations', $translations_count ) )}</h2>
 
-{* DESIGN: Subline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
 
-{* DESIGN: Content START *}{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Header END *}</div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <div class="block">
 <fieldset>
@@ -23,7 +23,7 @@
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/class/view' )}" title="{'Invert selection.'|i18n( 'design/admin/class/view' )}" onclick="ezjs_toggleCheckboxes( document.translationsform, 'LanguageID[]' ); return false;"/></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/class/view' )}" title="{'Invert selection.'|i18n( 'design/admin/class/view' )}" onclick="ezjs_toggleCheckboxes( document.translationsform, 'LanguageID[]' ); return false;"/></th>
     <th>{'Language'|i18n( 'design/admin/class/view' )}</th>
     <th>{'Locale'|i18n( 'design/admin/class/view' )}</th>
     <th class="tight">{'Main'|i18n( 'design/admin/class/view' )}</th>
@@ -41,7 +41,7 @@
 
 {* Language name. *}
 <td>
-<img src="{$Translations.item.locale|flag_icon}" alt="{$Translations.item.locale}" />
+<img src="{$Translations.item.locale|flag_icon}" width="18" height="12" alt="{$Translations.item.locale}" />
 &nbsp;
 {if eq( $Translations.item.locale, $language_code )}
 <b><a href={concat( 'class/view/', $class.id, '/(language)/', $Translations.item.locale )|ezurl} title="{'View translation.'|i18n( 'design/admin/class/view' )}">{$Translations.item.name}</a></b>
@@ -63,7 +63,7 @@
 {* Edit. *}
 <td>
 
-<a href={concat( 'class/edit/', $class.id, '/(language)/', $Translations.item.locale )|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit in <%language_name>.'|i18n( 'design/admin/class/view',, hash( '%language_name', $Translations.item.locale_object.intl_language_name ) )|wash}" title="{'Edit in <%language_name>.'|i18n( 'design/admin/class/view',, hash( '%language_name', $Translations.item.locale_object.intl_language_name ) )|wash}" /></a>
+<a href={concat( 'class/edit/', $class.id, '/(language)/', $Translations.item.locale )|ezurl}><img src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit in <%language_name>.'|i18n( 'design/admin/class/view',, hash( '%language_name', $Translations.item.locale_object.intl_language_name ) )|wash}" title="{'Edit in <%language_name>.'|i18n( 'design/admin/class/view',, hash( '%language_name', $Translations.item.locale_object.intl_language_name ) )|wash}" /></a>
 
 </td>
 
@@ -85,7 +85,7 @@
     {if $translations_count|gt( 1 )}
     <input class="button" type="submit" name="UpdateInitialLanguageButton" value="{'Set main'|i18n( 'design/admin/class/view' )}" title="{'Select the desired main language using the radio buttons above then click this button to store the setting.'|i18n( 'design/admin/class/view' )}" />
     {else}
-    <input class="button-disabled" type="submit" name="" value="{'Set main'|i18n( 'design/admin/class/view' )}" disabled="disabled" title="{'You cannot change the main language because the object is not translated to any other languages.'|i18n( 'design/admin/class/view' )}" />
+    <input class="button-disabled" type="submit" name="_Disabled" value="{'Set main'|i18n( 'design/admin/class/view' )}" disabled="disabled" title="{'You cannot change the main language because the object is not translated to any other languages.'|i18n( 'design/admin/class/view' )}" />
     {/if}
 </div>
 
@@ -95,7 +95,7 @@
 
 </div>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 

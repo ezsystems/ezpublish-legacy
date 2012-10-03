@@ -13,11 +13,8 @@ $Module->setTitle( "Successful registration" );
 $tpl = eZTemplate::factory();
 $tpl->setVariable( "module", $Module );
 $ini = eZINI::instance();
-$verifyUserEmail = $ini->variable( 'UserSettings', 'VerifyUserEmail' );
-if ( $verifyUserEmail == "enabled" )
-    $tpl->setVariable( "verify_user_email", true );
-else
-    $tpl->setVariable( "verify_user_email", false );
+
+$tpl->setVariable( "verify_user_email", $ini->variable( 'UserSettings', 'VerifyUserType' ) === "email" );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:user/success.tpl" );

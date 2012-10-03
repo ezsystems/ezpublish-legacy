@@ -303,7 +303,6 @@ class eZFS2FileHandler extends eZFSFileHandler
         if ( $store and !$this->checkCacheGenerationTimeout() )
             $storeCache = false;
 
-        $mtime = false;
         $result = null;
         if ( $binaryData === null &&
             $fileContent === null )
@@ -550,7 +549,6 @@ class eZFS2FileHandler extends eZFSFileHandler
      *
      * \public
      * \static
-     * \sa fileDeleteByRegex()
      */
     function fileDeleteByDirList( $dirList, $commonPath, $commonSuffix )
     {
@@ -766,19 +764,6 @@ class eZFS2FileHandler extends eZFSFileHandler
      * @return bool
      */
     public function requiresClusterizing()
-    {
-        return false;
-    }
-
-    /**
-     * eZFS2 doesn't require purge as it already purges files in realtime
-     * (FS based)
-     *
-     * @since 4.3
-     * @deprecated Deprecated as of 4.5, use {@link eZFS2FileHandler::requiresPurge()} instead.
-     * @return bool
-     */
-    public function requiresBinaryPurge()
     {
         return false;
     }

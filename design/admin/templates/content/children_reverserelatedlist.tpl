@@ -3,9 +3,8 @@
 
 {* DESIGN: Subline *}
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
-    <p>
+<div class="button-left">
+    <p class="table-preferences">
     {switch match=$number_of_items}
     {case match=25}
         <a href={'/user/preferences/set/reverse_children_list_limit/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
@@ -30,9 +29,7 @@
     </p>
 </div>
 
-<div class="break"></div>
-
-</div>
+<div class="float-break"></div>
 </div>
 
 {* DESIGN: Content START *}
@@ -40,7 +37,7 @@
 <div class="content-navigation-childlist-remove">
     <table class="list" cellspacing="0">
     <tr>
-	{* Item column *}
+    {* Item column *}
         <th colspan="2">{'Item'|i18n( 'design/admin/content/children_reverserelatedlist' )}</th>
         {* Class type column *}
         <th>{'Type'|i18n( 'design/admin/node/removeobject' )}</th>
@@ -57,9 +54,9 @@
     {* Location. *}
     <td>
     {if $reverse_list_count_children_array[$children_item.object.id]|gt( 0 )}
-        <a href={concat( $children_item.object.main_node.url_alias, '/(show_relations)/1#relations' )|ezurl}>
+        <a href={concat( $children_item.object.main_node.url_alias, '/(tab)/relations#tab-content-relations' )|ezurl}>
     {/if}
-	{section var=path_node loop=$children_item.path|append( $children_item )}
+    {section var=path_node loop=$children_item.path|append( $children_item )}
               {$path_node.name|wash}
               {delimiter} / {/delimiter}
         {/section}
@@ -77,7 +74,7 @@
     <td>
       {$reverse_list_count_children_array[$children_item.object.id]}
       {if $reverse_list_count_children_array[$children_item.object.id]|gt( 0 )}
-        ( <a href={concat( $children_item.object.main_node.url_alias, '/(show_relations)/1#relations' )|ezurl}>list</a> )
+        ( <a href={concat( $children_item.object.main_node.url_alias, '/(tab)/relations#tab-content-relations' )|ezurl}>list</a> )
       {/if}
     </td>
 

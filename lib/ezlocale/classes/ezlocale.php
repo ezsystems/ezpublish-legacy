@@ -657,19 +657,6 @@ class eZLocale
     }
 
     /*!
-     Returns the locale code which is used for translation files. Normally this is the same as localeCode()
-     but for some locales translation from other languages can be used
-
-     e.g. por-MZ (Mozambique) uses por-PT for translation.
-
-     \deprecated since eZ Publish 4.1, use localeFullCode() instead
-    */
-    function translationCode()
-    {
-        return $this->TranslationCode;
-    }
-
-    /*!
      Returns the locale code for this language which is the language and the country with a dash (-) between them,
      for instance nor-NO or eng-GB.
     */

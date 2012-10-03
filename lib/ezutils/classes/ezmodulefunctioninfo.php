@@ -297,21 +297,6 @@ class eZModuleFunctionInfo
         return call_user_func_array( array( $classObject, $methodName ), $parameterArray );
     }
 
-    /*!
-     \deprecated use call_user_func_array() instead
-    */
-    function callClassMethod( $methodName, $classObject, $parameterArray )
-    {
-/*        echo "*********** fetching START **************** <br>";
-        var_dump( $methodName );
-        var_dump( $classObject );
-        var_dump( $parameterArray );
-        echo "*********** fetching END ******************<br><br><br>";*/
-
-        return call_user_func_array( array( $classObject, $methodName ), $parameterArray );
-    }
-
-
     /// \privatesection
     public $ModuleName;
     public $FunctionList;

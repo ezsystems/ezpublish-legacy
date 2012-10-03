@@ -8,22 +8,21 @@
 <form name="currencylist" action={'shop/currencylist'|ezurl} method="post">
 
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'Currencies'|i18n( 'design/admin/shop/currencylist' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {if $currency_list}
 {* Items per page selector. *}
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
-    <p>
+<div class="button-left">
+    <p class="table-preferences">
     {switch match=$limit}
 
         {case match=25}
@@ -47,18 +46,17 @@
         {/switch}
     </p>
 </div>
-<div class="break"></div>
-</div>
+<div class="float-break"></div>
 </div>
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/currencylist' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/currencylist' )}" onclick="ezjs_toggleCheckboxes( document.currencylist, 'DeleteCurrencyList[]' ); return false;" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/shop/currencylist' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/currencylist' )}" onclick="ezjs_toggleCheckboxes( document.currencylist, 'DeleteCurrencyList[]' ); return false;" /></th>
     <th class="name">{'Name'|i18n( 'design/admin/shop/currencylist' )}</th>
-    <th class="class">{'Code'|i18n( 'design/admin/shop/currencylist' )}</th>
-    <th class="class">{'Symbol'|i18n( 'design/admin/shop/currencylist' )}</th>
-    <th class="class">{'Locale'|i18n( 'design/admin/shop/currencylist' )}</th>
-    <th class="class">{'Status'|i18n( 'design/admin/shop/currencylist' )}</th>
+    <th class="nowrap">{'Code'|i18n( 'design/admin/shop/currencylist' )}</th>
+    <th class="nowrap">{'Symbol'|i18n( 'design/admin/shop/currencylist' )}</th>
+    <th class="nowrap">{'Locale'|i18n( 'design/admin/shop/currencylist' )}</th>
+    <th class="nowrap">{'Status'|i18n( 'design/admin/shop/currencylist' )}</th>
     <th class="tight">{'Auto rate'|i18n( 'design/admin/shop/currencylist' )}</th>
     <th class="tight">{'Custom rate'|i18n( 'design/admin/shop/currencylist' )}</th>
     <th class="tight">{'Factor'|i18n( 'design/admin/shop/currencylist' )}</th>
@@ -77,7 +75,7 @@
         <td><input type="checkbox" name="DeleteCurrencyList[]" value="{$currency.code}" title="{'Use these checkboxes to select items for removal. Click the "Remove selected" button to  remove the selected items.'|i18n( 'design/admin/shop/currencylist' )|wash()}" /></td>
         <td>
             {if is_set( $currency_names[$currency.code] )}
-    	        {$currency_names[$currency.code]}
+                {$currency_names[$currency.code]}
             {else}
                 {'Unknown currency name'|i18n( 'design/admin/shop/currencylist' )}
             {/if}
@@ -110,7 +108,7 @@
         {else}
             <td class="na-rate">{'N/A'|i18n( 'design/admin/shop/currencylist' )}</td>
         {/if}
-        <td><a href={concat( 'shop/editcurrency/(currency)/', $currency.code)|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/shop/currencylist' )}" title="{"Edit '%currency_code' currency."|i18n( 'design/admin/shop/currencylist',, hash( '%currency_code', $currency.code ) )|wash}" /></a></td>
+        <td><a href={concat( 'shop/editcurrency/(currency)/', $currency.code)|ezurl}><img src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/shop/currencylist' )}" title="{"Edit '%currency_code' currency."|i18n( 'design/admin/shop/currencylist',, hash( '%currency_code', $currency.code ) )|wash}" /></a></td>
     </tr>
 
 {/foreach}
@@ -136,40 +134,38 @@
 {* Button bar for remove and add currency. *}
 <div class="controlbar">
 
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
-<div class="block">
-    {if $currency_list}
-        <div class="left">
-            {* Remove button *}
-            <input class="button" type="submit" name="RemoveCurrencyButton" value="{'Remove selected'|i18n( 'design/admin/shop/currencylist' )}" title="{'Remove selected currencies from the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
-            {* New button *}
-            <input class="button" type="submit" name="NewCurrencyButton" value="{'New currency'|i18n( 'design/admin/shop/currencylist' )}" title="{'Add new currency to the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
-        </div>
-        <div class="right">
-            {* Update auto rates button *}
-            {def $exchangeRatesUpdateHandler = ezini( 'ExchangeRatesSettings', 'ExchangeRatesUpdateHandler', 'shop.ini' )}
-            {if $exchangeRatesUpdateHandler}
-                <input class="button" type="submit" name="UpdateAutoRatesButton" value="{'Update auto rates'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update auto rates.'|i18n( 'design/admin/shop/currencylist' )}" />
-            {else}
-                <input class="button-disabled" type="submit" disabled="disabled" name="UpdateAutoRatesButton" value="{'Update auto rates'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update auto rates.'|i18n( 'design/admin/shop/currencylist' )}" />
-            {/if}
-            {* Update autoprices button *}
-            <input class="button" type="submit" name="UpdateAutopricesButton" value="{'Update autoprices'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update autoprices.'|i18n( 'design/admin/shop/currencylist' )}" />
+{if $currency_list}
+    <div class="button-left">
+        {* Remove button *}
+        <input class="button" type="submit" name="RemoveCurrencyButton" value="{'Remove selected'|i18n( 'design/admin/shop/currencylist' )}" title="{'Remove selected currencies from the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
+        {* New button *}
+        <input class="button" type="submit" name="NewCurrencyButton" value="{'New currency'|i18n( 'design/admin/shop/currencylist' )}" title="{'Add new currency to the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
+    </div>
+    <div class="button-right">
+        {* Update auto rates button *}
+        {def $exchangeRatesUpdateHandler = ezini( 'ExchangeRatesSettings', 'ExchangeRatesUpdateHandler', 'shop.ini' )}
+        {if $exchangeRatesUpdateHandler}
+            <input class="button" type="submit" name="UpdateAutoRatesButton" value="{'Update auto rates'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update auto rates.'|i18n( 'design/admin/shop/currencylist' )}" />
+        {else}
+            <input class="button-disabled" type="submit" disabled="disabled" name="UpdateAutoRatesButton" value="{'Update auto rates'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update auto rates.'|i18n( 'design/admin/shop/currencylist' )}" />
+        {/if}
+        {* Update autoprices button *}
+        <input class="button" type="submit" name="UpdateAutopricesButton" value="{'Update autoprices'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update autoprices.'|i18n( 'design/admin/shop/currencylist' )}" />
 
-            {* Apply changes button *}
-            <input class="button" type="submit" name="ApplyChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/currencylist' )}" title="{'Apply statuses, custom rates, factor values.'|i18n( 'design/admin/shop/currencylist' )}" />
-        </div>
-    {else}
-        <div class="left">
-            {* New button *}
-            <input class="button" type="submit" name="NewCurrencyButton" value="{'New currency'|i18n( 'design/admin/shop/currencylist' )}" title="{'Add new currency to the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
-        </div>
-    {/if}
+        {* Apply changes button *}
+        <input class="button" type="submit" name="ApplyChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/currencylist' )}" title="{'Apply statuses, custom rates, factor values.'|i18n( 'design/admin/shop/currencylist' )}" />
+    </div>
+{else}
+    <div class="button-left">
+        {* New button *}
+        <input class="button" type="submit" name="NewCurrencyButton" value="{'New currency'|i18n( 'design/admin/shop/currencylist' )}" title="{'Add new currency to the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
+    </div>
+{/if}
 
-    <div class="break"></div>
-</div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+<div class="float-break"></div>
+{* DESIGN: Control bar END *}</div></div>
 
 </div>
 </div>

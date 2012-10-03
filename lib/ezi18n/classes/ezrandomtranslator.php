@@ -45,17 +45,6 @@ class eZRandomTranslator extends eZTranslatorGroup
             return -1;
         return mt_rand( 0, $this->handlerCount() - 1 );
     }
-
-    /*!
-     \private
-     Generates a seed usable for srand() and returns it.
-     DEPRECATED: as of eZ Publish 4.2 (seeding is not needed as of PHP 4.2.0)
-    */
-    function makeSeed()
-    {
-        $seed = microtime( true ) * 100000;
-        return $seed;
-    }
 }
 
 ?>

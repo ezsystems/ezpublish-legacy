@@ -2,33 +2,32 @@
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )}
 
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 {switch match=$view_mode}
 {case match='valid'}
-    <h1 class="context-title">{'Valid URLs [%url_list_count]'|i18n( 'design/admin/url/list',, hash( '%url_list_count', $url_list_count) )}</h1>
+    <h1 class="context-title">{'Valid links (%url_list_count)'|i18n( 'design/admin/url/list',, hash( '%url_list_count', $url_list_count) )}</h1>
 {/case}
 
 {case match='invalid'}
-    <h1 class="context-title">{'Invalid URLs [%url_list_count]'|i18n( 'design/admin/url/list',, hash( '%url_list_count', $url_list_count) )}</h1>
+    <h1 class="context-title">{'Invalid links (%url_list_count)'|i18n( 'design/admin/url/list',, hash( '%url_list_count', $url_list_count) )}</h1>
 {/case}
 
 {case}
-    <h1 class="context-title">{'All URLs [%url_list_count]'|i18n( 'design/admin/url/list',, hash( '%url_list_count', $url_list_count) )}</h1>
+    <h1 class="context-title">{'All links (%url_list_count)'|i18n( 'design/admin/url/list',, hash( '%url_list_count', $url_list_count) )}</h1>
 {/case}
 {/switch}
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
-    <p>
+<div class="button-left">
+    <p class="table-preferences">
     {switch match=$number_of_items}
     {case match=25}
         <a href={'/user/preferences/set/admin_url_list_limit/1'|ezurl}>10</a>
@@ -52,8 +51,8 @@
         {/switch}
     </p>
 </div>
-<div class="right">
-<p>
+<div class="button-right">
+<p class="table-preferences">
 {switch match=$view_mode}
 {case match='valid'}
 <a href={'/url/list/all'|ezurl} title="{'Show all URLs.'|i18n( 'design/admin/url/list' )}">{'All'|i18n( 'design/admin/url/list' )}</a>
@@ -75,8 +74,7 @@
 {/switch}
 </p>
 </div>
-<div class="break"></div>
-</div>
+<div class="float-break"></div>
 </div>
 
 {section show=$url_list}
@@ -127,7 +125,7 @@
   </td>
 
   {* Edit. *}
-  <td><a href={concat( 'url/edit/', $urls.item.id )|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/url/list')}" title="{'Edit URL.'|i18n( 'design/admin/url/list' )}" /></a></td>
+  <td><a href={concat( 'url/edit/', $urls.item.id )|ezurl}><img src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/url/list')}" title="{'Edit URL.'|i18n( 'design/admin/url/list' )}" /></a></td>
 
 </tr>
 {/section}
@@ -148,7 +146,7 @@
 </div>
 {/section}
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 

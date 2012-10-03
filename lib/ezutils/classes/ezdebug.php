@@ -1224,18 +1224,6 @@ class eZDebug
         return null;
     }
 
-    /**
-     * Returns the microtime as a float value. $mtime must be in microtime() format.
-     * @deprecated Since 4.4.0, use microtime( true ) instead
-     */
-    static function timeToFloat( $mtime )
-    {
-        $tTime = explode( " ", $mtime );
-        preg_match( "#0\.([0-9]+)#", "" . $tTime[0], $t1 );
-        $time = $tTime[1] . "." . $t1[1];
-        return $time;
-    }
-
     /*!
      Sets the time of the start of the script ot \a $time.
      If \a $time is not supplied it gets the current \c microtime( true ).

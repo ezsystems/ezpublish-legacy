@@ -95,11 +95,6 @@ $tpl->setVariable( 'account_activated', $accountActivated );
 $tpl->setVariable( 'already_active', $alreadyActive );
 $tpl->setVariable( 'is_pending' , $isPending );
 
-// This line is deprecated, the correct name of the variable should
-// be 'account_activated' as shown above.
-// However it is kept for backwards compatibility.
-$tpl->setVariable( 'account_avtivated', $accountActivated );
-
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:user/activate.tpl' );
 $Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/user', 'User' ),

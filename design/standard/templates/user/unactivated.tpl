@@ -116,7 +116,7 @@
     </div>
 {else}
     <div class="block">
-        <p>{'There are no unactivated users'|i18n( 'design/admin2/user/activations' )}</p>
+        <p>{'There are no unactivated users'|i18n( 'design/admin/user/activations' )}</p>
     </div>
 {/if}
 

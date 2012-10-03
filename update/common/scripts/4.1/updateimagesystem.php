@@ -35,8 +35,7 @@ $db = eZDB::instance();
 
 $db->begin();
 
-require_once( 'kernel/common/image.php' );
-$imageManager = imageInit();
+$imageManager = eZImageManager::factory();
 
 $contentObjectAttributes = eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
                                                                 null,

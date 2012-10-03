@@ -9,7 +9,7 @@
  */
 
 /**
- * This class takes listens to interal kernel events in eZ Publish to validate forms using pr session tokens
+ * This class listens to interal kernel events in eZ Publish to validate forms using pr session tokens
  *
  * @See settings/site.ini.append.php for events used.
  * @See doc/Readme.rst for info about extension and about how to modify your ajax code to work with it.
@@ -19,15 +19,14 @@
  * @version //autogentag//
  * @package ezformtoken
  */
-
 class ezxFormToken
 {
     const SESSION_KEY = __CLASS__;
-    
+
     const FORM_FIELD = 'ezxform_token';
 
     const REPLACE_KEY = '@$ezxFormToken@';
-    
+
     /**
      * request/input event listener
      * Checks if form token is valid if user is logged in.
@@ -56,20 +55,31 @@ class ezxFormToken
             return null;
         }*/
 
-        if ( empty( $_POST[self::FORM_FIELD] ) )
-            throw new Exception( 'Missing token from Form', 404 );
+        if ( !empty( $_POST[self::FORM_FIELD] ) )
+        {
+            $token = $_POST[self::FORM_FIELD];
+        }
+        // allow ajax calls using POST with other formats than forms (such as
+        // json or xml) to still validate using a custom http header
+        else if ( !empty( $_SERVER['HTTP_X_CSRF_TOKEN'] ) )
+        {
+            $token = $_SERVER['HTTP_X_CSRF_TOKEN'];
+        }
+        else
+        {
+            throw new Exception( 'Missing form token from Request', 404 );
+        }
 
-        
-        if ( $_POST[self::FORM_FIELD] !== self::getToken() )
-            throw new Exception( 'Wrong token found in Form!', 404 );
-            
+        if ( $token !== self::getToken() )
+            throw new Exception( 'Wrong form token found in Request!', 404 );
+
         eZDebugSetting::writeDebug( 'ezformtoken', 'Input validated, token verified and was correct', __METHOD__ );
     }
 
     /**
      * response/output event filter
      * Appends tokens to  POST forms if user is logged in.
-     * 
+     *
      * @param string $templateResult ByRef
      */
     static public function output( $templateResult )
@@ -99,26 +109,38 @@ class ezxFormToken
         $token = self::getToken();
         $field = self::FORM_FIELD;
         $replaceKey = self::REPLACE_KEY;
-        $tag = "\n<span style='display:none;' id=\"{$field}_js\" title=\"{$token}\"></span>\n";
-        $input = "\n<input type=\"hidden\" name=\"{$field}\" value=\"{$token}\" />\n";
-               
+
         eZDebugSetting::writeDebug( 'ezformtoken', 'Output protected (all forms will be modified)', __METHOD__ );
 
-        $templateResult = preg_replace(
-            '/(<body[^>]*>)/i',
-            '\\1' . $tag,
-            $templateResult
-        );
+        // If document has head tag, insert in a html5 valid and semi standard way
+        if ( strpos( $templateResult, '<head>' ) !== false )
+        {
+            $templateResult = str_replace(
+                '<head>',
+                "<head>\n<meta name=\"csrf-param\" content=\"{$field}\" />\n"
+                    . "\n<meta name=\"csrf-token\" id=\"{$field}_js\" title=\"{$token}\" content=\"{$token}\" />\n",
+                $templateResult
+            );
+        }
+        // else fallback to hidden span inside body
+        else
+        {
+            $templateResult = preg_replace(
+                '/(<body[^>]*>)/i',
+                '\\1' . "\n<span style='display:none;' id=\"{$field}_js\" title=\"{$token}\"></span>\n",
+                $templateResult
+            );
+        }
 
         $templateResult = preg_replace(
             '/(<form\W[^>]*\bmethod=(\'|"|)POST(\'|"|)\b[^>]*>)/i',
-            '\\1' . $input,
+            '\\1' . "\n<input type=\"hidden\" name=\"{$field}\" value=\"{$token}\" />\n",
             $templateResult
         );
 
         return str_replace( $replaceKey, $token, $templateResult );
     }
-    
+
     /**
      * session/regenerate event handler, clears form token when users
      * logs out / in.

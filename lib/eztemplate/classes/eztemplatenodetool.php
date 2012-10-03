@@ -72,15 +72,6 @@ class eZTemplateNodeTool
             return eZTemplateNodeTool::createVoidElement();
     }
 
-    /**
-     * @deprecated Use createConstantElement() instead.
-     * @see createConstantElement()
-     */
-    static function createStaticElement( $static, $variablePlacement = false )
-    {
-        return self::createConstantElement( $static, $variablePlacement );
-    }
-
     /*!
      \static
      Creates an element which represents a string and returns it.
@@ -211,15 +202,6 @@ class eZTemplateNodeTool
         return null;
     }
 
-    /**
-     * @deprecated Use elementConstantValue instead.
-     * @see elementConstantValue().
-     */
-    static function elementStaticValue( $elements )
-    {
-        return self::elementConstantValue( $elements );
-    }
-
     /*!
      \return the array keys of the Dynamic array
     */
@@ -267,14 +249,6 @@ class eZTemplateNodeTool
         }
 
         return false;
-    }
-
-    /*!
-     \deprecated Use isConstantElement instead.
-    */
-    static function isStaticElement( $elements )
-    {
-        return self::isConstantElement( $elements );
     }
 
     /*!

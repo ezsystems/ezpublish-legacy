@@ -312,6 +312,7 @@ class eZSelectionType extends eZDataType
 
         if ( count( $selected ) )
         {
+            $returnData = array();
             $optionArray = $classContent['options'];
             foreach ( $selected as $id )
             {

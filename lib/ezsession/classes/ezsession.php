@@ -440,19 +440,6 @@ class eZSession
     }
 
     /**
-     * Gets/generates the user hash for use in validating the session based on [Session]
-     * SessionValidation* site.ini settings. The default hash is result of md5('empty').
-     *
-     * @since 4.1
-     * @deprecated as of 4.4, only returns default md5('empty') hash now for BC.
-     * @return string MD5 hash based on parts of the user ip and agent string.
-     */
-    static public function getUserSessionHash()
-    {
-        return 'a2e4822a98337283e39f7b60acf85ec9';
-    }
-
-    /**
      * Writes session data and stops the session, if not already stopped.
      *
      * @since 4.1
@@ -550,19 +537,6 @@ class eZSession
     static public function userHasSessionCookie()
     {
         return self::$hasSessionCookie;
-    }
-
-    /**
-     * Returns if user session validated against stored data in db
-     * or if it was invalidated during the current request.
-     *
-     * @since 4.1
-     * @deprecated as of 4.4, only returns true for bc
-     * @return bool|null Null if user is not validated yet (for instance a new session).
-     */
-    static public function userSessionIsValid()
-    {
-        return true;
     }
 
     /**

@@ -687,7 +687,7 @@ class eZModuleOperationInfo
 
         $keyArray = $this->makeKeyArray( $operationKeys, $operationParameterDefinitions, $operationParameters );
         $http = eZHTTPTool::instance();
-        $keyArray['session_key'] = $http->getSessionKey();
+        $keyArray['session_key'] = $http->sessionID();
         $mementoData = array();
         $mementoData['name'] = $bodyName;
         $mementoData['parameters'] = $operationParameters;
@@ -827,15 +827,6 @@ class eZModuleOperationInfo
 
         return $GLOBALS['eZModuleOperationClassObjectList'][$className] = new $className();
     }
-
-    /**
-     * @deprecated use call_user_func_array() instead
-     */
-    function callClassMethod( $methodName, $classObject, $parameterArray )
-    {
-        return call_user_func_array( array( $classObject, $methodName ), $parameterArray );
-    }
-
 
     /// \privatesection
     public $ModuleName;

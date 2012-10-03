@@ -4,22 +4,21 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h1 class="context-title">{'Information collected by <%object_name> [%collection_count]'|i18n( 'design/admin/infocollector/collectionlist',, hash( '%object_name', $object.name, '%collection_count', $collection_count ) )|wash}</h1>
+<h1 class="context-title">{'Information collected by <%object_name> (%collection_count)'|i18n( 'design/admin/infocollector/collectionlist',, hash( '%object_name', $object.name, '%collection_count', $collection_count ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {section show=$collection_array}
 {* Items per page selector. *}
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
-<p>
+<div class="button-left">
+<p class="table-preferences">
 {switch match=$number_of_items}
 {case match=25}
 <a href={'/user/preferences/set/admin_infocollector_list_limit/1'|ezurl}>10</a>
@@ -42,14 +41,13 @@
 {/switch}
 </p>
 </div>
-<div class="break"></div>
-</div>
+<div class="float-break"></div>
 </div>
 
 {* Collection table. *}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/infocollector/collectionlist' )}" title="{'Invert selection.'|i18n( 'design/admin/infocollector/collectionlist' )}" onclick="ezjs_toggleCheckboxes( document.collections, 'CollectionIDArray[]' ); return false;" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/infocollector/collectionlist' )}" title="{'Invert selection.'|i18n( 'design/admin/infocollector/collectionlist' )}" onclick="ezjs_toggleCheckboxes( document.collections, 'CollectionIDArray[]' ); return false;" /></th>
     <th class="tight">{'Collection ID'|i18n( 'design/admin/infocollector/collectionlist' )}</th>
     <th>{'Created'|i18n( 'design/admin/infocollector/collectionlist' )}</th>
     <th>{'Modified'|i18n( 'design/admin/infocollector/collectionlist' )}</th>
@@ -85,7 +83,7 @@
 
 {* Buttons. *}
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 {if $collection_array}
 <input class="button" type="submit" name="RemoveCollectionsButton" value="{'Remove selected'|i18n( 'design/admin/infocollector/collectionlist' )}" title="{'Remove selected collection.'|i18n( 'design/admin/infocollector/collectionlist' )}" />
@@ -93,7 +91,7 @@
 <input class="button-disabled" type="submit" name="RemoveCollectionsButton" value="{'Remove selected'|i18n( 'design/admin/infocollector/collectionlist' )}" disabled="disabled" />
 {/if}
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>

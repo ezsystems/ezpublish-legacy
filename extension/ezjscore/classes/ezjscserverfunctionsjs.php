@@ -371,7 +371,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
         if ( post )
         {
             post['ezjscServer_function_arguments'] = callArgs;
-            post['ezxform_token'] = jQuery('#ezxformtoken').attr('title');
+            post['ezxform_token'] = jQuery('#ezxform_token_js').attr('title');
         }
         else
             url += encodeURIComponent( callArgs );

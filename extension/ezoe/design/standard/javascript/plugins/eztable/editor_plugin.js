@@ -291,6 +291,21 @@
 				endX = startX + (cols - 1);
 				endY = startY + (rows - 1);
 			} else {
+				startPos = endPos = null;
+
+				// Calculate start/end pos by checking for selected cells in grid works better with context menu
+				each(grid, function(row, y) {
+					each(row, function(cell, x) {
+						if (isCellSelected(cell)) {
+							if (!startPos) {
+								startPos = {x: x, y: y};
+							}
+
+							endPos = {x: x, y: y};
+						}
+					});
+				});
+
 				// Use selection
 				startX = startPos.x;
 				startY = startPos.y;
@@ -603,6 +618,9 @@
 				else
 					dom.insertAfter(row, targetRow);
 			});
+
+			// Remove current selection
+			dom.removeClass(dom.select('td.mceSelected,th.mceSelected'), 'mceSelected');
 		};
 
 		function getPos(target) {
@@ -1191,32 +1209,32 @@
 							return r;
 						}
 
-                        function moveCursorToRow(ed, node, row, upBool) {
-                            var srcColumnIndex = columnIndex(ed.dom.getParent(node, 'td,th'));
-                            var tgtColumnIndex = findColumn(row, srcColumnIndex);
-                            var tgtNode = row.childNodes[tgtColumnIndex];
-                            var rowCellTarget = getChildForDirection(tgtNode, upBool);
-                            moveCursorToStartOfElement(rowCellTarget || tgtNode);
-                        }
+						function moveCursorToRow(ed, node, row, upBool) {
+							var srcColumnIndex = columnIndex(ed.dom.getParent(node, 'td,th'));
+							var tgtColumnIndex = findColumn(row, srcColumnIndex);
+							var tgtNode = row.childNodes[tgtColumnIndex];
+							var rowCellTarget = getChildForDirection(tgtNode, upBool);
+							moveCursorToStartOfElement(rowCellTarget || tgtNode);
+						}
 
-                        function shouldFixCaret(preBrowserNode) {
-                            var newNode = ed.selection.getNode();
-                            var newParent = ed.dom.getParent(newNode, 'td,th');
-                            var oldParent = ed.dom.getParent(preBrowserNode, 'td,th');
-                            return newParent && newParent !== oldParent && checkSameParentTable(newParent, oldParent)
-                        }
+						function shouldFixCaret(preBrowserNode) {
+							var newNode = ed.selection.getNode();
+							var newParent = ed.dom.getParent(newNode, 'td,th');
+							var oldParent = ed.dom.getParent(preBrowserNode, 'td,th');
+							return newParent && newParent !== oldParent && checkSameParentTable(newParent, oldParent)
+						}
 
-                        function checkSameParentTable(nodeOne, NodeTwo) {
-                            return ed.dom.getParent(nodeOne, 'TABLE') === ed.dom.getParent(NodeTwo, 'TABLE');
-                        }
+						function checkSameParentTable(nodeOne, NodeTwo) {
+							return ed.dom.getParent(nodeOne, 'TABLE') === ed.dom.getParent(NodeTwo, 'TABLE');
+						}
 
-                        if (isVerticalMovement() && isInTable(ed)) {
-                            var preBrowserNode = ed.selection.getNode();
-                            setTimeout(function() {
-                                if (shouldFixCaret(preBrowserNode)) {
-                                    handle(!e.shiftKey && key === VK.UP, preBrowserNode, e);
-                                }
-                            }, 0);
+						if (isVerticalMovement() && isInTable(ed)) {
+							var preBrowserNode = ed.selection.getNode();
+							setTimeout(function() {
+								if (shouldFixCaret(preBrowserNode)) {
+									handle(!e.shiftKey && key === VK.UP, preBrowserNode, e);
+								}
+							}, 0);
 						}
 					}
 
@@ -1225,103 +1243,109 @@
 
 				// Fixes an issue on Gecko where it's impossible to place the caret behind a table
 				// This fix will force a paragraph element after the table but only when the forced_root_block setting is enabled
-				if (!tinymce.isIE) {
-					function fixTableCaretPos() {
-						var last;
+				function fixTableCaretPos() {
+					var last;
 
-						// Skip empty text nodes form the end
-						for (last = ed.getBody().lastChild; last && last.nodeType == 3 && !last.nodeValue.length; last = last.previousSibling) ;
+					// Skip empty text nodes form the end
+					for (last = ed.getBody().lastChild; last && last.nodeType == 3 && !last.nodeValue.length; last = last.previousSibling) ;
 
-						if (last && last.nodeName == 'TABLE')
-							ed.dom.add(ed.getBody(), 'p', null, '<br mce_bogus="1" />');
-					};
+					if (last && last.nodeName == 'TABLE') {
+						if (ed.settings.forced_root_block)
+							ed.dom.add(ed.getBody(), ed.settings.forced_root_block, null, tinymce.isIE ? '&nbsp;' : '<br data-mce-bogus="1" />');
+						else
+							ed.dom.add(ed.getBody(), 'br', {'data-mce-bogus': '1'});
+					}
+				};
 
-					// Fixes an bug where it's impossible to place the caret before a table in Gecko
-					// this fix solves it by detecting when the caret is at the beginning of such a table
-					// and then manually moves the caret infront of the table
-					if (tinymce.isGecko) {
-						ed.onKeyDown.add(function(ed, e) {
-							var rng, table, dom = ed.dom;
+				// Fixes an bug where it's impossible to place the caret before a table in Gecko
+				// this fix solves it by detecting when the caret is at the beginning of such a table
+				// and then manually moves the caret infront of the table
+				if (tinymce.isGecko) {
+					ed.onKeyDown.add(function(ed, e) {
+						var rng, table, dom = ed.dom;
 
-							// On gecko it's not possible to place the caret before a table
-							if (e.keyCode == 37 || e.keyCode == 38) {
-								rng = ed.selection.getRng();
-								table = dom.getParent(rng.startContainer, 'table');
+						// On gecko it's not possible to place the caret before a table
+						if (e.keyCode == 37 || e.keyCode == 38) {
+							rng = ed.selection.getRng();
+							table = dom.getParent(rng.startContainer, 'table');
 
-								if (table && ed.getBody().firstChild == table) {
-									if (isAtStart(rng, table)) {
-										rng = dom.createRng();
+							if (table && ed.getBody().firstChild == table) {
+								if (isAtStart(rng, table)) {
+									rng = dom.createRng();
 
-										rng.setStartBefore(table);
-										rng.setEndBefore(table);
+									rng.setStartBefore(table);
+									rng.setEndBefore(table);
 
-										ed.selection.setRng(rng);
+									ed.selection.setRng(rng);
 
-										e.preventDefault();
-									}
+									e.preventDefault();
 								}
 							}
-						});
-					}
-
-					ed.onKeyUp.add(fixTableCaretPos);
-					ed.onSetContent.add(fixTableCaretPos);
-					ed.onVisualAid.add(fixTableCaretPos);
-
-					ed.onPreProcess.add(function(ed, o) {
-						var last = o.node.lastChild;
-
-						if (last && last.childNodes.length == 1 && last.firstChild.nodeName == 'BR')
-							ed.dom.remove(last);
+						}
 					});
-
-
-					/**
-					 * Fixes bug in Gecko where shift-enter in table cell does not place caret on new line
-					 */
-					if (tinymce.isGecko) {
-						ed.onKeyDown.add(function(ed, e) {
-							if (e.keyCode === tinymce.VK.ENTER && e.shiftKey) {
-								var node = ed.selection.getRng().startContainer;
-								var tableCell = dom.getParent(node, 'td,th');
-								if (tableCell) {
-									var zeroSizedNbsp = ed.getDoc().createTextNode("\uFEFF");
-									dom.insertAfter(zeroSizedNbsp, node);
-								}
-							}
-						});
-					}
-
-
-					fixTableCaretPos();
-					ed.startContent = ed.getContent({format : 'raw'});
 				}
+
+				ed.onKeyUp.add(fixTableCaretPos);
+				ed.onSetContent.add(fixTableCaretPos);
+				ed.onVisualAid.add(fixTableCaretPos);
+
+				ed.onPreProcess.add(function(ed, o) {
+					var last = o.node.lastChild;
+
+					if (last && (last.nodeName == "BR" || (last.childNodes.length == 1 && (last.firstChild.nodeName == 'BR' || last.firstChild.nodeValue == '\u00a0'))) && last.previousSibling && last.previousSibling.nodeName == "TABLE") {
+						ed.dom.remove(last);
+					}
+				});
+
+
+				/**
+				 * Fixes bug in Gecko where shift-enter in table cell does not place caret on new line
+				 *
+				 * Removed: Since the new enter logic seems to fix this one.
+				 */
+				/*
+				if (tinymce.isGecko) {
+					ed.onKeyDown.add(function(ed, e) {
+						if (e.keyCode === tinymce.VK.ENTER && e.shiftKey) {
+							var node = ed.selection.getRng().startContainer;
+							var tableCell = dom.getParent(node, 'td,th');
+							if (tableCell) {
+								var zeroSizedNbsp = ed.getDoc().createTextNode("\uFEFF");
+								dom.insertAfter(zeroSizedNbsp, node);
+							}
+						}
+					});
+				}
+				*/
+
+				fixTableCaretPos();
+				ed.startContent = ed.getContent({format : 'raw'});
 			});
 
-            function generalXmlTagPopup( eurl, view, width, height, node )// *eZ fix: custom popup logic*
-            {
-                //var ed = this.editor;
-                if ( !view ) view = '/tags/';
-                var s = ed.settings, rowSpan, colSpan, cell = ed.dom.getParent(ed.selection.getNode(), 'th,td');
-                if (cell) {
-                    rowSpan = cell.rowSpan;
-                    colSpan = cell.colSpan;
-                }
+			function generalXmlTagPopup( eurl, view, width, height, node )// *eZ fix: custom popup logic*
+			{
+				//var ed = this.editor;
+				if ( !view ) view = '/tags/';
+				var s = ed.settings, rowSpan, colSpan, cell = ed.dom.getParent(ed.selection.getNode(), 'th,td');
+				if (cell) {
+					rowSpan = cell.rowSpan;
+					colSpan = cell.colSpan;
+				}
 
-                ed.windowManager.open({
-                    url : s.ez_extension_url + view  + s.ez_contentobject_id + '/' + s.ez_contentobject_version + '/' + eurl,
-                    width : width || 400,
-                    height : height || 320,
-                    scrollbars : true,
-                    resizable : true,
-                    inline : true
-                }, {
-                    theme_url : this.url,
-                    numcols : colSpan,
-                    numrows : rowSpan,
-                    selected_node : ( node && node.nodeName ? node : false )
-                });
-            }
+				ed.windowManager.open({
+					url : s.ez_extension_url + view  + s.ez_contentobject_id + '/' + s.ez_contentobject_version + '/' + eurl,
+					width : width || 400,
+					height : height || 320,
+					scrollbars : true,
+					resizable : true,
+					inline : true
+				}, {
+					theme_url : this.url,
+					numcols : colSpan,
+					numrows : rowSpan,
+					selected_node : ( node && node.nodeName ? node : false )
+				});
+			}
 
 			// Register action commands
 			each({
@@ -1394,51 +1418,51 @@
 			// Register dialog commands
 			each({
 				mceInsertTable : function(ui, val) {// *eZ fix: custom popup logic*
-			        generalXmlTagPopup( 'table', false, 460, 360, ui );
+					generalXmlTagPopup( 'table', false, 460, 360, ui );
 				},
 
 				mceTableRowProps : function(ui, val) {// *eZ fix: custom popup logic*
-				    generalXmlTagPopup( 'tr', false, 460, 0, ui );
+					generalXmlTagPopup( 'tr', false, 460, 0, ui );
 				},
 
 				mceTableCellProps : function(ui, val) {// *eZ fix: custom popup logic*
-				    var cell = ed.dom.getParent(ed.selection.getNode(), 'th,td');
-				    generalXmlTagPopup( cell.nodeName.toLowerCase(), false, 460, 0, ui );
+					var cell = ed.dom.getParent(ed.selection.getNode(), 'th,td');
+					generalXmlTagPopup( cell.nodeName.toLowerCase(), false, 460, 0, ui );
 				}
 			}, function(func, name) {
 				ed.addCommand(name, func);
 			});
 		},
 		
-        createControl : function(n, cm)// *eZ fix: cutom table menu for having all table options in one button*
-        {
-            var t = this, c, ed = t.editor;
-            if (n == 'tablemenu')
-            {
-                c = cm.createSplitButton(n, {title : 'table.desc', cmd : 'mceInsertTable', ui: true });
-                c.onRenderMenu.add(function(c, m)
-                {
-                    //m.add({title : 'table.desc', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
-                    m.add({title : 'table.col_before_desc', cmd : 'mceTableInsertColBefore', icon : 'col_before', ui: true });
-                    m.add({title : 'table.col_after_desc', cmd : 'mceTableInsertColAfter', icon : 'col_after', ui: true });
-                    m.add({title : 'table.row_before_desc', cmd : 'mceTableInsertRowBefore', icon : 'row_before', ui: true });
-                    m.add({title : 'table.row_after_desc', cmd : 'mceTableInsertRowAfter', icon : 'row_after', ui: true });
-                    m.addSeparator();
-                    m.add({title : 'table.row_desc', cmd : 'mceTableRowProps', icon : 'row_props', ui: true });
-                    m.add({title : 'table.cell_desc', cmd : 'mceTableCellProps', icon : 'cell_props', ui: true });
-                    m.addSeparator();
-                    m.add({title : 'table.split_cells_desc', cmd : 'mceTableSplitCells', icon : 'split_cells', ui: true });
-                    m.add({title : 'table.merge_cells_desc', cmd : 'mceTableMergeCells', icon : 'merge_cells', ui: true });
-                    m.addSeparator();
-                    m.add({title : 'table.delete_row_desc', cmd : 'mceTableDeleteRow', icon : 'delete_row', ui: true });
-                    m.add({title : 'table.delete_col_desc', cmd : 'mceTableDeleteCol', icon : 'delete_col', ui: true });
-                    m.add({title : 'table.del', cmd : 'mceTableDelete', icon : 'delete_table', ui: true });
-                });
-                return c;
-            }
-        }
+		createControl : function(n, cm)// *eZ fix: cutom table menu for having all table options in one button*
+		{
+			var t = this, c, ed = t.editor;
+			if (n == 'tablemenu')
+			{
+				c = cm.createSplitButton(n, {title : 'table.desc', cmd : 'mceInsertTable', ui: true });
+				c.onRenderMenu.add(function(c, m)
+				{
+					//m.add({title : 'table.desc', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
+					m.add({title : 'table.col_before_desc', cmd : 'mceTableInsertColBefore', icon : 'col_before', ui: true });
+					m.add({title : 'table.col_after_desc', cmd : 'mceTableInsertColAfter', icon : 'col_after', ui: true });
+					m.add({title : 'table.row_before_desc', cmd : 'mceTableInsertRowBefore', icon : 'row_before', ui: true });
+					m.add({title : 'table.row_after_desc', cmd : 'mceTableInsertRowAfter', icon : 'row_after', ui: true });
+					m.addSeparator();
+					m.add({title : 'table.row_desc', cmd : 'mceTableRowProps', icon : 'row_props', ui: true });
+					m.add({title : 'table.cell_desc', cmd : 'mceTableCellProps', icon : 'cell_props', ui: true });
+					m.addSeparator();
+					m.add({title : 'table.split_cells_desc', cmd : 'mceTableSplitCells', icon : 'split_cells', ui: true });
+					m.add({title : 'table.merge_cells_desc', cmd : 'mceTableMergeCells', icon : 'merge_cells', ui: true });
+					m.addSeparator();
+					m.add({title : 'table.delete_row_desc', cmd : 'mceTableDeleteRow', icon : 'delete_row', ui: true });
+					m.add({title : 'table.delete_col_desc', cmd : 'mceTableDeleteCol', icon : 'delete_col', ui: true });
+					m.add({title : 'table.del', cmd : 'mceTableDelete', icon : 'delete_table', ui: true });
+				});
+				return c;
+			}
+		}
 	});
 
 	// Register plugin
-    tinymce.PluginManager.add('eztable', tinymce.plugins.eZTablePlugin);// *eZ fix: plugin name*
+	tinymce.PluginManager.add('eztable', tinymce.plugins.eZTablePlugin);// *eZ fix: plugin name*
 })(tinymce);

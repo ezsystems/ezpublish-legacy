@@ -2,22 +2,21 @@
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
      list_count=fetch( content, pending_count )}
 
-<div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h1 class="context-title">{'My pending items [%pending_count]'|i18n( 'design/admin/content/pendinglist',, hash( '%pending_count', $list_count ) )}</h1>
+<div class="context-block content-pendinglist">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+<h1 class="context-title">{'My pending items (%pending_count)'|i18n( 'design/admin/content/pendinglist',, hash( '%pending_count', $list_count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 {if $list_count}
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
-    <p>
+<div class="button-left">
+    <p class="table-preferences">
     {switch match=$number_of_items}
     {case match=25}
         <a href={'/user/preferences/set/admin_list_limit/1/content/pendinglist'|ezurl}>10</a>
@@ -41,8 +40,7 @@
         {/switch}
     </p>
 </div>
-<div class="break"></div>
-</div>
+<div class="float-break"></div>
 </div>
 
 <table class="list" cellspacing="0">
@@ -78,7 +76,7 @@
 </div>
 {/if}
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 {/let}

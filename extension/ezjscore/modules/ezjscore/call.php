@@ -71,6 +71,14 @@ else if ( $contentType === 'json' )
 {
     header('Content-Type: application/json; charset=utf-8');
 }
+else if ( $contentType === 'html' )
+{
+    header('Content-Type: text/html; charset=utf-8');
+}
+else if ( $contentType === 'xhtml' )
+{
+    header('Content-Type: application/xhtml+xml; charset=utf-8');
+}
 else
 {
     $contentType = 'text';
@@ -166,7 +174,7 @@ function multipleezjscServerCalls( $calls, $contentType = 'json' )
 
 
 
-if ( $debugOutput && ( $contentType === 'xml' || $contentType === 'xhtml' ) )
+if ( $debugOutput && ( $contentType === 'xml' || $contentType === 'xhtml' || $contentType === 'html' ) )
 {
     echo "<!--\r\n";
     eZDebug::printReport( false, false );

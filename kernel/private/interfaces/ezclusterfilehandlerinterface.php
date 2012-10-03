@@ -235,11 +235,6 @@ interface eZClusterFileHandlerInterface
     public function name();
 
     /**
-     * @note has severe performance issues
-     */
-    public function fileDeleteByRegex( $dir, $fileRegex );
-
-    /**
      * @note has some severe performance issues
      */
     public function fileDeleteByWildcard( $wildcard );
@@ -372,16 +367,6 @@ interface eZClusterFileHandlerInterface
      * @return bool
      */
     public function requiresClusterizing();
-
-    /**
-     * This method indicates if the cluster file handler requires binary files
-     * to be purged in order to be physically deleted
-     *
-     * @since 4.3
-     * @deprecated Deprecated as of 4.5, use {@link eZClusterFileHandlerInterface::requiresPurge()} instead.
-     * @return bool
-     */
-    public function requiresBinaryPurge();
 
     /**
      * This method indicates if the cluster file handler requires binary files

@@ -236,8 +236,6 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         $filePath = $this->filePath;
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::storeContents( '$filePath' )" );
 
-        $mtime = time();
-
         // the file is stored with the current time as mtime
         self::$dbbackend->_storeContents( $filePath, $contents, $scope, $datatype );
 
@@ -405,7 +403,6 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
     function processCache( $retrieveCallback, $generateCallback = null, $ttl = null, $expiry = null, $extraData = null )
     {
         $forceDB   = false;
-        $timestamp = null;
         $curtime   = time();
         $tries     = 0;
         $noCache   = false;
@@ -806,7 +803,6 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         if ( $store and $this->checkCacheGenerationTimeout() )
             $storeCache = true;
 
-        $mtime = false;
         $result = null;
         if ( $binaryData === null &&
              $fileContent === null )
@@ -942,25 +938,6 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::name()" );
         return $this->filePath;
-    }
-
-    /**
-     * Deletes multiple files by regex
-     * @param string $dir An optional directory that will be prepended to the
-     *                    regex. Set to false to disable
-     * @param string $fileRegex The regular expression applied to files
-     * @return void
-     * @todo -ceZDFSFileHandler write unit test
-     */
-    public function fileDeleteByRegex( $dir, $fileRegex )
-    {
-        $dir = eZDBFileHandler::cleanPath( $dir );
-        $fileRegex = eZDBFileHandler::cleanPath( $fileRegex );
-        eZDebug::writeWarning( "Using eZDBFileHandler::fileDeleteByRegex is not recommended since it has some severe performance issues" );
-        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileDeleteByRegex( '$dir', '$fileRegex' )" );
-
-        $regex = '^' . ( $dir ? $dir . '/' : '' ) . $fileRegex;
-        self::$dbbackend->_deleteByRegex( $regex );
     }
 
     /**
@@ -1433,40 +1410,12 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      * It does store files in DB + on NFS, and therefore doesn't remove files
      * in real time
      *
-     * @since 4.3
-     * @deprecated Deprecated as of 4.5, use {@link eZDFSFileHandler::requiresPurge()} instead.
-     * @return bool
-     */
-    public function requiresBinaryPurge()
-    {
-        return true;
-    }
-
-    /**
-     * eZDFS does require binary purge.
-     * It does store files in DB + on NFS, and therefore doesn't remove files
-     * in real time
-     *
      * @since 4.5.0
      * @return bool
      */
     public function requiresPurge()
     {
         return true;
-    }
-
-    /**
-     * Fetches the first $limit expired binary items from the DB
-     *
-     * @param array $limit A 2 items array( offset, limit )
-     *
-     * @return array(filepath)
-     * @since 4.3.0
-     * @deprecated Deprecated as of 4.5, use {@link eZDFSFileHandler::fetchExpiredItems()} instead.
-     */
-    public function fetchExpiredBinaryItems( $limit = array( 0 , 100 ) )
-    {
-        return self::$dbbackend->fetchExpiredItems( array( 'image', 'binaryfile' ), $limit );
     }
 
     /**
@@ -1492,7 +1441,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
     /**
      * Database backend class
      * Provides metadata operations
-     * @var eZDFSFileHandlerMySQLBackend
+     * @var eZDFSFileHandlerMySQLiBackend
      */
     protected static $dbbackend = null;
 

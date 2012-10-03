@@ -18,7 +18,7 @@ class eZSiteAccess
     /**
      * Integer constants that identify the siteaccess matching used
      *
-     * @since 4.4 Was earlier in access.php as normal constants
+     * @since 4.4
      */
     const TYPE_DEFAULT = 1;
     const TYPE_URI = 2;
@@ -680,32 +680,4 @@ class eZSiteAccess
         eZDebug::writeWarning("Tried to find siteaccess based on '$language' but '$sa' is not a valid RelatedSiteAccessList[]", __METHOD__ );
         return null;
     }
-
-    /**
-     * Checks if site access debug is enabled
-     *
-     * @since 4.4
-     * @deprecated Should use debug.ini conditions instead of extra settings
-     * @return bool
-     */
-    static function debugEnabled()
-    {
-        $ini = eZINI::instance();
-        return $ini->variable( 'SiteAccessSettings', 'DebugAccess' ) === 'enabled';
-    }
-
-    /**
-     * Checks if extra site access debug is enabled
-     *
-     * @since 4.4
-     * @deprecated Should use debug.ini conditions instead of extra settings
-     * @return bool
-     */
-    static function extraDebugEnabled()
-    {
-        $ini = eZINI::instance();
-        return $ini->variable( 'SiteAccessSettings', 'DebugExtraAccess' ) === 'enabled';
-    }
 }
-
-?>

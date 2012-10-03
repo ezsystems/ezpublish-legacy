@@ -661,7 +661,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
 
     function escapeSQLString( $value )
     {
-        if ( $this->DBInstance instanceof eZMySQLiDB || $this->DBInstance instanceof eZMySQLDB )
+        if ( $this->DBInstance instanceof eZMySQLiDB )
         {
             return $this->DBInstance->escapeString( $value );
         }

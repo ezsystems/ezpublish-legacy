@@ -5,13 +5,13 @@
 
 <div class="objectinfo">
 
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h4>{'Object information'|i18n( 'design/admin/content/removeeditversion' )}</h4>
 
-</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 {* Object ID *}
 <p>
@@ -53,10 +53,10 @@
 
 {* Manage versions. *}
 <div class="block">
-<input class="button-disabled" type="submit" name="" value="{'Manage versions'|i18n( 'design/admin/content/removeeditversion' )}" disabled="disabled" />
+<input class="button-disabled" type="submit" name="_Disabled" value="{'Manage versions'|i18n( 'design/admin/content/removeeditversion' )}" disabled="disabled" />
 </div>
 
-</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 
@@ -64,13 +64,13 @@
 
 <div class="drafts">
 
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h4>{'Current draft'|i18n( 'design/admin/content/removeeditversion' )}</h4>
 
-</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 {* Created. *}
 <p>
@@ -92,7 +92,7 @@
 {$version.version}
 </p>
 
-</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 
@@ -100,21 +100,21 @@
 </div>
 
 
-<div id="maincontent"><div id="fix">
-<div id="maincontent-design">
+<div id="maincontent">
+<div id="maincontent-design" class="float-break"><div id="fix">
 <!-- Maincontent START -->
 
 <form name="EditVersionRemove" method="post" action={'content/removeeditversion'|ezurl}>
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'Confirm draft discard'|i18n( 'design/admin/content/removeeditversion' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -126,14 +126,14 @@
 
 <div class="controlbar">
 
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
 <div class="block">
 <input class="button" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/content/removeeditversion' )}" />
 <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/content/removeeditversion' )}" />
 </div>
 
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 
 </div>
 

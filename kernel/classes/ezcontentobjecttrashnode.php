@@ -169,11 +169,6 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         $db->commit();
     }
 
-    static function fetchListForObject( $objectID, $asObject = true, $offset = false, $limit = false )
-    {
-        return false;
-    }
-
     /*
       Analog of eZContentObjectTreeNode::subTreeByNodeID(Count)() method, see it for extending this method
     */

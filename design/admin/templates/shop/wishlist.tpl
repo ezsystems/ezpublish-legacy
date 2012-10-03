@@ -5,22 +5,21 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h1 class="context-title">{'My wish list [%item_count]'|i18n( 'design/admin/shop/wishlist',, hash( '%item_count', $wish_list_count ) )}</h1>
+<h1 class="context-title">{'My wish list (%item_count)'|i18n( 'design/admin/shop/wishlist',, hash( '%item_count', $wish_list_count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {if $wish_list_count}
 {* Items per page *}
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
-<p>
+<div class="button-left">
+<p class="table-preferences">
     {switch match=$number_of_items}
     {case match=25}
         <a href={'/user/preferences/set/admin_list_limit/1/shop/wishlist'|ezurl}>10</a>
@@ -42,13 +41,12 @@
     {/switch}
 </p>
 </div>
-<div class="break"></div>
-</div>
+<div class="float-break"></div>
 </div>
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/wishlist' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/wishlist' )}" onclick="ezjs_toggleCheckboxes( document.wishlistform, 'RemoveProductItemDeleteList[]' ); return false;" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/shop/wishlist' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/wishlist' )}" onclick="ezjs_toggleCheckboxes( document.wishlistform, 'RemoveProductItemDeleteList[]' ); return false;" /></th>
     <th>{'Name'|i18n( 'design/admin/shop/wishlist')}</th>
 {*
     <th>{'Quantity'|i18n( 'design/admin/shop/wishlist')}</th>
@@ -77,10 +75,10 @@
 {/section})
         {/section}
         <input type="hidden" name="ProductItemIDList[]" value="{$WishedItems.item.id}" />
-	</td>
+    </td>
 
     {* Quantity. *}
-    {* <td><input type="text" name="ProductItemCountList[]" value="{$WishedItems.item.item_count}" size="3" />	</td> *}
+    {* <td><input type="text" name="ProductItemCountList[]" value="{$WishedItems.item.item_count}" size="3" />    </td> *}
 
     {* VAT. *}
     {* <td>{$WishedItems.item.vat_value}%</td> *}
@@ -123,7 +121,7 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 {if $wish_list.items}
 <input class="button" type="submit" name="RemoveProductItemButton" value="{'Remove selected'|i18n( 'design/admin/shop/wishlist' )}" title="{'Remove selected items.'|i18n( 'design/admin/shop/wishlist' )}" />
@@ -133,7 +131,7 @@
 {* <input class="button-disabled" type="submit" name="StoreChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/wishlist' )}" disabled="disabled" /> *}
 {/if}
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>

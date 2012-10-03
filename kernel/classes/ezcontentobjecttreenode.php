@@ -408,17 +408,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
      Check if the node can be moved. (actually checks 'edit' and 'remove' permissions)
      \return \c true if the node can be moved by the current user.
      \sa checkAccess().
-     \deprecated The function canMove() is preferred since its naming is clearer.
-    */
-    function canMove()
-    {
-        return $this->canMoveFrom();
-    }
-
-    /*!
-     Check if the node can be moved. (actually checks 'edit' and 'remove' permissions)
-     \return \c true if the node can be moved by the current user.
-     \sa checkAccess().
     */
     function canMoveFrom( )
     {
@@ -1563,16 +1552,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $versionNameJoins .= eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' );
         }
         return $versionNameJoins;
-    }
-
-    /*!
-        \a static
-        Deprecated. Use 'createPermissionCheckingSQL' instead.
-    */
-    static function createPermissionCheckingSQLString( $limitationList )
-    {
-        $sqlPermissionChecking = eZContentObjectTreeNode::createPermissionCheckingSQL( $limitationList );
-        return $sqlPermissionChecking['where'];
     }
 
     /*!
@@ -3245,28 +3224,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
-     \deprecated This function should no longer be used, use the eZContentClass::instantiate and eZNodeAssignment::create instead.
-    */
-    function createObject( $contentClassID, $parentNodeID = 2 )
-    {
-        $class = eZContentClass::fetch( $contentClassID );
-        $parentNode = eZContentObjectTreeNode::fetch( $parentNodeID );
-        $parentContentObject = $parentNode->attribute( 'object' );
-        $sectionID = $parentContentObject->attribute( 'section_id' );
-        $object = $class->instantiate( false, $sectionID );
-
-//        $parentContentObject = $parentNode->attribute( 'contentobject' );
-
-        $node = eZContentObjectTreeNode::addChildTo( $object->attribute( "id" ), $parentNodeID, true );
-//        $object->setAttribute( "main_node_id", $node->attribute( 'node_id' ) );
-        $node->setAttribute( 'main_node_id', $node->attribute( 'node_id' ) );
-        $object->store();
-        $node->store();
-
-        return $object;
-    }
-
-    /*!
      Add a child for this node to the object tree.
      \param $contentobjectID      The ID of the contentobject the child-node should point to.
      \param $asObject             If true it will return the new child-node as an object, if not it returns the ID.
@@ -3466,17 +3423,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
         }
         return eZURLAliasML::findUniqueText( 0, $element, $action );
-    }
-
-    /*!
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-     \deprecated Use updateSubTreePath() instead.
-     */
-    function updateURLAlias()
-    {
-        eZDebug::writeWarning( __METHOD__ . " is deprecated, use updateSubTreePath() instead" );
-        return $this->updateSubTreePath();
     }
 
     /*!
