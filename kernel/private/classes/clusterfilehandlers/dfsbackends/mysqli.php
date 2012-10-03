@@ -380,7 +380,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
      */
     protected function _deleteInner( $filePath, $fname )
     {
-        if ( !$this->_query( "UPDATE " . self::TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1 WHERE name_hash=" . $this->_md5( $filePath ), $fname ) )
+        if ( !$this->_query( "UPDATE " . self::TABLE_METADATA . " SET mtime=-ABS(mtime)-1, expired=1 WHERE name_hash=" . $this->_md5( $filePath ), $fname ) )
             return $this->_fail( "Deleting file $filePath failed" );
         return true;
     }
@@ -423,7 +423,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
      */
     private function _deleteByLikeInner( $like, $fname )
     {
-        $sql = "UPDATE " . self::TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\nWHERE name like ". $this->_quote( $like, true );
+        $sql = "UPDATE " . self::TABLE_METADATA . " SET mtime=-ABS(mtime)-1, expired=1\nWHERE name like ". $this->_quote( $like, true );
         if ( !$res = $this->_query( $sql, $fname ) )
         {
             return $this->_fail( "Failed to delete files by like: '$like'" );
@@ -464,7 +464,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
      */
     public function _deleteByRegexInner( $regex, $fname )
     {
-        $sql = "UPDATE " . self::TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\nWHERE name REGEXP " . $this->_quote( $regex );
+        $sql = "UPDATE " . self::TABLE_METADATA . " SET mtime=-ABS(mtime)-1, expired=1\nWHERE name REGEXP " . $this->_quote( $regex );
         if ( !$res = $this->_query( $sql, $fname ) )
         {
             return $this->_fail( "Failed to delete files by regex: '$regex'" );
@@ -511,7 +511,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
                               array( '.', '.*', '(', ')', '|' ),
                               $regex );
 
-        $sql = "UPDATE " . self::TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\nWHERE name REGEXP '$regex'";
+        $sql = "UPDATE " . self::TABLE_METADATA . " SET mtime=-ABS(mtime)-1, expired=1\nWHERE name REGEXP '$regex'";
         if ( !$res = $this->_query( $sql, $fname ) )
         {
             return $this->_fail( "Failed to delete files by wildcard: '$wildcard'" );
@@ -547,7 +547,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
                 $eventParameters = array( $commonPath, $dirItem, $commonSuffix );
                 $where = "WHERE name LIKE ".$this->_quote( "$commonPath/$dirItem/$commonSuffix%", true );
             }
-            $sql = "UPDATE " . self::TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\n$where";
+            $sql = "UPDATE " . self::TABLE_METADATA . " SET mtime=-ABS(mtime)-1, expired=1\n$where";
             if ( !$res = $this->_query( $sql, $fname ) )
             {
                 eZDebug::writeError( "Failed to delete files in dir: '$commonPath/$dirItem/$commonSuffix%'", __METHOD__ );
