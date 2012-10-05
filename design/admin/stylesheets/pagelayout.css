@@ -1206,4 +1206,10 @@ color:#fff;
     font-size: 0.8em;
 }
 
+#mainteinance-text #ez-version,
+#mainteinance-text .edition-info,
+#footer-design .edition-info {
+    font-weight: bold;
+    color: #ff8300;
+}
 
