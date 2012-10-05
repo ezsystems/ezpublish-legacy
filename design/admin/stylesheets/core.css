@@ -287,6 +287,7 @@ label
 {
     font-weight: bold;
     padding-right: 0.5em;
+    font-size: 15px;
     display: block;
     white-space: nowrap;
 }
@@ -294,18 +295,18 @@ label
 input, select
 {
     font-family: 'Calibri',Arial, Helvetica, sans-serif; /* Needs to be set for some browsers, to prevent other default font from being used */
-    font-size: 1.2em;
+    font-size: 15px;
 }
 
 input.box, input.halfbox
 {
-    font-size: 1em;
+    font-size: 15px;
 }
 
 textarea
 {
     font-family: 'Calibri',Arial, Helvetica, sans-serif; /* Usually defaulted to monospaced font; so it needs to be set if to change */
-    font-size: 1em; /* Needs to be specified for IE */
+    font-size: 15px; /* Needs to be specified for IE */
 }
 
 optgroup

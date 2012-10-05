@@ -418,7 +418,6 @@ ul.leftmenu-items li.current a
 {
     padding: 0 0.8em;
     position: relative;
-    z-index: 10;
     display: block;
     float: none;
     clear: both;
