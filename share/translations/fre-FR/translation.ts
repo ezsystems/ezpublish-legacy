@@ -4723,7 +4723,7 @@
     </message>
     <message>
         <source>You are running %edition, it might not be up to date with the latest hot fixes and service packs. Contact &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; for more infomation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous utilisez %edition, cette version n&apos;est peut être pas à jour des dernières corrections et service packs. Contactez &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; pour plus d&apos;informations.</translation>
     </message>
 </context>
 <context>
@@ -6908,11 +6908,11 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     <name>design/admin/page_copyright</name>
     <message>
         <source>Powered by %edition. For more information see &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Propulsé par %edition. Pour plus d&apos;informations, voir &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;%evaluate_link&quot;&gt;Evaluate eZ Publish Enterprise Edition&lt;/a&gt; - &lt;a href=&quot;%share_link&quot;&gt;Become a member of the eZ Community, exchange and contribute&lt;/a&gt;. &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2012 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;a href=&quot;%evaluate_link&quot;&gt;Evaluez eZ Publish Enterprise Edition&lt;/a&gt; - &lt;a href=&quot;%share_link&quot;&gt;Devenez un membre de la eZ Community, échangez et contribuez&lt;/a&gt;. &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2012 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; et autres.</translation>
     </message>
 </context>
 <context>
@@ -7143,19 +7143,19 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Search scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Périmètre de recherche</translation>
     </message>
     <message>
         <source>Section</source>
-        <translation type="unfinished">Section</translation>
+        <translation>Section</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished">Tout</translation>
+        <translation>Tout</translation>
     </message>
     <message>
         <source>Search only from the current location</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher à partir de l&apos;emplacement actuel seulement</translation>
     </message>
 </context>
 <context>
@@ -22992,67 +22992,67 @@ Ces fonctionnalités sont également disponible plus tard via l&apos;interface d
     </message>
     <message>
         <source>Registration field &quot;%fieldName&quot; is empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Le champ d&apos;enregistrement &quot;%fieldName&quot; est vide</translation>
     </message>
     <message>
         <source>Your email</source>
-        <translation type="unfinished"></translation>
+        <translation>Votre email</translation>
     </message>
     <message>
         <source>Registration field &quot;%fieldName&quot; has wrong format</source>
-        <translation type="unfinished"></translation>
+        <translation>Le champ d&apos;enregistrement &quot;%fieldName&quot; n&apos;a pas le bon format</translation>
     </message>
     <message>
         <source>Country</source>
-        <translation type="unfinished">Pays</translation>
+        <translation>Pays</translation>
     </message>
     <message>
         <source>In order to provide you with the best service in the future, we need some statistics to know a bit about your usage of eZ Publish and its underlying platform.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afin de vous fournir le meilleur service, nous avons besoin de statistiques pour en savoir un peu plus sur votre utilisation d&apos;eZ Publish et sa plate-forme sous-jacente.</translation>
     </message>
     <message>
         <source>In return this will also provide you with heads-up on security issues, notifications about updates, upgrades and other important news.</source>
-        <translation type="unfinished"></translation>
+        <translation>En retour nous vous fournirons des informations sur la sécurité, des notifications sur les mises à jour, mises à niveau et nouvelles importantes.</translation>
     </message>
     <message>
         <source>This happens periodically, and you will always be able to opt-out of this at anytime.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cela arrive régulièrement, et vous pourrez résiliez à tout moment.</translation>
     </message>
     <message>
         <source>Could not send registration data</source>
-        <translation type="unfinished"></translation>
+        <translation>Nous n&apos;avons pas pu envoyer les données d&apos;enregistrement</translation>
     </message>
     <message>
         <source>Required data is either missing or is invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>Des données obligatoires sont manquantes ou invalides</translation>
     </message>
     <message>
         <source>Registration information email:</source>
-        <translation type="unfinished"></translation>
+        <translation>Email d&apos;enregistrement :</translation>
     </message>
     <message>
         <source>Company</source>
-        <translation type="unfinished"></translation>
+        <translation>Entreprise</translation>
     </message>
     <message>
         <source>Is this the first time you are installing eZ Publish?</source>
-        <translation type="unfinished"></translation>
+        <translation>Est-ce la première fois que vous installez eZ Publish ?</translation>
     </message>
     <message>
         <source>Included some simple technical information?</source>
-        <translation type="unfinished"></translation>
+        <translation>Inclure des informations techniques simples ?</translation>
     </message>
     <message>
         <source>Contents of registration email</source>
-        <translation type="unfinished"></translation>
+        <translation>Contenu de l&apos;email d&apos;enregistrement</translation>
     </message>
     <message>
         <source>We care for your privacy. Read more &lt;a href=&apos;%link&apos; target=&apos;_blank&apos;&gt;here&lt;/a&gt;. This data will be treated securely and not shared with third parties without your permission.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nous prenons soin de votre vie privée. Lire la suite &lt;a href=&apos;%link&apos; target=&apos;_blank&apos;&gt;ici&lt;/a&gt;. Ces données seront traitées de manière sécurisée et ne seront pas partagées avec des tiers sans votre autorisation.</translation>
     </message>
     <message>
         <source>Welcome to %edition %version</source>
-        <translation type="unfinished"></translation>
+        <translation>Bienvenue sur %edition %version</translation>
     </message>
 </context>
 <context>
@@ -26273,11 +26273,11 @@ your account.</source>
     <name>index.php</name>
     <message>
         <source>Some errors occurred, see debug for more information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Des erreurs se sont produites, voir le debug pour plus d&apos;informations.</translation>
     </message>
     <message>
         <source>Some general warnings occured, see debug for more information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Des avertissements se sont produits, voir le debug pour plus d&apos;informations.</translation>
     </message>
 </context>
 <context>
@@ -27506,19 +27506,19 @@ your account.</source>
     <name>kernel/content/treemenu</name>
     <message>
         <source>Cannot display the treemenu because it is disabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;arborescence ne peut être affichée car elle est désactivée.</translation>
     </message>
     <message>
         <source>Database is not connected</source>
-        <translation type="unfinished"></translation>
+        <translation>La base de données n&apos;est pas connectée</translation>
     </message>
     <message>
         <source>&quot;content&quot; module could not be found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le module &quot;content&quot; n&apos;a pas été trouvé.</translation>
     </message>
     <message>
         <source>Insufficient permissions to display the treemenu.</source>
-        <translation type="unfinished"></translation>
+        <translation>Permissions insuffisantes pour afficher l&apos;arborescence.</translation>
     </message>
 </context>
 <context>
