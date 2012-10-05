@@ -1172,6 +1172,7 @@ input:-moz-placeholder {
     color:#fff;
     text-decoration:none;
     display:none;
+    z-index: 100;
 }
 .yui3-js-enabled .scroll-to-top
 {

@@ -160,7 +160,7 @@ YUI(YUI3_config).use('ezcollapsiblemenu', 'event', 'io-ez', function (Y) {
 </div>
 
 </div>
-<a href="#path" class="scroll-to-top">&uarr;&nbsp;{'Go to the top'|i18n( 'design/admin/content/edit' )}</a>
+<a href="#header" class="scroll-to-top">&uarr;&nbsp;{'Go to the top'|i18n( 'design/admin/content/edit' )}</a>
 
 
 {include uri='design:content/edit_relations.tpl'}
