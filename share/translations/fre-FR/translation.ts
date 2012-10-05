@@ -7155,7 +7155,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Search only from the current location</source>
-        <translation type="unfinished">Rechercher seulement à partir de l&apos;emplacement actuel</translation>
+        <translation>Rechercher seulement à partir de l&apos;emplacement actuel</translation>
     </message>
 </context>
 <context>
