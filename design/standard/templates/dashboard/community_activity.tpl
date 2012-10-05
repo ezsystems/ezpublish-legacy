@@ -1,4 +1,3 @@
-{* $block.number_of_items *}
 {def $forumsRssUrl='http://share.ez.no/rss/feed/all_forums'
      $versionString=fetch( 'setup', 'version' )}
 <div class="community-block-title">
@@ -24,7 +23,7 @@
     // Fetch the latest forum posts from share.ez.no
             $(document).ready(
             $.ajax({
-        url: document.location.protocol + '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=20&callback=?&q=' + encodeURIComponent( '{/literal}{$forumsRssUrl}{literal}' ),
+        url: document.location.protocol + '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num={/literal}{$block.number_of_items}{literal}&callback=?&q=' + encodeURIComponent( '{/literal}{$forumsRssUrl}{literal}' ),
         dataType: 'json',
         success: function( data )
         {
