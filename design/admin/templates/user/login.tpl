@@ -31,17 +31,23 @@
 <form name="loginform" method="post" action={'/user/login/'|ezurl}>
 
 <div class="login-inputs context-attributes">
+    
+    {if and( is_set( $User:max_num_of_failed_login ), ne( $User:max_num_of_failed_login, false() ) )}
+        <div class="block">    
+        {'The user will not be allowed to login after <b>%max_number_failed</b> failed login attempts.'|i18n( 'design/admin/user/login',, hash( '%max_number_failed', $User:max_num_of_failed_login ) )}
+        </div>
+    {/if}    
 
     <div class="block">
         <div class="login-input-wrapper">
-            <div id="ico_login"></div>
+            <div id="icon-login"></div>
             <input class="halfbox" type="text" autofocus="autofocus" size="10" name="Login" id="logintext" placeholder="{'Username'|i18n( 'design/admin/user/login' )}" tabindex="1" title="{'Enter a valid username in this field.'|i18n( 'design/admin/user/login' )}" />
         </div>
     </div>
 
     <div class="block">
         <div class="login-input-wrapper">
-            <div id="ico_password"></div>
+            <div id="icon-password"></div>
             <input class="halfbox" type="password" size="10" name="Password" id="passwordtext" placeholder="{'Password'|i18n( 'design/admin/user/login' )}" tabindex="2" title="{'Enter a valid password in this field.'|i18n( 'design/admin/user/login' )}" />
         </div>
     </div>

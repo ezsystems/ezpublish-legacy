@@ -3,7 +3,7 @@
 <div class="context-block content-dashboard">
     
 <div class="box-header">
-    {include uri=concat( 'design:dashboard/', 'maintenance.tpl' )}
+    {include uri='design:dashboard/maintenance.tpl' }
 </div>
 
 

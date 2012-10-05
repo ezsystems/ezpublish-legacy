@@ -62,15 +62,7 @@
 
 
 {literal}
-<style type="text/css">
-.loginpage #columns #maincontent
-{
-    background:white;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 0 5px black;
-}
-</style>
+<link href="/design/admin/stylesheets/register_page_fix.css" type="text/css" rel="stylesheet">
 
 <script type="text/javascript">
 jQuery(function( $ )//called on document.ready
