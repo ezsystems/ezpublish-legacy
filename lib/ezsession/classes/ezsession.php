@@ -425,6 +425,10 @@ class eZSession
         {
             self::forceStart();
         }
+        else if ( $started )
+        {
+            self::$hasStarted = true;
+        }
     }
 
     /**
@@ -435,7 +439,8 @@ class eZSession
      */
     static protected function forceStart()
     {
-        session_start();
+        if ( session_id() === '' )
+            session_start();
         return self::$hasStarted = true;
     }
 
