@@ -4,7 +4,7 @@
 
 {literal}
 <script type="text/javascript">
-(function() {
+(function(YUI) {
 {/literal}
 
 var availableLanguages = {ldelim}{*
@@ -169,14 +169,17 @@ var labelsObj = {ldelim}
 {/if}
 
 {literal}
-YUILoader.require(['datatable', 'button', 'container', 'cookie', 'element']);
-YUILoader.onSuccess = function() {
-    sortableSubitems.init(confObj, labelsObj, createGroups, createOptions);
-};
-var options = [];
-YUILoader.insert(options, 'js');
+    
+YUI.use('updatepanels', function(Y) {    
+    YUILoader.require(['datatable', 'button', 'container', 'cookie', 'element']);
+    YUILoader.onSuccess = function() {
+        sortableSubitems.init(confObj, labelsObj, createGroups, createOptions, Y.eZ.updatePanelsHeight);
+    };
+    var options = [];
+    YUILoader.insert(options, 'js');
+});
 
-})();
+})(YUI(YUI3_config));
 {/literal}
 {undef $section $visible_columns $locales}
 </script>

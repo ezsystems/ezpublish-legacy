@@ -1,5 +1,6 @@
-function updatePanelsHeight() { // Stretching all interface panels to max height
-    YUI(YUI3_config).use('node', function (Y) {
+YUI(YUI3_config).add('updatepanels', function(Y) {
+    Y.namespace('eZ');
+    Y.eZ.updatePanelsHeight = function () {
         // do not use this script on login and register pages
         if (Y.one('body').hasClass('loginpage')) {return true}
 
@@ -17,14 +18,14 @@ function updatePanelsHeight() { // Stretching all interface panels to max height
         Y.one('#columns').setStyle('height', columnsHeight);
         Y.all('#leftmenu, #rightmenu, #maincontent').setStyle('height', columnsHeight - 3);
         Y.all('#leftmenu-design, #rightmenu-design, #maincontent-design').setStyle('height', columnsHeight - 63);
-    });
-}
+    }
+}, '1.0.0', {'requires': ['node']});
 
-YUI(YUI3_config).use('event', 'node-screen', 'node-style', 'selector-css3', 'transition', function (Y) {
+YUI(YUI3_config).use('updatepanels','event', 'node-screen', 'node-style', 'selector-css3', 'transition', function (Y) {
 
     Y.on('domready', function() {
         
-        updatePanelsHeight();
+        Y.eZ.updatePanelsHeight();
         
         var toolbar, formY, form, fixed = true, firstInput,
             toolbarHeight, toTop = Y.one('.scroll-to-top');
@@ -69,7 +70,7 @@ YUI(YUI3_config).use('event', 'node-screen', 'node-style', 'selector-css3', 'tra
     
     Y.on('windowresize',function() {
         
-        updatePanelsHeight();
+        Y.eZ.updatePanelsHeight();
         
     });
 

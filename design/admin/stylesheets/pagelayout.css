@@ -65,6 +65,7 @@ a.image-text:hover > span
     text-align: center;
     padding: 2px;
     margin-top: 12px;
+    margin-bottom: 20px;
 }
 
 #header-usermenu a
@@ -121,9 +122,9 @@ a.image-text:hover > span
 
 #header-topmenu
 {
-    padding-left: 2px;
+    margin-left:120px;
+    margin-right:350px;
     padding-top: 20px;
-    float: left;
     min-height: 25px;
 }
 
@@ -161,6 +162,7 @@ ul.tabs
     padding: 2px 15px 2px 15px;
     margin-left: 1px;
     margin-top: 2px;
+    margin-bottom: 8px;
     min-height: 18px;
 }
 
@@ -1112,7 +1114,7 @@ input:-moz-placeholder {
     font-style: normal;
 }
 
-#ico_login
+#icon-login
 {
     position:absolute;
     left:11px;
@@ -1122,7 +1124,7 @@ input:-moz-placeholder {
     height:26px;
 }
 
-#ico_password
+#icon-password
 {
     position:absolute;
     left:11px;
