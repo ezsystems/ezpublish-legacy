@@ -333,7 +333,7 @@
 
 </div>
 
-<a href="#header" class="scroll-to-top">&uarr;&nbsp;{'Go to the top'|i18n( 'design/admin/content/edit' )}</a>
+<a href="#columns" class="scroll-to-top">&uarr;&nbsp;{'Go to the top'|i18n( 'design/admin/content/edit' )}</a>
 </form>
 
 
