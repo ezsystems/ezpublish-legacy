@@ -23,28 +23,6 @@ YUI(YUI3_config).add('updatepanels', function(Y) {
 
 YUI(YUI3_config).use('updatepanels','event', 'node-screen', 'node-style', 'selector-css3', 'transition', function (Y) {
 
-//    Y.namespace('eZ');
-//    Y.eZ.updatePanelsHeight = function updatePanelsHeight() { // Stretching all interface panels to max height
-//
-//        // do not use this script on login and register pages
-//        if (Y.one('body').hasClass('loginpage')) {return true}
-//
-//        // at first "releasing" fixed height
-//        Y.all('#columns, #leftmenu, #rightmenu, #maincontent,#leftmenu-design, #rightmenu-design, #maincontent-design').setStyle('height', 'auto');
-//        
-//        // counting and setting height
-//        var columnsHeight = parseInt(Y.one('#page').getComputedStyle('height'),10) - parseInt(Y.one('#header').getComputedStyle('height'),10) - 25,
-//            footer = Y.one('#footer');
-//            
-//        if (footer && !(footer.getStyle('display') == 'none')){
-//            columnsHeight -= parseInt(footer.getComputedStyle('height'),10);
-//        }
-//        
-//        Y.one('#columns').setStyle('height', columnsHeight);
-//        Y.all('#leftmenu, #rightmenu, #maincontent').setStyle('height', columnsHeight - 3);
-//        Y.all('#leftmenu-design, #rightmenu-design, #maincontent-design').setStyle('height', columnsHeight - 63);
-//    }
-    
     Y.on('domready', function() {
         
         Y.eZ.updatePanelsHeight();
