@@ -6011,7 +6011,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $objectID = $node->attribute( 'contentobject_id' );
             // include CLEAR_CHILDREN_CACHE because it can increase performance of expiring all view cache when there are many subnodes.
-            eZContentCacheManager::clearContentCacheIfNeeded( $objectID, eZContentCacheManager::CLEAR_DEFAULT | eZContentCacheManager::CLEAR_CHILDREN_CACHE );
+            eZContentCacheManager::clearContentCacheIfNeeded( $objectID, true, false, eZContentCacheManager::CLEAR_DEFAULT | eZContentCacheManager::CLEAR_CHILDREN_CACHE );
         }
 
         $offset = 0;
