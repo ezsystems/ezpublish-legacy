@@ -4723,7 +4723,7 @@
     </message>
     <message>
         <source>You are running %edition, it might not be up to date with the latest hot fixes and service packs. Contact &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; for more infomation.</source>
-        <translation>Vous utilisez %edition, cette version n&apos;est peut être pas à jour des dernières corrections et service packs. Contactez &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; pour plus d&apos;informations.</translation>
+        <translation type="unfinished">Vous utilisez %edition, cette version n&apos;est peut être pas à jour avec les dernières corrections et service packs. Contactez &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; pour plus d&apos;informations.</translation>
     </message>
 </context>
 <context>
