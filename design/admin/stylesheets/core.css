@@ -5,23 +5,26 @@
 html
 {
     height: 100%; /* To be able to have full page designs in themes */
+    min-height:100%;
 }
 
 body /* These becomes the initial settings for most other elements */
 {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Calibri',Arial, Helvetica, sans-serif;
     font-size: 0.8em;
     background-color: #ffffff;
     margin: 0;
     padding: 0;
+    height: 100%;
+    min-height:100%;
 }
 
 /* HEADINGS */
 
 h1, h2, h3, h4, h5, h6 /* Set general styles for all headings; some may be overridden later */
 {
-    font-family: Helvetica, Arial, sans-serif;
-    margin: 1em 0 0.2em 0;
+    font-family: 'Calibri',Helvetica, Arial, sans-serif;
+    margin: 0.5em 0 0.2em 0;
     padding: 0;
 }
 
@@ -69,7 +72,7 @@ a
 
 a:hover
 {
-    color: #E24602;
+    color: black;
     text-decoration: underline;
     cursor: pointer;
 }
@@ -106,6 +109,23 @@ pre.wordwrap span.line /* Style for tag wrapping around each line of text */
     display: block;
 }
 
+/* Typography & Font Icons*/
+@font-face
+{
+    font-family: 'IcoMoon';
+    src: url('../fonts/IcoMoon.eot');
+    src: url('../fonts/IcoMoon.eot?#iefix') format('embedded-opentype'), url('../fonts/IcoMoon.svg#IcoMoon') format('svg'), url('../fonts/IcoMoon.woff') format('woff'), url('../fonts/IcoMoon.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[data-icon]:before
+{
+    font-family: 'IcoMoon';
+    content: attr(data-icon);
+    speak: none;
+}
+
 
 /* TABLES */
 
@@ -116,15 +136,20 @@ table
     padding: 0;
 }
 
+tr
+{
+    background: white;
+}
+
 th, td
 {
     padding: 0;
+    font-size: 1.2em;
 }
 
 table.list, table.special /* Standard class usable for most regular tables presenting lists, with additional related styles */
 {
     width: 100%;
-    border: 1px solid #ccc;
     empty-cells: show;
 }
 
@@ -137,14 +162,12 @@ table.list th, table.list td, table.special th, table.special td
 
 table.list th, table.special th
 {
-    border-top-width: 2px;
     font-weight: normal;
     white-space: nowrap;
 }
 
 table.list td
 {
-    border-top: 1px solid #f0f0f0;
     font-weight: normal;
 }
 
@@ -264,25 +287,26 @@ label
 {
     font-weight: bold;
     padding-right: 0.5em;
+    font-size: 15px;
     display: block;
     white-space: nowrap;
 }
 
 input, select
 {
-    font-family: Arial, Helvetica, sans-serif; /* Needs to be set for some browsers, to prevent other default font from being used */
-    font-size: 0.9em;
+    font-family: 'Calibri',Arial, Helvetica, sans-serif; /* Needs to be set for some browsers, to prevent other default font from being used */
+    font-size: 15px;
 }
 
 input.box, input.halfbox
 {
-    font-size: 1em;
+    font-size: 15px;
 }
 
 textarea
 {
-    font-family: Arial, Helvetica, sans-serif; /* Usually defaulted to monospaced font; so it needs to be set if to change */
-    font-size: 1em; /* Needs to be specified for IE */
+    font-family: 'Calibri',Arial, Helvetica, sans-serif; /* Usually defaulted to monospaced font; so it needs to be set if to change */
+    font-size: 15px; /* Needs to be specified for IE */
 }
 
 optgroup
@@ -293,7 +317,7 @@ optgroup
 
 input.button, button, input.defaultbutton, input.button-disabled
 {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-family: 'Calibri',Verdana, Arial, Helvetica, sans-serif;
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
@@ -305,10 +329,10 @@ input.button, button, input.defaultbutton, input.button-disabled
 
 input.defaultbutton
 {
-	font-weight: bold;
-	padding-left: 0.45em;
-	padding-right: 0.45em;
-	color: #094564;
+    font-weight: bold;
+    padding-left: 0.45em;
+    padding-right: 0.45em;
+    color: #094564;
 }
 
 input.button-disabled, input.button[disabled="disabled"]
@@ -414,6 +438,7 @@ div.message-feedback h2
 div.message-warning
 {
     border-color: #ff910d;
+    background: #fff;
 }
 
 div.message-warning h2
@@ -484,7 +509,6 @@ div.block div.right /* Floats elements to the right in a block */
 div.button-left
 {
     float: left;
-    margin-right: 1em;
 }
 
 div.button-right
