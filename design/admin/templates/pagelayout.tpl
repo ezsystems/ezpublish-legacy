@@ -148,7 +148,7 @@
             {include uri='design:page_toppath.tpl'}
         </div>
     </div>
-    
+
     <!-- Maincontent START -->
     {include uri='design:page_mainarea.tpl'}
     <!-- Maincontent END -->
