@@ -33,7 +33,7 @@
 <div class="login-inputs context-attributes">
     
     {if and( is_set( $User:max_num_of_failed_login ), ne( $User:max_num_of_failed_login, false() ) )}
-        <div class="block">    
+        <div class="block login-text-wrapper">    
         {'The user will not be allowed to login after <b>%max_number_failed</b> failed login attempts.'|i18n( 'design/admin/user/login',, hash( '%max_number_failed', $User:max_num_of_failed_login ) )}
         </div>
     {/if}    
@@ -53,7 +53,7 @@
     </div>
 
     {if and( ezini_hasvariable( 'Session', 'RememberMeTimeout' ), ezini( 'Session', 'RememberMeTimeout' ) )}
-        <div class="block">
+        <div class="block login-text-wrapper">
             <input type="checkbox" name="Cookie" id="id3" /><label for="id3" style="display:inline;">{"Remember me"|i18n("design/admin/user/login")}</label>
         </div>
     {/if}
