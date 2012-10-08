@@ -34,6 +34,12 @@ div.widthcontrol-grippy
     z-index: 9;
 }
 
+div.widthcontrol-grippy:hover,
+div.widthcontrol-grippy:focus,
+div.widthcontrol-grippy:active {
+    background: url('../images/3/sprite.png') no-repeat -20px -505px;
+}
+
 a.show-hide-control
 {
     position:absolute;
@@ -42,6 +48,17 @@ a.show-hide-control
     height: 33px;
     width: 15px;
     background: url('../images/3/sprite.png') no-repeat 0 -422px;
+    -webkit-transition: none;
+    -moz-transition: none;
+    -ms-transition: none;
+    -o-transition: none;
+    transition: none;
+}
+
+a.show-hide-control:hover,
+a.show-hide-control:focus,
+a.show-hide-control:active {
+    background: url('../images/3/sprite.png') no-repeat -20px -422px;
 }
 
 /* link with image and text (in a span) inside it */
@@ -130,11 +147,11 @@ a.image-text:hover > span
 
 a
 {
-    -webkit-transition: all 300ms ease;
-    -moz-transition: all 300ms ease;
-    -ms-transition: all 300ms ease;
-    -o-transition: all 300ms ease;
-    transition: all 300ms ease;
+    -webkit-transition: color 300ms ease;
+    -moz-transition: color 300ms ease;
+    -ms-transition: color 300ms ease;
+    -o-transition: color 300ms ease;
+    transition: color 300ms ease;
 }
 
 #header-topmenu ul, ul.tabs
@@ -408,7 +425,7 @@ ul.leftmenu-items li.current a
     top:-20px;
     bottom: 0; /* strech div to full width of relative box */
     width: 10px;
-    cursor: e-resize;
+    cursor: col-resize;
 /*    background: #f8f8f8;*/
 }
 
