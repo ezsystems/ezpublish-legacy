@@ -219,7 +219,7 @@ div.tabs-content.disabled div.tab-content
 
 #path
 {
-    padding: 8px 6px 6px 6px;
+    padding: 0;
     text-align: left;
     min-height: 24px;
 }
