@@ -99,8 +99,6 @@ class eZSession
 
     static protected $namespace = null;
 
-    static protected $delegateSessionStart = false;
-
     /**
      * Constructor (not used, this is an all static class)
      */
@@ -434,17 +432,6 @@ class eZSession
     }
 
     /**
-     * Allows to delegate session start. Useful if an external system (like Symfony stack in eZ Publish 5) handles the session as a whole.
-     *
-     * @since 5.0
-     * @param bool $delegate
-     */
-    static public function setDelegateSessionStart( $delegate )
-    {
-        self::$delegateSessionStart = (bool)$delegate;
-    }
-
-    /**
      * See {@link eZSession::start()}
      *
      * @since 4.4
@@ -452,7 +439,8 @@ class eZSession
      */
     static protected function forceStart()
     {
-        if ( session_id() === '' && self::$delegateSessionStart === false )
+        $delegateSessionStart = self::$handlerInstance instanceof ezpSessionHandler ? self::$handlerInstance->delegateSessionStart() : false;
+        if ( session_id() === '' && $delegateSessionStart === false )
             session_start();
 
         return self::$hasStarted = true;

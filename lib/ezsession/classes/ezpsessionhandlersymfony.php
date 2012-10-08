@@ -121,4 +121,8 @@ class ezpSessionHandlerSymfony extends ezpSessionHandler
         $this->storage = $storage;
     }
 
+    public function delegateSessionStart()
+    {
+        return true;
+    }
 }
