@@ -30,7 +30,7 @@ div.widthcontrol-grippy
     left:-15px;
     height: 33px;
     width: 15px;
-    background: url('../images/3/sprite.png') no-repeat 0 -505px;
+    background: url('../images/3/panel_handler_opened_left.png') left top no-repeat scroll;
     z-index: 9;
 }
 
@@ -41,7 +41,7 @@ a.show-hide-control
     margin-top:-16px;
     height: 33px;
     width: 15px;
-    background: url('../images/3/sprite.png') no-repeat 0 -422px;
+    background: url('../images/3/panel_handler_closed_right.png') left top no-repeat scroll;
 }
 
 /* link with image and text (in a span) inside it */
@@ -930,7 +930,7 @@ input.button:hover
     margin-left:5px;
     border: 4px solid rgba(255,255,255,0.1);
     border-radius: 5px;
-    background: transparent url(../images/3/sprite.png) no-repeat 9px -578px;
+    background: transparent url(../images/3/search.png) 9px 10px no-repeat;
 
 }
 
@@ -1119,7 +1119,7 @@ input:-moz-placeholder {
     position:absolute;
     left:11px;
     top:8px;
-    background: url('../images/3/sprite.png') no-repeat 0 -287px;
+    background: url(../images/3/ico_login.png) left top no-repeat;
     width: 26px;
     height:26px;
 }
@@ -1129,7 +1129,7 @@ input:-moz-placeholder {
     position:absolute;
     left:11px;
     top:14px;
-    background: url('../images/3/sprite.png') no-repeat 0 -361px;
+    background: url(../images/3/ico_password.png) left top no-repeat;
     width: 24px;
     height:11px;
 }

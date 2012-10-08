@@ -1,4 +1,3 @@
-
 .yuimenu {
     top: -999em;
     left: -999em;
@@ -414,23 +413,23 @@ a.yuimenuitemlabel-disabled{
 }
 
 #ezbtn-items-button { 
-    background: url('../../images/3/sprite.png') no-repeat 5px -650px;
+    background: transparent url(../../images/3/selection.png) no-repeat 5px 4px;
     padding-left: 2em;
 }
 
 #ezbtn-new-button {
-    background: url('../../images/3/sprite.png') no-repeat 5px 4px;
+    background: transparent url(../../images/3/add.png) no-repeat 5px 4px;
     padding-left: 2em;
 }
 
 .yui-button-disabled #ezbtn-new-button {
-    background: url('../../images/3/sprite.png') no-repeat 5px 4px;
+    background: transparent url(../../images/3/add.png) no-repeat 5px 4px;
     padding-left: 2em;
     color: #888
 }
 
 #ezbtn-options-button {
-    background: url('../../images/3/sprite.png') no-repeat 5px -713px;
+    background: transparent url(../../images/3/table.png) no-repeat 5px 6px;
     padding-left: 2em;
 }
 

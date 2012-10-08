@@ -155,12 +155,12 @@ a.show-hide-tabs
     overflow: visible;
     width: auto;
     text-decoration: none;
-    background: url('../../images/3/sprite.png') no-repeat 1px -62px;
+    background: url('../../images/3/arrow_small_down.png') 1px 5px no-repeat ;
 }
 
 a#maincontent-hide
 {
-    background: url('../../images/3/sprite.png') no-repeat 1px -118px;
+    background-image: url('../../images/3/arrow_small_up.png')
 }
 
 a.show-hide-tabs:hover
@@ -257,9 +257,8 @@ a.show-hide-tabs:hover
 p.versions
 {
     padding-top:10px;
-    padding-right:31px;
-    background: url('../../images/3/sprite.png') no-repeat right -770px;
-    
+    padding-right:20px;
+    background: url('../../images/3/versions.png') right 12px no-repeat ;
 }
 p.versions a
 {
