@@ -183,5 +183,17 @@ abstract class ezpSessionHandler
     {
         return true;
     }
+
+    /**
+     * Starts the session.
+     * Override this method if you need to delegate session start to an external system (e.g. Symfony stack in eZ Publish 5)
+     *
+     * @since 5.0
+     * @return bool
+     */
+    public function sessionStart()
+    {
+        return session_start();
+    }
 }
 ?>
