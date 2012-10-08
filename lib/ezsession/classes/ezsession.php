@@ -97,6 +97,12 @@ class eZSession
      */
     static protected $handlerInstance = null;
 
+    /**
+     * Session namespace.
+     * If set, all session variables will be stored under $_SESSION[$namespace].
+     *
+     * @var string
+     */
     static protected $namespace = null;
 
     /**
