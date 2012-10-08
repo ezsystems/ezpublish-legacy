@@ -44,7 +44,7 @@
 
 <script type="text/javascript">
 var treeMenu;
-(function(){ldelim}
+(function(YUI){ldelim}
 
 {cache-block keys=array( $root_node_id, $access_type ) expiry=0}
     {def $root_node_url = $root_node.url}
@@ -100,6 +100,11 @@ var treeMenu;
         params.createHereMenu = "{ezini('TreeMenu','CreateHereMenu','contentstructuremenu.ini')}";
         params.autoOpen       = {if ezini('TreeMenu','AutoopenCurrentNode','contentstructuremenu.ini')|eq('enabled')}true{else}false{/if};
 
+        YUI.use('updatepanels', function(Y) {ldelim}{*
+            *}params.drawCallback = Y.eZ.updatePanelsHeight;{*
+        *}{rdelim});
+
+
         var i18n = {ldelim}{*
             *}"expand":"{'Click on the icon to display a context-sensitive menu.'|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)}",{*
             *}"node_id":"{'Node ID'|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)}",{*
@@ -133,5 +138,5 @@ var treeMenu;
     document.writeln( '<\/ul>' );
 
     treeMenu.load( false, rootNode.node_id, rootNode.modified_subnode );
-{rdelim})();
+{rdelim})(YUI(YUI3_config));
 </script>
