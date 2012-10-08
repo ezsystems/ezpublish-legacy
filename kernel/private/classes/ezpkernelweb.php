@@ -999,6 +999,7 @@ class ezpKernelWeb implements ezpKernelHandler
         }
         else
         {
+            eZSession::setDelegateSessionStart( true );
             $sfHandler = new ezpSessionHandlerSymfony(
                 $this->settings['session']['has_previous']
                     || $this->settings['session']['started']
