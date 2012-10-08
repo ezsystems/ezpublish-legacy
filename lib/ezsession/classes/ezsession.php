@@ -434,15 +434,16 @@ class eZSession
     /**
      * See {@link eZSession::start()}
      *
+     * @see ezpSessionHandler::sessionStart()
      * @since 4.4
      * @return true
      */
     static protected function forceStart()
     {
-        $delegateSessionStart = self::$handlerInstance instanceof ezpSessionHandler ? self::$handlerInstance->delegateSessionStart() : false;
-        if ( session_id() === '' && $delegateSessionStart === false )
-            session_start();
+        if ( self::$handlerInstance instanceof ezpSessionHandler )
+            return self::$hasStarted = self::$handlerInstance->sessionStart();
 
+        session_start();
         return self::$hasStarted = true;
     }
 

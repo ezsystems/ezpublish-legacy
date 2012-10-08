@@ -185,16 +185,15 @@ abstract class ezpSessionHandler
     }
 
     /**
-     * Checks if session start have to be delegated (default is false)
-     * This is useful if an external system (like Symfony stack in eZ Publish 5) handles the session as a whole.
-     * It will basically avoids session_start() calls from eZSession.
+     * Starts the session.
+     * Override this method if you need to delegate session start to an external system (e.g. Symfony stack in eZ Publish 5)
      *
      * @since 5.0
      * @return bool
      */
-    public function delegateSessionStart()
+    public function sessionStart()
     {
-        return false;
+        return session_start();
     }
 }
 ?>
