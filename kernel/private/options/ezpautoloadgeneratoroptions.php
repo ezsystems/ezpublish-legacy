@@ -15,6 +15,9 @@
  *      Contains the base path from which to root the search, and from which
  *      to create relative paths
  *
+ * @property string $extensionDirName
+ *      Contains the name of the extension folder. The default value is 'extension'.
+ *      
  * @property bool $searchKernelFiles
  *      Control whether to search the kernel classes
  *
@@ -56,6 +59,7 @@ class ezpAutoloadGeneratorOptions extends ezcBaseOptions
     public function __construct( array $options = array() )
     {
         $this->basePath = getcwd();
+        $this->extensionDirName = 'extension';
         $this->searchKernelFiles = false;
         $this->searchKernelOverride = false;
         $this->searchExtensionFiles = true;
@@ -74,6 +78,7 @@ class ezpAutoloadGeneratorOptions extends ezcBaseOptions
         {
             case 'basePath':
             case 'outputDir':
+            case 'extensionDirName':
                 if ( !is_string( $value ) )
                 {
                     throw new ezcBaseValueException( $name, $value );

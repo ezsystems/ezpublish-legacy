@@ -328,14 +328,14 @@ class eZAutoloadGenerator
             {
                 case self::MODE_KERNEL:
                     $extraExcludeKernelDirs = $extraExcludeDirs;
-                    $extraExcludeKernelDirs[] = "@^{$sanitisedBasePath}{$dirSep}extension@";
+                    $extraExcludeKernelDirs[] = "@^{$sanitisedBasePath}{$dirSep}{$this->options->extensionDirName}@";
                     $extraExcludeKernelDirs[] = "@^{$sanitisedBasePath}{$dirSep}tests@";
                     $retFiles[self::MODE_KERNEL] = $this->buildFileList( $sanitisedBasePath, $extraExcludeKernelDirs );
                     break;
 
                 case self::MODE_EXTENSION:
                 case self::MODE_KERNEL_OVERRIDE:
-                    $retFiles[$modusOperandi] = $this->buildFileList( "$sanitisedBasePath/extension", $extraExcludeDirs );
+                    $retFiles[$modusOperandi] = $this->buildFileList( "$sanitisedBasePath/{$this->options->extensionDirName}", $extraExcludeDirs );
                     break;
 
                 case self::MODE_TESTS:
