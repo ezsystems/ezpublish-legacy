@@ -84,6 +84,7 @@ class eZLog
         $fileName = $varDir . '/' . $logDir . '/' . $logName;
         $oldumask = @umask( 0 );
 
+        clearstatcache( true, $fileName );
         $fileExisted = file_exists( $fileName );
         if ( $fileExisted and
              filesize( $fileName ) > eZLog::maxLogSize() )
