@@ -112,9 +112,15 @@ class ezpKernelWeb implements ezpKernelHandler
     {
         if ( isset( $settings['injected-settings'] ) )
         {
+            $injectedSettings = array();
+            foreach ( $settings["injected-settings"] as $keySetting => $injectedSetting )
+            {
+                list( $file, $section, $setting ) = explode( "/", $keySetting );
+                $injectedSettings[$file][$section][$setting] = $injectedSetting;
+            }
             // those settings override anything else in local .ini files and
             // their overrides
-            eZINI::injectSettings( $settings['injected-settings'] );
+            eZINI::injectSettings( $injectedSettings );
         }
         $this->settings = $settings + array(
             'siteaccess'            => null,
@@ -122,7 +128,7 @@ class ezpKernelWeb implements ezpKernelHandler
             'session'               => null,
             'service-container'     => null,
         );
-        unset( $settings );
+        unset( $settings, $injectedSettings, $file, $section, $setting, $keySetting, $injectedSetting );
 
         require_once __DIR__ . '/global_functions.php';
         $this->setUseExceptions( $this->settings['use-exceptions'] );
