@@ -1,0 +1,573 @@
+/* ADMIN2 ROUNDED CSS 20100107 */
+/*
+   This stylesheet uses CSS3 features for some styling, this is done in such a way to
+   make sure it falls back gracefully in older browsers with almost the same style.
+*/
+
+
+/* LOGIN PAGE (center it) */
+
+.loginpage, .loginpage #page
+{
+    height: 100%;
+}
+
+.loginpage #header
+{
+    height: 15%;
+}
+
+.loginpage #columns
+{
+    height: 85%;
+    background-color: #fff;
+}
+
+.loginpage #columns #maincolumn
+{
+    border-right: 0 none;
+    margin-right: 0px;
+}
+
+.loginpage #columns #maincontent
+{
+    width: 48em;
+    margin: 0 auto;
+}
+
+.loginpage #columns #maincontent .box-header
+{
+    background: transparent url('../../images/2/ez-logo-black.png') no-repeat top right scroll;
+    padding-top: 1em;
+}
+
+.loginpage #footer
+{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.loginpage #debug
+{
+    padding-bottom: 4em;
+}
+
+
+/* HEADER */
+#header
+{
+    border-bottom: 1px solid #666;
+    background-color: #246b99;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#246b99), to(#3b8bb4));
+    background-image: -moz-linear-gradient(top,  #246b99,  #3b8bb4);
+    background-image: -ms-linear-gradient(top,  #246b99,  #3b8bb4);
+    background-image: -o-linear-gradient(top,  #246b99,  #3b8bb4);
+    background-image: linear-gradient(top,  #246b99,  #3b8bb4);
+}
+
+.loginpage #header
+{
+    border-bottom-width: 0;
+    background: #fefefe;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f5f5f5), to(#fff));
+    background-image: -moz-linear-gradient(top,  #f5f5f5,  #fff);
+    background-image: -ms-linear-gradient(top,  #f5f5f5,  #fff);
+    background-image: -o-linear-gradient(top,  #f5f5f5,  #fff);
+    background-image: linear-gradient(top,  #f5f5f5,  #fff);
+}
+
+/* TOP MENU (TABS) */
+
+#header-topmenu ul li a, #header-topmenu ul li span.disabled, ul.tabs li a, ul.tabs li span.disabled
+{
+    border: 1px solid #666;
+    border-bottom-width: 0;
+    background-color: #f0f0f0;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
+    background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    background-clip: padding-box;
+}
+
+ul.tabs li a, ul.tabs li span.disabled
+{
+    border-color: #ccc;
+}
+
+#header-topmenu ul li.selected a, #header-topmenu ul li.selected span.disabled, ul.tabs li.selected a
+{
+    border-bottom: 1px solid #fff;
+    background: #fff none;
+    background-clip: padding-box;
+}
+
+.tab-content
+{
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+
+.tabs-content.disabled
+{
+    border-top: 1px solid #ccc;
+}
+
+/* CSS Media Query's to adjust layout based on screen width */
+
+@media all and (max-width: 1124px)
+{
+    #header-logo a, #header-logo span
+    {
+        width: 50px;/* Use only eZ logo on small screens */
+    }
+
+    #header-topmenu ul li a, #header-topmenu ul li span.disabled
+    {
+        min-width: 80px;/* slightly smaller tabs */
+    }
+}
+
+/* BOX MODEL */
+
+a.show-hide-control
+{
+    background-color: white;
+    border: 1px solid #999;
+    border-left: 0;
+    margin-left: 0;
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
+    background-clip: padding-box;
+}
+
+
+#leftmenu a.show-hide-control
+{
+    border:1px solid #999;
+    border-right: 0;
+    border-radius:0;
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
+}
+
+a.show-hide-control:hover
+{
+    border-color: #666;
+}
+
+a.show-hide-tabs
+{
+    padding: 0 5px;
+    border-radius: 3px;
+    background-color: #f0f0f0;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
+    background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    border: 1px solid #CCCCCC;
+    cursor: pointer;
+    font-weight: normal;
+    font-size: 1em;
+    overflow: visible;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: text-bottom;
+    width: auto;
+    background-clip: padding-box;
+}
+
+a.show-hide-tabs:hover
+{
+    border-color: #999;
+}
+
+.tab-block .button-left
+{
+    margin: 3px 7px 0 0;
+}
+
+#controlbar-top .box-bc
+{
+    border: 1px solid #ccc;
+    background: #f4f4f4;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
+    background-image: -moz-linear-gradient(top,  #fdfdfd, #e4e3e4);
+    background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    border-radius: 3px;
+    background-clip: padding-box;
+    -moz-box-shadow: 0 4px 4px #aaa;
+    -webkit-box-shadow: 0 4px 4px #aaa;
+    box-shadow: 0 4px 4px #aaa;
+}
+
+.box-bc .box-ml, .box-header .box-ml
+{
+    border: 0 none;
+    background-color: transparent;
+}
+
+.box-header
+{
+    border-bottom: 1px solid #ccc;
+}
+
+#controlbar-top .box-bc .box-ml
+{
+    border-top-width: 0;
+}
+
+.context-information, .subitems-controlbar
+{
+    background-color: #F5F5F5;
+    border: 1px solid #ccc;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    background-clip: padding-box;
+}
+
+.context-information
+{
+    border-top: 0 none;
+}
+
+.subitems-controlbar
+{
+    padding: 0px 5px;
+    margin: 0 0 5px 0;
+}
+
+.subitems-context-toolbar
+{
+    padding: 3px;
+}
+
+
+/* MENU-BLOCK */
+
+.menu-block li a
+{
+    border-radius: 3px;
+    background-clip: padding-box;
+}
+
+/* BUTTONS */
+p.versions
+{
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border: 1px solid #CCCCCC;
+    border-top: 0 none;
+    background-color: #f0f0f0;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
+    background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-clip: padding-box;
+}
+p.versions a
+{
+    text-decoration: none;
+}
+
+p.table-preferences
+{
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border: 1px solid #CCCCCC;
+    border-top: 0 none;
+    background-color: #f0f0f0;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
+    background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-clip: padding-box;
+}
+
+p.table-preferences > a, p.table-preferences > span
+{
+    border: solid #CCC;
+    border-width: 0 1px 0 0;
+    padding-right: 1em;
+}
+
+p.table-preferences :last-child
+{
+    border-right: 0px;
+}
+
+input.button, input.defaultbutton, input.button-disabled
+{
+    color: #fff;
+    background: #516e9e;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#5d7db1), to(#445c89));
+    background-image: -moz-linear-gradient(top,  #5d7db1,  #445c89);
+    background-image: -ms-linear-gradient(top,  #5d7db1,  #445c89);
+    background-image: -o-linear-gradient(top,  #5d7db1,  #445c89);
+    background-image: linear-gradient(top,  #5d7db1,  #445c89);
+    border: 1px solid #cfd1d3;
+    border-radius: 3px;
+    background-clip: padding-box;
+}
+
+input.defaultbutton, input.button-disabled, input.button[disabled="disabled"]
+{
+    background-color: #f5f5f5;
+}
+
+input.defaultbutton
+{
+    background: #d68916;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e99a21), to(#c97d10));
+    background-image: -moz-linear-gradient(top,  #e99a21,  #c97d10);
+    background-image: -ms-linear-gradient(top,  #e99a21,  #c97d10);
+    background-image: -o-linear-gradient(top,  #e99a21,  #c97d10);
+    background-image: linear-gradient(top,  #e99a21,  #c97d10);
+}
+
+input.button-disabled, input.button[disabled="disabled"]
+{
+    color: #888;
+    background: #f3f3f3;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fefefe), to(#dfdfdf));
+    background-image: -moz-linear-gradient(top,  #fefefe,  #dfdfdf);
+    background-image: -ms-linear-gradient(top,  #fefefe,  #dfdfdf);
+    background-image: -o-linear-gradient(top,  #fefefe,  #dfdfdf);
+    background-image: linear-gradient(top,  #fefefe,  #dfdfdf);
+}
+
+/* SEARCH */
+#searchtext
+{
+    border: 1px solid #666;
+    border-radius: 3px;
+    background: #fff;
+    background-clip: padding-box;
+    line-height: 18px !important;
+}
+
+#searchtext:focus
+{
+    border-color: #000;
+}
+
+#searchtext.disabled
+{
+    background-color: #efefef;
+}
+
+/* DASHBOARD */
+#ez-version
+{
+    color: #E24602;
+}
+
+#ez-publish-community-project-is-innovative-and-cutting-edge
+{
+    color: #ff5500;
+    font-style: italic;
+}
+
+div.community-block-title h2,
+div.community-block-title span
+{
+    float: left;
+}
+
+div.community-block-title span
+{
+    margin-top: 1.5em;
+    margin-left: 4px;
+}
+
+div.community-block-title span.first
+{
+    margin-left: 8px;
+}
+
+div.community-activity
+{
+    border: 1px solid;
+    border-color: #ff5500;
+    border-color: rgba(255, 85, 0, 0.31);
+    padding: 1em 1em;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+div.community-activity div.loading
+{
+    font-style: italic;
+}
+
+div.community-activity #feed-elements ul h5
+{
+    margin-top: 0.5em;
+}
+
+div.community-activity #feed-elements ul
+{
+    list-style-type: none;
+    margin:0;
+    padding:0;
+}
+
+div.community-activity #feed-elements ul li p
+{
+    margin: 0.2em 0;
+    font-size: 0.8em;
+}
+
+.content-dashboard .box-header
+{
+     background: transparent url('../../images/2/welcome.png') no-repeat scroll right bottom;
+     padding: 35px 0 0;
+}
+
+.content-dashboard .box-header h1
+{
+     visibility: hidden;
+}
+
+.dashboard-item
+{
+    margin-top: 2em;
+}
+
+
+/* PAGENAVIGATOR */
+
+div.pagenavigator
+{
+    text-align: center;
+}
+
+div.pagenavigator a
+{
+    text-decoration: none;
+}
+
+div.pagenavigator p
+{
+    margin: 0em;
+}
+
+div.pagenavigator span.previous
+{
+    display: block;
+    float: left;
+}
+
+div.pagenavigator span.next
+{
+    display: block;
+    float: right;
+}
+
+div.pagenavigator span.disabled
+{
+    color: #d0d0d0;
+}
+
+div.pagenavigator span.pages span.other, div.pagenavigator span.pages span.current
+{
+    font-size: 0.8em;
+    margin-left: 1px;
+    margin-right: 1px;
+    background-color: #fff;
+    border: 1px solid #CBCBCB;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    padding: 0.3em 0.5em;
+    text-decoration: none;
+}
+
+div.pagenavigator span.pages span.current
+{
+    background-color: #f4f4f4;
+}
+
+div.alphabetical
+{
+    margin-top: 1.25em;
+}
+
+/* FOOTER */
+
+#footer
+{
+    border-top: 1px solid #999;
+    background: #fefefe;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f5f5f5), to(#fefefe));
+    background-image: -moz-linear-gradient(top,  #f5f5f5,  #fefefe);
+    background-image: -ms-linear-gradient(top,  #f5f5f5,  #fefefe);
+    background-image: -o-linear-gradient(top,  #f5f5f5,  #fefefe);
+    background-image: linear-gradient(top,  #f5f5f5,  #fefefe);
+}
+
+
+/* MISC */
+table.list th, table.special th
+{
+    background-color: #f0f0f0;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
+    background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    padding-top:0;
+    padding-bottom:0;
+}
+
+#leftmenu-design ul
+{
+    color: #333;
+}
+
+#editform #leftmenu
+{
+    border:1px solid #ccc;
+    border-radius:3px;
+    background:#f5f5f5;
+}
+
+.settings .current
+{
+    font-weight: bold;
+}
+
+
+/* YUI 2 calendar (uses #page to force override) */
+
+#page .yui-calendar .calweekdaycell
+{
+    padding: 0.15em;
+}
+
+#page .yui-calcontainer
+{
+    border-color: #CCCCC3;
+}
+
+#page .datepicker-icon
+{
+    margin-bottom: -2px;
+    padding-top: 9px;
+}
+
+#page .yui-calcontainer .title
+{
+position:absolute;
+}

@@ -121,4 +121,13 @@ class ezpSessionHandlerSymfony extends ezpSessionHandler
         $this->storage = $storage;
     }
 
+    /**
+     * Let Symfony start the session
+     *
+     * @return bool
+     */
+    public function sessionStart()
+    {
+        return true;
+    }
 }

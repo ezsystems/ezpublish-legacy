@@ -1,35 +1,38 @@
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header">
 <h1 class="context-title">{$group.name|wash|classgroup_icon( 'normal', $group.name|wash )}&nbsp;{'%group_name [Class group]'|i18n( 'design/admin/class/classlist',, hash( '%group_name', $group.name ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div>
 
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-content">
+
+{def $languages=fetch( 'content', 'prioritized_languages' )}
 
 <div class="context-information">
-<p>{'Last modified'|i18n( 'design/admin/class/classlist' )}: {$group.modified|l10n( shortdatetime )}, {$group_modifier.name|wash}</p>
+<p class="left">{'Last modified'|i18n( 'design/admin/class/classlist' )}: {$group.modified|l10n( shortdatetime )}, {$group_modifier.name|wash}</p>
+<div class="break"></div>
 </div>
 
 <div class="context-attributes">
 
 <div class="block">
-<label>{'ID'|i18n( 'design/admin/class/classlist' )}:</label>
+<h6>{'ID'|i18n( 'design/admin/class/classlist' )}:</h6>
 {$group.id}
 </div>
 
 <div class="block">
-<label>{'Name'|i18n( 'design/admin/class/classlist' )}:</label>
+<h6>{'Name'|i18n( 'design/admin/class/classlist' )}:</h6>
 {$group.name|wash}
 </div>
 
 </div>
 
-{* DESIGN: Content END *}</div></div></div>
-
+{* DESIGN: Content END *}</div>
+<div class="block">
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc">
 <div class="block">
 <form action={'class/grouplist'|ezurl} method="post" name="GroupList">
     <input type="hidden" name="DeleteIDArray[]" value="{$group.id}" />
@@ -38,28 +41,43 @@
     <input class="button" type="submit" name="RemoveGroupButton" value="{'Remove'|i18n( 'design/admin/class/classlist' )}" title="{'Remove this class group.'|i18n( 'design/admin/class/classlist' )}" />
 </form>
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div>
+</div>
 </div>
 
 </div>
 
-
+<div class="break"></div>
 <form action={concat( 'class/classlist/', $GroupID )|ezurl} method="post" name="ClassList">
-
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title"><a href={'/class/grouplist'|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Back to class groups.'|i18n( 'design/admin/class/classlist' )}" title="{'Back to class groups.'|i18n( 'design/admin/class/classlist' )}" /></a>&nbsp;{'Classes inside <%group_name> [%class_count]'|i18n( 'design/admin/class/classlist',, hash( '%group_name', $group.name, '%class_count', $class_count ) )|wash}</h2>
+{* DESIGN: Header START *}<div class="box-header">
+<div class="button-left">
+<h2 class="context-title"><a href={'/class/grouplist'|ezurl}><img src={'up-16x16-grey.png'|ezimage} width="16" height="16" alt="{'Back to class groups.'|i18n( 'design/admin/class/classlist' )}" title="{'Back to class groups.'|i18n( 'design/admin/class/classlist' )}" /></a>&nbsp;{'Classes inside <%group_name> (%class_count)'|i18n( 'design/admin/class/classlist',, hash( '%group_name', $group.name, '%class_count', $class_count ) )|wash}</h2>
+</div>
 
-{* DESIGN: Mainline *}<div class="header-subline"></div>
+<div class="button-right">
+    {if gt( $languages|count, 1 )}
+        <select name="ClassLanguageCode" title="{'Use this menu to select the language you to want use then click the "New class" button. The item will be created within the current location.'|i18n( 'design/admin/class/classlist' )|wash()}">
+            {foreach $languages as $language}
+                <option value="{$language.locale|wash()}">{$language.name|wash()}</option>
+            {/foreach}
+        </select>
+    {else}
+        <input type="hidden" name="ClassLanguageCode" value="{$languages[0].locale|wash()}" />
+    {/if}
+    <input class="button" type="submit" name="NewButton" id="NewButtonTop" value="{'New class'|i18n( 'design/admin/class/classlist' )}" title="{'Create a new class within the <%class_group_name> class group.'|i18n( 'design/admin/class/classlist',, hash( '%class_group_name', $group.name ) )|wash}" />
+</div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+<div class="break"></div>
 
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+{* DESIGN: Header END *}</div>
+
+{* DESIGN: Content START *}<div class="box-content">
 
 {section show=$class_count}
-<table class="list" cellspacing="0">
+<table class="list" cellspacing="0" summary="{'List of classes inside %group_name class group (%class_count)'|i18n( 'design/admin/class/classlist',, hash( '%group_name', $group.name, '%class_count', $class_count ) )|wash}">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/class/classlist' )}" title="{'Invert selection.'|i18n( 'design/admin/class/classlist' )}" onclick="ezjs_toggleCheckboxes( document.ClassList, 'DeleteIDArray[]' ); return false;" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/class/classlist' )}" title="{'Invert selection.'|i18n( 'design/admin/class/classlist' )}" onclick="ezjs_toggleCheckboxes( document.ClassList, 'DeleteIDArray[]' ); return false;" /></th>
     <th>{'Name'|i18n('design/admin/class/classlist')}</th>
     <th class="tight">{'ID'|i18n('design/admin/class/classlist')}</th>
     <th>{'Identifier'|i18n('design/admin/class/classlist')}</th>
@@ -90,12 +108,12 @@
 </div>
 {/section}
 
-{* DESIGN: Content END *}</div></div></div>
+{* DESIGN: Content END *}</div>
 
-<div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-    <div class="left">
+<div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc">
+    <div class="button-left">
     <input type="hidden" name = "CurrentGroupID" value="{$GroupID}" />
     <input type="hidden" name = "CurrentGroupName" value="{$group.name|wash}" />
 
@@ -104,30 +122,42 @@
     {else}
     <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/class/classlist' )}" disabled="disabled" />
     {/if}
-
-    {def $languages=fetch( 'content', 'prioritized_languages' )}
-    {if gt( $languages|count, 1 )}
-        <select name="ClassLanguageCode" title="{'Use this menu to select the language you to want use then click the "New class" button. The item will be created within the current location.'|i18n( 'design/admin/class/classlist' )|wash()}">
-            {foreach $languages as $language}
-                <option value="{$language.locale|wash()}">{$language.name|wash()}</option>
-            {/foreach}
-        </select>
-    {else}
-        <input type="hidden" name="ClassLanguageCode" value="{$languages[0].locale|wash()}" />
-    {/if}
-    {undef $languages}
-
-    <input class="button" type="submit" name="NewButton" value="{'New class'|i18n( 'design/admin/class/classlist' )}" title="{'Create a new class within the <%class_group_name> class group.'|i18n( 'design/admin/class/classlist',, hash( '%class_group_name', $group.name ) )|wash}" />
     </div>
 
-    <div class="break"></div>
+    <div class="button-right">
+        {if gt( $languages|count, 1 )}
+            <select name="ClassLanguageCode" id="ClassLanguageCodeBottom" title="{'Use this menu to select the language you to want use then click the "New class" button. The item will be created within the current location.'|i18n( 'design/admin/class/classlist' )|wash()}">
+                {foreach $languages as $language}
+                    <option value="{$language.locale|wash()}">{$language.name|wash()}</option>
+                {/foreach}
+            </select>
+        {else}
+            <input type="hidden" name="ClassLanguageCode" value="{$languages[0].locale|wash()}" />
+        {/if}
+        <input class="button" type="submit" name="NewButton" value="{'New class'|i18n( 'design/admin/class/classlist' )}" title="{'Create a new class within the <%class_group_name> class group.'|i18n( 'design/admin/class/classlist',, hash( '%class_group_name', $group.name ) )|wash}" />
+    </div>
+
+    <div class="float-break"></div>
+
+
+{* DESIGN: Control bar END *}</div>
+</div>
 </div>
 
-
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
-
-</div>
-
+{undef $languages}
 </form>
+
+{literal}
+<script type="text/javascript">
+jQuery(function( $ )//called on document.ready
+{
+    // Disable bottom datatype dropp down when using new button in top
+    jQuery('#NewButtonTop').click(function()
+    {
+        jQuery('#ClassLanguageCodeBottom').attr('disabled', true);
+    });
+});
+</script>
+{/literal}
 

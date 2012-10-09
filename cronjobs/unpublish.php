@@ -9,7 +9,6 @@
  */
 
 // Check for extension
-require_once( 'kernel/common/ezincludefunctions.php' );
 eZExtension::activateExtensions();
 // Extension check end
 

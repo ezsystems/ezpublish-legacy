@@ -598,62 +598,10 @@ class eZFSFileHandler
     }
 
     /**
-     * Delete files matching regex $fileRegex under directory $dir.
-     *
-     * \public
-     * \static
-     * \sa fileDeleteByWildcard()
-     */
-    function fileDeleteByRegex( $dir, $fileRegex )
-    {
-        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteByRegex( '$dir', '$fileRegex' )", __METHOD__ );
-
-        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
-
-        if ( !file_exists( $dir ) )
-        {
-            //eZDebugSetting::writeDebug( 'kernel-clustering', "Dir '$dir' does not exist", __METHOD__ );
-            eZDebug::accumulatorStop( 'dbfile' );
-            return;
-        }
-
-        $dirHandle = opendir( $dir );
-        if ( !$dirHandle )
-        {
-            eZDebug::writeError( "opendir( '$dir' ) failed." );
-            eZDebug::accumulatorStop( 'dbfile' );
-            return;
-        }
-
-        while ( ( $file = readdir( $dirHandle ) ) !== false )
-        {
-            if ( $file == '.' or
-                 $file == '..' )
-                continue;
-            if ( preg_match( "/^$fileRegex/", $file ) )
-            {
-                //eZDebugSetting::writeDebug( 'kernel-clustering', "\$file = eZDir::path( array( '$dir', '$file' ) );", __METHOD__ );
-                $file = eZDir::path( array( $dir, $file ) );
-                eZDebugSetting::writeDebug( 'kernel-clustering', "Removing cache file '$file'", __METHOD__ );
-                unlink( $file );
-
-                // Write log message to storage.log
-                eZLog::writeStorageLog( $file );
-            }
-        }
-        closedir( $dirHandle );
-
-        eZDebug::accumulatorStop( 'dbfile' );
-    }
-
-    /**
      * Delete files matching given wildcard.
      *
-     * Note that this method is faster than fileDeleteByRegex().
-     *
      * \public
      * \static
-     * \sa fileDeleteByRegex()
      */
     function fileDeleteByWildcard( $wildcard )
     {
@@ -675,7 +623,6 @@ class eZFSFileHandler
      *
      * \public
      * \static
-     * \sa fileDeleteByRegex()
      */
     function fileDeleteByDirList( $dirList, $commonPath, $commonSuffix )
     {
@@ -1014,19 +961,6 @@ class eZFSFileHandler
      * @return bool false
      */
     public function requiresClusterizing()
-    {
-        return false;
-    }
-
-    /**
-     * eZFS does not require binary purge.
-     * Files are stored on plain FS and removed using FS functions
-     *
-     * @since 4.3
-     * @deprecated Deprecated as of 4.5, use {@link eZFSFileHandler::requiresPurge()} instead.
-     * @return bool
-     */
-    public function requiresBinaryPurge()
     {
         return false;
     }

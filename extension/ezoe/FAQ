@@ -1,0 +1,157 @@
+eZ Online Editor 5.x extension FAQ
+
+1. eZ Online Editor 5.x is not activated in eZ Publish
+   Note: This is very general, look at the other questions
+   bellow to see if they better suite your problem before
+   you check these.
+==========================================================
+
+A.	You will need to check if the extension is properly activated in site.ini.
+	Open 'settings/override/site.ini.append(.php)' and find the 'ExtensionSettings'
+	section. Under it you should have an entry that says:
+	
+	ActiveExtensions[]=ezoe
+	
+	Make sure there are no spaces before or after the name.
+
+B.	Make sure the old Online Editor (ezdhtml) is not also enabled.
+
+C.  Check your installation path. The correct path should like following:
+    eZ Publish Root - kernel
+                    - lib
+                    - doc
+                    - bin
+                    - design
+                    - ...
+                    - extension - ezoe - modules
+                                       - design
+                                       - ezxmltext
+                                       - settings
+                                       - ...
+
+D.  As of eZ Publish 4.1, you need to run ezpgenerateautoloads.php on 
+    install so that eZ Publish can find the xml handler class in ezoe.
+    In this case you should be able to see an error in debug ouput /
+    error.log about missing 'eZOEXMLInput' handler.
+
+F.  Make sure you have cleared all the caches (both eZ Publish and browser).
+
+G.	Enable debug output or look in the error/warning logs of eZ Publish for clues
+    on what is going wrong. 
+
+2. eZ Online Editor 5.x is not activated in eZ Publish for other users then admin.
+=================================================================================
+
+    ezoe has its own set of access policy rules, so you need to give your
+    editors access to the ezoe module either with or without limitations.
+    See step 7 in INSTALL for more info.
+
+3. After installation, I only get Disable editor button when editing
+   content, and the text 'advanced.block' where the editor should be.
+==========================================================================
+
+A. Make sure you have correct apache rewrite rule. Have you restarted apache
+   after you changed the rewrite rules?
+
+   Look in INSTALL file, under #4 for more information on rewrite rules needed.
+
+B. Make sure you are using one of the following web browsers: 
+   Internet Explorer 6.0 or higher,
+   Mozilla 1.8 or higher,
+   Firefox 2.0 or higher,
+   Netscape 9.0 or higher,
+   Safari 3.0 or higher,
+   Opera 9.5 or higher,
+   Chrome 1.0 or higher.
+     
+   (It is always recommended to use the latest stable version of the browser)
+   
+   Make sure that Javascript support is enabled in your web browser.
+
+   Note: Safari, Opera and Google Chrome is not well tested at this time, so if
+         you experience problems or unexpected result. Please try again in
+         Firefox or Internet Explorer and report the issue to us so we can fix it!
+
+
+
+4. When I insert an image into the editor, it does not show the image.
+===============================================================================
+
+Check the 'extension/ezoe/settings/content.ini.append.php' file, find line
+
+ImagesClassList[]=your_image_class_identifier
+
+under [RelationGroupSettings]. Is the image class identifier correct?
+(or add file / line if it's not there)
+
+
+5. When I insert an image into the editor, it disappears after storing.
+=======================================================================
+
+Are you trying to insert image right before or after heading?
+Note that images/objects can't be saved in the same line as heading.
+
+Make sure you have permission to store the image in the placement you choose!
+Make sure the upload limit of the image size is set high enough both in php settings,
+apache settings and on the image class in eZ Publish ( it is 2Mb by default )
+
+
+6. I click right mouse button on the selection, but see no 'Properties' there.
+==============================================================================
+
+This feature is removed to allow users to use the browsers built in spell checker.
+Click on the tag name in the 'Path:' to edit the tag properties or on the glowing
+button (if there is a button specifically for the tag you have selected)!
+
+
+7. Some popup dialogs does not work (merge cells / html source / color picker )
+==============================================================================
+
+These popup dialogs requires that html/htm files are allowed to be loaded from design
+folder. ( more specifically design/javscript/ )
+Take a look at you apache rewrite rules to make sure they are not rewritten by apache.
+See INSTALL if your running a .htaccess setup for how to make sure your rewrite rules
+work.
+
+8. I select the align 'None' option, but image / embed object is still aligned right
+====================================================================================
+
+This option is not supported on eZ Publish 4.0 as align=right is considered default
+value if none is given. You'll need to upgrade to eZ Publish 4.1 or not use the option.
+You can hide the option by overriding the selections using ezoe_attributes.ini:
+
+    # Override align options in embed pop up dialogs to hide None option
+    # for eZ Publish 4.0 compatibility   
+    [Attribute_embed_align]
+    Selection[]
+    Selection[left]=Left
+    Selection[right]=Right
+    Selection[center]=Center
+
+
+9. I enabled a TinyMCE button/extension, it works in editor but not on store/publish?
+======================================================================================
+
+Only buttons / extensions mentioned in ezoe.ini are tested and therefor supported in
+Online Editor. Why?
+The is because OE uses ezxml as storage, so not everything in xhtml is supported directly,
+this is on purpose to have a strict separation between content and presentation, and will
+save you / others a lot of grief later when you want to import / export content to other
+solutions since the content in clean xml.
+So use classes, custom attributes or custom tags to extend your ezxml content, this is what
+they are meant for. And most fancy (color|font|...) functionality in TinyMCE would have to
+be re done to work with one of these ezxml extensions.
+
+
+10. I can not select my images in search and browse view when clicking on image button!
+=======================================================================================
+
+After upgrading / updating or changing image settings you cannot select images anymore
+when you browse / search for images.
+
+This is most likely caused by missing image alias size 'small', witch is used by ezoe to
+preview images, as well as some templates in eZ Publish / ezwebin uses it as well.
+A Future version of eZ Publish will maybe add a setting to control this, but until then
+you'll need to add the 'small' image alias.
+More info: http://issues.ez.no/IssueView.php?Id=14921&activeItem=18
+ 

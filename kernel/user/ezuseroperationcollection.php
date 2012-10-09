@@ -88,13 +88,6 @@ class eZUserOperationCollection
         // Check whether account activation is required.
         $verifyUserType = $ini->variable( 'UserSettings', 'VerifyUserType' );
         $sendUserMail = !!$verifyUserType;
-        // For compatibility with old setting
-        if ( $verifyUserType === 'email'
-          && $ini->hasVariable( 'UserSettings', 'VerifyUserEmail' )
-          && $ini->variable( 'UserSettings', 'VerifyUserEmail' ) !== 'enabled' )
-        {
-            $verifyUserType = false;
-        }
 
         if ( $verifyUserType === 'email' ) // and if it is email type
         {

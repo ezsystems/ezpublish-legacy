@@ -1,59 +1,13 @@
 <div id="leftmenu">
 <div id="leftmenu-design">
-<div class="objectinfo">
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h4>{'Object information'|i18n( 'design/admin/content/history' )}</h4>
-</div></div></div></div></div></div>
 
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
-
-{* Object ID *}
-<p>
-<label>{'ID'|i18n( 'design/admin/content/history' )}:</label>
-{$object.id}
-</p>
-
-{* Created *}
-<p>
-<label>{'Created'|i18n( 'design/admin/content/history' )}:</label>
-{if $object.published}
-{$object.published|l10n( shortdatetime )}<br />
-{$object.current.creator.name|wash}
-{else}
-{'Not yet published'|i18n( 'design/admin/content/history' )}
-{/if}
-</p>
-
-{* Modified *}
-<p>
-<label>{'Modified'|i18n( 'design/admin/content/history' )}:</label>
-{if $object.modified}
-{$object.modified|l10n( shortdatetime )}<br />
-{fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name|wash}
-{else}
-{'Not yet published'|i18n( 'design/admin/content/history' )}
-{/if}
-</p>
-
-{* Published version*}
-<p>
-<label>{'Published version'|i18n( 'design/admin/content/history' )}:</label>
-{if $object.published}
-{$object.current_version}
-{else}
-{'Not yet published'|i18n( 'design/admin/content/history' )}
-{/if}
-</p>
-
-</div></div></div></div></div></div>
-
-</div>
+{include uri="design:content/parts/object_information.tpl" object=$object manage_version_button=false()}
 
 </div>
 </div>
 
-<div id="maincontent"><div id="fix">
-<div id="maincontent-design">
+<div id="maincontent">
+<div id="maincontent-design" class="float-break"><div id="fix">
 <!-- Maincontent START -->
 
 {switch match=$edit_warning}
@@ -89,23 +43,23 @@
 {/switch}
 
 
-{def $page_limit=30
-     $list_count=fetch(content,version_count, hash(contentobject, $object))}
+{def $page_limit   = 30
+     $list_count   = fetch( 'content', 'version_count', hash( 'contentobject', $object ))}
 
 <form name="versionsform" action={concat( '/content/history/', $object.id, '/' )|ezurl} method="post">
 
-<div class="context-block">
+<div class="context-block content-history">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h1 class="context-title">{'Versions for <%object_name> [%version_count]'|i18n( 'design/admin/content/history',, hash( '%object_name', $object.name, '%version_count', $list_count ) )|wash}</h1>
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+<h1 class="context-title">{'Versions for <%object_name> (%version_count)'|i18n( 'design/admin/content/history',, hash( '%object_name', $object.name, '%version_count', $list_count ) )|wash}</h1>
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {if $list_count}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="ezjs_toggleCheckboxes( document.versionsform, 'DeleteIDArray[]' ); return false;" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="Toggle selection" onclick="ezjs_toggleCheckboxes( document.versionsform, 'DeleteIDArray[]' ); return false;" /></th>
     <th>{'Version'|i18n( 'design/admin/content/history' )}</th>
     <th>{'Status'|i18n( 'design/admin/content/history' )}</th>
     <th>{'Modified translation'|i18n( 'design/admin/content/history' )}</th>
@@ -116,12 +70,11 @@
     <th class="tight">&nbsp;</th>
 </tr>
 
+{def $version_list = fetch( 'content', 'version_list',  hash( 'contentobject', $object, 'limit', $page_limit, 'offset', $view_parameters.offset ))}
+{foreach $version_list as $version sequence array( 'bglight', 'bgdark' ) as $seq}
 
-{foreach fetch(content, version_list, hash( contentobject, $object, limit, $page_limit, offset, $view_parameters.offset ) ) as $version
-    sequence array( bglight, bgdark ) as $seq
-}
-
-{def $initial_language = $version.initial_language}
+{def $initial_language = $version.initial_language
+     $can_edit_lang = 0}
 <tr class="{$seq}">
 
     {* Remove. *}
@@ -129,7 +82,7 @@
         {if and( $version.can_remove, array( 0, 3, 4, 5 )|contains( $version.status ) )}
             <input type="checkbox" name="DeleteIDArray[]" value="{$version.id}" title="{'Select version #%version_number for removal.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
         {else}
-            <input type="checkbox" name="" value="" disabled="disabled" title="{'Version #%version_number cannot be removed because it is either the published version of the object or because you do not have permission to remove it.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
+            <input type="checkbox" name="_Disabled" value="" disabled="disabled" title="{'Version #%version_number cannot be removed because it is either the published version of the object or because you do not have permission to remove it.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
         {/if}
     </td>
 
@@ -141,7 +94,7 @@
 
     {* Modified translation. *}
     <td>
-        <img src="{$initial_language.locale|flag_icon}" alt="{$initial_language.locale}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $version.version, '/', $initial_language.locale, '/' )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/history',, hash( '%translation', $initial_language.name, '%version_number', $version.version ) )}" >{$initial_language.name|wash}</a>
+        <img src="{$initial_language.locale|flag_icon}" width="18" height="12" alt="{$initial_language.locale}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $version.version, '/', $initial_language.locale, '/' )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/history',, hash( '%translation', $initial_language.name, '%version_number', $version.version ) )}" >{$initial_language.name|wash}</a>
     </td>
 
     {* Creator. *}
@@ -155,7 +108,6 @@
 
     {* Copy button. *}
     <td align="right" class="right">
-    {def $can_edit_lang = 0}
     {foreach $object.can_edit_languages as $edit_language}
         {if eq( $edit_language.id, $initial_language.id )}
         {set $can_edit_lang = 1}
@@ -164,15 +116,14 @@
 
         {if and( $can_edit, $can_edit_lang )}
           {if eq( $version.status, 5 )}
-            <input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'There is no need to make copies of untouched drafts.'|i18n( 'design/admin/content/history' )}" />
+            <input type="image" src={'copy-disabled.gif'|ezimage} name="_Disabled" value="" disabled="disabled" title="{'There is no need to make copies of untouched drafts.'|i18n( 'design/admin/content/history' )}" />
           {else}
             <input type="hidden" name="CopyVersionLanguage[{$version.version}]" value="{$initial_language.locale}" />
             <input type="image" src={'copy.gif'|ezimage} name="HistoryCopyVersionButton[{$version.version}]" value="" title="{'Create a copy of version #%version_number.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
           {/if}
         {else}
-            <input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'You cannot make copies of versions because you do not have permission to edit the object.'|i18n( 'design/admin/content/history' )}" />
+            <input type="image" src={'copy-disabled.gif'|ezimage} name="_Disabled" value="" disabled="disabled" title="{'You cannot make copies of versions because you do not have permission to edit the object.'|i18n( 'design/admin/content/history' )}" />
         {/if}
-    {undef $can_edit_lang}
     </td>
 
     {* Edit button. *}
@@ -185,13 +136,14 @@
     </td>
 
 </tr>
-{undef $initial_language}
+{undef $initial_language $can_edit_lang}
 {/foreach}
+{undef $version_list}
 </table>
 {else}
-<div class="block">
-<p>{'This object does not have any versions.'|i18n( 'design/admin/content/history' )}</p>
-</div>
+    <div class="block">
+    <p>{'This object does not have any versions.'|i18n( 'design/admin/content/history' )}</p>
+    </div>
 {/if}
 
 <div class="context-toolbar">
@@ -206,16 +158,16 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
 <div class="block">
-<div class="left">
+<div class="button-left">
 <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/history' )}" title="{'Remove the selected versions from the object.'|i18n( 'design/admin/content/history' )}" />
 <input type="hidden" name="DoNotEditAfterCopy" value="" />
 </div>
 {if $object.can_diff}
 {def $languages=$object.languages}
-<div class="right">
+<div class="button-right">
 <form action={concat( $module.functions.history.uri, '/', $object.id, '/' )|ezurl} method="post">
         <select name="Language">
             {foreach $languages as $lang}
@@ -242,7 +194,7 @@
 
 
 <div class="block">
-<div class="left">
+<div class="button-left">
 <form name="versionsback" action={concat( '/content/history/', $object.id, '/' )|ezurl} method="post">
 {if is_set( $redirect_uri )}
 <input class="text" type="hidden" name="RedirectURI" value="{$redirect_uri}" />
@@ -258,7 +210,7 @@
 
 </div>
 
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 
 </div>
 
@@ -268,11 +220,11 @@
 {* Published context block start *}
 {* Published window. *}
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h2 class="context-title">{'Published version'|i18n( 'design/admin/content/history' )}</h2>
-{* DESIGN: Subline *}<div class="header-subline"></div>
-{* DESIGN: Header END *}</div></div></div></div></div></div>
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+
+{* DESIGN: Header END *}</div></div>
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 
 <table class="list" cellspacing="0">
@@ -297,7 +249,7 @@
     <td>
         {foreach $published_item.language_list as $lang}
             {delimiter}<br />{/delimiter}
-            <img src="{$lang.language_code|flag_icon}" alt="{$lang.language_code|wash}" />&nbsp;
+            <img src="{$lang.language_code|flag_icon}" width="18" height="12" alt="{$lang.language_code|wash}" />&nbsp;
             <a href={concat("/content/versionview/",$object.id,"/",$published_item.version,"/",$lang.language_code,"/")|ezurl}>{$lang.locale.intl_language_name|wash}</a>
         {/foreach}
     </td>
@@ -332,7 +284,7 @@
         {if and( $can_edit, $can_edit_lang )}
             <input type="image" src={'copy.gif'|ezimage} name="HistoryCopyVersionButton[{$published_item.version}]" value="" title="{'Create a copy of version #%version_number.'|i18n( 'design/admin/content/history',, hash( '%version_number', $published_item.version ) )}" />
         {else}
-            <input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'You cannot make copies of versions because you do not have permission to edit the object.'|i18n( 'design/admin/content/history' )}" />
+            <input type="image" src={'copy-disabled.gif'|ezimage} name="_Disabled" value="" disabled="disabled" title="{'You cannot make copies of versions because you do not have permission to edit the object.'|i18n( 'design/admin/content/history' )}" />
         {/if}
         {undef $can_edit_lang}
     </td>
@@ -341,18 +293,18 @@
 {undef $initial_language}
 </table>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 </div>
 {* Published context block end *}
 
 {* New drafts context block *}
 {* Drafts window. *}
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title">{'New drafts [%newerDraftCount]'|i18n( 'design/admin/content/history',, hash( '%newerDraftCount', $newerDraftVersionListCount ) )}</h2>
-{* DESIGN: Subline *}<div class="header-subline"></div>
-{* DESIGN: Header END *}</div></div></div></div></div></div>
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+<h2 class="context-title">{'New drafts (%newerDraftCount)'|i18n( 'design/admin/content/history',, hash( '%newerDraftCount', $newerDraftVersionListCount ) )}</h2>
+
+{* DESIGN: Header END *}</div></div>
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 {if $newerDraftVersionList|count|ge(1)}
 <table class="list" cellspacing="0">
@@ -376,7 +328,7 @@
 
     {* Modified translation. *}
     <td>
-        <img src="{$initial_language.locale|flag_icon}" alt="{$initial_language.locale}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $draft_version.version, '/', $initial_language.locale, '/' )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/history',, hash( '%translation', $initial_language.name, '%version_number', $draft_version.version ) )}" >{$initial_language.name|wash}</a>
+        <img src="{$initial_language.locale|flag_icon}" width="18" height="12" alt="{$initial_language.locale}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $draft_version.version, '/', $initial_language.locale, '/' )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/history',, hash( '%translation', $initial_language.name, '%version_number', $draft_version.version ) )}" >{$initial_language.name|wash}</a>
     </td>
 
     {* Creator. *}
@@ -401,7 +353,7 @@
             <input type="hidden" name="CopyVersionLanguage[{$draft_version.version}]" value="{$initial_language.locale}" />
             <input type="image" src={'copy.gif'|ezimage} name="HistoryCopyVersionButton[{$draft_version.version}]" value="" title="{'Create a copy of version #%version_number.'|i18n( 'design/admin/content/history',, hash( '%version_number', $draft_version.version ) )}" />
         {else}
-            <input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'You cannot make copies of versions because you do not have permission to edit the object.'|i18n( 'design/admin/content/history' )}" />
+            <input type="image" src={'copy-disabled.gif'|ezimage} name="_Disabled" value="" disabled="disabled" title="{'You cannot make copies of versions because you do not have permission to edit the object.'|i18n( 'design/admin/content/history' )}" />
         {/if}
     {undef $can_edit_lang}
     </td>
@@ -425,7 +377,7 @@
 </div>
 {/if}
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 </div>
 
 </form>
@@ -439,17 +391,26 @@ function show( element, method )
 }
 </script>
 {/literal}
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h2 class="context-title">{'Differences between versions %oldVersion and %newVersion'|i18n( 'design/admin/content/history',, hash( '%oldVersion', $oldVersion, '%newVersion', $newVersion ) )}</h2>
-{* DESIGN: Mainline *}<div class="header-subline"></div>
-{* DESIGN: Header END *}</div></div></div></div></div></div>
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+
+{* DESIGN: Header END *}</div></div>
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-content">
 
 <div id="diffview">
 
-<script type="text/javascript">
-document.write('<div class="context-toolbar"><div class="block"><ul><li><a href="#" onclick="show(\'diffview\', \'previous\'); return false;">{'Old version'|i18n( 'design/admin/content/history' )}</a></li><li><a href="#" onclick="show(\'diffview\', \'inlinechanges\'); return false;">{'Inline changes'|i18n( 'design/admin/content/history' )}</a></li><li><a href="#" onclick="show(\'diffview\', \'blockchanges\'); return false;">{'Block changes'|i18n( 'design/admin/content/history' )}</a></li><li><a href="#" onclick="show(\'diffview\', \'latest\'); return false;">{'New version'|i18n( 'design/admin/content/history' )}</a></li></ul></div></div>');
-</script>
+<div class="context-toolbar">
+<div class="button-left">
+<p class="table-preferences">
+    <a href="JavaScript:void(0);" onclick="show('diffview', 'previous'); return false;">{'Old version'|i18n( 'design/admin/content/history' )}</a>
+    <a href="JavaScript:void(0);" onclick="show('diffview', 'inlinechanges'); return false;">{'Inline changes'|i18n( 'design/admin/content/history' )}</a>
+    <a href="JavaScript:void(0);" onclick="show('diffview', 'blockchanges'); return false;">{'Block changes'|i18n( 'design/admin/content/history' )}</a>
+    <a href="JavaScript:void(0);" onclick="show('diffview', 'latest'); return false;">{'New version'|i18n( 'design/admin/content/history' )}</a>
+</p>
+</div>
+<div class="float-break"></div>
+</div>
+
 
 {foreach $object.data_map as $attr}
 <div class="block">
@@ -462,7 +423,7 @@ document.write('<div class="context-toolbar"><div class="block"><ul><li><a href=
 
 </div>
 
-</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 <div class="block">
 <div class="left">

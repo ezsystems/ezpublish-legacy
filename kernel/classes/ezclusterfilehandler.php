@@ -71,35 +71,6 @@ class eZClusterFileHandler
     }
 
     /**
-     * @deprecated 4.3 No longer used as we rely on ezpExtension & autoloads
-     * @return array list of directories used to search cluster file handlers for
-     */
-    static function searchPathArray()
-    {
-        if ( !isset( $GLOBALS['eZClusterFileHandler_search_path_array'] ) )
-        {
-            $fileINI = eZINI::instance( 'file.ini' );
-            $searchPathArray = array( 'kernel/classes/clusterfilehandlers',
-                                      'kernel/private/classes/clusterfilehandlers' );
-            if ( $fileINI->hasVariable( 'ClusteringSettings', 'ExtensionDirectories' ) )
-            {
-                $extensionDirectories = $fileINI->variable( 'ClusteringSettings', 'ExtensionDirectories' );
-                $baseDirectory = eZExtension::baseDirectory();
-                foreach ( $extensionDirectories as $extensionDirectory )
-                {
-                    $customSearchPath = $baseDirectory . '/' . $extensionDirectory . '/clusterfilehandlers';
-                    if ( file_exists( $customSearchPath ) )
-                        $searchPathArray[] = $customSearchPath;
-                }
-            }
-
-            $GLOBALS['eZClusterFileHandler_search_path_array'] = $searchPathArray;
-        }
-
-        return $GLOBALS['eZClusterFileHandler_search_path_array'];
-    }
-
-    /**
      * Cluster shutdown handler. Terminates generation for unterminated files.
      * This situation doesn't happen by default, but may with custom code that doesn't follow recommendations.
      */

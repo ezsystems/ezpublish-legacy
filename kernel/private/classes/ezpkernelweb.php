@@ -110,10 +110,17 @@ class ezpKernelWeb implements ezpKernelHandler
      */
     public function __construct( array $settings = array() )
     {
+        if ( isset( $settings['injected-settings'] ) )
+        {
+            // those settings override anything else in local .ini files and
+            // their overrides
+            eZINI::injectSettings( $settings['injected-settings'] );
+        }
         $this->settings = $settings + array(
             'siteaccess'            => null,
             'use-exceptions'        => false,
-            'session'               => null
+            'session'               => null,
+            'service-container'     => null,
         );
         unset( $settings );
 
@@ -283,7 +290,7 @@ class ezpKernelWeb implements ezpKernelHandler
                 'Last-Modified' => gmdate( 'D, d M Y H:i:s' ) . ' GMT',
                 'Cache-Control' => 'no-cache, must-revalidate',
                 'Pragma' => 'no-cache',
-                'X-Powered-By' => 'eZ Publish',
+                'X-Powered-By' => eZPublishSDK::EDITION,
                 'Content-Type' => 'text/html; charset=' . $this->httpCharset,
                 'Served-by' => $_SERVER["SERVER_NAME"],
                 'Content-language' => $this->languageCode
@@ -912,7 +919,11 @@ class ezpKernelWeb implements ezpKernelHandler
             $redirectURI .= $moduleRedirectUri;
         }
 
-        eZStaticCache::executeActions();
+        if ( $ini->variable( 'ContentSettings', 'StaticCache' ) == 'enabled' )
+        {
+            $staticCacheHandlerClassName = $ini->variable( 'ContentSettings', 'StaticCacheHandler' );
+            $staticCacheHandlerClassName::executeActions();
+        }
 
         eZDB::checkTransactionCounter();
 
@@ -1033,7 +1044,6 @@ class ezpKernelWeb implements ezpKernelHandler
         // make sure we get a new $ini instance now that it has been reset
         $ini = eZINI::instance();
 
-        // start: eZCheckValidity
         // pre check, setup wizard related so needs to be before session/db init
         // TODO: Move validity check in the constructor? Setup is not meant to be launched at each (sub)request is it?
         if ( $ini->variable( 'SiteAccessSettings', 'CheckValidity' ) === 'true' )
@@ -1049,7 +1059,6 @@ class ezpKernelWeb implements ezpKernelHandler
             $this->access = eZSiteAccess::change( array( 'name' => 'setup', 'type' => eZSiteAccess::TYPE_URI ) );
             eZTranslatorManager::enableDynamicTranslations();
         }
-        // stop: eZCheckValidity
 
         if ( $this->siteBasics['session-required'] )
         {
@@ -1107,7 +1116,7 @@ class ezpKernelWeb implements ezpKernelHandler
             );
         }
 
-        // eZCheckUser: pre check, RequireUserLogin & FORCE_LOGIN related so needs to be after session init
+        // pre check, RequireUserLogin & FORCE_LOGIN related so needs to be after session init
         if ( !isset( $this->check ) )
         {
             $this->check = eZUserLoginHandler::preCheck( $this->siteBasics, $this->uri );
@@ -1186,5 +1195,27 @@ class ezpKernelWeb implements ezpKernelHandler
     public function reInitialize()
     {
         $this->isInitialized = false;
+    }
+
+    /**
+     * Checks whether the kernel handler has the Symfony service container
+     * container or not.
+     *
+     * @return bool
+     */
+    public function hasServiceContainer()
+    {
+        return isset( $this->settings['service-container'] );
+    }
+
+    /**
+     * Returns the Symfony service container if it has been injected,
+     * otherwise returns null.
+     *
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface|null
+     */
+    public function getServiceContainer()
+    {
+        return $this->settings['service-container'];
     }
 }

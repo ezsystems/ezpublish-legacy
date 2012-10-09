@@ -1,23 +1,23 @@
 <form action={concat( '/shop/customerlist' )|ezurl} method="post">
 
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h1 class="context-title">{'Customers [%customers]'|i18n( 'design/admin/shop/customerlist',, hash( '%customers', $customer_list|count ) )}</h1>
+<h1 class="context-title">{'Customers (%customers)'|i18n( 'design/admin/shop/customerlist',, hash( '%customers', $customer_list|count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 {section show=$customer_list}
 <table class="list" cellspacing="0">
 <tr>
-	<th class="wide">{'Name'|i18n( 'design/admin/shop/customerlist' )}</th>
-	<th class="tight">{'Orders'|i18n( 'design/admin/shop/customerlist' )}</th>
-	<th class="tight">{'Total (ex. VAT)'|i18n( 'design/admin/shop/customerlist' )}</th>
-	<th class="tight">{'Total (inc. VAT)'|i18n( 'design/admin/shop/customerlist' )}</th>
+    <th class="wide">{'Name'|i18n( 'design/admin/shop/customerlist' )}</th>
+    <th class="tight">{'Orders'|i18n( 'design/admin/shop/customerlist' )}</th>
+    <th class="tight">{'Total (ex. VAT)'|i18n( 'design/admin/shop/customerlist' )}</th>
+    <th class="tight">{'Total (inc. VAT)'|i18n( 'design/admin/shop/customerlist' )}</th>
 </tr>
 
 {def $currency = false()
@@ -62,8 +62,8 @@
     <tr class="{$Customers.sequence}">
         <td class="name"><a href={concat( '/shop/customerorderview/', $Customers.user_id, '/', $Customers.email )|ezurl}>{$Customers.account_name}</a></td>
         <td class="number" align="right">{$order_count_text}</td>
-    	<td class="number" align="right">{$sum_ex_vat_text}</td>
-    	<td class="number" align="right">{$sum_inc_vat_text}</td>
+        <td class="number" align="right">{$sum_ex_vat_text}</td>
+        <td class="number" align="right">{$sum_inc_vat_text}</td>
     </tr>
 
 {section-else}
@@ -87,7 +87,7 @@
 </div>
 {/section}
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 

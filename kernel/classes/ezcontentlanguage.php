@@ -578,7 +578,7 @@ class eZContentLanguage extends eZPersistentObject
             $language = eZContentLanguage::fetchByLocale( $locale );
             if ( $language )
             {
-                $mask += $language->attribute( 'id' );
+                $mask |= $language->attribute( 'id' );
             }
         }
 
@@ -856,13 +856,6 @@ class eZContentLanguage extends eZPersistentObject
     function translation()
     {
         return $this;
-    }
-
-    /**
-     * \deprecated
-     */
-    function updateObjectNames()
-    {
     }
 
     /**

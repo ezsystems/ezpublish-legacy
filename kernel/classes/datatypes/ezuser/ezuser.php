@@ -27,8 +27,6 @@ class eZUser extends eZPersistentObject
     const PASSWORD_HASH_MYSQL = 4;
     /// Passwords in plaintext, should not be used for real sites
     const PASSWORD_HASH_PLAINTEXT = 5;
-    // Crypted passwords
-    const PASSWORD_HASH_CRYPT = 6;
 
     /// Authenticate by matching the login field
     const AUTHENTICATE_LOGIN = 1;
@@ -130,10 +128,6 @@ class eZUser extends eZPersistentObject
             {
                 return 'plaintext';
             } break;
-            case self::PASSWORD_HASH_CRYPT:
-            {
-                return 'crypt';
-            } break;
         }
     }
 
@@ -164,10 +158,6 @@ class eZUser extends eZPersistentObject
             case 'plaintext':
             {
                 return self::PASSWORD_HASH_PLAINTEXT;
-            } break;
-            case 'crypt':
-            {
-                return self::PASSWORD_HASH_CRYPT;
             } break;
         }
     }
@@ -595,8 +585,6 @@ WHERE user_id = '" . $userID . "' AND
             return self::PASSWORD_HASH_MD5_USER;
         else if ( $type == 'plaintext' )
             return self::PASSWORD_HASH_PLAINTEXT;
-        else if ( $type == 'crypt' )
-            return self::PASSWORD_HASH_CRYPT;
         else
             return self::PASSWORD_HASH_MD5_PASSWORD;
     }
@@ -1693,17 +1681,6 @@ WHERE user_id = '" . $userID . "' AND
         {
             $str = $password;
         }
-        else if ( $type == self::PASSWORD_HASH_CRYPT )
-        {
-            if ( $hash )
-            {
-                $str = crypt( $password, $hash );
-            }
-            else
-            {
-                $str = crypt( $password );
-            }
-        }
         else // self::PASSWORD_HASH_MD5_PASSWORD
         {
             $str = md5( $password );
@@ -2586,32 +2563,6 @@ WHERE user_id = '" . $userID . "' AND
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-info-cache', time() );
         $handler->store();
-    }
-
-    /**
-     * Returns the filename for a cache file with user information
-     *
-     * @deprecated In 4.4.0
-     * @params int $userId
-     * @return string|false Filename of the cachefile, or false when the user should not be cached
-     */
-    static function getCacheFilename( $userId )
-    {
-        $ini = eZINI::instance();
-        $cacheUserPolicies = $ini->variable( 'RoleSettings', 'UserPolicyCache' );
-        if ( $cacheUserPolicies === 'enabled' )
-        {
-            return eZUser::getCacheDir( $userId ). '/user-'. $userId . '.cache.php';
-        }
-        else if ( $cacheUserPolicies !== 'disabled' )
-        {
-            $cachableIDs = explode( ',', $cacheUserPolicies );
-            if ( in_array( $userId, $cachableIDs ) )
-            {
-                return eZUser::getCacheDir( $userId ). '/user-'. $userId . '.cache.php';
-            }
-        }
-        return false;
     }
 
     static function fetchUserClassList( $asObject = false, $fields = false )

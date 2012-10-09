@@ -37,7 +37,7 @@ COMMON_DOC_FILES="doc doc/design doc/design/uml doc/design/uml/class_old.png doc
 COMMON_SETTINGS_FILES="settings settings/site.ini settings/i18n.ini settings/layout.ini settings/template.ini settings/texttoimage.ini settings/units.ini settings/content.ini settings/siteaccess"
 COMMON_DESIGN_FILES="design var.tgz"
 CODEPAGES_FILES="share/codepages share/codepages/iso-8859-1 share/codepages/iso-8859-10 share/codepages/iso-8859-11 share/codepages/iso-8859-13 share/codepages/iso-8859-14 share/codepages/iso-8859-15 share/codepages/iso-8859-2 share/codepages/iso-8859-3 share/codepages/iso-8859-4 share/codepages/iso-8859-5 share/codepages/iso-8859-6 share/codepages/iso-8859-7 share/codepages/iso-8859-8 share/codepages/iso-8859-9 share/codepages/windows-1250 share/codepages/windows-1251 share/codepages/windows-1252 share/codepages/windows-1253 share/codepages/windows-1254 share/codepages/windows-1255 share/codepages/windows-1256 share/codepages/windows-1257 share/codepages/windows-1258"
-COMMON_FILES="$COMMON_BIN_FILES $COMMON_DOC_FILES $COMMON_SETTINGS_FILES $COMMON_DESIGN_FILES /share $CODEPAGES_FILES index.php pre_check.php access.php"
+COMMON_FILES="$COMMON_BIN_FILES $COMMON_DOC_FILES $COMMON_SETTINGS_FILES $COMMON_DESIGN_FILES /share $CODEPAGES_FILES index.php"
 
 COMMON_DOC_DIRS="doc/changelogs doc/standards doc/doxygen doc/images"
 COMMON_DESIGN_DIRS="design/standard design/user"

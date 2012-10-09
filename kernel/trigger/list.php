@@ -22,14 +22,11 @@ $http = eZHTTPTool::instance();
 
 $Module = $Params['Module'];
 
-$wfINI = eZINI::instance( 'workflow.ini' );
-$operations = $wfINI->variableArray( 'OperationSettings', 'AvailableOperations' );
-$operations = array_unique( array_merge( $operations, $wfINI->variable( 'OperationSettings', 'AvailableOperationList' ) ) );
 $possibleTriggers = array();
 
 $triggers = makeTriggerArray( eZTrigger::fetchList() );
 
-foreach ( $operations as $operation )
+foreach ( array_unique( eZINI::instance( 'workflow.ini' )->variable( 'OperationSettings', 'AvailableOperationList' ) ) as $operation )
 {
     if ( $operation == '' )
     {

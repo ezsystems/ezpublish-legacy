@@ -57,7 +57,7 @@ class eZExtension
      * @note Default extensions are those who are loaded before a siteaccess are determined while access extensions
      *       are loaded after siteaccess is set.
      *
-     * @param false|string $extensionType Decides which extension to include in the list, the follow values are possible:
+     * @param bool|string $extensionType Decides which extension to include in the list, the follow values are possible:
      *                                    - false - Means add both default and access extensions
      *                                    - 'default' - Add only default extensions
      *                                    - 'access' - Add only access extensions

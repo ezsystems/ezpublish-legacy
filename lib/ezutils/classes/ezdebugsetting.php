@@ -143,19 +143,6 @@ class eZDebugSetting
             return false;
         eZDebug::addTimingPoint( eZDebugSetting::changeLabel( $conditionName, $label ) );
     }
-
-    /**
-     * Sets the INI object
-     *
-     * @param eZINI $ini The eZINI object to set.
-     *
-     * @deprecated Since 4.5
-     */
-    static function setDebugINI( $ini )
-    {
-        eZDebug::writeStrict( __METHOD__ . ' is deprecated as of 4.5.', __METHOD__ );
-    }
-
 }
 
 ?>

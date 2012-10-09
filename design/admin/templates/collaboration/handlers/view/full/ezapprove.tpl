@@ -16,13 +16,13 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{"Approval"|i18n('design/admin/collaboration/handler/view/full/ezapprove')}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -71,8 +71,8 @@
 {/switch}
 
 {if eq($collab_item.data_int3,0)}
-    <label>{"Comment"|i18n('design/admin/collaboration/handler/view/full/ezapprove')}:</label>
-    <textarea class="box" name="Collaboration_ApproveComment" cols="40" rows="5"></textarea>
+    <label for="Collaboration_ApproveComment">{"Comment"|i18n('design/admin/collaboration/handler/view/full/ezapprove')}:</label>
+    <textarea class="box" id="Collaboration_ApproveComment" name="Collaboration_ApproveComment" cols="40" rows="5"></textarea>
 {/if}
 </div>
 
@@ -81,7 +81,7 @@
 
 <div class="controlbar">
 
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
 <input type="hidden" name="CollaborationActionCustom" value="custom" />
 <input type="hidden" name="CollaborationTypeIdentifier" value="ezapprove" />
@@ -110,7 +110,7 @@
 {/if}
 </div>
 
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>
@@ -118,23 +118,23 @@
 {if $content_version|null()|not()}
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h2 class="context-title">{"Preview"|i18n('design/admin/collaboration/handler/view/full/ezapprove')}</h2>
 
-{* DESIGN: Mainline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Header END *}</div></div>
 
 <div class="box-ml"><div class="box-mr">
 
 <div class="context-information">
-    <p class="modified">{'Published at'|i18n( 'design/admin/node/view/full' )}: {$content_version.modified|l10n(shortdatetime)}, <a href={$content_version.creator.main_node.url_alias|ezurl}>{$content_version.creator.name|wash}</a></p>
-    <p class="translation">{$content_version.initial_language.locale_object.intl_language_name}&nbsp;<img src="{$content_version.initial_language.locale|flag_icon}" alt="{$content_version.initial_language.locale_object.intl_language_name}" style="vertical-align: middle;" /></p>
+    <p class="modified left">{'Published at'|i18n( 'design/admin/node/view/full' )}: {$content_version.modified|l10n(shortdatetime)}, <a href={$content_version.creator.main_node.url_alias|ezurl}>{$content_version.creator.name|wash}</a></p>
+    <p class="translation right">{$content_version.initial_language.locale_object.intl_language_name}&nbsp;<img src="{$content_version.initial_language.locale|flag_icon}" width="18" height="12" alt="{$content_version.initial_language.locale_object.intl_language_name}" style="vertical-align: middle;" /></p>
     <div class="break"></div>
 </div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <div class="mainobject-window" title="{$content_version.contentobject.name|wash} {'Node ID'|i18n( 'design/admin/node/view/full' )}: {$content_version.contentobject.main_node_id}, {'Object ID'|i18n( 'design/admin/node/view/full' )}: {$content_version.contentobject_id}">
     {content_version_view_gui view=plain content_version=$content_version}
@@ -142,33 +142,33 @@
 
 </div></div>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 {/if}
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h2 class="context-title">{"Participants"|i18n('design/admin/collaboration/handler/view/full/ezapprove')}</h2>
 
-{* DESIGN: Mainline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Header END *}</div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <div class="block">
 {section name=Role loop=$participant_list}
-<label>{$:item.name|wash}:</label>
+<h6>{$:item.name|wash}:</h6>
 {section name=Participant loop=$:item.items}
 <p>{collaboration_participation_view view=text_linked collaboration_participant=$:item}</p>
 {/section}
 {/section}
 </div>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 
@@ -176,15 +176,15 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h2 id="messages" class="context-title">{"Messages"|i18n('design/admin/collaboration/handler/view/full/ezapprove')}</h2>
 
-{* DESIGN: Mainline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Header END *}</div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
   <table class="special" cellspacing="0">
   {section name=Message loop=$message_list sequence=array(bglight,bgdark)}
@@ -194,7 +194,7 @@
   {/section}
   </table>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 

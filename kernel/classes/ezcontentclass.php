@@ -679,7 +679,7 @@ class eZContentClass extends eZPersistentObject
         $classNameFilter = eZContentClassName::sqlFilter( 'cc' );
 
         $classList = array();
-        $db = eZDb::instance();
+        $db = eZDB::instance();
         // If $asObject is true we fetch all fields in class
         $fields = $asObject ? "cc.*" : "cc.id, $classNameFilter[nameField]";
         $rows = $db->arrayQuery( "SELECT DISTINCT $fields " .

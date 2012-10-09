@@ -914,11 +914,6 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         self::assertFalse( eZClusterFileHandler::instance()->requiresClusterizing() );
     }
 
-    public function testRequiresBinaryPurge()
-    {
-        self::assertFalse( eZClusterFileHandler::instance()->requiresBinaryPurge() );
-    }
-
     public function testPurgeSingleFile()
     {
         $path = 'var/tests/' . __FUNCTION__ . '/file.txt';

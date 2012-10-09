@@ -165,43 +165,6 @@ class eZSection extends eZPersistentObject
         return $countArray[0]['count'];
     }
 
-    /**
-     * Makes sure the global section ID is propagated to the template override key.
-     * @deprecated since 4.4, global section support has been removed
-     *
-     * @return false
-     */
-    static function initGlobalID()
-    {
-        return false;
-    }
-
-    /**
-     * Sets the current global section ID to \a $sectionID in the session and
-     * the template override key
-     * @deprecated since 4.4, global section support has been removed this
-     *             function only sets value to override values for bc.
-     *
-     *  @param int $sectionID
-     */
-    static function setGlobalID( $sectionID )
-    {
-        // eZTemplateDesignResource will read this global variable
-        $GLOBALS['eZDesignKeys']['section'] = $sectionID;
-    }
-
-    /**
-     * Return the global section ID or \c null if it is not set yet.
-     * @deprecated since 4.4, global section support has been removed and
-     *             null is always returned.
-     *
-     * @return null
-     */
-    static function globalID()
-    {
-        return null;
-    }
-
     /*!
      Will remove the current section from the database.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose

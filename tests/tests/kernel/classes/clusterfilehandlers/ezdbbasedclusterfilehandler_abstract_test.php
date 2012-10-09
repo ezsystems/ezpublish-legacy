@@ -14,7 +14,7 @@
 abstract class eZDBBasedClusterFileHandlerAbstractTest extends eZClusterFileHandlerAbstractTest
 {
     /**
-     * @var eZMySQLDB
+     * @var eZMySQLiDB
      **/
     protected $db;
 
@@ -304,11 +304,6 @@ abstract class eZDBBasedClusterFileHandlerAbstractTest extends eZClusterFileHand
     public function testRequiresClusterizing()
     {
         self::assertTrue( eZClusterFileHandler::instance()->requiresClusterizing() );
-    }
-
-    public function testRequiresBinaryPurge()
-    {
-        self::assertTrue( eZClusterFileHandler::instance()->requiresBinaryPurge() );
     }
 }
 ?>

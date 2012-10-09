@@ -46,19 +46,18 @@
 
 <form name="wildcardform" method="post" action={"content/urlwildcards/"|ezurl}>
 
-<div class="context-block">
+<div class="context-block content-urlalias-wildcard">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h1 class="context-title">{'Defined URL aliases with wildcard[%wildcard_count]'|i18n( 'design/admin/content/urlalias_wildcard',, hash( '%wildcard_count', $wildcards_count ) )|wash}</h1>
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+<h1 class="context-title">{'Defined URL aliases with wildcard(%wildcard_count)'|i18n( 'design/admin/content/urlalias_wildcard',, hash( '%wildcard_count', $wildcards_count ) )|wash}</h1>
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {* Items per page selector. *}
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
-    <p>
+<div class="button-left">
+    <p class="table-preferences">
     {foreach $limitList as $limitEntry}
         {if eq($limitID, $limitEntry['id'])}
             <span class="current">{$limitEntry['value']}</span>
@@ -69,8 +68,6 @@
     </p>
 </div>
 <div class="break"></div>
-
-</div>
 </div>
 
 
@@ -82,7 +79,7 @@
 {else}
 <table class="list" cellspacing="0" >
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/content/urlalias_wildcard' )}" title="{'Invert selection.'|i18n( 'design/admin/content/urlalias_wildcard' )}" onclick="ezjs_toggleCheckboxes( document.wildcardform, 'WildcardIDList[]' ); return false;"/></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/content/urlalias_wildcard' )}" title="{'Invert selection.'|i18n( 'design/admin/content/urlalias_wildcard' )}" onclick="ezjs_toggleCheckboxes( document.wildcardform, 'WildcardIDList[]' ); return false;"/></th>
     <th>{'URL alias wildcard'|i18n( 'design/admin/content/urlalias_wildcard' )}</th>
     <th>{'Destination'|i18n( 'design/admin/content/urlalias_wildcard' )}</th>
     <th>{'Type'|i18n( 'design/admin/content/urlalias_wildcard' )}</th>
@@ -133,7 +130,7 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
 {* buttons here *}
 <div class="block">
@@ -147,15 +144,10 @@
     {/if}
 </div>
 <div class="break"></div>
-
 </div>
 
-
+{* DESIGN: Control bar END *}</div></div>
 </div>
-</div>
-
-
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 
 </div>
 
@@ -163,48 +155,48 @@
 {* Generated aliases context block start *}
 {* Generated aliases window. *}
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h2 class="context-title">{'Create new URL forwarding with wildcard'|i18n( 'design/admin/content/urlalias' )}</h2>
-{* DESIGN: Subline *}<div class="header-subline"></div>
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Header END *}</div></div>
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="block">
 {* Wildcard pattern. *}
-    <label>{'New URL wildcard'|i18n( 'design/admin/content/urlalias_wildcard' )}:</label>
-    <input class="box" type="text" name="WildcardSourceText" value="{$wildcardSourceText|wash}" title="{'Enter the URL for the new wildcard. Example: developer/*'|i18n( 'design/admin/content/urlalias_wildcard' )}" />
+    <label for="ezcontent_urlalias_wildcard_source">{'New URL wildcard'|i18n( 'design/admin/content/urlalias_wildcard' )}:</label>
+    <input id="ezcontent_urlalias_wildcard_source" class="box" type="text" name="WildcardSourceText" value="{$wildcardSourceText|wash}" title="{'Enter the URL for the new wildcard. Example: developer/*'|i18n( 'design/admin/content/urlalias_wildcard' )}" />
 </div>
 
 <div class="block">
 {* Destination field. *}
-    <label>{'Destination'|i18n( 'design/admin/content/urlalias_wildcard' )}:</label>
-    <input class="box" type="text" name="WildcardDestinationText" value="{$wildcardDestinationText|wash}" title="{'Enter the destination URL for the new wildcard. Example: dev/{1\}'|i18n( 'design/admin/content/urlalias_wildcard' )}" />
+    <label for="ezcontent_urlalias_wildcard_destination">{'Destination'|i18n( 'design/admin/content/urlalias_wildcard' )}:</label>
+    <input id="ezcontent_urlalias_wildcard_destination" class="box" type="text" name="WildcardDestinationText" value="{$wildcardDestinationText|wash}" title="{'Enter the destination URL for the new wildcard. Example: dev/{1\}'|i18n( 'design/admin/content/urlalias_wildcard' )}" />
 </div>
 
 <div class="block">
 
 {* Redirecting URL flag. *}
 <div class="block">
-    <input type="checkbox" name="WildcardType" {if $wildcardType}checked="checked"{/if}/><label class="radio" title="{'Perform redirecting.'|i18n( 'design/admin/content/urlalias_wildcard' )}">{'Redirecting URL'|i18n( 'design/admin/content/urlalias' )}</label>
+    <input type="checkbox" name="WildcardType"{if $wildcardType} checked="checked"{/if} /><label class="radio" title="{'Perform redirecting.'|i18n( 'design/admin/content/urlalias_wildcard' )}">{'Redirecting URL'|i18n( 'design/admin/content/urlalias' )}</label>
 </div>
 
 </div>
+<div class="break"></div>
 
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
 <div class="block">
 {* Create button. *}
     <input class="button" type="submit" name="NewWildcardButton" value="{'Create'|i18n( 'design/admin/content/urlalias_wildcard' )}" title="{'Create a new wildcard URL alias.'|i18n( 'design/admin/content/urlalias_wildcard' )}" />
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
-<div class="break"></div>
 
-{* DESIGN: Content END *}</div></div></div>
+
 </div>
 {* Generated aliases context block end *}
 

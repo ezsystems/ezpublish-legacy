@@ -1,12 +1,12 @@
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'Confirm section removal'|i18n( 'design/admin/section/confirmremove' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -22,7 +22,7 @@
 {/if}
 <ul>
 {foreach $unallowed_sections as $section}
-	<li><a href={concat( 'section/view/', $section.id )|ezurl}>{$section.name|wash}</a></li>
+    <li><a href={concat( 'section/view/', $section.id )|ezurl}>{$section.name|wash}</a></li>
 {/foreach}
 </ul>
 {/if}
@@ -32,7 +32,7 @@
 <p><b>{'The following sections will be removed'|i18n( 'design/admin/section/confirmremove' )}:</b></p>
 <ul>
 {foreach $allowed_sections as $section}
-	<li><a href={concat( 'section/view/', $section.id )|ezurl}>{$section.name|wash}</a></li>
+    <li><a href={concat( 'section/view/', $section.id )|ezurl}>{$section.name|wash}</a></li>
 {/foreach}
 </ul>
 
@@ -47,20 +47,20 @@
 
 {* DESIGN: Content END *}</div></div></div>
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 
 <form action={$module.functions.list.uri|ezurl} method="post" name="SectionRemove">
     {if $allowed_sections_count}
-	<input class="button" type="submit" name="ConfirmRemoveSectionButton" value="{'OK'|i18n( 'design/admin/section/confirmremove' )}" />
+    <input class=""defaultbutton"" type="submit" name="ConfirmRemoveSectionButton" value="{'OK'|i18n( 'design/admin/section/confirmremove' )}" />
     <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/section/confirmremove' )}" />
-	{else}
-	<input class="button" type="submit" value="{'OK'|i18n( 'design/admin/section/confirmremove' )}" />
-	{/if}
+    {else}
+    <input class=""defaultbutton"" type="submit" value="{'OK'|i18n( 'design/admin/section/confirmremove' )}" />
+    {/if}
 </form>
 
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>

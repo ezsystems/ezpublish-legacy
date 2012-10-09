@@ -206,7 +206,7 @@ class eZDbSchemaChecker
             }
             else
             {
-                if ( isset( $field2[$test_field] ) )
+                if ( isset( $field2[$test_field] ) && $field2[$test_field] )
                 {
                     $different_options[] = $test_field;
                 }

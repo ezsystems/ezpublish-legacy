@@ -7,63 +7,13 @@
 <div id="leftmenu">
 <div id="leftmenu-design">
 
-<div class="objectinfo">
-
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-
-<h4>{'Object information'|i18n( 'design/admin/content/edit_languages' )}</h4>
-
-</div></div></div></div></div></div>
-
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
-
-{* Object ID *}
-<p>
-<label>{'ID'|i18n( 'design/admin/content/edit_languages' )}:</label>
-{$object.id}
-</p>
-
-{* Created *}
-<p>
-<label>{'Created'|i18n( 'design/admin/content/edit_languages' )}:</label>
-{if $object.published}
-{$object.published|l10n( shortdatetime )}<br />
-{$object.current.creator.name|wash}
-{else}
-{'Not yet published'|i18n( 'design/admin/content/edit_languages' )}
-{/if}
-</p>
-
-{* Modified *}
-<p>
-<label>{'Modified'|i18n( 'design/admin/content/edit_languages' )}:</label>
-{if $object.modified}
-{$object.modified|l10n( shortdatetime )}<br />
-{fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name|wash}
-{else}
-{'Not yet published'|i18n( 'design/admin/content/edit_languages' )}
-{/if}
-</p>
-
-{* Published version *}
-<p>
-<label>{'Published version'|i18n( 'design/admin/content/edit_languages' )}:</label>
-{if $object.published}
-{$object.current_version}
-{else}
-{'Not yet published'|i18n( 'design/admin/content/edit_languages' )}
-{/if}
-</p>
-
-</div></div></div></div></div></div>
-
-</div>
+{include uri="design:content/parts/object_information.tpl" object=$object manage_version_button=false()}
 
 </div>
 </div>
 
-<div id="maincontent"><div id="fix">
-<div id="maincontent-design">
+<div id="maincontent">
+<div id="maincontent-design" class="float-break"><div id="fix">
 <!-- Maincontent START -->
 
 
@@ -72,15 +22,15 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header">
 
 <h2 class="context-title">{'Edit <%object_name>'|i18n( 'design/admin/content/edit_languages',, hash( '%object_name', $object.name ) )|wash}</h2>
 
-{* DESIGN: Subline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
 
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+{* DESIGN: Header END *}</div>
+
+{* DESIGN: Content START *}<div class="box-content">
 
 <div class="context-attributes">
 
@@ -97,9 +47,9 @@
 
     {if $existing_languages_output|trim}
         <div class="block">
-        <fieldset>
-        <legend>{'Existing languages'|i18n('design/admin/content/edit_languages')}</legend>
-        <p>{'Select the language you want to edit'|i18n('design/admin/content/edit_languages')}:</p>
+        <fieldset id="ezcoeditlanguages-existingts">
+        <legend>{'Existing translations'|i18n('design/admin/content/edit_languages')}</legend>
+        <p>{'Select the translation you want to edit'|i18n('design/admin/content/edit_languages')}:</p>
 
         <div class="indent">
             {$existing_languages_output}
@@ -111,25 +61,33 @@
 
 {* Translation a user is able to create *}
 {set-block variable=$nonexisting_languages_output}
+{def $select_first_language = and( $object_create_languages|count|eq( 1 ), $show_existing_languages|not ) }
 {foreach $object_create_languages as $language}
-
     <label>
-       <input name="EditLanguage" type="radio" value="{$language.locale}" /> {$language.name|wash}
+       <input name="EditLanguage" type="radio" value="{$language.locale}"{if $select_first_language} checked="checked"{/if} /> {$language.name|wash}
     </label>
     <div class="labelbreak"></div>
 {/foreach}
+{undef $select_first_language}
 {/set-block}
 
 {if $nonexisting_languages_output|trim}
+
     <div class="block">
-    <fieldset>
-    <legend>{'New languages'|i18n('design/admin/content/edit_languages')}</legend>
-    <p>{'Select the language you want to add'|i18n('design/admin/content/edit_languages')}:</p>
+    <fieldset id="ezcoeditlanguages-newts">
+    <legend>{'New translation'|i18n('design/admin/content/edit_languages')}</legend>
+    <p>{'Select the translation you want to add'|i18n('design/admin/content/edit_languages')}:</p>
 
     <div class="indent">
         {$nonexisting_languages_output}
     </div>
+    </fieldset>
+    </div>
 
+
+    <div class="block">
+    <fieldset id="ezcoeditlanguages-sourcets">
+    <legend>{'Translate based on'|i18n('design/admin/content/edit_languages')}</legend>
     <p>{'Select the language the added translation will be based on'|i18n('design/admin/content/edit_languages')}:</p>
 
     <div class="indent">
@@ -145,7 +103,6 @@
         <div class="labelbreak"></div>
     {/foreach}
     </div>
-
     </fieldset>
     </div>
 {else}
@@ -165,7 +122,7 @@
 
         {if $existing_languages_output|trim}
             <div class="block">
-            <fieldset>
+            <fieldset id="ezcoeditlanguages-existingts">
             {set $can_edit=true()}
             <legend>{'Existing languages'|i18n('design/admin/content/edit_languages')}</legend>
             <p>{'However you can select one of the following languages for editing.'|i18n('design/admin/content/edit_languages')}:</p>
@@ -184,24 +141,51 @@
 
 </div>
 
-{* DESIGN: Content END *}</div></div></div>
+{* DESIGN: Content END *}</div>
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}
 <div class="block">
 {if $can_edit}
-    <input class="button" type="submit" name="LanguageSelection" value="{'Edit'|i18n('design/admin/content/edit_languages')}" />
+    <input class="defaultbutton" type="submit" name="LanguageSelection" value="{'Edit'|i18n('design/admin/content/edit_languages')}" />
 {else}
     <input class="button-disabled" disabled="disabled" type="submit" name="LanguageSelection" value="{'OK'|i18n('design/admin/content/edit_languages')}" />
 {/if}
 
 <input class="button" type="submit" name="CancelDraftButton" value="{'Cancel'|i18n('design/admin/content/edit_languages')}" />
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}
 
 </div>
 </div>
 
 </form>
+
+
+<script type="text/javascript">
+{literal}
+(function( $ )
+{
+    if ( document.getElementById('ezcoeditlanguages-sourcets') )
+    {
+        // setup onchange events
+        jQuery( '#ezcoeditlanguages-existingts input[type=radio]' ).change(function()
+        {
+            jQuery( '#ezcoeditlanguages-sourcets input[type=radio]' ).attr( 'disabled', true );
+        });
+        jQuery( '#ezcoeditlanguages-newts input[type=radio]' ).change(function()
+        {
+            jQuery( '#ezcoeditlanguages-sourcets input[type=radio]' ).attr( 'disabled', false );
+        });
+
+        // disable source translations if existing translation is selected
+        if ( jQuery( '#ezcoeditlanguages-existingts input[checked=checked]' ).size() > 0 )
+        {
+            jQuery( '#ezcoeditlanguages-sourcets input[type=radio]' ).attr( 'disabled', true );
+        }
+    }
+})( jQuery );
+{/literal}
+</script>
 
 <!-- Maincontent END -->
 </div>

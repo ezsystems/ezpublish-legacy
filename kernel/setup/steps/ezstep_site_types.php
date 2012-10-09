@@ -539,9 +539,6 @@ class eZStepSiteTypes extends eZStepInstaller
         foreach ( $sitePackages as $idx => $packageInfo )
             $sitePackages[$idx]['status'] = !isset( $packageInfo['url'] );
 
-        $sortBySummary = create_function('$x,$y', "return \$x['summary'] < \$y['summary'] ? -1 : 1;");
-        usort( $sitePackages, $sortBySummary );
-
         return $sitePackages;
     }
 

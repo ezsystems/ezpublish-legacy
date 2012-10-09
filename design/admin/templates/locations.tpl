@@ -5,11 +5,11 @@
      can_edit_node=$node.can_edit
      can_remove_location=false()
      can_manage_location=or(fetch( 'content', 'access',
-                	    hash( 'access', 'manage_locations',
-		            	'contentobject', $node)),
-			    fetch( 'content', 'access',
-                	    hash( 'access', 'create',
-		            	'contentobject', $node)))}
+                        hash( 'access', 'manage_locations',
+                        'contentobject', $node)),
+                fetch( 'content', 'access',
+                        hash( 'access', 'create',
+                        'contentobject', $node)))}
 
 <form name="locationsform" method="post" action={'content/action'|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
@@ -17,21 +17,9 @@
 <input type="hidden" name="ViewMode" value="{$viewmode|wash}" />
 <input type="hidden" name="ContentObjectLanguageCode" value="{$language_code|wash}" />
 
-<div class="context-block">
-
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-
-<h2 class="context-title">{'Locations [%locations]'|i18n( 'design/admin/node/view/full',, hash( '%locations', $assigned_nodes|count ) )}</h2>
-
-{* DESIGN: Subline *}<div class="header-subline"></div>
-
-{* DESIGN: Header END *}</div></div></div></div></div></div>
-
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
-
-<table class="list" cellspacing="0">
+<table id="tab-locations-list" class="list" cellspacing="0" summary="{'Locations (aka Nodes) for current object.'|i18n( 'design/admin/node/view/full' )}">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" onclick="ezjs_toggleCheckboxes( document.locationsform, 'LocationIDSelection[]' ); return false;"/></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" onclick="ezjs_toggleCheckboxes( document.locationsform, 'LocationIDSelection[]' ); return false;"/></th>
     <th class="wide">{'Location'|i18n( 'design/admin/node/view/full' )}</th>
     <th class="tight">{'Sub items'|i18n( 'design/admin/node/view/full' )}</th>
 {*   <th class="tight">{'Sorting'|i18n( 'design/admin/node/view/full' )}</th> *}
@@ -92,7 +80,7 @@
     {if $assignment_node.can_edit}
 
     {if $assignment_count|gt( 1 ) }
-    <input type="radio" {if $assignment_node.is_main}checked="checked"{/if} name="MainAssignmentCheck" value="{$assignment_node.node_id}" title="{'Use these radio buttons to select the desired main location.'|i18n( 'design/admin/node/view/full' )}" />
+    <input type="radio" {if $assignment_node.is_main}checked="checked" class="main-locations-radio main-locations-radio-initial"{else}class="main-locations-radio"{/if} name="MainAssignmentCheck" value="{$assignment_node.node_id}" title="{'Use these radio buttons to select the desired main location.'|i18n( 'design/admin/node/view/full' )}" />
     {else}
     <input type="radio" {if $assignment_node.is_main}checked="checked"{/if} name="MainAssignmentCheck" value="{$assignment_node.node_id}" disabled="disabled" title="{'The item being displayed has only one location, which is by default the main location.'|i18n( 'design/admin/node/view/full' )}" />
     {/if}
@@ -109,15 +97,10 @@
 {/foreach}
 </table>
 
-{* DESIGN: Content END *}</div></div></div>
-
 {* Required to get the main node selection to work,
    unchecked radio buttons will not be sent by browser. *}
 <input type="hidden" name="HasMainAssignment" value="1" />
 
-<div class="controlbar">
-
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
 <div class="block">
 <div class="button-left">
@@ -136,8 +119,8 @@
     {/if}
 
 {else}
-    <input class="button-disabled" type="submit" name="" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You cannot remove any locations because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
-    <input class="button-disabled" type="submit" name="" value="{'Add locations'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You cannot add new locations because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
+    <input class="button-disabled" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You cannot remove any locations because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
+    <input class="button-disabled" type="submit" name="AddAssignmentButton" value="{'Add locations'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You cannot add new locations because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
 {/if}
 </div>
 
@@ -145,22 +128,31 @@
 {if $can_edit_node}
 
 {if $assignment_count|gt( 1 )}
-    <input class="button" type="submit" name="UpdateMainAssignmentButton" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" title="{'Select the desired main location using the radio buttons above then click this button to store the setting.'|i18n( 'design/admin/node/view/full' )}" />
+    <input id="tab-locations-list-set-main" class="button" type="submit" name="UpdateMainAssignmentButton" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" title="{'Select the desired main location using the radio buttons above then click this button to store the setting.'|i18n( 'design/admin/node/view/full' )}" />
+    <script type="text/javascript">
+    {literal}
+    (function( $ )
+    {
+        $('#tab-locations-list input.main-locations-radio').change(function()
+        {
+            if ( this.className === 'main-locations-radio' )
+                $('#tab-locations-list-set-main').removeClass('button').addClass('defaultbutton');
+            else
+                $('#tab-locations-list-set-main').removeClass('defaultbutton').addClass('button');
+        });
+    })( jQuery );
+    {/literal}
+    </script>
 {else}
     <input class="button-disabled" type="submit" name="UpdateMainAssignmentButton" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You cannot set the main location because there is only one location present.'|i18n( 'design/admin/node/view/full' )}" />
 {/if}
 
 {else}
-    <input class="button-disabled" type="submit" name="" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You cannot set the main location because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
+    <input class="button-disabled" type="submit" name="UpdateMainAssignmentButton" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You cannot set the main location because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
 {/if}
 </div>
 
 <div class="break"></div>
-</div>
-
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
-
-</div>
 </div>
 
 </form>

@@ -17,7 +17,7 @@ class eZDBTestSuite extends ezpDatabaseTestSuite
 
         $this->addTestSuite( 'eZPostgreSQLDBTest' );
         $this->addTestSuite( 'eZDBInterfaceTest' );
-        $this->addTestSuite( 'eZMySQLDBFKTest' );
+        $this->addTestSuite( 'eZMySQLiDBFKTest' );
         $this->addTestSuite( 'eZMySQLCharsetTest' );
     }
 

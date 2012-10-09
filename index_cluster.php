@@ -86,4 +86,9 @@ EOF;
 // We use require_once as the gateway file may have been included before for initialization purpose
 require_once $clusterGatewayFile;
 $gateway = ezpClusterGateway::getGateway();
-$gateway->retrieve( ltrim( $_SERVER['SCRIPT_URL'], '/' ) );
+
+$filename = ltrim( $_SERVER['REQUEST_URI'], '/' );
+if ( ( $queryPos = strpos( $filename, '?' ) ) !== false )
+    $filename = substr( $filename, 0, $queryPos );
+
+$gateway->retrieve( $filename );

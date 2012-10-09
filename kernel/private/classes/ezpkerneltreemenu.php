@@ -48,7 +48,7 @@ class ezpKernelTreeMenu implements ezpKernelHandler
         require_once __DIR__ . '/treemenu_functions.php';
         $this->setUseExceptions( $this->settings['use-exceptions'] );
 
-        header( 'X-Powered-By: eZ Publish (index_treemenu)' );
+        header( 'X-Powered-By: ' . eZPublishSDK::EDITION . ' (index_treemenu)' );
         if ( $this->settings['use-cache-headers'] === true )
         {
             define( 'MAX_AGE', $this->settings['max-age'] );
@@ -328,5 +328,27 @@ class ezpKernelTreeMenu implements ezpKernelHandler
                 )
             );
         }
+    }
+
+    /**
+     * Checks whether the kernel handler has the Symfony service container
+     * container or not.
+     *
+     * @return bool
+     */
+    public function hasServiceContainer()
+    {
+        return false;
+    }
+
+    /**
+     * Returns the Symfony service container if it has been injected,
+     * otherwise returns null.
+     *
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface|null
+     */
+    public function getServiceContainer()
+    {
+        return;
     }
 }
