@@ -889,6 +889,7 @@ class eZDebug
             eZDir::mkdir( $logDir, false, true );
         }
         $oldumask = @umask( 0 );
+        clearstatcache( true, $fileName );
         $fileExisted = file_exists( $fileName );
         if ( $fileExisted and
              filesize( $fileName ) > eZDebug::maxLogSize() )
