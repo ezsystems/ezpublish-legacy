@@ -763,6 +763,7 @@ div.context-information, span.classattribute-description
     font-size: 1em;
     padding: 0 0.5em 0 0.5em;
     margin-bottom: 1em;
+    position: relative;
 }
 
 span.classattribute-description, p.class-description
@@ -808,9 +809,9 @@ div.content-navigation div.context-information p.left
 div.content-navigation div.context-information p.right
 {
     position:absolute;
-    right: 1.5em;
-    top: 3em;
+    top: -2.5em;
     width: 30%;
+    right:0em;
 }
 
 div.context-block
