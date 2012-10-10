@@ -1182,6 +1182,7 @@ input:-moz-placeholder {
 /* FIXED CONTROLBAR DEPENDING ON SCROLL */
 .yui3-js-enabled .controlbar-fixed
 {
+    z-index:200;
     position:fixed;
     width:100%;
     top: -0.6em;
