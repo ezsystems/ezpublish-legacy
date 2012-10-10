@@ -147,6 +147,21 @@ a.show-hide-control:hover
     border-color: #666;
 }
 
+#leftmenu a.show-hide-control
+{
+position:static;
+float:right;
+width:19px;
+margin-top:50%;
+background: url(../../images/3/sprite.png) no-repeat -87px -422px;
+}
+#leftmenu a.show-hide-control:hover,
+#leftmenu a.show-hide-control:focus,
+#leftmenu a.show-hide-control:active
+{
+background: url(../../images/3/sprite.png) no-repeat -67px -422px;
+}
+
 a.show-hide-tabs
 {
     border:none;

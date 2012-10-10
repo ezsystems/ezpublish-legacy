@@ -40,6 +40,16 @@ div.widthcontrol-grippy:active {
     background: url('../images/3/sprite.png') no-repeat -20px -505px;
 }
 
+#leftmenu a.show-hide-control
+{
+display:none;
+}
+
+.yui3-js-enabled #leftmenu a.show-hide-control
+{
+display:block;
+}
+
 a.show-hide-control
 {
     position:absolute;
