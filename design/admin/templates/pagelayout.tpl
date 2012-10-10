@@ -73,6 +73,16 @@
 
 <div id="columns"{if $hide_right_menu} class="hide-rightmenu"{/if}>
 
+<div id="left-panels-separator">
+    <div class="panels-separator-top"></div>
+    <div class="panels-separator-bottom"></div>
+</div>
+<div id="right-panels-separator">
+    <div class="panels-separator-top"></div>
+    <div class="panels-separator-bottom"></div>
+</div>
+
+<div id="canvas-top"></div>
 {* RIGHT MENU *}
 <div id="rightmenu">
 {if or( $hide_right_menu, $collapse_right_menu )}
@@ -87,7 +97,7 @@
     <script type="text/javascript">
     {literal}
 
-    YUI(YUI3_config).use('ezcollapsiblemenu', 'event', 'io-ez', function (Y) {
+    YUI(YUI3_config).use('ezcollapsiblemenu', 'event', 'io-ez', 'node', function (Y) {
 
         Y.on('domready', function () {
             var rightmenu = new Y.eZ.CollapsibleMenu({
@@ -110,6 +120,7 @@
                     if ( this.conf.collapsed )
                         p = 0;
                     Y.io.ez.setPreference('admin_right_menu_show', p);
+                    Y.one('#right-panels-separator').setX(  parseInt(Y.one('#rightmenu').getX(),10) - 30 );
                 }
             });
         });
@@ -161,6 +172,7 @@
 
 
 <div class="break"></div>
+<div id="canvas-bottom"></div>
 </div><!-- div id="columns" -->
 
 <hr class="hide" />

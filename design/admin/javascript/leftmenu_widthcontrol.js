@@ -58,6 +58,7 @@ jQuery(function( $ )
         
         // Temporary measure - not good approach, but least messy.
         $( '#maincontent' ).css( 'marginLeft', (parseInt($('#leftmenu').css( 'width'),10) + 10) + 'px' );
+        $( '#left-panels-separator' ).css( 'left', (parseInt($('#leftmenu').css( 'width'),10) - 20) + 'px' );
     }
     
 });
