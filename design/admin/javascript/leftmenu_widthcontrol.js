@@ -28,8 +28,9 @@ jQuery(function( $ )
                 {
                     var els = leftMenuDrag.elements, offset = els[0].offset().left, pos = e.pageX, size = pos - offset;
                     if ( size < 20 ) size = 20;
-                    els[0].css( 'width', size  + 'px' );
-                    els[1].css( 'marginLeft', ( size + spaceBetweenColumns ) + 'px' );
+                    els[0].css( 'width', ( size )  + 'px' );
+                    els[1].css( 'marginLeft', ( size + 10 ) + 'px' );
+                    $( '#left-panels-separator' ).css( 'left', (parseInt($('#leftmenu').css( 'width'),10) - 20) + 'px' );
                 }
             },
             save: function()
@@ -61,6 +62,7 @@ jQuery(function( $ )
             width = $leftmenu.outerWidth(),
             margin = parseInt($leftmenu.css('marginLeft'), 10);
         $( '#maincontent' ).css( 'marginLeft', (width + margin + spaceBetweenColumns) + 'px' );
+        $( '#left-panels-separator' ).css( 'left', (parseInt($('#leftmenu').css( 'width'),10) - 20) + 'px' );
     }
     
 });

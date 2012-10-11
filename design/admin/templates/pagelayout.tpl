@@ -73,6 +73,16 @@
 
 <div id="columns"{if $hide_right_menu} class="hide-rightmenu"{/if}>
 
+<div id="left-panels-separator">
+    <div class="panels-separator-top"></div>
+    <div class="panels-separator-bottom"></div>
+</div>
+<div id="right-panels-separator">
+    <div class="panels-separator-top"></div>
+    <div class="panels-separator-bottom"></div>
+</div>
+
+<div id="canvas-top"></div>
 {* RIGHT MENU *}
 <div id="rightmenu">
 {if or( $hide_right_menu, $collapse_right_menu )}
@@ -87,7 +97,7 @@
     <script type="text/javascript">
     {literal}
 
-    YUI(YUI3_config).use('ezcollapsiblemenu', 'event', 'io-ez', function (Y) {
+    YUI(YUI3_config).use('ezcollapsiblemenu', 'event', 'io-ez', 'node', function (Y) {
 
         Y.on('domready', function () {
             var rightmenu = new Y.eZ.CollapsibleMenu({
@@ -104,6 +114,11 @@
                     duration: 0.4,
                     fullStyle: {marginRight: '210px'},
                     collapsedStyle: {marginRight: '27px'}
+                },{
+                    selector: '#right-panels-separator',
+                    duration: 0.4,
+                    fullStyle: {right:'181px'},
+                    collapsedStyle: {right: '-2px'}
                 }],
                 callback: function () {
                     var p = 1;
@@ -161,6 +176,7 @@
 
 
 <div class="break"></div>
+<div id="canvas-bottom"></div>
 </div><!-- div id="columns" -->
 
 <hr class="hide" />
@@ -182,6 +198,8 @@
 
 <script type="text/javascript">
 document.getElementById('header-usermenu-logout').innerHTML += '<span class="header-usermenu-name">{$current_user.login|wash}<\/span>';
+
+document.getElementById('right-panels-separator').style.right = (parseInt(document.getElementById('rightmenu').offsetWidth,10) - 20) + 'px';
 
 {literal}
 (function( $ )

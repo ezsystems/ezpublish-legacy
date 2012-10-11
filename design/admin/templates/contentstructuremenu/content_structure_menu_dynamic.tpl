@@ -100,11 +100,6 @@ var treeMenu;
         params.createHereMenu = "{ezini('TreeMenu','CreateHereMenu','contentstructuremenu.ini')}";
         params.autoOpen       = {if ezini('TreeMenu','AutoopenCurrentNode','contentstructuremenu.ini')|eq('enabled')}true{else}false{/if};
 
-        YUI.use('updatepanels', function(Y) {ldelim}{*
-            *}params.drawCallback = Y.eZ.updatePanelsHeight;{*
-        *}{rdelim});
-
-
         var i18n = {ldelim}{*
             *}"expand":"{'Click on the icon to display a context-sensitive menu.'|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)}",{*
             *}"node_id":"{'Node ID'|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)}",{*
