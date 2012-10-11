@@ -210,7 +210,7 @@ a.show-hide-tabs:hover
 
 .controlbar form .button-left .block input.button, .controlbar form .button-left .block input.button-disabled
 {
-    margin-top: -3px; 
+    margin-top: -3px;
 }
 
 #controlbar-top .box-bc
@@ -278,7 +278,7 @@ p.versions
     padding-top:10px;
     padding-right:21px;
     background: url('../../images/3/sprite.png') no-repeat right -770px;
-    
+
 }
 p.versions a
 {
@@ -372,7 +372,7 @@ input.button-disabled, input.button[disabled="disabled"]
     background: #fff;
 
     background-image: url('../../images/3/diagonal_pattern.png');
-    
+
 }
 
 
@@ -517,7 +517,7 @@ div.alphabetical
 
 #footer
 {
-    
+
 }
 
 #footer-design

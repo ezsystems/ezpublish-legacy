@@ -328,7 +328,7 @@ div.tabs-content.disabled div.tab-content
 }
 
 #rightmenu
-{ 
+{
     float: right;
     overflow: hidden;
     width: 181px;
@@ -392,8 +392,8 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
     margin-left:20px;
     padding: 0.8em 1em 10px 1em;
     background:white;
-    position: relative;  
-    
+    position: relative;
+
 }
 
 /* This is not supported by IE6, some DOM cleanup is needed to avoid it */
@@ -513,7 +513,7 @@ div#contentstructure
 
 div#contentstructure ul#content_tree_menu
 {
-    margin-top: 0;    
+    margin-top: 0;
     margin-left: 0.25em;
     padding-left: 0.5em;
 }
@@ -769,7 +769,7 @@ div.popupmenu hr
     padding: 0 0.5em 0 0.5em;
 }
 
-.box-content div.block 
+.box-content div.block
 {
     padding-bottom: 1em;
 }
@@ -895,7 +895,7 @@ div.context-block h1.context-title img, div.context-block h2.context-title img
     list-style-type: none;
     padding: 0;
     margin: 0;
-    
+
 }
 
 .menu-block li a
@@ -920,7 +920,7 @@ div.context-block h1.context-title img, div.context-block h2.context-title img
 
 /* BUTTONS */
 
-p.versions 
+p.versions
 {
     margin: 0 0 0.6em;
     padding: 4px 10px;
@@ -966,8 +966,8 @@ input.button:hover
 #searchtextwrapper
 {
     float:left;
-    
-    border: 4px solid rgba(255,255,255,0.1);    
+
+    border: 4px solid rgba(255,255,255,0.1);
     border-radius: 5px;
 }
 

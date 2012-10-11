@@ -72,6 +72,6 @@ jQuery(function( $ )
         $( '#maincontent' ).css( 'marginLeft', (outerWidth + margin + spaceBetweenColumns) + 'px' );
         $( '#left-panels-separator' ).css( 'left', (innerWidth + margin - leftmenuDesignMargin) + 'px' );
     }
-    
+
 });
 

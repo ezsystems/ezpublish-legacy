@@ -378,7 +378,7 @@ a.yuimenuitemlabel-disabled{
     background-clip: padding-box;
     text-shadow: 0 1px #fff;
     font-size: 1.1em;
-    margin-left:5px;    
+    margin-left:5px;
 }
 
 .yui-button .first-child
@@ -413,7 +413,7 @@ a.yuimenuitemlabel-disabled{
     padding-right: 1.7em;
 }
 
-#ezbtn-items-button { 
+#ezbtn-items-button {
     background: url('../../images/3/sprite.png') no-repeat 5px -650px;
     padding-left: 2em;
 }
@@ -480,8 +480,8 @@ a.yuimenuitemlabel-disabled{
     background-image: url('../../images/2/icon-sitemap-16x16.png');
 }
 
-#ezopt-menu-remove, 
-#ezopt-menu-edit, 
+#ezopt-menu-remove,
+#ezopt-menu-edit,
 #ezopt-menu-preview,
 #ezopt-menu-toggle,
 #ezopt-menu-view,

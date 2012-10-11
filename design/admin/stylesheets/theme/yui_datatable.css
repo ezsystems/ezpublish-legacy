@@ -360,7 +360,7 @@ th.yui-dt-highlighted,th.yui-dt-highlighted a
     background-color: #D1DFE9;
 }
 
-tr.yui-dt-highlighted,tr.yui-dt-highlighted td.yui-dt-asc,tr.yui-dt-highlighted td.yui-dt-desc,tr.yui-dt-even td.yui-dt-highlighted,tr.yui-dt-odd td.yui-dt-highlighted 
+tr.yui-dt-highlighted,tr.yui-dt-highlighted td.yui-dt-asc,tr.yui-dt-highlighted td.yui-dt-desc,tr.yui-dt-even td.yui-dt-highlighted,tr.yui-dt-odd td.yui-dt-highlighted
 {
     cursor: pointer;
     background-color: #D1DFE9;
@@ -458,7 +458,7 @@ a.yui-dt-page {
     background-image: -o-linear-gradient(top,  #fff,  #eee);
     background-image: linear-gradient(top,  #fff,  #eee);
     border: 1px solid #cfd1d3;
-    border-radius: 3px;    
+    border-radius: 3px;
     width: 31px;
     height:25px;
     cursor: pointer;
@@ -478,7 +478,7 @@ a.yui-pg-first:hover,a.yui-pg-previous:hover,a.yui-pg-next:hover,a.yui-pg-last:h
     border: 1px solid #999;
 }
 
-.yui-pg-previous span 
+.yui-pg-previous span
 {
     margin: 0 5px 0 2px;
 }
