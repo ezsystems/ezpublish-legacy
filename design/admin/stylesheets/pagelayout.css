@@ -1254,12 +1254,6 @@ input:-moz-placeholder {
 color:#fff;
 }
 
-#content-sub-items-list
-{
-    width:100%;
-    overflow-x:auto;
-}
-
 #dashboard-logo
 {
     float:left;
