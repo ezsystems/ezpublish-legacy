@@ -6,7 +6,6 @@ var sortableSubitems = function () {
     var createOptions;
     var dataTable;
     var shownColumns;
-    var drawCallback;
 
     //Retrieves multiple values delimited by '|'
     function getCookieSubMultiValue(subName) {
@@ -250,14 +249,6 @@ var sortableSubitems = function () {
                 this.showCellEditor(target);
             }
         });
-        
-        
-        subItemsTable.subscribe("postRenderEvent", function (oArgs) {
-            
-            drawCallback();
-            
-        });
-            
 
         // Update totalRecords on the fly with value from server
         subItemsTable.handleDataReturnPayload = function(oRequest, oResponse, oPayload) {
@@ -460,12 +451,11 @@ var sortableSubitems = function () {
     }
 
     return {
-        init: function (conf, labels, groups, options, onDrawCallback) {
+        init: function (conf, labels, groups, options) {
             confObj = conf
             labelsObj = labels;
             createGroups = groups;
             createOptions = options;
-            drawCallback = onDrawCallback;
 
             shownColumns = getCookieSubMultiValue(confObj.navigationPart);
             if (shownColumns == null) shownColumns = confObj.defaultShownColumns[confObj.navigationPart];
