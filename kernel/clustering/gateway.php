@@ -172,8 +172,9 @@ abstract class ezpClusterGateway
         // Output HTTP headers.
         $filesize = $metaData['size'];
         $mtime = $metaData['mtime'];
+        $datatype = $metaData['datatype'];
 
-        header( "Content-Type: $metaData[datatype]" );
+        header( "Content-Type: {$datatype}" );
         header( "Connection: close" );
         header( 'Served-by: ' . $_SERVER["SERVER_NAME"] );
 
