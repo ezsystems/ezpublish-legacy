@@ -687,7 +687,7 @@ div.popupmenu
 
     /* These three are essential */
     position: absolute;
-    z-index: 10;
+    z-index: 20;
     display: none;
 }
 
