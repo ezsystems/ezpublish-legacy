@@ -1021,6 +1021,11 @@ input.button:hover
     background-image: url(../images/search-scope.png);
 }
 
+.searchscope-body label
+{
+    font-size:1em;
+}
+
 .searchscope:hover
 {
     cursor: pointer;
