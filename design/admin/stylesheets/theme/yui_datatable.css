@@ -1,4 +1,8 @@
 /* DATA TABLE */
+.yui-dt-data td
+{
+font-size:1.05em;
+}
 
 .yui-dt-col-checkbox {
     width: 40px;
@@ -440,7 +444,7 @@ a.yui-dt-page {
 
 .yui-pg-first,.yui-pg-previous,.yui-pg-next,.yui-pg-last,.yui-pg-current,.yui-pg-pages,.yui-pg-page {
     display: inline-block;
-    font-family: "Calibri",Verdana,Arial,Helvetica,sans-serif;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
     font-size: 1em;
     zoom: 1;
 }

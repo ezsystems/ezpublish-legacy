@@ -10,7 +10,7 @@ html
 
 body /* These becomes the initial settings for most other elements */
 {
-    font-family: 'Calibri',Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 0.8em;
     background-color: #ffffff;
     margin: 0;
@@ -23,7 +23,7 @@ body /* These becomes the initial settings for most other elements */
 
 h1, h2, h3, h4, h5, h6 /* Set general styles for all headings; some may be overridden later */
 {
-    font-family: 'Calibri',Helvetica, Arial, sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     margin: 0.5em 0 0.2em 0;
     padding: 0;
 }
@@ -144,7 +144,15 @@ tr
 th, td
 {
     padding: 0;
-    font-size: 1.2em;
+}
+th
+{
+    font-size:1.1em;
+}
+
+table.list td
+{
+font-size:1.05em;
 }
 
 table.list, table.special /* Standard class usable for most regular tables presenting lists, with additional related styles */
@@ -155,7 +163,7 @@ table.list, table.special /* Standard class usable for most regular tables prese
 
 table.list th, table.list td, table.special th, table.special td
 {
-    padding: 0.25em;
+    padding: 0.4em;
     text-align: left;
     vertical-align: middle;
 }
@@ -287,26 +295,26 @@ label
 {
     font-weight: bold;
     padding-right: 0.5em;
-    font-size: 15px;
     display: block;
     white-space: nowrap;
+    font-size:1.1em;
 }
 
 input, select
 {
-    font-family: 'Calibri',Arial, Helvetica, sans-serif; /* Needs to be set for some browsers, to prevent other default font from being used */
-    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif; /* Needs to be set for some browsers, to prevent other default font from being used */
+    font-size: 1em;
 }
 
 input.box, input.halfbox
 {
-    font-size: 15px;
+    font-size: 1em;
 }
 
 textarea
 {
-    font-family: 'Calibri',Arial, Helvetica, sans-serif; /* Usually defaulted to monospaced font; so it needs to be set if to change */
-    font-size: 15px; /* Needs to be specified for IE */
+    font-family: Arial, Helvetica, sans-serif; /* Usually defaulted to monospaced font; so it needs to be set if to change */
+    font-size: 1em; /* Needs to be specified for IE */
 }
 
 optgroup
@@ -317,7 +325,7 @@ optgroup
 
 input.button, button, input.defaultbutton, input.button-disabled
 {
-    font-family: 'Calibri',Verdana, Arial, Helvetica, sans-serif;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
@@ -379,12 +387,19 @@ legend
 {
     font-weight: bold;
     color: #000000;
-    padding: 0 0.25em 0 0.25em;
+    padding: 0 0.35em 0 0.35em;
+    font-size:1.1em;
 }
 
 fieldset label
 {
     color: #000000;
+    font-size:1em;
+}
+
+label select
+{
+font-size:0.9em;
 }
 
 

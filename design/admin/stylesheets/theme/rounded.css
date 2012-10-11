@@ -86,7 +86,7 @@
 {
     color: #B7B7B7;
     text-shadow: -1px -1px 1px black;
-    font-size: 1.2em;
+    font-size: 1.1em;
     text-decoration: underline;
 }
 
@@ -101,7 +101,7 @@
 ul.tabs li a, ul.tabs li span.disabled
 {
     color: #005b7f;
-    font-size: 1.2em;
+    font-size: 1.1em;
     text-decoration: underline;
 }
 
@@ -236,10 +236,10 @@ a.show-hide-tabs:hover
     border-top: 1px dashed #ccc;
     font-size:1.5em;
 }
-
-.box-header h4
+.box-header select, .box-header input.button
 {
-    font-size:1.3em;
+margin-top:7px;
+font-size:13px;
 }
 
 #controlbar-top .box-bc .box-ml
@@ -273,6 +273,7 @@ p.versions
 {
     padding-top:10px;
     padding-right:31px;
+    /** MARCHE PO **/
     background: url('../../images/3/sprite.png') no-repeat right -770px;
     
 }
@@ -321,9 +322,9 @@ input.button, input.defaultbutton, input.button-disabled
     background: #fff;
     border: 1px solid #cfd1d3;
     border-radius: 3px;
-    font-size: 1.2em;
+    font-size: 1em;
     margin-left: 5px;
-    padding: 2px 5px;
+    padding: 3px 6px;
     -webkit-transition: all 300ms ease;
     -moz-transition: all 300ms ease;
     -ms-transition: all 300ms ease;
@@ -446,7 +447,7 @@ div.community-activity #feed-elements ul li p
 
 .dashboard-item h2
 {
-    font-size:1.8em;
+    font-size:1.7em;
 }
 
 
@@ -486,7 +487,7 @@ div.pagenavigator span.disabled
 
 div.pagenavigator span.pages span.other, div.pagenavigator span.pages span.current
 {
-    font-size: 0.8em;
+    font-size: 1em;
     margin-left: 1px;
     margin-right: 1px;
     background-color: #fff;
@@ -552,6 +553,10 @@ table.list th, table.special th
 
 
 /* YUI 2 calendar (uses #page to force override) */
+#page .yui-calendar
+{
+font-size:0.9em;
+}
 
 #page .yui-calendar .calweekdaycell
 {

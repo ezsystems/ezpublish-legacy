@@ -50,6 +50,7 @@ table.list th, table.special th
 table.list label
 {
 font-weight:normal;
+font-size:1em;
 }
 
 table.list th a
@@ -264,4 +265,5 @@ fieldset.ezcca-collapsible.ezcca-collapsed legend a
     border-bottom: 1px solid #cacaca;
     margin-bottom:1em;
     color:#333;
+    font-size:1.1em;
 }

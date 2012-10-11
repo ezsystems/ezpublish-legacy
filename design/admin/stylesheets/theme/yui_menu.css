@@ -377,7 +377,7 @@ a.yuimenuitemlabel-disabled{
     vertical-align:text-bottom;
     background-clip: padding-box;
     text-shadow: 0 1px #fff;
-    font-size: 1.2em;
+    font-size: 1.1em;
     margin-left:5px;    
 }
 
@@ -401,7 +401,7 @@ a.yuimenuitemlabel-disabled{
     cursor: pointer;
     display: block;
     border: none;
-    padding: 0.2em 0.5em;
+    padding: 0.25em 0.55em;
 }
 
 .yui-button:first-child {
