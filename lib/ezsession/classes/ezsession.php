@@ -446,11 +446,7 @@ class eZSession
      */
     static protected function forceStart()
     {
-        if ( self::$handlerInstance instanceof ezpSessionHandler )
-            return self::$hasStarted = self::$handlerInstance->sessionStart();
-
-        session_start();
-        return self::$hasStarted = true;
+        return self::$hasStarted = self::getHandlerInstance()->sessionStart();
     }
 
     /**
