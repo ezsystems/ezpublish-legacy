@@ -677,11 +677,15 @@ div#contentstructure ul#content_tree_menu div.hidden
 div.popupmenu
 {
     width: 14em;
-    font-size: 0.85em;
+    font-size: 0.95em;
     margin: 0px;
-    padding: 4px;
+    padding: 2px;
     background-color: #fff;
-    border: 1px solid #bbb;
+    border: 1px solid #999;
+    box-shadow: 3px 3px 3px 0px #bbb;
+    border-radius:3px;
+    font-size:0.95em;
+    color:#333;
 
     /* These three are essential */
     position: absolute;
@@ -691,13 +695,14 @@ div.popupmenu
 
 div.popupmenu div.popupmenuheader
 {
-    background-color: #fbfbfb;
+    background-color: #6f6e6b;
+    color:#eee;
     border-bottom: 1px solid #bbb;
 }
 
 div.popupmenu#EditSubmenu
 {
-    z-index: +2;
+    z-index: 21;
 }
 
 div.popupmenu h3
@@ -728,7 +733,7 @@ div.popupmenu div.window-close p
 div.popupmenu a
 {
     color: #000000;
-    padding: 0.1em 0.3em 0.1em 0.3em;
+    padding: 0.2em 0.3em 0.2em 0.3em;
     text-decoration: none;
     cursor: default;
     display: block;
@@ -746,10 +751,18 @@ div.popupmenu a.menu-item-disabled
     color: #CECECE;
 }
 
+div.popupmenu a
+{
+    -webkit-transition: none;
+    -moz-transition: none;
+    -ms-transition: none;
+    -o-transition: none;
+    transition: none;
+}
+
 div.popupmenu a:hover
 {
-    color: #ffffff;
-    background-color: #2d537a;
+    background-color: #D1DFE9;
     text-decoration: none;
     cursor: default;
 }
