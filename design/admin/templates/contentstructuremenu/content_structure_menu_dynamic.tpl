@@ -44,7 +44,7 @@
 
 <script type="text/javascript">
 var treeMenu;
-(function(YUI){ldelim}
+(function(){ldelim}
 
 {cache-block keys=array( $root_node_id, $access_type ) expiry=0}
     {def $root_node_url = $root_node.url}
@@ -133,5 +133,5 @@ var treeMenu;
     document.writeln( '<\/ul>' );
 
     treeMenu.load( false, rootNode.node_id, rootNode.modified_subnode );
-{rdelim})(YUI(YUI3_config));
+{rdelim})();
 </script>

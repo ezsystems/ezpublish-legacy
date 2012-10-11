@@ -25,8 +25,6 @@ function ContentStructureMenu( params, i18n )
         }
         this.open[this.open.length] = nodeID;
         this.updateCookie();
-
-        params.drawCallback();
     };
 
     this.setClosed = function( nodeID )
