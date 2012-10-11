@@ -25,8 +25,7 @@ label.inline { padding-right: 0.1em; }
 div.widthcontrol-grippy
 {
     position:absolute;
-    top:50%;
-    margin-top:-7px;
+    top:320px;
     left:-15px;
     height: 33px;
     width: 15px;
@@ -43,8 +42,7 @@ div.widthcontrol-grippy:active {
 a.show-hide-control
 {
     position:absolute;
-    top:50%;
-    margin-top:-16px;
+    top:300px;
     height: 33px;
     width: 15px;
     background: url('../images/3/sprite.png') no-repeat 0 -422px;
@@ -53,6 +51,7 @@ a.show-hide-control
     -ms-transition: none;
     -o-transition: none;
     transition: none;
+    z-index: 11;
 }
 
 a.show-hide-control:hover,
@@ -257,6 +256,7 @@ div.tabs-content.disabled div.tab-content
     position:relative;
     margin: 0 auto -1px;
     background: white;
+    overflow: hidden;
 }
 
 #maincolumn
@@ -278,7 +278,7 @@ div.tabs-content.disabled div.tab-content
 
 #maincontent-design
 {
-    margin: 20px 20px 20px 20px;
+    margin: 0 20px;
     background:white;
     padding: 0.8em 1.5em 10px 1.5em;
     position:relative;
@@ -317,8 +317,6 @@ ul.leftmenu-items
     overflow: hidden;
     width: 181px;
     border-radius: 2px 0 0 2px;
-    box-shadow: 0 0 5px black;
-    background: url('../images/3/textile.png');
     padding-top:1px;
     padding-bottom: 1px;
     min-height: 400px;
@@ -338,7 +336,6 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
     /*bottom:20px;*/
     top:0;
     bottom:0;
-    left:40px;
     z-index:10;
 }
 
@@ -378,9 +375,8 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
 
 #rightmenu-design
 {
-    margin: 20px 0 20px 20px;
+    margin-left:20px;
     padding: 0.8em 1em 10px 1em;
-    box-shadow: 0 0 5px black;
     background:white;
     position: relative;  
     
@@ -417,7 +413,7 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
 
 #leftmenu-design
 {
-    margin: 20px 20px 20px 0;
+    margin-right: 20px;
     padding: 0.8em 0.8em 0.8em 0.8em;
     background:white;
     min-height: 100%;
@@ -462,7 +458,9 @@ ul.leftmenu-items li.current a
     top:-20px;
     bottom: 0; /* strech div to full width of relative box */
     width: 10px;
+    height: 5000px;
     cursor: col-resize;
+    z-index:11;
 /*    background: #f8f8f8;*/
 }
 

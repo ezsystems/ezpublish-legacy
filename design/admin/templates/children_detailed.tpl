@@ -170,14 +170,13 @@ var labelsObj = {ldelim}
 
 {literal}
     
-YUI.use('updatepanels', function(Y) {    
     YUILoader.require(['datatable', 'button', 'container', 'cookie', 'element']);
     YUILoader.onSuccess = function() {
-        sortableSubitems.init(confObj, labelsObj, createGroups, createOptions, Y.eZ.updatePanelsHeight);
+        sortableSubitems.init(confObj, labelsObj, createGroups, createOptions);
     };
     var options = [];
     YUILoader.insert(options, 'js');
-});
+
 
 })(YUI(YUI3_config));
 {/literal}

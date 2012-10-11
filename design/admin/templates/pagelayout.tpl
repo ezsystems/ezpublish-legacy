@@ -114,13 +114,17 @@
                     duration: 0.4,
                     fullStyle: {marginRight: '210px'},
                     collapsedStyle: {marginRight: '27px'}
+                },{
+                    selector: '#right-panels-separator',
+                    duration: 0.4,
+                    fullStyle: {right:'181px'},
+                    collapsedStyle: {right: '-2px'}
                 }],
                 callback: function () {
                     var p = 1;
                     if ( this.conf.collapsed )
                         p = 0;
                     Y.io.ez.setPreference('admin_right_menu_show', p);
-                    Y.one('#right-panels-separator').setX(  parseInt(Y.one('#rightmenu').getX(),10) - 30 );
                 }
             });
         });
@@ -194,6 +198,8 @@
 
 <script type="text/javascript">
 document.getElementById('header-usermenu-logout').innerHTML += '<span class="header-usermenu-name">{$current_user.login|wash}<\/span>';
+
+document.getElementById('right-panels-separator').style.right = (parseInt(document.getElementById('rightmenu').offsetWidth,10) - 20) + 'px';
 
 {literal}
 (function( $ )
