@@ -49,7 +49,7 @@ jQuery(function( $ )
             }
     };
     var wl = $('#widthcontrol-links'), wh = $('#widthcontrol-handler');
-    if ( wl && wh )
+    if ( wl.length && wh.length )
     {
         wl.addClass( 'hide' );
         wh.removeClass( 'hide' ) ;

@@ -295,7 +295,7 @@ div.tabs-content.disabled div.tab-content
     position:relative;
 }
 
-.loginpage #maincontent-design
+.loginpage #maincontent-design, .loginpage #columns
 {
     box-shadow: none;
     background: none;
