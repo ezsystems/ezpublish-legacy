@@ -62,8 +62,6 @@
 
 
 {literal}
-<link href="/design/admin/stylesheets/register_page_fix.css" type="text/css" rel="stylesheet">
-
 <script type="text/javascript">
 jQuery(function( $ )//called on document.ready
 {

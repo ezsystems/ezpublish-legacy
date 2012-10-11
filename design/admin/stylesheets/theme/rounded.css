@@ -62,9 +62,12 @@
     box-shadow: inset 0 1px #6f6e6b;
 }
 
-.loginpage #debug
+.loginpage .ezusernavigationpart #columns  #maincontent
 {
-    padding-bottom: 4em;
+    background:white;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 5px black;
 }
 
 
