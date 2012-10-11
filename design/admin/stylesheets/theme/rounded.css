@@ -149,7 +149,8 @@ a.show-hide-control:hover
 
 #leftmenu a.show-hide-control
 {
-position:static;
+position:relative;
+z-index:10;
 float:right;
 width:19px;
 margin-top:50%;

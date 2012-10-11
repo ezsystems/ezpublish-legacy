@@ -49,6 +49,12 @@ jQuery(function( $ )
             }
     };
     var wl = $('#widthcontrol-links'), wh = $('#widthcontrol-handler');
+    var $leftmenu = $('#leftmenu'),
+        outerWidth = $leftmenu.outerWidth(),
+        innerWidth = $leftmenu.innerWidth(),
+        margin = parseInt($leftmenu.css('marginLeft'), 10),
+        leftmenuDesignMargin = parseInt($('#leftmenu-design').css('marginRight'), 10);
+
     if ( wl.length && wh.length )
     {
         wl.addClass( 'hide' );
@@ -56,16 +62,13 @@ jQuery(function( $ )
         wh.bind( 'mousedown', leftMenuDrag.down );
         $( document ).bind('mouseup click', leftMenuDrag.up );
         $( document ).bind('mousemove', leftMenuDrag.on );
-        
-        var $leftmenu = $('#leftmenu'),
-            outerWidth = $leftmenu.outerWidth(),
-            innerWidth = $leftmenu.innerWidth(),
-            margin = parseInt($leftmenu.css('marginLeft'), 10),
-            leftmenuDesignMargin = parseInt($('#leftmenu-design').css('marginRight'), 10);
+        $leftmenu.addClass( 'widthcontroled' );
+    }
 
+    if ( $leftmenu.length )
+    {
         if ( !margin )
             margin = 0;
-        $leftmenu.addClass( 'widthcontroled' );
         $( '#maincontent' ).css( 'marginLeft', (outerWidth + margin + spaceBetweenColumns) + 'px' );
         $( '#left-panels-separator' ).css( 'left', (innerWidth + margin - leftmenuDesignMargin) + 'px' );
     }

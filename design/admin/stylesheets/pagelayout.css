@@ -352,7 +352,7 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
     /*bottom:20px;*/
     top:0;
     bottom:0;
-    z-index:0;
+    z-index:1;
 }
 
 .panels-separator-top
