@@ -232,7 +232,7 @@ class ezpKernelWeb implements ezpKernelHandler
         $GLOBALS['eZGlobalRequestURI'] = eZSys::serverVariable( 'REQUEST_URI' );
 
         // Initialize basic settings, such as vhless dirs and separators
-        if ( $this->getServiceContainer()->has( 'request' ) )
+        if ( $this->hasServiceContainer() && $this->getServiceContainer()->has( 'request' ) )
         {
             eZSys::init(
                 basename( $this->getServiceContainer()->get( 'request' )->getScriptName() ),
