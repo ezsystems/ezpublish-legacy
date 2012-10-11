@@ -157,13 +157,13 @@ z-index:10;
 float:right;
 width:19px;
 margin-top:50%;
-background: url(../../images/3/sprite.png) no-repeat -87px -422px;
+background: url(../../images/3/sprite.png) no-repeat -20px -461px;
 }
 #leftmenu a.show-hide-control:hover,
 #leftmenu a.show-hide-control:focus,
 #leftmenu a.show-hide-control:active
 {
-background: url(../../images/3/sprite.png) no-repeat -67px -422px;
+background: url(../../images/3/sprite.png) no-repeat 0 -461px;
 }
 
 a.show-hide-tabs
@@ -276,8 +276,7 @@ font-size:13px;
 p.versions
 {
     padding-top:10px;
-    padding-right:31px;
-    /** MARCHE PO **/
+    padding-right:21px;
     background: url('../../images/3/sprite.png') no-repeat right -770px;
     
 }

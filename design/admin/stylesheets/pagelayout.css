@@ -125,7 +125,7 @@ a.image-text:hover > span
     text-decoration: none;
     color:#f4f4f4;
     font-size:11px;
-    background: transparent url('../images/3/ez_logo_small_community.png') 11px 11px no-repeat;
+    background: transparent url('../images/3/logo_separator_sprite.png') -117px 11px no-repeat;
     padding-left:11px;
     padding-right:11px;
 }
@@ -347,9 +347,7 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
 {
     position: absolute;
     width:50px;
-    background: url(../images/3/panels_separator.png) repeat-y;
-    /*top:20px;*/
-    /*bottom:20px;*/
+    background: url(../images/3/logo_separator_sprite.png) repeat-y 0 0;
     top:0;
     bottom:0;
     z-index:1;
@@ -357,7 +355,7 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
 
 .panels-separator-top
 {
-    background: url(../images/3/panels_separator_top.png) repeat-y;
+    background: url(../images/3/logo_separator_sprite.png) no-repeat -57px 0;
     width:50px;
     height:21px;
     position: absolute;
@@ -365,7 +363,7 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
 }
 .panels-separator-bottom
 {
-    background: url(../images/3/panels_separator_bottom.png) repeat-y;
+    background: url(../images/3/logo_separator_sprite.png) no-repeat -57px -79px;
     width:50px;
     height:21px;
     position: absolute;
@@ -1018,7 +1016,7 @@ input.button:hover
     position: absolute;
     top: 15px;
     left: 10px;
-    background-image: url(../images/search-scope.png);
+    background: transparent url(../images/3/sprite.png) no-repeat 0 -868px;
 }
 
 .searchscope-body label
@@ -1095,7 +1093,7 @@ input.button:hover
     margin-top: 7px;
     width: 16px;
     height: 16px;
-    background: url(../images/close.gif) no-repeat center center;
+    background: transparent url(../images/3/sprite.png) no-repeat -28px -868px;
 }
 
 .searchscope-pane .close .mini-icon-remove-close
@@ -1263,7 +1261,7 @@ color:#fff;
 {
     float:left;
     width:151px;
-    background: url(../images/3/ez_logo_big_black_community.png) left top no-repeat;
+    background: url(../images/3/logo_separator_sprite.png) no-repeat -239px 0;
     height:72px;
     margin-top:20px;
     margin-left:20px;

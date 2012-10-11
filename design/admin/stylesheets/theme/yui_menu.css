@@ -409,7 +409,7 @@ a.yuimenuitemlabel-disabled{
 }
 
 #ezbtn-more button {
-    background: transparent url(../../images/3/arrow_small_down.png) no-repeat 92% 8px;
+    background: transparent url(../../images/3/sprite.png) no-repeat right -811px;
     padding-right: 1.7em;
 }
 
