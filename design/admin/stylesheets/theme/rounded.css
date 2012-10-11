@@ -291,10 +291,9 @@ p.versions a:hover
 
 p.table-preferences
 {
-    border-bottom-left-radius: 3px;
+    border-radius: 3px;
     border-bottom-right-radius: 3px;
     border: 1px solid #CCCCCC;
-    border-top: 0 none;
     background-color: #f0f0f0;
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
     background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
@@ -309,6 +308,7 @@ p.table-preferences > a, p.table-preferences > span
     border: solid #CCC;
     border-width: 0 1px 0 0;
     padding-right: 1em;
+    line-height: 1.5em;
 }
 
 p.table-preferences :last-child
@@ -456,6 +456,7 @@ div.community-activity #feed-elements ul li p
 div.pagenavigator
 {
     text-align: center;
+    margin-top: 1em;
 }
 
 div.pagenavigator a
