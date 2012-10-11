@@ -33,6 +33,11 @@ YUI(YUI3_config).use('ezcollapsiblemenu', 'event', 'io-ez', function (Y) {
                 fullStyle: {marginLeft: '0'},
                 collapsedStyle: {marginLeft: '-13.5em'}
             },{
+                selector: '#left-panels-separator',
+                duration: 0.4,
+                fullStyle: {left: (Y.one('#leftmenu').get('clientWidth') - parseInt(Y.one('#leftmenu-design').getStyle('marginRight'))) + 'px'},
+                collapsedStyle: {left: 0}
+            },{
                 selector: '#maincontent',
                 duration: 0.4,
                 // workaround to http://yuilibrary.com/projects/yui3/ticket/2531641

@@ -56,13 +56,18 @@ jQuery(function( $ )
         wh.bind( 'mousedown', leftMenuDrag.down );
         $( document ).bind('mouseup click', leftMenuDrag.up );
         $( document ).bind('mousemove', leftMenuDrag.on );
-        $('#leftmenu').addClass( 'widthcontroled' );
         
         var $leftmenu = $('#leftmenu'),
-            width = $leftmenu.outerWidth(),
-            margin = parseInt($leftmenu.css('marginLeft'), 10);
-        $( '#maincontent' ).css( 'marginLeft', (width + margin + spaceBetweenColumns) + 'px' );
-        $( '#left-panels-separator' ).css( 'left', (parseInt($('#leftmenu').css( 'width'),10) - 20) + 'px' );
+            outerWidth = $leftmenu.outerWidth(),
+            innerWidth = $leftmenu.innerWidth(),
+            margin = parseInt($leftmenu.css('marginLeft'), 10),
+            leftmenuDesignMargin = parseInt($('#leftmenu-design').css('marginRight'), 10);
+
+        if ( !margin )
+            margin = 0;
+        $leftmenu.addClass( 'widthcontroled' );
+        $( '#maincontent' ).css( 'marginLeft', (outerWidth + margin + spaceBetweenColumns) + 'px' );
+        $( '#left-panels-separator' ).css( 'left', (innerWidth + margin - leftmenuDesignMargin) + 'px' );
     }
     
 });
