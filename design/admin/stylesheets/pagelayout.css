@@ -76,6 +76,11 @@ a.image-text
     text-decoration: none;
 }
 
+a.image-text img
+{
+    vertical-align: middle;
+}
+
 a.image-text:hover > span
 {
     text-decoration: underline;
