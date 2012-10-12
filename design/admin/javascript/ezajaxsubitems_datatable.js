@@ -340,6 +340,7 @@ var sortableSubitems = function () {
                                                                                    buttons: [ {text: labelsObj.TABLE_OPTIONS.button_close,
                                                                                                 handler: hideTblOptsDialog} ],
                                                                                    fixedcenter: "contained",
+                                                                                   zIndex: 50,
                                                                                    constrainToViewport: true});
 
         var escKeyListener = new YAHOO.util.KeyListener(document, {keys:27},
