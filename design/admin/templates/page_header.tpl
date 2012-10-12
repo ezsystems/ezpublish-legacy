@@ -2,7 +2,8 @@
 {if $ui_context_edit}
     <span title="eZ Publish {fetch( 'setup', 'version' )}">&nbsp;</span>
 {else}
-    <a href="{ezini('SiteSettings', 'DefaultPage', 'site.ini')|ezurl( 'no' )}" title="eZ Publish {fetch( 'setup', 'version' )}">&nbsp;</a>
+    <a href="{ezini('SiteSettings', 'DefaultPage', 'site.ini')|ezurl( 'no' )}" title="eZ Publish {fetch( 'setup', 'version' )}">
+    </a>
 {/if}
 </div>
 

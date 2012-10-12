@@ -34,9 +34,9 @@
      $additional_tabs_count = $additional_tabs|count()}
 
 {if $tabs_disabled}
-    <div class="button-left"><a id="maincontent-show" class="show-hide-tabs" href={'/user/preferences/set/admin_navigation_content/1'|ezurl} title="{'Enable &quot;Tabs&quot; by default while browsing content.'|i18n( 'design/admin/parts/my/menu' )}">+</a></div>
+    <div class="button-left"><a id="maincontent-show" class="show-hide-tabs" href={'/user/preferences/set/admin_navigation_content/1'|ezurl} title="{'Enable &quot;Tabs&quot; by default while browsing content.'|i18n( 'design/admin/parts/my/menu' )}">&nbsp;</a></div>
 {else}
-    <div class="button-left"><a id="maincontent-hide" class="show-hide-tabs" href={'/user/preferences/set/admin_navigation_content/0'|ezurl} title="{'Disable &quot;Tabs&quot; by default while browsing content.'|i18n( 'design/admin/parts/my/menu' )}">-</a></div>
+    <div class="button-left"><a id="maincontent-hide" class="show-hide-tabs" href={'/user/preferences/set/admin_navigation_content/0'|ezurl} title="{'Disable &quot;Tabs&quot; by default while browsing content.'|i18n( 'design/admin/parts/my/menu' )}">&nbsp;</a></div>
 {/if}
 
 {if $valid_tabs|contains( $node_tab_index )|not()}

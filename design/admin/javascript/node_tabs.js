@@ -35,7 +35,7 @@ jQuery(function( $ )
                 ul.removeClass('disabled');
                 div.removeClass('disabled');
                 NodeTab.saveTabState( 1 );
-                link.innerHTML = '-';
+                link.innerHTML = '&nbsp;';
                 link.id = 'maincontent-hide';
             }
             else
@@ -43,7 +43,7 @@ jQuery(function( $ )
                 ul.addClass('disabled');
                 div.addClass('disabled');
                 NodeTab.saveTabState( 0 );
-                link.innerHTML = '+';
+                link.innerHTML = '&nbsp;';
                 link.id = 'maincontent-show';
             }
             return false;

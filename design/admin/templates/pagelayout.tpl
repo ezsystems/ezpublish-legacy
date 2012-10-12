@@ -21,7 +21,7 @@
 <style type="text/css">
 {if $collapse_right_menu}
     div#page div#rightmenu  {ldelim} width: 18px; {rdelim}
-    div#page div#maincolumn {ldelim} margin-right: 17px; {rdelim}
+    div#page div#maincolumn {ldelim} margin-right: 27px; {rdelim}
 {/if}
 {if $admin_left_size}
     {def $left_menu_widths = ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini')}
@@ -73,13 +73,23 @@
 
 <div id="columns"{if $hide_right_menu} class="hide-rightmenu"{/if}>
 
+<div id="left-panels-separator">
+    <div class="panels-separator-top"></div>
+    <div class="panels-separator-bottom"></div>
+</div>
+<div id="right-panels-separator">
+    <div class="panels-separator-top"></div>
+    <div class="panels-separator-bottom"></div>
+</div>
+
+<div id="canvas-top"></div>
 {* RIGHT MENU *}
 <div id="rightmenu">
 {if or( $hide_right_menu, $collapse_right_menu )}
-    <a id="rightmenu-showhide" class="show-hide-control" title="{'Show / Hide rightmenu'|i18n( 'design/admin/pagelayout/rightmenu' )}" href={'/user/preferences/set/admin_right_menu_show/1'|ezurl}>&laquo;</a>
+    <a id="rightmenu-showhide" class="show-hide-control" title="{'Show / Hide rightmenu'|i18n( 'design/admin/pagelayout/rightmenu' )}" href={'/user/preferences/set/admin_right_menu_show/1'|ezurl}></a>
     <div id="rightmenu-design"></div>
 {else}
-    <a id="rightmenu-showhide" class="show-hide-control" title="{'Hide / Show rightmenu'|i18n( 'design/admin/pagelayout/rightmenu' )}" href={'/user/preferences/set/admin_right_menu_show/0'|ezurl}>&raquo;</a>
+    <a id="rightmenu-showhide" class="show-hide-control" title="{'Hide / Show rightmenu'|i18n( 'design/admin/pagelayout/rightmenu' )}" href={'/user/preferences/set/admin_right_menu_show/0'|ezurl}></a>
     <div id="rightmenu-design">
         {tool_bar name='admin_right' view='full'}
         {tool_bar name='admin_developer' view='full'}
@@ -87,23 +97,28 @@
     <script type="text/javascript">
     {literal}
 
-    YUI(YUI3_config).use('ezcollapsiblemenu', 'event', 'io-ez', function (Y) {
+    YUI(YUI3_config).use('ezcollapsiblemenu', 'event', 'io-ez', 'node', function (Y) {
 
         Y.on('domready', function () {
             var rightmenu = new Y.eZ.CollapsibleMenu({
                 link: '#rightmenu-showhide',
-                content: ['&raquo;', '&laquo;'],
+                content: ['', ''],
                 collapsed: 0,
                 elements:[{
                     selector: '#rightmenu',
                     duration: 0.4,
-                    fullStyle: {width: '181px'},
+                    fullStyle: {width: '201px'},
                     collapsedStyle: {width: '18px'}
                 },{
                     selector: '#maincolumn',
                     duration: 0.4,
-                    fullStyle: {marginRight: '180px'},
-                    collapsedStyle: {marginRight: '17px'}
+                    fullStyle: {marginRight: '210px'},
+                    collapsedStyle: {marginRight: '27px'}
+                },{
+                    selector: '#right-panels-separator',
+                    duration: 0.4,
+                    fullStyle: {right:'181px'},
+                    collapsedStyle: {right: '-2px'}
                 }],
                 callback: function () {
                     var p = 1;
@@ -126,12 +141,6 @@
 {* Pr uri Path/Left menu cache (dosn't use ignore_content_expiry because of content structure menu  ) *}
 {cache-block keys=array( $module_result.uri, $user_hash, $left_size_hash, $access_type, first_set( $module_result.navigation_part, $navigation_part.identifier ) )}
 
-<div id="path">
-<div id="path-design">
-    {include uri='design:page_toppath.tpl'}
-</div>
-</div>
-
 <hr class="hide" />
 
 {* LEFT MENU / CONTENT STRUCTURE MENU *}
@@ -148,6 +157,13 @@
 {else}
     <div id="maincontent">
     <div id="maincontent-design" class="float-break"><div id="fix">
+
+    <div id="path">
+        <div id="path-design">
+            {include uri='design:page_toppath.tpl'}
+        </div>
+    </div>
+
     <!-- Maincontent START -->
     {include uri='design:page_mainarea.tpl'}
     <!-- Maincontent END -->
@@ -160,6 +176,7 @@
 
 
 <div class="break"></div>
+<div id="canvas-bottom"></div>
 </div><!-- div id="columns" -->
 
 <hr class="hide" />
@@ -181,6 +198,8 @@
 
 <script type="text/javascript">
 document.getElementById('header-usermenu-logout').innerHTML += '<span class="header-usermenu-name">{$current_user.login|wash}<\/span>';
+
+document.getElementById('right-panels-separator').style.right = (parseInt(document.getElementById('rightmenu').offsetWidth,10) - 20) + 'px';
 
 {literal}
 (function( $ )
@@ -206,9 +225,11 @@ document.getElementById('header-usermenu-logout').innerHTML += '<span class="hea
 {/literal}
 </script>
 
+
+</div><!-- div id="page" -->
+
 {* This comment will be replaced with actual debug report (if debug is on). *}
 <!--DEBUG_REPORT-->
-</div><!-- div id="page" -->
 
 {* modal window and AJAX stuff *}
 <div id="overlay-mask" style="display:none;"></div>
