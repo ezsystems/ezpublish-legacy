@@ -8,7 +8,7 @@
      $edit_menu_collapsed = cond( ezpreference( 'admin_edit_menu_collapsed' ), 1, 0 )}
 
 <div id="leftmenu"{if $edit_menu_collapsed} style="margin-left:-13.5em;"{/if}>
-<a id="objectinfo-showhide" class="show-hide-control" title="{'Show / Hide leftmenu'|i18n( 'design/admin/pagelayout/leftmenu' )}" href="#">{cond( $edit_menu_collapsed, "&raquo;", "&laquo;" )}</a>
+<a id="objectinfo-showhide" class="show-hide-control" title="{'Show / Hide leftmenu'|i18n( 'design/admin/pagelayout/leftmenu' )}" href="#"></a>
 <div id="leftmenu-design">
 
 {include uri='design:content/edit_menu.tpl'}
@@ -23,7 +23,7 @@ YUI(YUI3_config).use('ezcollapsiblemenu', 'event', 'io-ez', function (Y) {
     Y.on('domready', function () {
         var leftmenu = new Y.eZ.CollapsibleMenu({
             link: '#objectinfo-showhide',
-            content: ['&laquo;', '&raquo;'],
+            content: false,
 {/literal}
             collapsed: "{$edit_menu_collapsed}",
 {literal}
@@ -33,12 +33,17 @@ YUI(YUI3_config).use('ezcollapsiblemenu', 'event', 'io-ez', function (Y) {
                 fullStyle: {marginLeft: '0'},
                 collapsedStyle: {marginLeft: '-13.5em'}
             },{
+                selector: '#left-panels-separator',
+                duration: 0.4,
+                fullStyle: {left: (Y.one('#leftmenu').get('clientWidth') - parseInt(Y.one('#leftmenu-design').getStyle('marginRight'))) + 'px'},
+                collapsedStyle: {left: 0}
+            },{
                 selector: '#maincontent',
                 duration: 0.4,
                 // workaround to http://yuilibrary.com/projects/yui3/ticket/2531641
                 // for IE, margin has to be set in px
-                fullStyle: {marginLeft: Y.one('#leftmenu').getStyle('width')},
-                collapsedStyle: {marginLeft: '20px'}
+                fullStyle: {marginLeft: (Y.one('#leftmenu').get('offsetWidth') + 10) + 'px'},
+                collapsedStyle: {marginLeft: '30px'}
             }],
             callback: function () {
                 Y.io.ez.setPreference('admin_edit_menu_collapsed', this.conf.collapsed);
@@ -160,7 +165,7 @@ YUI(YUI3_config).use('ezcollapsiblemenu', 'event', 'io-ez', function (Y) {
 </div>
 
 </div>
-<a href="#path" class="scroll-to-top">&uarr;&nbsp;{'Go to the top'|i18n( 'design/admin/content/edit' )}</a>
+<a href="#columns" class="scroll-to-top">&uarr;&nbsp;{'Go to the top'|i18n( 'design/admin/content/edit' )}</a>
 
 
 {include uri='design:content/edit_relations.tpl'}

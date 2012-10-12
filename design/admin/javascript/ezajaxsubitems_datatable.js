@@ -10,7 +10,7 @@ var sortableSubitems = function () {
     //Retrieves multiple values delimited by '|'
     function getCookieSubMultiValue(subName) {
         var sub = YAHOO.util.Cookie.getSub(confObj.cookieName, subName);
-        if (sub) { sub = unescape(sub).split('|'); }
+        if (sub) {sub = unescape(sub).split('|');}
         return sub;
     }
 
@@ -41,16 +41,16 @@ var sortableSubitems = function () {
             var createhereMenu = (confObj.classesString != '') ? -1 : "\'child-menu-create-here\'";
             var translationArray = [];
             jQuery(rec.getData('translations')).each(function(i, e) {
-                translationArray.push( { 'locale': e,
-                                         'name': confObj.languages[e] } );
+                translationArray.push( {'locale': e,
+                                         'name': confObj.languages[e]} );
             });
             var a = new YAHOO.util.Element(document.createElement('a'));
             a.on('click', function(e) {
-                ezpopmenu_showTopLevel(e, 'SubitemsContextMenu', { '%nodeID%': rec.getData('node_id'),
+                ezpopmenu_showTopLevel(e, 'SubitemsContextMenu', {'%nodeID%': rec.getData('node_id'),
                                                                    '%objectID%': rec.getData('contentobject_id'),
                                                                    '%version%': rec.getData('version'),
                                                                    '%languages%': translationArray,
-                                                                   '%classList%': confObj.classesString }, rec.getData('name'), rec.getData('node_id'), createhereMenu );
+                                                                   '%classList%': confObj.classesString}, rec.getData('name'), rec.getData('node_id'), createhereMenu );
             });
             var div = new YAHOO.util.Element(document.createElement('div'));
             div.addClass('crankfield');
@@ -123,7 +123,7 @@ var sortableSubitems = function () {
             {key:"contentobject_remote_id", label:labelsObj.DATA_TABLE_COLS.objectremoteid, sortable:false, resizeable:true},
             {key:"contentobject_state", label:labelsObj.DATA_TABLE_COLS.objectstate, sortable:false, resizeable:true},
             {key:"priority", label: labelsObj.DATA_TABLE_COLS.priority, sortable:true, resizeable:true,
-                editor: new YAHOO.widget.TextboxCellEditor({asyncSubmitter: updatePriority, disableBtns:true, validator:YAHOO.widget.DataTable.validateNumber}) }
+                editor: new YAHOO.widget.TextboxCellEditor({asyncSubmitter: updatePriority, disableBtns:true, validator:YAHOO.widget.DataTable.validateNumber})}
         ];
 
         // Hide columns based on cookie with ini setting as fallback
@@ -188,12 +188,12 @@ var sortableSubitems = function () {
             }
         };
 
-        var paginator = new YAHOO.widget.Paginator({ rowsPerPage:confObj.rowsPrPage,
+        var paginator = new YAHOO.widget.Paginator({rowsPerPage:confObj.rowsPrPage,
                                                      containers: ["bpg"],
-                                                     firstPageLinkLabel : labelsObj.ACTION_BUTTONS.first_page,
-                                                     lastPageLinkLabel : labelsObj.ACTION_BUTTONS.last_page,
-                                                     previousPageLinkLabel : labelsObj.ACTION_BUTTONS.previous_page,
-                                                     nextPageLinkLabel : labelsObj.ACTION_BUTTONS.next_page,
+                                                     firstPageLinkLabel : "<span data-icon='&#xe065;'></span>",
+                                                     lastPageLinkLabel : "<span data-icon='&#xe068;'></span>",
+                                                     previousPageLinkLabel : "<span data-icon='&#xe01e;'></span>",
+                                                     nextPageLinkLabel : "<span data-icon='&#xe01c;'></span>",
                                                      template : '<div class="yui-pg-backward"> {FirstPageLink} {PreviousPageLink} </div>' +
                                                                 '{PageLinks}' +
                                                                 '<div class="yui-pg-forward"> {NextPageLink} {LastPageLink} </div>'
@@ -231,7 +231,7 @@ var sortableSubitems = function () {
             dynamicData: true,                                                                                                             // Enables dynamic server-driven data
             generateRequest: buildQueryString,
             sortedBy : {key:confObj.sortKey,
-                        dir:((confObj.sortOrder === 1) ? YAHOO.widget.DataTable.CLASS_ASC : YAHOO.widget.DataTable.CLASS_DESC) },          // Sets UI initial sort arrow
+                        dir:((confObj.sortOrder === 1) ? YAHOO.widget.DataTable.CLASS_ASC : YAHOO.widget.DataTable.CLASS_DESC)},          // Sets UI initial sort arrow
             paginator: paginator,                                                                                                          // Enables pagination
             MSG_LOADING: labelsObj.DATA_TABLE.msg_loading
         };
@@ -334,18 +334,19 @@ var sortableSubitems = function () {
 
         // SimpleDialog for Table options
 
-        var tblOptsDialog = new YAHOO.widget.SimpleDialog("to-dialog-container", { width: "25em",
+        var tblOptsDialog = new YAHOO.widget.SimpleDialog("to-dialog-container", {width: "25em",
                                                                                    visible: false,
                                                                                    modal: true,
-                                                                                   buttons: [ { text: labelsObj.TABLE_OPTIONS.button_close,
-                                                                                                handler: hideTblOptsDialog } ],
+                                                                                   buttons: [ {text: labelsObj.TABLE_OPTIONS.button_close,
+                                                                                                handler: hideTblOptsDialog} ],
                                                                                    fixedcenter: "contained",
-                                                                                   constrainToViewport: true });
+                                                                                   zIndex: 50,
+                                                                                   constrainToViewport: true});
 
-        var escKeyListener = new YAHOO.util.KeyListener(document, { keys:27 },
-                                                                  { fn:tblOptsDialog.hide,
+        var escKeyListener = new YAHOO.util.KeyListener(document, {keys:27},
+                                                                  {fn:tblOptsDialog.hide,
                                                                     scope:tblOptsDialog,
-                                                                    correctScope:true } );
+                                                                    correctScope:true} );
 
         tblOptsDialog.cfg.queueProperty("keylisteners", escKeyListener);
         tblOptsDialog.setHeader(labelsObj.TABLE_OPTIONS.header);
@@ -364,29 +365,29 @@ var sortableSubitems = function () {
         }
 
         var selectItemsBtnActions = [
-            { text: labelsObj.ACTION_BUTTONS.select_sav, id: "ezopt-menu-check", value: 1, onclick: { fn: selectItemsBtnAction } },
-            { text: labelsObj.ACTION_BUTTONS.select_sn, id: "ezopt-menu-uncheck", value: 0, onclick: { fn: selectItemsBtnAction } },
-            { text: labelsObj.ACTION_BUTTONS.select_inv, id: "ezopt-menu-toggle", onclick: { fn: selectItemsBtnInvert } }
+            {text: labelsObj.ACTION_BUTTONS.select_sav, id: "ezopt-menu-check", value: 1, onclick: {fn: selectItemsBtnAction}},
+            {text: labelsObj.ACTION_BUTTONS.select_sn, id: "ezopt-menu-uncheck", value: 0, onclick: {fn: selectItemsBtnAction}},
+            {text: labelsObj.ACTION_BUTTONS.select_inv, id: "ezopt-menu-toggle", onclick: {fn: selectItemsBtnInvert}}
         ];
 
-        var selectItemsBtn = new YAHOO.widget.Button({ type: "menu",
+        var selectItemsBtn = new YAHOO.widget.Button({type: "menu",
                                                        id: "ezbtn-items",
                                                        label: labelsObj.ACTION_BUTTONS.select,
                                                        name: "select-items-button",
                                                        menu: selectItemsBtnActions,
-                                                       container:"action-controls" });
+                                                       container:"action-controls"});
 
         var createNewBtnAction = function( type, args ) {
             var event = args[0], item = args[1];
             $('form[name=children]').append($('<input type="hidden" name="ClassID" value="' + item.value + '" />')).append($('<input type="hidden" name="NewButton" />')).submit();
         }
 
-        var createNewBtn = new YAHOO.widget.Button({ type: "menu",
+        var createNewBtn = new YAHOO.widget.Button({type: "menu",
                                                      id: "ezbtn-new",
                                                      label: labelsObj.ACTION_BUTTONS.create_new,
                                                      name: "create-new-button",
                                                      menu: createOptions,
-                                                     container:"action-controls" });
+                                                     container:"action-controls"});
 
         // Disable button if user has no available content classes to create objects of
         if (createGroups.length === 0) createNewBtn.set('disabled',true);
@@ -414,20 +415,20 @@ var sortableSubitems = function () {
         }
 
         var moreActBtnActions = [
-            { text: labelsObj.ACTION_BUTTONS.more_actions_rs, id: "ezopt-menu-remove", value: 0, onclick: { fn: moreActBtnAction }, disabled: false },
-            { text: labelsObj.ACTION_BUTTONS.more_actions_ms, id: "ezopt-menu-move", value: 1, onclick: { fn: moreActBtnAction }, disabled: false }
+            {text: labelsObj.ACTION_BUTTONS.more_actions_rs, id: "ezopt-menu-remove", value: 0, onclick: {fn: moreActBtnAction}, disabled: false},
+            {text: labelsObj.ACTION_BUTTONS.more_actions_ms, id: "ezopt-menu-move", value: 1, onclick: {fn: moreActBtnAction}, disabled: false}
         ];
 
         var noMoreActBtnActions = [
-            { text: labelsObj.ACTION_BUTTONS.more_actions_no, disabled: true }
+            {text: labelsObj.ACTION_BUTTONS.more_actions_no, disabled: true}
         ];
 
-        var moreActBtn = new YAHOO.widget.Button({ type: "menu",
+        var moreActBtn = new YAHOO.widget.Button({type: "menu",
                                                    id: "ezbtn-more",
                                                    label: labelsObj.ACTION_BUTTONS.more_actions,
                                                    name: "more-actions-button",
                                                    menu: noMoreActBtnActions,
-                                                   container:"action-controls" });
+                                                   container:"action-controls"});
 
         //  enable 'more actions' when rows are checked
         moreActBtn.getMenu().subscribe("beforeShow", function (){
@@ -442,10 +443,10 @@ var sortableSubitems = function () {
             }
         });
 
-        var tableOptionsBtn = new YAHOO.widget.Button({ label: labelsObj.ACTION_BUTTONS.table_options,
+        var tableOptionsBtn = new YAHOO.widget.Button({label: labelsObj.ACTION_BUTTONS.table_options,
                                                         id:"ezbtn-options",
                                                         container:"action-controls",
-                                                        onclick: { fn: showTblOptsDialog, obj: this, scope: true } });
+                                                        onclick: {fn: showTblOptsDialog, obj: this, scope: true}});
 
     return subItemsTable;
     }

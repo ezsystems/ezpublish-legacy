@@ -5,6 +5,7 @@
 html
 {
     height: 100%; /* To be able to have full page designs in themes */
+    min-height:100%;
 }
 
 body /* These becomes the initial settings for most other elements */
@@ -14,6 +15,8 @@ body /* These becomes the initial settings for most other elements */
     background-color: #ffffff;
     margin: 0;
     padding: 0;
+    height: 100%;
+    min-height:100%;
 }
 
 /* HEADINGS */
@@ -21,7 +24,7 @@ body /* These becomes the initial settings for most other elements */
 h1, h2, h3, h4, h5, h6 /* Set general styles for all headings; some may be overridden later */
 {
     font-family: Helvetica, Arial, sans-serif;
-    margin: 1em 0 0.2em 0;
+    margin: 0.5em 0 0.2em 0;
     padding: 0;
 }
 
@@ -41,7 +44,7 @@ h3
 }
 
 h4, h5, h6
-{ 
+{
     font-size: 1em;
 }
 
@@ -69,7 +72,7 @@ a
 
 a:hover
 {
-    color: #E24602;
+    color: black;
     text-decoration: underline;
     cursor: pointer;
 }
@@ -106,6 +109,23 @@ pre.wordwrap span.line /* Style for tag wrapping around each line of text */
     display: block;
 }
 
+/* Typography & Font Icons*/
+@font-face
+{
+    font-family: 'IcoMoon';
+    src: url('../fonts/IcoMoon.eot');
+    src: url('../fonts/IcoMoon.eot?#iefix') format('embedded-opentype'), url('../fonts/IcoMoon.svg#IcoMoon') format('svg'), url('../fonts/IcoMoon.woff') format('woff'), url('../fonts/IcoMoon.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[data-icon]:before
+{
+    font-family: 'IcoMoon';
+    content: attr(data-icon);
+    speak: none;
+}
+
 
 /* TABLES */
 
@@ -116,35 +136,46 @@ table
     padding: 0;
 }
 
+tr
+{
+    background: white;
+}
+
 th, td
 {
     padding: 0;
+}
+th
+{
+    font-size:1.1em;
+}
+
+table.list td
+{
+font-size:1.05em;
 }
 
 table.list, table.special /* Standard class usable for most regular tables presenting lists, with additional related styles */
 {
     width: 100%;
-    border: 1px solid #ccc;
     empty-cells: show;
 }
 
 table.list th, table.list td, table.special th, table.special td
 {
-    padding: 0.25em;
+    padding: 0.4em;
     text-align: left;
     vertical-align: middle;
 }
 
 table.list th, table.special th
 {
-    border-top-width: 2px;
     font-weight: normal;
     white-space: nowrap;
 }
 
 table.list td
 {
-    border-top: 1px solid #f0f0f0;
     font-weight: normal;
 }
 
@@ -266,12 +297,13 @@ label
     padding-right: 0.5em;
     display: block;
     white-space: nowrap;
+    font-size:1.1em;
 }
 
 input, select
 {
     font-family: Arial, Helvetica, sans-serif; /* Needs to be set for some browsers, to prevent other default font from being used */
-    font-size: 0.9em;
+    font-size: 1em;
 }
 
 input.box, input.halfbox
@@ -305,10 +337,10 @@ input.button, button, input.defaultbutton, input.button-disabled
 
 input.defaultbutton
 {
-	font-weight: bold;
-	padding-left: 0.45em;
-	padding-right: 0.45em;
-	color: #094564;
+    font-weight: bold;
+    padding-left: 0.45em;
+    padding-right: 0.45em;
+    color: #094564;
 }
 
 input.button-disabled, input.button[disabled="disabled"]
@@ -346,7 +378,7 @@ fieldset
     margin: 0em;
 }
 
-fieldset.block 
+fieldset.block
 {
     padding-bottom: 0em;
 }
@@ -355,12 +387,19 @@ legend
 {
     font-weight: bold;
     color: #000000;
-    padding: 0 0.25em 0 0.25em;
+    padding: 0 0.35em 0 0.35em;
+    font-size:1.1em;
 }
 
 fieldset label
 {
     color: #000000;
+    font-size:1em;
+}
+
+label select
+{
+font-size:0.9em;
 }
 
 
@@ -414,6 +453,7 @@ div.message-feedback h2
 div.message-warning
 {
     border-color: #ff910d;
+    background: #fff;
 }
 
 div.message-warning h2
@@ -484,7 +524,6 @@ div.block div.right /* Floats elements to the right in a block */
 div.button-left
 {
     float: left;
-    margin-right: 1em;
 }
 
 div.button-right

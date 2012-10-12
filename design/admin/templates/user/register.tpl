@@ -17,13 +17,10 @@
 
 <form name="registerform" method="post" action={'/user/register/'|ezurl} enctype="multipart/form-data">
 {if count($content_attributes)|gt(0)}
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h1 class="context-title">{'Register new user'|i18n( 'design/admin/user/register' )}</h1>
-
-{* DESIGN: Mainline *}<div class="header-mainline"></div>
-
-{* DESIGN: Header END *}</div></div>
+<div class="box-header">
+    <h1 class="context-title">{'Register new user'|i18n( 'design/admin/user/register' )}</h1>
+</div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 

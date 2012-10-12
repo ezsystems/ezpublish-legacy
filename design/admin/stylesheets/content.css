@@ -13,7 +13,7 @@ pre
 
 div.mainobject-window iframe
 {
-	border: 1px solid #e0e0e0;
+    border: 1px solid #e0e0e0;
 }
 
 div#maincontent div.content-translation div.block div.original
@@ -50,6 +50,7 @@ table.list th, table.special th
 table.list label
 {
 font-weight:normal;
+font-size:1em;
 }
 
 table.list th a
@@ -103,12 +104,6 @@ table.list tr.object-cannot-remove td
 table.list td.modifier, table.list td.modified, table.list td.class, div.content-edit table.list td.filesize
 {
     white-space: nowrap;
-}
-
-div.context-attributes table.list th, div.mainobject-window table.list th
-{
-    color: #333;
-    border-top: 1px solid #CCCCCC;
 }
 
 div.list-thumbnails div.list-thumbnails-item
@@ -216,7 +211,7 @@ div.previous del
     color: #000000;
     background-color: #ffff00;
     border-bottom-width: 0;
-    text-decoration: none     
+    text-decoration: none
 }
 
 div.latest del
@@ -270,4 +265,5 @@ fieldset.ezcca-collapsible.ezcca-collapsed legend a
     border-bottom: 1px solid #cacaca;
     margin-bottom:1em;
     color:#333;
+    font-size:1.1em;
 }

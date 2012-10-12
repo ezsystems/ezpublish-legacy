@@ -232,7 +232,20 @@ class ezpKernelWeb implements ezpKernelHandler
         $GLOBALS['eZGlobalRequestURI'] = eZSys::serverVariable( 'REQUEST_URI' );
 
         // Initialize basic settings, such as vhless dirs and separators
-        eZSys::init( 'index.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) === 'true' );
+        if ( $this->hasServiceContainer() && $this->getServiceContainer()->has( 'request' ) )
+        {
+            eZSys::init(
+                basename( $this->getServiceContainer()->get( 'request' )->getScriptName() ),
+                $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) === 'true'
+            );
+        }
+        else
+        {
+            eZSys::init(
+                'index.php',
+                $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) === 'true'
+            );
+        }
 
         // Check for extension
         eZExtension::activateExtensions( 'default' );

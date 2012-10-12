@@ -341,7 +341,7 @@ a.yuimenuitemlabel-disabled{
 #tpg {
     display: block;
     float: right;
-    margin-top: 15px;
+    margin-top: 10px;
     margin-bottom: 10px;
 }
 
@@ -358,16 +358,16 @@ a.yuimenuitemlabel-disabled{
 
 /* TOP TOOLBAR STYLE */
 .yui-button {
-    background-color: #f0f0f0;
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
-    background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
-    border-color: #CCCCCC;
-    border: 1px solid #CCCCCC;
+    color: #44484d;
+    background: #fff;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#eee));
+    background-image: -moz-linear-gradient(top,  #fff,  #eee);
+    background-image: -ms-linear-gradient(top,  #fff,  #eee);
+    background-image: -o-linear-gradient(top,  #fff,  #eee);
+    background-image: linear-gradient(top,  #fff,  #eee);
+    border: 1px solid #cfd1d3;
+    border-radius: 3px;
     text-decoration: none;
-    border-radius: 2px;
     overflow: visible;
     width: auto;
     cursor: pointer;
@@ -375,7 +375,10 @@ a.yuimenuitemlabel-disabled{
     text-align: center;
     display:inline-block;
     vertical-align:text-bottom;
-    margin: auto 0.25em;
+    background-clip: padding-box;
+    text-shadow: 0 1px #fff;
+    font-size: 1.1em;
+    margin-left:5px;
 }
 
 .yui-button:hover {
@@ -393,7 +396,7 @@ a.yuimenuitemlabel-disabled{
     cursor: pointer;
     display: block;
     border: none;
-    padding: 0.2em 0.5em;
+    padding: 0.25em 0.55em;
 }
 
 .yui-button:first-child {
@@ -401,28 +404,28 @@ a.yuimenuitemlabel-disabled{
 }
 
 #ezbtn-more button {
-    background: transparent url(../../images/icons-sprite.png) no-repeat 98% -126px;
+    background: transparent url(../../images/3/sprite.png) no-repeat right -811px;
     padding-right: 1.7em;
 }
 
-#ezbtn-items-button { 
-    background: transparent url(../../images/icons-sprite.png) no-repeat 5% 2px;
+#ezbtn-items-button {
+    background: url('../../images/3/sprite.png') no-repeat 5px -650px;
     padding-left: 2em;
 }
 
 #ezbtn-new-button {
-    background: transparent url(../../images/icons-sprite.png) no-repeat 5% -94px;
+    background: url('../../images/3/sprite.png') no-repeat 5px 4px;
     padding-left: 2em;
 }
 
 .yui-button-disabled #ezbtn-new-button {
-    background: transparent url(../../images/icons-sprite.png) no-repeat 5% -294px;
+    background: url('../../images/3/sprite.png') no-repeat 5px 4px;
     padding-left: 2em;
     color: #888
 }
 
 #ezbtn-options-button {
-    background: transparent url(../../images/icons-sprite.png) no-repeat 5% -326px;
+    background: url('../../images/3/sprite.png') no-repeat 5px -713px;
     padding-left: 2em;
 }
 
@@ -472,8 +475,8 @@ a.yuimenuitemlabel-disabled{
     background-image: url('../../images/2/icon-sitemap-16x16.png');
 }
 
-#ezopt-menu-remove, 
-#ezopt-menu-edit, 
+#ezopt-menu-remove,
+#ezopt-menu-edit,
 #ezopt-menu-preview,
 #ezopt-menu-toggle,
 #ezopt-menu-view,

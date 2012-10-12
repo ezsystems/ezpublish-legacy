@@ -1,7 +1,7 @@
 YUI(YUI3_config).use('event', 'node-screen', 'node-style', 'selector-css3', 'transition', function (Y) {
 
     Y.on('domready', function() {
-        var toolbar, formY, form, fixed = true, firstInput,
+        var toolbar, formY, form, fixed = true, firstInput, columns,
             toolbarHeight, toTop = Y.one('.scroll-to-top');
 
         var handleScroll = function () {
@@ -27,9 +27,10 @@ YUI(YUI3_config).use('event', 'node-screen', 'node-style', 'selector-css3', 'tra
 
         toolbar = Y.one('#controlbar-top');
         form = Y.one('#editform,#ClassEdit');
+        columns = Y.one('#columns');
         if ( form && toolbar ) {
             toolbarHeight = parseInt(toolbar.getStyle('height')) + parseInt(toolbar.getStyle('top'));
-            formY = parseInt(form.getY()) - toolbarHeight;
+            formY = parseInt(columns.getY()) - toolbarHeight;
             Y.on('scroll', handleScroll);
             if ( form.get('docScrollY') < formY ) {
                 window.scrollTo(0, formY + 1, 0);
@@ -39,6 +40,8 @@ YUI(YUI3_config).use('event', 'node-screen', 'node-style', 'selector-css3', 'tra
             }
             handleScroll();
         }
+
     });
+
 });
 
