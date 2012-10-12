@@ -272,7 +272,6 @@ div.tabs-content.disabled div.tab-content
     position:relative;
     margin: 0 auto -1px;
     background: white;
-    overflow: hidden;
 }
 
 #maincolumn
