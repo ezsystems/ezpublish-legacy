@@ -381,11 +381,6 @@ a.yuimenuitemlabel-disabled{
     margin-left:5px;
 }
 
-.yui-button .first-child
-{
-    background: transparent url(../../images/3/arrow_small_down.png) no-repeat right 0;
-}
-
 .yui-button:hover {
     border: 1px solid #999;
 }
