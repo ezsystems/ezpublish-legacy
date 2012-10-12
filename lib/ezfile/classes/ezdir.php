@@ -99,11 +99,8 @@ class eZDir
         if ( count( $dirElements ) == 0 )
             return true;
         $currentDir = $dirElements[0];
-        $result = true;
         if ( !file_exists( $currentDir ) and $currentDir != "" )
-            $result = self::doMkdir( $currentDir, self::directoryPermission() );
-        if ( !$result )
-            return false;
+            return true;
 
         for ( $i = count( $dirElements ); $i > 0; --$i )
         {
