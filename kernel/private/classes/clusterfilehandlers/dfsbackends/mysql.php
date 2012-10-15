@@ -613,13 +613,13 @@ class eZDFSFileHandlerMySQLBackend
         }
 
         // Make sure all data is written correctly
-        clearstatcache( false, $tmpFilePath );
+        clearstatcache( true, $tmpFilePath );
         $tmpSize = filesize( $tmpFilePath );
 
         // copy() can return before final flush to disk. see https://bugs.php.net/bug.php?id=60110
         for ($retries = 0; $tmpSize == 0 && $retries < 3; $retries++) {
             usleep(1000);
-            clearstatcache( false, $tmpFilePath );
+            clearstatcache( true, $tmpFilePath );
             $tmpSize = filesize( $tmpFilePath );
         }
 

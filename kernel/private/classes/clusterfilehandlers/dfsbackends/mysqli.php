@@ -658,13 +658,13 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         }
 
         // Make sure all data is written correctly
-        clearstatcache( false, $tmpFilePath );
+        clearstatcache( true, $tmpFilePath );
         $tmpSize = filesize( $tmpFilePath );
 
         // copy() can return before final flush to disk. see https://bugs.php.net/bug.php?id=60110
         for ($retries = 0; $tmpSize == 0 && $retries < 3; $retries++) {
             usleep(1000);
-            clearstatcache( false, $tmpFilePath );
+            clearstatcache( true, $tmpFilePath );
             $tmpSize = filesize( $tmpFilePath );
         }
 
@@ -888,7 +888,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
     function _storeInner( $filePath, $datatype, $scope, $fname )
     {
         // Insert file metadata.
-        clearstatcache( false, $filePath );
+        clearstatcache( true, $filePath );
         $fileMTime = filemtime( $filePath );
         $contentLength = filesize( $filePath );
         $filePathHash = md5( $filePath );
@@ -910,7 +910,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         }
 
         // copy given $filePath to DFS
-        $ret = $this->dfsbackend->copyToDFS( $filePath ); 
+        $ret = $this->dfsbackend->copyToDFS( $filePath );
         if ( $ret === false || $ret != $contentLength )
         {
             return $this->_fail( "Failed to copy FS://$filePath to DFS://$filePath" );

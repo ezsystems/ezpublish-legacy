@@ -129,7 +129,7 @@ class eZDFSFileHandlerDFSBackend
             if ( $ret )
             {
                 $srcFileSize = strlen( $srcFileContents );
-                clearstatcache( false, $dstFilePath );
+                clearstatcache( true, $dstFilePath );
                 $ret = filesize( $dstFilePath );
                 if ( $ret != $srcFileSize )
                 {
