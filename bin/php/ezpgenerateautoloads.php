@@ -88,15 +88,21 @@ $testFilesOption->mandatory = false;
 $testFilesOption->shorthelp = "If an autoload array for the tests should be generated.";
 $params->registerOption( $testFilesOption );
 
+$displayProgressOption = new ezcConsoleOption( 'p', 'progress', ezcConsoleInput::TYPE_NONE );
+$displayProgressOption->mandatory = false;
+$displayProgressOption->shorthelp = "If progress output should be shown on the command-line.";
+$params->registerOption( $displayProgressOption );
+
 $excludeDirsOption = new ezcConsoleOption( '', 'exclude', ezcConsoleInput::TYPE_STRING );
 $excludeDirsOption->mandatory = false;
 $excludeDirsOption->shorthelp = "Folders to exclude from the class search.";
 $params->registerOption( $excludeDirsOption );
 
-$displayProgressOption = new ezcConsoleOption( 'p', 'progress', ezcConsoleInput::TYPE_NONE );
-$displayProgressOption->mandatory = false;
-$displayProgressOption->shorthelp = "If progress output should be shown on the command-line.";
-$params->registerOption( $displayProgressOption );
+$extensionDirOption = new ezcConsoleOption( '', 'extension-dir', ezcConsoleInput::TYPE_STRING );
+$extensionDirOption->mandatory = false;
+$extensionDirOption->default = 'extension';
+$extensionDirOption->shorthelp = "Name of the extension directory.";
+$params->registerOption( $extensionDirOption );
 
 // Add an argument for which extension to search
 $params->argumentDefinition = new ezcConsoleArguments();
@@ -141,6 +147,7 @@ else
 $autoloadOptions = new ezpAutoloadGeneratorOptions();
 
 $autoloadOptions->basePath = $params->argumentDefinition['extension']->value;
+$autoloadOptions->extensionDirName = $extensionDirOption->value;
 $autoloadOptions->searchKernelFiles = $kernelFilesOption->value;
 $autoloadOptions->searchKernelOverride = $kernelOverrideOption->value;
 $autoloadOptions->searchExtensionFiles = $extensionFilesOption->value;
