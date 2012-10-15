@@ -1347,7 +1347,7 @@ END;
         */
 
         //Blacklist tests in extension/
-        $extensionDir = $this->options->basePath . '/extension';
+        $extensionDir = "{$this->options->basePath}/{$this->options->extensionDirName}";
 
         if ( file_exists( $extensionDir ) )
         {
