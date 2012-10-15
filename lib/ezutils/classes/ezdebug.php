@@ -883,6 +883,7 @@ class eZDebug
         $oldHandleType = eZDebug::setHandleType( self::HANDLE_TO_PHP );
         $logDir = $logFileData[0];
         $logName = $logFileData[1];
+        clearstatcache( true, $fileName );
         $fileName = $logDir . $logName;
         if ( !file_exists( $logDir ) )
         {
