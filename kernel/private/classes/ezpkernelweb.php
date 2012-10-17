@@ -235,7 +235,7 @@ class ezpKernelWeb implements ezpKernelHandler
         if ( $this->hasServiceContainer() && $this->getServiceContainer()->has( 'request' ) )
         {
             eZSys::init(
-                basename( $this->getServiceContainer()->get( 'request' )->getScriptName() ),
+                basename( $this->getServiceContainer()->get( 'request' )->server->get( 'SCRIPT_FILENAME' ) ),
                 $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) === 'true'
             );
         }
