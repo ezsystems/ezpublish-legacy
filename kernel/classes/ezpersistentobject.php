@@ -1300,7 +1300,7 @@ class eZPersistentObject
 
         if ( isset( $def["functions"][$attr] ) )
         {
-            return $this->$functions[$attr]();
+            return $this->$def["functions"][$attr]();
         }
 
         eZDebug::writeError( "Attribute '$attr' does not exist", $def['class_name'] . '::attribute' );
