@@ -338,7 +338,7 @@ class eZDBFileHandlerMysqliBackend
         {
             if ( strstr( $commonPath, '/cache/content' ) !== false or strstr( $commonPath, '/cache/template-block' ) !== false )
             {
-                $where = "WHERE name_trunk = '$commonPath/$dirItem/$commonSuffix'";
+                $where = "WHERE name_trunk = " . $this->_quote( "$commonPath/$dirItem/$commonSuffix" );
             }
             else
             {
@@ -660,7 +660,6 @@ class eZDBFileHandlerMysqliBackend
 
         $this->_begin( __METHOD__ );
 
-        $srcFilePathStr  = mysqli_real_escape_string( $this->db, $srcFilePath );
         $dstFilePathStr  = mysqli_real_escape_string( $this->db, $dstFilePath );
         $dstNameTrunkStr = mysqli_real_escape_string( $this->db, self::nameTrunk( $dstFilePath, $metaData['scope'] ) );
 
@@ -668,7 +667,7 @@ class eZDBFileHandlerMysqliBackend
 //        $dstFilePathHash = mysql_real_escape_string( md5( $dstFilePath ) );
 
         // Mark entry for update to lock it
-        $sql = "SELECT * FROM " . TABLE_METADATA . " WHERE name_hash=MD5('$srcFilePathStr') FOR UPDATE";
+        $sql = "SELECT * FROM " . TABLE_METADATA . " WHERE name_hash = " . $this->_md5( $srcFilePath ) . " FOR UPDATE";
         if ( !$this->_query( $sql, "_rename($srcFilePath, $dstFilePath)" ) )
         {
             eZDebug::writeError( "Failed locking file '$srcFilePath'", __METHOD__ );
@@ -680,7 +679,7 @@ class eZDBFileHandlerMysqliBackend
             $this->_purge( $dstFilePath, false );
 
         // Create a new meta-data entry for the new file to make foreign keys happy.
-        $sql = "INSERT INTO " . TABLE_METADATA . " (name, name_trunk, name_hash, datatype, scope, size, mtime, expired) SELECT '$dstFilePathStr' AS name, '$dstNameTrunkStr' as name_trunk, MD5('$dstFilePathStr') AS name_hash, datatype, scope, size, mtime, expired FROM " . TABLE_METADATA . " WHERE name_hash=MD5('$srcFilePathStr')";
+        $sql = "INSERT INTO " . TABLE_METADATA . " (name, name_trunk, name_hash, datatype, scope, size, mtime, expired) SELECT '$dstFilePathStr' AS name, '$dstNameTrunkStr' as name_trunk, " . $this->_md5( $dstFilePath ) . " AS name_hash, datatype, scope, size, mtime, expired FROM " . TABLE_METADATA . " WHERE name_hash = " . $this->_md5( $srcFilePath );
         if ( !$this->_query( $sql, "_rename($srcFilePath, $dstFilePath)" ) )
         {
             eZDebug::writeError( "Failed making new file entry '$dstFilePath'", __METHOD__ );
@@ -689,7 +688,7 @@ class eZDBFileHandlerMysqliBackend
         }
 
         // Update data chunks to refer to the new file entry.
-        $sql = "UPDATE " . TABLE_DATA . " SET name_hash=MD5('$dstFilePathStr') WHERE name_hash=MD5('$srcFilePathStr')";
+        $sql = "UPDATE " . TABLE_DATA . " SET name_hash = " . $this->_md5( $dstFilePath ) . " WHERE name_hash = " . $this->_md5( $srcFilePath );
         if ( !$this->_query( $sql, "_rename($srcFilePath, $dstFilePath)" ) )
         {
             eZDebug::writeError( "Failed renaming file '$srcFilePath' to '$dstFilePath'", __METHOD__ );
@@ -698,7 +697,7 @@ class eZDBFileHandlerMysqliBackend
         }
 
         // Remove old entry
-        $sql = "DELETE FROM " . TABLE_METADATA . " WHERE name_hash=MD5('$srcFilePathStr')";
+        $sql = "DELETE FROM " . TABLE_METADATA . " WHERE name_hash = " . $this->_md5( $srcFilePath );
         if ( !$this->_query( $sql, "_rename($srcFilePath, $dstFilePath)" ) )
         {
             eZDebug::writeError( "Failed removing old file '$srcFilePath'", __METHOD__ );
@@ -1530,7 +1529,7 @@ class eZDBFileHandlerMysqliBackend
         // if no rename is asked, the .generating file is just removed
         if ( $rename === false )
         {
-            if ( !$this->_query( "DELETE FROM " . TABLE_METADATA . " WHERE name_hash=MD5('$generatingFilePath')" ) )
+            if ( !$this->_query( "DELETE FROM " . TABLE_METADATA . " WHERE name_hash = " . $this->_md5( $generatingFilePath ) ) )
             {
                 eZDebug::writeError( "Failed removing metadata entry for '$generatingFilePath'", $fname );
                 return false;
@@ -1545,14 +1544,14 @@ class eZDBFileHandlerMysqliBackend
             $this->_begin( $fname );
 
             // both files are locked for update
-            if ( !$res = $this->_query( "SELECT * FROM " . TABLE_METADATA . " WHERE name_hash=MD5('$generatingFilePath') FOR UPDATE", $fname, true ) )
+            if ( !$res = $this->_query( "SELECT * FROM " . TABLE_METADATA . " WHERE name_hash = " . $this->_md5( $generatingFilePath ) . " FOR UPDATE", $fname, true ) )
             {
                 $this->_rollback( $fname );
                 return false;
             }
             $generatingMetaData = mysqli_fetch_assoc( $res );
 
-            $res = $this->_query( "SELECT * FROM " . TABLE_METADATA . " WHERE name_hash=MD5('$filePath') FOR UPDATE", $fname, false );
+            $res = $this->_query( "SELECT * FROM " . TABLE_METADATA . " WHERE name_hash = " . $this->_md5( $filePath ) . " FOR UPDATE", $fname, false );
             // the original file does not exist: we move the generating file
             if ( mysqli_num_rows( $res ) == 0 )
             {
@@ -1567,19 +1566,19 @@ class eZDBFileHandlerMysqliBackend
                     $this->_rollback( $fname );
                     return false;
                 }
-                if ( !$this->_query( "UPDATE " . TABLE_DATA . " SET name_hash=MD5('$filePath') WHERE name_hash=MD5('$generatingFilePath')", $fname, true ) )
+                if ( !$this->_query( "UPDATE " . TABLE_DATA . " SET name_hash = " . $this->_md5( $filePath ) . " WHERE name_hash = " . $this->_md5( $generatingFilePath ), $fname, true ) )
                 {
                     $this->_rollback( $fname );
                     return false;
                 }
-                $this->_query( "DELETE FROM " . TABLE_METADATA . " WHERE name_hash=MD5('$generatingFilePath')", $fname, true );
+                $this->_query( "DELETE FROM " . TABLE_METADATA . " WHERE name_hash = " . $this->_md5( $generatingFilePath ), $fname, true );
             }
             // the original file exists: we move the generating data to this file
             // and update it
             else
             {
-                $this->_query( "DELETE FROM " . TABLE_DATA . " WHERE name_hash=MD5('$filePath')", $fname, false );
-                if ( !$this->_query( "UPDATE " . TABLE_DATA . " SET name_hash=MD5('$filePath') WHERE name_hash=MD5('$generatingFilePath')", $fname, true ) )
+                $this->_query( "DELETE FROM " . TABLE_DATA . " WHERE name_hash = " . $this->_md5( $filePath ), $fname, false );
+                if ( !$this->_query( "UPDATE " . TABLE_DATA . " SET name_hash = " . $this->_md5( $filePath ) . " WHERE name_hash=MD5('$generatingFilePath')", $fname, true ) )
                 {
                     $this->_rollback( $fname );
                     return false;
@@ -1587,12 +1586,12 @@ class eZDBFileHandlerMysqliBackend
 
                 $mtime = $generatingMetaData['mtime'];
                 $filesize = $generatingMetaData['size'];
-                if ( !$this->_query( "UPDATE " . TABLE_METADATA . " SET mtime = '{$mtime}', expired = 0, size = '{$filesize}' WHERE name_hash=MD5('$filePath')", $fname, true ) )
+                if ( !$this->_query( "UPDATE " . TABLE_METADATA . " SET mtime = '{$mtime}', expired = 0, size = '{$filesize}' WHERE name_hash = ". $this->_md5( $filePath ), $fname, true ) )
                 {
                     $this->_rollback( $fname );
                     return false;
                 }
-                $this->_query( "DELETE FROM " . TABLE_METADATA . " WHERE name_hash=MD5('$generatingFilePath')", $fname, true );
+                $this->_query( "DELETE FROM " . TABLE_METADATA . " WHERE name_hash = " . $this->_md5( $generatingFilePath ), $fname, true );
             }
 
             $this->_commit( $fname );
