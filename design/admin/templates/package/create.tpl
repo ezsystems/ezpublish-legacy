@@ -36,7 +36,6 @@
         <input class="button" type="submit" name="CreatePackageButton" value="{'Create package'|i18n('design/admin/package')}" />
     </div>
 
-    </div>
     {* DESIGN: Control bar END *}</div></div>
     </div>
 
