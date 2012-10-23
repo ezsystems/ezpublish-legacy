@@ -64,7 +64,8 @@
                                                                         'offset', $view_parameters.offset,
                                                                         'sort_by', array( $trash_sort_field, $trash_sort_order ),
                                                                         'objectname_filter', $view_parameters.namefilter ) ) sequence=array( bglight, bgdark )}
-{let cur_c_object=$tObjects.item.object}
+{let cur_c_object=$tObjects.item.object
+     original_parent = $tObjects.item.original_parent}
 
 <tr class="{$tObjects.sequence}">
     <td>
@@ -80,7 +81,7 @@
     {let section_object=fetch( section, object, hash( section_id, $cur_c_object.section_id ) )}{section show=$section_object}{$section_object.name|wash}{section-else}<i>{'Unknown'|i18n( 'design/admin/content/trash' )}</i>{/section}{/let}
     </td>
     <td>
-    {if $tObjects.item.original_parent}<a href={concat( '/', $tObjects.item.original_parent.path_identification_string )|ezurl}>{/if}/{$tObjects.item.original_parent_path_id_string|wash}{if $tObjects.item.original_parent}</a>{/if}
+    {if $original_parent}<a href={concat( '/', $original_parent.path_identification_string )|ezurl}>{/if}/{$tObjects.item.original_parent_path_id_string|wash}{if $original_parent}</a>{/if}
     </td>
     <td>
     <a href={concat( '/content/restore/', $cur_c_object.id, '/' )|ezurl}><img src={'edit.gif'|ezimage} border="0" alt="{'Restore'|i18n( 'design/admin/content/trash' )}" /></a>
@@ -164,7 +165,6 @@ function trashSortingSelection( trashUrl )
 {/literal}
 <div class="float-break"></div>
 {* DESIGN: Control bar END *}</div></div>
-</div>
 </div>
 </form>
 {undef $sort_fields $sort_title}
