@@ -48,7 +48,6 @@
 </div>
 <div class="float-break"></div>
 </div>
-</div>
 
 <table class="list" cellspacing="0">
 <tr>
@@ -165,6 +164,7 @@ function trashSortingSelection( trashUrl )
 {/literal}
 <div class="float-break"></div>
 {* DESIGN: Control bar END *}</div></div>
+</div>
 </div>
 </form>
 {undef $sort_fields $sort_title}
