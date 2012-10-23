@@ -424,13 +424,12 @@ class eZSearch
         }
     }
 
-    /*!
-     \static
-     Get object instance of eZSearch engine to use.
-
-     \return instance of eZSearch class.
+    /**
+     * Get object instance of eZSearch engine to use.
+     *
+     * @return \ezpSearchEngine|bool Returns false (+ writes debug) if no engine was found
     */
-    static function getEngine()
+    static public function getEngine()
     {
         // Get instance if already created.
         $instanceName = "eZSearchPlugin_" . $GLOBALS["eZCurrentAccess"]["name"];
