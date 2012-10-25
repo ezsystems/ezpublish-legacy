@@ -147,13 +147,23 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         $db->begin();
 
         $contentObject = $this->attribute( 'object' );
-        $contentobjectAttributes = $contentObject->allContentObjectAttributes( $contentObject->attribute( 'id' ) );
-        foreach ( $contentobjectAttributes as $contentobjectAttribute )
+        $offset = 0;
+        $limit = 20;
+        while (
+            $contentobjectAttributes = $contentObject->allContentObjectAttributes(
+                $contentObject->attribute( 'id' ), true,
+                array( 'limit' => $limit, 'offset' => $offset )
+            )
+        )
         {
-            $dataType = $contentobjectAttribute->dataType();
-            if ( !$dataType )
-                continue;
-            $dataType->trashStoredObjectAttribute( $contentobjectAttribute );
+            foreach ( $contentobjectAttributes as $contentobjectAttribute )
+            {
+                $dataType = $contentobjectAttribute->dataType();
+                if ( !$dataType )
+                    continue;
+                $dataType->trashStoredObjectAttribute( $contentobjectAttribute );
+            }
+            $offset += $limit;
         }
 
         $db->commit();
