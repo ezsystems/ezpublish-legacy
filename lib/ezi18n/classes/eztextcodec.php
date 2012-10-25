@@ -32,26 +32,6 @@ class eZTextCodec
         $this->InputCharacterEncodingScheme = $inputEncoding;
         $this->OutputCharacterEncodingScheme = $outputEncoding;
 
-        $useMBStringExtension = true;
-        if ( isset( $GLOBALS['eZTextCodecMBStringExtension'] ) )
-            $useMBStringExtension = $GLOBALS['eZTextCodecMBStringExtension'];
-
-        // NOTE:
-        // The method eZMBStringMapper::hasMBStringExtension() has been copied and inlined here
-        // Any modification must be reflected in the method
-        $hasMBString = ( function_exists( "mb_convert_encoding" ) and
-                         function_exists( "mb_substitute_character" ) and
-                         function_exists( "mb_strcut" ) and
-                         function_exists( "mb_strlen" ) and
-                         function_exists( "mb_strpos" ) and
-                         function_exists( "mb_strrpos" ) and
-                         function_exists( "mb_strwidth" ) and
-                         function_exists( "mb_substr" ) );
-
-        $useMBString = ( $useMBStringExtension and
-                         eZTextCodec::useMBString() and
-                         $hasMBString );
-
         // Map for conversion functions using encoding functions
         $encodingConvertMap = array();
         $encodingConvertInitMap = array();
@@ -113,8 +93,7 @@ class eZTextCodec
         // The method eZMBStringMapper::charsetList() hash been copied and inlined here
         // Any modification must be reflected in the method
         $mbStringCharsets =& $GLOBALS["eZMBCharsetList"];
-        if ( $useMBString and
-             !is_array( $mbStringCharsets ) )
+        if ( !is_array( $mbStringCharsets ) )
         {
             $charsetList = array( "ucs-4", "ucs-4be", "ucs-4le", "ucs-2", "ucs-2be", "ucs-2le", "utf-32", "utf-32be", "utf-32le", "utf-16",
                                   "utf-16be", "utf-16le", "utf-8", "utf-7", "ascii", "euc-jp", "sjis", "eucjp-win", "sjis-win", "iso-2022-jp", "jis",
@@ -144,8 +123,7 @@ class eZTextCodec
             }
             $isSame = true;
         }
-        else if ( $useMBString and
-                  isset( $mbStringCharsets[$this->InputCharsetCode] ) and
+        else if ( isset( $mbStringCharsets[$this->InputCharsetCode] ) and
                   isset( $mbStringCharsets[$this->OutputCharsetCode] ) ) // Use MBString for converting if charsets supported
         {
             // NOTE:
@@ -173,7 +151,7 @@ class eZTextCodec
             {
                 $strlenFunction = 'strlenNone';
             }
-            else if ( $useMBString and isset( $mbStringCharsets[$this->InputCharsetCode] ) )
+            else if ( isset( $mbStringCharsets[$this->InputCharsetCode] ) )
             {
                 $strlenFunction = 'strlenMBString';
             }
@@ -257,15 +235,11 @@ class eZTextCodec
 
     function setUseMBString( $use )
     {
-        $GLOBALS["eZTextCodecUseMBString"] = $use;
     }
 
     function useMBString()
     {
-        $use =& $GLOBALS["eZTextCodecUseMBString"];
-        if ( !isset( $use ) )
-            $use = true;
-        return $use;
+        return true;
     }
 
     function requestedInputCharsetCode()
@@ -520,11 +494,7 @@ class eZTextCodec
         unset( $GLOBALS['eZTextCodecCharsetCheck'] );
         $GLOBALS['eZTextCodecInternalCharset'] = $settings['internal-charset'];
         $GLOBALS['eZTextCodecHTTPCharset'] = $settings['http-charset'];
-        $GLOBALS['eZTextCodecMBStringExtension'] = $settings['mbstring-extension'];
-        if ( function_exists( 'mb_internal_encoding' ) )
-        {
-            @mb_internal_encoding( $settings['internal-charset'] );
-        }
+        @mb_internal_encoding( $settings['internal-charset'] );
     }
 
     /*!

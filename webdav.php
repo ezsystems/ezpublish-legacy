@@ -44,8 +44,8 @@ function eZUpdateTextCodecSettings()
 {
     $ini = eZINI::instance( 'i18n.ini' );
 
-    list( $i18nSettings['internal-charset'], $i18nSettings['http-charset'], $i18nSettings['mbstring-extension'] ) =
-        $ini->variableMulti( 'CharacterSettings', array( 'Charset', 'HTTPCharset', 'MBStringExtension' ), array( false, false, 'enabled' ) );
+    list( $i18nSettings['internal-charset'], $i18nSettings['http-charset'] ) =
+        $ini->variableMulti( 'CharacterSettings', array( 'Charset', 'HTTPCharset' ), array( false, false ) );
 
     eZTextCodec::updateSettings( $i18nSettings );
 }

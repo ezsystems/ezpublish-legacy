@@ -1099,7 +1099,6 @@ class eZScript
         $i18nSettings = array();
         $i18nSettings['internal-charset'] = $ini->variable( 'CharacterSettings', 'Charset' );
         $i18nSettings['http-charset'] = $ini->variable( 'CharacterSettings', 'HTTPCharset' );
-        $i18nSettings['mbstring-extension'] = $ini->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled';
         eZTextCodec::updateSettings( $i18nSettings );
     }
 

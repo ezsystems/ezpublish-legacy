@@ -37,10 +37,10 @@ class eZTemplateStringOperator
             $this->$name = $operator;
         }
 
-        $this->phpMap = array ('upcase' => 'mb_strtoupper,strtoupper',
-                               'downcase' => 'mb_strtolower,strtolower',
+        $this->phpMap = array ('upcase' => 'mb_strtoupper',
+                               'downcase' => 'mb_strtolower',
                                'break' => 'nl2br',
-                               'count_chars' => 'mb_strlen,strlen');
+                               'count_chars' => 'mb_strlen');
 
         $this->customMap = array ( 'count_words' => array( 'return' => 'int',
                                                           'code' => '$result = preg_match_all( "#(\w+)#", $staticValues[0], $dummy );'
@@ -98,15 +98,15 @@ class eZTemplateStringOperator
                                                                   }
                                                                   if ( $trimType === "middle" )
                                                                   {
-                                                                      $appendedStrLen = $strlenFunc( $seq );
-                                                                      if ( $length > $appendedStrLen && ( $strlenFunc( $staticValues[0] ) > $length ) )
+                                                                      $appendedStrLen = mb_strlen( $seq );
+                                                                      if ( $length > $appendedStrLen && ( mb_strlen( $staticValues[0] ) > $length ) )
                                                                       {
-                                                                          $operatorValueLength = $strlenFunc( $staticValues[0] );
+                                                                          $operatorValueLength = mb_strlen( $staticValues[0] );
                                                                           $chop = $length - $appendedStrLen;
                                                                           $middlePos = (int)($chop / 2);
                                                                           $leftPartLength = $middlePos;
                                                                           $rightPartLength = $chop - $middlePos;
-                                                                          $result = trim( $substrFunc( $staticValues[0], 0, $leftPartLength ) . $seq . $substrFunc( $staticValues[0], $operatorValueLength - $rightPartLength, $rightPartLength ) );
+                                                                          $result = trim( mb_substr( $staticValues[0], 0, $leftPartLength ) . $seq . mb_substr( $staticValues[0], $operatorValueLength - $rightPartLength, $rightPartLength ) );
                                                                       }
                                                                       else
                                                                       {
@@ -115,10 +115,10 @@ class eZTemplateStringOperator
                                                                   }
                                                                   else // default: trim_type === "right"
                                                                   {
-                                                                      $maxLength = $length - $strlenFunc( $seq );
-                                                                      if ( ( $strlenFunc( $staticValues[0] ) > $length ) && $strlenFunc( $staticValues[0] ) > $maxLength )
+                                                                      $maxLength = $length - mb_strlen( $seq );
+                                                                      if ( ( mb_strlen( $staticValues[0] ) > $length ) && mb_strlen( $staticValues[0] ) > $maxLength )
                                                                       {
-                                                                          $result = trim( $substrFunc( $staticValues[0], 0, $maxLength) ) . $seq;
+                                                                          $result = trim( mb_substr( $staticValues[0], 0, $maxLength) ) . $seq;
                                                                       }
                                                                       else
                                                                       {
@@ -127,49 +127,20 @@ class eZTemplateStringOperator
                                                                   }'
                                                      ),
                                    'upfirst' => array( 'return' => 'string',
-                                                       'code' => '$i18nIni = eZINI::instance( \'i18n.ini\' );
-                                                                  $hasMBString = ( $i18nIni->variable( \'CharacterSettings\', \'MBStringExtension\' ) == \'enabled\' and
-                                                                  function_exists( "mb_strtoupper" ) and
-                                                                  function_exists( "mb_substr" ) and
-                                                                  function_exists( "mb_strlen" ) );
-
-                                                                  if ( $hasMBString )
-                                                                  {
-                                                                      $encoding = eZTextCodec::internalCharset();
-                                                                      $firstLetter = mb_strtoupper( mb_substr( $staticValues[0], 0, 1, $encoding ), $encoding );
-                                                                      $remainingText = mb_substr( $staticValues[0], 1, mb_strlen( $staticValues[0], $encoding ), $encoding );
-                                                                      $result = $firstLetter . $remainingText;
-                                                                  }
-                                                                  else
-                                                                  {
-                                                                     $result = ucfirst( $staticValues[0] );
-                                                                  }'
+                                                       'code' => '$encoding = eZTextCodec::internalCharset();
+                                                                  $result = mb_strtoupper( mb_substr( $staticValues[0], 0, 1, $encoding ), $encoding ) . mb_substr( $staticValues[0], 1, mb_strlen( $staticValues[0], $encoding ), $encoding );
+                                                                 '
                                                      ),
                                    'upword' => array( 'return' => 'string',
-                                                      'code' => ' $i18nIni = eZINI::instance( \'i18n.ini\' );
-                                                                  $hasMBString = ( $i18nIni->variable( \'CharacterSettings\', \'MBStringExtension\' ) == \'enabled\' and
-                                                                                   function_exists( "mb_strtoupper" ) and
-                                                                                   function_exists( "mb_substr" ) and
-                                                                                   function_exists( "mb_strlen" ) );
-
-                                                                  if ( $hasMBString )
-                                                                  {
-                                                                      $encoding = eZTextCodec::internalCharset();
-                                                                      $words = explode( " ", $staticValues[0] );
-                                                                      $newString = array();
-                                                                      foreach ( $words as $word )
-                                                                      {
-                                                                          $firstLetter = mb_strtoupper( mb_substr( $word, 0, 1, $encoding ), $encoding );
-                                                                          $remainingText = mb_substr( $word, 1, mb_strlen( $word, $encoding ), $encoding );
-                                                                          $newString[] = $firstLetter . $remainingText;
-                                                                      }
-                                                                      $result = implode( " ", $newString );
-                                                                      unset( $newString, $words );
-                                                                  }
-                                                                  else
-                                                                  {
-                                                                     $result = ucwords( $staticValues[0] );
-                                                                  }'
+                                                      'code' => '$encoding = eZTextCodec::internalCharset();
+                                                                 $newString = array();
+                                                                 foreach ( explode( " ", $staticValues[0] ) as $word )
+                                                                 {
+                                                                     $newString[] = mb_strtoupper( mb_substr( $word, 0, 1, $encoding ), $encoding ) . mb_substr( $word, 1, mb_strlen( $word, $encoding ), $encoding );
+                                                                 }
+                                                                 $result = implode( " ", $newString );
+                                                                 unset( $newString );
+                                                                '
                                                     )
 
                                  );
@@ -269,16 +240,7 @@ class eZTemplateStringOperator
                                    $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
-        $phpFunctionList = explode( ',', $this->phpMap[$operatorName] );
-        foreach ( $phpFunctionList as $element )
-        {
-            if ( function_exists( $element ) )
-            {
-                $phpFunction = $element;
-                break;
-            }
-        }
-        $newElements = array();
+        $phpFunction = $this->phpMap[$operatorName];
 
         if ( count ( $parameters ) != 1 )
         {
@@ -298,8 +260,7 @@ class eZTemplateStringOperator
             $code = "%output% = $phpFunction( %1% );\n";
         }
 
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
-        return $newElements;
+        return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
     }
 
     function customMapTransformation( $operatorName, $node, $tpl, $resourceData,
@@ -309,15 +270,7 @@ class eZTemplateStringOperator
         $newElements = array();
         $mapEntry = $this->customMap[$operatorName];
         $paramCount = count( $parameters );
-        $strlenFunc = 'strlen';
-        $substrFunc = 'substr';
-        $code = "\$strlenFunc = 'strlen'; \$substrFunc = 'substr';\n";
-        if ( function_exists( 'mb_strlen' ) )
-        {
-            $strlenFunc = 'mb_strlen';
-            $substrFunc = 'mb_substr';
-            $code = "\$strlenFunc = 'mb_strlen'; \$substrFunc = 'mb_substr';\n";
-        }
+        $code = "";
 
         if ( $paramCount < 1 )
         {
@@ -521,15 +474,13 @@ class eZTemplateStringOperator
             // Convert all alphabetical chars of operatorvalue to uppercase.
             case $this->UpcaseName:
             {
-                $funcName = function_exists( 'mb_strtoupper' ) ? 'mb_strtoupper' : 'strtoupper';
-                $operatorValue = $funcName( $operatorValue );
+                $operatorValue = mb_strtoupper( $operatorValue );
             } break;
 
             // Convert all alphabetical chars of operatorvalue to lowercase.
             case $this->DowncaseName:
             {
-                $funcName = function_exists( 'mb_strtolower' ) ? 'mb_strtolower' : 'strtolower';
-                $operatorValue = $funcName( $operatorValue );
+                $operatorValue = mb_strtolower( $operatorValue );
             } break;
 
             // Count and return the number of words in operatorvalue.
@@ -541,8 +492,7 @@ class eZTemplateStringOperator
             // Count and return the number of chars in operatorvalue.
             case $this->Count_charsName:
             {
-                $funcName = function_exists( 'mb_strlen' ) ? 'mb_strlen' : 'strlen';
-                $operatorValue = $funcName( $operatorValue );
+                $operatorValue = mb_strlen( $operatorValue );
             }break;
 
             // Insert HTML line breaks before newlines.
@@ -573,24 +523,8 @@ class eZTemplateStringOperator
             // Convert the first character to uppercase.
             case $this->UpfirstName:
             {
-                $i18nIni = eZINI::instance( 'i18n.ini' );
-                $hasMBString = ( $i18nIni->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled' and
-                                 function_exists( "mb_strtoupper" ) and
-                                 function_exists( "mb_substr" ) and
-                                 function_exists( "mb_strlen" ) );
-
-                if ( $hasMBString )
-                {
-                    $encoding = eZTextCodec::internalCharset();
-                    $firstLetter = mb_strtoupper( mb_substr( $operatorValue, 0, 1, $encoding ), $encoding );
-                    $remainingText = mb_substr( $operatorValue, 1, mb_strlen( $operatorValue, $encoding ), $encoding );
-                    $operatorValue = $firstLetter . $remainingText;
-                }
-                else
-                {
-                   $operatorValue = ucfirst( $operatorValue );
-                }
-
+                $encoding = eZTextCodec::internalCharset();
+                $operatorValue = mb_strtoupper( mb_substr( $operatorValue, 0, 1, $encoding ), $encoding ) . mb_substr( $operatorValue, 1, mb_strlen( $operatorValue, $encoding ), $encoding );
             }break;
 
             // Simplify / transform multiple consecutive characters into one.
@@ -611,30 +545,14 @@ class eZTemplateStringOperator
             // Convert all first characters [in all words] to uppercase.
             case $this->UpwordName:
             {
-                $i18nIni = eZINI::instance( 'i18n.ini' );
-                $hasMBString = ( $i18nIni->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled' and
-                                 function_exists( "mb_strtoupper" ) and
-                                 function_exists( "mb_substr" ) and
-                                 function_exists( "mb_strlen" ) );
-
-                if ( $hasMBString )
+                $encoding = eZTextCodec::internalCharset();
+                $newString = array();
+                foreach ( explode( " ", $operatorValue ) as $word )
                 {
-                    $encoding = eZTextCodec::internalCharset();
-                    $words = explode( " ", $operatorValue );
-                    $newString = array();
-                    foreach ( $words as $word )
-                    {
-                        $firstLetter = mb_strtoupper( mb_substr( $word, 0, 1, $encoding ), $encoding );
-                        $remainingText = mb_substr( $word, 1, mb_strlen( $word, $encoding ), $encoding );
-                        $newString[]= $firstLetter . $remainingText;
-                    }
-                    $operatorValue = implode( " ", $newString );
-                    unset( $newString, $words );
+                    $newString[] = mb_strtoupper( mb_substr( $word, 0, 1, $encoding ), $encoding ) .  mb_substr( $word, 1, mb_strlen( $word, $encoding ), $encoding );
                 }
-                else
-                {
-                   $operatorValue = ucwords( $operatorValue );
-                }
+                $operatorValue = implode( " ", $newString );
+                unset( $newString );
             }break;
 
             // Strip whitespace from the beginning and end of a string.
@@ -660,15 +578,11 @@ class eZTemplateStringOperator
             // Shorten string [default or specified length, length=text+"..."] and add '...'
             case $this->ShortenName:
             {
-                $strlenFunc = function_exists( 'mb_strlen' ) ? 'mb_strlen' : 'strlen';
-                $substrFunc = function_exists( 'mb_substr' ) ? 'mb_substr' : 'substr';
-                if ( $strlenFunc( $operatorValue ) > $namedParameters['chars_to_keep'] )
+                if ( ( $operatorLength = mb_strlen( $operatorValue ) ) > $namedParameters['chars_to_keep'] )
                 {
-                    $operatorLength = $strlenFunc( $operatorValue );
-
                     if ( $namedParameters['trim_type'] === 'middle' )
                     {
-                        $appendedStrLen = $strlenFunc( $namedParameters['str_to_append'] );
+                        $appendedStrLen = mb_strlen( $namedParameters['str_to_append'] );
 
                         if ( $namedParameters['chars_to_keep'] > $appendedStrLen )
                         {
@@ -678,7 +592,7 @@ class eZTemplateStringOperator
                             $leftPartLength = $middlePos;
                             $rightPartLength = $chop - $middlePos;
 
-                            $operatorValue = trim( $substrFunc( $operatorValue, 0, $leftPartLength ) . $namedParameters['str_to_append'] . $substrFunc( $operatorValue, $operatorLength - $rightPartLength, $rightPartLength ) );
+                            $operatorValue = trim( mb_substr( $operatorValue, 0, $leftPartLength ) . $namedParameters['str_to_append'] . mb_substr( $operatorValue, $operatorLength - $rightPartLength, $rightPartLength ) );
                         }
                         else
                         {
@@ -687,8 +601,8 @@ class eZTemplateStringOperator
                     }
                     else // default: trim_type === 'right'
                     {
-                        $chop = $namedParameters['chars_to_keep'] - $strlenFunc( $namedParameters['str_to_append'] );
-                        $operatorValue = $substrFunc( $operatorValue, 0, $chop );
+                        $chop = $namedParameters['chars_to_keep'] - mb_strlen( $namedParameters['str_to_append'] );
+                        $operatorValue = mb_substr( $operatorValue, 0, $chop );
                         $operatorValue = trim( $operatorValue );
                         if ( $operatorLength > $chop )
                             $operatorValue = $operatorValue.$namedParameters['str_to_append'];

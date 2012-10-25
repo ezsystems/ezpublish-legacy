@@ -1055,7 +1055,7 @@ class eZMail
     }
 
     /*!
-      Encodes $str using mb_encode_mimeheader() if it is available, or does base64 encoding of a header if not.
+      Encodes $str using mb_encode_mimeheader()
 
       \deprecated
      */
@@ -1066,28 +1066,7 @@ class eZMail
              $this->TextCodec = eZTextCodec::instance( $this->contentCharset(), $this->outputCharset() );
         }
 
-        if ( function_exists( "mb_encode_mimeheader" ) )
-        {
-            $encoded = mb_encode_mimeheader( $str, $this->TextCodec->InputCharsetCode, "B", eZMail::lineSeparator() );
-        }
-        else
-        {
-            if (  0 == preg_match_all( '/[\000-\010\013\014\016-\037\177-\377]/', $str, $matches ) )
-                return $str;
-
-            $maxlen = 75 - 7 - strlen( $this->TextCodec->InputCharsetCode );
-
-            $encoding = 'B';
-            $encoded = base64_encode( $str );
-            $maxlen -= $maxlen % 4;
-            $encoded = trim( chunk_split( $encoded, $maxlen, "\n" ) );
-
-            $encoded = preg_replace( '/^(.*)$/m', " =?".$this->TextCodec->InputCharsetCode."?$encoding?\\1?=", $encoded );
-
-            $encoded = trim( str_replace( "\n", eZMail::lineSeparator(), $encoded ) );
-        }
-
-        return $encoded;
+        return mb_encode_mimeheader( $str, $this->TextCodec->InputCharsetCode, "B", eZMail::lineSeparator() );
     }
 
 

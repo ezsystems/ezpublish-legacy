@@ -335,8 +335,7 @@ class eZImageAliasHandler
             {
                 $ini = eZINI::instance( 'image.ini' );
                 $contentImageSubtree = $ini->variable( 'FileSettings', 'PublishedImages' );
-                $pathString = $mainNode->pathWithNames();
-                $pathString = function_exists( 'mb_strtolower' ) ? mb_strtolower( $pathString ) : strtolower( $pathString );
+                $pathString = mb_strtolower( $mainNode->pathWithNames() );
                 $pathString = $contentImageSubtree . '/' . $pathString;
             }
         }
@@ -366,8 +365,7 @@ class eZImageAliasHandler
     */
     function imagePathByNode( $contentObjectAttribute, $mainNode )
     {
-        $pathString = $mainNode->pathWithNames();
-        $pathString = function_exists( 'mb_strtolower' ) ? mb_strtolower( $pathString ) : strtolower( $pathString );
+        $pathString = mb_strtolower( $mainNode->pathWithNames() );
 
         $ini = eZINI::instance( 'image.ini' );
         $contentImageSubtree = $ini->variable( 'FileSettings', 'PublishedImages' );
