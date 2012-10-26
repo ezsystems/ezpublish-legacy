@@ -589,6 +589,10 @@ class eZContentOperationCollection
     static public function copyTranslations( $objectID, $versionNum )
     {
         $object = eZContentObject::fetch( $objectID );
+        if ( !$object instanceof eZContentObject )
+        {
+            return array( 'status' => eZModuleOperationInfo::STATUS_CANCELLED );
+        }
         $publishedVersionNum = $object->attribute( 'current_version' );
         if ( !$publishedVersionNum )
         {
