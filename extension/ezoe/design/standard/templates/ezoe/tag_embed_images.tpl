@@ -62,8 +62,15 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
            if ( args['align'] )
            {
                // adding a class based on the align to force the alignment in the editor
-               args['class'] = args['class'].replace( /ezoeAlign\w+/, '' );
-               args['class']  = args['class'] + ' ezoeAlign' + args['align'];
+               if ( args['class'] )
+               {
+                   args['class'] = args['class'].replace( /ezoeAlign\w+/, '' );
+                   args['class'] = args['class'] + ' ezoeAlign' + args['align'];
+               }
+               else
+               {
+                   args['class'] = 'ezoeAlign' + args['align'];
+               }
            }
         }
         ed.dom.setAttribs( el, args );
