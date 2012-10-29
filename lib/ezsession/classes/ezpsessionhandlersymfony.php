@@ -122,16 +122,12 @@ class ezpSessionHandlerSymfony extends ezpSessionHandler
     }
 
     /**
-     * Only starts the session if it has not been initialized by Symfony
+     * Let Symfony starts the session
      *
      * @return bool
      */
     public function sessionStart()
     {
-        if ( !$this->userHasCookie )
-        {
-            return session_start();
-        }
         return true;
     }
 }
