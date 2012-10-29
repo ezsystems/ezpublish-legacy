@@ -591,7 +591,7 @@ class eZXMLInputParser
         $nameStartChar = ':A-Z_a-z\\xC0-\\xD6\\xD8-\\xF6\\xF8-\\x{2FF}\\x{370}-\\x{37D}\\x{37F}-\\x{1FFF}\\x{200C}-\\x{200D}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}\\x{10000}-\\x{EFFFF}';
         if (
             preg_match_all(
-                "/\s+([$nameStartChar][$nameStartChar\-.0-9\\xB7\\x{0300}-\\x{036F}\\x{203F}-\\x{2040}]*)\s*=\s*(?:(?:\"([^\"]+?)\")|(?:'([^']+?)')|(?: *([^\"'\s]+)\s*))/u",
+                "/\s+([$nameStartChar][$nameStartChar\-.0-9\\xB7\\x{0300}-\\x{036F}\\x{203F}-\\x{2040}]*)\s*=\s*(?:(?:\"([^\"]+?)\")|(?:'([^']+?)')|(?: *([^\"'\s]+)))/u",
                 " " . $attributeString,
                 $attributeArray,
                 PREG_SET_ORDER

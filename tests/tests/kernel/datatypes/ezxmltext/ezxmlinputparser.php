@@ -187,6 +187,57 @@ class eZXMLInputParserTest extends ezpTestCase
             ),
         );
     }
+
+    /**
+     * Test for argument parsing with many attributes
+     *
+     * @dataProvider providerForTestManyAttributesParsing
+     */
+    public function testManyAttributesParsing( $string, $expected )
+    {
+        $this->assertEquals(
+            $expected,
+            $this->parser->parseAttributes( $string )
+        );
+    }
+
+    public static function providerForTestManyAttributesParsing()
+    {
+        $result = array(
+            'ie' => 'MS9.0',
+            'firefox' => '16.0.2',
+            'chrome' => 'Something',
+            'opera' => 'twelve',
+        );
+
+        return array(
+            array(
+                'ie=MS9.0 firefox=16.0.2 chrome=Something opera=twelve',
+                $result
+            ),
+            array(
+                'ie="MS9.0" firefox="16.0.2" chrome="Something" opera="twelve"',
+                $result
+            ),
+            array(
+                'ie=\'MS9.0\' firefox=\'16.0.2\' chrome=\'Something\' opera=\'twelve\'',
+                $result
+            ),
+            array(
+                'ie=MS9.0 firefox="16.0.2" chrome="Something" opera="twelve"',
+                $result
+            ),
+            array(
+                'ie=MS9.0 firefox=\'16.0.2\' chrome=\'Something\' opera=\'twelve\'',
+                $result
+            ),
+            array(
+                'ie="MS9.0" firefox=16.0.2 chrome=\'Something\' opera=twelve',
+                $result
+            ),
+        );
+    }
+
 }
 
 ?>
