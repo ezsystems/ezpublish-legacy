@@ -472,6 +472,7 @@ $ViewList['translation'] = array(
 
 $ViewList['treemenu'] = array(
     'functions' => array( 'read' ),
+    'ui_context' => 'ajax',
     'script' => 'treemenu.php',
     'default_navigation_part' => 'ezmynavigationpart',
     'params' => array( 'NodeID', 'Modified', 'Expiry', 'Perm' ) );
