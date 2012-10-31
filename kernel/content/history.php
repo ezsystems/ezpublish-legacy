@@ -333,7 +333,7 @@ if( $section )
     $res->setKeys( array( array( 'section_identifier', $section->attribute( 'identifier' ) ) ) );
 }
 
-$versionArray =( isset( $versionArray ) && is_array( $versionArray ) ) ? array_map( 'unserialize', array_unique( array_map( 'serialize', $versionArray ) ) ) : array();
+$versionArray =( isset( $versionArray ) && is_array( $versionArray ) ) ? array_unique( $versionArray, SORT_REGULAR ) : array();
 $LastAccessesVersionURI = $http->hasSessionVariable( 'LastAccessesVersionURI' ) ? $http->sessionVariable( 'LastAccessesVersionURI' ) : null;
 $explodedURI = $LastAccessesVersionURI ? explode ( '/', $LastAccessesVersionURI ) : null;
 if ( $LastAccessesVersionURI and is_array( $versionArray ) and !in_array( $explodedURI[3], $versionArray ) )
