@@ -1659,6 +1659,9 @@ class eZINI
     {
         if ( is_array( $path ) && isset( $path[0] ) )
             $path = $path[0];
+
+        // changing $path so that it's relative the root eZ Publish (legacy)
+        $path = str_replace( __DIR__ . "/../../../", "", $path );
         $exploded = explode( '/', $path );
         $directoryCount = count( $exploded );
         switch ( $directoryCount )
