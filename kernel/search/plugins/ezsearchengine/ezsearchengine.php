@@ -372,21 +372,34 @@ class eZSearchEngine implements ezpSearchEngine
     /**
      * Removes object $contentObject from the search database.
      *
+     * @deprecated Since 5.0, use removeObjectById()
      * @param eZContentObject $contentObject the content object to remove
      * @param bool $commit Whether to commit after removing the object
      * @return bool True if the operation succeed.
      */
     public function removeObject( $contentObject, $commit = true )
     {
-        $db = eZDB::instance();
-        $objectID = $contentObject->attribute( "id" );
-        $doDelete = false;
-        $db->begin();
+        return $this->removeObjectById( $contentObject->attribute( "id" ), $commit );
+    }
 
-        if ( $db->databaseName() == 'mysql' )
+    /**
+     *  Removes a content object by Id from the search database.
+     *
+     * @since 5.0
+     * @param int $contentObjectId The content object to remove by id
+     * @param bool $commit Whether to commit after removing the object
+     * @return bool True if the operation succeed.
+     */
+    public function removeObjectById( $contentObjectId, $commit = true )
+    {
+        $db = eZDB::instance();
+        $doDelete = false;
+
+        $db->begin();
+        if ( $db->databaseName() === 'mysql' )
         {
             // fetch all the words and decrease the object count on all the words
-            $wordArray = $db->arrayQuery( "SELECT word_id FROM ezsearch_object_word_link WHERE contentobject_id='$objectID'" );
+            $wordArray = $db->arrayQuery( "SELECT word_id FROM ezsearch_object_word_link WHERE contentobject_id='$contentObjectId'" );
             $wordIDList = array();
             foreach ( $wordArray as $word )
                 $wordIDList[] = $word["word_id"];
@@ -399,10 +412,10 @@ class eZSearchEngine implements ezpSearchEngine
         }
         else
         {
-            $cnt = $db->arrayQuery( "SELECT COUNT( word_id ) AS cnt FROM ezsearch_object_word_link WHERE contentobject_id='$objectID'" );
+            $cnt = $db->arrayQuery( "SELECT COUNT( word_id ) AS cnt FROM ezsearch_object_word_link WHERE contentobject_id='$contentObjectId'" );
             if ( $cnt[0]['cnt'] > 0 )
             {
-                $db->query( "UPDATE ezsearch_word SET object_count=( object_count - 1 ) WHERE id in ( SELECT word_id FROM ezsearch_object_word_link WHERE contentobject_id='$objectID' )" );
+                $db->query( "UPDATE ezsearch_word SET object_count=( object_count - 1 ) WHERE id in ( SELECT word_id FROM ezsearch_object_word_link WHERE contentobject_id='$contentObjectId' )" );
                 $doDelete = true;
             }
         }
@@ -410,9 +423,11 @@ class eZSearchEngine implements ezpSearchEngine
         if ( $doDelete )
         {
             $db->query( "DELETE FROM ezsearch_word WHERE object_count='0'" );
-            $db->query( "DELETE FROM ezsearch_object_word_link WHERE contentobject_id='$objectID'" );
+            $db->query( "DELETE FROM ezsearch_object_word_link WHERE contentobject_id='$contentObjectId'" );
         }
         $db->commit();
+
+        return true;
     }
 
     /*!
