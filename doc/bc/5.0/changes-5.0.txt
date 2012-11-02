@@ -37,6 +37,11 @@ Change of behavior
 
   The variable has been deprecated since 3.4.1.
 
+- View cache clear on publish can now update "modified" timestamp for respective content object (including elements matched with smart view cache)
+
+  To use this feature, put viewcache.ini/[ViewCacheSettings].UpdateModifiedDateOnClearing to "enabled".
+  Note that this setting is automatically enabled when going through the Symfony stack.
+
 Removed features
 ----------------
 

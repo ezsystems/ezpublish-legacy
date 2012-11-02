@@ -294,6 +294,32 @@ class eZContentCache
             $extraPath = eZDir::filenamePath( $nodeID );
             $fileHandler->fileDeleteByDirList( $siteAccesses, $cacheBaseDir, "$extraPath$nodeID-$extraCacheName" );
         }
+
+        // TODO: Will be removed in 5.1 in favor or HTTP purging
+        // See https://jira.ez.no/browse/EZP-19959 and https://jira.ez.no/browse/EZP-19960
+        if ( eZINI::instance( 'viewcache.ini' )->variable( 'ViewCacheSettings', 'UpdateModifiedDateOnClearing' ) === 'enabled' )
+        {
+            $db = eZDB::instance();
+            $db->begin();
+            $objIds = array();
+            foreach ( eZContentObject::fetchByNodeID( $nodeList, false ) as $obj )
+            {
+                $objIds[] = $obj['id'];
+            }
+
+            if ( !empty( $objIds ) )
+            {
+                eZPersistentObject::updateObjectList(
+                    array(
+                         'definition'       => eZContentObject::definition(),
+                         'update_fields'    => array( 'modified' => time() ),
+                         'conditions'       => array( 'id' => $objIds )
+                    )
+                );
+            }
+
+            $db->commit();
+        }
     }
 }
 
