@@ -366,3 +366,9 @@ Deprecated
 - #19397: eZGeneralDigestUserSettings::fetchForUser() and eZGeneralDigestUserSettings::removeByAddress()
 
   Use eZGeneralDigestUserSettings::fetchByUserId() and eZGeneralDigestUserSettings::removeByUserID instead.
+
+
+- #EZP-19941: Expose API to be able to remove search index after object has been deleted
+
+  eZSearchEngine::removeObject() and eZSearch::removeObject() have been deprecated, use
+  eZSearchEngine::removeObjectById() and eZSearch::removeObjectById() instead.

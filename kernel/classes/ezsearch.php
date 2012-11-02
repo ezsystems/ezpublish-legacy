@@ -57,6 +57,7 @@ class eZSearch
     /**
      * Removes object $contentObject from the search database.
      *
+     * @deprecated Since 5.0, use removeObjectById()
      * @param eZContentObject $contentObject the content object to remove
      * @param bool $commit Whether to commit after removing the object
      * @return bool True if the operation succeed.
@@ -68,6 +69,25 @@ class eZSearch
         if ( $searchEngine instanceof ezpSearchEngine )
         {
             return $searchEngine->removeObject( $contentObject, $commit );
+        }
+
+        return false;
+    }
+
+    /**
+     * Removes a content object by Id from the search database.
+     *
+     * @since 5.0
+     * @param int $contentObjectId the content object to remove by id
+     * @param bool $commit Whether to commit after removing the object
+     * @return bool True if the operation succeed.
+     */
+    static function removeObjectById( $contentObjectId, $commit = true )
+    {
+        $searchEngine = eZSearch::getEngine();
+        if ( $searchEngine instanceof ezpSearchEngine )
+        {
+            return $searchEngine->removeObjectById( $contentObjectId, $commit );
         }
 
         return false;
