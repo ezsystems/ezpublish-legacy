@@ -605,9 +605,9 @@ class ezpKernelWeb implements ezpKernelHandler
                     foreach ( $userParameters as $name => $value )
                     {
                         $objectHasMovedURI .= '/(' . $name . ')/' . $value;
-                        $objectHasMovedURI .= eZSys::queryString();
                     }
-
+                    $objectHasMovedURI .= eZSys::queryString();
+                    
                     $objectHasMovedError = true;
                 }
             }
