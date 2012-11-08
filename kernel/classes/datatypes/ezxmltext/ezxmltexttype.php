@@ -484,7 +484,7 @@ class eZXMLTextType extends eZDataType
             $textDom = $section->firstChild;
         }
 
-        if ( $textDom and $textDom->hasChildNodes )
+        if ( $textDom && $textDom->hasChildNodes() )
         {
             $text = $textDom->firstChild->textContent;
         }
