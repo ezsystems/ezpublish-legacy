@@ -515,7 +515,7 @@ class eZSiteAccess
         if ( $siteINI === null )
         {
             eZSys::clearAccessPath();
-            if ( !isset( $access['uri_part'] ) || $access['uri_part'] === null )
+            if ( empty( $access['uri_part'] ) || $access['uri_part'] === null )
             {
                 if ( $ini->hasVariable('SiteSettings', 'SiteUriParts') )
                     $access['uri_part'] = $ini->variable('SiteSettings', 'SiteUriParts');
