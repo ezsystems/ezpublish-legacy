@@ -1004,8 +1004,11 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
 
         $filePathList = array();
         while ( $row = mysqli_fetch_row( $rslt ) )
+        {
             $filePathList[] = $row[0];
+        }
 
+        mysqli_free_result( $rslt );
         return $filePathList;
     }
 
