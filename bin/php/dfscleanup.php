@@ -28,7 +28,7 @@ $options = $script->getOptions(
         "D" => "Delete nonexistent files",
         "S" => "Check files on DFS share against files in the database",
         "B" => "Checks files in database against files on DFS share",
-    	"path" => "Path to limit checks to (e.g.: var/storage/content - Default: var/)",
+        "path" => "Path to limit checks to (e.g.: var/storage/content - Default: var/)",
         "iteration-limit" => "Amount of items to remove in each iteration when performing a purge operation. Default is all in one iteration.",
 
     )
@@ -49,10 +49,13 @@ $delete = isset( $options['D'] );
 $checkBase = isset( $options['S'] );
 $checkDFS = isset( $options['B'] );
 
-$checkPath = 'var';
 if (isset( $options['path'] ) )
 {
     $checkPath = trim( $options['path'] );
+}
+else
+{
+    $checkPath = eZINI::instance()->variable( 'FileSettings', 'VarDir' );
 }
 $optIterationLimit =  isset( $options['iteration-limit'] ) ?  (int)$options['iteration-limit'] : false;
 $pause = 1000; // microseconds, time to wait between heavy operations
