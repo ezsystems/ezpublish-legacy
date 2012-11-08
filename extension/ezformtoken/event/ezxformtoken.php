@@ -117,8 +117,9 @@ class ezxFormToken
         {
             $templateResult = str_replace(
                 '<head>',
-                "<head>\n<meta name=\"csrf-param\" content=\"{$field}\" />\n"
-                    . "\n<meta name=\"csrf-token\" id=\"{$field}_js\" title=\"{$token}\" content=\"{$token}\" />\n",
+                "<head>\n"
+                . "<meta name=\"csrf-param\" content=\"{$field}\" />\n"
+                . "<meta name=\"csrf-token\" id=\"{$field}_js\" title=\"{$token}\" content=\"{$token}\" />\n",
                 $templateResult
             );
         }
