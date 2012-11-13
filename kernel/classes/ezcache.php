@@ -698,6 +698,7 @@ class eZCache
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'content-view-cache', time() );
         $handler->store();
+        ezpEvent::getInstance()->notify( 'content/cache/all' );
     }
 
     /**
