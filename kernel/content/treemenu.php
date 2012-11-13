@@ -180,7 +180,7 @@ else
         $object = $child->object();
         $childResponse['class_id'] = (int)$object->ClassID;
         $childResponse['has_children'] = $child->subTreeCount( $conditions ) > 0;
-        $childResponse['name'] = $child->getName();
+        $childResponse['name'] = htmlentities( $child->getName() );
         $childResponse['url'] = $child->url();
         // force system url on empty urls (root node)
         if ( $childResponse['url'] === '' )
