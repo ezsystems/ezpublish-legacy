@@ -65,7 +65,7 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
      */
     protected function processEncryption()
     {
-        if ( !empty( $_SERVER['HTTPS'] ) )
+        if ( eZSys::isSSLNow() )
             $this->request->isEncrypted = true;
     }
 
