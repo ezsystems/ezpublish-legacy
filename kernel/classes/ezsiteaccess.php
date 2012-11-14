@@ -383,7 +383,7 @@ class eZSiteAccess
                 {
                     if ( $nameClean !== $name )
                     {
-                        if ( $ini->hasVariable( 'SiteAccessSettings', 'NormalizeSANames' ) && $ini->variable( 'SiteAccessSettings', 'NormalizeSANames' ) == 'enabled' )
+                        if ( !$ini->hasVariable( 'SiteAccessSettings', 'NormalizeSANames' ) || $ini->variable( 'SiteAccessSettings', 'NormalizeSANames' ) == 'enabled' )
                         {
                             $name = $nameClean;
                             if ( $ini->hasVariable( 'SiteAccessSettings', 'FeedbackOnNormalize' ) && $ini->variable( 'SiteAccessSettings', 'FeedbackOnNormalize' ) == 'enabled' )
