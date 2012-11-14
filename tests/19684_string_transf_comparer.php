@@ -33,4 +33,14 @@ $tdiff  = number_format(microtime() - $mtime, 8);
 print("\n str_replace  ': $tdiff : $textd");
 print("\n");
 
+/*
+ preg_replace ": 0.00011000 : L avertissement
+ preg_replace ': 0.00004100 : L avertissement
+ strtr        ": 0.00001200 : L avertissement
+ strtr        ': 0.00000500 : L’avertissement
+ str_replace  ": 0.00000900 : L avertissement
+ str_replace  ': 0.00000400 : L’avertissement
+*/
+
 ?>
+
