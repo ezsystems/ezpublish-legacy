@@ -383,19 +383,19 @@ class eZSiteAccess
                 {
                     if ( $nameClean !== $name )
                     {
-                        if ( $ini->hasVariable( 'SiteAccessSettings', 'FeedbackOnNormalize' ) && $ini->variable( 'SiteAccessSettings', 'FeedbackOnNormalize' ) == 'enabled' )
-                        {
-                            header( $_SERVER['SERVER_PROTOCOL'] .  " 301 Moved Permanently" );
-                            header( "Status: 301 Moved Permanently" );
-                            $uriSlice = $uri->URIArray;
-                            array_shift( $uriSlice );
-                            $newUri = $nameClean . '/' . implode( '/' , $uriSlice );
-                            $location = eZSys::indexDir() . "/" . eZURI::encodeIRI( $newUri );
-                            header( "Location: " . $location );
-                        }
                         if ( $ini->hasVariable( 'SiteAccessSettings', 'NormalizeSANames' ) && $ini->variable( 'SiteAccessSettings', 'NormalizeSANames' ) == 'enabled' )
                         {
                             $name = $nameClean;
+                            if ( $ini->hasVariable( 'SiteAccessSettings', 'FeedbackOnNormalize' ) && $ini->variable( 'SiteAccessSettings', 'FeedbackOnNormalize' ) == 'enabled' )
+                            {
+                                header( $_SERVER['SERVER_PROTOCOL'] .  " 301 Moved Permanently" );
+                                header( "Status: 301 Moved Permanently" );
+                                $uriSlice = $uri->URIArray;
+                                array_shift( $uriSlice );
+                                $newUri = $name . '/' . implode( '/' , $uriSlice );
+                                $location = eZSys::indexDir() . "/" . eZURI::encodeIRI( $newUri );
+                                header( "Location: " . $location );
+                            }
                         }
                     }
                     if ( $type == eZSiteAccess::TYPE_URI )
