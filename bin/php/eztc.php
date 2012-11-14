@@ -45,7 +45,7 @@ if ( $options['index-file'] )
 }
 if ( $options['access-path'] )
 {
-    $sys->AccessPath = array( $options['access-path'] );
+    $sys->setAccessPath( array( $options['access-path'] ) );
 }
 if ( $options['force'] )
 {
