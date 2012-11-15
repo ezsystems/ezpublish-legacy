@@ -202,7 +202,7 @@
 {/if}
 
 {if $cancel_action}
-<input type="hidden" name="BrowseCancelURI" value="{$cancel_action}" />
+<input type="hidden" name="BrowseCancelURI" value="{$cancel_action|wash}" />
 {/if}
 
 {* DESIGN: Content END *}</div></div></div>
