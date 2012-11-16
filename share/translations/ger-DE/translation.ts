@@ -21302,7 +21302,7 @@ Sie sollten entweder den Benutzer kontaktieren oder einen neuen Entwurf erstelle
     </message>
     <message>
         <source>This message was sent to you because &quot;%1 &lt;%2&gt;&quot; thought you might find the page &quot;%3&quot; at %4 interesting.</source>
-        <translation>Diese Nachricht wurde an Sie gesandt, weil &quot;%1 &lt;%2&gt;&quot; dachte Sie fänden diese Seite &quot;%3&quot; auf %4 interessant.</translation>
+        <translation>Diese Nachricht wurde an Sie gesandt, weil &quot;%1 &lt;%2&gt;&quot; dachte, Sie fänden diese Seite &quot;%3&quot; auf %4 interessant.</translation>
     </message>
     <message>
         <source>This is the link to the page:</source>
