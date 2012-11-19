@@ -262,7 +262,7 @@ class ezjscAjaxContent
             }
             else
             {
-                $ret['creator'] = array( 'id'   => $contentObject->attribute( 'creator_id' ),
+                $ret['creator'] = array( 'id'   => $contentObject->attribute( 'current' )->attribute('creator_id'),
                                          'name' => null );// user has been deleted
             }
         }
