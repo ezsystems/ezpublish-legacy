@@ -22,6 +22,9 @@ Change of behavior
   will be automatically injected to eZFormToke for you, assuming
   config.yml framework.csrf_protection is set to true (enabled).
 
+- Redirect from modules to untrusted hosts are now forbidden and will end to a HTTP 403.
+  You can add hosts to the whitelist in site.ini/[SiteSettings].AllowedRedirectHosts array.
+
 
 Removed features
 ----------------

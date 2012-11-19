@@ -952,8 +952,54 @@ class eZModule
         if ( strlen( $originalURI ) != 0 and
              strlen( $uri ) == 0 )
             $uri = '/';
+
+        $urlComponents = parse_url( $uri );
+        if ( isset( $urlComponents['host'] ) && $urlComponents['host'] !== eZSys::hostname() )
+        {
+            $allowedHosts = $this->getAllowedRedirectHosts();
+            if ( !isset( $allowedHosts[$urlComponents['host']] ) )
+            {
+                // Non-authorized host, return only the URI (without host) + query string and fragment if present.
+                eZDebug::writeError( "Redirection requested on non-authorized host '{$urlComponents['host']}'" );
+                header( $_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden' );
+                echo "Redirection requested on non-authorized host";
+                eZDB::checkTransactionCounter();
+                eZExecution::cleanExit();
+            }
+        }
+
         $this->RedirectURI = $uri;
         $this->setExitStatus( self::STATUS_REDIRECT );
+    }
+
+    /**
+     * Returns the set of hosts that are allowed for absolute redirection
+     *
+     * @return array
+     */
+    private function getAllowedRedirectHosts()
+    {
+        $ini = eZINI::instance();
+        $allowedHosts = array_fill_keys( $ini->variable( 'SiteSettings', 'AllowedRedirectHosts' ), true );
+        // Adding HostMatchMapItems from siteaccess match if present
+        if ( $ini->hasVariable( 'SiteAccessSettings', 'HostMatchMapItems' ) )
+        {
+            $hostMatchMapItems = $ini->variable( 'SiteAccessSettings', 'HostMatchMapItems' );
+            foreach ( $hostMatchMapItems as $item )
+            {
+                list( $host, $sa ) = explode( ';', $item );
+                $allowedHosts[$host] = true;
+            }
+        }
+
+        // Adding HostUriMatchMapItems
+        foreach ( $ini->variable( 'SiteAccessSettings', 'HostUriMatchMapItems' ) as $item )
+        {
+            list( $host, $uri, $sa ) = explode( ';', $item );
+            $allowedHosts[$host] = true;
+        }
+
+        return $allowedHosts;
     }
 
     /**
