@@ -1578,7 +1578,7 @@ class eZDBFileHandlerMysqliBackend
             else
             {
                 $this->_query( "DELETE FROM " . TABLE_DATA . " WHERE name_hash = " . $this->_md5( $filePath ), $fname, false );
-                if ( !$this->_query( "UPDATE " . TABLE_DATA . " SET name_hash = " . $this->_md5( $filePath ) . " WHERE name_hash=MD5('$generatingFilePath')", $fname, true ) )
+                if ( !$this->_query( "UPDATE " . TABLE_DATA . " SET name_hash = " . $this->_md5( $filePath ) . " WHERE name_hash = " . $this->_md5( $generatingFilePath ), $fname, true ) )
                 {
                     $this->_rollback( $fname );
                     return false;
