@@ -157,9 +157,6 @@ class eZModuleOperationInfo
                 $operationKeys = $operationDefinition['keys'];
             $operationParameterDefinitions = $operationDefinition['parameters'];
 
-            $db = eZDB::instance();
-            $db->begin();
-
             $this->storeOperationMemento( $operationKeys, $operationParameterDefinitions, $operationParameters, $bodyCallCount, $operationName );
 
             $runOperation = true;
@@ -255,8 +252,6 @@ class eZModuleOperationInfo
             }
             */
             $this->Memento = null;
-
-            $db->commit();
         }
         else
         {
