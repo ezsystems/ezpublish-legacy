@@ -1289,8 +1289,11 @@ class eZSearchEngine implements ezpSearchEngine
     */
     function splitString( $text )
     {
+        // strip curly quotes
+        $text = preg_replace(array("#\xe2\x80\x99#", "#\xe2\x80\x98#", "#\xe2\x80\x9c#", "#\xe2\x80\x9d#"), " ", $text );
+
         // strip quotes
-        $text = preg_replace("#'#", "", $text );
+        $text = preg_replace( "#'#", "", $text );
         $text = preg_replace( "#\"#", "", $text );
 
         // Strip multiple whitespace
@@ -1325,6 +1328,7 @@ class eZSearchEngine implements ezpSearchEngine
         // Remove quotes and asterix when not handling search text by end-user
         if ( $isMetaData )
         {
+            $text = preg_replace(array("#\xe2\x80\x99#", "#\xe2\x80\x98#", "#\xe2\x80\x9c#", "#\xe2\x80\x9d#"), " ", $text );
             $text = str_replace( array( "\"", "*" ), array( " ", " " ), $text );
         }
 
