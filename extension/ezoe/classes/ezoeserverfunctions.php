@@ -516,7 +516,17 @@ class ezoeServerFunctions extends ezjscServerFunctions
         // generate json response from node list
         if ( $nodeArray )
         {
-            $list = ezjscAjaxContent::nodeEncode( $nodeArray, array( 'fetchChildrenCount' => true, 'loadImages' => true ), 'raw' );
+            $list = ezjscAjaxContent::nodeEncode(
+                $nodeArray,
+                array(
+                    'fetchChildrenCount' => true,
+                    'loadImages' => true,
+                    'imagePreGenerateSizes' => array(
+                        eZINI::instance( 'ezoe.ini' )->variable( 'EditorSettings', 'BrowseImageAlias' )
+                    )
+                ),
+                'raw'
+            );
         }
         else
         {
