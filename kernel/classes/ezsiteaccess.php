@@ -395,6 +395,7 @@ class eZSiteAccess
                                 $newUri = $name . '/' . implode( '/' , $uriSlice );
                                 $location = eZSys::indexDir() . "/" . eZURI::encodeIRI( $newUri );
                                 header( "Location: " . $location );
+                                eZExecution::cleanExit();
                             }
                         }
                     }
