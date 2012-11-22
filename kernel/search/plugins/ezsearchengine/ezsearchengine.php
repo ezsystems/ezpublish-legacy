@@ -1289,27 +1289,21 @@ class eZSearchEngine implements ezpSearchEngine
     */
     function splitString( $text )
     {
-        // strip quotes
-        $text = preg_replace("#'#", "", $text );
-        $text = preg_replace( "#\"#", "", $text );
+        $text = preg_replace(
+            // Remove duplicate spaces
+            "/\s{2,}/",
+            " ",
+            trim(
+                preg_replace(
+                    // Remove single and double quotes (including UTF-8 variations)
+                    "/([\x{2018}-\x{201f}]|'|\")/u",
+                    " ",
+                    $text
+                )
+            )
+        );
 
-        // Strip multiple whitespace
-        $text = trim( $text );
-        $text = preg_replace("(\s+)", " ", $text );
-
-        // Split text on whitespace
-        $wordArray = explode( ' ', $text );
-
-        $retArray = array();
-        foreach ( $wordArray as $word )
-        {
-            if ( trim( $word ) != "" )
-            {
-                $retArray[] = trim( $word );
-            }
-        }
-
-        return $retArray;
+        return empty( $text ) ? array() : explode( " ", $text );
     }
 
     /*!
