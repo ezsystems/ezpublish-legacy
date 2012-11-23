@@ -117,8 +117,11 @@ class eZStepSiteAccess extends eZStepInstaller
         }
         else if ( $accessType == 'hostname' )
         {
-            $siteType['access_type_value'] = $siteType['identifier'] . '.' . eZSys::hostName();
-            $siteType['admin_access_type_value'] = $siteType['identifier'] . '-admin.' . eZSys::hostName();
+            // check if there are underscores in the selected option
+            $accessIdentifier = strpos( $siteType['identifier'], '_' ) !== false ? strtr( $siteType['identifier'], '_', '-' ) : $siteType['identifier'];
+            
+            $siteType['access_type_value'] = $accessIdentifier . '.' . eZSys::hostName();
+            $siteType['admin_access_type_value'] = $accessIdentifier . '-admin.' . eZSys::hostName();
         }
         else
         {
