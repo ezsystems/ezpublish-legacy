@@ -69,19 +69,21 @@ class eZPersistentObject
      * @param array $row
      * @return bool
      */
-    public function fill( $row )
+    public function fill( $row = null )
     {
         if ( !is_array( $row ) )
-            return;
+        {
+            $row = array();
+        }
+
         $def = $this->definition();
 
         foreach ( $def["fields"] as $key => $item )
         {
-            if ( isset( $item['name'] ) )
-            {
-                $item = $item['name'];
-            }
-            $this->$item = isset( $row[$key] ) ? $row[$key] : null;
+            $itemName = isset( $item['name'] ) ? $item['name'] : $key;
+            $defaultValue = isset( $item['default'] ) ? $item['default'] : null;
+
+            $this->$itemName = isset( $row[$key] ) ? $row[$key] : $defaultValue;
         }
 
         return true;
@@ -1290,17 +1292,22 @@ class eZPersistentObject
         $fields = $def["fields"];
         if ( isset( $fields[$attr] ) )
         {
-            $attrName = $fields[$attr];
-            if ( isset( $attrName['name'] ) )
+            $attrName = isset( $fields[$attr]['name'] ) ? $fields[$attr]['name'] : $attr;
+
+            if ( isset( $this->$attrName) )
             {
-                $attrName = $attrName['name'];
+                return $this->$attrName;
             }
-            return $this->$attrName;
         }
 
         if ( isset( $def["functions"][$attr] ) )
         {
             return $this->$def["functions"][$attr]();
+        }
+
+        if ( isset( $fields[$attr]["default"] ) )
+        {
+            return $fields[$attr]["default"];
         }
 
         eZDebug::writeError( "Attribute '$attr' does not exist", $def['class_name'] . '::attribute' );
@@ -1326,7 +1333,7 @@ class eZPersistentObject
             $attrName = $fields[$attr];
             if ( is_array( $attrName ) )
             {
-                $attrName = $attrName['name'];
+                $attrName = isset( $attrName['name'] ) ? $attrName['name'] : $attr;
             }
 
             $oldValue = null;
