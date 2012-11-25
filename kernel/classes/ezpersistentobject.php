@@ -69,19 +69,21 @@ class eZPersistentObject
      * @param array $row
      * @return bool
      */
-    public function fill( $row )
+    public function fill( $row = null )
     {
         if ( !is_array( $row ) )
-            return;
+        {
+            $row = array();
+        }
+
         $def = $this->definition();
 
         foreach ( $def["fields"] as $key => $item )
         {
-            if ( isset( $item['name'] ) )
-            {
-                $item = $item['name'];
-            }
-            $this->$item = isset( $row[$key] ) ? $row[$key] : null;
+            $itemName = isset( $item['name'] ) ? $item['name'] : $key;
+            $defaultValue = isset( $item['default'] ) ? $item['default'] : null;
+
+            $this->$itemName = isset( $row[$key] ) ? $row[$key] : $defaultValue;
         }
 
         return true;
