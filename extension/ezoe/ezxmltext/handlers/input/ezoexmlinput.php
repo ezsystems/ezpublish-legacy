@@ -1350,13 +1350,18 @@ class eZOEXMLInput extends eZXMLInputHandler
                 }
                 else
                 {
-                    $customTagContent = $this->inputSectionXML( $tag, $currentSectionLevel, $tdSectionLevel );
-                    /*foreach ( $tag->childNodes as $tagChild )
-                    {
-                        $customTagContent .= $this->inputTdXML( $tagChild,
-                                                                $currentSectionLevel,
-                                                                $tdSectionLevel );
-                    }*/
+                    if( $tag->hasChildNodes() ) {
+	                    $customTagContent = '';
+	                    foreach ( $tag->childNodes as $tagChild )
+	                    {
+	                        $customTagContent .= $this->inputTagXML( $tagChild,
+	                                                                 $currentSectionLevel,
+	                                                                 $tdSectionLevel );
+	                    }
+                    } else {
+                    	$customTagContent = $this->inputSectionXML( $tag, $currentSectionLevel, $tdSectionLevel );
+                    }
+
                     $output .= '<div class="ezoeItemCustomTag ' . $name . '" type="custom"' .
                                $customAttributePart . $styleString . '>' . $customTagContent . '</div>';
                 }
