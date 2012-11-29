@@ -255,28 +255,11 @@ class eZObjectRelationListType extends eZDataType
             }
         }
 
-        $reorderedRelationList    = array();
-        // Contains existing priorities
-        $existsPriorities = array();
-
-        for ( $i = 0, $c = count( $content['relation_list'] ); $i < $c; ++$i )
+        $this->sortRelations( $content, $selectedObjectIDArray, $priorities, $contentObjectAttributeID );
+        
+        // functionality around embed editing
+        foreach( $content['relation_list']  as $relationItem )
         {
-            $priorities[$contentObjectAttributeID][$i] = (int) $priorities[$contentObjectAttributeID][$i];
-            $existsPriorities[$i] = $priorities[$contentObjectAttributeID][$i];
-
-            // Change objects' priorities providing their uniqueness.
-            for ( $j = 0; $j < $c; ++$j )
-            {
-                if ( $i == $j ) continue;
-                if ( $priorities[$contentObjectAttributeID][$i] == $priorities[$contentObjectAttributeID][$j] )
-                {
-                    $index = $priorities[$contentObjectAttributeID][$i];
-                    while ( in_array( $index, $existsPriorities ) )
-                        ++$index;
-                    $priorities[$contentObjectAttributeID][$j] = $index;
-                }
-            }
-            $relationItem = $content['relation_list'][$i];
             if ( $relationItem['is_modified'] )
             {
                 $subObjectID = $relationItem['contentobject_id'];
@@ -295,21 +278,8 @@ class eZObjectRelationListType extends eZDataType
                     $content['temp'][$subObjectID]['object'] = $object;
                 }
             }
-            if ( isset( $priorities[$contentObjectAttributeID][$i] ) )
-                $relationItem['priority'] = $priorities[$contentObjectAttributeID][$i];
-            $reorderedRelationList[$relationItem['priority']] = $relationItem;
         }
-        ksort( $reorderedRelationList );
-        unset( $content['relation_list'] );
-        $content['relation_list'] = array();
-        reset( $reorderedRelationList );
-        $i = 0;
-        while ( list( $key, $relationItem ) = each( $reorderedRelationList ) )
-        {
-            $content['relation_list'][] = $relationItem;
-            $content['relation_list'][$i]['priority'] = $i + 1;
-            ++$i;
-        }
+        
         $contentObjectAttribute->setContent( $content );
         return true;
     }
@@ -1865,6 +1835,53 @@ class eZObjectRelationListType extends eZDataType
     }
 
     /// \privatesection
+    
+    
+    /**
+     * re-arrange the $content['relation_list'] array
+     * call by reference
+     * 
+     * @param array $content
+     * @param array $objectIdList
+     * @param array $userPriorities
+     * @param int $contentObjectAttributeID
+     */
+    private function sortRelations( &$content, $objectIdList, $userPriorities, $contentObjectAttributeID )
+    {
+        if( !empty( $objectIdList ) )
+        {
+            foreach( $objectIdList as $i => $objectId )
+            {
+                //Cast to integer for correct sorting
+                $order[ $objectId ] = isset( $userPriorities[ $contentObjectAttributeID ][ $i ] ) ? (int) $userPriorities[ $contentObjectAttributeID ][ $i ] : 0;
+            }
+            
+            asort( $order );
+            
+            $reorderedRelationList = array();
+            foreach( $order as $objectId => $userPriority )
+            {
+                foreach( $content['relation_list'] as $relationItem )
+                {
+                    if( $relationItem[ 'contentobject_id' ] == $objectId )
+                    {
+                        $reorderedRelationList[] = $relationItem;
+                    }
+                }
+            }
+        }
+            
+        unset( $content['relation_list'] );
+        $content['relation_list'] = array();
+        reset( $reorderedRelationList );
+        $i = 0;
+        while ( list( $key, $relationItem ) = each( $reorderedRelationList ) )
+        {
+            $content['relation_list'][] = $relationItem;
+            $content['relation_list'][$i]['priority'] = $i + 1;
+            ++$i;
+        }
+    }
 }
 
 eZDataType::register( eZObjectRelationListType::DATA_TYPE_STRING, "eZObjectRelationListType" );
