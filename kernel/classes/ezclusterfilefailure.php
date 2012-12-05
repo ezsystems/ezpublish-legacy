@@ -18,9 +18,14 @@
  */
 class eZClusterFileFailure
 {
+    const FILE_EXPIRED = 1,
+          FILE_CONTENT_GENERATE = 2,
+          FILE_RETRIEVAL_FAILED = 3;
+
     // Error codes:
     // 1 - file expired
     // 2 - file contents must be manually generated
+    // 3 - Failed to retrieve file from DFS
     function eZClusterFileFailure( $errno, $message = false )
     {
         $this->Errno = $errno;
