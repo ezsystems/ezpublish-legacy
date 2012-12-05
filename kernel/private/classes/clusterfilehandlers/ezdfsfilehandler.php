@@ -586,7 +586,10 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
                         eZDebugSetting::writeDebug( 'kernel-clustering', "Callback from DB file {$this->filePath}", __METHOD__ );
                         if ( self::LOCAL_CACHE )
                         {
-                            $this->fetch();
+                            if ( $this->fetch() === false )
+                            {
+                                return new eZClusterFileFailure( eZClusterFileFailure::FILE_RETRIEVAL_FAILED, "Failed retrieving file $this->filePath from DFS." );
+                            }
 
                             // Figure out which mtime to use for new file, must be larger than
                             // mtime in DB at least.
