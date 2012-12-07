@@ -789,7 +789,7 @@ class eZFSFileHandler
                 $globResult = glob( $file . "/*" );
                 if ( is_array( $globResult ) )
                 {
-                    $list = array_merge( $list, $globResult );
+                    $list = array_merge( $globResult, $list );
                 }
             }
 
