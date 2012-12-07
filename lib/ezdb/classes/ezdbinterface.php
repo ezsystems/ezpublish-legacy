@@ -1255,6 +1255,7 @@ class eZDBInterface
      *
      * @param string|bool $table
      * @param string|bool $column
+     * @return int|bool The most recent value for the sequence
      */
     function lastSerialID( $table = false, $column = false )
     {
