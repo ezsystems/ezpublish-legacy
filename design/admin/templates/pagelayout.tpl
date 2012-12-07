@@ -9,6 +9,7 @@
      $collapse_right_menu  = ezpreference( 'admin_right_menu_show' )|not
      $admin_left_size      = ezpreference( 'admin_left_menu_size' )
      $admin_theme          = ezpreference( 'admin_theme' )
+     $admin_navigation_content = first_set( ezpreference( 'admin_navigation_content' ), 1 )
      $left_size_hash       = 0
      $search_hash          = array( cond( ezhttp_hasvariable( 'SectionID', 'get' ), ezhttp( 'SectionID', 'get' ) ) )
      $user_hash = concat( $current_user.role_id_list|implode( ',' ), ',', $current_user.limited_assignment_value_list|implode( ',' ) )
