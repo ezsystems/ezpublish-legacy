@@ -85,9 +85,13 @@ class eZNullDB extends eZDBInterface
     {
     }
 
-    /*!
-      Returns false.
-    */
+    /**
+     * Returns false
+     *
+     * @param string|bool $table
+     * @param string|bool $column
+     * @return bool
+     */
     function lastSerialID( $table = false, $column = false )
     {
         return false;
