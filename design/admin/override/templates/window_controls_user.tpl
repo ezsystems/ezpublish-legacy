@@ -3,7 +3,12 @@
 <div class="menu-block">
 <ul>
     {* Content preview. *}
-    {if ezpreference( 'admin_navigation_content' )}
+    {* Display content tabs by default, unless admin_navigation_content preference is set *}
+    {def $admin_navigation_content = 1
+         $admin_navigation_content_pref = ezpreference( 'admin_navigation_content' )}
+    {* Preference is always a string. Result of ezpreference() can be false if demanded preference doesn't exist for current user. *}
+    {if $admin_navigation_content_pref|is_string}{set $admin_navigation_content = $admin_navigation_content_pref}{/if}
+    {if $admin_navigation_content}
     <li class="enabled">
     <div class="button-bc"><div class="button-tl"><div class="button-tr"><div class="button-br">
         <a href={'/user/preferences/set/admin_navigation_content/0'|ezurl} title="{'Hide preview of content.'|i18n( 'design/admin/node/view/full' )}">{'Preview'|i18n( 'design/admin/node/view/full' )}</a>
@@ -16,6 +21,8 @@
     </div></div></div></div>
     </li>
     {/if}
+    {undef $admin_navigation_content
+           $admin_navigation_content_pref}
 
     {* Details. *}
     {if ezpreference( 'admin_navigation_details' )}
