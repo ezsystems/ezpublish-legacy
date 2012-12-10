@@ -615,6 +615,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
 
         $dfsFileSize = $this->dfsbackend->getDfsFileSize( $filePath );
         $loopCount = 0;
+        $localFileSize = 0;
 
         do
         {
