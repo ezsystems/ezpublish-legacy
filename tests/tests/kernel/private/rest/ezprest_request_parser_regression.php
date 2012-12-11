@@ -46,6 +46,8 @@ class ezpRestHttpRequestParserRegression extends ezpRegressionTest
         $_FILES  = $this->filesArray;
         $_REQUEST = $this->requestArray;
         $_COOKIE = $this->cookieArray;
+        // make sure eZSys::serverPort() really runs
+        unset( $GLOBALS['eZSysServerPort'] );
     }
 
     public function testRunRegression( $name )
@@ -70,7 +72,7 @@ class ezpRestHttpRequestParserRegression extends ezpRegressionTest
         else
         {
             $expected = file_get_contents( $expectedFileName );
-            self::assertEquals( $expected, var_export( $req, true ) );
+            self::assertEquals( $expected, var_export( $req, true ), $expectedFileName );
         }
     }
 
