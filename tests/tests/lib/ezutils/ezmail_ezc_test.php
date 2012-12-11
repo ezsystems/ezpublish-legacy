@@ -49,6 +49,9 @@ class eZMailEzcTest extends ezpTestCase
      */
     public function testTipAFriend()
     {
+        $this->markTestSkipped(
+            'smtp.ez.no is down for now'
+        );
         $mail = new eZMail();
         $mail->setSender( $this->adminEmail, $this->adminName );
         $mail->setReceiver( $this->adminEmail, $this->adminName );
@@ -176,6 +179,9 @@ class eZMailEzcTest extends ezpTestCase
 
     public function testRegressionWrongPasswordCatchException()
     {
+        $this->markTestSkipped(
+            'smtp.ez.no is down for now'
+        );
         ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportPassword', 'wrong password' );
         $mail = new eZMail();
         $mail->setSender( $this->adminEmail, $this->adminName );
