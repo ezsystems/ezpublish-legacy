@@ -743,8 +743,6 @@ class eZXMLInputParser
                 $endPos = strpos( $text, ';', $pos + 2 );
                 if ( $endPos === false )
                 {
-                    // Uninstantiated/Unused variable
-                    //$convertedText .= '&#';
                     $pos += 2;
                     continue;
                 }
