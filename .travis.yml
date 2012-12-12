@@ -11,6 +11,6 @@ before_script:
  - mysql -e "create database IF NOT EXISTS testdb;" -uroot
  - pear channel-discover components.ez.no
  - pear install -a ezc/eZComponents
- - php bin/php/ezpgenerateautoloads.php -s
+ - php bin/php/ezpgenerateautoloads.php -s -e
 
 script: "php tests/runtests.php --dsn mysql://root@localhost/testdb"
