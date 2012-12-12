@@ -8,6 +8,9 @@
  * @package tests
  */
 
+/**
+ * @group objgroup
+ */
 class eZContentObjectStateGroupTest extends ezpDatabaseTestCase
 {
     public function providerCreateWithInvalidIdentifier()
