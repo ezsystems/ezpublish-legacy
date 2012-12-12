@@ -743,7 +743,6 @@ class eZXMLInputParser
                 $endPos = strpos( $text, ';', $pos + 2 );
                 if ( $endPos === false )
                 {
-                    $convertedText .= '&#';
                     $pos += 2;
                     continue;
                 }
