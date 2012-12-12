@@ -8,9 +8,6 @@
  * @package tests
  */
 
-/**
- * @group node
- */
 class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
 {
     protected $backupGlobals = false;

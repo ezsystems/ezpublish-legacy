@@ -18,7 +18,6 @@
  *
  * Class is based off the earlier regression testing framework from
  * eZ Components.
- * @group fixtests
  */
 class ezpRestHttpRequestParserRegression extends ezpRegressionTest
 {

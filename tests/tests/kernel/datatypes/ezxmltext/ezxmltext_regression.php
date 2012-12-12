@@ -8,9 +8,6 @@
  * @package tests
  */
 
-/**
- * @group xml
- */
 class eZXMLTextRegression extends ezpDatabaseTestCase
 {
     public function __construct()

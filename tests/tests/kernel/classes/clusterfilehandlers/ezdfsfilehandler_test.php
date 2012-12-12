@@ -150,9 +150,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
         $escapedFilePath = $this->db->escapeString( $filePath );
         $sql = "SELECT * FROM " . eZDFSFileHandlerMySQLiBackend::TABLE_METADATA .
                " WHERE name LIKE '{$escapedFilePath}'";
-        echo $sql . "\n";
         $rows = $this->db->arrayQuery( $sql );
-        var_dump( $rows );
         if ( count( $rows ) == 1 )
             return ( $rows[0]['expired'] != 1 );
         else
@@ -257,7 +255,6 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
     /**
      * Tests storage of a new, non existent file to cluster
-     * @group fail
      **/
     public function testFileStore()
     {
@@ -277,7 +274,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
         self::assertTrue( $this->DFSFileExists( $testFile ), "The DFS file does not exist" );
         self::assertTrue( $this->localFileExists( $testFile ), "The local file no longer exists. It should not have been removed" );
 
-        //$this->removeFile( $testFile );
+        $this->removeFile( $testFile );
     }
 
     /**
