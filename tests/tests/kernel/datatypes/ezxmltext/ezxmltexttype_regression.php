@@ -60,6 +60,8 @@ class eZXMLTextTypeRegression extends ezpDatabaseTestCase
         }
         self::assertEquals( 0, count( $expectedRelations ) );
 
+        $article->remove();
+        $translation->removeThis();
         eZContentLanguage::setPrioritizedLanguages( $bkpLanguages );
     }
 

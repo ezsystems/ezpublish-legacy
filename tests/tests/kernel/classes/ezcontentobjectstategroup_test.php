@@ -49,7 +49,7 @@ class eZContentObjectStateGroupTest extends ezpDatabaseTestCase
         $trans = $stateGroup->translationByLocale( 'eng-GB' );
         $trans->setAttribute( 'name', $identifier );
         $messages = array();
-        $this->assertTrue( $stateGroup->isValid( $messages ), "Valid state group identifier '$identifier' was refused" );
+        $this->assertTrue( $stateGroup->isValid( $messages ), "Valid state group identifier '$identifier' was refused, " . var_export( $messages, true ) );
     }
 
     public static function suite()

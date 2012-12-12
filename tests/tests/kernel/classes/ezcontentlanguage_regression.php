@@ -29,9 +29,12 @@ class eZContentLanguageRegression extends ezpDatabaseTestCase
 
     public function tearDown()
     {
-        eZContentLanguage::removeLanguage( 'nno-NO' );
-        eZContentLanguage::removeLanguage( 'dan-DK' );
-
+        $nor = eZContentLanguage::fetchByLocale( 'nno-NO' );
+        $dan = eZContentLanguage::fetchByLocale( 'dan-DK' );
+        if ( $nor )
+            $nor->removeThis();
+        if ( $dan )
+            $dan->removeThis();
         parent::tearDown();
     }
 

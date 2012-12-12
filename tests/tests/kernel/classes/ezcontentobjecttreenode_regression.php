@@ -69,6 +69,8 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
 
         // re-expire cache for further tests
         eZContentLanguage::setPrioritizedLanguages( $bkpLanguages );
+        $article->remove();
+        $translation->removeThis();
         eZContentLanguage::expireCache();
 
         ezpINIHelper::restoreINISettings();
@@ -289,6 +291,8 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
         $node = eZContentObjectTreeNode::fetch( $nodeId, 'eng-GB' );
         self::assertEquals( 'testIssue17632-eng-GB' , $node->attribute( 'url_alias' ) );
 
+        $folder->remove();
+        $translation->removeThis();
         ezpINIHelper::restoreINISettings();
         eZContentLanguage::setPrioritizedLanguages( $bkpLanguages );
     }
