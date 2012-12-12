@@ -305,7 +305,7 @@ class eZDFSFileHandlerDFSBackend
     protected function createFile( $filePath, $contents, $atomic = true )
     {
         // $contents can result from a failed file_get_contents(). In this case
-        if ( !$contents )
+        if ( $contents === false )
             return false;
 
         $createResult = eZFile::create( basename( $filePath ), dirname( $filePath ), $contents, $atomic );
