@@ -49,9 +49,36 @@ class eZTemplateCacheBlock
      */
     static function retrieve( $keys, $subtreeExpiry, $ttl, $useGlobalExpiry = true )
     {
+        $keys = (array)$keys;
+        self::filterKeys( $keys );
         $nodeID = $subtreeExpiry ? eZTemplateCacheBlock::decodeNodeID( $subtreeExpiry ) : false;
         $cachePath = eZTemplateCacheBlock::cachePath( eZTemplateCacheBlock::keyString( $keys ), $nodeID );
         return eZTemplateCacheBlock::handle( $cachePath, $nodeID, $ttl, $useGlobalExpiry );
+    }
+
+    /**
+     * Filters cache keys when needed.
+     * Useful to avoid having current URI as a cache key if an error has occurred and has been caught by error module.
+     *
+     * @param array $keys
+     */
+    static private function filterKeys( array &$keys )
+    {
+        if ( isset( $GLOBALS['eZRequestError'] ) && $GLOBALS['eZRequestError'] === true )
+        {
+            $requestUri = eZSys::requestURI();
+            foreach ( $keys as $i => &$key )
+            {
+                if ( is_array( $key ) )
+                {
+                    self::filterKeys( $key );
+                }
+                else if ( $key === $requestUri )
+                {
+                    unset( $keys[$i] );
+                }
+            }
+        }
     }
 
     /*!
