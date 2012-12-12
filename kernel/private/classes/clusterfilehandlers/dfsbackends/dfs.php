@@ -101,11 +101,13 @@ class eZDFSFileHandlerDFSBackend
      */
     public function copyToDFS( $srcFilePath, $dstFilePath = false )
     {
+        echo __METHOD__ . " " . $srcFilePath . "\n";
         $this->accumulatorStart();
 
         $srcFileContents = file_get_contents( $srcFilePath );
         if ( $srcFileContents === false )
         {
+            echo " file_get_contents false\n";
             $this->accumulatorStop();
             eZDebug::writeError( "Error getting contents of file FS://'$srcFilePath'.", __METHOD__ );
             return false;
@@ -117,7 +119,9 @@ class eZDFSFileHandlerDFSBackend
         }
 
         $dstFilePath = $this->makeDFSPath( $dstFilePath );
+        echo "dstFilePath=$dstFilePath\n";
         $ret = $this->createFile( $dstFilePath, $srcFileContents, true );
+        echo "result createfile " . intval( $ret ) . "\n";
         if ( $ret )
         {
             // Double checking if the file has been correctly created
@@ -305,7 +309,7 @@ class eZDFSFileHandlerDFSBackend
     protected function createFile( $filePath, $contents, $atomic = true )
     {
         // $contents can result from a failed file_get_contents(). In this case
-        if ( !$contents )
+        if ( $contents === false )
             return false;
 
         $createResult = eZFile::create( basename( $filePath ), dirname( $filePath ), $contents, $atomic );

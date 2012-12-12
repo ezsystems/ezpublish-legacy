@@ -175,6 +175,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      */
     public function fileStore( $filePath, $scope = false, $delete = false, $datatype = false )
     {
+        echo __METHOD__ . "\n";
         $filePath = eZDBFileHandler::cleanPath( $filePath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileStore( '$filePath' )" );
 
@@ -184,6 +185,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         if ( $datatype === false )
             $datatype = 'misc';
 
+        echo get_class( self::$dbbackend ) . "\n";
         self::$dbbackend->_store( $filePath, $datatype, $scope );
 
         if ( $delete )
