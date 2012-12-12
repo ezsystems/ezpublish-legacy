@@ -833,11 +833,8 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
      */
     function _store( $filePath, $datatype, $scope, $fname = false )
     {
-        echo __METHOD__ . "\n";
-        echo "$filePath\n";
         if ( !is_readable( $filePath ) )
         {
-            echo "Not readable!\n";
             eZDebug::writeError( "Unable to store file '$filePath' since it is not readable.", __METHOD__ );
             return;
         }
@@ -863,7 +860,6 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
      */
     function _storeInner( $filePath, $datatype, $scope, $fname )
     {
-        echo __METHOD__ . "\n";
         // Insert file metadata.
         clearstatcache( true, $filePath );
         $fileMTime = filemtime( $filePath );
@@ -883,7 +879,6 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             "datatype=VALUES(datatype), scope=VALUES(scope), size=VALUES(size), mtime=VALUES(mtime), expired=VALUES(expired)",
             $fname ) === false )
         {
-            echo "FAIL\n";
             return $this->_fail( "Failed to insert file metadata while storing. Possible race condition" );
         }
 
@@ -1061,11 +1056,9 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
     {
         $keys = array_keys( $array );
         $query = "INSERT INTO $table (" . join( ", ", $keys ) . ") VALUES (" . $this->_sqlList( $array ) . ")\nON DUPLICATE KEY UPDATE $update";
-        echo $query . "\n";
         $res = $this->_query( $query, $fname, $reportError );
         if ( !$res )
         {
-            echo "FAIL QUERY\n";
             // @todo Throw an exception
             return false;
         }
@@ -1249,7 +1242,6 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
      */
     protected function _protect()
     {
-        echo __METHOD__ . "\n";
         $args = func_get_args();
         $callback = array_shift( $args );
         $fname    = array_shift( $args );
@@ -1279,7 +1271,6 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             }
             elseif ( $result instanceof eZMySQLBackendError )
             {
-                var_dump( $result );
                 eZDebug::writeError( $result->errorValue, $result->errorText );
                 $this->_rollback( $fname );
                 return false;
@@ -1344,7 +1335,6 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         $time = microtime( true );
 
         $res = mysqli_query( $this->db, $query );
-        echo __METHOD__ . "\n";
         if ( !$res && $reportError )
         {
             $this->_error( $query, $fname );
