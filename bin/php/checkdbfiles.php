@@ -132,9 +132,16 @@ $versions47 = array( 'unstable' => array( array( '4.6.0', '4.7.0alpha1' ),
            );
 
 $versions50 = array( 'unstable' => array( array( '4.7.0', '5.0.0alpha1' ),
+                                          array( '5.0.0alpha1', '5.0.0' ),
                     ),
              'unstable_subdir' => 'unstable',
-             'stable' => array( array( '4.6.0', '4.7.0' ) ),
+             'stable' => array( array( '4.7.0', '5.0.0' ) ),
+           );
+
+// Note: DB updates are kept in base sql file regardless of state as of 5.1
+$versions51 = array( 'unstable' => array( ),
+             'unstable_subdir' => 'unstable',
+             'stable' => array( array( '5.0.0', '5.1.0' ) ),
            );
 
 
@@ -146,6 +153,7 @@ $versions['4.5'] = $versions45;
 $versions['4.6'] = $versions46;
 $versions['4.7'] = $versions47;
 $versions['5.0'] = $versions50;
+$versions['5.1'] = $versions51;
 
 $fileList = array();
 $missingFileList = array();
