@@ -13,7 +13,7 @@ env:
     - DB_NAME="testdb"
   matrix:
     - DB="mysql" DB_USER="root"
-    - DB="postgresql" DB_USER="postgres"
+#    - DB="postgresql" DB_USER="postgres"
 
 before_script:
  - if [ $DB == "mysql" ]; then mysql -e "create database IF NOT EXISTS $DB_NAME;" -u$DB_USER ; fi
