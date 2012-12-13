@@ -21,18 +21,31 @@ if ( file_exists( __DIR__ . '/config.php' ) )
 
 if ( !defined( 'EZCBASE_ENABLED' ) )
 {
-    $ezcPath = __DIR__ . "/lib/ezc";
-    if ( defined( 'EZP_USE_BUNDLED_COMPONENTS' ) ? EZP_USE_BUNDLED_COMPONENTS === true : file_exists( $ezcPath ) )
+    $appName = defined( 'EZP_APP_FOLDER_NAME' ) ? EZP_APP_FOLDER_NAME : 'ezpublish';
+    $appFolder = __DIR__ . "/../$appName";
+
+    // Bundled
+    if ( defined( 'EZP_USE_BUNDLED_COMPONENTS' ) ? EZP_USE_BUNDLED_COMPONENTS === true : file_exists( __DIR__ . "/lib/ezc" ) )
     {
-        set_include_path( __DIR__ . PATH_SEPARATOR . $ezcPath . PATH_SEPARATOR . get_include_path() );
+        set_include_path( __DIR__ . PATH_SEPARATOR . __DIR__ . "/lib/ezc" . PATH_SEPARATOR . get_include_path() );
         require 'Base/src/base.php';
         $baseEnabled = true;
     }
+    // Custom config.php defined
     else if ( defined( 'EZC_BASE_PATH' ) )
     {
         require EZC_BASE_PATH;
         $baseEnabled = true;
     }
+    // Composer if in eZ Publish5 context
+    else if ( strpos( $appFolder, "{$appName}/../{$appName}" ) === false && file_exists( "{$appFolder}/autoload.php" ) )
+    {
+        // Skip if composer is already loaded to avoid class crash
+        if ( !class_exists( "\\Composer\\Autoload\\ClassLoader", false ) )
+            require_once "{$appFolder}/autoload.php";
+        $baseEnabled = false;
+    }
+    // PEAR install
     else
     {
         $baseEnabled = @include 'ezc/Base/base.php';
