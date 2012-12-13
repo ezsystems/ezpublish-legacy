@@ -17,7 +17,7 @@ env:
 
 before_script:
  - if [ $DB == "mysql" ]; then mysql -e "create database IF NOT EXISTS $DB_NAME;" -u$DB_USER ; fi
- - if [ $DB == "postgresql" ]; then psql -c 'create database $DB_NAME;' -U $DB_USER ; fi
+ - if [ $DB == "postgresql" ]; then psql -c "create database $DB_NAME;" -U $DB_USER ; fi
  - pear channel-discover components.ez.no
  - pear install -a ezc/eZComponents
  - php bin/php/ezpgenerateautoloads.php -s -e
