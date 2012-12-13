@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# @deprecated and unmaintained since 5.0
+
 DIST_TYPE='full'
 NAME="ezpublish"
 DEST_ROOT="/tmp/ez-$USER"

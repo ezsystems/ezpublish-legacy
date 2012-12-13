@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# @deprecated and unmaintained since 5.0
+
 . ./bin/shell/common.sh
 . ./bin/shell/sqlcommon.sh
 

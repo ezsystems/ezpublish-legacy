@@ -3,6 +3,7 @@
 /**
  * File containing the checkdbfiles.php script.
  *
+ * @deprecated and unmaintained since 5.0
  * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
@@ -133,7 +134,7 @@ $versions47 = array( 'unstable' => array( array( '4.6.0', '4.7.0alpha1' ),
 $versions50 = array( 'unstable' => array( array( '4.7.0', '5.0.0alpha1' ),
                     ),
              'unstable_subdir' => 'unstable',
-             'stable' => array( ),
+             'stable' => array( array( '4.6.0', '4.7.0' ) ),
            );
 
 
