@@ -21,18 +21,26 @@ if ( file_exists( __DIR__ . '/config.php' ) )
 
 if ( !defined( 'EZCBASE_ENABLED' ) )
 {
-    $ezcPath = __DIR__ . "/lib/ezc";
-    if ( defined( 'EZP_USE_BUNDLED_COMPONENTS' ) ? EZP_USE_BUNDLED_COMPONENTS === true : file_exists( $ezcPath ) )
+    // Bundled
+    if ( defined( 'EZP_USE_BUNDLED_COMPONENTS' ) ? EZP_USE_BUNDLED_COMPONENTS === true : file_exists( __DIR__ . "/lib/ezc" ) )
     {
-        set_include_path( __DIR__ . PATH_SEPARATOR . $ezcPath . PATH_SEPARATOR . get_include_path() );
+        set_include_path( __DIR__ . PATH_SEPARATOR . __DIR__ . "/lib/ezc" . PATH_SEPARATOR . get_include_path() );
         require 'Base/src/base.php';
         $baseEnabled = true;
     }
+    // Custom config.php defined
     else if ( defined( 'EZC_BASE_PATH' ) )
     {
         require EZC_BASE_PATH;
         $baseEnabled = true;
     }
+    // Composer
+    else if ( !class_exists( "\\Composer\\Autoload\\ClassLoader", false ) && file_exists( __DIR__ . "/../ezpublish/autoload.php" ) )
+    {
+        $baseEnabled = false;
+        require_once __DIR__ . '/../ezpublish/autoload.php';
+    }
+    // PEAR install
     else
     {
         $baseEnabled = @include 'ezc/Base/base.php';
