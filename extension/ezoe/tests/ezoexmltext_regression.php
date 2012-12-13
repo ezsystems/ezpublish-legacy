@@ -35,7 +35,8 @@ class eZOEXMLTextRegression extends ezpDatabaseTestCase
         $folder->short_description = $xmlData;
 
         // Use handler directly as user does not have access to ezoe (and this is not db test case)
-        $oeHandler = new eZOEXMLInput( $folder->short_description->attribute('xml_data'), false,  $folder->short_description );
+        $xml = $folder->short_description->attribute( 'xml_data' );
+        $oeHandler = new eZOEXMLInput( $xml, false,  $folder->short_description );
         $xhtml     = $oeHandler->attribute( 'input_xml' );
 
         self::assertEquals( '&lt;pre&gt;    something();&lt;br /&gt;    return false;&lt;/pre&gt;&lt;p&gt;&lt;br /&gt;&lt;/p&gt;', $xhtml );
@@ -58,7 +59,8 @@ class eZOEXMLTextRegression extends ezpDatabaseTestCase
         $folder->name = 'Test';
         $folder->short_description = $xmlData;
 
-        $oeHandler = new eZOEXMLInput( $folder->short_description->attribute('xml_data'), false,  $folder->short_description );
+        $xml = $folder->short_description->attribute( 'xml_data' );
+        $oeHandler = new eZOEXMLInput( $xml, false,  $folder->short_description );
         $xhtml = $oeHandler->attribute( 'input_xml' );
         self::assertEquals( '&lt;div class=&quot;ezoeItemCustomTag quote&quot; type=&quot;custom&quot;&gt;&lt;p&gt;quote&lt;/p&gt;&lt;/div&gt;&lt;p&gt;&lt;br /&gt;&lt;/p&gt;', $xhtml );
     }
