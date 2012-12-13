@@ -21,6 +21,14 @@
 //ini_set( 'include_path', ini_get( 'include_path' ). PATH_SEPARATOR . '../ezcomponents/trunk' );
 
 /*
+    USING COMPONENTS VIA COMPOSER
+    -----------------------------
+    If installation is in a eZ Publish 5/Symfony context, use this $path . '/autoload.php' to
+    load zeta components and other dependencies.
+*/
+//define( 'EZP5_APP_FOLDER', '../app' );
+
+/*
     USING BUNDLED COMPONENTS
     ------------------------
     If you are using a distribution of eZ Publish with which the necessary
