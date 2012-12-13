@@ -1028,7 +1028,7 @@ class eZImageManager
     function convert( $sourceMimeData, &$destinationMimeData, $aliasName = false, $parameters = array() )
     {
         // if the local file doesn't exist, we need to fetch it locally
-        if ( !file_exists( $sourceMimeData['url'] ) )
+        if ( is_array( $sourceMimeData ) && isset( $sourceMimeData['url'] ) && !file_exists( $sourceMimeData['url'] ) )
         {
             $sourceFileHandler = eZClusterFileHandler::instance( $sourceMimeData['url'] );
             $sourceFileHandler->fetch();
