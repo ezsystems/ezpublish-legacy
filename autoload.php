@@ -21,7 +21,8 @@ if ( file_exists( __DIR__ . '/config.php' ) )
 
 if ( !defined( 'EZCBASE_ENABLED' ) )
 {
-    $appFolder = defined( 'EZP5_APP_FOLDER' ) ? EZP5_APP_FOLDER : '../ezpublish';
+    $appName = defined( 'EZP_APP_FOLDER_NAME' ) ? EZP_APP_FOLDER_NAME : 'ezpublish';
+    $appFolder = __DIR__ . "/../$appName";
 
     // Bundled
     if ( defined( 'EZP_USE_BUNDLED_COMPONENTS' ) ? EZP_USE_BUNDLED_COMPONENTS === true : file_exists( __DIR__ . "/lib/ezc" ) )
@@ -36,8 +37,8 @@ if ( !defined( 'EZCBASE_ENABLED' ) )
         require EZC_BASE_PATH;
         $baseEnabled = true;
     }
-    // Composer
-    else if ( file_exists( "{$appFolder}/autoload.php" ) )
+    // Composer if in eZ Publish5 context
+    else if ( strpos( $appFolder, "{$appName}/../{$appName}" ) === false && file_exists( "{$appFolder}/autoload.php" ) )
     {
         // Skip if composer is already loaded to avoid class crash
         if ( !class_exists( "\\Composer\\Autoload\\ClassLoader", false ) )
