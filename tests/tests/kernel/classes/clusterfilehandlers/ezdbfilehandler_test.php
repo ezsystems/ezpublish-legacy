@@ -39,10 +39,6 @@ class eZDBFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
                 $backend = 'eZDBFileHandlerMysqliBackend';
                 break;
 
-            case 'postgresql':
-                $backend = 'eZDBFileHandlerPostgresqlBackend';
-                break;
-
             default:
                 $this->markTestSkipped( "Unsupported database type '{$dsn['phptype']}'" );
         }
