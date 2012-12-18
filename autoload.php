@@ -40,9 +40,7 @@ if ( !defined( 'EZCBASE_ENABLED' ) )
     // Composer if in eZ Publish5 context
     else if ( strpos( $appFolder, "{$appName}/../{$appName}" ) === false && file_exists( "{$appFolder}/autoload.php" ) )
     {
-        // Skip if composer is already loaded to avoid class crash
-        if ( !class_exists( "\\Composer\\Autoload\\ClassLoader", false ) )
-            require_once "{$appFolder}/autoload.php";
+        require_once "{$appFolder}/autoload.php";
         $baseEnabled = false;
     }
     // PEAR install
