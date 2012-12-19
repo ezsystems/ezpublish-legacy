@@ -2555,12 +2555,6 @@ class eZContentObject extends eZPersistentObject
             $db->begin();
             $db->query( "INSERT INTO ezcontentobject_link ( from_contentobject_id, from_contentobject_version, to_contentobject_id, contentclassattribute_id, relation_type )
                          VALUES ( $fromObjectID, $fromObjectVersion, $toObjectID, $attributeID, $relationType )" );
-            // if an object relation is being added and it is in draft, add the row with op_code 1
-            if ( $attributeID == 0 && $fromObjectVersion != $this->CurrentVersion )
-            {
-                $db->query( "INSERT INTO ezcontentobject_link ( from_contentobject_id, from_contentobject_version, to_contentobject_id, contentclassattribute_id, op_code, relation_type )
-                             VALUES ( $fromObjectID, $fromObjectVersion, $toObjectID, $attributeID, '1', $relationType )" );
-            }
             $db->commit();
         }
         elseif ( isset( $count[0]['count'] ) &&
@@ -2577,12 +2571,6 @@ class eZContentObject extends eZPersistentObject
                                 to_contentobject_id=$toObjectID AND
                                 contentclassattribute_id=$attributeID AND
                                 op_code='0'" );
-            // if an object relation is being added and it is in draft, add the row with op_code 1
-            if ( $attributeID == 0 && $fromObjectVersion != $this->CurrentVersion )
-            {
-                $db->query( "INSERT INTO ezcontentobject_link ( from_contentobject_id, from_contentobject_version, to_contentobject_id, contentclassattribute_id, op_code, relation_type )
-                             VALUES ( $fromObjectID, $fromObjectVersion, $toObjectID, $attributeID, '1', $relationType )" );
-            }
             $db->commit();
         }
     }
@@ -2625,20 +2613,20 @@ class eZContentObject extends eZPersistentObject
 
         $lastRelationType = 0;
         $db->begin();
-        // if an object relation is being removed from the draft, add the row with op_code -1
         if ( !$attributeID && $fromObjectVersion != $this->CurrentVersion )
         {
+            // Querying only for object level relations.
             $rows = $db->arrayQuery( "SELECT * FROM ezcontentobject_link
                                       WHERE from_contentobject_id=$fromObjectID
                                         AND from_contentobject_version=$fromObjectVersion
                                         AND contentclassattribute_id='0'
                                         $toObjectCondition
                                         AND op_code='0'" );
-            foreach ( $rows as $row )
+            if ( !empty( $rows ) )
             {
-                $db->query( "INSERT INTO ezcontentobject_link ( from_contentobject_id, from_contentobject_version, to_contentobject_id, contentclassattribute_id, op_code, relation_type )
-                             VALUES ( $fromObjectID, $fromObjectVersion, " . $row['to_contentobject_id'] . ", '0', '-1', $relationType )" );
-                $lastRelationType = (int) $row['relation_type'];
+                $lastRow = end( $rows );
+                // Remember type in order to later compare with given $relationType and determine if it is composite.
+                $lastRelationType = (int) $lastRow['relation_type'];
             }
         }
 
@@ -2673,7 +2661,6 @@ class eZContentObject extends eZPersistentObject
         }
 
         $db->commit();
-
     }
 
     function copyContentObjectRelations( $currentVersion, $newVersion, $newObjectID = false )
@@ -3293,80 +3280,6 @@ class eZContentObject extends eZPersistentObject
     function contentObjectListRelatingThis( $version = false )
     {
         return $this->reverseRelatedObjectList( $version );
-    }
-
-    function publishContentObjectRelations( $version )
-    {
-        $objectID = $this->ID;
-        $currentVersion = $this->CurrentVersion;
-        $version =(int) $version;
-        $db = eZDB::instance();
-        $db->begin();
-
-        $toContentObjectIDs = array();
-        $relationTypesArray = array();
-        $publishedRelations = $db->arrayQuery( "SELECT to_contentobject_id, relation_type FROM ezcontentobject_link
-                                                WHERE contentclassattribute_id='0'
-                                                  AND from_contentobject_id='$objectID'
-                                                  AND from_contentobject_version='$currentVersion'
-                                                  AND op_code='0'" );
-
-        foreach ( $publishedRelations as $relation )
-        {
-            $toContentObjectIDs[] = $relation['to_contentobject_id'];
-            $relationTypesArray[$relation['to_contentobject_id']] = (int) $relation['relation_type'];
-        }
-        $toContentObjectIDs = array_unique( $toContentObjectIDs );
-
-        $addedOrRemovedRelations = $db->arrayQuery( "SELECT to_contentobject_id, op_code, relation_type FROM ezcontentobject_link
-                                                     WHERE contentclassattribute_id='0'
-                                                       AND from_contentobject_id='$objectID'
-                                                       AND from_contentobject_version='$version'
-                                                       AND op_code!='0'
-                                                     ORDER BY id ASC" );
-
-        foreach ( $addedOrRemovedRelations as $relation )
-        {
-            $relationType = (int) $relation['relation_type'];
-            if ( !isset( $relationTypesArray[$relation['to_contentobject_id']] ) )
-            {
-                $relationTypesArray[$relation['to_contentobject_id']] = 0;
-            }
-            if ( $relation['op_code'] == 1 )
-            {
-                if ( !in_array( $relation['to_contentobject_id'], $toContentObjectIDs ) )
-                {
-                    $toContentObjectIDs[] = $relation['to_contentobject_id'];
-                }
-                $relationTypesArray[$relation['to_contentobject_id']] |= $relationType;
-             }
-            else
-            {
-                $relationTypesArray[$relation['to_contentobject_id']] &= ~$relationType;
-                if ( 0 === $relationTypesArray[$relation['to_contentobject_id']] )
-                {
-                    $toContentObjectIDs = array_diff( $toContentObjectIDs, array( $relation['to_contentobject_id'] ) );
-                }
-            }
-        }
-
-        $db->query( "DELETE FROM ezcontentobject_link
-                     WHERE contentclassattribute_id='0'
-                       AND from_contentobject_id='$objectID'
-                       AND from_contentobject_version='$version'" );
-
-        foreach( $toContentObjectIDs as $toContentObjectID )
-        {
-            $db->query( "INSERT INTO ezcontentobject_link( contentclassattribute_id,
-                                                           from_contentobject_id,
-                                                           from_contentobject_version,
-                                                           to_contentobject_id,
-                                                           op_code,
-                                                           relation_type )
-                         VALUES ( '0', '$objectID', '$version', '$toContentObjectID', '0', '{$relationTypesArray[$toContentObjectID]}' )" );
-        }
-
-        $db->commit();
     }
 
     /*!
