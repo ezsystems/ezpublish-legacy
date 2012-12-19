@@ -2613,7 +2613,7 @@ class eZContentObject extends eZPersistentObject
 
         $lastRelationType = 0;
         $db->begin();
-        if ( !$attributeID && $fromObjectVersion != $this->CurrentVersion )
+        if ( !$attributeID && ( $fromObjectVersion != $this->CurrentVersion || $this->CurrentVersion == 1 ) )
         {
             // Querying only for object level relations.
             $rows = $db->arrayQuery( "SELECT * FROM ezcontentobject_link
