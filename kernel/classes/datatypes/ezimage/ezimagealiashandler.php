@@ -688,11 +688,12 @@ class eZImageAliasHandler
         {
             $filepath = $alias['url'];
 
+            eZImageFile::removeFilepath( $this->ContentObjectAttributeData['id'], $filepath );
+
             $file = eZClusterFileHandler::instance( $filepath );
             if ( $file->exists() )
             {
                 $file->purge();
-                eZImageFile::removeFilepath( $this->ContentObjectAttributeData['id'], $filepath );
                 eZDir::cleanupEmptyDirectories( $alias['dirpath'] );
             }
             else
@@ -783,11 +784,12 @@ class eZImageAliasHandler
 
                 if ( !$doNotDelete )
                 {
+                    eZImageFile::removeFilepath( $contentObjectAttributeID, $filepath );
+
                     $file = eZClusterFileHandler::instance( $filepath );
                     if ( $file->exists() )
                     {
                         $file->delete();
-                        eZImageFile::removeFilepath( $contentObjectAttributeID, $filepath );
                         eZDir::cleanupEmptyDirectories( $dirpath );
                     }
                     else

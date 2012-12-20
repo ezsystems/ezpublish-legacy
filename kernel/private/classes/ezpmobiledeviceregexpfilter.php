@@ -118,7 +118,7 @@ class ezpMobileDeviceRegexpFilter implements ezpMobileDeviceDetectFilterInterfac
         if ( !isset( $_COOKIE['eZMobileDeviceDetect'] )
                 && !in_array( $currentSiteAccess['name'], eZINI::instance()->variable( 'SiteAccessSettings', 'MobileSiteAccessList'  ) ) )
         {
-            $http->redirect( eZINI::instance()->variable( 'SiteAccessSettings', 'MobileSiteAccessURL' ) );
+            $http->redirect( eZINI::instance()->variable( 'SiteAccessSettings', 'MobileSiteAccessURL' ) . eZSys::serverVariable(  'REQUEST_URI' ) );
 
             eZExecution::cleanExit();
         }

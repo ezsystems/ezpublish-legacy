@@ -32,9 +32,22 @@ CREATE TABLE ezdfsfile (
 
 class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
 {
+    /**
+     * Wait for n microseconds until retry if copy fails, to avoid DFS overload.
+     */
+    const TIME_UNTIL_RETRY = 100;
+
+    /**
+     * Max number of times a dfs file is tried to be copied.
+     *
+     * @var int
+     */
+    protected $maxCopyTries;
+
     public function __construct()
     {
         $this->eventHandler = ezpEvent::getInstance();
+        $this->maxCopyTries = (int)eZINI::instance( 'file.ini' )->variable( 'eZDFSClusteringSettings', 'MaxCopyRetries' );
     }
 
     /**
@@ -587,7 +600,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
      * Saving $filePath locally with its original name, or $uniqueName if given
      *
      * @param string $filePath
-     * @param string $uniqueName Alternative name to save the file to
+     * @param bool|string $uniqueName Alternative name to save the file to
      * @return string|bool the file physical path, or false if fetch failed
      */
     public function _fetch( $filePath, $uniqueName = false )
@@ -600,41 +613,55 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             return false;
         }
 
-        // create temporary file
-        if ( strrpos( $filePath, '.' ) > 0 )
-            $tmpFilePath = substr_replace( $filePath, getmypid().'tmp', strrpos( $filePath, '.' ), 0  );
-        else
-            $tmpFilePath = $filePath . '.' . getmypid().'tmp';
-        $this->__mkdir_p( dirname( $tmpFilePath ) );
+        $dfsFileSize = $this->dfsbackend->getDfsFileSize( $filePath );
+        $loopCount = 0;
+        $localFileSize = 0;
 
-        // copy DFS file to temporary FS path
-        // @todo Throw an exception
-        if ( !$this->dfsbackend->copyFromDFS( $filePath, $tmpFilePath ) )
+        do
         {
-            eZDebug::writeError("Failed copying DFS://$filePath to FS://$tmpFilePath ");
-            return false;
-        }
+            // create temporary file
+            $tmpid = getmypid() . '-' . mt_rand() .'tmp';
+            if ( strrpos( $filePath, '.' ) > 0 )
+                $tmpFilePath = substr_replace( $filePath, $tmpid, strrpos( $filePath, '.' ), 0  );
+            else
+                $tmpFilePath = $filePath . '.' . $tmpid;
+            $this->__mkdir_p( dirname( $tmpFilePath ) );
+            eZDebugSetting::writeDebug( 'kernel-clustering', "copying DFS://$filePath to FS://$tmpFilePath on try: $loopCount " );
 
-        // Make sure all data is written correctly
-        clearstatcache();
-        $tmpSize = filesize( $tmpFilePath );
-        // @todo Throw an exception
-        if ( $tmpSize != $metaData['size'] )
-        {
-            eZDebug::writeError( "Size ($tmpSize) of written data for file '$tmpFilePath' does not match expected size " . $metaData['size'], __METHOD__ );
-            return false;
-        }
+            // copy DFS file to temporary FS path
+            // @todo Throw an exception
+            if ( !$this->dfsbackend->copyFromDFS( $filePath, $tmpFilePath ) )
+            {
+                eZDebug::writeError("Failed copying DFS://$filePath to FS://$tmpFilePath ");
+                usleep( self::TIME_UNTIL_RETRY );
+                ++$loopCount;
+                continue;
+            }
 
-        if ( $uniqueName !== true )
-        {
-            eZFile::rename( $tmpFilePath, $filePath, false, eZFile::CLEAN_ON_FAILURE | eZFile::APPEND_DEBUG_ON_FAILURE );
-        }
-        else
-        {
-            $filePath = $tmpFilePath;
-        }
+            if ( $uniqueName !== true )
+            {
+                eZFile::rename( $tmpFilePath, $filePath, false, eZFile::CLEAN_ON_FAILURE | eZFile::APPEND_DEBUG_ON_FAILURE );
+            }
+            $filePath = ($uniqueName) ? $tmpFilePath : $filePath ;
 
-        return $filePath;
+            // If all data has been written correctly, return the filepath.
+            // Otherwise let the loop continue
+            clearstatcache( true, $filePath );
+            $localFileSize = filesize( $filePath );
+            if ( $dfsFileSize == $localFileSize )
+            {
+                return $filePath;
+            }
+
+            usleep( self::TIME_UNTIL_RETRY );
+            ++$loopCount;
+        }
+        while ( $dfsFileSize > $localFileSize && $loopCount < $this->maxCopyTries );
+
+        // Copy from DFS has failed :-(
+        eZDebug::writeError( "Size ($localFileSize) of written data for file '$tmpFilePath' does not match expected size {$metaData['size']}", __METHOD__ );
+        unlink( $tmpFilePath );
+        return false;
     }
 
     public function _fetchContents( $filePath, $fname = false )
@@ -834,7 +861,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
     function _storeInner( $filePath, $datatype, $scope, $fname )
     {
         // Insert file metadata.
-        clearstatcache();
+        clearstatcache( true, $filePath );
         $fileMTime = filemtime( $filePath );
         $contentLength = filesize( $filePath );
         $filePathHash = md5( $filePath );

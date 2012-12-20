@@ -35,6 +35,13 @@ class eZExpiryHandler
     function restore()
     {
         $Timestamps = $this->CacheFile->processFile( array( $this, 'fetchData' ) );
+        if ( $Timestamps === false )
+        {
+            $errMsg = 'Fatal error - could not restore expiry.php file.';
+            eZDebug::writeError( $errMsg, __METHOD__ );
+            trigger_error( $errMsg, E_USER_ERROR );
+        }
+
         $this->Timestamps = $Timestamps;
         $this->IsModified = false;
     }

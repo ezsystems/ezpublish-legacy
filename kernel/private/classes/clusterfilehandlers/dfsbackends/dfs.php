@@ -95,19 +95,41 @@ class eZDFSFileHandlerDFSBackend
      * if specified
      *
      * @param string $srcFilePath Local file path to copy from
-     * @param string $dstFilePath
+     * @param bool|string $dstFilePath
      *        Optional path to copy to. If not specified, $srcFilePath is used
+     * @return bool
      */
     public function copyToDFS( $srcFilePath, $dstFilePath = false )
     {
         $this->accumulatorStart();
 
+        $srcFileContents = file_get_contents( $srcFilePath );
+        if ( $srcFileContents === false )
+        {
+            $this->accumulatorStop();
+            eZDebug::writeError( "Error getting contents of file FS://'$srcFilePath'.", __METHOD__ );
+            return false;
+        }
+
         if ( $dstFilePath === false )
         {
             $dstFilePath = $srcFilePath;
         }
+
         $dstFilePath = $this->makeDFSPath( $dstFilePath );
-        $ret = $this->createFile( $dstFilePath, file_get_contents( $srcFilePath ), true );
+        $ret = $this->createFile( $dstFilePath, $srcFileContents, true );
+        if ( $ret )
+        {
+            // Double checking if the file has been correctly created
+            $srcFileSize = strlen( $srcFileContents );
+            clearstatcache( true, $dstFilePath );
+            $dstFileSize = filesize( $dstFilePath );
+            if ( $dstFileSize != $srcFileSize )
+            {
+                eZDebug::writeError( "Size ($dstFileSize) of written data for file FS://$dstFilePath does not match expected size of original DFS file ($srcFileSize)", __METHOD__ );
+                return false;
+            }
+        }
 
         $this->accumulatorStop();
 
@@ -282,12 +304,27 @@ class eZDFSFileHandlerDFSBackend
 
     protected function createFile( $filePath, $contents, $atomic = true )
     {
+        // $contents can result from a failed file_get_contents(). In this case
+        if ( $contents === false )
+            return false;
+
         $createResult = eZFile::create( basename( $filePath ), dirname( $filePath ), $contents, $atomic );
 
         if ( $createResult )
             $this->fixPermissions( $filePath );
 
         return $createResult;
+    }
+
+    /**
+     * Returns size of a file in the DFS backend, from a relative path.
+     *
+     * @param string $filePath The relative file path we want to get size of
+     * @return int
+     */
+    public function getDfsFileSize( $filePath )
+    {
+        return filesize( $this->makeDFSPath( $filePath ) );
     }
 
     /**

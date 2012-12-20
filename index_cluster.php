@@ -87,7 +87,8 @@ EOF;
 require_once $clusterGatewayFile;
 $gateway = ezpClusterGateway::getGateway();
 
-$filename = ltrim( $_SERVER['REQUEST_URI'], '/' );
+// Use rawurldecode() because if the file contains " characters, they are url encoded.
+$filename = rawurldecode( ltrim( $_SERVER['REQUEST_URI'], '/' ) );
 if ( ( $queryPos = strpos( $filename, '?' ) ) !== false )
     $filename = substr( $filename, 0, $queryPos );
 

@@ -26,7 +26,7 @@ class ezpDbMySQLiClusterGateway extends ezpClusterGateway
 
     public function fetchFileMetadata( $filepath )
     {
-        $sql = "SELECT * FROM ezdbfile WHERE name_hash = MD5('$filepath')";
+        $sql = "SELECT `datatype`, `size`, `mtime` FROM ezdbfile WHERE name_hash = MD5('$filepath')";
         if ( !$res = mysqli_query( $this->db, $sql ) )
             throw new RuntimeException( "Failed to fetch file metadata for '$filepath' " .
                 "(error #". mysqli_errno( $this->db ).": " . mysqli_error( $this->db ) );

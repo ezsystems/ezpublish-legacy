@@ -39,7 +39,8 @@ class eZImageShellHandlerTest extends ezpTestCase
      */
     public function testIssue15406()
     {
-        $this->imageManager->convert( "tests/tests/lib/ezimage/data/andernach.jpg", $dest = "tests/tests/lib/ezimage/data/andernach_result.jpg", "small" );
+        $dest = "tests/tests/lib/ezimage/data/andernach_result.jpg";
+        $this->imageManager->convert( "tests/tests/lib/ezimage/data/andernach.jpg", $dest, "small" );
         $this->assertTrue( file_exists( "tests/tests/lib/ezimage/data/andernach_small.jpg" ) );
     }
 }

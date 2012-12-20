@@ -1,6 +1,7 @@
 {* Window controls *}
 {def $node_url_alias      = $node.url_alias
-     $tabs_disabled       = ezpreference( 'admin_navigation_content' )|not
+     $tabs_disabled       = false()
+     $admin_navigation_content_pref = ezpreference( 'admin_navigation_content' )
      $default_tab         = 'view'
      $node_tab_index      = first_set( $view_parameters.tab, $default_tab )
      $read_open_tab_by_cookie = true()
@@ -16,6 +17,8 @@
      $valid_tabs = array( $default_tab, 'details', 'translations', 'locations', 'relations', 'states' )
      $navigation_part_name = fetch( 'section', 'object', hash( 'section_id', $node.object.section_id ) ).navigation_part_identifier
 }
+
+{if $admin_navigation_content_pref|is_string}{set $tabs_disabled = $admin_navigation_content_pref|not}{/if}
 
 {if eq( $navigation_part_name, 'ezusernavigationpart' )}
 {def $assigned_policies   = fetch( 'user', 'user_role', hash( 'user_id', $node.contentobject_id ) )

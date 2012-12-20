@@ -104,7 +104,17 @@ class eZImageFile extends eZPersistentObject
 
         $contentObjectID = (int)( $rows[0]['contentobject_id'] );
         $contentClassAttributeID = (int)( $rows[0]['contentclassattribute_id'] );
-        $filepath = $db->escapeString( $filepath );
+        // Transform ", &, < and > to entities since they are being transformed in entities by DOM
+        // See eZImageAliasHandler::initialize()
+        // Ref https://jira.ez.no/browse/EZP-20090
+        $filepath = $db->escapeString(
+            htmlspecialchars(
+                $filepath,
+                // Forcing default flags to be able to specify encoding. See http://php.net/htmlspecialchars
+                version_compare( PHP_VERSION, '5.4.0', '>=' ) ? ENT_COMPAT | ENT_HTML401 : ENT_COMPAT,
+                'UTF-8'
+            )
+        );
         // Escape _ in like to avoid it to act as a wildcard !
         $filepath = addcslashes( $filepath, "_" );
         $query = "SELECT id, version

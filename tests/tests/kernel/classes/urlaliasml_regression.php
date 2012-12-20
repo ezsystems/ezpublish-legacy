@@ -44,6 +44,13 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         $this->frenchLanguage = eZContentLanguage::addLanguage( "fre-FR", "Français" );
     }
 
+    public function tearDown()
+    {
+        $this->norskLanguage->removeThis();
+        $this->frenchLanguage->removeThis();
+        parent::tearDown();
+    }
+
     /**
      * Builds SQL statement required to fetch all url elements for a set of nodes.
      * If $defaultLanguage is set only url elements of that language_id are
@@ -141,6 +148,8 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
             }
             $lastId = $id;
         }
+
+        $folder->remove();
     }
 
     /**
@@ -201,6 +210,8 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
             }
             $lastId = $id;
         }
+        $newArticle->remove();
+        $folder->remove();
     }
 
     /**
@@ -249,6 +260,7 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         // STEP 5: Make sure the old history element id and newly created
         // elment is the same.
         self::assertEquals( $child1Result[0]['id'], $child2Result[0]['id'] );
+        $folder->remove();
     }
 
     /**
@@ -287,6 +299,8 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
 
 
         // Restore ini settings to their original values
+        $subfolder->remove();
+        $folder->remove();
         ezpINIHelper::restoreINISettings();
     }
 
@@ -352,6 +366,8 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         // equal folder1's ID.
         self::assertEquals( $folderUrlEntry[0]['id'], $child2UrlEntry[0]['parent'] );
         self::assertNotEquals( $child1UrlEntry[0]['id'], $child2UrlEntry[0]['text'] );
+        $folder1->remove();
+        $folder2->remove();
     }
 
     /**
@@ -440,6 +456,7 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         $resultSet = $db->arrayQuery( $q );
         $validData4 = self::verifyURLAliasElementHistoryEntry( $name3, $name4, $resultSet );
         self::assertTrue( $validData4 );
+        $folder->remove();
     }
 
     /**
@@ -541,6 +558,8 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
             $this->englishLanguage->attribute( 'id' ) + $this->norskLanguage->attribute( 'id' ),
             (int)$result[0]['lang_mask']
         );
+        $child->remove();
+        $folder->remove();
     }
 
     /**
@@ -581,6 +600,8 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         $result = $db->arrayQuery( $query );
 
         self::assertEquals( 2, (int) $result[0]['lang_mask'] );
+        $child->remove();
+        $folder->remove();
     }
 
     /**
@@ -663,6 +684,8 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
                     "Link element does not point to the correct new entry." );
             }
         }
+        $article->remove();
+        $folder->remove();
     }
 
     /**
@@ -699,6 +722,7 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
             self::assertEquals( $expectedLangMask, $langMask,
                 "lang_mask of history element is not the same" );
         }
+        $folder->remove();
     }
 
     /**
@@ -749,6 +773,7 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         $childUrlAliasParentId = $result[0]['parent'];
 
         self::assertEquals( (int) $childUrlAliasParentId, (int) $folderUrlAliasId );
+        $folder->remove();
     }
 
     /**
@@ -790,6 +815,9 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
 
         self::assertEquals( 0, count( $norUrlEntries ),
             "There should be no nor-NO url entries left" );
+        $child->remove();
+        $folder1->remove();
+        $folder2->remove();
     }
 
     /**
@@ -808,6 +836,7 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
 
         self::assertEquals( $expectedPath, $fallbackFolder->mainNode->node->pathWithNames(),
                             "The expected fallback system-url was not generated" );
+        $fallbackFolder->remove();
     }
 
     /**
@@ -843,6 +872,7 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
 
         self::assertEquals( 1, (int) $aliases[0]['is_alias'] );
         self::assertEquals( 1, (int) $aliases[0]['is_original'] );
+        $folder->remove();
     }
 
     /**
@@ -912,6 +942,7 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         // after publishing the parent of the real node.
         self::assertEquals( $myNodeAliasOriginalParent, $myNodeAliasPostChangeParent,
                             "Parent have custom url alias have been changed inadvertently." );
+        $theRealFolder->remove();
     }
 
     /**
@@ -978,6 +1009,10 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         $dataMap['name']->setAttribute( 'data_text', "Root folder English renamed" );
         $dataMap['name']->store();
         ezpObject::publishContentObject( $rootFolder->object, $newVersion );
+
+        $child->remove();
+        $rootFolder->remove();
+        $jpn->removeThis();
     }
 
     /**
@@ -1082,6 +1117,7 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         $rows = $db->arrayQuery( $query );
         $result = self::verifyUrlEntryParentStructure( $nameStructure, $rows );
         self::assertTrue( $result, "Fail after step 10"  );
+        $rootFolder->remove();
     }
 
     /**
@@ -1245,6 +1281,8 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
         self::assertEquals( (int)$childRawData['id'], (int)$newTranslatedChildData['id'], "Newly created translation of existing action should have same id." );
 
         self::assertEquals( $this->norskLanguage->attribute( 'id' ), (int)$newTranslatedChildData['lang_mask'] );
+        $child->remove();
+        $folder->remove();
     }
 
     /**
@@ -1354,6 +1392,8 @@ class eZURLAliasMLRegression extends ezpDatabaseTestCase
 
         self::assertEquals( (int)$initialTranslationChild['id'], (int)$translationChild['id'], "Current translations of the same node need to have the same id." );
 
+        $child->remove();
+        $folder->remove();
         ezpINIHelper::restoreINISettings();
     }
 

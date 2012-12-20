@@ -4009,8 +4009,8 @@ $schema = array (
       ),
       'remote_id' => 
       array (
-        'length' => 11,
-        'type' => 'int',
+        'length' => 100,
+        'type' => 'varchar',
         'not_null' => '1',
         'default' => 0,
       ),

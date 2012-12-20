@@ -28,7 +28,6 @@
  * </code>
  * 
  * @package eZKernel
- * @method fetch
  */
 class eZPersistentObject
 {

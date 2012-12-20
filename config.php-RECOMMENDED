@@ -21,6 +21,15 @@
 //ini_set( 'include_path', ini_get( 'include_path' ). PATH_SEPARATOR . '../ezcomponents/trunk' );
 
 /*
+    USING COMPONENTS VIA COMPOSER
+    -----------------------------
+    If installation is in a eZ Publish 5/Symfony context, composer will be attempted to be used
+    if the following file is found: '../EZP_APP_FOLDER_NAME/autoload.php'
+    Default EZP_APP_FOLDER_NAME value is "ezpublish" and this constant gives you possibility to change it.
+*/
+//define( 'EZP_APP_FOLDER_NAME', 'app' );
+
+/*
     USING BUNDLED COMPONENTS
     ------------------------
     If you are using a distribution of eZ Publish with which the necessary
