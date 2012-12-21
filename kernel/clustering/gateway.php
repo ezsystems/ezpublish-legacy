@@ -222,13 +222,18 @@ abstract class ezpClusterGateway
             {
                 $startOffset = $matches[1];
                 $endOffset = isset( $matches[2] ) ? $matches[2] : false;
-                $contentLength = $endOffset ? $endOffset - $startOffset + 1 : $filesize - $startOffset;
-                if ( $endOffset === false )
+                if ( $endOffset === false || $endOffset > ( $filesize - 1 ) )
                 {
                     $endOffset = $filesize - 1;
                 }
-                header( "Content-Range: bytes $startOffset-$endOffset/$filesize" );
-                header( "HTTP/1.1 206 Partial Content" );
+                $contentLength = $endOffset ? $endOffset - $startOffset + 1 : $filesize - $startOffset;
+                if ( $startOffset >= $endOffset ) {
+                    header( "Content-Range: bytes */$filesize" );
+                    $this->interrupt( '', 416 );
+                } else {
+                    header( "Content-Range: bytes $startOffset-$endOffset/$filesize" );
+                    header( "HTTP/1.1 206 Partial Content" );
+                }
             }
         }
         else
@@ -275,6 +280,18 @@ abstract class ezpClusterGateway
 </head><body>
 <H1>Not Found</H1>
 <p>The requested URL {$filename} was not found on this server.<p>
+</body></html>
+EOF;
+            exit( 1 );
+
+            case 416:
+                header( $_SERVER['SERVER_PROTOCOL'] . " 416 Requested Range Not Satisfiable" );
+                echo <<<EOF
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>416 Requested Range Not Satisfiable</title>
+</head><body>
+<h1>416 Requested Range Not Satisfiable</h1>
 </body></html>
 EOF;
             exit( 1 );
