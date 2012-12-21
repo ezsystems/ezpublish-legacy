@@ -311,7 +311,7 @@ class ezpKernelWeb implements ezpKernelHandler
                 'Pragma' => 'no-cache',
                 'X-Powered-By' => eZPublishSDK::EDITION,
                 'Content-Type' => 'text/html; charset=' . $this->httpCharset,
-                'Served-by' => $_SERVER["SERVER_NAME"],
+                'Served-by' => isset( $_SERVER["SERVER_NAME"] ) ? $_SERVER['SERVER_NAME'] : null,
                 'Content-language' => $this->languageCode
               ) as $key => $value
         )
