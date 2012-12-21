@@ -227,10 +227,13 @@ abstract class ezpClusterGateway
                     $endOffset = $filesize - 1;
                 }
                 $contentLength = $endOffset ? $endOffset - $startOffset + 1 : $filesize - $startOffset;
-                if ( $startOffset >= $endOffset ) {
+                if ( $startOffset >= $endOffset )
+                {
                     header( "Content-Range: bytes */$filesize" );
                     $this->interrupt( '', 416 );
-                } else {
+                }
+                else
+                {
                     header( "Content-Range: bytes $startOffset-$endOffset/$filesize" );
                     header( "HTTP/1.1 206 Partial Content" );
                 }
