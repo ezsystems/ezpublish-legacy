@@ -148,6 +148,7 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
         }
         else
         {
+            $ini = eZINI::instance();
             // Translated object found, forwarding to new URL.
 
             $saIni = $this->getSiteAccessIni();
@@ -159,7 +160,9 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
 
         $this->baseDestinationUrl = rtrim( $this->baseDestinationUrl, '/' );
 
-        if ( $GLOBALS['eZCurrentAccess']['type'] === eZSiteAccess::TYPE_URI )
+        if ( $GLOBALS['eZCurrentAccess']['type'] === eZSiteAccess::TYPE_URI &&
+             !( $ini->variable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess' ) == "enabled" &&
+                $ini->variable( 'SiteSettings', 'DefaultAccess' ) == $this->destinationSiteAccess ) )
         {
             $finalUrl = $this->baseDestinationUrl . '/' . $this->destinationSiteAccess . '/' . $urlAlias;
         }
