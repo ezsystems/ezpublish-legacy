@@ -47,23 +47,27 @@ var treeMenu;
 (function(){ldelim}
 
 {cache-block keys=array( $root_node_id, $access_type ) expiry=0}
-    {def $root_node_url = $root_node.url}
+    {def $root_node_url = $root_node.url $class_list = array()}
     {if $root_node_id|eq( 1 )}
         {set $root_node_url = 'content/dashboard'}
     {elseif $root_node_url|eq('')}
         {set $root_node_url = concat( 'content/view/full/', $root_node_id )}
     {/if}
+    {foreach fetch( 'content', 'can_instantiate_class_list', hash( 'parent_node', $root_node, 'filter_type', $filter_type, 'group_id', $filter_groups ) ) as $class}
+        {set $class_list = $class_list|append( $class.id )}
+    {/foreach}
 
-    var rootNode = {ldelim}{*
-        *}"node_id":{$root_node_id},{*
-        *}"object_id":{if $root_node.object.id}{$root_node.object.id}{else}0{/if},{*
-        *}"class_id":{$root_node.object.contentclass_id},{*
-        *}"has_children":{if $root_node.children_count}true{else}false{/if},{*
-        *}"name":"{$root_node.name|wash(javascript)}",{*
-        *}"url":{$root_node_url|ezurl},{*
-        *}"modified_subnode":{$root_node.modified_subnode},{*
-        *}"languages":["{$root_node.object.language_codes|implode('", "')}"],{*
-        *}"class_list":[{foreach fetch('content','can_instantiate_class_list',hash('parent_node',$root_node, 'filter_type', $filter_type, 'group_id', $filter_groups)) as $class}{$class.id}{delimiter},{/delimiter}{/foreach}]{rdelim};
+    var rootNode = {json_encode( hash(
+        'node_id', $root_node_id,
+        'object_id', cond( $root_node.object.id, $root_node.object.id, true(), 0 ),
+        'class_id', $root_node.object.contentclass_id,
+        'has_children', gt( $root_node.children_count, 0),
+        'name', $root_node.name,
+        'url', $root_node_url|ezurl('no'),
+        'modified_subnode', $root_node.modified_subnode,
+        'languages', $root_node.object.language_codes,
+        'class_list', $class_list
+    ) )};
 
     {cache-block keys=array( $root_node_id|gt( 1 ), $access_type ) expiry=86400 ignore_content_expiry}
         {def $iconInfo      = icon_info('class')
@@ -80,12 +84,13 @@ var treeMenu;
             *}{/foreach}{*
         *}{rdelim};
 
-        params.classes = {ldelim}{*
-            *}{foreach fetch('class','list') as $class}{*
-                *}"{$class.id}":{ldelim}name:"{$class.name|wash(javascript)}",identifier:"{$class.identifier|wash(javascript)}"{rdelim}{*
-                *}{delimiter},{/delimiter}{*
-            *}{/foreach}{*
-        *}{rdelim};
+        {set $class_list = hash()}
+        {* Using an underscore to prefix the key because of merge not handling numeric keys correctly *}
+        {foreach fetch('class','list') as $class}
+            {set $class_list = $class_list|merge( hash( concat( '_', $class.id ), hash( 'name', $class.name, 'identifier', $class.identifier ) ) )}
+        {/foreach}
+
+        params.classes = {json_encode( $class_list ) }
 
         {foreach $iconInfo.icons as $class => $icon}{*
             *}params.iconsList['{$class}'] = params.wwwDirPrefix + "{$icon}";
