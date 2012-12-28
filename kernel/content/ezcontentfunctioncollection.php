@@ -1244,7 +1244,7 @@ class eZContentFunctionCollection
      * @param array $relatedClassIdentifiers Array of related class identifiers that will be accepted
      * @return array ANn array of eZContentObject
      */
-    static public function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $limit = false, $offset = false, $asObject = true, $loadDataMap = false, $ignoreVisibility = null, array $relatedClassIdentifiers = null )
+    static public function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $limit = false, $offset = false, $asObject = true, $loadDataMap = false, $ignoreVisibility = false, array $relatedClassIdentifiers = null )
     {
         if ( !is_numeric( $objectID ) )
         {
@@ -1322,7 +1322,7 @@ class eZContentFunctionCollection
     }
 
         // Fetches count of reverse related objects
-    static public function fetchRelatedObjectsCount( $objectID, $attributeID, $allRelations )
+    static public function fetchRelatedObjectsCount( $objectID, $attributeID, $allRelations, $ignoreVisibility = false )
     {
         if ( !is_numeric( $objectID ) )
         {
@@ -1367,6 +1367,11 @@ class eZContentFunctionCollection
                 eZDebug::writeError( "Can't get class attribute ID by identifier" );
                 return false;
             }
+        }
+
+        if ( $ignoreVisibility !== null )
+        {
+            $params['IgnoreVisibility'] = $ignoreVisibility;
         }
 
         return array( 'result' => $object->relatedContentObjectCount( false, $attributeID, $params ) );

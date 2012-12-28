@@ -10,8 +10,8 @@
      $translations_count  = $translations|count
      $states              = $node.object.allowed_assign_state_list
      $states_count        = $states|count
-     $related_objects_count = fetch( 'content', 'related_objects_count', hash( 'object_id', $node.object.id , 'all_relations', true() ) )
-     $reverse_related_objects_count = fetch( 'content', 'reverse_related_objects_count', hash( 'object_id', $node.object.id , 'all_relations', true() ) )
+     $related_objects_count = fetch( 'content', 'related_objects_count', hash( 'object_id', $node.object.id , 'all_relations', true(), 'ignore_visibility', true() ) )
+     $reverse_related_objects_count = fetch( 'content', 'reverse_related_objects_count', hash( 'object_id', $node.object.id , 'all_relations', true(), 'ignore_visibility', true() ) )
      $additional_tabs = array()
      $additional_tabs_count = 0
      $valid_tabs = array( $default_tab, 'details', 'translations', 'locations', 'relations', 'states' )

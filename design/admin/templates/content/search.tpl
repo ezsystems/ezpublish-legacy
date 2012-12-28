@@ -8,7 +8,8 @@
                            subtree_array,$search_subtree_array,
                            sort_by,array('modified',false()),
                            offset,$view_parameters.offset,
-                           limit,$page_limit))}
+                           limit,$page_limit,
+                           ignore_visibility, true()))}
     {set search_result=$search['SearchResult']}
     {set search_count=$search['SearchCount']}
     {set stop_word_array=$search['StopWordArray']}
