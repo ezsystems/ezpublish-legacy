@@ -86,7 +86,7 @@ class eZXMLOutputHandler
             } break;
             case 'aliased_handler':
             {
-                if ( $this->AliasHandler === null )
+                if ( $this->AliasedHandler === null )
                 {
                     $this->AliasedHandler = eZXMLText::inputHandler( $this->XMLData,
                                                                       $this->AliasedType,
