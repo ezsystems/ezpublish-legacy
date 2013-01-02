@@ -527,7 +527,7 @@ $class->NameList->setHasDirtyData();
 
 $trans = eZCharTransform::instance();
 
-if ( $validationRequired )
+if ( $contentClassHasInput && $validationRequired )
 {
     // check for duplicate attribute identifiers and placements in the input
     $placementMap = array();
