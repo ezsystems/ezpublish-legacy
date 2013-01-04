@@ -1289,21 +1289,33 @@ class eZSearchEngine implements ezpSearchEngine
     */
     function splitString( $text )
     {
-        $text = preg_replace(
-            // Remove duplicate spaces
-            "/\s{2,}/",
-            " ",
-            trim(
-                preg_replace(
-                    // Remove single and double quotes (including UTF-8 variations)
-                    "/([\x{2018}-\x{201f}]|'|\")/u",
-                    " ",
-                    $text
-                )
-            )
-        );
+        $text = self::removeDuplicatedSpaces( trim( self::removeAllQuotes( $text ) ) );
 
         return empty( $text ) ? array() : explode( " ", $text );
+    }
+
+    /**
+     * Remove duplicated spaces
+     *
+     * @param string $text
+     *
+     * @return string
+     */
+    static protected function removeDuplicatedSpaces( $text )
+    {
+        return preg_replace( "/\s{2,}/", " ", $text );
+    }
+
+    /**
+     * Remove single and double quotes, including UTF-8 variations
+     *
+     * @param string $text
+     *
+     * @return string
+     */
+    static protected function removeAllQuotes( $text )
+    {
+        return preg_replace( "/([\x{2018}-\x{201f}]|'|\")/u", " ", $text );
     }
 
     /*!
@@ -1313,13 +1325,18 @@ class eZSearchEngine implements ezpSearchEngine
     */
     function normalizeText( $text, $isMetaData = false )
     {
-        $trans = eZCharTransform::instance();
-        $text = $trans->transformByGroup( $text, 'search' );
+        $text = self::removeDuplicatedSpaces(
+            trim(
+                self::removeAllQuotes(
+                    eZCharTransform::instance()->transformByGroup( $text, 'search' )
+                )
+            )
+        );
 
         // Remove quotes and asterix when not handling search text by end-user
         if ( $isMetaData )
         {
-            $text = str_replace( array( "\"", "*" ), array( " ", " " ), $text );
+            $text = str_replace( "*", " ", $text );
         }
 
         return $text;
