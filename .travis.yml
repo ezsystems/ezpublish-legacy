@@ -27,3 +27,6 @@ script:
 
 notification:
   email: false
+
+git:
+  depth: 30
