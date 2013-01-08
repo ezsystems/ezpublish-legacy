@@ -25,3 +25,6 @@ CREATE INDEX ezurlalias_ml_par_lnk_txt ON ezurlalias_ml USING btree (parent, tex
 DROP INDEX ezurlalias_ml_action;
 DROP INDEX ezurlalias_ml_par_act_id_lnk;
 CREATE INDEX ezurlalias_ml_par_act_id_lnk ON ezurlalias_ml USING btree ("action", id, link, parent);
+
+DELETE FROM ezcontentobject_link WHERE op_code <> 0;
+DELETE FROM ezcontentobject_link WHERE relation_type = 0;
