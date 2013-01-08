@@ -218,17 +218,22 @@ abstract class ezpClusterGateway
             // let the client know we do accept range by bytes
             header( 'Accept-Ranges: bytes' );
 
-            if ( isset( $_SERVER['HTTP_RANGE'] ) && preg_match( "/^bytes=(\d+)-(\d+)?$/", trim( $_SERVER['HTTP_RANGE'] ), $matches ) )
+            if ( isset( $_SERVER['HTTP_RANGE'] ) && strpos( $_SERVER['HTTP_RANGE'], 'bytes=' ) === 0 && strpos( $_SERVER['HTTP_RANGE'], ',' ) === false )
             {
-                $startOffset = $matches[1];
-                $endOffset = isset( $matches[2] ) ? $matches[2] : false;
-                if ( $endOffset === false || $endOffset > ( $filesize - 1 ) )
+                $matches = explode( '-', substr( $_SERVER['HTTP_RANGE'], 6 ) );
+                $startOffset = $matches[0];
+                $endOffset = !empty( $matches[1] ) ? $matches[1] : false;
+                if ( $endOffset !== false && empty( $startOffset ) && $startOffset !== "0" )
+                {
+                    $startOffset = $filesize - $endOffset;
+                    $endOffset = $filesize - 1;
+                }
+                elseif ( $endOffset === false || $endOffset > ( $filesize - 1 ) )
                 {
                     $endOffset = $filesize - 1;
                 }
-                $contentLength = $endOffset ? $endOffset - $startOffset + 1 : $filesize - $startOffset;
-                if ( $startOffset >= $endOffset )
-                {
+                $contentLength = $endOffset - $startOffset + 1;
+                if ( $startOffset >= $endOffset ) {
                     header( "Content-Range: bytes */$filesize" );
                     $this->interrupt( '', 416 );
                 }
