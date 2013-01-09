@@ -1790,6 +1790,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     static function getLimitationList( &$limitation )
     {
+        // do not check currentUser if limitation is disabled
+        if ( empty( $limitation ) and is_array( $limitation ) )
+        {
+            return $limitation;
+        }
+        
         $currentUser = eZUser::currentUser();
         $currentUserID = $currentUser->attribute( 'contentobject_id' );
         $limitationList = array();
