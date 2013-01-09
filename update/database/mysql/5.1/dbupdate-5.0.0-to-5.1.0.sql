@@ -28,3 +28,6 @@ ALTER TABLE ezurlalias_ml
     DROP INDEX ezurlalias_ml_action,
     DROP INDEX ezurlalias_ml_par_act_id_lnk,
     ADD INDEX ezurlalias_ml_par_act_id_lnk (action(32), id, link, parent);
+
+DELETE FROM ezcontentobject_link WHERE op_code <> 0;
+DELETE FROM ezcontentobject_link WHERE relation_type = 0;
