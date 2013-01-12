@@ -80,7 +80,7 @@ class eZStepSiteAccess extends eZStepInstaller
         }
 
         if ( !isset( $siteType['access_type'] ) )
-            $siteType['access_type'] = 'url';
+            $siteType['access_type'] = 'hostname';
 
         $this->storeSiteType( $siteType );
         return false; // Always show site access
