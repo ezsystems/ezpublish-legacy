@@ -37,6 +37,17 @@ Change of behavior
 
   The variable has been deprecated since 3.4.1.
 
+- Extended attribute filters
+
+  Fix for EZP-19158 introduces the use of INNER JOIN SQL clause to join tables.
+
+  So now your extended attribute filter must still return an array, but with some changes :
+  
+  * *tables* key: Must use *JOIN/INNER JOIN* with join conditions with *ON* SQL clause
+  * *joins* key : Must NOT contain join conditions any more, but general filters
+  * *columns* key: No change
+  * *group_by* key: No change
+
 Removed features
 ----------------
 
