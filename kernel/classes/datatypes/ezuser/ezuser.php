@@ -1139,8 +1139,6 @@ WHERE user_id = '" . $userID . "' AND
 
                             eZUser::updateLastVisit( $userId );
                             eZUser::setCurrentlyLoggedInUser( $currentUser, $userId );
-                            eZHTTPTool::redirect( eZSys::wwwDir() . eZSys::indexFile( false ) . eZSys::requestURI(), array(), 302 );
-                            eZExecution::cleanExit();
                         }
                     }
                     else
