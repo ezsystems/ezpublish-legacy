@@ -233,7 +233,8 @@ abstract class ezpClusterGateway
                     $endOffset = $filesize - 1;
                 }
                 $contentLength = $endOffset - $startOffset + 1;
-                if ( $startOffset >= $endOffset ) {
+                if ( $startOffset >= $endOffset )
+                {
                     header( "Content-Range: bytes */$filesize" );
                     $this->interrupt( '', 416 );
                 }
