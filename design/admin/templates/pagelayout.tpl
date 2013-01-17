@@ -24,7 +24,7 @@
     div#page div#maincolumn {ldelim} margin-right: 27px; {rdelim}
 {/if}
 {if $hide_left_menu}
-    div#maincontent-design {ldelim} margin-left: 0; {rdelim}
+div#maincolumn {ldelim} padding-right: 20px; {rdelim}
 {else}
     {if $admin_left_size}
         {def $left_menu_widths = ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini')}
@@ -77,8 +77,7 @@
 
 <div id="columns"{if $hide_right_menu} class="hide-rightmenu"{/if}>
 
-{if $hide_left_menu}
-{else}
+{if not( $hide_left_menu )}
 <div id="left-panels-separator">
     <div class="panels-separator-top"></div>
     <div class="panels-separator-bottom"></div>
@@ -159,17 +158,17 @@
 {/cache-block}{* /Pr uri cache *}
 
 {* Main area START *}
+{if $hide_left_menu}
+    {include uri='design:page_mainarea.tpl'}
+{else}
     <div id="maincontent">
     <div id="maincontent-design" class="float-break"><div id="fix">
 
-    {if $hide_left_menu}
-    {else}
     <div id="path">
         <div id="path-design">
             {include uri='design:page_toppath.tpl'}
         </div>
     </div>
-    {/if}
 
     <!-- Maincontent START -->
     {include uri='design:page_mainarea.tpl'}
@@ -177,6 +176,7 @@
     </div>
     <div class="break"></div>
     </div></div>
+{/if}
 {* Main area END *}
 </div>
 
