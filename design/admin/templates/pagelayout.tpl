@@ -24,7 +24,7 @@
     div#page div#maincolumn {ldelim} margin-right: 27px; {rdelim}
 {/if}
 {if $hide_left_menu}
-div#maincolumn {ldelim} padding-right: 20px; {rdelim}
+div#maincolumn {ldelim} padding-right: 20px; padding-left: 50px; {rdelim}
 {else}
     {if $admin_left_size}
         {def $left_menu_widths = ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini')}
@@ -77,12 +77,12 @@ div#maincolumn {ldelim} padding-right: 20px; {rdelim}
 
 <div id="columns"{if $hide_right_menu} class="hide-rightmenu"{/if}>
 
-{if not( $hide_left_menu )}
+
 <div id="left-panels-separator">
     <div class="panels-separator-top"></div>
     <div class="panels-separator-bottom"></div>
 </div>
-{/if}
+
 <div id="right-panels-separator">
     <div class="panels-separator-top"></div>
     <div class="panels-separator-bottom"></div>
