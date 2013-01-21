@@ -83,8 +83,6 @@ $GLOBALS["eZRequestError"] = true;
         }
     }
 
-    eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "error/view.php" );
-
     if ( $errorHandlerType == 'redirect' )
     {
         $errorRedirectURL = $errorINI->variable( 'ErrorSettings', 'DefaultRedirectURL' );
