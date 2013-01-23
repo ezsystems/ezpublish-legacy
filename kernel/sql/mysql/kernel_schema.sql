@@ -452,7 +452,6 @@ CREATE TABLE ezcontentobject_link (
   from_contentobject_id int(11) NOT NULL default '0',
   from_contentobject_version int(11) NOT NULL default '0',
   id int(11) NOT NULL auto_increment,
-  op_code int(11) NOT NULL default '0',
   relation_type int(11) NOT NULL default '1',
   to_contentobject_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id),

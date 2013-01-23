@@ -2108,13 +2108,6 @@ $schema = array (
         'type' => 'auto_increment',
         'default' => false,
       ),
-      'op_code' => 
-      array (
-        'length' => 11,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
       'relation_type' => 
       array (
         'length' => 11,
