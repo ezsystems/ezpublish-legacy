@@ -95,7 +95,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
 
         if ( $filePath !== false )
         {
-            $filePath = eZDBFileHandler::cleanPath( $filePath );
+            $filePath = self::cleanPath( $filePath );
             eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::ctor( '$filePath' )" );
         }
         else
@@ -116,6 +116,29 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
             self::$dbbackend->_disconnect();
             self::$dbbackend= null;
         }
+    }
+
+    /**
+     * Returns a clean version of input $path.
+     *
+     * - Backslashes are turned into slashes.
+     * - Multiple consecutive slashes are turned into one slash.
+     * - Ending slashes are removed.
+     *
+     * Examples:
+     * - my\windows\path => my/windows/path
+     * - extra//slashes/\are/fixed => extra/slashes/are/fixed
+     * - ending/slashes/ => ending/slashes
+     */
+    private static function cleanPath( $path )
+    {
+        return !is_string( $path ) ?
+            $path :
+            preg_replace(
+                array( "#[/\\\\]+#", "#/$#" ),
+                array( "/", "" ),
+                $path
+            );
     }
 
     /**
@@ -175,7 +198,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      */
     public function fileStore( $filePath, $scope = false, $delete = false, $datatype = false )
     {
-        $filePath = eZDBFileHandler::cleanPath( $filePath );
+        $filePath = self::cleanPath( $filePath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileStore( '$filePath' )" );
 
         if ( $scope === false )
@@ -203,7 +226,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      */
     public function fileStoreContents( $filePath, $contents, $scope = false, $datatype = false )
     {
-        $filePath = eZDBFileHandler::cleanPath( $filePath );
+        $filePath = self::cleanPath( $filePath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileStoreContents( '$filePath' )" );
 
         if ( $scope === false )
@@ -254,7 +277,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      */
     function fileFetch( $filePath )
     {
-        $filePath = eZDBFileHandler::cleanPath( $filePath );
+        $filePath = self::cleanPath( $filePath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileFetch( '$filePath' )" );
 
         return self::$dbbackend->_fetch( $filePath );
@@ -262,7 +285,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
 
     /*public function fileFetch( $filePath )
     {
-        $filePath = eZDBFileHandler::cleanPath( $filePath );
+        $filePath = self::cleanPath( $filePath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileFetch( '$filePath' )" );
 
         switch ( self::$dbbackend->_prepareFetch( $filePath ) )
@@ -315,7 +338,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      */
     function fileFetchContents( $filePath )
     {
-        $filePath = eZDBFileHandler::cleanPath( $filePath );
+        $filePath = self::cleanPath( $filePath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileFetchContents( '$filePath' )" );
 
         $contents = self::$dbbackend->_fetchContents( $filePath );
@@ -953,8 +976,8 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      */
     public function fileDeleteByWildcard( $wildcard )
     {
-        $wildcard = eZDBFileHandler::cleanPath( $wildcard );
-        eZDebug::writeWarning( "Using eZDBFileHandler::fileDeleteByWildcard is not recommended since it has some severe performance issues" );
+        $wildcard = self::cleanPath( $wildcard );
+        eZDebug::writeWarning( "Using " . __METHOD__ . " is not recommended since it has some severe performance issues" );
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileDeleteByWildcard( '$wildcard' )" );
 
         self::$dbbackend->_deleteByWildcard( $wildcard );
@@ -974,11 +997,11 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
     {
         foreach ( $dirList as $key => $dirItem )
         {
-            $dirList[$key] = eZDBFileHandler::cleanPath( $dirItem );
+            $dirList[$key] = self::cleanPath( $dirItem );
 
         }
-        $commonPath = eZDBFileHandler::cleanPath( $commonPath );
-        $commonSuffix = eZDBFileHandler::cleanPath( $commonSuffix );
+        $commonPath = self::cleanPath( $commonPath );
+        $commonSuffix = self::cleanPath( $commonSuffix );
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileDeleteByDirList( '" . join( ", ", $dirList ) . "', '$commonPath', '$commonSuffix' )" );
 
         self::$dbbackend->_deleteByDirList( $dirList, $commonPath, $commonSuffix );
@@ -996,7 +1019,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      */
     public function fileDelete( $path, $fnamePart = false )
     {
-        $path = eZDBFileHandler::cleanPath( $path );
+        $path = self::cleanPath( $path );
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileDelete( '$path' )" );
 
         if ( $fnamePart === false )
@@ -1009,7 +1032,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         }
         else
         {
-            $fnamePart = eZDBFileHandler::cleanPath( $fnamePart );
+            $fnamePart = self::cleanPath( $fnamePart );
             self::$dbbackend->_deleteByLike( $path . '/' . $fnamePart . '%' );
         }
     }
@@ -1035,7 +1058,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
     function fileDeleteLocal( $path )
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileDeleteLocal( '$path' )" );
-        @unlink( eZDBFileHandler::cleanPath( $path ) );
+        @unlink( self::cleanPath( $path ) );
 
         eZClusterFileHandler::cleanupEmptyDirectories( $path );
     }
@@ -1132,7 +1155,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      */
     function fileExists( $path, $checkDFSFile = false )
     {
-        $path = eZDBFileHandler::cleanPath( $path );
+        $path = self::cleanPath( $path );
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileExists( '$path' )" );
         return self::$dbbackend->_exists( $path, false, true, $checkDFSFile );
     }
@@ -1168,8 +1191,8 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      */
     function fileCopy( $srcPath, $dstPath )
     {
-        $srcPath = eZDBFileHandler::cleanPath( $srcPath );
-        $dstPath = eZDBFileHandler::cleanPath( $dstPath );
+        $srcPath = self::cleanPath( $srcPath );
+        $dstPath = self::cleanPath( $dstPath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileCopy( '$srcPath', '$dstPath' )" );
 
         // @todo Add a try... catch block here
@@ -1181,8 +1204,8 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      */
     function fileLinkCopy( $srcPath, $dstPath, $symLink )
     {
-        $srcPath = eZDBFileHandler::cleanPath( $srcPath );
-        $dstPath = eZDBFileHandler::cleanPath( $dstPath );
+        $srcPath = self::cleanPath( $srcPath );
+        $dstPath = self::cleanPath( $dstPath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileLinkCopy( '$srcPath', '$dstPath' )" );
 
         self::$dbbackend->_linkCopy( $srcPath, $dstPath );
@@ -1193,8 +1216,8 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      */
     function fileMove( $srcPath, $dstPath )
     {
-        $srcPath = eZDBFileHandler::cleanPath( $srcPath );
-        $dstPath = eZDBFileHandler::cleanPath( $dstPath );
+        $srcPath = self::cleanPath( $srcPath );
+        $dstPath = self::cleanPath( $dstPath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileMove( '$srcPath', '$dstPath' )" );
 
         // @todo Catch an exception
@@ -1209,7 +1232,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      */
     function move( $dstPath )
     {
-        $dstPath = eZDBFileHandler::cleanPath( $dstPath );
+        $dstPath = self::cleanPath( $dstPath );
         $srcPath = $this->filePath;
 
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileMove( '$srcPath', '$dstPath' )" );
