@@ -23,17 +23,21 @@
     div#page div#rightmenu  {ldelim} width: 18px; {rdelim}
     div#page div#maincolumn {ldelim} margin-right: 27px; {rdelim}
 {/if}
-{if $admin_left_size}
-    {def $left_menu_widths = ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini')}
-    {if is_set( $left_menu_widths[$admin_left_size] )}
-        {set $left_size_hash = $left_menu_widths[$admin_left_size]}
-        div#leftmenu   {ldelim} width: {$left_size_hash|int}em; {rdelim}
-        div#maincontent {ldelim} margin-left: {$left_size_hash|int}em; {rdelim}
-    {else}
-        div#page div#leftmenu   {ldelim} width: {$admin_left_size|wash}; {rdelim}
-        div#page div#maincontent {ldelim} margin-left: {$admin_left_size|wash}; {rdelim}
+{if $hide_left_menu}
+div#maincolumn {ldelim} padding-right: 20px; padding-left: 50px; {rdelim}
+{else}
+    {if $admin_left_size}
+        {def $left_menu_widths = ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini')}
+        {if is_set( $left_menu_widths[$admin_left_size] )}
+            {set $left_size_hash = $left_menu_widths[$admin_left_size]}
+            div#leftmenu   {ldelim} width: {$left_size_hash|int}em; {rdelim}
+            div#maincontent {ldelim} margin-left: {$left_size_hash|int}em; {rdelim}
+        {else}
+            div#page div#leftmenu   {ldelim} width: {$admin_left_size|wash}; {rdelim}
+            div#page div#maincontent {ldelim} margin-left: {$admin_left_size|wash}; {rdelim}
+        {/if}
+        {undef $left_menu_widths}
     {/if}
-    {undef $left_menu_widths}
 {/if}
 </style>
 {/if}
@@ -73,10 +77,12 @@
 
 <div id="columns"{if $hide_right_menu} class="hide-rightmenu"{/if}>
 
+
 <div id="left-panels-separator">
     <div class="panels-separator-top"></div>
     <div class="panels-separator-bottom"></div>
 </div>
+
 <div id="right-panels-separator">
     <div class="panels-separator-top"></div>
     <div class="panels-separator-bottom"></div>
