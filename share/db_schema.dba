@@ -1430,6 +1430,15 @@ $schema = array (
           0 => 'version',
         ),
       ),
+      'ezcontentclass_identifier' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'identifier',
+          1 => 'version',
+        ),
+      ),
     ),
   ),
   'ezcontentclass_attribute' => 
@@ -2539,6 +2548,14 @@ $schema = array (
           0 => 'node_id',
         ),
       ),
+      'ezcontentobject_tree_remote_id' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'remote_id',
+        ),
+      ),
       'ezcontentobject_tree_co_id' => 
       array (
         'type' => 'non-unique',
@@ -2701,6 +2718,15 @@ $schema = array (
         array (
           0 => 'contentobject_id',
           1 => 'version',
+        ),
+      ),
+      'ezcontobj_version_obj_status' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'contentobject_id',
+          1 => 'status',
         ),
       ),
     ),
@@ -5026,6 +5052,14 @@ $schema = array (
           0 => 'original_id',
         ),
       ),
+      'ezpolicy_role_id' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'role_id',
+        ),
+      ),
     ),
   ),
   'ezpolicy_limitation' => 
@@ -5111,6 +5145,14 @@ $schema = array (
         'fields' => 
         array (
           0 => 'value',
+        ),
+      ),
+      'ezpolicy_limit_value_limit_id' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'limitation_id',
         ),
       ),
     ),
