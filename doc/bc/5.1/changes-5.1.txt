@@ -30,6 +30,7 @@ Removed features
 
   Was used for processing relations through ezcontentobject_link.op_code column.
   Handling relations in this way was removed as extraneous.
+  See issue EZP-20239.
 
 
 
