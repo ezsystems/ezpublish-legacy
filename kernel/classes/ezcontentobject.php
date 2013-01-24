@@ -2546,8 +2546,7 @@ class eZContentObject extends eZPersistentObject
                          from_contentobject_version=$fromObjectVersion AND
                          to_contentobject_id=$toObjectID AND
                          $relationTypeMatch != 0 AND
-                         contentclassattribute_id=$attributeID AND
-                         op_code='0'";
+                         contentclassattribute_id=$attributeID";
         $count = $db->arrayQuery( $query );
         // if current relation does not exist
         if ( !isset( $count[0]['count'] ) ||  $count[0]['count'] == '0'  )
@@ -2569,8 +2568,7 @@ class eZContentObject extends eZPersistentObject
                          WHERE  from_contentobject_id=$fromObjectID AND
                                 from_contentobject_version=$fromObjectVersion AND
                                 to_contentobject_id=$toObjectID AND
-                                contentclassattribute_id=$attributeID AND
-                                op_code='0'" );
+                                contentclassattribute_id=$attributeID" );
             $db->commit();
         }
     }
@@ -2620,8 +2618,7 @@ class eZContentObject extends eZPersistentObject
                                       WHERE from_contentobject_id=$fromObjectID
                                         AND from_contentobject_version=$fromObjectVersion
                                         AND contentclassattribute_id='0'
-                                        $toObjectCondition
-                                        AND op_code='0'" );
+                                        $toObjectCondition" );
             if ( !empty( $rows ) )
             {
                 $lastRow = end( $rows );
@@ -2636,8 +2633,7 @@ class eZContentObject extends eZPersistentObject
         {
             $db->query( "DELETE FROM ezcontentobject_link
                          WHERE       from_contentobject_id=$fromObjectID AND
-                                     from_contentobject_version=$fromObjectVersion $classAttributeCondition $toObjectCondition AND
-                                     op_code='0'" );
+                                     from_contentobject_version=$fromObjectVersion $classAttributeCondition $toObjectCondition" );
         }
         else
         {
@@ -2647,16 +2643,14 @@ class eZContentObject extends eZPersistentObject
                 $db->query( "UPDATE ezcontentobject_link
                              SET    relation_type = " . $db->bitAnd( 'relation_type', $notRelationType ) . "
                              WHERE  from_contentobject_id=$fromObjectID AND
-                                    from_contentobject_version=$fromObjectVersion $classAttributeCondition $toObjectCondition AND
-                                    op_code='0'" );
+                                    from_contentobject_version=$fromObjectVersion $classAttributeCondition $toObjectCondition" );
             }
             else
             {
                 $db->query( "UPDATE ezcontentobject_link
                              SET    relation_type = ( relation_type & ".(~$relationType)." )
                              WHERE  from_contentobject_id=$fromObjectID AND
-                                    from_contentobject_version=$fromObjectVersion $classAttributeCondition $toObjectCondition AND
-                                    op_code='0'" );
+                                    from_contentobject_version=$fromObjectVersion $classAttributeCondition $toObjectCondition" );
             }
         }
 
@@ -2674,22 +2668,20 @@ class eZContentObject extends eZPersistentObject
         $db = eZDB::instance();
         $db->begin();
 
-        $relations = $db->arrayQuery( "SELECT to_contentobject_id, op_code, relation_type FROM ezcontentobject_link
+        $relations = $db->arrayQuery( "SELECT to_contentobject_id, relation_type FROM ezcontentobject_link
                                        WHERE contentclassattribute_id='0'
                                          AND from_contentobject_id='$objectID'
                                          AND from_contentobject_version='$currentVersion'" );
         foreach ( $relations as $relation )
         {
             $toContentObjectID = $relation['to_contentobject_id'];
-            $opCode = $relation['op_code'];
             $relationType = $relation['relation_type'];
             $db->query( "INSERT INTO ezcontentobject_link( contentclassattribute_id,
                                                            from_contentobject_id,
                                                            from_contentobject_version,
                                                            to_contentobject_id,
-                                                           op_code,
                                                            relation_type )
-                         VALUES ( '0', '$newObjectID', '$newVersion', '$toContentObjectID', '$opCode', '$relationType' )" );
+                         VALUES ( '0', '$newObjectID', '$newVersion', '$toContentObjectID', '$relationType' )" );
         }
 
         $db->commit();
@@ -2852,11 +2844,11 @@ class eZContentObject extends eZPersistentObject
 
         if ( $db->databaseName() == 'oracle' )
         {
-            $relationTypeMasking .= " AND bitand( relation_type, $relationTypeMask ) <> 0 ";
+            $relationTypeMasking .= " bitand( relation_type, $relationTypeMask ) <> 0 ";
         }
         else
         {
-            $relationTypeMasking .= " AND ( relation_type & $relationTypeMask ) <> 0 ";
+            $relationTypeMasking .= " ( relation_type & $relationTypeMask ) <> 0 ";
         }
 
         // Create SQL
@@ -2890,7 +2882,6 @@ class eZContentObject extends eZPersistentObject
                         ezcontentobject.status=" . eZContentObject::STATUS_PUBLISHED . " AND
                         $sortingInfo[attributeWhereSQL]
                         $relatedClassIdentifiersSQL
-                        ezcontentobject_link.op_code='0'
                         $relationTypeMasking
                         $fromOrToContentObjectID
                         $showInvisibleNodesCond AND
@@ -3245,7 +3236,6 @@ class eZContentObject extends eZPersistentObject
                     AND outer_object.status = " . eZContentObject::STATUS_PUBLISHED . "
                     AND inner_object.id = inner_link.from_contentobject_id
                     AND inner_object.status = " . eZContentObject::STATUS_PUBLISHED . "
-                    AND inner_link.op_code = 0
                     $objectIDSQL
                     $relationTypeMasking
                     $showInvisibleNodesCond";
