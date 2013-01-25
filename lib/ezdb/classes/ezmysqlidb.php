@@ -89,6 +89,11 @@ class eZMySQLiDB extends eZDBInterface
         {
             ini_set( "mysqli.default_socket", $socketPath );
         }
+        elseif( $server === 'localhost' )
+        {
+            $server = gethostbyname($server);
+            eZDebug::writeDebug( "MySQL server hostname equals 'localhost' and socket mode is disabled : forcing tcp/ip connection on $server", "Database server connection" );
+        }
 
         if ( $this->UsePersistentConnection == true )
         {
