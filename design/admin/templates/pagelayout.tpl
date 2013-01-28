@@ -17,7 +17,7 @@
 {set $collapse_right_menu = false()}
 {/if}
 
-{if and( $ui_context_edit|not, or( $collapse_right_menu, $admin_left_size ))}
+{if and( $ui_context_edit|not, or( $collapse_right_menu, $admin_left_size, $hide_left_menu ))}
 <style type="text/css">
 {if $collapse_right_menu}
     div#page div#rightmenu  {ldelim} width: 18px; {rdelim}
