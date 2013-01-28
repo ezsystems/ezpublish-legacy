@@ -30,7 +30,7 @@ class eZFinishUserRegisterType extends eZWorkflowEventType {
         $objectID = $parameterList['object_id'];
         $object = eZContentObject::fetch( $objectID );
         // @todo: improve the possible performance.
-        if( $object->attribute( 'class_identifier' ) == 'user' )
+        if( $object->attribute( 'class_identifier' ) == 'user' && $object->attribute( 'current_version' ) == 1 )
         {
             $result = eZOperationHandler::execute( 'user', 'register', array( 'user_id' => $objectID ) );
             return $result['status'];
