@@ -5363,6 +5363,7 @@ class eZContentObject extends eZPersistentObject
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'content-view-cache', time() );
         $handler->store();
+        eZContentCacheManager::$isAllViewCacheExpired = true; //set isAllViewCacheExpired to avoid clearing all view cache many times.
     }
 
     /*!

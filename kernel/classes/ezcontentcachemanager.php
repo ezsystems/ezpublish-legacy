@@ -34,6 +34,7 @@ class eZContentCacheManager
     const CLEAR_ALL_CACHE      = 63;
     const CLEAR_DEFAULT        = 15; // CLEAR_NODE_CACHE and CLEAR_PARENT_CACHE and CLEAR_RELATING_CACHE and CLEAR_KEYWORD_CACHE
 
+    static $isAllViewCacheExpired = false;  //Flag to check if clearing all view cache expiry is done. This is to advoid expiry.php 0 byte issue. Reset it to false to reenable expiring all view cache.
     /*!
      \static
      Appends parent nodes ids of \a $object to \a $nodeIDList array.
@@ -632,6 +633,10 @@ class eZContentCacheManager
     */
     static function clearObjectViewCache( $objectID, $versionNum = true, $additionalNodeList = false )
     {
+        if( !self::canClearViewCache() )
+        {
+            return;
+        }
         eZDebug::accumulatorStart( 'node_cleanup_list', '', 'Node cleanup list' );
 
         $nodeList = eZContentCacheManager::nodeList( $objectID, $versionNum );
@@ -694,6 +699,20 @@ class eZContentCacheManager
         return true;
     }
 
+    public static function canClearViewCache()
+    {
+        // If the all view cache is expired once in this request, don't clear cache again. This is to improve performance in node list calculation, see self::nodeList().
+        if( self::$isAllViewCacheExpired )
+        {
+            eZDebug::writeNotice( "Can't clear view cache since all view cache is already expired in this request." , __METHOD__ );
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     /**
      * Clears view caches of nodes, parent nodes and relating nodes
      * of content objects with ids contained in $objectIDList.
@@ -705,6 +724,10 @@ class eZContentCacheManager
      */
     public static function clearObjectViewCacheArray( array $objectIDList )
     {
+        if( !self::canClearViewCache() )
+        {
+            return;
+        }
         eZDebug::accumulatorStart( 'node_cleanup_list', '', 'Node cleanup list' );
 
         $nodeList = array();
