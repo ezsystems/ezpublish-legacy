@@ -813,7 +813,7 @@ class eZDBFileHandlerMysqliBackend
                                            'size' => $contentLength,
                                            'mtime' => $curTime,
                                            'expired' => ($curTime < 0) ? 1 : 0 ),
-                                    "datatype=VALUES(datatype), name_trunk='$nameTrunk', scope=VALUES(scope), size=VALUES(size), mtime=VALUES(mtime), expired=VALUES(expired)",
+                                    "datatype=VALUES(datatype), name_trunk=VALUES(name_trunk), scope=VALUES(scope), size=VALUES(size), mtime=VALUES(mtime), expired=VALUES(expired)",
                                    $fname ) === false )
         {
             return $this->_fail( "Failed to insert file metadata while storing contents. Possible race condition" );
