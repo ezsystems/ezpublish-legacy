@@ -15,7 +15,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
     /**
      * Tested cluster class
      * Must be overriden by any implementation
-     * @var string eZFSFileHandler, eZDBFileHandler...
+     * @var string eZFSFileHandler
      */
     protected $clusterClass = false;
 

@@ -759,17 +759,10 @@ class eZCache
      */
     public static function clearDesignBaseCache( $cacheItem )
     {
-        $cachePath = eZSys::cacheDirectory();
-
-        $fileHandler = eZClusterFileHandler::instance();
-        if ( !$fileHandler instanceof eZDBFileHandler )
-        {
-            // design base cache is disabled with eZDBFileHandler cluster
-            // handler, see eZTemplateDesignResource::allDesignBases()
-            $fileHandler->fileDelete(
-                $cachePath, eZTemplateDesignResource::DESIGN_BASE_CACHE_NAME
-            );
-        }
+        eZClusterFileHandler::instance()->fileDelete(
+            eZSys::cacheDirectory(),
+            eZTemplateDesignResource::DESIGN_BASE_CACHE_NAME
+        );
     }
 
     /**

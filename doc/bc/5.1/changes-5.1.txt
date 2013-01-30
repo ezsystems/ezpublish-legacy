@@ -26,7 +26,8 @@ Change of behavior
 Removed features
 ----------------
 
-
+- eZDBFileHandler and eZFS2FileHandler handlers have been removed since they
+  were obsolete and replaced by eZDFS ones.
 
 
 Removed constants
