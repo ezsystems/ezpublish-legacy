@@ -23,6 +23,7 @@ class eZSearchLog
     {
         $db = eZDB::instance();
         $db->begin();
+        $db->lock( "ezsearch_search_phrase" );
 
         $trans = eZCharTransform::instance();
         $phrase = $trans->transformByGroup( trim( $phrase ), 'search' );
@@ -54,6 +55,7 @@ class eZSearchLog
             /* when breaking BC: delete next line */
             $phraseID = $db->lastSerialID( 'ezsearch_search_phrase', 'id' );
         }
+        $db->unlock();
 
         /* when breaking BC: delete next lines */
         /* ezsearch_return_count is not used any more by eZ Publish
