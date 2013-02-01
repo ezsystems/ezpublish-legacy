@@ -120,7 +120,7 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
     $db = eZDB::instance();
     $db->begin();
     $locationAdded = false;
-    $mainNodeID = false;
+    $isMain = true;
 
     $newLocationList    = array();
     $failedLocationList = array();
@@ -133,13 +133,9 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
 
         if ( $canCreate )
         {
-            if ( $mainNodeID === false )
-            {
-                $isMain = true;
-            }
             $newLocationList[] = array( 'parent_node_id' => $selectedNodeID,
                                         'is_main'        => $isMain );
-
+            $isMain = false;
             $locationAdded = true;
         }
         else
