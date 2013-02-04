@@ -6069,7 +6069,7 @@ class eZContentObject extends eZPersistentObject
         $section = eZSection::fetch( $this->attribute( 'section_id' ) );
         if( $section )
         {
-            return $section['identifier'];
+            return $section->attribute( 'identifier' );
         }
         return false;
     }
