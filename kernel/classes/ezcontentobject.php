@@ -6067,7 +6067,7 @@ class eZContentObject extends eZPersistentObject
     public function sectionIdentifier()
     {
         $section = eZSection::fetch( $this->attribute( 'section_id' ) );
-        if( $section )
+        if( $section instanceof eZSection )
         {
             return $section->attribute( 'identifier' );
         }
