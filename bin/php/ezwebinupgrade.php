@@ -3,7 +3,7 @@
 /**
  * File containing the ezwebinupgrade.php script.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -133,7 +133,7 @@ function updateObjects_1_2_0()
 
     $templateLookData = array( "tag_cloud_url" => array( "DataText" => "Tag cloud",
                                                          "Content" => "/content/view/tagcloud/2" ),
-                               "footer_text" => array( "DataText" => "Copyright &#169; 1999-2010 eZ Systems AS. All rights reserved." ) );
+                               "footer_text" => array( "DataText" => "Copyright &#169; 1999-2013 eZ Systems AS. All rights reserved." ) );
 
     $installer->updateContentObjectAttributes( array( 'object_id' => $installer->setting( 'template_look_object_id' ),
                                                       'attributes_data' => $templateLookData ) );
