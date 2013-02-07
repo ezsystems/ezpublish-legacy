@@ -1,0 +1,16 @@
+Event system
+============
+
+Intro
+-----
+See 4.5/event.txt for full information on this feature
+
+
+New events
+----------
+{@see ezpEvent->notify()}
+
+
+content/cache/all
+
+Triggered when all content cache is cleared.
