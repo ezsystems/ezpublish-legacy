@@ -168,7 +168,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         $result = $this->_protect( array( $this, "_copyInner" ), $fname,
                                    $srcFilePath, $dstFilePath, $fname, $metaData );
 
-        $this->eventHandler->notify( 'cluster/deleteFile', array( $dstFilePath ) );
+        $this->eventHandler->notify( 'cluster/storeFile', array( $dstFilePath ) );
 
         return $result;
     }
@@ -846,7 +846,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         $this->_protect( array( $this, '_storeInner' ), $fname,
                          $filePath, $datatype, $scope, $fname );
 
-        $this->eventHandler->notify( 'cluster/deleteFile', array( $filePath ) );
+        $this->eventHandler->notify( 'cluster/storeFile', array( $filePath ) );
     }
 
     /**
@@ -942,7 +942,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             return $this->_fail( "Failed to open DFS://$filePath for writing" );
         }
 
-        $this->eventHandler->notify( 'cluster/deleteFile', array( $filePath ) );
+        $this->eventHandler->notify( 'cluster/storeFile', array( $filePath ) );
 
         return true;
     }
