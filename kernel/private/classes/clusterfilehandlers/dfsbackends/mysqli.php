@@ -168,7 +168,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         $result = $this->_protect( array( $this, "_copyInner" ), $fname,
                                    $srcFilePath, $dstFilePath, $fname, $metaData );
 
-        $this->eventHandler->notify( 'cluster/storeFile', array( $dstFilePath ) );
+        $this->eventHandler->notify( 'cluster/storeMetadata', array( $metaData ) );
 
         return $result;
     }
@@ -846,7 +846,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         $this->_protect( array( $this, '_storeInner' ), $fname,
                          $filePath, $datatype, $scope, $fname );
 
-        $this->eventHandler->notify( 'cluster/storeFile', array( $filePath ) );
+        $this->eventHandler->notify( 'cluster/deleteFile', array( $filePath ) );
     }
 
     /**
@@ -922,15 +922,17 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         if ( $curTime === false )
             $curTime = time();
 
+        $metaData = array( 'datatype' => $datatype,
+            'name' => $filePath,
+            'name_trunk' => $nameTrunk,
+            'name_hash' => $filePathHash,
+            'scope' => $scope,
+            'size' => $contentLength,
+            'mtime' => $curTime,
+            'expired' => ( $curTime < 0 ) ? 1 : 0 );
+
         if ( $this->_insertUpdate( self::TABLE_METADATA,
-            array( 'datatype' => $datatype,
-                   'name' => $filePath,
-                   'name_trunk' => $nameTrunk,
-                   'name_hash' => $filePathHash,
-                   'scope' => $scope,
-                   'size' => $contentLength,
-                   'mtime' => $curTime,
-                   'expired' => ( $curTime < 0 ) ? 1 : 0 ),
+            $metaData,
             "datatype=VALUES(datatype), name_trunk='$nameTrunk', scope=VALUES(scope), size=VALUES(size), mtime=VALUES(mtime), expired=VALUES(expired)",
             $fname ) === false )
         {
@@ -942,7 +944,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             return $this->_fail( "Failed to open DFS://$filePath for writing" );
         }
 
-        $this->eventHandler->notify( 'cluster/storeFile', array( $filePath ) );
+        $this->eventHandler->notify( 'cluster/storeMetadata', array( $metaData ) );
 
         return true;
     }
