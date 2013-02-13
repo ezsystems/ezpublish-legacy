@@ -2041,14 +2041,6 @@ $schema = array (
           1 => 'version',
         ),
       ),
-      'ezcontentobject_attr_id' => 
-      array (
-        'type' => 'non-unique',
-        'fields' => 
-        array (
-          0 => 'id',
-        ),
-      ),
       'ezcontentobject_attribute_co_id_ver_lang_code' => 
       array (
         'type' => 'non-unique',
@@ -2057,14 +2049,6 @@ $schema = array (
           0 => 'contentobject_id',
           1 => 'version',
           2 => 'language_code',
-        ),
-      ),
-      'ezcontentobject_attribute_contentobject_id' => 
-      array (
-        'type' => 'non-unique',
-        'fields' => 
-        array (
-          0 => 'contentobject_id',
         ),
       ),
       'ezcontentobject_attribute_language_code' => 
@@ -2232,14 +2216,6 @@ $schema = array (
           0 => 'contentobject_id',
           1 => 'content_version',
           2 => 'content_translation',
-        ),
-      ),
-      'ezcontentobject_name_co_id' => 
-      array (
-        'type' => 'non-unique',
-        'fields' => 
-        array (
-          0 => 'contentobject_id',
         ),
       ),
       'ezcontentobject_name_cov_id' => 
@@ -2983,15 +2959,6 @@ $schema = array (
           2 => 'enumid',
         ),
       ),
-      'ezenumobjectvalue_co_attr_id_co_attr_ver' => 
-      array (
-        'type' => 'non-unique',
-        'fields' => 
-        array (
-          0 => 'contentobject_attribute_id',
-          1 => 'contentobject_attribute_version',
-        ),
-      ),
     ),
   ),
   'ezenumvalue' => 
@@ -3597,15 +3564,6 @@ $schema = array (
           0 => 'keyword',
         ),
       ),
-      'ezkeyword_keyword_id' => 
-      array (
-        'type' => 'non-unique',
-        'fields' => 
-        array (
-          0 => 'keyword',
-          1 => 'id',
-        ),
-      ),
     ),
   ),
   'ezkeyword_attribute_link' => 
@@ -3641,14 +3599,6 @@ $schema = array (
         'fields' => 
         array (
           0 => 'id',
-        ),
-      ),
-      'ezkeyword_attr_link_keyword_id' => 
-      array (
-        'type' => 'non-unique',
-        'fields' => 
-        array (
-          0 => 'keyword_id',
         ),
       ),
       'ezkeyword_attr_link_kid_oaid' => 
@@ -4061,14 +4011,6 @@ $schema = array (
         'fields' => 
         array (
           0 => 'id',
-        ),
-      ),
-      'eznode_assignment_co_id' => 
-      array (
-        'type' => 'non-unique',
-        'fields' => 
-        array (
-          0 => 'contentobject_id',
         ),
       ),
       'eznode_assignment_co_version' => 
@@ -5401,14 +5343,6 @@ $schema = array (
         'fields' => 
         array (
           0 => 'id',
-        ),
-      ),
-      'client_id' => 
-      array (
-        'type' => 'non-unique',
-        'fields' => 
-        array (
-          0 => 'client_id',
         ),
       ),
       'client_id_unique' => 
@@ -7222,24 +7156,6 @@ $schema = array (
           1 => 'is_original',
         ),
       ),
-      'ezurlalias_ml_action' => 
-      array (
-        'type' => 'non-unique',
-        'fields' => 
-        array (
-          0 => 'action',
-          1 => 'id',
-          2 => 'link',
-        ),
-      ),
-      'ezurlalias_ml_actt' => 
-      array (
-        'type' => 'non-unique',
-        'fields' => 
-        array (
-          0 => 'action_type',
-        ),
-      ),
       'ezurlalias_ml_actt_org_al' => 
       array (
         'type' => 'non-unique',
@@ -7263,10 +7179,10 @@ $schema = array (
         'type' => 'non-unique',
         'fields' => 
         array (
-          0 => 'parent',
-          1 => 'action',
-          2 => 'id',
-          3 => 'link',
+          0 => 'action',
+          1 => 'id',
+          2 => 'link',
+          3 => 'parent',
         ),
       ),
       'ezurlalias_ml_par_lnk_txt' => 
@@ -7275,17 +7191,8 @@ $schema = array (
         'fields' => 
         array (
           0 => 'parent',
-          1 => 'link',
-          2 => 'text',
-        ),
-      ),
-      'ezurlalias_ml_par_txt' => 
-      array (
-        'type' => 'non-unique',
-        'fields' => 
-        array (
-          0 => 'parent',
           1 => 'text',
+          2 => 'link',
         ),
       ),
       'ezurlalias_ml_text' => 

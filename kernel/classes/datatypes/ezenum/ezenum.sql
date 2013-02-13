@@ -19,8 +19,7 @@ CREATE TABLE ezenumobjectvalue (
   enumelement varchar(255) NOT NULL default '',
   enumid int(11) NOT NULL default '0',
   enumvalue varchar(255) NOT NULL default '',
-  PRIMARY KEY  (contentobject_attribute_id,contentobject_attribute_version,enumid),
-  KEY ezenumobjectvalue_co_attr_id_co_attr_ver (contentobject_attribute_id,contentobject_attribute_version)
+  PRIMARY KEY  (contentobject_attribute_id,contentobject_attribute_version,enumid)
 );
 
 #####################################################################################
