@@ -505,7 +505,10 @@ class eZSession
      */
     static public function remove()
     {
-        if ( !self::$hasStarted )
+        // CLI scripts can use sessions and in that case session is forced to start.
+        // However, Symfony does not handle sessions in CLI (which seems to be normal), so session is never started.
+        // Hence check with session_id()
+        if ( !self::$hasStarted || session_id() === '' )
         {
              return false;
         }
