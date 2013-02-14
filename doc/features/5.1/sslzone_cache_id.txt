@@ -1,0 +1,8 @@
+A new cache ID has been added for SSLZones: "sslzones".
+It is part of the INI tag, and clears the cache file that contains the list of SSL subtrees.
+
+If you modify this list, you must either clear all caches, or ini cache, or this particular cache (if INI cache isn't cleared, the changes won't be taken into account):
+
+    php bin/php/ezcache.php --clear-id=sslzones
+    php bin/php/ezcache.php --clear-tag=ini
+    php bin/php/ezcache.php --clear-all
