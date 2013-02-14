@@ -186,6 +186,14 @@ class eZCache
                                        'path' => 'translation',
                                        'function' => array( 'eZCache', 'clearTSTranslationCache' )
                                 ),
+                                array( 'name' => ezpI18n::tr( 'kernel/cache', 'SSL Zones cache' ),
+                                       'id' => 'sslzones',
+                                       'tag' => array( 'ini' ),
+                                       'enabled' => eZSSLZone::enabled(),
+                                       'path' => false,
+                                       'function' => array( 'eZSSLZone', 'clearCache' ),
+                                       'purge-function' => array( 'eZSSLZone', 'clearCache' )
+                                ),
             );
 
             // Append cache items defined (in ini) by extensions, see site.ini[Cache] for details
