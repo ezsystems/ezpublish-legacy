@@ -144,7 +144,6 @@ class eZContentOperationCollection
         $db = eZDB::instance();
         $db->begin();
 
-        $object->publishContentObjectRelations( $versionNum );
         $object->setAttribute( 'status', eZContentObject::STATUS_PUBLISHED );
         $version->setAttribute( 'status', eZContentObjectVersion::STATUS_PUBLISHED );
         $object->setAttribute( 'current_version', $versionNum );

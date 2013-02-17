@@ -1623,7 +1623,6 @@ CREATE TABLE ezcontentobject_link (
     from_contentobject_id integer DEFAULT 0 NOT NULL,
     from_contentobject_version integer DEFAULT 0 NOT NULL,
     id integer DEFAULT nextval('ezcontentobject_link_s'::text) NOT NULL,
-    op_code integer DEFAULT 0 NOT NULL,
     relation_type integer DEFAULT 1 NOT NULL,
     to_contentobject_id integer DEFAULT 0 NOT NULL
 );
