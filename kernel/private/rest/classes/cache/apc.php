@@ -23,7 +23,6 @@ class ezpRestCacheStorageApcCluster extends ezcCacheStorageApcPlain
 
     public function __construct( $location = null, array $options = array() )
     {
-        eZExpiryHandler::registerShutdownFunction();
         $this->expiryHandler = eZExpiryHandler::instance();
 
         parent::__construct( $location, $options );
@@ -102,6 +101,7 @@ class ezpRestCacheStorageApcCluster extends ezcCacheStorageApcPlain
         // Update clustered expiry timestamp
         $expiryTime = time() + $this->properties['options']['ttl'];
         $this->expiryHandler->setTimestamp( ezpRestRouter::ROUTE_CACHE_KEY, $expiryTime );
+        $this->expiryHandler->store();
 
         return $storeResult;
     }

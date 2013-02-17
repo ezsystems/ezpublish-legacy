@@ -1791,7 +1791,6 @@ WHERE user_id = '" . $userID . "' AND
     static protected function userInfoExpiry()
     {
         /* Figure out when the last update was done */
-        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         if ( $handler->hasTimestamp( 'user-info-cache' ) )
         {
@@ -1801,6 +1800,7 @@ WHERE user_id = '" . $userID . "' AND
         {
             $expiredTimestamp = time();
             $handler->setTimestamp( 'user-info-cache', $expiredTimestamp );
+            $handler->store();
         }
 
         return $expiredTimestamp;
@@ -2559,7 +2559,6 @@ WHERE user_id = '" . $userID . "' AND
      */
     static function cleanupCache()
     {
-        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-info-cache', time() );
         $handler->store();

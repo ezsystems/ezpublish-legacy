@@ -450,7 +450,6 @@ class eZCache
         if ( isset( $cacheItem['expiry-key'] ) )
         {
             $key = $cacheItem['expiry-key'];
-            eZExpiryHandler::registerShutdownFunction();
             $expiryHandler = eZExpiryHandler::instance();
             $keyValue = $expiryHandler->getTimestamp( $key );
             if ( $keyValue !== false )
@@ -523,7 +522,6 @@ class eZCache
      */
     static function clearImageAlias( $cacheItem )
     {
-        eZExpiryHandler::registerShutdownFunction();
         $expiryHandler = eZExpiryHandler::instance();
         $expiryHandler->setTimestamp( 'image-manager-alias', time() );
         $expiryHandler->store();
@@ -632,7 +630,6 @@ class eZCache
      */
     static function clearContentTreeMenu( $cacheItem )
     {
-        eZExpiryHandler::registerShutdownFunction();
         $expiryHandler = eZExpiryHandler::instance();
         $expiryHandler->setTimestamp( 'content-tree-menu', time() );
         $expiryHandler->store();
@@ -643,7 +640,6 @@ class eZCache
      */
     static function clearTemplateBlockCache( $cacheItem )
     {
-        eZExpiryHandler::registerShutdownFunction();
         $expiryHandler = eZExpiryHandler::instance();
         $expiryHandler->setTimestamp( 'global-template-block-cache', time() );
         $expiryHandler->store();
@@ -691,7 +687,6 @@ class eZCache
      */
     static function clearUserInfoCache( $cacheItem )
     {
-        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-info-cache', time() );
         $handler->store();
@@ -702,7 +697,6 @@ class eZCache
      */
     static function clearContentCache( $cacheItem )
     {
-        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'content-view-cache', time() );
         $handler->store();
@@ -751,8 +745,6 @@ class eZCache
      */
     static function clearActiveExtensions( $cacheItem )
     {
-        eZExpiryHandler::registerShutdownFunction();
-
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( $cacheItem['expiry-key'], time() );
         $handler->store();

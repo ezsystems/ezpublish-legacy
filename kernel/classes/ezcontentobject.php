@@ -5360,7 +5360,6 @@ class eZContentObject extends eZPersistentObject
     */
     static function expireAllViewCache()
     {
-        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'content-view-cache', time() );
         $handler->store();
@@ -5373,7 +5372,6 @@ class eZContentObject extends eZPersistentObject
     */
     static function expireAllCache()
     {
-        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'content-view-cache', time() );
         $handler->setTimestamp( 'template-block-cache', time() );
@@ -5389,7 +5387,6 @@ class eZContentObject extends eZPersistentObject
     */
     static function expireTemplateBlockCache()
     {
-        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'template-block-cache', time() );
         $handler->store();
@@ -5402,7 +5399,6 @@ class eZContentObject extends eZPersistentObject
     */
     static function expireComplexViewModeCache()
     {
-        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'content-complex-viewmode-cache', time() );
         $handler->store();
@@ -5413,7 +5409,6 @@ class eZContentObject extends eZPersistentObject
     */
     static function isCacheExpired( $timestamp )
     {
-        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         if ( !$handler->hasTimestamp( 'content-view-cache' ) )
             return false;
@@ -5440,7 +5435,6 @@ class eZContentObject extends eZPersistentObject
     {
         if ( !eZContentObject::isComplexViewMode( $viewMode ) )
             return false;
-        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         if ( !$handler->hasTimestamp( 'content-complex-viewmode-cache' ) )
             return false;

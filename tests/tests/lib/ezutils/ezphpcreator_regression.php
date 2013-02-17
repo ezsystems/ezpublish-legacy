@@ -63,7 +63,6 @@ class eZPHPCreatorRegression extends ezpDatabaseTestCase
                                       '',
                                       array( 'clustering' => 'classidentifiers' ) );
 
-        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $expiryTime = 0;
         if ( $handler->hasTimestamp( 'class-identifier-cache' ) )
