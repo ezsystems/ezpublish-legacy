@@ -56,97 +56,101 @@ if ( !defined( 'EZCBASE_ENABLED' ) )
     define( 'EZCBASE_ENABLED', $baseEnabled );
 }
 
-/**
- * Provides the native autoload functionality for eZ Publish
- *
- * @package kernel
- */
-class ezpAutoloader
+// Check if ezpAutoloader exists because it can be already declared if running in the Symfony context (e.g. CLI scripts)
+if ( !class_exists( 'ezpAutoloader', false ) )
 {
-    protected static $ezpClasses = null;
-
-    public static function autoload( $className )
+    /**
+     * Provides the native autoload functionality for eZ Publish
+     *
+     * @package kernel
+     */
+    class ezpAutoloader
     {
-        if ( self::$ezpClasses === null )
+        protected static $ezpClasses = null;
+
+        public static function autoload( $className )
         {
-            $ezpKernelClasses = require __DIR__ . '/autoload/ezp_kernel.php';
-            $ezpExtensionClasses = false;
-            $ezpTestClasses = false;
+            if ( self::$ezpClasses === null )
+            {
+                $ezpKernelClasses = require __DIR__ . '/autoload/ezp_kernel.php';
+                $ezpExtensionClasses = false;
+                $ezpTestClasses = false;
 
-            if ( file_exists( __DIR__ . '/var/autoload/ezp_extension.php' ) )
-            {
-                $ezpExtensionClasses = require __DIR__ . '/var/autoload/ezp_extension.php';
-            }
-
-            if ( file_exists( __DIR__ . '/var/autoload/ezp_tests.php' ) )
-            {
-                $ezpTestClasses = require __DIR__ . '/var/autoload/ezp_tests.php';
-            }
-
-            if ( $ezpExtensionClasses and $ezpTestClasses )
-            {
-                self::$ezpClasses = $ezpTestClasses + $ezpExtensionClasses + $ezpKernelClasses;
-            }
-            else if ( $ezpExtensionClasses )
-            {
-                self::$ezpClasses = $ezpExtensionClasses + $ezpKernelClasses;
-            }
-            else if ( $ezpTestClasses )
-            {
-                self::$ezpClasses = $ezpTestClasses + $ezpKernelClasses;
-            }
-            else
-            {
-                self::$ezpClasses = $ezpKernelClasses;
-            }
-
-            if ( defined( 'EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE' ) and EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE )
-            {
-                // won't work, as eZDebug isn't initialized yet at that time
-                // eZDebug::writeError( "Kernel override is enabled, but var/autoload/ezp_override.php has not been generated\nUse bin/php/ezpgenerateautoloads.php -o", 'autoload.php' );
-                if ( $ezpKernelOverrideClasses = include __DIR__ . '/var/autoload/ezp_override.php' )
+                if ( file_exists( __DIR__ . '/var/autoload/ezp_extension.php' ) )
                 {
-                    self::$ezpClasses = array_merge( self::$ezpClasses, $ezpKernelOverrideClasses );
+                    $ezpExtensionClasses = require __DIR__ . '/var/autoload/ezp_extension.php';
+                }
+
+                if ( file_exists( __DIR__ . '/var/autoload/ezp_tests.php' ) )
+                {
+                    $ezpTestClasses = require __DIR__ . '/var/autoload/ezp_tests.php';
+                }
+
+                if ( $ezpExtensionClasses and $ezpTestClasses )
+                {
+                    self::$ezpClasses = $ezpTestClasses + $ezpExtensionClasses + $ezpKernelClasses;
+                }
+                else if ( $ezpExtensionClasses )
+                {
+                    self::$ezpClasses = $ezpExtensionClasses + $ezpKernelClasses;
+                }
+                else if ( $ezpTestClasses )
+                {
+                    self::$ezpClasses = $ezpTestClasses + $ezpKernelClasses;
+                }
+                else
+                {
+                    self::$ezpClasses = $ezpKernelClasses;
+                }
+
+                if ( defined( 'EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE' ) and EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE )
+                {
+                    // won't work, as eZDebug isn't initialized yet at that time
+                    // eZDebug::writeError( "Kernel override is enabled, but var/autoload/ezp_override.php has not been generated\nUse bin/php/ezpgenerateautoloads.php -o", 'autoload.php' );
+                    if ( $ezpKernelOverrideClasses = include __DIR__ . '/var/autoload/ezp_override.php' )
+                    {
+                        self::$ezpClasses = array_merge( self::$ezpClasses, $ezpKernelOverrideClasses );
+                    }
                 }
             }
+
+            if ( isset( self::$ezpClasses[$className] ) )
+            {
+                require( __DIR__ . "/" . self::$ezpClasses[$className] );
+            }
         }
 
-        if ( isset( self::$ezpClasses[$className] ) )
+        /**
+         * Resets the local, in-memory autoload cache.
+         *
+         * If the autoload arrays are extended during a requests lifetime, this
+         * method must be called, to make them available.
+         *
+         * @return void
+         */
+        public static function reset()
         {
-            require( __DIR__ . "/" . self::$ezpClasses[$className] );
+            self::$ezpClasses = null;
+        }
+
+        public static function updateExtensionAutoloadArray()
+        {
+            $autoloadGenerator = new eZAutoloadGenerator();
+            try
+            {
+                $autoloadGenerator->buildAutoloadArrays();
+
+                self::reset();
+            }
+            catch ( Exception $e )
+            {
+                echo $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine();
+            }
         }
     }
 
-    /**
-     * Resets the local, in-memory autoload cache.
-     *
-     * If the autoload arrays are extended during a requests lifetime, this
-     * method must be called, to make them available.
-     *
-     * @return void
-     */
-    public static function reset()
-    {
-        self::$ezpClasses = null;
-    }
-
-    public static function updateExtensionAutoloadArray()
-    {
-        $autoloadGenerator = new eZAutoloadGenerator();
-        try
-        {
-            $autoloadGenerator->buildAutoloadArrays();
-
-            self::reset();
-        }
-        catch ( Exception $e )
-        {
-            echo $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine();
-        }
-    }
+    spl_autoload_register( array( 'ezpAutoloader', 'autoload' ) );
 }
-
-spl_autoload_register( array( 'ezpAutoloader', 'autoload' ) );
 
 if ( EZCBASE_ENABLED )
 {
