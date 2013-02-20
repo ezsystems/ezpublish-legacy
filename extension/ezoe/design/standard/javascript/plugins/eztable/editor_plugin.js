@@ -157,7 +157,40 @@
 				var curNode;
 
 				if (node.nodeType == 3) {
-					each(dom.getParents(node.parentNode, null, cell).reverse(), function(node) {
+
+					// eZ: don't clone literal, embed and block custom tag
+					// see https://jira.ez.no/browse/EZP-20355
+
+					// checks whether the elt is contained in an element
+					// that must not be cloned when cloning a cell.
+					var cloneFilter = function (elt) {
+
+						// returns false for the elements that should be filtered out
+						// when cloning a cell.
+						var cloneCheck = function (n) {
+								if ( n.nodeName && n.nodeName.toLowerCase() === 'pre' ) {
+									// literal
+									return false;
+								} else if ( dom.hasClass(n, 'ezoeItemNonEditable') ) {
+									// embed
+									return false;
+								} else if ( dom.is(n, 'div.ezoeItemCustomTag') ) {
+									// block custom tag
+									return false;
+								}
+								return true;
+							};
+
+							while ( elt !== cell ) {
+								if ( cloneCheck(elt) === false ) {
+									return false;
+								}
+								elt = elt.parentNode;
+							}
+							return true;
+						};
+					each(dom.getParents(node.parentNode, cloneFilter, cell).reverse(), function(node) {
+						// end eZ
 						node = cloneNode(node, false);
 
 						if (!formatNode)
