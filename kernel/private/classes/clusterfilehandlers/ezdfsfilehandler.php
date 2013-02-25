@@ -119,29 +119,6 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
     }
 
     /**
-     * Returns a clean version of input $path.
-     *
-     * - Backslashes are turned into slashes.
-     * - Multiple consecutive slashes are turned into one slash.
-     * - Ending slashes are removed.
-     *
-     * Examples:
-     * - my\windows\path => my/windows/path
-     * - extra//slashes/\are/fixed => extra/slashes/are/fixed
-     * - ending/slashes/ => ending/slashes
-     */
-    private static function cleanPath( $path )
-    {
-        return !is_string( $path ) ?
-            $path :
-            preg_replace(
-                array( "#[/\\\\]+#", "#/$#" ),
-                array( "/", "" ),
-                $path
-            );
-    }
-
-    /**
      * Loads file meta information.
      *
      * @param bool $force File stats will be refreshed if true
