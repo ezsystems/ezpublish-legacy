@@ -50,10 +50,11 @@
     {else}
         {if $attribute.display_info.edit.grouped_input}
             <fieldset>
-            <legend{if $attribute.has_validation_error} class="message-error"{/if}>{first_set( $contentclass_attribute.nameList[$content_language], $contentclass_attribute.name )|wash}
+            <legend{if $attribute.has_validation_error} class="message-error"{/if}><span class="long-legend-wrap">{first_set( $contentclass_attribute.nameList[$content_language], $contentclass_attribute.name )|wash}
                 {if $attribute.is_required} <span class="required">({'required'|i18n( 'design/admin/content/edit_attribute' )})</span>{/if}
                 {if $attribute.is_information_collector} <span class="collector">({'information collector'|i18n( 'design/admin/content/edit_attribute' )})</span>{/if}
                 {if $contentclass_attribute.description} <span class="classattribute-description">{first_set( $contentclass_attribute.descriptionList[$content_language], $contentclass_attribute.description)|wash}</span>{/if}
+                </span>
             </legend>
             {attribute_edit_gui attribute_base=$attribute_base attribute=$attribute view_parameters=$view_parameters}
             <input type="hidden" name="ContentObjectAttribute_id[]" value="{$attribute.id}" />
