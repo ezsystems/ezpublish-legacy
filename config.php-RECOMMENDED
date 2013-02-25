@@ -143,7 +143,6 @@
 /**
  * Storage backend. Possible values:
  * - dfsmysqli (DFS cluster, mysqli based)
- * - dfsmysql (DFS cluster, mysql based) DEPRECATED as of 4.7)
  * - dfspostgres (DFS cluster, postgresql based)
  * - dfsoracle (with appropriate extension)
  */
