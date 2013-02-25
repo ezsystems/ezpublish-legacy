@@ -391,6 +391,23 @@ legend
     font-size:1.1em;
 }
 
+/* Make sure long legend texts do not overflow */
+/* https://jira.ez.no/browse/EZP-20316 */
+/* IE8, IE9 */
+fieldset legend 
+{
+    white-space: normal;
+    display: table;
+}
+/* IE7/ IE6 */
+legend span.long-legend-wrap
+{
+    white-space: normal;
+    display: block;
+    width: 100%;
+}
+/* end: overflow workaroud */
+
 fieldset label
 {
     color: #000000;
