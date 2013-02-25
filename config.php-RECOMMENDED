@@ -142,12 +142,9 @@
 
 /**
  * Storage backend. Possible values:
- * - dbmysqli (DB cluster, mysqli based)
- * - dbmysql (DB cluster, mysql based) DEPRECATED as of 4.7
  * - dfsmysqli (DFS cluster, mysqli based)
  * - dfsmysql (DFS cluster, mysql based) DEPRECATED as of 4.7)
  * - dfspostgres (DFS cluster, postgresql based)
- * - dboracle (with appropriate extension),
  * - dfsoracle (with appropriate extension)
  */
 // define( 'CLUSTER_STORAGE_BACKEND', 'dfsmysqli'  );
@@ -225,8 +222,7 @@
 /**
  * Enable HTTP range support (partial HTTP downloads)
  * Optional. Defaults to true.
- * NOTE: This feature is NOT available for DB based cluster handlers, only DFS ones.
- *       Thus this constant should be set to false is using eZDB.
+ * NOTE: This feature is ONLY available for DFS based cluster handlers.
  */
 // define( 'CLUSTER_ENABLE_HTTP_RANGE', true );
 

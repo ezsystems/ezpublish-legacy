@@ -10,10 +10,6 @@
 
 class eZFSFileHandler
 {
-    /**
-     * This should be defined in eZFS2FileHandler, but due to static members
-     * limitations in PHP < 5.3, it is declared here
-     */
     const EXPIRY_TIMESTAMP = 233366400;
 
     /**

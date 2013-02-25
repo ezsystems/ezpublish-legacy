@@ -32,7 +32,8 @@ Removed features
   Handling relations in this way was removed as extraneous.
   See issue EZP-20239.
 
-
+- eZDBFileHandler and eZFS2FileHandler handlers have been removed since they
+  were obsolete and replaced by eZDFS ones.
 
 
 Removed constants

@@ -667,20 +667,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             }
         }
 
-        $designLocationCache = false;
-        $ini = eZINI::instance( 'site.ini' );
-        if( $ini->variable( 'DesignSettings', 'DesignLocationCache' ) == 'enabled' )
-            $designLocationCache = true;
-
-        /*
-         * We disable design cache in case of DB clustering
-         * because it will add 2 SQL queries per HTTP request
-         */
-        $ini = eZINI::instance( 'file.ini' );
-        if( $ini->variable( 'ClusteringSettings', 'FileHandler' ) == 'eZDBFileHandler')
-            $designLocationCache = false;
-
-        if( $designLocationCache )
+        if ( eZINI::instance( 'site.ini' )->variable( 'DesignSettings', 'DesignLocationCache' ) === 'enabled' )
         {
             // Using current SA if none given
             $siteAccessName = $siteAccess !== false ? $siteAccess : $GLOBALS['eZCurrentAccess']['name'];
@@ -702,7 +689,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             else
             {
                 // find design locations
-                $designBaseList = self::findDesignBase( $ini, $siteAccess );
+                $designBaseList = self::findDesignBase( eZINI::instance( 'file.ini' ), $siteAccess );
 
                 // stores it on the disk
                 $clusterFileHandler->fileStoreContents( $cachePath,
@@ -716,7 +703,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         else
         {
             // find design locations
-            $designBaseList = self::findDesignBase( $ini, $siteAccess );
+            $designBaseList = self::findDesignBase( eZINI::instance( 'file.ini' ), $siteAccess );
 
             self::savesMemoryCache( $designBaseList, $siteAccess );
         }

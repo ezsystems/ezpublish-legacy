@@ -150,9 +150,7 @@ class eZSubtreeCache
     static function removeExpiryCacheFromDisk( $expiryCachePath )
     {
         $fileHandler = eZClusterFileHandler::instance();
-        if ( $fileHandler instanceof eZFSFileHandler
-             or
-             $fileHandler instanceof eZFS2FileHandler )
+        if ( $fileHandler instanceof eZFSFileHandler )
         {
             // We will only delete files if the FS file handler is used,
             // if the DB file handler is in use the system will
