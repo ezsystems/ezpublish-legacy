@@ -3704,6 +3704,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         // Clean up view counter
         eZViewCounter::removeCounter( $nodeID );
+        
+        // Clean up node assignments
+        if ( is_object( $parentNode ) )
+        {
+            $nodeAssignment = eZNodeAssignment::fetch($object->attribute( 'id' ), 1, $parentNode->NodeID);
+            eZNodeAssignment::purgeByID($nodeAssignment->ID);
+        }
 
         $db->commit();
     }
