@@ -673,6 +673,7 @@ class eZCache
         $fileHandler->fileDelete( $cachePath, 'classidentifiers_' );
         $fileHandler->fileDelete( $cachePath, 'classattributeidentifiers_' );
         eZContentClass::expireCache();
+        ezpEvent::getInstance()->notify( 'content/class/cache/all' );
     }
 
     /**
@@ -695,6 +696,7 @@ class eZCache
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-info-cache', time() );
         $handler->store();
+        ezpEvent::getInstance()->notify( 'user/cache/all' );
     }
 
     /**
@@ -744,6 +746,7 @@ class eZCache
 
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileDelete( $cachePath, 'statelimitations_' );
+        ezpEvent::getInstance()->notify( 'content/state/cache/all' );
     }
 
     /**

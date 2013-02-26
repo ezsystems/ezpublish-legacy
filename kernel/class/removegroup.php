@@ -57,8 +57,11 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
             $deleteClass = eZContentClass::fetch( $deleteClassID, true, eZContentClass::VERSION_STATUS_TEMPORARY );
             if ( $deleteClass )
                 $deleteClass->remove( true );
+            ezpEvent::getInstance()->notify( 'content/class/cache', $deleteClassID );
         }
+        ezpEvent::getInstance()->notify( 'content/class/group/cache', $deleteID );
     }
+
     $Module->redirectTo( '/class/grouplist/' );
 }
 if ( $http->hasPostVariable( "CancelButton" ) )

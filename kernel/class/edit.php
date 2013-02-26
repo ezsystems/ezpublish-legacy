@@ -747,6 +747,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
 
         $db->commit();
         $http->removeSessionVariable( 'ClassCanStoreTicket' );
+        ezpEvent::getInstance()->notify( 'content/class/cache', $ClassID );
         return $Module->redirectToView( 'view', array( $ClassID ), $unorderedParameters );
     }
 }

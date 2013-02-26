@@ -72,6 +72,7 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
         if ( $locale->isValid() )
         {
             $translation = eZContentLanguage::addLanguage( $locale->localeCode(), $translationName );
+            ezpEvent::getInstance()->notify( 'content/translations/cache', array( $translation->attribute( 'id' ) ) );
         }
         else
         {
@@ -99,6 +100,7 @@ if ( $Module->isCurrentAction( 'Remove' ) )
         eZContentLanguage::removeLanguage( $translationID );
     }
     $db->commit();
+    ezpEvent::getInstance()->notify( 'content/translations/cache', $seletedIDList );
 }
 
 
