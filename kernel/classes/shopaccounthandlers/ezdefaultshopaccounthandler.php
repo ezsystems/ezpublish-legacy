@@ -21,12 +21,7 @@ class eZDefaultShopAccountHandler
     */
     function verifyAccountInformation()
     {
-        // Check login
-        $user = eZUser::currentUser();
-        if ( !$user->isLoggedIn() )
-            return false;
-        else
-            return true;
+        return eZUser::isCurrentUserRegistered();
     }
 
     /*!

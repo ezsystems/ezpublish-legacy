@@ -230,7 +230,7 @@ class ezpRestClient
         if ( $user === null )
             $user = eZUser::currentUser();
 
-        if ( !$user->isLoggedIn() )
+        if ( !$user->isRegistered() )
             throw new Exception( "Anonymous user can not authorize an application" );
 
         $authorized = ezpRestAuthorizedClient::fetchForClientUser( $this, $user );

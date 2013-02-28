@@ -88,7 +88,7 @@ class eZUser extends eZPersistentObject
                                                       'roles' => 'roles',
                                                       'role_id_list' => 'roleIDList',
                                                       'limited_assignment_value_list' => 'limitValueList',
-                                                      'is_logged_in' => 'isLoggedIn',
+                                                      'is_logged_in' => 'isRegistered',
                                                       'is_enabled' => 'isEnabled',
                                                       'is_locked' => 'isLocked',
                                                       'last_visit' => 'lastVisit',
@@ -1107,7 +1107,7 @@ WHERE user_id = '" . $userID . "' AND
         // - the user has not logged out,
         // - the user is not logged in,
         // - and if a automatic single sign on plugin is enabled.
-        if ( !self::$userHasLoggedOut and is_object( $currentUser ) and !$currentUser->isLoggedIn() )
+        if ( !self::$userHasLoggedOut && is_object( $currentUser ) && !$currentUser->isRegistered() )
         {
             $ssoHandlerArray = $ini->variable( 'UserSettings', 'SingleSignOnHandlerArray' );
             if ( !empty( $ssoHandlerArray ) )
@@ -2304,18 +2304,35 @@ WHERE user_id = '" . $userID . "' AND
         return eZUserAccountKey::fetchByUserID( $this->ContentObjectID );
     }
 
-    /*!
-     Returns true if it's a real user which is logged in. False if the user
-     is the default user or the fallback buildtin user.
-    */
-    function isLoggedIn()
+    /**
+     * Returns true if the user is a registered and not anonymous user.
+     *
+     * @deprecated since 5.1 Use isRegistered() / isUserLoggedIn() instead.
+     */
+    public function isLoggedIn()
     {
-        if ( $this->ContentObjectID == self::anonymousId() or
-             $this->ContentObjectID == -1 )
-        {
-            return false;
-        }
-        return true;
+        eZDebug::writeStrict( "Method " . __METHOD__ . " has been deprecated in 5.1. Use isRegistered() / isUserLoggedIn() instead.", "Deprecation" );
+        return $this->isRegistered();
+    }
+
+    /**
+     * Returns true if the user is a registered and not anonymous user.
+     *
+     * @deprecated since 5.1 Use isRegistered() / isUserLoggedIn() instead.
+     */
+    public function isRegistered()
+    {
+        return $this->ContentObjectID != self::anonymousId() && $this->ContentObjectID != -1;
+    }
+
+    /**
+     * Returns whether the current user is a registered user.
+     *
+     * @since 5.1
+     */
+    static public function isCurrentUserRegistered()
+    {
+        return self::currentUser()->isRegistered();
     }
 
     /*!

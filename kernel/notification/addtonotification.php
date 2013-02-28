@@ -20,7 +20,7 @@ $redirectURI = $http->postVariable( 'RedirectURI', $http->sessionVariable( 'Last
 
 $viewMode = $http->hasPostVariable( 'ViewMode' ) ? $http->postVariable( 'ViewMode' ) : 'full';
 
-if ( !$user->isLoggedIn() )
+if ( !$user->isRegistered() )
 {
     eZDebug::writeError( 'User not logged in trying to subscribe for notification, node ID: ' . $nodeID,
                          'kernel/content/action.php' );

@@ -13,7 +13,7 @@ $Offset = $Params['Offset'];
 $viewParameters = array( 'offset' => $Offset );
 
 $user = eZUser::currentUser();
-if ( !$user->isLoggedIn() )
+if ( !$user->isRegistered() )
     return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 $userID = $user->id();

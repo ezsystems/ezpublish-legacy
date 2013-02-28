@@ -252,7 +252,7 @@ class ezxFormToken
         if ( !eZSession::hasStarted() )
             return false;
 
-        if ( !eZUser::currentUser()->isLoggedIn() )
+        if ( !eZUser::isCurrentUserRegistered() )
             return false;
 
         return true;
