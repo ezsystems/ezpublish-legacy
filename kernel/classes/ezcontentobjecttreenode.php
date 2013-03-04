@@ -4192,6 +4192,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $moveQuery1 = "UPDATE
                                  ezcontentobject_tree
                            SET
+                                 path_identification_string = replace(path_identification_string, '{$node->PathIdentificationString}', '{$newParentNode->PathIdentificationString}'),
                                  path_string = $newPathString,
                                  depth = depth + $newParentDepth - $oldDepth + 1
                            WHERE
