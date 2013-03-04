@@ -256,7 +256,7 @@ class eZHTTPFile
                 return eZHTTPFile::UPLOADEDFILE_DOES_NOT_EXIST;
             }
         }
-        if ( $maxSize === false )
+        if ( $maxSize !== false )
             return eZHTTPFile::UPLOADEDFILE_OK;
         else
             return true;
