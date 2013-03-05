@@ -21943,7 +21943,7 @@ Standardkoden skapades från de grundläggande som du valde.</translation>
         <translation>Den valda databasen var inte tom, välj från alternativen nedan.</translation>
     </message>
     <message>
-        <source>Database initalization</source>
+        <source>Database initialization</source>
         <translation>Databasinitialisering</translation>
     </message>
     <message>

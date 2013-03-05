@@ -24693,7 +24693,7 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="obsolete">被选的用户没有进入任何数据库。改换用户或为用户生成一数据库。</translation>
     </message>
     <message>
-        <source>Database initalization</source>
+        <source>Database initialization</source>
         <translation>数据库初始化</translation>
     </message>
     <message>

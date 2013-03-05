@@ -24577,7 +24577,7 @@ El código por defecto ha sido hecho con los parámetros básicos que se eligier
         <translation type="obsolete">El &quot;usuario seleccionado&quot; que has seleccionado no tiene acceso a ninguna base de datos. Cambia el usuario o crea una base de datos para el usuario.</translation>
     </message>
     <message>
-        <source>Database initalization</source>
+        <source>Database initialization</source>
         <translation>Inicialización de la base de datos</translation>
     </message>
     <message>

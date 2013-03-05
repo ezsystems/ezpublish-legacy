@@ -91,7 +91,7 @@ class eZStepPackageLanguageOptions extends eZStepInstaller
         if( !in_array( 'eng-GB', $packageLanguageLocaleList ) )
             $packageLanguageLocaleList[] = 'eng-GB';
         //
-        // Exclude languages which exist both in packges and site.
+        // Exclude languages which exist both in packages and site.
         //
         $packageLanguageLocaleList = array_diff( $packageLanguageLocaleList, $siteLanguageLocaleList );
 

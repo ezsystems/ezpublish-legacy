@@ -21461,7 +21461,7 @@ Standardenkoden blev lavet ud fra de basisparametre, som du valgte.</translation
         <translation type="unfinished">Den valgte database var ikke tom, vælg fra den alternative boks.</translation>
     </message>
     <message>
-        <source>Database initalization</source>
+        <source>Database initialization</source>
         <translation type="unfinished">Databaseinitialisering</translation>
     </message>
     <message>

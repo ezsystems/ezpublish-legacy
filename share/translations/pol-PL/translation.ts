@@ -21834,7 +21834,7 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished">Wybrana baza danych nie jest pusta, proszę dokonać poniższego wyboru.</translation>
     </message>
     <message>
-        <source>Database initalization</source>
+        <source>Database initialization</source>
         <translation type="unfinished">Inicjalizacja bazy danych</translation>
     </message>
     <message>

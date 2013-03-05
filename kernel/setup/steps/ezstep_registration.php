@@ -146,7 +146,7 @@ class eZStepRegistration extends eZStepInstaller
         // Store on persistence list so data doesn't need to be entered several times
         $this->PersistenceList['email_info']['user_data'] = $userData;
 
-        // Make sure requried data is present
+        // Make sure required data is present
         $validationMessages = array();
         if ( !$userData['first_name'] )
         {

@@ -24161,7 +24161,7 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="obsolete">所選的使用者沒有存取任何資料庫的權限。請改換使用者或為使用者產生一個資料庫。</translation>
     </message>
     <message>
-        <source>Database initalization</source>
+        <source>Database initialization</source>
         <translation type="unfinished">資料庫初始化</translation>
     </message>
     <message>

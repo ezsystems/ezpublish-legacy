@@ -22042,7 +22042,7 @@ El código por defecto ha sido hecho con los parámetros básicos que has elegid
         <translation>La base de datos seleccionada no está vacía. Por favor, elige una de las alternativas de abajo.</translation>
     </message>
     <message>
-        <source>Database initalization</source>
+        <source>Database initialization</source>
         <translation>Inicialización de la base de datos</translation>
     </message>
     <message>

@@ -22489,7 +22489,7 @@ O código padrão foi feito a partir dos parâmetros básicos que você escolheu
         <translation>O banco de dados selecionado não está vazio, por favor escolha as alternativas abaixo.</translation>
     </message>
     <message>
-        <source>Database initalization</source>
+        <source>Database initialization</source>
         <translation>Inicialização do banco de dados</translation>
     </message>
     <message>

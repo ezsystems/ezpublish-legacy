@@ -21880,7 +21880,7 @@ Sjabloonoperator.</translation>
         <translation>De geselecteerde database was niet leeg, kies één van de onderstaande alternatieven.</translation>
     </message>
     <message>
-        <source>Database initalization</source>
+        <source>Database initialization</source>
         <translation>Database initialisatie</translation>
     </message>
     <message>

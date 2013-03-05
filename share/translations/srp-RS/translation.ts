@@ -24212,7 +24212,7 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="obsolete">Изабрани корисник нема приступ ни једној од база података. Промени корисника или креирај базу података за корисника.</translation>
     </message>
     <message>
-        <source>Database initalization</source>
+        <source>Database initialization</source>
         <translation type="unfinished">Иницирање базе података</translation>
     </message>
     <message>

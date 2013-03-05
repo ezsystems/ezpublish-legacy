@@ -21983,7 +21983,7 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished">選択したデータベースは空ではありません。以下から別のデータベースを選択してください。</translation>
     </message>
     <message>
-        <source>Database initalization</source>
+        <source>Database initialization</source>
         <translation>データベースの接続設定</translation>
     </message>
     <message>
