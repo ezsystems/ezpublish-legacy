@@ -313,7 +313,7 @@ class eZStepSiteDetails extends eZStepInstaller
         $db = eZDB::instance( $dbDriver, $dbParameters, true );
         $availDatabases = $db->availableDatabases();
 
-        if ( count( $availDatabases ) > 0 ) // login succeded, and at least one database available
+        if ( count( $availDatabases ) > 0 ) // login succeeded, and at least one database available
         {
             $this->PersistenceList['database_info_available'] = $availDatabases;
         }

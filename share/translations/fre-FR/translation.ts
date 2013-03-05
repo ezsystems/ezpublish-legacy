@@ -21973,7 +21973,7 @@ The default code was made from the basic parameters you chose.</source>
         <translation>La base de données sélectionnée n&apos;est pas vide. veuillez choisissez-en une parmi les alternatives ci-dessous.</translation>
     </message>
     <message>
-        <source>Database initalization</source>
+        <source>Database initialization</source>
         <translation>Initialisation de la base de données</translation>
     </message>
     <message>

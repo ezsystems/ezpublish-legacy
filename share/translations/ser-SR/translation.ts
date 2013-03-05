@@ -21522,7 +21522,7 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished">Odabrana baza podataka nije bila prazna, molimo izaberite među niže ponuđenim alternativama. </translation>
     </message>
     <message>
-        <source>Database initalization</source>
+        <source>Database initialization</source>
         <translation type="unfinished">Iniciranje baze podataka</translation>
     </message>
     <message>

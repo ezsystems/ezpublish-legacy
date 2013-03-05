@@ -21944,7 +21944,7 @@ Oletuskoodi tehtiin valitsemistasi perusparametreistä.</translation>
         <translation type="unfinished">Valittu tietokanta ei ole tyhjä. Valitse alapuolella olevista vaihtoehdoista.</translation>
     </message>
     <message>
-        <source>Database initalization</source>
+        <source>Database initialization</source>
         <translation type="unfinished">Tietokannan alustus</translation>
     </message>
     <message>

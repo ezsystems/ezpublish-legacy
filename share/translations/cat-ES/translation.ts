@@ -22027,7 +22027,7 @@ El codi predeterminat s&apos;ha fet a partir dels paràmetres bàsics que tu vas
         <translation>La base de dades escollida no està buida. Tria d&apos;entre les següents alternatives.</translation>
     </message>
     <message>
-        <source>Database initalization</source>
+        <source>Database initialization</source>
         <translation>Inicialització de la base de dades</translation>
     </message>
     <message>

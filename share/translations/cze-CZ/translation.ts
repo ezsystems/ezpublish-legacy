@@ -21962,7 +21962,7 @@ Standardní kód byl vytvořen ze základních parametrů, které jste vybrali.
         <translation type="unfinished">Zvolená databáze již obsahuje data, zvolte prosím jednu z nabízených alternativ.</translation>
     </message>
     <message>
-        <source>Database initalization</source>
+        <source>Database initialization</source>
         <translation type="unfinished">Inicializace databáze</translation>
     </message>
     <message>

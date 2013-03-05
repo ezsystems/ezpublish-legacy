@@ -111,7 +111,7 @@ class eZStepData
 
      \param current step
 
-     \return Percentage of completet setup, step 1 => 0%, final step => 100%
+     \return Percentage of complete setup, step 1 => 0%, final step => 100%
     */
     function progress( $step )
     {

@@ -21934,7 +21934,7 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished">Выбранная БД не пуста, выберите варианты действий.</translation>
     </message>
     <message>
-        <source>Database initalization</source>
+        <source>Database initialization</source>
         <translation type="unfinished">Инициализация БД</translation>
     </message>
     <message>

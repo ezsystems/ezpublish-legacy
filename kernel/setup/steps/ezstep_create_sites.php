@@ -782,9 +782,9 @@ WHERE
 language_locale='eng-GB'";
             $db->query( $updateSql );
 
-            // use high-level api, becuase it's impossible to update serialized names with direct sqls.
+            // use high-level api, because it's impossible to update serialized names with direct sqls.
             // use direct access to 'NameList' to avoid unnecessary sql-requests and because
-            // we do 'replacement' of existing languge(with some 'id') with another language code.
+            // we do 'replacement' of existing language(with some 'id') with another language code.
             $contentClassList = eZContentClass::fetchList();
             foreach( $contentClassList as $contentClass )
             {
