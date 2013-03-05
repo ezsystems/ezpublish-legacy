@@ -21960,8 +21960,8 @@ The default code was made from the basic parameters you chose.</translation>
         <translation type="unfinished">The selected database was not empty, please choose from the alternatives below.</translation>
     </message>
     <message>
-        <source>Database initalization</source>
-        <translation type="unfinished">Database initalization</translation>
+        <source>Database initialization</source>
+        <translation type="unfinished">Database initialization</translation>
     </message>
     <message>
         <source>Email settings</source>

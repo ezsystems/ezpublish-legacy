@@ -22009,7 +22009,7 @@ Il codice predefinito è stato ricavato dai parametri di base che hai scelto.</t
         <translation>Il database selezionato non è vuoto, scegli una delle alternative di seguito elencate.</translation>
     </message>
     <message>
-        <source>Database initalization</source>
+        <source>Database initialization</source>
         <translation>Inizializzazione database</translation>
     </message>
     <message>
