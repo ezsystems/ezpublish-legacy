@@ -33,3 +33,6 @@ ALTER TABLE ezurlalias_ml
 DELETE FROM ezcontentobject_link WHERE op_code <> 0;
 DELETE FROM ezcontentobject_link WHERE relation_type = 0;
 ALTER TABLE ezcontentobject_link DROP COLUMN op_code;
+
+-- See https://jira.ez.no/browse/EZP-20527
+UPDATE ezcobj_state_group_language SET real_language_id = language_id & ~1;
