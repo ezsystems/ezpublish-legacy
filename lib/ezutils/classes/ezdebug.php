@@ -1113,7 +1113,7 @@ class eZDebug
 
         $GLOBALS['eZDebugAllowed'] = $GLOBALS['eZDebugAllowedByIP'];
         $GLOBALS['eZDebugEnabled'] = $settings['debug-enabled'] && $GLOBALS['eZDebugAllowedByIP'];
-
+        eZDebug::siteaccessLogPathUpdate();
         eZDebug::setHandleType( $oldHandleType );
     }
 
@@ -1874,6 +1874,41 @@ class eZDebug
             return eZSys::isShellExecution() && in_array( 'commandline', $allowedIpList );
         }
     }
+
+
+    /**
+     * Resets the log paths to the value in SiteLogDir .ini setting 
+     * if not output as is (string).
+     *
+     * @param bool $as_html
+     */
+    static function siteaccessLogPathUpdate()
+    {
+        $ini = eZINI::instance();
+        $debug = eZDebug::instance();
+        if ( !$ini->hasVariable( 'FileSettings', 'UseSiteLogDir' ) )
+        {
+            return;
+        }
+        $UseSiteLogDir = $ini->variable( 'FileSettings', 'UseSiteLogDir' );
+        if ( $UseSiteLogDir == 'enabled' )
+        {
+            $varDir = $ini->variable( 'FileSettings', 'VarDir' );
+            $logDir = $ini->variable( 'FileSettings', 'SiteLogDir' );
+            $varLogDir = "$varDir/$logDir/";
+            $debug->LogFiles = array( self::LEVEL_NOTICE => array( $varLogDir,
+                                                           "notice.log" ),
+                                 self::LEVEL_WARNING => array( $varLogDir,
+                                                            "warning.log" ),
+                                 self::LEVEL_ERROR => array( $varLogDir,
+                                                          "error.log" ),
+                                 self::LEVEL_DEBUG => array( $varLogDir,
+                                                          "debug.log" ),
+                                 self::LEVEL_STRICT => array( $varLogDir,
+                                                           'strict.log' ) );
+         }
+    }
+
 
     /**
      * Exception based error handler, very basic
