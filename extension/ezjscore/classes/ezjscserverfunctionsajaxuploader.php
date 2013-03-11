@@ -124,8 +124,18 @@ class ezjscServerFunctionsAjaxUploader extends ezjscServerFunctions
             }
 
             $start = $handler->getDefaultParentNodeId( $class );
+            $defaultParentNode = eZContentObjectTreeNode::fetch( $start );
+            if ( !$defaultParentNode instanceof eZContentObjectTreeNode )
+            {
+                throw new RuntimeException(
+                    ezpI18n::tr(
+                        "extension/ezjscore/ajaxuploader",
+                        "The default parent location for uploads cannot be retrieved! Check user permissions and correctness of settings."
+                    )
+                );
+            }
         }
-        catch( Exception $e )
+        catch ( Exception $e )
         {
             // manually catch exception to force json encode
             // because most browsers cannot upload
@@ -139,7 +149,6 @@ class ezjscServerFunctionsAjaxUploader extends ezjscServerFunctions
             );
         }
 
-        $defaultParentNode = eZContentObjectTreeNode::fetch( $start );
         $browseItems = self::getBrowseItems( $defaultParentNode->attribute( 'parent' ), $class );
 
         $http = eZHTTPTool::instance();
