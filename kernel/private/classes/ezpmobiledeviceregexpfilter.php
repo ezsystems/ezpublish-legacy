@@ -70,27 +70,32 @@ class ezpMobileDeviceRegexpFilter implements ezpMobileDeviceDetectFilterInterfac
     {
         $ini = eZINI::instance();
 
+        $mobileUserAgentCodes = explode( '|', $ini->variable( 'SiteAccessSettings', 'MobileUserAgentCodes' ) );
+        $simplifiedUserAgent = strtolower( substr( $this->httpUserAgent, 0, 4 ) );
         if ( isset( $_SERVER['HTTP_X_WAP_PROFILE'] )
                 || isset( $_SERVER['HTTP_PROFILE'] )
                     || strpos( $this->httpAccept, 'text/vnd.wap.wml' ) > 0
                         || strpos( $this->httpAccept, 'application/vnd.wap.xhtml+xml' ) > 0)
         {
             $this->isMobileDevice = true;
+            eZDebugSetting::writeDebug( 'kernel-mobile-redirection', "Mobile redirection triggered : wap", __METHOD__ );
         }
-        else if ( in_array( strtolower( substr( $this->httpUserAgent, 0, 4 ) ),
-                            explode( '|', $ini->variable( 'SiteAccessSettings', 'MobileUserAgentCodes' ) ) ) )
+        else if ( in_array( $simplifiedUserAgent,
+                            $mobileUserAgentCodes ) )
         {
             $this->isMobileDevice = true;
+            $mobileUserAgentCodeIndex = array_search( $simplifiedUserAgent, $mobileUserAgentCodes );
+            eZDebugSetting::writeDebug( 'kernel-mobile-redirection', "Mobile redirection triggered via MobileUserAgentCodes settings : {$mobileUserAgentCodes[$mobileUserAgentCodeIndex]}", __METHOD__ );
         }
         else
         {
             foreach ( $ini->variable( 'SiteAccessSettings', 'MobileUserAgentRegexps' ) as $userAgentAlias => $regexp )
             {
-                if ( preg_match( $regexp, $this->httpUserAgent ) )
+                if ( preg_match( $regexp, $this->httpUserAgent, $matches ) )
                 {
                     $this->isMobileDevice = true;
                     $this->userAgentAlias = $userAgentAlias;
-
+                    eZDebugSetting::writeDebug( 'kernel-mobile-redirection', "Mobile redirection triggered via MobileUserAgentRegexps settings : {$matches[0]}", __METHOD__ );
                     break;
                 }
             }
