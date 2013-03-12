@@ -85,7 +85,7 @@ class ezpMobileDeviceRegexpFilter implements ezpMobileDeviceDetectFilterInterfac
         {
             $this->isMobileDevice = true;
             $mobileUserAgentCodeIndex = array_search( $simplifiedUserAgent, $mobileUserAgentCodes );
-            eZDebugSetting::writeDebug( 'kernel-mobile-redirection', "Mobile redirection triggered via MobileUserAgentCodes settings : {$mobileUserAgentCodes[$mobileUserAgentCodeIndex]}", __METHOD__ );
+            eZDebugSetting::writeDebug( 'kernel-mobile-redirection', "Mobile redirection triggered via MobileUserAgentCodes settings : matched code '{$mobileUserAgentCodes[$mobileUserAgentCodeIndex]}'", __METHOD__ );
         }
         else
         {
@@ -95,7 +95,7 @@ class ezpMobileDeviceRegexpFilter implements ezpMobileDeviceDetectFilterInterfac
                 {
                     $this->isMobileDevice = true;
                     $this->userAgentAlias = $userAgentAlias;
-                    eZDebugSetting::writeDebug( 'kernel-mobile-redirection', "Mobile redirection triggered via MobileUserAgentRegexps settings : {$matches[0]}", __METHOD__ );
+                    eZDebugSetting::writeDebug( 'kernel-mobile-redirection', "Mobile redirection triggered via MobileUserAgentRegexps settings : matched regexp '{$matches[0]}' in alias '{$userAgentAlias}'", __METHOD__ );
                     break;
                 }
             }
