@@ -28,6 +28,7 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
     $class->remove( true );
     eZContentClassClassGroup::removeClassMembers( $ClassID, 0 );
+    ezpEvent::getInstance()->notify( 'content/class/cache', $ClassID );
     $Module->redirectTo( '/class/classlist/' . $GroupID );
 }
 if ( $http->hasPostVariable( "CancelButton" ) )

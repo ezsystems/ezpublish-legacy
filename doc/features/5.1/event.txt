@@ -1,0 +1,30 @@
+Event system
+============
+
+Intro
+-----
+See {4.5,4.7,5.0}/event.txt for full information on this feature
+
+
+New events
+----------
+{@see ezpEvent->notify()}
+
+content/class/cache/all
+content/class/cache ( $classID )
+content/class/group/cache ( $groupID )
+
+content/state/cache/all
+content/state/cache ( $stateID )
+content/state/group/cache ( $groupID )
+
+content/section/cache ( $sectionID )
+
+user/cache/all
+
+content/translations/cache ( array $languageIDs )
+
+
+New filters
+-----------
+{@see ezpEvent->filter()}

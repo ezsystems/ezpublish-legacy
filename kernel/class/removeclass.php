@@ -55,6 +55,7 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
     foreach ( $deleteIDArray as $deleteID )
     {
         eZContentClassOperations::remove( $deleteID );
+        ezpEvent::getInstance()->notify( 'content/class/cache', $deleteID );
     }
     return $Module->redirectTo( '/class/classlist/' . $GroupID );
 }

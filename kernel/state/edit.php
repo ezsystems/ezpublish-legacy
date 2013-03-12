@@ -50,6 +50,7 @@ else if ( $currentAction == 'Store' )
     if ( $isValid )
     {
         $state->store();
+        ezpEvent::getInstance()->notify( 'content/state/cache', $state->attribute( 'id' ) );
         return $Module->redirectTo( $redirectUrl );
     }
 
