@@ -51,7 +51,7 @@ if ( $http->hasPostVariable( "StoreButton" ) )
 
     eZContentClassClassGroup::update( null, $GroupID, $name );
 
-    ezpEvent::getInstance()->notify( 'content/class/group/cache', $classgroup->attribute( 'id' ) );
+    ezpEvent::getInstance()->notify( 'content/class/group/cache', array( $classgroup->attribute( 'id' ) ) );
     $Module->redirectToView( 'classlist', array( $classgroup->attribute( 'id' ) ) );
     return;
 }

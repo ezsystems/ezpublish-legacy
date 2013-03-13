@@ -62,7 +62,7 @@ if ( $http->hasPostVariable( "StoreButton" ) )
     {
         $section->store();
         eZContentCacheManager::clearContentCacheIfNeededBySectionID( $section->attribute( 'id' ) );
-        ezpEvent::getInstance()->notify( 'content/section/cache', $section->attribute( 'id' ) );
+        ezpEvent::getInstance()->notify( 'content/section/cache', array( $section->attribute( 'id' ) ) );
         $Module->redirectTo( $Module->functionURI( 'list' ) );
         return;
     }

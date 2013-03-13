@@ -36,7 +36,7 @@ if ( $Module->isCurrentAction( 'Remove' ) && $Module->hasActionParameter( 'Remov
         if ( $group && !$group->isInternal() )
         {
             eZContentObjectStateGroup::removeByID( $removeID );
-            ezpEvent::getInstance()->notify( 'content/state/group/cache', $removeID );
+            ezpEvent::getInstance()->notify( 'content/state/group/cache', array( $removeID ) );
         }
     }
 }

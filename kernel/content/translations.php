@@ -100,7 +100,7 @@ if ( $Module->isCurrentAction( 'Remove' ) )
         eZContentLanguage::removeLanguage( $translationID );
     }
     $db->commit();
-    ezpEvent::getInstance()->notify( 'content/translations/cache', $seletedIDList );
+    ezpEvent::getInstance()->notify( 'content/translations/cache', array( $seletedIDList ) );
 }
 
 

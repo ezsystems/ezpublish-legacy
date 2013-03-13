@@ -41,7 +41,7 @@ else if ( $currentAction == 'Store' )
     if ( $isValid )
     {
         $group->store();
-        ezpEvent::getInstance()->notify( 'content/state/group/cache', $group->attribute( 'id' ) );
+        ezpEvent::getInstance()->notify( 'content/state/group/cache', array( $group->attribute( 'id' ) ) );
         if ( $GroupIdentifier === null )
         {
             return $Module->redirectTo( 'state/group/' . $group->attribute( 'identifier' ) );

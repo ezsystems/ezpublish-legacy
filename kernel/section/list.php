@@ -106,7 +106,7 @@ if ( $http->hasPostVariable( 'ConfirmRemoveSectionButton' ) )
                     // Clear content cache if needed
                     eZContentCacheManager::clearContentCacheIfNeededBySectionID( $sectionID );
                     $section->remove();
-                    ezpEvent::getInstance()->notify( 'content/section/cache', $sectionID );
+                    ezpEvent::getInstance()->notify( 'content/section/cache', array( $sectionID ) );
                 }
             }
             $db->commit();
