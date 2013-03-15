@@ -78,14 +78,21 @@ class ezpMobileDeviceRegexpFilter implements ezpMobileDeviceDetectFilterInterfac
                         || strpos( $this->httpAccept, 'application/vnd.wap.xhtml+xml' ) > 0)
         {
             $this->isMobileDevice = true;
-            eZDebugSetting::writeDebug( 'kernel-mobile-redirection', "Mobile redirection triggered : wap", __METHOD__ );
+            eZDebugSetting::writeDebug(
+                'kernel-mobile-redirection',
+                'Mobile redirection triggered : wap',
+                __METHOD__ );
         }
         else if ( in_array( $simplifiedUserAgent,
                             $mobileUserAgentCodes ) )
         {
             $this->isMobileDevice = true;
             $mobileUserAgentCodeIndex = array_search( $simplifiedUserAgent, $mobileUserAgentCodes );
-            eZDebugSetting::writeDebug( 'kernel-mobile-redirection', "Mobile redirection triggered via MobileUserAgentCodes settings : matched code '{$mobileUserAgentCodes[$mobileUserAgentCodeIndex]}'", __METHOD__ );
+            eZDebugSetting::writeDebug(
+                'kernel-mobile-redirection',
+                'Mobile redirection triggered via MobileUserAgentCodes settings : matched code '
+                . $mobileUserAgentCodes[$mobileUserAgentCodeIndex],
+                __METHOD__ );
         }
         else
         {
@@ -95,7 +102,13 @@ class ezpMobileDeviceRegexpFilter implements ezpMobileDeviceDetectFilterInterfac
                 {
                     $this->isMobileDevice = true;
                     $this->userAgentAlias = $userAgentAlias;
-                    eZDebugSetting::writeDebug( 'kernel-mobile-redirection', "Mobile redirection triggered via MobileUserAgentRegexps settings : matched regexp '{$matches[0]}' in alias '{$userAgentAlias}'", __METHOD__ );
+                    eZDebugSetting::writeDebug(
+                        'kernel-mobile-redirection',
+                        'Mobile redirection triggered via MobileUserAgentRegexps settings : matched regexp '
+                        . $matches[0]
+                        . ' in alias '
+                        . $userAgentAlias,
+                        __METHOD__ );
                     break;
                 }
             }
