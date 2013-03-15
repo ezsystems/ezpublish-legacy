@@ -114,7 +114,7 @@ while ( $objectData = fgetcsv( $fp, $csvLineLength , ';', '"' ) )
             case 'ezbinaryfile':
             case 'ezmedia':
             {
-                $dataString = empty(trim($dataString)) ? '' : eZDir::path( array( $storageDir, $dataString ) );
+                $dataString = $dataString ? eZDir::path( array( $storageDir, $dataString ) ) : '';
                 break;
             }
             default:
