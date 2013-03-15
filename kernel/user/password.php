@@ -44,7 +44,7 @@ if ( !$user )
     return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 $currentUser = eZUser::currentUser();
 if ( $currentUser->attribute( 'contentobject_id' ) != $user->attribute( 'contentobject_id' ) or
-     !$currentUser->isLoggedIn() )
+     !$currentUser->isRegistered() )
     return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 if ( $http->hasPostVariable( "OKButton" ) )

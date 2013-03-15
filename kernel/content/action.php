@@ -1142,8 +1142,7 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     }
     else if ( $http->hasPostVariable( "ActionAddToWishList" ) )
     {
-        $user = eZUser::currentUser();
-        if ( !$user->isLoggedIn() )
+        if ( !eZUser::isCurrentUserRegistered() )
             return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
         $shopModule = eZModule::exists( "shop" );

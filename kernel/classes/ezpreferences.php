@@ -64,8 +64,8 @@ class eZPreferences
         // We must store the database changes if:
         // a - The current user is logged in (ie. not anonymous)
         // b - We have specified a specific user (not the current).
-        //    in which case isLoggedIn() will fail.
-        if ( $storeUserID !== false or $user->isLoggedIn() )
+        //    in which case isRegistered() will fail.
+        if ( $storeUserID !== false or $user->isRegistered() )
         {
             // Only store in DB if user is logged in or we have
             // a specific user ID defined
