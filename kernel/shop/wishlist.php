@@ -10,8 +10,7 @@ $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 $offset = $Params['Offset'];
 
-$user = eZUser::currentUser();
-if ( !$user->isLoggedIn() )
+if ( !eZUser::isCurrentUserRegistered() )
     return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 if ( $http->hasPostVariable( "ActionAddToWishList" ) )

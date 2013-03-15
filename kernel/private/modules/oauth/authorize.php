@@ -63,7 +63,7 @@ if ( !$application->isEndPointValid( $pRedirectUri ) )
 $user = eZUser::currentUser();
 
 // login is like REALLY required here. But we can't use the standard policy check, as it won't redirect w/ GET parameters
-if ( !$user->isLoggedIn() )
+if ( !$user->isRegistered() )
 {
     $redirectUri = str_replace( eZSys::indexDir(), '', $_SERVER['REQUEST_URI'] );
 

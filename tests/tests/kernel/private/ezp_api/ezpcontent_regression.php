@@ -18,7 +18,7 @@ class ezpContentRegression extends ezpDatabaseTestCase
         parent::setUp();
         $currentUser = eZUser::currentUser();
         $anonymousID = eZUser::anonymousId();
-        if ( $currentUser->isLoggedIn() )
+        if ( $currentUser->isRegistered() )
         {
             self::$previousUserID = $currentUser->attribute( 'contentobject_id' );
             eZUser::setCurrentlyLoggedInUser( eZUser::fetch( $anonymousID ), $anonymousID );

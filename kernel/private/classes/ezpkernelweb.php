@@ -338,14 +338,12 @@ class ezpKernelWeb implements ezpKernelHandler
          */
         if ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) !== 'true' )
         {
-            $currentUser = eZUser::currentUser();
-
             $wwwDir = eZSys::wwwDir();
             // On host based site accesses this can be empty, causing the cookie to be set for the current dir,
             // but we want it to be set for the whole eZ publish site
             $cookiePath = $wwwDir != '' ? $wwwDir : '/';
 
-            if ( $currentUser->isLoggedIn() )
+            if ( eZUser::isCurrentUserRegistered() )
             {
                 // Only set the cookie if it doesnt exist. This way we are not constantly sending the set request in the headers.
                 if ( !isset( $_COOKIE['is_logged_in'] ) || $_COOKIE['is_logged_in'] !== 'true' )
