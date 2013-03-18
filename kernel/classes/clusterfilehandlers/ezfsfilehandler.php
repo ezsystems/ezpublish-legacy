@@ -622,17 +622,19 @@ class eZFSFileHandler
      */
     function fileDeleteByDirList( $dirList, $commonPath, $commonSuffix )
     {
-        $dirs = implode( ',', $dirList );
-        $wildcard = $commonPath .'/{' . $dirs . '}/' . $commonSuffix . '*';
-
-        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteByDirList( '$dirs', '$commonPath', '$commonSuffix' )", __METHOD__ );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteByDirList( '" . implode( ",", $dirList ) . "', '$commonPath', '$commonSuffix' )", __METHOD__ );
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
-        $unlinkArray = eZSys::globBrace( $wildcard );
-        if ( $unlinkArray !== false and ( count( $unlinkArray ) > 0 ) )
+
+        foreach ( $dirList as $dir )
         {
-            array_map( 'unlink', $unlinkArray );
+            $unlinkArray = eZSys::globBrace( "$commonPath/$dir/$commonSuffix*" );
+            if ( $unlinkArray !== false )
+            {
+                array_map( 'unlink', $unlinkArray );
+            }
         }
+
         eZDebug::accumulatorStop( 'dbfile' );
     }
 
