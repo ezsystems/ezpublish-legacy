@@ -563,7 +563,7 @@ class ezpKernelWeb implements ezpKernelHandler
 
         $this->shutdown();
 
-        return new ezpKernelResult( $content );
+        return new ezpKernelResult( $content, array( 'module_result' => $moduleResult ) );
     }
 
     /**
