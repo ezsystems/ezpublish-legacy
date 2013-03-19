@@ -7,6 +7,9 @@
  * @version //autogentag//
  */
 
-function eZUpdateDebugSettings()
+if ( !function_exists( 'eZUpdateDebugSettings' ) )
 {
+    function eZUpdateDebugSettings()
+    {
+    }
 }
