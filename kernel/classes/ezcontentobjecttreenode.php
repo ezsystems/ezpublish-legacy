@@ -3593,6 +3593,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $pathIdentificationString = $pathIdentificationName;
         if ( $this->attribute( 'path_identification_string' ) != $pathIdentificationString )
         {
+            $db = eZDB::instance();
+            
+            $updQuery = "UPDATE
+                              ezcontentobject_tree
+                         SET
+                              path_identification_string = replace(path_identification_string, '{$this->attribute( 'path_identification_string' )}', '$pathIdentificationString')
+                         WHERE
+                              path_string LIKE '{$this->attribute( 'path_string' )}%'";
+            $db->query( $updQuery );
+
             $this->setAttribute( 'path_identification_string', $pathIdentificationString );
             $this->sync();
         }
@@ -4198,6 +4208,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $moveQuery1 = "UPDATE
                                  ezcontentobject_tree
                            SET
+                                 path_identification_string = replace(path_identification_string, '{$node->PathIdentificationString}', '{$newParentNode->PathIdentificationString}'),
                                  path_string = $newPathString,
                                  depth = depth + $newParentDepth - $oldDepth + 1
                            WHERE
