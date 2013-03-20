@@ -75,6 +75,19 @@ if ( $viewCacheEnabled && $ini->hasVariable( 'ContentSettings', 'ViewCacheTweaks
     }
 }
 
+if ( $viewCacheEnabled && $ini->hasVariable( 'ContentSettings', 'ViewCacheIgnoreSection' ) )
+{
+    $ignoredSectionIds = $ini->variable( 'ContentSettings', 'ViewCacheIgnoreSection' );
+    $contentObjectMetadata = eZContentObject::fetchByNodeID( $NodeID, false );
+    if ( isset( $contentObjectMetadata['section_id'] ) )
+    {
+        if ( in_array( $contentObjectMetadata['section_id'], $ignoredSectionIds ) )
+        {
+            $viewCacheEnabled = false;
+        }
+    }
+}
+
 $collectionAttributes = false;
 if ( isset( $Params['CollectionAttributes'] ) )
     $collectionAttributes = $Params['CollectionAttributes'];
