@@ -232,11 +232,11 @@ th.yui-dt-sortable .yui-dt-label {
     margin-right: 10px;
 }
 
-th.yui-dt-asc .yui-dt-liner {
+th.yui-dt-desc .yui-dt-liner {
    background:url(../../images/3/sprite.png) no-repeat right -170px;
 }
 
-th.yui-dt-desc .yui-dt-liner {
+th.yui-dt-asc .yui-dt-liner {
     background:url(../../images/3/sprite.png) no-repeat right -224px;
 }
 
