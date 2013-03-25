@@ -1027,7 +1027,7 @@ class eZContentClassAttribute extends eZPersistentObject
         }
         else
         {
-            $limit = 1000;
+            $limit = 100;
             $offset = 0;
             while ( true )
             {
