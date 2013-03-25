@@ -188,15 +188,19 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                 $asObject );
     }
 
-    /*!
-     Fetches all contentobject attributes which relates to the contentclass attribute \a $contentClassAttributeID.
-     \return An array with contentobject attributes.
-     \param $contentClassAttributeID The ID of the contentclass attribute
-     \param $asObject If \c true objects will be returned, otherwise associative arrays are returned.
-     \param $version The version the of contentobject attributes to fetch or all version if \c false.
-     \param $contentObjectID The ID the of contentobject to fetch or all objects if \c false.
-    */
-    static function fetchSameClassAttributeIDList( $contentClassAttributeID, $asObject = true, $version = false, $contentObjectID = false )
+    /**
+     * Fetches all contentobject attributes which relate to the contentclass attribute $contentClassAttributeID.
+     *
+     * @param int $contentClassAttributeID  The ID of the contentclass attribute
+     * @param bool $asObject                If true objects will be returned, otherwise associative arrays are returned.
+     * @param int|bool $version             The version the of contentobject attributes to fetch, or all versions if false.
+     * @param int|bool $contentObjectID     The ID the of contentobject to fetch, or all objects if false.
+     * @param array|null $limit             An associative array with limitiations, can contain
+     *                                      - 'offset': Numerical value defining the start offset for the fetch
+     *                                      - 'length': Numerical value defining the max number of items to return
+     * @return eZContentObjectAttribute[]|array|null    An array with contentobject attributes.
+     */
+    static function fetchSameClassAttributeIDList( $contentClassAttributeID, $asObject = true, $version = false, $contentObjectID = false, $limit = null )
     {
         $conditions = array( "contentclassattribute_id" => $contentClassAttributeID );
         if ( $version !== false )
@@ -207,7 +211,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                     null,
                                                     $conditions,
                                                     null,
-                                                    null,
+                                                    $limit,
                                                     $asObject);
     }
 
