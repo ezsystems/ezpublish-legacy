@@ -3626,10 +3626,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $object = $this->object();
         $nodeID = $this->attribute( 'node_id' );
+        $objectID = $object->attribute( 'id' );
         if ( eZAudit::isAuditEnabled() )
         {
             // Set audit params.
-            $objectID = $object->attribute( 'id' );
             $objectName = $object->attribute( 'name' );
 
             eZAudit::writeAudit( 'content-delete', array( 'Node ID' => $nodeID, 'Object ID' => $objectID, 'Content Name' => $objectName,
@@ -3685,8 +3685,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         // clean up user cache
         if ( in_array( $object->attribute( 'contentclass_id' ), eZUser::contentClassIDs() ) )
         {
-            eZUser::removeSessionData( $object->attribute( 'id' ) );
-            eZUser::purgeUserCacheByUserId( $object->attribute( 'id' ) );
+            eZUser::removeSessionData( $objectID );
+            eZUser::purgeUserCacheByUserId( $objectID );
         }
 
         $parentNode = $this->attribute( 'parent' );
@@ -3694,6 +3694,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             eZContentCacheManager::clearContentCacheIfNeeded( $parentNode->attribute( 'contentobject_id' ) );
             $parentNode->updateAndStoreModified();
+            eZNodeAssignment::purgeByParentAndContentObjectID( $parentNode->attribute( 'node_id' ), $objectID );
         }
 
         // Clean up policies and limitations
