@@ -10,7 +10,7 @@
 
             {section show=$MultiOptionList.item.optionlist}
 
-                <table cellspacing="0">
+                <table class="options-list">
                 <tr>
                     <th class="tight">&nbsp;</th>
                     <th>{'Option'|i18n( 'design/standard/content/datatype' )}</th>

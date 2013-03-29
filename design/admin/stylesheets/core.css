@@ -664,3 +664,88 @@ div.oe-window /* Needed by OE 5.0 when translating content */
 {
     display: none;
 }
+
+/* multioption */
+table.multioption
+{
+    font-size:1em;
+}
+table.multioption input.button
+{
+    margin-left:0;
+}
+table.multioption, table.multioption table
+{
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0;
+}
+
+table.multioption table
+{
+    margin-top: 0.5em;
+}
+
+table.multioption th, table.multioption td
+{
+    padding:0.35em 0.7em;
+    border: 1px solid #aaa;
+    vertical-align: middle;
+    text-align: left;
+}
+table.multioption table.options-list th, table.multioption table.options-list td
+{
+    border: 1px solid #bebebe;
+}
+
+table.multioption th
+{
+    vertical-align:top;
+    background-color: #cccccc;
+}
+
+table.multioption table.options-list th
+{
+    padding:0.35em 0.5em;
+    vertical-align:middle;
+    background-color: #eee;
+}
+
+table.multioption div.controlbar div.block
+{
+    padding: 0;
+}
+
+table.multioption input.box
+{
+    width: 98%;
+}
+
+.multioption label
+{
+    font-weight: bold;
+    padding: 0.5em 0;
+}
+
+.multioption .toolbar
+{
+    padding:0.4em 0 0.2em 0;
+}
+
+option.disabled
+{
+    color: #a0a0a0;
+}
+
+div.attribute-multioption ul
+{
+    margin: 0 0 0 1em;
+    padding: 0;
+}
+
+div.attribute-multioption li
+{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
