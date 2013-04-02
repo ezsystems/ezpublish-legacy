@@ -172,7 +172,7 @@ class eZSection extends eZPersistentObject
     */
     function removeThis( $conditions = null, $extraConditions = null )
     {
-        eZPersistentObject::remove( array( "id" => $this->ID ), $extraConditions );
+        $this->remove( array( "id" => $this->ID ), $extraConditions );
     }
 
     /*

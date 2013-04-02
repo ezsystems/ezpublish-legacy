@@ -162,7 +162,7 @@ class eZWorkflow extends eZPersistentObject
                                                      "version" => $this->Version ) );
         }
 
-        eZPersistentObject::remove();
+        $this->remove();
         $db->commit();
     }
 
@@ -254,7 +254,7 @@ class eZWorkflow extends eZPersistentObject
                 $event->store();
             }
         }
-        eZPersistentObject::store();
+        parent::store();
         $db->commit();
     }
     /*!
@@ -280,7 +280,7 @@ class eZWorkflow extends eZPersistentObject
                 $event->storeDefined();
             }
         }
-        eZPersistentObject::store();
+        parent::store();
         $db->commit();
     }
 
@@ -301,7 +301,7 @@ class eZWorkflow extends eZPersistentObject
                 $event->setAttribute( "version", $version );
             }
         }
-        eZPersistentObject::setAttribute( "version", $version );
+        $this->setAttribute( "version", $version );
     }
 
     static function fetch( $id, $asObject = true, $version = 0 )

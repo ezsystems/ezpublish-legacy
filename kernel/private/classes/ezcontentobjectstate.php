@@ -391,7 +391,7 @@ class eZContentObjectState extends eZPersistentObject
         }
         else
         {
-            eZPersistentObject::store( $fieldFilters );
+            parent::store( $fieldFilters );
         }
     }
 

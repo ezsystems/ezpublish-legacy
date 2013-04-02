@@ -73,7 +73,7 @@ class eZUserSetting extends eZPersistentObject
             } break;
         }
 
-        eZPersistentObject::setAttribute( $attr, $val );
+        parent::setAttribute( $attr, $val );
     }
 
     /*!

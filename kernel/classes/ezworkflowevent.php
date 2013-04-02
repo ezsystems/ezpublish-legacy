@@ -175,13 +175,13 @@ class eZWorkflowEvent extends eZPersistentObject
 
     function attributes()
     {
-        return array_merge( eZPersistentObject::attributes(), $this->eventType()->typeFunctionalAttributes() );
+        return array_merge( parent::attributes(), $this->eventType()->typeFunctionalAttributes() );
     }
 
     function hasAttribute( $attr )
     {
         $eventType = $this->eventType();
-        return eZPersistentObject::hasAttribute( $attr ) or
+        return parent::hasAttribute( $attr ) or
                in_array( $attr, $eventType->typeFunctionalAttributes() );
     }
 
@@ -193,7 +193,7 @@ class eZWorkflowEvent extends eZPersistentObject
             return $eventType->attributeDecoder( $this, $attr );
         }
 
-        return eZPersistentObject::attribute( $attr );
+        return parent::attribute( $attr );
     }
 
     function eventType()
@@ -245,7 +245,7 @@ class eZWorkflowEvent extends eZPersistentObject
     {
         $db = eZDB::instance();
         $db->begin();
-        $stored = eZPersistentObject::store( $fieldFilters );
+        $stored = parent::store( $fieldFilters );
 
         $eventType = $this->eventType();
         if ( $eventType instanceof eZWorkflowEventType )
@@ -269,7 +269,7 @@ class eZWorkflowEvent extends eZPersistentObject
     {
         $db = eZDB::instance();
         $db->begin();
-        $stored = eZPersistentObject::store( $fieldFilters );
+        $stored = parent::store( $fieldFilters );
 
         $eventType = $this->eventType();
         if ( $eventType instanceof eZWorkflowEventType )

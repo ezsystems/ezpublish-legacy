@@ -67,7 +67,7 @@ class eZUserDiscountRule extends eZPersistentObject
             $handler->setTimestamp( 'user-discountrules-cache', time() );
             $handler->store();
         }
-        eZPersistentObject::store( $fieldFilters );
+        parent::store( $fieldFilters );
     }
 
     static function fetch( $id, $asObject = true )

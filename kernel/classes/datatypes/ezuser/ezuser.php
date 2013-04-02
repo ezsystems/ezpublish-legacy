@@ -196,7 +196,7 @@ class eZUser extends eZPersistentObject
         unset( $GLOBALS['eZUserObject_' . $userID] );
         $GLOBALS['eZUserObject_' . $userID] = $this;
         self::purgeUserCacheByUserId( $userID );
-        eZPersistentObject::store( $fieldFilters );
+        parent::store( $fieldFilters );
     }
 
     function originalPassword()
