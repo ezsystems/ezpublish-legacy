@@ -63,7 +63,7 @@ class eZVatRule extends eZPersistentObject
 
             default:
             {
-                eZPersistentObject::setAttribute( $attr, $val );
+                parent::setAttribute( $attr, $val );
             } break;
         }
     }
@@ -181,7 +181,7 @@ class eZVatRule extends eZPersistentObject
         $db->begin();
 
         // Store the rule itself.
-        eZPersistentObject::store( $fieldFilters );
+        parent::store( $fieldFilters );
 
         // Store product categories associated with the rule,
         $this->removeProductCategories();

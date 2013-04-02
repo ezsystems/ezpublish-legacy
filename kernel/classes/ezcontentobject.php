@@ -242,7 +242,7 @@ class eZContentObject extends eZPersistentObject
         $db = eZDB::instance();
         $db->begin();
         $this->storeNodeModified();
-        eZPersistentObject::store( $fieldFilters );
+        parent::store( $fieldFilters );
         $db->commit();
     }
 
@@ -750,7 +750,7 @@ class eZContentObject extends eZPersistentObject
     */
     function remoteID()
     {
-        $remoteID = eZPersistentObject::attribute( 'remote_id', true );
+        $remoteID = $this->attribute( 'remote_id', true );
 
         // Ensures that we provide the correct remote_id if we have one in the database
         if ( $remoteID === null and $this->attribute( 'id' ) )
@@ -769,7 +769,7 @@ class eZContentObject extends eZPersistentObject
             $this->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'object' ) );
             if ( $this->attribute( 'id' ) !== null )
                 $this->sync( array( 'remote_id' ) );
-            $remoteID = eZPersistentObject::attribute( 'remote_id', true );
+            $remoteID = $this->attribute( 'remote_id', true );
         }
 
         return $remoteID;

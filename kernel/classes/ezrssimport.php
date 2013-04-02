@@ -169,7 +169,7 @@ class eZRSSImport extends eZPersistentObject
 
         $this->setAttribute( 'modifier_id', $user->attribute( 'contentobject_id' ) );
         $this->setAttribute( 'modified', $dateTime );
-        eZPersistentObject::store( $fieldFilters );
+        parent::store( $fieldFilters );
     }
 
     /*!

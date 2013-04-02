@@ -115,13 +115,13 @@ class eZMedia extends eZPersistentObject
 
     function mimeTypeCategory()
     {
-        $types = explode( "/", eZPersistentObject::attribute( "mime_type" ) );
+        $types = explode( "/", $this->attribute( "mime_type" ) );
         return $types[0];
     }
 
     function mimeTypePart()
     {
-        $types = explode( "/", eZPersistentObject::attribute( "mime_type" ) );
+        $types = explode( "/", $this->attribute( "mime_type" ) );
         return $types[1];
     }
 

@@ -309,7 +309,7 @@ class eZCurrencyData extends eZPersistentObject
     {
         // data changed => reset RateValue
         $this->invalidateRateValue();
-        eZPersistentObject::store( $fieldFilters );
+        parent::store( $fieldFilters );
     }
 
     function isActive()

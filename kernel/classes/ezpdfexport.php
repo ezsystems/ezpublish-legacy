@@ -163,7 +163,7 @@ class eZPDFExport extends eZPersistentObject
 
         $db = eZDB::instance();
         $db->begin();
-        eZPersistentObject::store();
+        parent::store();
         if ( $publish )
         {
             $this->setAttribute( 'version', eZPDFExport::VERSION_DRAFT );
@@ -205,7 +205,7 @@ class eZPDFExport extends eZPersistentObject
                 unlink( $filename );
             }
         }
-        eZPersistentObject::remove( $conditions, $extraConditions);
+        parent::remove( $conditions, $extraConditions);
     }
 
     /*!
@@ -251,7 +251,7 @@ class eZPDFExport extends eZPersistentObject
 
     function exportClassesArray()
     {
-        return explode( ':',  eZPersistentObject::attribute( 'export_classes' ) );
+        return explode( ':',  $this->attribute( 'export_classes' ) );
     }
 
     function countGeneratingOnceExports( $filename = '' )

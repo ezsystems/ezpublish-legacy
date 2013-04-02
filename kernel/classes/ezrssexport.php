@@ -156,7 +156,7 @@ class eZRSSExport extends eZPersistentObject
         $user = eZUser::currentUser();
         if (  $this->ID == null )
         {
-            eZPersistentObject::store();
+            parent::store();
             return;
         }
 
@@ -169,7 +169,7 @@ class eZRSSExport extends eZPersistentObject
         }
         $this->setAttribute( 'modified', $dateTime );
         $this->setAttribute( 'modifier_id', $user->attribute( "contentobject_id" ) );
-        eZPersistentObject::store();
+        parent::store();
         $db->commit();
         if ( $storeAsValid )
         {
@@ -192,7 +192,7 @@ class eZRSSExport extends eZPersistentObject
         {
             $item->remove();
         }
-        eZPersistentObject::remove();
+        $this->remove();
         $db->commit();
     }
 
