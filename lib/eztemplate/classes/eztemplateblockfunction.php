@@ -128,7 +128,10 @@ class eZTemplateBlockFunction
             $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
 
             $newNodes[] = eZTemplateNodeTool::createOutputVariableIncreaseNode();
-            $newNodes = array_merge( $newNodes, $children );
+            if ( is_array( $children ) )
+            {
+                $newNodes = array_merge( $newNodes, $children );
+            }
             $newNodes[] = eZTemplateNodeTool::createAssignFromOutputVariableNode( 'blockText' );
             if ( $functionName == $this->AppendBlockName )
             {
