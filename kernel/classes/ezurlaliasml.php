@@ -194,7 +194,7 @@ class eZURLAliasML extends eZPersistentObject
      */
     function setAttribute( $name, $value )
     {
-        eZPersistentObject::setAttribute( $name, $value );
+        parent::setAttribute( $name, $value );
         if ( $name == 'text' )
         {
             $this->TextMD5 = md5( eZURLAliasML::strtolower( $value ) );
@@ -237,7 +237,7 @@ class eZURLAliasML extends eZPersistentObject
                 $this->ActionType = 'nop';
         }
 
-        eZPersistentObject::store( $fieldFilters );
+        parent::store( $fieldFilters );
     }
 
     /*!

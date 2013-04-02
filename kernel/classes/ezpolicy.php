@@ -108,7 +108,7 @@ class eZPolicy extends eZPersistentObject
 
             default:
             {
-                eZPersistentObject::setAttribute( $attr, $val );
+                parent::setAttribute( $attr, $val );
             } break;
         }
     }

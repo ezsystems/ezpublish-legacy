@@ -262,12 +262,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function remoteID()
     {
-        $remoteID = eZPersistentObject::attribute( 'remote_id', true );
+        $remoteID = $this->attribute( 'remote_id', true );
         if ( !$remoteID )
         {
             $this->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'node' ) );
             $this->sync( array( 'remote_id' ) );
-            $remoteID = eZPersistentObject::attribute( 'remote_id', true );
+            $remoteID = $this->attribute( 'remote_id', true );
         }
 
         return $remoteID;
@@ -5582,7 +5582,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db = eZDB::instance();
 
         $db->begin();
-        eZPersistentObject::store( $fieldFilters );
+        parent::store( $fieldFilters );
         $this->updateAndStoreModified();
         $db->commit();
     }

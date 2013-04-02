@@ -155,7 +155,7 @@ class eZContentLanguage extends eZPersistentObject
             return false;
         }
 
-        eZPersistentObject::remove();
+        $this->remove();
 
         eZContentCacheManager::clearAllContentCache();
 

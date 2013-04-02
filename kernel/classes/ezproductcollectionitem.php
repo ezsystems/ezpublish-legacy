@@ -184,7 +184,7 @@ class eZProductCollectionItem extends eZPersistentObject
         {
             $itemOption->remove();
         }
-        eZPersistentObject::remove();
+        $this->remove();
         $db->commit();
     }
 

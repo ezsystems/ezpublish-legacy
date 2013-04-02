@@ -68,12 +68,12 @@ class eZDiscountSubRule extends eZPersistentObject
                     $val = 0.0;
                 if ( $val > 100.0 )
                     $val = 100.0;
-                eZPersistentObject::setAttribute( $attr, $val );
+                parent::setAttribute( $attr, $val );
             } break;
 
             default:
             {
-                eZPersistentObject::setAttribute( $attr, $val );
+                parent::setAttribute( $attr, $val );
             } break;
         }
     }
