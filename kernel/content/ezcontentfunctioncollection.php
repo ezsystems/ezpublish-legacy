@@ -1369,10 +1369,7 @@ class eZContentFunctionCollection
             }
         }
 
-        if ( $ignoreVisibility !== null )
-        {
-            $params['IgnoreVisibility'] = $ignoreVisibility;
-        }
+        $params['IgnoreVisibility'] = $ignoreVisibility;
 
         return array( 'result' => $object->relatedContentObjectCount( false, $attributeID, $params ) );
     }
