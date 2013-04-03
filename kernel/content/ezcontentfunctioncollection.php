@@ -1277,10 +1277,7 @@ class eZContentFunctionCollection
             }
         }
 
-        if ( $ignoreVisibility !== null )
-        {
-            $params['IgnoreVisibility'] = $ignoreVisibility;
-        }
+        $params['IgnoreVisibility'] = $ignoreVisibility;
 
         if ( !$attributeID )
         {
