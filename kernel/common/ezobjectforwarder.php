@@ -60,23 +60,6 @@ class eZObjectForwarder
         $newNodes = array();
 
         $viewDir = '';
-        $renderMode = false;
-        if ( isset( $rule["render_mode"] ) )
-        {
-            $renderMode = $rule["render_mode"];
-        }
-        if ( isset( $parameters['render-mode'] ) )
-        {
-            $renderData = $parameters['render-mode'];
-            if ( !eZTemplateNodeTool::isConstantElement( $renderData ) )
-            {
-                return false;
-            }
-            $renderMode = eZTemplateNodeTool::elementConstantValue( $renderData );
-        }
-        if ( $renderMode )
-            $view_dir .= "/render-$renderMode";
-
         $viewValue = false;
         $viewName = false;
         if ( $rule['use_views'] )
