@@ -282,6 +282,9 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         return eZContentObjectTrashNode::trashList( $params, true );
     }
 
+    /**
+     * @return eZContentObjectTreeNode|null
+     */
     function originalParent()
     {
         if ( $this->originalNodeParent === 0 )
@@ -319,6 +322,28 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         $path = $this->attribute( 'path_identification_string' );
         $path = substr( $path, 0, strrpos( $path, '/') );
         return $path;
+    }
+
+    /**
+     * @param $contentObjectID
+     * @param bool $asObject
+     * @param bool $contentObjectVersion
+     * @return eZContentObjectTrashNode|null
+     */
+    public static function fetchByContentObjectID( $contentObjectID, $asObject = true, $contentObjectVersion = false )
+    {
+        $conds = array( 'contentobject_id' => $contentObjectID );
+        if ( $contentObjectVersion !== false )
+        {
+            $conds['contentobject_version'] = $contentObjectVersion;
+        }
+
+        return self::fetchObject(
+            self::definition(),
+            null,
+            $conds,
+            $asObject
+        );
     }
 
     protected $originalNodeParent = 0;

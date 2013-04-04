@@ -18,7 +18,7 @@
 
 <div class="block">
 {if $location}
-<label title="{'The object will be restored at its original location.'|i18n( 'design/admin/content/restore' )|wash}"><input type="radio" name="RestoreType" value="1" checked="checked" title="{'The object will be restored at its original location.'|i18n( 'design/admin/content/restore' )|wash}" />&nbsp;{'Restore at original location (below <%nodeName>).'|i18n( 'design/admin/content/restore',, hash( '%nodeName', $location.parent_node_obj.name ) )|wash}</label>
+<label title="{'The object will be restored at its original location.'|i18n( 'design/admin/content/restore' )|wash}"><input type="radio" name="RestoreType" value="1" checked="checked" title="{'The object will be restored at its original location.'|i18n( 'design/admin/content/restore' )|wash}" />&nbsp;{'Restore at original location (below <%nodeName>).'|i18n( 'design/admin/content/restore',, hash( '%nodeName', $location.name ) )|wash}</label>
 <label title="{'The system will prompt you to specify a location by browsing the tree.'|i18n( 'design/admin/content/restore' )|wash}"><input type="radio" name="RestoreType" value="2" title="{'The system will prompt you to specify a location by browsing the tree.'|i18n( 'design/admin/content/restore' )|wash}" />&nbsp;{'Select a location.'|i18n( 'design/admin/content/restore' )}</label>
 {else}
 <label><input type="radio" disabled="disabled" name="RestoreType" value="1" />&nbsp;{'Restore at original location (unavailable).'|i18n( 'design/admin/content/restore' )}</label>
