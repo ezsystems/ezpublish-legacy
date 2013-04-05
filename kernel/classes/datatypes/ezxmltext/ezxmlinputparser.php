@@ -731,7 +731,7 @@ class eZXMLInputParser
         while ( $pos < strlen( $text ) - 1 )
         {
             $startPos = $pos;
-            while( !( $text[$pos] == '&' && $text[$pos + 1] == '#' ) && $pos < strlen( $text ) - 1 )
+            while( !( $text[$pos] == '&' && isset($text[$pos + 1]) && $text[$pos + 1] == '#' ) && $pos < strlen( $text ) - 1 )
             {
                 $pos++;
             }
