@@ -935,7 +935,16 @@ class ezpKernelWeb implements ezpKernelHandler
                 $moduleRedirectUri = '/' . $moduleRedirectUri;
             else if ( $leftSlash && $rightSlash ) // Both are with a slash, so we remove one
                 $moduleRedirectUri = substr( $moduleRedirectUri, 1 );
-            $redirectURI .= $moduleRedirectUri;
+
+            // In some cases $moduleRedirectUri can already contain $redirectURI (including the siteaccess).
+            if ( strpos( $moduleRedirectUri, $redirectURI ) === 0 )
+            {
+                $redirectURI = $moduleRedirectUri;
+            }
+            else
+            {
+                $redirectURI .= $moduleRedirectUri;
+            }
         }
 
         if ( $ini->variable( 'ContentSettings', 'StaticCache' ) == 'enabled' )
