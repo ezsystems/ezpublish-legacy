@@ -5755,13 +5755,12 @@ class eZContentObject extends eZPersistentObject
                         case 'User_Subtree':
                         {
                             $allowed = false;
-                            $assignedNodes = $this->attribute( 'assigned_nodes' );
-                            foreach ( $assignedNodes as $assignedNode )
+                            foreach ( $this->attribute( 'assigned_nodes' ) as $assignedNode )
                             {
                                 $path = $assignedNode->attribute( 'path_string' );
                                 foreach ( $policy['User_Subtree'] as $subtreeString )
                                 {
-                                    if ( strstr( $path, $subtreeString ) )
+                                    if ( strpos( $path, $subtreeString ) !== false )
                                     {
                                         $allowed = true;
                                         break;
