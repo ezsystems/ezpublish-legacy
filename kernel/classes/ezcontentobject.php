@@ -5751,6 +5751,25 @@ class eZContentObject extends eZPersistentObject
                             $allowed = in_array( $sectionID, $values );
                         } break;
 
+                        //This case is based on the similar if statement in the method : classListFromPolicy
+                        case 'User_Subtree':
+                        {
+                            $allowed = false;
+                            $assignedNodes = $this->attribute( 'assigned_nodes' );
+                            foreach ( $assignedNodes as $assignedNode )
+                            {
+                                $path = $assignedNode->attribute( 'path_string' );
+                                foreach ( $policy['User_Subtree'] as $subtreeString )
+                                {
+                                    if ( strstr( $path, $subtreeString ) )
+                                    {
+                                        $allowed = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        } break;
+
                         default:
                         {
                             if ( strncmp( $ident, 'StateGroup_', 11 ) === 0 )
