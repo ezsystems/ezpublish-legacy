@@ -1615,14 +1615,22 @@ class eZContentObject extends eZPersistentObject
 
         $db->begin();
 
-        $contentobjectAttributes = $this->allContentObjectAttributes( $delID );
-
-        foreach ( $contentobjectAttributes as $contentobjectAttribute )
+        $attrOffset = 0;
+        $attrLimit = 20;
+        while (
+            $contentobjectAttributes = $this->allContentObjectAttributes(
+                $delID, true, array( 'limit' => $attrLimit, 'offset' => $attrOffset )
+            )
+        )
         {
-            $dataType = $contentobjectAttribute->dataType();
-            if ( !$dataType )
-                continue;
-            $dataType->deleteStoredObjectAttribute( $contentobjectAttribute );
+            foreach ( $contentobjectAttributes as $contentobjectAttribute )
+            {
+                $dataType = $contentobjectAttribute->dataType();
+                if ( !$dataType )
+                    continue;
+                $dataType->deleteStoredObjectAttribute( $contentobjectAttribute );
+            }
+            $attrOffset += $attrLimit;
         }
 
         eZInformationCollection::removeContentObject( $delID );
@@ -1872,16 +1880,22 @@ class eZContentObject extends eZPersistentObject
         }
     }
 
-    /*
-     Fetch all attributes of all versions belongs to a contentObject.
-    */
-    function allContentObjectAttributes( $contentObjectID, $asObject = true )
+    /**
+     * Fetches all attributes from any versions of the content object
+     *
+     * @param int $contentObjectID
+     * @param bool $asObject
+     * @param array|null $limit the limit array passed to
+     *        eZPersistentObject::fetchObjectList
+     * @return eZContentObjectAttribute[]|array|null
+     */
+    function allContentObjectAttributes( $contentObjectID, $asObject = true, $limit = null )
     {
         return eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
                                                     null,
                                                     array("contentobject_id" => $contentObjectID ),
                                                     null,
-                                                    null,
+                                                    $limit,
                                                     $asObject );
     }
 
