@@ -863,6 +863,9 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         // Insert file metadata.
         clearstatcache( true, $filePath );
         $fileMTime = filemtime( $filePath );
+        // This check intentionally match 'false' value as well
+        if ( $fileMTime == 0 )
+            $fileMTime = -1;
         $contentLength = filesize( $filePath );
         $filePathHash = md5( $filePath );
         $nameTrunk = self::nameTrunk( $filePath, $scope );
