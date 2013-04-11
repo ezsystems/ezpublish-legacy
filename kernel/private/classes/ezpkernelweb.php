@@ -937,13 +937,19 @@ class ezpKernelWeb implements ezpKernelHandler
                 $moduleRedirectUri = substr( $moduleRedirectUri, 1 );
 
             // In some cases $moduleRedirectUri can already contain $redirectURI (including the siteaccess).
-            if ( strpos( $moduleRedirectUri, $redirectURI ) === 0 )
+            if ($redirectURI != null) {
+                if ( strpos( $moduleRedirectUri, $redirectURI ) === 0 )
+                {
+                    $redirectURI = $moduleRedirectUri;
+                }
+                else
+                {
+                    $redirectURI .= $moduleRedirectUri;
+                }
+            } 
+            else 
             {
                 $redirectURI = $moduleRedirectUri;
-            }
-            else
-            {
-                $redirectURI .= $moduleRedirectUri;
             }
         }
 
