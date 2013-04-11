@@ -276,14 +276,6 @@ class ezpKernelWeb implements ezpKernelHandler
         ezpEvent::getInstance()->registerEventListeners();
 
         $this->mobileDeviceDetect = new ezpMobileDeviceDetect( ezpMobileDeviceDetectFilter::getFilter() );
-        if ( $this->mobileDeviceDetect->isEnabled() )
-        {
-            $this->mobileDeviceDetect->process();
-
-            if ( $this->mobileDeviceDetect->isMobileDevice() )
-                $this->mobileDeviceDetect->redirect();
-        }
-
         // eZSession::setSessionArray( $mainRequest->session );
 
         /**
@@ -298,6 +290,14 @@ class ezpKernelWeb implements ezpKernelHandler
      */
     public function run()
     {
+        if ( $this->mobileDeviceDetect->isEnabled() )
+        {
+            $this->mobileDeviceDetect->process();
+
+            if ( $this->mobileDeviceDetect->isMobileDevice() )
+                $this->mobileDeviceDetect->redirect();
+        }
+
         ob_start();
         $this->requestInit();
 
