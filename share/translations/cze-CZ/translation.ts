@@ -4631,6 +4631,13 @@ Parametry jsou pojeny počátečními a koncovými tags.</translation>
     </message>
 </context>
 <context>
+    <name>design/admin/dashboard/community</name>
+    <message>
+        <source>What&apos;s happening in the eZ Community</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/admin/dashboard/drafts</name>
     <message>
         <source>My drafts</source>
@@ -4711,7 +4718,12 @@ Parametry jsou pojeny počátečními a koncovými tags.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You are running %edition, it might not be up to date with the latest hot fixes and service packs. Contact &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; for more infomation.</source>
+        <source>You are running &lt;span class=&quot;edition-info&quot;&gt;%edition&lt;/span&gt;, it might not be up to date with the latest hot fixes and service packs. Contact &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; for more infomation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You are using %edition, the &lt;span id=&quot;ez-publish-community-project-is-innovative-and-cutting-edge&quot;&gt;innovative and cutting-edge&lt;/span&gt; version of eZ Publish, built by &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; and the &lt;a href=&quot;%ez_community_link&quot;&gt;eZ Community&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If this platform is critical for your business, we strongly recommend to subscribe to the Enterprise Edition of eZ Publish. More on &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt;&apos; website.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6865,11 +6877,19 @@ Poznámka: Soubory programů nebudou odinstalovány.</translation>
 <context>
     <name>design/admin/page_copyright</name>
     <message>
-        <source>Powered by %edition. For more information see &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</source>
+        <source>&lt;a href=&quot;%evaluate_link&quot;&gt;Evaluate eZ Publish Enterprise Edition&lt;/a&gt; - &lt;a href=&quot;%share_link&quot;&gt;Become a member of the eZ Community, exchange and contribute&lt;/a&gt;. &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;%evaluate_link&quot;&gt;Evaluate eZ Publish Enterprise Edition&lt;/a&gt; - &lt;a href=&quot;%share_link&quot;&gt;Become a member of the eZ Community, exchange and contribute&lt;/a&gt;. &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
+        <source>Powered by &lt;span class=&quot;edition-info&quot;&gt;%edition&lt;/span&gt;. For more information see &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> For more information see &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -13005,7 +13025,7 @@ your account.</source>
     </message>
     <message>
         <source>Use the &quot;Register&quot; button to create a new account.</source>
-        <translation>Abyste vytvořili nový účet, použijte tlačítko &quot;Registrovat&quot;.</translation>
+        <translation type="obsolete">Abyste vytvořili nový účet, použijte tlačítko &quot;Registrovat&quot;.</translation>
     </message>
     <message>
         <source>Username</source>
@@ -13029,13 +13049,13 @@ Tlačítko přihlášení do systému</translation>
     <message>
         <source>Register</source>
         <comment>Register button</comment>
-        <translation>Registrovat
+        <translation type="obsolete">Registrovat
 
 Tlačítko registrovat</translation>
     </message>
     <message>
         <source>Click here to create a new account.</source>
-        <translation>Abyste vytvořili nový učet, klikněte zde.</translation>
+        <translation type="obsolete">Abyste vytvořili nový učet, klikněte zde.</translation>
     </message>
     <message>
         <source>The user will not be allowed to login after &lt;b&gt;%max_number_failed&lt;/b&gt; failed login attempts.</source>
@@ -13059,11 +13079,11 @@ Tlačítko registrovat</translation>
     </message>
     <message>
         <source>Log in to the Administration Interface of eZ Publish</source>
-        <translation>Přihlásit se do systému administračního rozhraní eZ Publish</translation>
+        <translation type="obsolete">Přihlásit se do systému administračního rozhraní eZ Publish</translation>
     </message>
     <message>
         <source>Please enter a valid username/password combination then click &quot;Log in&quot;.</source>
-        <translation>Prosím, vložte platnou kombinaci uživatelského jména/hesla a poté klikněte na &quot;Přihlášení do systému&quot;. </translation>
+        <translation type="obsolete">Prosím, vložte platnou kombinaci uživatelského jména/hesla a poté klikněte na &quot;Přihlášení do systému&quot;. </translation>
     </message>
     <message>
         <source>Enter a valid username in this field.</source>
@@ -13072,6 +13092,14 @@ Tlačítko registrovat</translation>
     <message>
         <source>Enter a valid password in this field.</source>
         <translation>Vložit platné heslo do tohoto pole.</translation>
+    </message>
+    <message>
+        <source>or</source>
+        <translation type="unfinished">nebo</translation>
+    </message>
+    <message>
+        <source>Register new account</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -14651,6 +14679,17 @@ Tlačítko registrovat</translation>
     <message>
         <source>Item total ex. VAT</source>
         <translation>Souhrnná položka bez DPH</translation>
+    </message>
+</context>
+<context>
+    <name>design/ezdemo/full/article</name>
+    <message>
+        <source>Tip a friend</source>
+        <translation type="unfinished">Doporučit příteli</translation>
+    </message>
+    <message>
+        <source>Location</source>
+        <translation type="unfinished">Umístění</translation>
     </message>
 </context>
 <context>
@@ -22016,10 +22055,6 @@ Standardní kód byl vytvořen ze základních parametrů, které jste vybrali.
         <translation>zde</translation>
     </message>
     <message>
-        <source>Database initialization</source>
-        <translation>Inicializace databáze</translation>
-    </message>
-    <message>
         <source>Please input database access information in the form below.</source>
         <translation>Prosím zadejte informace pro přístup k databázi do následujícího formuláře.</translation>
     </message>
@@ -26360,6 +26395,10 @@ Následujte instrukce v tomto e-mailu pro aktivaci Vašeho účtu.</translation>
     </message>
     <message>
         <source>TS Translation cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SSL Zones cache</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

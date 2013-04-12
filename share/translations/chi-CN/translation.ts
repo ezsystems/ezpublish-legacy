@@ -5037,6 +5037,13 @@
     </message>
 </context>
 <context>
+    <name>design/admin/dashboard/community</name>
+    <message>
+        <source>What&apos;s happening in the eZ Community</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/admin/dashboard/drafts</name>
     <message>
         <source>My drafts</source>
@@ -5121,7 +5128,12 @@
         <translation type="obsolete">如果您安装的版本不是eZ Publish Enterprise，您可能无法更新到最新的维护服务包。详情请联系eZ Systems。</translation>
     </message>
     <message>
-        <source>You are running %edition, it might not be up to date with the latest hot fixes and service packs. Contact &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; for more infomation.</source>
+        <source>You are running &lt;span class=&quot;edition-info&quot;&gt;%edition&lt;/span&gt;, it might not be up to date with the latest hot fixes and service packs. Contact &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; for more infomation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You are using %edition, the &lt;span id=&quot;ez-publish-community-project-is-innovative-and-cutting-edge&quot;&gt;innovative and cutting-edge&lt;/span&gt; version of eZ Publish, built by &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; and the &lt;a href=&quot;%ez_community_link&quot;&gt;eZ Community&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If this platform is critical for your business, we strongly recommend to subscribe to the Enterprise Edition of eZ Publish. More on &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt;&apos; website.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7652,11 +7664,19 @@ Note: The packages will not be uninstalled.</source>
 <context>
     <name>design/admin/page_copyright</name>
     <message>
-        <source>Powered by %edition. For more information see &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</source>
+        <source>&lt;a href=&quot;%evaluate_link&quot;&gt;Evaluate eZ Publish Enterprise Edition&lt;/a&gt; - &lt;a href=&quot;%share_link&quot;&gt;Become a member of the eZ Community, exchange and contribute&lt;/a&gt;. &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;%evaluate_link&quot;&gt;Evaluate eZ Publish Enterprise Edition&lt;/a&gt; - &lt;a href=&quot;%share_link&quot;&gt;Become a member of the eZ Community, exchange and contribute&lt;/a&gt;. &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
+        <source>Powered by &lt;span class=&quot;edition-info&quot;&gt;%edition&lt;/span&gt;. For more information see &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> For more information see &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -14009,7 +14029,7 @@ your account.</source>
     </message>
     <message>
         <source>Use the &quot;Register&quot; button to create a new account.</source>
-        <translation>使用&quot;注册&quot;按钮创建一个新的帐户。</translation>
+        <translation type="obsolete">使用&quot;注册&quot;按钮创建一个新的帐户。</translation>
     </message>
     <message>
         <source>Username</source>
@@ -14031,11 +14051,11 @@ your account.</source>
     <message>
         <source>Register</source>
         <comment>Register button</comment>
-        <translation>注册</translation>
+        <translation type="obsolete">注册</translation>
     </message>
     <message>
         <source>Click here to create a new account.</source>
-        <translation>点击这里创建一个新的帐户。</translation>
+        <translation type="obsolete">点击这里创建一个新的帐户。</translation>
     </message>
     <message>
         <source>The user will not be allowed to login after &lt;b&gt;%max_number_failed&lt;/b&gt; failed login attempts.</source>
@@ -14067,11 +14087,19 @@ your account.</source>
     </message>
     <message>
         <source>Log in to the Administration Interface of eZ Publish</source>
-        <translation>登录到eZ Publish的管理员界面</translation>
+        <translation type="obsolete">登录到eZ Publish的管理员界面</translation>
     </message>
     <message>
         <source>Please enter a valid username/password combination then click &quot;Log in&quot;.</source>
-        <translation>请输入有效的用户名和密码并点击&quot;登录&quot;。</translation>
+        <translation type="obsolete">请输入有效的用户名和密码并点击&quot;登录&quot;。</translation>
+    </message>
+    <message>
+        <source>or</source>
+        <translation type="unfinished">或</translation>
+    </message>
+    <message>
+        <source>Register new account</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -15716,6 +15744,17 @@ your account.</source>
     <message>
         <source>Send</source>
         <translation type="obsolete">发送</translation>
+    </message>
+</context>
+<context>
+    <name>design/ezdemo/full/article</name>
+    <message>
+        <source>Tip a friend</source>
+        <translation type="unfinished">发送给朋友</translation>
+    </message>
+    <message>
+        <source>Location</source>
+        <translation type="unfinished">位置</translation>
     </message>
 </context>
 <context>
@@ -24794,10 +24833,6 @@ The default code was made from the basic parameters you chose.</source>
         <translation>点击%1按钮开始配置流程。</translation>
     </message>
     <message>
-        <source>Database initialization</source>
-        <translation>数据库初始化</translation>
-    </message>
-    <message>
         <source>Enter database system user information in the boxes below</source>
         <translation type="obsolete">在下列的输入框中输入数据库系统用户信息</translation>
     </message>
@@ -29987,6 +30022,10 @@ your account.</source>
     </message>
     <message>
         <source>TS Translation cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SSL Zones cache</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
