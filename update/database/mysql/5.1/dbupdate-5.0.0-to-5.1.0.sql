@@ -1,5 +1,5 @@
 SET storage_engine=InnoDB;
-UPDATE ezsite_data SET value='5.1.0alpha1' WHERE name='ezpublish-version';
+UPDATE ezsite_data SET value='5.1.0beta1' WHERE name='ezpublish-version';
 UPDATE ezsite_data SET value='1' WHERE name='ezpublish-release';
 
 ALTER TABLE ezcontentclass ADD INDEX ezcontentclass_identifier (identifier, version);
