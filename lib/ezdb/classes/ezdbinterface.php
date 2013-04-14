@@ -2,7 +2,7 @@
 /**
  * File containing the eZDBInterface class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -109,7 +109,7 @@ class eZDBInterface
             {
                 $this->OutputTextCodec =& $tmpOutputTextCodec;
                 $this->InputTextCodec =& $tmpInputTextCodec;
-            }        
+            }
         }
 
         $this->OutputSQL = false;
@@ -1255,6 +1255,7 @@ class eZDBInterface
      *
      * @param string|bool $table
      * @param string|bool $column
+     * @return int|bool The most recent value for the sequence
      */
     function lastSerialID( $table = false, $column = false )
     {
@@ -1439,7 +1440,7 @@ class eZDBInterface
      *
      * Usage:
      *
-     * $db =& eZDb::instance();
+     * $db =& eZDB::instance();
      * $db->generateSQLINStatement( array( 2, 5, 43, ) );
      *
      * @param int|array $elements

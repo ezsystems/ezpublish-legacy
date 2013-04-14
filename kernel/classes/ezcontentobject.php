@@ -2,7 +2,7 @@
 /**
  * File containing the eZContentObject class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -198,7 +198,8 @@ class eZContentObject extends eZPersistentObject
                                                       'allowed_assign_state_id_list' => 'allowedAssignStateIDList',
                                                       'allowed_assign_state_list' => 'allowedAssignStateList',
                                                       'state_id_array' => 'stateIDArray',
-                                                      'state_identifier_array' => 'stateIdentifierArray' ),
+                                                      'state_identifier_array' => 'stateIdentifierArray',
+                                                      'section_identifier' => 'sectionIdentifier' ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObject",
                       "sort" => array( "id" => "asc" ),
@@ -241,7 +242,7 @@ class eZContentObject extends eZPersistentObject
         $db = eZDB::instance();
         $db->begin();
         $this->storeNodeModified();
-        eZPersistentObject::store( $fieldFilters );
+        parent::store( $fieldFilters );
         $db->commit();
     }
 
@@ -344,7 +345,7 @@ class eZContentObject extends eZPersistentObject
             eZDebug::writeNotice( "There is no object name for version($version) of the content object ($contentObjectID) in language($lang)", __METHOD__ );
             return $name;
         }
-        $db = eZDb::instance();
+        $db = eZDB::instance();
         $contentObjectID = $this->attribute( 'id' );
         if ( !$lang )
         {
@@ -749,7 +750,7 @@ class eZContentObject extends eZPersistentObject
     */
     function remoteID()
     {
-        $remoteID = eZPersistentObject::attribute( 'remote_id', true );
+        $remoteID = $this->attribute( 'remote_id', true );
 
         // Ensures that we provide the correct remote_id if we have one in the database
         if ( $remoteID === null and $this->attribute( 'id' ) )
@@ -768,7 +769,7 @@ class eZContentObject extends eZPersistentObject
             $this->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'object' ) );
             if ( $this->attribute( 'id' ) !== null )
                 $this->sync( array( 'remote_id' ) );
-            $remoteID = eZPersistentObject::attribute( 'remote_id', true );
+            $remoteID = $this->attribute( 'remote_id', true );
         }
 
         return $remoteID;
@@ -974,12 +975,14 @@ class eZContentObject extends eZPersistentObject
      * @param bool $asObject
      *        Wether to get the result as an array of eZContentObject or an
      *        array of associative arrays
+     * @param string $lang A language code to put at the top of the prioritized
+     *        languages list.
      *
      * @return array(contentObjectID => eZContentObject|array)
      *         array of eZContentObject (if $asObject = true) or array of
      *         associative arrays (if $asObject = false)
      */
-    static function fetchIDArray( $idArray, $asObject = true )
+    static function fetchIDArray( $idArray, $asObject = true , $lang = false )
     {
         global $eZContentObjectContentObjectCache;
 
@@ -997,7 +1000,7 @@ class eZContentObject extends eZPersistentObject
                 $db->generateSQLINStatement( $idArray, 'ezcontentobject.id', false, true, 'int' ) . " AND
                 ezcontentobject.id = ezcontentobject_name.contentobject_id AND
                 ezcontentobject.current_version = ezcontentobject_name.content_version AND " .
-                eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' )
+                eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject', 'language_id', 'language_mask', $lang )
         );
 
         $objectRetArray = array();
@@ -1009,7 +1012,10 @@ class eZContentObject extends eZPersistentObject
             {
                 $obj = new eZContentObject( $resRow );
                 $obj->ClassName = $resRow['class_name'];
-                $eZContentObjectContentObjectCache[$objectID] = $obj;
+                if ( $lang !== false )
+                {
+                    $eZContentObjectContentObjectCache[$objectID] = $obj;
+                }
                 $objectRetArray[$objectID] = $obj;
             }
             else
@@ -1553,44 +1559,6 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-      Reverts the object to the given version. All versions newer then the given version will
-      be deleted.
-      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
-    function revertTo( $version )
-    {
-        $db = eZDB::instance();
-        $db->begin();
-
-        // Delete stored attribute from other tables
-        $contentobjectAttributes = $this->allContentObjectAttributes( $this->ID );
-        foreach (  $contentobjectAttributes as $contentobjectAttribute )
-        {
-            $contentobjectAttributeVersion = $contentobjectAttribute->attribute("version");
-            if( $contentobjectAttributeVersion > $version )
-            {
-                $classAttribute = $contentobjectAttribute->contentClassAttribute();
-                $dataType = $classAttribute->dataType();
-                $dataType->deleteStoredObjectAttribute( $contentobjectAttribute, $contentobjectAttributeVersion );
-            }
-        }
-        $version =(int) $version;
-        $db->query( "DELETE FROM ezcontentobject_attribute
-                          WHERE contentobject_id='$this->ID' AND version>'$version'" );
-
-        $db->query( "DELETE FROM ezcontentobject_version
-                          WHERE contentobject_id='$this->ID' AND version>'$version'" );
-
-        $db->query( "DELETE FROM eznode_assignment
-                          WHERE contentobject_id='$this->ID' AND contentobject_version > '$version'" );
-
-        $this->CurrentVersion = $version;
-        $this->store();
-        $db->commit();
-    }
-
-    /*!
      Copies the given version of the object and creates a new current version.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
@@ -1625,45 +1593,8 @@ class eZContentObject extends eZPersistentObject
                 $dataType->fixRelatedObjectItem( $attr, $objectID, $mode );
                 $objectIDList[] = $attr->attribute( 'contentobject_id' );
             }
-            eZContentCacheManager::clearObjectViewCacheArray( $objectIDList );
-        }
-    }
-
-    function removeReverseRelations( $objectID )
-    {
-        $db = eZDB::instance();
-        $objectID = (int) $objectID;
-        // Get list of objects referring to this one.
-        $relatingObjects = $this->reverseRelatedObjectList( false, 0, false, array( 'AllRelations' => true ) );
-
-        // Finds all the attributes that store relations to the given object.
-
-        $result = $db->arrayQuery( "SELECT attr.*
-                                    FROM ezcontentobject_link link,
-                                         ezcontentobject_attribute attr
-                                    WHERE link.from_contentobject_id=attr.contentobject_id AND
-                                          link.from_contentobject_version=attr.version AND
-                                          link.contentclassattribute_id=attr.contentclassattribute_id AND
-                                          link.to_contentobject_id=$objectID" );
-
-        // Remove references from XML.
-        if ( count( $result ) > 0 )
-        {
-            foreach( $result as $row )
-            {
-                $attr = new eZContentObjectAttribute( $row );
-                $dataType = $attr->dataType();
-                $dataType->removeRelatedObjectItem( $attr, $objectID );
-                // @todo Check whether we can use eZContentCacheManager::clearObjectViewCacheArray() instead
-                eZContentCacheManager::clearObjectViewCache( $attr->attribute( 'contentobject_id' ), true );
-                $attr->storeData();
-            }
-        }
-
-        // Remove references in ezcontentobject_link.
-        foreach ( $relatingObjects as $fromObject )
-        {
-            $fromObject->removeContentObjectRelation( $this->attribute( 'id' ), false, false );
+            if ( eZINI::instance()->variable( 'ContentSettings', 'ViewCaching' ) === 'enabled' )
+                eZContentCacheManager::clearObjectViewCacheArray( $objectIDList );
         }
     }
 
@@ -2615,8 +2546,7 @@ class eZContentObject extends eZPersistentObject
                          from_contentobject_version=$fromObjectVersion AND
                          to_contentobject_id=$toObjectID AND
                          $relationTypeMatch != 0 AND
-                         contentclassattribute_id=$attributeID AND
-                         op_code='0'";
+                         contentclassattribute_id=$attributeID";
         $count = $db->arrayQuery( $query );
         // if current relation does not exist
         if ( !isset( $count[0]['count'] ) ||  $count[0]['count'] == '0'  )
@@ -2624,12 +2554,6 @@ class eZContentObject extends eZPersistentObject
             $db->begin();
             $db->query( "INSERT INTO ezcontentobject_link ( from_contentobject_id, from_contentobject_version, to_contentobject_id, contentclassattribute_id, relation_type )
                          VALUES ( $fromObjectID, $fromObjectVersion, $toObjectID, $attributeID, $relationType )" );
-            // if an object relation is being added and it is in draft, add the row with op_code 1
-            if ( $attributeID == 0 && $fromObjectVersion != $this->CurrentVersion )
-            {
-                $db->query( "INSERT INTO ezcontentobject_link ( from_contentobject_id, from_contentobject_version, to_contentobject_id, contentclassattribute_id, op_code, relation_type )
-                             VALUES ( $fromObjectID, $fromObjectVersion, $toObjectID, $attributeID, '1', $relationType )" );
-            }
             $db->commit();
         }
         elseif ( isset( $count[0]['count'] ) &&
@@ -2644,14 +2568,7 @@ class eZContentObject extends eZPersistentObject
                          WHERE  from_contentobject_id=$fromObjectID AND
                                 from_contentobject_version=$fromObjectVersion AND
                                 to_contentobject_id=$toObjectID AND
-                                contentclassattribute_id=$attributeID AND
-                                op_code='0'" );
-            // if an object relation is being added and it is in draft, add the row with op_code 1
-            if ( $attributeID == 0 && $fromObjectVersion != $this->CurrentVersion )
-            {
-                $db->query( "INSERT INTO ezcontentobject_link ( from_contentobject_id, from_contentobject_version, to_contentobject_id, contentclassattribute_id, op_code, relation_type )
-                             VALUES ( $fromObjectID, $fromObjectVersion, $toObjectID, $attributeID, '1', $relationType )" );
-            }
+                                contentclassattribute_id=$attributeID" );
             $db->commit();
         }
     }
@@ -2694,20 +2611,19 @@ class eZContentObject extends eZPersistentObject
 
         $lastRelationType = 0;
         $db->begin();
-        // if an object relation is being removed from the draft, add the row with op_code -1
-        if ( !$attributeID && $fromObjectVersion != $this->CurrentVersion )
+        if ( !$attributeID && ( $fromObjectVersion != $this->CurrentVersion || $this->CurrentVersion == 1 ) )
         {
+            // Querying only for object level relations.
             $rows = $db->arrayQuery( "SELECT * FROM ezcontentobject_link
                                       WHERE from_contentobject_id=$fromObjectID
                                         AND from_contentobject_version=$fromObjectVersion
                                         AND contentclassattribute_id='0'
-                                        $toObjectCondition
-                                        AND op_code='0'" );
-            foreach ( $rows as $row )
+                                        $toObjectCondition" );
+            if ( !empty( $rows ) )
             {
-                $db->query( "INSERT INTO ezcontentobject_link ( from_contentobject_id, from_contentobject_version, to_contentobject_id, contentclassattribute_id, op_code, relation_type )
-                             VALUES ( $fromObjectID, $fromObjectVersion, " . $row['to_contentobject_id'] . ", '0', '-1', $relationType )" );
-                $lastRelationType = (int) $row['relation_type'];
+                $lastRow = end( $rows );
+                // Remember type in order to later compare with given $relationType and determine if it is composite.
+                $lastRelationType = (int) $lastRow['relation_type'];
             }
         }
 
@@ -2717,8 +2633,7 @@ class eZContentObject extends eZPersistentObject
         {
             $db->query( "DELETE FROM ezcontentobject_link
                          WHERE       from_contentobject_id=$fromObjectID AND
-                                     from_contentobject_version=$fromObjectVersion $classAttributeCondition $toObjectCondition AND
-                                     op_code='0'" );
+                                     from_contentobject_version=$fromObjectVersion $classAttributeCondition $toObjectCondition" );
         }
         else
         {
@@ -2728,21 +2643,18 @@ class eZContentObject extends eZPersistentObject
                 $db->query( "UPDATE ezcontentobject_link
                              SET    relation_type = " . $db->bitAnd( 'relation_type', $notRelationType ) . "
                              WHERE  from_contentobject_id=$fromObjectID AND
-                                    from_contentobject_version=$fromObjectVersion $classAttributeCondition $toObjectCondition AND
-                                    op_code='0'" );
+                                    from_contentobject_version=$fromObjectVersion $classAttributeCondition $toObjectCondition" );
             }
             else
             {
                 $db->query( "UPDATE ezcontentobject_link
                              SET    relation_type = ( relation_type & ".(~$relationType)." )
                              WHERE  from_contentobject_id=$fromObjectID AND
-                                    from_contentobject_version=$fromObjectVersion $classAttributeCondition $toObjectCondition AND
-                                    op_code='0'" );
+                                    from_contentobject_version=$fromObjectVersion $classAttributeCondition $toObjectCondition" );
             }
         }
 
         $db->commit();
-
     }
 
     function copyContentObjectRelations( $currentVersion, $newVersion, $newObjectID = false )
@@ -2756,22 +2668,20 @@ class eZContentObject extends eZPersistentObject
         $db = eZDB::instance();
         $db->begin();
 
-        $relations = $db->arrayQuery( "SELECT to_contentobject_id, op_code, relation_type FROM ezcontentobject_link
+        $relations = $db->arrayQuery( "SELECT to_contentobject_id, relation_type FROM ezcontentobject_link
                                        WHERE contentclassattribute_id='0'
                                          AND from_contentobject_id='$objectID'
                                          AND from_contentobject_version='$currentVersion'" );
         foreach ( $relations as $relation )
         {
             $toContentObjectID = $relation['to_contentobject_id'];
-            $opCode = $relation['op_code'];
             $relationType = $relation['relation_type'];
             $db->query( "INSERT INTO ezcontentobject_link( contentclassattribute_id,
                                                            from_contentobject_id,
                                                            from_contentobject_version,
                                                            to_contentobject_id,
-                                                           op_code,
                                                            relation_type )
-                         VALUES ( '0', '$newObjectID', '$newVersion', '$toContentObjectID', '$opCode', '$relationType' )" );
+                         VALUES ( '0', '$newObjectID', '$newVersion', '$toContentObjectID', '$relationType' )" );
         }
 
         $db->commit();
@@ -2934,11 +2844,11 @@ class eZContentObject extends eZPersistentObject
 
         if ( $db->databaseName() == 'oracle' )
         {
-            $relationTypeMasking .= " AND bitand( relation_type, $relationTypeMask ) <> 0 ";
+            $relationTypeMasking .= " bitand( relation_type, $relationTypeMask ) <> 0 ";
         }
         else
         {
-            $relationTypeMasking .= " AND ( relation_type & $relationTypeMask ) <> 0 ";
+            $relationTypeMasking .= " ( relation_type & $relationTypeMask ) <> 0 ";
         }
 
         // Create SQL
@@ -2972,7 +2882,6 @@ class eZContentObject extends eZPersistentObject
                         ezcontentobject.status=" . eZContentObject::STATUS_PUBLISHED . " AND
                         $sortingInfo[attributeWhereSQL]
                         $relatedClassIdentifiersSQL
-                        ezcontentobject_link.op_code='0'
                         $relationTypeMasking
                         $fromOrToContentObjectID
                         $showInvisibleNodesCond AND
@@ -3327,7 +3236,6 @@ class eZContentObject extends eZPersistentObject
                     AND outer_object.status = " . eZContentObject::STATUS_PUBLISHED . "
                     AND inner_object.id = inner_link.from_contentobject_id
                     AND inner_object.status = " . eZContentObject::STATUS_PUBLISHED . "
-                    AND inner_link.op_code = 0
                     $objectIDSQL
                     $relationTypeMasking
                     $showInvisibleNodesCond";
@@ -3362,80 +3270,6 @@ class eZContentObject extends eZPersistentObject
     function contentObjectListRelatingThis( $version = false )
     {
         return $this->reverseRelatedObjectList( $version );
-    }
-
-    function publishContentObjectRelations( $version )
-    {
-        $objectID = $this->ID;
-        $currentVersion = $this->CurrentVersion;
-        $version =(int) $version;
-        $db = eZDB::instance();
-        $db->begin();
-
-        $toContentObjectIDs = array();
-        $relationTypesArray = array();
-        $publishedRelations = $db->arrayQuery( "SELECT to_contentobject_id, relation_type FROM ezcontentobject_link
-                                                WHERE contentclassattribute_id='0'
-                                                  AND from_contentobject_id='$objectID'
-                                                  AND from_contentobject_version='$currentVersion'
-                                                  AND op_code='0'" );
-
-        foreach ( $publishedRelations as $relation )
-        {
-            $toContentObjectIDs[] = $relation['to_contentobject_id'];
-            $relationTypesArray[$relation['to_contentobject_id']] = (int) $relation['relation_type'];
-        }
-        $toContentObjectIDs = array_unique( $toContentObjectIDs );
-
-        $addedOrRemovedRelations = $db->arrayQuery( "SELECT to_contentobject_id, op_code, relation_type FROM ezcontentobject_link
-                                                     WHERE contentclassattribute_id='0'
-                                                       AND from_contentobject_id='$objectID'
-                                                       AND from_contentobject_version='$version'
-                                                       AND op_code!='0'
-                                                     ORDER BY id ASC" );
-
-        foreach ( $addedOrRemovedRelations as $relation )
-        {
-            $relationType = (int) $relation['relation_type'];
-            if ( !isset( $relationTypesArray[$relation['to_contentobject_id']] ) )
-            {
-                $relationTypesArray[$relation['to_contentobject_id']] = 0;
-            }
-            if ( $relation['op_code'] == 1 )
-            {
-                if ( !in_array( $relation['to_contentobject_id'], $toContentObjectIDs ) )
-                {
-                    $toContentObjectIDs[] = $relation['to_contentobject_id'];
-                }
-                $relationTypesArray[$relation['to_contentobject_id']] |= $relationType;
-             }
-            else
-            {
-                $relationTypesArray[$relation['to_contentobject_id']] &= ~$relationType;
-                if ( 0 === $relationTypesArray[$relation['to_contentobject_id']] )
-                {
-                    $toContentObjectIDs = array_diff( $toContentObjectIDs, array( $relation['to_contentobject_id'] ) );
-                }
-            }
-        }
-
-        $db->query( "DELETE FROM ezcontentobject_link
-                     WHERE contentclassattribute_id='0'
-                       AND from_contentobject_id='$objectID'
-                       AND from_contentobject_version='$version'" );
-
-        foreach( $toContentObjectIDs as $toContentObjectID )
-        {
-            $db->query( "INSERT INTO ezcontentobject_link( contentclassattribute_id,
-                                                           from_contentobject_id,
-                                                           from_contentobject_version,
-                                                           to_contentobject_id,
-                                                           op_code,
-                                                           relation_type )
-                         VALUES ( '0', '$objectID', '$version', '$toContentObjectID', '0', '{$relationTypesArray[$toContentObjectID]}' )" );
-        }
-
-        $db->commit();
     }
 
     /*!
@@ -4714,17 +4548,6 @@ class eZContentObject extends eZPersistentObject
      Check if the object can be moved. (actually checks 'edit' and 'remove' permissions)
      \return \c true if the object can be moved by the current user.
      \sa checkAccess().
-     \deprecated The function canMove() is preferred since its naming is clearer.
-    */
-    function canMove( )
-    {
-        return $this->canMoveFrom();
-    }
-
-    /*!
-     Check if the object can be moved. (actually checks 'edit' and 'remove' permissions)
-     \return \c true if the object can be moved by the current user.
-     \sa checkAccess().
     */
     function canMoveFrom( )
     {
@@ -5476,17 +5299,6 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-    \static
-     Callse eZContentObject::xpireTemplateBlockCache() unless template caching is disabled.
-     */
-    static function expireTemplateBlockCacheIfNeeded()
-    {
-        $ini = eZINI::instance();
-        if ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' )
-            eZContentObject::expireTemplateBlockCache();
-    }
-
-    /*!
      Sets all complex viewmode content cache files to be expired.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
@@ -6149,6 +5961,20 @@ class eZContentObject extends eZPersistentObject
         }
 
         $db->commit();
+    }
+
+    /**
+     * Returns object's section identifier
+     * @return string
+     */
+    public function sectionIdentifier()
+    {
+        $section = eZSection::fetch( $this->attribute( 'section_id' ) );
+        if( $section instanceof eZSection )
+        {
+            return $section->attribute( 'identifier' );
+        }
+        return false;
     }
 
     public $ID;

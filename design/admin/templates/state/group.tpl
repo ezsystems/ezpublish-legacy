@@ -2,13 +2,13 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'%group_name [Content object state group]'|i18n('design', '', hash( '%group_name', $group.current_translation.name))|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -48,7 +48,7 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
   {if $group.is_internal|not}
   <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design')}" />
@@ -57,7 +57,7 @@
   {/if}
 </div>
 
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 
 </div>{* class="controlbar" *}
 
@@ -67,15 +67,15 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h2 class="context-title">{'Translations [%translations]'|i18n( 'design/admin/node/view/full',, hash( '%translations', $group.languages|count ) )}</h2>
+<h2 class="context-title">{'Translations (%translations)'|i18n( 'design/admin/node/view/full',, hash( '%translations', $group.languages|count ) )}</h2>
 
-{* DESIGN: Subline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Header END *}</div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <table class="list" cellspacing="0">
 <tr>
@@ -86,7 +86,7 @@
 
 {foreach $group.languages as $language sequence array( 'bglight', 'bgdark' ) as $sequence}
 <tr class="{$sequence}">
-    <td><img src="{$language.locale|flag_icon}" alt="{$language.locale}" />&nbsp;<a href={concat( '/state/group/', $group.identifier , '/', $language.locale )|ezurl} title="{'View translation.'|i18n( 'design/admin/node/view/full' )}">{$language.name|wash}</td>
+    <td><img src="{$language.locale|flag_icon}" width="18" height="12" alt="{$language.locale}" />&nbsp;<a href={concat( '/state/group/', $group.identifier , '/', $language.locale )|ezurl} title="{'View translation.'|i18n( 'design/admin/node/view/full' )}">{$language.name|wash}</td>
     <td>{$language.locale}</td>
     <td>{if $language.id|eq($group.default_language_id)}Yes{/if}</td>
 </tr>
@@ -94,7 +94,7 @@
 
 </table>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>{* class="context-block" *}
 
@@ -103,19 +103,19 @@
 <div class="context-block">
 
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h2 class="context-title">{'Object states in this group [%state_count]'|i18n( 'design/admin/state/group', '', hash( '%state_count', $group.states|count ))}</h2>
+<h2 class="context-title">{'Object states in this group (%state_count)'|i18n( 'design/admin/state/group', '', hash( '%state_count', $group.states|count ))}</h2>
 
-{* DESIGN: Subline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/state/group' )}" title="{'Invert selection.'|i18n( 'design/admin/state/group' )|wash}" onclick="ezjs_toggleCheckboxes( document.getElementById('stateList'), 'DeleteIDArray[]' ); return false;"/></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/state/group' )}" title="{'Invert selection.'|i18n( 'design/admin/state/group' )|wash}" onclick="ezjs_toggleCheckboxes( document.getElementById('stateList'), 'DeleteIDArray[]' ); return false;"/></th>
     <th class="tight">{'ID'|i18n('design/admin/state/group')|wash}</th>
     <th>{'Identifier'|i18n('design/admin/state/group')|wash}</th>
     <th>{'Name'|i18n('design/admin/state/group')|wash}</th>
@@ -135,7 +135,7 @@
     </td>
     <td>
     {if $group.is_internal|not}
-    <a href={concat("state/edit/",$group.identifier,"/",$state.identifier)|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )|wash}" /></a></td>
+    <a href={concat("state/edit/",$group.identifier,"/",$state.identifier)|ezurl}><img src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/node/view/full' )|wash}" /></a></td>
     {else}
     <img src={'edit-disabled.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )|wash}" />
     {/if}
@@ -147,7 +147,7 @@
 
 <div class="controlbar">
 
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
 <div class="block">
 <div class="button-left">
@@ -172,7 +172,7 @@
 <div class="break"></div>
 </div>
 
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 
 </div>{* class="controlbar" *}
 

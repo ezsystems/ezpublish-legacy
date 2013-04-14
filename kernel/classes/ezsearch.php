@@ -2,7 +2,7 @@
 /**
  * File containing the eZSearch class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -57,6 +57,7 @@ class eZSearch
     /**
      * Removes object $contentObject from the search database.
      *
+     * @deprecated Since 5.0, use removeObjectById()
      * @param eZContentObject $contentObject the content object to remove
      * @param bool $commit Whether to commit after removing the object
      * @return bool True if the operation succeed.
@@ -68,6 +69,25 @@ class eZSearch
         if ( $searchEngine instanceof ezpSearchEngine )
         {
             return $searchEngine->removeObject( $contentObject, $commit );
+        }
+
+        return false;
+    }
+
+    /**
+     * Removes a content object by Id from the search database.
+     *
+     * @since 5.0
+     * @param int $contentObjectId the content object to remove by id
+     * @param bool $commit Whether to commit after removing the object
+     * @return bool True if the operation succeed.
+     */
+    static function removeObjectById( $contentObjectId, $commit = true )
+    {
+        $searchEngine = eZSearch::getEngine();
+        if ( $searchEngine instanceof ezpSearchEngine )
+        {
+            return $searchEngine->removeObjectById( $contentObjectId, $commit );
         }
 
         return false;
@@ -424,13 +444,12 @@ class eZSearch
         }
     }
 
-    /*!
-     \static
-     Get object instance of eZSearch engine to use.
-
-     \return instance of eZSearch class.
+    /**
+     * Get object instance of eZSearch engine to use.
+     *
+     * @return \ezpSearchEngine|bool Returns false (+ writes debug) if no engine was found
     */
-    static function getEngine()
+    static public function getEngine()
     {
         // Get instance if already created.
         $instanceName = "eZSearchPlugin_" . $GLOBALS["eZCurrentAccess"]["name"];

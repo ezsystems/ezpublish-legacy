@@ -17,15 +17,15 @@
 
 <form action={'/content/search/'|ezurl} method="get">
 
-<div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+<div class="context-block content-search">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h1 class="context-title">{'Search'|i18n( 'design/admin/content/search' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <div class="context-attributes">
 
@@ -37,7 +37,9 @@
 {if and(count($search_subtree_array)|eq(1),$search_subtree_array.0|ne(1))}
 <div class="block">
 <label><input type="radio" name="SubTreeArray" value="1" />{'All content'|i18n('design/admin/content/search')}</label>
-<label><input type="radio" name="SubTreeArray" value="{$search_subtree_array.0}" checked="checked" />{'The same location'|i18n('design/admin/content/search')}</label>
+{def $search_node = fetch('content', 'node', hash( 'node_id', $search_subtree_array.0 ))}
+<label><input type="radio" name="SubTreeArray" value="{$search_subtree_array.0}" checked="checked" />{'The same location'|i18n('design/admin/content/search')} ({$search_node.name|wash})</label>
+{undef $search_node}
 </div>
 {/if}
 
@@ -71,21 +73,21 @@
 {/if}
 
 </div>
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 
 {* Search result. *}
 {if $search_count}
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h2 class="context-title">{'Search for <%1> returned %2 matches'|i18n( 'design/admin/content/search',, array( $search_text, $search_count ) )|wash}</h2>
 
-{* DESIGN: Mainline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Header END *}</div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 {include name=Result uri='design:content/searchresult.tpl' search_result=$search_result}
 
@@ -98,7 +100,7 @@
          view_parameters=$view_parameters
          item_limit=$page_limit}
 </div>
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 </div>
 {/if}
 

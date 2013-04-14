@@ -1,19 +1,19 @@
 <form action={'shop/discountgroup'|ezurl} method="post" name="DiscountGroup">
 
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h1 class="context-title">{'Discount groups [%discount_groups]'|i18n( 'design/admin/shop/discountgroup',, hash( '%discount_groups', $discountgroup_array|count ) )}</h1>
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+<h1 class="context-title">{'Discount groups (%discount_groups)'|i18n( 'design/admin/shop/discountgroup',, hash( '%discount_groups', $discountgroup_array|count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {section show=$discountgroup_array}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/discountgroup' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/discountgroup' )}" onclick="ezjs_toggleCheckboxes( document.DiscountGroup, 'discountGroupIDList[]' ); return false;" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/shop/discountgroup' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/discountgroup' )}" onclick="ezjs_toggleCheckboxes( document.DiscountGroup, 'discountGroupIDList[]' ); return false;" /></th>
     <th class="wide">{'Name'|i18n( 'design/admin/shop/discountgroup' )}</th>
     <th class="tight">&nbsp;</th>
 </tr>
@@ -35,7 +35,7 @@
 
 {* Buttons. *}
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
     {if $discountgroup_array}
     <input class="button" type="submit" name="RemoveDiscountGroupButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroup' )}" title="{'Remove selected discount groups.'|i18n( 'design/admin/shop/discountgroup' )}" />
@@ -46,7 +46,7 @@
 </div>
 </div>
 
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 
 </div>
 

@@ -2,7 +2,7 @@
 /**
  * File containing the eZPersistentObject class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -28,7 +28,6 @@
  * </code>
  * 
  * @package eZKernel
- * @method fetch
  */
 class eZPersistentObject
 {
@@ -1300,7 +1299,7 @@ class eZPersistentObject
 
         if ( isset( $def["functions"][$attr] ) )
         {
-            return $this->$functions[$attr]();
+            return $this->$def["functions"][$attr]();
         }
 
         eZDebug::writeError( "Attribute '$attr' does not exist", $def['class_name'] . '::attribute' );

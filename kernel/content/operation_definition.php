@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -45,6 +45,10 @@ $OperationList['publish'] = array( 'name' => 'publish',
                                                                  'type' => 'integer',
                                                                  'required' => true ) ),
                                    'body' => array( array( 'type' => 'method',
+                                                           'name' => 'begin-transaction',
+                                                           'frequency' => 'once',
+                                                           'method' => 'beginTransaction' ),
+                                                    array( 'type' => 'method',
                                                            'name' => 'set-version-pending',
                                                            'frequency' => 'once',
                                                            'method' => 'setVersionStatus',
@@ -174,7 +178,10 @@ $OperationList['publish'] = array( 'name' => 'publish',
                                                            'frequency' => 'once',
                                                            'method' => 'resetNodeassignmentOpcodes',
                                                            ),
-
+                                                    array( 'type' => 'method',
+                                                           'name' => 'commit-transaction',
+                                                           'frequency' => 'once',
+                                                           'method' => 'commitTransaction' ),
                                                     array( 'type' => 'method',
                                                            'name' => 'clear-object-view-cache',
                                                            'frequency' => 'once',

@@ -6,6 +6,6 @@
 ', 'Object ID: ', $related_object.id, '
 ', 'Section: ', $related_object.section_id ) )}</label></td>*}
     <td class="name">{node_view_gui view=line content_node=$related_object.item}{*<label for="related-object-id-{$related_object.id}">{$related_object.name|wash}</label>*}</td>
-    <td class="class">{$related_object.class_name|wash}</td>
+    <td class="class nowrap">{$related_object.class_name|wash}</td>
     <td class="code"><input class="linkbox" type="text" value="&lt;object id={$related_object.id} /&gt;"></td>
 </tr>

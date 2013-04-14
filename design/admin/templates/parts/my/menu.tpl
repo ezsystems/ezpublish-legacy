@@ -14,31 +14,56 @@
 )}
 
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{def $custom_root_node = fetch( 'content', 'node', hash( 'node_id', 1 ) )}
+{if $custom_root_node.can_read}
+<div id="content-tree">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+<h4>{'Site structure'|i18n( 'design/admin/parts/content/menu' )}</h4>
+{* DESIGN: Header END *}</div></div>
 
-<h4>{'Edit mode settings'|i18n( 'design/admin/parts/my/menu' )}</h4>
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
-
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
-
-<div class="settings">
-<ul>
-    <li class="nobullet">{'Locations'|i18n( 'design/admin/parts/my/menu')}:
-    {if ezpreference( 'admin_edit_show_locations' )}
-        <span class="current">{'on'|i18n( 'design/admin/parts/my/menu' )}</span>&nbsp;<a href={'/user/preferences/set/admin_edit_show_locations/0'|ezurl} title="{'Disable location window when editing content.'|i18n( 'design/admin/parts/my/menu' )}">{'off'|i18n( 'design/admin/parts/my/menu' )}</a>
-    {else}
-        <a href={'/user/preferences/set/admin_edit_show_locations/1'|ezurl} title="{'Enable location window when editing content.'|i18n( 'design/admin/parts/my/menu' )}">{'on'|i18n( 'design/admin/parts/my/menu' )}</a>&nbsp;<span class="current">{'off'|i18n( 'design/admin/parts/my/menu' )}</span>
-    {/if}
-    </li>
-    <li class="nobullet">{'Re-edit'|i18n( 'design/admin/parts/my/menu')}:
-    {if ezpreference( 'admin_edit_show_re_edit' )}
-        <span class="current">{'on'|i18n( 'design/admin/parts/my/menu' )}</span>&nbsp;<a href={'/user/preferences/set/admin_edit_show_re_edit/0'|ezurl} title="{'Disable &quot;Back to edit&quot; checkbox when editing content.'|i18n( 'design/admin/parts/my/menu' )}">{'off'|i18n( 'design/admin/parts/my/menu' )}</a>
-    {else}
-        <a href={'/user/preferences/set/admin_edit_show_re_edit/1'|ezurl} title="{'Enable &quot;Back to edit&quot; checkbox when editing content.'|i18n( 'design/admin/parts/my/menu' )}">{'on'|i18n( 'design/admin/parts/my/menu' )}</a>&nbsp;<span class="current">{'off'|i18n( 'design/admin/parts/my/menu' )}</span>
-    {/if}
-    </li>
-</ul>
+{* Treemenu. *}
+<div id="contentstructure">
+    {include uri='design:contentstructuremenu/content_structure_menu_dynamic.tpl' custom_root_node=$custom_root_node menu_persistence=false() hide_node_list=array(ezini( 'NodeSettings', 'DesignRootNode', 'content.ini'), ezini( 'NodeSettings', 'SetupRootNode', 'content.ini'))}
 </div>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
+</div>
+{/if}
+
+{* Left menu width control. *}
+<div id="widthcontrol-links" class="widthcontrol">
+<p>
+{switch match=ezpreference( 'admin_left_menu_size' )}
+    {case match='medium'}
+    <a href={'/user/preferences/set/admin_left_menu_size/small'|ezurl} title="{'Change the left menu width to small size.'|i18n( 'design/admin/parts/user/menu' )}">{'Small'|i18n( 'design/admin/parts/user/menu' )}</a>
+    <span class="current">{'Medium'|i18n( 'design/admin/parts/user/menu' )}</span>
+    <a href={'/user/preferences/set/admin_left_menu_size/large'|ezurl} title="{'Change the left menu width to large size.'|i18n( 'design/admin/parts/user/menu' )}">{'Large'|i18n( 'design/admin/parts/user/menu' )}</a>
+    {/case}
+
+    {case match='large'}
+    <a href={'/user/preferences/set/admin_left_menu_size/small'|ezurl} title="{'Change the left menu width to small size.'|i18n( 'design/admin/parts/user/menu' )}">{'Small'|i18n( 'design/admin/parts/user/menu' )}</a>
+    <a href={'/user/preferences/set/admin_left_menu_size/medium'|ezurl} title="{'Change the left menu width to medium size.'|i18n( 'design/admin/parts/user/menu' )}">{'Medium'|i18n( 'design/admin/parts/user/menu' )}</a>
+    <span class="current">{'Large'|i18n( 'design/admin/parts/user/menu' )}</span>
+    {/case}
+
+    {case in=array( 'small', '' )}
+    <span class="current">{'Small'|i18n( 'design/admin/parts/user/menu' )}</span>
+    <a href={'/user/preferences/set/admin_left_menu_size/medium'|ezurl} title="{'Change the left menu width to medium size.'|i18n( 'design/admin/parts/user/menu' )}">{'Medium'|i18n( 'design/admin/parts/user/menu' )}</a>
+    <a href={'/user/preferences/set/admin_left_menu_size/large'|ezurl} title="{'Change the left menu width to large size.'|i18n( 'design/admin/parts/user/menu' )}">{'Large'|i18n( 'design/admin/parts/user/menu' )}</a>
+    {/case}
+
+    {case}
+    <a href={'/user/preferences/set/admin_left_menu_size/small'|ezurl} title="{'Change the left menu width to small size.'|i18n( 'design/admin/parts/user/menu' )}">{'Small'|i18n( 'design/admin/parts/user/menu' )}</a>
+    <a href={'/user/preferences/set/admin_left_menu_size/medium'|ezurl} title="{'Change the left menu width to medium size.'|i18n( 'design/admin/parts/user/menu' )}">{'Medium'|i18n( 'design/admin/parts/user/menu' )}</a>
+    <a href={'/user/preferences/set/admin_left_menu_size/large'|ezurl} title="{'Change the left menu width to large size.'|i18n( 'design/admin/parts/user/menu' )}">{'Large'|i18n( 'design/admin/parts/user/menu' )}</a>
+    {/case}
+{/switch}
+</p>
+</div>
+
+{* This is the border placed to the left for draging width, js will handle disabling the one above and enabling this *}
+<div id="widthcontrol-handler" class="hide">
+<div class="widthcontrol-grippy"></div>
+</div>

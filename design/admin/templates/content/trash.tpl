@@ -6,24 +6,23 @@
 
 <form name="trashform" action={'content/trash/'|ezurl} method="post" >
 
-<div class="context-block">
+<div class="context-block content-trash">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h1 class="context-title">{'Trash [%list_count]'|i18n( 'design/admin/content/trash',, hash( '%list_count', $list_count ) )}</h1>
+<h1 class="context-title">{'Trash (%list_count)'|i18n( 'design/admin/content/trash',, hash( '%list_count', $list_count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {if $list_count}
 {* Items per page selector. *}
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
-    <p>
+<div class="button-left">
+    <p class="table-preferences">
     {switch match=$number_of_items}
     {case match=25}
         <a href={'/user/preferences/set/admin_list_limit/1'|ezurl}>10</a>
@@ -47,13 +46,12 @@
         {/switch}
     </p>
 </div>
-<div class="break"></div>
-</div>
+<div class="float-break"></div>
 </div>
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.trashform, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.trashform, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
     <th>{'Name'|i18n( 'design/admin/content/trash')}</th>
     <th>{'Type'|i18n( 'design/admin/content/trash')}</th>
     <th>{'Section'|i18n( 'design/admin/content/trash')}</th>
@@ -65,7 +63,8 @@
                                                                         'offset', $view_parameters.offset,
                                                                         'sort_by', array( $trash_sort_field, $trash_sort_order ),
                                                                         'objectname_filter', $view_parameters.namefilter ) ) sequence=array( bglight, bgdark )}
-{let cur_c_object=$tObjects.item.object}
+{let cur_c_object=$tObjects.item.object
+     original_parent = $tObjects.item.original_parent}
 
 <tr class="{$tObjects.sequence}">
     <td>
@@ -81,7 +80,7 @@
     {let section_object=fetch( section, object, hash( section_id, $cur_c_object.section_id ) )}{section show=$section_object}{$section_object.name|wash}{section-else}<i>{'Unknown'|i18n( 'design/admin/content/trash' )}</i>{/section}{/let}
     </td>
     <td>
-    {if $tObjects.item.original_parent}<a href={concat( '/', $tObjects.item.original_parent.path_identification_string )|ezurl}>{/if}/{$tObjects.item.original_parent_path_id_string|wash}{if $tObjects.item.original_parent}</a>{/if}
+    {if $original_parent}<a href={concat( '/', $original_parent.path_identification_string )|ezurl}>{/if}/{$tObjects.item.original_parent_path_id_string|wash}{if $original_parent}</a>{/if}
     </td>
     <td>
     <a href={concat( '/content/restore/', $cur_c_object.id, '/' )|ezurl}><img src={'edit.gif'|ezimage} border="0" alt="{'Restore'|i18n( 'design/admin/content/trash' )}" /></a>
@@ -106,16 +105,16 @@
          page_uri='/content/trash'
          item_count=$list_count
          view_parameters=$view_parameters
-         item_limit=$number_of_items}
+         item_limit=$number_of_items
+         show_google_navigator=true()}
 </div>
 
 
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
-<div class="block">
-<div class="left">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
+<div class="button-left">
     {if $list_count}
         <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/trash' )}"  title="{'Permanently remove the selected items.'|i18n( 'design/admin/content/trash' )}" />
         <input class="button" type="submit" name="EmptyButton"  value="{'Empty trash'|i18n( 'design/admin/content/trash' )}" title="{'Permanently remove all items from the trash.'|i18n( 'design/admin/content/trash' )}" />
@@ -125,8 +124,8 @@
     {/if}
 </div>
 {* Sorting *}
-<div class="right" id="trash-list-sort-control" style="display:none;">
-<label>{'Sorting'|i18n( 'design/admin/node/view/full' )}:</label>
+<div class="button-right" id="trash-list-sort-control" style="display:none;">
+<label class="inline">{'Sorting'|i18n( 'design/admin/node/view/full' )}:</label>
 
 {def $sort_fields = hash( 'class_identifier', 'Class identifier'|i18n( 'design/admin/node/view/full' ),
                        'class_name', 'Class name'|i18n( 'design/admin/node/view/full' ),
@@ -156,16 +155,15 @@ document.getElementById('trash-list-sort-control').style.display = '';
 
 function trashSortingSelection( trashUrl )
 {
-	trashUrl += '/(sort_field)/' + document.getElementById('trash_sort_field').value;
-	trashUrl += '/(sort_order)/' + document.getElementById('trash_sort_order').value;
-	document.location = trashUrl;
-	return false;
+    trashUrl += '/(sort_field)/' + document.getElementById('trash_sort_field').value;
+    trashUrl += '/(sort_order)/' + document.getElementById('trash_sort_order').value;
+    document.location = trashUrl;
+    return false;
 }
 </script>
 {/literal}
-<div class="break"></div>
-</div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+<div class="float-break"></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 </div>
 </form>

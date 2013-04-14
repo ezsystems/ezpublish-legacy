@@ -3,7 +3,7 @@
 /**
  * File containing the ezpgenerateautoloads.php script.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -16,16 +16,28 @@ if ( file_exists( "config.php" ) )
 
 // Setup, includes
 //{
-$useBundledComponents = defined( 'EZP_USE_BUNDLED_COMPONENTS' ) ? EZP_USE_BUNDLED_COMPONENTS === true : file_exists( 'lib/ezc' );
-if ( $useBundledComponents )
+$appName = defined( 'EZP_APP_FOLDER_NAME' ) ? EZP_APP_FOLDER_NAME : 'ezpublish';
+$appFolder = getcwd() . "/../$appName";
+
+$baseEnabled = true;
+// Bundled
+if ( defined( 'EZP_USE_BUNDLED_COMPONENTS' ) ? EZP_USE_BUNDLED_COMPONENTS === true : file_exists( 'lib/ezc' ) )
 {
     set_include_path( './lib/ezc' . PATH_SEPARATOR . get_include_path() );
     require 'Base/src/base.php';
 }
+// Custom config.php defined
 else if ( defined( 'EZC_BASE_PATH' ) )
 {
     require EZC_BASE_PATH;
 }
+// Composer if in eZ Publish5 context
+else if ( strpos( $appFolder, "{$appName}/../{$appName}" ) === false && file_exists( "{$appFolder}/autoload.php" ) )
+{
+    require_once "{$appFolder}/autoload.php";
+    $baseEnabled = false;
+}
+// PEAR
 else
 {
     if ( !@include 'ezc/Base/base.php' )
@@ -34,7 +46,10 @@ else
     }
 }
 
-spl_autoload_register( array( 'ezcBase', 'autoload' ) );
+if ( $baseEnabled )
+{
+    spl_autoload_register( array( 'ezcBase', 'autoload' ) );
+}
 
 require 'kernel/private/classes/ezautoloadgenerator.php';
 require 'kernel/private/interfaces/ezpautoloadoutput.php';

@@ -2,7 +2,7 @@
 /**
  * File containing the eZHTTPTool class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -28,12 +28,6 @@ class eZHTTPTool
     function eZHTTPTool()
     {
         $this->UseFullUrl = false;
-        $magicQuote = get_magic_quotes_gpc();
-
-        if ( $magicQuote == 1 )
-        {
-            eZHTTPTool::removeMagicQuotes();
-        }
     }
 
     /*!
@@ -632,46 +626,6 @@ class eZHTTPTool
         header( $headerName .': '. $headerData );
     }
 
-    static function removeMagicQuotes()
-    {
-        foreach ( array_keys( $_POST ) as $key )
-        {
-            if ( !is_array( $_POST[$key] ) )
-            {
-                $_POST[$key] = str_replace( "\'", "'", $_POST[$key] );
-                $_POST[$key] = str_replace( '\"', '"', $_POST[$key] );
-                $_POST[$key] = str_replace( '\\\\', '\\', $_POST[$key] );
-            }
-            else
-            {
-                foreach ( array_keys( $_POST[$key] ) as $arrayKey )
-                {
-                    $_POST[$key][$arrayKey] = str_replace( "\'", "'", $_POST[$key][$arrayKey] );
-                    $_POST[$key][$arrayKey] = str_replace( '\"', '"', $_POST[$key][$arrayKey] );
-                    $_POST[$key][$arrayKey] = str_replace( '\\\\', '\\', $_POST[$key][$arrayKey] );
-                }
-            }
-        }
-        foreach ( array_keys( $_GET ) as $key )
-        {
-            if ( !is_array( $_GET[$key] ) )
-            {
-                $_GET[$key] = str_replace( "\'", "'", $_GET[$key] );
-                $_GET[$key] = str_replace( '\"', '"', $_GET[$key] );
-                $_GET[$key] = str_replace( '\\\\', '\\', $_GET[$key] );
-            }
-            else
-            {
-                foreach ( array_keys( $_GET[$key] ) as $arrayKey )
-                {
-                    $_GET[$key][$arrayKey] = str_replace( "\'", "'", $_GET[$key][$arrayKey] );
-                    $_GET[$key][$arrayKey] = str_replace( '\"', '"', $_GET[$key][$arrayKey] );
-                    $_GET[$key][$arrayKey] = str_replace( '\\\\', '\\', $_GET[$key][$arrayKey] );
-                }
-            }
-        }
-    }
-
     function createPostVarsFromImageButtons()
     {
         foreach ( array_keys( $_POST ) as $key )
@@ -698,29 +652,6 @@ class eZHTTPTool
                 }
             }
         }
-    }
-
-    /**
-     * Return the session id
-     *
-     * @deprecated Since 4.4, use ->sessionID instead!
-     * @return string
-     */
-    function getSessionKey()
-    {
-        return session_id();
-    }
-
-    /**
-     * Sets a new session id
-     *
-     * @deprecated Since 4.4, use ->setSessionID instead!
-     * @param string $sessionKey Allowed characters in the range a-z A-Z 0-9 , (comma) and - (minus)
-     * @return string Current(old) session id
-    */
-    function setSessionKey( $sessionKey )
-    {
-        return session_id( $sessionKey );
     }
 
     /**

@@ -2,7 +2,7 @@
 /**
  * File containing the eZVatRule class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -63,7 +63,7 @@ class eZVatRule extends eZPersistentObject
 
             default:
             {
-                eZPersistentObject::setAttribute( $attr, $val );
+                parent::setAttribute( $attr, $val );
             } break;
         }
     }
@@ -181,7 +181,7 @@ class eZVatRule extends eZPersistentObject
         $db->begin();
 
         // Store the rule itself.
-        eZPersistentObject::store( $fieldFilters );
+        parent::store( $fieldFilters );
 
         // Store product categories associated with the rule,
         $this->removeProductCategories();

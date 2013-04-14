@@ -2,7 +2,7 @@
 /**
  * File containing the eZStepDatabaseInit class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -96,7 +96,7 @@ class eZStepDatabaseInit extends eZStepInstaller
         {
             return true;
         }
-        else if ( count( $availDatabases ) > 0 ) // login succeded, and at least one database available
+        else if ( count( $availDatabases ) > 0 ) // login succeeded, and at least one database available
         {
             $this->PersistenceList['database_info_available'] = $availDatabases;
             return true;
@@ -215,7 +215,7 @@ class eZStepDatabaseInit extends eZStepInstaller
         // Display template
         $result['content'] = $this->Tpl->fetch( 'design:setup/init/database_init.tpl' );
         $result['path'] = array( array( 'text' => ezpI18n::tr( 'design/standard/setup/init',
-                                                          'Database initalization' ),
+                                                          'Database initialization' ),
                                         'url' => false ) );
         return $result;
     }

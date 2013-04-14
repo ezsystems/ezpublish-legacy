@@ -3,7 +3,7 @@
 /**
  * File containing the script to cleanup files in a DFS setup
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package
@@ -23,11 +23,14 @@ $script = eZScript::instance(
 );
 $script->startup();
 $options = $script->getOptions(
-    "[S][B][D]", "",
+    "[S][B][D][path:][iteration-limit:]", "",
     array(
         "D" => "Delete nonexistent files",
         "S" => "Check files on DFS share against files in the database",
-        "B" => "Checks files in database against files on DFS share"
+        "B" => "Checks files in database against files on DFS share",
+        "path" => "Path to limit checks to (e.g.: var/storage/content - Default: var/)",
+        "iteration-limit" => "Amount of items to remove in each iteration when performing a purge operation. Default is all in one iteration.",
+
     )
 );
 
@@ -45,6 +48,16 @@ if ( !$fileHandler instanceof eZDFSFileHandler )
 $delete = isset( $options['D'] );
 $checkBase = isset( $options['S'] );
 $checkDFS = isset( $options['B'] );
+
+if (isset( $options['path'] ) )
+{
+    $checkPath = trim( $options['path'] );
+}
+else
+{
+    $checkPath = eZINI::instance()->variable( 'FileSettings', 'VarDir' );
+}
+$optIterationLimit =  isset( $options['iteration-limit'] ) ?  (int)$options['iteration-limit'] : false;
 $pause = 1000; // microseconds, time to wait between heavy operations
 
 if ( !$checkBase && !$checkDFS )
@@ -63,6 +76,7 @@ if ( $delete &&  $checkDFS )
     $cli->output();
 }
 
+$cli->output( 'Performing cleanup on directory <' . $checkPath . '>.' );
 
 if ( $checkBase )
 {
@@ -74,21 +88,36 @@ if ( $checkBase )
     {
         $cli->output( 'Checking files registered in the database...' );
     }
-    $files = $fileHandler->getFileList();
-    foreach ( $files as $file )
+
+    $loopRun = true;
+    $limit = $optIterationLimit ? array (0, $optIterationLimit) : false;
+    while ( $loopRun && $files = $fileHandler->getFileList( false, false, $limit, $chekPath ) )
     {
-        $fh = eZClusterFileHandler::instance( $file );
-        if ( !$fh->exists( true ) )
+        foreach ( $files as $file )
         {
-            $cli->output( '  - ' . $fh->name() );
-            if ( $delete );
-            // expire the file, and purge it
+            $fh = eZClusterFileHandler::instance( $file );
+
+            if ( !$fh->exists( true ) )
             {
-                $fh->delete();
-                $fh->purge();
+                $cli->output( '  - ' . $fh->name() );
+                if ( $delete );
+                // expire the file, and purge it
+                {
+                    $fh->delete();
+                    $fh->purge();
+                }
             }
+            usleep( $pause );
         }
-        usleep( $pause );
+        if ($limit)
+        {
+            $limit[0] += $limit[1];
+        }
+        else
+        {
+            $loopRun = false;
+        }
+        unset($files);
     }
     $cli->output( 'Done' );
 }
@@ -109,7 +138,7 @@ if ( $checkDFS )
     $cleanPregExpr = preg_quote( fixWinPath( $base ), '@' );
     foreach (
         new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator( $base )
+            new RecursiveDirectoryIterator( $base . '/' . $checkPath )
         ) as $filename => $current )
     {
         if ( $current->isFile() )

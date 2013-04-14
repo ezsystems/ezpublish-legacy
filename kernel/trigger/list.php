@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -22,14 +22,11 @@ $http = eZHTTPTool::instance();
 
 $Module = $Params['Module'];
 
-$wfINI = eZINI::instance( 'workflow.ini' );
-$operations = $wfINI->variableArray( 'OperationSettings', 'AvailableOperations' );
-$operations = array_unique( array_merge( $operations, $wfINI->variable( 'OperationSettings', 'AvailableOperationList' ) ) );
 $possibleTriggers = array();
 
 $triggers = makeTriggerArray( eZTrigger::fetchList() );
 
-foreach ( $operations as $operation )
+foreach ( array_unique( eZINI::instance( 'workflow.ini' )->variable( 'OperationSettings', 'AvailableOperationList' ) ) as $operation )
 {
     if ( $operation == '' )
     {

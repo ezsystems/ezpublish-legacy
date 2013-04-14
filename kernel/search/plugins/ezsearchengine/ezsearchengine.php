@@ -2,7 +2,7 @@
 /**
  * File containing the eZSearchEngine class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -372,21 +372,34 @@ class eZSearchEngine implements ezpSearchEngine
     /**
      * Removes object $contentObject from the search database.
      *
+     * @deprecated Since 5.0, use removeObjectById()
      * @param eZContentObject $contentObject the content object to remove
      * @param bool $commit Whether to commit after removing the object
      * @return bool True if the operation succeed.
      */
     public function removeObject( $contentObject, $commit = true )
     {
-        $db = eZDB::instance();
-        $objectID = $contentObject->attribute( "id" );
-        $doDelete = false;
-        $db->begin();
+        return $this->removeObjectById( $contentObject->attribute( "id" ), $commit );
+    }
 
-        if ( $db->databaseName() == 'mysql' )
+    /**
+     *  Removes a content object by Id from the search database.
+     *
+     * @since 5.0
+     * @param int $contentObjectId The content object to remove by id
+     * @param bool $commit Whether to commit after removing the object
+     * @return bool True if the operation succeed.
+     */
+    public function removeObjectById( $contentObjectId, $commit = true )
+    {
+        $db = eZDB::instance();
+        $doDelete = false;
+
+        $db->begin();
+        if ( $db->databaseName() === 'mysql' )
         {
             // fetch all the words and decrease the object count on all the words
-            $wordArray = $db->arrayQuery( "SELECT word_id FROM ezsearch_object_word_link WHERE contentobject_id='$objectID'" );
+            $wordArray = $db->arrayQuery( "SELECT word_id FROM ezsearch_object_word_link WHERE contentobject_id='$contentObjectId'" );
             $wordIDList = array();
             foreach ( $wordArray as $word )
                 $wordIDList[] = $word["word_id"];
@@ -399,10 +412,10 @@ class eZSearchEngine implements ezpSearchEngine
         }
         else
         {
-            $cnt = $db->arrayQuery( "SELECT COUNT( word_id ) AS cnt FROM ezsearch_object_word_link WHERE contentobject_id='$objectID'" );
+            $cnt = $db->arrayQuery( "SELECT COUNT( word_id ) AS cnt FROM ezsearch_object_word_link WHERE contentobject_id='$contentObjectId'" );
             if ( $cnt[0]['cnt'] > 0 )
             {
-                $db->query( "UPDATE ezsearch_word SET object_count=( object_count - 1 ) WHERE id in ( SELECT word_id FROM ezsearch_object_word_link WHERE contentobject_id='$objectID' )" );
+                $db->query( "UPDATE ezsearch_word SET object_count=( object_count - 1 ) WHERE id in ( SELECT word_id FROM ezsearch_object_word_link WHERE contentobject_id='$contentObjectId' )" );
                 $doDelete = true;
             }
         }
@@ -410,9 +423,11 @@ class eZSearchEngine implements ezpSearchEngine
         if ( $doDelete )
         {
             $db->query( "DELETE FROM ezsearch_word WHERE object_count='0'" );
-            $db->query( "DELETE FROM ezsearch_object_word_link WHERE contentobject_id='$objectID'" );
+            $db->query( "DELETE FROM ezsearch_object_word_link WHERE contentobject_id='$contentObjectId'" );
         }
         $db->commit();
+
+        return true;
     }
 
     /*!
@@ -1274,27 +1289,33 @@ class eZSearchEngine implements ezpSearchEngine
     */
     function splitString( $text )
     {
-        // strip quotes
-        $text = preg_replace("#'#", "", $text );
-        $text = preg_replace( "#\"#", "", $text );
+        $text = self::removeDuplicatedSpaces( trim( self::removeAllQuotes( $text ) ) );
 
-        // Strip multiple whitespace
-        $text = trim( $text );
-        $text = preg_replace("(\s+)", " ", $text );
+        return empty( $text ) ? array() : explode( " ", $text );
+    }
 
-        // Split text on whitespace
-        $wordArray = explode( ' ', $text );
+    /**
+     * Remove duplicated spaces
+     *
+     * @param string $text
+     *
+     * @return string
+     */
+    static protected function removeDuplicatedSpaces( $text )
+    {
+        return preg_replace( "/\s{2,}/", " ", $text );
+    }
 
-        $retArray = array();
-        foreach ( $wordArray as $word )
-        {
-            if ( trim( $word ) != "" )
-            {
-                $retArray[] = trim( $word );
-            }
-        }
-
-        return $retArray;
+    /**
+     * Remove single and double quotes, including UTF-8 variations
+     *
+     * @param string $text
+     *
+     * @return string
+     */
+    static protected function removeAllQuotes( $text )
+    {
+        return preg_replace( "/([\x{2018}-\x{201f}]|'|\")/u", " ", $text );
     }
 
     /*!
@@ -1304,13 +1325,18 @@ class eZSearchEngine implements ezpSearchEngine
     */
     function normalizeText( $text, $isMetaData = false )
     {
-        $trans = eZCharTransform::instance();
-        $text = $trans->transformByGroup( $text, 'search' );
+        $text = self::removeDuplicatedSpaces(
+            trim(
+                self::removeAllQuotes(
+                    eZCharTransform::instance()->transformByGroup( $text, 'search' )
+                )
+            )
+        );
 
         // Remove quotes and asterix when not handling search text by end-user
         if ( $isMetaData )
         {
-            $text = str_replace( array( "\"", "*" ), array( " ", " " ), $text );
+            $text = str_replace( "*", " ", $text );
         }
 
         return $text;

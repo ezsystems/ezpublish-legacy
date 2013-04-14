@@ -2,7 +2,7 @@
 /**
  * File containing the eZUserOperationCollection class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -88,13 +88,6 @@ class eZUserOperationCollection
         // Check whether account activation is required.
         $verifyUserType = $ini->variable( 'UserSettings', 'VerifyUserType' );
         $sendUserMail = !!$verifyUserType;
-        // For compatibility with old setting
-        if ( $verifyUserType === 'email'
-          && $ini->hasVariable( 'UserSettings', 'VerifyUserEmail' )
-          && $ini->variable( 'UserSettings', 'VerifyUserEmail' ) !== 'enabled' )
-        {
-            $verifyUserType = false;
-        }
 
         if ( $verifyUserType === 'email' ) // and if it is email type
         {

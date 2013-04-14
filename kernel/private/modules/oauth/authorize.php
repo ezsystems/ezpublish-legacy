@@ -8,7 +8,7 @@
  * @param string $_GET[scope] the permissions scope the client requests (optional)
  * @param string $_GET[state] Not implemented yet (optional)
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package oauth
@@ -63,7 +63,7 @@ if ( !$application->isEndPointValid( $pRedirectUri ) )
 $user = eZUser::currentUser();
 
 // login is like REALLY required here. But we can't use the standard policy check, as it won't redirect w/ GET parameters
-if ( !$user->isLoggedIn() )
+if ( !$user->isRegistered() )
 {
     $redirectUri = str_replace( eZSys::indexDir(), '', $_SERVER['REQUEST_URI'] );
 

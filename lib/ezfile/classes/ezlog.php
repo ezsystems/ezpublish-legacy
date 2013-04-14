@@ -2,7 +2,7 @@
 /**
  * File containing the eZLog class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -84,6 +84,7 @@ class eZLog
         $fileName = $varDir . '/' . $logDir . '/' . $logName;
         $oldumask = @umask( 0 );
 
+        clearstatcache( true, $fileName );
         $fileExisted = file_exists( $fileName );
         if ( $fileExisted and
              filesize( $fileName ) > eZLog::maxLogSize() )
@@ -134,7 +135,14 @@ class eZLog
     {
         $maxLogSize =& $GLOBALS['eZMaxLogSize'];
         if ( isset( $maxLogSize ) )
+        {
             return $maxLogSize;
+        }
+        else if ( defined( 'CUSTOM_LOG_MAX_FILE_SIZE' ) )
+        {
+            self::setMaxLogSize( (int)CUSTOM_LOG_MAX_FILE_SIZE );
+            return (int)CUSTOM_LOG_MAX_FILE_SIZE;
+        }
         return self::MAX_LOGFILE_SIZE;
     }
 
@@ -155,7 +163,14 @@ class eZLog
     {
         $maxLogrotateFiles =& $GLOBALS['eZMaxLogrotateFiles'];
         if ( isset( $maxLogrotateFiles ) )
+        {
             return $maxLogrotateFiles;
+        }
+        else if ( defined( 'CUSTOM_LOG_ROTATE_FILES' ) )
+        {
+            self::setLogrotateFiles( (int)CUSTOM_LOG_ROTATE_FILES );
+            return (int)CUSTOM_LOG_ROTATE_FILES;
+        }
         return self::MAX_LOGROTATE_FILES;
     }
 
@@ -169,6 +184,10 @@ class eZLog
     static function rotateLog( $fileName )
     {
         $maxLogrotateFiles = eZLog::maxLogrotateFiles();
+        if ( $maxLogrotateFiles == 0 )
+        {
+            return;
+        }
         for ( $i = $maxLogrotateFiles; $i > 0; --$i )
         {
             $logRotateName = $fileName . '.' . $i;

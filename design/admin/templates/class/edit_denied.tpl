@@ -17,30 +17,30 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'Edit <%class_name> [Class]'|i18n( 'design/admin/class/edit_denied',, hash( '%class_name', $class.name ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-attributes">
 
 <div class="block">
-<label>{'Class'|i18n( 'design/admin/class/edit_denied' )}:</label>
+<h6>{'Class'|i18n( 'design/admin/class/edit_denied' )}:</h6>
 {$class.name|wash}
 </div>
 
 <div class="block">
-<label>{'Current modifier'|i18n( 'design/admin/class/edit_denied' )}:</label>
+<h6>{'Current modifier'|i18n( 'design/admin/class/edit_denied' )}:</h6>
 <a href={$class.modifier.contentobject.main_node.url_alias|ezurl}>{$class.modifier.contentobject.name|wash}</a>
 </div>
 
 <div class="block">
-<label>{'Unlock time'|i18n( 'design/admin/class/edit_denied' )}:</label>
+<h6>{'Unlock time'|i18n( 'design/admin/class/edit_denied' )}:</h6>
 {sum( $class.modified, $lock_timeout )|l10n( shortdatetime )}
 </div>
 
@@ -51,12 +51,12 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 <input class="button" type="submit" name="RetryButton" value="{'Retry'|i18n( 'design/admin/class/edit_denied' )}" />
 <input class="button" type="submit" name="CancelConflictButton" value="{'Cancel'|i18n( 'design/admin/class/edit_denied' )}" />
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>

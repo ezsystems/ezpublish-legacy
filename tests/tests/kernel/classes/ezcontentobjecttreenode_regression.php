@@ -2,7 +2,7 @@
 /**
  * File containing the eZContentObjectTreeNodeRegression class
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -69,6 +69,8 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
 
         // re-expire cache for further tests
         eZContentLanguage::setPrioritizedLanguages( $bkpLanguages );
+        $article->remove();
+        $translation->removeThis();
         eZContentLanguage::expireCache();
 
         ezpINIHelper::restoreINISettings();
@@ -289,6 +291,8 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
         $node = eZContentObjectTreeNode::fetch( $nodeId, 'eng-GB' );
         self::assertEquals( 'testIssue17632-eng-GB' , $node->attribute( 'url_alias' ) );
 
+        $folder->remove();
+        $translation->removeThis();
         ezpINIHelper::restoreINISettings();
         eZContentLanguage::setPrioritizedLanguages( $bkpLanguages );
     }

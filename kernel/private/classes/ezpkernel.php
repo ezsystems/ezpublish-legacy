@@ -2,7 +2,7 @@
 /**
  * File containing the ezpKernel class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  */
@@ -19,6 +19,11 @@ class ezpKernel implements ezpKernelHandler
      */
     private $kernelHandler;
 
+    /**
+     * @var ezpKernel
+     */
+    protected static $instance = null;
+
     public function __construct( ezpKernelHandler $kernelHandler )
     {
         /**
@@ -34,6 +39,7 @@ class ezpKernel implements ezpKernelHandler
         }
 
         $this->kernelHandler = $kernelHandler;
+        self::$instance = $this;
     }
 
     /**
@@ -78,5 +84,46 @@ class ezpKernel implements ezpKernelHandler
     public function reInitialize()
     {
         $this->kernelHandler->reInitialize();
+    }
+
+    /**
+     * Checks whether the kernel handler has the Symfony service container
+     * container or not.
+     *
+     * @return bool
+     */
+    public function hasServiceContainer()
+    {
+        return $this->kernelHandler->hasServiceContainer();
+    }
+
+    /**
+     * Returns the Symfony service container if it has been injected,
+     * otherwise returns null.
+     *
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface|null
+     */
+    public function getServiceContainer()
+    {
+        return $this->kernelHandler->getServiceContainer();
+    }
+
+    /**
+     * Returns the current instance of ezpKernel.
+     *
+     * @throws LogicException if no instance of ezpKernel has been instantiated
+     * @return ezpKernel
+     */
+    public static function instance()
+    {
+        if ( self::$instance === null )
+        {
+            throw new LogicException(
+                'Cannot return the instance of '
+                    . __CLASS__
+                    . ', it has not been instantiated'
+            );
+        }
+        return self::$instance;
     }
 }

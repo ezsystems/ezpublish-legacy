@@ -10,7 +10,7 @@
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Publish
 // SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2012 eZ Systems AS
+// COPYRIGHT NOTICE: Copyright (C) 1999-2013 eZ Systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
 //   This program is free software; you can redistribute it and/or
@@ -269,9 +269,16 @@ static void parse( Translator *tor, const QString &filename )
         if ( context.isNull() )
             continue;
 
-        int line = 0; // We don't support line numbers yet
+        int line = 0, pos = 0;
         bool plural = false; // We don't support plural yet
         bool utf8 = false; // We don't support autodetection yet
+        QRegExp rx("\\n"); // new line matching
+        while ((pos = rx.indexIn(content, pos)) != -1) {
+            ++line;
+            pos += rx.matchedLength();
+            if (pos > startpos)
+                break;
+        }
         recordMessage(tor, line, context, source, comment, extracomment, utf8, plural);
     }
 }
@@ -283,6 +290,7 @@ bool loadTPL(Translator &translator, QIODevice &dev, ConversionData &cd)
     QTextStream testStream;
     testStream.setDevice( &dev );
     QString testContent = testStream.readAll();
+    yyFileName = cd.m_sourceDir.path() + QDir::separator() + cd.m_sourceFileName;
     if ( ( testContent.startsWith( QLatin1String("{*?template charset="), Qt::CaseInsensitive ) &&
            ( testContent.startsWith( QLatin1String("{*?template charset=utf8?*}"), Qt::CaseInsensitive ) ||
              testContent.startsWith( QLatin1String("{*?template charset=utf-8?*}"), Qt::CaseInsensitive ) ) ) ||

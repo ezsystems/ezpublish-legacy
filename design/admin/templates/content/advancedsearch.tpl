@@ -25,34 +25,34 @@
 {/section}
 
 <form action={'/content/advancedsearch/'|ezurl} method="get">
-<div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+<div class="context-block content-advancesearch">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'Advanced search'|i18n( 'design/admin/content/search' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-attributes">
 
 <div class="block">
-<label>{'Search for all of the following words'|i18n( 'design/admin/content/search' )}:</label>
-<input class="halfbox" type="text" size="40" name="SearchText" value="{$full_search_text|wash}" />
+<label for="ezcontent_advancesearch_search_text">{'Search for all of the following words'|i18n( 'design/admin/content/search' )}:</label>
+<input id="ezcontent_advancesearch_search_text" class="halfbox" type="text" size="40" name="SearchText" value="{$full_search_text|wash}" />
 </div>
 
 <div class="block">
-<label>{'Search for an exact phrase'|i18n( 'design/admin/content/search' )}:</label>
-<input class="halfbox" type="text" size="40" name="PhraseSearchText" value="{$phrase_search_text|wash}" />
+<label for="ezcontent_advancesearch_phrasesearch_text">{'Search for an exact phrase'|i18n( 'design/admin/content/search' )}:</label>
+<input id="ezcontent_advancesearch_phrasesearch_text" class="halfbox" type="text" size="40" name="PhraseSearchText" value="{$phrase_search_text|wash}" />
 </div>
 
 <div class="block">
 
 <div class="element">
-<label>{'Class'|i18n( 'design/admin/content/search' )}:</label>
-<select name="SearchContentClassID">
+<label for="ezcontent_advancesearch_class_id">{'Class'|i18n( 'design/admin/content/search' )}:</label>
+<select id="ezcontent_advancesearch_class_id" name="SearchContentClassID">
 <option value="-1">{'Any class'|i18n( 'design/admin/content/search' )}</option>
 {section name=ContentClass loop=$content_class_array }
 <option {switch name=sw match=$search_contentclass_id}
@@ -67,11 +67,11 @@ selected="selected"
 </div>
 
 <div class="element">
-<label>{'Class attribute'|i18n( 'design/admin/content/search' )}:</label>
+<label for="ezcontent_advancesearch_class_attribute_id">{'Class attribute'|i18n( 'design/admin/content/search' )}:</label>
 
 {section name=Attribute show=$search_contentclass_id|gt( 0 )}
 
-<select name="SearchContentClassAttributeID">
+<select id="ezcontent_advancesearch_class_attribute_id" name="SearchContentClassAttributeID">
 <option value="-1">{'Any attribute'|i18n( 'design/admin/content/search' )}</option>
 {section name=ClassAttribute loop=$search_content_class_attribute_array}
 <option value="{$Attribute:ClassAttribute:item.id}" 
@@ -92,8 +92,8 @@ selected="selected"
 <div class="block">
 <div class="element">
 
-<label>{'In'|i18n( 'design/admin/content/search' )}:</label>
-<select name="SearchSectionID">
+<label for="ezcontent_advancesearch_section_id">{'In'|i18n( 'design/admin/content/search' )}:</label>
+<select id="ezcontent_advancesearch_section_id" name="SearchSectionID">
 <option value="-1">{'Any section'|i18n( 'design/admin/content/search' )}</option>
 {section name=Section loop=$section_array }
 <option {switch name=sw match=$search_section_id}
@@ -109,8 +109,8 @@ selected="selected"
 </div>
 <div class="element">
 
-<label>{"Published"|i18n( 'design/admin/content/search' )}:</label>
-<select name="SearchDate">
+<label for="ezcontent_advancesearch_date">{"Published"|i18n( 'design/admin/content/search' )}:</label>
+<select id="ezcontent_advancesearch_date" name="SearchDate">
 <option value="-1" {if eq( $search_date, -1 )}selected="selected"{/if}>{'Any time'|i18n( 'design/admin/content/search' )}</option>
 <option value="1"  {if eq( $search_date,  1 )}selected="selected"{/if}>{'Last day'|i18n( 'design/admin/content/search' )}</option>
 <option value="2"  {if eq( $search_date,  2 )}selected="selected"{/if}>{'Last week'|i18n( 'design/admin/content/search' )}</option>
@@ -122,8 +122,8 @@ selected="selected"
 
 {if $use_template_search}
 <div class="element">
-<label>{'Display per page'|i18n( 'design/admin/content/search' )}:</label>
-<select name="SearchPageLimit">
+<label for="ezcontent_advancesearch_pagelimit">{'Display per page'|i18n( 'design/admin/content/search' )}:</label>
+<select id="ezcontent_advancesearch_pagelimit" name="SearchPageLimit">
 <option value="1" {if eq($search_page_limit,1)}selected="selected"{/if}>{"5 items"|i18n( 'design/admin/content/search' )}</option>
 <option value="2" {if or(array(1,2,3,4,5)|contains($search_page_limit)|not,eq($search_page_limit,2))}selected="selected"{/if}>{"10 items"|i18n( 'design/admin/content/search' )}</option>
 <option value="3" {if eq($search_page_limit,3)}selected="selected"{/if}>{"20 items"|i18n( 'design/admin/content/search' )}</option>
@@ -156,25 +156,25 @@ selected="selected"
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 <input class="button" type="submit" name="SearchButton" value="{'Search'|i18n( 'design/admin/content/search' )}" />
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>
 
 {section show=ne($search_count,0)}
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h2 class="context-title">{'Search for <%1> returned %2 matches'|i18n( 'design/admin/content/search',, array( $search_text, $search_count ) )|wash}</h2>
 
-{* DESIGN: Mainline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Header END *}</div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 {include name=Result
          uri='design:content/searchresult.tpl'
@@ -190,7 +190,7 @@ selected="selected"
          item_limit=$page_limit}
 </div>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 {/section}

@@ -2,7 +2,7 @@
 /**
  * File containing the eZDbSchemaChecker class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -206,7 +206,7 @@ class eZDbSchemaChecker
             }
             else
             {
-                if ( isset( $field2[$test_field] ) )
+                if ( isset( $field2[$test_field] ) && $field2[$test_field] )
                 {
                     $different_options[] = $test_field;
                 }

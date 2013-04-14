@@ -4,7 +4,7 @@
  *
  * Portions are modifications of patches by Andreas Böckler and Francis Nart
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -164,8 +164,7 @@ class eZSys
             $this->Params['_SERVER']['REQUEST_TIME'] = (int)$this->Params['_SERVER']['REQUEST_TIME'];
         }
 
-        $this->Attributes = array( 'magickQuotes' => true,
-                                   'hostname'     => true );
+        $this->Attributes = array( 'hostname' => true );
         $this->FileSeparator = $this->Params['DIRECTORY_SEPARATOR'];
         $this->EnvSeparator  = $this->Params['PATH_SEPARATOR'];
 
@@ -204,35 +203,8 @@ class eZSys
             $this->BackupFilename = '~';
         }
 
-        if ( get_magic_quotes_gpc() == 1 )
-        {
-            self::removeMagicQuotes();
-        }
-
         $this->AccessPath = array( 'siteaccess' => array( 'name' => '', 'url' => array() ),
                                    'path'       => array( 'name' => '', 'url' => array() ) );
-    }
-
-    /**
-     * Removes magic quotes
-     *
-     * @deprecated Since 4.5, magic quotes setting has been deprecated in PHP 5.3
-     *
-     * @return void
-     */
-    public static function removeMagicQuotes()
-    {
-        $globalVariables = array( '_SERVER', '_ENV' );
-        foreach ( $globalVariables as $globalVariable )
-        {
-            foreach ( array_keys( $GLOBALS[$globalVariable] ) as $key )
-            {
-                if ( !is_array( $GLOBALS[$globalVariable][$key] ) )
-                {
-                    $GLOBALS[$globalVariable][$key] = stripslashes( $GLOBALS[$globalVariable][$key] );
-                }
-            }
-        }
     }
 
     /**
@@ -279,61 +251,6 @@ class eZSys
     public static function fileSeparator()
     {
         return self::instance()->FileSeparator;
-    }
-
-    /**
-     * The PHP version as text.
-     *
-     * @deprecated Since 4.5, use PHP_VERSION
-     *
-     * @return string
-     */
-    public static function phpVersionText()
-    {
-        return PHP_VERSION;
-    }
-
-    /**
-     * Returns the PHP version as an array with the version elements.
-     *
-     * @deprecated Since 4.5
-     *
-     * @return array
-     */
-    public static function phpVersion()
-    {
-        $elements = explode( '.', PHP_VERSION );
-        return $elements;
-    }
-
-    /**
-     * Checks if the given version is greater than or equal to the current PHP version
-     *
-     * Usage:
-     * <code>
-     * eZSys::isPHPVersionSufficient( array( 4, 1, 0 ) );
-     * </code>
-     *
-     * @deprecated Since 4.5
-     * @param array $requiredVersion Must be an array with version number
-     * @return bool
-    */
-    static function isPHPVersionSufficient( $requiredVersion )
-    {
-        if ( !is_array( $requiredVersion ) )
-            return false;
-        $phpVersion = self::phpVersion();
-        $len = min( count( $phpVersion ), count( $requiredVersion ) );
-
-        for ( $i = 0; $i < $len; ++$i )
-        {
-            if ( (int) $phpVersion[$i] > (int) $requiredVersion[$i] )
-                return true;
-            if ( (int) $phpVersion[$i] < (int) $requiredVersion[$i] )
-                return false;
-        }
-
-        return true;
     }
 
     /**
@@ -926,18 +843,6 @@ class eZSys
     }
 
     /**
-     * Should return true when magick quotes are enabled, but instead return null.
-     *
-     * @deprecated since 4.5
-     *
-     * @return null
-     */
-    public static function magickQuotes()
-    {
-        return null;
-    }
-
-    /**
      * Returns the value of $_SERVER[$variableName] if it is set.
      *
      * If it isn't set, trigger an error message if $quiet is false
@@ -1185,28 +1090,6 @@ class eZSys
     }
 
     /**
-     * Returns true if debugging of internals is enabled, this will display
-     * which server variables are read.
-     * Set the option with setIsDebugEnabled().
-     *
-     * @deprecated Since 4.5, not used
-     * @return bool
-     */
-    public static function isDebugEnabled()
-    {
-    }
-
-    /**
-     * Sets whether internal debugging is enabled or not.
-     *
-     * @deprecated Since 4.5, has not effect anymore
-     * @param bool $debug
-     */
-    public static function setIsDebugEnabled( $debug )
-    {
-    }
-
-    /**
      * Initializes some variables according to some global PHP values.
      * This function should be called once in the index file with the parameters
      * stated in the parameter list.
@@ -1220,7 +1103,7 @@ class eZSys
         $instance       = self::instance();
         $server         = $instance->Params['_SERVER'];
         $phpSelf        = $server['PHP_SELF'];
-        $requestUri     = $server['REQUEST_URI'];
+        $requestUri     = isset( $server['REQUEST_URI'] ) ? $server['REQUEST_URI'] : '';
         $scriptFileName = $server['SCRIPT_FILENAME'];
         $siteDir        = rtrim( str_replace( $index, '', $scriptFileName ), '\/' ) . '/';
         $wwwDir         = '';

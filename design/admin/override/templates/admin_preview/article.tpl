@@ -36,7 +36,7 @@
 
         {* Comments. *}
         <div class="content-control">
-            <label>{'Comments allowed'|i18n( 'design/admin/preview/article' )}:</label>
+            <h6>{'Comments allowed'|i18n( 'design/admin/preview/article' )}:</h6>
             {if $node.data_map.enable_comments.content}
                 <p>{'Yes'|i18n( 'design/admin/preview/article' )}</p>
                 {else}

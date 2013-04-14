@@ -2,7 +2,7 @@
 /**
  * File containing the eZURLAlias class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -194,7 +194,7 @@ class eZURLAliasML extends eZPersistentObject
      */
     function setAttribute( $name, $value )
     {
-        eZPersistentObject::setAttribute( $name, $value );
+        parent::setAttribute( $name, $value );
         if ( $name == 'text' )
         {
             $this->TextMD5 = md5( eZURLAliasML::strtolower( $value ) );
@@ -237,7 +237,7 @@ class eZURLAliasML extends eZPersistentObject
                 $this->ActionType = 'nop';
         }
 
-        eZPersistentObject::store( $fieldFilters );
+        parent::store( $fieldFilters );
     }
 
     /*!
@@ -1047,6 +1047,7 @@ class eZURLAliasML extends eZPersistentObject
         $filterSQL = trim( eZContentLanguage::languagesSQLFilter( 'ezurlalias_ml', 'lang_mask' ) );
         $query = "SELECT id, parent, lang_mask, text, action FROM ezurlalias_ml WHERE ( {$filterSQL} ) AND action in ( {$actionStr} ) AND is_original = 1 AND is_alias=0";
         $rows = $db->arrayQuery( $query );
+        $objects = eZContentObject::fetchByNodeID( $actionValues );
         $actionMap = array();
         foreach ( $rows as $row )
         {
@@ -1092,8 +1093,8 @@ class eZURLAliasML extends eZPersistentObject
                         $defaultRow = $row;
                         break 2;
                     }
-                    // If the 'always available' bit is set then choose it as the default
-                    if ( ($langMask & 1) > 0 )
+                    // If the 'always available' bit is set AND it corresponds to the main language, then choose it as the default
+                    if ( $langMask & 1 && $objects[$actionValue]->attribute( 'initial_language_id' ) & $langMask )
                     {
                         $defaultRow = $row;
                     }

@@ -2,7 +2,7 @@
 /**
  * File containing the eZLocale class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -654,19 +654,6 @@ class eZLocale
     function languageComment()
     {
         return $this->LanguageComment;
-    }
-
-    /*!
-     Returns the locale code which is used for translation files. Normally this is the same as localeCode()
-     but for some locales translation from other languages can be used
-
-     e.g. por-MZ (Mozambique) uses por-PT for translation.
-
-     \deprecated since eZ Publish 4.1, use localeFullCode() instead
-    */
-    function translationCode()
-    {
-        return $this->TranslationCode;
     }
 
     /*!

@@ -4,7 +4,7 @@
  *
  * @deprecated Since 5.0
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  */
@@ -57,11 +57,6 @@ function eZDisplayResult( $templateResult )
     ob_start();
     if ( $templateResult !== null )
     {
-        $classname = eZINI::instance()->variable( "OutputSettings", "OutputFilterName" );//deprecated
-        if ( !empty( $classname ) && class_exists( $classname ) )
-        {
-            $templateResult = call_user_func( array ( $classname, 'filter' ), $templateResult );
-        }
         $templateResult = ezpEvent::getInstance()->filter( 'response/preoutput', $templateResult );
         $debugMarker = '<!--DEBUG_REPORT-->';
         $pos = strpos( $templateResult, $debugMarker );

@@ -2,7 +2,7 @@
 /**
  * File containing the eZContentLanguageRegression class
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -29,9 +29,12 @@ class eZContentLanguageRegression extends ezpDatabaseTestCase
 
     public function tearDown()
     {
-        eZContentLanguage::removeLanguage( 'nno-NO' );
-        eZContentLanguage::removeLanguage( 'dan-DK' );
-
+        $nor = eZContentLanguage::fetchByLocale( 'nno-NO' );
+        $dan = eZContentLanguage::fetchByLocale( 'dan-DK' );
+        if ( $nor )
+            $nor->removeThis();
+        if ( $dan )
+            $dan->removeThis();
         parent::tearDown();
     }
 

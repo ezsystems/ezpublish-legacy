@@ -2,7 +2,7 @@
 /**
  * File containing the ezpMobileDeviceRegexpFilter class
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -118,7 +118,7 @@ class ezpMobileDeviceRegexpFilter implements ezpMobileDeviceDetectFilterInterfac
         if ( !isset( $_COOKIE['eZMobileDeviceDetect'] )
                 && !in_array( $currentSiteAccess['name'], eZINI::instance()->variable( 'SiteAccessSettings', 'MobileSiteAccessList'  ) ) )
         {
-            $http->redirect( eZINI::instance()->variable( 'SiteAccessSettings', 'MobileSiteAccessURL' ) );
+            $http->redirect( eZINI::instance()->variable( 'SiteAccessSettings', 'MobileSiteAccessURL' ) . eZSys::serverVariable(  'REQUEST_URI' ) );
 
             eZExecution::cleanExit();
         }

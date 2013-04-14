@@ -3,7 +3,7 @@
 
 <form method="post" action={"settings/edit"|ezurl}>
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h1 class="context-title">
 {if $setting_name}
     {'Edit setting %setting'|i18n('design/admin/settings',,hash( '%setting', $setting_name ) )}
@@ -14,7 +14,7 @@
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 <div class="context-attributes">
@@ -62,7 +62,7 @@
         {'Location (prioritized list shown)'|i18n( 'design/admin/settings' )|wash}
     </th>
     <th >
-	{'Value'|i18n( 'design/admin/settings' )|wash}
+    {'Value'|i18n( 'design/admin/settings' )|wash}
     </th>
 </tr>
 <tr>
@@ -71,20 +71,20 @@
     </td>
     <td>
         {if and( is_set( $values['default'] ), ne( $values['default'], false() ))}
-	    {$values['default']}
-	{else}
-	    {'No value'|i18n( 'design/admin/settings' )|wash}
-	{/if}
+        {$values['default']}
+    {else}
+        {'No value'|i18n( 'design/admin/settings' )|wash}
+    {/if}
     </td>
 </tr>
 <tr>
     <td><label><input type="radio" name="SettingPlacement" {if eq( $placement, "siteaccess" )}checked="checked"{/if} value="siteaccess">{'Siteaccess setting'|i18n('design/admin/settings')}</label></td>
     <td>
-	{if and( is_set( $values['siteaccess'] ), ne( $values['siteaccess'], false() ) )}
-	    {$values['siteaccess']}
-	{else}
-	    {'No value'|i18n( 'design/admin/settings' )|wash}
-	{/if}
+    {if and( is_set( $values['siteaccess'] ), ne( $values['siteaccess'], false() ) )}
+        {$values['siteaccess']}
+    {else}
+        {'No value'|i18n( 'design/admin/settings' )|wash}
+    {/if}
     </td>
 </tr>
 {foreach $values['extensions'] as $extension_name=>$extension_value}
@@ -92,10 +92,10 @@
     <td><label><input type="radio" name="SettingPlacement" value="{$extension_name}">{$extension_name}</label></td>
     <td>
         {if ne( $extension_value, false() )}
-	    {$extension_value}
-	{else}
-	    {'No value'|i18n( 'design/admin/settings' )|wash}
-	{/if}
+        {$extension_value}
+    {else}
+        {'No value'|i18n( 'design/admin/settings' )|wash}
+    {/if}
     </td>
 </tr>
 {/foreach}
@@ -103,10 +103,10 @@
     <td><label><input type="radio" name="SettingPlacement" value="override" {if ne( $placement, "siteaccess" )}checked="checked"{/if}>{'Override setting (global)'|i18n( 'design/admin/settings' )}</label></td>
     <td>
         {if and( is_set( $values['override'] ), ne( $values['override'], false() ) )}
-	    {$values['override']}
-	{else}
-	    {'No value'|i18n( 'design/admin/settings' )|wash}
-	{/if}
+        {$values['override']}
+    {else}
+        {'No value'|i18n( 'design/admin/settings' )|wash}
+    {/if}
     </td>
 </tr>
 </table>
@@ -162,13 +162,13 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
     <input class="button" type="submit" name="WriteSetting" value="{'Save'|i18n( 'design/admin/settings' )}" />
     <input class="button" type="submit" name="Cancel" value="{'Cancel'|i18n( 'design/admin/settings' )}" />
 
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 

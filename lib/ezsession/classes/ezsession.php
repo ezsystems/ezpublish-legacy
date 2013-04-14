@@ -2,7 +2,7 @@
 /**
  * File containing session interface
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -97,6 +97,12 @@ class eZSession
      */
     static protected $handlerInstance = null;
 
+    /**
+     * Session namespace.
+     * If set, all session variables will be stored under $_SESSION[$namespace].
+     *
+     * @var string
+     */
     static protected $namespace = null;
 
     /**
@@ -425,31 +431,22 @@ class eZSession
         {
             self::forceStart();
         }
+        else if ( $started )
+        {
+            self::$hasStarted = true;
+        }
     }
 
     /**
      * See {@link eZSession::start()}
      *
+     * @see ezpSessionHandler::sessionStart()
      * @since 4.4
      * @return true
      */
     static protected function forceStart()
     {
-        session_start();
-        return self::$hasStarted = true;
-    }
-
-    /**
-     * Gets/generates the user hash for use in validating the session based on [Session]
-     * SessionValidation* site.ini settings. The default hash is result of md5('empty').
-     *
-     * @since 4.1
-     * @deprecated as of 4.4, only returns default md5('empty') hash now for BC.
-     * @return string MD5 hash based on parts of the user ip and agent string.
-     */
-    static public function getUserSessionHash()
-    {
-        return 'a2e4822a98337283e39f7b60acf85ec9';
+        return self::$hasStarted = self::getHandlerInstance()->sessionStart();
     }
 
     /**
@@ -508,7 +505,10 @@ class eZSession
      */
     static public function remove()
     {
-        if ( !self::$hasStarted )
+        // CLI scripts can use sessions and in that case session is forced to start.
+        // However, Symfony does not handle sessions in CLI (which seems to be normal), so session is never started.
+        // Hence check with session_id()
+        if ( !self::$hasStarted || session_id() === '' )
         {
              return false;
         }
@@ -550,19 +550,6 @@ class eZSession
     static public function userHasSessionCookie()
     {
         return self::$hasSessionCookie;
-    }
-
-    /**
-     * Returns if user session validated against stored data in db
-     * or if it was invalidated during the current request.
-     *
-     * @since 4.1
-     * @deprecated as of 4.4, only returns true for bc
-     * @return bool|null Null if user is not validated yet (for instance a new session).
-     */
-    static public function userSessionIsValid()
-    {
-        return true;
     }
 
     /**

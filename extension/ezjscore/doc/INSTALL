@@ -1,0 +1,137 @@
+eZ JSCore 1.2 extension installation documentation
+
+About eZ JSCore
+===========
+
+An ajax extension for easier client / server integrations using yui 3.0 and/or jQuery.
+It also includes tools for on demand script / css loading and json / xml encoding
+content.
+
+
+Requirements
+============
+
+    * eZ Publish 4.1+
+
+    * PHP 5.2.1+
+    or
+    * PHP 5.1.2+ & PHP JSON extension
+
+    * ezwebin / ezflow setup:
+      ezjscore does not extend ezwebin anymore as of version 1.2.0 and hence will only work
+      with webin 1.7.0 and higher.
+
+
+Installation
+============
+
+ 1. Unpack/unzip
+
+    Unpack the downloaded zip package into the 'extension' directory of your
+    eZ Publish installation.
+
+ 2. Activate extension
+
+    Activate the extension by using the admin interface ( Setup -> Extensions ) or by
+    prepending ezjscore to ActiveExtensions[] in settings/override/site.ini.append.php:
+
+    [ExtensionSettings]
+    ActiveExtensions[]=ezjscore
+
+ 3. Regenerate autoload array
+
+    Check the eZ Publish docs for your version on how this is done.
+    Or go to Setup -> Extensions and click on the button there.
+
+ 4. Clear caches
+
+    Clear INI and template caches (from admin 'Setup' tab or commandline).
+
+ 5. Rewrite rules for lib folder
+
+    eZ JSCore extension require correct re-write rules in order to load the necessary yui (yahoo user interface) files
+    from the file system. This is required only when INI setting ezjscore.ini[eZJSCore]LoadFromCDN is disabled.
+
+    Add to your Virtual-Host setup the following line:
+
+   ``^/extension/[^/]+/design/[^/]+/(stylesheets|flash|images|lib|javascripts?)/.* - [L]``
+
+ 6. Rewrite rules for script/css packing
+
+    eZ JsCore packs javascript/css files together to decrease server requests and file size for faster download.
+    On eZ Publish 4.0.x you'll need to make the following changes if you havn't already when installing ezoe
+    ( Online Editor 5.0 ).
+
+    * .htaccess
+       from:
+      RewriteRule !\.(gif|jpe?g|png|css|js|html)|var(.+)storage.pdf(.+)\.pdf$ index.php
+       to:
+      RewriteRule !(\.(gif|jpe?g|png|css|js|html?)|var(.+)storage.pdf(.+)\.pdf)$ index.php
+
+    * Virtual Host mode
+       add:
+      RewriteRule ^/var/([^/]+/)?cache/public/.* - [L]
+
+   If you don't manage to get these working, you can disable this feature setting ezjscore.ini[eZJSCore]Packer=disabled
+
+
+
+Using eZ JSCore Server functions from javascript
+================================================
+
+ezjscore AJAX calls
+-------------------
+
+Yui 3.x (uses Y.io):
+````````````````````
+
+{ezscript_require(array( 'ezjsc::yui3', 'ezjsc::yui3io') )}
+<script type="text/javascript">
+{literal}
+YUI( YUI3_config ).use('io-ez', function( Y )
+{
+    Y.io.ez( 'ezjsc::time', {data: 'postData=hi!', on: {success: function(id,r){ alert(r.responseJSON.error_text || r.responseJSON.content) }}} );
+});
+{/literal}
+</script>
+
+
+jQuery (uses jQuery.post):
+``````````````````````````
+
+{ezscript_require(array( 'ezjsc::jquery', 'ezjsc::jqueryio') )}
+<script type="text/javascript">
+{literal}
+    jQuery.ez( 'ezjsc::time', {postData: 'hi!'}, function(data){ alert(data.error_text || data.content) } );
+{/literal}
+</script>
+
+Set a preference
+----------------
+
+YUI 3.x
+```````
+
+{ezscript_require(array( 'ezjsc::yui3', 'ezjsc::yui3io') )}
+<script type="text/javascript">
+{literal}
+YUI( YUI3_config ).use('io-ez', function( Y )
+{
+    Y.io.ez.setPreference( 'preference_name', 'preference value' );
+    // will post to http://siteURL/user/preferences to set the preference
+    // preference name and value are automatically encoded
+});
+{/literal}
+</script>
+
+jQuery
+``````
+
+{ezscript_require(array( 'ezjsc::jquery', 'ezjsc::jqueryio') )}
+<script type="text/javascript">
+{literal}
+    jQuery.ez.setPreference( 'preference_name', 'preference value' );
+    // will post to http://siteURL/user/preferences to set the preference
+    // preference name and value are automatically encoded
+{/literal}
+</script>

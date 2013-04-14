@@ -1,0 +1,32 @@
+language: php
+
+php:
+  - 5.3.3
+  - 5.4
+
+branches:
+  only:
+    - master
+
+env:
+  global:
+    - DB_NAME="testdb"
+  matrix:
+    - DB="mysql" DB_USER="root"
+#    - DB="postgresql" DB_USER="postgres"
+
+before_script:
+ - if [ $DB == "mysql" ]; then mysql -e "create database IF NOT EXISTS $DB_NAME;" -u$DB_USER ; fi
+ - if [ $DB == "postgresql" ]; then psql -c "create database $DB_NAME;" -U $DB_USER ; fi
+ - pear channel-discover components.ez.no
+ - pear install -a ezc/eZComponents
+ - php bin/php/ezpgenerateautoloads.php -s -e
+
+script:
+  - php tests/runtests.php --dsn "$DB://${DB_USER}@127.0.0.1/$DB_NAME"
+
+notification:
+  email: false
+
+git:
+  depth: 30

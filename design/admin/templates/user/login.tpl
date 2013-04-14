@@ -30,53 +30,50 @@
 
 <form name="loginform" method="post" action={'/user/login/'|ezurl}>
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-
-<h1 class="context-title">{'Log in to the Administration Interface of eZ Publish'|i18n( 'design/admin/user/login' )}</h1>
-
-{* DESIGN: Mainline *}<div class="header-mainline"></div>
-
-{* DESIGN: Header END *}</div></div></div></div></div></div>
-
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
-
-<div class="context-attributes">
-
-<div class="block">
-    <p>{'Please enter a valid username/password combination then click "Log in".'|i18n( 'design/admin/user/login' )}</p>
-    <p>{'Use the "Register" button to create a new account.'|i18n( 'design/admin/user/login' )}</p>
+<div class="login-inputs context-attributes">
+    
     {if and( is_set( $User:max_num_of_failed_login ), ne( $User:max_num_of_failed_login, false() ) )}
+        <div class="block login-text-wrapper">
         {'The user will not be allowed to login after <b>%max_number_failed</b> failed login attempts.'|i18n( 'design/admin/user/login',, hash( '%max_number_failed', $User:max_num_of_failed_login ) )}
-    {/if}
-</div>
+        </div>
+    {/if}    
 
-<div class="block">
-    <label for="id1">{'Username'|i18n( 'design/admin/user/login' )}:</label>
-    <input class="halfbox" type="text" size="10" name="Login" id="id1" value="{$User:login|wash}" tabindex="1" title="{'Enter a valid username in this field.'|i18n( 'design/admin/user/login' )}" />
-</div>
-
-<div class="block">
-    <label for="id2">{'Password'|i18n( 'design/admin/user/login' )}:</label>
-    <input class="halfbox" type="password" size="10" name="Password" id="id2" value="" tabindex="1" title="{'Enter a valid password in this field.'|i18n( 'design/admin/user/login' )}" />
-</div>
-
-{if and( ezini_hasvariable( 'Session', 'RememberMeTimeout' ), ezini( 'Session', 'RememberMeTimeout' ) )}
     <div class="block">
-        <input type="checkbox" tabindex="1" name="Cookie" id="id3" /><label for="id3" style="display:inline;">{"Remember me"|i18n("design/admin/user/login")}</label>
+        <div class="login-input-wrapper">
+            <div id="icon-login"></div>
+            <input class="halfbox" type="text" autofocus="autofocus" size="10" name="Login" id="logintext" placeholder="{'Username'|i18n( 'design/admin/user/login' )}" tabindex="1" title="{'Enter a valid username in this field.'|i18n( 'design/admin/user/login' )}" />
+        </div>
     </div>
-{/if}
+
+    <div class="block">
+        <div class="login-input-wrapper">
+            <div id="icon-password"></div>
+            <input class="halfbox" type="password" size="10" name="Password" id="passwordtext" placeholder="{'Password'|i18n( 'design/admin/user/login' )}" tabindex="2" title="{'Enter a valid password in this field.'|i18n( 'design/admin/user/login' )}" />
+        </div>
+    </div>
+
+    {if and( ezini_hasvariable( 'Session', 'RememberMeTimeout' ), ezini( 'Session', 'RememberMeTimeout' ) )}
+        <div class="block login-text-wrapper">
+            <input type="checkbox" name="Cookie" id="id3" /><label for="id3" style="display:inline;">{"Remember me"|i18n("design/admin/user/login")}</label>
+        </div>
+    {/if}
 
 </div>
 
-{* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
-    <input class="button" type="submit" name="LoginButton" value="{'Log in'|i18n( 'design/admin/user/login', 'Login button' )}" tabindex="1" title="{'Click here to log in using the username/password combination entered in the fields above.'|i18n( 'design/admin/user/login' )}" />
-    <input class="button" type="submit" name="RegisterButton" value="{'Register'|i18n( 'design/admin/user/login', 'Register button' )}" tabindex="1" title="{'Click here to create a new account.'|i18n( 'design/admin/user/login' )}" />
+    <div class="login-input-wrapper">
+        <input class="defaultbutton" type="submit" id="loginbutton" name="LoginButton" value="{'Log in'|i18n( 'design/admin/user/login', 'Login button' )}" tabindex="3" title="{'Click here to log in using the username/password combination entered in the fields above.'|i18n( 'design/admin/user/login' )}" />
+    </div>
+    <div class="login-text-wrapper">
+        {'or'|i18n( 'design/admin/user/login')}
+        <br/>
+        <a href={'/user/register'|ezurl()}>{'Register new account'|i18n( 'design/admin/user/login')}</a>
+    </div>
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 <input type="hidden" name="RedirectURI" value="{$User:redirect_uri|wash}" />
@@ -84,15 +81,3 @@
 </form>
 
 </div>
-
-
-
-
-{literal}
-<script type="text/javascript">
-    window.onload=function()
-    {
-        document.getElementById('id1').focus();
-    }
-</script>
-{/literal}

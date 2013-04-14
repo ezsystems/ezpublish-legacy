@@ -1,0 +1,1298 @@
+/* ADMIN2 LAYOUT CSS 20100107 */
+
+
+/* GENERIC */
+
+div#fix
+{
+    float: left;
+    width: 100%;
+}
+
+span.vertical-seperator
+{
+    height: 100%;
+    width: 4px;
+    border-right: 1px solid #bbb;
+    margin-left: 12px;
+    margin-right: 16px;
+}
+
+.inline { display: inline; }
+
+label.inline { padding-right: 0.1em; }
+
+div.widthcontrol-grippy
+{
+    position:absolute;
+    top:320px;
+    left:-15px;
+    height: 33px;
+    width: 15px;
+    background: url('../images/3/sprite.png') no-repeat 0 -505px;
+    z-index: 9;
+}
+
+div.widthcontrol-grippy:hover,
+div.widthcontrol-grippy:focus,
+div.widthcontrol-grippy:active {
+    background: url('../images/3/sprite.png') no-repeat -20px -505px;
+}
+
+#leftmenu a.show-hide-control
+{
+display:none;
+}
+
+.yui3-js-enabled #leftmenu a.show-hide-control
+{
+display:block;
+}
+
+a.show-hide-control
+{
+    position:absolute;
+    top:300px;
+    height: 33px;
+    width: 15px;
+    background: url('../images/3/sprite.png') no-repeat 0 -422px;
+    -webkit-transition: none;
+    -moz-transition: none;
+    -ms-transition: none;
+    -o-transition: none;
+    transition: none;
+    z-index: 11;
+}
+
+a.show-hide-control:hover,
+a.show-hide-control:focus,
+a.show-hide-control:active {
+    background: url('../images/3/sprite.png') no-repeat -20px -422px;
+}
+
+/* link with image and text (in a span) inside it */
+a.image-text
+{
+    text-decoration: none;
+}
+
+a.image-text img
+{
+    vertical-align: middle;
+}
+
+a.image-text:hover > span
+{
+    text-decoration: underline;
+}
+
+
+/* HEADER */
+
+#header-usermenu
+{
+    display: block;
+    float: right;
+    text-align: center;
+    padding: 2px;
+    margin-top: 12px;
+    margin-bottom: 20px;
+}
+
+#header-usermenu a
+{
+    color: #ddd;
+    text-decoration: none;
+    font-size:0.94em;
+}
+
+#header-usermenu a:hover { color: #fff; }
+
+#header-usermenu span.header-usermenu-name
+{
+    display: block;
+}
+
+#header-logo #text-push
+{
+    display: block;
+    height:40px;
+    width:90px;
+}
+
+#header-logo a, #header-logo span
+{
+    float: left;
+    width: 94px;
+    height: 65px;
+    display: block;
+    text-align: left;
+    text-decoration: none;
+    color:#f4f4f4;
+    font-size:11px;
+    background: transparent url('../images/3/logo_separator_sprite.png') -117px 11px no-repeat;
+    padding-left:11px;
+    padding-right:11px;
+}
+
+#header-search
+{
+    text-align: right;
+    float: right;
+    padding: 10px 20px 0;
+    text-align: right;
+}
+
+.loginpage #header #header-design
+{
+    height: 100%;
+    background: transparent url('../images/3/ez_logo_big_community.png') no-repeat center 80%;
+}
+
+
+/* TOP MENU (TABS) */
+
+#header-topmenu
+{
+    margin-left:120px;
+    margin-right:350px;
+    padding-top: 20px;
+    min-height: 25px;
+}
+
+a
+{
+    -webkit-transition: color 300ms ease;
+    -moz-transition: color 300ms ease;
+    -ms-transition: color 300ms ease;
+    -o-transition: color 300ms ease;
+    transition: color 300ms ease;
+}
+
+#header-topmenu ul, ul.tabs
+{
+    margin: 0;
+}
+
+ul.tabs
+{
+    width: 100%;
+}
+
+#header-topmenu ul li, ul.tabs li
+{
+    float: left;
+    text-align: center;
+    list-style-type: none;
+    margin: 0;
+}
+
+#header-topmenu ul li a, #header-topmenu ul li span.disabled
+{
+    display: block;
+    text-decoration: none;
+    padding: 2px 15px 2px 15px;
+    margin-left: 1px;
+    margin-top: 2px;
+    margin-bottom: 8px;
+    min-height: 18px;
+}
+
+ul.tabs li a, ul.tabs li span.disabled
+{
+    display: block;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 2px 15px;
+    margin:2px 0 5px 1px;
+    min-height: 16px;
+}
+
+#header-topmenu ul li.selected a, #header-topmenu ul li a:hover, #header-topmenu ul li.active a
+{
+    color:#ffe9bd;
+}
+
+#header-topmenu ul li.selected a, #header-topmenu ul li.selected span.disabled, ul.tabs li.selected a
+{
+    margin-bottom: -1px;
+}
+
+#header-topmenu ul li span.disabled, span.disabled, ul.tabs.disabled li a
+{
+    color: #888;
+}
+
+#header-topmenu ul li.first a, #header-topmenu ul li.first span.disabled
+{
+    margin-left: 0.1em;
+}
+
+ul.tabs li.first a, ul.tabs li.first span.disabled
+{
+    margin-left: 0;
+}
+
+div.tab-content
+{
+    height: 20em;
+    overflow-y: scroll;
+    padding: 1em;
+}
+
+div.tabs-content.disabled div.tab-content
+{
+    display: none;
+}
+
+
+/* PATH */
+
+#path
+{
+    padding: 0;
+    text-align: left;
+    min-height: 24px;
+}
+
+#path p { margin: 0.5em 0 0 0; }
+
+#path span
+{
+    color: #333;
+}
+
+
+
+/* COLUMNS */
+
+#columns
+{
+    min-height:100%;
+    position:relative;
+    margin: 0 auto -1px;
+    background: white;
+}
+
+#maincolumn
+{
+    border-right: 1px #999 solid;
+    margin-right: 190px;
+    position: relative;
+}
+
+#maincontent
+{
+    margin: 0 0 0 15em;
+    min-height: 200px;
+    border-radius: 2px;
+    position: relative;
+    padding-top:1px;
+    padding-bottom:1px;
+}
+
+#maincontent-design
+{
+    margin: 0 20px;
+    background:white;
+    padding: 0.8em 1.5em 10px 1.5em;
+    position:relative;
+}
+
+.loginpage #maincontent-design, .loginpage #columns
+{
+    box-shadow: none;
+    background: none;
+}
+
+#leftmenu
+{
+    float: left;
+    width: 15em;
+    min-height:100%;
+    padding-top:1px;
+    padding-bottom:1px;
+    min-height: 400px;
+    margin-bottom: 20px;
+}
+
+.leftmenu-items
+{
+    font-size: 1.05em;
+}
+
+.leftmenu-items li
+{
+    margin-bottom:0.4em;
+}
+
+#leftmenu input[type="text"]
+{
+    width: 90%;
+}
+
+#rightmenu
+{
+    float: right;
+    overflow: hidden;
+    width: 181px;
+    border-radius: 2px 0 0 2px;
+    padding-top:1px;
+    padding-bottom: 1px;
+    min-height: 400px;
+    position: relative;
+}
+
+div#columns.hide-rightmenu div#rightmenu  { display: none; }
+div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
+
+/* PANELS SEPARATORS */
+#left-panels-separator, #right-panels-separator
+{
+    position: absolute;
+    width:50px;
+    background: url(../images/3/logo_separator_sprite.png) repeat-y 0 0;
+    top:0;
+    bottom:0;
+    z-index:1;
+}
+
+.panels-separator-top
+{
+    background: url(../images/3/logo_separator_sprite.png) no-repeat -57px 0;
+    width:50px;
+    height:21px;
+    position: absolute;
+    top:0;
+}
+.panels-separator-bottom
+{
+    background: url(../images/3/logo_separator_sprite.png) no-repeat -57px -79px;
+    width:50px;
+    height:21px;
+    position: absolute;
+    bottom:0;
+}
+
+
+#canvas-top
+{
+    height:20px;
+    background: url(../images/3/textile.png) repeat-x;
+    box-shadow: inset 0 -5px 5px -5px #000000;
+}
+
+#canvas-bottom
+{
+    height:20px;
+    background: url(../images/3/textile.png) repeat-x;
+    box-shadow: inset 0 5px 5px -5px #000000;
+}
+
+/* RIGHTMENU */
+
+#rightmenu-design
+{
+    margin-left:20px;
+    padding: 0.8em 1em 10px 1em;
+    background:white;
+    position: relative;
+
+}
+
+/* This is not supported by IE6, some DOM cleanup is needed to avoid it */
+#rightmenu-design > div
+{
+    margin-top: 0.5em;
+    min-width: 12em;
+}
+
+#rightmenu-design ul
+{
+    margin-left: 1.5em;
+}
+
+#rightmenu-design select
+{
+    width:145px;
+}
+
+#rightmenu label { font-weight:normal; }
+
+
+
+/* LEFTMENU */
+
+#leftmenu-design-wrapper
+{
+    position:relative;
+    min-height: 100%;
+}
+
+#leftmenu-design
+{
+    margin-right: 20px;
+    padding: 0.8em 0.8em 0.8em 0.8em;
+    background:white;
+    min-height: 100%;
+    position: relative;
+    min-height: 350px;
+}
+
+#leftmenu-design ul { margin-left: 1.5em; color: #aaa; }
+div.box-header { margin-top: 0.5em; }
+
+
+
+
+div#leftmenu div.translations label
+{
+    font-weight: normal;
+    white-space: normal;
+}
+
+ul.leftmenu-items li a
+{
+    text-decoration: none;
+}
+
+ul.leftmenu-items li a:hover
+{
+    text-decoration: underline;
+}
+
+ul.leftmenu-items li.current a
+{
+    color: #E24602;
+    font-weight: bold;
+}
+
+/* WIDTH CONTROL */
+
+#widthcontrol-handler
+{
+    position: absolute;
+    right: -30px;
+    top:-20px;
+    bottom: 0; /* strech div to full width of relative box */
+    width: 10px;
+    height: 5000px;
+    cursor: col-resize;
+    z-index:11;
+/*    background: #f8f8f8;*/
+}
+
+
+
+/* FOOTER */
+
+#footer
+{
+    padding: 0 0.8em;
+    position: relative;
+    display: block;
+    float: none;
+    clear: both;
+}
+
+#footer p {
+    display: block;
+    text-align: center;
+}
+
+#footer.hidden
+{
+    display: none;
+}
+
+
+
+/* CONTENTSTRUCTURE TREE MENU STYLES */
+
+div#contentstructure
+{
+    overflow: hidden;
+    padding-top: 0.5em;
+}
+
+div#contentstructure ul#content_tree_menu
+{
+    margin-top: 0;
+    margin-left: 0.25em;
+    padding-left: 0.5em;
+}
+
+div#contentstructure ul#content_tree_menu ul
+{
+    margin: 0;
+    padding-top: 4px;
+    padding-bottom: 0;
+}
+
+div#contentstructure ul#content_tree_menu ul ul
+{
+    margin-left: 0;
+}
+
+div#contentstructure ul#content_tree_menu li
+{
+    list-style-type: none;
+    white-space: nowrap;
+    position: relative;
+}
+
+div#contentstructure ul#content_tree_menu ul li
+{
+    margin: 0;
+    padding-top: 0;
+    padding-left: 20px;
+    padding-bottom: 4px;
+    background-image: url(../images/bg_content_tree_li.png);
+    background-repeat: no-repeat;
+}
+
+div#contentstructure ul#content_tree_menu ul li.lastli
+{
+    background-position: left -9990px;
+    padding-bottom: 2px;
+}
+
+div#contentstructure ul#content_tree_menu li img
+{
+    vertical-align: middle;
+}
+
+div#contentstructure a.nodeicon
+{
+    margin-left: 0;
+    padding-left: 0;
+}
+
+div#contentstructure li span.node-name-normal
+{
+    font-weight: normal;
+    font-size:1.05em;
+}
+
+div#contentstructure li.currentnode > a.image-text span.node-name-normal, div#contentstructure li.currentnode > a.image-text span.node-name-hidden, div#contentstructure li.currentnode > a.image-text span.node-name-hiddenbyparent /* Highlighting of current node */
+{
+    color: #E24602;
+    padding: 0 0.25em 0 0.2em;
+}
+
+div#contentstructure li a.image-text span.node-name-hidden, div#contentstructure li.currentnode li a.image-text span.node-name-hidden
+{
+    font-weight: normal;
+    font-style: normal;
+    background-color: #ddd;
+    padding: 0 0.2em 0 0.2em;
+}
+
+div#contentstructure li a.image-text span.node-name-hiddenbyparent, div#contentstructure li.currentnode li a.image-text span.node-name-hiddenbyparent
+{
+    font-weight: normal;
+    font-style: normal;
+    background-color: #eee;
+    padding: 0 0.2em 0 0.2em;
+}
+
+div#contentstructure span.node-hidden, div#contentstructure span.node-hiddenbyparent
+{
+    display: none;
+}
+
+a.openclose, span.openclose
+{
+    text-decoration: none;
+}
+
+a.openclose img, span.openclose img
+{
+    margin: 0;
+    cursor: default;
+}
+
+div#contentstructure span.openclose
+{
+    visibility: hidden;
+}
+
+div#contentstructure ul#content_tree_menu ul a.openclose-open, div#contentstructure ul#content_tree_menu ul a.openclose-close, div#contentstructure ul#content_tree_menu ul a.openclose-busy, div#contentstructure ul#content_tree_menu ul a.openclose-error
+{
+    position: absolute;
+    left: 0;
+    _left: -20px; /* to fix a bug in IE 6 */
+    top: 0;
+    width: 16px;
+    height: 16px;
+    background: transparent url( '../images/content_tree-icons.png' ) no-repeat center 0px scroll;
+}
+
+div#contentstructure ul#content_tree_menu ul a.openclose-close
+{
+    background-position: center -16px;
+}
+
+div#contentstructure ul#content_tree_menu ul a.openclose-error
+{
+    background-position: center -32px;
+}
+
+div#contentstructure ul#content_tree_menu ul a.openclose-busy
+{
+    background-position: center -48px;
+    cursor: progress;
+}
+
+div#contentstructure ul#content_tree_menu div.loaded
+{
+    display: block;
+}
+
+div#contentstructure ul#content_tree_menu div.error
+{
+    white-space: normal;
+    color: grey;
+    margin: 10px 0;
+    padding: 4px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+div#contentstructure ul#content_tree_menu div.error > span
+{
+    display: inline-block;
+    height: 9px;
+    width: 9px;
+    border-radius: 9px;
+    margin-right: 6px;
+    background: Red;
+}
+
+div#contentstructure ul#content_tree_menu div.hidden
+{
+    display: none;
+}
+
+
+
+/* POPUP MENU */
+
+div.popupmenu
+{
+    width: 14em;
+    margin: 0px;
+    padding: 2px;
+    background-color: #fff;
+    border: 1px solid #999;
+    box-shadow: 3px 3px 3px 0px #bbb;
+    border-radius:3px;
+    font-size:0.90em;
+    color:#333;
+
+    /* These three are essential */
+    position: absolute;
+    z-index: 20;
+    display: none;
+}
+
+div.popupmenu div.popupmenuheader
+{
+    background-color: #6f6e6b;
+    color:#eee;
+    border-bottom: 1px solid #bbb;
+}
+
+div.popupmenu#EditSubmenu
+{
+    z-index: 21;
+}
+
+div.popupmenu h3
+{
+    margin: 0;
+    padding: 0.2em 0.5em 0.2em 0.5em;
+    float: left;
+}
+
+div.popupmenu div.window-close
+{
+    float: right;
+    padding: 1px;
+}
+
+div.popupmenu div.window-close p
+{
+    margin: 0;
+    color: #000000;
+    font-weight: bold;
+    background-color: #ecece4;
+    padding: 0.1em 0.3em 0.1em 0.3em;
+    border: 1px solid #ffffff;
+    border-bottom-color: #bfbeb6;
+    border-right-color: #bfbeb6;
+}
+
+div.popupmenu a
+{
+    color: #000000;
+    padding: 0.2em 0.3em 0.2em 0.3em;
+    text-decoration: none;
+    cursor: default;
+    display: block;
+}
+
+div.popupmenu a.more
+{
+    background-image: url(../images/more-arrow.gif);
+    background-repeat: no-repeat;
+    background-position: right center;
+}
+
+div.popupmenu a.menu-item-disabled
+{
+    color: #CECECE;
+}
+
+div.popupmenu a
+{
+    -webkit-transition: none;
+    -moz-transition: none;
+    -ms-transition: none;
+    -o-transition: none;
+    transition: none;
+}
+
+div.popupmenu a:hover
+{
+    background-color: #D1DFE9;
+    text-decoration: none;
+    cursor: default;
+}
+
+div.popupmenu hr
+{
+    border: none;
+    border-top: 1px solid #c0c0c0;
+}
+
+
+
+/* BOX MODEL */
+
+.box-content div.context-toolbar.block
+{
+    padding: 0 0.5em 0 0.5em;
+}
+
+.box-content div.block
+{
+    padding-bottom: 1em;
+}
+
+.box-bc .box-ml, .box-ml
+{
+    padding: 0em;
+}
+
+#controlbar-top .box-bc
+{
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+#controlbar-top .box-bc .box-ml
+{
+    margin: 0px 3px 0px 3px;
+    padding: 0.5em;
+}
+
+#controlbar-top .block
+{
+    margin:0;
+}
+
+h1.context-title
+{
+    font-size: 1.25em;
+}
+
+h2.context-title
+{
+    font-size: 1.15em;
+}
+
+div.context-information, span.classattribute-description
+{
+    color: #333;
+    font-size: 0.8em;
+    padding: 0 0.5em 0 0.5em;
+    margin-bottom: 1.5em;
+    position: relative;
+}
+
+span.classattribute-description, p.class-description
+{
+    font-weight: normal;
+    white-space: normal;
+    min-height: 15px;
+}
+
+span.classattribute-description:hover, p.class-description:hover, div.context-information p:hover
+{
+    color: #111;
+}
+
+div.context-information p.left
+{
+    width: 48.5%;
+    margin-top:0;
+    float: left;
+}
+
+div.context-information p.right
+{
+    width: 48.5%;
+    margin-top:0;
+    float: right;
+    text-align: right;
+}
+
+div.context-information p.center
+{
+    text-align: center;
+    margin: 0 auto 0 auto;
+    padding: 0.3em 0 0.3em 0;
+}
+
+
+div.content-navigation div.context-information p.left
+{
+    width: 68%;
+    font-size:1.15em;
+}
+
+div.content-navigation div.context-information p.right
+{
+    position:absolute;
+    top: -2.5em;
+    width: 30%;
+    right:0em;
+}
+
+div.context-block
+{
+    margin-bottom: 1.5em;
+}
+
+div.context-block h1.context-title img, div.context-block h2.context-title img
+{
+    vertical-align: middle;
+    margin: -4px 8px 2px 0;
+}
+
+/* MENU-BLOCK */
+
+.menu-block
+{
+    padding: 0.5em 0 1em 0;
+}
+
+.menu-block ul
+{
+    margin: 0;
+    width: 100%;
+}
+
+.menu-block li
+{
+    float: left;
+    text-align: center;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+
+}
+
+.menu-block li a
+{
+    padding: 0 0.5em;
+    margin-left: 4px;
+    text-decoration: none;
+    display: block;
+    border: 1px solid #999;
+}
+
+.menu-block li:first-child a
+{
+    margin-left: 0;
+}
+
+.menu-block li.disabled a
+{
+    background-color: #f3f3f3;
+}
+
+
+/* BUTTONS */
+
+p.versions
+{
+    margin: 0 0 0.6em;
+    padding: 4px 10px;
+}
+
+p.table-preferences
+{
+    margin: 0 0 1.2em;
+}
+
+p.table-preferences .current
+{
+    padding: 1px 10px;
+    font-weight: bold;
+}
+
+p.table-preferences a
+{
+    padding: 1px 10px;
+    text-decoration: none;
+}
+
+input.button, input.defaultbutton, input.button-disabled
+{
+    width: auto;
+    overflow: visible;
+    padding: 0.1em 0.5em;
+}
+
+input.button:hover
+{
+    border: 1px solid #999;
+}
+
+/* SEARCH */
+
+.searchblock
+{
+    position: relative;
+    float:left;
+}
+
+#searchtextwrapper
+{
+    float:left;
+
+    border: 4px solid rgba(255,255,255,0.1);
+    border-radius: 5px;
+}
+
+#searchtext
+{
+    height: 35px;
+    padding: 0 5px 0 25px;
+    border:none;
+    border-radius: 5px;
+    line-height: 18px !important;
+    font-size: 1.2em;
+    font-weight: bold;
+    font-style: italic;
+    box-shadow: -1px -1px 1px #464a4b;
+    background: #abadac;
+}
+
+#searchtext:focus
+{
+    background-color: #f5f3dd;
+}
+
+.searchbuttonfield
+{
+    height: 35px;
+    float:left;
+    width: 35px;
+    margin-left:5px;
+    border: 4px solid rgba(255,255,255,0.1);
+    border-radius: 5px;
+    background: transparent url(../images/3/sprite.png) no-repeat 9px -578px;
+
+}
+
+.searchbuttonfield:hover
+{
+    cursor: pointer;
+    border-color: #567975;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.searchscope
+{
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    top: 15px;
+    left: 10px;
+    background: transparent url(../images/3/sprite.png) no-repeat 0 -868px;
+}
+
+.searchscope-body label
+{
+    font-size:1em;
+}
+
+.searchscope:hover
+{
+    cursor: pointer;
+}
+
+.searchscope-menu-container .searchscope-pane
+{
+    display: none;
+}
+
+.searchscope-pane
+{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #C1C1C1;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0 0 13px rgba(0, 0, 0, 0.31);
+    margin-top: 6px;
+    position: absolute;
+    left: -80px;
+    width: 250px;
+    z-index: 21;
+    text-align: left;
+}
+
+.searchscope-pane.active,
+.searchscope-menu-container.active .searchscope-pane
+{
+    display: block;
+}
+
+.searchscope-pane,
+.searchscope-pane > .searchscope-body
+{
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.searchscope-pane > .searchscope-body
+{
+    border-top: 1px solid #DDDDDD;
+    display: block;
+    padding: 8px 10px;
+    position: relative;
+}
+
+.searchscope-pane > .searchscope-title
+{
+    font-weight: bold;
+    font-size: 12px;
+    color: #111111;
+    text-shadow: 1px 1px 0 white;
+    padding: 8px 10px 5px 10px;
+    background: #f5f5f5;
+    background: -moz-linear-gradient(#f4f4f4, #f5f5f5);
+    background: -webkit-linear-gradient(#f4f4f4, #f5f5f5);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#f4f4f4', endColorstr='#f5f5f5')";
+    border-bottom: 1px solid #f0f3f3;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px
+}
+
+.searchscope-pane .close
+{
+    display: block;
+    float: right;
+    margin-right: 8px;
+    margin-top: 7px;
+    width: 16px;
+    height: 16px;
+    background: transparent url(../images/3/sprite.png) no-repeat -28px -868px;
+}
+
+.searchscope-pane .close .mini-icon-remove-close
+{
+    line-height: 16px;
+    height: 16px;
+    color: #CCC;
+}
+
+.login-inputs
+{
+    padding-top:10px;
+    padding-bottom: 10px;
+}
+
+input::-webkit-input-placeholder {
+   color:#a2a2a2;
+   font-style: italic;
+}
+
+input:-moz-placeholder {
+   color:#a2a2a2;
+   font-style: italic;
+}
+
+.login-input-wrapper
+{
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-radius: 5px 5px 5px 5px;
+    text-align: left;
+    display: table;
+    margin: 0 auto;
+    position:relative;
+
+}
+
+.login-input-wrapper:hover
+{
+    border-color:#567975;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.login-input-wrapper:hover #loginbutton {
+    color: #ffe9bd;
+}
+
+
+.login-text-wrapper
+{
+    color:#b7b7b7;
+    margin-top:15px;
+    text-align: center;
+}
+
+.login-text-wrapper a
+{
+    display: inline-block;
+    margin-top: 13px;
+    padding: 2px;
+    color: #6DCFF6;
+}
+
+#logintext, #passwordtext
+{
+    line-height: 35px;
+    padding: 4px 5px 4px 45px;
+    border:none;
+    border-radius: 5px;
+    line-height: 18px !important;
+    font-size: 1.6em;
+    font-weight: bold;
+    box-shadow: -1px -1px 1px #464a4b;
+    background: #d5d6d6;
+    width:250px;
+    outline: none;
+}
+
+#logintext::-webkit-input-placeholder,
+#passwordtext::-webkit-input-placeholder,
+#logintext::-moz-placeholder,
+#passwordtext::-moz-placeholder
+{
+    line-height: 24px;
+    font-weight: normal;
+}
+
+#logintext:focus, #passwordtext:focus
+{
+    background-color: #f5f3dd;
+    font-style: normal;
+}
+
+#icon-login
+{
+    position:absolute;
+    left:11px;
+    top:8px;
+    background: url('../images/3/sprite.png') no-repeat 0 -287px;
+    width: 26px;
+    height:26px;
+}
+
+#icon-password
+{
+    position:absolute;
+    left:11px;
+    top:14px;
+    background: url('../images/3/sprite.png') no-repeat 0 -361px;
+    width: 24px;
+    height:11px;
+}
+
+
+#loginbutton
+{
+    background: none;
+    color:#b7b7b7;
+    border-radius: 5px;
+    border: 1px solid #3a3d41;
+    -moz-box-shadow: inset 1px 1px #6f6e6b, 1px 1px #6f6e6b;
+    -webkit-box-shadow: inset 1px 1px #6f6e6b, 1px 1px #6f6e6b;
+    box-shadow: inset 1px 1px #6f6e6b, 1px 1px #6f6e6b;
+    line-height: 30px;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin:0;
+    text-shadow: none;
+}
+
+/* FIXED CONTROLBAR DEPENDING ON SCROLL */
+.yui3-js-enabled .controlbar-fixed
+{
+    z-index:200;
+    position:fixed;
+    width:100%;
+    top: -0.6em;
+    left:0;
+    border-radius:0;
+}
+
+.scroll-to-top
+{
+    position:fixed;
+    bottom:0;
+    right:0;
+    background:#000;
+    opacity:0;
+    padding:0.5em;
+    border-top-left-radius:5px;
+    color:#fff;
+    text-decoration:none;
+    display:none;
+    z-index: 100;
+}
+.yui3-js-enabled .scroll-to-top
+{
+    display:block;
+}
+.scroll-to-top:hover
+{
+color:#fff;
+}
+
+#dashboard-logo
+{
+    float:left;
+    width:151px;
+    background: url(../images/3/logo_separator_sprite.png) no-repeat -239px 0;
+    height:72px;
+    margin-top:20px;
+    margin-left:20px;
+}
+
+#mainteinance-text
+{
+    margin-left: 182px;
+    font-size: 0.7em;
+}
+
+#mainteinance-text #ez-version,
+#mainteinance-text .edition-info,
+#footer-design .edition-info {
+    font-weight: bold;
+    color: #ff8300;
+}
+

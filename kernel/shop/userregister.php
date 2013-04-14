@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -23,7 +23,7 @@ $user = eZUser::currentUser();
 $firstName = '';
 $lastName = '';
 $email = '';
-if ( $user->isLoggedIn() )
+if ( $user->isRegistered() )
 {
     $userObject = $user->attribute( 'contentobject' );
     $userMap = $userObject->dataMap();
@@ -38,7 +38,7 @@ $street1 = $street2 = $zip = $place = $state = $country = $comment = '';
 
 // Check if user has an earlier order, copy order info from that one
 $orderList = eZOrder::activeByUserID( $user->attribute( 'contentobject_id' ) );
-if ( count( $orderList ) > 0 and  $user->isLoggedIn() )
+if ( count( $orderList ) > 0 and  $user->isRegistered() )
 {
     $accountInfo = $orderList[0]->accountInformation();
     $street1 = $accountInfo['street1'];

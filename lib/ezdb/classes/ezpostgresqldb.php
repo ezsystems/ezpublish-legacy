@@ -2,7 +2,7 @@
 /**
  * File containing the eZPostgreSQLDB class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -561,12 +561,14 @@ class eZPostgreSQLDB extends eZDBInterface
      * In this case that means the current value of the sequence assigned
      * <var>$table</var>
      *
-     * @param string $table
-     * @param string $column
-     * @return int The most recent value for the sequence
+     * @param string|bool $table
+     * @param string|bool $column
+     * @return int|bool The most recent value for the sequence
      */
     function lastSerialID( $table = false, $column = 'id' )
     {
+        $id = false;
+
         if ( $this->isConnected() )
         {
             $sql = "SELECT currval( '" . $table . "_s')";
@@ -582,6 +584,7 @@ class eZPostgreSQLDB extends eZDBInterface
                 $id = (int)$array[0];
             }
         }
+
         return $id;
     }
 

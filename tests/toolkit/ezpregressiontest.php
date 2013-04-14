@@ -2,7 +2,7 @@
 /**
  * File containing the ezpRegressionTest class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -69,7 +69,8 @@ abstract class ezpRegressionTest extends ezpTestCase
      *
      * @param string $dir
      * @param array $total By ref list of files (the result of this function)
-     * @param false|string $onlyWithExtension
+     * @param bool|string $onlyWithExtension
+     * @return void
      */
     final protected function readDirRecursively( $dir, &$total, $onlyWithExtension = false )
     {

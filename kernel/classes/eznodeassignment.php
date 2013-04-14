@@ -2,7 +2,7 @@
 /**
  * File containing the eZNodeAssignment class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -311,20 +311,27 @@ class eZNodeAssignment extends eZPersistentObject
      */
     function purge( $parentNodeID = false, $contentObjectID = false )
     {
-        $db = eZDB::instance();
-        if ( $parentNodeID == false and $contentObjectID == false )
+        if ( $parentNodeID == false && $contentObjectID == false )
         {
-            $nodeAssignmentID = $this->attribute( 'id' );
-            $sqlQuery = "DELETE FROM eznode_assignment WHERE id='$nodeAssignmentID'";
-            $db->query( $sqlQuery );
+            eZDB::instance()->query( "DELETE FROM eznode_assignment WHERE id=" . (int)$this->attribute( 'id' ) );
         }
         else
         {
-            $parentNodeID =(int) $parentNodeID;
-            $contentObjectID =(int) $contentObjectID;
-            $sqlQuery = "DELETE FROM eznode_assignment WHERE parent_node='$parentNodeID' AND contentobject_id='$contentObjectID'";
-            $db->query( $sqlQuery );
+            self::purgeByParentAndContentObjectID( $parentNodeID, $contentObjectID );
         }
+    }
+
+    /**
+     * Remove assignments based on their $parentNodeID and $contentObjectID
+     *
+     * @param int $parentNodeID
+     * @param int $contentObjectID
+     */
+    public static function purgeByParentAndContentObjectID( $parentNodeID, $contentObjectID )
+    {
+        eZDB::instance()->query(
+            "DELETE FROM eznode_assignment WHERE parent_node=" . (int)$parentNodeID ." AND contentobject_id=" . (int)$contentObjectID
+        );
     }
 
     /*!

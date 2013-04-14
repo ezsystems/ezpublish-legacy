@@ -10,7 +10,7 @@
 {section var=SearchResult loop=$search_result sequence=array( bglight, bgdark )}
 <tr class="{$SearchResult.sequence}">
 <td>
-{$SearchResult.class_identifier|class_icon( small, $SearchResult.class_name )}&nbsp;<a href={$SearchResult.item.url_alias|ezurl}>{$SearchResult.item.name|wash}</a>
+{node_view_gui view=line content_node=$SearchResult.item}
 </td>
 <td>
 {$SearchResult.item.class_name|wash}

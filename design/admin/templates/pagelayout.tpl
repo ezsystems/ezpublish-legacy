@@ -1,239 +1,246 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{$site.http_equiv.Content-language|wash}" lang="{$site.http_equiv.Content-language|wash}">
-
+<!DOCTYPE html>
+<html lang="{$site.http_equiv.Content-language|wash}">
 <head>
+{* Do some uncacheable left + right menu stuff before cache-block's *}
+{def $ui_context_edit      = eq( $ui_context, 'edit' )
+     $content_edit         = and( $ui_context_edit, eq( $ui_component, 'content' ) )
+     $hide_left_menu       = first_set( $module_result.content_info.persistent_variable.left_menu, $content_edit|not )|not
+     $hide_right_menu      = first_set( $module_result.content_info.persistent_variable.extra_menu, $ui_context_edit|not )|not
+     $collapse_right_menu  = ezpreference( 'admin_right_menu_show' )|not
+     $admin_left_size      = ezpreference( 'admin_left_menu_size' )
+     $admin_theme          = ezpreference( 'admin_theme' )
+     $left_size_hash       = 0
+     $search_hash          = array( cond( ezhttp_hasvariable( 'SectionID', 'get' ), ezhttp( 'SectionID', 'get' ) ) )
+     $user_hash = concat( $current_user.role_id_list|implode( ',' ), ',', $current_user.limited_assignment_value_list|implode( ',' ) )
+}
+{if $hide_right_menu}
+{set $collapse_right_menu = false()}
+{/if}
+
+{if and( $ui_context_edit|not, or( $collapse_right_menu, $admin_left_size, $hide_left_menu ))}
+<style type="text/css">
+{if $collapse_right_menu}
+    div#page div#rightmenu  {ldelim} width: 18px; {rdelim}
+    div#page div#maincolumn {ldelim} margin-right: 27px; {rdelim}
+{/if}
+{if $hide_left_menu}
+div#maincolumn {ldelim} padding-right: 20px; padding-left: 50px; {rdelim}
+{else}
+    {if $admin_left_size}
+        {def $left_menu_widths = ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini')}
+        {if is_set( $left_menu_widths[$admin_left_size] )}
+            {set $left_size_hash = $left_menu_widths[$admin_left_size]}
+            div#leftmenu   {ldelim} width: {$left_size_hash|int}em; {rdelim}
+            div#maincontent {ldelim} margin-left: {$left_size_hash|int}em; {rdelim}
+        {else}
+            div#page div#leftmenu   {ldelim} width: {$admin_left_size|wash}; {rdelim}
+            div#page div#maincontent {ldelim} margin-left: {$admin_left_size|wash}; {rdelim}
+        {/if}
+        {undef $left_menu_widths}
+    {/if}
+{/if}
+</style>
+{/if}
+
+{* Pr uri header cache
+ Need navigation part for cases like content/browse where node id is taken from caller params *}
+{cache-block keys=array( $module_result.uri, $user_hash, $admin_theme, $access_type, first_set( $module_result.navigation_part, $navigation_part.identifier ), $search_hash ) ignore_content_expiry}
+
 {include uri='design:page_head.tpl'}
-
-{set-block variable=$admin_right_menu}
-{tool_bar name='admin_right' view=full}
-{tool_bar name='admin_developer' view=full}
-{/set-block}
-
-
-{def $hide_right_menu = $admin_right_menu|eq('')
-     $admin_left_width = ezpreference( 'admin_left_menu_width' )}
-
-{* cache-block keys=array($navigation_part.identifier, $current_user.role_id_list|implode( ',' ), $current_user.limited_assignment_value_list|implode( ',' ), $ui_context, $hide_right_menu, $admin_left_width) *}
-{* Cache header for each navigation part *}
 
 {include uri='design:page_head_style.tpl'}
 {include uri='design:page_head_script.tpl'}
 
-
 </head>
-
 <body>
 
-<div id="allcontent">
+<div id="page" class="{$navigation_part.identifier} section_id_{first_set( $module_result.section_id, 0 )}">
+
 <div id="header">
-<div id="header-design">
+<div id="header-design" class="float-break">
 
-<div id="logo">
-<img src={'ezpublish-logo-4-symbol.gif'|ezimage} width="256" height="40" alt="eZ Publish" border="0" />
-<p>version {fetch( setup, version )}</p>
-</div>
+{* HEADER ( SEARCH, LOGO AND USERMENU ) *}
+{include uri='design:page_header.tpl'}
 
-{* --- Search ---*}
-<div id="search">
-<form action={'/content/search/'|ezurl} method="get">
+{* Pr tab header cache *}
+{cache-block keys=array( $ui_context, $ui_component, $user_hash, $access_type, first_set( $module_result.navigation_part, $navigation_part.identifier ) ) ignore_content_expiry}
 
-{if eq( $ui_context, 'edit' )}
-    <input id="searchtext" name="SearchText" type="text" size="20" value="{if is_set( $search_text )}{$search_text|wash}{/if}" disabled="disabled" />
-    <input id="searchbutton" class="button-disabled" name="SearchButton" type="submit" value="{'Search'|i18n( 'design/admin/pagelayout' )}" disabled="disabled" />
-{else}
-    <input id="searchtext" name="SearchText" type="text" size="20" value="{if is_set( $search_text )}{$search_text|wash}{/if}" />
-    <input id="searchbutton" class="button" name="SearchButton" type="submit" value="{'Search'|i18n( 'design/admin/pagelayout' )}" />
-    {if eq( $ui_context, 'browse' ) }
-        <input name="Mode" type="hidden" value="browse" />
-        <input name="BrowsePageLimit" type="hidden" value="{min( ezpreference( 'admin_list_limit' ), 3)|choose( 10, 10, 25, 50 )}" />
-    {/if}
-{/if}
-    <p class="select">
-    {let disabled=false()
-         nd=1
-         left_checked=true()
-         current_loc=true()}
-    {if eq( $ui_context, 'edit' )}
-        {set disabled=true()}
-    {else}
-        {if is_set($module_result.node_id)}
-            {set nd=$module_result.node_id}
-        {else}
-            {if is_set($search_subtree_array)}
-                {if count($search_subtree_array)|eq(1)}
-                    {if $search_subtree_array.0|ne(1)}
-                        {set nd=$search_subtree_array.0}
-                        {set left_checked=false()}
-                    {else}
-                        {set disabled=true()}
-                    {/if}
-                    {set current_loc=false()}
-                {else}
-                    {set disabled=true()}
-                {/if}
-            {else}
-                {set disabled=true()}
-            {/if}
-        {/if}
-    {/if}
-    <label{if $disabled} class="disabled"{/if}><input type="radio" name="SubTreeArray" value="1" checked="checked"{if $disabled} disabled="disabled"{else} title="{'Search all content.'|i18n( 'design/admin/pagelayout' )}"{/if} />{'All content'|i18n( 'design/admin/pagelayout' )}</label>
-    <label{if $disabled} class="disabled"{/if}><input type="radio" name="SubTreeArray" value="{$nd}"{if $disabled} disabled="disabled"{else} title="{'Search only from the current location.'|i18n( 'design/admin/pagelayout' )}"{/if} />{if $current_loc}{'Current location'|i18n( 'design/admin/pagelayout' )}{else}{'The same location'|i18n( 'design/admin/pagelayout' )}{/if}</label>
-    {/let}
-    </p>
-    <p class="advanced">
-    {if or( eq( $ui_context, 'edit' ), eq( $ui_context, 'browse' ) )}
-    <span class="disabled">{'Advanced'|i18n( 'design/admin/pagelayout' )}</span>
-    {else}
-        <a href={'/content/advancedsearch'|ezurl} title="{'Advanced search.'|i18n( 'design/admin/pagelayout' )}">{'Advanced'|i18n( 'design/admin/pagelayout' )}</a>
-    {/if}
-    </p>
-</form>
-</div>
-
-<div class="break"></div>
+{* TOP MENU / TABS *}
+{include uri='design:page_topmenu.tpl'}
 
 </div>
 </div>
+{/cache-block}{* /Pr tab cache *}
 
 <hr class="hide" />
+{/cache-block}{* /Pr uri cache *}
 
-<div id="topmenu">
-<div id="topmenu-design">
+<div id="columns"{if $hide_right_menu} class="hide-rightmenu"{/if}>
 
-<h3 class="hide">Top menu</h3>
-<ul>
-{section var=Menu loop=topmenu($ui_context)}
 
-    {include uri='design:page_topmenuitem.tpl' menu_item=$Menu navigationpart_identifier=$navigation_part.identifier}
-
-{/section}
-
-{if $hide_right_menu}
-<li class="last"><div>
-<a href={'/user/logout'|ezurl} title="{'Logout from the system.'|i18n( 'design/admin/pagelayout' )}">{'Logout'|i18n( 'design/admin/pagelayout' )}</a>
-</div></li>
-{/if}
-
-</ul>
-<div class="break"></div>
-</div>
+<div id="left-panels-separator">
+    <div class="panels-separator-top"></div>
+    <div class="panels-separator-bottom"></div>
 </div>
 
-{* /cache-block *}
-
-<hr class="hide" />
-
-
-<div id="path">
-<div id="path-design">
-
-{include uri='design:page_toppath.tpl'}
-
-</div>
+<div id="right-panels-separator">
+    <div class="panels-separator-top"></div>
+    <div class="panels-separator-bottom"></div>
 </div>
 
-
-<hr class="hide" />
-
-<div id="columns">
-
-{if and( eq( $ui_context, 'edit' ), eq( $ui_component, 'content' ) )}
-{else}
-<div id="leftmenu">
-<div id="leftmenu-design">
-
-{if is_set( $module_result.left_menu )}
-    {include uri=$module_result.left_menu}
-{else}
-	{* 
-	    Get navigationpart identifier variable depends if the call is an contenobject
-	    or a custom module 
-	*}
-	{def $navigation_part_name = $navigation_part.identifier}
-	{if $navigation_part_name|eq('')}
-	    {set $navigation_part_name = $module_result.navigation_part}
-	{/if}
-	
-	{* 
-	    Include automatically the menu template for the $navigation_part_name
-	    ez $part_name navigationpart =>  parts/$part_name/menu.tpl
-	*}
-	{def $extract_length = sub( count_chars( $navigation_part_name ), '14' )
-	     $part_name = $navigation_part_name|extract( '2', $extract_length )}
-	
-	{include uri=concat( 'design:parts/', $part_name, '/menu.tpl' )}
-	
-	{undef $extract_length $part_name $navigation_part_name}
-{/if}
-
-</div>
-</div>
-
-<hr class="hide" />
-
-{/if}
-
+<div id="canvas-top"></div>
+{* RIGHT MENU *}
 <div id="rightmenu">
-<div id="rightmenu-design">
+{if or( $hide_right_menu, $collapse_right_menu )}
+    <a id="rightmenu-showhide" class="show-hide-control" title="{'Show / Hide rightmenu'|i18n( 'design/admin/pagelayout/rightmenu' )}" href={'/user/preferences/set/admin_right_menu_show/1'|ezurl}></a>
+    <div id="rightmenu-design"></div>
+{else}
+    <a id="rightmenu-showhide" class="show-hide-control" title="{'Hide / Show rightmenu'|i18n( 'design/admin/pagelayout/rightmenu' )}" href={'/user/preferences/set/admin_right_menu_show/0'|ezurl}></a>
+    <div id="rightmenu-design">
+        {tool_bar name='admin_right' view='full'}
+        {tool_bar name='admin_developer' view='full'}
+    </div>
+    <script type="text/javascript">
+    {literal}
 
-<h3 class="hide">Right</h3>
+    YUI(YUI3_config).use('ezcollapsiblemenu', 'event', 'io-ez', 'node', function (Y) {
 
-{$admin_right_menu}
+        Y.on('domready', function () {
+            var rightmenu = new Y.eZ.CollapsibleMenu({
+                link: '#rightmenu-showhide',
+                content: ['', ''],
+                collapsed: 0,
+                elements:[{
+                    selector: '#rightmenu',
+                    duration: 0.4,
+                    fullStyle: {width: '201px'},
+                    collapsedStyle: {width: '18px'}
+                },{
+                    selector: '#maincolumn',
+                    duration: 0.4,
+                    fullStyle: {marginRight: '210px'},
+                    collapsedStyle: {marginRight: '27px'}
+                },{
+                    selector: '#right-panels-separator',
+                    duration: 0.4,
+                    fullStyle: {right:'181px'},
+                    collapsedStyle: {right: '-2px'}
+                }],
+                callback: function () {
+                    var p = 1;
+                    if ( this.conf.collapsed )
+                        p = 0;
+                    Y.io.ez.setPreference('admin_right_menu_show', p);
+                }
+            });
+        });
+    });
 
+    {/literal}
+    </script>
+{/if}
 </div>
-</div>
+
+
+<div id="maincolumn">
+
+{* Pr uri Path/Left menu cache (dosn't use ignore_content_expiry because of content structure menu  ) *}
+{cache-block keys=array( $module_result.uri, $user_hash, $left_size_hash, $access_type, first_set( $module_result.navigation_part, $navigation_part.identifier ) )}
 
 <hr class="hide" />
 
-{if and( eq( $ui_context, 'edit' ), eq( $ui_component, 'content' ) )}
-
-{* Main area START *}
-
-{include uri='design:page_mainarea.tpl'}
-
-{* Main area END *}
-
+{* LEFT MENU / CONTENT STRUCTURE MENU *}
+{if $hide_left_menu}
 {else}
-
-<div id="maincontent"><div id="fix">
-<div id="maincontent-design">
-
-<!-- Maincontent START -->
-{* Main area START *}
-
-{include uri='design:page_mainarea.tpl'}
-
-{* Main area END *}
-
-<!-- Maincontent END -->
-</div>
-<div class="break"></div>
-</div></div>
-
+    {include uri='design:page_leftmenu.tpl'}
 {/if}
 
-<div class="break"></div>
+{/cache-block}{* /Pr uri cache *}
+
+{* Main area START *}
+{if $hide_left_menu}
+    {include uri='design:page_mainarea.tpl'}
+{else}
+    <div id="maincontent">
+    <div id="maincontent-design" class="float-break"><div id="fix">
+
+    <div id="path">
+        <div id="path-design">
+            {include uri='design:page_toppath.tpl'}
+        </div>
+    </div>
+
+    <!-- Maincontent START -->
+    {include uri='design:page_mainarea.tpl'}
+    <!-- Maincontent END -->
+    </div>
+    <div class="break"></div>
+    </div></div>
+{/if}
+{* Main area END *}
 </div>
+
+
+<div class="break"></div>
+<div id="canvas-bottom"></div>
+</div><!-- div id="columns" -->
 
 <hr class="hide" />
 
-<div id="footer">
+
+{cache-block keys=array( $access_type ) ignore_content_expiry}
+<div id="footer" class="float-break">
 <div id="footer-design">
-
-{include uri='design:page_copyright.tpl'}
-
+    {include uri='design:page_copyright.tpl'}
 </div>
 </div>
 
 <div class="break"></div>
-</div>
 
 {* The popup menu include must be outside all divs. It is hidden by default. *}
 {include uri='design:popupmenu/popup_menu.tpl'}
 
+{/cache-block}
+
+<script type="text/javascript">
+document.getElementById('header-usermenu-logout').innerHTML += '<span class="header-usermenu-name">{$current_user.login|wash}<\/span>';
+
+document.getElementById('right-panels-separator').style.right = (parseInt(document.getElementById('rightmenu').offsetWidth,10) - 20) + 'px';
+
+{literal}
+(function( $ )
+{
+    var searchtext = document.getElementById('searchtext');
+    if ( !searchtext || searchtext.disabled )
+        return;
+
+    jQuery( searchtext ).val( searchtext.title
+    ).addClass('passive'
+    ).focus(function(){
+        if ( this.value === this.title )
+        {
+            jQuery( this ).removeClass('passive').val('');
+        }
+    }).blur(function(){
+        if ( this.value === '' )
+        {
+            jQuery( this ).addClass('passive').val( this.title );
+        }
+    });
+})( jQuery );
+{/literal}
+</script>
+
+
+</div><!-- div id="page" -->
+
 {* This comment will be replaced with actual debug report (if debug is on). *}
 <!--DEBUG_REPORT-->
+
+{* modal window and AJAX stuff *}
+<div id="overlay-mask" style="display:none;"></div>
+<img src={'2/loader.gif'|ezimage()} id="ajaxuploader-loader" style="display:none;" alt="{'Loading...'|i18n( 'design/admin/pagelayout' )}" />
+
 
 </body>
 </html>

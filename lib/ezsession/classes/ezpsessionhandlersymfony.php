@@ -2,7 +2,7 @@
 /**
  * File containing Symfony session handler
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -54,7 +54,7 @@ class ezpSessionHandlerSymfony extends ezpSessionHandler
     public function regenerate( $updateBackendData = true )
     {
         $oldSessionId = session_id();
-        $this->storage->regenerate( true );
+        $this->storage->regenerate();
         $newSessionId = session_id();
 
         ezpEvent::getInstance()->notify( 'session/regenerate', array( $oldSessionId, $newSessionId ) );
@@ -66,7 +66,6 @@ class ezpSessionHandlerSymfony extends ezpSessionHandler
             $escNewKey = $db->escapeString( $newSessionId );
             $escUserID = $db->escapeString( eZSession::userID() );
             eZSession::triggerCallback( 'regenerate_pre', array( $db, $escNewKey, $escOldKey, $escUserID ) );
-            $this->destroy( $oldSessionId );
             eZSession::triggerCallback( 'regenerate_post', array( $db, $escNewKey, $escOldKey, $escUserID ) );
         }
         return true;
@@ -121,4 +120,13 @@ class ezpSessionHandlerSymfony extends ezpSessionHandler
         $this->storage = $storage;
     }
 
+    /**
+     * Let Symfony starts the session
+     *
+     * @return bool
+     */
+    public function sessionStart()
+    {
+        return true;
+    }
 }

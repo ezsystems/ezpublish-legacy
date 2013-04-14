@@ -21,12 +21,12 @@
         {"Include templates related to exported objects."|i18n("design/admin/package")}<br />
 </div>
 <div class="block">
-	{"Select templates from the following siteaccesses"|i18n("design/admin/package")}<br />
-	<select size="3" name="SiteAccesses[]" multiple="multiple">
-	    {section loop=$available_site_accesses}
-	        <option value="{$:item}" {if $options.site_access_array|contains($:item)}selected="selected"{/if}>{$:item}</option>
-	    {/section}
-	</select><br />
+    {"Select templates from the following siteaccesses"|i18n("design/admin/package")}<br />
+    <select size="3" name="SiteAccesses[]" multiple="multiple">
+        {section loop=$available_site_accesses}
+            <option value="{$:item}" {if $options.site_access_array|contains($:item)}selected="selected"{/if}>{$:item}</option>
+        {/section}
+    </select><br />
 </div>
 
 <div class="block">
@@ -44,9 +44,9 @@
 
     {"Select languages to export"|i18n("design/admin/package")}<br />
     <select size="5" name="Languages[]" multiple="multiple">
-	{section loop=$available_languages}
-	    <option value="{$:item.locale|wash}" {if $options.language_array|contains($:item.locale)}selected="selected"{/if}>{$:item.name|wash}</option>
-	{/section}
+    {section loop=$available_languages}
+        <option value="{$:item.locale|wash}" {if $options.language_array|contains($:item.locale)}selected="selected"{/if}>{$:item.name|wash}</option>
+    {/section}
     </select>
 </div>
 

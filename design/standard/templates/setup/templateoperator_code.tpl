@@ -27,7 +27,7 @@
 /*
 If you want to have autoloading of this operator you should create
 a eztemplateautoload.php file and add the following code to it.
-The autoload file must be placed somewhere specified in AutoloadPath
+The autoload file must be placed somewhere specified in AutoloadPathList
 under the group TemplateSettings in settings/site.ini
 
 $eZTemplateOperatorArray = array();

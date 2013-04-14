@@ -2,7 +2,7 @@
 /**
  * File containing the ezpLanguageSwitcher class
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -159,7 +159,11 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
 
         $this->baseDestinationUrl = rtrim( $this->baseDestinationUrl, '/' );
 
-        if ( $GLOBALS['eZCurrentAccess']['type'] === eZSiteAccess::TYPE_URI )
+        $ini = eZINI::instance();
+
+        if ( $GLOBALS['eZCurrentAccess']['type'] === eZSiteAccess::TYPE_URI &&
+             !( $ini->variable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess' ) === "enabled" &&
+                $ini->variable( 'SiteSettings', 'DefaultAccess' ) == $this->destinationSiteAccess ) )
         {
             $finalUrl = $this->baseDestinationUrl . '/' . $this->destinationSiteAccess . '/' . $urlAlias;
         }

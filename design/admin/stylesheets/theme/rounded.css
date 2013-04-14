@@ -1,0 +1,584 @@
+/* ADMIN2 ROUNDED CSS 20100107 */
+/*
+   This stylesheet uses CSS3 features for some styling, this is done in such a way to
+   make sure it falls back gracefully in older browsers with almost the same style.
+*/
+
+/* WHOLE PAGE */
+
+#page
+{
+    background: url('../../images/3/dark_back.png');
+    overflow: hidden;
+    margin: 0 auto -1px;
+    min-height: 100%;
+}
+
+/* LOGIN PAGE (center it) */
+
+.loginpage, .loginpage #page
+{
+    height: 100%;
+}
+
+.loginpage #page
+{
+    overflow:auto;
+}
+
+.loginpage a:hover
+{
+    color:#ffe9bd !important;
+}
+
+.loginpage #header
+{
+    height: 230px;
+}
+
+.loginpage #columns
+{
+    min-height: 0;
+}
+
+.loginpage #columns #maincolumn
+{
+    border-right: 0 none;
+    margin-right: 0px;
+}
+
+.loginpage #columns #maincontent
+{
+    width: 48em;
+    margin: 0 auto;
+    background-image:none;
+    box-shadow: none;
+}
+
+.loginpage #footer
+{
+    height: 30px;
+    border-top: 1px solid #3a3d41;
+    box-shadow: inset 0 1px #6f6e6b;
+}
+
+.loginpage .ezusernavigationpart #columns  #maincontent
+{
+    background:white;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 5px black;
+}
+
+
+/* HEADER */
+#header
+{
+    border-top: 1px solid #696969;
+}
+
+.loginpage #header
+{
+    border-bottom: 1px solid #6f6e6b;
+    box-shadow: inset 0 -1px #3a3d41;
+}
+
+/* TOP MENU (TABS) */
+
+#header-topmenu ul li a, #header-topmenu ul li span.disabled
+{
+    color: #B7B7B7;
+    text-shadow: -1px -1px 1px black;
+    font-size: 1.1em;
+    text-decoration: underline;
+}
+
+#header-topmenu ul li span.disabled,
+#searchtext.disabled {
+    background: transparent url(../../images/3/diagonal_pattern.png) repeat center left;
+    color: #444;
+    text-shadow: none;
+    text-decoration: none;
+}
+
+ul.tabs li a, ul.tabs li span.disabled
+{
+    color: #005b7f;
+    font-size: 1.1em;
+    text-decoration: underline;
+}
+
+ul.tabs li a:hover
+{
+    color:black;
+}
+
+#header-topmenu ul li.selected a, ul.tabs li.selected a
+{
+    background: #444 none;
+    border-radius: 5px;
+    color:#f5f3dd;
+    text-decoration: none;
+}
+
+.tab-content
+{
+    border: 1px solid #ccc;
+    background-color: #f5f5f5;
+}
+
+.tabs-content.disabled
+{
+    border-top: 1px solid #ccc;
+}
+
+/* CSS Media Query's to adjust layout based on screen width */
+
+@media all and (max-width: 1124px)
+{
+
+    #header-topmenu ul li a, #header-topmenu ul li span.disabled
+    {
+        min-width: 80px;/* slightly smaller tabs */
+    }
+}
+
+/* BOX MODEL */
+
+a.show-hide-control:hover
+{
+    border-color: #666;
+}
+
+#leftmenu a.show-hide-control
+{
+position:relative;
+z-index:10;
+float:right;
+width:19px;
+margin-top:50%;
+background: url(../../images/3/sprite.png) no-repeat -20px -461px;
+}
+#leftmenu a.show-hide-control:hover,
+#leftmenu a.show-hide-control:focus,
+#leftmenu a.show-hide-control:active
+{
+background: url(../../images/3/sprite.png) no-repeat 0 -461px;
+}
+
+a.show-hide-tabs
+{
+    border:none;
+    padding: 0 5px;
+    cursor: pointer;
+    overflow: visible;
+    width: auto;
+    text-decoration: none;
+    background: url('../../images/3/sprite.png') no-repeat 1px -62px;
+}
+
+a#maincontent-hide
+{
+    background: url('../../images/3/sprite.png') no-repeat 1px -118px;
+}
+
+a.show-hide-tabs:hover
+{
+/*    border-color: white;*/
+}
+
+.tab-block
+{
+    padding-top: 0.8em;
+    border-top: 1px dashed #ddd;
+}
+
+.tab-block .button-left
+{
+    margin: 5px 5px 0 0;
+}
+
+.controlbar form .button-left
+{
+    margin-top:5px;
+}
+
+.controlbar form .button-left .block select
+{
+    height:25px;
+}
+
+.controlbar form .button-left .block input.button, .controlbar form .button-left .block input.button-disabled
+{
+    margin-top: -3px;
+}
+
+#controlbar-top .box-bc
+{
+    border: 1px solid #ccc;
+    background: #f4f4f4;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
+    background-image: -moz-linear-gradient(top,  #fdfdfd, #e4e3e4);
+    background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    border-radius: 3px;
+    background-clip: padding-box;
+    -moz-box-shadow: 0 4px 4px #aaa;
+    -webkit-box-shadow: 0 4px 4px #aaa;
+    box-shadow: 0 4px 4px #aaa;
+}
+
+.box-bc .box-ml, .box-header .box-ml
+{
+    border: 0 none;
+    background-color: transparent;
+}
+
+.box-header
+{
+    border-top: 1px dashed #ccc;
+    font-size:1.5em;
+}
+.box-header select, .box-header input.button
+{
+margin-top:7px;
+font-size:13px;
+}
+
+#controlbar-top .box-bc .box-ml
+{
+    border-top-width: 0;
+}
+
+
+.subitems-controlbar
+{
+    padding: 0px 5px;
+    margin: 0 0 5px 0;
+}
+
+.subitems-context-toolbar
+{
+    padding: 3px;
+}
+
+
+/* MENU-BLOCK */
+
+.menu-block li a
+{
+    border-radius: 3px;
+    background-clip: padding-box;
+}
+
+/* BUTTONS */
+p.versions
+{
+    padding-top:10px;
+    padding-right:21px;
+    background: url('../../images/3/sprite.png') no-repeat right -770px;
+
+}
+p.versions a
+{
+    color:#005b7f;
+    font-size: 1em;
+}
+
+p.versions a:hover
+{
+    color:black;
+}
+
+
+p.table-preferences
+{
+    border-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border: 1px solid #CCCCCC;
+    background-color: #f0f0f0;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
+    background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-clip: padding-box;
+}
+
+p.table-preferences > a, p.table-preferences > span
+{
+    border: solid #CCC;
+    border-width: 0 1px 0 0;
+    padding-right: 1em;
+    line-height: 1.5em;
+}
+
+p.table-preferences :last-child
+{
+    border-right: 0px;
+}
+
+input.button, input.defaultbutton, input.button-disabled
+{
+    color: #44484d;
+    background: #fff;
+    border: 1px solid #cfd1d3;
+    border-radius: 3px;
+    font-size: 1em;
+    margin-left: 5px;
+    padding: 3px 6px;
+    -webkit-transition: all 300ms ease;
+    -moz-transition: all 300ms ease;
+    -ms-transition: all 300ms ease;
+    -o-transition: all 300ms ease;
+    transition: all 300ms ease;
+}
+
+input.defaultbutton, input.button-disabled, input.button[disabled="disabled"]
+{
+    background-color: #f5f5f5;
+}
+
+input.button:hover, input.button:focus {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: black;
+}
+
+input.defaultbutton
+{
+    background-color: #567975;
+    color: #f5f3dd;
+    font-weight: normal;
+}
+
+input.defaultbutton:hover,
+input.defaultbutton:focus {
+    background-color: #425c59;
+    color: #ffe9bd;
+}
+
+input.defaultbutton:active {
+    background-color: #525755;
+    -moz-box-shadow: inset 0 0 3px #000;
+    -webkit-box-shadow: inset 0 0 3px #000;
+    box-shadow: inset 0 0 3px #000;
+    color: #ff8300;
+}
+
+input.button-disabled, input.button[disabled="disabled"]
+{
+    color: #999;
+    background: #fff;
+
+    background-image: url('../../images/3/diagonal_pattern.png');
+
+}
+
+
+/* DASHBOARD */
+#ez-version
+{
+    color: #E24602;
+}
+
+#ez-publish-community-project-is-innovative-and-cutting-edge
+{
+    color: #ff5500;
+    font-style: italic;
+}
+
+div.community-block-title h2,
+div.community-block-title span
+{
+    float: left;
+}
+
+div.community-block-title span
+{
+    margin-top: 1.5em;
+    margin-left: 4px;
+}
+
+div.community-block-title span.first
+{
+    margin-left: 8px;
+}
+
+div.community-activity
+{
+    border: 1px solid;
+    border-color: #ff5500;
+    border-color: rgba(255, 85, 0, 0.31);
+    padding: 1em 1em;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+div.community-activity div.loading
+{
+    font-style: italic;
+}
+
+div.community-activity #feed-elements ul h5
+{
+    margin-top: 0.5em;
+}
+
+div.community-activity #feed-elements ul
+{
+    list-style-type: none;
+    margin:0;
+    padding:0;
+}
+
+div.community-activity #feed-elements ul li p
+{
+    margin: 0.2em 0;
+    font-size: 0.8em;
+}
+
+.dashboard-item
+{
+    margin: 1.5em 0 0.5em 0;
+    overflow-x: auto;
+    border-top: 1px dashed #ccc;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 1em;
+}
+
+.dashboard-item h2
+{
+    font-size:1.7em;
+}
+
+
+/* PAGENAVIGATOR */
+
+div.pagenavigator
+{
+    text-align: center;
+    margin-top: 1em;
+}
+
+div.pagenavigator a
+{
+    text-decoration: none;
+}
+
+div.pagenavigator p
+{
+    margin: 0em;
+}
+
+div.pagenavigator span.previous
+{
+    display: block;
+    float: left;
+}
+
+div.pagenavigator span.next
+{
+    display: block;
+    float: right;
+}
+
+div.pagenavigator span.disabled
+{
+    color: #d0d0d0;
+}
+
+div.pagenavigator span.pages span.other, div.pagenavigator span.pages span.current
+{
+    font-size: 1em;
+    margin-left: 1px;
+    margin-right: 1px;
+    background-color: #fff;
+    border: 1px solid #CBCBCB;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    padding: 0.3em 0.5em;
+    text-decoration: none;
+}
+
+div.pagenavigator span.pages span.current
+{
+    background-color: #f4f4f4;
+}
+
+div.alphabetical
+{
+    margin-top: 1.25em;
+}
+
+/* FOOTER */
+
+#footer
+{
+
+}
+
+#footer-design
+{
+    color:#aaa;
+}
+
+#footer-design a
+{
+    color:#6dcff6;
+}
+#footer-design a:hover
+{
+    color:#ffe9bd;
+}
+
+
+/* MISC */
+table.list th, table.special th
+{
+    color: #EEE;
+    background-color: #6F6E6B;
+    padding-top:0;
+    padding-bottom:0;
+    border-left: 1px solid #a9a9a9;
+}
+
+#leftmenu-design ul
+{
+    color: #333;
+}
+
+.settings .current
+{
+    font-weight: bold;
+}
+
+
+/* YUI 2 calendar (uses #page to force override) */
+#page .yui-calendar
+{
+font-size:0.9em;
+}
+
+#page .yui-calendar .calweekdaycell
+{
+    padding: 0.15em;
+}
+
+#page .yui-calcontainer
+{
+    border-color: #CCCCC3;
+}
+
+#page .datepicker-icon
+{
+    margin-bottom: -2px;
+    padding-top: 9px;
+}
+
+#page .yui-calcontainer .title
+{
+position:absolute;
+}

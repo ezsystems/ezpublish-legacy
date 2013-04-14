@@ -1623,7 +1623,6 @@ CREATE TABLE ezcontentobject_link (
     from_contentobject_id integer DEFAULT 0 NOT NULL,
     from_contentobject_version integer DEFAULT 0 NOT NULL,
     id integer DEFAULT nextval('ezcontentobject_link_s'::text) NOT NULL,
-    op_code integer DEFAULT 0 NOT NULL,
     relation_type integer DEFAULT 1 NOT NULL,
     to_contentobject_id integer DEFAULT 0 NOT NULL
 );
@@ -1815,7 +1814,7 @@ CREATE TABLE ezforgot_password (
 
 
 CREATE TABLE ezgeneral_digest_user_settings (
-    address character varying(255) DEFAULT ''::character varying NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL,
     "day" character varying(255) DEFAULT ''::character varying NOT NULL,
     digest_type integer DEFAULT 0 NOT NULL,
     id integer DEFAULT nextval('ezgeneral_digest_user_settings_s'::text) NOT NULL,
@@ -3181,23 +3180,7 @@ CREATE INDEX ezcontentobject_status ON ezcontentobject USING btree (status);
 
 
 
-CREATE INDEX ezcontentobject_attr_id ON ezcontentobject_attribute USING btree (id);
-
-
-
-
-
-
-
 CREATE INDEX ezcontentobject_attribute_co_id_ver_lang_code ON ezcontentobject_attribute USING btree (contentobject_id, "version", language_code);
-
-
-
-
-
-
-
-CREATE INDEX ezcontentobject_attribute_contentobject_id ON ezcontentobject_attribute USING btree (contentobject_id);
 
 
 
@@ -3238,14 +3221,6 @@ CREATE INDEX ezco_link_from ON ezcontentobject_link USING btree (from_contentobj
 
 
 CREATE INDEX ezco_link_to_co_id ON ezcontentobject_link USING btree (to_contentobject_id);
-
-
-
-
-
-
-
-CREATE INDEX ezcontentobject_name_co_id ON ezcontentobject_name USING btree (contentobject_id);
 
 
 
@@ -3405,14 +3380,6 @@ CREATE INDEX ezcurrencydata_code ON ezcurrencydata USING btree (code);
 
 
 
-CREATE INDEX ezenumobjectvalue_co_attr_id_co_attr_ver ON ezenumobjectvalue USING btree (contentobject_attribute_id, contentobject_attribute_version);
-
-
-
-
-
-
-
 CREATE INDEX ezenumvalue_co_cl_attr_id_co_class_att_ver ON ezenumvalue USING btree (contentclass_attribute_id, contentclass_attribute_version);
 
 
@@ -3429,7 +3396,7 @@ CREATE INDEX ezforgot_password_user ON ezforgot_password USING btree (user_id);
 
 
 
-CREATE UNIQUE INDEX ezgeneral_digest_user_settings_address ON ezgeneral_digest_user_settings USING btree (address);
+CREATE UNIQUE INDEX ezgeneral_digest_user_settings_user_id ON ezgeneral_digest_user_settings USING btree (user_id);
 
 
 
@@ -3501,22 +3468,6 @@ CREATE INDEX ezkeyword_keyword ON ezkeyword USING btree (keyword);
 
 
 
-CREATE INDEX ezkeyword_keyword_id ON ezkeyword USING btree (keyword, id);
-
-
-
-
-
-
-
-CREATE INDEX ezkeyword_attr_link_keyword_id ON ezkeyword_attribute_link USING btree (keyword_id);
-
-
-
-
-
-
-
 CREATE INDEX ezkeyword_attr_link_kid_oaid ON ezkeyword_attribute_link USING btree (keyword_id, objectattribute_id);
 
 
@@ -3558,14 +3509,6 @@ CREATE INDEX ezmultipricedata_coa_version ON ezmultipricedata USING btree (conte
 
 
 CREATE INDEX ezmultipricedata_currency_code ON ezmultipricedata USING btree (currency_code);
-
-
-
-
-
-
-
-CREATE INDEX eznode_assignment_co_id ON eznode_assignment USING btree (contentobject_id);
 
 
 
@@ -3758,14 +3701,6 @@ CREATE INDEX authcode_client_id ON ezprest_authcode USING btree (client_id);
 
 
 CREATE INDEX client_user ON ezprest_authorized_clients USING btree (rest_client_id, user_id);
-
-
-
-
-
-
-
-CREATE INDEX client_id ON ezprest_clients USING btree (client_id);
 
 
 
@@ -4053,22 +3988,6 @@ CREATE INDEX ezurlalias_ml_act_org ON ezurlalias_ml USING btree ("action", is_or
 
 
 
-CREATE INDEX ezurlalias_ml_action ON ezurlalias_ml USING btree ("action", id, link);
-
-
-
-
-
-
-
-CREATE INDEX ezurlalias_ml_actt ON ezurlalias_ml USING btree (action_type);
-
-
-
-
-
-
-
 CREATE INDEX ezurlalias_ml_actt_org_al ON ezurlalias_ml USING btree (action_type, is_original, is_alias);
 
 
@@ -4085,7 +4004,7 @@ CREATE INDEX ezurlalias_ml_id ON ezurlalias_ml USING btree (id);
 
 
 
-CREATE INDEX ezurlalias_ml_par_act_id_lnk ON ezurlalias_ml USING btree (parent, "action", id, link);
+CREATE INDEX ezurlalias_ml_par_act_id_lnk ON ezurlalias_ml USING btree ("action", id, link, parent);
 
 
 
@@ -4093,15 +4012,7 @@ CREATE INDEX ezurlalias_ml_par_act_id_lnk ON ezurlalias_ml USING btree (parent, 
 
 
 
-CREATE INDEX ezurlalias_ml_par_lnk_txt ON ezurlalias_ml USING btree (parent, link, text);
-
-
-
-
-
-
-
-CREATE INDEX ezurlalias_ml_par_txt ON ezurlalias_ml USING btree (parent, text);
+CREATE INDEX ezurlalias_ml_par_lnk_txt ON ezurlalias_ml USING btree (parent, text, link);
 
 
 
@@ -4118,6 +4029,14 @@ CREATE INDEX ezurlalias_ml_text ON ezurlalias_ml USING btree (text, id, link);
 
 
 CREATE INDEX ezurlalias_ml_text_lang ON ezurlalias_ml USING btree (text, lang_mask, parent);
+
+
+
+
+
+
+
+CREATE INDEX ezuser_login ON ezuser USING btree (login);
 
 
 

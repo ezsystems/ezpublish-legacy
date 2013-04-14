@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -35,12 +35,6 @@ function eZSetupDatabaseMap()
                                      'required_version' => '4.1.1',
                                      'has_demo_data' => true,
                                      'supports_unicode' => true ),
-                  'mysql' => array( 'type' => 'mysql',
-                                    'driver' => 'ezmysql',
-                                    'name' => 'MySQL (Deprecated)',
-                                    'required_version' => '4.1.1',
-                                    'has_demo_data' => true,
-                                    'supports_unicode' => false ),
                   'pgsql' => array( 'type' => 'pgsql',
                                     'driver' => 'ezpostgresql',
                                     'name' => 'PostgreSQL',

@@ -2,7 +2,7 @@
 /**
  * File containing eZObjectRelationListDatatypeRegression class
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
  * @package tests
  */
@@ -21,7 +21,7 @@ class eZObjectRelationListDatatypeRegression extends ezpDatabaseTestCase
     public function setUp()
     {
         parent::setUp();
-        eZContentLanguage::addLanguage( 'xxx-XX', 'XXXX' );
+        $this->xxx = eZContentLanguage::addLanguage( 'xxx-XX', 'XXXX' );
         ezpINIHelper::setINISetting(
             'site.ini', 'RegionalSettings',
             'SiteLanguageList', array( 'xxx-XX', 'eng-GB' )
@@ -31,7 +31,9 @@ class eZObjectRelationListDatatypeRegression extends ezpDatabaseTestCase
 
     public function tearDown()
     {
+        $this->xxx->removeThis();
         ezpINIHelper::restoreINISettings();
+        parent::tearDown();
     }
 
     /**
@@ -61,6 +63,8 @@ class eZObjectRelationListDatatypeRegression extends ezpDatabaseTestCase
 
         // test O2's name
         $this->assertEquals( 'name_Test_XXX', $o2->name );
+        $o1->remove();
+        $o2->remove();
     }
 }
 ?>

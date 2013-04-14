@@ -2,7 +2,7 @@
 /**
  * File containing the {@link eZCache} class
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -185,6 +185,14 @@ class eZCache
                                        'expiry-key' => 'ts-translation-cache',
                                        'path' => 'translation',
                                        'function' => array( 'eZCache', 'clearTSTranslationCache' )
+                                ),
+                                array( 'name' => ezpI18n::tr( 'kernel/cache', 'SSL Zones cache' ),
+                                       'id' => 'sslzones',
+                                       'tag' => array( 'ini' ),
+                                       'enabled' => eZSSLZone::enabled(),
+                                       'path' => false,
+                                       'function' => array( 'eZSSLZone', 'clearCache' ),
+                                       'purge-function' => array( 'eZSSLZone', 'clearCache' )
                                 ),
             );
 
@@ -665,6 +673,7 @@ class eZCache
         $fileHandler->fileDelete( $cachePath, 'classidentifiers_' );
         $fileHandler->fileDelete( $cachePath, 'classattributeidentifiers_' );
         eZContentClass::expireCache();
+        ezpEvent::getInstance()->notify( 'content/class/cache/all' );
     }
 
     /**
@@ -687,6 +696,7 @@ class eZCache
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-info-cache', time() );
         $handler->store();
+        ezpEvent::getInstance()->notify( 'user/cache/all' );
     }
 
     /**
@@ -698,6 +708,7 @@ class eZCache
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'content-view-cache', time() );
         $handler->store();
+        ezpEvent::getInstance()->notify( 'content/cache/all' );
     }
 
     /**
@@ -735,6 +746,7 @@ class eZCache
 
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileDelete( $cachePath, 'statelimitations_' );
+        ezpEvent::getInstance()->notify( 'content/state/cache/all' );
     }
 
     /**
@@ -758,17 +770,10 @@ class eZCache
      */
     public static function clearDesignBaseCache( $cacheItem )
     {
-        $cachePath = eZSys::cacheDirectory();
-
-        $fileHandler = eZClusterFileHandler::instance();
-        if ( !$fileHandler instanceof eZDBFileHandler )
-        {
-            // design base cache is disabled with eZDBFileHandler cluster
-            // handler, see eZTemplateDesignResource::allDesignBases()
-            $fileHandler->fileDelete(
-                $cachePath, eZTemplateDesignResource::DESIGN_BASE_CACHE_NAME
-            );
-        }
+        eZClusterFileHandler::instance()->fileDelete(
+            eZSys::cacheDirectory(),
+            eZTemplateDesignResource::DESIGN_BASE_CACHE_NAME
+        );
     }
 
     /**
@@ -781,68 +786,3 @@ class eZCache
         eZTSTranslator::expireCache();
     }
 }
-
-/**
- * Helper function for eZCache::clearImageAlias.
- * Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
- *
- * @deprecated Callback to static class function is now done directly.
- */
-function eZCacheClearImageAlias( $cacheItem )
-{
-    eZCache::clearImageAlias( $cacheItem );
-}
-
-/**
- * Helper function for eZCache::clearClassID.
- * Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
- * @deprecated Callback to static class function is now done directly.
- */
-function eZCacheClearClassID( $cacheItem )
-{
-    eZCache::clearClassID( $cacheItem );
-}
-
-/**
- * Helper function for eZCache::clearGlobalINICache.
- * Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
- * @deprecated Callback to static class function is now done directly.
- */
-function eZCacheClearGlobalINI( $cacheItem )
-{
-    eZCache::clearGlobalINICache( $cacheItem );
-}
-
-/**
- *
- * Helper function for eZCache::clearSortKey.
- * Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
- * @deprecated Callback to static class function is now done directly.
- */
-function eZCacheClearSortKey( $cacheItem )
-{
-    eZCache::clearSortKey( $cacheItem );
-}
-
-/**
- * Helper function for eZCache::clearTemplateBlockCache.
- * Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
- * @deprecated Callback to static class function is now done directly.
- */
-function eZCacheClearTemplateBlockCache( $cacheItem )
-{
-    eZCache::clearTemplateBlockCache( $cacheItem );
-}
-
-/**
- *
- * Helper function for eZCache::clearContentTreeMenu.
- * Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
- * @deprecated Callback to static class function is now done directly.
- */
-function eZCacheClearContentTreeMenu( $cacheItem )
-{
-    eZCache::clearContentTreeMenu( $cacheItem );
-}
-
-?>

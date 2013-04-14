@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -72,6 +72,7 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
         if ( $locale->isValid() )
         {
             $translation = eZContentLanguage::addLanguage( $locale->localeCode(), $translationName );
+            ezpEvent::getInstance()->notify( 'content/translations/cache', array( $translation->attribute( 'id' ) ) );
         }
         else
         {
@@ -99,6 +100,7 @@ if ( $Module->isCurrentAction( 'Remove' ) )
         eZContentLanguage::removeLanguage( $translationID );
     }
     $db->commit();
+    ezpEvent::getInstance()->notify( 'content/translations/cache', array( $seletedIDList ) );
 }
 
 

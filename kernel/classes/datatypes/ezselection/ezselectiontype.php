@@ -2,7 +2,7 @@
 /**
  * File containing the eZSelectionType class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -312,6 +312,7 @@ class eZSelectionType extends eZDataType
 
         if ( count( $selected ) )
         {
+            $returnData = array();
             $optionArray = $classContent['options'];
             foreach ( $selected as $id )
             {
@@ -373,7 +374,8 @@ class eZSelectionType extends eZDataType
 
     function hasObjectAttributeContent( $contentObjectAttribute )
     {
-        return true;
+        $selected = $this->objectAttributeContent( $contentObjectAttribute );
+        return !empty( $selected[0] );
     }
 
     function sortKey( $contentObjectAttribute )

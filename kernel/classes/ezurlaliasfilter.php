@@ -2,7 +2,7 @@
 /**
  * File containing the eZURLAliasFilter class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -50,9 +50,7 @@ abstract class eZURLAliasFilter
      *
      * Process all configured filters and return the resulting text.
      *
-     * Filters are found in the INI group URLTranslator and the setting Filters.
-     * This is done in combination with the setting Extensions which controls
-     * which extensions have filter classes.
+     * Filters are found in the INI group URLTranslator and the setting FilterClasses.
      *
      * The parameters $text, $languageObject and $caller are sent to the method
      * process on the filter object.

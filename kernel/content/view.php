@@ -1,12 +1,10 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
  */
-
-$http = eZHTTPTool::instance();
 
 $tpl = eZTemplate::factory();
 
@@ -158,34 +156,36 @@ if ( ( isset( $operationResult['status'] ) && $operationResult['status'] != eZMo
 }
 else
 {
-    $localVars = array( "cacheFileArray", "NodeID",   "Module", "tpl",
-                        "LanguageCode",   "ViewMode", "Offset", "ini",
-                        "cacheFileArray", "viewParameters",  "collectionAttributes",
-                        "validation" );
+    $args = compact(
+        array(
+            "NodeID", "Module", "tpl", "LanguageCode", "ViewMode", "Offset", "ini", "viewParameters", "collectionAttributes", "validation"
+        )
+    );
     if ( $viewCacheEnabled )
     {
-        $user = eZUser::currentUser();
+        $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile(
+            eZUser::currentUser(),
+            $NodeID,
+            $Offset,
+            $layout,
+            $LanguageCode,
+            $ViewMode,
+            $viewParameters,
+            false
+        );
 
-        $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $NodeID, $Offset, $layout, $LanguageCode, $ViewMode, $viewParameters, false );
-
-        $cacheFilePath = $cacheFileArray['cache_path'];
-
-        $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
-        $args = compact( $localVars );
-        $Result = $cacheFile->processCache( array( 'eZNodeviewfunctions', 'contentViewRetrieve' ),
-                                            array( 'eZNodeviewfunctions', 'contentViewGenerate' ),
-                                            null,
-                                            null,
-                                            $args );
-        return $Result;
+        return eZClusterFileHandler::instance( $cacheFileArray['cache_path'] )
+            ->processCache(
+                array( 'eZNodeviewfunctions', 'contentViewRetrieve' ),
+                array( 'eZNodeviewfunctions', 'contentViewGenerate' ),
+                null,
+                null,
+                $args
+            );
     }
-    else
-    {
-        $cacheFileArray = array( 'cache_dir' => false, 'cache_path' => false );
-        $args = compact( $localVars );
-        $data = eZNodeviewfunctions::contentViewGenerate( false, $args ); // the false parameter will disable generation of the 'binarydata' entry
-        return $data['content']; // Return the $Result array
-    }
+
+    $data = eZNodeviewfunctions::contentViewGenerate( false, $args ); // the false parameter will disable generation of the 'binarydata' entry
+    return $data['content']; // Return the $Result array
 }
 
 // Looking for some view-cache code?

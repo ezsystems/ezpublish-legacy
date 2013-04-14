@@ -2,13 +2,13 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'Create a new policy for the <%role_name> role'|i18n( 'design/admin/role/createpolicystep3',, hash( '%role_name', $role.name ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -62,6 +62,8 @@
 <li>{'Click the "OK" button to finish the wizard. The policy will be added to the role that is currently being edited.'|i18n( 'design/admin/role/createpolicystep3' )}</li>
 </ol>
 
+<fieldset>
+<legend>{'Properties'|i18n( 'design/admin/role/createpolicystep3' )}</legend>
 <div class="block">
 {section name=Limitations loop=$function_limitations}
 {section-exclude match=$Limitations:item.name|eq('Subtree')}
@@ -69,13 +71,13 @@
 {if $function_limitations|count|gt(1)}
 <div class="element">
 {/if}
-<label>{$Limitations:item.name|wash}:</label>
-<select name="{$Limitations:item.name}[]" size="8" {if or( not( is_set( $Limitations:item.single_select ) ), not($Limitations:item.single_select) ) }multiple="multiple"{/if} >
+<label for="ezrole_createpolizy_limitation_{$Limitations:item.name|wash}">{$Limitations:item.name|wash}:</label>
+<select id="ezrole_createpolizy_limitation_{$Limitations:item.name|wash}" name="{$Limitations:item.name}[]" size="8" {if or( not( is_set( $Limitations:item.single_select ) ), not($Limitations:item.single_select) ) }multiple="multiple"{/if} >
 <option value="-1" {switch match=$current_limitation_list[$Limitations:item.name]}
 {case match=-1} selected="selected"{/case}{case}{/case}{/switch}>{'Any'|i18n( 'design/admin/role/createpolicystep3' )}</option>
 {section name=LimitationValues loop=$Limitations:item.values}
 <option value="{$Limitations:LimitationValues:item.value}" {switch match=$Limitations:LimitationValues:item.value}
-{case in=$current_limitation_list[$Limitations:item.name]}selected="selected"{/case}{case}{/case}{/switch}>{$Limitations:LimitationValues:item.Name}</option>
+{case in=$current_limitation_list[$Limitations:item.name]}selected="selected"{/case}{case}{/case}{/switch}>{$Limitations:LimitationValues:item.Name|wash}</option>
 {/section}
 </select>
 {if $function_limitations|count|gt(1)}
@@ -83,6 +85,7 @@
 {/if}
 {/section}
 </div>
+</fieldset>
 
 
 {section var=Limitations loop=$function_limitations}
@@ -90,10 +93,10 @@
 {switch match=$Limitations.item.name}
 
 {* Nodes *}
-{case match="Node"}
+{case match='Node'}
 <div class="block">
 <fieldset>
-<legend>{'Nodes [%node_count]'|i18n( 'design/admin/role/createpolicystep3',, hash( '%node_count', $node_list|count ) )}</legend>
+<legend>{'Nodes (%node_count)'|i18n( 'design/admin/role/createpolicystep3',, hash( '%node_count', $node_list|count ) )}</legend>
 {section show=$node_list}
 <table class="list" cellspacing="0">
 <tr>
@@ -124,10 +127,10 @@
 {/case}
 
 {* Subtrees *}
-{case match="Subtree"}
+{case match='Subtree'}
 <div class="block">
 <fieldset>
-<legend>{'Subtrees [%subtree_count]'|i18n( 'design/admin/role/createpolicystep3',, hash( '%subtree_count', $subtree_list|count ) )}</legend>
+<legend>{'Subtrees (%subtree_count)'|i18n( 'design/admin/role/createpolicystep3',, hash( '%subtree_count', $subtree_list|count ) )}</legend>
 {section show=$subtree_list}
 <table class="list" cellspacing="0">
 <tr>
@@ -175,14 +178,14 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 <input type="hidden" name="CurrentModule" value="{$current_module}" />
 <input type="hidden" name="CurrentFunction" value="{$current_function}" />
-<input class="button" type="submit" name="AddLimitation" value="{'OK'|i18n( 'design/admin/role/createpolicystep3' )}" />
+<input class="defaultbutton" type="submit" name="AddLimitation" value="{'OK'|i18n( 'design/admin/role/createpolicystep3' )}" />
 <input class="button" type="submit" name="Cancel" value="{'Cancel'|i18n( 'design/admin/role/createpolicystep3' )}" />
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>

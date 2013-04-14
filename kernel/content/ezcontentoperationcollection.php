@@ -2,7 +2,7 @@
 /**
  * File containing the eZContentOperationCollection class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -104,6 +104,22 @@ class eZContentOperationCollection
         eZContentObjectEditHandler::executePublish( $contentObjectID, $contentObjectVersion );
     }
 
+    /**
+     * Starts a database transaction.
+     */
+    static public function beginTransaction()
+    {
+        eZDB::instance()->begin();
+    }
+
+    /**
+     * Commit a previously started database transaction.
+     */
+    static public function commitTransaction()
+    {
+        eZDB::instance()->commit();
+    }
+
     static public function setVersionStatus( $objectID, $versionNum, $status )
     {
         $object = eZContentObject::fetch( $objectID );
@@ -128,7 +144,6 @@ class eZContentOperationCollection
         $db = eZDB::instance();
         $db->begin();
 
-        $object->publishContentObjectRelations( $versionNum );
         $object->setAttribute( 'status', eZContentObject::STATUS_PUBLISHED );
         $version->setAttribute( 'status', eZContentObjectVersion::STATUS_PUBLISHED );
         $object->setAttribute( 'current_version', $versionNum );
@@ -584,33 +599,15 @@ class eZContentOperationCollection
     }
 
     /*!
-      Start global transaction.
-
-      \deprecated since version 4.1.0, this method will be removed in future major releases
-     */
-    function beginPublish()
-    {
-        $db = eZDB::instance();
-        $db->begin();
-    }
-
-    /*!
-     Stop (commit) global transaction.
-
-     \deprecated since version 4.1.0, this method will be removed in future major releases
-     */
-    function endPublish()
-    {
-        $db = eZDB::instance();
-        $db->commit();
-    }
-
-    /*!
      Copies missing translations from published version to the draft.
      */
     static public function copyTranslations( $objectID, $versionNum )
     {
         $object = eZContentObject::fetch( $objectID );
+        if ( !$object instanceof eZContentObject )
+        {
+            return array( 'status' => eZModuleOperationInfo::STATUS_CANCELLED );
+        }
         $publishedVersionNum = $object->attribute( 'current_version' );
         if ( !$publishedVersionNum )
         {
@@ -795,87 +792,6 @@ class eZContentOperationCollection
         $db->commit();
 
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
-
-        return array( 'status' => true );
-    }
-
-    /**
-     * Removes a nodeAssignment or a list of nodeAssigments
-     *
-     * @deprecated since 4.3
-     *
-     * @param int $nodeID
-     * @param int $objectID
-     * @param array $removeList
-     * @param bool $moveToTrash
-     *
-     * @return array An array with operation status, always true
-     */
-    static public function removeAssignment( $nodeID, $objectID, $removeList, $moveToTrash )
-    {
-        $mainNodeChanged      = false;
-        $nodeIDList           = array();
-        $mainNodeID           = $nodeID;
-        $userClassIDArray     = eZUser::contentClassIDs();
-        $object               = eZContentObject::fetch( $objectID );
-        $nodeAssignmentIDList = array();
-
-        $db = eZDB::instance();
-        $db->begin();
-
-        foreach ( $removeList as $key => $node )
-        {
-            $removeObjectID = $node->attribute( 'contentobject_id' );
-            $removeObject = eZContentObject::fetch( $removeObjectID );
-            $nodeAssignmentList = eZNodeAssignment::fetchForObject( $removeObjectID, $removeObject->attribute( 'current_version' ), 0, false );
-            foreach ( $nodeAssignmentList as $nodeAssignmentKey => $nodeAssignment )
-            {
-                if ( $nodeAssignment['parent_node'] == $node->attribute( 'parent_node_id' ) )
-                {
-                    $nodeAssignmentIDList[] = $nodeAssignment['id'];
-                    unset( $nodeAssignmentList[$nodeAssignmentKey] );
-                }
-            }
-
-            if ( $node->attribute( 'node_id' ) == $node->attribute( 'main_node_id' ) )
-                $mainNodeChanged = true;
-            $node->removeThis();
-
-            $nodeIDList[] = $node->attribute( 'node_id' );
-        }
-
-        eZNodeAssignment::purgeByID( array_unique( $nodeAssignmentIDList ) );
-
-        if ( $mainNodeChanged )
-        {
-            $allNodes   = $object->assignedNodes();
-            $mainNode   = $allNodes[0];
-            $mainNodeID = $mainNode->attribute( 'node_id' );
-            eZContentObjectTreeNode::updateMainNodeID( $mainNodeID, $objectID, false, $mainNode->attribute( 'parent_node_id' ) );
-        }
-
-        // Give other search engines that the default one a chance to reindex
-        // when removing locations.
-        if ( !eZSearch::getEngine() instanceof eZSearchEngine )
-        {
-            eZContentOperationCollection::registerSearchObject( $objectID );
-        }
-
-        $db->commit();
-
-
-        //call appropriate method from search engine
-        eZSearch::removeNodeAssignment( $nodeID, $mainNodeID, $objectID, $nodeIDList );
-
-        eZContentCacheManager::clearObjectViewCacheIfNeeded( $objectID );
-
-        // clear user policy cache if this was a user object
-        if ( in_array( $object->attribute( 'contentclass_id' ), $userClassIDArray ) )
-        {
-            eZUser::purgeUserCacheByUserId( $object->attribute( 'id' ) );
-        }
-
-        // we don't clear template block cache here since it's cleared in eZContentObjectTreeNode::removeNode()
 
         return array( 'status' => true );
     }

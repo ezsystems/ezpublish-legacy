@@ -2,7 +2,7 @@
 /**
  * File containing the eZContentCacheManager class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -350,42 +350,6 @@ class eZContentCacheManager
                                 $info['clear_cache_type'] |= self::CLEAR_CHILDREN_CACHE;
                         }
                     }
-                    else
-                    {
-                        // deprecated
-                        if ( $type == 'clear_all_caches' )
-                        {
-                            $info['clear_cache_type'] = self::CLEAR_ALL_CACHE;
-                        }
-                        else
-                        {
-                            if ( $type == 'clear_object_caches_only' ||
-                                 $type == 'clear_object_and_parent_nodes_caches' ||
-                                 $type == 'clear_object_and_relating_objects_caches' )
-                            {
-                                $info['clear_cache_type'] |= self::CLEAR_NODE_CACHE;
-                            }
-
-                            if ( $type == 'clear_object_and_parent_nodes_caches' ||
-                                 $type == 'clear_parent_nodes_caches_only' ||
-                                 $type == 'clear_parent_nodes_and_relating_caches' )
-                            {
-                                $info['clear_cache_type'] |= self::CLEAR_PARENT_CACHE;
-                            }
-
-                            if ( $type == 'clear_object_and_relating_objects_caches' ||
-                                 $type == 'clear_parent_nodes_and_relating_caches' ||
-                                 $type == 'clear_relating_caches_only' )
-                            {
-                                $info['clear_cache_type'] |= self::CLEAR_RELATING_CACHE;
-                            }
-
-                            if ( $type == 'clear_keyword_caches_only' )
-                            {
-                                $info['clear_cache_type'] |= self::CLEAR_KEYWORD_CACHE;
-                            }
-                        }
-                    }
                 }
                 else
                 {
@@ -658,16 +622,6 @@ class eZContentCacheManager
 
     /*!
      \static
-     Deprecated. Use 'clearObjectViewCache' instead
-    */
-    static function clearViewCache( $objectID, $versionNum = true , $additionalNodeList = false )
-    {
-        eZDebug::writeWarning( "'clearViewCache' function was deprecated. Use 'clearObjectViewCache' instead", __METHOD__ );
-        eZContentCacheManager::clearObjectViewCache( $objectID, $versionNum, $additionalNodeList );
-    }
-
-    /*!
-     \static
      Clears view caches of nodes, parent nodes and relating nodes
      of content objects with id \a $objectID.
      It will use 'viewcache.ini' to determine additional nodes.
@@ -853,9 +807,10 @@ class eZContentCacheManager
 
     /**
      * Clears template-block cache and template-block with subtree_expiry parameter caches for specified object
-     * without checking 'TemplateCache' ini setting. If $objectID is \c false all template block caches will be cleared.
+     * without checking 'TemplateCache' ini setting.
      *
-     * @param int|array $objectID (list of) object ID.
+     * @param int|array|bool $objectID (list of) object ID, if false only ordinary template block caches will be cleared
+     *                                 Support for array value available {@since 5.0}.
      * @param bool $checkViewCacheClassSettings Check whether ViewCache class settings should be verified
      */
     public static function clearTemplateBlockCache( $objectID, $checkViewCacheClassSettings = false )
@@ -863,26 +818,24 @@ class eZContentCacheManager
         // ordinary template block cache
         eZContentObject::expireTemplateBlockCache();
 
+        if ( empty( $objectID ) )
+            return;
+
         // subtree template block cache
         $nodeList = false;
-        $object = false;
-        if ( $objectID )
+
+        if ( is_array( $objectID ) )
         {
-            if ( is_array( $objectID ) )
-            {
-                $objects = eZContentObject::fetchIDArray( $objectID );
-            }
-            else
-            {
-                $objects = array( $objectID => eZContentObject::fetch( $objectID ) );
-            }
+            $objects = eZContentObject::fetchIDArray( $objectID );
+        }
+        else
+        {
+            $objects = array( $objectID => eZContentObject::fetch( $objectID ) );
         }
 
         $ini = eZINI::instance( 'viewcache.ini' );
-
         foreach ( $objects as $object )
         {
-            $nodeList = array();
             if ( $object instanceof eZContentObject )
             {
                 $getAssignedNodes = true;
@@ -898,7 +851,7 @@ class eZContentCacheManager
 
                 if ( $getAssignedNodes )
                 {
-                    $nodeList = array_merge( $nodeList, $object->assignedNodes() );
+                    $nodeList = array_merge( ( $nodeList !== false ? $nodeList : array() ), $object->assignedNodes() );
                 }
             }
         }

@@ -12,19 +12,19 @@
 <form action={'shop/vattype'|ezurl} method="post" name="VatType">
 
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h1 class="context-title">{'VAT types [%vat_types]'|i18n( 'design/admin/shop/vattype',, hash( '%vat_types', $vattype_array|count ) )}</h1>
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+<h1 class="context-title">{'VAT types (%vat_types)'|i18n( 'design/admin/shop/vattype',, hash( '%vat_types', $vattype_array|count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {section show=$vattype_array}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/vattype' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/vattype' )}" onclick="ezjs_toggleCheckboxes( document.VatType, 'vatTypeIDList[]' ); return false;" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/shop/vattype' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/vattype' )}" onclick="ezjs_toggleCheckboxes( document.VatType, 'vatTypeIDList[]' ); return false;" /></th>
     <th>{'Name'|i18n( 'design/admin/shop/vattype' )}</th>
     <th class="tight">{'Percentage'|i18n( 'design/admin/shop/vattype' )}</th>
 </tr>
@@ -50,7 +50,7 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 <div class="button-left">
     {if $vattype_array}
@@ -69,7 +69,7 @@
 </div>
 <div class="break"></div>
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>
@@ -78,16 +78,16 @@
 
 {literal}
 <script type="text/javascript">
-    window.onload=function()
-    {
-        var lastAddedItem = document.getElementById('LastAdded');
+jQuery(function( $ )//called on document.ready
+{
+    var lastAddedItem = document.getElementById('LastAdded');
 
-        if ( lastAddedItem != null )
-        {
-            lastAddedItem.select();
-            lastAddedItem.focus();
-        }
+    if ( lastAddedItem != null )
+    {
+        lastAddedItem.select();
+        lastAddedItem.focus();
     }
+});
 </script>
 {/literal}
 

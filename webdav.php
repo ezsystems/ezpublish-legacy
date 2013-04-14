@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -54,7 +54,6 @@ function eZUpdateTextCodecSettings()
 eZUpdateTextCodecSettings();
 
 // Check for extension
-require_once( 'kernel/common/ezincludefunctions.php' );
 eZExtension::activateExtensions( 'default' );
 // Extension check end
 
@@ -101,7 +100,6 @@ if ( $enable === 'true' )
         // e.g. if run from the shell
         eZExecution::cleanExit();
     }
-    include_once( "access.php" );
 
     eZModule::setGlobalPathList( array( "kernel" ) );
     eZWebDAVContentBackend::appendLogEntry( "========================================" );

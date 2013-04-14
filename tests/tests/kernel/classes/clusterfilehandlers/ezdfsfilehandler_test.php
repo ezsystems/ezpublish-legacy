@@ -2,7 +2,7 @@
 /**
  * File containing the eZDFSFileHandlerTest class
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
  * @package tests
  */
@@ -65,9 +65,6 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
         switch ( $dsn['phptype'] )
         {
             case 'mysql':
-                $backend = 'eZDFSFileHandlerMySQLBackend';
-                break;
-
             case 'mysqli':
                 $backend = 'eZDFSFileHandlerMySQLiBackend';
                 break;
@@ -134,7 +131,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
     protected function DBFileExists( $filePath )
     {
         $escapedFilePath = $this->db->escapeString( $filePath );
-        $sql = "SELECT * FROM " . eZDFSFileHandlerMySQLBackend::TABLE_METADATA .
+        $sql = "SELECT * FROM " . eZDFSFileHandlerMySQLiBackend::TABLE_METADATA .
                " WHERE name_hash = MD5('{$escapedFilePath}')";
         $rows = $this->db->arrayQuery( $sql );
         if ( count( $rows ) == 1 )
@@ -151,7 +148,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
     protected function DBFileExistsAndIsValid( $filePath )
     {
         $escapedFilePath = $this->db->escapeString( $filePath );
-        $sql = "SELECT * FROM " . eZDFSFileHandlerMySQLBackend::TABLE_METADATA .
+        $sql = "SELECT * FROM " . eZDFSFileHandlerMySQLiBackend::TABLE_METADATA .
                " WHERE name LIKE '{$escapedFilePath}'";
         $rows = $this->db->arrayQuery( $sql );
         if ( count( $rows ) == 1 )
@@ -181,7 +178,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
             unlink( $filePath );
         if ( file_exists( $DFSPath ) and is_file( $DFSPath ) )
             unlink( $DFSPath );
-        $this->db->query( 'DELETE FROM ' . eZDFSFileHandlerMySQLBackend::TABLE_METADATA .
+        $this->db->query( 'DELETE FROM ' . eZDFSFileHandlerMySQLiBackend::TABLE_METADATA .
                           ' WHERE name_hash = \'' . md5( $filePath ) . '\'' );
     }
 
@@ -217,7 +214,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
         $size = strlen( $fileContents );
 
         // create DB file
-        $sql = "INSERT INTO " . eZDFSFileHandlerMySQLBackend::TABLE_METADATA .
+        $sql = "INSERT INTO " . eZDFSFileHandlerMySQLiBackend::TABLE_METADATA .
                "      ( name,        name_trunk,  name_hash,   datatype,    scope,    size,    mtime,    expired )" .
                "VALUES( '$filePath', '$filePath', '$nameHash', '$datatype', '$scope', '$size', '$mtime', '$expired' )";
         $this->db->query( $sql );

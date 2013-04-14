@@ -15,6 +15,14 @@
             {attribute_view_gui attribute=$node.data_map.email}
         </div>
 
+        {* Sender name (information collector). *}
+        {if is_set( $node.data_map.sender_name )}
+            <div class="attribute-email">
+                <label>{'Your name'|i18n( 'design/admin/preview/feedbackform' )}:</label>
+                {attribute_view_gui attribute=$node.data_map.sender_name}
+            </div>
+        {/if}
+
         {* Subject (information collector). *}
         <div class="attribute-subject">
             <label>{'Subject'|i18n( 'design/admin/preview/feedbackform' )}:</label>

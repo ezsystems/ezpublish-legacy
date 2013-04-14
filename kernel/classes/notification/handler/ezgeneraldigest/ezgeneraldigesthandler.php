@@ -2,7 +2,7 @@
 /**
  * File containing the eZGeneralDigestHandler class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -90,11 +90,10 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
         {
             $user = eZUser::currentUser();
         }
-        $address = $user->attribute( 'email' );
-        $settings = eZGeneralDigestUserSettings::fetchForUser( $address );
+        $settings = eZGeneralDigestUserSettings::fetchByUserId( $user->attribute( 'contentobject_id' ) );
         if ( $settings == null )
         {
-            $settings = eZGeneralDigestUserSettings::create( $address );
+            $settings = eZGeneralDigestUserSettings::create( $user->attribute( 'contentobject_id' ) );
             $settings->store();
         }
         return $settings;
@@ -216,8 +215,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
     function storeSettings( $http, $module )
     {
         $user = eZUser::currentUser();
-        $address = $user->attribute( 'email' );
-        $settings = eZGeneralDigestUserSettings::fetchForUser( $address );
+        $settings = eZGeneralDigestUserSettings::fetchByUserId( $user->attribute( 'contentobject_id' ) );
 
         if ( $http->hasPostVariable( 'ReceiveDigest_' . self::NOTIFICATION_HANDLER_ID ) &&
              $http->hasPostVariable( 'ReceiveDigest_' . self::NOTIFICATION_HANDLER_ID ) == '1' )

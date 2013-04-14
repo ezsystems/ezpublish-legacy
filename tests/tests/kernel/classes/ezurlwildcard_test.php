@@ -2,7 +2,7 @@
 /**
  * File containing the eZURLWildcardTest class
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -255,36 +255,6 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     }
 
     /**
-     * Test for expireCache
-     *
-     * Outline:
-     * 1. Manually set the cache expiry timestamp to a date in the past
-     * 2. Check that it is not expired
-     * 3. Call expireCache
-     * 4. Check that the cache is expired
-     */
-    public function testExpireCache()
-    {
-        $this->markTestSkipped( "Needs to be rewritten due to the refactoring" );
-
-        $expiryHandler = eZExpiryHandler::instance();
-
-        // 1. Manually set the cache expiry timestamp to a date in the past
-        $expiryHandler->setTimestamp( eZURLWildcard::CACHE_SIGNATURE, time() - 3600 );
-
-        // 2. Check that it is not expired
-        $this->assertFalse( eZURLWildcard::isCacheExpired( time() - 1 ),
-            "Expiry timestamp is in the past, cache should not be expired" );
-
-        // 3. Call expireCache
-        eZURLWildcard::expireCache();
-
-        // 4. Check that the cache is expired
-        $this->assertTrue( eZURLWildcard::isCacheExpired( time() - 1 ),
-            "Cache should have been expired by expireCache()" );
-    }
-
-    /**
      * Test for the translate method using a direct type
      */
     public function testTranslateDirect()
@@ -315,21 +285,6 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
         $uri = eZURI::instance( 'unknownURI/foobar' );
         $this->assertFalse( eZURLWildcard::translate( $uri ) );
         $this->assertEquals( 'unknownURI/foobar', $uri->URI );
-    }
-
-    /**
-     * Unit test for eZURLWildcard::isCacheExpired()
-     *
-     * depends testTranslateDirect
-     */
-    public function testIsCacheExpired()
-    {
-        $time = time();
-
-        $this->assertFalse( eZURLWildcard::isCacheExpired( $time + 1 ), "Cache should not be expired" );
-
-        eZURLWildcard::expireCache();
-        $this->assertTrue( eZURLWildcard::isCacheExpired( $time - 1 ), "Cache should be expired" );
     }
 
     /**

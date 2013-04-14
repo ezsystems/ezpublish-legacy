@@ -2,7 +2,7 @@
 /**
  * File containing the eZXMLInputParserTest class
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -61,7 +61,7 @@ class eZXMLInputParserTest extends ezpTestCase
     public function testUppercaseNameAttributeParsing()
     {
         $this->assertEquals(
-            array( "foo" => "bar" ),
+            array( "FOO" => "bar" ),
             $this->parser->parseAttributes( "FOO='bar'" )
         );
     }
@@ -187,6 +187,57 @@ class eZXMLInputParserTest extends ezpTestCase
             ),
         );
     }
+
+    /**
+     * Test for argument parsing with many attributes
+     *
+     * @dataProvider providerForTestManyAttributesParsing
+     */
+    public function testManyAttributesParsing( $string, $expected )
+    {
+        $this->assertEquals(
+            $expected,
+            $this->parser->parseAttributes( $string )
+        );
+    }
+
+    public static function providerForTestManyAttributesParsing()
+    {
+        $result = array(
+            'ie' => 'MS9.0',
+            'firefox' => '16.0.2',
+            'chrome' => 'Something',
+            'opera' => 'twelve',
+        );
+
+        return array(
+            array(
+                'ie=MS9.0 firefox=16.0.2 chrome=Something opera=twelve',
+                $result
+            ),
+            array(
+                'ie="MS9.0" firefox="16.0.2" chrome="Something" opera="twelve"',
+                $result
+            ),
+            array(
+                'ie=\'MS9.0\' firefox=\'16.0.2\' chrome=\'Something\' opera=\'twelve\'',
+                $result
+            ),
+            array(
+                'ie=MS9.0 firefox="16.0.2" chrome="Something" opera="twelve"',
+                $result
+            ),
+            array(
+                'ie=MS9.0 firefox=\'16.0.2\' chrome=\'Something\' opera=\'twelve\'',
+                $result
+            ),
+            array(
+                'ie="MS9.0" firefox=16.0.2 chrome=\'Something\' opera=twelve',
+                $result
+            ),
+        );
+    }
+
 }
 
 ?>

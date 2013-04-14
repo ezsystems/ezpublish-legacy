@@ -4,7 +4,7 @@
 # Gunnstein Lye <gl@ez.no>
 # Created on: <4-June-2009 12:51:26 gl>
 #
-# Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+# Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
 #
 
 TEMPLATE        = app

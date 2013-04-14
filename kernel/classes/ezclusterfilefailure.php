@@ -2,7 +2,7 @@
 /**
  * File containing the eZClusterFileFailure class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -18,9 +18,14 @@
  */
 class eZClusterFileFailure
 {
+    const FILE_EXPIRED = 1,
+          FILE_CONTENT_GENERATE = 2,
+          FILE_RETRIEVAL_FAILED = 3;
+
     // Error codes:
     // 1 - file expired
     // 2 - file contents must be manually generated
+    // 3 - Failed to retrieve file from DFS
     function eZClusterFileFailure( $errno, $message = false )
     {
         $this->Errno = $errno;

@@ -242,8 +242,11 @@ function checkAll()
     {/if}
     {if $:can_remove}
     {if $list_count}
-            <input type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/node/view')}" />
+        <input type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/node/view')}" />
 		<input name="selectall" onclick=checkAll() type="button" value="{'Select all'|i18n('design/standard/node/view')}">
+        {if ezini( 'RemoveSettings', 'HideRemoveConfirmation', 'content.ini' )|eq('true')}
+            <input type="hidden" name="HideRemoveConfirmation" value="true" />
+        {/if}
     {/if}
     {/if}
 

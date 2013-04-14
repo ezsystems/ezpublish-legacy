@@ -2,7 +2,7 @@
 /**
  * File containing (site)access functionality
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -18,7 +18,7 @@ class eZSiteAccess
     /**
      * Integer constants that identify the siteaccess matching used
      *
-     * @since 4.4 Was earlier in access.php as normal constants
+     * @since 4.4
      */
     const TYPE_DEFAULT = 1;
     const TYPE_URI = 2;
@@ -515,7 +515,7 @@ class eZSiteAccess
         if ( $siteINI === null )
         {
             eZSys::clearAccessPath();
-            if ( !isset( $access['uri_part'] ) || $access['uri_part'] === null )
+            if ( empty( $access['uri_part'] ) || $access['uri_part'] === null )
             {
                 if ( $ini->hasVariable('SiteSettings', 'SiteUriParts') )
                     $access['uri_part'] = $ini->variable('SiteSettings', 'SiteUriParts');
@@ -680,32 +680,4 @@ class eZSiteAccess
         eZDebug::writeWarning("Tried to find siteaccess based on '$language' but '$sa' is not a valid RelatedSiteAccessList[]", __METHOD__ );
         return null;
     }
-
-    /**
-     * Checks if site access debug is enabled
-     *
-     * @since 4.4
-     * @deprecated Should use debug.ini conditions instead of extra settings
-     * @return bool
-     */
-    static function debugEnabled()
-    {
-        $ini = eZINI::instance();
-        return $ini->variable( 'SiteAccessSettings', 'DebugAccess' ) === 'enabled';
-    }
-
-    /**
-     * Checks if extra site access debug is enabled
-     *
-     * @since 4.4
-     * @deprecated Should use debug.ini conditions instead of extra settings
-     * @return bool
-     */
-    static function extraDebugEnabled()
-    {
-        $ini = eZINI::instance();
-        return $ini->variable( 'SiteAccessSettings', 'DebugExtraAccess' ) === 'enabled';
-    }
 }
-
-?>

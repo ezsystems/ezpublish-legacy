@@ -1,28 +1,35 @@
-/* CORE CSS 20040217 */
+/* CORE CSS 20100126 */
 
 /* BODY */
 
-body
+html
 {
-    font-family: Arial, Helvetica, sans-serif; /* Base font family for most elements */
-    font-size: 0.8em; /* Base size for all elements; other size definitions relates to this */
-    background-color: #ffffff;
-    margin: 0;
-    padding: 1em;
+    height: 100%; /* To be able to have full page designs in themes */
+    min-height:100%;
 }
 
-/* HEADERS */
-
-h1, h2, h3, h4, h5, h6
+body /* These becomes the initial settings for most other elements */
 {
-    font-weight: bold;
-    margin: 1em 0 0.5em 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.8em;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    min-height:100%;
+}
+
+/* HEADINGS */
+
+h1, h2, h3, h4, h5, h6 /* Set general styles for all headings; some may be overridden later */
+{
+    font-family: Helvetica, Arial, sans-serif;
+    margin: 0.5em 0 0.2em 0;
     padding: 0;
 }
 
 h1
 {
-    margin-top: 0.5em;
     font-size: 1.8em;
 }
 
@@ -37,9 +44,15 @@ h3
 }
 
 h4, h5, h6
-{ 
+{
     font-size: 1em;
 }
+
+h6
+{
+    margin: 0.4em 0 0.1em 0;
+}
+
 
 /* PARAGRAPHS */
 
@@ -53,13 +66,13 @@ p
 
 a
 {
-    color: #315578;
+    color: #0b4e7a;
     text-decoration: underline;
 }
 
 a:hover
 {
-    color: #000000;
+    color: black;
     text-decoration: underline;
     cursor: pointer;
 }
@@ -68,6 +81,7 @@ a img
 {
     border: none; /* Some browsers may display a border around a linked image without this attribute set to _none_. */
 }
+
 
 /* PRE TEXT */
 
@@ -80,49 +94,94 @@ pre, code
 pre
 {
     background-color: #f8f8f8;
-    border: 1px solid #e0e0e0;
     margin: 1em 0 1em 0;
     padding: 0.2em;
+    border: 1px solid #e0e0e0;
 }
+
+pre.wordwrap /* Style for ensuring long lines in pre field won't break the design; use &nbsp; instead to preserve white-space where desired */
+{
+    white-space: normal;
+}
+
+pre.wordwrap span.line /* Style for tag wrapping around each line of text */
+{
+    display: block;
+}
+
+/* Typography & Font Icons*/
+@font-face
+{
+    font-family: 'IcoMoon';
+    src: url('../fonts/IcoMoon.eot');
+    src: url('../fonts/IcoMoon.eot?#iefix') format('embedded-opentype'), url('../fonts/IcoMoon.svg#IcoMoon') format('svg'), url('../fonts/IcoMoon.woff') format('woff'), url('../fonts/IcoMoon.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[data-icon]:before
+{
+    font-family: 'IcoMoon';
+    content: attr(data-icon);
+    speak: none;
+}
+
 
 /* TABLES */
 
 table
-{ 
-    font-size: 1em; /* Fix for size "loss" in tables in IE; redundant for most others, but does no harm */
+{
+    font-size: 1em; /* Fix for size "loss" in tables in IE; redundant for most other browsers */
     margin: 0;
     padding: 0;
+}
+
+tr
+{
+    background: white;
 }
 
 th, td
 {
     padding: 0;
 }
-
-table.list, table.special
+th
 {
-    width: 100%;
-    margin: 1em 0 1em 0;
-    border-left: 1px solid #ecece4;
-    border-right: 1px solid #ecece4;
-    border-bottom: 1px solid #f0f0f0;
-    empty-cells: show;
+    font-size:1.1em;
 }
 
-div.context-attributes table table.list, div.context-attributes table table.special
+table.list td
 {
+font-size:1.05em;
+}
+
+table.list, table.special /* Standard class usable for most regular tables presenting lists, with additional related styles */
+{
+    width: 100%;
+    empty-cells: show;
 }
 
 table.list th, table.list td, table.special th, table.special td
 {
-    padding: 0.25em;
+    padding: 0.4em;
     text-align: left;
-    vertical-align: top;
+    vertical-align: middle;
 }
 
-table.list td.number, table.special td.number, table.list td.right
+table.list th, table.special th
 {
-    text-align: right;
+    font-weight: normal;
+    white-space: nowrap;
+}
+
+table.list td
+{
+    font-weight: normal;
+}
+
+table.list tr:first-child td
+{
+   border-top: 0 none;
 }
 
 /* 'not available rate' */
@@ -133,40 +192,24 @@ table.list td.na-rate, table.special td.na-rate
     color: #C0C0C0;
 }
 
-table.list th, table.special th
+table.list tr.bglight
 {
-    color: #254b71;
-    background-color: #b5bec7;
-    border: 1px solid #ecece4;
-    border-top-width: 2px;
-    font-weight: normal;
-    white-space: nowrap;
+    background-color: #fff;
 }
 
-table.list td
+table.list tr.bgdark, table.special tr.bgdark
 {
-    border-top: 1px solid #f0f0f0;
-    font-weight: normal;
+    background-color: #f5f5f5;
 }
 
-tr.bglight
+table.list tr.bglight:hover, table.list tr.bgdark:hover /* This has no effect in IE6 and below */
 {
-    background-color: #f8f8f4;
+    background-color: #e8e8e8;
 }
 
-tr.bgdark
+table.list img
 {
-    background-color: #f4f4ec;
-}
-
-table.list tr.bglight:hover, table.list tr.bgdark:hover
-{
-    background-color: #ffffff;
-}
-
-table.list tr.object-cannot-remove td
-{
-    color: #ff0000;
+    vertical-align: middle;
 }
 
 th.tight, td.tight
@@ -174,29 +217,23 @@ th.tight, td.tight
     width: 1%;
 }
 
-td.nowrap 
+td.nowrap
 {
     white-space: nowrap;
 }
 
-div.context-attributes table.list th, div.context-attributes table.special th, div.mainobject-window table.list th, div.mainobject-window table.special th
+td.number, table.list td.number, table.special td.number, table.list td.right
 {
-    color: #404040;
-    background-color: #bfbfb7;
+    text-align: right;
 }
 
-div.context-attributes table table.list th, div.context-attributes table table.special th, div.onlineeditor th
-{
-    color: #404040;
-    background-color: #ddddd5;
-}
 
 /* ORDERED AND UNORDERED LISTS */
 
 ul, ol
 {
-    padding: 0;
     margin: 0.75em 0 1em 2.5em;
+    padding: 0;
 }
 
 ul ul, ol ul
@@ -225,8 +262,8 @@ li
 
 dl
 {
-    padding: 0em;
     margin: 0.25em 0 0.25em 0;
+    padding: 0;
 }
 
 dt, dd
@@ -245,12 +282,13 @@ dd
     margin: 0 1em 0.5em 2.5em;
 }
 
+
 /* FORM ELEMENTS */
 
 form
 {
-    padding: 0;
     margin: 0;
+    padding: 0;
 }
 
 label
@@ -259,12 +297,13 @@ label
     padding-right: 0.5em;
     display: block;
     white-space: nowrap;
+    font-size:1.1em;
 }
 
 input, select
 {
-    font-family: Arial, Helvetica, sans-serif; /* Needs to be set for some browsers */
-    font-size: 0.9em;
+    font-family: Arial, Helvetica, sans-serif; /* Needs to be set for some browsers, to prevent other default font from being used */
+    font-size: 1em;
 }
 
 input.box, input.halfbox
@@ -284,49 +323,36 @@ optgroup
     font-style: normal;
 }
 
-input.button
+input.button, button, input.defaultbutton, input.button-disabled
 {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
     font-size: 0.9em;
     font-weight: normal;
-    color: #ffffff;
-    border: 2px solid #ffffff;
-    border-bottom: 2px solid #2f475f;
-    border-right: 2px solid #2f475f;
-    background-color: #4d7299;
-    background-image: url(../images/inputbutton-enabled-bg.gif);
-    background-repeat: repeat-x;
-    background-position: top;
-    padding: 0em 0.25em 0em 0.25em;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
 }
 
-div.context-attributes input.button, div.onlineeditor input.button, div.onlineeditor button
+input.defaultbutton
 {
-    font-size: 0.9em;
-    font-weight: normal;
-    color: #ffffff;
-    border: 2px solid #ffffff;
-    border-bottom: 2px solid #2f475f;
-    border-right: 2px solid #2f475f;
-    background-color: #898985;
-    background-image: url(../images/inputbutton-attribute-bg.gif);
-    background-repeat: repeat-x;
-    background-position: top;
-    padding: 0em 0.25em 0em 0.25em;
+    font-weight: bold;
+    padding-left: 0.45em;
+    padding-right: 0.45em;
+    color: #094564;
 }
 
-input.button-disabled
+input.button-disabled, input.button[disabled="disabled"]
 {
-    font-size: 0.9em;
-    font-weight: normal;
-    color: #404040;
-    border: 2px solid #f0f0f0;
-    border-bottom: 2px solid #b0b0b0;
-    border-right: 2px solid #b0b0b0;
-    background-color: #cdcdcd;
-    background-image: url(../images/inputbutton-disabled-bg.gif);
-    background-repeat: repeat-x;
-    background-position: top;
-    padding: 0em 0.25em 0em 0.25em;
+    cursor: default;
+    color: #888;
+}
+
+input.disabled[type="image"]
+{
+	opacity: 0.7;
+	cursor: default;
 }
 
 input.box, textarea.box
@@ -346,77 +372,65 @@ td input.halfbox, td textarea.halfbox
 
 fieldset
 {
-    border: 1px solid #ccccc3;
-    padding: 0.5em;
+    border: 1px solid #CACACA;
+    background-color: #F8F8F8;
+    padding: 0.7em;
+    margin: 0em;
+}
+
+fieldset.block
+{
+    padding-bottom: 0em;
 }
 
 legend
 {
     font-weight: bold;
     color: #000000;
-    padding: 0 0.25em 0 0.25em;
+    padding: 0 0.35em 0 0.35em;
+    font-size:1.1em;
 }
+
+/* Make sure long legend texts do not overflow */
+/* https://jira.ez.no/browse/EZP-20316 */
+/* IE8, IE9 */
+fieldset legend 
+{
+    white-space: normal;
+    display: table;
+}
+/* IE7/ IE6 */
+legend span.long-legend-wrap
+{
+    white-space: normal;
+    display: block;
+    width: 100%;
+}
+/* end: overflow workaroud */
 
 fieldset label
 {
     color: #000000;
+    font-size:1em;
 }
 
-fieldset input.button
+label select
 {
-    margin-top: 0.5em;
+font-size:0.9em;
 }
 
-/* PAGE DIVIDERS */
 
-div.block /* Use this style around groups of objects which are connected in some way */
-{
-    margin: 0.5em 0 0.5em 0;
-    padding: 0;
-    clear: both;
-}
+/* HORIZONTAL RULERS */
 
-div.block div.element, div.buttonblock div.element, div.block div.halfelement /* Use this style if several objects are to be stacked horizontally within the same block */
+hr /* General formatting for all horizontal rulers */
 {
-    padding-right: 1em !important;
-    float: left;
-}
-
-div.halfelement
-{
-    width: 48%;
-}
-
-div.block div.left, div.viewbar div.left
-{
-    text-align: left;
-    float: left;
-    clear: left;
-}
-
-div.block div.right, div.viewbar div.right
-{
-    text-align: right;
-    float: right;
-    clear: right;
-}
-
-div.break /* Used this style to terminate floating elements, to clear all floating attributes */
-{
-    clear: both;
-    font-size: 1px;
+    color: #ffffff; /* Color must be set to the same as the background color to hide default formatting in IE */
+    border: none; /* All borders must be removed as they are default for Opera */
+    border-top: 1px solid #e7e8e0; /* This single top border is the one replacing the default look of the ruler */
     height: 1px;
+    margin: 0.35em 0 0.35em 0; /* Be aware that these margins may not be calculated consistently across browsers */
 }
 
-div.button-left
-{
-    float: left;
-}
-
-div.button-right
-{
-    float: right;
-}
 
 /* MESSAGES TO THE USER */
 
@@ -425,7 +439,6 @@ div.message-confirmation, div.message-feedback, div.message-warning, div.message
     margin: 0.5em 0 1em 0;
     padding: 0.25em 1em 0.75em 1em;
     border: 6px solid #000000;
-    background-color: #f8f8f4;
 }
 
 div.box-content div.message-confirmation, div.box-content div.message-feedback, div.box-content  div.message-warning, div.box-content  div.message-error
@@ -436,46 +449,43 @@ div.box-content div.message-confirmation, div.box-content div.message-feedback, 
     background-color: transparent;
 }
 
+div.message-feedback h2, div.message-warning h2, div.message-error h2
+{
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    margin-left: 0.5em;
+    padding: 0.25em 0.5em 0.5em 2.5em;
+}
+
 div.message-feedback
 {
-    border-color: #7ed376;
+    border-color: #3e8d29;
 }
 
 div.message-feedback h2
 {
     background-image: url(../images/message-feedback.gif);
-    background-repeat: no-repeat;
-    background-position: 0 0;
-    margin-left: 0.5em;
-    padding: 0.25em 0.5em 0.5em 2.5em;
 }
 
 div.message-warning
 {
-    border-color: #d9d978;
+    border-color: #ff910d;
+    background: #fff;
 }
 
 div.message-warning h2
 {
     background-image: url(../images/message-warning.gif);
-    background-repeat: no-repeat;
-    background-position: 0 0;
-    margin-left: 0.5em;
-    padding: 0.25em 0.5em 0.5em 2.5em;
 }
 
 div.message-error
 {
-    border-color: #d98078;
+    border-color: #C11B17;
 }
 
 div.message-error h2
 {
     background-image: url(../images/message-error.gif);
-    background-repeat: no-repeat;
-    background-position: 0 0;
-    margin-left: 0.5em;
-    padding: 0.25em 0.5em 0.5em 2.5em;
 }
 
 div.message-feedback span.time, div.message-warning span.time, div.message-error span.time
@@ -486,58 +496,62 @@ div.message-feedback span.time, div.message-warning span.time, div.message-error
     float: right;
 }
 
-div.message-feedback span.time
-{
-    background-image: url(../images/fade-feedback.gif);
-    background-repeat: repeat;
-}
-
-div.message-warning span.time
-{
-    background-image: url(../images/fade-warning.gif);
-    background-repeat: repeat;
-}
-
-div.message-error span.time
-{
-    background-image: url(../images/fade-error.gif);
-    background-repeat: repeat;
-}
-
 label.message-error, legend.message-error
 {
-    color: #ff0000;
+    color: maroon;
 }
 
-/* MISC STYLES */
 
-hr /* General formatting for all hr's */
+/* The remaining styles are important for proper content rendering in eZ publish - Do not remove or alter them without proper knowledge of the possible consequences */
+
+/* POSITION CONTROL */
+
+div.block /* Used around groups of objects which are connected in some way, and requires extra margins to the surroundings */
 {
-    color: #FFFFFF; /* Color must be set to the same as the background color to hide default formatting in IE */
-    border: none; /* All borders must be removed as they are default for Opera */
-    border-top: 1px solid #e7e8e0;
-    height: 1px;
-    margin: 0.35em 0 0.35em 0;
+    margin: 0.5em 0 0.5em 0;
+    padding: 0;
+    clear: both;
 }
 
-.small
+div.block div.element, div.block div.halfelement /* Used if several objects are to be stacked horizontally within the same block */
 {
-    font-size: 85%;
+    padding-right: 1em;
+    float: left;
 }
 
-.hide
+div.halfelement
 {
-    display: none;
+    width: 48%;
 }
 
-.spamfilter
+div.block div.left /* Floats elements to the left in a block */
 {
-    display: none;
+    width: 48%;
+    float: left;
+    clear: left;
 }
 
-div.remove
+div.block div.right /* Floats elements to the right in a block */
 {
-    border: 2px solid #a00000;
+    width: 48%;
+    float: right;
+    clear: right;
+}
+
+div.button-left
+{
+    float: left;
+}
+
+div.button-right
+{
+    float: right;
+    margin-left: 1em;
+}
+
+div.button-header
+{
+    margin-top: 1em;
 }
 
 p.text-left, td.text-left, th.text-left, *.text-left
@@ -560,37 +574,111 @@ p.text-justify, td.text-justify, th.text-justify, *.text-justify
     text-align: justify;
 }
 
-div.object-left, table.object-left
+div.object-left, table.object-left /* Used for floating images and other content elements to the left inside other content */
 {
+    margin: 0.25em 0.25em 0.25em 0;
     float: left;
     clear: left;
 }
 
-div.object-right, table.object-right
+div.object-right, table.object-right /* Used for floating images and other content elements to the right inside other content */
 {
+    margin: 0.25em 0 0.25em 0.25em;
     float: right;
     clear: right;
 }
 
 div.object-center, table.object-center
 {
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0.25em auto 0.25em auto;
     text-align: center;
 }
 
-div.oe-window
+.float-break
+{
+    height: 1%; /* Fix for IE */
+}
+
+.float-break:after /* Terminate floating elements flow */
+{
+    content: "-";
+    height: 0;
+    font-size: 0;
+    visibility: hidden;
+    display: block;
+    clear: both;
+}
+
+div.break /* Old method for terminating floating elements flow; kept for backwards compatibility */
+{
+    clear: both;
+    font-size: 1px; /* Fix for IE */
+    height: 1px;
+    margin-bottom: -1px;
+}
+
+
+/* SPLIT THREE */
+
+div.split
 {
     clear: both;
 }
 
+div.split div.three-left
+{
+    width: 31%;
+    float: left;
+}
+
+div.split div.three-right
+{
+    width: 31%;
+    float: right;
+}
+
+div.split div.three-center
+{
+    margin: 0 35% 0 35%;
+}
+
+
+/* MISCELLANEOUS STYLES */
+
+div.oe-window /* Needed by OE 5.0 when translating content */
+{
+    clear: both;
+}
+
+.small
+{
+    font-size: 85%;
+}
+
+.hide /* Used on elements which should only be visible if CSS in disabled or unavailable */
+{
+    display: none;
+}
+
+.spamfilter /* Simple fix for stopping spambots from getting correct e-mail addresses from a web page: info<span class="spamfilter>SPAMFILTER</span>@ez.no <span class="spamfilter>(Remove SPAMFILTER to reply)</span> */
+{
+    display: none;
+}
+
 /* multioption */
+table.multioption
+{
+    font-size:1em;
+}
+table.multioption input.button
+{
+    margin-left:0;
+}
 table.multioption, table.multioption table
 {
+    border-collapse: collapse;
     width: 100%;
     margin: 0;
-    border-top: 1px solid #ecece4;
-    border-left: 1px solid #ecece4;
 }
 
 table.multioption table
@@ -600,16 +688,27 @@ table.multioption table
 
 table.multioption th, table.multioption td
 {
-    padding: 0.25em;
-    border-right: 1px solid #ecece4;
-    border-bottom: 1px solid #ecece4;
-    vertical-align: top;
+    padding:0.35em 0.7em;
+    border: 1px solid #aaa;
+    vertical-align: middle;
     text-align: left;
+}
+table.multioption table.options-list th, table.multioption table.options-list td
+{
+    border: 1px solid #bebebe;
 }
 
 table.multioption th
 {
-    background-color: #bfbfb7;
+    vertical-align:top;
+    background-color: #cccccc;
+}
+
+table.multioption table.options-list th
+{
+    padding:0.35em 0.5em;
+    vertical-align:middle;
+    background-color: #eee;
 }
 
 table.multioption div.controlbar div.block
@@ -622,16 +721,21 @@ table.multioption input.box
     width: 98%;
 }
 
-fieldset.multioption label
+.multioption label
 {
     font-weight: bold;
-    margin: 0.5em 0 0.5em 0;
+    padding: 0.5em 0;
+}
+
+.multioption .toolbar
+{
+    padding:0.4em 0 0.2em 0;
 }
 
 option.disabled
 {
     color: #a0a0a0;
-}    
+}
 
 div.attribute-multioption ul
 {

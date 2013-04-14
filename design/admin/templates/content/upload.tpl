@@ -6,71 +6,18 @@
 <div id="leftmenu">
 <div id="leftmenu-design">
 
-<div class="objectinfo">
-
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-
-<h4>{'Object information'|i18n( 'design/admin/content/upload' )}</h4>
-
-</div></div></div></div></div></div>
-
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-br"><div class="box-bl"><div class="box-content">
-
-<p>
-<label>{'ID'|i18n( 'design/admin/content/upload' )}:</label>
-{$content_object.id}
-</p>
-
-<p>
-<label>{'Created'|i18n( 'design/admin/content/upload' )}:</label>
-{if $content_object.published}
-{$content_object.published|l10n( shortdatetime )}<br />
-{$content_object.current.creator.name|wash}
-{else}
-{'Not yet published'|i18n( 'design/admin/content/upload' )}
-{/if}
-</p>
-
-<p>
-<label>{'Modified'|i18n( 'design/admin/content/upload' )}:</label>
-{if $content_object.modified}
-{$content_object.modified|l10n( shortdatetime )}<br />
-{fetch( content, object, hash( object_id, $content_object.content_class.modifier_id ) ).name|wash}
-{else}
-{'Not yet published'|i18n( 'design/admin/content/upload' )}
-{/if}
-</p>
-
-<p>
-<label>{'Published version'|i18n( 'design/admin/content/upload' )}:</label>
-{if $content_object.published}
-{$content_object.current.version}
-{else}
-{'Not yet published'|i18n( 'design/admin/content/upload' )}
-{/if}
-</p>
-
-
-{* Manage versions. *}
-<div class="block">
-<input class="button-disabled" type="submit" name="" value="{'Manage versions'|i18n( 'design/admin/content/upload' )}" disabled="disabled" />
-</div>
-
-</div></div></div></div></div></div>
-
-</div>
-
+{include uri="design:content/parts/object_information.tpl" object=$content_object manage_version_button=false()}
 <br />
 
 <div class="drafts">
 
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h4>{'Current draft'|i18n( 'design/admin/content/upload' )}</h4>
 
-</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 {* Created. *}
 <p>
@@ -92,7 +39,7 @@
 {$content_version.version}
 </p>
 
-</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 
@@ -100,8 +47,8 @@
 </div>
 {/let}
 {/if}
-<div id="maincontent"><div id="fix">
-<div id="maincontent-design">
+<div id="maincontent">
+<div id="maincontent-design" class="float-break"><div id="fix">
 <!-- Maincontent START -->
 
 
@@ -124,15 +71,15 @@
 {if $upload.description_template}
     {include name=Description uri=$upload.description_template upload=$upload}
 {else}
-<div class="context-block">
+<div class="context-block content-upload">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'File upload'|i18n( 'design/admin/content/upload' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -150,13 +97,13 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h2 class="context-title">{'Upload file'|i18n( 'design/admin/content/upload' )}</h2>
 
-{* DESIGN: Subline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -166,8 +113,8 @@
 
 {if $upload.parent_nodes|count|eq( 0 )}
 <div class="block">
-    <label>{'Location'|i18n( 'design/admin/content/upload' )}:</label>
-    <select	name="UploadLocationChoice" class="combobox locationchoice" title="{'The location where the uploaded file should be placed.'|i18n( 'design/admin/content/upload' )}">
+    <label for="ezcontent_upload_location_choice">{'Location'|i18n( 'design/admin/content/upload' )}:</label>
+    <select    id="ezcontent_upload_location_choice" name="UploadLocationChoice" class="combobox locationchoice" title="{'The location where the uploaded file should be placed.'|i18n( 'design/admin/content/upload' )}">
         <option value="auto">{'Automatic'|i18n( 'design/admin/content/upload' )}</option>
 
 {def $root_node_value=ezini( 'LocationSettings', 'RootNode', 'upload.ini' )
@@ -192,19 +139,19 @@
         {/if}
 {/foreach}
 {undef $root_node_value $root_node $selection_list}
-  	</select>
+      </select>
 
 </div>
 {/if}
 
 <div class="block">
-    <label>{"Name"|i18n( 'design/admin/content/upload' )}:</label>
-    <input class="halfbox" name="ObjectName" type="text" />
+    <label for="ezcontent_upload_object_name">{"Name"|i18n( 'design/admin/content/upload' )}:</label>
+    <input id="ezcontent_upload_object_name" class="halfbox" name="ObjectName" type="text" />
 </div>
 
 <div class="block">
-    <label>{'File'|i18n( 'design/admin/content/upload' )}:</label>
-    <input class="halfbox" name="UploadFile" type="file" title="{'Select the file that you want to upload.'|i18n( 'design/admin/content/upload' )}" />
+    <label for="ezcontent_upload_file">{'File'|i18n( 'design/admin/content/upload' )}:</label>
+    <input id="ezcontent_upload_file" class="halfbox" name="UploadFile" type="file" title="{'Select the file that you want to upload.'|i18n( 'design/admin/content/upload' )}" />
     <input type="hidden" name="MAX_FILE_SIZE" value="50000000" />
 </div>
 
@@ -212,14 +159,14 @@
 
 {* DESIGN: Content END *}</div></div></div>
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 
 <input class="button" type="submit" name="UploadFileButton" value="{'Upload'|i18n( 'design/admin/content/upload' )}" title="{'Proceed with uploading the selected file.'|i18n( 'design/admin/content/upload' )}" />
 <input class="button" type="submit" name="CancelUploadButton" value="{'Cancel'|i18n( 'design/admin/content/upload' )}" title="{'Abort the upload operation.'|i18n( 'design/admin/content/upload' )}" />
 
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>

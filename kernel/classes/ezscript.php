@@ -2,7 +2,7 @@
 /**
  * File containing the eZScript class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -50,37 +50,25 @@ class eZScript
     /*!
      Constructor
     */
-    function eZScript( $settings = array() )
+    function __construct( $settings = array() )
     {
-        $settings = array_merge( array( 'debug-message' => false,
-                                        'debug-output' => false,
-                                        'debug-include' => false,
-                                        'debug-levels' => false,
-                                        'debug-accumulator' => false,
-                                        'debug-timing' => false,
-                                        'use-session' => false,
-                                        'use-extensions' => true,
-                                        'use-modules' => false,
-                                        'user' => false,
-                                        'description' => 'eZ Publish script',
-                                        'site-access' => false,
-                                        'min_version' => false,
-                                        'max_version' => false ),
-                                 $settings );
-        $this->DebugMessage = $settings['debug-message'];
-        $this->UseDebugOutput = $settings['debug-output'];
-        $this->AllowedDebugLevels = $settings['debug-levels'];
-        $this->UseDebugAccumulators = $settings['debug-accumulator'];
-        $this->UseDebugTimingPoints = $settings['debug-timing'];
-        $this->UseIncludeFiles = $settings['debug-include'];
-        $this->UseSession = $settings['use-session'];
-        $this->UseModules = $settings['use-modules'];
-        $this->UseExtensions = $settings['use-extensions'];
-        $this->User = $settings['user'];
-        $this->SiteAccess = $settings['site-access'];
-        $this->Description = $settings['description'];
-        $this->MinVersion = $settings['min_version'];
-        $this->MaxVersion = $settings['max_version'];
+        $settings += array(
+            'debug-message' => false,
+            'debug-output' => false,
+            'debug-include' => false,
+            'debug-levels' => false,
+            'debug-accumulator' => false,
+            'debug-timing' => false,
+            'use-session' => false,
+            'use-extensions' => true,
+            'use-modules' => false,
+            'user' => false,
+            'description' => 'eZ Publish script',
+            'site-access' => false,
+            'min_version' => false,
+            'max_version' => false
+        );
+        $this->updateSettings( $settings );
         $this->ExitCode = false;
         $this->IsQuiet = false;
         $this->ShowVerbose = false;
@@ -100,6 +88,59 @@ class eZScript
         $this->IterationColumnMax = 70;
         $this->IterationMax = false;
         $this->InitializationErrorMessage = 'unknown error';
+    }
+
+    /**
+     * Updates settings for current script.
+     *
+     * Valid keys for $settings are :
+     * - use-session
+     * - use-modules
+     * - use-extensions
+     * - user
+     * - site-access
+     * - description
+     * - min_version
+     * - max_version
+     * - debug-message
+     * - debug-output
+     * - debug-levels
+     * - debug-accumulator
+     * - debug-timing
+     * - debug-include
+     *
+     * @param array $settings
+     */
+    private function updateSettings( array $settings = array() )
+    {
+        if ( isset( $settings['debug-message'] ) )
+            $this->DebugMessage = $settings['debug-message'];
+        if ( isset( $settings['debug-output'] ) )
+            $this->UseDebugOutput = $settings['debug-output'];
+        if ( isset( $settings['debug-levels'] ) )
+            $this->AllowedDebugLevels = $settings['debug-levels'];
+        if ( isset( $settings['debug-accumulator'] ) )
+            $this->UseDebugAccumulators = $settings['debug-accumulator'];
+        if ( isset( $settings['debug-timing'] ) )
+            $this->UseDebugTimingPoints = $settings['debug-timing'];
+        if ( isset( $settings['debug-include'] ) )
+            $this->UseIncludeFiles = $settings['debug-include'];
+        if ( isset( $settings['use-session'] ) )
+            $this->UseSession = $settings['use-session'];
+        if ( isset( $settings['use-modules'] ) )
+            $this->UseModules = $settings['use-modules'];
+        if ( isset( $settings['use-extensions'] ) )
+            $this->UseExtensions = $settings['use-extensions'];
+        if ( isset( $settings['user'] ) )
+            $this->User = $settings['user'];
+        if ( isset( $settings['site-access'] ) )
+            $this->SiteAccess = $settings['site-access'];
+        if ( isset( $settings['description'] ) )
+            $this->Description = $settings['description'];
+        if ( isset( $settings['min_version'] ) )
+            $this->MinVersion = $settings['min_version'];
+        if ( isset( $settings['max_version'] ) )
+            $this->MaxVersion = $settings['max_version'];
     }
 
     /*!
@@ -181,8 +222,6 @@ class eZScript
     {
         if( ob_get_length() != 0 )
             ob_end_clean();
-        $debugINI = eZINI::instance( 'debug.ini' );
-        eZDebugSetting::setDebugINI( $debugINI );
 
         // Initialize text codec settings
         $this->updateTextCodecSettings();
@@ -1044,11 +1083,18 @@ class eZScript
      */
     static function instance( $settings = array() )
     {
-        if ( !isset( $GLOBALS['eZScriptInstance'] ) or
-             !( $GLOBALS['eZScriptInstance'] instanceof eZScript ) )
+        if (
+            !isset( $GLOBALS['eZScriptInstance'] )
+            || !( $GLOBALS['eZScriptInstance'] instanceof eZScript )
+        )
         {
             $GLOBALS['eZScriptInstance'] = new eZScript( $settings );
         }
+        else if ( !empty( $settings ) )
+        {
+            $GLOBALS['eZScriptInstance']->updateSettings( $settings );
+        }
+
         return $GLOBALS['eZScriptInstance'];
     }
 

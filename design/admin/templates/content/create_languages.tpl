@@ -15,13 +15,13 @@
 
 <div class="objectinfo">
 
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h4>{'Object information'|i18n( 'design/admin/content/edit_languages' )}</h4>
 
-</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 {* Object ID *}
 <p>
@@ -47,28 +47,28 @@
 {'Not yet published'|i18n( 'design/admin/content/edit_languages' )}
 </p>
 
-</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 
 </div>
 </div>
 
-<div id="maincontent"><div id="fix">
-<div id="maincontent-design">
+<div id="maincontent">
+<div id="maincontent-design" class="float-break"><div id="fix">
 <!-- Maincontent START -->
 
 <form name="CreateLanguages" action={'content/action'|ezurl} method="post">
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'Language selection'|i18n( 'design/admin/content/create_languages' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -117,18 +117,18 @@
 
 <div class="controlbar">
 
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
 <div class="block">
     {if $can_create}
-        <input class="button" type="submit" name="NewButton" value="{'OK'|i18n('design/admin/content/create_languages')}" />
+        <input class="defaultbutton" type="submit" name="NewButton" value="{'OK'|i18n('design/admin/content/create_languages')}" />
         <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n('design/admin/content/create_languages')}" />
     {else}
         <input class="button" type="submit" name="CancelButton" value="{'OK'|i18n('design/admin/content/create_languages')}" />
     {/if}
 </div>
 
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 
 </div>
 

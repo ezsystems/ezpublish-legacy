@@ -82,19 +82,18 @@
 
 <form name="aliasform" method="post" action={"content/urltranslator/"|ezurl}>
 
-<div class="context-block">
+<div class="context-block content-urlalias-global">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h1 class="context-title">{'Globally defined URL aliases [%alias_count]'|i18n( 'design/admin/content/urlalias_global',, hash( '%alias_count', $filter.count ) )|wash}</h1>
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+<h1 class="context-title">{'Globally defined URL aliases (%alias_count)'|i18n( 'design/admin/content/urlalias_global',, hash( '%alias_count', $filter.count ) )|wash}</h1>
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {* Items per page selector. *}
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
-    <p>
+<div class="button-left">
+    <p class="table-preferences">
     {foreach $limitList as $limitEntry}
         {if eq($limitID, $limitEntry['id'])}
             <span class="current">{$limitEntry['value']}</span>
@@ -105,8 +104,6 @@
     </p>
 </div>
 <div class="break"></div>
-
-</div>
 </div>
 
 
@@ -118,7 +115,7 @@
 {else}
 <table class="list" cellspacing="0" >
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/content/urlalias_global' )}" title="{'Invert selection.'|i18n( 'design/admin/content/urlalias_global' )}" onclick="ezjs_toggleCheckboxes( document.aliasform, 'ElementList[]' ); return false;"/></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/content/urlalias_global' )}" title="{'Invert selection.'|i18n( 'design/admin/content/urlalias_global' )}" onclick="ezjs_toggleCheckboxes( document.aliasform, 'ElementList[]' ); return false;"/></th>
     <th>{'URL alias'|i18n( 'design/admin/content/urlalias_global' )}</th>
     <th>{'Destination'|i18n( 'design/admin/content/urlalias_global' )}</th>
     <th>{'Language'|i18n( 'design/admin/content/urlalias_global' )}</th>
@@ -153,7 +150,7 @@
         </td>
 
         <td>
-            <img src="{$element.language_object.locale|flag_icon}" alt="{$element.language_object.locale|wash}" />
+            <img src="{$element.language_object.locale|flag_icon}" width="18" height="12" alt="{$element.language_object.locale|wash}" />
             &nbsp;
             {$element.language_object.name|wash}
         </td>
@@ -189,7 +186,7 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
 {* buttons here *}
 <div class="block">
@@ -206,12 +203,8 @@
 
 </div>
 
-
+{* DESIGN: Control bar END *}</div></div>
 </div>
-</div>
-
-
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 
 </div>
 
@@ -219,22 +212,22 @@
 {* Generated aliases context block start *}
 {* Generated aliases window. *}
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h2 class="context-title">{'Create new alias'|i18n( 'design/admin/content/urlalias' )}</h2>
-{* DESIGN: Subline *}<div class="header-subline"></div>
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Header END *}</div></div>
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="block">
 {* Alias name field. *}
-    <label>{'New URL alias'|i18n( 'design/admin/content/urlalias_global' )}:</label>
-    <input class="box" type="text" name="AliasSourceText" value="{$aliasSourceText|wash}" title="{'Enter the URL for the new alias. Use forward slashes (/) to create subentries.'|i18n( 'design/admin/content/urlalias_global' )}" />
+    <label for="ezcontent_urlalias_global_source">{'New URL alias'|i18n( 'design/admin/content/urlalias_global' )}:</label>
+    <input id="ezcontent_urlalias_global_source" class="box" type="text" name="AliasSourceText" value="{$aliasSourceText|wash}" title="{'Enter the URL for the new alias. Use forward slashes (/) to create subentries.'|i18n( 'design/admin/content/urlalias_global' )}" />
 </div>
 
 <div class="block">
 {* Destination field. *}
-    <label>{'Destination (path to existing functionality or resource)'|i18n( 'design/admin/content/urlalias_global' )}:</label>
-    <input class="box" type="text" name="AliasDestinationText" value="{$aliasDestinationText|wash}" title="{'Enter the destination URL for the new alias. Use forward slashes (/) to create subentries.'|i18n( 'design/admin/content/urlalias_global' )}" />
+    <label for="ezcontent_urlalias_global_destination">{'Destination (path to existing functionality or resource)'|i18n( 'design/admin/content/urlalias_global' )}:</label>
+    <input id="ezcontent_urlalias_global_destination" class="box" type="text" name="AliasDestinationText" value="{$aliasDestinationText|wash}" title="{'Enter the destination URL for the new alias. Use forward slashes (/) to create subentries.'|i18n( 'design/admin/content/urlalias_global' )}" />
 </div>
 
 <div class="block">
@@ -260,25 +253,25 @@
 <div class="block">
     <input type="checkbox" name="AliasRedirects" id="alias_redirects" value="alias_redirects" checked="checked" />
     <label class="radio" for="alias_redirects" title="{'Alias should redirect to its destination'|i18n( 'design/admin/content/urlalias_global' )}">{'Alias should redirect to its destination'|i18n( 'design/admin/content/urlalias' )}</label>
-    <p>With <em>Alias should redirect to its destination</em> checked eZ Publish will redirect to the destination using a HTTP 301 response. Un-check it and the URL will stay the same &#8212; no redirection will be performed.</p>
+    <p>{'With <em>Alias should redirect to its destination</em> checked eZ Publish will redirect to the destination using a HTTP 301 response. Un-check it and the URL will stay the same &#8212; no redirection will be performed.'|i18n( 'design/admin/content/urlalias' )}
+    </p>
 </div>
 
 
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
 <div class="block">
 {* Create button. *}
     <input class="button" type="submit" name="NewAliasButton" value="{'Create'|i18n( 'design/admin/content/urlalias_global' )}" title="{'Create a new global URL alias.'|i18n( 'design/admin/content/urlalias_global' )}" />
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 <div class="break"></div>
 
-{* DESIGN: Content END *}</div></div></div>
 </div>
 {* Generated aliases context block end *}
 
@@ -286,20 +279,20 @@
 
 {literal}
 <script type="text/javascript">
-    window.onload=function()
+jQuery(function( $ )//called on document.ready
+{
+    with( document.aliasform )
     {
-        with( document.aliasform )
+        for( var i = 0, l = elements.length; i < l; i++ )
         {
-            for( var i=0; i<elements.length; i++ )
+            if( elements[i].type == 'text' && elements[i].name == 'AliasSourceText' )
             {
-                if( elements[i].type == 'text' && elements[i].name == 'AliasSourceText' )
-                {
-                    elements[i].select();
-                    elements[i].focus();
-                    return;
-                }
+                elements[i].select();
+                elements[i].focus();
+                return;
             }
         }
     }
+});
 </script>
 {/literal}

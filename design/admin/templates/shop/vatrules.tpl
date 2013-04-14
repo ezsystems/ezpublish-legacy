@@ -15,19 +15,19 @@
 <form action={'shop/vatrules'|ezurl} method="post" name="VatRules">
 
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h1 class="context-title">{'VAT charging rules [%rules]'|i18n( 'design/admin/shop/vatrules',, hash( '%rules', $rules|count ) )}</h1>
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+<h1 class="context-title">{'VAT charging rules (%rules)'|i18n( 'design/admin/shop/vatrules',, hash( '%rules', $rules|count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {if $rules}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/vatrules' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/vatrules' )}" onclick="ezjs_toggleCheckboxes( document.VatRules, 'RuleIDList[]' ); return false;" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/shop/vatrules' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/vatrules' )}" onclick="ezjs_toggleCheckboxes( document.VatRules, 'RuleIDList[]' ); return false;" /></th>
     <th class="tight">{'Country/region'|i18n( 'design/admin/shop/vatrules' )}</th>
     <th class="wide">{'Product categories'|i18n( 'design/admin/shop/vatrules' )}</th>
     <th>{'VAT type'|i18n( 'design/admin/shop/vatrules' )}</th>
@@ -40,7 +40,7 @@
     <td>{if $rule.country|wash|eq('*')}{'Any'|i18n( 'design/admin/shop/vatrules' )}{else}{include uri='design:shop/country/view.tpl' current_val=$rule.country}{/if}</td>
     <td>{$rule.product_categories_string|wash}</td>
     <td>{$rule.vat_type_name|wash} ({$rule.vat_type_object.percentage}%)</td>
-    <td><a href={concat( 'shop/editvatrule/', $rule.id)|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/shop/vatrules' )}" title="{"Edit rule."|i18n( 'design/admin/shop/vatrules')|wash}" /></a>
+    <td><a href={concat( 'shop/editvatrule/', $rule.id)|ezurl}><img src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/shop/vatrules' )}" title="{"Edit rule."|i18n( 'design/admin/shop/vatrules')|wash}" /></a>
 </tr>
 {/foreach}
 </table>
@@ -53,7 +53,7 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 <div class="button-left">
     {if $rules}
@@ -65,7 +65,7 @@
 </div>
 <div class="break"></div>
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>

@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -13,59 +13,18 @@ if ( !defined( 'MAX_AGE' ) )
     define( 'MAX_AGE', 86400 );
 }
 
-function washJS( $string )
-{
-    return str_replace( array( "\\", "/", "\n", "\t", "\r", "\b", "\f", '"' ), array( '\\\\', '\\/', '\\n', '\\t', '\\r', '\\b', '\\f', '\"' ), $string );
-}
+// Ensure to deactivate pagelayout and debug output in case we're going through index_tree_menu.php
+$Result['pagelayout'] = false;
+eZDebug::updateSettings(
+    array(
+         'debug-enabled' => false
+    )
+);
 
-function arrayToJSON( $array )
-{
-    if ( $array )
-    {
-        $result = array();
-        $resultDict = array();
-        $isDict = false;
-        $index = 0;
-        foreach( $array as $key => $value )
-        {
-            if ( $key != $index++ )
-            {
-                $isDict = true;
-            }
-
-            if ( is_array( $value ) )
-            {
-                $value = arrayToJSON( $value );
-            }
-            else if ( !is_numeric( $value ) or $key == 'name' )
-            {
-                $value = '"' . washJS( $value ) . '"';
-            }
-
-            $result[] = $value;
-            $resultDict[] = '"' . washJS( $key ) . '":' . $value;
-        }
-        if ( $isDict )
-        {
-            return '{' . implode( $resultDict, ',' ) . '}';
-        }
-        else
-        {
-            return '[' . implode( $result, ',' ) . ']';
-        }
-    }
-    else
-    {
-        return '[]';
-    }
-}
-
-for ( $i = 0, $obLevel = ob_get_level(); $i < $obLevel; ++$i )
-{
-    ob_end_clean();
-}
-
-if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
+// We use aggressive browser caching by default, by manually set appropriate HTTP headers.
+// This behavior can be deactivated by setting 'use-cache-headers' user parameter to false.
+$useCacheHeaders = isset( $UserParameters['use-cache-headers'] ) ? (bool)$UserParameters['use-cache-headers'] : true;
+if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) && $useCacheHeaders )
 {
     header( $_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified' );
     header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + MAX_AGE ) . ' GMT' );
@@ -73,7 +32,8 @@ if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
     header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', strtotime( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ) . ' GMT' );
     header( 'Pragma: ' );
 
-    eZExecution::cleanExit();
+    $Result['content'] = '';
+    return;
 }
 
 $nodeID = (int) $Params['NodeID'];
@@ -84,8 +44,12 @@ $contentstructuremenuINI = eZINI::instance( 'contentstructuremenu.ini' );
 if ( $contentstructuremenuINI->variable( 'TreeMenu', 'Dynamic' ) != 'enabled' )
 {
     header( $_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden' );
-
-    eZExecution::cleanExit();
+    $Result['content'] = json_encode(
+        array(
+             'error'    => ezpI18n::tr( 'kernel/content/treemenu', 'Cannot display the treemenu because it is disabled.' ),
+             'code'     => 403
+        )
+    );
     return;
 }
 
@@ -115,16 +79,17 @@ if ( $contentstructuremenuINI->variable( 'TreeMenu', 'UseCache' ) == 'enabled' a
 
     if ( !( $cacheFileContent  instanceof eZClusterFileFailure ) )
     {
-        header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + MAX_AGE ) . ' GMT' );
-        header( 'Cache-Control: max-age=' . MAX_AGE );
-        header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', $Params['Modified'] ) . ' GMT' );
-        header( 'Pragma: ' );
-        header( 'Content-Type: application/json' );
-        header( 'Content-Length: ' . strlen( $cacheFileContent ) );
+        if ( $useCacheHeaders )
+        {
+            header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + MAX_AGE ) . ' GMT' );
+            header( 'Cache-Control: max-age=' . MAX_AGE );
+            header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', $Params['Modified'] ) . ' GMT' );
+            header( 'Pragma: ' );
+            header( 'Content-Type: application/json' );
+            header( 'Content-Length: ' . strlen( $cacheFileContent ) );
+        }
 
-        echo $cacheFileContent;
-
-        eZExecution::cleanExit();
+        $Result['content'] = $cacheFileContent;
         return;
     }
 }
@@ -134,19 +99,23 @@ $node = eZContentObjectTreeNode::fetch( $nodeID );
 if ( !$node )
 {
     header( $_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found' );
+    $Result['content'] = '';
 }
 else if ( !$node->canRead() )
 {
-    $jsonText= arrayToJSON( array(
-        'error_code' => -1,
-        'error_message' => ezpI18n::tr( 'kernel/content', 'You do not have enough rights to access the requested node' ),
-        'node_id' => $nodeID,
-    ) );
+    $jsonText= json_encode(
+        array(
+            'error_code' => -1,
+            'error_message' => ezpI18n::tr( 'kernel/content', 'You do not have enough rights to access the requested node' ),
+            'node_id' => $nodeID,
+        )
+    );
 
+    header( $_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden' );
     header( 'Content-Type: application/json' );
     header( 'Content-Length: '.strlen( $jsonText ) );
 
-    echo $jsonText;
+    $Result['content'] = $jsonText;
 }
 else
 {
@@ -206,27 +175,27 @@ else
     {
         $childObject = $child->object();
         $childResponse = array();
-        $childResponse['node_id'] = $child->NodeID;
-        $childResponse['object_id'] = $child->ContentObjectID;
+        $childResponse['node_id'] = (int)$child->NodeID;
+        $childResponse['object_id'] = (int)$child->ContentObjectID;
         $object = $child->object();
-        $childResponse['class_id'] = $object->ClassID;
-        $childResponse['has_children'] = ( $child->subTreeCount( $conditions ) )? 1: 0;
+        $childResponse['class_id'] = (int)$object->ClassID;
+        $childResponse['has_children'] = $child->subTreeCount( $conditions ) > 0;
         $childResponse['name'] = $child->getName();
         $childResponse['url'] = $child->url();
         // force system url on empty urls (root node)
         if ( $childResponse['url'] === '' )
             $childResponse['url'] = 'content/view/full/' . $childResponse['node_id'];
         eZURI::transformURI( $childResponse['url'] );
-        $childResponse['modified_subnode'] = $child->ModifiedSubNode;
+        $childResponse['modified_subnode'] = (int)$child->ModifiedSubNode;
         $childResponse['languages'] = $childObject->availableLanguages();
-        $childResponse['is_hidden'] = $child->IsHidden;
-        $childResponse['is_invisible'] = $child->IsInvisible;
+        $childResponse['is_hidden'] = (bool)$child->IsHidden;
+        $childResponse['is_invisible'] = (bool)$child->IsInvisible;
         if ( $createHereMenu == 'full' )
         {
             $childResponse['class_list'] = array();
             foreach ( $child->canCreateClassList() as $class )
             {
-                $childResponse['class_list'][] = $class['id'];
+                $childResponse['class_list'][] = (int)$class['id'];
             }
         }
         $response['children'][] = $childResponse;
@@ -237,7 +206,7 @@ else
 
     $httpCharset = eZTextCodec::httpCharset();
 
-    $jsonText= arrayToJSON( $response );
+    $jsonText= json_encode( $response );
 
     $codec = eZTextCodec::instance( $httpCharset, 'unicode' );
     $jsonTextArray = $codec->convertString( $jsonText );
@@ -254,14 +223,18 @@ else
         }
     }
 
-    header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + MAX_AGE ) . ' GMT' );
-    header( 'Cache-Control: cache, max-age=' . MAX_AGE . ', post-check=' . MAX_AGE . ', pre-check=' . MAX_AGE );
-    header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', $node->ModifiedSubNode ) . ' GMT' );
-    header( 'Pragma: cache' );
-    header( 'Content-Type: application/json' );
-    header( 'Content-Length: '.strlen( $jsonText ) );
+    if ( $useCacheHeaders )
+    {
+        header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + MAX_AGE ) . ' GMT' );
+        header( 'Cache-Control: cache, max-age=' . MAX_AGE . ', post-check=' . MAX_AGE . ', pre-check=' . MAX_AGE );
+        header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', $node->ModifiedSubNode ) . ' GMT' );
+        header( 'Pragma: cache' );
+        header( 'Content-Type: application/json' );
+        header( 'Content-Length: '.strlen( $jsonText ) );
+    }
 
-    echo $jsonText;
+    $Result['lastModified'] = new DateTime( "@$node->ModifiedSubNode" );
+    $Result['content'] = $jsonText;
 
     if ( $handler )
     {
@@ -269,7 +242,5 @@ else
                                      'binarydata' => $jsonText ) );
     }
 }
-
-eZExecution::cleanExit();
 
 ?>

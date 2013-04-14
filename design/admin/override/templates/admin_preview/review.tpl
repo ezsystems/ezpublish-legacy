@@ -16,7 +16,7 @@
 
     <div class="attribute-rating">
         <p>
-        <label>Rating:</label>
+        <h6>Rating:</h6>
         {attribute_view_gui attribute=$node.data_map.rating}
         </p>
     </div>

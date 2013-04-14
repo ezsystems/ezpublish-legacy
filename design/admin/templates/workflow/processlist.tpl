@@ -1,20 +1,18 @@
 {* rush *}
 <div class="context-block">
 
-{* DESIGN: Header START *}
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h1 class="context-title">{'Workflow processes [%trigger_count]'|i18n( 'design/admin/workflow/processlist',, hash( '%trigger_count', $total_process_count ) )}</h1>
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+<h1 class="context-title">{'Workflow processes (%trigger_count)'|i18n( 'design/admin/workflow/processlist',, hash( '%trigger_count', $total_process_count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
-    <p>
+<div class="button-left">
+    <p class="table-preferences">
     {switch match=$page_limit}
     {case match=25}
         <a href={'/user/preferences/set/admin_workflow_processlist_limit/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
@@ -38,8 +36,7 @@
         {/switch}
     </p>
 </div>
-<div class="block"></div>
-</div>
+<div class="float-block"></div>
 </div>
 
 {if $trigger_list}
@@ -50,7 +47,7 @@
 {$tentry.trigger.module_name}/{$tentry.trigger.function_name}/{$tentry.trigger.name}&nbsp;:&nbsp;[{$tentry.process_list|count}]
 </label>
 </div>
-{*'[%process_count]'|i18n( 'design/admin/workflow/processlist',, hash( '%process_count', $tentry.process_list|count ) )*}
+{*'(%process_count)'|i18n( 'design/admin/workflow/processlist',, hash( '%process_count', $tentry.process_list|count ) )*}
 <table class="list" cellspacing="0">
 <tr>
     <th>{'Workflow'|i18n( 'design/admin/workflow/processlist' )}</th>
@@ -113,10 +110,10 @@
 
 {* Buttons. *}
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>

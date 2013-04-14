@@ -57,11 +57,11 @@
     {/if}
 
     {if $has_access}
-        {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+        {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
         <h4>{if is_set( $i18n_hash[ $menu_name ] )}{$i18n_hash[ $menu_name ]|wash}{else}{$menu_name|d18n($i18n_section)}{/if}</h4>
-        {* DESIGN: Header END *}</div></div></div></div></div></div>
+        {* DESIGN: Header END *}</div></div>
 
-        {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+        {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
         {if eq( $ui_context, 'edit' )}
             <ul class="leftmenu-items">
@@ -110,7 +110,7 @@
             </ul>
         {/if}
 
-        {* DESIGN: Content END *}</div></div></div></div></div></div>
+        {* DESIGN: Content END *}</div></div></div>
     {/if}
     {undef $url_list $menu_name $check $has_access}
 {/if}

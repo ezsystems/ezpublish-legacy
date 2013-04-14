@@ -1,0 +1,113 @@
+
+# 1.3.0alpha1
+- Change index_ajax.php to not include / call functions that have been deprecated since 4.3
+  and take advantage of session lazy loading on 4.4
+- Change use of old templateInit() api and use class based api introduced in 4.3 instead
+- Updated jQuery to 1.4.3
+- Fixed bug #017355: admin2: js error prevents context menu in children items table to pop up
+- Fixed bug #017573: (tc-458) utf8 names are no rendered properly in admin2 interface
+- Added a new server call for the content publishing queue
+- Fixed bug #017970: (tc-150)(teamroom) "Error loading box" in teamroom home page
+
+# v1.2.0rc1
+- Fixed bug #017223: Make LoadFromCDN disabled by default
+
+# v1.2.0beta2
+- Added jQuery.ez() post param string support like jQuery.post()
+- ezjscnode::load added to load json data about object / node
+- Update YUI to 3.1.2
+- Fixed bug #017079: ezoe: IE8 Insert MEDIA/IMAGE browse: Tree Nodes not shown
+
+# v1.2.0alpha6
+- Make index_ajax.php compatible with 4.4 eZSession change
+
+# v1.2.0alpha4
+- Fixed bug #016900: [patch] eZJSCore: clearing Packer cache in DB cluster
+
+# v1.2.0alpha3
+- Implemented #16495: Improvements of ezjscPacker::optimizeCSS()
+- Fixed bug #16635: ezjscore: @charset "utf-8"; is not stripped
+- Fixed bug #16831: ezjscore create one js cache file for all siteaccess (patch)
+- Remove ezwebin template override to simplify webin + ezjscore setup (loading order does not matter anymore)
+  BC: Means ezjscore v1.2.0+ will not work on older ezwebin versions, only ezwebin 1.7.0 and up!
+- Updated YUI to 3.1.1 and 2.8.1
+
+# v1.2.0alpha2
+- Fixed bug #16726: Src for original image in "Insert image" has a pipe ("|") at the end
+- Fixed bug #16761: ini settings and ActiveAccessExtension
+- Fixed bug #16669: wrong content-type header for packed js/css files using clustering
+- ezjscAjaxContent: Make sure image attribute has content before we add it to json image array
+
+# v1.2.0alpha1
+- Fixed bug #16393: TC-36 - eZFlow + eZFind show-facets and enable-spellchecker always enabled
+- Upgraded YUI 3.x from 3.0.0 to 3.1.0
+
+
+# v1.1.0rc1
+- Fixed bug #16456: ezjscore not cluster aware?
+
+# v1.1.0beta1
+
+- Fixed #016129: hasAccessToLimitation ezjscore 1.0.1 function does not properly check multiple policies
+  Added: has_access_to_limitation now has a fourth parameter 'debug', that needs to be true to get debug
+      on unmatched policy's
+- Added a fourth parameter on ezjscore/call to be able to enable debug in response
+- Make ezjscServerRouter use hasAccessToLimitation to support multiple policies
+- Add support for spellchecker and facets support for ezfind
+- Add support for serializeArray() format as post parameter on jQuery.ez
+- Updated jQuery to 1.4.2
+- Changed back to using ajax.googleapis.com for jQuery like 1.0, reported in #016229
+
+
+# v1.1.0alpha1
+
+- Fixed bug: ie6 issue with Y.io.ez
+- Updated YUI 3.0.0 to GA
+- Fixed bug #15606: Admin Content Tree images not found
+- Fixed bug #15699: eZJSCore: possible function mixup for ezscriptfiles template operator
+- BC: Removed charset attribute from all html tags but script with src attribute (html validation)
+- Deprecated charset parameter on ezcss, ezcss_load and ezcss_requried template operators!
+- Only use POST parameters for ezjscore/call parameters to avoid reaching url limit and 
+  logging parameters in wwwserver logs
+- Add missing include_once('kernel/common/i18n.php'); in index_ajax.php
+- Make sure admin user has access to /call even if PolicyOmitList/AnonymousAccessList is commented
+- Add support for c.arguments on Y.io.ez() like Y.io() has
+- Added support for setting ContentType with get parameter on ezjscore/call for development use
+- Added ezjsc::search for re use by other extensions (same parameters as the one in ezflow and ezoe)
+- Fixed ezjscore/run issue with eZ Publish 4.0.0 / 4.0.1 on eZURI::instance()
+- Disabled language attribute by default on ezscript() for xhtml strict / xhtml1.1 / html5 validation
+- BC: Fixed setting typo LocaleScript -> LocalScript in ezjscore.ini
+- Added support for more general use of has_access_to_limitation including array values for limitations
+- ezjsc::search: Added support for SearchContentClassIdentifier (requires ezp 4.1 or higher)
+- ezjsc::search: Return SearchString as part of returned result for js callback use
+- Bump required eZ Publish version to 4.1
+- Implemented #15811: ez JS Packer option to include modified time in file url
+- Packer: Don't waste cycles on packing and caching if there is only one file, serve it directly
+- Fixed bug #15972: ezcache.php --clear-all does not clear ezjscore cache
+- Implemented enhancement #16059: DEPRECATED CSSFileList|JavaScriptList in favour of [Frontend|Backend][CSSFileList|JavaScriptList] settings
+- Updated jQuery to 1.4.1
+- Implemented enhancement #16068: ezjscore Packer option to specify domain for js/css url
+- Add possibility to use GET method if specified (yui3io: in c parameter, jqueryio: with false post parameter)
+
+
+
+# v1.0.0  29 Sept 2009
+
+- Added FAQ and CHANGELOG
+- Moved [eZJSCore]Packer=disabled from site.ini to ezjscore.ini to comply with eZ Network certification
+
+
+
+# v1.0.0rc2  19 Sept 2009
+
+- Added link to project website in ezinfo page
+- Don't store $moduleResult['content_info']['persistent_variable'] unless it's already defined (to avoid confusing code that checks for presence of $moduleResult['content_info'])
+- Flatten persistent_variable array to make sure array_unique can actually remove all duplicates
+- Fixed bug: Access to a kernel module via index_ajax.php
+- Added note in ezinfo about jQuery
+- Fixed url to jQuery to use google cdn and not googlecode
+
+
+# v1.0.0rc1  17 Sept 2009
+
+- Initial version

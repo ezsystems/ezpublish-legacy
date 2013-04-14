@@ -2,7 +2,7 @@
 /**
  * File containing the eZMatrixType class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -406,30 +406,30 @@ class eZMatrixType extends eZDataType
 
     function fromString( $contentObjectAttribute, $string )
     {
+        $matrix = $contentObjectAttribute->attribute( 'content' );
+        $matrix->Cells = array();
+        $matrix->Matrix['rows']['sequential'] = array();
+        $matrix->NumRows = 0;
+
         if ( $string != '' )
         {
-            $matrix = $contentObjectAttribute->attribute( 'content' );
             $matrixRowsList = eZStringUtils::explodeStr( $string, "&" );
-            $cells = array();
-            $matrix->Matrix['rows']['sequential'] = array();
-            $matrix->NumRows = 0;
-
+            
             foreach( $matrixRowsList as $key => $value )
             {
                 $newCells = eZStringUtils::explodeStr( $value, '|' );
                 $matrixArray[] = $newCells;
-                $cells = array_merge( $cells, $newCells );
+                $matrix->Cells = array_merge( $matrix->Cells, $newCells );
 
                 $newRow['columns'] = $newCells;
                 $newRow['identifier'] =  'row_' . ( $matrix->NumRows + 1 );
                 $newRow['name'] = 'Row_' . ( $matrix->NumRows + 1 );
                 $matrix->NumRows++;
 
-
                 $matrix->Matrix['rows']['sequential'][] = $newRow;
             }
-            $matrix->Cells = $cells;
         }
+
         return true;
     }
 

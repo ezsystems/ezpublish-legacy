@@ -1,0 +1,52 @@
+Changes to BC and behavior in version 5.1
+=========================================
+
+INI setting changes
+-------------------
+
+
+Change of behavior
+------------------
+
+- Fixed EZP-19889: eZSelectionType-> hasObjectAttributeContent now returns TRUE
+  only if at least one selection is made, otherwise FALSE. In previous releases
+  this method always returned TRUE
+
+- Fixed EZP-20289: Symfony CSRF protection not integrated with legacy
+
+  Changed ezFormToken to do csrf protection in same way as Symfony meaning
+  there is now a new setting that must be set pr project to accomplish good
+  security, set site.ini\[HTMLForms]\Secret on pure legacy/4.x setup.
+
+  If your running eZ Publish 5.x, the already existing yml parameter %secret%
+  will be automatically injected to eZFormToke for you, assuming
+  config.yml framework.csrf_protection is set to true (enabled).
+
+
+Removed features
+----------------
+
+- eZContentOperationCollection::publishContentObjectRelations()
+
+  Was used for processing relations through ezcontentobject_link.op_code column.
+  Handling relations in this way was removed as extraneous.
+  See issue EZP-20239.
+
+- eZDBFileHandler and eZFS2FileHandler handlers have been removed since they
+  were obsolete and replaced by eZDFS ones.
+
+
+Removed constants
+-----------------
+
+
+
+Removed globals
+---------------
+
+
+
+
+Deprecated
+----------
+

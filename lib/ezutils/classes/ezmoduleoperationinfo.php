@@ -2,7 +2,7 @@
 /**
  * File containing the eZModuleOperationInfo class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -157,9 +157,6 @@ class eZModuleOperationInfo
                 $operationKeys = $operationDefinition['keys'];
             $operationParameterDefinitions = $operationDefinition['parameters'];
 
-            $db = eZDB::instance();
-            $db->begin();
-
             $this->storeOperationMemento( $operationKeys, $operationParameterDefinitions, $operationParameters, $bodyCallCount, $operationName );
 
             $runOperation = true;
@@ -255,8 +252,6 @@ class eZModuleOperationInfo
             }
             */
             $this->Memento = null;
-
-            $db->commit();
         }
         else
         {
@@ -687,7 +682,7 @@ class eZModuleOperationInfo
 
         $keyArray = $this->makeKeyArray( $operationKeys, $operationParameterDefinitions, $operationParameters );
         $http = eZHTTPTool::instance();
-        $keyArray['session_key'] = $http->getSessionKey();
+        $keyArray['session_key'] = $http->sessionID();
         $mementoData = array();
         $mementoData['name'] = $bodyName;
         $mementoData['parameters'] = $operationParameters;
@@ -827,15 +822,6 @@ class eZModuleOperationInfo
 
         return $GLOBALS['eZModuleOperationClassObjectList'][$className] = new $className();
     }
-
-    /**
-     * @deprecated use call_user_func_array() instead
-     */
-    function callClassMethod( $methodName, $classObject, $parameterArray )
-    {
-        return call_user_func_array( array( $classObject, $methodName ), $parameterArray );
-    }
-
 
     /// \privatesection
     public $ModuleName;

@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -424,10 +424,6 @@ if ( $contentClassHasInput )
             {
                 $attribute->setAttribute( 'category', $categoryArray[$attributeID] );
             }
-
-            $placement = (int) $placementArray[$attribute->attribute( 'id' )];
-            if ( $attribute->attribute( 'placement' ) != $placement )
-                $attribute->setAttribute( 'placement', $placement );
         }
     }
 }
@@ -531,6 +527,61 @@ $class->NameList->setHasDirtyData();
 
 $trans = eZCharTransform::instance();
 
+if ( $contentClassHasInput && $validationRequired )
+{
+    // check for duplicate attribute identifiers and placements in the input
+    $placementMap = array();
+    $identifierMap = array();
+    foreach ( $attributes as $attribute )
+    {
+        $id = $attribute->attribute( "id" );
+        $placement = (int)$placementArray[$id];
+        $identifier = $attribute->attribute( "identifier" );
+
+        if ( isset( $placementMap[$placement] ) )
+        {
+            $validation["attributes"][] = array(
+                "identifier" => $identifier,
+                "name" => $attribute->attribute( "name" ),
+                "id" => $id,
+                "reason" => array ( 'text' => ezpI18n::tr( "kernel/class", "duplicate attribute placement" ) )
+            );
+            $canStore = false;
+        }
+        $placementMap[$placement] = $attribute;
+
+        if ( isset( $identifierMap[$identifier] ) )
+        {
+            $validation["attributes"][] = array(
+                "identifier" => $identifier,
+                "name" => $attribute->attribute( "name" ),
+                "id" => $id,
+                "reason" => array ( 'text' => ezpI18n::tr( "kernel/class", "duplicate attribute identifier" ) )
+            );
+            $canStore = false;
+        }
+        $identifierMap[$identifier] = true;
+    }
+
+    if ( $canStore )
+    {
+        // Reaffecting correct placement numbers here
+        // This is required to be done before the call to:
+        //     $dataType->initializeClassAttribute( $attribute );
+        // since some data types are calling $attribute->store();
+        // which will store the raw input position number before it has been
+        // modified by eZContentClass::adjustAttributePlacements()
+        // @see EZP-19876
+        ksort( $placementMap );
+        foreach ( array_values( $placementMap ) as $i => $attribute )
+        {
+            $attribute->setAttribute( "placement", $i + 1 );
+        }
+    }
+
+    unset( $placementMap, $identifierMap, $id, $placement );
+}
+
 // Fixed identifiers to only contain a-z0-9_
 foreach( $attributes as $attribute )
 {
@@ -624,49 +675,6 @@ if ( $contentClassHasInput )
     }
 }
 
-if ( $validationRequired )
-{
-    // check for duplicate attribute identifiers in the input
-    $attributesCount = count( $attributes );
-    if ( $attributesCount > 1 )
-    {
-        $attributesValues = array_values( $attributes );
-        for ( $attrIndex = 0; $attrIndex < $attributesCount - 1; $attrIndex++ )
-        {
-            $classAttribute = $attributesValues[$attrIndex];
-            $identifier = $classAttribute->attribute( 'identifier' );
-            $placement = $classAttribute->attribute( 'placement' );
-            for ( $attrIndex2 = $attrIndex + 1; $attrIndex2 < $attributesCount; $attrIndex2++ )
-            {
-                $classAttribute2 = $attributesValues[$attrIndex2];
-                $identifier2 = $classAttribute2->attribute( 'identifier' );
-                $placement2 = $classAttribute2->attribute( 'placement' );
-                if (  $placement ==  $placement2 )
-                {
-                    $validation['attributes'][] = array( 'identifier' => $identifier2,
-                                                         'name' => $classAttribute2->attribute( 'name' ),
-                                                         'id' => $classAttribute2->attribute( 'id' ),
-                                                         'reason' => array ( 'text' => ezpI18n::tr( 'kernel/class', 'duplicate attribute placement' ) ) );
-                    $canStore = false;
-                    break;
-                }
-
-                if ( $identifier == $identifier2 )
-                {
-                    $validation['attributes'][] = array( 'identifier' => $identifier,
-                                                         'name' => $classAttribute->attribute( 'name' ),
-                                                         'id' => $classAttribute->attribute( 'id' ),
-                                                         'reason' => array ( 'text' => ezpI18n::tr( 'kernel/class', 'duplicate attribute identifier' ) ) );
-                    $canStore = false;
-                    break;
-                }
-            }
-        }
-
-        unset( $attributesValues );
-    }
-}
-
 // Store version 0 and discard version 1
 if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
 {
@@ -739,6 +747,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
 
         $db->commit();
         $http->removeSessionVariable( 'ClassCanStoreTicket' );
+        ezpEvent::getInstance()->notify( 'content/class/cache', array( $ClassID ) );
         return $Module->redirectToView( 'view', array( $ClassID ), $unorderedParameters );
     }
 }

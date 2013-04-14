@@ -29,24 +29,24 @@
         {let ignore_nodes_merge=merge( $browse.ignore_nodes_select_subtree, $Nodes.item.path_array )
             browse_permission = true()}
         {if $browse.permission}
-	        {if $browse.permission.contentclass_id}
-	            {if is_array( $browse.permission.contentclass_id )}
-	                {foreach $browse.permission.contentclass_id as $contentclass_id}
-	                    {set $browse_permission = fetch( 'content', 'access', hash( 'access', $browse.permission.access,
-	                                                                       'contentobject',   $Nodes.item,
-	                                                                       'contentclass_id', $contentclass_id ) )}
-	                    {if $browse_permission|not}{break}{/if}
-	                {/foreach}
-	            {else}
-	                {set $browse_permission = fetch( 'content', 'access', hash( 'access', $browse.permission.access,
-	                                                                   'contentobject',   $Nodes.item,
-	                                                                   'contentclass_id', $browse.permission.contentclass_id ) )}
-	            {/if}
-	        {else}
-	            {set $browse_permission = fetch( 'content', 'access', hash( 'access', $browse.permission.access,
-	                                                               'contentobject',   $Nodes.item ) )}
-	        {/if}
-	    {/if}
+            {if $browse.permission.contentclass_id}
+                {if is_array( $browse.permission.contentclass_id )}
+                    {foreach $browse.permission.contentclass_id as $contentclass_id}
+                        {set $browse_permission = fetch( 'content', 'access', hash( 'access', $browse.permission.access,
+                                                                           'contentobject',   $Nodes.item,
+                                                                           'contentclass_id', $contentclass_id ) )}
+                        {if $browse_permission|not}{break}{/if}
+                    {/foreach}
+                {else}
+                    {set $browse_permission = fetch( 'content', 'access', hash( 'access', $browse.permission.access,
+                                                                       'contentobject',   $Nodes.item,
+                                                                       'contentclass_id', $browse.permission.contentclass_id ) )}
+                {/if}
+            {else}
+                {set $browse_permission = fetch( 'content', 'access', hash( 'access', $browse.permission.access,
+                                                                   'contentobject',   $Nodes.item ) )}
+            {/if}
+        {/if}
         {if and( $browse_permission,
                            $browse.ignore_nodes_select|contains( $Nodes.item.node_id )|not,
                            eq( $ignore_nodes_merge|count,
@@ -55,7 +55,7 @@
                 {if $browse.class_array|contains( $Nodes.item.object.content_class.identifier )}
                     <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item[$select_attribute]}" />
                 {else}
-                    <input type="{$select_type}" name="" value="" disabled="disabled" />
+                    <input type="{$select_type}" name="_Disabled" value="" disabled="disabled" />
                 {/if}
             {else}
                 {if and( or( eq( $browse.action_name, 'MoveNode' ), eq( $browse.action_name, 'CopyNode' ), eq( $browse.action_name, 'AddNodeAssignment' ) ), $Nodes.item.object.content_class.is_container|not )}
@@ -65,7 +65,7 @@
                 {/if}
             {/if}
         {else}
-            <input type="{$select_type}" name="" value="" disabled="disabled" />
+            <input type="{$select_type}" name="_Disabled" value="" disabled="disabled" />
         {/if}
         {/let}
 

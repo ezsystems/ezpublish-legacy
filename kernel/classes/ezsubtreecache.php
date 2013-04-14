@@ -2,7 +2,7 @@
 /**
  * File containing the eZSubtreeCache class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -59,7 +59,7 @@ class eZSubtreeCache
         if ( !is_array( $nodeList ) )
             return;
 
-        $cacheDir = eZTemplateCacheFunction::templateBlockCacheDir();
+        $cacheDir = eZTemplateCacheBlock::templateBlockCacheDir();
 
         foreach ( $nodeList as $node )
         {
@@ -69,7 +69,7 @@ class eZSubtreeCache
 
             foreach( $nodeListID as $nodeID )
             {
-                $cachePath = $cacheDir . eZTemplateCacheFunction::subtreeCacheSubDirForNode( $nodeID );
+                $cachePath = $cacheDir . eZTemplateCacheBlock::subtreeCacheSubDirForNode( $nodeID );
                 eZSubtreeCache::cleanupCacheDir( $cachePath );
             }
         }
@@ -81,7 +81,7 @@ class eZSubtreeCache
     */
     static function cleanupAll()
     {
-        $subtreeCacheDir = eZTemplateCacheFunction::templateBlockCacheDir() . eZTemplateCacheFunction::subtreeCacheBaseSubDir();
+        $subtreeCacheDir = eZTemplateCacheBlock::templateBlockCacheDir() . eZTemplateCacheBlock::subtreeCacheBaseSubDir();
         eZSubtreeCache::cleanupCacheDir( $subtreeCacheDir );
     }
 
@@ -119,10 +119,8 @@ class eZSubtreeCache
         {
             if ( is_dir( $dir ) )
             {
-                $expiryCacheDir = eZTemplateCacheFunction::expiryTemplateBlockCacheDir();
-
                 $uniqid = md5( uniqid( 'ezpsubtreecache'. getmypid(), true ) );
-                $expiryCacheDir .= '/' . $uniqid[0] . '/' . $uniqid[1] . '/' . $uniqid[2] . '/' . $uniqid;
+                $expiryCacheDir = eZSys::cacheDirectory() . '/template-block-expiry/' . $uniqid[0] . '/' . $uniqid[1] . '/' . $uniqid[2] . '/' . $uniqid;
 
                 if ( !file_exists( $expiryCacheDir ) )
                 {
@@ -142,8 +140,7 @@ class eZSubtreeCache
     */
     static function removeAllExpiryCacheFromDisk()
     {
-        $expiryCachePath = eZTemplateCacheFunction::expiryTemplateBlockCacheDir();
-        eZSubtreeCache::removeExpiryCacheFromDisk( $expiryCachePath );
+        eZSubtreeCache::removeExpiryCacheFromDisk( eZSys::cacheDirectory() . '/template-block-expiry' );
     }
 
     /*!
@@ -153,9 +150,7 @@ class eZSubtreeCache
     static function removeExpiryCacheFromDisk( $expiryCachePath )
     {
         $fileHandler = eZClusterFileHandler::instance();
-        if ( $fileHandler instanceof eZFSFileHandler
-             or
-             $fileHandler instanceof eZFS2FileHandler )
+        if ( $fileHandler instanceof eZFSFileHandler )
         {
             // We will only delete files if the FS file handler is used,
             // if the DB file handler is in use the system will

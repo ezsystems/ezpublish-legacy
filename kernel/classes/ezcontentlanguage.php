@@ -2,7 +2,7 @@
 /**
  * File containing the eZContentLanguage class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -155,7 +155,7 @@ class eZContentLanguage extends eZPersistentObject
             return false;
         }
 
-        eZPersistentObject::remove();
+        $this->remove();
 
         eZContentCacheManager::clearAllContentCache();
 
@@ -578,7 +578,7 @@ class eZContentLanguage extends eZPersistentObject
             $language = eZContentLanguage::fetchByLocale( $locale );
             if ( $language )
             {
-                $mask += $language->attribute( 'id' );
+                $mask |= $language->attribute( 'id' );
             }
         }
 
@@ -692,15 +692,16 @@ class eZContentLanguage extends eZPersistentObject
      * Returns the SQL where-condition for selecting the rows (with object names, attributes etc.) in the correct language,
      * i. e. in the most prioritized language from those in which an object exists.
      *
-     * \param languageTable Name of the table containing the attribute with the language id.
-     * \param languageListTable Name of the table containing the attribute with the available languages bitmap.
-     * \param languageAttributeName Optional. Name of the attribute in $languageTable which contains
+     * @param string $languageTable Name of the table containing the attribute with the language id.
+     * @param string $languageListTable Name of the table containing the attribute with the available languages bitmap.
+     * @param string $languageAttributeName Optional. Name of the attribute in $languageTable which contains
      *                               the language id. 'language_id' by default.
-     * \param languageListAttributeName Optional. Name of the attribute in $languageListTable which contains
+     * @param string $languageListAttributeName Optional. Name of the attribute in $languageListTable which contains
      *                                  the bitmap mask. 'language_mask' by default.
-     * \return SQL where-condition described above.
+     * @param string $lang Language code of the most prioritized language
+     * @return string
      */
-    static function sqlFilter( $languageTable, $languageListTable = null, $languageAttributeName = 'language_id', $languageListAttributeName = 'language_mask' )
+    static function sqlFilter( $languageTable, $languageListTable = null, $languageAttributeName = 'language_id', $languageListAttributeName = 'language_mask', $lang = false )
     {
         $db = eZDB::instance();
 
@@ -710,6 +711,11 @@ class eZContentLanguage extends eZPersistentObject
         }
 
         $prioritizedLanguages = eZContentLanguage::prioritizedLanguages();
+        if ( is_string( $lang ) )
+            $lang = eZContentLanguage::fetchByLocale( $lang );
+        if ( $lang instanceof eZContentLanguage )
+            array_unshift( $prioritizedLanguages, $lang );
+
         if ( $db->databaseName() == 'oracle' )
         {
             $leftSide = "bitand( $languageListTable.$languageListAttributeName - bitand( $languageListTable.$languageListAttributeName, $languageTable.$languageAttributeName ), 1 )\n";
@@ -850,13 +856,6 @@ class eZContentLanguage extends eZPersistentObject
     function translation()
     {
         return $this;
-    }
-
-    /**
-     * \deprecated
-     */
-    function updateObjectNames()
-    {
     }
 
     /**

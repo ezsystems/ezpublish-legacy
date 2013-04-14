@@ -1,14 +1,14 @@
 <form method="post" action={concat( $Module.functions.policyedit.uri, '/', $policy_id, '/' )|ezurl}>
 
-<div class="contex-block">
+<div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'Edit <%policy_name> policy for <%role_name> role'|i18n( 'design/admin/role/policyedit',, hash( '%policy_name', concat( $current_module, '/', $current_function ), '%role_name', $role_name ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -36,8 +36,8 @@
 {if $function_limitations|count|gt( 1 )}
 <div class="element">
 {/if}
-<label>{$Limitations:item.name|wash}:</label>
-<select name="{$Limitations:item.name}[]" size="8" multiple="multiple">
+<label for="ezrole_createpolizy_limitation_{$Limitations:item.name|wash}">{$Limitations:item.name|wash}:</label>
+<select id="ezrole_createpolizy_limitation_{$Limitations:item.name|wash}" name="{$Limitations:item.name}[]" size="8" {if or( not( is_set( $Limitations:item.single_select ) ), not($Limitations:item.single_select) ) }multiple="multiple"{/if} >
 <option value="-1" {switch match=$current_limitation_list[$Limitations:item.name]}
 {case match=-1} selected="selected"{/case}{case}{/case}{/switch}>{'Any'|i18n( 'design/admin/role/policyedit' )}</option>
 {section name=LimitationValues loop=$Limitations:item.values}
@@ -60,7 +60,7 @@
 {case match='Node'}
 <div class="block">
 <fieldset>
-<legend>{'Nodes [%node_count]'|i18n( 'design/admin/role/policyedit',, hash( '%node_count', $node_list|count ) )}</legend>
+<legend>{'Nodes (%node_count)'|i18n( 'design/admin/role/policyedit',, hash( '%node_count', $node_list|count ) )}</legend>
 {section show=$node_list}
 <table class="list" cellspacing="0">
 <tr>
@@ -95,7 +95,7 @@
 {case match='Subtree'}
 <div class="block">
 <fieldset>
-<legend>{'Subtrees [%subtree_count]'|i18n( 'design/admin/role/policyedit',, hash( '%subtree_count', $subtree_list|count ) )}</legend>
+<legend>{'Subtrees (%subtree_count)'|i18n( 'design/admin/role/policyedit',, hash( '%subtree_count', $subtree_list|count ) )}</legend>
 {section show=$subtree_list}
 <table class="list" cellspacing="0">
 <tr>
@@ -139,7 +139,7 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
     <input type="hidden" name="CurrentModule" value="{$current_module}" />
     <input type="hidden" name="CurrentFunction" value="{$current_function}" />
@@ -151,7 +151,7 @@
 
     <input class="button" type="submit" name="DiscardChange" value="{'Cancel'|i18n( 'design/admin/role/policyedit' )}" />
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>

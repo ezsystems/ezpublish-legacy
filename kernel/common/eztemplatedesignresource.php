@@ -2,7 +2,7 @@
 /**
  * File containing the eZTemplateDesignResource class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -667,20 +667,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             }
         }
 
-        $designLocationCache = false;
-        $ini = eZINI::instance( 'site.ini' );
-        if( $ini->variable( 'DesignSettings', 'DesignLocationCache' ) == 'enabled' )
-            $designLocationCache = true;
-
-        /*
-         * We disable design cache in case of DB clustering
-         * because it will add 2 SQL queries per HTTP request
-         */
-        $ini = eZINI::instance( 'file.ini' );
-        if( $ini->variable( 'ClusteringSettings', 'FileHandler' ) == 'eZDBFileHandler')
-            $designLocationCache = false;
-
-        if( $designLocationCache )
+        if ( eZINI::instance( 'site.ini' )->variable( 'DesignSettings', 'DesignLocationCache' ) === 'enabled' )
         {
             // Using current SA if none given
             $siteAccessName = $siteAccess !== false ? $siteAccess : $GLOBALS['eZCurrentAccess']['name'];
@@ -702,7 +689,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             else
             {
                 // find design locations
-                $designBaseList = self::findDesignBase( $ini, $siteAccess );
+                $designBaseList = self::findDesignBase( eZINI::instance( 'file.ini' ), $siteAccess );
 
                 // stores it on the disk
                 $clusterFileHandler->fileStoreContents( $cachePath,
@@ -716,7 +703,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         else
         {
             // find design locations
-            $designBaseList = self::findDesignBase( $ini, $siteAccess );
+            $designBaseList = self::findDesignBase( eZINI::instance( 'file.ini' ), $siteAccess );
 
             self::savesMemoryCache( $designBaseList, $siteAccess );
         }

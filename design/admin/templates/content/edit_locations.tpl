@@ -1,13 +1,14 @@
 {default exclude_remote_assignments=false()}
 {let name=Node exclude_remote_assignments=$:exclude_remote_assignments
-               sort_fields=hash( 2, 'Published'|i18n( 'design/admin/content/edit' ),
-                                 3, 'Modified'|i18n( 'design/admin/content/edit' ),
-                                 4, 'Section'|i18n( 'design/admin/content/edit' ),
-                                 5, 'Depth'|i18n( 'design/admin/content/edit' ),
-                                 9, 'Name'|i18n( 'design/admin/content/edit' ),
-                                 6, 'Class identifier'|i18n( 'design/admin/content/edit' ),
+               sort_fields=hash( 6, 'Class identifier'|i18n( 'design/admin/content/edit' ),
                                  7, 'Class name'|i18n( 'design/admin/content/edit' ),
-                                 8, 'Priority'|i18n( 'design/admin/content/edit' ) )
+                                 5, 'Depth'|i18n( 'design/admin/content/edit' ),
+                                 3, 'Modified'|i18n( 'design/admin/content/edit' ),
+                                 9, 'Name'|i18n( 'design/admin/content/edit' ),
+                                 1, 'Path String'|i18n( 'design/admin/content/edit' ),
+                                 8, 'Priority'|i18n( 'design/admin/content/edit' ),
+                                 2, 'Published'|i18n( 'design/admin/content/edit' ),
+                                 4, 'Section'|i18n( 'design/admin/content/edit' ) )
                has_top_levels=false()
                existingParentNodes=$object.parent_nodes}
 
@@ -23,20 +24,20 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h2 class="context-title">{'Locations [%locations]'|i18n( 'design/admin/content/edit',, hash( '%locations', $assigned_node_array|count ) )}</h2>
+<h2 class="context-title">{'Locations (%locations)'|i18n( 'design/admin/content/edit',, hash( '%locations', $assigned_node_array|count ) )}</h2>
 
-{* DESIGN: Subline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <table class="list" cellspacing="0" >
 <tr>
 {* JB TODO: The alt/title fields should get different text descriptions when they are disabled *}
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/content/edit' )}" title="{'Invert selection.'|i18n( 'design/admin/content/edit' )}" onclick="ezjs_toggleCheckboxes( document.editform, 'AssignmentIDSelection[]' ); return false;" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/content/edit' )}" title="{'Invert selection.'|i18n( 'design/admin/content/edit' )}" onclick="ezjs_toggleCheckboxes( document.editform, 'AssignmentIDSelection[]' ); return false;" /></th>
     <th>{'Location'|i18n( 'design/admin/content/edit' )}</th>
     <th>{'Sub items'|i18n( 'design/admin/content/edit' )}</th>
     <th>{'Sorting of sub items'|i18n( 'design/admin/content/edit' )}</th>
@@ -68,28 +69,28 @@
     {/if}
     <tr class="{$Node:sequence}">
 
-	{* Remove. *}
+    {* Remove. *}
     <td>
     {if or( $location_ui_enabled|not, and( $Node:item.node, $Node:item.node.can_remove|not ) )}
-	<input type="checkbox" name="AssignmentIDSelection[]" value="{$Node:item.parent_node}" title="{'You do not have permission to remove this location.'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
+    <input type="checkbox" name="AssignmentIDSelection[]" value="{$Node:item.parent_node}" title="{'You do not have permission to remove this location.'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
     {else}
-	<input type="checkbox" name="AssignmentIDSelection[]" value="{$Node:item.parent_node}" title="{'Select location for removal.'|i18n( 'design/admin/content/edit' )}" />
+    <input type="checkbox" name="AssignmentIDSelection[]" value="{$Node:item.parent_node}" title="{'Select location for removal.'|i18n( 'design/admin/content/edit' )}" />
     {/if}
     </td>
 
     {* Location. *}
     <td>
     {$:nameStart}
-	{switch match=$Node:parent_node.node_id}
-	{case match=1}
-	{'Top node'|i18n( 'design/admin/content/edit' )}
-	{/case}
-	{case}
+    {switch match=$Node:parent_node.node_id}
+    {case match=1}
+    {'Top node'|i18n( 'design/admin/content/edit' )}
+    {/case}
+    {case}
     {section name=Path loop=$Node:parent_node.path}
-	{$Node:Path:item.name|wash} /
-	{/section}
+    {$Node:Path:item.name|wash} /
+    {/section}
     {$Node:parent_node.name|wash}
-	{/case}
+    {/case}
     {/switch} / {$object.name|wash}
     {$:nameEnd}
     </td>
@@ -110,7 +111,7 @@
     <option value="{$Node:Sort:key}" {if eq($Node:Sort:key,$Node:item.sort_field)}selected="selected"{/if}>{$Node:Sort:item}</option>
     {/section}
     </select>
-	<select {if $location_ui_enabled|not}disabled="disabled" {/if}name="SortOrderMap[{$Node:item.id}]" title="{'Use this menu to set the sorting direction for the sub items in this location.'|i18n( 'design/admin/content/edit' )}">
+    <select {if $location_ui_enabled|not}disabled="disabled" {/if}name="SortOrderMap[{$Node:item.id}]" title="{'Use this menu to set the sorting direction for the sub items in this location.'|i18n( 'design/admin/content/edit' )}">
     <option value="1" {if eq( $Node:item.sort_order, 1)}selected="selected"{/if}>{'Asc.'|i18n( 'design/admin/content/edit' )}</option>
     <option value="0" {if eq( $Node:item.sort_order, 0)}selected="selected"{/if}>{'Desc.'|i18n( 'design/admin/content/edit' )}</option>
     </select>
@@ -176,7 +177,7 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 
 {if $:has_top_levels|not}
@@ -197,7 +198,7 @@
 
 
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>

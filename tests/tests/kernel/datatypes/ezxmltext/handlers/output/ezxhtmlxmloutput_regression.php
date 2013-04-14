@@ -2,7 +2,7 @@
 /**
  * File containing the eZXHTMLXMLOutputRegression class
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -203,6 +203,7 @@ var_dump( $result );
     /**
      * Bug in headings rendering when inside tables. Initial level is not respected.
      *
+     * @todo find a better way of testing than comparing full strings
      * @link http://issues.ez.no/11536
      * @note XML is created by hand for the unit test
      */
@@ -212,17 +213,19 @@ var_dump( $result );
 
         $outputHandler = new eZXHTMLXMLOutput( $XMLString, false );
 
-        $this->assertEquals( '<a name="eztoc1" id="eztoc1"></a><h2>Heading 1</h2><a name="eztoc1_0_1" id="eztoc1_0_1"></a><h4>Heading 3</h4><a name="eztoc1_1" id="eztoc1_1"></a><h3>Heading 2</h3><table class="renderedtable" border="1" cellpadding="2" cellspacing="0" width="100%">
+        $this->assertEquals( '<a name="eztoc1" id="eztoc1"></a><h2>Heading 1</h2><a name="eztoc1_0_1" id="eztoc1_0_1"></a><h4>Heading 3</h4><a name="eztoc1_1" id="eztoc1_1"></a><h3>Heading 2</h3><table class="renderedtable" border="1" cellpadding="2" cellspacing="0" width="100%" style="width: 100%">
 <tr>
-<td valign="top">  <a name="eztoc2" id="eztoc2"></a><h2>Heading 1</h2><a name="eztoc2_2" id="eztoc2_2"></a><h3>Heading 2</h3>
+<td valign="top" style="vertical-align: top">  <a name="eztoc2" id="eztoc2"></a><h2>Heading 1</h2><a name="eztoc2_2" id="eztoc2_2"></a><h3>Heading 2</h3>
   </td>
+
 </tr>
 
 </table>
-<a name="eztoc3" id="eztoc3"></a><h2>Heading 1</h2><a name="eztoc3_2_2" id="eztoc3_2_2"></a><h4>Heading 3</h4><a name="eztoc3_3" id="eztoc3_3"></a><h3>Heading 2</h3><table class="renderedtable" border="1" cellpadding="2" cellspacing="0" width="100%">
+<a name="eztoc3" id="eztoc3"></a><h2>Heading 1</h2><a name="eztoc3_2_2" id="eztoc3_2_2"></a><h4>Heading 3</h4><a name="eztoc3_3" id="eztoc3_3"></a><h3>Heading 2</h3><table class="renderedtable" border="1" cellpadding="2" cellspacing="0" width="100%" style="width: 100%">
 <tr>
-<td valign="top">  <a name="eztoc3_3_2_0_1" id="eztoc3_3_2_0_1"></a><h6>Heading 5</h6><a name="eztoc3_3_2_1" id="eztoc3_3_2_1"></a><h5>Heading 4</h5>
+<td valign="top" style="vertical-align: top">  <a name="eztoc3_3_2_0_1" id="eztoc3_3_2_0_1"></a><h6>Heading 5</h6><a name="eztoc3_3_2_1" id="eztoc3_3_2_1"></a><h5>Heading 4</h5>
   </td>
+
 </tr>
 
 </table>
@@ -249,10 +252,11 @@ var_dump( $result );
 <paragraph><table width="100%" custom:summary="Test alignment" custom:caption=""><tr><td align="right"><paragraph align="left">align=left</paragraph></td></tr></table></paragraph>
 </section>';
         $outputHandler = new eZXHTMLXMLOutput( $xml, false );
-        $expected = '<table class="renderedtable" cellpadding="2" cellspacing="0" width="100%" summary="Test alignment">
+        $expected = '<table class="renderedtable" cellpadding="2" cellspacing="0" width="100%" style="width: 100%" summary="Test alignment">
 <tr>
-<td class=" text-right" valign="top">  <p class=" text-left">align=left</p>
+<td class=" text-right" valign="top" style="vertical-align: top">  <p class=" text-left">align=left</p>
   </td>
+
 </tr>
 
 </table>
@@ -281,10 +285,11 @@ var_dump( $result );
 <paragraph><table width="100%" custom:summary="Test alignment" custom:caption=""><tr><td align="right"><paragraph align="left">align=left</paragraph></td></tr></table></paragraph>
 </section>';
         $outputHandler = new eZXHTMLXMLOutput( $xml, false );
-        $expected = '<table class="renderedtable" cellpadding="2" cellspacing="0" width="100%" summary="Test alignment">
+        $expected = '<table class="renderedtable" cellpadding="2" cellspacing="0" width="100%" style="width: 100%" summary="Test alignment">
 <tr>
-<td class=" text-left" valign="top">  align=left
+<td class=" text-left" valign="top" style="vertical-align: top">  align=left
   </td>
+
 </tr>
 
 </table>

@@ -1,0 +1,561 @@
+eZ Online Editor 5.x extension Changelog
+
+5.3.0alpha1
+- Updated TinyMCE to 3.3.9.2
+- Fix #017402: ezoe offset passed to ezoe browse as string not integer
+- Change use of old templateInit()/ezi18n() api and use class based api's introduced in 4.3 instead
+- Fixed bug #017621: Popup browse mode navigator fails due to numbers typed as strings (patch)
+
+5.2.0beta3
+- Updated TinyMCE to 3.3.9
+
+5.2.0beta1
+- Fixed bug #016888: IE only : Custom tag do not save when first thing inserted in OE
+- Fixed bug #016842: in IE 8, have to edit attribute before entering literal tag
+- Fixed bug #016595: Issues with page break and embed objects
+- Fixed bug #015513: Custom attributes: checkbox problems
+- Fixed bug #017182: Underline is stripped away when saving after changing it with dialogs
+- Fixed bug #017163: unwanted &amp;nbsp; in enabling/disabling editor
+- Fixed bug #016844: newly created literal tag contains an nbsp
+- BC: 'tagAttributeEditor' callback now needs to return element as this is important if element is changed
+       All use of this callback has been changed to do that now so look to them for examples.
+
+5.2.0alpha6
+- Disable editor if user agent is Mobile Webkit (Iphone/Android) as they do not currently have caret support
+- Updated TinyMCE to 3.3.8
+
+5.2.0alpha5
+- Make it easier to override groups of editor Buttons by grouping them in settings
+- Add support for ',' as button separator in eZOEXMLInput::getEditorLayoutSettings() for button filtering  
+
+5.2.0alpha4
+- Updated TinyMCE to 3.3.7
+- Fixed bug #016952: IE6 OE 5.0.2 fullscreen mode has no button box
+
+5.2.0alpha3
+- Updated TinyMCE to 3.3.6
+
+5.2.0alpha2
+- Added extension.xml that replaces ezinfo.php and loading.php starting from eZ Publish 4.4
+- Updated TinyMCE to 3.3.4
+- Added emotions plugin support (as forked ezemotions plugin)
+- Fixed bug #16749: Custom tags layout disapear when switching to fullcreen mode
+  BC: All internal css classes for ezoe items using "mceItem" prefix has been changed to use "ezoeItem" prefix
+      and mceNonEditable is now ezoeItemNonEditable, this affects you if you have custom content.css code that
+      styles custom / embed tags!
+- Fixed bug #16732: tc-52:(Online Editor) - Underline format is not working
+- Fixed bug #16725: Check hasContent on image object attribute before it is used
+- Implemented enhancement #16703: Give better error feedback if image alias small (preview) and as defined in ezxmltext is missing
+- Implemented enhancement #16827: Better RTL support for the eZOE editor
+- Disable editor if user agent is Iz as they do not currently have caret support
+
+5.2.0alpha1
+- Implemented enhancement #016711: Making extension aware of the order/priority in which they need to be loaded
+- Fixed bug #16554: Applying table cell settings to row or column does not affect table headings
+- Fixed bug #16605: Online Editor adds a lot of Non Breaking spaces (nbsp)
+- Fixed bug #16271: Links containing special characters are not stored correctly
+- Upgraded TinyMCE to 3.3.2
+
+
+5.1.0
+* Fixed bug #16469: embedding objects in another language causes serious problems in following not-translateable attributes
+
+5.1.0rc1
+* Fixed bug #16373: TC-52 - Online Editor: The indented bullets (sorted and not sorted) are not being displayed as expected on preview
+
+5.1.0beta2:
+* Fixed #16271: Links containing special characters are not stored correctly
+
+5.1.0beta1:
+* Fixed #15872: suggestions of spell checker have the wrong encoding
+* Added ezoe.ini setting for setting directionality
+
+5.1.0alpha1:
+* Fixed translation of anchor Name attribute
+* Implemented inline phpdoc for classes and functions
+* Fixed translation of link link-type and view selections
+* Implemented #14424: Improvements of list of link types
+* Enable sub / sup / justify buttons by default and disable justify buttons on 4.0.x
+* Pack javascript files used in dialogs to speed up the dialogs a bit
+* Fixed bug #14649: IE inserts hostname when protocol is wrong
+* Added jpn-JP translation
+* Fixed bug #14670: Embed relations are not removed when embed tag is
+  IMPORTANT: Apply update/database/5.0/dbupdate-5.0.0-to-5.0.1.sql to fix
+  inconsistency in database (if you have used ezoe prior to version 5.0.1)
+* Updated Tango icons to v0.8.90
+* Added support for IsInline[<tag>]=image setting for custom tags with no content (or actual images)
+* Allow siteaccess to override ezoe.ini SkinVariant setting
+* Fixed #14728: Space between links are removed
+* Fixed #14799: Javascript error when adding an image that needs to be approved
+* Fixed: extra empty paragraphs generated when inserting embed object and literal tags
+* Fixed #14834: Commented 'SkinVariant' in ezoe.ini casues error in error.log.
+* Fixed #14872: Embed tags cant always be edited
+* Fixed #14868: Allow adding inline custom / embed tags in header tags
+* Fixed #14873: Call to undefined method DOMText::getAttribute()
+* Changed order of outdent/indent buttons to be the same as other editors
+* Change rewrite rules to support plain package
+* Fixed #14935: Small typo at design.ini.append.php
+* Fixed #15014: image identifier is hardcoded in upload_images.tpl
+* Implemented #14869: Different icons for ezoe buttons: 'Publish' and 'Draft'
+  New store icon contributed by Russ Michell
+* Fixed #15053: Parse error in tag_custom.tpl
+* Fixed #15052: An object cannot be browsed when creating a link
+* Implemented #15139: Add support for tagging images during upload
+* Fixed: "Warning: Missing argument 1 for eZImageAliasHandler::store()" when inserting alternative text on images
+* Fixed: WebKit (Safari 4 & Chrome 2+) width problem on height resize
+* Documented: #15151: Table insert row before ...
+* Added workaround for script error on ezflow frontpages
+* Update TinyMCE params so past plugin validates word html correctly and don't remove align attributes.
+* Documented: #14921: 'small' size hardcoded in ezoe code
+* Fixed #14785: Image or file upload > Sorting in location drop down
+* Fixed #14986: Unable to change embedded objects in internet explorer 6
+* Fixed #15031: Unable to browse 'Images' folder on IE6 and IE7
+* Fixed #14833: Cut/Copying and pasting custom-tags fails
+* Documented: #15187: Keyboard shortcuts for functions in editor toolbar
+* Implemented: possibility to opt out of __setDisabled in custom TinyMCE plugins using settings.ezPlugin, patch by stevo
+* Added por-BR translation
+* Fixed #13691: Uneeded space on ezoe with IE7
+* Implemented: InlineImageIconPath[] setting for having custom icons on IsInline[<>]=image types
+* Enable TinyMCE xhtml validation to behave more like out of the box TinyMCE
+* Implemented support for controlling access to disabling edtior
+* Removed deprecated site.ini[MediaClassSettings]ImageClassID setting
+* Fixed #15501: view attribute on links are removed on copy/paste
+* Implemented #15503: Make ezoe depend on ezjscore to remove code duplication
+* Updated TinyMCE to 3.2.7
+* Use jQuery variant of tinyMCE to reduce size.
+* Implemented: Human readable feedback on custom attribute validation error
+* Implemented: Added support for After the Deadline spellchecker
+* Fixed #015647: Extra paragraphs added when pasting text from websites in non IE browsers
+* Added kernel-datatype-ezxmltext-ezoe debug setting to debug oe html parser
+* Fixed #15649: Class 'None' sometimes saved when changing tag type in popup dialog
+* Fixed #15659: Empty paragraph created below inserted image
+* Fixed #14370: Inserting non break space doesn't work
+* Fixed #15732: Content view of some tags corrupted during insertion of new tag in OE content with latest OE
+* Fixed #15663: "Apply to: column" target cells are shifted when rowspan is used
+* Implemented #15633: Allow editing embed content object attributes after upload
+* Fixed #15882: Embed size when not set in ezxml hardcoded to medium, should use DefaultEmbedAlias
+
+
+5.0.0:
+* Fixed regression #13650: [header] ezoe adds a level each time it is called
+* Added note on unsupported TinyMCE buttons/ extensions in FAQ + ezoe.ini
+* Fixed bug #014375: pagebreak not stored if added with button w/ patch from Georg Franz
+* Support for new handler code in eZ Publish 4.1
+* Updated TinyMCE to 3.2.2
+* Renamed ezoe_customattributes.ini to ezoe_attributes.ini since it is also used for attributes since rc9
+* Enable inline table controls in gecko (table_inline_editing TinyMCE setting)
+* Fixed #014284: Needed translation improvements for oe5
+
+
+5.0rc12:
+* Fixed bug #14260: content.ini.[paragraph].AllowEmpty=false is ignored
+* Content type not translated in upload dialog caused by not stripping ending 's'
+* Partly fixed #014284: Needed translation improvements for oe5
+* Added customizable xml tag name alias list in ezoe.ini, used in status bars and dialogs
+* Make htmlsize attribute type properly regonize px sizes from existing tag.
+* Fixed bug #14333: fatal error at edit page
+* Made input parser ignore junk links from word 2007
+* Fixed bug #14359: Edit <link> tag popup is empty with JS error in pupup_utils.js
+* Fixed bug #14397: Switched XmlTagNameAlias of th (table header) and td (table cell)
+* Fixed bug #14317: wordmatch.ini used in kernel but only bundled with OE
+* Fixed bug #14364: Nested levels in IE
+
+
+5.0rc11:
+* Fixed regression #014110: IE7 double every paragraph break on every edit
+* Use sort_array from root node in Location drop down + use name as 2. sort rule
+* Add support for role limitations (SubTree & Section) on ezoe module and it's functions
+* Alignment support for eZ Publish 4.1 (including all justify* buttons)
+* Fixed bug #14222: Custom tag removes inline tags
+* Fixed bug #14241: Inconsistent block cutom tag size in editor
+* Added possibility to browse from 'this' node, and use i18n() on word 'this'
+* Properly support eznode://path/to/node on link tags (bug from ezdhtml) fix from Jan Kudlica
+
+
+5.0rc10:
+* Fixed bug #14097: Custom-tags cause errors in var/error.log
+* Fixed bug #14099: Default selections in add-hyperlink popup dialogue behave oddly
+* Improved how csssize(4), htmlsize, cssborder handles default values
+* Allow editor row height of 2 and 5
+* Use larger popup dialog windows by default
+
+
+5.0rc9:
+* Implemented possibility to have same control over general attributes in gui as
+  you have over custom attributes.
+* Fixed regression #14080: Custom tags broken in rev 3390?
+
+
+5.0rc8:
+* Added support for node relations
+* Switched from using site.ini [MediaClassSettings]ImageClassIdentifiers[] to
+  the setting already used by eZ Publish: content.ini [RelationGroupSettings]ImagesClassList[]
+  Note: You need to change your settings as a result from this
+* Added file button, and use 1 template pr content type in upload and related dialog.
+  Note: New i18n strings in upload_* and tag_embed_* templates!
+* updated to TinyMCE 3.2.1
+* Misc i18n bugs fixed in pol-PL and nor-NO
+* Added tablemenu, a splitbutton that puts all table commands into a sub menu to save menu space.
+* Added support for TinyMCE spellchecker plugin (thx to Carlos Revillo)
+* Fixed #13954: Applying a custom tag to a text can change this text
+* Added custom tag view template for underline
+* Implemented new custom attribute types: htmlsize, csssize, cssborder and csssize4
+* Implemented possibility to limit some embed settings pr content type
+* Fixed #13990: Text editor - Formatting bullets removes text
+* Fixed #13755: Anchor not displaying anchor name in IE7/8 (WinXP) - 5.0.0rc7
+* Implemented #13981: ini setting to disable popups from pathbar selections
+* Partly Implemented #13751: Optimize image for size
+* Implemented #13196 (The fourth alignment: without alignment)
+* Added i18n strings for searchreplace plugin so it can be used out of the box
+* Implemented #14060: Addition of <sub> and <sup> buttons
+
+
+5.0rc7:
+* Changed javascript / stylesheet cache to use 'public/' path
+  NOTE: Rewrite rules changed, see INSTALL for the new rewrite rule
+* Added Italian translation contributed by Sandra Parente
+* Added setting to give validation warning if embed objects is in trash
+  for issue #13391: ezoe handles removed images incorrect
+* Added support for paste plugin dialogs (buttons: paste from word and text)
+* Do not convert u tag to custom:underline tag if underline custom tag isn't enabled
+  To make sure only tag is removed and not content of the tag as well.
+* Fixed #13694: Change td to th for "row" doesn't work with Firefox
+* Fixed #13692: Check boxes and radio buttons have a border with IE7
+* Additional fixes for #013505: Anchor in links are lost
+* Moved custom attribute settings to ezoe_customattributes.ini from content.ini
+* Misc WAI and usability improvements to the dialogs reported by customers
+  NOTE: This introduced several new strings, see .ts files for type="unfinished"
+
+
+5.0rc6:
+* Fixed #13548: Javascript error, when embedding video objects with empty ezimage attribute
+* Regression #13486: Can't change properties of OL, LI or UL
+* Fixed #13599: Header removed from custom tags
+* updated to TinyMCE 3.2 and enabled (ez)inlinepopup by default
+
+
+5.0rc5:
+* Fixed ezoescript and ezoecss to load files in correct order when arrays are used
+* EditorDialogCSSFileList should prepend 'stylesheets/' folder automatically like
+  other css ini settings.
+* Fixed #013505: Anchor in links are lost
+* Updated TinyMCE to 3.1.1
+* Added support for setting image alt text when uploading image
+* Implemented #013507: Bookmarks in ezoe 5
+* Fixed #013509: Layout on help or others "long text" pages
+* Implemented #013512: Class list in search form should be alphabetical sorted
+* Made mini editor layout enabled by default (uncommented it)
+* code cleanup (removed dependency on global js variable eZOeMCE, use TinyMCE settings and translations instead)
+* do not remove attribute value if default value (same behavour as simple xml handler)
+* Fixed #013535: Litteral should use a bigger and a monospace font family
+* Added ezinlinepopups plugin as possible workaround for issue 13549 & modal dialogs
+* Reintroduced CustomAttributeStyleMap, but only for limited type of styles (see ezoe.ini)
+* Fixed: absolute urls to same domain where converted to relative urls by TinyMCE
+
+
+5.0rc4:
+* Fixed regression #013486: Can't change properties of OL, LI or UL
+
+
+5.0rc3:
+* regression in rc2 caused inserting embed tags not to work in some browsers
+* updated doc/ezoe_intro.odt with new screen shoots and text.
+
+
+5.0rc2:
+* Cleaned up i18n use and Nor-NO, and synced untranslated.ts with the Nor-NO file.
+* Language for TinyMCE now uses Locale from site ini instead of locale from xml attribute.
+* Fixed: Some strings in table dialog where not using i18n().
+* Show more editor friendly names on xml tags in path ( tr -> table row )
+* Fixed #013402: OE problem if ezxmlfield is required /empty andAdd object (objectrelation) is clicked
+* Only allow image selections in browse and bookmark node lists when image button is pressed
+* Fixed regression in image popup: search did not filter on image classes
+* Added workaround for #013013 (Link with anchor removed on re-edit) in Internet Explorer
+* Added Validation for deleted embed objects on publish
+  partly fixing #013391: ezoe handles removed images incorrect
+* make ctrl+8|9 set pre tag instead of unsupported div|address tags
+
+
+5.0rc:
+* Fixed #013320: (Development mode doesn't work fully)
+* Removed CustomAttributeStyleMap since it caused embed / embed-inline tags to be converted
+ to a font tag by the browser if you for instance used 'color' style for text-color.
+* Added CompatibilityMode in ezoe.ini to make editor behave like OE 4.x in respect to embed tags
+  (attachment icons)
+* Added bookmarks tab in upload dialog
+* Stop TinyMCE from trying to load i18n script a second time (unwanted 404).
+* Fixed: Extra paragraphs in literal tags if double line feeds where used.
+* Updated TinyMCE to 3.1.1 (trunk), fixes several issues in Opera
+* Fixed bug #013011: Opera doesn't allow to make embedded object as link
+* Added Norwegian translation
+* Fixed #013178: Duplicate embed object when I change "paragraph" to "title"
+* Implemented #013368: Include image size attributes in the editor-created image tags
+* Made it more clear that anchors are content less, and set anchor name to slected text on init
+
+
+5.0Beta4:
+* Fixed bug #013151: No nice URLs with ezoe
+* Append paragraph if custom / embed tag is inserted as last tag in editor
+* reworked custom attribute settings in content.ini to be more streamlined.
+* tags in description / caption field didn't work as intended (strip tags used)
+* Bumped required Mozilla version to 1.8 ( Firefox 1.5 and Netscape 9.x )
+* Fixed #013165: Underline custom tag into a new paragraph
+* updated TinyMCE to 3.1.0.1
+* moved custom attribute datatypes handling to independant templates in ezoe/customattributes/*.tpl
+  So you can add your own and customize exising ones( as proposed to @kc at #ezconf ).
+* added color custom attribute datatype with color picker and preview
+* Fixed bug #013201: Can't identify which page a link is currently pointing to
+* Fixed regression #013243: Selecting a node from the search or browse in link properties is broken
+* Implemented possibility to have different editor layouts ( buttons and toolbar/path position )
+  requries eZ Publish 4.1 final (ref issue number #13249)
+* Implemented ezoe.ini [EditorSettings]CustomAttributeStyleMap to map custom attributes to element
+  style values to preview their effect on the element ( for instance text color, border width, border color )
+* Fixed bug #013254: Selecting node from browse fails in ie
+* Fixed bug #013012: Inline custom tags doesn't work properly in Opera and IE
+  ( removed need to have a hidden paragraph inside the custom tag, this fixes many issues concerning inline custom tags )
+* Fixed bug #013279: Error when trying to insert a custom tag when a required attribute is set in another one
+* Fixed bug #013295: Literal HTML is lost when editing in IE6
+* Disabled possibility to add link on embed object tags (since it dosn't work becuase it is a block tag)
+* Changed so blocktags are redered before a paragraph instead of inside to avoid lots of empty paragraphs
+  Will hopefully fix reports on empty paragraphs
+* Fixed issue #013142: (Link URLs are rewritten)
+* Give warning if object id is invalid just like if node id / path is invalid
+* Fixed bug #013199: New paragraph when publish with Opera
+
+
+5.0Beta3:
+* Fixed bug #012989: Add a loading icon while system is searching (Insert image popup)
+* added image preview in search and browse view
+* Fixed bug #010888: table caption can't be added though required by WAI level 3
+* added support for int / number / email custom attribute types
+* added support for custom attribute validation (on email, text, int and number)
+* Fixed bug #007384: Incomplete instructions for enabling OE
+* Added EditorDialogCSSFileList and html classes in dialogs markup to make them easier to customize
+* header level showed as 'undefined' in IE
+* Fixed bug #013062: IE specific, editting an embedded image in a custom tag doesn�t work
+* viewModes on links didn't work correctly (saved array key index instead of string value)
+* Fixed bug #013013: Link with anchor removed on re-edit
+* Made sure first valid image attribute is used on embed images
+* Implemented #006730: Online Editor 3.0 does not obey permissions
+  Now possible to limit access to editor / relations(upload and embed properties) / search / browse
+* Implemented #013076: Browse popup: improve image preview
+* Implemented #013019: Move "Enable/Disable Editor" button to OE toolbar
+* Implemented #009397: Missing OE Toolbar Buttons - #1 - save and #2 - publish
+* Implemented #012949: Cannot change the node of an embedded object once it has been added
+* use span tags internally for embed-inline tags so they are truly inline
+* properly serialize from checkbox form values to attribute values and back
+* Fixed bug #013116: malformatted separator tag
+* Fixed bug #013105: Adding a custom tag first locks cursor in the tag
+  (also fixed on embed tags)
+* Fixed related files in upload dialog not selectable
+
+
+5.0Beta2:
+* Added debug as text comment in ajax view's (embed_view, expand, load and search)
+* Fixed bug #012950: Popup windows sizes are too small
+* Fixed bug #012947: Cannot click search button in link properties until a filter is selected
+* Fixed bug #012978: Strange symbol in Help popup
+* Fixed bug #012951: Help Popup should have Help Tab content highlighted first
+* Fixed bug #012948: Null result set in link dialog search tab should provide feedback
+* Made ez_core only do POST ajax calls if post actually has a value
+* Fixed bug #011618: Table in header tag
+* Fixed bug #012953: Unable to transform column into table header column
+* Fixed bug #012987: eZOE: Insert image popup, JS error in IE7 on Vista
+* Fixed bug #012986: Link Properties/Browse shows 20 items per page causing overflow
+* Fixed bug #012988: eZOE: Insert table size grid does not work in IE7, Vista
+* search did not filter on class id in Ie caused by .postData bug in ez_core.js
+* Fixed bug #010780: It's hard to add items to ClassDescription[] from content.ini.append in extensions
+* Fixed bug #009558: [EmbedViewModeSettings] and [ImageDataTypeSettings] in site.ini
+* cleaned up custom attribute type ini settings and added support for hidden and checkbox types
+* Fixed bug #012956: Selecting of table cells doesn't work in some browsers
+* Fixed bug #013037: Typo in Help popup
+
+
+5.0beta:
+* clicking search buttons does not work (hides link dialog)
+* fixed some ie6 issues in browse / search and custom tag popup
+* let link / anchor buttons edit currently selected link / anchor
+* Fixed table size selector styling bug in Opera
+* Allow limiting AvailableClasses list based on embed class type
+ (see bottom of content.ini for more info)
+ * Made it easier to remove embed tags (node is now removed if you use del / backspace)
+ * Made it possible to select root nodes when browsing & content node is now pre browsed for convinience
+ * updated TinyMCE to 3.0.8
+ * Added a help/about dialog, enabled help button.
+
+
+0.99:
+* embed image issues ( 'view' not correct and not changable )
+* paging on embed search added
+* ed.selection.select() not working in Safari and Opera, switched to passing node as window param
+* let theme handle non editable content (embed tags) because of ed.selection.select() issue, removed plugin
+* custom tags now properly switching tags from div to span and back when changed.
+* made all poup dialogs use one unified and extendable javascript api for common funcions
+* clearing float on embed and custom block tags
+* Fixed nested custom inline tags
+* merging cells when cells where cells where TH type fixed
+* removed support for Opera v9.2 ( now only 9.5 and higher is supported )
+* some changes with float / align on embed elements
+* completed i18n translation, using a custom i18n generator (classes/ezoepackerfunctions.php)
+  to generate i18n strings for TinyMCE
+* Updated TinyMCE to 3.0.6.2
+* now possible to disable packer with DevelopmentMode setting in ezoe.ini
+* browse and search in link dialog + icons for selection in search and browse
+* don't add display:block on embed images
+* use TinyMce styles in dialogs
+* Not able to delete embed tags with backspace / del button
+* inline selector on embed tags dialog not working in IE
+* supported old style attachment icon on embed tags by defining classes that don't have a image attribute
+  as image in ImageClassIdentifiers (site.ini)
+* disable list buttons inside headings
+
+
+0.98:
+* string translations
+* fix for bug when custom attribute or custom tag had a '_' in name
+* switched custom block tag to use div tag to work better in TinyMCE
+  (inline custom tags use span for the same reason)
+* fixed search bug
+* apply to whole column and row on table cell dialog
+* fixed custom attributes on table cells not correct if you switch cell type
+
+0.97 (internal):
+* disabled toolbar floating in ie 6 / 7 to work around floating bug
+* moved ez_core scripts to ezoe folder to avoid design override problems
+* Allow custom tags and table nesting
+
+
+0.96 (internal):
+* this extension is now known as ezoe and not eztinymce
+* updated TinyMCE to 3.0.5
+* added eZOEPacker ('ezoecss' and 'ezoescript' operators), to pack css and js
+* EditorCSSFileList support added, support for css from other locations
+* tinymce plugins from other locations (extensions/designs) now possible
+* fixed and enabled indenting / outdenting
+* fixed class not working on p / header / tr / li tags
+* fixed change class list when td / th is changed
+
+
+0.95:
+* fixed issue with new custom tags not being saved correctly
+* fixed js bug when you edit image
+* Preview align changes while you edit image properties
+* updated TinyMCE to 3.0.3
+* enabled safari plugin in TinyMCE, this 'fixes' bugs in Safari
+* Not Disable fullscreen button when you select a embed tag
+* fixed class disapearing on table on store when border=0
+* Added support for Skin Variants in ezoe.ini
+
+
+0.94:
+* Fixed anchor insert
+* Preview of embed object tags while editing / inserting
+* Added th support (in cell properties popup)
+* made merge cell work like old OE (no popup, use ctrl key to select cells)
+* experimental support for indenting / outdenting added on lists
+
+
+0.93:
+* Fixed link insert not working
+* Changed text size to 0.8em (same as admin design) and font type
+* Enabled undo support in tag popup's
+* Fixed window size on merge table cell popup
+
+
+0.92:
+* Fixed browser resize issue
+* Made upload warning more human readable
+* Made toolbar groupable (some ie7 issues left)
+* Use i18n in editor and popups (some left)
+* added DevelopmentMode setting to ezoe.ini
+
+
+0.91:
+* load plugins and buttons from ezoe.ini
+* Load skin from ezoe.ini
+* Make toolbar floating so it wraps on small browser windows / screens
+* Fixed empty paragraphs disappearing in Gecko
+
+
+0.9:
+* added table cols / rows size selector when you create new table
+* added setting from ezdhtml/trunk: site.ini [MediaClassSettings]ImageClassIdentifiers
+  and marked ImageClassID as deprecated.
+* Added title attribute on embed tags (image / object) with object name
+* added input fields for specifying cols / rows on a table with keybord instead of mouse
+  (lets you define more then 5x5 tables)
+* added ajax lookup for validation of eznode and ezobject links (when typing in link dialogue window)
+
+
+0.8:
+* link and anchor dialogue
+* table and table cell dialogue
+* made custom attributes work on em and strong tags without class
+* generate table xhtml with tbody and <br /> in empty cells to avoid browser bugs
+* skip duplicated custom attributes
+* removed some more unimportant gui buttons to trim editor space (width)
+  and organised the buttons more like old OE
+* added pagebreak and underline buttons, thy will show up if you enable custom tags with the same name!
+
+
+0.7:
+* Modified browser support:
+  ie 6+, Opera 9.2+, WebKit 522+ (~ Safari 3+) and Mozilla 1.7+ (~ Firefox 1.0+)
+* added custom and literal buttons and commands
+* added general tag dialogue
+* added new setting 'CustomTagsDescription' on CustomTagSettings group
+  to be able to have better descriptive name on custom tags in the drop down
+* added dialogue for custom tags
+
+
+0.6:
+* Changed internal HTML format for:
+  . Literals now use PRE tag instead of table
+  . Custom tags (blocks) now use Span tags instead of table
+  . Embed(-inline) tags (not images) now use Div tags instead of image with paper clip
+* Made view and class list reload when you click 'inline' in relations popup
+* custom attributes support and drop down support for custom attributes see content.ini.append
+* updated TinyMCE to 3.0 final
+* created new theme called ez based on advance theme to override path behaviour and theme
+* moved relations handling to new ez theme
+* made path show eZ xml tags instead of native html tag
+
+
+0.5:
+* updated TinyMCE to 3.0rc2
+* added pixel size on size selection
+* Added optional Image filter attributes:
+  . GUIName : If you want to give the filter a more user friendly name in gui
+  . HideFromRelations : If you want to hide a specific filter from dropdown in editor
+* Added support for optional [MediaClassSettings]<content_type>ClassID for setting
+  class id/identifier filter for relation search and browse
+* added existing related images to upload dialogue
+* Added new ini setting for crop size alias [ImageSettings]DefaultCropAlias, uses DefaultEmbedAlias if not set
+* Completed lazy loading of image alias sizes in relations
+* Updated ez_core to 0.91 and added animation and accordion in popups for tabs
+
+
+0.4:
+* update TinyMCE to 3.0beta3
+* update ezimage plugin to new TinyMCE api
+* Added support for existing relations
+* Added caption support for images when uploading
+
+
+0.3:
+ * Converted code to PHP5
+ * Updated TinyMCE to 2.1.3
+ * cleaned json_content.php -> ezoeajaxcontent.php
+ * updated ez_core.js to version 0.81
+ * Forked OE's xml handlers so ezoe is standalone
+ * Fixed OE issue #011300
+ * Enabled support for all browsers (only disabled for IE < 6.0 for now)
+
+
+0.2 (only published on ez.no):
+ * Now uses Online editors xml handlers to do the xml -> html and back translation
+   and created a tinymce image extension based on advimage to handle images.
+
+
+0.1 (only published as proof of concept on ez.no):
+* intial testcase using javascript to translate tags to / from ez xml format

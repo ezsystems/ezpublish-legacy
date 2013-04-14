@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -242,6 +242,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                                      'object' => array( 'contentobject_id' ),
                                                                      'class' => array( 'object', 'contentclass_id' ),
                                                                      'section' => array( 'object', 'section_id' ),
+                                                                     'section_identifier' => array( 'object', 'section_identifier' ),
                                                                      'class_identifier' => array( 'object', 'class_identifier' ),
                                                                      'class_group' => array( 'object', 'match_ingroup_id_list' ),
                                                                      'state' => array( 'object', 'state_id_array' ),

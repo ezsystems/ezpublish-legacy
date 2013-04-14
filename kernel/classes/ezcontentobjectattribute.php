@@ -2,7 +2,7 @@
 /**
  * File containing the eZContentObjectAttribute class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -274,7 +274,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             // store the content data for this attribute
             $dataType->storeObjectAttribute( $this );
 
-            eZPersistentObject::store( $fieldFilters );
+            parent::store( $fieldFilters );
             $dataType->postStore( $this );
             $db->commit();
         }
@@ -301,7 +301,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         $this->setAttribute( 'data_type_string', $classAttribute->attribute( 'data_type_string' ) );
         $this->updateSortKey( false );
 
-        eZPersistentObject::store();
+        parent::store();
     }
 
     /*!
@@ -338,7 +338,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             if ( $storeData )
             {
                 $dataType->storeObjectAttribute( $this );
-                $return = eZPersistentObject::store();
+                $return = parent::store();
             }
         }
 
@@ -352,7 +352,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function storeNewRow()
     {
-        return eZPersistentObject::store();
+        return parent::store();
     }
 
     /*!

@@ -2,7 +2,7 @@
 /**
  * File containing the eZStepCreateSites class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -782,9 +782,9 @@ WHERE
 language_locale='eng-GB'";
             $db->query( $updateSql );
 
-            // use high-level api, becuase it's impossible to update serialized names with direct sqls.
+            // use high-level api, because it's impossible to update serialized names with direct sqls.
             // use direct access to 'NameList' to avoid unnecessary sql-requests and because
-            // we do 'replacement' of existing languge(with some 'id') with another language code.
+            // we do 'replacement' of existing language(with some 'id') with another language code.
             $contentClassList = eZContentClass::fetchList();
             foreach( $contentClassList as $contentClass )
             {
@@ -1015,8 +1015,8 @@ language_locale='eng-GB'";
         // Enable OE and ODF extensions by default
         $extensionsToEnable = array();
         // Included in "fat" install, needs to override $extraCommonSettings extensions
-        $extensionsPrepended = array( /*@EZP_BUILD_EXTENSION_ACTIVATE@*/ 'ezjscore' );
-        foreach ( array( 'ezie', 'ezoe', 'ezodf', 'ezprestapiprovider' ) as $extension )
+        $extensionsPrepended = array( 'ezjscore', /*@EZP_BUILD_EXTENSION_ACTIVATE@*/ 'ezoe', 'ezformtoken' );
+        foreach ( array( 'ezie', 'ezodf', 'ezprestapiprovider' ) as $extension )
         {
             if ( file_exists( "extension/$extension" ) )
             {

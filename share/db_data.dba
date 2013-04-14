@@ -62,6 +62,7 @@ $data = array (
       1 => 'description',
       2 => 'language_id',
       3 => 'name',
+      4 => 'real_language_id'
     ),
     'rows' => 
     array (
@@ -71,6 +72,7 @@ $data = array (
         1 => '',
         2 => '3',
         3 => 'Lock',
+        4 => '2'
       ),
     ),
   ),
@@ -3542,7 +3544,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
         3 => '0',
         4 => '0',
         5 => '<?xml version="1.0" encoding="utf-8"?>
-<ezimage serial_number="1" is_valid="" filename="ez_publish." suffix="" basename="ez_publish" dirpath="var/storage/images/setup/ez_publish/172-1-eng-GB" url="var/storage/images/setup/ez_publish/172-1-eng-GB/ez_publish." original_filename="" mime_type="" width="" height="" alternative_text="" alias_key="1293033771" timestamp="1082016632"><original attribute_id="172" attribute_version="2" attribute_language="eng-GB"/></ezimage>
+<ezimage serial_number="1" is_valid="" filename="" suffix="" basename="" dirpath="" url="" original_filename="" mime_type="" width="" height="" alternative_text="" alias_key="1293033771" timestamp="1082016632"><original attribute_id="172" attribute_version="2" attribute_language="eng-GB"/></ezimage>
 ',
         6 => 'ezimage',
         7 => '172',
@@ -4518,24 +4520,6 @@ keywords=cms, publish, e-commerce, content management, development framework',
         8 => '0',
         9 => '6',
         10 => '1',
-      ),
-    ),
-  ),
-  'ezimagefile' => 
-  array (
-    'fields' => 
-    array (
-      0 => 'contentobject_attribute_id',
-      1 => 'filepath',
-      2 => 'id',
-    ),
-    'rows' => 
-    array (
-      0 => 
-      array (
-        0 => '172',
-        1 => 'var/storage/images/setup/ez_publish/172-1-eng-GB/ez_publish.',
-        2 => '1',
       ),
     ),
   ),
@@ -21855,7 +21839,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
       1 => 
       array (
         0 => 'ezpublish-version',
-        1 => '5.0.0alpha1',
+        1 => '5.1.0alpha1',
       ),
     ),
   ),

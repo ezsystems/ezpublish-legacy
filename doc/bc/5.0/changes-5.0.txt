@@ -6,3 +6,380 @@ Supported features
 
 - setting either VarDir or CacheDir to an absolute directory in site.ini is no longer officially supported.
   the value will be accepted, but some features will have an unpredictable behaviour
+
+Change of behavior
+------------------
+
+- "admin2" design has been renamed "admin"
+
+  Everything specific to the old admin interface has been removed (see "Removed features").
+  Since admin2 relied on admin, a merge of both directories has been operated.
+
+  site.ini configuration of your admin backend:
+  To avoid breakages, the "admin2" design is still referenced as SiteDesign or AdditionalSiteDesignList.
+  If you are not overriding anything from admin2, it is suggested to update any references to it.
+  Note that if you change "SiteDesign=admin2" to "SiteDesign=admin", you should probably remove
+  AdditionalSiteDesignList[]=admin to avoid having "admin" twice in the list of site designs.
+
+  content.ini configuration of all siteaccesses:
+  In the case you are not overriding anything from admin2, you might want to update as well the
+  AvailableSiteDesignList setting of all you siteaccesses.
+
+- #19397: eZGeneralDigestUserSettings::create() signature change
+
+  This method now expects the first parameter to be the user id instead of the an email address.
+
+- eZINI::group() and eZINI::groups() do not return the array by reference anymore
+
+  Those methods used to returns the array by reference to an internal array in the eZINI instance.
+
+- kernel/user/activate.php doesn't set the 'account_avtivated' template variable anymore (kept previously for BC)
+
+  The variable has been deprecated since 3.4.1.
+
+- Extended attribute filters
+
+  Fix for EZP-19158 introduces the use of INNER JOIN SQL clause to join tables.
+
+  So now your extended attribute filter must still return an array, but with some changes :
+  
+  * *tables* key: Must use *JOIN/INNER JOIN* with join conditions with *ON* SQL clause
+  * *joins* key : Must NOT contain join conditions any more, but general filters
+  * *columns* key: No change
+  * *group_by* key: No change
+
+Removed features
+----------------
+
+- Old "admin" interface
+
+  The old "admin" interface, deprecated since 4.4, has been removed. What exists in design/admin is the
+  result of the merge of the newer admin interface "admin2" inside this directory.
+  Everything that was specific to that old "admin" interface is now removed.
+
+- 'rss-xml' function attribute of eZRSSExport
+
+  Attribute 'rss-xml-content' is to be used instead. This attribute has been deprecated since 4.3.
+
+- "forgetpassword" misspelled view from "user" module
+
+  This misspelled view was kept for BC and has been deprecated since 3.0.
+
+- Classes eZWebDAVServer, eZWebDAVFileServer, eZWebDAVContentServer and eZWebDAVContentServerWrapper
+
+  Those classes were used prior the switch to ezc Webdav component.
+
+- Class eZOverride
+
+  Unused class since SVN revision 20881 and deprecated in 4.5.
+
+- Class eZFileDirectHandler
+
+  Direct binary file downloads is deprecated since 4.1.
+
+- Class eZContentClassAttributeNameList
+
+  Class deprecated since 4.3, use eZSerializedObjectNameList directly instead.
+
+- eZContentObject::removeReverseRelations()
+
+  Unused and deprecated method.
+
+- eZContentObject::revertTo()
+
+  Unused and deprecated method.
+
+- eZContentObject::expireTemplateBlockCacheIfNeeded()
+
+  Unused and deprecated method.
+
+- eZContentObjectTrashNode::fetchListForObject()
+
+  Unused and deprecated method.
+
+- eZUser::getCacheFilename() method
+
+  Unused and deprecated method since 4.4.
+
+- eZFile::getContents() method
+
+  Unused and deprecated method since 4.1. Use file_get_contents() instead.
+
+- eZTemplateCacheFunction functions: subtreeCacheBaseSubDir(), expiryTemplateBlockCacheDir(),
+  templateBlockCacheDir(), subtreeCacheSubDir() and subtreeCacheSubDirForNode().
+
+  Unused and deprecated functions since 3.10.
+
+- eZRandomTranslator::makeSeed() method
+
+  Unused and deprecated method since 4.2.
+
+- eZLocale::translationCode() method
+
+  Unused and deprecated method since 4.1.
+
+- eZTemplate::setVariableRef() method
+
+  Unused and deprecated method since 4.4.
+
+- eZTemplateNodeTool functions: createStaticElement(), elementStaticValue()
+  and isStaticElement()
+
+  Unused and deprecated functions since 3.5.
+
+- eZHTTPPersistence functions: handleChecked() and handleCheckedElement()
+
+  Unused and deprecated functions since 3.0.
+
+- eZDebugSetting:setDebugINI()
+
+  Deprecated function since 4.5. This function did nothing.
+
+- eZHTTPTool methods: getSessionKey() and setSessionKey()
+
+  Deprecated methods since 4.4.
+
+- eZMimeType::mimeTypeFor()
+
+  Unused and deprecated function since 3.3.
+
+- callClassMethod() method from eZModuleOperationInfo and eZModuleFunctionInfo
+
+  Unused and deprecated methods since 4.1.
+
+- requiresBinaryPurge() method of file handlers
+
+  Unused and deprecated method since 4.5.
+
+- fetchExpiredBinaryItems() method of file handlers
+
+  Unused and deprecated method since 4.5.
+
+- Deprecated and unused methods of eZBinaryFileHandler: storedFilename(),
+  downloadType() and downloadURL();
+
+- eZExpiryHandler::isModified()
+
+  Unused and deprecated method since 4.2.
+
+- eZCacheClear* functions:
+  eZCacheClearImageAlias(), eZCacheClearClassID(), eZCacheClearGlobalINI(), eZCacheClearSortKey(),
+  eZCacheClearTemplateBlockCache() and eZCacheClearContentTreeMenu()
+
+  Unused and deprecated method since 4.3.
+
+- eZClusterFileHandler::searchPathArray()
+
+  Unused and deprecated method since 4.3.
+
+- eZContentCacheManager::clearViewCache()
+
+  Unused and deprecated method since 3.6.
+
+- eZContentLanguage::updateObjectNames()
+
+  Unused and deprecated method since 3.8.
+
+- canMove() method of eZContentObject and eZContentObjectTreeNode
+
+  Unused and deprecated method since 3.6.
+
+- eZContentObjectTreeNode::createPermissionCheckingSQLString()
+
+  Unused and deprecated method since 3.9.
+
+- eZContentObjectTreeNode::createObject()
+
+  Unused and deprecated method since 3.3.
+
+- eZContentObjectTreeNode::updateURLAlias()
+
+  Unused and deprecated method since 3.1.
+
+- eZRSSExport methods: rssXml(), fetchRSS1_0() and fetchRSS2_0()
+
+  Deprecated method since 4.3.
+
+- eZSection methods: initGlobalID(), setGlobalID() and globalID()
+
+  Unused and deprecated methods since 4.4.
+
+- eZTipafriendCounter methods: clear() and increase()
+
+  Unused and deprecated methods since 3.9.
+
+- eZURLWildcard::isCacheExpired()
+
+  Unused and deprecated method since 4.2.
+
+- eZContentOperationCollection methods: beginPublish() and endPublish()
+
+  Unused and deprecated methods since 4.1.
+
+- eZContentOperationCollection::removeAssignment()
+
+  Unused and deprecated method since 4.3.
+
+- _deleteByRegex() and _deleteByRegexInner() methods of file handlers.
+
+  Unused since the removal of 'fileDeleteByRegex()' methods.
+
+- eZSession methods: getUserSessionHash() and userSessionIsValid()
+
+  Unused and deprecated method since 4.4.
+
+- eZFile::splitLines()
+
+  Unused and deprecated function since 4.4.
+
+- kernel/common/ezincludefunctions.php
+
+  All functions in this file have been deprecated previously and are now removed:
+  kernel_include(), kernel_common(), datatype_class(), extension_path(),
+  ext_include(), ext_activate(), ext_class(), lib_include(), lib_class() and kernel_class().
+
+- access.php
+
+  All functions in this file have been deprecated previously and are now removed:
+  accessType(), changeAccess(), accessMatchRegexp(), accessMatchText(), accessDebugEnabled(),
+  accessExtraDebugEnabled() and accessAllowed()
+
+  The EZ_ACCESS_* constants of those files are removed as well.
+
+- pre_check.php
+
+  All functions in this file have been deprecated previously and are now removed:
+  eZCheckValidity(), eZCheckList(), eZCheckUser(), eZCheckOrder(), eZHandlePreChecks() and
+  precheckAllowed().
+
+- kernel/common/image.php file
+
+  The imageInit() function in this file has been deprecated previously and is now removed.
+
+- Section [CountrySettings] of content.ini file
+
+  The content of this section was deprecated in favor of country.ini.
+
+- kernel/error/errors.php
+
+  Contained old deprecated contants.
+
+- eZSys::removeMagicQuotes() & eZSys::magickQuotes()
+
+  Those were deprecated since 4.5 and magic quotes has been deprecated in PHP 5.3
+
+- eZHTTPTool::removeMagicQuotes()
+
+  Magic quotes PHP settings being considered deprecated since age, this method
+  has been removed as well even if not strictly deprecated in advance.
+
+- eZSys::phpVersionText(), eZSys::phpVersion() & eZSys::isPHPVersionSufficient()
+
+  Those were deprecated since 4.5, use PHP_VERSION and other native php features instead.
+
+- eZSys::isDebugEnabled() & eZSys::setIsDebugEnabled()
+
+  Those were deprecated since 4.5.
+
+- eZSiteAccess::debugEnabled() & eZSiteAccess::extraDebugEnabled()
+  site.ini\[SiteAccessSettings]DebugAccess & DebugExtraAccess
+
+  Those were deprecated since 4.5.
+
+- eZDebug::timeToFloat()
+
+  Was deprecated since 4.4, use microtime( true ) instead.
+
+- Crypt hash type method for password.
+  eZUser::PASSWORD_HASH_CRYPT
+
+  Those were deprecated since 4.4.
+
+- Method 'fileDeleteByRegex()' in various file handlers
+
+  Those were deprecated previously because of severe performance issues.
+
+- eZMySQLDB aka ezmysql driver
+
+  This driver has been deprecated in 4.5 in favor of eZMySQLiDB, aka ezmysqli driver.
+
+- eZDFSFileHandlerMySQLBackend
+
+  mysql connectivity is replaced by mysqli one. Use eZDFSFileHandlerMySQLiBackend instead.
+
+- eZDBFileHandlerMysqlBackend
+
+  mysql connectivity is replaced by mysqli one. Use eZDBFileHandlerMysqliBackend instead.
+
+- ezpDbMySQLClusterGateway
+
+  This class was deprecated since 4.7.
+  mysql connectivity is replaced by mysqli one. Use ezpDbMySQLiClusterGateway instead.
+
+- Directory settings/siteaccess/admin
+
+  This siteaccess was previously used for testing.
+
+- site.ini/[TemplateSettings]/AutoloadPath
+
+  Setting has been deprecated since 3.2 and replaced by AutoloadPathList.
+
+- site.ini/[UserSettings]/VerifyUserEmail
+
+  Setting has been deprecated since 4.1, use site.ini/[UserSettings]/VerifyUserType instead.
+
+- webdav.ini sections: [DisplaySettings], [GetSettings], [PutSettings], [RenameSettings] and entry:
+  [FolderSettings]/NameAttribute
+
+  Those have been deprecated since 3.5.
+
+- workflow.ini/[OperationSettings]/AvailableOperations
+
+  This setting has been deprecated since 3.8 and AvailableOperationList should be used instead.
+
+- file.ini/[ArchiveSettings] section
+
+  This section has been deprecated since 4.1.
+
+- site.ini/[DatabaseSettings]/DatabasePluginPath
+
+  This setting has been deprecated since 4.1.
+
+- Deprecated options of viewcache.ini/[ViewCacheSettings]/ClearCacheMethod:
+
+  clear_object_caches_only, clear_object_and_parent_nodes_caches, clear_object_and_relating_objects_caches,
+  clear_parent_nodes_caches_only, clear_parent_nodes_and_relating_caches, clear_relating_caches_only,
+  clear_keyword_caches_only and clear_all_caches.
+
+- site.ini/[URLTranslator]/Extensions and site.ini/[URLTranslator]/Filters
+
+  Those settings have been deprecated since 4.3.
+
+- site.ini/[OutputSettings] section
+
+  This section has been deprecated since 4.5.
+
+- template.ini/[ControlSettings]/OldStyleUserVariables
+
+  This setting has been deprecated since 4.5.
+
+- cronjobs/ldapusermanage.php file
+
+  This file has been deprecated since 4.3.
+
+- site.ini\[RoleSettings]\UserPolicyCache
+
+  This setting has been deprecated since 4.4.
+
+Deprecated
+----------
+
+- #19397: eZGeneralDigestUserSettings::fetchForUser() and eZGeneralDigestUserSettings::removeByAddress()
+
+  Use eZGeneralDigestUserSettings::fetchByUserId() and eZGeneralDigestUserSettings::removeByUserID instead.
+
+
+- #EZP-19941: Expose API to be able to remove search index after object has been deleted
+
+  eZSearchEngine::removeObject() and eZSearch::removeObject() have been deprecated, use
+  eZSearchEngine::removeObjectById() and eZSearch::removeObjectById() instead.

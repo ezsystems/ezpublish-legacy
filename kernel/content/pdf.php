@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -53,17 +53,7 @@ if ( isset( $Params['AttributeValidation'] ) )
     $validation = $Params['AttributeValidation'];
 
 // Check if read operations should be used
-$workflowINI = eZINI::instance( 'workflow.ini' );
-$operationList = $workflowINI->variableArray( 'OperationSettings', 'AvailableOperations' );
-$operationList = array_unique( array_merge( $operationList, $workflowINI->variable( 'OperationSettings', 'AvailableOperationList' ) ) );
-if ( in_array( 'content_read', $operationList ) )
-{
-    $useTriggers = true;
-}
-else
-{
-    $useTriggers = false;
-}
+$useTriggers = in_array( 'content_read', array_unique( eZINI::instance( 'workflow.ini' )->variable( 'OperationSettings', 'AvailableOperationList' ) ) );
 
 $res = eZTemplateDesignResource::instance();
 $keys = $res->keys();
@@ -231,7 +221,7 @@ function contentPDFPassthrough( $cacheFile )
     header( 'Cache-Control: ' );
     /* Set cache time out to 10 seconds, this should be good enough to work around an IE bug */
     header( "Expires: ". gmdate( 'D, d M Y H:i:s', time() + 10 ) . ' GMT' );
-    header( 'X-Powered-By: eZ Publish' );
+    header( 'X-Powered-By: ' . eZPublishSDK::EDITION );
 
     header( 'Content-Length: '. $file->size() );
     header( 'Content-Type: application/pdf' );

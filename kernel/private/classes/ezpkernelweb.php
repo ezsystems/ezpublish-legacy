@@ -2,7 +2,7 @@
 /**
  * File containing the ezpKernelWeb class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  */
@@ -77,6 +77,18 @@ class ezpKernelWeb implements ezpKernelHandler
     private $site;
 
     /**
+     * @see eZLocale::httpLocaleCode()
+     * @var string
+     */
+    private $languageCode;
+
+    /**
+     * @see eZTextCodec::httpCharset()
+     * @var string
+     */
+    private $httpCharset;
+
+    /**
      * Indicates is request has been properly initialized
      *
      * @var bool
@@ -98,9 +110,28 @@ class ezpKernelWeb implements ezpKernelHandler
      */
     public function __construct( array $settings = array() )
     {
-        require_once __DIR__ . '/global_functions.php';
+        if ( isset( $settings['injected-settings'] ) )
+        {
+            $injectedSettings = array();
+            foreach ( $settings["injected-settings"] as $keySetting => $injectedSetting )
+            {
+                list( $file, $section, $setting ) = explode( "/", $keySetting );
+                $injectedSettings[$file][$section][$setting] = $injectedSetting;
+            }
+            // those settings override anything else in local .ini files and
+            // their overrides
+            eZINI::injectSettings( $injectedSettings );
+        }
+        $this->settings = $settings + array(
+            'siteaccess'            => null,
+            'use-exceptions'        => false,
+            'session'               => null,
+            'service-container'     => null,
+        );
+        unset( $settings, $injectedSettings, $file, $section, $setting, $keySetting, $injectedSetting );
 
-        $this->settings = $settings;
+        require_once __DIR__ . '/global_functions.php';
+        $this->setUseExceptions( $this->settings['use-exceptions'] );
 
         $GLOBALS['eZSiteBasics'] = array(
             'external-css' => true,
@@ -201,7 +232,20 @@ class ezpKernelWeb implements ezpKernelHandler
         $GLOBALS['eZGlobalRequestURI'] = eZSys::serverVariable( 'REQUEST_URI' );
 
         // Initialize basic settings, such as vhless dirs and separators
-        eZSys::init( 'index.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) === 'true' );
+        if ( $this->hasServiceContainer() && $this->getServiceContainer()->has( 'request' ) )
+        {
+            eZSys::init(
+                basename( $this->getServiceContainer()->get( 'request' )->server->get( 'SCRIPT_FILENAME' ) ),
+                $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) === 'true'
+            );
+        }
+        else
+        {
+            eZSys::init(
+                'index.php',
+                $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) === 'true'
+            );
+        }
 
         // Check for extension
         eZExtension::activateExtensions( 'default' );
@@ -254,7 +298,26 @@ class ezpKernelWeb implements ezpKernelHandler
      */
     public function run()
     {
+        ob_start();
         $this->requestInit();
+
+        // send header information
+        foreach (
+            eZHTTPHeader::headerOverrideArray( $this->uri ) +
+            array(
+                'Expires' => 'Mon, 26 Jul 1997 05:00:00 GMT',
+                'Last-Modified' => gmdate( 'D, d M Y H:i:s' ) . ' GMT',
+                'Cache-Control' => 'no-cache, must-revalidate',
+                'Pragma' => 'no-cache',
+                'X-Powered-By' => eZPublishSDK::EDITION,
+                'Content-Type' => 'text/html; charset=' . $this->httpCharset,
+                'Served-by' => isset( $_SERVER["SERVER_NAME"] ) ? $_SERVER['SERVER_NAME'] : null,
+                'Content-language' => $this->languageCode
+              ) as $key => $value
+        )
+        {
+            header( $key . ': ' . $value );
+        }
 
         try
         {
@@ -275,14 +338,12 @@ class ezpKernelWeb implements ezpKernelHandler
          */
         if ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) !== 'true' )
         {
-            $currentUser = eZUser::currentUser();
-
             $wwwDir = eZSys::wwwDir();
             // On host based site accesses this can be empty, causing the cookie to be set for the current dir,
             // but we want it to be set for the whole eZ publish site
             $cookiePath = $wwwDir != '' ? $wwwDir : '/';
 
-            if ( $currentUser->isLoggedIn() )
+            if ( eZUser::isCurrentUserRegistered() )
             {
                 // Only set the cookie if it doesnt exist. This way we are not constantly sending the set request in the headers.
                 if ( !isset( $_COOKIE['is_logged_in'] ) || $_COOKIE['is_logged_in'] !== 'true' )
@@ -300,6 +361,8 @@ class ezpKernelWeb implements ezpKernelHandler
         {
             $this->redirect();
         }
+
+        $uiContextName = $this->module->uiContextName();
 
         // Store the last URI for access history for login redirection
         // Only if user has session and only if there was no error or no redirects happen
@@ -326,13 +389,13 @@ class ezpKernelWeb implements ezpKernelHandler
 
             // Update last accessed view page
             if ( $currentURI != $lastAccessedViewURI &&
-                 !in_array( $this->module->uiContextName(), array( 'edit', 'administration', 'browse', 'authentication' ) ) )
+                 !in_array( $uiContextName, array( 'edit', 'administration', 'browse', 'authentication' ) ) )
             {
                 $http->setSessionVariable( "LastAccessesURI", $currentURI );
             }
 
             // Update last accessed non-view page
-            if ( $currentURI != $lastAccessedURI )
+            if ( $currentURI != $lastAccessedURI && $uiContextName != 'ajax' )
             {
                 $http->setSessionVariable( "LastAccessedModifyingURI", $currentURI );
             }
@@ -348,7 +411,7 @@ class ezpKernelWeb implements ezpKernelHandler
 
         if ( !isset( $moduleResult['ui_context'] ) )
         {
-            $moduleResult['ui_context'] = $this->module->uiContextName();
+            $moduleResult['ui_context'] = $uiContextName;
         }
         $moduleResult['ui_component'] = $this->module->uiComponentName();
         $moduleResult['is_mobile_device'] = $this->mobileDeviceDetect->isMobileDevice();
@@ -500,9 +563,7 @@ class ezpKernelWeb implements ezpKernelHandler
 
         $this->shutdown();
 
-        $result = new ezpKernelResult();
-        $result->content = $content;
-        return $result;
+        return new ezpKernelResult( $content, array( 'module_result' => $moduleResult ) );
     }
 
     /**
@@ -877,7 +938,11 @@ class ezpKernelWeb implements ezpKernelHandler
             $redirectURI .= $moduleRedirectUri;
         }
 
-        eZStaticCache::executeActions();
+        if ( $ini->variable( 'ContentSettings', 'StaticCache' ) == 'enabled' )
+        {
+            $staticCacheHandlerClassName = $ini->variable( 'ContentSettings', 'StaticCacheHandler' );
+            $staticCacheHandlerClassName::executeActions();
+        }
 
         eZDB::checkTransactionCounter();
 
@@ -978,8 +1043,6 @@ class ezpKernelWeb implements ezpKernelHandler
         eZExecution::setCleanExit( false );
         $scriptStartTime = microtime( true );
 
-        ob_start();
-
         $GLOBALS['eZRedirection'] = false;
         $this->access = eZSiteAccess::current();
 
@@ -1000,7 +1063,6 @@ class ezpKernelWeb implements ezpKernelHandler
         // make sure we get a new $ini instance now that it has been reset
         $ini = eZINI::instance();
 
-        // start: eZCheckValidity
         // pre check, setup wizard related so needs to be before session/db init
         // TODO: Move validity check in the constructor? Setup is not meant to be launched at each (sub)request is it?
         if ( $ini->variable( 'SiteAccessSettings', 'CheckValidity' ) === 'true' )
@@ -1016,7 +1078,6 @@ class ezpKernelWeb implements ezpKernelHandler
             $this->access = eZSiteAccess::change( array( 'name' => 'setup', 'type' => eZSiteAccess::TYPE_URI ) );
             eZTranslatorManager::enableDynamicTranslations();
         }
-        // stop: eZCheckValidity
 
         if ( $this->siteBasics['session-required'] )
         {
@@ -1074,7 +1135,7 @@ class ezpKernelWeb implements ezpKernelHandler
             );
         }
 
-        // eZCheckUser: pre check, RequireUserLogin & FORCE_LOGIN related so needs to be after session init
+        // pre check, RequireUserLogin & FORCE_LOGIN related so needs to be after session init
         if ( !isset( $this->check ) )
         {
             $this->check = eZUserLoginHandler::preCheck( $this->siteBasics, $this->uri );
@@ -1084,40 +1145,24 @@ class ezpKernelWeb implements ezpKernelHandler
 
         // Initialize with locale settings
         // TODO: Move to constructor? Is it relevant to init the locale/charset for each (sub)requests?
-        $languageCode = eZLocale::instance()->httpLocaleCode();
+        $this->languageCode = eZLocale::instance()->httpLocaleCode();
         $phpLocale = trim( $ini->variable( 'RegionalSettings', 'SystemLocale' ) );
         if ( $phpLocale != '' )
         {
             setlocale( LC_ALL, explode( ',', $phpLocale ) );
         }
 
-        $httpCharset = eZTextCodec::httpCharset();
+        $this->httpCharset = eZTextCodec::httpCharset();
 
         // TODO: are these parameters supposed to vary across potential sub-requests?
         $this->site = array(
             'title' => $ini->variable( 'SiteSettings', 'SiteName' ),
             'design' => $ini->variable( 'DesignSettings', 'SiteDesign' ),
             'http_equiv' => array(
-                'Content-Type' => 'text/html; charset=' . $httpCharset,
-                'Content-language' => $languageCode
+                'Content-Type' => 'text/html; charset=' . $this->httpCharset,
+                'Content-language' => $this->languageCode
             )
         );
-
-        // send header information
-        foreach ( eZHTTPHeader::headerOverrideArray( $this->uri ) +
-            array(
-                'Expires' => 'Mon, 26 Jul 1997 05:00:00 GMT',
-                'Last-Modified' => gmdate( 'D, d M Y H:i:s' ) . ' GMT',
-                'Cache-Control' => 'no-cache, must-revalidate',
-                'Pragma' => 'no-cache',
-                'X-Powered-By' => 'eZ Publish',
-                'Content-Type' => 'text/html; charset=' . $httpCharset,
-                'Served-by' => $_SERVER["SERVER_NAME"],
-                'Content-language' => $languageCode
-            ) as $key => $value )
-        {
-            header( $key . ': ' . $value );
-        }
 
         // Read role settings
         $this->siteBasics['policy-check-omit-list'] = array_merge(
@@ -1169,5 +1214,27 @@ class ezpKernelWeb implements ezpKernelHandler
     public function reInitialize()
     {
         $this->isInitialized = false;
+    }
+
+    /**
+     * Checks whether the kernel handler has the Symfony service container
+     * container or not.
+     *
+     * @return bool
+     */
+    public function hasServiceContainer()
+    {
+        return isset( $this->settings['service-container'] );
+    }
+
+    /**
+     * Returns the Symfony service container if it has been injected,
+     * otherwise returns null.
+     *
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface|null
+     */
+    public function getServiceContainer()
+    {
+        return $this->settings['service-container'];
     }
 }

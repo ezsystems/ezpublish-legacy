@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -298,12 +298,16 @@ if ( $storingAllowed && $hasObjectInput)
         $Module->setExitStatus( eZModule::STATUS_OK );
 
     $db = eZDB::instance();
-    if ( $inputValidated and count( $attributeInputMap ) > 0 )
+    if ( !empty( $attributeInputMap ) )
     {
-        if ( $Module->runHooks( 'pre_commit', array( $class, $object, $version, $contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage ) ) )
-            return;
+        if ( $inputValidated )
+        {
+            if ( $Module->runHooks( 'pre_commit', array( $class, $object, $version, $contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage ) ) )
+                return;
+            $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
+        }
+
         $version->setAttribute( 'modified', time() );
-        $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
 
         $db->begin();
         $version->store();

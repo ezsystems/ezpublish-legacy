@@ -2,7 +2,7 @@
 /**
  * File containing the eZWebDAVContentBackend class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -665,8 +665,6 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
      * are encoded properly, in order to be displayed correctly in WebDAV
      * clients. The encoding is from the ini setting Charset in
      * [CharacterSettings] in i18n.ini.
-     *
-     * The code for coding is taken from eZWebDAVServer::outputCollectionContent().
      *
      * @param ezcWebdavPropFindRequest $request
      * @return ezcWebdavResponse
@@ -2781,7 +2779,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
         {
             // We have reached the end of the path for source or destination
             // We do not allow 'move' operations for the virtual folder (from or to)
-            return eZWebDAVServer::FAILED_FORBIDDEN;
+            return false; // @as self::FAILED_FORBIDDEN;
         }
 
         if ( ( $sourceVFolder === self::virtualContentFolderName() or
@@ -2795,7 +2793,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
                                        $fullSource, $fullDestination );
         }
 
-        return eZWebDAVServer::FAILED_FORBIDDEN;
+        return false; // @as self::FAILED_FORBIDDEN;
     }
 
     /**
@@ -3125,8 +3123,6 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
     /**
      * Recodes $string from charset $fromCharset to charset $toCharset.
      *
-     * Method from eZWebDAVServer.
-     *
      * @param string $string
      * @param string $fromCharset
      * @param string $toCharset
@@ -3147,8 +3143,6 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
     /**
      * Encodes the path stored in $response in order to be displayed properly
      * in WebDAV clients.
-     *
-     * Code from eZWebDAVServer::outputCollectionContent.
      *
      * @param ezcWebdavResponse $response
      * @return ezcWebdavResponse

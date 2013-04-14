@@ -2,7 +2,7 @@
 /**
  * File containing the eZFile class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -30,25 +30,6 @@ class eZFile
      */
     const CLEAN_ON_FAILURE = 1,
           APPEND_DEBUG_ON_FAILURE = 2;
-
-    /**
-     * Reads the whole contents of the file \a $file and
-     * splits it into lines which is collected into an array and returned.
-     * It will handle Unix (\n), Windows (\r\n) and Mac (\r) style newlines.
-     * \note The newline character(s) are not present in the line string.
-     *
-     * @deprecated Since 4.4, use file( $file, FILE_IGNORE_NEW_LINES ) instead.
-     * @return array|false
-     */
-    static function splitLines( $file )
-    {
-        $contents = file_get_contents( $file );
-        if ( $contents === false )
-            return false;
-        $lines = preg_split( "#\r\n|\r|\n#", $contents );
-        unset( $contents );
-        return $lines;
-    }
 
     /*!
      Creates a file called \a $filename.
@@ -97,37 +78,6 @@ class eZFile
         }
 //         eZDebugSetting::writeNotice( 'ezfile-create', "Failed creating file $filepath", 'eZFile::create' );
         return false;
-    }
-
-    /*!
-     \static
-     Read all content of file.
-
-     \param filename
-
-     \return file contents, false if error
-
-     \deprecated since eZ Publish 4.1, use file_get_contents() instead
-    */
-    static function getContents( $filename )
-    {
-        eZDebug::writeWarning( __METHOD__ . ' is deprecated, use file_get_contents() instead' );
-
-        if ( function_exists( 'file_get_contents' ) )
-        {
-            return file_get_contents( $filename );
-        }
-        else
-        {
-            $fp = fopen( $filename, 'r' );
-            if ( !$fp )
-            {
-                eZDebug::writeError( 'Could not read contents of ' . $filename, __METHOD__ );
-                return false;
-            }
-
-            return fread( $fp, filesize( $filename ) );
-        }
     }
 
     /*!

@@ -10,7 +10,7 @@
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Publish
 // SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2012 eZ Systems AS
+// COPYRIGHT NOTICE: Copyright (C) 1999-2013 eZ Systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
 //   This program is free software; you can redistribute it and/or
@@ -124,7 +124,7 @@ static void recursiveFileInfoList(const QDir &dir,
     }
 }
 
-static QString version = "5.0.0alpha1"; // eZ Publish version plus local version
+static QString version = "5.1.0alpha1"; // eZ Publish version plus local version
 static QStringList dirs;          // Additional scan directories
 static QDir extension_dir;        // Extension directory
 static QRegExp localeRE( "^[a-z]{3}-[A-Z]{2}(@.*)?$" );

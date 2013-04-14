@@ -1,63 +1,13 @@
 <div id="leftmenu">
 <div id="leftmenu-design">
 
-<div class="objectinfo">
-
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-
-<h4>{'Object information'|i18n( 'design/admin/content/edit_draft' )}</h4>
-
-</div></div></div></div></div></div>
-
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
-
-{* Object ID *}
-<p>
-<label>{'ID'|i18n( 'design/admin/content/edit_draft' )}:</label>
-{$object.id}
-</p>
-
-{* Created *}
-<p>
-<label>{'Created'|i18n( 'design/admin/content/edit_draft' )}:</label>
-{if $object.published}
-{$object.published|l10n( shortdatetime )}<br />
-{$object.current.creator.name|wash}
-{else}
-{'Not yet published'|i18n( 'design/admin/content/edit_draft' )}
-{/if}
-</p>
-
-{* Modified *}
-<p>
-<label>{'Modified'|i18n( 'design/admin/content/edit_draft' )}:</label>
-{if $object.modified}
-{$object.modified|l10n( shortdatetime )}<br />
-{fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name|wash}
-{else}
-{'Not yet published'|i18n( 'design/admin/content/edit_draft' )}
-{/if}
-</p>
-
-{* Published version *}
-<p>
-<label>{'Published version'|i18n( 'design/admin/content/edit_draft' )}:</label>
-{if $object.published}
-{$object.current_version}
-{else}
-{'Not yet published'|i18n( 'design/admin/content/edit_draft' )}
-{/if}
-</p>
-
-</div></div></div></div></div></div>
-
-</div>
+{include uri="design:content/parts/object_information.tpl" object=$object manage_version_button=false()}
 
 </div>
 </div>
 
-<div id="maincontent"><div id="fix">
-<div id="maincontent-design">
+<div id="maincontent">
+<div id="maincontent-design" class="float-break"><div id="fix">
 <!-- Maincontent START -->
 
 {let has_own_drafts=false()
@@ -115,13 +65,13 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h2 class="context-title">{'Current drafts [%draft_count]'|i18n( 'design/admin/content/edit_draft',, hash( '%draft_count', $draft_versions|count ) )}</h2>
+<h2 class="context-title">{'Current drafts (%draft_count)'|i18n( 'design/admin/content/edit_draft',, hash( '%draft_count', $draft_versions|count ) )}</h2>
 
-{* DESIGN: Subline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -160,7 +110,7 @@
     <td>
         {section var=Languages loop=$Drafts.item.language_list}
             {delimiter}<br />{/delimiter}
-            <img src="{$Languages.item.language_code|flag_icon}" alt="{$Languages.item.language_code}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $Drafts.item.version, '/', $Languages.item.language_code, '/' )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/edit_draft',, hash( '%translation', $Languages.item.locale.intl_language_name, '%version_number', $Drafts.item.version ) )}" >{$Languages.item.locale.intl_language_name}</a>
+            <img src="{$Languages.item.language_code|flag_icon}" width="18" height="12" alt="{$Languages.item.language_code}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $Drafts.item.version, '/', $Languages.item.language_code, '/' )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/edit_draft',, hash( '%translation', $Languages.item.locale.intl_language_name, '%version_number', $Drafts.item.version ) )}" >{$Languages.item.locale.intl_language_name}</a>
         {/section}
     </td>
 
@@ -179,10 +129,10 @@
 
 {* DESIGN: Content END *}</div></div></div>
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 {if $has_own_drafts}
-<input class="button" type="submit" name="EditButton" value="{'Edit selected'|i18n( 'design/admin/content/edit_draft' )}" title="{'Edit the selected draft.'|i18n( 'design/admin/content/edit_draft' )}" />
+<input class="defaultbutton" type="submit" name="EditButton" value="{'Edit selected'|i18n( 'design/admin/content/edit_draft' )}" title="{'Edit the selected draft.'|i18n( 'design/admin/content/edit_draft' )}" />
 {else}
 <input class="button-disabled" type="submit" name="EditButton" value="{'Edit selected'|i18n( 'design/admin/content/edit_draft' )}" disabled="disabled" title="{'You cannot edit any of the drafts because none of them belong to you. You can create a new draft, select it and then edit it.'|i18n( 'design/admin/content/edit_draft' )}" />
 {/if}
@@ -191,7 +141,7 @@
 <input class="button" type="submit" name="CancelDraftButton" value="{'Cancel'|i18n( 'design/admin/content/edit_draft' )}" title="{'Cancel the edit operation.'|i18n( 'design/admin/content/edit_draft' )}" />
 <input type="hidden" name="DoNotEditAfterNewDraft" value="1" />
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 
 </div>
 </div>

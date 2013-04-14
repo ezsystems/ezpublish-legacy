@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -28,6 +28,7 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
     $class->remove( true );
     eZContentClassClassGroup::removeClassMembers( $ClassID, 0 );
+    ezpEvent::getInstance()->notify( 'content/class/cache', array( $ClassID ) );
     $Module->redirectTo( '/class/classlist/' . $GroupID );
 }
 if ( $http->hasPostVariable( "CancelButton" ) )

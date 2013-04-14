@@ -6027,7 +6027,7 @@ INSERT INTO ezcontentobject_attribute (
   54,
   0,
   0,
-  '<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<ezimage serial_number=\"1\" is_valid=\"\" filename=\"ez_publish.\" suffix=\"\" basename=\"ez_publish\" dirpath=\"var/storage/images/setup/ez_publish/172-1-eng-GB\" url=\"var/storage/images/setup/ez_publish/172-1-eng-GB/ez_publish.\" original_filename=\"\" mime_type=\"\" width=\"\" height=\"\" alternative_text=\"\" alias_key=\"1293033771\" timestamp=\"1082016632\"><original attribute_id=\"172\" attribute_version=\"2\" attribute_language=\"eng-GB\"/></ezimage>\n',
+  '<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<ezimage serial_number=\"1\" is_valid=\"\" filename=\"\" suffix=\"\" basename=\"\" dirpath=\"\" url=\"\" original_filename=\"\" mime_type=\"\" width=\"\" height=\"\" alternative_text=\"\" alias_key=\"1293033771\" timestamp=\"1082016632\"><original attribute_id=\"172\" attribute_version=\"2\" attribute_language=\"eng-GB\"/></ezimage>\n',
   'ezimage',
   172,
   'eng-GB',
@@ -7649,16 +7649,6 @@ INSERT INTO ezcontentobject_version (
   1,
   0,
   6,
-  1
-);
-
-INSERT INTO ezimagefile (
-  contentobject_attribute_id,
-  filepath,
-  id
-) VALUES (
-  172,
-  'var/storage/images/setup/ez_publish/172-1-eng-GB/ez_publish.',
   1
 );
 
@@ -36891,7 +36881,7 @@ INSERT INTO ezsite_data (
   value
 ) VALUES (
   'ezpublish-version',
-  '5.0.0alpha1'
+  '5.1.0alpha1'
 );
 
 INSERT INTO ezurl (

@@ -2,7 +2,7 @@
 /**
  * File containing the eZContentObjectTreeNode class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -262,12 +262,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function remoteID()
     {
-        $remoteID = eZPersistentObject::attribute( 'remote_id', true );
+        $remoteID = $this->attribute( 'remote_id', true );
         if ( !$remoteID )
         {
             $this->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'node' ) );
             $this->sync( array( 'remote_id' ) );
-            $remoteID = eZPersistentObject::attribute( 'remote_id', true );
+            $remoteID = $this->attribute( 'remote_id', true );
         }
 
         return $remoteID;
@@ -402,17 +402,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $this->Permissions["can_remove"] = $this->checkAccess( 'remove' );
         }
         return ( $this->Permissions["can_remove"] == 1 );
-    }
-
-    /*!
-     Check if the node can be moved. (actually checks 'edit' and 'remove' permissions)
-     \return \c true if the node can be moved by the current user.
-     \sa checkAccess().
-     \deprecated The function canMove() is preferred since its naming is clearer.
-    */
-    function canMove()
-    {
-        return $this->canMoveFrom();
     }
 
     /*!
@@ -1567,16 +1556,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     /*!
         \a static
-        Deprecated. Use 'createPermissionCheckingSQL' instead.
-    */
-    static function createPermissionCheckingSQLString( $limitationList )
-    {
-        $sqlPermissionChecking = eZContentObjectTreeNode::createPermissionCheckingSQL( $limitationList );
-        return $sqlPermissionChecking['where'];
-    }
-
-    /*!
-        \a static
     */
     static function createPermissionCheckingSQL( $limitationList, $treeTableName = 'ezcontentobject_tree', $tableAliasName = 'ezcontentobject_tree' )
     {
@@ -1811,6 +1790,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     static function getLimitationList( &$limitation )
     {
+        // do not check currentUser if limitation is disabled
+        if ( empty( $limitation ) && is_array( $limitation ) )
+        {
+            return $limitation;
+        }
+        
         $currentUser = eZUser::currentUser();
         $currentUserID = $currentUser->attribute( 'contentobject_id' );
         $limitationList = array();
@@ -3245,28 +3230,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
-     \deprecated This function should no longer be used, use the eZContentClass::instantiate and eZNodeAssignment::create instead.
-    */
-    function createObject( $contentClassID, $parentNodeID = 2 )
-    {
-        $class = eZContentClass::fetch( $contentClassID );
-        $parentNode = eZContentObjectTreeNode::fetch( $parentNodeID );
-        $parentContentObject = $parentNode->attribute( 'object' );
-        $sectionID = $parentContentObject->attribute( 'section_id' );
-        $object = $class->instantiate( false, $sectionID );
-
-//        $parentContentObject = $parentNode->attribute( 'contentobject' );
-
-        $node = eZContentObjectTreeNode::addChildTo( $object->attribute( "id" ), $parentNodeID, true );
-//        $object->setAttribute( "main_node_id", $node->attribute( 'node_id' ) );
-        $node->setAttribute( 'main_node_id', $node->attribute( 'node_id' ) );
-        $object->store();
-        $node->store();
-
-        return $object;
-    }
-
-    /*!
      Add a child for this node to the object tree.
      \param $contentobjectID      The ID of the contentobject the child-node should point to.
      \param $asObject             If true it will return the new child-node as an object, if not it returns the ID.
@@ -3471,17 +3434,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
-     \deprecated Use updateSubTreePath() instead.
-     */
-    function updateURLAlias()
-    {
-        eZDebug::writeWarning( __METHOD__ . " is deprecated, use updateSubTreePath() instead" );
-        return $this->updateSubTreePath();
-    }
-
-    /*!
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function updateSubTreePath( $updateParent = true, $nodeMove = false )
     {
@@ -3641,6 +3593,22 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $pathIdentificationString = $pathIdentificationName;
         if ( $this->attribute( 'path_identification_string' ) != $pathIdentificationString )
         {
+            $db = eZDB::instance();
+            $db->query(
+                "UPDATE ezcontentobject_tree " .
+                "SET path_identification_string = " .
+                    $db->concatString(
+                        array(
+                            "'" . $db->escapeString( $pathIdentificationString ) . "'",
+                            $db->subString(
+                                "path_identification_string",
+                                mb_strlen( $this->attribute( 'path_identification_string' ) ) + 1
+                            )
+                        )
+                    ) . " " .
+                "WHERE path_string LIKE '{$this->attribute( 'path_string' )}_%'"
+            );
+
             $this->setAttribute( 'path_identification_string', $pathIdentificationString );
             $this->sync();
         }
@@ -3674,10 +3642,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $object = $this->object();
         $nodeID = $this->attribute( 'node_id' );
+        $objectID = $object->attribute( 'id' );
         if ( eZAudit::isAuditEnabled() )
         {
             // Set audit params.
-            $objectID = $object->attribute( 'id' );
             $objectName = $object->attribute( 'name' );
 
             eZAudit::writeAudit( 'content-delete', array( 'Node ID' => $nodeID, 'Object ID' => $objectID, 'Content Name' => $objectName,
@@ -3733,8 +3701,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         // clean up user cache
         if ( in_array( $object->attribute( 'contentclass_id' ), eZUser::contentClassIDs() ) )
         {
-            eZUser::removeSessionData( $object->attribute( 'id' ) );
-            eZUser::purgeUserCacheByUserId( $object->attribute( 'id' ) );
+            eZUser::removeSessionData( $objectID );
+            eZUser::purgeUserCacheByUserId( $objectID );
         }
 
         $parentNode = $this->attribute( 'parent' );
@@ -3742,6 +3710,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             eZContentCacheManager::clearContentCacheIfNeeded( $parentNode->attribute( 'contentobject_id' ) );
             $parentNode->updateAndStoreModified();
+            eZNodeAssignment::purgeByParentAndContentObjectID( $parentNode->attribute( 'node_id' ), $objectID );
         }
 
         // Clean up policies and limitations
@@ -4246,6 +4215,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $moveQuery1 = "UPDATE
                                  ezcontentobject_tree
                            SET
+                                 path_identification_string = " .
+                                 $db->concatString(
+                                     array(
+                                         "'" . $db->escapeString( $newParentNode->PathIdentificationString ) . "'",
+                                         $db->subString(
+                                             "path_identification_string",
+                                             mb_strlen( $node->PathIdentificationString ) + 1
+                                         )
+                                     )
+                                 ) . ",
                                  path_string = $newPathString,
                                  depth = depth + $newParentDepth - $oldDepth + 1
                            WHERE
@@ -5629,7 +5608,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db = eZDB::instance();
 
         $db->begin();
-        eZPersistentObject::store( $fieldFilters );
+        parent::store( $fieldFilters );
         $this->updateAndStoreModified();
         $db->commit();
     }

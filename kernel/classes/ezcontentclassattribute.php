@@ -2,7 +2,7 @@
 /**
  * File containing the eZContentClassAttribute class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -293,7 +293,7 @@ class eZContentClassAttribute extends eZPersistentObject
         $this->setAttribute( 'serialized_description_list', $this->DescriptionList->serializeNames() );
         $this->setAttribute( 'serialized_data_text', $this->DataTextI18nList->serializeNames() );
 
-        $stored = eZPersistentObject::store( $fieldFilters );
+        $stored = parent::store( $fieldFilters );
 
         // store the content data for this attribute
         $dataType->storeClassAttribute( $this, $this->attribute( 'version' ) );
@@ -342,7 +342,7 @@ class eZContentClassAttribute extends eZPersistentObject
         $this->setAttribute( 'serialized_description_list', $this->DescriptionList->serializeNames() );
         $this->setAttribute( 'serialized_data_text', $this->DataTextI18nList->serializeNames() );
 
-        eZPersistentObject::store();
+        parent::store();
 
         // store the content data for this attribute
         $dataType->storeVersionedClassAttribute( $this, $version );
@@ -363,7 +363,7 @@ class eZContentClassAttribute extends eZPersistentObject
             $db = eZDB::instance();
             $db->begin();
             $dataType->deleteStoredClassAttribute( $this, $this->Version );
-            eZPersistentObject::remove();
+            $this->remove();
             $db->commit();
             return true;
         }

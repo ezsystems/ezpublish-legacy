@@ -2,7 +2,7 @@
 /**
  * File containing the eZTemplateCacheBlock class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -73,7 +73,7 @@ class eZTemplateCacheBlock
         // Perform an extra check if the DB handler is in use,
         // get the modified_subnode value from the specified node ($nodeID)
         // and use it as an extra expiry value.
-        if ( $cacheHandler instanceof eZDBFileHandler or $cacheHandler instanceof eZDFSFileHandler )
+        if ( $cacheHandler instanceof eZDFSFileHandler )
         {
             $subtreeExpiry = eZTemplateCacheBlock::getSubtreeModification( $nodeID );
         }

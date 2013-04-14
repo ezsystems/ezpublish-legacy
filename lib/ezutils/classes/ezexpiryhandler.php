@@ -2,7 +2,7 @@
 /**
  * File containing the eZExpiryHandler class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -35,6 +35,13 @@ class eZExpiryHandler
     function restore()
     {
         $Timestamps = $this->CacheFile->processFile( array( $this, 'fetchData' ) );
+        if ( $Timestamps === false )
+        {
+            $errMsg = 'Fatal error - could not restore expiry.php file.';
+            eZDebug::writeError( $errMsg, __METHOD__ );
+            trigger_error( $errMsg, E_USER_ERROR );
+        }
+
         $this->Timestamps = $Timestamps;
         $this->IsModified = false;
     }
@@ -166,17 +173,6 @@ class eZExpiryHandler
             register_shutdown_function( array('eZExpiryHandler', 'shutdown') );
             eZExpiryHandler::$isShutdownFunctionRegistered = true;
         }
-    }
-
-    /**
-     * Returns the data modification status
-     *
-     * @return bool true if data was modified, false if it wasn't
-     * @deprecated 4.2 will be removed in 4.3
-     */
-    public function isModified()
-    {
-        return $this->IsModified;
     }
 
     /**

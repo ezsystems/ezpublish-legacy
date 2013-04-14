@@ -1,23 +1,22 @@
 {let can_apply=false()}
-<form name="orderlist" method="post" action={concat( '/shop/orderlist' )|ezurl}>
+<form name="orderlist" method="post" action={concat( '/shop/orderlist', $view_parameters.offset|gt(0)|choose( '', concat( '/(offset)/', $view_parameters.offset ) ) )|ezurl}>
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h1 class="context-title">{'Orders [%count]'|i18n( 'design/admin/shop/orderlist',, hash( '%count', $order_list|count ) )}</h1>
+<h1 class="context-title">{'Orders (%count)'|i18n( 'design/admin/shop/orderlist',, hash( '%count', $order_list|count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {section show=$order_list}
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
-<p>
+<div class="button-left">
+<p class="table-preferences">
 {if eq( ezpreference( 'admin_orderlist_sortfield' ), 'user_name' )}
     <a href={'/user/preferences/set/admin_orderlist_sortfield/time/shop/orderlist/'|ezurl}>{'Time'|i18n( 'design/admin/shop/orderlist' )}</a>
     <span class="current">{'Customer'|i18n( 'design/admin/shop/orderlist' )}</span>
@@ -27,8 +26,8 @@
 {/if}
 </p>
 </div>
-<div class="right">
-<p>
+<div class="button-right">
+<p class="table-preferences">
 {if eq( ezpreference( 'admin_orderlist_sortorder' ), 'desc' )}
     <a href={'/user/preferences/set/admin_orderlist_sortorder/asc/shop/orderlist/'|ezurl}>{'Ascending'|i18n( 'design/admin/shop/orderlist' )}</a>
     <span class="current">{'Descending'|i18n( 'design/admin/shop/orderlist' )}</span>
@@ -39,9 +38,7 @@
 </p>
 </div>
 
-<div class="break"></div>
-
-</div>
+<div class="float-break"></div>
 </div>
 
 {def $currency = false()
@@ -50,13 +47,13 @@
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/orderlist' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/orderlist' )}" onclick="ezjs_toggleCheckboxes( document.orderlist, 'OrderIDArray[]' ); return false;" /></th>
-	<th class="tight">{'ID'|i18n( 'design/admin/shop/orderlist' )}</th>
-	<th class="wide">{'Customer'|i18n( 'design/admin/shop/orderlist' )}</th>
-	<th class="tight">{'Total (ex. VAT)'|i18n( 'design/admin/shop/orderlist' )}</th>
-	<th class="tight">{'Total (inc. VAT)'|i18n( 'design/admin/shop/orderlist' )}</th>
-	<th class="wide">{'Time'|i18n( 'design/admin/shop/orderlist' )}</th>
-	<th class="wide">{'Status'|i18n( 'design/admin/shop/orderlist' )}</th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/shop/orderlist' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/orderlist' )}" onclick="ezjs_toggleCheckboxes( document.orderlist, 'OrderIDArray[]' ); return false;" /></th>
+    <th class="tight">{'ID'|i18n( 'design/admin/shop/orderlist' )}</th>
+    <th class="wide">{'Customer'|i18n( 'design/admin/shop/orderlist' )}</th>
+    <th class="tight">{'Total (ex. VAT)'|i18n( 'design/admin/shop/orderlist' )}</th>
+    <th class="tight">{'Total (inc. VAT)'|i18n( 'design/admin/shop/orderlist' )}</th>
+    <th class="wide">{'Time'|i18n( 'design/admin/shop/orderlist' )}</th>
+    <th class="wide">{'Status'|i18n( 'design/admin/shop/orderlist' )}</th>
 </tr>
 {section var=Orders loop=$order_list sequence=array( bglight, bgdark )}
 
@@ -71,23 +68,23 @@
 
 <tr class="{$Orders.sequence}">
     <td><input type="checkbox" name="OrderIDArray[]" value="{$Orders.item.id}" title="{'Select order for removal.'|i18n( 'design/admin/shop/orderlist' )}" /></td>
-	<td><a href={concat( '/shop/orderview/', $Orders.item.id, '/' )|ezurl}>{$Orders.item.order_nr}</a></td>
-	<td>
-	{if is_null($Orders.item.account_name)}
-	    <s><i>{'( removed )'|i18n( 'design/admin/shop/orderlist' )}</i></s>
-	{else}
-	    <a href={concat( '/shop/customerorderview/', $Orders.item.user_id, '/', $Orders.item.account_email )|ezurl}>{$Orders.item.account_name}</a>
-	{/if}
-	</td>
-	
+    <td><a href={concat( '/shop/orderview/', $Orders.item.id, '/' )|ezurl}>{$Orders.item.order_nr}</a></td>
+    <td>
+    {if is_null($Orders.item.account_name)}
+        <s><i>{'( removed )'|i18n( 'design/admin/shop/orderlist' )}</i></s>
+    {else}
+        <a href={concat( '/shop/customerorderview/', $Orders.item.user_id, '/', $Orders.item.account_email )|ezurl}>{$Orders.item.account_name}</a>
+    {/if}
+    </td>
+    
 
     {* NOTE: These two attribute calls are slow, they cause the system to generate lots of SQLs.
              The reason is that their values are not cached in the order tables *}
-	<td class="number" align="right">{$Orders.item.total_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
-	<td class="number" align="right">{$Orders.item.total_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
+    <td class="number" align="right">{$Orders.item.total_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
+    <td class="number" align="right">{$Orders.item.total_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
 
-	<td>{$Orders.item.created|l10n( shortdatetime )}</td>
-	<td>
+    <td>{$Orders.item.created|l10n( shortdatetime )}</td>
+    <td>
     {let order_status_list=$Orders.status_modification_list}
 
     {section show=$order_status_list|count|gt( 0 )}
@@ -105,7 +102,7 @@
     {/section}
 
     {/let}
-	</td>
+    </td>
 </tr>
 {/section}
 </table>
@@ -128,7 +125,7 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
 <div class="block">
 <div class="button-left">
@@ -149,8 +146,8 @@
 
 </div>
 
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
-
+</div>
 </form>
 {/let}

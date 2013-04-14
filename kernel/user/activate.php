@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -94,11 +94,6 @@ $tpl->setVariable( 'module', $Module );
 $tpl->setVariable( 'account_activated', $accountActivated );
 $tpl->setVariable( 'already_active', $alreadyActive );
 $tpl->setVariable( 'is_pending' , $isPending );
-
-// This line is deprecated, the correct name of the variable should
-// be 'account_activated' as shown above.
-// However it is kept for backwards compatibility.
-$tpl->setVariable( 'account_avtivated', $accountActivated );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:user/activate.tpl' );

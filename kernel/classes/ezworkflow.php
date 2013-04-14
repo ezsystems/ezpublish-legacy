@@ -2,7 +2,7 @@
 /**
  * File containing the eZWorkflow class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -162,7 +162,7 @@ class eZWorkflow extends eZPersistentObject
                                                      "version" => $this->Version ) );
         }
 
-        eZPersistentObject::remove();
+        $this->remove();
         $db->commit();
     }
 
@@ -254,7 +254,7 @@ class eZWorkflow extends eZPersistentObject
                 $event->store();
             }
         }
-        eZPersistentObject::store();
+        parent::store();
         $db->commit();
     }
     /*!
@@ -280,7 +280,7 @@ class eZWorkflow extends eZPersistentObject
                 $event->storeDefined();
             }
         }
-        eZPersistentObject::store();
+        parent::store();
         $db->commit();
     }
 
@@ -301,7 +301,7 @@ class eZWorkflow extends eZPersistentObject
                 $event->setAttribute( "version", $version );
             }
         }
-        eZPersistentObject::setAttribute( "version", $version );
+        $this->setAttribute( "version", $version );
     }
 
     static function fetch( $id, $asObject = true, $version = 0 )

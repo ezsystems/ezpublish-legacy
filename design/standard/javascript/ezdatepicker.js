@@ -27,12 +27,12 @@ function showDatePicker( base, id, datatype )
 
         /* Set time to 12:00, if no time is set */
         var txtHour = document.getElementsByName( base + '_' + datatype + '_hour_' + id );
-        if ( txtHour && txtHour[0].value.length == '' ) {
+        if ( txtHour[0] && txtHour[0].value.length == '' ) {
             txtHour[0].value = '12';
         }
 
         var txtMinute = document.getElementsByName( base + '_' + datatype + '_minute_' + id );
-        if ( txtMinute && txtMinute[0].value == '' ) {
+        if ( txtMinute[0] && txtMinute[0].value == '' ) {
             txtMinute[0].value = '00';
         }
 

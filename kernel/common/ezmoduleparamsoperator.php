@@ -2,7 +2,7 @@
 /**
  * File containing the eZModuleParamsOperator class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -11,7 +11,7 @@
 /*
 If you want to have autoloading of this operator you should create
 a eztemplateautoload.php file and add the following code to it.
-The autoload file must be placed somewhere specified in AutoloadPath
+The autoload file must be placed somewhere specified in AutoloadPathList
 under the group TemplateSettings in settings/site.ini
 
 $eZTemplateOperatorArray = array();

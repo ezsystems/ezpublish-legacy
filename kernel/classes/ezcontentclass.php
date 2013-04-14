@@ -2,7 +2,7 @@
 /**
  * File containing the eZContentClass class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -679,7 +679,7 @@ class eZContentClass extends eZPersistentObject
         $classNameFilter = eZContentClassName::sqlFilter( 'cc' );
 
         $classList = array();
-        $db = eZDb::instance();
+        $db = eZDB::instance();
         // If $asObject is true we fetch all fields in class
         $fields = $asObject ? "cc.*" : "cc.id, $classNameFilter[nameField]";
         $rows = $db->arrayQuery( "SELECT DISTINCT $fields " .
@@ -737,13 +737,13 @@ class eZContentClass extends eZPersistentObject
     */
     function remoteID()
     {
-        $remoteID = eZPersistentObject::attribute( 'remote_id', true );
+        $remoteID = $this->attribute( 'remote_id', true );
         if ( !$remoteID &&
              $this->Version == eZContentClass::VERSION_STATUS_DEFINED )
         {
             $this->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'class' ) );
             $this->sync( array( 'remote_id' ) );
-            $remoteID = eZPersistentObject::attribute( 'remote_id', true );
+            $remoteID = $this->attribute( 'remote_id', true );
         }
 
         return $remoteID;
@@ -763,7 +763,7 @@ class eZContentClass extends eZPersistentObject
             $this->removeAttributes( $removeAttributes );
 
         $this->NameList->remove( $this );
-        eZPersistentObject::remove();
+        parent::remove();
     }
 
     /*!
@@ -919,7 +919,7 @@ You will need to change the class of the node by using the swap functionality.' 
         $this->setAttribute( 'serialized_name_list', $this->NameList->serializeNames() );
         $this->setAttribute( 'serialized_description_list', $this->DescriptionList->serializeNames() );
 
-        eZPersistentObject::store( $fieldFilters );
+        parent::store( $fieldFilters );
 
         $this->NameList->store( $this );
 
@@ -1043,7 +1043,7 @@ You will need to change the class of the node by using the swap functionality.' 
 
         $this->setAttribute( 'serialized_name_list', $this->NameList->serializeNames() );
         $this->setAttribute( 'serialized_description_list', $this->DescriptionList->serializeNames() );
-        eZPersistentObject::store();
+        parent::store();
         $this->NameList->store( $this );
 
         $db->commit();

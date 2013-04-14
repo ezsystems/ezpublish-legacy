@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -172,8 +172,9 @@ abstract class ezpClusterGateway
         // Output HTTP headers.
         $filesize = $metaData['size'];
         $mtime = $metaData['mtime'];
+        $datatype = $metaData['datatype'];
 
-        header( "Content-Type: $metaData[datatype]" );
+        header( "Content-Type: {$datatype}" );
         header( "Connection: close" );
         header( 'Served-by: ' . $_SERVER["SERVER_NAME"] );
 
@@ -217,13 +218,31 @@ abstract class ezpClusterGateway
             // let the client know we do accept range by bytes
             header( 'Accept-Ranges: bytes' );
 
-            if ( isset( $_SERVER['HTTP_RANGE'] ) && preg_match( "/^bytes=(\d+)-(\d+)?$/", trim( $_SERVER['HTTP_RANGE'] ), $matches ) )
+            if ( isset( $_SERVER['HTTP_RANGE'] ) && strpos( $_SERVER['HTTP_RANGE'], 'bytes=' ) === 0 && strpos( $_SERVER['HTTP_RANGE'], ',' ) === false )
             {
-                $startOffset = $matches[1];
-                $endOffset = isset( $matches[2] ) ? $matches[2] : false;
-                $contentLength = $endOffset ? $endOffset - $startOffset + 1 : $filesize - $startOffset;
-                header( "Content-Range: bytes $startOffset-$endOffset/$filesize" );
-                header( "HTTP/1.1 206 Partial Content" );
+                $matches = explode( '-', substr( $_SERVER['HTTP_RANGE'], 6 ) );
+                $startOffset = $matches[0];
+                $endOffset = !empty( $matches[1] ) ? $matches[1] : false;
+                if ( $endOffset !== false && empty( $startOffset ) && $startOffset !== "0" )
+                {
+                    $startOffset = $filesize - $endOffset;
+                    $endOffset = $filesize - 1;
+                }
+                elseif ( $endOffset === false || $endOffset > ( $filesize - 1 ) )
+                {
+                    $endOffset = $filesize - 1;
+                }
+                $contentLength = $endOffset - $startOffset + 1;
+                if ( $startOffset >= $endOffset )
+                {
+                    header( "Content-Range: bytes */$filesize" );
+                    $this->interrupt( '', 416 );
+                }
+                else
+                {
+                    header( "Content-Range: bytes $startOffset-$endOffset/$filesize" );
+                    header( "HTTP/1.1 206 Partial Content" );
+                }
             }
         }
         else
@@ -270,6 +289,18 @@ abstract class ezpClusterGateway
 </head><body>
 <H1>Not Found</H1>
 <p>The requested URL {$filename} was not found on this server.<p>
+</body></html>
+EOF;
+            exit( 1 );
+
+            case 416:
+                header( $_SERVER['SERVER_PROTOCOL'] . " 416 Requested Range Not Satisfiable" );
+                echo <<<EOF
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>416 Requested Range Not Satisfiable</title>
+</head><body>
+<h1>416 Requested Range Not Satisfiable</h1>
 </body></html>
 EOF;
             exit( 1 );

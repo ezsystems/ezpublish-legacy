@@ -2,7 +2,7 @@
 /**
  * File containing the eZUser class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -27,8 +27,6 @@ class eZUser extends eZPersistentObject
     const PASSWORD_HASH_MYSQL = 4;
     /// Passwords in plaintext, should not be used for real sites
     const PASSWORD_HASH_PLAINTEXT = 5;
-    // Crypted passwords
-    const PASSWORD_HASH_CRYPT = 6;
 
     /// Authenticate by matching the login field
     const AUTHENTICATE_LOGIN = 1;
@@ -90,7 +88,7 @@ class eZUser extends eZPersistentObject
                                                       'roles' => 'roles',
                                                       'role_id_list' => 'roleIDList',
                                                       'limited_assignment_value_list' => 'limitValueList',
-                                                      'is_logged_in' => 'isLoggedIn',
+                                                      'is_logged_in' => 'isRegistered',
                                                       'is_enabled' => 'isEnabled',
                                                       'is_locked' => 'isLocked',
                                                       'last_visit' => 'lastVisit',
@@ -130,10 +128,6 @@ class eZUser extends eZPersistentObject
             {
                 return 'plaintext';
             } break;
-            case self::PASSWORD_HASH_CRYPT:
-            {
-                return 'crypt';
-            } break;
         }
     }
 
@@ -164,10 +158,6 @@ class eZUser extends eZPersistentObject
             case 'plaintext':
             {
                 return self::PASSWORD_HASH_PLAINTEXT;
-            } break;
-            case 'crypt':
-            {
-                return self::PASSWORD_HASH_CRYPT;
             } break;
         }
     }
@@ -206,7 +196,7 @@ class eZUser extends eZPersistentObject
         unset( $GLOBALS['eZUserObject_' . $userID] );
         $GLOBALS['eZUserObject_' . $userID] = $this;
         self::purgeUserCacheByUserId( $userID );
-        eZPersistentObject::store( $fieldFilters );
+        parent::store( $fieldFilters );
     }
 
     function originalPassword()
@@ -556,14 +546,7 @@ WHERE user_id = '" . $userID . "' AND
         eZUserAccountKey::removeByUserID( $userID );
         eZForgotPassword::removeByUserID( $userID );
         eZWishList::removeByUserID( $userID );
-
-        // only remove general digest setting if there are no other users with the same e-mail
-        $email = $user->attribute( 'email' );
-        $usersWithEmailCount = eZPersistentObject::count( eZUser::definition(), array( 'email' => $email ) );
-        if ( $usersWithEmailCount == 1 )
-        {
-            eZGeneralDigestUserSettings::removeByAddress( $email );
-        }
+        eZGeneralDigestUserSettings::removeByUserId( $userID );
 
         eZPersistentObject::removeObject( eZUser::definition(),
                                           array( 'contentobject_id' => $userID ) );
@@ -602,8 +585,6 @@ WHERE user_id = '" . $userID . "' AND
             return self::PASSWORD_HASH_MD5_USER;
         else if ( $type == 'plaintext' )
             return self::PASSWORD_HASH_PLAINTEXT;
-        else if ( $type == 'crypt' )
-            return self::PASSWORD_HASH_CRYPT;
         else
             return self::PASSWORD_HASH_MD5_PASSWORD;
     }
@@ -1126,7 +1107,7 @@ WHERE user_id = '" . $userID . "' AND
         // - the user has not logged out,
         // - the user is not logged in,
         // - and if a automatic single sign on plugin is enabled.
-        if ( !self::$userHasLoggedOut and is_object( $currentUser ) and !$currentUser->isLoggedIn() )
+        if ( !self::$userHasLoggedOut && is_object( $currentUser ) && !$currentUser->isRegistered() )
         {
             $ssoHandlerArray = $ini->variable( 'UserSettings', 'SingleSignOnHandlerArray' );
             if ( !empty( $ssoHandlerArray ) )
@@ -1699,17 +1680,6 @@ WHERE user_id = '" . $userID . "' AND
         else if ( $type == self::PASSWORD_HASH_PLAINTEXT )
         {
             $str = $password;
-        }
-        else if ( $type == self::PASSWORD_HASH_CRYPT )
-        {
-            if ( $hash )
-            {
-                $str = crypt( $password, $hash );
-            }
-            else
-            {
-                $str = crypt( $password );
-            }
         }
         else // self::PASSWORD_HASH_MD5_PASSWORD
         {
@@ -2334,18 +2304,35 @@ WHERE user_id = '" . $userID . "' AND
         return eZUserAccountKey::fetchByUserID( $this->ContentObjectID );
     }
 
-    /*!
-     Returns true if it's a real user which is logged in. False if the user
-     is the default user or the fallback buildtin user.
-    */
-    function isLoggedIn()
+    /**
+     * Returns true if the user is a registered and not anonymous user.
+     *
+     * @deprecated since 5.1 Use isRegistered() / isUserLoggedIn() instead.
+     */
+    public function isLoggedIn()
     {
-        if ( $this->ContentObjectID == self::anonymousId() or
-             $this->ContentObjectID == -1 )
-        {
-            return false;
-        }
-        return true;
+        eZDebug::writeStrict( "Method " . __METHOD__ . " has been deprecated in 5.1. Use isRegistered() / isUserLoggedIn() instead.", "Deprecation" );
+        return $this->isRegistered();
+    }
+
+    /**
+     * Returns true if the user is a registered and not anonymous user.
+     *
+     * @deprecated since 5.1 Use isRegistered() / isUserLoggedIn() instead.
+     */
+    public function isRegistered()
+    {
+        return $this->ContentObjectID != self::anonymousId() && $this->ContentObjectID != -1;
+    }
+
+    /**
+     * Returns whether the current user is a registered user.
+     *
+     * @since 5.1
+     */
+    static public function isCurrentUserRegistered()
+    {
+        return self::currentUser()->isRegistered();
     }
 
     /*!
@@ -2593,32 +2580,6 @@ WHERE user_id = '" . $userID . "' AND
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-info-cache', time() );
         $handler->store();
-    }
-
-    /**
-     * Returns the filename for a cache file with user information
-     *
-     * @deprecated In 4.4.0
-     * @params int $userId
-     * @return string|false Filename of the cachefile, or false when the user should not be cached
-     */
-    static function getCacheFilename( $userId )
-    {
-        $ini = eZINI::instance();
-        $cacheUserPolicies = $ini->variable( 'RoleSettings', 'UserPolicyCache' );
-        if ( $cacheUserPolicies === 'enabled' )
-        {
-            return eZUser::getCacheDir( $userId ). '/user-'. $userId . '.cache.php';
-        }
-        else if ( $cacheUserPolicies !== 'disabled' )
-        {
-            $cachableIDs = explode( ',', $cacheUserPolicies );
-            if ( in_array( $userId, $cachableIDs ) )
-            {
-                return eZUser::getCacheDir( $userId ). '/user-'. $userId . '.cache.php';
-            }
-        }
-        return false;
     }
 
     static function fetchUserClassList( $asObject = false, $fields = false )

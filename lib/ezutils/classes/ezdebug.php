@@ -2,7 +2,7 @@
 /**
  * File containing the eZDebug class.
  *
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -786,6 +786,11 @@ class eZDebug
         {
             return $GLOBALS['eZDebugMaxLogSize'];
         }
+        else if ( defined( 'EZPUBLISH_LOG_MAX_FILE_SIZE' ) )
+        {
+            self::setMaxLogSize( (int)EZPUBLISH_LOG_MAX_FILE_SIZE );
+            return (int)EZPUBLISH_LOG_MAX_FILE_SIZE;
+        }
         return self::MAX_LOGFILE_SIZE;
     }
 
@@ -807,6 +812,11 @@ class eZDebug
         if ( isset( $GLOBALS['eZDebugMaxLogrotateFiles'] ) )
         {
             return $GLOBALS['eZDebugMaxLogrotateFiles'];
+        }
+        else if ( defined( 'EZPUBLISH_LOG_MAX_FILE_SIZE' ) )
+        {
+            self::setLogrotateFiles( (int)EZPUBLISH_LOG_ROTATE_FILES );
+            return (int)EZPUBLISH_LOG_ROTATE_FILES;
         }
         return self::MAX_LOGROTATE_FILES;
     }
@@ -830,6 +840,10 @@ class eZDebug
     static function rotateLog( $fileName )
     {
         $maxLogrotateFiles = eZDebug::maxLogrotateFiles();
+        if ( $maxLogrotateFiles == 0 )
+        {
+            return;
+        }
         for ( $i = $maxLogrotateFiles; $i > 0; --$i )
         {
             $logRotateName = $fileName . '.' . $i;
@@ -838,13 +852,11 @@ class eZDebug
                 if ( $i == $maxLogrotateFiles )
                 {
                     @unlink( $logRotateName );
-//                     print( "@unlink( $logRotateName )<br/>" );
                 }
                 else
                 {
                     $newLogRotateName = $fileName . '.' . ($i + 1);
                     eZFile::rename( $logRotateName, $newLogRotateName );
-//                     print( "@rename( $logRotateName, $newLogRotateName )<br/>" );
                 }
             }
         }
@@ -852,7 +864,6 @@ class eZDebug
         {
             $newLogRotateName = $fileName . '.' . 1;
             eZFile::rename( $fileName, $newLogRotateName );
-//             print( "@rename( $fileName, $newLogRotateName )<br/>" );
             return true;
         }
         return false;
@@ -878,6 +889,7 @@ class eZDebug
             eZDir::mkdir( $logDir, false, true );
         }
         $oldumask = @umask( 0 );
+        clearstatcache( true, $fileName );
         $fileExisted = file_exists( $fileName );
         if ( $fileExisted and
              filesize( $fileName ) > eZDebug::maxLogSize() )
@@ -1089,7 +1101,7 @@ class eZDebug
             $GLOBALS['eZDebugLogOnly'] = ( $settings['log-only'] == 'enabled' );
         }
 
-        $GLOBALS['eZDebugAllowedByIP'] = $settings['debug-by-ip'] ? self::isAllowedByCurrentIP( $settings['debug-ip-list'] ) : true;
+        $GLOBALS['eZDebugAllowedByIP'] = ( isset( $settings['debug-by-ip'] ) && $settings['debug-by-ip'] ) ? self::isAllowedByCurrentIP( $settings['debug-ip-list'] ) : true;
 
         // updateSettings is meant to be called before the user session is started
         // so we do not take debug-by-user into account yet, but store the debug-user-list in $GLOBALS
@@ -1211,18 +1223,6 @@ class eZDebug
                 return $report;
         }
         return null;
-    }
-
-    /**
-     * Returns the microtime as a float value. $mtime must be in microtime() format.
-     * @deprecated Since 4.4.0, use microtime( true ) instead
-     */
-    static function timeToFloat( $mtime )
-    {
-        $tTime = explode( " ", $mtime );
-        preg_match( "#0\.([0-9]+)#", "" . $tTime[0], $t1 );
-        $time = $tTime[1] . "." . $t1[1];
-        return $time;
     }
 
     /*!

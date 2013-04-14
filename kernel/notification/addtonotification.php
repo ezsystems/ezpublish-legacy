@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2012 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -20,7 +20,7 @@ $redirectURI = $http->postVariable( 'RedirectURI', $http->sessionVariable( 'Last
 
 $viewMode = $http->hasPostVariable( 'ViewMode' ) ? $http->postVariable( 'ViewMode' ) : 'full';
 
-if ( !$user->isLoggedIn() )
+if ( !$user->isRegistered() )
 {
     eZDebug::writeError( 'User not logged in trying to subscribe for notification, node ID: ' . $nodeID,
                          'kernel/content/action.php' );

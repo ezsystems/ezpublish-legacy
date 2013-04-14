@@ -2,7 +2,7 @@
 /**
  * File containing the eZClusterFileHandlerTest class
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
  * @package tests
  */
@@ -15,7 +15,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
     /**
      * Tested cluster class
      * Must be overriden by any implementation
-     * @var string eZFSFileHandler, eZDBFileHandler...
+     * @var string eZFSFileHandler
      */
     protected $clusterClass = false;
 
@@ -912,11 +912,6 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
     public function testRequiresClusterizing()
     {
         self::assertFalse( eZClusterFileHandler::instance()->requiresClusterizing() );
-    }
-
-    public function testRequiresBinaryPurge()
-    {
-        self::assertFalse( eZClusterFileHandler::instance()->requiresBinaryPurge() );
     }
 
     public function testPurgeSingleFile()
