@@ -147,13 +147,23 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         $db->begin();
 
         $contentObject = $this->attribute( 'object' );
-        $contentobjectAttributes = $contentObject->allContentObjectAttributes( $contentObject->attribute( 'id' ) );
-        foreach ( $contentobjectAttributes as $contentobjectAttribute )
+        $offset = 0;
+        $limit = 20;
+        while (
+            $contentobjectAttributes = $contentObject->allContentObjectAttributes(
+                $contentObject->attribute( 'id' ), true,
+                array( 'limit' => $limit, 'offset' => $offset )
+            )
+        )
         {
-            $dataType = $contentobjectAttribute->dataType();
-            if ( !$dataType )
-                continue;
-            $dataType->trashStoredObjectAttribute( $contentobjectAttribute );
+            foreach ( $contentobjectAttributes as $contentobjectAttribute )
+            {
+                $dataType = $contentobjectAttribute->dataType();
+                if ( !$dataType )
+                    continue;
+                $dataType->trashStoredObjectAttribute( $contentobjectAttribute );
+            }
+            $offset += $limit;
         }
 
         $db->commit();
@@ -282,6 +292,9 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         return eZContentObjectTrashNode::trashList( $params, true );
     }
 
+    /**
+     * @return eZContentObjectTreeNode|null
+     */
     function originalParent()
     {
         if ( $this->originalNodeParent === 0 )
@@ -319,6 +332,28 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         $path = $this->attribute( 'path_identification_string' );
         $path = substr( $path, 0, strrpos( $path, '/') );
         return $path;
+    }
+
+    /**
+     * @param $contentObjectID
+     * @param bool $asObject
+     * @param bool $contentObjectVersion
+     * @return eZContentObjectTrashNode|null
+     */
+    public static function fetchByContentObjectID( $contentObjectID, $asObject = true, $contentObjectVersion = false )
+    {
+        $conds = array( 'contentobject_id' => $contentObjectID );
+        if ( $contentObjectVersion !== false )
+        {
+            $conds['contentobject_version'] = $contentObjectVersion;
+        }
+
+        return self::fetchObject(
+            self::definition(),
+            null,
+            $conds,
+            $asObject
+        );
     }
 
     protected $originalNodeParent = 0;
