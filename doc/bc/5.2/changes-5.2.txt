@@ -1,0 +1,48 @@
+Changes to BC and behavior in version 5.2
+=========================================
+
+INI setting changes
+-------------------
+
+
+Change of behavior
+------------------
+
+- Fixed EZP-18195: $result.object is not correctly created
+
+  eZContentObject->assignedNodes( false ):
+  * Does not return columns "id" and "contentobject_id" anymore.
+  * Returns "ezcontentobject.remote_id" under the "object_remote_id" key,
+  "remote_id" key still contains "ezcontentobject_tree.remote_id".
+
+  eZContentObjectTreeNode::subTreeByNodeID() and
+  eZContentObjectTreeNode::subTreeMultiPaths() does not internally use columns
+  "ezcontentobject_tree.contentobject_id" and "ezcontentobject.name" anymore.
+  If you relied on those with extended attribute filtering using an "HAVING"
+  clause, replaces "ezcontentobject_tree.contentobject_id" by
+  "ezcontentobject.id" and add "ezcontentobject.name" to the additional
+  columns to be retrieved if you used it.
+
+  eZContentObjectTreeNode::findMainNodeArray( [...], false ),
+  eZContentObjectTreeNode::fetch( [...], [...], false ) and:
+  eZContentObjectTreeNode::fetchNodesByPathString( [...], [...], false ):
+  * Does not return key "contentobject_id" in addition to "id" anymore, use
+  the "id" key instead.
+  * Returns "ezcontentobject.remote_id" under the "object_remote_id" key,
+  "remote_id" key still contains "ezcontentobject_tree.remote_id".
+
+Removed features
+----------------
+
+
+Removed constants
+-----------------
+
+
+Removed globals
+---------------
+
+
+Deprecated
+----------
+

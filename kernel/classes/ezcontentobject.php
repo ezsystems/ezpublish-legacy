@@ -50,7 +50,15 @@ class eZContentObject extends eZPersistentObject
         $this->ClassIdentifier = false;
         if ( isset( $row['contentclass_identifier'] ) )
             $this->ClassIdentifier = $row['contentclass_identifier'];
+        if ( isset( $row['class_identifier'] ) )
+            $this->ClassIdentifier = $row['class_identifier'];
         $this->ClassName = false;
+        // Depending on how the information is retrieved, the "serialized_name_list" is sometimes available in "class_serialized_name_list" key
+        if ( isset( $row['class_serialized_name_list'] ) )
+            $row['serialized_name_list'] = $row['class_serialized_name_list'];
+        // Depending on how the information is retrieved, the "contentclass_name" is sometimes available in "class_name" key
+        if ( isset( $row['class_name'] ) )
+            $row['contentclass_name'] = $row['class_name'];
         if ( isset( $row['contentclass_name'] ) )
             $this->ClassName = $row['contentclass_name'];
         if ( isset( $row['serialized_name_list'] ) )
@@ -73,6 +81,9 @@ class eZContentObject extends eZPersistentObject
                $this->CurrentLanguage = $topPriorityLanguage->attribute( 'locale' );
             }
         }
+
+        // Initialize the permission array cache
+        $this->Permissions = array();
     }
 
     static function definition()
@@ -751,18 +762,6 @@ class eZContentObject extends eZPersistentObject
     function remoteID()
     {
         $remoteID = $this->attribute( 'remote_id', true );
-
-        // Ensures that we provide the correct remote_id if we have one in the database
-        if ( $remoteID === null and $this->attribute( 'id' ) )
-        {
-            $db = eZDB::instance();
-            $resultArray = $db->arrayQuery( "SELECT remote_id FROM ezcontentobject WHERE id = '" . $this->attribute( 'id' ) . "'" );
-            if ( count( $resultArray ) == 1 )
-            {
-                $remoteID = $resultArray[0]['remote_id'];
-                $this->setAttribute( 'remote_id',  $remoteID );
-            }
-        }
 
         if ( !$remoteID )
         {
@@ -3391,28 +3390,27 @@ class eZContentObject extends eZPersistentObject
         $contentobjectID = $this->attribute( 'id' );
         if ( $contentobjectID == null )
         {
-            $retValue = array();
-            return $retValue;
+            return array();
         }
-        $query = "SELECT ezcontentobject.*,
-             ezcontentobject_tree.*,
-             ezcontentclass.serialized_name_list as class_serialized_name_list,
-             ezcontentclass.identifier as class_identifier,
-             ezcontentclass.is_container as is_container
-          FROM   ezcontentobject_tree,
-             ezcontentobject,
-             ezcontentclass
-          WHERE  contentobject_id=$contentobjectID AND
-             ezcontentobject_tree.contentobject_id=ezcontentobject.id  AND
-             ezcontentclass.version=0 AND
-             ezcontentclass.id = ezcontentobject.contentclass_id
-          ORDER BY path_string";
-        $db = eZDB::instance();
-        $nodesListArray = $db->arrayQuery( $query );
+        $nodesListArray = eZDB::instance()->arrayQuery(
+            "SELECT " .
+            "ezcontentobject.contentclass_id, ezcontentobject.current_version, ezcontentobject.initial_language_id, ezcontentobject.language_mask, " .
+            "ezcontentobject.modified, ezcontentobject.name, ezcontentobject.owner_id, ezcontentobject.published, ezcontentobject.remote_id AS object_remote_id, ezcontentobject.section_id, " .
+            "ezcontentobject.status, ezcontentobject_tree.contentobject_is_published, ezcontentobject_tree.contentobject_version, ezcontentobject_tree.depth, " .
+            "ezcontentobject_tree.is_hidden, ezcontentobject_tree.is_invisible, ezcontentobject_tree.main_node_id, ezcontentobject_tree.modified_subnode, ezcontentobject_tree.node_id, " .
+            "ezcontentobject_tree.parent_node_id, ezcontentobject_tree.path_identification_string, ezcontentobject_tree.path_string, ezcontentobject_tree.priority, ezcontentobject_tree.remote_id, " .
+            "ezcontentobject_tree.sort_field, ezcontentobject_tree.sort_order, ezcontentclass.serialized_name_list as class_serialized_name_list, " .
+            "ezcontentclass.identifier as class_identifier, " .
+            "ezcontentclass.is_container as is_container " .
+            "FROM ezcontentobject_tree " .
+            "INNER JOIN ezcontentobject ON (ezcontentobject_tree.contentobject_id = ezcontentobject.id) " .
+            "INNER JOIN ezcontentclass ON (ezcontentclass.version = 0 AND ezcontentclass.id = ezcontentobject.contentclass_id) " .
+            "WHERE contentobject_id = $contentobjectID " .
+            "ORDER BY path_string"
+        );
         if ( $asObject == true )
         {
-            $nodes = eZContentObjectTreeNode::makeObjectsArray( $nodesListArray );
-            return $nodes;
+            return eZContentObjectTreeNode::makeObjectsArray( $nodesListArray, true, array( "id" => $contentobjectID ) );
         }
         else
             return $nodesListArray;
