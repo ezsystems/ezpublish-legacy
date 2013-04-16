@@ -5680,37 +5680,30 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
         $useURLAlias =& $GLOBALS['eZContentObjectTreeNodeUseURLAlias'];
         $ini = eZINI::instance();
-        $cleanURL = '';
         if ( !isset( $useURLAlias ) )
         {
             $useURLAlias = $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled';
         }
         if ( $useURLAlias )
         {
-            $path = $this->pathWithNames();
+            $URL = $this->pathWithNames();
             if ( $ini->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) &&
                  $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) != '' )
             {
                 $prepend = $ini->variable( 'SiteAccessSettings', 'PathPrefix' );
-                $pathIdenStr = substr( $prepend, strlen( $prepend ) -1 ) == '/'
-                                ? $path . '/'
-                                : $path;
-                if ( strncasecmp( $pathIdenStr, $prepend, strlen( $prepend ) ) == 0 )
-                    $cleanURL = eZURLAliasML::cleanURL( substr( $path, strlen( $prepend ) ) );
-                else
-                    $cleanURL = eZURLAliasML::cleanURL( $path );
-            }
-            else
-            {
-                $cleanURL = eZURLAliasML::cleanURL( $path );
+                $URLIdenStr = $URL . ( substr( $prepend, -1 ) == '/' ? '/' : '' );
+                if ( strncasecmp( $URLIdenStr, $prepend, strlen( $prepend ) ) == 0 )
+                {
+                    $URL = substr( $URL, strlen( $prepend ) );
+                }
             }
         }
         else
         {
-            $cleanURL = eZURLAliasML::cleanURL( 'content/view/full/' . $this->NodeID );
+            $URL = 'content/view/full/' . $this->NodeID;
         }
 
-        return $cleanURL;
+        return eZURLAliasML::cleanURL( $URL );
     }
 
     function url()
