@@ -1079,6 +1079,7 @@ class eZURLAliasML extends eZPersistentObject
             $defaultRow = null;
 
             if ( $lastActionValue === $actionValue && $locale !== null && is_string( $locale ) && !empty( $locale ) )
+            {
                 $selectedLanguage = eZContentLanguage::fetchByLocale( $locale );
                 // Add $selectedLanguage on top of $prioritizedLanguages to take it into account with the highest priority
                 if ( $selectedLanguage instanceof eZContentLanguage )
