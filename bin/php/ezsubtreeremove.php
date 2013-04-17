@@ -13,7 +13,7 @@
 // file  bin/php/ezsubtreeremove.php
 
 // script initializing
-require 'autoload.php';
+require_once 'autoload.php';
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "\n" .

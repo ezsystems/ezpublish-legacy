@@ -9,7 +9,7 @@
  * @package kernel
  */
 
-require 'autoload.php';
+require_once 'autoload.php';
 
 $fileNameDba = 'db_data.dba';
 $fileNameSql = 'cleandata.sql';

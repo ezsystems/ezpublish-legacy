@@ -20,7 +20,7 @@ NOTE:
 
 error_reporting( E_ALL | E_NOTICE );
 
-require 'autoload.php';
+require_once 'autoload.php';
 
 // This code is taken from eZBinaryFile::storedFileInfo()
 function filePathForBinaryFile($fileName, $mimeType )

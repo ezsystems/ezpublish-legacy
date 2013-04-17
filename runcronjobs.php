@@ -22,7 +22,7 @@ if ( !ini_get( "date.timezone" ) )
     date_default_timezone_set( "UTC" );
 }
 
-require 'autoload.php';
+require_once 'autoload.php';
 require_once( 'kernel/common/i18n.php' );
 
 eZContentLanguage::setCronjobMode();

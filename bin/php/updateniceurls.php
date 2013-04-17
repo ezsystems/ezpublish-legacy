@@ -11,7 +11,7 @@
 
 set_time_limit ( 0 );
 
-require 'autoload.php';
+require_once 'autoload.php';
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ Publish url-alias imported and updater.\n\n" .
                                                          "Will import urls from the older (3.9) system into the new, controlled by the --import* options.\n" .
