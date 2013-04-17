@@ -31,6 +31,7 @@ return array(
       'eZBorkTranslator'                                   => 'lib/ezi18n/classes/ezborktranslator.php',
       'eZCLI'                                              => 'lib/ezutils/classes/ezcli.php',
       'eZCache'                                            => 'kernel/classes/ezcache.php',
+      'eZCacheHelper'                                      => 'lib/ezutils/classes/ezcachehelper.php',
       'eZCharTransform'                                    => 'lib/ezi18n/classes/ezchartransform.php',
       'eZCharsetInfo'                                      => 'lib/ezi18n/classes/ezcharsetinfo.php',
       'eZClassFunctionCollection'                          => 'kernel/class/ezclassfunctioncollection.php',
