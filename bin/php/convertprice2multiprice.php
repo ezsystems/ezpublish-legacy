@@ -21,7 +21,7 @@
 
 
 // script initializing
-require 'autoload.php';
+require_once 'autoload.php';
 
 global $cli;
 global $currencyList;

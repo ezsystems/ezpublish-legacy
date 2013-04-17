@@ -16,7 +16,7 @@
  * http://www.isbn-international.org/agency?rmxml=1
  */
 
-require 'autoload.php';
+require_once 'autoload.php';
 
 $url = ''; // http://www.isbn-international.org/agency?rmxml=1 url with the xml.
 

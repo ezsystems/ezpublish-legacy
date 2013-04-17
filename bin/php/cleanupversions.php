@@ -10,7 +10,7 @@
  * @package
  */
 
-require 'autoload.php';
+require_once 'autoload.php';
 
 $cli = eZCLI::instance();
 

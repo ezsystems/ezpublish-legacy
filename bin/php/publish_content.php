@@ -15,7 +15,7 @@
  * @subpackage content
  */
 
-require 'autoload.php';
+require_once 'autoload.php';
 
 $pid = getmypid();
 
