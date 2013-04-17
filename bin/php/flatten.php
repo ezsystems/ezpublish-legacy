@@ -11,7 +11,7 @@
 
 set_time_limit( 0 );
 
-require 'autoload.php';
+require_once 'autoload.php';
 
 $cli = eZCLI::instance();
 

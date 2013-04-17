@@ -8,7 +8,7 @@
  * @package kernel
  */
 
-require 'autoload.php';
+require_once 'autoload.php';
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ Publish cluster files purge\n" .

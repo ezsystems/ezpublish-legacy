@@ -11,7 +11,7 @@
 
 declare( ticks=1 );
 
-require 'autoload.php';
+require_once 'autoload.php';
 
 $cli = eZCLI::instance();
 

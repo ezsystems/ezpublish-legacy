@@ -26,7 +26,7 @@
  includes
 */
 include_once( 'bin/php/ezwebincommon.php' );
-require 'autoload.php';
+require_once 'autoload.php';
 
 // script initializing
 $cli = eZCLI::instance();

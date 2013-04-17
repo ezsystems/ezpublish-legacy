@@ -24,7 +24,7 @@
 /*!
  includes
 */
-require 'autoload.php';
+require_once 'autoload.php';
 include_once( 'bin/php/ezwebincommon.php' );
 
 
