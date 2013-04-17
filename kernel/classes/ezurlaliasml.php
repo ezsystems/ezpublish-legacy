@@ -1057,21 +1057,16 @@ class eZURLAliasML extends eZPersistentObject
             $actionMap[$action][] = $row;
         }
 
-        if ( $locale !== null && is_string( $locale ) && !empty( $locale ) )
+        // Ordered map, keys ensure uniqueness but the order in which the elements are introduced is important
+        $prioritizedLanguages = array();
+        foreach ( eZContentLanguage::prioritizedLanguages() as $language )
         {
-            $selectedLanguage = eZContentLanguage::fetchByLocale( $locale );
-            $prioritizedLanguages = eZContentLanguage::prioritizedLanguages();
-            // Add $selectedLanguage on top of $prioritizedLanguages to take it into account with the highest priority
-            if ( $selectedLanguage instanceof eZContentLanguage )
-                array_unshift( $prioritizedLanguages, $selectedLanguage );
-        }
-        else
-        {
-            $prioritizedLanguages = eZContentLanguage::prioritizedLanguages();
+            $prioritizedLanguages[$language->attribute( "id" )] = $language;
         }
 
         $path = array();
         $lastID = false;
+        $lastActionValue = end( $actionValues );
         foreach ( $actionValues as $actionValue )
         {
             $action = $actionName . ":" . $actionValue;
@@ -1082,12 +1077,23 @@ class eZURLAliasML extends eZPersistentObject
             }
             $actionRows = $actionMap[$action];
             $defaultRow = null;
-            foreach( $prioritizedLanguages as $language )
+
+            if ( $lastActionValue === $actionValue && $locale !== null && is_string( $locale ) && !empty( $locale ) )
+            {
+                $selectedLanguage = eZContentLanguage::fetchByLocale( $locale );
+                // Add $selectedLanguage on top of $prioritizedLanguages to take it into account with the highest priority
+                if ( $selectedLanguage instanceof eZContentLanguage )
+                {
+                    $prioritizedLanguages = array( $selectedLanguage->attribute( "id" ) => $selectedLanguage ) + $prioritizedLanguages;
+                }
+            }
+
+            foreach ( $prioritizedLanguages as $languageId => $language )
             {
                 foreach ( $actionRows as $row )
                 {
                     $langMask   = (int)$row['lang_mask'];
-                    $wantedMask = (int)$language->attribute( 'id' );
+                    $wantedMask = (int)$languageId;
                     if ( ( $wantedMask & $langMask ) > 0 )
                     {
                         $defaultRow = $row;

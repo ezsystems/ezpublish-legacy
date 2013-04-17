@@ -4638,6 +4638,13 @@
     </message>
 </context>
 <context>
+    <name>design/admin/dashboard/community</name>
+    <message>
+        <source>What&apos;s happening in the eZ Community</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/admin/dashboard/drafts</name>
     <message>
         <source>My drafts</source>
@@ -4723,7 +4730,16 @@
     </message>
     <message>
         <source>You are running %edition, it might not be up to date with the latest hot fixes and service packs. Contact &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; for more infomation.</source>
-        <translation>Vous utilisez %edition, cette version n&apos;est peut être pas à jour avec les dernières corrections et service packs. Contactez &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; pour plus d&apos;informations.</translation>
+        <translation type="obsolete">Vous utilisez %edition, cette version n&apos;est peut être pas à jour avec les dernières corrections et service packs. Contactez &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; pour plus d&apos;informations.</translation>
+    </message>
+    <message>
+        <source>You are running &lt;span class=&quot;edition-info&quot;&gt;%edition&lt;/span&gt;, it might not be up to date with the latest hot fixes and service packs. Contact &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; for more infomation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You are using %edition, the &lt;span id=&quot;ez-publish-community-project-is-innovative-and-cutting-edge&quot;&gt;innovative and cutting-edge&lt;/span&gt; version of eZ Publish, built by &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; and the &lt;a href=&quot;%ez_community_link&quot;&gt;eZ Community&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If this platform is critical for your business, we strongly recommend to subscribe to the Enterprise Edition of eZ Publish. More on &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt;&apos; website.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6908,11 +6924,23 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     <name>design/admin/page_copyright</name>
     <message>
         <source>Powered by %edition. For more information see &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</source>
-        <translation>Propulsé par %edition. Pour plus d&apos;informations, voir &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</translation>
+        <translation type="obsolete">Propulsé par %edition. Pour plus d&apos;informations, voir &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;%evaluate_link&quot;&gt;Evaluate eZ Publish Enterprise Edition&lt;/a&gt; - &lt;a href=&quot;%share_link&quot;&gt;Become a member of the eZ Community, exchange and contribute&lt;/a&gt;. &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
         <translation>&lt;a href=&quot;%evaluate_link&quot;&gt;Evaluez eZ Publish Enterprise Edition&lt;/a&gt; - &lt;a href=&quot;%share_link&quot;&gt;Devenez un membre de la eZ Community, échangez et contribuez&lt;/a&gt;. &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; et autres.</translation>
+    </message>
+    <message>
+        <source>Powered by &lt;span class=&quot;edition-info&quot;&gt;%edition&lt;/span&gt;. For more information see &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> For more information see &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -13064,7 +13092,7 @@ your account.</source>
     </message>
     <message>
         <source>Use the &quot;Register&quot; button to create a new account.</source>
-        <translation>Cliquez sur &quot;S&apos;inscrire&quot; pour créer un nouveau compte.</translation>
+        <translation type="obsolete">Cliquez sur &quot;S&apos;inscrire&quot; pour créer un nouveau compte.</translation>
     </message>
     <message>
         <source>Username</source>
@@ -13086,11 +13114,11 @@ your account.</source>
     <message>
         <source>Register</source>
         <comment>Register button</comment>
-        <translation>S&apos;inscrire</translation>
+        <translation type="obsolete">S&apos;inscrire</translation>
     </message>
     <message>
         <source>Click here to create a new account.</source>
-        <translation>Cliquez ici pour créer un nouveau compte.</translation>
+        <translation type="obsolete">Cliquez ici pour créer un nouveau compte.</translation>
     </message>
     <message>
         <source>The user will not be allowed to login after &lt;b&gt;%max_number_failed&lt;/b&gt; failed login attempts.</source>
@@ -13114,11 +13142,11 @@ your account.</source>
     </message>
     <message>
         <source>Log in to the Administration Interface of eZ Publish</source>
-        <translation>Connectez-vous à l&apos;Interface d&apos;Administration de eZ Publish</translation>
+        <translation type="obsolete">Connectez-vous à l&apos;Interface d&apos;Administration de eZ Publish</translation>
     </message>
     <message>
         <source>Please enter a valid username/password combination then click &quot;Log in&quot;.</source>
-        <translation>Saisissez une combinaison identifiant/mot de passe valide et cliquez sur &quot;Entrer&quot;.</translation>
+        <translation type="obsolete">Saisissez une combinaison identifiant/mot de passe valide et cliquez sur &quot;Entrer&quot;.</translation>
     </message>
     <message>
         <source>Enter a valid username in this field.</source>
@@ -13127,6 +13155,14 @@ your account.</source>
     <message>
         <source>Enter a valid password in this field.</source>
         <translation>Saisissez un mot de passe valide dans ce champ.</translation>
+    </message>
+    <message>
+        <source>or</source>
+        <translation type="unfinished">ou</translation>
+    </message>
+    <message>
+        <source>Register new account</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -14705,6 +14741,17 @@ your account.</source>
     <message>
         <source>Item total ex. VAT</source>
         <translation>Total pour l&apos;élément HT</translation>
+    </message>
+</context>
+<context>
+    <name>design/ezdemo/full/article</name>
+    <message>
+        <source>Tip a friend</source>
+        <translation type="unfinished">Suggérer à un ami</translation>
+    </message>
+    <message>
+        <source>Location</source>
+        <translation type="unfinished">Emplacement</translation>
     </message>
 </context>
 <context>
@@ -22017,10 +22064,6 @@ The default code was made from the basic parameters you chose.</source>
         <translation>Choisir le système de base de donnée</translation>
     </message>
     <message>
-        <source>Database initialization</source>
-        <translation>Initialisation de la base de données</translation>
-    </message>
-    <message>
         <source>If you are using MySQL and do not know what to enter in the socket field, leave it blank</source>
         <translation>Si vous utilisez MySQL et que vous ne savez pas quoi entrer dans le champs Socket, laissez le vide</translation>
     </message>
@@ -26361,6 +26404,10 @@ your account.</source>
     <message>
         <source>TS Translation cache</source>
         <translation>Cache de traduction</translation>
+    </message>
+    <message>
+        <source>SSL Zones cache</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -4631,6 +4631,13 @@
     </message>
 </context>
 <context>
+    <name>design/admin/dashboard/community</name>
+    <message>
+        <source>What&apos;s happening in the eZ Community</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/admin/dashboard/drafts</name>
     <message>
         <source>My drafts</source>
@@ -4715,7 +4722,12 @@
         <translation type="obsolete">Hvis installasjonen din ikke kjører eZ Publish Enterprise får den ikke vedlikeholdsoppdateringer. Kontakt eZ Systems.</translation>
     </message>
     <message>
-        <source>You are running %edition, it might not be up to date with the latest hot fixes and service packs. Contact &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; for more infomation.</source>
+        <source>You are running &lt;span class=&quot;edition-info&quot;&gt;%edition&lt;/span&gt;, it might not be up to date with the latest hot fixes and service packs. Contact &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; for more infomation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You are using %edition, the &lt;span id=&quot;ez-publish-community-project-is-innovative-and-cutting-edge&quot;&gt;innovative and cutting-edge&lt;/span&gt; version of eZ Publish, built by &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; and the &lt;a href=&quot;%ez_community_link&quot;&gt;eZ Community&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If this platform is critical for your business, we strongly recommend to subscribe to the Enterprise Edition of eZ Publish. More on &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt;&apos; website.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6901,11 +6913,19 @@ Note: The packages will not be uninstalled.</source>
 <context>
     <name>design/admin/page_copyright</name>
     <message>
-        <source>Powered by %edition. For more information see &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</source>
+        <source>&lt;a href=&quot;%evaluate_link&quot;&gt;Evaluate eZ Publish Enterprise Edition&lt;/a&gt; - &lt;a href=&quot;%share_link&quot;&gt;Become a member of the eZ Community, exchange and contribute&lt;/a&gt;. &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;%evaluate_link&quot;&gt;Evaluate eZ Publish Enterprise Edition&lt;/a&gt; - &lt;a href=&quot;%share_link&quot;&gt;Become a member of the eZ Community, exchange and contribute&lt;/a&gt;. &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
+        <source>Powered by &lt;span class=&quot;edition-info&quot;&gt;%edition&lt;/span&gt;. For more information see &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> For more information see &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -13041,7 +13061,7 @@ your account.</source>
     </message>
     <message>
         <source>Use the &quot;Register&quot; button to create a new account.</source>
-        <translation>Bruk &quot;Registrer&quot; knappen for å lage en ny brukerkonto.</translation>
+        <translation type="obsolete">Bruk &quot;Registrer&quot; knappen for å lage en ny brukerkonto.</translation>
     </message>
     <message>
         <source>Username</source>
@@ -13063,11 +13083,11 @@ your account.</source>
     <message>
         <source>Register</source>
         <comment>Register button</comment>
-        <translation>Registrer</translation>
+        <translation type="obsolete">Registrer</translation>
     </message>
     <message>
         <source>Click here to create a new account.</source>
-        <translation>Klikk her for å lage en ny brukerkonto.</translation>
+        <translation type="obsolete">Klikk her for å lage en ny brukerkonto.</translation>
     </message>
     <message>
         <source>The user will not be allowed to login after &lt;b&gt;%max_number_failed&lt;/b&gt; failed login attempts.</source>
@@ -13099,11 +13119,19 @@ your account.</source>
     </message>
     <message>
         <source>Log in to the Administration Interface of eZ Publish</source>
-        <translation>Logg inn til administratorgrensesnittet til eZ Publish</translation>
+        <translation type="obsolete">Logg inn til administratorgrensesnittet til eZ Publish</translation>
     </message>
     <message>
         <source>Please enter a valid username/password combination then click &quot;Log in&quot;.</source>
-        <translation>Vennligst skriv inn en gyldig brukernavn/passord-kombinasjon og trykk &quot;Logg inn&quot;.</translation>
+        <translation type="obsolete">Vennligst skriv inn en gyldig brukernavn/passord-kombinasjon og trykk &quot;Logg inn&quot;.</translation>
+    </message>
+    <message>
+        <source>or</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Register new account</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -14682,6 +14710,17 @@ your account.</source>
     <message>
         <source>Item total ex. VAT</source>
         <translation>Varetotal eks. MVA</translation>
+    </message>
+</context>
+<context>
+    <name>design/ezdemo/full/article</name>
+    <message>
+        <source>Tip a friend</source>
+        <translation type="unfinished">Tips en venn</translation>
+    </message>
+    <message>
+        <source>Location</source>
+        <translation type="unfinished">Plassering</translation>
     </message>
 </context>
 <context>
@@ -22769,10 +22808,6 @@ This functionality is also available at a later time from the Administration Int
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Database initialization</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Email settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -26238,6 +26273,10 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     <message>
         <source>TS Translation cache</source>
         <translation>TS oversettelsescache</translation>
+    </message>
+    <message>
+        <source>SSL Zones cache</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

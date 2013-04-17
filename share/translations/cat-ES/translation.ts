@@ -4658,6 +4658,13 @@
     </message>
 </context>
 <context>
+    <name>design/admin/dashboard/community</name>
+    <message>
+        <source>What&apos;s happening in the eZ Community</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/admin/dashboard/drafts</name>
     <message>
         <source>My drafts</source>
@@ -4742,7 +4749,12 @@
         <translation type="obsolete">Si la teva instal·lació no fa servir eZ Publish Enterprise, no es podrà mantenir el sistema actualitzat. Contacta amb eZ Systems.</translation>
     </message>
     <message>
-        <source>You are running %edition, it might not be up to date with the latest hot fixes and service packs. Contact &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; for more infomation.</source>
+        <source>You are running &lt;span class=&quot;edition-info&quot;&gt;%edition&lt;/span&gt;, it might not be up to date with the latest hot fixes and service packs. Contact &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; for more infomation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You are using %edition, the &lt;span id=&quot;ez-publish-community-project-is-innovative-and-cutting-edge&quot;&gt;innovative and cutting-edge&lt;/span&gt; version of eZ Publish, built by &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; and the &lt;a href=&quot;%ez_community_link&quot;&gt;eZ Community&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If this platform is critical for your business, we strongly recommend to subscribe to the Enterprise Edition of eZ Publish. More on &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt;&apos; website.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6930,11 +6942,19 @@ Nota: Els paquets no seran desinstal·lats.</translation>
 <context>
     <name>design/admin/page_copyright</name>
     <message>
-        <source>Powered by %edition. For more information see &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</source>
+        <source>&lt;a href=&quot;%evaluate_link&quot;&gt;Evaluate eZ Publish Enterprise Edition&lt;/a&gt; - &lt;a href=&quot;%share_link&quot;&gt;Become a member of the eZ Community, exchange and contribute&lt;/a&gt;. &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;%evaluate_link&quot;&gt;Evaluate eZ Publish Enterprise Edition&lt;/a&gt; - &lt;a href=&quot;%share_link&quot;&gt;Become a member of the eZ Community, exchange and contribute&lt;/a&gt;. &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
+        <source>Powered by &lt;span class=&quot;edition-info&quot;&gt;%edition&lt;/span&gt;. For more information see &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> For more information see &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -13084,7 +13104,7 @@ Segueix les instruccions d&apos;aquest correu per activar el teu compte.</transl
     </message>
     <message>
         <source>Use the &quot;Register&quot; button to create a new account.</source>
-        <translation>Fes servir el botó &quot;Registra&quot; per crear un nou compte.</translation>
+        <translation type="obsolete">Fes servir el botó &quot;Registra&quot; per crear un nou compte.</translation>
     </message>
     <message>
         <source>Username</source>
@@ -13106,11 +13126,11 @@ Segueix les instruccions d&apos;aquest correu per activar el teu compte.</transl
     <message>
         <source>Register</source>
         <comment>Register button</comment>
-        <translation>Registra</translation>
+        <translation type="obsolete">Registra</translation>
     </message>
     <message>
         <source>Click here to create a new account.</source>
-        <translation>Clica aquí per crear un nou compte.</translation>
+        <translation type="obsolete">Clica aquí per crear un nou compte.</translation>
     </message>
     <message>
         <source>The user will not be allowed to login after &lt;b&gt;%max_number_failed&lt;/b&gt; failed login attempts.</source>
@@ -13142,11 +13162,19 @@ Segueix les instruccions d&apos;aquest correu per activar el teu compte.</transl
     </message>
     <message>
         <source>Log in to the Administration Interface of eZ Publish</source>
-        <translation>Connecta a la Interfície d&apos;Administració d&apos;eZ Publish</translation>
+        <translation type="obsolete">Connecta a la Interfície d&apos;Administració d&apos;eZ Publish</translation>
     </message>
     <message>
         <source>Please enter a valid username/password combination then click &quot;Log in&quot;.</source>
-        <translation>Introdueix una combinació nom d&apos;usuari/contrasenya vàlida i llavors fes clic a &quot;Connecta&quot;.</translation>
+        <translation type="obsolete">Introdueix una combinació nom d&apos;usuari/contrasenya vàlida i llavors fes clic a &quot;Connecta&quot;.</translation>
+    </message>
+    <message>
+        <source>or</source>
+        <translation type="unfinished">o</translation>
+    </message>
+    <message>
+        <source>Register new account</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -14729,6 +14757,17 @@ Segueix les instruccions d&apos;aquest correu per activar el teu compte.</transl
     <message>
         <source>Item total ex. VAT</source>
         <translation>Total element sense IVA</translation>
+    </message>
+</context>
+<context>
+    <name>design/ezdemo/full/article</name>
+    <message>
+        <source>Tip a friend</source>
+        <translation type="unfinished">Recomana a un amic</translation>
+    </message>
+    <message>
+        <source>Location</source>
+        <translation type="unfinished">Localització</translation>
     </message>
 </context>
 <context>
@@ -22080,10 +22119,6 @@ El codi predeterminat s&apos;ha fet a partir dels paràmetres bàsics que tu vas
         <translation>aquí</translation>
     </message>
     <message>
-        <source>Database initialization</source>
-        <translation>Inicialització de la base de dades</translation>
-    </message>
-    <message>
         <source>Please input database access information in the form below.</source>
         <translation>Introdueix la informació d&apos;accés a la base de dades en el formulari de sota.</translation>
     </message>
@@ -26439,6 +26474,10 @@ Segueix les instruccions d&apos;aquest correu per activar el teu compte. </trans
     <message>
         <source>TS Translation cache</source>
         <translation>Caché de les traduccicons TS</translation>
+    </message>
+    <message>
+        <source>SSL Zones cache</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

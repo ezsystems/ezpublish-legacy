@@ -12,6 +12,8 @@ $module = $Params['Module'];
 $errorType = $Params['Type'];
 $errorNumber = $Params['Number'];
 $extraErrorParameters = $Params['ExtraParameters'];
+$httpErrorCode = null;
+$httpErrorName = null;
 
 $tpl->setVariable( 'parameters', $extraErrorParameters );
 
@@ -178,5 +180,7 @@ $Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/error', 'Error' )
                                 'url' => false ),
                          array( 'text' => "$errorType ($errorNumber)",
                                 'url' => false ) );
+$Result['errorCode'] = $httpErrorCode;
+$Result['errorMessage'] = $httpErrorName;
 
 ?>
