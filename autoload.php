@@ -16,7 +16,7 @@
 
 if ( file_exists( __DIR__ . '/config.php' ) )
 {
-    require __DIR__ . '/config.php';
+    require_once __DIR__ . '/config.php';
 }
 
 if ( !defined( 'EZCBASE_ENABLED' ) )
