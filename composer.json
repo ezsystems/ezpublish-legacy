@@ -6,5 +6,10 @@
     "licence": "GPL-2.0",
     "require": {
         "php": ">=5.3.3"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.1.x-dev"
+        }
     }
 }
