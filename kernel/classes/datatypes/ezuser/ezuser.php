@@ -1054,9 +1054,11 @@ WHERE user_id = '" . $userID . "' AND
 
     /**
      * Update LastVisit When a user logout. Logout will set current_visit_timestamp to -current_visit_timestamp.
-     * If the user relogin, the last
+     * If the user relogin, the last_visit_timestamp will get ABS(current_visit_timestamp).
      * @static
      * @param $userID
+     * @since 5.1
+     * @see eZUser::updateLastVisit
      */
     static function updateLastVisitByLogout( $userID )
     {
