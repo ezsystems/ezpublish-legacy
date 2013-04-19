@@ -1038,13 +1038,32 @@ WHERE user_id = '" . $userID . "' AND
         $db->commit();
 
         if ( $contentObjectID )
+        {
+            //set last visit to minus
+            self::updateLastVisitByLogout( $contentObjectID );
+            //clean up sessions
             self::cleanup();
+        }
 
         // give user new session id
         eZSession::regenerate();
 
         // set the property used to prevent SSO from running again
         self::$userHasLoggedOut = true;
+    }
+
+    /**
+     * Update LastVisit When a user logout. Logout will set current_visit_timestamp to -current_visit_timestamp.
+     * If the user relogin, the last_visit_timestamp will get ABS(current_visit_timestamp).
+     * @static
+     * @param $userID
+     * @since 5.1
+     * @see eZUser::updateLastVisit
+     */
+    static function updateLastVisitByLogout( $userID )
+    {
+        $db = eZDB::instance();
+        $db->query( "UPDATE ezuservisit SET current_visit_timestamp=-ABS(current_visit_timestamp) WHERE user_id=$userID" );
     }
 
     /**
@@ -1357,7 +1376,7 @@ WHERE user_id = '" . $userID . "' AND
         if ( isset( $userVisitArray[0] ) )
         {
             $loginCountSQL = $updateLoginCount ? ', login_count=login_count+1' : '';
-            $db->query( "UPDATE ezuservisit SET last_visit_timestamp=current_visit_timestamp, current_visit_timestamp=$time$loginCountSQL WHERE user_id=$userID" );
+            $db->query( "UPDATE ezuservisit SET last_visit_timestamp=ABS(current_visit_timestamp), current_visit_timestamp=$time$loginCountSQL WHERE user_id=$userID" );
         }
         else
         {
