@@ -1040,7 +1040,7 @@ WHERE user_id = '" . $userID . "' AND
         if ( $contentObjectID )
         {
             //set last visit to minus
-            eZUser::updateLastVisitByLogout( $contentObjectID );
+            self::updateLastVisitByLogout( $contentObjectID );
             //clean up sessions
             self::cleanup();
         }
