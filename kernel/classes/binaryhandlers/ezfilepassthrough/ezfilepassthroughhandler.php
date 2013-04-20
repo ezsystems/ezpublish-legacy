@@ -83,7 +83,8 @@ class eZFilePassthroughHandler extends eZBinaryFileHandler
      * Checks if a file should be downloaded to disk or displayed inline in
      * the browser.
      *
-     * This method returns "attachment" if no setting for the mime type is found.
+     * This method returns "attachment" if no setting for the mime type
+     * and no default content disposition is found.
      *
      * @param string $mimetype
      * @return string "attachment" or "inline"
@@ -96,6 +97,10 @@ class eZFilePassthroughHandler extends eZBinaryFileHandler
         if ( isset( $mimeTypes[$mimeType] ) )
         {
             return $mimeTypes[$mimeType];
+        }
+        elseif ( $ini->hasVariable( 'PassThroughSettings', 'DefaultContentDisposition' ) )
+        {
+            return $ini->variable( 'PassThroughSettings', 'DefaultContentDisposition' );
         }
 
         return "attachment";
