@@ -98,12 +98,8 @@ class eZFilePassthroughHandler extends eZBinaryFileHandler
         {
             return $mimeTypes[$mimeType];
         }
-        elseif ( $ini->hasVariable( 'PassThroughSettings', 'DefaultContentDisposition' ) )
-        {
-            return $ini->variable( 'PassThroughSettings', 'DefaultContentDisposition' );
-        }
 
-        return "attachment";
+        return $ini->variable( 'PassThroughSettings', 'DefaultContentDisposition' );
     }
 }
 
