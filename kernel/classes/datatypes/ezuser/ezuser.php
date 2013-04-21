@@ -1063,7 +1063,7 @@ WHERE user_id = '" . $userID . "' AND
     static function updateLastVisitByLogout( $userID )
     {
         $db = eZDB::instance();
-        $db->query( "UPDATE ezuservisit SET current_visit_timestamp=-current_visit_timestamp WHERE user_id=$userID" );
+        $db->query( "UPDATE ezuservisit SET current_visit_timestamp=-ABS(current_visit_timestamp) WHERE user_id=$userID" );
     }
 
     /**
