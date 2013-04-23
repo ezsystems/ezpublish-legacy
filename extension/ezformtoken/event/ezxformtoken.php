@@ -48,6 +48,11 @@ class ezxFormToken
     static protected $token;
 
     /**
+     * @var bool
+     */
+    static protected $isEnabled = true;
+
+    /**
      * @return string
      */
     static protected function getSecret()
@@ -242,6 +247,16 @@ class ezxFormToken
     }
 
     /**
+     * Enables/Disables CSRF protection.
+     *
+     * @param bool $isEnabled
+     */
+    static public function setIsEnabled( $isEnabled )
+    {
+        self::$isEnabled = (bool)$isEnabled;
+    }
+
+    /**
      * Figures out if current user should be protected or not
      * based on if (s)he has a session and is logged in.
      *
@@ -249,6 +264,9 @@ class ezxFormToken
      */
     static protected function shouldProtectUser()
     {
+        if ( !self::$isEnabled )
+            return false;
+
         if ( !eZSession::hasStarted() )
             return false;
 
