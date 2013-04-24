@@ -237,9 +237,11 @@
 
 /**
  * Enable usage of "X-Powered-By" headers.
- * Optional. Defaults to true.
+ * Optional. Defaults: eZ Publish.
+ * Setting it to false will disable the custom header, but you still need to set expose_php to off
+ * in the php configuration to get rid of the X-Powered-By header completely.
  */
-// define( 'CLUSTER_HEADER_X_POWERED_BY', true );
+// define( 'CLUSTER_HEADER_X_POWERED_BY', 'eZ Publish' );
 
 /*
    LOG HANDLING
