@@ -31,6 +31,11 @@ Change of behavior
   * Returns "ezcontentobject.remote_id" under the "object_remote_id" key,
   "remote_id" key still contains "ezcontentobject_tree.remote_id".
 
+- Fixed EZP-20766: Wrong default value for CLUSTER_HEADER_X_POWERED_BY in index_cluster.php
+
+  The previous default value (true) led to X-Powered-By being set to 1 (true cast to integer).
+  From 5.2, the default value will be set to "eZ Publish".
+
 Removed features
 ----------------
 
@@ -45,4 +50,3 @@ Removed globals
 
 Deprecated
 ----------
-
