@@ -34,7 +34,7 @@ class ezpKernel implements ezpKernelHandler
             echo "<h1>Unsupported PHP version " . PHP_VERSION . "</h1>",
             "<p>eZ Publish 5.x does not run with PHP version lower than 5.3.</p>",
             "<p>For more information about supported software please visit ",
-            "<a href=\"http://ez.no/download/ez_publish\" >eZ Publish download page</a></p>";
+            "<a href=\"http://ez.no/\" >us, eZ Systems, on http://ez.no</a>. See you there :-)</p>";
             exit;
         }
 
