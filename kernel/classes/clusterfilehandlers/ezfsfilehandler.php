@@ -888,7 +888,7 @@ class eZFSFileHandler
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileMove( '$srcPath', '$dstPath' )", __METHOD__ );
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
-        eZFileHandler::move( $srcPath, $dstPath );
+        eZFile::rename( $srcPath, $dstPath, true );
         eZDebug::accumulatorStop( 'dbfile' );
     }
 
