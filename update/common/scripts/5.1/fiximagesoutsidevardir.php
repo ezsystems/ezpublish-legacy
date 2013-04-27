@@ -55,7 +55,7 @@ $rows = $db->arrayQuery( "SELECT * FROM ezimagefile WHERE filepath NOT LIKE '{$v
 
 if ( !count( $rows ) )
 {
-    $cli->output( "No files not starting with '{$varDir}' was found in the database" );
+    $cli->output( "No files outside '{$varDir}' found in the database, terminating" );
     $script->shutdown();
     eZExecution::cleanExit();
 }
