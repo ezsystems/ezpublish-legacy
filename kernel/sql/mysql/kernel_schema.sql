@@ -858,7 +858,7 @@ CREATE TABLE eznode_assignment (
   op_code int(11) NOT NULL default '0',
   parent_node int(11) default NULL,
   parent_remote_id varchar(100) NOT NULL default '',
-  remote_id int(11) NOT NULL default '0',
+  remote_id varchar(100) NOT NULL default '0',
   sort_field int(11) default '1',
   sort_order int(11) default '1',
   PRIMARY KEY  (id),
