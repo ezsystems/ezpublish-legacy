@@ -36,3 +36,6 @@ ALTER TABLE ezcontentobject_link DROP COLUMN op_code;
 
 -- See https://jira.ez.no/browse/EZP-20527
 UPDATE ezcobj_state_group_language SET real_language_id = language_id & ~1;
+
+-- See https://jira.ez.no/browse/EZP-20673
+ALTER TABLE eznode_assignment CHANGE COLUMN remote_id remote_id varchar(100) NOT NULL DEFAULT '0';
