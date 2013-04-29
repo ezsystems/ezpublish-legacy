@@ -62,6 +62,8 @@ if ( !count( $rows ) )
 
 foreach ( $rows as $row )
 {
+    $moveFile = true;
+
     $filePath = $row['filepath'];
     $imageAttributeId = $row['contentobject_attribute_id'];
     $cli->output( "- $filePath" );
@@ -72,15 +74,28 @@ foreach ( $rows as $row )
         strpos( $filePath, 'storage/images/' )
     );
 
+    $newPath = $varDir . $relativePath;
+
     if ( !$clusterHandler->fileExists( $filePath ) )
     {
-        $cli->output( "  File doesn't exist, skipping" );
-        continue;
+        if ( $clusterHandler->fileExists( $newPath ) )
+        {
+            $moveFile = false;
+            $cli->output( "  File is already in the correct directory, updating references" );
+        }
+        else
+        {
+            $cli->output( "  File doesn't exist, skipping" );
+            continue;
+        }
+    }
+    else
+    {
+        $moveFiles = true;
+        $cli->output( "  Moving file to $newPath" );
     }
 
-    $newPath = $varDir . $relativePath;
-    $cli->output( "  Moving file to $newPath" );
-    if ( !$optDryRun )
+    if ( !$optDryRun && $moveFile )
     {
         $clusterHandler->fileMove( $filePath, $newPath );
         $db->query( "UPDATE ezimagefile SET filepath = '$newPath' WHERE contentobject_attribute_id = $imageAttributeId" );
