@@ -139,17 +139,3 @@ foreach ( $renamedFiles as $attributeId => $files )
 
 eZContentCacheManager::clearAllContentCache();
 $script->shutdown();
-
-/**
- * Updates the image node $node that references $oldPath to reference $newPath (url & dirpath attributes)
- */
-function updateDomImage( DOMNode $node, $oldPath, $newPath )
-{
-    if ( $node->getAttribute( 'url' ) == $oldPath )
-    {
-        $node->setAttribute( 'url', $newPath );
-        $node->setAttribute( 'dirpath', dirname( $newPath ) );
-        return true;
-    }
-    return false;
-}
