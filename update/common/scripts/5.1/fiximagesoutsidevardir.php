@@ -14,7 +14,7 @@
  * database references to the new path
  */
 
-require 'autoload.php';
+require_once 'autoload.php';
 
 $cli = eZCLI::instance();
 
