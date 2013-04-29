@@ -93,7 +93,7 @@ foreach ( $rows as $row )
     $renamedFiles[$imageAttributeId][$filePath] = $newPath;
 }
 
-foreach( $renamedFiles as $attributeId => $files )
+foreach ( $renamedFiles as $attributeId => $files )
 {
     $attributeObjects = eZContentObjectAttribute::fetchObjectList(
         eZContentObjectAttribute::definition(),
