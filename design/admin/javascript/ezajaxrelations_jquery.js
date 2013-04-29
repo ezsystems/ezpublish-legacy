@@ -15,11 +15,12 @@ jQuery(function( $ )
     $('input.relation-autocomplete').each( function() {
         var box = $( this.parentNode.parentNode );
         var node = box.find("*[name*='_for_object_start_node']"), classes = box.find("input[name*='_for_object_class_constraint_list']");
+        var acURL = box.find("input[name*='autocomplete-url-']");
         var minquerylength = box.find("input[name*='autocomplete-minquerylength-']");
         var resultlimit = box.find("input[name*='autocomplete-minquerylength-']");
         $('#' + box.attr('id') + ' .ezobject-relation-search-autocomplete, #' + box.attr('id') + ' .yui-ac-content' ).css( 'width', $( this ).width() );
         var autocomplete = new eZAJAXAutoComplete({
-            url: '/ezjscore/call/ezfind::autocomplete',
+            url: acURL.val(),
             inputid: $( this ).attr('id'),
             containerid: $( '#' + box.attr('id') + ' .ezobject-relation-search-autocomplete' ).attr('id'),
             minquerylength: (minquerylength.size())?(minquerylength.val()):(''),

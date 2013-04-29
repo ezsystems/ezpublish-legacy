@@ -421,6 +421,7 @@
                 <div class="ezobject-relation-search-autocomplete" id="ezobject-relation-search-autocomplete-{$attribute.id}"></div>
                 <input type="hidden" name="autocomplete-minquerylength-{$attribute.id}" value="{ezini( 'AutoCompleteSettings', 'MinQueryLength', 'ezfind.ini' )}" />
                 <input type="hidden" name="autocomplete-resultlimit-{$attribute.id}" value="{ezini( 'AutoCompleteSettings', 'Limit', 'ezfind.ini' )}" />
+                <input type="hidden" name="autocomplete-url-{$attribute.id}" value="{'ezjscore/call/ezfind::autocomplete'|ezurl('no')}" />
             {/if}
 
             <input type="text" class="halfbox hide ezobject-relation-search-text {if eq( $autocomplete, 'enabled' )}relation-autocomplete{/if}" id="ezobject-relation-search-text-{$attribute.id}" autocomplete="off" />
