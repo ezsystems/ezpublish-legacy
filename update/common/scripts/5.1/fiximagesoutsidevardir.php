@@ -14,7 +14,7 @@
  * database references to the new path
  */
 
-require 'autoload.php';
+require_once 'autoload.php';
 
 $cli = eZCLI::instance();
 
@@ -62,6 +62,8 @@ if ( !count( $rows ) )
 
 foreach ( $rows as $row )
 {
+    $moveFile = true;
+
     $filePath = $row['filepath'];
     $imageAttributeId = $row['contentobject_attribute_id'];
     $cli->output( "- $filePath" );
@@ -72,15 +74,27 @@ foreach ( $rows as $row )
         strpos( $filePath, 'storage/images/' )
     );
 
+    $newPath = $varDir . $relativePath;
+
     if ( !$clusterHandler->fileExists( $filePath ) )
     {
-        $cli->output( "  File doesn't exist, skipping" );
-        continue;
+        if ( $clusterHandler->fileExists( $newPath ) )
+        {
+            $moveFile = false;
+            $cli->output( "  File is already in the correct directory, updating references" );
+        }
+        else
+        {
+            $cli->output( "  File doesn't exist, skipping" );
+            continue;
+        }
+    }
+    else
+    {
+        $cli->output( "  Moving file to $newPath" );
     }
 
-    $newPath = $varDir . $relativePath;
-    $cli->output( "  Moving file to $newPath" );
-    if ( !$optDryRun )
+    if ( !$optDryRun && $moveFile )
     {
         $clusterHandler->fileMove( $filePath, $newPath );
         $db->query( "UPDATE ezimagefile SET filepath = '$newPath' WHERE contentobject_attribute_id = $imageAttributeId" );
@@ -93,7 +107,7 @@ foreach ( $rows as $row )
     $renamedFiles[$imageAttributeId][$filePath] = $newPath;
 }
 
-foreach( $renamedFiles as $attributeId => $files )
+foreach ( $renamedFiles as $attributeId => $files )
 {
     $attributeObjects = eZContentObjectAttribute::fetchObjectList(
         eZContentObjectAttribute::definition(),
@@ -139,17 +153,3 @@ foreach( $renamedFiles as $attributeId => $files )
 
 eZContentCacheManager::clearAllContentCache();
 $script->shutdown();
-
-/**
- * Updates the image node $node that references $oldPath to reference $newPath (url & dirpath attributes)
- */
-function updateDomImage( DOMNode $node, $oldPath, $newPath )
-{
-    if ( $node->getAttribute( 'url' ) == $oldPath )
-    {
-        $node->setAttribute( 'url', $newPath );
-        $node->setAttribute( 'dirpath', dirname( $newPath ) );
-        return true;
-    }
-    return false;
-}
