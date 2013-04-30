@@ -91,7 +91,6 @@ foreach ( $rows as $row )
     }
     else
     {
-        $moveFiles = true;
         $cli->output( "  Moving file to $newPath" );
     }
 
