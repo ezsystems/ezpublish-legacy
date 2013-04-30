@@ -3,7 +3,7 @@
     "description": "eZ Publish LegacyStack (4.x)",
     "version":     "5.1-dev",
     "homepage": "http://share.ez.no",
-    "licence": "GPL-2.0",
+    "license": "GPL-2.0",
     "require": {
         "php": ">=5.3.3"
     },
