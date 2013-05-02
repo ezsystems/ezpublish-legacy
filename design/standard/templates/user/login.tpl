@@ -53,7 +53,7 @@
 
 {section show=and( is_set( $User:post_data ), is_array( $User:post_data ) )}
   {section name=postData loop=$User:post_data }
-     <input name="Last_{$postData:key}" value="{$postData:item}" type="hidden" /><br/>
+     <input name="Last_{$postData:key|wash}" value="{$postData:item|wash}" type="hidden" /><br/>
   {/section}
 {/section}
 </form>
