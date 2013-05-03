@@ -69,7 +69,11 @@ if ( $accountKey )
         if ( $user === null )
             return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 
-        $user->loginCurrent();
+        $ini = eZINI::instance();
+        if ( $ini->hasVariable( 'UserSettings', 'AutoLoginAfterActivation' ) && $ini->variable( 'UserSettings', 'AutoLoginAfterActivation' ) == 'enabled' )
+        {
+            $user->loginCurrent();
+        }
     }
 }
 elseif( $mainNodeID )
