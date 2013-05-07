@@ -737,7 +737,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     }
                     else
                     {
-                        $objectID = $node['contentobject_id'];
+                        $objectID = $node['id'];
                     }
                 }
                 else
@@ -751,7 +751,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     else
                     {
                         $nodeID = $node['node_id'];
-                        $objectID = $node['contentobject_id'];
+                        $objectID = $node['id'];
                     }
                     $element->setAttribute( 'show_path', 'true' );
                 }
@@ -901,7 +901,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 }
 
                 $element->setAttribute( 'node_id', $nodeID );
-                $objectID = $node['contentobject_id'];
+                $objectID = $node['id'];
 
                 // protection from self-embedding
                 if ( $objectID == $this->contentObjectID )

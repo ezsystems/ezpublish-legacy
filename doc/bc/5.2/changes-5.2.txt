@@ -26,6 +26,9 @@ Change of behavior
   eZContentObjectTreeNode::findMainNodeArray( [...], false ),
   eZContentObjectTreeNode::fetch( [...], [...], false ) and:
   eZContentObjectTreeNode::fetchNodesByPathString( [...], [...], false ):
+  eZContentObjectTreeNode::fetchByRemoteID( [...], false );
+  eZContentObjectTreeNode::fetchByPath( [...], false );
+  eZContentObjectTreeNode::fetchByURLPath( [...], false );
   * Does not return key "contentobject_id" in addition to "id" anymore, use
   the "id" key instead.
   * Returns "ezcontentobject.remote_id" under the "object_remote_id" key,

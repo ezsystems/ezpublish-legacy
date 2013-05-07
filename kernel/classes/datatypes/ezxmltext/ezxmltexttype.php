@@ -761,7 +761,7 @@ class eZXMLTextType extends eZDataType
                 if ( $contentObject )
                 {
                     $relationType = $node->nodeName == 'link' ? eZContentObject::RELATION_LINK : eZContentObject::RELATION_EMBED;
-                    $contentObject->addContentObjectRelation( $nodeArray['contentobject_id'], $objectAttribute->attribute( 'version' ), 0, $relationType );
+                    $contentObject->addContentObjectRelation( $nodeArray['id'], $objectAttribute->attribute( 'version' ), 0, $relationType );
                 }
             }
         }
