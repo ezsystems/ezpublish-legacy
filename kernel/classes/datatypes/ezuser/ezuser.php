@@ -2336,8 +2336,6 @@ WHERE user_id = '" . $userID . "' AND
 
     /**
      * Returns true if the user is a registered and not anonymous user.
-     *
-     * @deprecated since 5.1 Use isRegistered() / isUserLoggedIn() instead.
      */
     public function isRegistered()
     {
