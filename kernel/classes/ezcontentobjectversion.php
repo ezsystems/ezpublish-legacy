@@ -586,7 +586,7 @@ class eZContentObjectVersion extends eZPersistentObject
                             foreach ( $limitation as $nodeID )
                             {
                                 $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
-                                $limitationObjectID = $node['contentobject_id'];
+                                $limitationObjectID = $node['id'];
                                 if ( $contentObjectID == $limitationObjectID )
                                 {
                                     $access = 'allowed';
