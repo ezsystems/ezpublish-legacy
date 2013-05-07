@@ -23,6 +23,7 @@ class ezpRestDbConfig implements ezcBaseConfigurationInitializer
                             'ezmysql' => 'mysql',
                             'mysql' => 'mysql',
                             'mysqli' => 'mysql',
+                            'pgsql' => 'pgsql',
                             'postgresql' => 'pgsql',
                             'ezpostgresql' => 'pgsql',
                             'ezoracle' => 'oracle',
