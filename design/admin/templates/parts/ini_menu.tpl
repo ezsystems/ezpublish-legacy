@@ -35,7 +35,9 @@
          $menu_name  = ezini( $ini_section, 'Name', 'menu.ini' )
          $check      = array()
          $has_access = true()
-         $item_name = ''}
+         $item_name = ''
+         $disabled = true()
+         $enabled_hash = hash()}
 
     {* Check access globally *}
     {if ezini_hasvariable( $ini_section, 'PolicyList', 'menu.ini' )}
@@ -63,27 +65,29 @@
 
         {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
-        {if eq( $ui_context, 'edit' )}
-            <ul class="leftmenu-items">
-            {foreach $url_list as $link_key => $link_url}
-                {if is_set( $name_list[ $link_key ] )}
-                    {set $item_name = $name_list[$link_key]|d18n($i18n_section)}
+        <ul class="leftmenu-items">
+        {foreach $url_list as $link_key => $link_url}
+            {if is_set( $name_list[ $link_key ] )}
+                {set $item_name = $name_list[$link_key]|d18n($i18n_section)}
+            {else}
+                {set $item_name = first_set( $i18n_hash[ $link_key ], $link_key )|wash}
+            {/if}
+
+            {* Check if link should be disabled *}
+            {if ezini_hasvariable( $ini_section, concat( 'Enabled_', $link_key ), 'menu.ini' )}
+                {set $enabled_hash = hash( 'default', 'true', 'edit', 'false' )|merge( ezini( $ini_section, concat( 'Enabled_', $link_key ), 'menu.ini' ) )}
+                {if is_set( $enabled_hash[$ui_context] )}
+                    {set $disabled = $enabled_hash[$ui_context]}
                 {else}
-                    {set $item_name = first_set( $i18n_hash[ $link_key ], $link_key )|wash}
+                    {set $disabled = $enabled_hash['default']|eq( 'false' )}
                 {/if}
-                <li><div><span class="disabled">{$item_name}</span></div></li>
-            {/foreach}
-            </ul>
-        {else}
-            <ul class="leftmenu-items">
-            {foreach $url_list as $link_key => $link_url}
-                {if is_set( $name_list[ $link_key ] )}
-                    {set $item_name = $name_list[$link_key]|d18n($i18n_section)}
-                {else}
-                    {set $item_name = first_set( $i18n_hash[ $link_key ], $link_key )|wash}
-                {/if}
+            {else}
+                {set $disabled = eq( $ui_context, 'edit' )|eq( 'false' )}
+            {/if}
+
+            {* Check access per link *}
+            {if $disabled|not()}
                 {set $has_access = true()}
-                {* Check access pr link *}
                 {if ezini_hasvariable( $ini_section, concat( 'PolicyList_', $link_key ), 'menu.ini' )}
                     {foreach ezini( $ini_section, concat( 'PolicyList_', $link_key ), 'menu.ini' ) as $policy}
                         {if $policy|contains('/')}
@@ -101,14 +105,16 @@
                         {/if}
                     {/foreach}
                 {/if}
-                {if $has_access}
-                    <li{if $current_uri_string|begins_with( $link_url )} class="current"{/if}><div><a href={$link_url|ezurl}>{$item_name}</a></div></li>
-                {else}
-                    <li class="disabled-no-access"><div><span class="disabled">{$item_name}</span></div></li>
-                {/if}
-            {/foreach}
-            </ul>
-        {/if}
+            {/if}
+            {if $disabled}
+                <li><div><span class="disabled">{$item_name}</span></div></li>
+            {elseif $has_access}
+                <li{if $current_uri_string|begins_with( $link_url )} class="current"{/if}><div><a href={$link_url|ezurl}>{$item_name}</a></div></li>
+            {else}
+                <li class="disabled-no-access"><div><span class="disabled">{$item_name}</span></div></li>
+            {/if}
+        {/foreach}
+        </ul>
 
         {* DESIGN: Content END *}</div></div></div>
     {/if}
