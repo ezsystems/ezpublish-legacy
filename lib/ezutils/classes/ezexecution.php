@@ -113,13 +113,19 @@ class eZExecution
     {
         // Need to change the current directory, since this information is lost
         // when the callbackfunction is called. eZDocumentRoot is set in ::registerShutdownHandler
+        // Getting the previous current working directory as we might need to get back there (i.e. Symfony web/ directory).
+        $previousCwd = getcwd();
         if ( self::$eZDocumentRoot !== null )
         {
             chdir( self::$eZDocumentRoot );
         }
 
         if ( eZExecution::isCleanExit() )
+        {
+            chdir( $previousCwd );
             return;
+        }
+
         eZExecution::cleanup();
         $handlers = eZExecution::fatalErrorHandlers();
         foreach ( $handlers as $handler )
@@ -130,6 +136,8 @@ class eZExecution
 
                 eZDebug::writeError('Could not call fatal error handler, is it a static public function?', __METHOD__ );
         }
+
+        chdir( $previousCwd );
     }
 
     /*!
