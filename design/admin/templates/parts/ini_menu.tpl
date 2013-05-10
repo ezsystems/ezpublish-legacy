@@ -37,7 +37,8 @@
          $has_access = true()
          $item_name = ''
          $disabled = true()
-         $enabled_hash = hash()}
+         $enabled_hash = hash()
+         $enabled_defaults = hash( 'default', 'true', 'edit', 'false', 'browse', 'false' )}
 
     {if ezini_hasvariable( $ini_section, 'Name', 'menu.ini' )}
         {set $menu_name = ezini( $ini_section, 'Name', 'menu.ini' )}
@@ -79,14 +80,15 @@
 
             {* Check if link should be disabled *}
             {if ezini_hasvariable( $ini_section, concat( 'Enabled_', $link_key ), 'menu.ini' )}
-                {set $enabled_hash = hash( 'default', 'true', 'edit', 'false' )|merge( ezini( $ini_section, concat( 'Enabled_', $link_key ), 'menu.ini' ) )}
-                {if is_set( $enabled_hash[$ui_context] )}
-                    {set $disabled = $enabled_hash[$ui_context]}
-                {else}
-                    {set $disabled = $enabled_hash['default']|eq( 'false' )}
-                {/if}
+                {set $enabled_hash = $enabled_defaults|merge( ezini( $ini_section, concat( 'Enabled_', $link_key ), 'menu.ini' ) )}
             {else}
-                {set $disabled = eq( $ui_context, 'edit' )|eq( 'false' )}
+                {set $enabled_hash = $enabled_defaults}
+            {/if}
+
+            {if is_set( $enabled_hash[$ui_context] )}
+                {set $disabled = $enabled_hash[$ui_context]}
+            {else}
+                {set $disabled = $enabled_hash['default']|eq( 'false' )}
             {/if}
 
             {* Check access per link *}
