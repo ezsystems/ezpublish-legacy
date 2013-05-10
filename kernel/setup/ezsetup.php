@@ -138,16 +138,18 @@ $result = null;
 
 while( !$done && $step != null )
 {
-// Some common variables for all steps
-    $tpl->setVariable( "script", eZSys::serverVariable( 'PHP_SELF' ) );
+    // Some common variables for all steps
+    $uriPrefix = '';
+    if ( strpos( eZSys::serverVariable( 'PHP_SELF' ), '/ezsetup' ) )
+        $uriPrefix = '/ezsetup';
 
     $siteBasics = $GLOBALS['eZSiteBasics'];
     $useIndex = $siteBasics['validity-check-required'];
 
     if ( $useIndex )
-        $script = eZSys::wwwDir() . eZSys::indexFileName();
+        $script = eZSys::wwwDir() . eZSys::indexFileName() . $uriPrefix;
     else
-        $script = eZSys::indexFile() . "/setup/$partName";
+        $script = eZSys::indexFile() . "$uriPrefix/setup/$partName";
     $tpl->setVariable( 'script', $script );
 
     $tpl->setVariable( "version", array( "text" => eZPublishSDK::version(),
