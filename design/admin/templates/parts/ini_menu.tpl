@@ -32,12 +32,16 @@
 {if ezini_hasvariable( $ini_section, 'Links', 'menu.ini' )}
     {def $url_list   = ezini( $ini_section, 'Links', 'menu.ini' )
          $name_list  = ezini( $ini_section, 'LinkNames', 'menu.ini' )
-         $menu_name  = ezini( $ini_section, 'Name', 'menu.ini' )
+         $menu_name  = ''
          $check      = array()
          $has_access = true()
          $item_name = ''
          $disabled = true()
          $enabled_hash = hash()}
+
+    {if ezini_hasvariable( $ini_section, 'Name', 'menu.ini' )}
+        {set $menu_name = ezini( $ini_section, 'Name', 'menu.ini' )}
+    {/if}
 
     {* Check access globally *}
     {if ezini_hasvariable( $ini_section, 'PolicyList', 'menu.ini' )}
@@ -60,7 +64,7 @@
 
     {if $has_access}
         {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-        <h4>{if is_set( $i18n_hash[ $menu_name ] )}{$i18n_hash[ $menu_name ]|wash}{else}{$menu_name|d18n($i18n_section)}{/if}</h4>
+        {if $menu_name}<h4>{if is_set( $i18n_hash[ $menu_name ] )}{$i18n_hash[ $menu_name ]|wash}{else}{$menu_name|d18n($i18n_section)}{/if}</h4>{/if}
         {* DESIGN: Header END *}</div></div>
 
         {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
