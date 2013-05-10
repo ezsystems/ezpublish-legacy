@@ -92,4 +92,4 @@
 <div class="widthcontrol-grippy"></div>
 </div>
 
-{/if}
+{/if}{* if ne( $ui_context, 'edit' ) *}

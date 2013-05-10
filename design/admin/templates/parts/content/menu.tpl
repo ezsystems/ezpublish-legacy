@@ -17,11 +17,7 @@
 </div>
 {/if}
 
-
-
-
 {* DESIGN: Content END *}</div></div></div>
-
 </div>
 
 {* See parts/ini_menu.tpl and menu.ini for more info, or parts/setup/menu.tpl for full example *}
