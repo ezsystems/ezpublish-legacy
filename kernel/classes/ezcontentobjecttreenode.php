@@ -595,7 +595,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         } break;
                         case 'contentobject_id':
                         {
-                            $sortingFields .= $treeTableName . '.contentobject_id';
+                            $sortingFields .= 'ezcontentobject.id';
                         } break;
                         case 'depth':
                         {
@@ -701,7 +701,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $attributeFromSQL .=
                                 " INNER JOIN ezcobj_state $stateAlias ON ($stateAlias.group_id = $stateGroupID)" .
                                 " INNER JOIN ezcobj_state_link $stateLinkAlias" .
-                                "     ON ($stateLinkAlias.contentobject_id = $treeTableName.contentobject_id AND $stateLinkAlias.contentobject_state_id = $stateAlias.id)";
+                                "     ON ($stateLinkAlias.contentobject_id = ezcontentobject.id AND $stateLinkAlias.contentobject_state_id = $stateAlias.id)";
                         } break;
 
                         default:
