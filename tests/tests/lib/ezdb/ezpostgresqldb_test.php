@@ -71,6 +71,7 @@ class eZPostgreSQLDBTest extends ezpDatabaseTestCase
         $db->query( "CREATE TABLE c ( name varchar(40) )" );
 
         $relationList = $db->relationList( eZDBInterface::RELATION_TABLE );
+        sort( $relationList );
         $relationArray = array( "a", "b", "c" );
         self::assertEquals( $relationArray, $relationList );
     }
