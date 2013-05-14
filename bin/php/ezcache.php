@@ -39,7 +39,6 @@ $options = $script->getOptions( "[clear-tag:][clear-id:][clear-all]" . /*[purge-
                                        'expiry' => 'Date or relative time which specifies when cache items are to be considered expired, e.g \'now\', \'-2 days\' or \'last monday\'',
                                        'list-tags' => 'Lists all available tags',
                                        'list-ids' => 'Lists all available ids' ) );
-$sys = eZSys::instance();
 
 $script->initialize();
 
