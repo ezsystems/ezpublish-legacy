@@ -105,7 +105,9 @@ class eZCache
                                        'id' => 'template',
                                        'tag' => array( 'template' ),
                                        'enabled' => $ini->variable( 'TemplateSettings', 'TemplateCompile' ) == 'enabled',
-                                       'path' => 'template' ),
+                                       'path' => 'template',
+                                       'function' => array( 'eZCache', 'clearTemplateCompileCache' ),
+                                       'purge-function' => array( 'eZCache', 'clearTemplateCompileCache' ) ),
                                 array( 'name' => ezpI18n::tr( 'kernel/cache', 'Template block cache' ),
                                        'id' => 'template-block',
                                        'is-clustered' => true,
@@ -717,6 +719,14 @@ class eZCache
     static function clearGlobalINICache( $cacheItem )
     {
         eZDir::recursiveDelete( $cacheItem['path'] );
+    }
+
+    /**
+     * Clear Template Compile cache
+     */
+    static function clearTemplateCompileCache()
+    {
+        eZDir::recursiveDelete( eZTemplateCompiler::compilationDirectory() );
     }
 
     /**
