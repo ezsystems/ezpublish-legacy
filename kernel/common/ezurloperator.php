@@ -805,7 +805,7 @@ CODEPIECE;
                         } break;
                         case eZURLOperator::HTTP_OPERATOR_TYPE_SESSION:
                         {
-                            if ( $http->hasSessionVariable( $httpName ) )
+                            if ( $http->hasSessionVariable( $httpName, false ) )
                                 $operatorValue = !$checkExistence ? $http->sessionVariable( $httpName ) : true;
                             else
                             {
