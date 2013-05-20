@@ -1157,7 +1157,7 @@ class eZContentOperationCollection
      *
      * @param int $parentNodeID
      * @param array $priorityArray
-     * @param array $priorityArray
+     * @param array $priorityIDArray
      *
      * @return array An array with operation status, always true
      */
