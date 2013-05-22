@@ -18,6 +18,14 @@
 
 class eZTemplateFileResource
 {
+    /**
+     * Set EZP_TEMPLATE_FILEMTIME_CHECK constant to false to improve performance by
+     * not checking modified time on template files.
+     *
+     * @var null|bool
+     */
+    static protected $checkFileMtime = null;
+
     /*!
      Initializes with a default resource name "file".
      Also sets whether the resource servers static data files, this is needed
@@ -158,7 +166,7 @@ class eZTemplateFileResource
     */
     function handleResource( $tpl, &$resourceData, $method, &$extraParameters )
     {
-        return $this->handleResourceData( $tpl, $this, $resourceData, $method, $extraParameters );
+        return self::handleResourceData( $tpl, $this, $resourceData, $method, $extraParameters );
     }
 
     /*!
@@ -168,8 +176,16 @@ class eZTemplateFileResource
      It will load the template file and handle any charsets conversion if necessary.
      It will also handle tree node caching if one is found.
     */
-    function handleResourceData( $tpl, $handler, &$resourceData, $method, &$extraParameters )
+    static function handleResourceData( $tpl, $handler, &$resourceData, $method, &$extraParameters )
     {
+        if ( self::$checkFileMtime === null )
+        {
+            if ( defined('EZP_TEMPLATE_FILEMTIME_CHECK') )
+                self::$checkFileMtime = EZP_TEMPLATE_FILEMTIME_CHECK;
+            else
+                self::$checkFileMtime = true;
+        }
+
         // &$templateRoot, &$text, &$tstamp, $uri, $resourceName, &$path, &$keyData
         $templateRoot =& $resourceData['root-node'];
         $text =& $resourceData['text'];
@@ -182,6 +198,12 @@ class eZTemplateFileResource
 
         if ( !file_exists( $path ) )
             return false;
+
+	if ( self::$checkFileMtime === true )
+	    $tstamp = filemtime( $path );
+	else
+	    $tstamp = false;
+
         $tstamp = filemtime( $path );
         $result = false;
         $canCache = true;
