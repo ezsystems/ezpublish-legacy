@@ -83,17 +83,6 @@
 //define( 'EZP_INI_FILEMTIME_CHECK', false );
 
 /*
-    TEMPLATE FILES OPTIMIZATIONS
-    -----------------------
-    This new setting controls whether compiled templates should check if the
-    original template file have been updated.
-
-    Set EZP_TEMPLATE_FILEMTIME_CHECK constant to false to improve performance by
-    not checking modified time on template files.
-*/
-//define( 'EZP_TEMPLATE_FILEMTIME_CHECK', false );
-
-/*
     KERNEL OVERRIDES
     ----------------
     This setting controls if eZ Publish's autoload system should allow, and

@@ -19,7 +19,15 @@
 class eZTemplateFileResource
 {
     /**
-     * Set EZP_TEMPLATE_FILEMTIME_CHECK constant to false to improve performance by
+     * Set site.ini[TemplateSettings]TemplateCheckExists value to disabled to improve performance by
+     * not checking modified time on template files.
+     *
+     * @var null|bool
+     */
+    static protected $checkFileExists = null;
+
+    /**
+     * Set site.ini[TemplateSettings]TemplateCheckMTime value to disabled to improve performance by
      * not checking modified time on template files.
      *
      * @var null|bool
@@ -166,7 +174,7 @@ class eZTemplateFileResource
     */
     function handleResource( $tpl, &$resourceData, $method, &$extraParameters )
     {
-        return self::handleResourceData( $tpl, $this, $resourceData, $method, $extraParameters );
+        return static::handleResourceData( $tpl, $this, $resourceData, $method, $extraParameters );
     }
 
     /*!
@@ -178,10 +186,20 @@ class eZTemplateFileResource
     */
     static function handleResourceData( $tpl, $handler, &$resourceData, $method, &$extraParameters )
     {
+        if ( self::$checkFileExists === null )
+        {
+            $ini = \eZINI::instance();
+            if ( $ini->variable( 'TemplateSettings', 'TemplateCheckExists' ) === 'disabled' )
+                self::$checkFileExists = false;
+            else
+                self::$checkFileExists = true;
+        }
+
         if ( self::$checkFileMtime === null )
         {
-            if ( defined('EZP_TEMPLATE_FILEMTIME_CHECK') )
-                self::$checkFileMtime = EZP_TEMPLATE_FILEMTIME_CHECK;
+            $ini = \eZINI::instance();
+            if ( $ini->variable( 'TemplateSettings', 'TemplateCheckMTime' ) === 'disabled' )
+                self::$checkFileMtime = false;
             else
                 self::$checkFileMtime = true;
         }
@@ -196,7 +214,7 @@ class eZTemplateFileResource
         $keyData =& $resourceData['key-data'];
         $localeData =& $resourceData['locales'];
 
-        if ( !file_exists( $path ) )
+        if ( self::$checkFileExists && !file_exists( $path ) )
             return false;
 
 	if ( self::$checkFileMtime === true )
