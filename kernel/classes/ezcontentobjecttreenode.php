@@ -2058,7 +2058,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                              'SortBy'                   => false,
                              'Offset'                   => false,
                              'Limit'                    => false,
-                             'SortBy'                   => false,
                              'GroupBy'                  => false );
         }
 
