@@ -5889,7 +5889,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $parentNode = $node->attribute( 'parent' );
         if ( !$parentNode instanceof eZContentObjectTreeNode )
         {
-            eZDebug::writeError( "Parent of Node #$nodeId doesn't exist or inaccesible.", __METHOD__ );
+            eZDebug::writeError( "Parent of Node #$nodeID doesn't exist or inaccesible.", __METHOD__ );
             return;
         }
 
