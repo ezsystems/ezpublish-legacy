@@ -8,36 +8,11 @@
  * @package kernel
  */
 
-/*!
-  \class eZContentObjectTreeNode ezcontentobjecttreenode.php
-  \brief The class eZContentObjectTreeNode does
-
-\verbatim
-
-Some algorithms
-----------
-1. Adding new Node
-Enter  1 - parent_node
-       2 - contentobject_id,  ( that is like a node value )
-
-(a) - get path_string, depth for parent node to built path_string  and to count depth for new one
-(c) - calculating attributes for new node and inserting it
-Returns node_id for added node
-
-
-2. Deleting node ( or subtree )
-Enter - node_id
-
-3. Move subtree in tree
-Enter node_id,new_parent_id
-
-
-4. fetching subtree
-
-\endverbatim
-
-*/
-
+/**
+ * Encapsulates data about and methods to work with content objects inside the content object tree
+ *
+ * @package kernel
+ */
 class eZContentObjectTreeNode extends eZPersistentObject
 {
     const SORT_FIELD_PATH = 1;
@@ -56,14 +31,23 @@ class eZContentObjectTreeNode extends eZPersistentObject
     const SORT_ORDER_DESC = 0;
     const SORT_ORDER_ASC = 1;
 
-    /*!
-     Constructor
-    */
+    /**
+     * Initializes the object with the $row.
+     *
+     * It will try to set each field taken from the database row. Calls fill
+     * to do the job. If $row is an integer, it will try to fetch it from the
+     * database using it as the unique ID.
+     *
+     * @param int|array $row
+     */
     function eZContentObjectTreeNode( $row = array() )
     {
         $this->eZPersistentObject( $row );
     }
 
+    /**
+     * @inheritdoc
+     */
     static function definition()
     {
         static $definition = array( "fields" => array( "node_id" => array( 'name' => "NodeID",
@@ -181,15 +165,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $definition;
     }
 
-    /*!
-     Creates a new tree node and returns it.
-     \param $parentNodeID The ID of the parent or \c null if the node is not known yet.
-     \param $contentObjectID The ID of the object it points to or \c null if it is not known yet.
-     \param $contentObjectVersion The version of the object or \c 0 if not known yet.
-     \param $sortField Number describing the field to sort by, or \c 0 if not known yet.
-     \param $sortOrder Which way to sort, \c true means ascending while \c false is descending.
-     \note The attribute \c remote_id will get an automatic and unique value.
-    */
+    /**
+     * Creates a new tree node and returns it.
+     *
+     * The attribute remote_id will get an automatic and unique value.
+     *
+     * @param int $parentNodeID The ID of the parent or null if the node is not known yet.
+     * @param int $contentObjectID The ID of the object it points to or null if it is not known yet.
+     * @param int $contentObjectVersion The version of the object or 0 if not known yet.
+     * @param int $sortField Number describing the field to sort by, or 0 if not known yet.
+     * @param bool $sortOrder Which way to sort, true means ascending while false is descending.
+     *
+     * @return eZContentObjectTreeNode
+     */
     static function create( $parentNodeID = null, $contentObjectID = null, $contentObjectVersion = 0,
                       $sortField = 0, $sortOrder = true )
     {
@@ -233,11 +221,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
         self::$useCurrentUserDraft = (bool) $enable;
     }
 
-    /*!
-     \return a map with all the content object attributes where the keys are the
-             attribute identifiers.
-     \sa eZContentObject::fetchDataMap
-    */
+    /**
+     * Returns an array with all the content object attributes where the keys are the attribute identifiers.
+     *
+     * @see eZContentObject::fetchDataMap()
+     * @return eZContentObjectAttribute[]
+     */
     function dataMap()
     {
         $object = $this->object();
@@ -256,10 +245,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $object->fetchDataMap( $this->attribute( 'contentobject_version' ) );
     }
 
-    /*!
-     Get remote id of content node, the remote ID is often used to synchronise imports and exports.
-     If there is no remote ID a new unique one will be generated.
-    */
+    /**
+     * Get the remote id of content node
+     *
+     * If there is no remote ID a new unique one will be generated.
+     *
+     * The remote ID is often used to synchronise imports and exports.
+     *
+     * @return string
+     */
     function remoteID()
     {
         $remoteID = $this->attribute( 'remote_id', true );
@@ -273,38 +267,45 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $remoteID;
     }
 
-    /*!
-     \return true if this node is the main node.
+    /**
+     * Returns true if this node is the main node.
+     *
+     * @return bool
      */
     function isMain()
     {
         return $this->NodeID == $this->MainNodeID;
     }
 
-    /*!
-     \return the ID of the class attribute with the given ID.
-     False is returned if no class/attribute by that identifier is found.
-     If multiple classes have the same identifier, the first found is returned.
-    */
+    /**
+     * Returns the ID of the class attribute with the given ID or false if no class/attribute by that identifier
+     * is found. If multiple classes have the same identifier, the first found is returned.
+     *
+     * @param string $identifier
+     * @return int|bool
+     */
     static function classAttributeIDByIdentifier( $identifier )
     {
         return eZContentClassAttribute::classAttributeIDByIdentifier( $identifier );
     }
 
-    /*!
-     \return the ID of the class with the given ID.
-     False is returned if no class by that identifier is found.
-     If multiple classes have the same identifier, the first found is returned.
-    */
+    /**
+     * Return the ID of the class with the given ID or false if no class by that identifier is found.
+     * If multiple classes have the same identifier, the first found is returned.
+     *
+     * @param string $identifier
+     * @return int|bool
+     */
     static function classIDByIdentifier( $identifier )
     {
         return eZContentClass::classIDByIdentifier( $identifier );
     }
 
-    /*!
-     \return \c true if the node can be read by the current user.
-     \sa checkAccess().
-    */
+    /**
+     * Returns true if the node can be read by the current user.
+     *
+     * @return bool
+     */
     function canRead( )
     {
         if ( !isset( $this->Permissions["can_read"] ) )
@@ -314,9 +315,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return ( $this->Permissions["can_read"] == 1 );
     }
 
-    /*!
-     \return \c true if the current user can create a pdf of this content object.
-    */
+    /**
+     * Returns true if the current user can create a pdf of this content object.
+     *
+     * @return bool
+     */
     function canPdf( )
     {
         if ( !isset( $this->Permissions["can_pdf"] ) )
@@ -326,11 +329,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return ( $this->Permissions["can_pdf"] == 1 );
     }
 
-
-    /*!
-     \return \c true if the node can be viewed as embeded object by the current user.
-     \sa checkAccess().
-    */
+    /**
+     * Returns true if the node can be viewed as embeded object by the current user.
+     *
+     * @return bool
+     */
     function canViewEmbed( )
     {
         if ( !isset( $this->Permissions["can_view_embed"] ) )
@@ -340,10 +343,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return ( $this->Permissions["can_view_embed"] == 1 );
     }
 
-    /*!
-     \return \c true if the node can be edited by the current user.
-     \sa checkAccess().
-    */
+    /**
+     * Returns true if the node can be edited by the current user.
+     *
+     * @return bool
+     */
     function canEdit( )
     {
         if ( !isset( $this->Permissions["can_edit"] ) )
@@ -365,10 +369,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return ( $this->Permissions["can_edit"] == 1 );
     }
 
-    /*!
-     \return \c true if the node can be hidden by the current user.
-     \sa checkAccess().
-    */
+    /**
+     * Returns true if the node can be hidden by the current user.
+     *
+     * @return bool
+     */
     function canHide( )
     {
         if ( !isset( $this->Permissions["can_hide"] ) )
@@ -378,10 +383,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return ( $this->Permissions["can_hide"] == 1 );
     }
 
-    /*!
-     \return \c true if the current user can create a new node as child of this node.
-     \sa checkAccess().
-    */
+    /**
+     * Returns true if the current user can create a new node as child of this node.
+     *
+     * @return bool
+     */
     function canCreate( )
     {
         if ( !isset( $this->Permissions["can_create"] ) )
@@ -391,10 +397,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return ( $this->Permissions["can_create"] == 1 );
     }
 
-    /*!
-     \return \c true if the node can be removed by the current user.
-     \sa checkAccess().
-    */
+    /**
+     * Returns true if the node can be removed by the current user.
+     *
+     * @return bool
+     */
     function canRemove( )
     {
         if ( !isset( $this->Permissions["can_remove"] ) )
@@ -404,11 +411,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return ( $this->Permissions["can_remove"] == 1 );
     }
 
-    /*!
-     Check if the node can be moved. (actually checks 'edit' and 'remove' permissions)
-     \return \c true if the node can be moved by the current user.
-     \sa checkAccess().
-    */
+    /**
+     * Returns true if the node can be moved by the current user.
+     *
+     * @return bool
+     */
     function canMoveFrom( )
     {
         if ( !isset( $this->Permissions['can_move_from'] ) )
@@ -418,10 +425,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return ( $this->Permissions['can_move_from'] == 1 );
     }
 
-    /*!
-     \return \c true if a node of class \a $classID can be moved to the current node by the current user.
-     \sa checkAccess().
-    */
+    /**
+     * Returns true if a node of class $classID can be moved to the current node by the current user.
+     *
+     * @param bool $classID
+     * @return bool
+     */
     function canMoveTo( $classID = false )
     {
         if ( !isset( $this->Permissions['can_move_to'] ) )
@@ -431,10 +440,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return ( $this->Permissions['can_move_to'] == 1 );
     }
 
-    /*!
-     \return \c true if a node can be swaped by the current user.
-     \sa checkAccess().
-    */
+    /**
+     * Returns true if a node can be swaped by the current user.
+     *
+     * @return bool
+     */
     function canSwap()
     {
         if ( !isset( $this->Permissions['can_swap'] ) )
@@ -444,10 +454,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return ( $this->Permissions['can_swap'] == 1 );
     }
 
-    /*!
-     \return \c true if current user can add object locations to current node.
-     \sa checkAccess()
-    */
+    /**
+     * Returns true if current user can add object locations to current node.
+     *
+     * @return bool
+     */
     function canAddLocation()
     {
         if ( !isset( $this->Permissions['can_add_location'] ) )
@@ -457,9 +468,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return ( $this->Permissions['can_add_location'] == 1 );
     }
 
-    /*!
-     \return \c true if current user can add object locations to current node.
-    */
+    /**
+     * Returns true if current user can add object locations to current node.
+     *
+     * @return bool
+     */
     function canRemoveLocation()
     {
         if ( !isset( $this->Permissions['can_remove_location'] ) )
@@ -469,28 +482,33 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return ( $this->Permissions['can_remove_location'] == 1 );
     }
 
-    /*!
-     \static
-     \returns the sort key for the given classAttributeID.
-      int|string is returend. False is returned if unsuccessful.
-    */
+    /**
+     * Returns the sort key for the given classAttributeID or false if it can't be retrieved
+     *
+     * @param int $classAttributeID
+     * @return int|string|bool
+     */
     static function sortKeyByClassAttributeID( $classAttributeID )
     {
         return eZContentClassAttribute::sortKeyTypeByID( $classAttributeID );
     }
 
-    /*!
-     \static
-    */
+    /**
+     * Returns the datatype of a class attribute
+     *
+     * @param int $classAttributeID
+     * @return string
+     */
     static function dataTypeByClassAttributeID( $classAttributeID )
     {
         return eZContentClassAttribute::dataTypeByID( $classAttributeID );
     }
 
-
-    /*!
-     Fetches the number of nodes which exists in the system.
-    */
+    /**
+     * Fetches the number of nodes which exists in the system.
+     *
+     * @return int
+     */
     static function fetchListCount()
     {
         $sql = "SELECT count( node_id ) as count FROM ezcontentobject_tree";
@@ -499,10 +517,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $rows[0]['count'];
     }
 
-
-    /*!
-     Fetches a list of nodes and returns it. Offset and limitation can be set if needed.
-    */
+    /**
+     * Fetches a list of nodes and returns it. Offset and limitation can be set if needed.
+     *
+     * @param bool $asObject
+     * @param int|bool $offset
+     * @param int|bool $limit
+     * @return eZContentObjectTreeNode[]
+     */
     static function fetchList( $asObject = true, $offset = false, $limit = false )
     {
         $sql = "SELECT * FROM ezcontentobject_tree";
@@ -526,9 +548,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return $rows;
     }
 
-    /*!
-        \a static
-    */
+    /**
+     * Creates an array with sorting SQL strings to be appended to a query
+     *
+     * @param array|bool $sortList
+     * @param string $treeTableName
+     * @param bool $allowCustomColumns
+     * @return array
+     */
     static function createSortingSQLStrings( $sortList, $treeTableName = 'ezcontentobject_tree', $allowCustomColumns = false )
     {
         $sortingInfo = array( 'sortCount'           => 0,
@@ -740,9 +767,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $sortingInfo;
     }
 
-    /*!
-        \a static
-    */
+    /**
+     * Returns an SQL string to filter query results by classes
+     *
+     * @param string|bool $classFilterType
+     * @param array $classFilterArray
+     * @return string|bool
+     */
     static function createClassFilteringSQLString( $classFilterType, &$classFilterArray )
     {
         // Check for class filtering
@@ -797,9 +828,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $classCondition;
     }
 
-    /*!
-        \a static
-    */
+    /**
+     * Creates a filter array from extended attribute filters
+     *
+     * The filter array includes tables, joins, columns and grouping information
+     *
+     * @param array $extendedAttributeFilter
+     * @return array
+     */
     static function createExtendedAttributeFilterSQLStrings( &$extendedAttributeFilter )
     {
         $filter = array( 'tables'   => '',
@@ -859,9 +895,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $filter;
     }
 
-    /*!
-        \a static
-    */
+    /**
+     * If $mainNodeOnly is set to true, creates an SQL part which makes sure the fetched node(s) are main nodes
+     *
+     * @param bool $mainNodeOnly
+     * @return string
+     */
     static function createMainNodeConditionSQLString( $mainNodeOnly )
     {
         // Main node check
@@ -874,9 +913,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $mainNodeCondition;
     }
 
-    /*!
-        \a static
-    */
+    /**
+     * Creates an SQL part to match objects with a name starting with $filter
+     *
+     * If $filter is "others", the SQL part will match only names which do NOT start with a letter from the
+     * alphabet.
+     *
+     * @see eZAlphabetOperator::fetchAlphabet()
+     *
+     * @param string $filter
+     * @return string
+     */
     static function createObjectNameFilterConditionSQLString( $filter )
     {
         if ( !$filter )
@@ -897,10 +944,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $objectNameFilterSQL;
     }
 
-
-    /*!
-        \a static
-    */
+    /**
+     * Returns an array to filter a query by the given attributes in $attributeFilter
+     *
+     * @param array|bool $attributeFilter
+     * @param array $sortingInfo
+     * @param array|bool $language
+     * @return array|bool
+     */
     static function createAttributeFilterSQLStrings( &$attributeFilter, &$sortingInfo = array( 'sortCount' => 0, 'attributeJoinCount' => 0 ), $language = false )
     {
         // Check for attribute filtering
@@ -1297,9 +1348,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $filterSQL;
     }
 
-    /*!
-        \a static
-    */
+    /**
+     * Creates an SQL part to exclude the parent node from a query to fetch children of the node $nodeID, if needed
+     *
+     * @param int $nodeID
+     * @param int|bool $depth
+     * @param string $depthOperator
+     * @return string
+     */
     static function createNotEqParentSQLString( $nodeID, $depth = false, $depthOperator = 'le' )
     {
         $notEqParentString  = '';
@@ -1311,9 +1367,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $notEqParentString;
     }
 
-    /*!
-        \a static
-    */
+    /**
+     * Returns an SQL part which makes sure that fetched nodes are (not) part of the given node path
+     *
+     * @param string $nodePath
+     * @param int $nodeDepth
+     * @param bool $depth
+     * @param string $depthOperator
+     * @return string
+     */
     static function createPathConditionSQLString( $nodePath, $nodeDepth, $depth = false, $depthOperator = 'le' )
     {
         $pathCondition  = '';
@@ -1354,9 +1416,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $pathCondition;
     }
 
-    /*!
-        \a static
-    */
+    /**
+     * Returns an SQL part which makes sure that fetched nodes are (not) part of the given node path
+     * and not the parent node
+     *
+     * @param string $outPathConditionStr
+     * @param string $outNotEqParentStr
+     * @param int $nodeID
+     * @param bool $depth
+     * @param string $depthOperator
+     * @return bool
+     */
     static function createPathConditionAndNotEqParentSQLStrings( &$outPathConditionStr, &$outNotEqParentStr, $nodeID, $depth = false, $depthOperator = 'le' )
     {
         if ( !$depthOperator )
@@ -1828,9 +1898,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $limitationList;
     }
 
-    /*!
-     \sa subTree
-    */
+    /**
+     * @param array|bool $params
+     * @param int $nodeID
+     * @return array|null
+     */
     static function subTreeByNodeID( $params = false, $nodeID = 0 )
     {
         if ( !is_numeric( $nodeID ) and !is_array( $nodeID ) )
@@ -2007,6 +2079,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $retNodeList;
     }
 
+    /**
+     * @param array|bool $params
+     * @return array|null
+     */
     function subTree( $params = false )
     {
         return eZContentObjectTreeNode::subTreeByNodeID( $params, $this->attribute( 'node_id' ) );
@@ -2574,9 +2650,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         );
     }
 
-    /*!
-     Returns the first level children in sorted order.
-    */
+    /**
+     * Returns the first level children in sorted order.
+     *
+     * @return array|null
+     */
     function children()
     {
         return $this->subTree( array( 'Depth' => 1,
@@ -2948,10 +3026,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /**
      * Fetches a node by ID
      *
-     * @param int|array $nodeID Either a node ID or array of node IDs
-     * @param string $lang language code to fetch the node in. If not provided, the prioritized language list is used
+     * @param int|array|bool $nodeID Either a node ID or array of node IDs
+     * @param string|bool $lang language code to fetch the node in. If not provided, the prioritized language list is used
      * @param bool $asObject True to fetch the node as an eZContentObjectTreeNode, false to fetch its attributes as an array
-     * @param array $conditions An associative array (field => value) of fetch conditions. Will be applied as is to the SQL query
+     * @param array|bool $conditions An associative array (field => value) of fetch conditions. Will be applied as is to the SQL query
      *
      * @return eZContentObjectTreeNode
     */
@@ -4064,9 +4142,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
     }
 
-    /*!
-     \return The number of nodes in the current subtree that have no other placements.
-    */
+    /**
+     * Returns the number of nodes in the current subtree that have no other placements.
+     *
+     * @param array $params
+     * @return int
+     */
     function subtreeSoleNodeCount( $params = array() )
     {
         $nodeID = $this->attribute( 'node_id' );
@@ -5621,6 +5702,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db->commit();
     }
 
+    /**
+     * Returns the eZContentObject associated to this node
+     *
+     * @return eZContentObject
+     */
     function object()
     {
         if ( $this->hasContentObject() )
@@ -5634,6 +5720,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $obj;
     }
 
+    /**
+     * Checks if the node's contentobject has already loaded
+     *
+     * @return bool
+     */
     function hasContentObject()
     {
         if ( isset( $this->ContentObject ) && $this->ContentObject instanceof eZContentObject )
@@ -5642,17 +5733,21 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return false;
     }
 
-    /*!
-     Sets the current content object for this node.
-    */
+    /**
+     * Sets the current content object for this node.
+     *
+     * @param eZContentObject $object
+     */
     function setContentObject( $object )
     {
         $this->ContentObject = $object;
     }
 
-    /*!
-     \return the creator of the version published in the node.
-    */
+    /**
+     * Returns the creator of the version published in the node.
+     *
+     * @return eZContentObject
+     */
     function creator()
     {
         $db = eZDB::instance();
@@ -5666,6 +5761,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return eZContentObject::fetch( $creatorArray[0]['creator_id'] );
     }
 
+    /**
+     * Returns the eZContentObjectVersionObject of the current node
+     *
+     * @param bool $asObject
+     * @return eZContentObjectVersion|array|bool
+     */
     function contentObjectVersionObject( $asObject = true )
     {
         $version = eZContentObjectVersion::fetchVersion( $this->ContentObjectVersion, $this->ContentObjectID, $asObject );
@@ -5676,6 +5777,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $version;
     }
 
+    /**
+     * Returns the node's url alias
+     *
+     * @return string
+     */
     function urlAlias()
     {
         $useURLAlias =& $GLOBALS['eZContentObjectTreeNodeUseURLAlias'];
@@ -5713,6 +5819,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $cleanURL;
     }
 
+    /**
+     * Returns the node's full url (/content/view/full/...)
+     *
+     * @return string
+     */
     function url()
     {
         $ini = eZINI::instance();
@@ -5723,10 +5834,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return 'content/view/full/' . $this->NodeID;
     }
 
-
-    /*!
-     \return the cached value of the class identifier if it exists, if not it's fetched dynamically
-    */
+    /**
+     * Returns the node's class identifier
+     *
+     * @return string|bool|string|null
+     */
     public function classIdentifier()
     {
         if ( $this->ClassIdentifier === null )
@@ -5738,9 +5850,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $this->ClassIdentifier;
     }
 
-    /*!
-     \return the cached value of the class name if it exists, if not it's fetched dynamically
-    */
+    /**
+     * Returns the node's class name
+     *
+     * @return string|null
+     */
     public function className()
     {
         if ( $this->ClassName === null )
@@ -5753,9 +5867,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $this->ClassName;
     }
 
-    /*!
-     \return the cached value of the class is_container flag if it exists, if not it's fetched dynamically
-    */
+    /**
+     * Returns 1 if the node's class is a container class, 0 otherwise
+     *
+     * @return int|null
+     */
     public function classIsContainer()
     {
         if ( $this->ClassIsContainer === null )
@@ -5767,20 +5883,23 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $this->ClassIsContainer;
     }
 
-    /*!
-    \return combined string representation of both "is_hidden" and "is_invisible" attributes
-    Used in the node view templates.
-    FIXME: this method probably should be removed in the future.
-    */
+    /**
+     * Returns combined string representation of both "is_hidden" and "is_invisible" attributes
+     *
+     * @todo This method probably should be removed in the future.
+     * @return string
+     */
     function hiddenInvisibleString()
     {
         return ( $this->IsHidden ? 'H' : '-' ) . '/' . ( $this->IsInvisible ? 'X' : '-' );
     }
 
-    /*!
-    \return combined string representation of both "is_hidden" and "is_invisible" attributes
-    Used in the limitation handling templates.
-    */
+    /**
+     * Returns combined string representation of both "is_hidden" and "is_invisible" attributes
+     * Used in the limitation handling templates.
+     *
+     * @return string
+     */
     function hiddenStatusString()
     {
         if( $this->IsHidden )
@@ -5794,30 +5913,30 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return ezpI18n::tr( 'kernel/content', 'Visible' );
     }
 
-    /*!
-     \a static
-
-     \param $node            Root node of the subtree
-     \param $modifyRootNode  Whether to modify the root node (true/false)
-
-     Hide algorithm:
-     if ( root node of the subtree is visible )
-     {
-        1) Mark root node as hidden and invisible
-        2) Recursively mark child nodes as invisible except for ones which have been previously marked as invisible
-     }
-     else
-     {
-        Mark root node as hidden
-     }
-
-     In some cases we don't want to touch the root node when (un)hiding a subtree, for example
-     after content/move or content/copy.
-     That's why $modifyRootNode argument is used.
-
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
+    /**
+     * Hide a subtree
+     *
+     * Hide algorithm:
+     * if ( root node of the subtree is visible )
+     * {
+     *     1) Mark root node as hidden and invisible
+     *     2) Recursively mark child nodes as invisible except for ones which have been previously marked as invisible
+     * }
+     * else
+     * {
+     *     Mark root node as hidden
+     * }
+     *
+     * In some cases we don't want to touch the root node when (un)hiding a subtree, for example
+     * after content/move or content/copy.
+     * That's why $modifyRootNode argument is used.
+     *
+     * Transaction unsafe. If you call several transaction unsafe methods you must enclose the calls within
+     * a db transaction; thus within db->begin and db->commit.
+     *
+     * @param eZContentObjectTreeNode $node Root node of the subtree
+     * @param bool $modifyRootNode Whether to modify the root node (true/false)
+     */
     static function hideSubTree( eZContentObjectTreeNode $node, $modifyRootNode = true )
     {
         $nodeID = $node->attribute( 'node_id' );
@@ -5862,26 +5981,26 @@ class eZContentObjectTreeNode extends eZPersistentObject
         eZContentObjectTreeNode::clearViewCacheForSubtree( $node, $modifyRootNode );
     }
 
-    /*!
-     \a static
-
-     \param $node            Root node of the subtree
-     \param $modifyRootNode  Whether to modify the root node (true/false)
-
-     Unhide algorithm:
-     if ( parent node is visible )
-     {
-        1) Mark root node as not hidden and visible.
-        2) Recursively mark child nodes as visible (except for nodes previosly marked as hidden, and all their children).
-     }
-     else
-     {
-        Mark root node as not hidden.
-     }
-
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
+    /**
+     * Unhide a subtree
+     *
+     * Unhide algorithm:
+     * if ( parent node is visible )
+     * {
+     *     1) Mark root node as not hidden and visible.
+     *     2) Recursively mark child nodes as visible (except for nodes previosly marked as hidden, and all their children).
+     * }
+     * else
+     * {
+     *     Mark root node as not hidden.
+     * }
+     *
+     * Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     * the calls within a db transaction; thus within db->begin and db->commit.
+     *
+     * @param eZContentObjectTreeNode $node Root node of the subtree
+     * @param bool $modifyRootNode Whether to modify the root node (true/false)
+     */
     static function unhideSubTree( eZContentObjectTreeNode $node, $modifyRootNode = true )
     {
         $nodeID = $node->attribute( 'node_id' );
@@ -5945,11 +6064,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
         eZContentObjectTreeNode::clearViewCacheForSubtree( $node, $modifyRootNode );
     }
 
-    /*!
-     \a static
-     Depending on the new parent node visibility, recompute "is_invisible" attribute for the given node and its children.
-     (used after content/move or content/copy)
-    */
+    /**
+     * Depending on the new parent node visibility, recompute "is_invisible" attribute for the given node and
+     * its children. (used after content/move or content/copy)
+     *
+     * @param eZContentObjectTreeNode $node
+     * @param eZContentObjectTreeNode $parentNode
+     * @param bool $recursive
+     */
     static function updateNodeVisibility( $node, $parentNode, $recursive = true )
     {
         if ( !$node )
@@ -5985,10 +6107,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
     }
 
-    /*!
-     \a static
-     \return true on success, false otherwise
-    */
+    /**
+     * Clears the view cache for a subtree
+     *
+     * @param eZContentObjectTreeNode $node
+     * @param bool $clearForRootNode
+     * @return bool
+     */
     static function clearViewCacheForSubtree( eZContentObjectTreeNode $node, $clearForRootNode = true )
     {
         // Max nodes to fetch at a time
@@ -6027,17 +6152,33 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return true;
     }
 
+    /**
+     * Given an $objectID, sets the node's object to the version specified by $newVersion
+     *
+     * @param int $objectID
+     * @param int $newVersion
+     */
     static function setVersionByObjectID( $objectID, $newVersion )
     {
         $db = eZDB::instance();
         $db->query( "UPDATE ezcontentobject_tree SET contentobject_version='$newVersion' WHERE contentobject_id='$objectID'" );
     }
 
+    /**
+     * Returns the node's current language
+     *
+     * @return string
+     */
     function currentLanguage()
     {
         return $this->CurrentLanguage;
     }
 
+    /**
+     * Sets the current node's language to $languageCode
+     *
+     * @param string $languageCode
+     */
     function setCurrentLanguage( $languageCode )
     {
         $this->CurrentLanguage = $languageCode;
@@ -6048,9 +6189,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $this->Name = null;
     }
 
-    /*!
-     \static
-    */
+    /**
+     * @return array
+     */
     static function parentDepthLimitationList()
     {
         $maxLevel = 0;
@@ -6067,19 +6208,24 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $depthArray;
     }
 
-    /*
-      Returns available classes as Js array.
-      Checks if the node is container, if yes emptyStr will be returned.
-    */
+    /**
+     * Returns available classes as Js array.
+     * Checks if the node is container, if yes emptyStr will be returned.
+     *
+     * @return string
+     */
     function availableClassesJsArray()
     {
         return eZContentObjectTreeNode::availableClassListJsArray( array( 'node' => $this ) );
     }
 
-    /*
-      Returns available classes as Js array.
-      Checks for ini settings.
-    */
+    /**
+     * Returns available classes as Js array.
+     * Checks for ini settings.
+     *
+     * @param array|bool $parameters
+     * @return string
+     */
     static function availableClassListJsArray( $parameters = false )
     {
         $iniMenu = eZINI::instance( 'contentstructuremenu.ini' );
@@ -6166,10 +6312,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return eZContentObjectTreeNode::getClassesJsArray( $node, $filterType == 'include', $groupIDs );
     }
 
-    /*
-      Returns available classes as Js array.
-      \note building js array.
-    */
+    /**
+     * Returns available classes as a JSON string
+     *
+     * @param eZContentObjectTreeNode|bool $node
+     * @param array|bool $includeFilter
+     * @param array|bool $groupList
+     * @param int|bool $fetchID
+     * @param array|bool $classes
+     * @return string
+     */
     static function getClassesJsArray( $node = false, $includeFilter = true, $groupList = false, $fetchID = false, $classes = false )
     {
         $falseValue = "''";
@@ -6210,16 +6362,29 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $falseValue;
     }
 
-
-    /// The current language for the node
+    /**
+     * @var string|bool The current language for the node
+     */
     public $CurrentLanguage = false;
 
-    /// Name of the node
+    /**
+     * @var string The name of the curent node
+     */
     public $Name;
 
-    /// Contains the cached value of the class identifier
+    /**
+     * @var string|null The class identifier of the current node
+     */
     public $ClassIdentifier = null;
+
+    /**
+     * @var string|null The class name of the current node
+     */
     public $ClassName = null;
+
+    /**
+     * @var int|null Whether the node's class is a container (1) or not (0)
+     */
     protected $ClassIsContainer = null;
 }
 
