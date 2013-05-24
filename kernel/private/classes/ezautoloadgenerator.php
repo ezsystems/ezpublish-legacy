@@ -234,9 +234,9 @@ class eZAutoloadGenerator
             }
             else if ( !file_exists( $targetBasedir ) )
             {
-                if ( defined( 'EZP_INI_FILE_PERMISSION' ) )
+                if ( defined( 'EZP_INI_DIRECTORY_PERMISSION' ) )
                 {
-                    mkdir( $targetBasedir, EZP_INI_FILE_PERMISSION, true );
+                    mkdir( $targetBasedir, EZP_INI_DIRECTORY_PERMISSION, true );
                 }
                 else
                 {

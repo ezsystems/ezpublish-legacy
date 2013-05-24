@@ -103,6 +103,14 @@
 //define( 'EZP_INI_FILE_PERMISSION', 0666 );
 
 
+/*
+    Set EZP_INI_DIRECTORY_PERMISSION constant to the permissions you want saved
+    ini and cache directories to have. This setting also applies to generated autoload directory.
+    Do keep an octal number as value here ( meaning it starts by a 0 ).
+*/
+//define( 'EZP_INI_DIRECTORY_PERMISSION', 0777 );
+
+
 
 /*
    CUSTOM AUTOLOAD MECHANISM

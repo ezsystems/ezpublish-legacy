@@ -85,6 +85,14 @@ class eZINI
     static protected $filePermission = null;
 
     /**
+     * set EZP_INI_DIRECTORY_PERMISSION constant to the permissions you want saved
+     * ini and cache directories to have.
+     *
+     * @var null|int
+     */
+    static protected $directoryPermission = null;
+
+    /**
      * Array of eZINI instances
      *
      * @var array(eZINI)
@@ -187,6 +195,14 @@ class eZINI
                 self::$filePermission = EZP_INI_FILE_PERMISSION;
             else
                 self::$filePermission = 0666;
+        }
+
+        if ( self::$directoryPermission === null )
+        {
+            if ( defined( 'EZP_INI_DIRECTORY_PERMISSION' ) )
+                self::$directoryPermission = EZP_INI_DIRECTORY_PERMISSION;
+            else
+                self::$directoryPermission = 0777;
         }
 
         if ( $load )
@@ -624,7 +640,7 @@ class eZINI
     {
         if ( !file_exists( $cachedDir ) )
         {
-            if ( !eZDir::mkdir( $cachedDir, 0777, true ) )
+            if ( !eZDir::mkdir( $cachedDir, self::$directoryPermission, true ) )
             {
                 eZDebug::writeError( "Couldn't create cache directory $cachedDir, perhaps wrong permissions", __METHOD__ );
                 return false;
