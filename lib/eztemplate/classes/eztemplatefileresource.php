@@ -214,7 +214,7 @@ class eZTemplateFileResource
         $keyData =& $resourceData['key-data'];
         $localeData =& $resourceData['locales'];
 
-        if ( (self::$checkFileExists || !preg_match('#\.tpl$#', $path)) && !file_exists( $path ) )
+        if ( self::$checkFileExists && !file_exists( $path ) )
             return false;
 
         if ( self::$checkFileMtime === true )
