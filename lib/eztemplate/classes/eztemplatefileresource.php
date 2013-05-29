@@ -63,6 +63,46 @@ class eZTemplateFileResource
         return $this->ServesStaticData;
     }
 
+    /**
+     * @return bool|null
+     */
+    protected static function checkFileExists()
+    {
+        if ( self::$checkFileExists === null )
+        {
+            $ini = \eZINI::instance();
+            if ( $ini->variable( 'TemplateSettings', 'TemplateCheckExists' ) === 'disabled' )
+                self::$checkFileExists = false;
+            else
+                self::$checkFileExists = true;
+
+            if ( $ini->variable( 'TemplateSettings', 'DevelopmentMode' ) === 'enabled' )
+                self::$checkFileExists = true;
+        }
+
+        return self::$checkFileExists;
+    }
+
+    /**
+     * @return bool|null
+     */
+    protected static function checkFileMtime()
+    {
+        if ( self::$checkFileMtime === null )
+        {
+            $ini = \eZINI::instance();
+            if ( $ini->variable( 'TemplateSettings', 'TemplateCheckMTime' ) === 'disabled' )
+                self::$checkFileMtime = false;
+            else
+                self::$checkFileMtime = true;
+
+            if ( $ini->variable( 'TemplateSettings', 'DevelopmentMode' ) === 'enabled' )
+                self::$checkFileExists = true;
+        }
+
+        return self::$checkFileMtime;
+    }
+
     function templateNodeTransformation( $functionName, &$node,
                                          $tpl, &$resourceData, $parameters, $namespaceValue )
     {
@@ -186,24 +226,6 @@ class eZTemplateFileResource
     */
     static function handleResourceData( $tpl, $handler, &$resourceData, $method, &$extraParameters )
     {
-        if ( self::$checkFileExists === null )
-        {
-            $ini = \eZINI::instance();
-            if ( $ini->variable( 'TemplateSettings', 'TemplateCheckExists' ) === 'disabled' )
-                self::$checkFileExists = false;
-            else
-                self::$checkFileExists = true;
-        }
-
-        if ( self::$checkFileMtime === null )
-        {
-            $ini = \eZINI::instance();
-            if ( $ini->variable( 'TemplateSettings', 'TemplateCheckMTime' ) === 'disabled' )
-                self::$checkFileMtime = false;
-            else
-                self::$checkFileMtime = true;
-        }
-
         // &$templateRoot, &$text, &$tstamp, $uri, $resourceName, &$path, &$keyData
         $templateRoot =& $resourceData['root-node'];
         $text =& $resourceData['text'];
@@ -214,10 +236,10 @@ class eZTemplateFileResource
         $keyData =& $resourceData['key-data'];
         $localeData =& $resourceData['locales'];
 
-        if ( self::$checkFileExists && !file_exists( $path ) )
+        if ( self::checkFileExists() && !file_exists( $path ) )
             return false;
 
-        if ( self::$checkFileMtime === true )
+        if ( self::checkFileMtime() === true )
             $tstamp = filemtime( $path );
         else
             $tstamp = false;
