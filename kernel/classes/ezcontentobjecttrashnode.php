@@ -211,7 +211,7 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
      *
      * @param array|bool $params
      * @param bool $asCount If true, returns the number of items in the trash
-     * @return array|null
+     * @return array|int|null
      */
     static function trashList( $params = false, $asCount = false )
     {
