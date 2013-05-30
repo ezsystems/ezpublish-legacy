@@ -69,6 +69,7 @@ if ( $accountKey )
         if ( $user === null )
             return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 
+        eZUser::updateLastVisit( $userID , true );
         $user->loginCurrent();
     }
 }
