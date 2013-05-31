@@ -1655,7 +1655,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             if ( !$res )
                 return false;
             $row = mysqli_fetch_row( $res );
-            if ( isset( $row[0] ) and $row[0] == $generatingFileMtime );
+            if ( isset( $row[0] ) && $row[0] == $generatingFileMtime )
             {
                 return true;
             }
