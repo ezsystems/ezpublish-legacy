@@ -1727,6 +1727,7 @@ class eZDBInterface
      *
      * Usage:
      *
+     * $db =& eZDB::instance();
      * $db->generateSQLINStatement( array( 2, 5, 43, ) );
      *
      * @param int|array $elements
