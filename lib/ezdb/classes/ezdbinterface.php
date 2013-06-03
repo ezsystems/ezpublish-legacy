@@ -206,16 +206,18 @@ class eZDBInterface
     /**
      * The database error message of the last executed function
      *
-     * @var string
+     * @access protected
+     * @var string|null
      */
-    protected $ErrorMessage;
+    public $ErrorMessage = null;
 
     /**
      * The database error message number of the last executed function
      *
+     * @access protected
      * @var int
      */
-    protected $ErrorNumber = 0;
+    public $ErrorNumber = 0;
 
     /**
      * If true then ErrorMessage and ErrorNumber get filled
