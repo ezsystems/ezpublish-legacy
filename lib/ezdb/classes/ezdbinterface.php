@@ -328,54 +328,100 @@ class eZDBInterface
      */
     function eZDBInterface( $parameters )
     {
-        $server = $parameters['server'];
-        $port = $parameters['port'];
-        $user = $parameters['user'];
-        $password = $parameters['password'];
-        $db = $parameters['database'];
-        $useSlaveServer = $parameters['use_slave_server'];
-        $slaveServer = $parameters['slave_server'];
-        $slavePort = $parameters['slave_port'];
-        $slaveUser = $parameters['slave_user'];
-        $slavePassword = $parameters['slave_password'];
-        $slaveDB =  $parameters['slave_database'];
-        $socketPath = $parameters['socket'];
-        $charset = $parameters['charset'];
-        $isInternalCharset = $parameters['is_internal_charset'];
-        $builtinEncoding = $parameters['builtin_encoding'];
-        $connectRetries = $parameters['connect_retries'];
+        if ( isset( $parameters['server'] ) )
+        {
+            $this->Server = $parameters['server'];
+        }
 
-        if ( $parameters['use_persistent_connection'] == 'enabled' )
+        if ( isset( $parameters['port'] ) && is_numeric( $parameters['port'] ) )
+        {
+            $this->Port = (int) $parameters['port'];
+        }
+
+        if ( isset( $parameters['user'] ) )
+        {
+            $this->User = $parameters['user'];
+        }
+
+        if ( isset( $parameters['password'] ) )
+        {
+            $this->Password = $parameters['password'];
+        }
+
+        if ( isset( $parameters['database'] ) )
+        {
+            $this->DB = $parameters['database'];
+        }
+
+        if ( isset( $parameters['socket'] ) )
+        {
+            $this->SocketPath = $parameters['socket'];
+        }
+
+        if ( isset( $parameters['use_persistent_connection'] ) && $parameters['use_persistent_connection'] == 'enabled' )
         {
             $this->UsePersistentConnection = true;
         }
 
-        $this->DB = $db;
-        $this->Server = $server;
-        $this->Port = $port;
-        $this->SocketPath = $socketPath;
-        $this->User = $user;
-        $this->Password = $password;
-        $this->UseSlaveServer = $useSlaveServer;
-        $this->SlaveDB = $slaveDB;
-        $this->SlaveServer = $slaveServer;
-        $this->SlavePort = $slavePort;
-        $this->SlaveUser = $slaveUser;
-        $this->SlavePassword = $slavePassword;
-        $this->Charset = $charset;
-        $this->IsInternalCharset = $isInternalCharset;
-        $this->UseBuiltinEncoding = $builtinEncoding;
-        $this->ConnectRetries = $connectRetries;
+        if ( isset( $parameters['use_slave_server'] ) )
+        {
+            $this->UseSlaveServer = $parameters['use_slave_server'];
+        }
 
-        $tmpOutputTextCodec = eZTextCodec::instance( $charset, false, false );
-        $tmpInputTextCodec = eZTextCodec::instance( false, $charset, false );
+        if ( isset( $parameters['slave_server'] ) )
+        {
+            $this->SlaveServer = $parameters['slave_server'];
+        }
+
+        if ( isset( $parameters['slave_port'] ) && is_numeric( $parameters['slave_port'] ) )
+        {
+            $this->SlavePort = (int) $parameters['slave_port'];
+        }
+
+        if ( isset( $parameters['slave_user'] ) )
+        {
+            $this->SlaveUser = $parameters['slave_user'];
+        }
+
+        if ( isset( $parameters['slave_password'] ) )
+        {
+            $this->SlavePassword = $parameters['slave_password'];
+        }
+
+        if ( isset( $parameters['slave_database'] ) )
+        {
+            $this->SlaveDB = $parameters['slave_database'];
+        }
+
+        if ( isset( $parameters['charset'] ) )
+        {
+            $this->Charset = $parameters['charset'];
+        }
+
+        if ( isset( $parameters['is_internal_charset'] ) )
+        {
+            $this->IsInternalCharset  = $parameters['is_internal_charset'];
+        }
+
+        if ( isset( $parameters['builtin_encoding'] ) )
+        {
+            $this->UseBuiltinEncoding  = $parameters['builtin_encoding'];
+        }
+
+        if ( isset( $parameters['connect_retries'] ) )
+        {
+            $this->ConnectRetries  = $parameters['connect_retries'];
+        }
+
+        $tmpOutputTextCodec = eZTextCodec::instance( $this->Charset, false, false );
+        $tmpInputTextCodec = eZTextCodec::instance( false, $this->Charset, false );
 
         if ( $tmpOutputTextCodec && $tmpInputTextCodec )
         {
             if ( $tmpOutputTextCodec->conversionRequired() && $tmpInputTextCodec->conversionRequired() )
             {
-                $this->OutputTextCodec =& $tmpOutputTextCodec;
-                $this->InputTextCodec =& $tmpInputTextCodec;
+                $this->OutputTextCodec = $tmpOutputTextCodec;
+                $this->InputTextCodec = $tmpInputTextCodec;
             }
         }
 
