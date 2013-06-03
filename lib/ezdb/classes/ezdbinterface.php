@@ -45,7 +45,22 @@ class eZDBInterface
     /**
      * @var array The attributes that this database implementation provides
      */
-    protected $AttributeVariableMap;
+    protected $AttributeVariableMap = array(
+        'database_name' => 'DB',
+        'database_server' => 'Server',
+        'database_port' => 'Port',
+        'database_socket_path' => 'SocketPath',
+        'database_user' => 'User',
+        'use_slave_server' => 'UseSlaveServer',
+        'slave_database_name' => 'SlaveDB',
+        'slave_database_server' => 'SlaveServer',
+        'slave_database_port' => 'SlavePort',
+        'slave_database_user' => 'SlaveUser',
+        'charset' => 'Charset',
+        'is_internal_charset' => 'IsInternalCharset',
+        'use_builting_encoding' => 'UseBuiltinEncoding',
+        'retry_count' => 'ConnectRetries'
+    );
 
     /**
      * Creates a new eZDBInterface object and connects to the database backend.
@@ -144,23 +159,6 @@ class eZDBInterface
         $this->StartTime = false;
         $this->EndTime = false;
         $this->TimeTaken = false;
-
-        $this->AttributeVariableMap =
-        array(
-            'database_name' => 'DB',
-            'database_server' => 'Server',
-            'database_port' => 'Port',
-            'database_socket_path' => 'SocketPath',
-            'database_user' => 'User',
-            'use_slave_server' => 'UseSlaveServer',
-            'slave_database_name' => 'SlaveDB',
-            'slave_database_server' => 'SlaveServer',
-            'slave_database_port' => 'SlavePort',
-            'slave_database_user' => 'SlaveUser',
-            'charset' => 'Charset',
-            'is_internal_charset' => 'IsInternalCharset',
-            'use_builting_encoding' => 'UseBuiltinEncoding',
-            'retry_count' => 'ConnectRetries' );
     }
 
     /**
