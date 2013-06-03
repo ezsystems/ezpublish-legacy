@@ -813,8 +813,17 @@ CODEPIECE;
                         } break;
                         case eZURLOperator::HTTP_OPERATOR_TYPE_SESSION:
                         {
-                            if ( $http->hasSessionVariable( $httpName ) )
+                            $hasSessionVariable = $http->hasSessionVariable( $httpName, false );
+                            // if null, session has not started, useful if using lazy loading
+                            if ( $hasSessionVariable === null )
+                            {
+                                $operatorValue = null;
+                                return;
+                            }
+                            else if ( $hasSessionVariable !== false )
+                            {
                                 $operatorValue = !$checkExistence ? $http->sessionVariable( $httpName ) : true;
+                            }
                             else
                             {
                                 if ( $checkExistence )

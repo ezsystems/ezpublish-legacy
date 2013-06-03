@@ -55,7 +55,11 @@ class eZURLOperatorTest extends ezpTestCase
             case 'get'    : $_GET[$argument]     = $expectedResult; break;
             case 'post'   : $_POST[$argument]    = $expectedResult; break;
             case 'cookie' : $_COOKIE[$argument]  = $expectedResult; break;
-            case 'session': $_SESSION[$argument] = $expectedResult; break;
+            case 'session':
+                $_SESSION[$argument] = $expectedResult;
+                // session is lazy loaded, expected result is null (session has not started) to be returned
+                $expectedResult = null;
+                break;
         }
 
         $operatorParameters = array(
