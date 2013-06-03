@@ -96,14 +96,14 @@ class eZDBInterface
      *
      * @var resource|bool
      */
-    protected $DBConnection;
+    protected $DBConnection = false;
 
     /**
      * Contains the write database connection if used
      *
      * @var resource|bool
      */
-    protected $DBWriteConnection;
+    protected $DBWriteConnection = false;
 
     /**
      * Stores the database connection user
@@ -138,14 +138,14 @@ class eZDBInterface
      *
      * @var eZTextCodec|null|bool
      */
-    protected $OutputTextCodec;
+    protected $OutputTextCodec = null;
 
     /**
      * Instance of a textcodec which handles text conversion, may not be set if no builtin encoding is used
      *
      * @var eZTextCodec|null|bool
      */
-    protected $InputTextCodec;
+    protected $InputTextCodec = null;
 
     /**
      * True if a builtin encoder is to be used, this means that all input/output text is converted
@@ -159,7 +159,7 @@ class eZDBInterface
      *
      * @var bool
      */
-    protected $OutputSQL;
+    protected $OutputSQL = false;
 
     /**
      * Contains true if we're connected to the database backend
@@ -180,21 +180,28 @@ class eZDBInterface
      *
      * @var bool|float
      */
-    protected $StartTime;
+    protected $StartTime = false;
 
     /**
      * The end time of the timer
      *
      * @var bool|float
      */
-    protected $EndTime;
+    protected $EndTime = false;
+
+    /**
+     * If $OutputSQL is true, displays slow SQL queries that take longer than this value in milliseconds
+     *
+     * @var int
+     */
+    protected $SlowSQLTimeout = 0;
 
     /**
      * The total number of milliseconds the timer took
      *
      * @var bool|float
      */
-    protected $TimeTaken;
+    protected $TimeTaken = false;
 
     /**
      * The database error message of the last executed function
@@ -271,21 +278,23 @@ class eZDBInterface
      *
      * @var int
      */
-    protected $TransactionCounter;
+    protected $TransactionCounter = 0;
 
     /**
      * Flag which tells if a transaction is considered valid or not. A transaction will be made invalid if SQL errors occur
      *
      * @var bool
      */
-    protected $TransactionIsValid;
+    protected $TransactionIsValid = false;
 
     /**
-     * Holds the transactions
+     * Holds the transactions.
      *
-     * @var array|bool
+     * Setting this to array() enables the transaction logging
+     *
+     * @var array
      */
-    protected $TransactionStackTree;
+    protected $TransactionStackTree = false;
 
     /**
      * Error handling mechanism, One of the eZDB::ERROR_HANDLING_* constants
@@ -293,6 +302,14 @@ class eZDBInterface
      * @var int
      */
     protected $errorHandling = eZDB::ERROR_HANDLING_STANDARD;
+
+    /**
+     * This controls if the queries should have an analysis done for the debug output (Requires $OutputSQL = true)
+     *
+     * @see $OutputSQL
+     * @var bool
+     */
+    protected $QueryAnalysisOutput = false;
 
     /**
      * Creates a new eZDBInterface object and connects to the database backend.
@@ -339,21 +356,9 @@ class eZDBInterface
         $this->IsInternalCharset = $isInternalCharset;
         $this->UseBuiltinEncoding = $builtinEncoding;
         $this->ConnectRetries = $connectRetries;
-        $this->DBConnection = false;
-        $this->DBWriteConnection = false;
-        $this->TransactionCounter = 0;
-        $this->TransactionIsValid = false;
-        $this->TransactionStackTree = false;
-
-        $this->OutputTextCodec = null;
-        $this->InputTextCodec = null;
 
         $tmpOutputTextCodec = eZTextCodec::instance( $charset, false, false );
         $tmpInputTextCodec = eZTextCodec::instance( false, $charset, false );
-        unset( $this->OutputTextCodec );
-        unset( $this->InputTextCodec );
-        $this->OutputTextCodec = null;
-        $this->InputTextCodec = null;
 
         if ( $tmpOutputTextCodec && $tmpInputTextCodec )
         {
@@ -364,8 +369,6 @@ class eZDBInterface
             }
         }
 
-        $this->OutputSQL = false;
-        $this->SlowSQLTimeout = 0;
         $ini = eZINI::instance();
         if ( ( $ini->variable( "DatabaseSettings", "SQLOutput" ) == "enabled" ) and
              ( $ini->variable( "DebugSettings", "DebugOutput" ) == "enabled" ) )
@@ -380,17 +383,10 @@ class eZDBInterface
             $this->TransactionStackTree = array();
         }
 
-        $this->QueryAnalysisOutput = false;
         if ( $ini->variable( "DatabaseSettings", "QueryAnalysisOutput" ) == "enabled" )
         {
             $this->QueryAnalysisOutput = true;
         }
-
-        $this->IsConnected = false;
-        $this->NumQueries = 0;
-        $this->StartTime = false;
-        $this->EndTime = false;
-        $this->TimeTaken = false;
     }
 
     /**
