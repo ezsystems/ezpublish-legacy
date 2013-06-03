@@ -66,263 +66,231 @@ class eZDBInterface
     /**
      * Contains the current server
      *
-     * @access protected
      * @var string
      */
-    public $Server;
+    protected $Server;
 
     /**
      * Contains the current port
      *
-     * @access protected
      * @var int
      */
-    public $Port;
+    protected $Port;
 
     /**
      * The socket path, used by MySQL
      *
-     * @access protected
      * @var string
      */
-    public $SocketPath;
+    protected $SocketPath;
 
     /**
      * The current database name
      *
-     * @access protected
      * @var string
      */
-    public $DB;
+    protected $DB;
 
     /**
      * The current connection, false if not connection has been made
      *
-     * @access protected
      * @var resource|bool
      */
-    public $DBConnection;
+    protected $DBConnection;
 
     /**
      * Contains the write database connection if used
      *
-     * @access protected
      * @var resource|bool
      */
-    public $DBWriteConnection;
+    protected $DBWriteConnection;
 
     /**
      * Stores the database connection user
      *
-     * @access protected
      * @var string
      */
-    public $User;
+    protected $User;
 
     /**
      * Stores the database connection password
      *
-     * @access protected
      * @var string
      */
-    public $Password;
+    protected $Password;
 
     /**
      * The charset used for the current database
      *
-     * @access protected
      * @var string
      */
-    public $Charset;
+    protected $Charset;
 
     /**
      * The number of times to retry a connection if it fails
      *
-     * @access protected
      * @var int
      */
-    public $ConnectRetries;
+    protected $ConnectRetries;
 
     /**
      * Instance of a textcodec which handles text conversion, may not be set if no builtin encoding is used
      *
-     * @access protected
      * @var eZTextCodec|null|bool
      */
-    public $OutputTextCodec;
+    protected $OutputTextCodec;
 
     /**
      * Instance of a textcodec which handles text conversion, may not be set if no builtin encoding is used
      *
-     * @access protected
      * @var eZTextCodec|null|bool
      */
-    public $InputTextCodec;
+    protected $InputTextCodec;
 
     /**
      * True if a builtin encoder is to be used, this means that all input/output text is converted
      *
-     * @access protected
      * @var bool
      */
-    public $UseBuiltinEncoding;
+    protected $UseBuiltinEncoding;
 
     /**
      * Setting if SQL queries should be sent to debug output
      *
-     * @access protected
      * @var bool
      */
-    public $OutputSQL;
+    protected $OutputSQL;
 
     /**
      * Contains true if we're connected to the database backend
      *
-     * @access protected
      * @var bool
      */
-    public $IsConnected = false;
+    protected $IsConnected = false;
 
     /**
      * Contains number of queries sended to DB
      *
-     * @access protected
      * @var int
      */
-    public $NumQueries = 0;
+    protected $NumQueries = 0;
 
     /**
      * The start time of the timer
      *
-     * @access protected
      * @var bool|float
      */
-    public $StartTime;
+    protected $StartTime;
 
     /**
      * The end time of the timer
      *
-     * @access protected
      * @var bool|float
      */
-    public $EndTime;
+    protected $EndTime;
 
     /**
      * The total number of milliseconds the timer took
      *
-     * @access protected
      * @var bool|float
      */
-    public $TimeTaken;
+    protected $TimeTaken;
 
     /**
      * The database error message of the last executed function
      *
-     * @access protected
      * @var string
      */
-    public $ErrorMessage;
+    protected $ErrorMessage;
 
     /**
      * The database error message number of the last executed function
      *
-     * @access protected
      * @var int
      */
-    public $ErrorNumber = 0;
+    protected $ErrorNumber = 0;
 
     /**
      * If true then ErrorMessage and ErrorNumber get filled
      *
-     * @access protected
      * @var bool
      */
-    public $RecordError = true;
+    protected $RecordError = true;
 
     /**
      * If true then the database connection should be persistent
      *
-     * @access protected
      * @var bool
      */
-    public $UsePersistentConnection = false;
+    protected $UsePersistentConnection = false;
 
     /**
      * True if slave servers are enabled
      *
-     * @access protected
      * @var bool
      */
-    public $UseSlaveServer;
+    protected $UseSlaveServer;
 
     /**
      * The slave database name
      *
-     * @access protected
      * @var string
      */
-    public $SlaveDB;
+    protected $SlaveDB;
 
     /**
      * The slave server name
      *
-     * @access protected
      * @var string
      */
-    public $SlaveServer;
+    protected $SlaveServer;
 
     /**
      * The slave server port
      *
-     * @access protected
      * @var int
      */
-    public $SlavePort;
+    protected $SlavePort;
 
     /**
      * The slave database user
      *
-     * @access protected
      * @var string
      */
-    public $SlaveUser;
+    protected $SlaveUser;
 
     /**
      * The slave database user password
      *
-     * @access protected
      * @var string
      */
-    public $SlavePassword;
+    protected $SlavePassword;
 
     /**
      * The transaction counter, 0 means no transaction
      *
-     * @access protected
      * @var int
      */
-    public $TransactionCounter;
+    protected $TransactionCounter;
 
     /**
      * Flag which tells if a transaction is considered valid or not. A transaction will be made invalid if SQL errors occur
      *
-     * @access protected
      * @var bool
      */
-    public $TransactionIsValid;
+    protected $TransactionIsValid;
 
     /**
      * Holds the transactions
      *
-     * @access protected
      * @var array|bool
      */
-    public $TransactionStackTree;
+    protected $TransactionStackTree;
 
     /**
-     * Error handling mechanism
+     * Error handling mechanism, One of the eZDB::ERROR_HANDLING_* constants
      *
-     * @var int One of the eZDB::ERROR_HANDLING_* constants
+     * @var int
      */
     protected $errorHandling = eZDB::ERROR_HANDLING_STANDARD;
 
