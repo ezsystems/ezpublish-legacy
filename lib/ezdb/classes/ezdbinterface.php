@@ -1692,10 +1692,10 @@ class eZDBInterface
      * @param bool $not
      *        Will generate a "NOT IN" ( if set to true ) statement instead
      *        of an "IN" ( if set to false , default )
-     * @param $unique
+     * @param bool $unique
      *        Wether or not to make the array unique. Not implemented in this
      *        class, but can be used by extending classes (oracle does use it)
-     * @param $type The type to cast the array elements to
+     * @param string|bool $type The type to cast the array elements to
      *
      * @return string A string with the correct IN statement like for example
      *         "columnName IN ( element1, element2 )"
