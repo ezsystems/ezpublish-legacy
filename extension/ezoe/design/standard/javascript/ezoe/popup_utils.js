@@ -50,6 +50,8 @@ var eZOEPopupUtils = {
         editorSelectedText: false,
         // Same as above but with markup
         editorSelectedHtml: false,
+        // the selected node in the editor, set on init
+        editorSelectedNode: false,
         // generates class name for tr elements in browse / search / bookmark list
         browseClassGenerator: function(){ return ''; },
         // generates browse link for a specific mode
@@ -109,6 +111,7 @@ var eZOEPopupUtils = {
             if ( jQuery.trim( selectedHtml ) !== '' )
                 s.editorSelectedHtml = selectedHtml;
         }
+        s.editorSelectedNode = ed.selection.getNode();
         
         if ( s.onInit && s.onInit.call )
             s.onInit.call( eZOEPopupUtils, s.editorElement, s.tagName, ed );
@@ -308,7 +311,8 @@ var eZOEPopupUtils = {
      */
     insertTagCleanly: function( ed, tag, content, args )
     {
-        var edCurrentNode = ed.selection.getNode(), newElement = edCurrentNode.ownerDocument.createElement( tag );
+        var edCurrentNode = eZOEPopupUtils.settings.editorSelectedNode ? eZOEPopupUtils.settings.editorSelectedNode : ed.selection.getNode(),
+            newElement = edCurrentNode.ownerDocument.createElement( tag );
         if ( tag !== 'img' ) newElement.innerHTML = content;
 
         if ( edCurrentNode.nodeName === 'TD' )
