@@ -66,30 +66,30 @@ class eZDBInterface
     /**
      * Contains the current server
      *
-     * @var string
+     * @var string|null
      */
-    protected $Server;
+    protected $Server = null;
 
     /**
      * Contains the current port
      *
-     * @var int
+     * @var int|null
      */
-    protected $Port;
+    protected $Port = null;
 
     /**
      * The socket path, used by MySQL
      *
-     * @var string
+     * @var string|null
      */
-    protected $SocketPath;
+    protected $SocketPath = null;
 
     /**
      * The current database name
      *
-     * @var string
+     * @var string|null
      */
-    protected $DB;
+    protected $DB = null;
 
     /**
      * The current connection, false if not connection has been made
@@ -108,23 +108,31 @@ class eZDBInterface
     /**
      * Stores the database connection user
      *
-     * @var string
+     * @var string|null
      */
-    protected $User;
+    protected $User = null;
 
     /**
      * Stores the database connection password
      *
-     * @var string
+     * @var string|null
      */
-    protected $Password;
+    protected $Password = null;
 
     /**
      * The charset used for the current database
      *
-     * @var string
+     * @var string|null
      */
-    protected $Charset;
+    protected $Charset = null;
+
+    /**
+     * Will be set to false if $Charset is set
+     *
+     * @see $Charset
+     * @var bool
+     */
+    protected $IsInternalCharset = true;
 
     /**
      * The number of times to retry a connection if it fails
@@ -136,14 +144,14 @@ class eZDBInterface
     /**
      * Instance of a textcodec which handles text conversion, may not be set if no builtin encoding is used
      *
-     * @var eZTextCodec|null|bool
+     * @var eZTextCodec|null
      */
     protected $OutputTextCodec = null;
 
     /**
      * Instance of a textcodec which handles text conversion, may not be set if no builtin encoding is used
      *
-     * @var eZTextCodec|null|bool
+     * @var eZTextCodec|null
      */
     protected $InputTextCodec = null;
 
@@ -152,7 +160,7 @@ class eZDBInterface
      *
      * @var bool
      */
-    protected $UseBuiltinEncoding;
+    protected $UseBuiltinEncoding = true;
 
     /**
      * Setting if SQL queries should be sent to debug output
@@ -238,42 +246,42 @@ class eZDBInterface
      *
      * @var bool
      */
-    protected $UseSlaveServer;
+    protected $UseSlaveServer = false;
 
     /**
      * The slave database name
      *
-     * @var string
+     * @var string|null
      */
-    protected $SlaveDB;
+    protected $SlaveDB = null;
 
     /**
      * The slave server name
      *
-     * @var string
+     * @var string|null
      */
-    protected $SlaveServer;
+    protected $SlaveServer = null;
 
     /**
      * The slave server port
      *
-     * @var int
+     * @var int|null
      */
-    protected $SlavePort;
+    protected $SlavePort = null;
 
     /**
      * The slave database user
      *
-     * @var string
+     * @var string|null
      */
-    protected $SlaveUser;
+    protected $SlaveUser = null;
 
     /**
      * The slave database user password
      *
-     * @var string
+     * @var string|null
      */
-    protected $SlavePassword;
+    protected $SlavePassword = null;
 
     /**
      * The transaction counter, 0 means no transaction
