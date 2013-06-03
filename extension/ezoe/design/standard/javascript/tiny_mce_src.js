@@ -15370,7 +15370,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 
 			mceInsertRawHTML : function(command, ui, value) {
 				selection.setContent('tiny_mce_marker');
-				editor.setContent(editor.getContent().replace(/tiny_mce_marker/g, function() { return value }));
+				editor.setContent( editor.getContent().replace(/tiny_mce_marker/g, function() { return value }), {format: 'raw'} );
 			},
 
 			mceToggleFormat : function(command, ui, value) {
