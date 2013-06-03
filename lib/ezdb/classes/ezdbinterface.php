@@ -45,7 +45,7 @@ class eZDBInterface
     /**
      * @var array The attributes that this database implementation provides
      */
-    protected $AttributeVariableMap = array(
+    public $AttributeVariableMap = array(
         'database_name' => 'DB',
         'database_server' => 'Server',
         'database_port' => 'Port',
@@ -66,65 +66,74 @@ class eZDBInterface
     /**
      * Contains the current server
      *
+     * @access protected
      * @var string|null
      */
-    protected $Server = null;
+    public $Server = null;
 
     /**
      * Contains the current port
      *
+     * @access protected
      * @var int|null
      */
-    protected $Port = null;
+    public $Port = null;
 
     /**
      * The socket path, used by MySQL
      *
+     * @access protected
      * @var string|null
      */
-    protected $SocketPath = null;
+    public $SocketPath = null;
 
     /**
      * The current database name
      *
+     * @access protected
      * @var string|null
      */
-    protected $DB = null;
+    public $DB = null;
 
     /**
      * The current connection, false if not connection has been made
      *
+     * @access protected
      * @var resource|bool
      */
-    protected $DBConnection = false;
+    public $DBConnection = false;
 
     /**
      * Contains the write database connection if used
      *
+     * @access protected
      * @var resource|bool
      */
-    protected $DBWriteConnection = false;
+    public $DBWriteConnection = false;
 
     /**
      * Stores the database connection user
      *
+     * @access protected
      * @var string|null
      */
-    protected $User = null;
+    public $User = null;
 
     /**
      * Stores the database connection password
      *
+     * @access protected
      * @var string|null
      */
-    protected $Password = null;
+    public $Password = null;
 
     /**
      * The charset used for the current database
      *
+     * @access protected
      * @var string|null
      */
-    protected $Charset = null;
+    public $Charset = null;
 
     /**
      * Will be set to false if $Charset is set
@@ -132,70 +141,79 @@ class eZDBInterface
      * @see $Charset
      * @var bool
      */
-    protected $IsInternalCharset = true;
+    public $IsInternalCharset = true;
 
     /**
      * The number of times to retry a connection if it fails
      *
+     * @access protected
      * @var int
      */
-    protected $ConnectRetries;
+    public $ConnectRetries = 0;
 
     /**
      * Instance of a textcodec which handles text conversion, may not be set if no builtin encoding is used
      *
-     * @var eZTextCodec|null
+     * @access protected
+     * @var eZTextCodec|null|bool
      */
-    protected $OutputTextCodec = null;
+    public $OutputTextCodec = null;
 
     /**
      * Instance of a textcodec which handles text conversion, may not be set if no builtin encoding is used
      *
-     * @var eZTextCodec|null
+     * @access protected
+     * @var eZTextCodec|null|bool
      */
-    protected $InputTextCodec = null;
+    public $InputTextCodec = null;
 
     /**
      * True if a builtin encoder is to be used, this means that all input/output text is converted
      *
+     * @access protected
      * @var bool
      */
-    protected $UseBuiltinEncoding = true;
+    public $UseBuiltinEncoding = true;
 
     /**
      * Setting if SQL queries should be sent to debug output
      *
+     * @access protected
      * @var bool
      */
-    protected $OutputSQL = false;
+    public $OutputSQL = false;
 
     /**
      * Contains true if we're connected to the database backend
      *
+     * @access protected
      * @var bool
      */
-    protected $IsConnected = false;
+    public $IsConnected = false;
 
     /**
      * Contains number of queries sended to DB
      *
+     * @access protected
      * @var int
      */
-    protected $NumQueries = 0;
+    public $NumQueries = 0;
 
     /**
      * The start time of the timer
      *
+     * @access protected
      * @var bool|float
      */
-    protected $StartTime = false;
+    public $StartTime = false;
 
     /**
      * The end time of the timer
      *
+     * @access protected
      * @var bool|float
      */
-    protected $EndTime = false;
+    public $EndTime = false;
 
     /**
      * If $OutputSQL is true, displays slow SQL queries that take longer than this value in milliseconds
@@ -207,9 +225,10 @@ class eZDBInterface
     /**
      * The total number of milliseconds the timer took
      *
+     * @access protected
      * @var bool|float
      */
-    protected $TimeTaken = false;
+    public $TimeTaken = false;
 
     /**
      * The database error message of the last executed function
@@ -230,96 +249,97 @@ class eZDBInterface
     /**
      * If true then ErrorMessage and ErrorNumber get filled
      *
+     * @access protected
      * @var bool
      */
-    protected $RecordError = true;
+    public $RecordError = true;
 
     /**
      * If true then the database connection should be persistent
      *
+     * @access protected
      * @var bool
      */
-    protected $UsePersistentConnection = false;
+    public $UsePersistentConnection = false;
 
     /**
      * True if slave servers are enabled
      *
+     * @access protected
      * @var bool
      */
-    protected $UseSlaveServer = false;
+    public $UseSlaveServer = false;
 
     /**
      * The slave database name
      *
+     * @access protected
      * @var string|null
      */
-    protected $SlaveDB = null;
+    public $SlaveDB = null;
 
     /**
      * The slave server name
      *
+     * @access protected
      * @var string|null
      */
-    protected $SlaveServer = null;
+    public $SlaveServer = null;
 
     /**
      * The slave server port
      *
+     * @access protected
      * @var int|null
      */
-    protected $SlavePort = null;
+    public $SlavePort = null;
 
     /**
      * The slave database user
      *
+     * @access protected
      * @var string|null
      */
-    protected $SlaveUser = null;
+    public $SlaveUser = null;
 
     /**
      * The slave database user password
      *
+     * @access protected
      * @var string|null
      */
-    protected $SlavePassword = null;
+    public $SlavePassword = null;
 
     /**
      * The transaction counter, 0 means no transaction
      *
+     * @access protected
      * @var int
      */
-    protected $TransactionCounter = 0;
+    public $TransactionCounter = 0;
 
     /**
      * Flag which tells if a transaction is considered valid or not. A transaction will be made invalid if SQL errors occur
      *
+     * @access protected
      * @var bool
      */
-    protected $TransactionIsValid = false;
+    public $TransactionIsValid = false;
 
     /**
-     * Holds the transactions.
+     * Holds the transactions
      *
-     * Setting this to array() enables the transaction logging
-     *
-     * @var array
+     * @access protected
+     * @var array|bool
      */
-    protected $TransactionStackTree = false;
+    public $TransactionStackTree = false;
 
     /**
-     * Error handling mechanism, One of the eZDB::ERROR_HANDLING_* constants
+     * Error handling mechanism
      *
-     * @var int
+     * @var int One of the eZDB::ERROR_HANDLING_* constants
      */
     protected $errorHandling = eZDB::ERROR_HANDLING_STANDARD;
-
-    /**
-     * This controls if the queries should have an analysis done for the debug output (Requires $OutputSQL = true)
-     *
-     * @see $OutputSQL
-     * @var bool
-     */
-    protected $QueryAnalysisOutput = false;
 
     /**
      * Creates a new eZDBInterface object and connects to the database backend.
