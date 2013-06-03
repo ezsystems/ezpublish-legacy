@@ -220,7 +220,13 @@ class eZDBInterface
      *
      * @var int
      */
-    protected $SlowSQLTimeout = 0;
+    public $SlowSQLTimeout = 0;
+
+    /**
+     * This controls if the queries should have an analysis done for the debug output (Requires SQLOutput=enabled)
+     * @var bool
+     */
+    public $QueryAnalysisOutput = false;
 
     /**
      * The total number of milliseconds the timer took
