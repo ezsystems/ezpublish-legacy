@@ -2847,7 +2847,7 @@ class eZContentObject extends eZPersistentObject
         if ( $attributeID && ( $relationTypeMask === false || $relationTypeMask === eZContentObject::RELATION_ATTRIBUTE ) )
         {
             $attributeID =(int) $attributeID;
-            $relationTypeMasking .= " AND contentclassattribute_id=$attributeID ";
+            $relationTypeMasking .= " contentclassattribute_id=$attributeID AND ";
             $relationTypeMask = eZContentObject::RELATION_ATTRIBUTE;
         }
         elseif ( is_bool( $relationTypeMask ) )

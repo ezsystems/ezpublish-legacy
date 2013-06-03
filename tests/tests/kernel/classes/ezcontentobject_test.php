@@ -207,6 +207,45 @@ class eZContentObjectTest extends ezpDatabaseTestCase
     }
 
     /**
+     * Unit test for eZContentObject::relatedObjects()
+     *
+     * Outline:
+     * 1) Create a content class with ezobjectrelation attribute
+     * 2) Create object of that class and relate to another object through the attribute
+     * 3) Check that object loaded by eZContentObject::relatedObjects() is the correct one
+     */
+    public function testRelatedObjectsWithAttributeId()
+    {
+        // Create a test content class
+        $class = new ezpClass( __FUNCTION__, __FUNCTION__, 'name' );
+        $class->add( 'Name', 'name', 'ezstring' );
+        $attributeId = $class->add( 'Single relation #1', 'relation', 'ezobjectrelation' )->attribute( 'id' );
+        $class->store();
+
+        // Create an article we will relate our object to
+        $article = new ezpObject( 'article', 2 );
+        $article->title = "Related object #1 for " . __FUNCTION__;
+        $article->publish();
+
+        // Create a test object with attribute relation to created article
+        $object = new ezpObject( __FUNCTION__, 2 );
+        $object->name = __FUNCTION__;
+        $object->relation = $article->attribute( 'id' );
+        $object->publish();
+
+        $contentObject = eZContentObject::fetch( $object->attribute( 'id' ) );
+        $relatedObjects = $contentObject->relatedObjects( false, false, $attributeId );
+
+        $this->assertCount( 1, $relatedObjects );
+        $this->assertInstanceOf( "eZContentObject", $relatedObjects[0] );
+        $this->assertEquals(
+            $article->attribute( 'id' ),
+            $relatedObjects[0]->attribute( "id" ),
+            "Related object is not the expected object"
+        );
+    }
+
+    /**
      * Unit test for {@link eZContentObject::fetchByNodeID()}
      */
     public function testFetchByNodeIDAsObject()
