@@ -43,6 +43,11 @@ class eZDBInterface
     const SERVER_SLAVE = 2;
 
     /**
+     * @var array The attributes that this database implementation provides
+     */
+    protected $AttributeVariableMap;
+
+    /**
      * Creates a new eZDBInterface object and connects to the database backend.
      *
      * @param array $parameters
