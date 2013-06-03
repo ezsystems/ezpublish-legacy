@@ -62,6 +62,270 @@ class eZDBInterface
         'retry_count' => 'ConnectRetries'
     );
 
+
+    /**
+     * Contains the current server
+     *
+     * @access protected
+     * @var string
+     */
+    public $Server;
+
+    /**
+     * Contains the current port
+     *
+     * @access protected
+     * @var int
+     */
+    public $Port;
+
+    /**
+     * The socket path, used by MySQL
+     *
+     * @access protected
+     * @var string
+     */
+    public $SocketPath;
+
+    /**
+     * The current database name
+     *
+     * @access protected
+     * @var string
+     */
+    public $DB;
+
+    /**
+     * The current connection, false if not connection has been made
+     *
+     * @access protected
+     * @var resource|bool
+     */
+    public $DBConnection;
+
+    /**
+     * Contains the write database connection if used
+     *
+     * @access protected
+     * @var resource|bool
+     */
+    public $DBWriteConnection;
+
+    /**
+     * Stores the database connection user
+     *
+     * @access protected
+     * @var string
+     */
+    public $User;
+
+    /**
+     * Stores the database connection password
+     *
+     * @access protected
+     * @var string
+     */
+    public $Password;
+
+    /**
+     * The charset used for the current database
+     *
+     * @access protected
+     * @var string
+     */
+    public $Charset;
+
+    /**
+     * The number of times to retry a connection if it fails
+     *
+     * @access protected
+     * @var int
+     */
+    public $ConnectRetries;
+
+    /**
+     * Instance of a textcodec which handles text conversion, may not be set if no builtin encoding is used
+     *
+     * @access protected
+     * @var eZTextCodec|null|bool
+     */
+    public $OutputTextCodec;
+
+    /**
+     * Instance of a textcodec which handles text conversion, may not be set if no builtin encoding is used
+     *
+     * @access protected
+     * @var eZTextCodec|null|bool
+     */
+    public $InputTextCodec;
+
+    /**
+     * True if a builtin encoder is to be used, this means that all input/output text is converted
+     *
+     * @access protected
+     * @var bool
+     */
+    public $UseBuiltinEncoding;
+
+    /**
+     * Setting if SQL queries should be sent to debug output
+     *
+     * @access protected
+     * @var bool
+     */
+    public $OutputSQL;
+
+    /**
+     * Contains true if we're connected to the database backend
+     *
+     * @access protected
+     * @var bool
+     */
+    public $IsConnected = false;
+
+    /**
+     * Contains number of queries sended to DB
+     *
+     * @access protected
+     * @var int
+     */
+    public $NumQueries = 0;
+
+    /**
+     * The start time of the timer
+     *
+     * @access protected
+     * @var bool|float
+     */
+    public $StartTime;
+
+    /**
+     * The end time of the timer
+     *
+     * @access protected
+     * @var bool|float
+     */
+    public $EndTime;
+
+    /**
+     * The total number of milliseconds the timer took
+     *
+     * @access protected
+     * @var bool|float
+     */
+    public $TimeTaken;
+
+    /**
+     * The database error message of the last executed function
+     *
+     * @access protected
+     * @var string
+     */
+    public $ErrorMessage;
+
+    /**
+     * The database error message number of the last executed function
+     *
+     * @access protected
+     * @var int
+     */
+    public $ErrorNumber = 0;
+
+    /**
+     * If true then ErrorMessage and ErrorNumber get filled
+     *
+     * @access protected
+     * @var bool
+     */
+    public $RecordError = true;
+
+    /**
+     * If true then the database connection should be persistent
+     *
+     * @access protected
+     * @var bool
+     */
+    public $UsePersistentConnection = false;
+
+    /**
+     * True if slave servers are enabled
+     *
+     * @access protected
+     * @var bool
+     */
+    public $UseSlaveServer;
+
+    /**
+     * The slave database name
+     *
+     * @access protected
+     * @var string
+     */
+    public $SlaveDB;
+
+    /**
+     * The slave server name
+     *
+     * @access protected
+     * @var string
+     */
+    public $SlaveServer;
+
+    /**
+     * The slave server port
+     *
+     * @access protected
+     * @var int
+     */
+    public $SlavePort;
+
+    /**
+     * The slave database user
+     *
+     * @access protected
+     * @var string
+     */
+    public $SlaveUser;
+
+    /**
+     * The slave database user password
+     *
+     * @access protected
+     * @var string
+     */
+    public $SlavePassword;
+
+    /**
+     * The transaction counter, 0 means no transaction
+     *
+     * @access protected
+     * @var int
+     */
+    public $TransactionCounter;
+
+    /**
+     * Flag which tells if a transaction is considered valid or not. A transaction will be made invalid if SQL errors occur
+     *
+     * @access protected
+     * @var bool
+     */
+    public $TransactionIsValid;
+
+    /**
+     * Holds the transactions
+     *
+     * @access protected
+     * @var array|bool
+     */
+    public $TransactionStackTree;
+
+    /**
+     * Error handling mechanism
+     *
+     * @var int One of the eZDB::ERROR_HANDLING_* constants
+     */
+    protected $errorHandling = eZDB::ERROR_HANDLING_STANDARD;
+
     /**
      * Creates a new eZDBInterface object and connects to the database backend.
      *
