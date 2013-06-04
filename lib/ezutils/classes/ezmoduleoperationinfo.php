@@ -747,7 +747,10 @@ class eZModuleOperationInfo
     function executeClassMethod( $includeFile, $className, $methodName,
                                  $operationParameterDefinitions, $operationParameters )
     {
-        include_once( $includeFile );
+        if ( !class_exists( $className ) )
+        {
+            include_once( $includeFile );
+        }
         if ( !class_exists( $className ) )
         {
             return array( 'internal_error' => eZModuleOperationInfo::ERROR_NO_CLASS,
