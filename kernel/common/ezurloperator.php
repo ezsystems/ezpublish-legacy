@@ -383,7 +383,15 @@ CODEPIECE;
                 {
                     $sysAttribute = eZTemplateNodeTool::elementConstantValue( $parameters[1] );
 
-                    return array( eZTemplateNodeTool::createStringElement( $this->Sys->attribute( $sysAttribute ) ) );
+                    switch ( $sysAttribute )
+                    {
+                        // Query string must be evaluated at runtime. See https://jira.ez.no/browse/EZP-20874
+                        case 'querystring':
+                        case 'hostname':
+                            return false;
+                        default:
+                            return array( eZTemplateNodeTool::createStringElement( $this->Sys->attribute( $sysAttribute ) ) );
+                    }
                 }
                 return false;
             } break;
