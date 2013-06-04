@@ -70,6 +70,11 @@ if ( $version != $currentVersion || $isContentDraft )
         return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
+ezpEvent::getInstance()->notify(
+    'content/download',
+    array( 'contentObjectID' => $contentObjectID,
+           'contentObjectAttributeID' => $contentObjectAttributeID ) );
+
 $fileHandler = eZBinaryFileHandler::instance();
 $result = $fileHandler->handleDownload( $contentObject, $contentObjectAttribute, eZBinaryFileHandler::TYPE_FILE );
 
