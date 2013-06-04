@@ -73,8 +73,7 @@ if ( $version != $currentVersion || $isContentDraft )
 ezpEvent::getInstance()->notify(
     'content/download',
     array( 'contentObjectID' => $contentObjectID,
-           'contentObjectAttributeID' => $contentObjectAttributeID,
-           'userID' => eZUser::currentUser()->attribute( 'contentobject_id' ) ) );
+           'contentObjectAttributeID' => $contentObjectAttributeID ) );
 
 $fileHandler = eZBinaryFileHandler::instance();
 $result = $fileHandler->handleDownload( $contentObject, $contentObjectAttribute, eZBinaryFileHandler::TYPE_FILE );
