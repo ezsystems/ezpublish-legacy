@@ -28,8 +28,12 @@
         {/if}
         {foreach $related_objects_array as $object }
             <tr class="{$tr_class}">
-            <td>{$object.content_class.identifier|class_icon( small, $object.content_class.name|wash )}&nbsp;{content_view_gui view=text_linked content_object=$object}</td>
-            <td>{$object.content_class.name|wash}</td>
+            {if $object.can_read}
+                <td>{$object.content_class.identifier|class_icon( small, $object.content_class.name|wash )}&nbsp;{content_view_gui view=text_linked content_object=$object}</td>
+                <td>{$object.content_class.name|wash}</td>
+            {else}
+                <td colspan="2"><em>{'You are not allowed to view the related object'|i18n( 'design/admin/node/view/full' )}</em></td>
+            {/if}
             <td>
                 {if and( ne( $attribute_id, 0 ), $related_objects_id_typed['attribute']|contains( $object.id ) )}
                     {$relation_type_names['attribute']} ( {$attr.name} )
@@ -83,8 +87,12 @@
         {/if}
         {foreach $related_objects_array as $object }
             <tr class="{$tr_class}">
-            <td>{$object.content_class.identifier|class_icon( small, $object.content_class.name|wash )}&nbsp;{content_view_gui view=text_linked content_object=$object}</td>
-            <td>{$object.content_class.name|wash}</td>
+            {if $object.can_read}
+                <td>{$object.content_class.identifier|class_icon( small, $object.content_class.name|wash )}&nbsp;{content_view_gui view=text_linked content_object=$object}</td>
+                <td>{$object.content_class.name|wash}</td>
+            {else}
+                <td colspan="2"><em>{'You are not allowed to view the related object'|i18n( 'design/admin/node/view/full' )}</em></td>
+            {/if}
             <td>
                 {if and( ne( $attribute_id, 0 ), $reverse_related_objects_id_typed['attribute']|contains( $object.id ) )}
                     {$relation_type_names['attribute']} ( {$attr.name} )

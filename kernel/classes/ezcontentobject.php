@@ -184,6 +184,8 @@ class eZContentObject extends eZPersistentObject
                                                       "grouped_data_map" => "groupedDataMap",
                                                       "main_parent_node_id" => "mainParentNodeID",
                                                       "assigned_nodes" => "assignedNodes",
+                                                      "visible_nodes" => "visibleNodes",
+                                                      "has_visible_node" => "hasVisibleNode",
                                                       "parent_nodes" => "parentNodeIDArray",
                                                       "main_node_id" => "mainNodeID",
                                                       "main_node" => "mainNode",
@@ -3739,17 +3741,85 @@ class eZContentObject extends eZPersistentObject
     }
 
     /**
+     * Returns the visible nodes of the current object. The main node is the
+     * first element in the returned value (if it is considered visible).
+     *
+     * The setting site.ini/[SiteAccessSettings]/ShowHiddenNodes is taken into
+     * account, ie an hidden (or hidden by superior) node is considered visible
+     * if ShowHiddenNodes is true.
+     *
+     * @see eZContentObject::assignedNodes
+     * @return eZContentObjectTreeNode[]
+     */
+    function visibleNodes()
+    {
+        $result = array();
+        foreach ( $this->assignedNodes( true, true ) as $node )
+        {
+            if ( $node->attribute( 'node_id' ) == $this->attribute( 'main_node_id' ) )
+            {
+                array_unshift( $result, $node );
+            }
+            else
+            {
+                $result[] = $node;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Returns whether the current object has at least one visible node.
+     *
+     * The setting site.ini/[SiteAccessSettings]/ShowHiddenNodes is taken into
+     * account, ie an hidden (or hidden by superior) node is considered visible
+     * if ShowHiddenNodes is true.
+     *
+     * @return boolean
+     */
+    function hasVisibleNode()
+    {
+        $contentobjectID = $this->attribute( 'id' );
+        if ( $contentobjectID == null )
+        {
+            return false;
+        }
+        $visibilitySQL = '';
+        if ( eZINI::instance()->variable( 'SiteAccessSettings', 'ShowHiddenNodes' ) !== 'true' )
+        {
+            $visibilitySQL = "AND ezcontentobject_tree.is_invisible = 0 ";
+        }
+        $rows = eZDB::instance()->arrayQuery(
+            "SELECT COUNT(ezcontentobject_tree.node_id) AS node_count " .
+            "FROM ezcontentobject_tree " .
+            "INNER JOIN ezcontentobject ON (ezcontentobject_tree.contentobject_id = ezcontentobject.id) " .
+            "WHERE contentobject_id = $contentobjectID " . $visibilitySQL
+        );
+        return ( $rows[0]['node_count'] > 0 );
+    }
+
+    /**
      * Returns the node assignments for the current object.
      *
-     * @param bool $asObject
-     * @return eZContentObjectTreeNode[]|array
+     * @param boolean $asObject
+     * @param boolean $checkVisibility if true, the visibility and the setting
+     * site.ini/[SiteAccessSettings]/ShowHiddenNodes are taken into account.
+     * @return eZContentObjectTreeNode[]|array[]
      */
-    function assignedNodes( $asObject = true )
+    function assignedNodes( $asObject = true, $checkVisibility = false )
     {
         $contentobjectID = $this->attribute( 'id' );
         if ( $contentobjectID == null )
         {
             return array();
+        }
+        $visibilitySQL = '';
+        if (
+            $checkVisibility === true
+            && eZINI::instance()->variable( 'SiteAccessSettings', 'ShowHiddenNodes' ) !== 'true'
+        )
+        {
+            $visibilitySQL = "AND ezcontentobject_tree.is_invisible = 0 ";
         }
         $nodesListArray = eZDB::instance()->arrayQuery(
             "SELECT " .
@@ -3765,6 +3835,7 @@ class eZContentObject extends eZPersistentObject
             "INNER JOIN ezcontentobject ON (ezcontentobject_tree.contentobject_id = ezcontentobject.id) " .
             "INNER JOIN ezcontentclass ON (ezcontentclass.version = 0 AND ezcontentclass.id = ezcontentobject.contentclass_id) " .
             "WHERE contentobject_id = $contentobjectID " .
+            $visibilitySQL .
             "ORDER BY path_string"
         );
         if ( $asObject == true )

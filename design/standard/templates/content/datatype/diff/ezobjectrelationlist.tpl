@@ -23,12 +23,16 @@
                 
                 <tr class="{$seq}">
                     <td>{$item.priority}</td>
+                {if $item_object.can_read}
                     <td>{$item.contentobject_id}</td>
                     <td>{$item.contentobject_version}</td>
                     <td>{$item_object.name|wash}</td>
                     <td>{$item_object.class_name|wash}</td>
                     <td>{$item_object.current.creator.name|wash}</td>
                     <td>{$item_object.modified|l10n( 'shortdatetime' )}</td>
+                {else}
+                    <td colspan="5"><em>{'You are not allowed to view the related object'|i18n( 'design/standard/content/datatype' )}</em></td>
+                {/if}
                 </tr>
             {/foreach}
             </table>

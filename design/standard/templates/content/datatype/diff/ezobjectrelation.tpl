@@ -15,11 +15,15 @@
                 <th>{'Creator'|i18n( 'design/standard/content/datatype' )}</th>
             </tr>
             <tr>
+            {if $attr.content.can_read}
                 <td>{$attr.content.id}</td>
                 <td>{$attr.content.name|wash}</td>
                 <td>{$attr.content.class_name|wash}</td>
                 <td>{$attr.content.modified|l10n( 'shortdatetime' )}</td>
                 <td>{$attr.content.current.creator.name|wash}</td>
+            {else}
+                <td colspan="5"><em>{'You are not allowed to view the related object'|i18n( 'design/standard/content/datatype' )}</em></td>
+            {/if}
             </tr>
             </table>
     {else}
