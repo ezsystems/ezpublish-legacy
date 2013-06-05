@@ -32,10 +32,17 @@
 {if ezini_hasvariable( $ini_section, 'Links', 'menu.ini' )}
     {def $url_list   = ezini( $ini_section, 'Links', 'menu.ini' )
          $name_list  = ezini( $ini_section, 'LinkNames', 'menu.ini' )
-         $menu_name  = ezini( $ini_section, 'Name', 'menu.ini' )
+         $menu_name  = ''
          $check      = array()
          $has_access = true()
-         $item_name = ''}
+         $item_name = ''
+         $disabled = true()
+         $enabled_hash = hash()
+         $enabled_defaults = hash( 'default', 'true', 'edit', 'false', 'browse', 'false' )}
+
+    {if ezini_hasvariable( $ini_section, 'Name', 'menu.ini' )}
+        {set $menu_name = ezini( $ini_section, 'Name', 'menu.ini' )}
+    {/if}
 
     {* Check access globally *}
     {if ezini_hasvariable( $ini_section, 'PolicyList', 'menu.ini' )}
@@ -58,32 +65,35 @@
 
     {if $has_access}
         {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-        <h4>{if is_set( $i18n_hash[ $menu_name ] )}{$i18n_hash[ $menu_name ]|wash}{else}{$menu_name|d18n($i18n_section)}{/if}</h4>
+        {if $menu_name}<h4>{if is_set( $i18n_hash[ $menu_name ] )}{$i18n_hash[ $menu_name ]|wash}{else}{$menu_name|d18n($i18n_section)}{/if}</h4>{/if}
         {* DESIGN: Header END *}</div></div>
 
         {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
-        {if eq( $ui_context, 'edit' )}
-            <ul class="leftmenu-items">
-            {foreach $url_list as $link_key => $link_url}
-                {if is_set( $name_list[ $link_key ] )}
-                    {set $item_name = $name_list[$link_key]|d18n($i18n_section)}
-                {else}
-                    {set $item_name = first_set( $i18n_hash[ $link_key ], $link_key )|wash}
-                {/if}
-                <li><div><span class="disabled">{$item_name}</span></div></li>
-            {/foreach}
-            </ul>
-        {else}
-            <ul class="leftmenu-items">
-            {foreach $url_list as $link_key => $link_url}
-                {if is_set( $name_list[ $link_key ] )}
-                    {set $item_name = $name_list[$link_key]|d18n($i18n_section)}
-                {else}
-                    {set $item_name = first_set( $i18n_hash[ $link_key ], $link_key )|wash}
-                {/if}
+        <ul class="leftmenu-items">
+        {foreach $url_list as $link_key => $link_url}
+            {if is_set( $name_list[ $link_key ] )}
+                {set $item_name = $name_list[$link_key]|d18n($i18n_section)}
+            {else}
+                {set $item_name = first_set( $i18n_hash[ $link_key ], $link_key )|wash}
+            {/if}
+
+            {* Check if link should be disabled *}
+            {if ezini_hasvariable( $ini_section, concat( 'Enabled_', $link_key ), 'menu.ini' )}
+                {set $enabled_hash = $enabled_defaults|merge( ezini( $ini_section, concat( 'Enabled_', $link_key ), 'menu.ini' ) )}
+            {else}
+                {set $enabled_hash = $enabled_defaults}
+            {/if}
+
+            {if is_set( $enabled_hash[$ui_context] )}
+                {set $disabled = $enabled_hash[$ui_context]}
+            {else}
+                {set $disabled = $enabled_hash['default']|eq( 'false' )}
+            {/if}
+
+            {* Check access per link *}
+            {if $disabled|not()}
                 {set $has_access = true()}
-                {* Check access pr link *}
                 {if ezini_hasvariable( $ini_section, concat( 'PolicyList_', $link_key ), 'menu.ini' )}
                     {foreach ezini( $ini_section, concat( 'PolicyList_', $link_key ), 'menu.ini' ) as $policy}
                         {if $policy|contains('/')}
@@ -101,14 +111,16 @@
                         {/if}
                     {/foreach}
                 {/if}
-                {if $has_access}
-                    <li{if $current_uri_string|begins_with( $link_url )} class="current"{/if}><div><a href={$link_url|ezurl}>{$item_name}</a></div></li>
-                {else}
-                    <li class="disabled-no-access"><div><span class="disabled">{$item_name}</span></div></li>
-                {/if}
-            {/foreach}
-            </ul>
-        {/if}
+            {/if}
+            {if $disabled}
+                <li><div><span class="disabled">{$item_name}</span></div></li>
+            {elseif $has_access}
+                <li{if $current_uri_string|begins_with( $link_url )} class="current"{/if}><div><a href={$link_url|ezurl}>{$item_name}</a></div></li>
+            {else}
+                <li class="disabled-no-access"><div><span class="disabled">{$item_name}</span></div></li>
+            {/if}
+        {/foreach}
+        </ul>
 
         {* DESIGN: Content END *}</div></div></div>
     {/if}
