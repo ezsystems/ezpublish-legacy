@@ -39,6 +39,11 @@ Change of behavior
   The previous default value (true) led to X-Powered-By being set to 1 (true cast to integer).
   From 5.2, the default value will be set to "eZ Publish".
 
+- menu.ini\[Leftmenu_<menu>]
+
+  Links in left menu are now by default disabled in browse mode.
+  This can now be changed per item using the new Enabled_<link>[<ui_context>] setting.
+
 Removed features
 ----------------
 
