@@ -1,0 +1,9 @@
+Event system
+============
+
+- Added a new event for the content/download view (can be useful for tracking)
+
+New event
+----------
+
+content/download    ( (int) $contentObjectID, (int) $contentObjectAttributeID )
