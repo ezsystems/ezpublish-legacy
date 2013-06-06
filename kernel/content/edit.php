@@ -389,13 +389,16 @@ if ( !is_numeric( $EditVersion ) )
                 }
             }
 
+            $section = eZSection::fetch( $obj->attribute( 'section_id' ) );
             $tpl = eZTemplate::factory();
             $res = eZTemplateDesignResource::instance();
             $res->setKeys( array( array( 'object', $obj->attribute( 'id' ) ),
                                 array( 'remote_id', $obj->attribute( 'remote_id' ) ),
                                 array( 'class', $class->attribute( 'id' ) ),
                                 array( 'class_identifier', $class->attribute( 'identifier' ) ),
-                                array( 'class_group', $class->attribute( 'match_ingroup_id_list' ) ) ) );
+                                array( 'class_group', $class->attribute( 'match_ingroup_id_list' ) ),
+                                array( 'section', $obj->attribute( 'section_id' ) ),
+                                array( 'section_identifier', $section->attribute( 'identifier' ) ) ) );
 
             $tpl->setVariable( 'edit_language', $EditLanguage );
             $tpl->setVariable( 'from_language', $FromLanguage );
@@ -406,7 +409,6 @@ if ( !is_numeric( $EditVersion ) )
 
             $Result = array();
             $Result['content'] = $tpl->fetch( 'design:content/edit_draft.tpl' );
-            $section = eZSection::fetch( $obj->attribute( 'section_id' ) );
             if ( $section )
             {
                 $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
@@ -432,13 +434,16 @@ if ( !is_numeric( $EditVersion ) )
                 }
             }
 
+            $section = eZSection::fetch( $obj->attribute( 'section_id' ) );
             $tpl = eZTemplate::factory();
             $res = eZTemplateDesignResource::instance();
             $res->setKeys( array( array( 'object', $obj->attribute( 'id' ) ),
                                 array( 'remote_id', $obj->attribute( 'remote_id' ) ),
                                 array( 'class', $class->attribute( 'id' ) ),
                                 array( 'class_identifier', $class->attribute( 'identifier' ) ),
-                                array( 'class_group', $class->attribute( 'match_ingroup_id_list' ) ) ) );
+                                array( 'class_group', $class->attribute( 'match_ingroup_id_list' ) ),
+                                array( 'section', $obj->attribute( 'section_id' ) ),
+                                array( 'section_identifier', $section->attribute( 'identifier' ) ) ) );
 
             $tpl->setVariable( 'edit_language', $EditLanguage );
             $tpl->setVariable( 'from_language', $FromLanguage );
@@ -449,7 +454,6 @@ if ( !is_numeric( $EditVersion ) )
 
             $Result = array();
             $Result['content'] = $tpl->fetch( 'design:content/edit_draft.tpl' );
-            $section = eZSection::fetch( $obj->attribute( 'section_id' ) );
             if ( $section )
             {
                 $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
