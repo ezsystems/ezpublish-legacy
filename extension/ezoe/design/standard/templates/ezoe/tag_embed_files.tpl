@@ -46,7 +46,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
         if ( contentType === 'images' || compatibilityMode === 'enabled' )
             return '<img id="__mce_tmp" src="JavaScript:void(0);" />';
         if ( jQuery('#embed_inline_source').prop( 'checked' ) )
-           return '<span id="__mce_tmp"></span>';
+           return '<span id="__mce_tmp">ezembed</span>';
         return '<div id="__mce_tmp"></div>';
     },
     onTagGenerated:  function( el, ed, args )
