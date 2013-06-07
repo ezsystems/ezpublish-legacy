@@ -80,7 +80,14 @@ class eZFile
             $filepath = $dirname . "ezfile-tmp." . md5( $filepath . getmypid() . mt_rand() );
         }
         
-        if( file_exists( $filepath ) && $file = fopen( $filepath, 'wb' ) )
+        if ( !file_exists( $filepath ) )
+        {
+            eZDebug::writeError( "'$file' does not exist", __METHOD__ );
+            return false;
+        }
+        
+        $file = fopen( $filepath, 'wb' );
+        if ( $file )
         {
 //             eZDebugSetting::writeNotice( 'ezfile-create', "Created file $filepath", 'eZFile::create' );
             if ( $data )
