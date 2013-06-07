@@ -82,7 +82,7 @@ class eZFile
         
         if ( !file_exists( $filepath ) )
         {
-            eZDebug::writeError( "'$file' does not exist", __METHOD__ );
+            eZDebug::writeError( "'$filepath' does not exist", __METHOD__ );
             return false;
         }
         
