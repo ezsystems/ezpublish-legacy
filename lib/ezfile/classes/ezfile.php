@@ -80,9 +80,8 @@ class eZFile
             $filepath = $dirname . "ezfile-tmp." . md5( $filepath . getmypid() . mt_rand() );
         }
         
-        if( file_exists( $filepath ) )
+        if( file_exists( $filepath ) and $file = fopen( $filepath, 'wb' ) )
         {
-            $file = fopen( $filepath, 'wb' );
 //             eZDebugSetting::writeNotice( 'ezfile-create', "Created file $filepath", 'eZFile::create' );
             if ( $data )
                 fwrite( $file, $data );
@@ -119,14 +118,12 @@ class eZFile
         }
         else
         {
-            
-            if ( !file_exists( $filename ) )
+            $fp = fopen( $filename, 'r' );
+            if ( !$fp )
             {
                 eZDebug::writeError( 'Could not read contents of ' . $filename, __METHOD__ );
                 return false;
             }
-            
-            $fp = fopen( $filename, 'r' );
             
             return fread( $fp, filesize( $filename ) );
         }
