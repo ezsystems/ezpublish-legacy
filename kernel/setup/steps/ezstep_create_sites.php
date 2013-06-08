@@ -492,10 +492,14 @@ class eZStepCreateSites extends eZStepInstaller
 
                         if ( $db->databaseName() == 'mysql' )
                         {
-                            // We try to use InnoDB table type if it is available, else we use the default type.
-                            $innoDBAvail = $db->arrayQuery( "SHOW VARIABLES LIKE 'have_innodb';" );
-                            if ( $innoDBAvail[0]['Value'] == 'YES' )
-                                $params['table_type'] = 'innodb';
+                            $engines = $db->arrayQuery( 'SHOW ENGINES' );
+                            foreach( $engines as $engine ) {
+                                if ( $engine['Engine'] == 'InnoDB' && in_array( $engine['Support'], array( 'YES', 'DEFAULT' ) ) )
+                                {
+                                    $params['table_type'] = 'innodb';
+                                    break;
+                                }
+                            }
                         }
 
                         if ( !$dbSchema->insertSchema( $params ) )
