@@ -493,7 +493,8 @@ class eZStepCreateSites extends eZStepInstaller
                         if ( $db->databaseName() == 'mysql' )
                         {
                             $engines = $db->arrayQuery( 'SHOW ENGINES' );
-                            foreach( $engines as $engine ) {
+                            foreach( $engines as $engine )
+                            {
                                 if ( $engine['Engine'] == 'InnoDB' && in_array( $engine['Support'], array( 'YES', 'DEFAULT' ) ) )
                                 {
                                     $params['table_type'] = 'innodb';
