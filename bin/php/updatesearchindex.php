@@ -135,7 +135,7 @@ do
     {
         if ( $needRemoveWithUpdate || !$cleanupSearch )
         {
-            $searchEngine->removeObject( $object, false );
+            $searchEngine->removeObjectById( $object->attribute( "id" ), false );
         }
         if ( !$searchEngine->addObject( $object, false ) )
         {
