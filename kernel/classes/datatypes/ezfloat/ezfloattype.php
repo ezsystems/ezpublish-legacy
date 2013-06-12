@@ -410,6 +410,4 @@ class eZFloatType extends eZDataType
     public $FloatValidator;
 }
 
-eZDataType::register( eZFloatType::DATA_TYPE_STRING, "eZFloatType" );
-
 ?>

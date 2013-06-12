@@ -516,6 +516,4 @@ class eZMatrixType extends eZDataType
     }
 }
 
-eZDataType::register( eZMatrixType::DATA_TYPE_STRING, 'ezmatrixtype' );
-
 ?>

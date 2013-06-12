@@ -69,6 +69,4 @@ class eZSimpleShippingType extends eZWorkflowEventType
     }
 }
 
-eZWorkflowEventType::registerEventType( eZSimpleShippingType::WORKFLOW_TYPE_STRING, "eZSimpleShippingType" );
-
 ?>

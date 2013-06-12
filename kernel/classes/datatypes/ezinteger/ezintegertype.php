@@ -503,6 +503,4 @@ class eZIntegerType extends eZDataType
     public $IntegerValidator;
 }
 
-eZDataType::register( eZIntegerType::DATA_TYPE_STRING, "eZIntegerType" );
-
 ?>

@@ -752,6 +752,4 @@ class eZBinaryFileType extends eZDataType
     }
 }
 
-eZDataType::register( eZBinaryFileType::DATA_TYPE_STRING, "eZBinaryFileType" );
-
 ?>

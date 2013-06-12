@@ -245,6 +245,4 @@ class eZBooleanType extends eZDataType
     }
 }
 
-eZDataType::register( eZBooleanType::DATA_TYPE_STRING, "eZBooleanType" );
-
 ?>

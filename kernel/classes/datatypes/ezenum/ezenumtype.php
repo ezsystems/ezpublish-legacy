@@ -514,6 +514,5 @@ class eZEnumType extends eZDataType
         return null;
     }
 }
-eZDataType::register( eZEnumType::DATA_TYPE_STRING, 'eZEnumType' );
 
 ?>

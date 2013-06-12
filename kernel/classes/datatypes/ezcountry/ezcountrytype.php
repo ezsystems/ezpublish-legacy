@@ -457,6 +457,4 @@ class eZCountryType extends eZDataType
     }
 }
 
-eZDataType::register( eZCountryType::DATA_TYPE_STRING, 'ezcountrytype' );
-
 ?>
