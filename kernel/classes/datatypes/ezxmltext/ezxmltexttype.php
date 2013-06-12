@@ -845,6 +845,4 @@ class eZXMLTextType extends eZDataType
     }
 }
 
-eZDataType::register( eZXMLTextType::DATA_TYPE_STRING, "eZXMLTextType" );
-
 ?>

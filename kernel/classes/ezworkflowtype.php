@@ -118,6 +118,16 @@ class eZWorkflowType
         return $GLOBALS["eZWorkflowTypeObjects"];
     }
 
+    /**
+     * Returns allowed eventypes
+     *
+     * Since 5.2 eventtypes can be defined with a pair of 
+     * eventtype/class
+     * For keeping backward compability, allowedTypes will be
+     * filled with 'key' or 'val', depending on is_numeric( key ) value
+     *
+     * @return array
+     */
     static function allowedTypes()
     {
         if ( !isset( $GLOBALS["eZWorkflowAllowedTypes"] ) ||
@@ -125,7 +135,11 @@ class eZWorkflowType
         {
             $wfINI = eZINI::instance( 'workflow.ini' );
             $eventTypes = $wfINI->variable( "EventSettings", "AvailableEventTypes" );
-            $GLOBALS["eZWorkflowAllowedTypes"] = array_unique( $eventTypes );
+            $GLOBALS["eZWorkflowAllowedTypes"] = array();
+            foreach ( $eventTypes as $key => $val )
+            {
+                $GLOBALS["eZWorkflowAllowedTypes"][] = is_numeric( $key ) ? $val : $key;
+            }
         }
         return $GLOBALS["eZWorkflowAllowedTypes"];
     }
@@ -133,7 +147,7 @@ class eZWorkflowType
     static function loadAndRegisterAllTypes()
     {
         $allowedTypes = eZWorkflowType::allowedTypes();
-        foreach( $allowedTypes as $type )
+        foreach ( $allowedTypes as $type )
         {
             eZWorkflowType::loadAndRegisterType( $type );
         }
@@ -156,6 +170,26 @@ class eZWorkflowType
         }
     }
 
+    /**
+     * Load and register the eventtype $type
+     *
+     * Since 5.2 there is no need to do file_exists and include calls
+     * if eventtype is defined in the following way:
+     * AvailableEventTypes[{$type}]={$class}
+     * Ex: AvailableEventTypes[event_custom]=eventCustomType
+     *
+     * It's still possible to define eventtyypes in the old way, so BC 
+     * shouldn't be a problem for this case
+     * Ex: AvailableEventTypes[]=event_custom
+     * In this case, you'll need to call 
+     * eZWorkflowEventType::registerEventType
+     * from your custom class.
+     * 
+     * Recommendation is moving to the new way. 
+     * 
+     * @param string $typeString
+     * @return bool
+     */
     static function loadAndRegisterType( $typeString )
     {
         $typeElements = explode( "_", $typeString );
@@ -176,8 +210,21 @@ class eZWorkflowType
         $group = $typeElements[0];
         $type = $typeElements[1];
 
-        $baseDirectory = eZExtension::baseDirectory();
         $wfINI = eZINI::instance( 'workflow.ini' );
+        $availableEventTypes = $wfINI->variable( 'EventSettings', 'AvailableEventTypes' );
+        if ( array_key_exists( $typeString, $availableEventTypes ) )
+        {
+            if ( class_exists( $availableEventTypes[$typeString] ) )
+            {
+                eZWorkflowEventType::registerEventType( $type, $availableEventTypes[$typeString] );
+                return true;
+            }
+            else
+                eZDebug::writeError( "Undefined datatype class: " . $availableEventTypes[$typeString], __METHOD__ );
+        }        
+
+        $baseDirectory = eZExtension::baseDirectory();
+
         $repositoryDirectories = $wfINI->variable( 'EventSettings', 'RepositoryDirectories' );
         $extensionDirectories = $wfINI->variable( 'EventSettings', 'ExtensionDirectories' );
         foreach ( $extensionDirectories as $extensionDirectory )

@@ -4,6 +4,30 @@ Changes to BC and behavior in version 5.2
 INI setting changes
 -------------------
 
+- content.ini[DataTypeSettings]AvailableDatatypes 
+
+  Since 5.2 AvailableDataTypes can be defined with a pair of dataype/class and so take
+  adventage of autoload mechanism reducing the number of file_exists and include calls.
+  You should update those of your extensions defining datatypes accordingly.
+  Ex: AvailableDatatypes[mycustom]=myCustomType
+
+  Even this is now the recommended way to do it, the 'old' way is still valid.
+  The main adventage is that you will gain some file_exists and include calls.
+  You won't need to execute the eZDataType::register method from your dataype
+  class either.
+
+- workflow.ini[EventSettings]AvailableEventTypes 
+
+  Since 5.2 AvailableEventTypes can be defined with a pair of eventype/class and so take
+  adventage of autoload mechanism reducing the number of file_exists and include calls.
+  You should update those of your extensions defining workflows accordingly.
+  Ex: AvailableEventTypes[event_custom]=customType
+
+  Even this is now the recommended way to do it, the 'old' way is still valid.
+  The main adventage is that you will gain some file_exists and include calls.
+  You won't need to execute the eZWorkflowEventType::registerEventType method
+  from your workflow class either.
+
 
 Change of behavior
 ------------------
@@ -43,6 +67,13 @@ Change of behavior
 
   Links in left menu are now by default disabled in browse mode.
   This can now be changed per item using the new Enabled_<link>[<ui_context>] setting.
+
+- #019411: Avoid file_exists and include calls for registering datatypes and workflows
+
+  Kernel datatypes and kernel workflow classes take now adventage of the autoload 
+  mechanism. Autoload generator add these clasess to the autoload array, so there's no 
+  need to do any of the file_exists or include calls.
+
 
 Removed features
 ----------------

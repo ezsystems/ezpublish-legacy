@@ -525,6 +525,4 @@ class eZMultiPriceType extends eZDataType
     }
 }
 
-eZDataType::register( eZMultiPriceType::DATA_TYPE_STRING, "eZMultiPriceType" );
-
 ?>

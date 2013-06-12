@@ -430,6 +430,4 @@ class eZISBNType extends eZDataType
     }
 }
 
-eZDataType::register( eZISBNType::DATA_TYPE_STRING, "eZISBNType" );
-
 ?>

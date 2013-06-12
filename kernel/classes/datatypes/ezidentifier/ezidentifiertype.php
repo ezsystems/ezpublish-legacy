@@ -422,6 +422,4 @@ class eZIdentifierType extends eZDataType
     public $IntegerValidator;
 }
 
-eZDataType::register( eZIdentifierType::DATA_TYPE_STRING, "ezidentifiertype" );
-
 ?>

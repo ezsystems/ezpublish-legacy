@@ -442,6 +442,4 @@ class eZOptionType extends eZDataType
     }
 }
 
-eZDataType::register( eZOptionType::DATA_TYPE_STRING, "eZOptionType" );
-
 ?>

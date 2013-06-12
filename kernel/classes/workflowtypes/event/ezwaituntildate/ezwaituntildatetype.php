@@ -218,7 +218,4 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
 
 }
 
-eZWorkflowEventType::registerEventType( eZWaitUntilDateType::WORKFLOW_TYPE_STRING, "eZWaitUntilDateType" );
-
-
 ?>
