@@ -85,6 +85,11 @@ class eZDFSFileHandlerDFSBackend
             $ret = $this->createFile( $dstFilePath, file_get_contents( $srcFilePath ) );
         }
 
+        if ( $ret )
+        {
+            $ret = $this->copyTimestamp( $srcFilePath, $dstFilePath );
+        }
+
         $this->accumulatorStop();
 
         return $ret;
@@ -300,6 +305,24 @@ class eZDFSFileHandlerDFSBackend
     protected function fixPermissions( $filePath )
     {
         chmod( $filePath, $this->filePermissionMask );
+    }
+
+    /**
+     * copies the timestamp from the original file to the destination file
+     * @param string $srcFilePath
+     * @param string $dstFilePath
+     * @return bool False if the timestamp is not set with success on target file
+     */
+    protected function copyTimestamp( $srcFilePath, $dstFilePath )
+    {
+        clearstatcache( true, $srcFilePath );
+        $originalTimestamp = filemtime( $srcFilePath );
+        if ( !$originalTimestamp )
+        {
+            return false;
+        }
+
+        return touch( $dstFilePath, $originalTimestamp);
     }
 
     protected function createFile( $filePath, $contents, $atomic = true )
