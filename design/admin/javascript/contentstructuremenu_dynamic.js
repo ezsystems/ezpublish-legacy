@@ -226,7 +226,7 @@ function ContentStructureMenu( params, i18n )
         html += '>';
         var span = document.createElement( 'span' );
         span.setAttribute( 'class', 'node-name-' + ( ( item.is_hidden ) ? 'hidden': ( item.is_invisible ) ? 'hiddenbyparent' : 'normal' ) );
-        span.appendChild( document.createTextNode( item.name ) );
+        span.innerHTML =  item.name ;
         var div = document.createElement( 'div' );
         div.appendChild( span );
         html += div.innerHTML;
