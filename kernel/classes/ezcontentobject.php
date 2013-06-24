@@ -1664,7 +1664,7 @@ class eZContentObject extends eZPersistentObject
 
         eZContentObject::fixReverseRelations( $delID, 'remove' );
 
-        eZSearch::removeObject( $this );
+        eZSearch::removeObjectById( $delID );
 
         // Check if deleted object is in basket/wishlist
         $sql = 'SELECT DISTINCT ezproductcollection_item.productcollection_id
@@ -1771,7 +1771,7 @@ class eZContentObject extends eZPersistentObject
 
 
             $this->setAttribute( 'status', eZContentObject::STATUS_ARCHIVED );
-            eZSearch::removeObject( $this );
+            eZSearch::removeObjectById( $delID );
             $this->store();
             eZContentObject::fixReverseRelations( $delID, 'trash' );
             // Delete stored attribute from other tables
@@ -1797,7 +1797,7 @@ class eZContentObject extends eZPersistentObject
 
                     $node->removeNodeFromTree( true );
                     $this->setAttribute( 'status', eZContentObject::STATUS_ARCHIVED );
-                    eZSearch::removeObject( $this );
+                    eZSearch::removeObjectById( $delID );
                     $this->store();
                     eZContentObject::fixReverseRelations( $delID, 'trash' );
                     $db->commit();

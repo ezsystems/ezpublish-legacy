@@ -68,7 +68,7 @@ class eZSearch
 
         if ( $searchEngine instanceof ezpSearchEngine )
         {
-            return $searchEngine->removeObject( $contentObject, $commit );
+            return $searchEngine->removeObjectById( $contentObject->attribute( "id" ), $commit );
         }
 
         return false;
