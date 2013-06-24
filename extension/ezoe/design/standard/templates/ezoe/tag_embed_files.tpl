@@ -71,7 +71,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     },
     tagAttributeEditor: function( ed, el, args )
     {
-        args['inline'] = jQuery('#embed_inline_source').attr( 'checked' ) ? 'true' : 'false';
+        args['inline'] = jQuery('#embed_inline_source').prop( 'checked' ) ? 'true' : 'false';
         el = eZOEPopupUtils.switchTagTypeIfNeeded( el, (contentType === 'images' || compatibilityMode === 'enabled' ? 'img' : (args['inline'] === 'true' ? 'span' : 'div') ) );
         if ( compatibilityMode === 'enabled' )
         {

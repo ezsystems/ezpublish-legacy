@@ -2002,11 +2002,16 @@
             }
             else if ( k === 13 && !this.__recursion )// user clicks enter, create paragraph after embed block
             {
-                var n = this.__getParentByTag( ed.selection.getNode(), 'DIV', 'ezoeItemNonEditable', '', true );
+                var n = this.__getParentByTag( ed.selection.getNode(), 'DIV,SPAN', 'ezoeItemNonEditable', '', true );
                 if ( n !== undefined && n.parentNode )
                 {
-                    var newNode, pos;
+                    var newNode, pos, p;
                     this.__recursion = true;
+                    if ( n.nodeName === 'SPAN' && n.parentNode.nodeName !== 'LI' && ( p = this.__getParentByTag( n, 'P' ) ) )
+                    {
+                        n = p;
+                    }
+
                     if ( n.parentNode.nodeName.toLowerCase() === 'li' )
                     {
                         newNode = ed.dom.create('li', false, tinymce.isIE ? '&nbsp;' : '<br data-mce-bogus="1" _mce_bogus="1" />' );
@@ -2019,8 +2024,8 @@
                     }
                     newNode = ed.dom.insertAfter( newNode, pos );
                     setTimeout(BIND( function(){ this.__recursion = false; }, this ), 150);
-                    ed.nodeChanged();
                     ed.selection.select( newNode, true );
+                    ed.nodeChanged();
                 }
             }
             else if ( k === 32 && !this.__recursion )// user clicks space, create space after embed inline
