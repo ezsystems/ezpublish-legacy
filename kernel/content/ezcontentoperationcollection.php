@@ -575,7 +575,7 @@ class eZContentOperationCollection
         if ( eZSearch::needRemoveWithUpdate() )
         {
             eZDebug::accumulatorStart( 'remove_object', 'search_total', 'remove object' );
-            eZSearch::removeObject( $object, $needCommit );
+            eZSearch::removeObjectById( $objectID, $needCommit );
             eZDebug::accumulatorStop( 'remove_object' );
         }
 
