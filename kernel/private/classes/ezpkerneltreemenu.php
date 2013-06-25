@@ -37,6 +37,18 @@ class ezpKernelTreeMenu implements ezpKernelHandler
 
     public function __construct( array $settings = array() )
     {
+        if ( isset( $settings['injected-settings'] ) )
+        {
+            $injectedSettings = array();
+            foreach ( $settings["injected-settings"] as $keySetting => $injectedSetting )
+            {
+                list( $file, $section, $setting ) = explode( "/", $keySetting );
+                $injectedSettings[$file][$section][$setting] = $injectedSetting;
+            }
+            // those settings override anything else in local .ini files and
+            // their overrides
+            eZINI::injectSettings( $injectedSettings );
+        }
         $this->settings = $settings + array(
             'use-cache-headers'         => true,
             'max-age'                   => 86400,
