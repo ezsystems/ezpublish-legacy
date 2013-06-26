@@ -333,7 +333,7 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
      * Returns the parent of the current node in the tree before it has been moved to the trash or null when the
      * original parent couldn't be retrieved (e.g. because it has been deleted, too, or moved)
      *
-     * @return eZContentObjectTreeNode|int|null
+     * @return eZContentObjectTreeNode|null
      */
     function originalParent()
     {
