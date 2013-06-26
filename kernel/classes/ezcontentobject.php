@@ -3630,14 +3630,19 @@ class eZContentObject extends eZPersistentObject
                 {
                     $mainNode = eZNodeAssignment::fetchForObject( $this->attribute( 'id' ), $this->attribute( 'current_version' ) );
                     $parentObj = $mainNode[0]->attribute( 'parent_contentobject' );
-                    $result = $parentObj->checkAccess( 'create', $this->attribute( 'contentclass_id' ),
-                                                       $parentObj->attribute( 'contentclass_id' ), false, $originalLanguage );
-                    return $result;
+                    if ( $parentObj instanceof eZContentObject )
+                    {
+                        $result = $parentObj->checkAccess( 'create', $this->attribute( 'contentclass_id' ),
+                                                           $parentObj->attribute( 'contentclass_id' ), false, $originalLanguage );
+                        return $result;
+                    }
+                    else
+                    {
+                        eZDebug::writeError( "Error retrieving parent object of main node for object id: " . $this->attribute( 'id' ), __METHOD__ );
+                    }
                 }
-                else
-                {
-                    return 0;
-                }
+
+                return 0;
             }
 
             if ( $returnAccessList === false )
@@ -4061,8 +4066,18 @@ class eZContentObject extends eZPersistentObject
                     {
                         $mainNode = eZNodeAssignment::fetchForObject( $this->attribute( 'id' ), $this->attribute( 'current_version' ) );
                         $parentObj = $mainNode[0]->attribute( 'parent_contentobject' );
-                        $result = $parentObj->checkAccess( 'create', $this->attribute( 'contentclass_id' ),
-                                                           $parentObj->attribute( 'contentclass_id' ), false, $originalLanguage );
+
+                        if ( $parentObj instanceof eZContentObject )
+                        {
+                            $result = $parentObj->checkAccess( 'create', $this->attribute( 'contentclass_id' ),
+                                                               $parentObj->attribute( 'contentclass_id' ), false, $originalLanguage );
+                        }
+                        else
+                        {
+                            eZDebug::writeError( "Error retrieving parent object of main node for object id: " . $this->attribute( 'id' ), __METHOD__ );
+                            $result = 0;
+                        }
+
                         if ( $result )
                         {
                             $access = 'allowed';
