@@ -1246,4 +1246,13 @@ class ezpKernelWeb implements ezpKernelHandler
     {
         return $this->settings['service-container'];
     }
+
+    /**
+     * Allows user to avoid executing the pagelayout template when running the kernel
+     * @param bool $usePagelayout
+     */
+    public function setUsePagelayout( $usePagelayout )
+    {
+        $this->siteBasics['show-page-layout'] = $usePagelayout;
+    }
 }

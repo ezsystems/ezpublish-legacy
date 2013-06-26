@@ -79,6 +79,14 @@ class ezpKernel implements ezpKernelHandler
     }
 
     /**
+     * @param bool $usePagelayout
+     */
+    public function setUsePagelayout ( $usePagelayout )
+    {
+        $this->kernelHandler->setUsePagelayout( $usePagelayout );
+    }
+
+    /**
      * Reinitializes the kernel environment.
      */
     public function reInitialize()
