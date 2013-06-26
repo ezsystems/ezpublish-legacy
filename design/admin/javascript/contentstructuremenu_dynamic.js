@@ -5,11 +5,13 @@ function ContentStructureMenu( params, i18n )
 
     // hashes in ez template doesn't handle numeric keys correctly
     // an underscore has been prepended in keys and is removed here
+    var arrayTemp = [];
     for ( var j in params.classes )
     {
-        params.classes[j.replace(/^_/, '')] = params.classes[j];
-        delete params.classes[j];
+        arrayTemp[j.replace(/^_/, '')] = params.classes[j];
     }
+
+    params.classes = arrayTemp;
 
     // function taken from the modernizr library
     this.hasStorage = (function() {
