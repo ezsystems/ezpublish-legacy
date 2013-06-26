@@ -708,6 +708,7 @@ return array(
       'ezpTopologicalSortNode'                             => 'kernel/private/classes/ezptopologicalsortnode.php',
       'ezpUpdatedContent'                                  => 'kernel/private/rest/classes/sync/updates.php',
       'ezpUserNotFoundException'                           => 'kernel/private/rest/classes/exceptions/user_not_found.php',
+      'ezpWebBasedKernelHandler'                          => 'kernel/private/interfaces/ezpwebbasedkernelhandler.php',
     );
 
 ?>
