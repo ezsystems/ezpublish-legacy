@@ -12,7 +12,7 @@
  *
  * Allows kernel to be executed as Controller via run()
  */
-class ezpKernelWeb implements ezpKernelHandler
+class ezpKernelWeb implements ezpWebBasedKernelHandler
 {
     /**
      * @var ezpMobileDeviceDetect
@@ -1253,6 +1253,6 @@ class ezpKernelWeb implements ezpKernelHandler
      */
     public function setUsePagelayout( $usePagelayout )
     {
-        $this->siteBasics['show-page-layout'] = $usePagelayout;
+        $this->siteBasics['show-page-layout'] = (bool)$usePagelayout;
     }
 }
