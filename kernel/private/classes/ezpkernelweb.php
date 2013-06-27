@@ -1249,6 +1249,7 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
 
     /**
      * Allows user to avoid executing the pagelayout template when running the kernel
+     *
      * @param bool $usePagelayout
      */
     public function setUsePagelayout( $usePagelayout )
