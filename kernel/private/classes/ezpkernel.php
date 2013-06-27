@@ -81,7 +81,7 @@ class ezpKernel implements ezpKernelHandler
     /**
      * @param bool $usePagelayout
      */
-    public function setUsePagelayout ( $usePagelayout )
+    public function setUsePagelayout( $usePagelayout )
     {
         $this->kernelHandler->setUsePagelayout( $usePagelayout );
     }
