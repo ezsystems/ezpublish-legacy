@@ -151,9 +151,8 @@ class ezpExtension
             return $return;
         }
         // then try ezinfo.php, for backwards compatibility
-        elseif ( is_readable( $infoFilePath = eZExtension::baseDirectory() . "/{$this->name}/ezinfo.php" ) )
+        elseif ( is_readable( eZExtension::baseDirectory() . "/{$this->name}/ezinfo.php" ) )
         {
-            include_once( $infoFilePath );
             $className = $this->name . 'Info';
             if ( is_callable( array( $className, 'info' ) ) )
             {

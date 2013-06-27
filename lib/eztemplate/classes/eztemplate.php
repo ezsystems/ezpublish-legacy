@@ -1820,11 +1820,11 @@ class eZTemplate
         }
         else
         {
-            if ( !class_exists( $functionDefinition['class'], false )
+            /*if ( !class_exists( $functionDefinition['class'], false )
                     && isset( $functionDefinition['script'] ) )
             {
                 include_once( $functionDefinition['script'] );
-            }
+            }*/
             $class = $functionDefinition['class'];
             if ( class_exists( $class ) )
                 $functionObject = new $class();
@@ -1939,10 +1939,10 @@ class eZTemplate
         else
         {
             $class = $operatorDefinition['class'];
-            if ( !class_exists( $class, false ) && isset( $operatorDefinition['script'] ) )
+            /*if ( !class_exists( $class, false ) && isset( $operatorDefinition['script'] ) )
             {
                 include_once( $operatorDefinition['script'] );
-            }
+            }*/
             if ( class_exists( $class ) )
             {
                 if ( isset( $operatorDefinition['class_parameter'] ) )

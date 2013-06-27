@@ -500,39 +500,21 @@ class eZCollaborationItemHandler
             $objectCache = array();
         if ( isset( $objectCache[$handler] ) )
             return $objectCache[$handler];
-        if ( $repositories === false )
-        {
-            $repositories = eZCollaborationItemHandler::handlerRepositories();
-        }
+
         $handlerInstance = null;
-        $foundHandlerFile = false;
         $foundHandler = false;
-        foreach ( $repositories as $repository )
+
+        $handlerClass = $handler . 'collaborationhandler';
+
+        if ( class_exists( $handlerClass ) )
         {
-            $handlerFile = $handler . 'collaborationhandler.php';
-            $handlerClass = $handler . 'collaborationhandler';
-            $handlerPath = eZDir::path( array( $repository, $handler, $handlerFile ) );
-            if ( file_exists( $handlerPath ) )
-            {
-                $foundHandlerFile = true;
-                include_once( $handlerPath );
-                if ( class_exists( $handlerClass ) )
-                {
-                    $foundHandler = true;
-                    $handlerInstance = new $handlerClass();
-                    $objectCache[$handler] = $handlerInstance;
-                    $handlerClasses = $handlerInstance->classes();
-                    foreach ( $handlerClasses as $handlerClass )
-                    {
-                    }
-                }
-            }
+            $foundHandler = true;
+            $handlerInstance = new $handlerClass();
+            $objectCache[$handler] = $handlerInstance;
+            $handlerClasses = $handlerInstance->classes();
         }
-        if ( !$foundHandlerFile )
-        {
-            eZDebug::writeWarning( "Collaboration file '$handlerFile' could not be found in " . implode( ', ', $repositories ), __METHOD__ );
-        }
-        else if ( !$foundHandler )
+
+        if ( !$foundHandler )
         {
             eZDebug::writeWarning( "Collaboration class '$handlerClass' does not exist", __METHOD__ );
         }

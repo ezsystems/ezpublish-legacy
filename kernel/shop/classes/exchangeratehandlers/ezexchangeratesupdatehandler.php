@@ -47,46 +47,14 @@ class eZExchangeRatesUpdateHandler
 
         $handlerName = strtolower( $handlerName );
 
-        $dirList = array();
-        $repositoryDirectories = $shopINI->variable( 'ExchangeRatesSettings', 'RepositoryDirectories' );
-        $extensionDirectories = $shopINI->variable( 'ExchangeRatesSettings', 'ExtensionDirectories' );
-
-        $baseDirectory = eZExtension::baseDirectory();
-        foreach ( $extensionDirectories as $extensionDirectory )
+        $className = $handlerName . 'handler';
+        if ( !class_exists( $className ) )
         {
-            if ( !empty( $extensionDirectory ) )
-                $dirList[] = $baseDirectory . '/' . $extensionDirectory . '/exchangeratehandlers';
-        }
-
-        foreach ( $repositoryDirectories as $repositoryDirectory )
-        {
-            if ( !empty( $repositoryDirectory ) )
-                $dirList[] = $repositoryDirectory;
-        }
-
-        $foundHandler = false;
-        foreach ( $dirList as $dir )
-        {
-            $includeFile = "$dir/$handlerName/{$handlerName}handler.php";
-
-            if ( file_exists( $includeFile ) )
-            {
-                $foundHandler = true;
-                break;
-            }
-        }
-
-        if ( !$foundHandler )
-        {
-            eZDebug::writeError( "Exchange rates update handler '$handlerName' not found, " .
-                                   "searched in these directories: " .
-                                   implode( ', ', $dirList ),
+            eZDebug::writeError( "Exchange rates update handler '$handlerName' not found " .
                                  'eZExchangeRatesUpdateHandler::create' );
             return false;
         }
 
-        require_once( $includeFile );
-        $className = $handlerName . 'handler';
         return new $className;
     }
 

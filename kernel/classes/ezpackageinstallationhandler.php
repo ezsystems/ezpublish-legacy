@@ -250,15 +250,6 @@ class eZPackageInstallationHandler
     */
     static function instance( $package, $handlerName, $installItem )
     {
-        // if no installItem is given, then this is the whole package installer
-        /*if ( $installItem == null )
-        {
-            include_once( $package->path() . '/' . $package->installerDirectory() . '/' . $package->installerFileName() );
-            $handlerClassName = $package->installerFileName();
-            $handler =& new $handlerClassName( $package, null, null );
-            return $handler;
-        }*/
-
         $handlers =& $GLOBALS['eZPackageCreationInstallers'];
         if ( !isset( $handlers ) )
             $handlers = array();
@@ -290,9 +281,8 @@ class eZPackageInstallationHandler
                 {
                     unset( $handler );
                     $handlerClassName = $customInstallHandler['classname'];
-                    $handlerFile = $customInstallHandler['file-path'];
+                    //$handlerFile = $customInstallHandler['file-path'];
 
-                    include_once( $handlerFile );
                     $handler = new $handlerClassName( $package, $handlerName, $installItem );
                 }
             }

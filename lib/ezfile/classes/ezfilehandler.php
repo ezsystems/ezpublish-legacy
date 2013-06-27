@@ -1022,8 +1022,6 @@ class eZFileHandler
         else if ( isset( $handlers[$identifier] ) )
         {
             $className = $handlers[$identifier];
-            $includeFile = 'lib/ezfile/classes/' . $className . '.php';
-            include_once( $includeFile );
             $instance = new $className();
             if ( $instance->isAvailable() )
             {

@@ -51,19 +51,10 @@ class eZNotificationTransport
 
         if ( $fetchInstance )
         {
-            $extraPluginPathArray = $ini->variable( 'TransportSettings', 'TransportPluginPath' );
-            $pluginPathArray = array_merge( array( 'kernel/classes/notification/' ),
-                                            $extraPluginPathArray );
-            foreach( $pluginPathArray as $pluginPath )
+            $className = $transport . 'notificationtransport';
+            if ( class_exists( $className ) )
             {
-                $transportFile = $pluginPath . $transport . 'notificationtransport.php';
-                if ( file_exists( $transportFile ) )
-                {
-                    include_once( $transportFile );
-                    $className = $transport . 'notificationtransport';
-                    $impl = new $className( );
-                    break;
-                }
+                $impl = new $className( );
             }
         }
         if ( !isset( $impl ) )
