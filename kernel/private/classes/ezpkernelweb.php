@@ -12,7 +12,7 @@
  *
  * Allows kernel to be executed as Controller via run()
  */
-class ezpKernelWeb implements ezpKernelHandler
+class ezpKernelWeb implements ezpWebBasedKernelHandler
 {
     /**
      * @var ezpMobileDeviceDetect
@@ -1245,5 +1245,15 @@ class ezpKernelWeb implements ezpKernelHandler
     public function getServiceContainer()
     {
         return $this->settings['service-container'];
+    }
+
+    /**
+     * Allows user to avoid executing the pagelayout template when running the kernel
+     *
+     * @param bool $usePagelayout
+     */
+    public function setUsePagelayout( $usePagelayout )
+    {
+        $this->siteBasics['show-page-layout'] = (bool)$usePagelayout;
     }
 }

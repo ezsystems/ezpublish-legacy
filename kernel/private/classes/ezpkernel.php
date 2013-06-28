@@ -12,7 +12,7 @@
  * Wraps a "kernel handler" and forwards calls to it.
  * This allows to have different kernel handlers depending on the context (i.e. "web" or "cli")
  */
-class ezpKernel implements ezpKernelHandler
+class ezpKernel implements ezpWebBasedKernelHandler
 {
     /**
      * @var ezpKernelHandler
@@ -76,6 +76,17 @@ class ezpKernel implements ezpKernelHandler
     public function setUseExceptions( $useExceptions )
     {
         $this->kernelHandler->setUseExceptions( $useExceptions );
+    }
+
+    /**
+     * @param bool $usePagelayout
+     */
+    public function setUsePagelayout( $usePagelayout )
+    {
+        if ( $this->kernelHandler instanceof ezpWebBasedKernelHandler )
+        {
+            $this->kernelHandler->setUsePagelayout( $usePagelayout );
+        }
     }
 
     /**
