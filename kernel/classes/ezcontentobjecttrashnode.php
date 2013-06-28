@@ -8,22 +8,28 @@
  * @package kernel
  */
 
-/*!
-  \class eZContentObjectTrashNode ezcontentobjecttrashnode.php
-  \brief The class eZContentObjectTrashNode
-*/
-
-//class eZContentObjectTrashNode extends eZPersistentObject
+/**
+ * Encapsulates data about and methods to work with content objects which reside in the trash
+ */
 class eZContentObjectTrashNode extends eZContentObjectTreeNode
 {
-    /*!
-     Constructor
-    */
+    /**
+     * Initializes the object with the $row.
+     *
+     * It will try to set each field taken from the database row. Calls fill
+     * to do the job. If $row is an integer, it will try to fetch it from the
+     * database using it as the unique ID.
+     *
+     * @param int|array $row
+     */
     function eZContentObjectTrashNode( $row = array() )
     {
         $this->eZPersistentObject( $row );
     }
 
+    /**
+     * @inheritdoc
+     */
     static function definition()
     {
         return array( 'fields' => array( 'node_id' => array( 'name' => 'NodeID',
@@ -115,7 +121,12 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
                       'name' => 'ezcontentobject_trash' );
     }
 
-
+    /**
+     * Creates a new eZContentObjectTrashNode based on an eZContentObjectTreeNode
+     *
+     * @param eZContentObjectTreeNode $node
+     * @return eZContentObjectTrashNode
+     */
     static function createFromNode( $node )
     {
         $row = array( 'node_id' => $node->attribute( 'node_id' ),
@@ -139,6 +150,13 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         return $trashNode;
     }
 
+    /**
+     * Stores this object to the trash
+     *
+     * Loops through all attributes of the object and stores them to the trash
+     *
+     * @see eZDataType::trashStoredObjectAttribute()
+     */
     function storeToTrash()
     {
         $this->store();
@@ -146,6 +164,7 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         $db = eZDB::instance();
         $db->begin();
 
+        /** @var eZContentObject $contentObject */
         $contentObject = $this->attribute( 'object' );
         $offset = 0;
         $limit = 20;
@@ -169,6 +188,12 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         $db->commit();
     }
 
+    /**
+     * Purges an object from the trash, effectively deleting it from the database
+     *
+     * @param int $contentObjectID
+     * @return bool
+     */
     static function purgeForObject( $contentObjectID )
     {
         if ( !is_numeric( $contentObjectID ) )
@@ -179,9 +204,15 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         $db->commit();
     }
 
-    /*
-      Analog of eZContentObjectTreeNode::subTreeByNodeID(Count)() method, see it for extending this method
-    */
+    /**
+     * Returns a list or the number of nodes from the trash
+     *
+     * @see eZContentObjectTreeNode::subTreeByNodeID()
+     *
+     * @param array|bool $params
+     * @param bool $asCount If true, returns the number of items in the trash
+     * @return array|int|null
+     */
     static function trashList( $params = false, $asCount = false )
     {
         if ( $params === false )
@@ -287,12 +318,21 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         }
     }
 
+    /**
+     * Returns the number of nodes in the trash
+     *
+     * @param array|bool $params
+     * @return int
+     */
     static function trashListCount( $params = false )
     {
         return eZContentObjectTrashNode::trashList( $params, true );
     }
 
     /**
+     * Returns the parent of the current node in the tree before it has been moved to the trash or null when the
+     * original parent couldn't be retrieved (e.g. because it has been deleted, too, or moved)
+     *
      * @return eZContentObjectTreeNode|null
      */
     function originalParent()
@@ -321,6 +361,13 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         return null;
     }
 
+    /**
+     * Returns the path identification string of the node's parent, if available. Otherwise returns
+     * the node's path identification string
+     *
+     * @see originalParent()
+     * @return string
+     */
     function originalParentPathIdentificationString()
     {
         $originalParent = $this->originalParent();
@@ -335,9 +382,11 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
     }
 
     /**
-     * @param $contentObjectID
+     * Fetches a trash node by its content object id
+     *
+     * @param int $contentObjectID
      * @param bool $asObject
-     * @param bool $contentObjectVersion
+     * @param int|bool $contentObjectVersion
      * @return eZContentObjectTrashNode|null
      */
     public static function fetchByContentObjectID( $contentObjectID, $asObject = true, $contentObjectVersion = false )
@@ -356,7 +405,14 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         );
     }
 
+    /**
+     * @var eZContentObjectTreeNode|int|null The current trash node's original parent in the node tree
+     */
     protected $originalNodeParent = 0;
+
+    /**
+     * @var array
+     */
     protected $pathArray = 0;
 }
 
