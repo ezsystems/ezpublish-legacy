@@ -64,18 +64,17 @@ function changeSiteAccessSetting( &$siteaccess, $optionData )
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {
         $siteaccess = $optionData;
-        $cli->output( "Using siteaccess $siteaccess for cronjob" );
+        return "Using siteaccess $siteaccess for cronjob";
     }
     elseif ( isExtensionSiteaccess( $optionData ) )
     {
         $siteaccess = $optionData;
-        $cli->output( "Using extension siteaccess $siteaccess for cronjob" );
-
         eZExtension::prependExtensionSiteAccesses( $siteaccess );
+        return "Using extension siteaccess $siteaccess for cronjob";
     }
     else
     {
-        $cli->notice( "Siteaccess $optionData does not exist, using default siteaccess" );
+        return "Siteaccess $optionData does not exist, using default siteaccess";
     }
 }
 
@@ -271,8 +270,12 @@ $script->setUseDebugTimingPoints( $useDebugTimingpoints );
 $script->setUseIncludeFiles( $useIncludeFiles );
 $script->setIsQuiet( $isQuiet );
 
+$siteAccessChangeMessage = false;
+
 if ( $siteAccessSet )
-    changeSiteAccessSetting( $siteaccess, $siteAccessSet );
+{
+    $siteAccessChangeMessage = changeSiteAccessSetting( $siteaccess, $siteAccessSet );
+}
 
 if ( $webOutput )
     $useColors = true;
@@ -287,6 +290,15 @@ if ( !$script->isInitialized() )
 {
     $cli->error( 'Error initializing script: ' . $script->initializationError() . '.' );
     $script->shutdown( 0 );
+}
+
+if ( $siteAccessChangeMessage )
+{
+    $cli->output( $siteAccessChangeMessage );
+}
+else
+{
+    $cli->output( "Using siteaccess $siteaccess for cronjob" );
 }
 
 if ( $cronPart )
