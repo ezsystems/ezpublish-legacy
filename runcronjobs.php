@@ -294,6 +294,8 @@ if ( $cronPart )
     $cli->output( "Running cronjob part '$cronPart'" );
 }
 
+$db = eZDB::instance();
+$db->setIsSQLOutputEnabled( $showSQL );
 
 $ini = eZINI::instance( 'cronjob.ini' );
 $scriptDirectories = $ini->variable( 'CronjobSettings', 'ScriptDirectories' );
