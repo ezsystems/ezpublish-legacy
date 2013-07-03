@@ -1347,7 +1347,7 @@ class eZDataType
             eZDebug::writeError( "Datatype not found: '$type', searched in these directories: " . implode( ', ', $triedDirectories ), __METHOD__ );
             return false;
         }
-
+        include_once( $includeFile );
         return true;
     }
 

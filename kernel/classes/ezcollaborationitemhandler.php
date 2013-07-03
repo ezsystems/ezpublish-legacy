@@ -502,19 +502,16 @@ class eZCollaborationItemHandler
             return $objectCache[$handler];
 
         $handlerInstance = null;
-        $foundHandler = false;
 
         $handlerClass = $handler . 'collaborationhandler';
 
         if ( class_exists( $handlerClass ) )
         {
-            $foundHandler = true;
             $handlerInstance = new $handlerClass();
             $objectCache[$handler] = $handlerInstance;
             $handlerClasses = $handlerInstance->classes();
         }
-
-        if ( !$foundHandler )
+        else
         {
             eZDebug::writeWarning( "Collaboration class '$handlerClass' does not exist", __METHOD__ );
         }
