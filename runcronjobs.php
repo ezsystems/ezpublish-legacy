@@ -50,7 +50,7 @@ function help()
                   "  -s,--siteaccess    selected siteaccess for operations, if not specified default siteaccess is used\n" .
                   "  -d,--debug         display debug output at end of execution\n" .
                   "  -c,--colors        display output using ANSI colors\n" .
-                  "  --sql              display sql queries\n" .
+                  "  --sql              display sql queries (must be used in conjunction with debug option)\n" .
                   "  --logfiles         create log files\n" .
                   "  --no-logfiles      do not create log files (default)\n" .
                   "  --list             list all cronjobs parts and the scripts contained by each one\n" .
