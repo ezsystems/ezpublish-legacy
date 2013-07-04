@@ -438,13 +438,16 @@ class eZContentObjectVersion extends eZPersistentObject
                 {
                     $mainNode = eZNodeAssignment::fetchForObject( $object->attribute( 'id' ), $object->attribute( 'current_version' ) );
                     $parentObj = $mainNode[0]->attribute( 'parent_contentobject' );
-                    $result = $parentObj->checkAccess( 'create', $object->attribute( 'contentclass_id' ),
-                                                       $parentObj->attribute( 'contentclass_id' ), false, $originalLanguage );
-                    return $result;
-                }
-                else
-                {
-                    return 0;
+                    if ( $parentObj instanceof eZContentObject )
+                    {
+                        $result = $parentObj->checkAccess( 'create', $object->attribute( 'contentclass_id' ),
+                                                           $parentObj->attribute( 'contentclass_id' ), false, $originalLanguage );
+                        return $result;
+                    }
+                    else
+                    {
+                        eZDebug::writeError( "Error retrieving parent object of main node for object id: " . $object->attribute( 'id' ), __METHOD__ );
+                    }
                 }
             }
 
