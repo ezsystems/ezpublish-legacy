@@ -1307,17 +1307,20 @@ class eZTemplate
                  !isset( $operatorParameters[$i][0] ) or
                  $operatorParameters[$i][0] == eZTemplate::TYPE_VOID )
             {
+                // support missing 'default' parameter in named parameter list
+                $defaultParameterValue = null;
+                if ( isset( $parameterType[ "default" ] ) )
+                {
+                    $defaultParameterValue = $parameterType[ "default" ];
+                }
                 if ( $parameterType["required"] )
                 {
                     if ( !$checkExistance )
-                        $this->warning( "eZTemplateOperatorElement", "Parameter '$parameterName' ($i) missing",
-                                        $placement );
-                    $namedParameters[$parameterName] = $parameterType["default"];
+                    {
+                        $this->warning( "eZTemplateOperatorElement", "Parameter '$parameterName' ($i) missing", $placement );
+                    }
                 }
-                else
-                {
-                    $namedParameters[$parameterName] = $parameterType["default"];
-                }
+                $namedParameters[$parameterName] = $defaultParameterValue;
             }
             else
             {
