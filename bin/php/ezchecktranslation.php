@@ -140,11 +140,11 @@ function handleMessageNode( $contextName, $message, $cli, $data, $requireTransla
             }
             else if ( $message_child->localName == "location" )
             {
-                //Ignore it.
+                // Ignore it.
             }
             else if ( $message_child->localName == "translatorcomment" )
             {
-                //Ignore it.
+                // Ignore it.
             }
             else
             {
