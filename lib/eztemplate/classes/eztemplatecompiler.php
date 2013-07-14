@@ -297,7 +297,7 @@ class eZTemplateCompiler
             }
             else
             {
-                $compilationDirectory = eZDir::path( array( eZSys::cacheDirectory(), 'template/compiled' ) );
+                $compilationDirectory = eZDir::path( array( eZSys::cacheDirectory(), 'template' ) );
             }
         }
         return $compilationDirectory;

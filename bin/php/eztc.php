@@ -24,7 +24,7 @@ $script->startup();
 $options = $script->getOptions( "[compile-directory:][www-dir:][index-file:][access-path:][force][full-url][no-full-url]",
                                 "",
                                 array( 'force' => "Force compilation of template whether it has changed or not",
-                                       'compile-directory' => "Where to place compiled files,\ndefault is template/compiled in current cache directory",
+                                       'compile-directory' => "Where to place compiled files,\ndefault is template in current cache directory",
                                        'full-url' => "Makes sure generated urls have http:// in them (i.e. global), used mainly by sites that include the eZ Publish HTML (e.g payment gateways)",
                                        'no-full-url' => "Makes sure generated urls are relative to the site. (default)",
                                        'www-dir' => "The part before the index.php in your URL, you should supply this if you are running in non-virtualhost mode",
