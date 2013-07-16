@@ -8,10 +8,6 @@
  * @package kernel
  */
 
-// Check for extension
-eZExtension::activateExtensions();
-// Extension check end
-
 $ini = eZINI::instance( 'content.ini' );
 $unpublishClasses = $ini->variable( 'UnpublishSettings','ClassList' );
 
