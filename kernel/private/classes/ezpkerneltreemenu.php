@@ -79,7 +79,7 @@ class ezpKernelTreeMenu implements ezpKernelHandler
         // This makes ini system not check modified time so
         // that index_treemenu.php can assume that index.php does
         // this regular enough, set in config.php to override.
-        if ( !defined('EZP_INI_FILEMTIME_CHECK') )
+        if ( !defined( 'EZP_INI_FILEMTIME_CHECK' ) )
         {
             define( 'EZP_INI_FILEMTIME_CHECK', false );
         }
@@ -122,8 +122,7 @@ class ezpKernelTreeMenu implements ezpKernelHandler
                 eZSys::hostname(),
                 eZSys::serverPort(),
                 eZSys::indexFile()
-            )
-        ;
+            );
         eZSiteAccess::change( $this->access );
 
         // Check for new extension loaded by siteaccess
@@ -249,7 +248,7 @@ class ezpKernelTreeMenu implements ezpKernelHandler
             $this->uri->elements( false ),
             false,
             array(
-                 'use-cache-headers' => $this->settings['use-cache-headers']
+                'use-cache-headers' => $this->settings['use-cache-headers']
             )
         );
         $attributes = isset( $content['lastModified'] ) ? array( 'lastModified' => $content['lastModified'] ) : array();
@@ -334,8 +333,8 @@ class ezpKernelTreeMenu implements ezpKernelHandler
             return new ezpKernelResult(
                 json_encode(
                     array(
-                         'error'        => $errorMessage,
-                         'code'         => $errorCode
+                        'error'        => $errorMessage,
+                        'code'         => $errorCode
                     )
                 )
             );
