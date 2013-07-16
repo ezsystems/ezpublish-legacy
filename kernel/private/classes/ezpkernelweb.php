@@ -277,12 +277,6 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
 
         $this->mobileDeviceDetect = new ezpMobileDeviceDetect( ezpMobileDeviceDetectFilter::getFilter() );
         // eZSession::setSessionArray( $mainRequest->session );
-
-        /**
-         * Check for activating Debug by user ID (Final checking. The first was in eZDebug::updateSettings())
-         * @uses eZUser::instance() So needs to be executed after eZSession::start()|lazyStart()
-         */
-        eZDebug::checkDebugByUser();
     }
 
     /**
@@ -1180,6 +1174,12 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
         );
 
         $this->isInitialized = true;
+
+        /**
+         * Check for activating Debug by user ID (Final checking. The first was in eZDebug::updateSettings())
+         * @uses eZUser::instance() So needs to be executed after eZSession::start()|lazyStart()
+         */
+        eZDebug::checkDebugByUser();
     }
 
     /**
