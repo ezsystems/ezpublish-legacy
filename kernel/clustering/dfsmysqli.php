@@ -39,9 +39,10 @@ class ezpDfsMySQLiClusterGateway extends ezpClusterGateway
      * @param string $filePath
      * @return string The database table name
      */
-     protected function dbTable( $filePath ) {
-         $cacheDir = "/cache/";
-         $storageDir = "/storage/";
+     protected function dbTable( $filePath )
+     {
+         $cacheDir = eZINI::instance()->variable( 'FileSettings', 'CacheDir' );
+         $storageDir = eZINI::instance()->variable( 'FileSettings', 'StorageDir' );
 
          if ( strpos( $filePath, $cacheDir ) !== false and strpos( $filePath, $storageDir ) === false )
          {
