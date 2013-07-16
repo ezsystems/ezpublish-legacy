@@ -28,6 +28,22 @@ CREATE TABLE ezdfsfile (
   KEY ezdfsfile_mtime (mtime),
   KEY ezdfsfile_expired_name (expired,`name`(250))
 ) ENGINE=InnoDB;
+
+CREATE TABLE ezdfscachefile (
+  `name` text NOT NULL,
+  name_trunk text NOT NULL,
+  name_hash varchar(34) NOT NULL DEFAULT '',
+  datatype varchar(255) NOT NULL DEFAULT 'application/octet-stream',
+  scope varchar(25) NOT NULL DEFAULT '',
+  size bigint(20) unsigned NOT NULL DEFAULT '0',
+  mtime int(11) NOT NULL DEFAULT '0',
+  expired tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (name_hash),
+  KEY ezdfsfile_name (`name`(250)),
+  KEY ezdfsfile_name_trunk (name_trunk(250)),
+  KEY ezdfsfile_mtime (mtime),
+  KEY ezdfsfile_expired_name (expired,`name`(250))
+) ENGINE=InnoDB;
  */
 
 class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
@@ -69,13 +85,12 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
      * @param string $filePath
      * @return string The database table name
      */
-     protected function dbTable( $filePath ) {
-
-
+     protected function dbTable( $filePath )
+     {
          $cacheDir = "/cache/";
          $storageDir = "/storage/";
 
-         if ( strpos( $filePath, $cacheDir ) !== false and strpos( $filePath, $storageDir ) === false )
+         if ( strpos( $filePath, $cacheDir ) !== false && strpos( $filePath, $storageDir ) === false )
          {
              return $this->metaDataTableCache;
          }
@@ -1816,7 +1831,8 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
 
         $filePathList = array();
 
-        foreach ($tables as $table) {
+        foreach ($tables as $table)
+        {
             $query = "SELECT name FROM " . $table . " WHERE expired = 1 AND scope IN( $scopeString )";
             if ( $expiry !== false )
             {

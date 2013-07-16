@@ -102,17 +102,25 @@ class eZDFSFileHandlerDFSBackend
      * @param string $srcFilePath Local file path to copy from
      * @param bool|string $dstFilePath
      *        Optional path to copy to. If not specified, $srcFilePath is used
+     * @param bool $skipCopy Omits the copying of the physical file to the DFS share.
      * @return bool
      */
     public function copyToDFS( $srcFilePath, $dstFilePath = false )
     {
+
+
+        if( $skipCopy )
+        {
+            return TRUE;
+        }
+
         $this->accumulatorStart();
 
         $srcFileContents = file_get_contents( $srcFilePath );
         if ( $srcFileContents === false )
         {
             $this->accumulatorStop();
-            eZDebug::writeError( "Error getting contents of file FS://'$srcFilePath'.", __METHOD__ );
+            eZDebug::writeError( "Error getting contents of file 'FS://$srcFilePath'.", __METHOD__ );
             return false;
         }
 
