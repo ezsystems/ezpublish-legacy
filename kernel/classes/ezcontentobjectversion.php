@@ -634,6 +634,11 @@ class eZContentObjectVersion extends eZPersistentObject
                                 foreach( $this->attribute( 'node_assignments' ) as $nodeAssignment )
                                 {
                                     $parentNode = $nodeAssignment->attribute( 'parent_node_obj' );
+                                    if ( !$parentNode instanceof eZContentObjectTreeNode )
+                                    {
+                                        eZDebug::writeError( "Error retrieving parent of main node for object id: " . $this->attribute( 'contentobject_id' ), __METHOD__ );
+                                        return 0;
+                                    }
                                     $path = $parentNode->attribute( 'path_string' );
                                     $subtreeArray = $limitation;
                                     foreach ( $subtreeArray as $subtreeString )
@@ -687,6 +692,11 @@ class eZContentObjectVersion extends eZPersistentObject
                                 foreach( $this->attribute( 'node_assignments' ) as $nodeAssignment )
                                 {
                                     $parentNode = $nodeAssignment->attribute( 'parent_node_obj' );
+                                    if ( !$parentNode instanceof eZContentObjectTreeNode )
+                                    {
+                                        eZDebug::writeError( "Error retrieving parent of main node for object id: " . $this->attribute( 'contentobject_id' ), __METHOD__ );
+                                        return 0;
+                                    }
                                     $path = $parentNode->attribute( 'path_string' );
                                     $subtreeArray = $limitation;
                                     foreach ( $subtreeArray as $subtreeString )
