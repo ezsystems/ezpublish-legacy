@@ -235,6 +235,8 @@ if ( $access['type'] === eZSiteAccess::TYPE_URI )
 
 eZSiteAccess::load( $access );
 
+eZDebug::checkDebugByUser();
+
 // Change content object default language
 $GLOBALS['eZContentObjectDefaultLanguage'] = $LanguageCode;
 eZTranslatorManager::resetTranslations();
