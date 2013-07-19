@@ -47,6 +47,12 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
             {
                 $parser->prefix = str_replace( '/'.self::INDEX_FILE, '', $parser->prefix );
             }
+
+            $sa = eZSiteaccess::current();
+            if ( strpos( $_SERVER['REQUEST_URI'], $parser->prefix . '/' . $sa['name'] ) === 0 )
+            {
+                $parser->prefix = $parser->prefix . '/' . $sa['name'];
+            }
         }
 
         return $parser;
