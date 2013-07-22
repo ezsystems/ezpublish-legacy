@@ -85,7 +85,7 @@ if ( $module->isCurrentAction( 'Store' ) )
     {
         $cacheDir =  eZSys::cacheDirectory();
     }
-    $compiledTemplateDir = $cacheDir ."/template";
+    $compiledTemplateDir = $cacheDir ."/" . eZTemplateCompiler::compilationDefaultDirectory();
     eZDir::unlinkWildcard( $compiledTemplateDir . "/", "*pagelayout*.*" );
 
     // Expire template block cache
