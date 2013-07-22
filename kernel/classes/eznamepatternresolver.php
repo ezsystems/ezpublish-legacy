@@ -241,7 +241,7 @@ class eZNamePatternResolver
             }
             else
             {
-                if ( isset( $this->attributeArray[$tokenPart] ) && strlen( $this->attributeArray[$tokenPart] ) > 0 )
+                if ( isset( $this->attributeArray[$tokenPart] ) && $this->attributeArray[$tokenPart] !== '' && $this->attributeArray[$tokenPart] !== false )
                 {
                     $replaceString = $this->attributeArray[$tokenPart];
                     // We want to stop after the first matching token part / identifier is found
