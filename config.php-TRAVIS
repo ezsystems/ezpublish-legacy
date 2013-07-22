@@ -1,0 +1,8 @@
+<?php
+// config.php for Travis tests.
+// https://travis-ci.org/ezsystems/ezpublish-legacy
+
+// Explicitly don't use ezcBase autoloader, in favor of Composer's.
+define( 'EZCBASE_ENABLED', false );
+// Registering Composer autoloader.
+$loader = require __DIR__ . '/vendor/autoload.php';
