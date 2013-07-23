@@ -867,6 +867,10 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         foreach ( $overrideSettingGroups as $overrideName => $overrideSetting )
         {
+            if( !isset( $overrideSetting['Source'] ) )
+            {
+                continue;
+            }
             $overrideSource = "/" . $overrideSetting['Source'];
             $overrideMatchFile = $overrideSetting['MatchFile'];
 

@@ -176,6 +176,9 @@ class eZNodeviewfunctions
 
         $tpl->setVariable( 'node_path', $path );
 
+        $event = ezpEvent::getInstance();
+        $event->notify( 'content/pre_rendering', array( $node, $tpl, $viewMode ) );
+
         $Result = array();
         $Result['content']         = $tpl->fetch( 'design:node/view/' . $viewMode . '.tpl' );
         $Result['view_parameters'] = $viewParameters;
