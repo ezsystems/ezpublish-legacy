@@ -56,69 +56,7 @@
 
 {* DESIGN: Content END *}</div>
 
-<div class="controlbar">
-{* DESIGN: Control bar START *}
-
-<form method="post" action={'content/action'|ezurl}>
-<input type="hidden" name="TopLevelNode" value="{$node.object.main_node_id}" />
-<input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-<input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
-
-<div class="button-left">
-<div class='block'>
-{* Edit button. *}
-{def $can_create_languages = $node.object.can_create_languages
-     $languages            = fetch( 'content', 'prioritized_languages' )}
-{if $node.can_edit}
-    {if and(eq( $languages|count, 1 ), is_set( $languages[0] ) )}
-            <input name="ContentObjectLanguageCode" value="{$languages[0].locale}" type="hidden" />
-    {else}
-            <select name="ContentObjectLanguageCode">
-            {foreach $node.object.can_edit_languages as $language}
-                       <option value="{$language.locale}"{if $language.locale|eq($node.object.current_language)} selected="selected"{/if}>{$language.name|wash}</option>
-            {/foreach}
-            {if gt( $can_create_languages|count, 0 )}
-                <option value="">{'New translation'|i18n( 'design/admin/node/view/full')}</option>
-            {/if}
-            </select>
-    {/if}
-    <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'Edit the contents of this item.'|i18n( 'design/admin/node/view/full' )}" />
-{else}
-    <select name="ContentObjectLanguageCode" disabled="disabled">
-        <option value="">{'Not available'|i18n( 'design/admin/node/view/full')}</option>
-    </select>
-    <input class="button-disabled" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to edit this item.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
-{/if}
-{undef $can_create_languages}
-
-{* Move button. *}
-{if $node.can_move}
-    <input class="button" type="submit" name="MoveNodeButton" value="{'Move'|i18n( 'design/admin/node/view/full' )}" title="{'Move this item to another location.'|i18n( 'design/admin/node/view/full' )}" />
-{else}
-    <input class="button-disabled" type="submit" name="MoveNodeButton" value="{'Move'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to move this item to another location.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
-{/if}
-
-{* Remove button. *}
-{if $node.can_remove}
-    <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n( 'design/admin/node/view/full' )}" title="{'Remove this item.'|i18n( 'design/admin/node/view/full' )}" />
-{else}
-    <input class="button-disabled" type="submit" name="ActionRemove" value="{'Remove'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to remove this item.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
-{/if}
-</div>
-</div>
-
-<div class="button-right">
-	<p class='versions'>
-    {* Link to manage versions *}
-    <a href={concat("content/history/", $node.contentobject_id )|ezurl} title="{'View and manage (copy, delete, etc.) the versions of this object.'|i18n( 'design/admin/content/edit' )}">{'Manage versions'|i18n( 'design/admin/content/edit' )}</a>
-    </p>
-</div>
-
-<div class="float-break"></div>
-</form>
-{* DESIGN: Control bar END *}
-</div>
-
+{include uri='design:node/view/controlbar.tpl'}
 
 </div>
 
