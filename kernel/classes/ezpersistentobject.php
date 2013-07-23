@@ -58,6 +58,20 @@ class eZPersistentObject
     }
 
     /**
+     * Fetches a persistent object by id
+     *
+     * This method has to be overwritten by the inheriting class
+     *
+     * @param int $id ID of the object to fetch
+     * @param bool $asObject Return the result as an object (true) or an assoc. array (false)
+     * @return eZPersistentObject[]|array
+     */
+    public static function fetch( $id, $asObject = true )
+    {
+        return array();
+    }
+
+    /**
      * Tries to fill in the data in the object by using the object definition
      * which is returned by the function definition() and the database row
      * data $row. Each field will be fetch from the definition and then
