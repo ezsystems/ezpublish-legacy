@@ -8,14 +8,11 @@
  * @package kernel
  */
 
-/*!
-  \class eZPackageType ezpackagetype.php
-  \ingroup eZDatatype
-  \brief The class eZPackageType does
-
-*/
-
-
+/**
+ * Datatype to store eZPackage objects
+ *
+ * @package kernel
+ */
 class eZPackageType extends eZDataType
 {
     const DATA_TYPE_STRING = 'ezpackage';
@@ -24,18 +21,15 @@ class eZPackageType extends eZDataType
     const VIEW_MODE_FIELD = 'data_int1';
     const VIEW_MODE_VARIABLE = '_ezpackage_view_mode_';
 
-    /*!
-     Constructor
-    */
+    /**
+     * Initializes the datatype
+     */
     function eZPackageType()
     {
         $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'Package', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
-    /*!
-     Sets the default value.
-    */
     function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
     }
@@ -45,9 +39,6 @@ class eZPackageType extends eZDataType
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     Fetches the http post var string input and stores it in the data instance.
-    */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ezpackage_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
@@ -96,10 +87,6 @@ class eZPackageType extends eZDataType
         return true;
     }
 
-    /*!
-     Does nothing since it uses the data_text field in the content object attribute.
-     See fetchObjectAttributeHTTPInput for the actual storing.
-    */
     function storeObjectAttribute( $attribute )
     {
         $ini = eZINI::instance();
@@ -155,9 +142,10 @@ class eZPackageType extends eZDataType
         return true;
     }
 
-    /*!
-     Returns the content.
-    */
+    /**
+     * @inheritdoc
+     * @return eZPackage
+     */
     function objectAttributeContent( $contentObjectAttribute )
     {
         $packageName = $contentObjectAttribute->attribute( "data_text" );
@@ -165,17 +153,11 @@ class eZPackageType extends eZDataType
         return $package;
     }
 
-    /*!
-     Returns the meta data used for storing search indeces.
-    */
     function metaData( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_text' );
     }
 
-    /*!
-     Returns the content of the string for use as a title
-    */
     function title( $contentObjectAttribute, $name = null )
     {
         return $contentObjectAttribute->attribute( 'data_text' );

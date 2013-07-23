@@ -8,13 +8,11 @@
  * @package kernel
  */
 
-/*!
-  \class eZMatrixType ezmatrixtype.php
-  \ingroup eZDatatype
-  \brief The class eZMatrixType does
-
-*/
-
+/**
+ * Datatype that stores an eZMatrix object
+ *
+ * @package kernel
+ */
 class eZMatrixType extends eZDataType
 {
     const DEFAULT_NAME_VARIABLE = '_ezmatrix_default_name_';
@@ -24,21 +22,18 @@ class eZMatrixType extends eZDataType
     const CELL_VARIABLE = '_ezmatrix_cell_';
     const DATA_TYPE_STRING = 'ezmatrix';
 
-    /*!
-     Constructor
-    */
+    /**
+     * Initializes the datatype
+     */
     function eZMatrixType()
     {
         $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'Matrix', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
-    /*!
-     Validates the input and returns true if the input was
-     valid for this datatype.
-    */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
+        /** @var array|bool $data */
         $data = false;
         if ( $http->hasPostVariable( $base . '_ezmatrix_cell_' . $contentObjectAttribute->attribute( 'id' ) ) )
             $data = $http->PostVariable( $base . '_ezmatrix_cell_' . $contentObjectAttribute->attribute( 'id' ) );
@@ -58,9 +53,6 @@ class eZMatrixType extends eZDataType
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     Store content
-    */
     function storeObjectAttribute( $contentObjectAttribute )
     {
         $matrix = $contentObjectAttribute->content();
@@ -71,15 +63,17 @@ class eZMatrixType extends eZDataType
 
     function storeClassAttribute( $contentClassAttribute, $version )
     {
+        /** @var eZMatrixDefinition $matrixDefinition */
         $matrixDefinition = $contentClassAttribute->content();
         $contentClassAttribute->setAttribute( 'data_text5', $matrixDefinition->xmlString() );
         $matrixDefinition->decodeClassAttribute( $contentClassAttribute->attribute( 'data_text5' ) );
         $contentClassAttribute->setContent(  $matrixDefinition );
     }
 
-    /*!
-     Returns the content.
-    */
+    /**
+     * @inheritdoc
+     * @return eZMatrix
+     */
     function objectAttributeContent( $contentObjectAttribute )
     {
         $matrix = new eZMatrix( '' );
@@ -102,9 +96,6 @@ class eZMatrixType extends eZDataType
         return $count > 0;
     }
 
-    /*!
-     Returns the meta data used for storing search indeces.
-    */
     function metaData( $contentObjectAttribute )
     {
         $matrix = $contentObjectAttribute->content();
@@ -123,9 +114,6 @@ class eZMatrixType extends eZDataType
         return $metaDataArray;
     }
 
-    /*!
-     Fetches the http post var matrix cells input and stores it in the data instance.
-    */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $cellsVarName = $base . self::CELL_VARIABLE . $contentObjectAttribute->attribute( 'id' );
@@ -202,9 +190,6 @@ class eZMatrixType extends eZDataType
         }
     }
 
-    /*!
-     Returns the integer value.
-    */
     function title( $contentObjectAttribute, $name = 'name' )
     {
         $matrix = $contentObjectAttribute->content( );
@@ -214,9 +199,6 @@ class eZMatrixType extends eZDataType
         return $value;
     }
 
-    /*!
-     Sets the default value.
-    */
     function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
 
@@ -281,7 +263,6 @@ class eZMatrixType extends eZDataType
         $columnNameVariable = $base . '_data_ezmatrix_column_name_' . $classAttribute->attribute( 'id' );
         $columnIDVariable = $base . '_data_ezmatrix_column_id_' . $classAttribute->attribute( 'id' );
 
-
         if ( $http->hasPostVariable( $columnNameVariable ) && $http->hasPostVariable( $columnIDVariable ) )
         {
             $columns = array();
@@ -339,9 +320,10 @@ class eZMatrixType extends eZDataType
         $classAttribute->setAttribute( 'data_text5', $matrixDefinition->xmlString() );
     }
 
-    /*!
-     Returns the content.
-    */
+    /**
+     * @inheritdoc
+     * @return eZMatrixDefinition
+     */
     function classAttributeContent( $contentClassAttribute )
     {
         $matrixDefinition = new eZMatrixDefinition();
@@ -356,6 +338,7 @@ class eZMatrixType extends eZDataType
         {
             case 'new_ezmatrix_column' :
             {
+                /** @var eZMatrixDefinition $matrixDefinition */
                 $matrixDefinition = $contentClassAttribute->content( );
                 $matrixDefinition->addColumn( '' );
                 $contentClassAttribute->setContent( $matrixDefinition );
@@ -363,6 +346,7 @@ class eZMatrixType extends eZDataType
             }break;
             case 'remove_selected' :
             {
+                /** @var eZMatrixDefinition $matrixDefinition */
                 $matrixDefinition = $contentClassAttribute->content( );
 
                 $postvarname = 'ContentClass' . '_data_ezmatrix_column_remove_' . $contentClassAttribute->attribute( 'id' );
@@ -385,10 +369,6 @@ class eZMatrixType extends eZDataType
         return true;
     }
 
-    /*!
-     \return string representation of an contentobjectattribute data for simplified export
-
-    */
     function toString( $contentObjectAttribute )
     {
         $matrix = $contentObjectAttribute->attribute( 'content' );
@@ -435,6 +415,7 @@ class eZMatrixType extends eZDataType
 
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
+        /** @var eZMatrixDefinition $content */
         $content = $classAttribute->content();
         if ( $content )
         {
@@ -471,7 +452,9 @@ class eZMatrixType extends eZDataType
         $classAttribute->setAttribute( 'data_int1', $defaultRowCount );
 
         $matrixDefinition = new eZMatrixDefinition();
+        /** @var DOMElement $columnsNode */
         $columnsNode = $attributeParametersNode->getElementsByTagName( 'columns' )->item( 0 );
+        /** @var DOMElement[] $columnsList */
         $columnsList = $columnsNode->getElementsByTagName( 'column' );
         foreach ( $columnsList  as $columnNode )
         {

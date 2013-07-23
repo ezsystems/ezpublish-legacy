@@ -8,13 +8,11 @@
  * @package kernel
  */
 
-/*!
-  \class eZIdentifierType ezidentifiertype.php
-  \ingroup eZDatatype
-  \brief The class eZIdentifierType does
-
-*/
-
+/**
+ * Stores an eZIdentifier
+ *
+ * @package kernel
+ */
 class eZIdentifierType extends eZDataType
 {
     const PRETEXT_FIELD = "data_text1";
@@ -34,9 +32,9 @@ class eZIdentifierType extends eZDataType
 
     const DATA_TYPE_STRING = "ezidentifier";
 
-    /*!
-     Constructor
-    */
+    /**
+     * Initializes the datatype
+     */
     function eZIdentifierType()
     {
         $this->eZDataType( self::DATA_TYPE_STRING,
@@ -47,10 +45,6 @@ class eZIdentifierType extends eZDataType
         $this->IntegerValidator = new eZIntegerValidator( 1 );
     }
 
-    /*!
-     Validates the input and returns true if the input was
-     valid for this datatype.
-    */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
     }
@@ -59,17 +53,14 @@ class eZIdentifierType extends eZDataType
     {
     }
 
-    /*!
-     Store the content. Since the content has been stored in function fetchObjectAttributeHTTPInput(),
-     this function is with empty code.
-    */
     function storeObjectAttribute( $contentObjectattribute )
     {
     }
 
-    /*!
-     Returns the content.
-    */
+    /**
+     * @inheritdoc
+     * @return string
+     */
     function objectAttributeContent( $contentObjectAttribute )
     {
         $content = $contentObjectAttribute->attribute( "data_text" );
@@ -86,7 +77,6 @@ class eZIdentifierType extends eZDataType
         return $contentObjectAttribute->attribute( 'data_text' );
     }
 
-
     function fromString( $contentObjectAttribute, $string )
     {
         if ( $string == '' )
@@ -94,6 +84,7 @@ class eZIdentifierType extends eZDataType
         $contentObjectAttribute->setAttribute( 'data_text', $string );
         return true;
     }
+
     function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $content = $contentObjectAttribute->attribute( "data_text" );
@@ -112,10 +103,6 @@ class eZIdentifierType extends eZDataType
         }
     }
 
-    /*!
-      Validates the input and returns true if the input was
-      valid for this datatype.
-    */
     function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $startValueName = $base . self::START_VALUE_VARIABLE . $classAttribute->attribute( "id" );
@@ -192,17 +179,15 @@ class eZIdentifierType extends eZDataType
         return true;
     }
 
-    /*!
-     Returns the meta data used for storing search indices.
-    */
+    /**
+     * @inheritdoc
+     * @return string
+     */
     function metaData( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( "data_text" );
     }
 
-    /*!
-     Returns the text.
-    */
     function title( $contentObjectAttribute, $name = null )
     {
         return  $contentObjectAttribute->attribute( "data_text" );
@@ -212,7 +197,6 @@ class eZIdentifierType extends eZDataType
     {
         return true;
     }
-
 
     function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
@@ -227,10 +211,6 @@ class eZIdentifierType extends eZDataType
         }
     }
 
-    /*!
-      When published it will check if it needs to aquire a new unique identifier, if so
-      it updates all existing versions with this new identifier.
-    */
     function onPublish( $contentObjectAttribute, $contentObject, $publishedNodes )
     {
         $contentClassAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
@@ -239,10 +219,13 @@ class eZIdentifierType extends eZDataType
         return $ret;
     }
 
-    /*!
-      \private
-      Assigns the identifiervalue for the first version of the current attribute.
-    */
+    /**
+     * Assigns the identifiervalue for the first version of the current attribute.
+     *
+     * @param eZContentClassAttribute $contentClassAttribute
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @return bool
+     */
     function assignValue( $contentClassAttribute, $contentObjectAttribute )
     {
 
@@ -329,10 +312,14 @@ class eZIdentifierType extends eZDataType
         return 'string';
     }
 
-    /*!
-      \private
-      Store the new value to the attribute.
-    */
+    /**
+     * Stores the new value to the attribute.
+     *
+     * @param eZContentClassAttribute $contentClassAttribute
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param string $identifierValue
+     * @return bool
+     */
     function storeIdentifierValue( $contentClassAttribute, $contentObjectAttribute, $identifierValue )
     {
         $value = eZIdentifierType::generateIdentifierString( $contentClassAttribute, $identifierValue );
@@ -341,6 +328,13 @@ class eZIdentifierType extends eZDataType
         return true;
     }
 
+    /**
+     * Generates an identifier string
+     *
+     * @param eZContentClassAttribute $contentClassAttribute
+     * @param string|bool $identifierValue
+     * @return string
+     */
     function generateIdentifierString( $contentClassAttribute, $identifierValue = false )
     {
         $preText = $contentClassAttribute->attribute( self::PRETEXT_FIELD );

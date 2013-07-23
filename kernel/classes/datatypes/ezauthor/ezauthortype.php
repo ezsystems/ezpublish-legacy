@@ -8,27 +8,24 @@
  * @package kernel
  */
 
-/*!
-  \class eZAuthorType ezauthortype.php
-  \ingroup eZDatatype
-  \brief eZAuthorType handles multiple authors
-
-*/
-
+/**
+ * eZAuthorType handles multiple authors
+ *
+ * @package kernel
+ */
 class eZAuthorType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezauthor";
 
+    /**
+     * Initializes the datatype
+     */
     function eZAuthorType()
     {
         $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Authors", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
-    /*!
-     Validates the input and returns true if the input was
-     valid for this datatype.
-    */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $actionRemoveSelected = false;
@@ -101,18 +98,12 @@ class eZAuthorType extends eZDataType
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     Store content
-    */
     function storeObjectAttribute( $contentObjectAttribute )
     {
         $author = $contentObjectAttribute->content();
         $contentObjectAttribute->setAttribute( "data_text", $author->xmlString() );
     }
 
-    /*!
-     Sets the default value.
-    */
     function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
@@ -122,9 +113,6 @@ class eZAuthorType extends eZDataType
         }
     }
 
-    /*!
-     Returns the content.
-    */
     function objectAttributeContent( $contentObjectAttribute )
     {
         $author = new eZAuthor( );
@@ -152,12 +140,9 @@ class eZAuthorType extends eZDataType
         return $author;
     }
 
-
-    /*!
-     Returns the meta data used for storing search indeces.
-    */
     function metaData( $contentObjectAttribute )
     {
+        /** @var eZAuthor $author */
         $author = $contentObjectAttribute->content();
         if ( !$author )
             return false;
@@ -176,12 +161,15 @@ class eZAuthorType extends eZDataType
         return eZStringUtils::implodeStr( $authorList, "&" );
     }
 
+    /**
+     * @inheritdoc
+     * @return eZAuthor
+     */
     function fromString( $contentObjectAttribute, $string )
     {
         $authorList = eZStringUtils::explodeStr( $string, '&' );
 
         $author = new eZAuthor( );
-
 
         foreach ( $authorList as $authorStr )
         {
@@ -193,9 +181,6 @@ class eZAuthorType extends eZDataType
         return $author;
     }
 
-    /*!
-     Fetches the http post var integer input and stores it in the data instance.
-    */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_data_author_id_" . $contentObjectAttribute->attribute( "id" ) ) )
@@ -253,9 +238,6 @@ class eZAuthorType extends eZDataType
         return count( $authorList ) > 0;
     }
 
-    /*!
-     Returns the string value.
-    */
     function title( $contentObjectAttribute, $name = null )
     {
         $author = $contentObjectAttribute->content( );

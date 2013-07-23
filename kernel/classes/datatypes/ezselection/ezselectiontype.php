@@ -8,42 +8,29 @@
  * @package kernel
  */
 
-/*!
-  \class   ezselectiontype ezselectiontype.php
-  \ingroup eZDatatype
-  \brief   Handles the single and multiple selections.
-  \date    Wednesday 23 July 2003 12:48:45 pm
-  \author  B�rd Farstad
-
-*/
-
+/**
+ * Handles the single and multiple selections.
+ *
+ * @package kernel
+ */
 class eZSelectionType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezselection";
 
-    /*!
-      Constructor
-    */
+    /**
+     * Initializes the datatype
+     */
     function eZSelectionType()
     {
         $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Selection", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
-    /*!
-     Validates all variables given on content class level
-     \return eZInputValidator::STATE_ACCEPTED or eZInputValidator::STATE_INVALID if
-             the values are accepted or not
-    */
     function validateClassAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     Fetches all variables inputed on content class level
-     \return true if fetching of class attributes are successfull, false if not
-    */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $attributeContent = $this->classAttributeContent( $classAttribute );
@@ -136,11 +123,7 @@ class eZSelectionType extends eZDataType
         }
         return true;
     }
-    /*!
-     Validates input on content object level
-     \return eZInputValidator::STATE_ACCEPTED or eZInputValidator::STATE_INVALID if
-             the values are accepted or not
-    */
+
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -168,10 +151,6 @@ class eZSelectionType extends eZDataType
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     Fetches all variables from the object
-     \return true if fetching of class attributes are successfull, false if not
-    */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) ) )
@@ -206,9 +185,6 @@ class eZSelectionType extends eZDataType
         }
     }
 
-   /*!
-    Fetches the http post variables for collected information
-   */
     function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) ) )
@@ -221,9 +197,6 @@ class eZSelectionType extends eZDataType
         return false;
     }
 
-    /*!
-     Sets the default value.
-    */
     function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
@@ -234,18 +207,20 @@ class eZSelectionType extends eZDataType
         }
     }
 
-    /*!
-     Returns the selected options by id.
-    */
+    /**
+     * @inheritdoc
+     * @return array
+     */
     function objectAttributeContent( $contentObjectAttribute )
     {
         $idString = explode( '-', $contentObjectAttribute->attribute( 'data_text' ) );
         return $idString;
     }
 
-    /*!
-     Returns the content data for the given content class attribute.
-    */
+    /**
+     * @inheritdoc
+     * @return array
+     */
     function classAttributeContent( $classAttribute )
     {
         $dom = new DOMDocument( '1.0', 'utf-8' );
@@ -256,6 +231,7 @@ class eZSelectionType extends eZDataType
             $success = $dom->loadXML( $xmlString );
             if ( $success )
             {
+                /** @var DOMElement[] $options */
                 $options = $dom->getElementsByTagName( 'option' );
 
                 foreach ( $options as $optionNode )
@@ -276,9 +252,6 @@ class eZSelectionType extends eZDataType
         return $attrValue;
     }
 
-    /*!
-     Returns the meta data used for storing search indeces.
-    */
     function metaData( $contentObjectAttribute )
     {
         $selected = $this->objectAttributeContent( $contentObjectAttribute );
@@ -328,7 +301,6 @@ class eZSelectionType extends eZDataType
         return '';
     }
 
-
     function fromString( $contentObjectAttribute, $string )
     {
         if ( $string == '' )
@@ -351,9 +323,6 @@ class eZSelectionType extends eZDataType
         return true;
     }
 
-    /*!
-     Returns the value as it will be shown if this attribute is used in the object name pattern.
-    */
     function title( $contentObjectAttribute, $name = null )
     {
         $selected = $this->objectAttributeContent( $contentObjectAttribute );
@@ -388,9 +357,6 @@ class eZSelectionType extends eZDataType
         return 'string';
     }
 
-    /*!
-     \return true if the datatype can be indexed
-    */
     function isIndexable()
     {
         return true;

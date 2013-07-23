@@ -8,19 +8,18 @@
  * @package kernel
  */
 
-/*!
-  \class eZSubtreeSubscriptionType ezsubtreesubscriptiontype.php
-  \ingroup eZDatatype
-  \brief The class eZSubtreeSubscriptionType does
-
-*/
+/**
+ * Stores an ezsubtreesubscription object
+ *
+ * @package kernel
+ */
 class eZSubtreeSubscriptionType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezsubtreesubscription";
 
-    /*!
-     Constructor
-    */
+    /**
+     * Initializes the datatype
+     */
     function eZSubtreeSubscriptionType()
     {
         $this->eZDataType(  self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Subtree subscription", 'Datatype name' ),
@@ -28,10 +27,6 @@ class eZSubtreeSubscriptionType extends eZDataType
                                    'object_serialize_map' => array( 'data_int' => 'value' ) ) );
     }
 
-
-    /*!
-     Store content
-    */
     function onPublish( $attribute, $contentObject, $publishedNodes )
     {
         $user = eZUser::currentUser();
@@ -71,9 +66,6 @@ class eZSubtreeSubscriptionType extends eZDataType
         return true;
     }
 
-    /*!
-     Fetches the http post var integer input and stores it in the data instance.
-    */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_data_subtreesubscription_" . $contentObjectAttribute->attribute( "id" ) ))
@@ -99,7 +91,6 @@ class eZSubtreeSubscriptionType extends eZDataType
     {
         return $contentObjectAttribute->attribute( 'data_int' );
     }
-
 
     function fromString( $contentObjectAttribute, $string )
     {

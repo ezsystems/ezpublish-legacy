@@ -8,19 +8,18 @@
  * @package kernel
  */
 
-/*!
-  \class eZOptionType ezoptiontype.php
-  \ingroup eZDatatype
-  \brief Stores option values
-
-*/
-
+/**
+ * Stores option values
+ */
 class eZOptionType extends eZDataType
 {
     const DEFAULT_NAME_VARIABLE = "_ezoption_default_name_";
 
     const DATA_TYPE_STRING = "ezoption";
 
+    /**
+     * Initializes the datatype
+     */
     function eZOptionType()
     {
         $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Option", 'Datatype name' ),
@@ -49,10 +48,6 @@ class eZOptionType extends eZDataType
         }
     }
 
-    /*!
-     Validates the input and returns true if the input was
-     valid for this datatype.
-    */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $count = 0;
@@ -115,18 +110,16 @@ class eZOptionType extends eZDataType
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     Store content
-    */
     function storeObjectAttribute( $contentObjectAttribute )
     {
         $option = $contentObjectAttribute->content();
         $contentObjectAttribute->setAttribute( "data_text", $option->xmlString() );
     }
 
-    /*!
-     Returns the content.
-    */
+    /**
+     * @inheritdoc
+     * @return eZOption
+     */
     function objectAttributeContent( $contentObjectAttribute )
     {
         $option = new eZOption( "" );
@@ -136,17 +129,11 @@ class eZOptionType extends eZDataType
         return $option;
     }
 
-    /*!
-     Returns the meta data used for storing search indeces.
-    */
     function metaData( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( "data_text" );
     }
 
-    /*!
-     Fetches the http post var integer input and stores it in the data instance.
-    */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $optionName = $http->postVariable( $base . "_data_option_name_" . $contentObjectAttribute->attribute( "id" ) );
@@ -176,10 +163,6 @@ class eZOptionType extends eZDataType
         return true;
     }
 
-
-    /*!
-     Fetches the http post variables for collected information
-    */
     function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) ) )
@@ -241,10 +224,6 @@ class eZOptionType extends eZDataType
         }
     }
 
-    /*!
-     Finds the option which has the ID that matches \a $optionID, if found it returns
-     an option structure.
-    */
     function productOptionInformation( $objectAttribute, $optionID, $productItem )
     {
         $option = $objectAttribute->attribute( 'content' );
@@ -261,9 +240,6 @@ class eZOptionType extends eZDataType
         return false;
     }
 
-    /*!
-     Returns the integer value.
-    */
     function title( $contentObjectAttribute, $name = "name" )
     {
         $option = $contentObjectAttribute->content( );
@@ -280,9 +256,6 @@ class eZOptionType extends eZDataType
         return count( $options ) > 0;
     }
 
-    /*!
-     Sets the default value.
-    */
     function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion == false )
@@ -341,7 +314,6 @@ class eZOptionType extends eZDataType
         return eZStringUtils::implodeStr( $optionArray, "|" );
     }
 
-
     function fromString( $contentObjectAttribute, $string )
     {
         if ( $string == '' )
@@ -362,12 +334,12 @@ class eZOptionType extends eZDataType
                                        'additional_price' => array_shift( $optionArray ) ) );
         }
 
-
         $contentObjectAttribute->setAttribute( "data_text", $option->xmlString() );
 
         return $option;
 
     }
+
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultValue = $classAttribute->attribute( 'data_text1' );

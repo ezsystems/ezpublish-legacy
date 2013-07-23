@@ -8,17 +8,18 @@
  * @package kernel
  */
 
-/*!
-  \class eZProductCategoryType ezproductcategorytype.php
-  \ingroup eZDatatype
-  \brief Stores product category.
-
-*/
-
+/**
+ * Stores an eZProductCategory object
+ *
+ * @package kernel
+ */
 class eZProductCategoryType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezproductcategory";
 
+    /**
+     * Initializes the datatype
+     */
     function eZProductCategoryType()
     {
         $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Product category", 'Datatype name' ),
@@ -26,9 +27,6 @@ class eZProductCategoryType extends eZDataType
                                   'object_serialize_map' => array( 'data_int' => 'value' ) ) );
     }
 
-   /*!
-     Sets the default value.
-    */
     function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
@@ -43,9 +41,6 @@ class eZProductCategoryType extends eZDataType
         }
     }
 
-    /*!
-      Validates the http post var.
-    */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( !$contentObjectAttribute->validateIsRequired() )
@@ -64,9 +59,6 @@ class eZProductCategoryType extends eZDataType
         return eZInputValidator::STATE_INVALID;
     }
 
-    /*!
-     Fetches the http post var and stores it in the data instance.
-    */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_category_id_" . $contentObjectAttribute->attribute( "id" ) ))
@@ -84,9 +76,6 @@ class eZProductCategoryType extends eZDataType
         return true;
     }
 
-   /*!
-    Fetches the http post variable for collected information
-   */
     function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_category_id_" . $contentObjectAttribute->attribute( "id" ) ))
@@ -129,9 +118,10 @@ class eZProductCategoryType extends eZDataType
         return 'int';
     }
 
-    /*!
-     Returns the content.
-    */
+    /**
+     * @inheritdoc
+     * @return eZProductCategory
+     */
     function objectAttributeContent( $contentObjectAttribute )
     {
         $category = eZProductCategory::fetch( $contentObjectAttribute->attribute( 'data_int' ) );
@@ -153,7 +143,6 @@ class eZProductCategoryType extends eZDataType
         }
         return '';
     }
-
 
     function fromString( $contentObjectAttribute, $string )
     {
@@ -183,9 +172,6 @@ class eZProductCategoryType extends eZDataType
         return false;
     }
 
-    /*!
-     Returns the integer value.
-    */
     function title( $contentObjectAttribute, $name = null )
     {
         $categoryID = $contentObjectAttribute->attribute( "data_int" );

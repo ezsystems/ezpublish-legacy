@@ -8,13 +8,11 @@
  * @package kernel
  */
 
-/*!
-  \class eZDateTimeType ezdatetimetype.php
-  \ingroup eZDatatype
-  \brief Stores a date and time value
-
-*/
-
+/**
+ * Stores a date and time value
+ *
+ * @package kernel
+ */
 class eZDateTimeType extends eZDataType
 {
     const DATA_TYPE_STRING = 'ezdatetime';
@@ -31,15 +29,27 @@ class eZDateTimeType extends eZDataType
 
     const DEFAULT_ADJUSTMENT = 2;
 
+    /**
+     * Initializes the datatype
+     */
     function eZDateTimeType()
     {
         $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Date and time", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
-    /*!
-     Private method only for use inside this class
-    */
+    /**
+     * Validates the given values if they form a valid datetime
+     *
+     * @param int|string $day
+     * @param int|string $month
+     * @param int|string $year
+     * @param int|string $hour
+     * @param int|string $minute
+     * @param int|string $second
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @return int
+     */
     function validateDateTimeHTTPInput( $day, $month, $year, $hour, $minute, $second, $contentObjectAttribute )
     {
         $state = eZDateTimeValidator::validateDate( $day, $month, $year );
@@ -61,10 +71,6 @@ class eZDateTimeType extends eZDataType
         return $state;
     }
 
-    /*!
-     Validates the input and returns true if the input was
-     valid for this datatype.
-    */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -121,9 +127,6 @@ class eZDateTimeType extends eZDataType
             return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     Fetches the http post var integer input and stores it in the data instance.
-    */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -213,9 +216,6 @@ class eZDateTimeType extends eZDataType
             return eZInputValidator::STATE_INVALID;
     }
 
-   /*!
-    Fetches the http post variables for collected information
-   */
     function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
     {
         $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -254,9 +254,10 @@ class eZDateTimeType extends eZDataType
         return false;
     }
 
-    /*!
-     Returns the content.
-    */
+    /**
+     * @inheritdoc
+     * @return eZDateTime
+     */
     function objectAttributeContent( $contentObjectAttribute )
     {
         $dateTime = new eZDateTime();
@@ -275,17 +276,11 @@ class eZDateTimeType extends eZDataType
         return true;
     }
 
-    /*!
-     Returns the meta data used for storing search indeces.
-    */
     function metaData( $contentObjectAttribute )
     {
         return (int)$contentObjectAttribute->attribute( 'data_int' );
     }
-    /*!
-     \return string representation of an contentobjectattribute data for simplified export
 
-    */
     function toString( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_int' );
@@ -296,9 +291,6 @@ class eZDateTimeType extends eZDataType
         return $contentObjectAttribute->setAttribute( 'data_int', $string );
     }
 
-    /*!
-     Set class attribute value for template version
-    */
     function initializeClassAttribute( $classAttribute )
     {
         if ( $classAttribute->attribute( self::DEFAULT_FIELD ) == null )
@@ -306,6 +298,12 @@ class eZDateTimeType extends eZDataType
         $classAttribute->store();
     }
 
+    /**
+     * Parses an XML Text into a DOMDocument
+     *
+     * @param string $xmlText
+     * @return DOMDocument
+     */
     function parseXML( $xmlText )
     {
         $dom = new DOMDocument;
@@ -313,6 +311,10 @@ class eZDateTimeType extends eZDataType
         return $dom;
     }
 
+    /**
+     * @inheritdoc
+     * @return array
+     */
     function classAttributeContent( $classAttribute )
     {
         $xmlText = $classAttribute->attribute( 'data_text5' );
@@ -356,6 +358,9 @@ class eZDateTimeType extends eZDataType
         return $content;
     }
 
+    /**
+     * @return array
+     */
     function defaultClassAttributeContent()
     {
         return array( 'year' => '',
@@ -366,9 +371,6 @@ class eZDateTimeType extends eZDataType
                       'second' => '' );
     }
 
-    /*!
-     Sets the default value.
-    */
     function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
@@ -429,6 +431,9 @@ class eZDateTimeType extends eZDataType
         return true;
     }
 
+    /**
+     * @return array
+     */
     function contentObjectArrayXMLMap()
     {
         return array( 'year' => 'year',
@@ -439,10 +444,6 @@ class eZDateTimeType extends eZDataType
                       'second' => 'second' );
     }
 
-
-    /*!
-     Returns the date.
-    */
     function title( $contentObjectAttribute, $name = null )
     {
         $locale = eZLocale::instance();

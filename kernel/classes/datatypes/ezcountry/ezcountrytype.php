@@ -8,17 +8,11 @@
  * @package kernel
  */
 
-/*!
-  \class eZCountryType ezcountrytype.php
-  \ingroup eZDatatype
-  \brief A content datatype that contains country.
-
-  The list of countries is fetched from contenet.ini.
-  Country is stored as text string.
-*/
-
-
-
+/**
+ * A content datatype that contains countries.
+ *
+ * @package kernel
+ */
 class eZCountryType extends eZDataType
 {
     const DATA_TYPE_STRING = 'ezcountry';
@@ -27,6 +21,9 @@ class eZCountryType extends eZDataType
 
     const MULTIPLE_CHOICE_FIELD = 'data_int1';
 
+    /**
+     * Initializes the datatype
+     */
     function eZCountryType()
     {
         $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'Country', 'Datatype name' ),
@@ -34,9 +31,11 @@ class eZCountryType extends eZDataType
                                   'object_serialize_map' => array( 'data_text' => 'country' ) ) );
     }
 
-    /*!
-     Fetches country list from ini.
-    */
+    /**
+     * Fetches a list of countryies list from country.ini
+     *
+     * @return array
+     */
     static function fetchCountryList()
     {
         if ( isset( $GLOBALS['CountryList'] ) )
@@ -49,10 +48,11 @@ class eZCountryType extends eZDataType
         return $countries;
     }
 
-    /*!
-      Fetches translated country names from locale
-      \a $countries will be updated.
-    */
+    /**
+     * Fetches translated country names from locale. $countries will be updated.
+     *
+     * @param $countries
+     */
     static function fetchTranslatedNames( &$countries )
     {
         $locale = eZLocale::instance();
@@ -78,10 +78,13 @@ class eZCountryType extends eZDataType
         return strcoll( $a["Name"], $b["Name"] );
     }
 
-    /*!
-      Fetches country by \a $fetchBy.
-      if \a $fetchBy is false country name will be used.
-    */
+    /**
+     * Fetches country by $fetchBy. If $fetchBy is false country name will be used.
+     *
+     * @param string $value
+     * @param string|bool $fetchBy
+     * @return bool
+     */
     static function fetchCountry( $value, $fetchBy = false )
     {
         $fetchBy = !$fetchBy ? 'Name' : $fetchBy;
@@ -163,9 +166,6 @@ class eZCountryType extends eZDataType
         return false;
     }
 
-    /*!
-     Sets the default value.
-    */
     function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
@@ -216,9 +216,6 @@ class eZCountryType extends eZDataType
         return eZInputValidator::STATE_INVALID;
     }
 
-    /*!
-     Fetches the http post var and stores it in the data instance.
-    */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_country_' . $contentObjectAttribute->attribute( 'id' ) ) )
@@ -260,9 +257,6 @@ class eZCountryType extends eZDataType
         return true;
     }
 
-    /*!
-     Fetches the http post variables for collected information
-    */
     function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_country_" . $contentObjectAttribute->attribute( "id" ) ) )
@@ -286,9 +280,6 @@ class eZCountryType extends eZDataType
         $contentObjectAttribute->setAttribute( "data_text", $value );
     }
 
-    /*!
-     Simple string insertion is supported.
-    */
     function isSimpleStringInsertionSupported()
     {
         return true;
@@ -305,9 +296,10 @@ class eZCountryType extends eZDataType
         return true;
     }
 
-    /*!
-     Returns the content.
-    */
+    /**
+     * @inheritdoc
+     * @return array
+     */
     function objectAttributeContent( $contentObjectAttribute )
     {
         $value = $contentObjectAttribute->attribute( 'data_text' );
@@ -328,6 +320,10 @@ class eZCountryType extends eZDataType
         return $content;
     }
 
+    /**
+     * @inheritdoc
+     * @return array
+     */
     function classAttributeContent( $classAttribute )
     {
         $defaultCountry = $classAttribute->attribute( self::DEFAULT_LIST_FIELD );
@@ -346,9 +342,6 @@ class eZCountryType extends eZDataType
         return $content;
     }
 
-    /*!
-     Returns the meta data used for storing search indeces.
-    */
     function metaData( $contentObjectAttribute )
     {
         $content = $contentObjectAttribute->content();
@@ -368,9 +361,6 @@ class eZCountryType extends eZDataType
         return $content['value'];
     }
 
-    /*!
-     \return string representation of an contentobjectattribute data for simplified export
-    */
     function toString( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_text' );
@@ -381,9 +371,6 @@ class eZCountryType extends eZDataType
         return $contentObjectAttribute->setAttribute( 'data_text', $string );
     }
 
-    /*!
-     Returns the country for use as a title
-    */
     function title( $contentObjectAttribute, $name = null )
     {
         $content = $contentObjectAttribute->content();

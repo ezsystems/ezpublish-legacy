@@ -8,37 +8,31 @@
  * @package kernel
  */
 
-/*!
-  \class eZObjectRelationListType ezobjectrelationlisttype.php
-  \ingroup eZDatatype
-  \brief A content datatype which handles object relations
-
-Bugs/missing/deprecated features:
-- No identifier support yet
-- Validation and fixup for "Add new object" functionality
-- Proper embed views for admin classes
-- No translation page support yet (maybe?)
-- is_modified is deprecated and is used for BC only.
-
-*/
-
+/**
+ * A content datatype which handles object relations
+ *
+ * Bugs/missing/deprecated features:
+ * - No identifier support yet
+ * - Validation and fixup for "Add new object" functionality
+ * - Proper embed views for admin classes
+ * - No translation page support yet (maybe?)
+ * - is_modified is deprecated and is used for BC only.
+ *
+ * @package kernel
+ */
 class eZObjectRelationListType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezobjectrelationlist";
 
-    /*!
-     Initializes with a string id and a description.
-    */
+    /**
+     * Initializes the datatype
+     */
     function eZObjectRelationListType()
     {
         $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Object relations", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
-    /*!
-     Validates the input and returns true if the input was
-     valid for this datatype.
-    */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $postVariableName = $base . "_data_object_relation_list_" . $contentObjectAttribute->attribute( "id" );
@@ -143,10 +137,6 @@ class eZObjectRelationListType extends eZDataType
         return $status;
     }
 
-    /*!
-     Validates the input and returns true if the input was
-     valid for this datatype.
-    */
     function fixupObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $content = $contentObjectAttribute->content();
@@ -157,6 +147,7 @@ class eZObjectRelationListType extends eZDataType
             {
                 $subObjectID = $relationItem['contentobject_id'];
                 $attributeBase = $base . '_ezorl_edit_object_' . $subObjectID;
+                /** @var eZContentObject $object */
                 $object = $content['temp'][$subObjectID]['object'];
                 $requireFixup = $content['temp'][$subObjectID]['require-fixup'];
                 if ( $object and
@@ -169,9 +160,6 @@ class eZObjectRelationListType extends eZDataType
         }
     }
 
-    /*!
-     Fetches the http post var string input and stores it in the data instance.
-    */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $content = $contentObjectAttribute->content();
@@ -276,6 +264,7 @@ class eZObjectRelationListType extends eZDataType
             {
                 $subObjectID = $relationItem['contentobject_id'];
                 $attributeBase = $base . '_ezorl_edit_object_' . $subObjectID;
+                /** @var eZContentObject $object */
                 $object = $content['temp'][$subObjectID]['object'];
                 if ( $object )
                 {
@@ -311,6 +300,13 @@ class eZObjectRelationListType extends eZDataType
         return true;
     }
 
+    /**
+     * Creates a new content object and returns its ID
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param string $name
+     * @return bool|int
+     */
     function createNewObject( $contentObjectAttribute, $name )
     {
         $classAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
@@ -391,7 +387,7 @@ class eZObjectRelationListType extends eZDataType
         $contentObjectVersion = $attribute->Version;
 
         $obj = $attribute->object();
-        //get eZContentObjectVersion
+        /** @var eZContentObjectVersion $currVerobj */
         $currVerobj = $obj->version( $contentObjectVersion );
 
         // create translation List
@@ -425,6 +421,7 @@ class eZObjectRelationListType extends eZDataType
             if ( $relationItem['is_modified'] && isset( $content['temp'][$subObjectID]['object' ] ) )
             {
                 // handling sub-objects
+                /** @var eZContentObject $object */
                 $object = $content['temp'][$subObjectID]['object'];
                 if ( $object )
                 {
@@ -698,24 +695,34 @@ class eZObjectRelationListType extends eZDataType
         return false;
     }
 
+    /**
+     * @param DOMDocument $doc
+     * @param eZContentClassAttribute $classAttribute
+     */
     static function storeClassDOMDocument( $doc, $classAttribute )
     {
         $docText = self::domString( $doc );
         $classAttribute->setAttribute( 'data_text5', $docText );
     }
 
+    /**
+     * @param DOMDocument $doc
+     * @param eZContentObjectAttribute $objectAttribute
+     */
     static function storeObjectDOMDocument( $doc, $objectAttribute )
     {
         $docText = self::domString( $doc );
         $objectAttribute->setAttribute( 'data_text', $docText );
     }
 
-    /*!
-     \static
-     \return the XML structure in \a $domDocument as text.
-             It will take of care of the necessary charset conversions
-             for content storage.
-    */
+    /**
+     * Returns the XML structure in $domDocument as text.
+     *
+     * It will take of care of the necessary charset conversions for content storage.
+     *
+     * @param DOMDocument $domDocument
+     * @return string
+     */
     static function domString( $domDocument )
     {
         $ini = eZINI::instance();
@@ -736,6 +743,10 @@ class eZObjectRelationListType extends eZDataType
         return $domString;
     }
 
+    /**
+     * @param array $content
+     * @return DOMDocument
+     */
     static function createClassDOMDocument( $content )
     {
         $doc = new DOMDocument( '1.0', 'utf-8' );
@@ -769,6 +780,10 @@ class eZObjectRelationListType extends eZDataType
         return $doc;
     }
 
+    /**
+     * @param array $content
+     * @return DOMDocument
+     */
     static function createObjectDOMDocument( $content )
     {
         $doc = new DOMDocument( '1.0', 'utf-8' );
@@ -797,6 +812,9 @@ class eZObjectRelationListType extends eZDataType
         return $doc;
     }
 
+    /**
+     * @return array
+     */
     static function contentObjectArrayXMLMap()
     {
         return array( 'identifier' => 'identifier',
@@ -892,6 +910,7 @@ class eZObjectRelationListType extends eZDataType
 
                 if ( $hasAttributeInput )
                 {
+                    /** @var eZContentObject $object */
                     $object = $relationItem['object'];
                     $attributes = $object->contentObjectAttributes();
                     foreach ( $attributes as $attribute )
@@ -1093,6 +1112,7 @@ class eZObjectRelationListType extends eZDataType
     function handleCustomObjectHTTPActions( $http, $attributeDataBaseName,
                                             $customActionAttributeArray, $customActionParameters )
     {
+        /** @var eZContentObjectAttribute $contentObjectAttribute */
         $contentObjectAttribute = $customActionParameters['contentobject_attribute'];
         $content = $contentObjectAttribute->content();
         foreach( $content['relation_list'] as $relationItem )
@@ -1119,20 +1139,24 @@ class eZObjectRelationListType extends eZDataType
         }
     }
 
-    /*!
-     \static
-     \return \c true if the relation item \a $relationItem exist in the content tree.
-    */
+    /**
+     * Returns true if the relation item exists in the content tree.
+     *
+     * @param array $relationItem
+     * @return bool
+     */
     static function isItemPublished( $relationItem )
     {
         return is_numeric( $relationItem['node_id'] ) and $relationItem['node_id'] > 0;
     }
 
-    /*!
-     \private
-     Removes the relation object \a $deletionItem if the item is owned solely by this
-     version and is not published in the content tree.
-    */
+    /**
+     * Removes the relation object $deletionItem if the item is owned solely by this
+     * version and is not published in the content tree.
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param array $deletionItem
+     */
     static function removeRelationObject( $contentObjectAttribute, $deletionItem )
     {
         if ( self::isItemPublished( $deletionItem ) )
@@ -1140,6 +1164,7 @@ class eZObjectRelationListType extends eZDataType
             return;
         }
 
+        /** @var eZContentObject $hostObject */
         $hostObject = $contentObjectAttribute->attribute( 'object' );
         $hostObjectID = $hostObject->attribute( 'id' );
 
@@ -1165,6 +1190,7 @@ class eZObjectRelationListType extends eZDataType
             if ( $isDeletionAllowed and
                  $version->attribute( 'version' ) != $contentObjectAttribute->attribute( 'version' ) )
             {
+                /** @var eZContentObjectAttribute[] $relationAttribute */
                 $relationAttribute = eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
                                                                            null,
                                                                            array( 'version' => $version->attribute( 'version' ),
@@ -1209,7 +1235,13 @@ class eZObjectRelationListType extends eZDataType
         }
     }
 
-
+    /**
+     * @param eZContentClass $class
+     * @param int $priority
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param int|bool $nodePlacement Node ID of the node under which the object will be placed
+     * @return array
+     */
     function createInstance( $class, $priority, $contentObjectAttribute, $nodePlacement = false )
     {
         $currentObject = $contentObjectAttribute->attribute( 'object' );
@@ -1236,8 +1268,8 @@ class eZObjectRelationListType extends eZDataType
     /**
      * Generate array with object relation info
      *
-     * @param integer $objectID The id of the object to add as relation
-     * @param integer $priority The priortity of the relation
+     * @param int $objectID The id of the object to add as relation
+     * @param int $priority The priortity of the relation
      * @param eZContentObjectAttribute $contentObjectAttribute Not used
      * @return array|null A array containing relation information or null if object does not exist
      */
@@ -1266,7 +1298,6 @@ class eZObjectRelationListType extends eZDataType
         $relationItem['object'] = $object;
         return $relationItem;
     }
-
 
     function fixRelatedObjectItem ( $contentObjectAttribute, $objectID, $mode )
     {
@@ -1304,11 +1335,19 @@ class eZObjectRelationListType extends eZDataType
         }
     }
 
+    /**
+     * @param int $objectID
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     */
     function fixRelationsMove ( $objectID, $contentObjectAttribute )
     {
         $this->fixRelationsSwap( $objectID, $contentObjectAttribute );
     }
 
+    /**
+     * @param int $objectID
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     */
     function fixRelationsTrash ( $objectID, $contentObjectAttribute )
     {
         $content = $contentObjectAttribute->attribute( 'content' );
@@ -1326,6 +1365,10 @@ class eZObjectRelationListType extends eZDataType
         $contentObjectAttribute->storeData();
     }
 
+    /**
+     * @param int $objectID
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     */
     function fixRelationsRestore ( $objectID, $contentObjectAttribute )
     {
         $content = $contentObjectAttribute->content();
@@ -1343,12 +1386,20 @@ class eZObjectRelationListType extends eZDataType
         $contentObjectAttribute->storeData();
     }
 
+    /**
+     * @param int $objectID
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     */
     function fixRelationsRemove ( $objectID, $contentObjectAttribute )
     {
         $this->removeRelatedObjectItem( $contentObjectAttribute, $objectID );
         $contentObjectAttribute->storeData();
     }
 
+    /**
+     * @param int $objectID
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     */
     function fixRelationsSwap ( $objectID, $contentObjectAttribute )
     {
         $content =& $contentObjectAttribute->content();
@@ -1368,10 +1419,14 @@ class eZObjectRelationListType extends eZDataType
         $contentObjectAttribute->storeData();
     }
 
-
-    /*!
-     Returns the content.
-    */
+    /**
+     * Returns an array with related content objects
+     *
+     * @see createObjectContentStructure()
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @return array
+     */
     function objectAttributeContent( $contentObjectAttribute )
     {
         $xmlText = $contentObjectAttribute->attribute( 'data_text' );
@@ -1386,6 +1441,12 @@ class eZObjectRelationListType extends eZDataType
         return $content;
     }
 
+    /**
+     * @see defaultClassAttributeContent()
+     *
+     * @param eZContentClassAttribute $classAttribute
+     * @return array
+     */
     function classAttributeContent( $classAttribute )
     {
         $xmlText = $classAttribute->attribute( 'data_text5' );
@@ -1397,6 +1458,12 @@ class eZObjectRelationListType extends eZDataType
         return $this->createClassContentStructure( $doc );
     }
 
+    /**
+     * Parses $xmlText and converts it to a DOMDocument
+     *
+     * @param string $xmlText
+     * @return DOMDocument
+     */
     static function parseXML( $xmlText )
     {
         $dom = new DOMDocument( '1.0', 'utf-8' );
@@ -1404,6 +1471,9 @@ class eZObjectRelationListType extends eZDataType
         return $dom;
     }
 
+    /**
+     * @return array
+     */
     function defaultClassAttributeContent()
     {
         return array( 'object_class' => '',
@@ -1413,15 +1483,23 @@ class eZObjectRelationListType extends eZDataType
                       'default_placement' => false );
     }
 
+    /**
+     * @return array
+     */
     function defaultObjectAttributeContent()
     {
         return array( 'relation_list' => array() );
     }
 
+    /**
+     * @param DOMDocument $doc
+     * @return array
+     */
     function createClassContentStructure( $doc )
     {
         $content = $this->defaultClassAttributeContent();
         $root = $doc->documentElement;
+        /** @var DOMElement $objectPlacement */
         $objectPlacement = $root->getElementsByTagName( 'contentobject-placement' )->item( 0 );
 
         if ( $objectPlacement and $objectPlacement->hasAttributes() )
@@ -1429,25 +1507,30 @@ class eZObjectRelationListType extends eZDataType
             $nodeID = $objectPlacement->getAttribute( 'node-id' );
             $content['default_placement'] = array( 'node_id' => $nodeID );
         }
+        /** @var DOMElement $constraints */
         $constraints = $root->getElementsByTagName( 'constraints' )->item( 0 );
         if ( $constraints )
         {
+            /** @var DOMElement[] $allowedClassList */
             $allowedClassList = $constraints->getElementsByTagName( 'allowed-class' );
             foreach( $allowedClassList as $allowedClass )
             {
                 $content['class_constraint_list'][] = $allowedClass->getAttribute( 'contentclass-identifier' );
             }
         }
+        /** @var DOMElement $type */
         $type = $root->getElementsByTagName( 'type' )->item( 0 );
         if ( $type )
         {
             $content['type'] = $type->getAttribute( 'value' );
         }
+        /** @var DOMElement $selectionType */
         $selectionType = $root->getElementsByTagName( 'selection_type' )->item( 0 );
         if ( $selectionType )
         {
             $content['selection_type'] = $selectionType->getAttribute( 'value' );
         }
+        /** @var DOMElement $objectClass */
         $objectClass = $root->getElementsByTagName( 'object_class' )->item( 0 );
         if ( $objectClass )
         {
@@ -1457,14 +1540,20 @@ class eZObjectRelationListType extends eZDataType
         return $content;
     }
 
+    /**
+     * @param DOMDocument $doc
+     * @return array
+     */
     function createObjectContentStructure( $doc )
     {
         $content = $this->defaultObjectAttributeContent();
         $root = $doc->documentElement;
+        /** @var DOMElement $relationList */
         $relationList = $root->getElementsByTagName( 'relation-list' )->item( 0 );
         if ( $relationList )
         {
             $contentObjectArrayXMLMap = $this->contentObjectArrayXMLMap();
+            /** @var DOMElement[] $relationItems */
             $relationItems = $relationList->getElementsByTagName( 'relation-item' );
             foreach ( $relationItems as $relationItem )
             {
@@ -1524,9 +1613,6 @@ class eZObjectRelationListType extends eZDataType
         }
     }
 
-    /*!
-     Returns the meta data used for storing search indexes.
-    */
     function metaData( $contentObjectAttribute )
     {
         $metaDataArray = $attributes = array();
@@ -1561,10 +1647,6 @@ class eZObjectRelationListType extends eZDataType
         return $metaDataArray;
     }
 
-    /*!
-     \return string representation of an contentobjectattribute data for simplified export
-
-    */
     function toString( $contentObjectAttribute )
     {
         $objectAttributeContent = $contentObjectAttribute->attribute( 'content' );
@@ -1610,10 +1692,15 @@ class eZObjectRelationListType extends eZDataType
         return true;
     }
 
-    /*!
-     Returns the content of the string for use as a title,
-     for simplicity this is the name of the first object referenced or false.
-    */
+    /**
+     * Returns the title of the current type, this is to form the title of the object.
+     *
+     * For simplicity this is the name of the first object referenced or false.
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param null $name
+     * @return bool|string
+     */
     function title( $contentObjectAttribute, $name = null )
     {
         $objectAttributeContent = $this->objectAttributeContent( $contentObjectAttribute );
@@ -1676,6 +1763,7 @@ class eZObjectRelationListType extends eZDataType
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $content = $classAttribute->content();
+        /** @var DOMElement $defaultPlacementNode */
         $defaultPlacementNode = $attributeParametersNode->getElementsByTagName( 'default-placement' )->item( 0 );
         $content['default_placement'] = false;
 
@@ -1684,7 +1772,9 @@ class eZObjectRelationListType extends eZDataType
             $content['default_placement'] = array( 'node_id' => $defaultPlacementNode->getAttribute( 'node-id' ) );
         }
         $content['type'] = $attributeParametersNode->getElementsByTagName( 'type' )->item( 0 )->textContent;
+        /** @var DOMElement $classConstraintsNode */
         $classConstraintsNode = $attributeParametersNode->getElementsByTagName( 'class-constraints' )->item( 0 );
+        /** @var DOMElement[] $classConstraintList */
         $classConstraintList = $classConstraintsNode->getElementsByTagName( 'class-constraint' );
         $content['class_constraint_list'] = array();
         foreach ( $classConstraintList as $classConstraintNode )
@@ -1709,18 +1799,26 @@ class eZObjectRelationListType extends eZDataType
         $this->storeClassAttributeContent( $classAttribute, $content );
     }
 
-    /*!
-     For each relation export its priority and content object remote_id, like this:
-      <related-objects>
-        <relation-list>
-          <relation-item priority="1"
-                         contentobject-remote-id="faaeb9be3bd98ed09f606fc16d144eca" />
-          <relation-item priority="2"
-                         contentobject-remote-id="1bb4fe25487f05527efa8bfd394cecc7" />
-        </relation-list>
-     To do this we fetch content XML and strip all the relation attributes except of "priority" from there,
-     and add "contentobject-remote-id" attribute.
-    */
+    /**
+     * Returns a DOM representation of the content object attribute
+     *
+     * For each relation export its priority and content object remote_id, like this:
+     * <code>
+     * &lt;related-objects&gt;
+     *     &lt;relation-list>
+     *         &lt;relation-item priority="1" contentobject-remote-id="faaeb9be3bd98ed09f606fc16d144eca" /&gt;
+     *         &lt;relation-item priority="2" contentobject-remote-id="1bb4fe25487f05527efa8bfd394cecc7" /&gt;
+     *     &lt;/relation-list&gt;
+     * &lt;/related-objects&gt;
+     * </code>
+     *
+     * To do this we fetch content XML and strip all the relation attributes except of "priority" from there,
+     * and add "contentobject-remote-id" attribute.
+     *
+     * @param eZPackage $package
+     * @param eZContentObjectAttribute $objectAttribute
+     * @return DOMElement
+     */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
@@ -1737,12 +1835,14 @@ class eZObjectRelationListType extends eZDataType
             $success = $dom->loadXML( $objectAttribute->attribute( 'data_text' ) );
         }
         $rootNode = $dom->documentElement;
+        /** @var DOMElement $relationList */
         $relationList = $rootNode->getElementsByTagName( 'relation-list' )->item( 0 );
         if ( $relationList )
         {
             $relationItems = $relationList->getElementsByTagName( 'relation-item' );
             for ( $i = 0; $i < $relationItems->length; $i++ )
             {
+                /** @var DOMElement $relationItem */
                 $relationItem = $relationItems->item( $i );
                 // Add related object remote id as attribute to the relation item.
                 $relatedObjectID = $relationItem->getAttribute( 'contentobject-id' );
@@ -1792,6 +1892,7 @@ class eZObjectRelationListType extends eZDataType
         $doc = $this->parseXML( $xmlString );
         $rootNode = $doc->documentElement;
 
+        /** @var DOMElement $relationList */
         $relationList = $rootNode->getElementsByTagName( 'relation-list' )->item( 0 );
         if ( !$relationList )
             return false;
@@ -1799,6 +1900,7 @@ class eZObjectRelationListType extends eZDataType
         $relationItems = $relationList->getElementsByTagName( 'relation-item' );
         for ( $i = $relationItems->length - 1; $i >= 0; $i-- )
         {
+            /** @var DOMElement $relationItem */
             $relationItem = $relationItems->item( $i );
             $relatedObjectRemoteID = $relationItem->getAttribute( 'contentobject-remote-id' );
             $object = eZContentObject::fetchByRemoteID( $relatedObjectRemoteID );
@@ -1824,9 +1926,6 @@ class eZObjectRelationListType extends eZDataType
         return true;
     }
 
-    /*!
-     Removes objects with given ID from the relations list
-    */
     function removeRelatedObjectItem( $contentObjectAttribute, $objectID )
     {
         $xmlText = $contentObjectAttribute->attribute( 'data_text' );
@@ -1836,9 +1935,11 @@ class eZObjectRelationListType extends eZDataType
 
         $return = false;
         $root = $doc->documentElement;
+        /** @var DOMElement $relationList */
         $relationList = $root->getElementsByTagName( 'relation-list' )->item( 0 );
         if ( $relationList )
         {
+            /** @var DOMElement[] $relationItems */
             $relationItems = $relationList->getElementsByTagName( 'relation-item' );
             if ( !empty( $relationItems ) )
             {
@@ -1860,8 +1961,6 @@ class eZObjectRelationListType extends eZDataType
     {
         return true;
     }
-
-    /// \privatesection
 }
 
 ?>

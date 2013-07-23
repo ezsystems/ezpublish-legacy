@@ -8,13 +8,11 @@
  * @package kernel
  */
 
-/*!
-  \class eZFloatType ezfloattype.php
-  \ingroup eZDatatype
-  \brief Stores a float value
-
-*/
-
+/**
+ * Stores a float value
+ *
+ * @package kernel
+ */
 class eZFloatType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezfloat";
@@ -30,6 +28,9 @@ class eZFloatType extends eZDataType
     const HAS_MAX_VALUE = 2;
     const HAS_MIN_MAX_VALUE = 3;
 
+    /**
+     * Initializes the datatype
+     */
     function eZFloatType()
     {
         $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Float", 'Datatype name' ),
@@ -38,9 +39,6 @@ class eZFloatType extends eZDataType
         $this->FloatValidator = new eZFloatValidator();
     }
 
-    /*!
-     Sets the default value.
-    */
     function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
@@ -62,9 +60,6 @@ class eZFloatType extends eZDataType
         }
     }
 
-    /*!
-     Fetches the http post var float input and stores it in the data instance.
-    */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_data_float_" . $contentObjectAttribute->attribute( "id" ) ) )
@@ -83,10 +78,6 @@ class eZFloatType extends eZDataType
         return false;
     }
 
-    /*!
-     Validates the input and returns true if the input was
-     valid for this datatype.
-    */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_data_float_" . $contentObjectAttribute->attribute( "id" ) ) )
@@ -308,17 +299,14 @@ class eZFloatType extends eZDataType
         return (float)$contentObjectAttribute->attribute( "data_float" );
     }
 
-    /*!
-     Returns the content.
-    */
+    /**
+     * @inheritdoc
+     * @return float
+     */
     function objectAttributeContent( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_float' );
     }
-
-    /*!
-     Returns the float value.
-    */
 
     function title( $contentObjectAttribute, $name = null )
     {
@@ -329,10 +317,7 @@ class eZFloatType extends eZDataType
     {
         return $contentObjectAttribute->attribute( 'data_float' ) !== null;
     }
-    /*!
-     \return string representation of an contentobjectattribute data for simplified export
 
-    */
     function toString( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_float' );
@@ -405,8 +390,9 @@ class eZFloatType extends eZDataType
         return array();
     }
 
-    /// \privatesection
-    /// The float value validator
+    /**
+     * @var eZFloatValidator
+     */
     public $FloatValidator;
 }
 

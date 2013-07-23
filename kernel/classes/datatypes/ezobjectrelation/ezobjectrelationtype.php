@@ -8,29 +8,24 @@
  * @package kernel
  */
 
-/*!
-  \class eZObjectRelationType ezobjectrelationtype.php
-  \ingroup eZDatatype
-  \brief A content datatype which handles object relations
-
-*/
-
+/**
+ * A content datatype which handles object relations
+ *
+ * @package kernel
+ */
 class eZObjectRelationType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezobjectrelation";
 
-    /*!
-     Initializes with a string id and a description.
-    */
+    /**
+     * Initializes the datatype
+     */
     function eZObjectRelationType()
     {
         $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Object relation", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
-    /*!
-     Initializes the class attribute with some data.
-     */
     function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
@@ -40,10 +35,6 @@ class eZObjectRelationType extends eZDataType
         }
     }
 
-    /*!
-     Validates the input and returns true if the input was
-     valid for this datatype.
-    */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $postVariableName = $base . "_data_object_relation_id_" . $contentObjectAttribute->attribute( "id" );
@@ -68,9 +59,6 @@ class eZObjectRelationType extends eZDataType
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     Fetches the http post var string input and stores it in the data instance.
-    */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $postVariableName = $base . "_data_object_relation_id_" . $contentObjectAttribute->attribute( "id" );
@@ -132,11 +120,13 @@ class eZObjectRelationType extends eZDataType
         return $haveData;
     }
 
-    /*!
-     \private
-     \return a number of how near \a $match is to \a $text, the lower the better and 0 is a perfect match.
-     \return \c false if it does not match
-    */
+    /**
+     * Returns a number of how near $match is to $text, the lower the better and 0 is a perfect match.
+     *
+     * @param string $text
+     * @param string $match
+     * @return bool|int False if it does not match
+     */
     function fuzzyTextMatch( $text, $match )
     {
         $pos = strpos( $text, $match );
@@ -149,9 +139,6 @@ class eZObjectRelationType extends eZDataType
         return false;
     }
 
-    /*!
-     Stores relation to the ezcontentobject_link table
-    */
     function storeObjectAttribute( $contentObjectAttribute )
     {
         $contentClassAttributeID = $contentObjectAttribute->ContentClassAttributeID;
@@ -159,7 +146,7 @@ class eZObjectRelationType extends eZDataType
         $contentObjectVersion = $contentObjectAttribute->Version;
 
         $obj = $contentObjectAttribute->object();
-        //get eZContentObjectVersion
+        /** @var eZContentObjectVersion $currVerobj */
         $currVerobj = $obj->version( $contentObjectVersion );
         // get array of language codes
         $transList = $currVerobj->translations( false );
@@ -236,10 +223,11 @@ class eZObjectRelationType extends eZDataType
         $classAttribute->setAttribute( 'data_int3', $content['fuzzy_match'] );
     }
 
-    /*!
-     \private
-     Delete the old version from ezcontentobject_link if count of translations > 1
-    */
+    /**
+     * Delete the old version from ezcontentobject_link if count of translations > 1
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     */
     function removeContentObjectRelation( $contentObjectAttribute )
     {
         $obj = $contentObjectAttribute->object();
@@ -344,9 +332,10 @@ class eZObjectRelationType extends eZDataType
         }
     }
 
-    /*!
-     Returns the content.
-    */
+    /**
+     * @inheritdoc
+     * @return eZContentObject
+     */
     function objectAttributeContent( $contentObjectAttribute )
     {
         $objectID = $contentObjectAttribute->attribute( "data_int" );
@@ -357,10 +346,13 @@ class eZObjectRelationType extends eZDataType
         return $object;
     }
 
-    /*!
-     Sets \c grouped_input to \c true when browse mode is active or
-     a dropdown with a fuzzy match is used.
-    */
+    /**
+     * Sets grouped_input to true when browse mode is active or a dropdown with a fuzzy match is used.
+     *
+     * @param eZContentObjectAttribute $objectAttribute
+     * @param bool $mergeInfo
+     * @return array
+     */
     function objectDisplayInformation( $objectAttribute, $mergeInfo = false )
     {
         $classAttribute = $objectAttribute->contentClassAttribute();
@@ -383,6 +375,10 @@ class eZObjectRelationType extends eZDataType
         return 'int';
     }
 
+    /**
+     * @inheritdoc
+     * @return array
+     */
     function classAttributeContent( $classObjectAttribute )
     {
         $selectionType = $classObjectAttribute->attribute( "data_int1" );
@@ -436,9 +432,6 @@ class eZObjectRelationType extends eZDataType
         }
     }
 
-    /*!
-     Returns the meta data used for storing search indeces.
-    */
     function metaData( $contentObjectAttribute )
     {
         $object = $this->objectAttributeContent( $contentObjectAttribute );
@@ -465,10 +458,7 @@ class eZObjectRelationType extends eZDataType
         }
         return false;
     }
-    /*!
-     \return string representation of an contentobjectattribute data for simplified export
 
-    */
     function toString( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_int' );
@@ -488,9 +478,6 @@ class eZObjectRelationType extends eZDataType
         return true;
     }
 
-    /*!
-     Returns the content of the string for use as a title
-    */
     function title( $contentObjectAttribute, $name = null )
     {
         $object = $this->objectAttributeContent( $contentObjectAttribute );
@@ -529,17 +516,21 @@ class eZObjectRelationType extends eZDataType
 
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
+        /** @var array  $content */
         $content = $classAttribute->content();
+        /** @var DOMElement $selectionTypeNode */
         $selectionTypeNode = $attributeParametersNode->getElementsByTagName( 'selection-type' )->item( 0 );
         $content['selection_type'] = 0;
         if ( $selectionTypeNode )
             $content['selection_type'] = $selectionTypeNode->getAttribute( 'id' );
 
+        /** @var DOMElement $fuzzyMatchNode */
         $fuzzyMatchNode = $attributeParametersNode->getElementsByTagName( 'fuzzy-match' )->item( 0 );
         $content['fuzzy_match'] = false;
         if ( $fuzzyMatchNode )
             $content['fuzzy_match'] = $fuzzyMatchNode->getAttribute( 'id' );
 
+        /** @var DOMElement $defaultSelectionNode */
         $defaultSelectionNode = $attributeParametersNode->getElementsByTagName( 'default-selection' )->item( 0 );
         $content['default_selection_node'] = false;
         if ( $defaultSelectionNode )
@@ -549,9 +540,13 @@ class eZObjectRelationType extends eZDataType
         $classAttribute->store();
     }
 
-    /*!
-     Export related object's remote_id.
-    */
+    /**
+     * Export related object's remote_id.
+     *
+     * @param eZPackage $package
+     * @param eZContentObjectAttribute $objectAttribute
+     * @return DOMElement
+     */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
@@ -625,9 +620,10 @@ class eZObjectRelationType extends eZDataType
         return $attributeChanged;
     }
 
-    /*!
-     Removes objects with given ID from the relations list
-    */
+    /**
+     * @inheritdoc
+     * @return bool
+     */
     function removeRelatedObjectItem( $contentObjectAttribute, $objectID )
     {
         $contentObjectAttribute->setAttribute( "data_int", null );
@@ -638,8 +634,6 @@ class eZObjectRelationType extends eZDataType
     {
         return true;
     }
-
-    /// \privatesection
 }
 
 ?>

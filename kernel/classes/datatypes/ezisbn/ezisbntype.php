@@ -8,19 +8,20 @@
  * @package kernel
  */
 
-/*!
-  \class eZISBNType ezisbntype.php
-  \brief Handles ISBN type strings
-  \ingroup eZDatatype
-
-*/
-
+/**
+ * Handles ISBN type strings
+ *
+ * @package kernel
+ */
 class eZISBNType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezisbn";
     const CLASS_IS_ISBN13 = 'data_int1';
     const CONTENT_VALUE = 'data_text';
 
+    /**
+     * Initializes the datatype
+     */
     function eZISBNType()
     {
         $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "ISBN", 'Datatype name' ),
@@ -28,10 +29,6 @@ class eZISBNType extends eZDataType
                                   'object_serialize_map' => array( self::CONTENT_VALUE => 'isbn' ) ) );
     }
 
-    /*!
-     Validates the input and returns true if the input was
-     valid for this datatype.
-    */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -132,15 +129,15 @@ class eZISBNType extends eZDataType
         return eZInputValidator::STATE_INVALID;
     }
 
-
-    /*!
-     \private
-     Validates the ISBN number \a $isbnNr.
-     All characters should be numeric except the last digit that may be the character X,
-     which should be calculated as 10.
-     \param $isbnNr A string containing the number without any dashes.
-     \return \c true if it is valid.
-    */
+    /**
+     * Validates the ISBN number $isbnNr.
+     *
+     * All characters should be numeric except the last digit that may be the character X,
+     * which should be calculated as 10.
+     *
+     * @param string $isbnNr A string containing the number without any dashes.
+     * @return bool true if it is valid.
+     */
     function validateISBNChecksum ( $isbnNr )
     {
         $result = 0;
@@ -166,13 +163,14 @@ class eZISBNType extends eZDataType
         return ( $result % 11 == 0 );
     }
 
-    /*!
-     \private
-     \deprecated, should use the class eZISBN13 instead.
-     Validates the ISBN-13 number \a $isbnNr.
-     \param $isbnNr A string containing the number without any dashes.
-     \return \c true if it is valid.
-    */
+    /**
+     * Validates the ISBN-13 number $isbnNr.
+     *
+     * @deprecated Use {@see eZISBN13::validateISBN13Checksum()} instead
+     * @param string $isbnNr
+     * @param int $error
+     * @return bool
+     */
     function validateISBN13Checksum ( $isbnNr, &$error )
     {
         $isbn13 = new eZISBN13();
@@ -181,11 +179,12 @@ class eZISBNType extends eZDataType
         return $status;
     }
 
-    /*!
-      Calculate the ISBN-13 checkdigit and return a valid ISBN-13 number
-      based on an ISBN-10 number as input.
-      \return a valid ISBN-13 number.
-    */
+    /**
+     * Calculate the ISBN-13 checkdigit and return a valid ISBN-13 number based on an ISBN-10 number as input.
+     *
+     * @param string $isbnNr
+     * @return string
+     */
     static function convertISBN10toISBN13( $isbnNr )
     {
         $isbnNr = 978 . substr( $isbnNr, 0, 9 );
@@ -207,9 +206,6 @@ class eZISBNType extends eZDataType
         return $isbnNr;
     }
 
-    /*!
-     Fetches the http post var string input and stores it in the data instance.
-    */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -291,9 +287,6 @@ class eZISBNType extends eZDataType
         return true;
     }
 
-    /*!
-     Store the content.
-    */
     function storeObjectAttribute( $attribute )
     {
     }
@@ -313,9 +306,10 @@ class eZISBNType extends eZDataType
         return false;
     }
 
-    /*!
-     Returns the content.
-    */
+    /**
+     * @inheritdoc
+     * @return array
+     */
     function objectAttributeContent( $contentObjectAttribute )
     {
         $data = $contentObjectAttribute->attribute( self::CONTENT_VALUE );
@@ -345,6 +339,10 @@ class eZISBNType extends eZDataType
         return $isbn;
     }
 
+    /**
+     * @inheritdoc
+     * @return array
+     */
     function classAttributeContent( $classAttribute )
     {
         $ISBN_13 = $classAttribute->attribute( self::CLASS_IS_ISBN13 );
@@ -354,27 +352,16 @@ class eZISBNType extends eZDataType
         return $content;
     }
 
-
-    /*!
-     ISBN numbers are indexable, returns \c true.
-    */
     function isIndexable()
     {
         return true;
     }
 
-    /*!
-     Returns the meta data used for storing search indeces.
-    */
     function metaData( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( self::CONTENT_VALUE );
     }
 
-    /*!
-     \return string representation of an contentobjectattribute data for simplified export
-
-    */
     function toString( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( self::CONTENT_VALUE );
@@ -385,18 +372,11 @@ class eZISBNType extends eZDataType
         return $contentObjectAttribute->setAttribute( self::CONTENT_VALUE, $string );
     }
 
-    /*!
-     Returns the text.
-    */
     function title( $data_instance, $name = null )
     {
         return $data_instance->attribute( self::CONTENT_VALUE );
     }
 
-    /*!
-     Initializes the class attribute.
-     data_int will be se default to 1, as this is ISBN-13.
-    */
     function initializeClassAttribute( $classAttribute )
     {
         if ( $classAttribute->attribute( self::CLASS_IS_ISBN13 ) === null )
@@ -405,17 +385,11 @@ class eZISBNType extends eZDataType
         }
     }
 
-    /*!
-      Check if an ISBN value exist in the datatype.
-    */
     function hasObjectAttributeContent( $contentObjectAttribute )
     {
         return trim( $contentObjectAttribute->attribute( self::CONTENT_VALUE ) ) != '';
     }
 
-    /*!
-      See also eZDataType:cleanDBDataBeforeImport().
-    */
     function cleanDBDataBeforeImport()
     {
         eZISBNGroup::cleanAll();

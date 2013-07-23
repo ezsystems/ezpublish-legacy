@@ -8,21 +8,18 @@
  * @package kernel
  */
 
-/*!
-  \class eZImageType ezimagetype.php
-  \ingroup eZDatatype
-  \brief The class eZImageType handles image accounts and association with content objects
-
-  \note The method initializeObjectAttribute was removed in 3.8, the new
-        storage technique removes the need to have it.
-*/
-
+/**
+ * The class eZImageType handles image accounts and association with content objects
+ */
 class eZImageType extends eZDataType
 {
     const FILESIZE_FIELD = 'data_int1';
     const FILESIZE_VARIABLE = '_ezimage_max_filesize_';
     const DATA_TYPE_STRING = "ezimage";
 
+    /**
+     * Initializes the datatype
+     */
     function eZImageType()
     {
         $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Image", 'Datatype name' ),
@@ -38,10 +35,13 @@ class eZImageType extends eZDataType
         }
     }
 
-    /*!
-     The object is being moved to trash, do any necessary changes to the attribute.
-     Rename file and update db row with new name, so that access to the file using old links no longer works.
-    */
+    /**
+     * The object is being moved to trash, do any necessary changes to the attribute.
+     * Rename file and update db row with new name, so that access to the file using old links no longer works.
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param int|null $version
+     */
     function trashStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
         $imageHandler = $contentObjectAttribute->attribute( "content" );
@@ -187,15 +187,6 @@ class eZImageType extends eZDataType
         }
     }
 
-    /**
-     * Validate the object attribute input in http. If there is validation failure, there failure message will be put into $contentObjectAttribute->ValidationError
-     * @param $http: http object
-     * @param $base:
-     * @param $contentObjectAttribute: content object attribute being validated
-     * @return validation result- eZInputValidator::STATE_INVALID or eZInputValidator::STATE_ACCEPTED
-     *
-     * @see kernel/classes/eZDataType#validateObjectAttributeHTTPInput($http, $base, $objectAttribute)
-     */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -267,15 +258,6 @@ class eZImageType extends eZDataType
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /**
-     * Fetch object attribute http input, override the ezDataType method
-     * This method is triggered when submiting a http form which includes Image class
-     * Image is stored into file system every time there is a file input and validation result is valid.
-     * @param $http http object
-     * @param $base
-     * @param $contentObjectAttribute : the content object attribute being handled
-     * @return true if content object is not null, false if content object is null
-     */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $result = false;
@@ -333,25 +315,16 @@ class eZImageType extends eZDataType
         }
     }
 
-    /*!
-     HTTP file insertion is supported.
-    */
     function isHTTPFileInsertionSupported()
     {
         return true;
     }
 
-    /*!
-     Regular file insertion is supported.
-    */
     function isRegularFileInsertionSupported()
     {
         return true;
     }
 
-    /*!
-     Inserts the file using the Image Handler eZImageAliasHandler.
-    */
     function insertHTTPFile( $object, $objectVersion, $objectLanguage,
                              $objectAttribute, $httpFile, $mimeData,
                              &$result )
@@ -372,9 +345,6 @@ class eZImageType extends eZDataType
         return $status;
     }
 
-    /*!
-     Inserts the file using the Image Handler eZImageAliasHandler.
-    */
     function insertRegularFile( $object, $objectVersion, $objectLanguage,
                                 $objectAttribute, $filePath,
                                 &$result )
@@ -395,18 +365,12 @@ class eZImageType extends eZDataType
         return $status;
     }
 
-    /*!
-      We support file information
-    */
     function hasStoredFileInformation( $object, $objectVersion, $objectLanguage,
                                        $objectAttribute )
     {
         return true;
     }
 
-    /*!
-      Extracts file information for the image entry.
-    */
     function storedFileInformation( $object, $objectVersion, $objectLanguage,
                                     $objectAttribute )
     {
@@ -485,12 +449,16 @@ class eZImageType extends eZDataType
         }
     }
 
-    /*!
-     Will return one of the following items from the original alias.
-     - alternative_text - If it's not empty
-     - Default paramater in \a $name if it exists
-     - original_filename, this is the default fallback.
-    */
+    /**
+     * Will return one of the following items from the original alias.
+     * - alternative_text - If it's not empty
+     * - Default paramater in \a $name if it exists
+     * - original_filename, this is the default fallback.
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param string $name
+     * @return string
+     */
     function title( $contentObjectAttribute, $name = 'original_filename' )
     {
         $content = $contentObjectAttribute->content();
@@ -515,6 +483,10 @@ class eZImageType extends eZDataType
         return $handler->attribute( 'is_valid' );
     }
 
+    /**
+     * @inheritdoc
+     * @return eZImageAliasHandler
+     */
     function objectAttributeContent( $contentObjectAttribute )
     {
         $imageHandler = new eZImageAliasHandler( $contentObjectAttribute );
@@ -543,16 +515,13 @@ class eZImageType extends eZDataType
 
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
+        /** @var DOMElement $sizeNode */
         $sizeNode = $attributeParametersNode->getElementsByTagName( 'max-size' )->item( 0 );
         $maxSize = $sizeNode->textContent;
         $unitSize = $sizeNode->getAttribute( 'unit-size' );
         $classAttribute->setAttribute( self::FILESIZE_FIELD, $maxSize );
     }
 
-
-    /*!
-     \return a DOM representation of the content object attribute
-    */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
@@ -596,10 +565,6 @@ class eZImageType extends eZDataType
         $content->store( $objectAttribute );
     }
 
-    /*!
-     \return string representation of an contentobjectattribute data for simplified export
-
-    */
     function toString( $objectAttribute )
     {
         $content = $objectAttribute->content();

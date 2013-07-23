@@ -8,13 +8,11 @@
  * @package kernel
  */
 
-/*!
-  \class eZBinaryFileType ezbinaryfiletype.php
-  \ingroup eZDatatype
-  \brief The class eZBinaryFileType handles files and association with content objects
-
-*/
-
+/**
+ * The class eZBinaryFileType handles files and association with content objects
+ *
+ * @package kernel
+ */
 class eZBinaryFileType extends eZDataType
 {
     const MAX_FILESIZE_FIELD = 'data_int1';
@@ -23,23 +21,23 @@ class eZBinaryFileType extends eZDataType
 
     const DATA_TYPE_STRING = "ezbinaryfile";
 
+    /**
+     * Initializes the datatype
+     */
     function eZBinaryFileType()
     {
         $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "File", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
-    /*!
-     \return the binary file handler.
-    */
+    /**
+     * @return eZBinaryFileHandler
+     */
     function fileHandler()
     {
         return eZBinaryFileHandler::instance();
     }
 
-    /*!
-     \return the template name which the handler decides upon.
-    */
     function viewTemplate( $contentobjectAttribute )
     {
         $handler = $this->fileHandler();
@@ -50,14 +48,6 @@ class eZBinaryFileType extends eZDataType
         return $template;
     }
 
-    /*!
-     \return the template name to use for editing the attribute.
-     \note Default is to return the datatype string which is OK
-           for most datatypes, if you want dynamic templates
-           reimplement this function and return a template name.
-     \note The returned template name does not include the .tpl extension.
-     \sa viewTemplate, informationTemplate
-    */
     function editTemplate( $contentobjectAttribute )
     {
         $handler = $this->fileHandler();
@@ -68,14 +58,6 @@ class eZBinaryFileType extends eZDataType
         return $template;
     }
 
-    /*!
-     \return the template name to use for information collection for the attribute.
-     \note Default is to return the datatype string which is OK
-           for most datatypes, if you want dynamic templates
-           reimplement this function and return a template name.
-     \note The returned template name does not include the .tpl extension.
-     \sa viewTemplate, editTemplate
-    */
     function informationTemplate( $contentobjectAttribute )
     {
         $handler = $this->fileHandler();
@@ -86,9 +68,6 @@ class eZBinaryFileType extends eZDataType
         return $template;
     }
 
-    /*!
-     Sets value according to current version
-    */
     function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
@@ -105,10 +84,6 @@ class eZBinaryFileType extends eZDataType
         }
     }
 
-    /*!
-     The object is being moved to trash, do any necessary changes to the attribute.
-     Rename file and update db row with new name, so that access to the file using old links no longer works.
-    */
     function trashStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
@@ -157,9 +132,6 @@ class eZBinaryFileType extends eZDataType
         }
     }
 
-    /*!
-     Delete stored attribute
-    */
     function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
@@ -213,9 +185,9 @@ class eZBinaryFileType extends eZDataType
         }
     }
 
-    /*!
-     Checks if file uploads are enabled, if not it gives a warning.
-    */
+    /**
+     * Checks if file uploads are enabled, if not it gives a warning.
+     */
     function checkFileUploads()
     {
         $isFileUploadsEnabled = ini_get( 'file_uploads' ) != 0;
@@ -234,10 +206,6 @@ class eZBinaryFileType extends eZDataType
         }
     }
 
-    /*!
-     Validates the input and returns true if the input was
-     valid for this datatype.
-    */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         eZBinaryFileType::checkFileUploads();
@@ -279,9 +247,6 @@ class eZBinaryFileType extends eZDataType
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     Fetches the http post var integer input and stores it in the data instance.
-    */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         eZBinaryFileType::checkFileUploads();
@@ -347,9 +312,6 @@ class eZBinaryFileType extends eZDataType
         return true;
     }
 
-    /*!
-     Does nothing, since the file has been stored. See fetchObjectAttributeHTTPInput for the actual storing.
-    */
     function storeObjectAttribute( $contentObjectAttribute )
     {
     }
@@ -365,25 +327,16 @@ class eZBinaryFileType extends eZDataType
         }
     }
 
-    /*!
-     HTTP file insertion is supported.
-    */
     function isHTTPFileInsertionSupported()
     {
         return true;
     }
 
-    /*!
-     HTTP file insertion is supported.
-    */
     function isRegularFileInsertionSupported()
     {
         return true;
     }
 
-    /*!
-     Inserts the file using the eZBinaryFile class.
-    */
     function insertHTTPFile( $object, $objectVersion, $objectLanguage,
                              $objectAttribute, $httpFile, $mimeData,
                              &$result )
@@ -409,7 +362,6 @@ class eZBinaryFileType extends eZDataType
             return false;
         }
 
-
         $filePath = $binary->attribute( 'filename' );
 
         $binary->setAttribute( "contentobject_attribute_id", $attributeID );
@@ -432,9 +384,6 @@ class eZBinaryFileType extends eZDataType
         return true;
     }
 
-    /*!
-     Inserts the file using the eZBinaryFile class.
-    */
     function insertRegularFile( $object, $objectVersion, $objectLanguage,
                                 $objectAttribute, $filePath,
                                 &$result )
@@ -478,7 +427,6 @@ class eZBinaryFileType extends eZDataType
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileStore( $destination, 'binaryfile', true, $mimeData['name'] );
 
-
         $binary->setAttribute( "contentobject_attribute_id", $attributeID );
         $binary->setAttribute( "version", $objectVersion );
         $binary->setAttribute( "filename", $destFileName );
@@ -491,18 +439,12 @@ class eZBinaryFileType extends eZDataType
         return true;
     }
 
-    /*!
-      We support file information
-    */
     function hasStoredFileInformation( $object, $objectVersion, $objectLanguage,
                                        $objectAttribute )
     {
         return true;
     }
 
-    /*!
-      Extracts file information for the binaryfile entry.
-    */
     function storedFileInformation( $object, $objectVersion, $objectLanguage,
                                     $objectAttribute )
     {
@@ -514,9 +456,6 @@ class eZBinaryFileType extends eZDataType
         }
         return false;
     }
-    /*!
-      Updates download count for binary file.
-    */
     function handleDownload( $object, $objectVersion, $objectLanguage,
                              $objectAttribute )
     {
@@ -546,9 +485,6 @@ class eZBinaryFileType extends eZDataType
             $classAttribute->setAttribute( self::MAX_FILESIZE_FIELD, $filesizeValue );
         }
     }
-    /*!
-     Returns the object title.
-    */
     function title( $contentObjectAttribute,  $name = "original_filename" )
     {
         $value = false;
@@ -569,6 +505,10 @@ class eZBinaryFileType extends eZDataType
         return true;
     }
 
+    /**
+     * @inheritdoc
+     * @return eZBinaryFile
+     */
     function objectAttributeContent( $contentObjectAttribute )
     {
         $binaryFile = eZBinaryFile::fetch( $contentObjectAttribute->attribute( "id" ),
@@ -610,16 +550,13 @@ class eZBinaryFileType extends eZDataType
 
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
+        /** @var DOMElement $sizeNode */
         $sizeNode = $attributeParametersNode->getElementsByTagName( 'max-size' )->item( 0 );
         $maxSize = $sizeNode->textContent;
         $unitSize = $sizeNode->getAttribute( 'unit-size' );
         $classAttribute->setAttribute( self::MAX_FILESIZE_FIELD, $maxSize );
     }
 
-    /*!
-     \return string representation of an contentobjectattribute data for simplified export
-
-    */
     function toString( $objectAttribute )
     {
         $binaryFile = $objectAttribute->content();
@@ -631,8 +568,6 @@ class eZBinaryFileType extends eZDataType
         else
             return '';
     }
-
-
 
     function fromString( $objectAttribute, $string )
     {
@@ -731,6 +666,7 @@ class eZBinaryFileType extends eZDataType
 
     /**
      * Checks if current HTTP request is asking for current binary file deletion
+     *
      * @param eZHTTPTool $http
      * @param eZContentObjectAttribute $contentObjectAttribute
      * @return bool

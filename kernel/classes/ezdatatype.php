@@ -8,46 +8,45 @@
  * @package kernel
  */
 
-/*! \defgroup eZDataType Content datatypes */
-
-/*!
-  \class eZDataType ezdatatype.php
-  \ingroup eZKernel
-  \brief Base class for content datatypes
-
-  Defines both the interface for datatypes as well as functions
-  for registering, quering and fetching datatypes.
-
-  Each new datatype will inherit this class and define some functions
-  as well as three templates. A datatype has three roles, it handles
-  definition of content class attributes, editing of a content object
-  attribute and viewing of a content object attribute. The content class
-  attribute definition part is optional while object attribute edit and
-  view must be implemented for the datatype to be usable.
-
-  If the datatype handles class attribute definition it must define one
-  or more of these functions: storeClassAttribute, validateClassAttributeHTTPInput,
-  fixupClassAttributeHTTPInput, fetchClassAttributeHTTPInput. See each function
-  for more details. The class attribute definition usually defines the
-  default data and/or the validation rules for an object attribute.
-
-  Object attribute editing must define these functions: storeObjectAttribute,
-  validateObjectAttributeHTTPInput, fixupObjectAttributeHTTPInput,
-  fetchObjectAttributeHTTPInput, initializeObjectAttribute. If the attribute
-  wants to have a custom action it must implement the customObjectAttributeHTTPAction
-  function. See each function for more details.
-
-  Each datatype initializes itself with a datatype string id (ezstring, ezinteger)
-  and a descriptive name. The datatype string id must be unique for the whole
-  system and should have a prefix, for instance we in eZ Systems use ez as our prefix.
-*/
-
+/**
+ * Base class for content datatypes
+ *
+ * Defines both the interface for datatypes as well as functions
+ * for registering, quering and fetching datatypes.
+ * Each new datatype will inherit this class and define some functions
+ * as well as three templates. A datatype has three roles, it handles
+ * definition of content class attributes, editing of a content object
+ * attribute and viewing of a content object attribute. The content class
+ * attribute definition part is optional while object attribute edit and
+ * view must be implemented for the datatype to be usable.
+ *
+ * If the datatype handles class attribute definition it must define one
+ * or more of these functions: storeClassAttribute, validateClassAttributeHTTPInput,
+ * fixupClassAttributeHTTPInput, fetchClassAttributeHTTPInput. See each function
+ * for more details. The class attribute definition usually defines the
+ * default data and/or the validation rules for an object attribute.
+ *
+ * Object attribute editing must define these functions: storeObjectAttribute,
+ * validateObjectAttributeHTTPInput, fixupObjectAttributeHTTPInput,
+ * fetchObjectAttributeHTTPInput, initializeObjectAttribute. If the attribute
+ * wants to have a custom action it must implement the customObjectAttributeHTTPAction
+ * function. See each function for more details.
+ *
+ * Each datatype initializes itself with a datatype string id (ezstring, ezinteger)
+ * and a descriptive name. The datatype string id must be unique for the whole
+ * system and should have a prefix, for instance we in eZ Systems use ez as our prefix.
+ *
+ * @package kernel
+ */
 class eZDataType
 {
-    /*!
-     Initializes the datatype with the string id \a $dataTypeString and
-     the name \a $name.
-    */
+    /**
+     * Initializes the datatype with the string id $dataTypeString and the name $name.
+     *
+     * @param $dataTypeString
+     * @param $name
+     * @param array $properties
+     */
     function eZDataType( $dataTypeString, $name, $properties = array() )
     {
         $this->DataTypeString = $dataTypeString;
@@ -74,64 +73,87 @@ class eZDataType
                                                  'object_serialize_map' => $objectSerializeMap );
     }
 
-    /*!
-     \return the template name to use for viewing the attribute.
-     \note Default is to return the datatype string which is OK
-           for most datatypes, if you want dynamic templates
-           reimplement this function and return a template name.
-     \note The returned template name does not include the .tpl extension.
-     \sa editTemplate, informationTemplate
-    */
+    /**
+     * Returns the template name to use for viewing the attribute.
+     *
+     * Default is to return the datatype string which is OK for most datatypes, if you want dynamic templates
+     * reimplement this function and return a template name.
+     *
+     * The returned template name does not include the .tpl extension.
+     *
+     * @see editTemplate()
+     * @see informationTemplate()
+     *
+     * @param eZContentObjectAttribute $contentobjectAttribute
+     * @return string
+     */
     function viewTemplate( $contentobjectAttribute )
     {
         return $this->DataTypeString;
     }
 
-    /*!
-     \return the template name to use for editing the attribute.
-     \note Default is to return the datatype string which is OK
-           for most datatypes, if you want dynamic templates
-           reimplement this function and return a template name.
-     \note The returned template name does not include the .tpl extension.
-     \sa viewTemplate, informationTemplate
-    */
+    /**
+     * Returns the template name to use for editing the attribute.
+     *
+     * Default is to return the datatype string which is OK for most datatypes, if you want dynamic templates
+     * reimplement this function and return a template name.
+     *
+     * The returned template name does not include the .tpl extension.
+     *
+     * @see viewTemplate()
+     * @see informationTemplate()
+     *
+     * @param eZContentObjectAttribute $contentobjectAttribute
+     * @return mixed
+     */
     function editTemplate( $contentobjectAttribute )
     {
         return $this->DataTypeString;
     }
 
-    /*!
-     \return the template name to use for information collection for the attribute.
-     \note Default is to return the datatype string which is OK
-           for most datatypes, if you want dynamic templates
-           reimplement this function and return a template name.
-     \note The returned template name does not include the .tpl extension.
-     \sa viewTemplate, editTemplate
-    */
+    /**
+     * Returns the template name to use for information collection for the attribute.
+     *
+     * Default is to return the datatype string which is OK for most datatypes, if you want dynamic templates
+     * reimplement this function and return a template name.
+     *
+     * The returned template name does not include the .tpl extension.
+     *
+     * @see viewTemplate()
+     * @see editTemplate()
+     *
+     * @param eZContentObjectAttribute $contentobjectAttribute
+     * @return mixed
+     */
     function informationTemplate( $contentobjectAttribute )
     {
         return $this->DataTypeString;
     }
 
-    /*!
-     \return the template name to use for result view of an information collection attribute.
-     \note Default is to return the datatype string which is OK
-           for most datatypes, if you want dynamic templates
-           reimplement this function and return a template name.
-     \note The returned template name does not include the .tpl extension.
-     \note \a $collectionAttribute can in some cases be a eZContentObjectAttribute, so any
-           datatype that overrides this must be able to handle both types.
-    */
+    /**
+     * Returns the template name to use for result view of an information collection attribute.
+     *
+     * Default is to return the datatype string which is OK for most datatypes, if you want dynamic templates
+     * reimplement this function and return a template name.
+     *
+     * The returned template name does not include the .tpl extension.
+     *
+     * @param eZContentObjectAttribute $collectionAttribute
+     * @return string
+     */
     function resultTemplate( &$collectionAttribute )
     {
         return $this->DataTypeString;
     }
 
-    /*!
-     \static
-     Crates a datatype instance of the datatype string id \a $dataTypeString.
-     \note It only creates one instance for each datatype.
-    */
+    /**
+     * Creates a datatype instance of the datatype string id $dataTypeString.
+     *
+     * It only creates one instance for each datatype.
+     *
+     * @param $dataTypeString
+     * @return eZDataType
+     */
     static function create( $dataTypeString )
     {
         $def = null;
@@ -155,11 +177,13 @@ class eZDataType
         return null;
     }
 
-    /*!
-     \static
-     \return a list of datatypes which has been registered.
-     \note This will instantiate all datatypes.
-    */
+    /**
+     * Returns a list of datatypes which has been registered.
+     *
+     * This will instantiate all datatypes.
+     *
+     * @return eZDataType[]
+     */
     static function registeredDataTypes()
     {
         $types = isset( $GLOBALS["eZDataTypes"] ) ? $GLOBALS["eZDataTypes"] : null;
@@ -180,12 +204,13 @@ class eZDataType
         return null;
     }
 
-    /*!
-     \static
-     Registers the datatype with string id \a $dataTypeString and
-     class name \a $className. The class name is used for instantiating
-     the class and should be in lowercase letters.
-    */
+    /**
+     * Registers the datatype with string id $dataTypeString and class name $className.
+     * The class name is used for instantiating the class and should be in lowercase letters.
+     *
+     * @param string $dataTypeString
+     * @param string $className
+     */
     static function register( $dataTypeString, $className )
     {
         $types =& $GLOBALS["eZDataTypes"];
@@ -194,9 +219,11 @@ class eZDataType
         $types[$dataTypeString] = $className;
     }
 
-    /*!
-     \return the data type identification string.
-    */
+    /**
+     * Returns the data type identification string.
+     *
+     * @return string
+     */
     function isA()
     {
         return $this->Attributes["information"]["string"];
@@ -212,25 +239,33 @@ class eZDataType
         return $this->Attributes['properties']['translation_allowed'];
     }
 
-    /*!
-     \return the attributes for this datatype.
-    */
+    /**
+     * Returns the attributes for this datatype.
+     *
+     * @return array
+     */
     function attributes()
     {
         return array_keys( $this->Attributes );
     }
 
-    /*!
-     \return true if the attribute \a $attr exists in this object.
-    */
+    /**
+     * Returns true if the attribute \a $attr exists in this object.
+     *
+     * @param string $attr
+     * @return bool
+     */
     function hasAttribute( $attr )
     {
         return isset( $this->Attributes[$attr] );
     }
 
-    /*!
-     \return the data for the attribute \a $attr or null if it does not exist.
-    */
+    /**
+     * Returns the data for the attribute \a $attr or null if it does not exist.
+     *
+     * @param string $attr
+     * @return mixed
+     */
     function attribute( $attr )
     {
         if ( isset( $this->Attributes[$attr] ) )
@@ -243,57 +278,61 @@ class eZDataType
         return $attributeData;
     }
 
-    /*!
-     \return \c true if the datatype support insertion of HTTP files or \c false (default) otherwise.
-
-     \sa insertHTTPFile()
-    */
+    /**
+     * Returns true if the datatype support insertion of HTTP files or false (default) otherwise.
+     *
+     * @see insertHTTPFile()
+     * @return bool
+     */
     function isHTTPFileInsertionSupported()
     {
         return false;
     }
 
-    /*!
-     \return \c true if the datatype support insertion of files or \c false (default) otherwise.
-
-     \sa insertRegularFile()
-    */
+    /**
+     * Returns true if the datatype support insertion of files or false (default) otherwise.
+     *
+     * @see insertRegularFile()
+     *
+     * @return bool
+     */
     function isRegularFileInsertionSupported()
     {
         return false;
     }
 
-    /*!
-     \return \c true if the datatype support insertion of simple strings or \c false (default) otherwise.
-
-     \sa insertSimpleString()
-    */
+    /**
+     * Returns true if the datatype support insertion of simple strings or false (default) otherwise.
+     *
+     * @see insertSimpleString()
+     *
+     * @return bool
+     */
     function isSimpleStringInsertionSupported()
     {
         return false;
     }
 
-    /*!
-     \virtual
-     Inserts the HTTP file \a $httpFile to the content object attribute \a $objectAttribute.
-
-     \param $object The contentobject in which the attribute is contained
-     \param $objectVersion The current version of the object it is being worked on
-     \param $objectLanguage The current language being worked on
-     \param $objectAttribute The attribute which will get the file
-     \param $httpFile Object of type eZHTTPFile which contains information on the uploaded file
-     \param $mimeData MIME-Type information on the file, can be used to figure out a storage name
-     \param[out] $result Array which will be filled with information on the process, it will contain:
-                 - errors - Array with error elements, each element is an array with \c 'description' containing the text
-                 - require_storage - \c true if the attribute must be stored after this call, or \c false if not required at all
-
-     \return \c true if the file was stored correctly in the attribute or \c false if something failed.
-     \note The datatype will return \c null (the default) if does not support HTTP files.
-     \note \a $result will not be defined if the return value is \c null
-     \note The \a $httpFile must not be stored prior to calling this, the datatype will handle this internally
-
-     \sa isHTTPFileInsertionSupported()
-    */
+    /**
+     * Inserts the HTTP file $httpFile to the content object attribute $objectAttribute.
+     *
+     * The datatype will return null (the default) if does not support HTTP files.
+     * $result will not be defined if the return value is null
+     * The $httpFile must not be stored prior to calling this, the datatype will handle this internally
+     *
+     * @see isHTTPFileInsertionSupported()
+     *
+     * @param eZContentObject $object The contentobject in which the attribute is contained
+     * @param int $objectVersion The current version of the object it is being worked on
+     * @param string $objectLanguage The current language being worked on
+     * @param eZContentObjectAttribute $objectAttribute The attribute which will get the file
+     * @param eZHTTPFile $httpFile Contains information on the uploaded file
+     * @param array $mimeData MIME-Type information on the file, can be used to figure out a storage name
+     * @param array $result Array which will be filled with information on the process, it will contain the following fields:
+     *                      "errors": Array with error elements, each element is an array with \c 'description' containing the text
+     *                      "require_storage": true if the attribute must be stored after this call, or false if not required at all
+     * @return bool|null true if the file was stored correctly in the attribute, false if something failed, null (default) if the datatype does not support HTTP files.
+     */
     function insertHTTPFile( $object, $objectVersion, $objectLanguage,
                              $objectAttribute, $httpFile, $mimeData,
                              &$result )
@@ -302,25 +341,21 @@ class eZDataType
         return null;
     }
 
-    /*!
-     \virtual
-     Inserts the file named \a $filePath to the content object attribute \a $objectAttribute.
-
-     \param $object The contentobject in which the attribute is contained
-     \param $objectVersion The current version of the object it is being worked on
-     \param $objectLanguage The current language being worked on
-     \param $objectAttribute The attribute which will get the file
-     \param $filePath Full path including the filename
-     \param[out] $result Array which will be filled with information on the process, it will contain:
-                 - errors - Array with error elements, each element is an array with \c 'description' containing the text
-                 - require_storage - \c true if the attribute must be stored after this call, or \c false if not required at all
-
-     \return \c true if the file was stored correctly in the attribute or \c false if something failed.
-     \note The datatype will return \c null (the default) if does not support HTTP files.
-     \note \a $result will not be defined if the return value is \c null
-
-     \sa isRegularFileInsertionSupported()
-    */
+    /**
+     * Inserts the file named \a $filePath to the content object attribute \a $objectAttribute.
+     *
+     * $result will not be defined if the return value is null
+     *
+     * @param eZContentObject $object The contentobject in which the attribute is contained
+     * @param int $objectVersion The current version of the object it is being worked on
+     * @param string $objectLanguage The current language being worked on
+     * @param eZContentObjectAttribute $objectAttribute The attribute which will get the file
+     * @param string $filePath Full path including the filename
+     * @param array $result Array which will be filled with information on the process, it will contain the following fields:
+     *                      "errors": Array with error elements, each element is an array with \c 'description' containing the text
+     *                      "require_storage": true if the attribute must be stored after this call, or false if not required at all
+     * @return bool|null true if the file was stored correctly in the attribute, false if something failed, null (default) if the datatype does not support files.
+     */
     function insertRegularFile( $object, $objectVersion, $objectLanguage,
                                 $objectAttribute, $filePath,
                                 &$result )
@@ -329,25 +364,23 @@ class eZDataType
         return null;
     }
 
-    /*!
-     \virtual
-     Inserts the string \a $string to the content object attribute \a $objectAttribute.
-
-     \param $object The contentobject in which the attribute is contained
-     \param $objectVersion The current version of the object it is being worked on
-     \param $objectLanguage The current language being worked on
-     \param $objectAttribute The attribute which will get the file
-     \param $filePath Full path including the filename
-     \param[out] $result Array which will be filled with information on the process, it will contain:
-                 - errors - Array with error elements, each element is an array with \c 'description' containing the text
-                 - require_storage - \c true if the attribute must be stored after this call, or \c false if not required at all
-
-     \return \c true if the file was stored correctly in the attribute or \c false if something failed.
-     \note The datatype will return \c null (the default) if does not support HTTP files.
-     \note \a $result will not be defined if the return value is \c null
-
-     \sa isSimpleStringInsertionSupported()
-    */
+    /**
+     * Inserts the string $string to the content object attribute $objectAttribute.
+     *
+     * The datatype will return null (the default) if does not support string insertion
+     *
+     * @see isSimpleStringInsertionSupported()
+     *
+     * @param eZContentObject $object The contentobject in which the attribute is contained
+     * @param int $objectVersion The current version of the object it is being worked on
+     * @param string $objectLanguage The current language being worked on
+     * @param eZContentObjectAttribute $objectAttribute The attribute which will get the file
+     * @param string $string The string to insert
+     * @param array $result Array which will be filled with information on the process, it will contain the following fields:
+     *                      "errors": Array with error elements, each element is an array with \c 'description' containing the text
+     *                      "require_storage": true if the attribute must be stored after this call, or false if not required at all
+     * @return bool|null true if the file was stored correctly in the attribute, false if something failed, null (default) if the datatype does not support string insertion.
+     */
     function insertSimpleString( $object, $objectVersion, $objectLanguage,
                                  $objectAttribute, $string,
                                  &$result )
@@ -356,119 +389,97 @@ class eZDataType
         return null;
     }
 
-    /*!
-     \virtual
-     Checks if the datatype supports returning file information.
-
-     \param $object The contentobject in which the attribute is contained
-     \param $objectVersion The current version of the object it is being worked on
-     \param $objectLanguage The current language being worked on
-     \param $objectAttribute The attribute which stored the file
-
-     \return \c true if file information is supported or \c false if it doesn't.
-    */
+    /**
+     * Checks if the datatype supports returning file information.
+     *
+     * @param eZContentObject $object The contentobject in which the attribute is contained
+     * @param int $objectVersion The current version of the object it is being worked on
+     * @param string $objectLanguage The current language being worked on
+     * @param eZContentObjectAttribute $objectAttribute The attribute which stores the file
+     * @return bool true if file information is supported or false if it doesn't.
+     */
     function hasStoredFileInformation( $object, $objectVersion, $objectLanguage,
                                        $objectAttribute )
     {
         return false;
     }
 
-    /*!
-     \virtual
-     This function is called when someone tries to download the file.
-
-     \param $object The contentobject in which the attribute is contained
-     \param $objectVersion The current version of the object it is being worked on
-     \param $objectLanguage The current language being worked on
-     \param $objectAttribute The attribute which stored the file
-
-     \return \c true if any action has been don or \c false if hasn't.
-    */
+    /**
+     * This function is called when someone tries to download the file.
+     *
+     * @param eZContentObject $object The contentobject in which the attribute is contained
+     * @param int $objectVersion The current version of the object it is being worked on
+     * @param string $objectLanguage The current language being worked on
+     * @param eZContentObjectAttribute $objectAttribute The attribute which stores the file
+     * @return bool true if any action has been don or false if hasn't.
+     */
     function handleDownload( $object, $objectVersion, $objectLanguage,
                              $objectAttribute )
     {
         return false;
     }
 
-    /*!
-     \virtual
-     Returns file information for the filed stored by the attribute.
-
-     \param $object The contentobject in which the attribute is contained
-     \param $objectVersion The current version of the object it is being worked on
-     \param $objectLanguage The current language being worked on
-     \param $objectAttribute The attribute which stored the file
-
-     \return An array structure with information or \c false (default) if no
-             information could be found.
-             The structure must contain:
-             - filepath - The full path to the file
-
-             The structure can contain:
-             - filename - The name of the file, if not supplied it will
-                           be figured out from the filepath
-             - filesize - The size of the file, if not supplied it will
-                           be figured out from the filepath
-             - mime_type - The MIME type for the file, if not supplied it will
-                           be figured out from the filepath
-    */
+    /**
+     * Returns file information for the filed stored by the attribute.
+     *
+     * @param eZContentObject $object The contentobject in which the attribute is contained
+     * @param int $objectVersion The current version of the object it is being worked on
+     * @param string $objectLanguage The current language being worked on
+     * @param eZContentObjectAttribute $objectAttribute The attribute which stored the file
+     * @return array|bool   An array structure with information or false (default) if no information could be found.
+     *                      The structure must contain:
+     *                      - filepath - The full path to the file
+     *                      The structure can contain:
+     *                      - filename - The name of the file, if not supplied it will be figured out from the filepath
+     *                      - filesize - The size of the file, if not supplied it will be figured out from the filepath
+     *                      - mime_type - The MIME type for the file, if not supplied it will be figured out from the filepath
+     */
     function storedFileInformation( $object, $objectVersion, $objectLanguage,
                                     $objectAttribute )
     {
         return false;
     }
 
-    /*!
-     Fetches the product option information for option with ID \a $optionID and returns this information.
-     This will be called from the basket when a new product with an option is added, it is then up to the
-     specific datatype to return proper data. It will also be used to recalcuate prices.
-
-     \param $objectAttribute The attribute that the datatype controls.
-     \param $optionID The ID of the option which information should be returned from.
-     \param $productItem The product item object which contains the option, is available for reading only.
-     \return An array structure which contains:
-             - id - The unique ID of the selected option, this must be unique in the attribute and will later on
-                    be used to recalculate prices.
-             - name - The name of the option list
-             - value - The display string of the selected option
-             - additional_price - A value which is added to the total product price, set to 0 or \c false if no price is used.
-             If the option could not be found it should return \c false, if not supported it should return \c null.
-     \sa handleProductOption
-    */
+    /**
+     * Fetches the product option information for option with ID $optionID and returns this information.
+     *
+     * This will be called from the basket when a new product with an option is added, it is then up to the
+     * specific datatype to return proper data. It will also be used to recalcuate prices.
+     *
+     * @see handleProductOption()
+     *
+     * @param eZContentObjectAttribute $objectAttribute The attribute that the datatype controls.
+     * @param string $optionID The ID of the option which information should be returned from.
+     * @param mixed $productItem The product item object which contains the option, is available for reading only.
+     * @return array|bool|null  false, If the option could not be found, null if the data type doesn't support product options, otherwise
+     *                          An array structure which contains:
+     *                          - id - The unique ID of the selected option, this must be unique in the attribute and will later on be used to recalculate prices.
+     *                          - name - The name of the option list
+     *                          - value - The display string of the selected option
+     *                          - additional_price - A value which is added to the total product price, set to 0 or \c false if no price is used.
+     */
     function productOptionInformation( $objectAttribute, $optionID, $productItem )
     {
         eZDebug::writeWarning( "The datatype " . get_class( $this ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support product options", __METHOD__ );
         return null;
     }
 
-    /*!
-      \virtual
-      Will return information on how the datatype should be represented in
-      the various display modes when used by an object.
-
-      If this method is reimplemented the implementor must call this method
-      with the new info array as second parameter.
-
-      \param $objectAttribute The content object attribute to return info for.
-      \param $mergeInfo A structure that must match the returned array, or \c false to ignore.
-                        Any entries here will override the default.
-      \return An array structure which contains:
-              - \c edit
-                - \c grouped_input - If \c true then the datatype has lots of input elements
-                                     that should be grouped. (e.g. in a fieldset)
-                                     EditSettings/GroupedInput in datatype.ini is used to
-                                     automatically determine this field
-                .
-              - \c view
-              - \c collection
-                - \c grouped_input - If \c true then the datatype has lots of input elements
-                                     that should be grouped. (e.g. in a fieldset)
-                                     CollectionSettings/GroupedInput in datatype.ini is used to
-                                     automatically determine this field and will override
-                                     the default and datatype setting if used.
-                .
-              - \c result
-    */
+    /**
+     * Will return information on how the datatype should be represented in the various display modes when used by an object.
+     *
+     * If this method is reimplemented the implementor must call this method with the new info array as second parameter.
+     *
+     * @param eZContentObjectAttribute $objectAttribute The content object attribute to return info for.
+     * @param array|bool $mergeInfo A structure that must match the returned array, or false to ignore. Any entries here will override the default.
+     * @return array    An array structure which contains:
+     *                  - edit
+     *                  -- grouped_input -  If true then the datatype has lots of input elements that should be grouped. (e.g. in a fieldset)
+     *                                      EditSettings/GroupedInput in datatype.ini is used to automatically determine this field
+     *                  - view
+     *                  - collection
+     *                  -- grouped_input -  If true then the datatype has lots of input elements that should be grouped. (e.g. in a fieldset)
+     *                                      CollectionSettings/GroupedInput in datatype.ini is used to automatically determine this field and will override the default and datatype setting if used.
+     */
     function objectDisplayInformation( $objectAttribute, $mergeInfo = false )
     {
         $datatype = $objectAttribute->attribute( 'data_type_string' );
@@ -515,27 +526,19 @@ class eZDataType
         return $info;
     }
 
-    /*!
-      \virtual
-      Will return information on how the datatype should be represented in
-      the various display modes when used by a class.
-
-      If this method is reimplemented the implementor must call this method
-      with the new info array as second parameter.
-
-      \param $classAttribute The content class attribute to return info for.
-      \param $mergeInfo A structure that must match the returned array, or \c false to ignore.
-                        Any entries here will override the default.
-      \return An array structure which contains:
-              - \c edit
-                - \c grouped_input - If \c true then the datatype has lots of input elements
-                                     that should be grouped. (e.g. in a fieldset)
-                                     ClassEditSettings/GroupedInput in datatype.ini is used to
-                                     automatically determine this field and will override
-                                     the default and datatype setting if used.
-                .
-              - \c view
-    */
+    /**
+     * Will return information on how the datatype should be represented in the various display modes when used by a class.
+     *
+     * If this method is reimplemented the implementor must call this method with the new info array as second parameter.
+     *
+     * @param eZContentClassAttribute $classAttribute The content class attribute to return info for.
+     * @param array|bool $mergeInfo A structure that must match the returned array, or \c false to ignore. Any entries here will override the default.
+     * @return array    An array structure which contains:
+     *                  - edit
+     *                  -- grouped_input -  If true then the datatype has lots of input elements that should be grouped. (e.g. in a fieldset)
+     *                                      ClassEditSettings/GroupedInput in datatype.ini is used to automatically determine this field and will override the default and datatype setting if used.
+     *                  - view
+     */
     function classDisplayInformation( $classAttribute, $mergeInfo = false )
     {
         $datatype = $classAttribute->attribute( 'data_type_string' );
@@ -571,109 +574,132 @@ class eZDataType
         return $info;
     }
 
-    /*!
-     Returns the content data for the given content object attribute.
-    */
+    /**
+     * Returns the content data for the given content object attribute.
+     *
+     * @param eZContentObjectAttribute $objectAttribute
+     * @return mixed
+     */
     function objectAttributeContent( $objectAttribute )
     {
         $retValue = '';
         return $retValue;
     }
 
-    /*!
-     \return \c true if the datatype finds any content in the attribute \a $contentObjectAttribute.
-    */
+    /**
+     * Returns true if the datatype finds any content in the attribute $contentObjectAttribute.
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @return bool
+     */
     function hasObjectAttributeContent( $contentObjectAttribute )
     {
         return false;
     }
 
-    /*!
-     Returns the content data for the given content class attribute.
-    */
+    /**
+     * Returns the content data for the given content class attribute.
+     *
+     * @param eZContentClassAttribute $classAttribute
+     * @return string
+     */
     function classAttributeContent( $classAttribute )
     {
         return '';
     }
 
-    /*!
-     Stores the datatype data to the database which is related to the
-     object attribute.
-     \return True if the value was stored correctly.
-     \note The method is entirely up to the datatype, for instance
-           it could reuse the available types in the the attribute or
-           store in a separate object.
-     \sa fetchObjectAttributeHTTPInput
-    */
+    /**
+     * Stores the datatype data to the database which is related to the object attribute.
+     *
+     * The method is entirely up to the datatype, for instance it could reuse the available types
+     * in the the attribute or store in a separate object.
+     *
+     * Might be transaction unsafe.
+     *
+     * @param eZContentObjectAttribute $objectAttribute
+     * @return bool|void True if the value was stored correctly.
+     */
     function storeObjectAttribute( $objectAttribute )
     {
     }
 
-    /*!
-     Performs necessary actions with attribute data after object is published,
-     it means that you have access to published nodes.
-     \return True if the value was stored correctly.
-     \note The method is entirely up to the datatype, for instance
-           it could reuse the available types in the the attribute or
-           store in a separate object.
-
-     \note Might be transaction unsafe.
-    */
+    /**
+     * Performs necessary actions with attribute data after object is published, it means that you have access to published nodes.
+     *
+     * The method is entirely up to the datatype, for instance it could reuse the available types
+     * in the the attribute or store in a separate object.
+     *
+     * Might be transaction unsafe.
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param eZContentObject $contentObject
+     * @param eZContentObjectTreeNode[] $publishedNodes
+     * @return bool|void True if the value was stored correctly.
+     */
     function onPublish( $contentObjectAttribute, $contentObject, $publishedNodes )
     {
     }
 
-    /*!
-     Similar to the storeClassAttribute but is called before the
-     attribute itself is stored and can be used to set values in the
-     class attribute.
-     \return True if the value was stored correctly.
-     \sa fetchClassAttributeHTTPInput
-    */
+    /**
+     * Similar to the storeClassAttribute but is called before the attribute itself is stored and
+     * can be used to set values in the class attribute.
+     *
+     * @see storeClassAttribute()
+     *
+     * @param eZContentClassAttribute $classAttribute
+     * @param int $version
+     * @return bool|void True if the value was stored correctly.
+     */
     function preStoreClassAttribute( $classAttribute, $version )
     {
     }
 
-    /*!
-     Stores the datatype data to the database which is related to the
-     class attribute. The \a $version parameter determines which version
-     is currently being stored, 0 is the real version while 1 is the
-     temporary version.
-     \return True if the value was stored correctly.
-     \note The method is entirely up to the datatype, for instance
-           it could reuse the available types in the the attribute or
-           store in a separate object.
-     \note This function is called after the attribute data has been stored.
-           If you need to alter attribute data use preStoreClassAttribute instead.
-     \sa fetchClassAttributeHTTPInput
-    */
+    /**
+     * Stores the datatype data to the database which is related to the
+     * class attribute. The \a $version parameter determines which version
+     * is currently being stored, 0 is the real version while 1 is the temporary version.
+     *
+     * The method is entirely up to the datatype, for instance it could reuse the available types
+     * in the the attribute or store in a separate object.
+     *
+     * This function is called after the attribute data has been stored.
+     * If you need to alter attribute data use preStoreClassAttribute instead.
+     *
+     * @param eZContentClassAttribute $classAttribute
+     * @param int $version
+     * @return bool|void True if the value was stored correctly.
+     */
     function storeClassAttribute( $classAttribute, $version )
     {
     }
 
 
     /**
-     * @note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     *       the calls within a db transaction; thus within db->begin and db->commit.
+     * Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     * the calls within a db transaction; thus within db->begin and db->commit.
      *
      * @param eZContentClassAttribute $classAttribute Content class attribute of the datatype
+     * @return bool|void
      */
     function storeDefinedClassAttribute( $classAttribute )
     {
     }
 
     /**
-     * @note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     *       the calls within a db transaction; thus within db->begin and db->commit.
+     * Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     * the calls within a db transaction; thus within db->begin and db->commit.
+     *
      * @param eZContentClassAttribute $classAttribute Content class attribute of the datatype
+     * @return bool|void
      */
     function storeModifiedClassAttribute( $classAttribute )
     {
     }
 
     /**
-     * @note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     *       the calls within a db transaction; thus within db->begin and db->commit.
+     * Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     * the calls within a db transaction; thus within db->begin and db->commit.
+     *
      * @param eZContentClassAttribute $classAttribute Content class attribute of the datatype
      * @param int $version Version of the attribute to be stored
      */
@@ -711,6 +737,7 @@ class eZDataType
      * Hook function which is called before an content class attribute is stored
      *
      * @see eZContentClassAttribute::storeVersioned()
+     *
      * @param eZContentClassAttribute $classAttribute Content class attribute of the datatype
      * @param int $version Version of the attribute to be stored
      */
@@ -728,49 +755,72 @@ class eZDataType
         }
     }
 
-    /*!
-     Validates the input for a class attribute and returns a validation
-     state as defined in eZInputValidator.
-     \note Default implementation does nothing and returns accepted.
-    */
+    /**
+     * Validates the input for a class attribute and returns a validation state as defined in eZInputValidator.
+     *
+     * Default implementation does nothing and returns accepted.
+     *
+     * @param eZHTTPTool $http
+     * @param string $base
+     * @param eZContentClassAttribute $classAttribute
+     * @return int
+     */
     function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     Tries to do a fixup on the input text so that it's acceptable as
-     class attribute input.
-     \note Default implementation does nothing and returns accepted.
-    */
+    /**
+     * Tries to do a fixup on the input text so that it's acceptable as class attribute input.
+     *
+     * Default implementation does nothing and returns accepted.
+     *
+     * @param eZHTTPTool $http
+     * @param string $base
+     * @param eZContentClassAttribute $classAttribute
+     * @return int
+     */
     function fixupClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     Fetches the HTTP input for the content class attribute.
-     \note Default implementation does nothing.
-    */
+    /**
+     * Fetches the HTTP input for the content class attribute.
+     *
+     * Default implementation does nothing.
+     *
+     * @param eZHTTPTool $http
+     * @param string $base
+     * @param eZContentClassAttribute $classAttribute
+     */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
     }
 
-    /*!
-     Executes a custom action for a class attribute which was defined on the web page.
-     \note Default implementation does nothing.
-    */
+    /**
+     * Executes a custom action for a class attribute which was defined on the web page.
+     *
+     * Default implementation does nothing.
+     *
+     * @param eZHTTPTool $http
+     * @param string $action
+     * @param eZContentClassAttribute $classAttribute
+     */
     function customClassAttributeHTTPAction( $http, $action, $classAttribute )
     {
     }
 
-    /*!
-     Matches the action against the action name \a $actionName
-     and extracts the value from the action puts it into \a $value.
-     \return \c true if the action matched and a value was found,
-             \c false otherwise.
-     \node If no match is made or no value found the \a $value parameter is not modified.
-    */
+    /**
+     * Matches the action against the action name $actionName and extracts the value from the action puts it into $value.
+     *
+     * If no match is made or no value found the $value parameter is not modified.
+     *
+     * @param string $action
+     * @param string $actionName
+     * @param string $value
+     * @return bool true if the action matched and a value was found, false otherwise.
+     */
     function fetchActionValue( $action, $actionName, &$value )
     {
         if ( preg_match( "#^" . $actionName . "_(.+)$#", $action, $matches ) )
@@ -781,158 +831,232 @@ class eZDataType
         return false;
     }
 
-    /*!
-     Validates the input for an object attribute and returns a validation
-     state as defined in eZInputValidator.
-     \note Default implementation does nothing and returns accepted.
-    */
+    /**
+     * Validates the input for an object attribute and returns a validation state as defined in eZInputValidator.
+     *
+     * Default implementation does nothing and returns accepted.
+     *
+     * @param eZHTTPTool $http
+     * @param string $base
+     * @param eZContentObjectAttribute $objectAttribute
+     * @return int
+     */
     function validateObjectAttributeHTTPInput( $http, $base, $objectAttribute )
     {
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     Tries to do a fixup on the input text so that it's acceptable as
-     object attribute input.
-     \note Default implementation does nothing.
-    */
+    /**
+     * Tries to do a fixup on the input text so that it's acceptable as object attribute input.
+     *
+     * Default implementation does nothing.
+     *
+     * @param eZHTTPTool $http
+     * @param string $base
+     * @param eZContentObjectAttribute $objectAttribute
+     */
     function fixupObjectAttributeHTTPInput( $http, $base, $objectAttribute )
     {
     }
 
-    /*!
-     Fetches the HTTP input for the content object attribute.
-     \note Default implementation does nothing.
-    */
+    /**
+     * Fetches the HTTP input for the content object attribute.
+     *
+     * Default implementation does nothing.
+     *
+     * @param eZHTTPTool $http
+     * @param string $base
+     * @param eZContentObjectAttribute $objectAttribute
+     */
     function fetchObjectAttributeHTTPInput( $http, $base, $objectAttribute )
     {
     }
 
-    /*!
-     Validates the input for an object attribute and returns a validation
-     state as defined in eZInputValidator.
-     \note Default implementation does nothing and returns accepted.
-    */
+    /**
+     * Validates the input for an object attribute and returns a validation state as defined in eZInputValidator.
+     *
+     * Default implementation does nothing and returns accepted.
+     *
+     * @param eZHTTPTool $http
+     * @param string $base
+     * @param eZContentObjectAttribute $objectAttribute
+     * @return int
+     */
     function validateCollectionAttributeHTTPInput( $http, $base, $objectAttribute )
     {
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     Tries to do a fixup on the input text so that it's acceptable as
-     object attribute input.
-     \note Default implementation does nothing.
-    */
+    /**
+     * Tries to do a fixup on the input text so that it's acceptable as object attribute input.
+     *
+     * Default implementation does nothing.
+     *
+     * @param eZHTTPTool $http
+     * @param string $base
+     * @param eZContentObjectAttribute $objectAttribute
+     */
     function fixupCollectionAttributeHTTPInput( $http, $base, $objectAttribute )
     {
     }
 
-    /*!
-     Fetches the HTTP collected information for the content object attribute.
-     \note Default implementation does nothing.
-
-     \return true if variable was successfully fetched.
-    */
+    /**
+     * Fetches the HTTP collected information for the content object attribute.
+     *
+     * Default implementation does nothing.
+     *
+     * @param mixed $collection
+     * @param eZContentObjectAttribute $collectionAttribute
+     * @param eZHTTPTool $http
+     * @param string $base
+     * @param eZContentObjectAttribute $objectAttribute
+     * @return void|bool true if variable was successfully fetched.
+     */
     function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $objectAttribute )
     {
     }
 
-    /*!
-     Executes a custom action for an object attribute which was defined on the web page.
-     \note Default implementation does nothing.
-    */
+    /**
+     * Executes a custom action for an object attribute which was defined on the web page.
+     *
+     * Default implementation does nothing.
+     *
+     * @param eZHTTPTool $http
+     * @param string $action
+     * @param eZContentObjectAttribute $objectAttribute
+     * @param array $parameters
+     */
     function customObjectAttributeHTTPAction( $http, $action, $objectAttribute, $parameters )
     {
     }
 
-    /*!
-     Takes care of custom action handling, this means checking if a custom action request
-     must be sent to a contentobject attribute. This function is only useful for
-     datatypes that must do custom action handling for sub objects and attributes.
-     \note Default implementation does nothing.
-    */
+    /**
+     * Takes care of custom action handling, this means checking if a custom action request
+     * must be sent to a contentobject attribute. This function is only useful for
+     * datatypes that must do custom action handling for sub objects and attributes.
+     *
+     * Default implementation does nothing.
+     *
+     * @param eZHTTPTool $http
+     * @param string $attributeDataBaseName
+     * @param array $customActionAttributeArray
+     * @param array $customActionParameters
+     */
     function handleCustomObjectHTTPActions( $http, $attributeDataBaseName,
                                             $customActionAttributeArray, $customActionParameters )
     {
     }
 
-    /*!
-     Initializes the class attribute with some data.
-     \note Default implementation does nothing.
-    */
+    /**
+     * Initializes the class attribute with some data.
+     *
+     * @param eZContentClassAttribute $classAttribute
+     */
     function initializeClassAttribute( $classAttribute )
     {
     }
 
-    /*!
-     Clones the date from the old class attribute to the new one.
-     \note Default implementation does nothing which is good enough for datatypes which does not use external tables.
-    */
+    /**
+     * Clones the date from the old class attribute to the new one.
+     *
+     * Default implementation does nothing which is good enough for datatypes which does not use external tables.
+     *
+     * @param eZContentClassAttribute $oldClassAttribute
+     * @param eZContentClassAttribute $newClassAttribute
+     */
     function cloneClassAttribute( $oldClassAttribute, $newClassAttribute )
     {
     }
 
-    /*!
-     Initializes the object attribute with some data.
-     \note Default implementation does nothing.
-    */
+    /**
+     * Initializes the object attribute with some data.
+     *
+     * Default implementation does nothing.
+     *
+     * @param eZContentObjectAttribute $objectAttribute
+     * @param int $currentVersion
+     * @param eZContentObjectAttribute $originalContentObjectAttribute
+     */
     function initializeObjectAttribute( $objectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
     }
 
-    /*!
-     Tries to do a repair on the content object attribute \a $contentObjectAttribute and returns \c true if it succeeds.
-     \return \c false if it fails or \c null if it is not supported to do a repair.
-    */
+    /**
+     * Tries to do a repair on the content object attribute \a $contentObjectAttribute and returns \c true if it succeeds.
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @return bool|null False if it fails or null if it is not supported to do a repair.
+     */
     function repairContentObjectAttribute( $contentObjectAttribute )
     {
         return null;
     }
 
-    /*!
-     Initializes the object attribute with some data after object attribute is already stored. It means that for initial version you allready have an attribute_id and you can store data somewhere using this id.
-     \note Default implementation does nothing.
-    */
+    /**
+     * Initializes the object attribute with some data after object attribute is already stored. It means that for initial version you allready have an attribute_id and you can store data somewhere using this id.
+     *
+     * Default implementation does nothing.
+     *
+     * @param eZContentObjectAttribute $objectAttribute
+     * @param int $currentVersion
+     * @param eZContentObjectAttribute $originalContentObjectAttribute
+     */
     function postInitializeObjectAttribute( $objectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
     }
 
-    /*
-     Makes some post-store operations. Called by framework after store of eZContentObjectAttribute object.
-    */
+    /**
+     * Makes some post-store operations. Called by framework after store of eZContentObjectAttribute object.
+     *
+     * @param eZContentObjectAttribute $objectAttribute
+     */
     function postStore( $objectAttribute )
     {
     }
 
-    /*!
-     Do any necessary changes to stored object attribute when moving an object to trash.
-     \note Default implementation does nothing.
-    */
+    /**
+     * Do any necessary changes to stored object attribute when moving an object to trash.
+     *
+     * Default implementation does nothing.
+     *
+     * @param eZContentObjectAttribute $objectAttribute
+     * @param int|null $version
+     */
     function trashStoredObjectAttribute( $objectAttribute, $version = null )
     {
     }
 
     /**
      * Restores the content object attribute $objectAttribute from trash
+     *
      * Default implementation does nothing
+     *
      * @param eZContentObjectAttribute $objectAttribute
      */
     public function restoreTrashedObjectAttribute( $objectAttribute )
     {
     }
 
-    /*!
-     Clean up stored object attribute
-     \note Default implementation does nothing.
-    */
+    /**
+     * Clean up stored object attribute
+     *
+     * Default implementation does nothing.
+     *
+     * @param eZContentObjectAttribute $objectAttribute
+     * @param int $version
+     */
     function deleteStoredObjectAttribute( $objectAttribute, $version = null )
     {
     }
 
-    /*!
-     Clean up stored class attribute
-     \note Default implementation does nothing.
-    */
+    /**
+     * Clean up stored class attribute
+     *
+     * Default implementation does nothing.
+     *
+     * @param eZContentClassAttribute $classAttribute
+     * @param int $version
+     */
     function deleteStoredClassAttribute( $classAttribute, $version = null )
     {
     }
@@ -963,183 +1087,247 @@ class eZDataType
         return $actionList;
     }
 
-    /*!
-     \return true if the data type can do information collection
-    */
+    /**
+     * Returns true if the data type can do information collection
+     *
+     * @return bool
+     */
     function hasInformationCollection()
     {
         return false;
     }
 
-    /*!
-     Returns the title of the current type, this is to form
-     the title of the object.
-    */
+    /**
+     * Returns the title of the current type, this is to form the title of the object.
+     *
+     * @param eZContentObjectAttribute $objectAttribute
+     * @param string $name
+     * @return string
+     */
     function title( $objectAttribute, $name = null )
     {
         return "";
     }
 
-    /*!
-     \return true if the datatype can be indexed
-    */
+    /**
+     * Returns true if the datatype can be indexed
+     *
+     * @return bool
+     */
     function isIndexable()
     {
         return false;
     }
 
-    /*!
-     \return true if the datatype requires validation during add to basket procedure
-    */
+    /**
+     * Returns true if the datatype requires validation during add to basket procedure
+     *
+     * @return bool
+     */
     function isAddToBasketValidationRequired()
     {
         return false;
     }
-    /*!
-     Validates the input for an object attribute during add to basket process
-     and returns a validation state as defined in eZInputValidator.
-     \note Default implementation does nothing and returns accepted.
-    */
+
+    /**
+     * Validates the input for an object attribute during add to basket process and returns a validation state as defined in eZInputValidator.
+     *
+     * Default implementation does nothing and returns accepted.
+     *
+     * @param eZContentObjectAttribute $objectAttribute
+     * @param array $data
+     * @param array $errors
+     * @return int
+     */
     function validateAddToBasket( $objectAttribute, $data, &$errors )
     {
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     Queries the datatype if the attribute containing this datatype can be
-     removed from the class. This can be used by datatypes to ensure
-     that very important datatypes that could cause system malfunction is
-     not removed.
-     The datatype will only need to reimplemented this if it wants to
-     do some checking, the default returns \c true.
-
-     \return \c true if the class attribute can be removed or \c false.
-     \sa classAttributeRemovableInformation()
-     \note The default code will call classAttributeRemovableInformation with
-          $includeAll set to \c false, if it returns false or an empty \c 'list'
-          it will return \c true.
-    */
+    /**
+     * Queries the datatype if the attribute containing this datatype can be removed from the class.
+     * This can be used by datatypes to ensure that very important datatypes that could cause system
+     * malfunction is not removed.
+     *
+     * The datatype will only need to reimplemented this if it wants to do some checking, the default returns true.
+     *
+     * The default code will call {@see classAttributeRemovableInformation()} with $includeAll set to false,
+     * if it returns false or an empty 'list' it will return true.
+     *
+     * @see classAttributeRemovableInformation()
+     *
+     * @param eZContentClassAttribute $classAttribute
+     * @return bool True if the class attribute can be removed or false if not
+     */
     function isClassAttributeRemovable( $classAttribute )
     {
         $info = $this->classAttributeRemovableInformation( $classAttribute, false );
         return ( $info === false or count( $info['list'] ) == 0 );
     }
 
-    /*!
-     If the call to isClassAttributeRemovable() returns \c false then this
-     can be called to figure out why it cannot be removed, e.g to give
-     information to the user.
-     \return An array structure with information, or \c false if no info is available
-             - text - Plain text explaining why it can't be removed
-             - list - A list of reasons with details on why it can be removed
-                      - identifier - The identifier of the reason (optional)
-                      - text - Plain text explaning the reason
-     \param $includeAll Controls whether the returned information will contain all
-                        sources for not being to remove or just the first that it finds.
-    */
+    /**
+     * If the call to {@see isClassAttributeRemovable()} returns false then this can be called to figure out
+     * why it cannot be removed, e.g to give information to the user.
+     *
+     * @param eZContentClassAttribute $classAttribute
+     * @param bool $includeAll Controls whether the returned information will contain all sources for not being to remove or just the first that it finds.
+     * @return array|bool   An array structure with information, or false if no info is available:
+     *                      - text - Plain text explaining why it can't be removed
+     *                      - list - A list of reasons with details on why it can be removed
+     *                      -- identifier - The identifier of the reason (optional)
+     *                      -- text - Plain text explaning the reason
+     */
     function classAttributeRemovableInformation( $classAttribute, $includeAll = true )
     {
         return false;
     }
 
-    /*!
-     \return true if the datatype can be used as an information collector
-    */
+    /**
+     * Returns true if the datatype can be used as an information collector
+     *
+     * @return bool
+     */
     function isInformationCollector()
     {
         return false;
     }
 
-    /*!
-     \return the sort key for the datatype. This is used for sorting on attribute level.
-    */
+    /**
+     * Returns the sort key for the datatype. This is used for sorting on attribute level.
+     *
+     * @param eZContentObjectAttribute $objectAttribute
+     * @return string
+     */
     function sortKey( $objectAttribute )
     {
         return "";
     }
 
-    /*!
-     \returns the type of the sort key int|string
-      False is returned if sorting is not supported
-    */
+    /**
+     * Returns the type of the sort key int|string
+     *
+     * @return string| bool "int" or "string", false is returned if sorting is not supported
+     */
     function sortKeyType()
     {
         return false;
     }
 
+    /**
+     * Returns true if the current datatype has a custom sorting. If so,
+     * the method (@see customSortingSQL()} has to be customized
+     *
+     * @see customSortingSQL()
+     *
+     * @return bool
+     */
     function customSorting()
     {
         return false;
     }
 
+    /**
+     * @param array $params
+     * @return array|bool
+     */
     function customSortingSQL( $params )
     {
         return false;
     }
 
-    /*!
-     \return the text which should be indexed in the search engine. An associative array can
-      be returned to enable searching in specific parts of the data. E.g. array( 'first_column' => "foo",
-     'second_column' => "bar" );
-    */
+    /**
+     * Returns the text which should be indexed in the search engine. An associative array can
+     * be returned to enable searching in specific parts of the data. E.g.
+     * <code>
+     * array(
+     *     'first_column' => "foo",
+     *     'second_column' => "bar",
+     * );
+     * </code>
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @return string|array
+     */
     function metaData( $contentObjectAttribute )
     {
         return '';
     }
-    /*!
-     \return string representation of an contentobjectattribute data for simplified export
+
+    /**
+     * Returns the string representation of a contentobjectattribute data for simplified export
+     *
+     * @param eZContentObjectAttribute $objectAttribute
+     * @return string
      */
     function toString( $objectAttribute )
     {
         return '';
     }
+
+    /**
+     * Creates the content attribute's data from its string representation
+     *
+     * @param eZContentObjectAttribute $objectAttribute
+     * @param string $string
+     * @return mixed
+     */
     function fromString( $objectAttribute, $string )
     {
     }
 
-    /*!
-     Can be called to figure out if a datatype has certain special templates that it relies on.
-     This can for instance be used to figure out which override templates to include in a package.
-     \return An array with template files that this datatype relies on.
-             Each element can be one of the following types:
-             - string - The filepath of the template
-             - array - Advanced matching criteria, element 0 determines the type:
-               - 'regexp' - A regular expression, element 1 is the regexp string (PREG)
-             If \c false is returned it means there are no relations to any templates.
-     \note All matching is done relative from templates directory in the given design.
-     \note The templates that are found in content/datatype/* should not be included.
-    */
+    /**
+     * Can be called to figure out if a datatype has certain special templates that it relies on.
+     * This can for instance be used to figure out which override templates to include in a package.
+     *
+     * All matching is done relative from templates directory in the given design.
+     * The templates that are found in content/datatype/* should not be included.
+     *
+     * @return array|bool   An array with template files that this datatype relies on. Each element can be one of the following types:
+     *                      - string - The filepath of the template
+     *                      - array - Advanced matching criteria, element 0 determines the type:
+                            -- 'regexp' - A regular expression, element 1 is the regexp string (PREG)
+     *                      If false is returned it means there are no relations to any templates.
+     */
     function templateList()
     {
         return false;
     }
 
-    /*!
-     Adds the necessary dom structure to the attribute parameters.
-     \note The default is to add unsupported='true' to the attribute node,
-           meaning that the datatype does not support serializing.
-    */
+    /**
+     * Adds the necessary dom structure to the attribute parameters.
+     *
+     * The default is to add unsupported='true' to the attribute node, meaning that the datatype does not support serializing.
+     *
+     * @param eZContentClassAttribute $classAttribute
+     * @param eZContentObjectTreeNode $attributeNode
+     * @param DOMElement $attributeParametersNode
+     */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         if ( !$this->Attributes['properties']['serialize_supported'] )
             $attributeNode->setAttribute( 'unsupported', 'true' );
     }
 
-    /*!
-     Extracts values from the attribute parameters and sets it in the class attribute.
-     \note This function is called after the attribute has been stored and a second store is
-           called after this function is done.
-    */
+    /**
+     * Extracts values from the attribute parameters and sets it in the class attribute.
+     *
+     * This function is called after the attribute has been stored and a second store is called after this function is done.
+     *
+     * @param eZContentClassAttribute $classAttribute
+     * @param eZContentObjectTreeNode $attributeNode
+     * @param DOMElement $attributeParametersNode
+     */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
     }
 
-    /*!
-     \param package
-     \param objectAttribute content attribute
-
-     \return a DOM representation of the content object attribute
-    */
+    /**
+     * Returns a DOM representation of the content object attribute
+     *
+     * @param eZPackage $package
+     * @param eZContentObjectAttribute $objectAttribute
+     * @return DOMElement
+     */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $dom = new DOMDocument( '1.0', 'utf-8' );
@@ -1185,13 +1373,13 @@ class eZDataType
         return $node;
     }
 
-    /*!
-     Unserialize contentobject attribute
-
-     \param package
-     \param objectAttribute contentobject attribute object
-     \param attributeNode ezdomnode object
-    */
+    /**
+     * Unserialize contentobject attribute
+     *
+     * @param eZPackage $package
+     * @param eZContentObjectAttribute $objectAttribute
+     * @param DOMElement $attributeNode
+     */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         if ( $this->Attributes["properties"]['object_serialize_map'] )
@@ -1226,10 +1414,13 @@ class eZDataType
         }
     }
 
-    /*
-        Post unserialize. Called after all related objects are created.
-        \return true means that attribute has been modified and should be stored
-    */
+    /**
+     * Post unserialize. Called after all related objects are created.
+     *
+     * @param eZPackage $package
+     * @param eZContentObjectAttribute $objectAttribute
+     * @return bool true means that attribute has been modified and should be stored
+     */
     function postUnserializeContentObjectAttribute( $package, $objectAttribute )
     {
         return false;
@@ -1244,7 +1435,7 @@ class eZDataType
      * filled with 'key' or 'val', depending on is_numeric( key ) value
      *
      * @return array
-     */ 
+     */
     static function allowedTypes()
     {
         $allowedTypes =& $GLOBALS["eZDataTypeAllowedTypes"];
@@ -1261,6 +1452,9 @@ class eZDataType
         return $allowedTypes;
     }
 
+    /**
+     * Loads and registers all enabled datatypes
+     */
     static function loadAndRegisterAllTypes()
     {
         $allowedTypes = eZDataType::allowedTypes();
@@ -1271,7 +1465,7 @@ class eZDataType
     }
 
     /**
-     * Load and register the datatype $type
+     * Loads and registers the datatype $type
      *
      * Since 5.2 there is no need to do file_exists and include calls
      * if datatype is defined in the following way:
@@ -1297,6 +1491,7 @@ class eZDataType
             return false;
         }
 
+        $baseDirectory = eZExtension::baseDirectory();
         $contentINI = eZINI::instance( 'content.ini' );
         $availableDataTypes = $contentINI->variable( 'DataTypeSettings', 'AvailableDataTypes' );
         if ( array_key_exists( $type, $availableDataTypes ) )
@@ -1351,28 +1546,38 @@ class eZDataType
         return true;
     }
 
-    /*!
-     Removes objects with given ID from the relations list
-     \note Default implementation does nothing.
-    */
+    /**
+     * Removes objects with given ID from the relations list
+     *
+     * Default implementation does nothing.
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param int $objectID
+     */
     function removeRelatedObjectItem( $contentObjectAttribute, $objectID )
     {
     }
 
-    /*!
-    Fixes objects with given ID in the relations list according to what is done with object
-     \note Default implementation does nothing.
-    */
+    /**
+     * Fixes objects with given ID in the relations list according to what is done with object
+     *
+     * Default implementation does nothing.
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param int $objectID
+     * @param string $mode
+     */
     function fixRelatedObjectItem( $contentObjectAttribute, $objectID, $mode )
     {
     }
+
     /**
-     * Create empty content object attribute DOM node.
+     * Creates an empty content object attribute DOM node.
      *
-     * The result is intended to be used in a datatype's
-     * serializeContentObjectAttribute() method.
+     * The result is intended to be used in a datatype's serializeContentObjectAttribute() method.
      *
-     * \return "Empty" DOM node
+     * @param eZContentObjectAttribute $objectAttribute
+     * @return DOMElement "Empty" DOM node
      */
     function createContentObjectAttributeDOMNode( $objectAttribute )
     {
@@ -1388,11 +1593,16 @@ class eZDataType
         return $node;
     }
 
-    /*!
-      Method used by content diff system to retrieve changes in attributes.
-      This method implements the default behaviour, which is to show old and
-      new version values of the object.
-    */
+    /**
+     * Method used by content diff system to retrieve changes in attributes.
+     *
+     * This method implements the default behaviour, which is to show old and new version values of the object.
+     *
+     * @param mixed $old
+     * @param mixed $new
+     * @param array|bool $options
+     * @return eZDiffContent
+     */
     function diff( $old, $new, $options = false )
     {
         $diff = new eZDiff();
@@ -1402,18 +1612,27 @@ class eZDataType
         return $diffObject;
     }
 
-    /*!
-      Returns dba-data file name of the specific datatype.
-      This one is the default dba-data file name for all datatypes
-    */
+    /**
+     * Returns dba-data file name of the specific datatype.
+     *
+     * This one is the default dba-data file name for all datatypes
+     *
+     * @return string
+     */
     function getDBAFileName()
     {
         return 'share/db_data.dba';
     }
 
     /*!
-      Returns dba-data file path (relative to the system root folder) for the specific datatype.
+
     */
+    /**
+     * Returns dba-data file path (relative to the system root folder) for the specific datatype.
+     *
+     * @param bool $checkExtensions
+     * @return bool|string
+     */
     function getDBAFilePath( $checkExtensions = true )
     {
          $fileName = 'kernel/classes/datatypes/' . $this->DataTypeString . '/' . $this->getDBAFileName();
@@ -1424,10 +1643,11 @@ class eZDataType
          return $fileName;
     }
 
-    /*!
-      Returns dba-data file extension path (relative to the system root folder) for the specific datatype.
-      \return the first path that is found for the datatype. If not found, it will return false.
-    */
+    /**
+     * Returns dba-data file extension path (relative to the system root folder) for the specific datatype.
+     *
+     * @return bool|string The first path that is found for the datatype. If not found, it will return false.
+     */
     function getDBAExtensionFilePath()
     {
         $activeExtensions = eZExtension::activeExtensions();
@@ -1447,12 +1667,16 @@ class eZDataType
         return $fileName;
     }
 
-    /*!
-      Used by setup-wizard to update database data using per datatype dba file
-      which is usually placed in share subfolder of the datatype and (share/db_data.dba)
-      Any reimplementation of this method must return true if import is succesfully done,
-      otherwise false.
-    */
+    /**
+     * Used by setup-wizard to update database data using per datatype dba file
+     * which is usually placed in share subfolder of the datatype and (share/db_data.dba)
+     *
+     * Any reimplementation of this method must return true if import is succesfully done,
+     * otherwise false.
+     *
+     * @param bool|string $dbaFilePath
+     * @return bool
+     */
     function importDBDataFromDBAFile( $dbaFilePath = false )
     {
         // If no file path is passed then get the common dba-data file name for the datatype
@@ -1496,30 +1720,45 @@ class eZDataType
         return $result;
     }
 
-    /*!
-      \private
-      Used by updateDBDataByDBAFile() method
-      Must return true if successfull, or false otherwise.
-    */
+    /**
+     * Used by updateDBDataByDBAFile() method
+     *
+     * Must return true if successfull, or false otherwise.
+     *
+     * @see updateDBDataByDBAFile()
+     *
+     * @return bool
+     */
     function cleanDBDataBeforeImport()
     {
         return true;
     }
 
+    /**
+     * @param eZContentClassAttribute $classAttribute
+     * @return array
+     */
     function batchInitializeObjectAttributeData( $classAttribute )
     {
         return array();
     }
 
+    /**
+     * @return bool
+     */
     function supportsBatchInitializeObjectAttribute()
     {
         return false;
     }
 
-    /// \privatesection
-    /// The datatype string ID, used for uniquely identifying a datatype
+    /**
+     * @var string The datatype string ID, used for uniquely identifying a datatype
+     */
     public $DataTypeString;
-    /// The descriptive name of the datatype, usually used for displaying to the user
+
+    /**
+     * @var string The descriptive name of the datatype, usually used for displaying to the user
+     */
     public $Name;
 }
 

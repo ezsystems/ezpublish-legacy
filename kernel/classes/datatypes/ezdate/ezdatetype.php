@@ -8,13 +8,11 @@
  * @package kernel
  */
 
-/*!
-  \class eZDateType ezdatetype.php
-  \ingroup eZDatatype
-  \brief Stores a date value
-
-*/
-
+/**
+ * Stores a date value
+ *
+ * @package kernel
+ */
 class eZDateType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezdate";
@@ -25,13 +23,24 @@ class eZDateType extends eZDataType
 
     const DEFAULT_CURRENT_DATE = 1;
 
+    /**
+     * Initializes the datatype
+     */
     function eZDateType()
     {
         $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Date", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
-
+    /**
+     * Validates the given values if they form a valid date
+     *
+     * @param int|string $day
+     * @param int|string $month
+     * @param int|string $year
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @return int
+     */
     function validateDateTimeHTTPInput( $day, $month, $year, $contentObjectAttribute )
     {
         $state = eZDateTimeValidator::validateDate( $day, $month, $year );
@@ -43,10 +52,7 @@ class eZDateType extends eZDataType
         }
         return $state;
     }
-    /*!
-     Validates the input and returns true if the input was
-     valid for this datatype.
-    */
+
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -86,9 +92,6 @@ class eZDateType extends eZDataType
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     Fetches the http post var integer input and stores it in the data instance.
-    */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) ) and
@@ -151,9 +154,6 @@ class eZDateType extends eZDataType
             return eZInputValidator::STATE_INVALID;
     }
 
-    /*!
-     Fetches the http post variables for collected information
-    */
     function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) ) and
@@ -184,9 +184,10 @@ class eZDateType extends eZDataType
         return false;
     }
 
-    /*!
-     Returns the content.
-    */
+    /**
+     * @inheritdoc
+     * @return eZDate
+     */
     function objectAttributeContent( $contentObjectAttribute )
     {
         $date = new eZDate( );
@@ -195,9 +196,6 @@ class eZDateType extends eZDataType
         return $date;
     }
 
-    /*!
-     Set class attribute value for template version
-    */
     function initializeClassAttribute( $classAttribute )
     {
         if ( $classAttribute->attribute( self::DEFAULT_FIELD ) == null )
@@ -205,9 +203,6 @@ class eZDateType extends eZDataType
         $classAttribute->store();
     }
 
-    /*!
-     Sets the default value.
-    */
     function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
@@ -245,18 +240,15 @@ class eZDateType extends eZDataType
         return true;
     }
 
-    /*!
-     Returns the meta data used for storing search indeces.
-    */
+    /**
+     * @inheritdoc
+     * @return int
+     */
     function metaData( $contentObjectAttribute )
     {
         return (int)$contentObjectAttribute->attribute( 'data_int' );
     }
 
-    /*!
-     \return string representation of an contentobjectattribute data for simplified export
-
-    */
     function toString( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_int' );
@@ -267,9 +259,13 @@ class eZDateType extends eZDataType
         return $contentObjectAttribute->setAttribute( 'data_int', $string );
     }
 
-    /*!
-     Returns the date.
-    */
+    /**
+     * Returns the date in the current locale
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param null $name Unused
+     * @return string
+     */
     function title( $contentObjectAttribute, $name = null )
     {
         $locale = eZLocale::instance();
@@ -313,6 +309,7 @@ class eZDateType extends eZDataType
 
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
+        /** @var DOMElement $defaultNode */
         $defaultNode = $attributeParametersNode->getElementsByTagName( 'default-value' )->item( 0 );
         $defaultValue = strtolower( $defaultNode->getAttribute( 'type' ) );
         switch ( $defaultValue )

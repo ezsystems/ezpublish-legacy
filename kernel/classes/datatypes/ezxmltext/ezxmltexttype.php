@@ -8,77 +8,75 @@
  * @package kernel
  */
 
-/*!
-  \class eZXMLTextType ezxmltexttype
-  \ingroup eZDatatype
-  \brief The class eZXMLTextType haneles XML formatted datatypes
-
-The formatted datatypes store the data in XML. A typical example of this is shown below:
-\code
-<?xml version="1.0" encoding="utf-8" ?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/">
-<header>This is a level one header</header>
-<paragraph>
-This is a <emphasize>block</emphasize> of text.
-</paragraph>
-  <section>
-  <header class="foo">This is a level two header has classification "foo"</header>
-  <paragraph>
-  This is the second paragraph with <bold class="foo">bold text which has classification "foo"</bold>
-  </paragraph>
-  <header>This is a level two header</header>
-  <paragraph>
-    <line>Paragraph can have table</line>
-    <table class="foo" border='1' width='100%'>
-      <tr>
-        <th class="foo"><paragraph>table header of class "foo"</paragraph></th>
-        <td xhtml:width="66" xhtml:colspan="2" xhtml:rowspan="2">
-          <paragraph>table cell text</paragraph>
-        </td>
-      </tr>
-    </table>
-  </paragraph>
-  <paragraph>
-    <line>This is the first line with <anchor name="first">anchor</anchor></line>
-    <line>This is the second line with <link target="_self" id="1">link</link></line>
-    <line>This is the third line.</line>
-  </paragraph>
-  <paragraph>
-    <ul class="foo">
-       <li>List item 1</li>
-       <li>List item 2</li>
-    </ul>
-  </paragraph>
-  <paragraph>
-    <ol>
-       <li>Ordered list item 1</li>
-       <li>ordered list item 2</li>
-    </ol>
-  </paragraph>
-  <paragraph>
-    <line>Paragraph can have both inline custom tag <custom name="myInlineTag">text</custom> and block custom tag</line>
-    <custom name="myBlockTag">
-      <paragraph>
-        block text
-      </paragraph>
-    </custom>
-  </paragraph>
-  <paragraph>
-    Paragraph can have image object with link <object id="55" size="large" align="center" image:ezurl_id="4" />
-  </paragraph>
-  <paragraph>
-    You can use literal tag to write html code if you have done some changes in override system.
-    <literal class="html">&lt;font color=&quot;red&quot;&gt;red text&lt;/font&gt;</literal>
-  </paragraph>
-  <header>This is a level two header</header>
-  </section>
-</section>
-
-\endcode
-
-*/
-
+/**
+ * The class eZXMLTextType haneles XML formatted datatypes
+ *
+ * The formatted datatypes store the data in XML. A typical example of this is shown below:
+ *
+ * <code>
+ * <?xml version="1.0" encoding="utf-8" ?>
+ * <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+ *     xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/">
+ * <header>This is a level one header</header>
+ *     <paragraph>
+ *         This is a <emphasize>block</emphasize> of text.
+ *     </paragraph>
+ *     <section>
+ *         <header class="foo">This is a level two header has classification "foo"</header>
+ *         <paragraph>
+ *             This is the second paragraph with <bold class="foo">bold text which has classification "foo"</bold>
+ *         </paragraph>
+ *         <header>This is a level two header</header>
+ *         <paragraph>
+ *             <line>Paragraph can have table</line>
+ *             <table class="foo" border='1' width='100%'>
+ *                 <tr>
+ *                     <th class="foo"><paragraph>table header of class "foo"</paragraph></th>
+ *                     <td xhtml:width="66" xhtml:colspan="2" xhtml:rowspan="2">
+ *                         <paragraph>table cell text</paragraph>
+ *                     </td>
+ *                 </tr>
+ *             </table>
+ *         </paragraph>
+ *         <paragraph>
+ *             <line>This is the first line with <anchor name="first">anchor</anchor></line>
+ *             <line>This is the second line with <link target="_self" id="1">link</link></line>
+ *             <line>This is the third line.</line>
+ *         </paragraph>
+ *         <paragraph>
+ *             <ul class="foo">
+ *                 <li>List item 1</li>
+ *                 <li>List item 2</li>
+ *             </ul>
+ *         </paragraph>
+ *         <paragraph>
+ *             <ol>
+ *                 <li>Ordered list item 1</li>
+ *                 <li>ordered list item 2</li>
+ *             </ol>
+ *         </paragraph>
+ *         <paragraph>
+ *             <line>Paragraph can have both inline custom tag <custom name="myInlineTag">text</custom> and block custom tag</line>
+ *             <custom name="myBlockTag">
+ *                 <paragraph>
+ *                     block text
+ *                 </paragraph>
+ *             </custom>
+ *         </paragraph>
+ *         <paragraph>
+ *             Paragraph can have image object with link <object id="55" size="large" align="center" image:ezurl_id="4" />
+ *         </paragraph>
+ *         <paragraph>
+ *             You can use literal tag to write html code if you have done some changes in override system.
+ *             <literal class="html">&lt;font color=&quot;red&quot;&gt;red text&lt;/font&gt;</literal>
+ *         </paragraph>
+ *         <header>This is a level two header</header>
+ *     </section>
+ * </section>
+ * </code>
+ *
+ * @package kernel
+ */
 class eZXMLTextType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezxmltext";
@@ -95,15 +93,15 @@ class eZXMLTextType extends eZDataType
     // timestamp is less than this it needs to be upgraded until it is correct.
     const VERSION_TIMESTAMP = 1045487555; // AS 21-09-2007: should be the same as VERSION_30_TIMESTAMP
 
+    /**
+     * Initializes the datatype
+     */
     function eZXMLTextType()
     {
         $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "XML block", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
-    /*!
-     Set class attribute value for template version
-    */
     function initializeClassAttribute( $classAttribute )
     {
         if ( $classAttribute->attribute( self::COLS_FIELD ) == null )
@@ -111,9 +109,6 @@ class eZXMLTextType extends eZDataType
         $classAttribute->store();
     }
 
-    /*!
-     Sets the default value.
-    */
     function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
@@ -142,7 +137,7 @@ class eZXMLTextType extends eZDataType
      *
      * @param eZContentObjectAttribute $contentObjectAttribute
      * @param eZContentObject $object
-     * @param array $publishedNodes
+     * @param eZContentObjectTreeNode[] $publishedNodes
      * @return boolean
      */
     function onPublish( $contentObjectAttribute, $object, $publishedNodes )
@@ -177,6 +172,7 @@ class eZXMLTextType extends eZDataType
             $urlIdArray = array();
             foreach ( $dom->getElementsByTagName( 'link' ) as $link )
             {
+                /** @var DOMElement $link */
                 // We are looking for external 'http://'-style links, not the internal
                 // object or node links.
                 if ( $link->hasAttribute( 'url_id' ) )
@@ -218,6 +214,7 @@ class eZXMLTextType extends eZDataType
 
     /**
      * Extracts ids of embedded/linked objects in an eZXML DOMNodeList
+     *
      * @param DOMNodeList $domNodeList
      * @return array
      */
@@ -226,6 +223,7 @@ class eZXMLTextType extends eZDataType
         $embeddedObjectIdArray = array();
         foreach( $domNodeList as $embed )
         {
+            /** @var DOMElement $embed */
             if ( $embed->hasAttribute( 'object_id' ) )
             {
                 $embeddedObjectIdArray[] = $embed->getAttribute( 'object_id' );
@@ -241,10 +239,6 @@ class eZXMLTextType extends eZDataType
         return $embeddedObjectIdArray;
     }
 
-    /*!
-     Validates the input and returns true if the input was
-     valid for this datatype.
-    */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         /// Get object for input validation
@@ -274,9 +268,6 @@ class eZXMLTextType extends eZDataType
         return false;
     }
 
-    /*!
-     Fetches the http post var string input and stores it in the data instance.
-    */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         // To do: Data should be saved here.
@@ -286,18 +277,10 @@ class eZXMLTextType extends eZDataType
         return true;
     }
 
-    /*!
-     Initializes the object attribute with some data after object attribute is already stored.
-     It means that for initial version you allready have an attribute_id and you can store data somewhere using this id.
-     \note Default implementation does nothing.
-    */
     function postInitializeObjectAttribute( $objectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
     }
 
-    /*!
-     Store the content.
-    */
     function storeObjectAttribute( $attribute )
     {
         $attribute->setAttribute( 'data_int', self::VERSION_TIMESTAMP );
@@ -353,11 +336,14 @@ class eZXMLTextType extends eZDataType
         return $inputHandler->informationTemplateSuffix( $contentobjectAttribute );
     }
 
-    /*!
-     \return the RAW XML text from the attribute \a $contentobjectAttribute.
-             If the XML format is older than the current one it will
-             be upgraded to the current before being returned.
-    */
+    /**
+     * Returns the RAW XML text from the attribute $contentobjectAttribute.
+     *
+     * If the XML format is older than the current one it will be upgraded to the current before being returned.
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @return string
+     */
     static function rawXMLText( $contentObjectAttribute )
     {
         $text = $contentObjectAttribute->attribute( 'data_text' );
@@ -372,29 +358,29 @@ class eZXMLTextType extends eZDataType
         return $text;
     }
 
-    /*!
-     \static
-     \return the XML structure in \a $domDocument as text.
-             It will take of care of the necessary charset conversions
-             for content storage.
-    */
+    /**
+     * Returns the XML structure in$domDocument as text.
+     *
+     * It will take of care of the necessary charset conversions for content storage.
+     *
+     * @param DOMDocument $domDocument
+     * @return string
+     */
     static function domString( $domDocument )
     {
         return $domDocument->saveXML();
     }
 
-    /*!
-     Returns the content.
-    */
+    /**
+     * @inheritdoc
+     * @return eZXMLText
+     */
     function objectAttributeContent( $contentObjectAttribute )
     {
         $xmlText = new eZXMLText( eZXMLTextType::rawXMLText( $contentObjectAttribute ), $contentObjectAttribute );
         return $xmlText;
     }
 
-    /*!
-     Returns the meta data used for storing search indeces.
-    */
     function metaData( $contentObjectAttribute )
     {
         $metaData = "";
@@ -445,10 +431,6 @@ class eZXMLTextType extends eZDataType
         return $retString;
     }
 
-    /*!
-     \return string representation of an contentobjectattribute data for simplified export
-
-    */
     function toString( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_text' );
@@ -459,10 +441,6 @@ class eZXMLTextType extends eZDataType
         return $contentObjectAttribute->setAttribute( 'data_text', $string );
     }
 
-
-    /*!
-     Returns the text.
-    */
     function title( $contentObjectAttribute, $value = null )
     {
         $text = eZXMLTextType::rawXMLText( $contentObjectAttribute );
@@ -515,9 +493,11 @@ class eZXMLTextType extends eZDataType
         return false;
     }
 
-    /*!
-     Makes sure content/datatype/.../ezxmltags/... are included.
-    */
+    /**
+     * Makes sure content/datatype/.../ezxmltags/... are included.
+     *
+     * @return array
+     */
     function templateList()
     {
         return array( array( 'regexp',
@@ -546,9 +526,6 @@ class eZXMLTextType extends eZDataType
         $inputHandler->customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute );
     }
 
-    /*!
-     \return a DOM representation of the content object attribute
-    */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
 
@@ -586,6 +563,7 @@ class eZXMLTextType extends eZDataType
     {
         foreach ( $nodeList as $node )
         {
+            /** @var DOMElement $node */
             $linkID = $node->getAttribute( 'url_id' );
             $isObject = ( $node->localName == 'object' );
             $objectID = $isObject ? $node->getAttribute( 'id' ) : $node->getAttribute( 'object_id' );
@@ -631,10 +609,6 @@ class eZXMLTextType extends eZDataType
         }
     }
 
-    /*!
-     \param contentobject attribute object
-     \param domnode object
-    */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         /* For all links found in the XML, do the following:
@@ -648,6 +622,7 @@ class eZXMLTextType extends eZDataType
 
         foreach ( $linkNodes as $linkNode )
         {
+            /** @var DOMElement $linkNode */
             $href = $linkNode->getAttribute( 'href' );
             if ( !$href )
                 continue;
@@ -711,6 +686,13 @@ class eZXMLTextType extends eZDataType
         }
     }
 
+    /**
+     * Return true if the node list has been modified
+     *
+     * @param DOMNodeList $nodeList
+     * @param eZContentObjectAttribute $objectAttribute
+     * @return bool
+     */
     static function transformRemoteLinksToLinks( DOMNodeList $nodeList, $objectAttribute )
     {
         $modified = false;
@@ -718,6 +700,7 @@ class eZXMLTextType extends eZDataType
         $contentObject = $objectAttribute->attribute( 'object' );
         foreach ( $nodeList as $node )
         {
+            /** @var DOMElement $node*/
             $objectRemoteID = $node->getAttribute( 'object_remote_id' );
             $nodeRemoteID = $node->getAttribute( 'node_remote_id' );
             if ( $objectRemoteID )
@@ -769,9 +752,12 @@ class eZXMLTextType extends eZDataType
         return $modified;
     }
 
-    /*!
-     Delete stored object attribute, this will clean up the ezurls and ezobjectlinks
-    */
+    /**
+     * Deletes stored object attribute, this will clean up the ezurls and ezobjectlinks
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param int $version
+     */
     function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
@@ -820,6 +806,10 @@ class eZXMLTextType extends eZDataType
         }
     }
 
+    /**
+     * @inheritdoc
+     * @return eZDiffXMLTextEngine
+     */
     function diff( $old, $new, $options = false )
     {
         $diff = new eZDiff();
