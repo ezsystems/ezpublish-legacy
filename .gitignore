@@ -28,3 +28,6 @@ bin/win32
 support/ezlupdate-qt4.5/ezlupdate/Makefile
 support/ezlupdate-qt4.5/ezlupdate/moc
 support/ezlupdate-qt4.5/ezlupdate/obj
+/vendor
+composer.lock
+
