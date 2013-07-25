@@ -694,17 +694,19 @@ class eZContentOperationCollection
      */
     static public function moveNode( $nodeID, $objectID, $newParentNodeID )
     {
-       if( !eZContentObjectTreeNodeOperations::move( $nodeID, $newParentNodeID ) )
-       {
-           eZDebug::writeError( "Failed to move node $nodeID as child of parent node $newParentNodeID",
-                                __METHOD__ );
+        if( !eZContentObjectTreeNodeOperations::move( $nodeID, $newParentNodeID ) )
+        {
+            eZDebug::writeError( "Failed to move node $nodeID as child of parent node $newParentNodeID",
+                                 __METHOD__ );
 
-           return array( 'status' => false );
-       }
+            return array( 'status' => false );
+        }
 
-       eZContentObject::fixReverseRelations( $objectID, 'move' );
+        eZSearch::moveNode( $nodeID, $objectID, $newParentNodeID );
 
-       return array( 'status' => true );
+        eZContentObject::fixReverseRelations( $objectID, 'move' );
+
+        return array( 'status' => true );
     }
 
     /**
@@ -1198,6 +1200,7 @@ class eZContentOperationCollection
     {
         eZContentObjectTreeNode::updateMainNodeID( $mainAssignmentID, $ObjectID, false, $mainAssignmentParentID );
         eZContentCacheManager::clearContentCacheIfNeeded( $ObjectID );
+        eZSearch::updateMainAssignment( $mainAssignmentID, $ObjectID, $mainAssignmentParentID );
         return array( 'status' => true );
     }
 

@@ -658,6 +658,42 @@ class eZSearch
 
         return false;
     }
+
+    /**
+     * @param $iMainNodeID
+     * @param $iObjectID
+     * @param $mainAssignmentParentID
+     * @return bool|mixed
+     */
+    public static function updateMainAssignment( $iMainNodeID, $iObjectID, $mainAssignmentParentID )
+    {
+        $searchEngine = eZSearch::getEngine();
+
+        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'updateMainAssignment'))
+        {
+            return $searchEngine->updateMainAssignment( $iMainNodeID, $iObjectID, $mainAssignmentParentID );
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $iNodeID
+     * @param $iObjectID
+     * @param $iSelectedNodeID
+     * @return bool|mixed
+     */
+    public static function moveNode( $iNodeID, $iObjectID, $iSelectedNodeID )
+    {
+        $searchEngine = eZSearch::getEngine();
+
+        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'moveNode'))
+        {
+            return $searchEngine->moveNode( $iNodeID, $iObjectID, $iSelectedNodeID );
+        }
+
+        return false;
+    }
 }
 
 ?>
