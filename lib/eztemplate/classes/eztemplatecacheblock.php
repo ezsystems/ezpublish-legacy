@@ -16,6 +16,8 @@
 
 class eZTemplateCacheBlock
 {
+    const  PLACEMENT_STRING_SEPARATOR = '###';
+    
     /*!
      Helper function for retrieving a cache-block entry which can be used by any custom code.
 
@@ -114,10 +116,10 @@ class eZTemplateCacheBlock
      */
     static function placementString( $functionPlacement )
     {
-        $placementString =  $functionPlacement[0][0] . "_";
-        $placementString .= $functionPlacement[0][1] . "_";
-        $placementString .= $functionPlacement[1][0] . "_";
-        $placementString .= $functionPlacement[1][1] . "_";
+        $placementString =  $functionPlacement[0][0] . self::PLACEMENT_STRING_SEPARATOR;
+        $placementString .= $functionPlacement[0][1] . self::PLACEMENT_STRING_SEPARATOR;
+        $placementString .= $functionPlacement[1][0] . self::PLACEMENT_STRING_SEPARATOR;
+        $placementString .= $functionPlacement[1][1] . self::PLACEMENT_STRING_SEPARATOR;
         $placementString .= $functionPlacement[2];
         return $placementString;
     }
@@ -141,20 +143,49 @@ class eZTemplateCacheBlock
      */
     static function cachePath( $keyString, $nodeID = false )
     {
+        $keysArray = unserialize( $keyString );
+
+        $accesName = array_pop( $keysArray );
+        $placementKeyString = array_pop( $keysArray );
+        $placementKeyArray = explode( self::PLACEMENT_STRING_SEPARATOR, $placementKeyString );
+        $placementKeyArray = array_reverse( $placementKeyArray );
+
+
+        // Initialize cache-block subdir with siteAccessName and template file path :
+        // ( If template line number is set, add it to the cache-block subdir )
+        $lineNumber = array_key_exists( 4, $placementKeyArray ) ? $placementKeyArray[4] : false;
+        $templateBlockPath = self::templateBlockPath( $placementKeyArray[0], $lineNumber );
+        $cacheFileSubdir = $accesName.'/'.$templateBlockPath;
+        
         $filename = eZSys::ezcrc32( $keyString ) . ".cache";
 
         $phpDir = eZTemplateCacheBlock::templateBlockCacheDir();
         if ( is_numeric( $nodeID ) )
         {
-            $phpDir .= eZTemplateCacheBlock::calculateSubtreeCacheDir( $nodeID, $filename );
+            $phpDir .= eZTemplateCacheBlock::calculateSubtreeCacheDir( $nodeID, $filename, $cacheFileSubdir );
         }
         else
         {
-            $phpDir .= $filename[0] . '/' . $filename[1] . '/' . $filename[2];
+	        $phpDir.= $cacheFileSubdir.'/' . $filename[0] . '/' . $filename[1] . '/' . $filename[2];
         }
 
         $phpPath = $phpDir . '/' . $filename;
         return $phpPath;
+    }
+
+    /*!
+     \static
+     Returns the file name pattenr of a cache-blocks associated to a template file
+    */
+    static function templateBlockPath( $templateFile, $line=false )
+    {
+        $templateBlockPath = preg_replace( array( '#.*/#', '/\.tpl/' ), '', $templateFile );
+        $templateBlockPath .= '-'.md5( $templateFile );
+        if ( $line )
+        {
+            $templateBlockPath .= '/'.$line;
+        }
+        return $templateBlockPath;
     }
 
     /*!
@@ -231,9 +262,10 @@ class eZTemplateCacheBlock
 
      See decodeNodeID() for details on the $subtreeExpiryParameter parameter.
     */
-    static function calculateSubtreeCacheDir( $nodeID, $cacheFilename )
+    static function calculateSubtreeCacheDir( $nodeID, $cacheFilename, $cacheFileSubdir = '' )
     {
         $cacheDir = eZTemplateCacheBlock::subtreeCacheSubDirForNode( $nodeID );
+        if ( ! empty( $cacheFileSubdir ) ) $cacheDir .= '/' . $cacheFileSubdir;
         $cacheDir .= '/' . $cacheFilename[0] . '/' . $cacheFilename[1] . '/' . $cacheFilename[2];
 
         return $cacheDir;
@@ -247,10 +279,10 @@ class eZTemplateCacheBlock
 
      \note If you know the node ID you can use calculateSubtreeCacheDir() instead.
     */
-    static function subtreeCacheSubDir( $subtreeExpiryParameter, $cacheFilename )
+    static function subtreeCacheSubDir( $subtreeExpiryParameter, $cacheFilename, $cacheFileSubdir = '' )
     {
         $nodeID = eZTemplateCacheBlock::decodeNodeID( $subtreeExpiryParameter );
-        return eZTemplateCacheBlock::calculateSubtreeCacheDir( $nodeID, $cacheFilename );
+        return eZTemplateCacheBlock::calculateSubtreeCacheDir( $nodeID, $cacheFilename, $cacheFileSubdir );
     }
 
     /*!
