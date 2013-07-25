@@ -8,4 +8,4 @@ New event
 ----------
 
 content/download    ( (int) $contentObjectID, (int) $contentObjectAttributeID )
-content/pre_rendering ( $node, $tpl, (string)$viewMode )
+content/pre_rendering ( $module, $node, $tpl, (string) $viewMode )
