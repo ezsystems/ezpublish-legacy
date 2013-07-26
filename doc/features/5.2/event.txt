@@ -2,8 +2,10 @@ Event system
 ============
 
 - Added a new event for the content/download view (can be useful for tracking)
+- Added a new event for content/pre_rendering (useful for business logic in php before rendering template)
 
 New event
 ----------
 
 content/download    ( (int) $contentObjectID, (int) $contentObjectAttributeID )
+content/pre_rendering ( $module, $node, $tpl, (string) $viewMode )

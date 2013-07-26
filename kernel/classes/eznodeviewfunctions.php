@@ -75,7 +75,7 @@ class eZNodeviewfunctions
      */
     static function generateNodeViewData( eZTemplate $tpl, eZContentObjectTreeNode $node, eZContentObject $object, $languageCode, $viewMode, $offset,
                                           array $viewParameters = array( 'offset' => 0, 'year' => false, 'month' => false, 'day' => false ),
-                                          $collectionAttributes = false, $validation = false )
+                                          $collectionAttributes = false, $validation = false, eZModule $Module )
     {
         $section = eZSection::fetch( $object->attribute( 'section_id' ) );
         if ( $section )
@@ -175,6 +175,9 @@ class eZNodeviewfunctions
                               'url_alias' => false );
 
         $tpl->setVariable( 'node_path', $path );
+
+        $event = ezpEvent::getInstance();
+        $event->notify( 'content/pre_rendering', array( $Module, $node, $tpl, $viewMode ) );
 
         $Result = array();
         $Result['content']         = $tpl->fetch( 'design:node/view/' . $viewMode . '.tpl' );
@@ -573,7 +576,8 @@ class eZNodeviewfunctions
             $Offset,
             $viewParameters,
             $collectionAttributes,
-            $validation
+            $validation,
+            $Module
         );
 
         // 'store' depends on noCache: if $noCache is set, this means that retrieve
