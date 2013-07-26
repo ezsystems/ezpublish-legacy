@@ -1445,9 +1445,8 @@ class eZContentObject extends eZPersistentObject
         $db->begin();
 
         // This is part of the new 3.8 code.
-        foreach ( array_keys( $nodeAssignmentList ) as $key )
+        foreach ( $nodeAssignmentList as $nodeAssignment )
         {
-            $nodeAssignment = $nodeAssignmentList[$key];
             // Only copy assignments which has a remote_id since it will be used in template code.
             if ( $nodeAssignment->attribute( 'remote_id' ) == 0 )
             {
@@ -1676,7 +1675,7 @@ class eZContentObject extends eZPersistentObject
                 $nodes = $this->assignedNodes();
                 foreach( $nodes as $node )
                 {
-                    $remoteID = 0;
+                    $remoteID = eZRemoteIdUtility::generate( 'object' );
                     // Remove assignments which conflicts with existing nodes, but keep remote_id
                     if ( isset( $parentMap[$node->attribute( 'parent_node_id' )] ) )
                     {
@@ -1685,9 +1684,14 @@ class eZContentObject extends eZPersistentObject
                         $remoteID = $copiedNodeAssignment->attribute( 'remote_id' );
                         $copiedNodeAssignment->purge();
                     }
-                    $newNodeAssignment = $contentObjectVersion->assignToNode( $node->attribute( 'parent_node_id' ), $node->attribute( 'is_main' ), 0,
-                                                                              $node->attribute( 'sort_field' ), $node->attribute( 'sort_order' ),
-                                                                              $remoteID );
+                    $contentObjectVersion->assignToNode(
+                        $node->attribute( 'parent_node_id' ),
+                        $node->attribute( 'is_main' ),
+                        0,
+                        $node->attribute( 'sort_field' ),
+                        $node->attribute( 'sort_order' ),
+                        $remoteID
+                    );
                 }
             }
 
