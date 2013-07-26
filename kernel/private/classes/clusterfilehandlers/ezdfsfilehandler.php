@@ -405,8 +405,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         $ret = $this->_processCache( $retrieveCallback, $generateCallback, $ttl, $expiry, $extraData );
         if ( $this->useStaleCache )
         {
-            header( "Cache­-Control: no­-cache" );
-            header( "Pragma: no-­cache" );
+            header( "Cache­-Control: max-age=300, s-maxage=300" );
         }
         return $ret;
     }
