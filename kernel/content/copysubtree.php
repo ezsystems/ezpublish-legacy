@@ -289,20 +289,6 @@ function copyPublishContentObject( $sourceObject,
             eZDebug::writeError( "Cannot find source parent node in list of nodes already copied.",
                                  "Subtree Copy Error!" );
         }
-        // Create unique remote_id
-        $newRemoteID = eZRemoteIdUtility::generate( 'node' );
-        $oldRemoteID = $newNode->attribute( 'remote_id' );
-        $newNode->setAttribute( 'remote_id', $newRemoteID );
-        // Change parent_remote_id for object assignments
-        foreach ( $objAssignments as $assignment )
-        {
-            if ( $assignment->attribute( 'parent_remote_id' ) == $oldRemoteID )
-            {
-                 $assignment->setAttribute( 'parent_remote_id', $newRemoteID );
-                 $assignment->store();
-            }
-        }
-        $newNode->store();
     }
 
     // if $keepCreator == true then keep owner of contentobject being
