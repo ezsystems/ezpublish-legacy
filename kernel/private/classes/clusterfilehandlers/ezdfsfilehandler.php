@@ -408,6 +408,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
             header( "Cache­-Control: no­-cache" );
             header( "Pragma: no-­cache" );
         }
+        return $ret;
     }
 
     private function _processCache( $retrieveCallback, $generateCallback = null, $ttl = null, $expiry = null, $extraData = null )
