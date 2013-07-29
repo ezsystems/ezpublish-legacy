@@ -43,77 +43,414 @@ class eZDBInterface
     const SERVER_SLAVE = 2;
 
     /**
+     * @var array The attributes that this database implementation provides
+     */
+    public $AttributeVariableMap = array(
+        'database_name' => 'DB',
+        'database_server' => 'Server',
+        'database_port' => 'Port',
+        'database_socket_path' => 'SocketPath',
+        'database_user' => 'User',
+        'use_slave_server' => 'UseSlaveServer',
+        'slave_database_name' => 'SlaveDB',
+        'slave_database_server' => 'SlaveServer',
+        'slave_database_port' => 'SlavePort',
+        'slave_database_user' => 'SlaveUser',
+        'charset' => 'Charset',
+        'is_internal_charset' => 'IsInternalCharset',
+        'use_builting_encoding' => 'UseBuiltinEncoding',
+        'retry_count' => 'ConnectRetries'
+    );
+
+
+    /**
+     * Contains the current server
+     *
+     * @access protected
+     * @var string|null
+     */
+    public $Server = null;
+
+    /**
+     * Contains the current port
+     *
+     * @access protected
+     * @var int|null
+     */
+    public $Port = null;
+
+    /**
+     * The socket path, used by MySQL
+     *
+     * @access protected
+     * @var string|null
+     */
+    public $SocketPath = null;
+
+    /**
+     * The current database name
+     *
+     * @access protected
+     * @var string|null
+     */
+    public $DB = null;
+
+    /**
+     * The current connection, false if not connection has been made
+     *
+     * @access protected
+     * @var resource|bool
+     */
+    public $DBConnection = false;
+
+    /**
+     * Contains the write database connection if used
+     *
+     * @access protected
+     * @var resource|bool
+     */
+    public $DBWriteConnection = false;
+
+    /**
+     * Stores the database connection user
+     *
+     * @access protected
+     * @var string|null
+     */
+    public $User = null;
+
+    /**
+     * Stores the database connection password
+     *
+     * @access protected
+     * @var string|null
+     */
+    public $Password = null;
+
+    /**
+     * The charset used for the current database
+     *
+     * @access protected
+     * @var string|null
+     */
+    public $Charset = null;
+
+    /**
+     * Will be set to false if $Charset is set
+     *
+     * @see $Charset
+     * @var bool
+     */
+    public $IsInternalCharset = true;
+
+    /**
+     * The number of times to retry a connection if it fails
+     *
+     * @access protected
+     * @var int
+     */
+    public $ConnectRetries = 0;
+
+    /**
+     * Instance of a textcodec which handles text conversion, may not be set if no builtin encoding is used
+     *
+     * @access protected
+     * @var eZTextCodec|null|bool
+     */
+    public $OutputTextCodec = null;
+
+    /**
+     * Instance of a textcodec which handles text conversion, may not be set if no builtin encoding is used
+     *
+     * @access protected
+     * @var eZTextCodec|null|bool
+     */
+    public $InputTextCodec = null;
+
+    /**
+     * True if a builtin encoder is to be used, this means that all input/output text is converted
+     *
+     * @access protected
+     * @var bool
+     */
+    public $UseBuiltinEncoding = true;
+
+    /**
+     * Setting if SQL queries should be sent to debug output
+     *
+     * @access protected
+     * @var bool
+     */
+    public $OutputSQL = false;
+
+    /**
+     * Contains true if we're connected to the database backend
+     *
+     * @access protected
+     * @var bool
+     */
+    public $IsConnected = false;
+
+    /**
+     * Contains number of queries sended to DB
+     *
+     * @access protected
+     * @var int
+     */
+    public $NumQueries = 0;
+
+    /**
+     * The start time of the timer
+     *
+     * @access protected
+     * @var bool|float
+     */
+    public $StartTime = false;
+
+    /**
+     * The end time of the timer
+     *
+     * @access protected
+     * @var bool|float
+     */
+    public $EndTime = false;
+
+    /**
+     * If $OutputSQL is true, displays slow SQL queries that take longer than this value in milliseconds
+     *
+     * @var int
+     */
+    public $SlowSQLTimeout = 0;
+
+    /**
+     * This controls if the queries should have an analysis done for the debug output (Requires SQLOutput=enabled)
+     * @var bool
+     */
+    public $QueryAnalysisOutput = false;
+
+    /**
+     * The total number of milliseconds the timer took
+     *
+     * @access protected
+     * @var bool|float
+     */
+    public $TimeTaken = false;
+
+    /**
+     * The database error message of the last executed function
+     *
+     * @access protected
+     * @var string|null
+     */
+    public $ErrorMessage = null;
+
+    /**
+     * The database error message number of the last executed function
+     *
+     * @access protected
+     * @var int
+     */
+    public $ErrorNumber = 0;
+
+    /**
+     * If true then ErrorMessage and ErrorNumber get filled
+     *
+     * @access protected
+     * @var bool
+     */
+    public $RecordError = true;
+
+    /**
+     * If true then the database connection should be persistent
+     *
+     * @access protected
+     * @var bool
+     */
+    public $UsePersistentConnection = false;
+
+    /**
+     * True if slave servers are enabled
+     *
+     * @access protected
+     * @var bool
+     */
+    public $UseSlaveServer = false;
+
+    /**
+     * The slave database name
+     *
+     * @access protected
+     * @var string|null
+     */
+    public $SlaveDB = null;
+
+    /**
+     * The slave server name
+     *
+     * @access protected
+     * @var string|null
+     */
+    public $SlaveServer = null;
+
+    /**
+     * The slave server port
+     *
+     * @access protected
+     * @var int|null
+     */
+    public $SlavePort = null;
+
+    /**
+     * The slave database user
+     *
+     * @access protected
+     * @var string|null
+     */
+    public $SlaveUser = null;
+
+    /**
+     * The slave database user password
+     *
+     * @access protected
+     * @var string|null
+     */
+    public $SlavePassword = null;
+
+    /**
+     * The transaction counter, 0 means no transaction
+     *
+     * @access protected
+     * @var int
+     */
+    public $TransactionCounter = 0;
+
+    /**
+     * Flag which tells if a transaction is considered valid or not. A transaction will be made invalid if SQL errors occur
+     *
+     * @access protected
+     * @var bool
+     */
+    public $TransactionIsValid = false;
+
+    /**
+     * Holds the transactions
+     *
+     * @access protected
+     * @var array|bool
+     */
+    public $TransactionStackTree = false;
+
+    /**
+     * Error handling mechanism
+     *
+     * @var int One of the eZDB::ERROR_HANDLING_* constants
+     */
+    protected $errorHandling = eZDB::ERROR_HANDLING_STANDARD;
+
+    /**
      * Creates a new eZDBInterface object and connects to the database backend.
      *
      * @param array $parameters
      */
     function eZDBInterface( $parameters )
     {
-        $server = $parameters['server'];
-        $port = $parameters['port'];
-        $user = $parameters['user'];
-        $password = $parameters['password'];
-        $db = $parameters['database'];
-        $useSlaveServer = $parameters['use_slave_server'];
-        $slaveServer = $parameters['slave_server'];
-        $slavePort = $parameters['slave_port'];
-        $slaveUser = $parameters['slave_user'];
-        $slavePassword = $parameters['slave_password'];
-        $slaveDB =  $parameters['slave_database'];
-        $socketPath = $parameters['socket'];
-        $charset = $parameters['charset'];
-        $isInternalCharset = $parameters['is_internal_charset'];
-        $builtinEncoding = $parameters['builtin_encoding'];
-        $connectRetries = $parameters['connect_retries'];
+        if ( isset( $parameters['server'] ) )
+        {
+            $this->Server = $parameters['server'];
+        }
 
-        if ( $parameters['use_persistent_connection'] == 'enabled' )
+        if ( isset( $parameters['port'] ) && is_numeric( $parameters['port'] ) )
+        {
+            $this->Port = (int) $parameters['port'];
+        }
+
+        if ( isset( $parameters['user'] ) )
+        {
+            $this->User = $parameters['user'];
+        }
+
+        if ( isset( $parameters['password'] ) )
+        {
+            $this->Password = $parameters['password'];
+        }
+
+        if ( isset( $parameters['database'] ) )
+        {
+            $this->DB = $parameters['database'];
+        }
+
+        if ( isset( $parameters['socket'] ) )
+        {
+            $this->SocketPath = $parameters['socket'];
+        }
+
+        if ( isset( $parameters['use_persistent_connection'] ) && $parameters['use_persistent_connection'] == 'enabled' )
         {
             $this->UsePersistentConnection = true;
         }
 
-        $this->DB = $db;
-        $this->Server = $server;
-        $this->Port = $port;
-        $this->SocketPath = $socketPath;
-        $this->User = $user;
-        $this->Password = $password;
-        $this->UseSlaveServer = $useSlaveServer;
-        $this->SlaveDB = $slaveDB;
-        $this->SlaveServer = $slaveServer;
-        $this->SlavePort = $slavePort;
-        $this->SlaveUser = $slaveUser;
-        $this->SlavePassword = $slavePassword;
-        $this->Charset = $charset;
-        $this->IsInternalCharset = $isInternalCharset;
-        $this->UseBuiltinEncoding = $builtinEncoding;
-        $this->ConnectRetries = $connectRetries;
-        $this->DBConnection = false;
-        $this->DBWriteConnection = false;
-        $this->TransactionCounter = 0;
-        $this->TransactionIsValid = false;
-        $this->TransactionStackTree = false;
+        if ( isset( $parameters['use_slave_server'] ) )
+        {
+            $this->UseSlaveServer = $parameters['use_slave_server'];
+        }
 
-        $this->OutputTextCodec = null;
-        $this->InputTextCodec = null;
+        if ( isset( $parameters['slave_server'] ) )
+        {
+            $this->SlaveServer = $parameters['slave_server'];
+        }
 
-        $tmpOutputTextCodec = eZTextCodec::instance( $charset, false, false );
-        $tmpInputTextCodec = eZTextCodec::instance( false, $charset, false );
-        unset( $this->OutputTextCodec );
-        unset( $this->InputTextCodec );
-        $this->OutputTextCodec = null;
-        $this->InputTextCodec = null;
+        if ( isset( $parameters['slave_port'] ) && is_numeric( $parameters['slave_port'] ) )
+        {
+            $this->SlavePort = (int) $parameters['slave_port'];
+        }
+
+        if ( isset( $parameters['slave_user'] ) )
+        {
+            $this->SlaveUser = $parameters['slave_user'];
+        }
+
+        if ( isset( $parameters['slave_password'] ) )
+        {
+            $this->SlavePassword = $parameters['slave_password'];
+        }
+
+        if ( isset( $parameters['slave_database'] ) )
+        {
+            $this->SlaveDB = $parameters['slave_database'];
+        }
+
+        if ( isset( $parameters['charset'] ) )
+        {
+            $this->Charset = $parameters['charset'];
+        }
+
+        if ( isset( $parameters['is_internal_charset'] ) )
+        {
+            $this->IsInternalCharset  = $parameters['is_internal_charset'];
+        }
+
+        if ( isset( $parameters['builtin_encoding'] ) )
+        {
+            $this->UseBuiltinEncoding  = $parameters['builtin_encoding'];
+        }
+
+        if ( isset( $parameters['connect_retries'] ) )
+        {
+            $this->ConnectRetries  = $parameters['connect_retries'];
+        }
+
+        $tmpOutputTextCodec = eZTextCodec::instance( $this->Charset, false, false );
+        $tmpInputTextCodec = eZTextCodec::instance( false, $this->Charset, false );
 
         if ( $tmpOutputTextCodec && $tmpInputTextCodec )
         {
             if ( $tmpOutputTextCodec->conversionRequired() && $tmpInputTextCodec->conversionRequired() )
             {
-                $this->OutputTextCodec =& $tmpOutputTextCodec;
-                $this->InputTextCodec =& $tmpInputTextCodec;
+                $this->OutputTextCodec = $tmpOutputTextCodec;
+                $this->InputTextCodec = $tmpInputTextCodec;
             }
         }
 
-        $this->OutputSQL = false;
-        $this->SlowSQLTimeout = 0;
         $ini = eZINI::instance();
         if ( ( $ini->variable( "DatabaseSettings", "SQLOutput" ) == "enabled" ) and
              ( $ini->variable( "DebugSettings", "DebugOutput" ) == "enabled" ) )
@@ -128,34 +465,10 @@ class eZDBInterface
             $this->TransactionStackTree = array();
         }
 
-        $this->QueryAnalysisOutput = false;
         if ( $ini->variable( "DatabaseSettings", "QueryAnalysisOutput" ) == "enabled" )
         {
             $this->QueryAnalysisOutput = true;
         }
-
-        $this->IsConnected = false;
-        $this->NumQueries = 0;
-        $this->StartTime = false;
-        $this->EndTime = false;
-        $this->TimeTaken = false;
-
-        $this->AttributeVariableMap =
-        array(
-            'database_name' => 'DB',
-            'database_server' => 'Server',
-            'database_port' => 'Port',
-            'database_socket_path' => 'SocketPath',
-            'database_user' => 'User',
-            'use_slave_server' => 'UseSlaveServer',
-            'slave_database_name' => 'SlaveDB',
-            'slave_database_server' => 'SlaveServer',
-            'slave_database_port' => 'SlavePort',
-            'slave_database_user' => 'SlaveUser',
-            'charset' => 'Charset',
-            'is_internal_charset' => 'IsInternalCharset',
-            'use_builting_encoding' => 'UseBuiltinEncoding',
-            'retry_count' => 'ConnectRetries' );
     }
 
     /**
@@ -1452,10 +1765,10 @@ class eZDBInterface
      * @param bool $not
      *        Will generate a "NOT IN" ( if set to true ) statement instead
      *        of an "IN" ( if set to false , default )
-     * @param $unique
+     * @param bool $unique
      *        Wether or not to make the array unique. Not implemented in this
      *        class, but can be used by extending classes (oracle does use it)
-     * @param $type The type to cast the array elements to
+     * @param string|bool $type The type to cast the array elements to
      *
      * @return string A string with the correct IN statement like for example
      *         "columnName IN ( element1, element2 )"
@@ -1506,269 +1819,6 @@ class eZDBInterface
 
         $this->errorHandling = $errorHandling;
     }
-
-    /**
-     * Contains the current server
-     *
-     * @access protected
-     * @var string
-     */
-    public $Server;
-
-    /**
-     * Contains the current port
-     *
-     * @access protected
-     * @var int
-     */
-    public $Port;
-
-    /**
-     * The socket path, used by MySQL
-     *
-     * @access protected
-     * @var string
-     */
-    public $SocketPath;
-
-    /**
-     * The current database name
-     *
-     * @access protected
-     * @var string
-     */
-    public $DB;
-
-    /**
-     * The current connection, false if not connection has been made
-     *
-     * @access protected
-     * @var resource|bool
-     */
-    public $DBConnection;
-
-    /**
-     * Contains the write database connection if used
-     *
-     * @access protected
-     * @var resource|bool
-     */
-    public $DBWriteConnection;
-
-    /**
-     * Stores the database connection user
-     *
-     * @access protected
-     * @var string
-     */
-    public $User;
-
-    /**
-     * Stores the database connection password
-     *
-     * @access protected
-     * @var string
-     */
-    public $Password;
-
-    /**
-     * The charset used for the current database
-     *
-     * @access protected
-     * @var string
-     */
-    public $Charset;
-
-    /**
-     * The number of times to retry a connection if it fails
-     *
-     * @access protected
-     * @var int
-     */
-    public $ConnectRetries;
-
-    /**
-     * Instance of a textcodec which handles text conversion, may not be set if no builtin encoding is used
-     *
-     * @access protected
-     * @var eZTextCodec|null|bool
-     */
-    public $OutputTextCodec;
-
-    /**
-     * Instance of a textcodec which handles text conversion, may not be set if no builtin encoding is used
-     *
-     * @access protected
-     * @var eZTextCodec|null|bool
-     */
-    public $InputTextCodec;
-
-    /**
-     * True if a builtin encoder is to be used, this means that all input/output text is converted
-     *
-     * @access protected
-     * @var bool
-     */
-    public $UseBuiltinEncoding;
-
-    /**
-     * Setting if SQL queries should be sent to debug output
-     *
-     * @access protected
-     * @var bool
-     */
-    public $OutputSQL;
-
-    /**
-     * Contains true if we're connected to the database backend
-     *
-     * @access protected
-     * @var bool
-     */
-    public $IsConnected = false;
-
-    /**
-     * Contains number of queries sended to DB
-     *
-     * @access protected
-     * @var int
-     */
-    public $NumQueries = 0;
-
-    /**
-     * The start time of the timer
-     *
-     * @access protected
-     * @var bool|float
-     */
-    public $StartTime;
-
-    /**
-     * The end time of the timer
-     *
-     * @access protected
-     * @var bool|float
-     */
-    public $EndTime;
-
-    /**
-     * The total number of milliseconds the timer took
-     *
-     * @access protected
-     * @var bool|float
-     */
-    public $TimeTaken;
-
-    /**
-     * The database error message of the last executed function
-     *
-     * @access protected
-     * @var string
-     */
-    public $ErrorMessage;
-
-    /**
-     * The database error message number of the last executed function
-     *
-     * @access protected
-     * @var int
-     */
-    public $ErrorNumber = 0;
-
-    /**
-     * If true then ErrorMessage and ErrorNumber get filled
-     *
-     * @access protected
-     * @var bool
-     */
-    public $RecordError = true;
-
-    /**
-     * If true then the database connection should be persistent
-     *
-     * @access protected
-     * @var bool
-     */
-    public $UsePersistentConnection = false;
-
-    /**
-     * True if slave servers are enabled
-     *
-     * @access protected
-     * @var bool
-     */
-    public $UseSlaveServer;
-
-    /**
-     * The slave database name
-     *
-     * @access protected
-     * @var string
-     */
-    public $SlaveDB;
-
-    /**
-     * The slave server name
-     *
-     * @access protected
-     * @var string
-     */
-    public $SlaveServer;
-
-    /**
-     * The slave server port
-     *
-     * @access protected
-     * @var int
-     */
-    public $SlavePort;
-
-    /**
-     * The slave database user
-     *
-     * @access protected
-     * @var string
-     */
-    public $SlaveUser;
-
-    /**
-     * The slave database user password
-     *
-     * @access protected
-     * @var string
-     */
-    public $SlavePassword;
-
-    /**
-     * The transaction counter, 0 means no transaction
-     *
-     * @access protected
-     * @var int
-     */
-    public $TransactionCounter;
-
-    /**
-     * Flag which tells if a transaction is considered valid or not. A transaction will be made invalid if SQL errors occur
-     *
-     * @access protected
-     * @var bool
-     */
-    public $TransactionIsValid;
-
-    /**
-     * Holds the transactions
-     *
-     * @access protected
-     * @var array|bool
-     */
-    public $TransactionStackTree;
-
-    /**
-     * Error handling mechanism
-     *
-     * @var int One of the eZDB::ERROR_HANDLING_* constants
-     */
-    protected $errorHandling = eZDB::ERROR_HANDLING_STANDARD;
 }
 
 ?>
