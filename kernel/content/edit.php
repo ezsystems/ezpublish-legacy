@@ -644,45 +644,45 @@ if ( !function_exists( 'checkContentActions' ) )
 
                     switch ( $redirection )
                     {
-                    case 'node':
-                        $nodeNode = $node->attribute( 'node_id' );
-                        $module->redirectToView( 'view', array( 'full', $nodeNode ) );
-                        break;
-
-                    case 'mainNode':
-                        $mainNode = $node->attribute( 'main_node_id' );
-                        $module->redirectToView( 'view', array( 'full', $mainNode ) );
-                        break;
-
-                    case 'rootNode':
-                        $contentINI = eZINI::instance( 'content.ini' );
-                        $rootNodeID = $contentINI->variable( 'NodeSettings', 'RootNode' );
-                        $module->redirectToView( 'view', array( 'full', $rootNodeID ) );
-                        break;
-
-                    case 'uri':
-                        $http = eZHTTPTool::instance();
-                        $uri = $http->postVariable(
-                                                   'RedirectAfterPublishUri',
-                                                   $ini->variable( 'ContentSettings', 'RedirectAfterPublishUri' )
-                                                   );
-
-                        if( !empty( $uri ) )
-                        {
-                            $module->redirectTo( $uri );
-                            // Intentionally break inside the if condition block. Will fallback to the next case if $uri is empty.
+                        case 'node':
+                            $nodeNode = $node->attribute( 'node_id' );
+                            $module->redirectToView( 'view', array( 'full', $nodeNode ) );
                             break;
-                        }
 
-                    case 'parentNode':
-                    default:
-                        $parentNode = $node->attribute( 'parent_node_id' );
-                        if ( $parentNode == 1 )
-                        {
-                            $parentNode = $node->attribute( 'node_id' );
-                        }
-                        $module->redirectToView( 'view', array( 'full', $parentNode ) );
-                        break;
+                        case 'mainNode':
+                            $mainNode = $node->attribute( 'main_node_id' );
+                            $module->redirectToView( 'view', array( 'full', $mainNode ) );
+                            break;
+
+                        case 'rootNode':
+                            $contentINI = eZINI::instance( 'content.ini' );
+                            $rootNodeID = $contentINI->variable( 'NodeSettings', 'RootNode' );
+                            $module->redirectToView( 'view', array( 'full', $rootNodeID ) );
+                            break;
+
+                        case 'uri':
+                            $http = eZHTTPTool::instance();
+                            $uri = $http->postVariable(
+                                'RedirectAfterPublishUri',
+                                $ini->variable( 'ContentSettings', 'RedirectAfterPublishUri' )
+                            );
+
+                            if ( !empty( $uri ) )
+                            {
+                                $module->redirectTo( $uri );
+                                // Intentionally break inside the if condition block. Will fallback to the next case if $uri is empty.
+                                break;
+                            }
+
+                        case 'parentNode':
+                        default:
+                            $parentNode = $node->attribute( 'parent_node_id' );
+                            if ( $parentNode == 1 )
+                            {
+                                $parentNode = $node->attribute( 'node_id' );
+                            }
+                            $module->redirectToView( 'view', array( 'full', $parentNode ) );
+                            break;
                     }
                 }
                 else
