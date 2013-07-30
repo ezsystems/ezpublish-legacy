@@ -166,6 +166,54 @@ class eZOEXMLTextRegression extends ezpDatabaseTestCase
     }
 
     /**
+     * Tests for EZP-21348
+     * @link https://jira.ez.no/browse/EZP-21348
+     * @dataProvider providerMixedCaseStyleToAttribute
+     */
+    public function testMixedCaseStyleToAttribute( $html, $xpathSel, $attrName, $attrValue )
+    {
+        $parser = new eZOEInputParser();
+        $dom = $parser->process( $html );
+        $xpath = new DomXPath( $dom );
+        $node = $xpath->query( $xpathSel )->item( 0 );
+        $attr = $node->getAttributeNode( $attrName );
+
+        self::assertInstanceOf( 'DOMAttr', $attr );
+        self::assertEquals( $attrValue, $attr->value );
+    }
+
+    public function providerMixedCaseStyleToAttribute()
+    {
+        return array(
+            array(
+                '<table style="width: 100%"><tr><td>1</td><td>2</td></tr></table>',
+                "//table[1]",
+                "width",
+                "100%"
+            ),
+            array(
+                '<table style="WIDTH: 100%"><tr><td>1</td><td>2</td></tr></table>',
+                "//table[1]",
+                "width",
+                "100%"
+            ),
+            array(
+                '<table style="width: 42px"><tr><td>1</td><td>2</td></tr></table>',
+                "//table[1]",
+                "width",
+                "42px"
+            ),
+            array(
+                '<table style="WIDTH: 42px"><tr><td>1</td><td>2</td></tr></table>',
+                "//table[1]",
+                "width",
+                "42px"
+            ),
+        );
+    }
+
+
+    /**
      * Tests for EZP-21346
      * @link https://jira.ez.no/browse/EZP-21346
      * @dataProvider providerMixedCaseAttributes
