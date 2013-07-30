@@ -9,17 +9,6 @@
 
 class eZOEXMLTextRegression extends ezpDatabaseTestCase
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setName( "eZXMLText Datatype OE Regression Tests" );
-    }
-
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
     /**
      * Test for issue #16605: Online Editor adds a lot of Non Breaking spaces (nbsp)
      * 
@@ -174,6 +163,50 @@ class eZOEXMLTextRegression extends ezpDatabaseTestCase
         $oeHandler = new eZOEXMLInput( $xmlData, false,  $folder->short_description );
         $xhtml = $oeHandler->attribute( 'input_xml' );
         self::assertEquals( '&lt;p&gt;French typography&amp;nbsp;:&lt;/p&gt;&lt;p&gt;&lt;br /&gt;&lt;/p&gt;', $xhtml );
+    }
+
+    /**
+     * Tests for EZP-21346
+     * @link https://jira.ez.no/browse/EZP-21346
+     * @dataProvider providerMixedCaseAttributes
+     */
+    public function testMixedCaseAttributes( $html, $xpathSel, $attrNS, $attrLocalName, $attrValue )
+    {
+        $parser = new eZOEInputParser();
+        $dom = $parser->process( $html );
+        $xpath = new DomXPath( $dom );
+        $node = $xpath->query( $xpathSel )->item( 0 );
+        $attr = $node->getAttributeNodeNS( $attrNS, $attrLocalName );
+
+        self::assertInstanceOf( 'DOMAttr', $attr );
+        self::assertEquals( $attrValue, $attr->value );
+    }
+
+    public function providerMixedCaseAttributes()
+    {
+        return array(
+            array(
+                '<table><tr><td colSpan="2">Merged!</td></tr><td>1</td><td>2</td></tr></table>',
+                "//td[1]",
+                "http://ez.no/namespaces/ezpublish3/xhtml/",
+                "colspan",
+                "2"
+            ),
+            array(
+                '<table><tr><td colspan="2">Merged!</td></tr><td>1</td><td>2</td></tr></table>',
+                "//td[1]",
+                "http://ez.no/namespaces/ezpublish3/xhtml/",
+                "colspan",
+                "2"
+            ),
+            array(
+                '<table><tr><td COlSpAN="2">Merged!</td></tr><td>1</td><td>2</td></tr></table>',
+                "//td[1]",
+                "http://ez.no/namespaces/ezpublish3/xhtml/",
+                "colspan",
+                "2"
+            )
+        );
     }
 }
 
