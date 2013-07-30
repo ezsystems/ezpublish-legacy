@@ -1495,7 +1495,7 @@ class eZOEInputParser extends eZXMLInputParser
                     continue;
 
                 list( $name, $value ) = explode( ':', $style );
-                $name  = trim( $name );
+                $name  = strtolower( trim( $name ) );
                 $value = trim( $value );
 
                 if ( $name === 'float' || $name === 'text-align' )
