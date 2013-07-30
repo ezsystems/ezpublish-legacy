@@ -207,6 +207,99 @@ class eZOEInputParser extends eZXMLInputParser
         return parent::process( $text, $createRootNode );
     }
 
+    /**
+     * Sets the attributes for the given element. This method overrides the
+     * eZXMLInputParser::setAttributes to make sure the parser correctly
+     * recognizes attributes with different case variations (for IE8 which adds
+     * "colSpan" instead of "colspan" for instance).
+     *
+     * @param DOMElement $element
+     * @param array $attributes
+     */
+    function setAttributes( $element, $attributes )
+    {
+        $thisOutputTag = $this->OutputTags[$element->nodeName];
+
+        foreach( $attributes as $key => $value )
+        {
+            // Convert attribute names
+            $qualifiedName = $key;
+            if ( isset( $thisOutputTag['attributes'] ) )
+            {
+                foreach ( $thisOutputTag['attributes'] as $outputKey => $outputAttr )
+                {
+                    // make sure to recognize attributes with different case
+                    // variations. for instance IE8 generate "colSpan" instead
+                    // of "colspan" in Online Editor...
+                    if ( strcasecmp( $key, $outputKey ) === 0 )
+                    {
+                        $qualifiedName = $outputAttr;
+                        break;
+                    }
+                }
+
+            }
+
+            // Filter classes
+            if ( $qualifiedName == 'class' )
+            {
+                $classesList = $this->XMLSchema->getClassesList( $element->nodeName );
+                if ( !in_array( $value, $classesList ) )
+                {
+                    $this->handleError( self::ERROR_DATA,
+                                        ezpI18n::tr( 'kernel/classes/datatypes/ezxmltext', "Class '%1' is not allowed for element &lt;%2&gt; (check content.ini).",
+                                        false, array( $value, $element->nodeName ) ) );
+                    continue;
+                }
+            }
+
+            // Create attribute nodes
+            if ( $qualifiedName )
+            {
+                if ( strpos( $qualifiedName, ':' ) )
+                {
+                    list( $prefix, $name ) = explode( ':', $qualifiedName );
+                    if ( isset( $this->Namespaces[$prefix] ) )
+                    {
+                        $URI = $this->Namespaces[$prefix];
+                        $element->setAttributeNS( $URI, $qualifiedName, $value );
+                    }
+                    else
+                    {
+                        eZDebug::writeWarning( "No namespace defined for prefix '$prefix'.", 'eZXML input parser' );
+                    }
+                }
+                else
+                {
+                    $element->setAttribute( $qualifiedName, $value );
+                }
+            }
+        }
+
+        // Check for required attrs are present
+        if ( isset( $this->OutputTags[$element->nodeName]['requiredInputAttributes'] ) )
+        {
+            foreach( $this->OutputTags[$element->nodeName]['requiredInputAttributes'] as $reqAttrName )
+            {
+                $presented = false;
+                foreach( $attributes as $key => $value )
+                {
+                    if ( $key == $reqAttrName )
+                    {
+                        $presented = true;
+                        break;
+                    }
+                }
+                if ( !$presented )
+                {
+                    $this->handleError( self::ERROR_SCHEMA,
+                                        ezpI18n::tr( 'kernel/classes/datatypes/ezxmltext', "Required attribute '%1' is not presented in tag &lt;%2&gt;.",
+                                        false, array( $reqAttrName, $element->nodeName ) ) );
+                }
+            }
+        }
+    }
+
      /**
      * tagNameSpan (tag mapping handler)
      * Handles span tag and maps it to embed|custom|strong|emphasize|custom.underline
