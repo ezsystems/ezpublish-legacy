@@ -99,6 +99,21 @@ class eZi18nOperator
             }
         }
 
+        $ini = eZINI::instance();
+        $dynamic = $ini->variable( 'RegionalSettings', 'DynamicTemplateMode' ) === 'enabled';
+
+        if ( $dynamic )
+        {
+            $numParameters = count ( $parameters );
+            $values = array();
+            $values[] = ( $numParameters > 1 ) ? $parameters[1] : null;;
+            $values[] = $parameters[0];
+            $values[] = ( $numParameters > 2 ) ? $parameters[2] : null;
+            $values[] = ( $numParameters > 3 ) ? $parameters[3] : null;
+            $code = '%output% = ezpI18n::tr( %1%, %2%, %3%, %4% );' . "\n";
+            return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
+        }
+
         $value = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
 
         $numParameters = count ( $parameters );
@@ -112,23 +127,12 @@ class eZi18nOperator
 
         $values = array();
 
-        $ini = eZINI::instance();
         if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
         {
-            $language = eZLocale::instance()->localeFullCode();
-            if ( $language != "eng-GB" ) // eng-GB does not need translation
+            $newValue = ezpI18n::tr( $context, $value, $comment );
+            if ( $newValue )
             {
-                $file = 'translation.ts';
-                $ini = eZINI::instance();
-                $useCache = $ini->variable( 'RegionalSettings', 'TranslationCache' ) != 'disabled';
-                eZTSTranslator::initialize( $context, $language, $file, $useCache );
-
-                $man = eZTranslatorManager::instance();
-                $newValue = $man->translate( $context, $value, $comment );
-                if ( $newValue )
-                {
-                    $value = $newValue;
-                }
+                $value = $newValue;
             }
         }
 
