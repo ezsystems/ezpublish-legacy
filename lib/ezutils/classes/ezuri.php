@@ -258,8 +258,7 @@ class eZURI
             }
             else if ( isset( $paramName ) )
             {
-                if ( !empty( $this->URIArray[$key] ) )
-                    $this->UserArray[ $paramName ] .= '/' . $this->URIArray[$key];
+                $this->UserArray[ $paramName ] .= '/' . $this->URIArray[$key];
                 unset( $this->URIArray[$key] );
             }
         }
