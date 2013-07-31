@@ -608,6 +608,7 @@ class eZNodeviewfunctions
                     'kernel',
                     $errorParameters
                 ),
+            'scope' => 'viewcache',
             'store' => $store,
             'binarydata' => serialize( $content ),
         );
