@@ -95,15 +95,18 @@ class eZDir
     static function cleanupEmptyDirectories( $dir )
     {
         $dir = self::cleanPath( $dir, self::SEPARATOR_UNIX );
+        if ( eZINI::instance( 'file.ini' )->variable( 'CleanupEmptyDirectories', 'DeferToCronjob' ) == 'enabled' )
+        {
+           eZDebug::writeDebug( "Removal of '$dir' deferred to cronjob", 'eZDir::cleanupEmptyDirectories' ); 
+           eZDB::instance()->query( "INSERT INTO ezpending_actions( action, param ) VALUES ( 'cleanupEmptyDirectories', '$dir' )" );
+           return true;
+        }
         $dirElements = explode( '/', $dir );
         if ( count( $dirElements ) == 0 )
             return true;
         $currentDir = $dirElements[0];
-        $result = true;
         if ( !file_exists( $currentDir ) and $currentDir != "" )
-            $result = self::doMkdir( $currentDir, self::directoryPermission() );
-        if ( !$result )
-            return false;
+            return true;
 
         for ( $i = count( $dirElements ); $i > 0; --$i )
         {
