@@ -800,7 +800,7 @@ class eZMailTest extends ezpTestCase
             }
 
             // Open mailbox and delete all existing emails in the account
-            $mbox = imap_open( $mboxString, $recipient['username'], $recipient['password'] );
+            $mbox = @imap_open( $mboxString, $recipient['username'], $recipient['password'] );
             if ( !$mbox )
             {
                 $this->markTestSkipped( 'Cannot open mailbox for ' . $recipient['username'] . ': ' . imap_last_error() );
@@ -860,7 +860,7 @@ class eZMailTest extends ezpTestCase
         // Read emails
         foreach ( $recipients as $recipient )
         {
-            $mbox = imap_open( $mboxString, $recipient['username'], $recipient['password'] );
+            $mbox = @imap_open( $mboxString, $recipient['username'], $recipient['password'] );
             if ( !$mbox )
             {
                 $this->markTestSkipped( 'Cannot open mailbox for ' . $recipient['username'] . ': ' . imap_last_error() );
