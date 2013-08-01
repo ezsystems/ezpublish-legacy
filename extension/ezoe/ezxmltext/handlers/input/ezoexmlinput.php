@@ -588,11 +588,20 @@ class eZOEXMLInput extends eZXMLInputHandler
             if ( $lastChild && $lastChild->nodeName === 'paragraph' )
             {
                 $textChild = $lastChild->lastChild;
-                // $textChild->textContent == " " : string(2) whitespace in Opera
-                if ( !$textChild ||
-                     ( $lastChild->childNodes->length == 1 &&
-                       $textChild->nodeType == XML_TEXT_NODE &&
-                       ( $textChild->textContent == " " || $textChild->textContent == ' ' || $textChild->textContent == '' || $textChild->textContent == '&nbsp;' ) ) )
+                if (
+                    !$textChild ||
+                    (
+                        $lastChild->childNodes->length == 1 &&
+                        $textChild->nodeType == XML_TEXT_NODE &&
+                        (
+                            $textChild->textContent == " " || // that's a non breaking space (Opera)
+                            $textChild->textContent == ' ' ||
+                            $textChild->textContent == '' ||
+                            $textChild->textContent == '&nbsp;' ||
+                            $textChild->textContent == "\xC2\xA0" // utf8 non breaking space
+                        )
+                    )
+                )
                 {
                     $parent->removeChild( $lastChild );
                 }
