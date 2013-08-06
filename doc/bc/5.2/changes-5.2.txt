@@ -74,6 +74,10 @@ Change of behavior
   mechanism. Autoload generator add these clasess to the autoload array, so there's no 
   need to do any of the file_exists or include calls.
 
+- Fix EZP-21358: ezjscAjaxContent: Image's exif fields MakerNote and UserComment must be base64 encoded
+
+  ezjscAjaxContent now returns image's exif fields MakerNote and UserComment base64 encoded.
+
 
 Removed features
 ----------------
