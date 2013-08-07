@@ -459,10 +459,18 @@ class ezjscAjaxContent
                         $imageArray,
                         function ( &$element, $key )
                         {
+                            // These fields can contain non utf-8 content
+                            // badly handled by mb_check_encoding
+                            // so they are just encoded in base64
+                            // see https://jira.ez.no/browse/EZP-21358
+                            if ( $key == "MakerNote" || $key == "UserComment")
+                            {
+                                $element =  base64_encode( (string)$element );
+                            }
                             // json_encode/xmlEncode need UTF8 encoded strings
                             // (exif) metadata might not be for instance
                             // see https://jira.ez.no/browse/EZP-19929
-                            if ( !mb_check_encoding( $element, 'UTF-8' ) )
+                            else if ( !mb_check_encoding( $element, 'UTF-8' ) )
                             {
                                 $element = mb_convert_encoding(
                                     (string)$element, 'UTF-8'
