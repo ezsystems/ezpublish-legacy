@@ -1,41 +1,83 @@
 function ContentStructureMenu( params, i18n )
 {
-    this.cookieName     = "contentStructureMenu";
-    this.cookieValidity = 3650; // days
-    this.cookie         = params.useCookie ? _getCookie( this.cookieName ) : '';
-    this.open           = ( this.cookie )? this.cookie.split( '/' ): [];
-    this.autoOpenPath   = params.path;
+    this.parameterName = "contentStructureMenu";
+    this.autoOpenPath = params.path;
 
+    // function taken from the modernizr library
+    this.hasStorage = (function() {
+        var mod = '_ez_ls_check';
 
-    this.updateCookie = function()
-    {
-        if ( !params.useCookie )
-            return;
-        this.cookie = this.open.join('/');
-        expireDate  = new Date();
-        expireDate.setTime( expireDate.getTime() + this.cookieValidity * 86400000 );
-        _setCookie( this.cookieName, this.cookie, expireDate );
-    };
-
-    this.setOpen = function( nodeID )
-    {
-        if ( jQuery.inArray( '' + nodeID, this.open ) !== -1 )
+        try
         {
-            return;
+            localStorage.setItem( mod, mod );
+            localStorage.removeItem( mod );
+            return true;
         }
-        this.open[this.open.length] = nodeID;
-        this.updateCookie();
-    };
-
-    this.setClosed = function( nodeID )
-    {
-        var openIndex = jQuery.inArray( '' + nodeID, this.open );
-        if ( openIndex !== -1 )
+        catch ( e )
         {
-            this.open.splice( openIndex, 1 );
+            return false;
+        }
+    }());
+
+    if ( this.hasStorage )
+    {
+        this.isOpen = function( nodeID )
+        {
+            return localStorage.getItem( this.parameterName + "_" + nodeID ) == '1';
+        };
+
+        this.setOpen = function( nodeID )
+        {
+            localStorage.setItem( this.parameterName + "_" + nodeID, '1' );
+        };
+
+        this.setClosed = function( nodeID )
+        {
+            localStorage.removeItem( this.parameterName + "_" + nodeID );
+        };
+    }
+    else
+    {
+        this.cookieValidity = 3650; // days
+        this.cookie         = params.useCookie ? _getCookie( this.parameterName ) : '';
+        this.open           = ( this.cookie )? this.cookie.split( '/' ): [];
+
+        this.updateCookie = function()
+        {
+            if ( !params.useCookie )
+                return;
+            this.cookie = this.open.join('/');
+            expireDate  = new Date();
+            expireDate.setTime( expireDate.getTime() + this.cookieValidity * 86400000 );
+            _setCookie( this.parameterName, this.cookie, expireDate );
+        };
+
+        this.isOpen = function( nodeID )
+        {
+            return jQuery.inArray( '' + nodeID, this.open ) !== -1;
+        };
+
+        this.setOpen = function( nodeID )
+        {
+            if ( this.isOpen( nodeID ) )
+            {
+                return;
+            }
+
+            this.open[this.open.length] = nodeID;
             this.updateCookie();
-        }
-    };
+        };
+
+        this.setClosed = function( nodeID )
+        {
+            var openIndex = jQuery.inArray( '' + nodeID, this.open );
+            if ( openIndex !== -1 )
+            {
+                this.open.splice( openIndex, 1 );
+                this.updateCookie();
+            }
+        };
+    }
 
     this.generateEntry = function( item, lastli, rootNode )
     {
@@ -345,7 +387,7 @@ function ContentStructureMenu( params, i18n )
                     this.autoOpenPath.splice( openIndex, 1 );
                     this.setOpen( nodeID );
                 }
-                if ( jQuery.inArray( nodeID, this.open ) !== -1 )
+                if ( this.isOpen( nodeID ) )
                 {
                     var aElement = document.getElementById( 'a' + nodeID );
                     if ( aElement )
