@@ -1238,13 +1238,13 @@ class eZDataType
     /**
      * Returns allowed datatypes
      *
-     * Since 5.2 datatypes can be defined with a pair of
+     * Since 5.2 datatypes can be defined with a pair of 
      * dataype/class
      * For keeping backward compability, allowedTypes will be
      * filled with 'key' or 'val', depending on is_numeric( key ) value
      *
      * @return array
-     */
+     */ 
     static function allowedTypes()
     {
         $allowedTypes =& $GLOBALS["eZDataTypeAllowedTypes"];
@@ -1278,14 +1278,14 @@ class eZDataType
      * AvailableDataTypes[{$type}]={$class}
      * Ex: AvailableDataTypes[custom]=customType
      *
-     * It's still possible to define datatypes in the old way, so BC
+     * It's still possible to define datatypes in the old way, so BC 
      * shouldn't be a problem for this case
      * Ex: AvailableDataTypes[]=custom
      * In this case, you'll need to call eZDataType::register
      * from your custom class.
-     *
-     * Recommendation is moving to the new way.
-     *
+     * 
+     * Recommendation is moving to the new way. 
+     * 
      * @param string $type
      * @return bool
      */
@@ -1308,9 +1308,9 @@ class eZDataType
             }
             eZDebug::writeError( "Undefined datatype class: " . $availableDataTypes[$type], __METHOD__ );
         }
-
+        
         $baseDirectory = eZExtension::baseDirectory();
-
+        
         $extensionDirectories = $contentINI->variable( 'DataTypeSettings', 'ExtensionDirectories' );
         $extensionDirectories = array_unique( $extensionDirectories );
         $repositoryDirectories = $contentINI->variable( 'DataTypeSettings', 'RepositoryDirectories' );
