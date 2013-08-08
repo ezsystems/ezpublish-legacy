@@ -38,7 +38,7 @@ class eZEXIFImageAnalyzer
         {
             if ( function_exists( 'exif_read_data' ) )
             {
-                $exifData = exif_read_data( $filename, "COMPUTED,IFD0,COMMENT,EXIF", true );
+                $exifData = @exif_read_data( $filename, "COMPUTED,IFD0,COMMENT,EXIF", true );
                 if ( $exifData )
                 {
                     $info = array();
