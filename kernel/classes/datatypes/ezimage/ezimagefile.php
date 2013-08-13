@@ -122,6 +122,10 @@ class eZImageFile extends eZPersistentObject
                   WHERE  contentobject_id = $contentObjectID and
                          contentclassattribute_id = $contentClassAttributeID and
                          data_text like '%url=\"$filepath\"%'";
+        if ( $db->databaseName() == 'oracle' )
+        {
+            $query .= " ESCAPE '\'";
+        }
         $rows = $db->arrayQuery( $query );
         return $rows;
     }
