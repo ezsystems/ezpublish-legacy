@@ -119,9 +119,9 @@ class eZImageFile extends eZPersistentObject
         $filepath = addcslashes( $filepath, "_" );
         $query = "SELECT id, version
                   FROM   ezcontentobject_attribute
-                  WHERE  contentobject_id = $contentObjectID and
-                         contentclassattribute_id = $contentClassAttributeID and
-                         data_text like '%url=\"$filepath\"%'";
+                  WHERE  contentobject_id = $contentObjectID AND
+                         contentclassattribute_id = $contentClassAttributeID AND
+                         data_text LIKE '%url=\"$filepath\"%'";
         if ( $db->databaseName() == 'oracle' )
         {
             $query .= " ESCAPE '\'";
