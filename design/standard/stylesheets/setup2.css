@@ -157,6 +157,13 @@ fieldset {
     margin-top: 1em;
 }
 
+div.information {
+    background-color: #eeeeee;
+    border-radius: 5px;
+    padding: 1% 2%;
+    border: 1px solid #c6c6c6;
+}
+
 a, a:link, a:link.setup_final, div.setup_help a:link,
 a:visited, a:visited.setup_final, div.setup_help a:visited {
     color: #ff8c0f;
