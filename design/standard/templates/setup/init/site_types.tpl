@@ -116,6 +116,12 @@
 </table>
 
 {if not($message)}
+<h2>{'Additional packages'|i18n('design/standard/setup/init')}</h2>
+
+<div class="information">
+    <p>{'Looking for other packages? Full archive of all packages can be found <a href="%packages_url" target="_blank">here</a>.'|i18n('design/standard/setup/init', '', hash( '%packages_url', ezini( 'RepositorySettings', 'RemotePackagesIndexURLBase', 'package.ini' ) ) )}</p>
+</div>
+
 <fieldset>
   <legend>{'Upload package'|i18n( 'design/standard/setup/init' )}:</legend>
   <input class="file" name="PackageBinaryFile" type="file" />
