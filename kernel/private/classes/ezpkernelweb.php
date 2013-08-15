@@ -383,7 +383,7 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
 
             // Update last accessed view page
             if ( $currentURI != $lastAccessedViewURI &&
-                 !in_array( $uiContextName, array( 'edit', 'administration', 'browse', 'authentication' ) ) )
+                 !in_array( $uiContextName, array( 'edit', 'administration', 'ajax', 'browse', 'authentication' ) ) )
             {
                 $http->setSessionVariable( "LastAccessesURI", $currentURI );
             }
