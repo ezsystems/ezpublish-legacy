@@ -112,7 +112,7 @@ class eZNamePatternResolver
         $this->version = $contentVersion;
         $this->translation = $contentTranslation;
 
-        $this->namePattern = $this->filterNamePattern( $namePattern);
+        $this->namePattern = $this->filterNamePattern( $namePattern );
     }
 
     /**
@@ -131,13 +131,13 @@ class eZNamePatternResolver
         $objectName = $this->translatePattern();
 
         // Make sure length is not longer then $limit unless it's 0
-        if ( !$limit || strlen( $objectName ) <= $limit )
+        if ( !$limit || mb_strlen( $objectName, "utf-8" ) <= $limit )
         {
             return $objectName;
         }
         else
         {
-            return rtrim( substr( $objectName, 0, $limit - strlen( $sequence ) +1 ) ) . $sequence;
+            return preg_replace( "/[\pZ\pC]+$/u", '', mb_substr( $objectName, 0, $limit - mb_strlen( $sequence, "utf-8" ) +1, "utf-8" ) ) . $sequence;
         }
     }
 
