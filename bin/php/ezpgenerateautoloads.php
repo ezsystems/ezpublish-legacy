@@ -18,6 +18,7 @@ if ( file_exists( "config.php" ) )
 //{
 $appName = defined( 'EZP_APP_FOLDER_NAME' ) ? EZP_APP_FOLDER_NAME : 'ezpublish';
 $appFolder = getcwd() . "/../$appName";
+$legacyVendorDir = getcwd() . "/vendor";
 
 $baseEnabled = true;
 // Bundled
@@ -35,6 +36,12 @@ else if ( defined( 'EZC_BASE_PATH' ) )
 else if ( strpos( $appFolder, "{$appName}/../{$appName}" ) === false && file_exists( "{$appFolder}/autoload.php" ) )
 {
     require_once "{$appFolder}/autoload.php";
+    $baseEnabled = false;
+}
+// Composer if in eZ Publish legacy context
+else if ( file_exists( "{$legacyVendorDir}/autoload.php" ) )
+{
+    require_once "{$legacyVendorDir}/autoload.php";
     $baseEnabled = false;
 }
 // PEAR
