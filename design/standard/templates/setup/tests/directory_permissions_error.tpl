@@ -23,13 +23,13 @@
 <h3>{'Shell commands'|i18n( 'design/standard/setup/tests' )}</h3>
 <p>{"These shell commands will give proper permission to the web server."|i18n( 'design/standard/setup/tests' )}</p>
 <pre class="example">cd {$file_results.current_path}
-chmod -R ug+rwx {$dir_list}
-chown -R {$file_results.user_info.user_name}:{$file_results.user_info.group_name} {$dir_list}</pre>
+sudo chmod -R ug+rwx {$dir_list}
+sudo chown -R {$file_results.user_info.user_name}:{$file_results.user_info.group_name} {$dir_list}</pre>
 
 <h3>{'Alternative shell commands'|i18n( 'design/standard/setup/tests' )}</h3>
 <p>{"If you don't have permissions to change the ownership you can try these commands."|i18n( 'design/standard/setup/tests' )}</p>
 <pre class="example">cd {$file_results.current_path}
-chmod -R a+rwx {$dir_list}</pre>
+sudo chmod -R a+rwx {$dir_list}</pre>
 {else}
 <p>{"eZ Publish could not detect the user and group of the web server.
 If you know the user and group of the web server it is recommended to change the ownership of the files to match this user and group.
@@ -38,12 +38,12 @@ To do this you need to change the %chown commands under Alternative shell comman
 <h3>{'Shell commands'|i18n( 'design/standard/setup/tests' )}</h3>
 <p>{"These shell commands will give proper permission to the web server."|i18n( 'design/standard/setup/tests' )}</p>
 <pre class="example">cd {$file_results.current_path}
-chmod -R a+rwx {$dir_list}</pre>
+sudo chmod -R a+rwx {$dir_list}</pre>
 
 <h3>{'Alternative shell commands'|i18n( 'design/standard/setup/tests' )}</h3>
 <p>{"These commands will setup the permission more correctly, but require knowledge about the running web server."|i18n( 'design/standard/setup/tests' )}</p>
-<pre class="example">chmod -R og+rwx {$dir_list}
-chown -R nouser:nouser {$dir_list}</pre>
+<pre class="example">sudo chmod -R og+rwx {$dir_list}
+sudo chown -R nouser:nouser {$dir_list}</pre>
 
 <blockquote class="note">
 <p><b>{'Note'|i18n( 'design/standard/setup/tests' )}:</b> {'The %user_expr must be changed to your web server username and groupname.'|i18n( 'design/standard/setup/tests',, hash( '%user_expr', '<tt>nouser:nouser</tt>' ) )}</p>
