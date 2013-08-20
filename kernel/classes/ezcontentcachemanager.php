@@ -1110,6 +1110,8 @@ class eZContentCacheManager
             // view cache and/or ordinary template block cache
             eZContentObject::expireAllCache();
 
+            ezpEvent::getInstance()->notify( 'content/cache/all' );
+
             // subtree template block caches
             if ( $templateCacheEnabled )
             {
