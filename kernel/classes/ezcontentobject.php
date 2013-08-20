@@ -5827,6 +5827,8 @@ class eZContentObject extends eZPersistentObject
      *
      * Transaction unsafe. If you call several transaction unsafe methods you must enclose
      * the calls within a db transaction; thus within db->begin and db->commit.
+     *
+     * Note: This is considered a internal function, instead use {@see eZContentCacheManager::clearAllContentCache}
      */
     static function expireAllCache()
     {
