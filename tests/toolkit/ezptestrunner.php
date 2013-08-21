@@ -825,12 +825,19 @@ EOT;
                 PHPUnit_Extensions_SeleniumTestCase::$browsers = $browsers;
             }
 
-            if (!isset($this->arguments['test'])) {
+            if ( !isset( $this->arguments['test'] ) ) 
+            {
+                if ( !array_key_exists( 'syntaxCheck', $this->arguments ) ) 
+                {
+                    $this->arguments['syntaxCheck'] = false;
+                }
+
                 $testSuite = $configuration->getTestSuiteConfiguration(
                   $this->arguments['syntaxCheck']
                 );
 
-                if ($testSuite !== NULL) {
+                if ( $testSuite !== NULL ) 
+                {
                     $this->arguments['test'] = $testSuite;
                 }
             }
