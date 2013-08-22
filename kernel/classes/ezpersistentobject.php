@@ -70,6 +70,7 @@ class eZPersistentObject
      */
     public function fill( $row )
     {
+        $db = eZDB::instance();
         if ( !is_array( $row ) )
             return;
         $def = $this->definition();
@@ -80,7 +81,15 @@ class eZPersistentObject
             {
                 $item = $item['name'];
             }
-            $this->$item = isset( $row[$key] ) ? $row[$key] : null;
+            if ( $db->useShortNames() )
+            {
+                $shortKey = eZPersistentObject::getShortAttributeName( $db, $def, $key );
+                $this->$item = isset( $row[$shortKey] ) ? $row[$shortKey] : null;
+            } 
+            else 
+            {
+                $this->$item = isset( $row[$key] ) ? $row[$key] : null;
+            }
         }
 
         return true;
