@@ -237,12 +237,13 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::storeContents( '$filePath' )" );
 
         // the file is stored with the current time as mtime
-        self::$dbbackend->_storeContents( $filePath, $contents, $scope, $datatype );
-
-        if ( $storeLocally )
+        $result = self::$dbbackend->_storeContents( $filePath, $contents, $scope, $datatype );
+        if ( $result && $storeLocally )
         {
             eZFile::create( basename( $filePath ), dirname( $filePath ), $contents, true );
         }
+
+        return $result;
     }
 
     /**
@@ -863,18 +864,9 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         // the .generating file is stored to DFS. $storeLocally is set to false
         // since we don't want to store the .generating file locally, only
         // the final file.
-        $this->storeContents( $binaryData, $scope, $datatype, $storeLocally = false );
-
-        // we end the cache generation process, so that the .generating file
-        // is removed (we don't need to rename since contents was already stored
-        // above, using fileStoreContents
-        $this->endCacheGeneration();
-
-        if ( self::LOCAL_CACHE )
+        if ( $this->storeContents( $binaryData, $scope, $datatype, $storeLocally = false ) )
         {
-            eZDebugSetting::writeDebug( 'kernel-clustering',
-                "Creating local copy of the file", "dfs::storeCache( '{$this->filePath}' )" );
-            eZFile::create( basename( $this->filePath ), dirname( $this->filePath ), $binaryData, true );
+            $this->endCacheGeneration();
         }
 
         return $result;
