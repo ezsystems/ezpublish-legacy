@@ -28,7 +28,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {ldel
     },
     tagCreator: function( ed, tag, customTag, selectedHtml )
     {
-        return eZOEPopupUtils.insertHTMLCleanly( ed, '<a id="__mce_tmp" class="mceItemAnchor"><\/a>', '__mce_tmp' );
+        return eZOEPopupUtils.insertHTMLCleanly( ed, '<a id="__mce_tmp" class="mceItemAnchor">\uFEFF<\/a>', '__mce_tmp' );
     }
 {/literal}
 {rdelim} ) );
