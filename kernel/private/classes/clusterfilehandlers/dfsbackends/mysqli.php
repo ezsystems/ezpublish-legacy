@@ -843,10 +843,12 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         else
             $fname = "_store($filePath, $datatype, $scope)";
 
-        $this->_protect( array( $this, '_storeInner' ), $fname,
+        $return = $this->_protect( array( $this, '_storeInner' ), $fname,
                          $filePath, $datatype, $scope, $fname );
 
         $this->eventHandler->notify( 'cluster/deleteFile', array( $filePath ) );
+
+        return $return;
     }
 
     /**
@@ -882,7 +884,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             "datatype=VALUES(datatype), scope=VALUES(scope), size=VALUES(size), mtime=VALUES(mtime), expired=VALUES(expired)",
             $fname ) === false )
         {
-            return $this->_fail( "Failed to insert file metadata while storing. Possible race condition" );
+            return false;
         }
 
         // copy given $filePath to DFS
@@ -912,8 +914,16 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         else
             $fname = "_storeContents($filePath, ..., $scope, $datatype)";
 
-        $this->_protect( array( $this, '_storeContentsInner' ), $fname,
-                         $filePath, $contents, $scope, $datatype, $mtime, $fname );
+        return $this->_protect(
+            array( $this, '_storeContentsInner' ),
+            $fname,
+            $filePath,
+            $contents,
+            $scope,
+            $datatype,
+            $mtime,
+            $fname
+        );
     }
 
     function _storeContentsInner( $filePath, $contents, $scope, $datatype, $curTime, $fname )
@@ -937,7 +947,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             "datatype=VALUES(datatype), name_trunk='$nameTrunk', scope=VALUES(scope), size=VALUES(size), mtime=VALUES(mtime), expired=VALUES(expired)",
             $fname ) === false )
         {
-            return $this->_fail( "Failed to insert file metadata while storing contents. Possible race condition" );
+            return false;
         }
 
         if ( !$this->dfsbackend->createFileOnDFS( $filePath, $contents ) )
@@ -1063,7 +1073,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         if ( !$res )
         {
             // @todo Throw an exception
-            return false;
+            return $this->_fail( $query, __METHOD__ );
         }
         return mysqli_insert_id( $this->db );
     }

@@ -862,10 +862,19 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         }
 
         // Distinguish bool from eZClusterFileFailure, and call abortCacheGeneration()
-        if ( $this->storeContents( $binaryData, $scope, $datatype, $storeLocally = false ) )
+        $storeContentsResult = $this->storeContents( $binaryData, $scope, $datatype, $storeLocally = false );
+
+        // Cache was stored, we end cache generation
+        if ( $storeContentsResult === true )
         {
             $this->endCacheGeneration();
         }
+        // An unexpected error occured, we abort generation
+        else if ( $storeContentsResult instanceof eZMySQLBackendError )
+        {
+            $this->abortCacheGeneration();
+        }
+        // We don't do anything if false (not stored for known reasons) has been returned
 
         return $result;
     }

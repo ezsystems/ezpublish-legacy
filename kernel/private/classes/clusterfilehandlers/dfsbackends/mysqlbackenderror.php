@@ -20,6 +20,7 @@ class eZDFSMySQLBackendError
         $this->errorValue = $value;
         $this->errorText  = $text;
     }
-}
 
-?>
+    public $errorValue;
+    public $errorText;
+}
