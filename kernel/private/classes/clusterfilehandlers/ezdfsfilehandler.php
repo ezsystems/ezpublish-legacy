@@ -861,9 +861,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
             return $result;
         }
 
-        // the .generating file is stored to DFS. $storeLocally is set to false
-        // since we don't want to store the .generating file locally, only
-        // the final file.
+        // Distinguish bool from eZClusterFileFailure, and call abortCacheGeneration()
         if ( $this->storeContents( $binaryData, $scope, $datatype, $storeLocally = false ) )
         {
             $this->endCacheGeneration();
