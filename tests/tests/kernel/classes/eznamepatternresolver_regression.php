@@ -22,7 +22,7 @@ class eZNamePatternResolverRegression extends ezpTestCase
                 "..",
                 "<name>",
                 "name",
-                "This is a Very Long.."
+                "This is a Very Lon.."
             ),
             array(// test ASCII string split, whitespace trimming
                 "This is a Very Long \n\t\r\0Name isn't it?",
@@ -38,7 +38,7 @@ class eZNamePatternResolverRegression extends ezpTestCase
                 "..",
                 "<name>",
                 "name",
-                "This is a Very Long,..."
+                "This is a Very Long,.."
             ),
             array(// test uft-8 string split, no trimming
                 "私は簡単にパブリッシュの記事で使用することができるようなもの、何でも、記述する必要が、それはそう、私はただ何を書き留めて、何を参照してくださいますね、あなたが実際にTIに考えている心の中で何かが出てくるのが難しいのようなものだ登場。ポイントは、私が百五文字が必要だということです。これで十分です。くそー、もっと2",
@@ -46,7 +46,7 @@ class eZNamePatternResolverRegression extends ezpTestCase
                 "..",
                 "<name>",
                 "name",
-                "私は簡単にパブリッシュの記事で使用することができるようなもの.."
+                "私は簡単にパブリッシュの記事で使用することができるようなも.."
             ),
             array(// test uft-8 string split, with ideographic comma trimming
                 "私は簡単にパブリッシュの記事で使用することができるようなもの、何でも、記述する必要が、それはそう、私はただ何を書き留めて、何を参照してくださいますね、あなたが実際にTIに考えている心の中で何かが出てくるのが難しいのようなものだ登場。ポイントは、私が百五文字が必要だということです。これで十分です。くそー、もっと2",
@@ -54,7 +54,7 @@ class eZNamePatternResolverRegression extends ezpTestCase
                 "..",
                 "<name>",
                 "name",
-                "私は簡単にパブリッシュの記事で使用することができるようなもの、.."
+                "私は簡単にパブリッシュの記事で使用することができるようなもの.."
             ),
         );
     }

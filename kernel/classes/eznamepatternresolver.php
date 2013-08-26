@@ -137,7 +137,7 @@ class eZNamePatternResolver
         }
         else
         {
-            return preg_replace( "/[\pZ\pC]+$/u", '', mb_substr( $objectName, 0, $limit - mb_strlen( $sequence, "utf-8" ) +1, "utf-8" ) ) . $sequence;
+            return preg_replace( "/[\pZ\pC]+$/u", '', mb_substr( $objectName, 0, $limit - mb_strlen( $sequence, "utf-8" ), "utf-8" ) ) . $sequence;
         }
     }
 
