@@ -73,14 +73,36 @@ class eZPersistentObject
         if ( !is_array( $row ) )
             return;
         $def = $this->definition();
+        $useShortNames = eZDB::instance()->useShortNames();
 
-        foreach ( $def["fields"] as $key => $item )
+        if ( $useShortNames )
         {
-            if ( isset( $item['name'] ) )
+            foreach ( $def["fields"] as $key => $item )
             {
-                $item = $item['name'];
+                if ( isset( $item['name'] ) )
+                {
+                    $item = $item['name'];
+                }
+
+                if ( isset( $item['short_name'] ) && $item['short_name'] )
+                {
+                    $key = $item['short_name'];
+                }
+
+                $this->$item = isset( $row[$key] ) ? $row[$key] : null;
             }
-            $this->$item = isset( $row[$key] ) ? $row[$key] : null;
+        }
+        else
+        {
+            foreach ( $def["fields"] as $key => $item )
+            {
+                if ( isset( $item['name'] ) )
+                {
+                    $item = $item['name'];
+                }
+
+                $this->$item = isset( $row[$key] ) ? $row[$key] : null;
+            }
         }
 
         return true;
