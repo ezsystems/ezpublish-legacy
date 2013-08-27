@@ -50,10 +50,6 @@ class eZURLObjectLink extends eZPersistentObject
                       'sort' => array( 'url_id' => 'asc' ),
                       'class_name' => 'eZURLObjectLink',
                       'name' => 'ezurl_object_link' );
-        if ( eZDB::instance()->databaseName() == "oracle" )
-        {
-            $definition['fields']['contentobject_attr_version'] = $definition['fields']['contentobject_attribute_version'];
-        }
         return $definition;
     }
 
