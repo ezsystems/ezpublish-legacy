@@ -80,8 +80,6 @@
  * to be loaded by (ezscript|ezcss)_require.
  */
 
-//include_once( 'extension/ezjscore/classes/ezjscorepacker.php' );
-
 class ezjscPackerTemplateFunctions
 {
     function ezjscPackerTemplateFunctions()

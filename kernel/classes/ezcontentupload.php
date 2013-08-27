@@ -1335,19 +1335,9 @@ class eZContentUpload
 
         if ( $handlerName !== false )
         {
-            $baseDirectory = eZExtension::baseDirectory();
-            $extensionDirectories = eZExtension::activeExtensions();
-
-            // Check all extension directories for an upload handler for this mimetype
-            foreach ( $extensionDirectories as $extensionDirectory )
+            if ( class_exists( $handlerName ) )
             {
-                $handlerPath = $baseDirectory . '/' . $extensionDirectory . '/uploadhandlers/' . $handlerName . ".php";
-                if ( !file_exists( $handlerPath ) )
-                    continue;
-
-                include_once( $handlerPath );
-                $handlerClass = $handlerName;
-                $handler = new $handlerClass();
+                $handler = new $handlerName();
                 if ( !$handler instanceof eZContentUploadHandler )
                 {
                     eZDebug::writeError( "Content upload handler '$handlerName' is not inherited from eZContentUploadHandler. All upload handlers must do this.", __METHOD__ );

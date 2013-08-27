@@ -11,22 +11,22 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/* 
+/*
  * Brief: ezjsc module run
  * A light redirector to be able to run other modules indirectly w/o having to use empty layout/set/*.
  */
@@ -38,7 +38,6 @@ $userParams = $Params['UserParameters'];
 function exitWithInternalError( $errorText )
 {
     header( $_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error' );
-    //include_once( 'extension/ezjscore/classes/ezjscajaxcontent.php' );
     $contentType = ezjscAjaxContent::getHttpAccept();
 
     // set headers

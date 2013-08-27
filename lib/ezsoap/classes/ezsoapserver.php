@@ -83,9 +83,6 @@ class eZSOAPServer
     */
     function registerObject( $objectName, $includeFile = null )
     {
-        if ( file_exists( $includeFile ) )
-            include_once( $includeFile );
-
         if ( class_exists( $objectName ) )
         {
             $methods = get_class_methods( $objectName );

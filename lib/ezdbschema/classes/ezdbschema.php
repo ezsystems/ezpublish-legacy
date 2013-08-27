@@ -49,18 +49,16 @@ class eZDbSchema
 
         /* Load the database schema handler INI stuff */
         $ini = eZINI::instance( 'dbschema.ini' );
-        $schemaPaths = $ini->variable( 'SchemaSettings', 'SchemaPaths' );
         $schemaHandlerClasses = $ini->variable( 'SchemaSettings', 'SchemaHandlerClasses' );
 
         /* Check if we have a handler */
-        if ( !isset( $schemaPaths[$dbname] ) or !isset( $schemaHandlerClasses[$dbname] ) )
+        if ( !isset( $schemaHandlerClasses[$dbname] ) )
         {
             eZDebug::writeError( "No schema handler for database type: $dbname", __METHOD__ );
             return false;
         }
 
         /* Include the schema file and instantiate it */
-        require_once( $schemaPaths[$dbname] );
         return new $schemaHandlerClasses[$dbname]( $params );
     }
 

@@ -466,35 +466,15 @@ class eZSearch
             $searchEngineString = $ini->variable( 'SearchSettings', 'SearchEngine' );
         }
 
-        $directoryList = array();
-        if ( $ini->hasVariable( 'SearchSettings', 'ExtensionDirectories' ) )
+        if ( class_exists( $searchEngineString ) )
         {
-            $extensionDirectories = $ini->variable( 'SearchSettings', 'ExtensionDirectories' );
-            if ( is_array( $extensionDirectories ) )
-            {
-                $directoryList = eZExtension::expandedPathList( $extensionDirectories, 'search/plugins' );
-            }
-        }
+            eZDebugSetting::writeDebug( 'kernel-search-ezsearch', 'Loading search engine ' . $searchEngineString, 'eZSearch::getEngine' );
 
-        $kernelDir = array( 'kernel/search/plugins' );
-        $directoryList = array_merge( $kernelDir, $directoryList );
-
-        foreach( $directoryList as $directory )
-        {
-            $searchEngineFile = implode( '/', array( $directory, strtolower( $searchEngineString ), strtolower( $searchEngineString ) ) ) . '.php';
-
-            if ( file_exists( $searchEngineFile ) )
-            {
-                eZDebugSetting::writeDebug( 'kernel-search-ezsearch', 'Loading search engine from ' . $searchEngineFile, 'eZSearch::getEngine' );
-
-                include_once( $searchEngineFile );
-                $GLOBALS[$instanceName] = new $searchEngineString();
-                return $GLOBALS[$instanceName];
-            }
+            $GLOBALS[$instanceName] = new $searchEngineString();
+            return $GLOBALS[$instanceName];
         }
 
         eZDebug::writeDebug( 'Unable to find the search engine:' . $searchEngineString, 'eZSearch' );
-        eZDebug::writeDebug( 'Tried paths: ' . implode( ', ', $directoryList ), 'eZSearch' );
         return false;
     }
 
