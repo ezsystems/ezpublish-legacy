@@ -167,15 +167,9 @@ class eZURLObjectLink extends eZPersistentObject
     static function fetchLinkList( $contentObjectAttributeID, $contentObjectAttributeVersion, $asObject = true )
     {
         $linkList = array();
-        $conditions = array( 'contentobject_attribute_id' => $contentObjectAttributeID );
-        if ( $contentObjectAttributeVersion !== false )
-            $conditions['contentobject_attribute_version'] = $contentObjectAttributeVersion;
-        $urlObjectLinkList = eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
-                                                                   null,
-                                                                   $conditions,
-                                                                   null,
-                                                                   null,
-                                                                   $asObject );
+
+        $urlObjectLinkList = self::fetchLinkObjectList( $contentObjectAttributeID, $contentObjectAttributeVersion, $asObject );
+
         foreach ( $urlObjectLinkList as $urlObjectLink )
         {
             if ( $asObject )
@@ -190,6 +184,34 @@ class eZURLObjectLink extends eZPersistentObject
             }
         }
         return $linkList;
+    }
+
+    /**
+     * Fetches an array of eZURLObjectLink
+     *
+     * @param $contentObjectAttributeID
+     * @param $contentObjectAttributeVersion : if all links object for all versions are returned
+     * @param bool $asObject
+     *
+     * @return array|eZURLObjectLink[]|null
+     */
+    static public function fetchLinkObjectList( $contentObjectAttributeID, $contentObjectAttributeVersion, $asObject = true )
+    {
+        $conditions = array( 'contentobject_attribute_id' => $contentObjectAttributeID );
+
+        if ( $contentObjectAttributeVersion !== false )
+        {
+            $conditions['contentobject_attribute_version'] = $contentObjectAttributeVersion;
+        }
+
+        return eZPersistentObject::fetchObjectList(
+            eZURLObjectLink::definition(),
+            null,
+            $conditions,
+            null,
+            null,
+            $asObject
+        );
     }
 
     /*!
