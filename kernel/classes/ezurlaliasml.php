@@ -63,10 +63,71 @@ class eZURLAliasML extends eZPersistentObject
     const ACTION_INVALID = 51;
     const DB_ERROR = 101;
 
-    /*!
-     Optionally computed path string for this element, used for caching purposes.
+    /**
+     * Optionally computed path string for this element, used for caching purposes.
+     *
+     * @var string
      */
     public $Path;
+
+    /**
+     * @var int
+     */
+    public $ID;
+
+    /**
+     * @var int
+     */
+    public $Parent;
+
+    /**
+     * @var int
+     */
+    public $Link;
+
+    /**
+     * @var string
+     */
+    public $Text;
+
+    /**
+     * @var string
+     */
+    public $TextMD5;
+
+    /**
+     * @var int
+     */
+    public $LangMask;
+
+    /**
+     * @var string
+     */
+    public $Action;
+
+    /**
+     * @var string
+     */
+    public $ActionType;
+
+    /**
+     * @var int
+     */
+    public $AliasRedirects;
+
+    /**
+     * @var int
+     */
+    public $IsAlias;
+
+    /**
+     * @var bool
+     */
+    public $IsOriginal;
+
+    /**
+     * @var string|null
+     */
     private static $charset = null;
 
     /*!
