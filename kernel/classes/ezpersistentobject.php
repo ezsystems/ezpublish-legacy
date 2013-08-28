@@ -79,14 +79,14 @@ class eZPersistentObject
         {
             foreach ( $def["fields"] as $key => $item )
             {
-                if ( isset( $item['name'] ) )
-                {
-                    $item = $item['name'];
-                }
-
                 if ( isset( $item['short_name'] ) && $item['short_name'] )
                 {
                     $key = $item['short_name'];
+                }
+
+                if ( isset( $item['name'] ) )
+                {
+                    $item = $item['name'];
                 }
 
                 $this->$item = isset( $row[$key] ) ? $row[$key] : null;
