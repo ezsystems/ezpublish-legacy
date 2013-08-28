@@ -286,17 +286,15 @@ class eZSys
     public static function escapeShellArgument( $argument )
     {
         $escapeChar = self::instance()->ShellEscapeCharacter;
-        $argument = str_replace( "\\", "\\\\", $argument );
         if ( $escapeChar == "'" )
         {
-            $argument = str_replace( $escapeChar, $escapeChar . "\\" . $escapeChar . $escapeChar, $argument );
+            $argument = str_replace( "'", "'\\''", $argument );
         }
         else
         {
-            $argument = str_replace( $escapeChar, "\\" . $escapeChar, $argument );
+            $argument = str_replace( $escapeChar, "\\" . $escapeChar, addcslashes( $argument, '\\' ) );
         }
-        $argument = $escapeChar . $argument . $escapeChar;
-        return $argument;
+        return $escapeChar . $argument . $escapeChar;
     }
 
     /**
