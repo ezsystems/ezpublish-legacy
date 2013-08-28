@@ -65,7 +65,18 @@ class eZImageShellHandler extends eZImageHandler
             $sourceMimeData['url'] .= $frameRangeParameters[$sourceMimeData['name']];
         }
 
-        $argumentList[] = eZSys::escapeShellArgument( $sourceMimeData['url'] );
+        // Issue EZP-21357:
+        // ImageMagick has it's own meta-characters support, hence:
+        //     $ convert 'File*.jpg'' ...
+        // Still expand File*.jpg as the shell would do, however, this is only true for the file's basename part and not
+        // for the whole path.
+        $argumentList[] = eZSys::escapeShellArgument(
+            dirname( $sourceMimeData['url'] ) . DIRECTORY_SEPARATOR . addcslashes(
+                basename( $sourceMimeData['url'] ),
+                // ImageMagick meta-characters
+                '~*?[]{}<>'
+            )
+        );
 
         $qualityParameters = $this->QualityParameters;
         if ( $qualityParameters and
