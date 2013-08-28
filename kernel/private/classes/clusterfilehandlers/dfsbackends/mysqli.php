@@ -96,7 +96,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         eZDebug::accumulatorStart( 'mysql_cluster_connect', 'MySQL Cluster', 'Cluster database connection' );
         while ( $tries < $maxTries )
         {
-            if ( $this->db = mysqli_connect( self::$dbparams['host'], self::$dbparams['user'], self::$dbparams['pass'], self::$dbparams['dbname'], self::$dbparams['port'] ) )
+            if ( $this->db = new mysqli( self::$dbparams['host'], self::$dbparams['user'], self::$dbparams['pass'], self::$dbparams['dbname'], self::$dbparams['port'] ) )
                 break;
             ++$tries;
         }
@@ -121,7 +121,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
 
         if ( $charset )
         {
-            if ( !mysqli_set_charset( $this->db, eZMySQLCharset::mapTo( $charset ) ) )
+            if ( !$this->db->set_charset( eZMySQLCharset::mapTo( $charset ) ) )
             {
                 $this->_fail( "Failed to set Database charset to $charset." );
             }
@@ -135,7 +135,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
     {
         if ( $this->db !== null )
         {
-            mysqli_close( $this->db );
+            $this->db->close();
             $this->db = null;
         }
     }
@@ -250,7 +250,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         {
             return $this->_fail( "Purging file metadata for $filePath failed" );
         }
-        if ( mysqli_affected_rows( $this->db ) == 1 )
+        if ( $this->db->affected_rows == 1 )
         {
             $this->dfsbackend->delete( $filePath );
         }
@@ -308,7 +308,9 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             $this->_rollback( $fname );
             return $this->_fail( "Selecting file metadata by like statement $like failed" );
         }
-        $resultCount = mysqli_num_rows( $res );
+        $resultCount = $res->num_rows;
+
+        $files = array();
 
         // if there are no results, we can just return 0 and stop right here
         if ( $resultCount == 0 )
@@ -321,7 +323,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         {
             for ( $i = 0; $i < $resultCount; $i++ )
             {
-                $row = mysqli_fetch_assoc( $res );
+                $row = $res->fetch_assoc();
                 $files[] = $row['name'];
             }
         }
@@ -333,7 +335,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             $this->_rollback( $fname );
             return $this->_fail( "Purging file metadata by like statement $like failed" );
         }
-        $deletedDBFiles = mysqli_affected_rows( $this->db );
+        $deletedDBFiles = $this->db->affected_rows;
         $this->dfsbackend->delete( $files );
 
         $this->_commit( $fname );
@@ -473,7 +475,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
     protected function _deleteByWildcardInner( $wildcard, $fname )
     {
         // Convert wildcard to regexp.
-        $regex = '^' . mysqli_real_escape_string( $this->db, $wildcard ) . '$';
+        $regex = '^' . $this->db->real_escape_string( $wildcard ) . '$';
 
         $regex = str_replace( array( '.'  ),
                               array( '\.' ),
@@ -615,7 +617,6 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
 
         $dfsFileSize = $this->dfsbackend->getDfsFileSize( $filePath );
         $loopCount = 0;
-        $localFileSize = 0;
 
         do
         {
@@ -758,7 +759,10 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
     public function _rename( $srcFilePath, $dstFilePath )
     {
         if ( strcmp( $srcFilePath, $dstFilePath ) == 0 )
-            return;
+        {
+            // The file paths are the same. This can be considered a success
+            return true;
+        }
 
         // fetch source file metadata
         $metaData = $this->_fetchMetadata( $srcFilePath );
@@ -769,8 +773,8 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
 
         $this->_begin( __METHOD__ );
 
-        $dstFilePathStr  = mysqli_real_escape_string( $this->db, $dstFilePath );
-        $dstNameTrunkStr = mysqli_real_escape_string( $this->db, self::nameTrunk( $dstFilePath, $metaData['scope'] ) );
+        $dstFilePathStr  = $this->db->real_escape_string( $dstFilePath );
+        $dstNameTrunkStr = $this->db->real_escape_string( self::nameTrunk( $dstFilePath, $metaData['scope'] ) );
 
         // Mark entry for update to lock it
         $sql = "SELECT * FROM " . self::TABLE_METADATA . " WHERE name_hash = " . $this->_md5( $srcFilePath ) . " FOR UPDATE";
@@ -991,12 +995,12 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         }
 
         $filePathList = array();
-        while ( $row = mysqli_fetch_row( $rslt ) )
+        while ( $row = $rslt->fetch_row() )
         {
             $filePathList[] = $row[0];
         }
 
-        mysqli_free_result( $rslt );
+        $rslt->free_result();
         return $filePathList;
     }
 
@@ -1011,7 +1015,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
     {
         if ( $this->db )
         {
-            eZDebug::writeError( $sql, "$msg" . mysqli_error( $this->db ) );
+            eZDebug::writeError( $sql, "$msg" . $this->db->error );
         }
         else
         {
@@ -1038,7 +1042,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             // @todo Throw an exception
             return false;
         }
-        return mysqli_insert_id( $this->db );
+        return $this->db->insert_id;
     }
 
     /**
@@ -1065,7 +1069,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             // @todo Throw an exception
             return false;
         }
-        return mysqli_insert_id( $this->db );
+        return $this->db->insert_id;
     }
 
     /**
@@ -1141,13 +1145,13 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         eZDebug::accumulatorStart( 'mysql_cluster_query', 'MySQL Cluster', 'DB queries' );
         $time = microtime( true );
 
-        $res = mysqli_query( $this->db, $query );
+        $res = $this->db->query( $query );
         if ( !$res )
         {
-            if ( mysqli_errno( $this->db ) == 1146 )
+            if ( $this->db->errno == 1146 )
             {
                 throw new eZDFSFileHandlerTableNotFoundException(
-                    $query, mysqli_error( $this->db ) );
+                    $query, $this->db->error );
             }
             else
             {
@@ -1160,7 +1164,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
 
         // we test the return value of mysqli_num_rows and not mysql_fetch, unlike in the mysql handler,
         // since fetch will return null and not false if there are no results
-        $nRows = mysqli_num_rows( $res );
+        $nRows = $res->num_rows;
         if ( $nRows > 1 )
         {
             eZDebug::writeError( 'Duplicate entries found', $fname );
@@ -1174,7 +1178,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         }
 
         $row = $fetchCall( $res );
-        mysqli_free_result( $res );
+        $res->free_result();
         if ( $debug )
             $query = "SQL for _selectOneAssoc:\n" . $query . "\n\nRESULT:\n" . var_export( $row, true );
 
@@ -1251,13 +1255,14 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
 
         $maxTries = self::$dbparams['max_execute_tries'];
         $tries = 0;
+        $result = false;
         while ( $tries < $maxTries )
         {
             $this->_begin( $fname );
 
             $result = call_user_func_array( $callback, $args );
 
-            $errno = mysqli_errno( $this->db );
+            $errno = $this->db->errno;
             if ( $errno == 1205 || // Error: 1205 SQLSTATE: HY000 (ER_LOCK_WAIT_TIMEOUT)
                  $errno == 1213 )  // Error: 1213 SQLSTATE: 40001 (ER_LOCK_DEADLOCK)
             {
@@ -1321,7 +1326,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
      */
     protected function _fail( $value, $text = false )
     {
-        $value .= "\n" . mysqli_errno( $this->db ) . ": " . mysqli_error( $this->db );
+        $value .= "\n" . $this->db->errno . ": " . $this->db->error;
         return new eZMySQLBackendError( $value, $text );
     }
 
@@ -1337,13 +1342,13 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         eZDebug::accumulatorStart( 'mysql_cluster_query', 'MySQL Cluster', 'DB queries' );
         $time = microtime( true );
 
-        $res = mysqli_query( $this->db, $query );
+        $res = $this->db->query( $query );
         if ( !$res && $reportError )
         {
             $this->_error( $query, $fname );
         }
 
-        $numRows = mysqli_affected_rows( $this->db );
+        $numRows = $this->db->affected_rows;
 
         $time = microtime( true ) - $time;
         eZDebug::accumulatorStop( 'mysql_cluster_query' );
@@ -1374,9 +1379,9 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         else
         {
            if ( $escapeUnderscoreWildcards )
-                return "'" . addcslashes( mysqli_real_escape_string( $this->db, $value ), "_" ) . "'";
+                return "'" . addcslashes( $this->db->real_escape_string( $value ), "_" ) . "'";
            else
-                return "'" . mysqli_real_escape_string( $this->db, $value )."'";
+                return "'" . $this->db->real_escape_string( $value ) ."'";
         }
     }
 
@@ -1386,7 +1391,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
      */
     protected function _md5( $value )
     {
-        return "MD5('" . mysqli_real_escape_string( $this->db, $value ) . "')";
+        return "MD5('" . $this->db->real_escape_string( $value ) . "')";
     }
 
     /**
@@ -1412,7 +1417,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             $error = $error[0];
         }
 
-        eZDebug::writeError( "$error\n" . mysqli_errno( $this->db ) . ': ' . mysqli_error( $this->db ), $fname );
+        eZDebug::writeError( "$error\n" . $this->db->errno . ': ' . $this->db->error, $fname );
     }
 
     /**
@@ -1457,8 +1462,8 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         $nameHash = $this->_md5( $generatingFilePath );
         $mtime = time();
 
-        $insertData = array( 'name' => "'" . mysqli_real_escape_string( $this->db, $generatingFilePath ) . "'",
-                             'name_trunk' => "'" . mysqli_real_escape_string( $this->db, $generatingFilePath ) . "'",
+        $insertData = array( 'name' => "'" . $this->db->real_escape_string( $generatingFilePath ) . "'",
+                             'name_trunk' => "'" . $this->db->real_escape_string( $generatingFilePath ) . "'",
                              'name_hash' => $nameHash,
                              'scope' => "''",
                              'datatype' => "''",
@@ -1469,10 +1474,10 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
 
         if ( !$this->_query( $query, "_startCacheGeneration( $filePath )", false ) )
         {
-            $errno = mysqli_errno( $this->db );
+            $errno = $this->db->errno;
             if ( $errno != 1062 )
             {
-                eZDebug::writeError( "Unexpected error #$errno when trying to start cache generation on $filePath (".mysqli_error( $this->db ).")", __METHOD__ );
+                eZDebug::writeError( "Unexpected error #$errno when trying to start cache generation on $filePath (" . $this->db->error . ")", __METHOD__ );
                 eZDebug::writeDebug( $query, '$query' );
 
                 // @todo Make this an actual error, maybe an exception
@@ -1486,8 +1491,10 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
                 $row = $this->_selectOneRow( $query, $fname, false, false );
 
                 // file has been renamed, i.e it is no longer a .generating file
-                if( $row and !isset( $row[0] ) )
+                if( $row && !isset( $row[0] ) )
+                {
                     return array( 'result' => 'ok', 'mtime' => $mtime );
+                }
 
                 $remainingGenerationTime = $this->remainingCacheGenerationTime( $row );
                 if ( $remainingGenerationTime < 0 )
@@ -1499,15 +1506,15 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
 
                     // we run the query manually since the default _query won't
                     // report affected rows
-                    $res = mysqli_query( $this->db, $updateQuery );
-                    if ( ( $res !== false ) and mysqli_affected_rows( $this->db ) == 1 )
+                    $res = $this->db->query( $updateQuery );
+                    if ( ( $res !== false ) && $this->db->affected_rows == 1 )
                     {
                         return array( 'result' => 'ok', 'mtime' => $mtime );
                     }
                     else
                     {
                         // @todo This would require an actual error handling
-                        eZDebug::writeError( "An error occured taking over timedout generating cache file $generatingFilePath (".mysqli_error( $this->db ).")", __METHOD__ );
+                        eZDebug::writeError( "An error occured taking over timedout generating cache file $generatingFilePath (" . $this->db->error . ")", __METHOD__ );
                         return array( 'result' => 'error' );
                     }
                 }
@@ -1550,11 +1557,11 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
                 // @todo Throw an exception
                 return false;
             }
-            $generatingMetaData = mysqli_fetch_assoc( $res );
+            $generatingMetaData = $res->fetch_assoc();
 
             // the original file does not exist: we move the generating file
             $res = $this->_query( "SELECT * FROM " . self::TABLE_METADATA . " WHERE name_hash = " . $this->_md5( $filePath ) . " FOR UPDATE", $fname, false );
-            if ( mysqli_num_rows( $res ) == 0 )
+            if ( $res->num_rows == 0 )
             {
                 $metaData = $generatingMetaData;
                 $metaData['name'] = $filePath;
@@ -1631,14 +1638,14 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
 
         // The update query will only succeed if the mtime wasn't changed in between
         $query = "UPDATE " . self::TABLE_METADATA . " SET mtime = $newMtime WHERE name_hash = {$nameHash} AND mtime = $generatingFileMtime";
-        $res = mysqli_query( $this->db, $query );
+        $res = $this->db->query( $query );
         if ( !$res )
         {
             // @todo Throw an exception
             $this->_error( $query, $fname );
             return false;
         }
-        $numRows = mysqli_affected_rows( $this->db );
+        $numRows = $this->db->affected_rows;
 
         // reporting. Manual here since we don't use _query
         $time = microtime( true ) - $time;
@@ -1646,15 +1653,15 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
 
         // no rows affected or row updated with the same value
         // f.e a cache-block which takes less than 1 sec to get generated
-        // if a line has been updated by the same  values, mysqli_affected_rows
+        // if a line has been updated by the same  values, $this->db->affected_rows
         // returns 0, and updates nothing, we need to extra check this,
         if( $numRows == 0 )
         {
             $query = "SELECT mtime FROM " . self::TABLE_METADATA . " WHERE name_hash = {$nameHash}";
-            $res = mysqli_query( $this->db, $query );
+            $res = $this->db->query( $query );
             if ( !$res )
                 return false;
-            $row = mysqli_fetch_row( $res );
+            $row = $res->fetch_row();
             if ( isset( $row[0] ) && $row[0] == $generatingFileMtime )
             {
                 return true;
@@ -1778,9 +1785,9 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         }
         $res = $this->_query( $query, __METHOD__ );
         $filePathList = array();
-        while ( $row = mysqli_fetch_row( $res ) )
+        while ( $row = $res->fetch_row() )
             $filePathList[] = $row[0];
-        mysqli_free_result( $res );
+        $res->free_result();
 
         return $filePathList;
     }
@@ -1812,7 +1819,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
 
     /**
      * DB connexion handle
-     * @var handle
+     * @var mysqli
      */
     public $db = null;
 
