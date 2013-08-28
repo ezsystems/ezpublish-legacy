@@ -9,7 +9,7 @@
             object_version,$:item.contentobject_version
         )
     )}
-    {if $content.can_read}
+    {if or( $content.can_read, $content.can_view_embed)}
         {if or(
             $check_visibility|not,
             fetch( content, node, hash( node_id, $Relations.item.node_id ) ).is_invisible|not
