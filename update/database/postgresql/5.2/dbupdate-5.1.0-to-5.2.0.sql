@@ -52,3 +52,16 @@ WHERE T1.url_id < ANY (SELECT url_id
       AND T1.contentobject_attribute_id = T2.contentobject_attribute_id
       AND T1.contentobject_attribute_version = T2.contentobject_attribute_version);
 -- End ezp-21465
+
+-- Start EZP-21469
+-- While using the public API, ezcontentobject.language_mask was not updated correctly,
+-- the UPDATE statement below fixes that based on the language_mask of the current version.
+UPDATE
+    ezcontentobject AS o
+SET
+    language_mask = (o.language_mask & 1) | (v.language_mask & ~1)
+FROM
+    ezcontentobject_version AS v
+WHERE
+    o.id = v.contentobject_id AND o.current_version = v.version;
+-- End EZP-21469

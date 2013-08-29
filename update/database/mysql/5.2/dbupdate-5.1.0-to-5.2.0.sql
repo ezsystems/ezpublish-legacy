@@ -61,3 +61,14 @@ TRUNCATE TABLE ezurl_object_link;
 
 INSERT INTO ezurl_object_link SELECT * FROM ezurl_object_link_temp;
 -- End ezp-21465
+
+-- Start EZP-21469
+-- While using the public API, ezcontentobject.language_mask was not updated correctly,
+-- the UPDATE statement below fixes that based on the language_mask of the current version.
+UPDATE
+    ezcontentobject AS o
+INNER JOIN
+    ezcontentobject_version AS v ON o.id = v.contentobject_id AND o.current_version = v.version
+SET
+    o.language_mask = (o.language_mask & 1) | (v.language_mask & ~1);
+-- End EZP-21469
