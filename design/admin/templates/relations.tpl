@@ -28,7 +28,7 @@
         {/if}
         {foreach $related_objects_array as $object }
             <tr class="{$tr_class}">
-            {if $object.can_read}
+            {if or( $object.can_read, $object.can_view_embed )}
                 <td>{$object.content_class.identifier|class_icon( small, $object.content_class.name|wash )}&nbsp;{content_view_gui view=text_linked content_object=$object}</td>
                 <td>{$object.content_class.name|wash}</td>
             {else}
@@ -87,7 +87,7 @@
         {/if}
         {foreach $related_objects_array as $object }
             <tr class="{$tr_class}">
-            {if $object.can_read}
+            {if or( $object.can_read, $object.can_view_embed )}
                 <td>{$object.content_class.identifier|class_icon( small, $object.content_class.name|wash )}&nbsp;{content_view_gui view=text_linked content_object=$object}</td>
                 <td>{$object.content_class.name|wash}</td>
             {else}
