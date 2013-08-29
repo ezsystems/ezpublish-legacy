@@ -13,7 +13,11 @@ menuArray['ClassMenu']['elements']['class-removenodefeed'] = {ldelim} 'url': {"/
 menuArray['ClassMenu']['elements']['class-removenodefeed']['disabled_class'] = 'menu-item-disabled';
 menuArray['ClassMenu']['elements']['class-removenodefeed']['disabled_for'] = {ldelim} 'class-removenodefeed': 'yes' {rdelim};
 menuArray['ClassMenu']['elements']['class-history'] = {ldelim} 'url': {"content/history/%objectID%"|ezurl} {rdelim};
+menuArray['ClassMenu']['elements']['class-history']['disabled_class'] = 'menu-item-disabled';
+menuArray['ClassMenu']['elements']['class-history']['disabled_for'] = {ldelim} 'class-history': 'yes' {rdelim};
 menuArray['ClassMenu']['elements']['url-alias'] = {ldelim} 'url': {"content/urlalias/%nodeID%"|ezurl} {rdelim};
+menuArray['ClassMenu']['elements']['url-alias']['disabled_class'] = 'menu-item-disabled';
+menuArray['ClassMenu']['elements']['url-alias']['disabled_for'] = {ldelim} 'url-alias': 'yes' {rdelim};
 </script>
 
 <div class="popupmenu" id="ClassMenu">
