@@ -210,4 +210,6 @@ class eZProductCategoryType extends eZDataType
     }
 }
 
+eZDataType::register( eZProductCategoryType::DATA_TYPE_STRING, "eZProductCategoryType" );
+
 ?>

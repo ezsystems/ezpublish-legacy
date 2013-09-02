@@ -379,4 +379,6 @@ class eZURLType extends eZDataType
     }
 }
 
+eZDataType::register( eZURLType::DATA_TYPE_STRING, 'eZURLType' );
+
 ?>

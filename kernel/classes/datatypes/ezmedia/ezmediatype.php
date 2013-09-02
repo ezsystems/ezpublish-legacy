@@ -796,4 +796,6 @@ class eZMediaType extends eZDataType
     }
 }
 
+eZDataType::register( eZMediaType::DATA_TYPE_STRING, "eZMediaType" );
+
 ?>

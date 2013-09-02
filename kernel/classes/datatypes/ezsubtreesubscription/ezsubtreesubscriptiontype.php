@@ -138,4 +138,6 @@ class eZSubtreeSubscriptionType extends eZDataType
     }
 }
 
+eZDataType::register( eZSubtreeSubscriptionType::DATA_TYPE_STRING, "eZSubtreeSubscriptionType" );
+
 ?>

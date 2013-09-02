@@ -222,4 +222,6 @@ class eZPackageType extends eZDataType
     }
 }
 
+eZDataType::register( eZPackageType::DATA_TYPE_STRING, 'eZPackageType' );
+
 ?>

@@ -271,4 +271,6 @@ class eZRangeOptionType extends eZDataType
     }
 }
 
+eZDataType::register( eZRangeOptionType::DATA_TYPE_STRING, "eZRangeOptionType" );
+
 ?>

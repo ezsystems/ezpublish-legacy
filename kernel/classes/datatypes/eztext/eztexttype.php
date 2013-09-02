@@ -262,4 +262,6 @@ class eZTextType extends eZDataType
     }
 }
 
+eZDataType::register( eZTextType::DATA_TYPE_STRING, "eZTextType" );
+
 ?>

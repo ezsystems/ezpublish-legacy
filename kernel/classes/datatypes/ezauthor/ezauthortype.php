@@ -304,4 +304,6 @@ class eZAuthorType extends eZDataType
     }
 }
 
+eZDataType::register( eZAuthorType::DATA_TYPE_STRING, "eZAuthorType" );
+
 ?>

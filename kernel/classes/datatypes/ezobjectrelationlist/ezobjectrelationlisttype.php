@@ -1864,4 +1864,6 @@ class eZObjectRelationListType extends eZDataType
     /// \privatesection
 }
 
+eZDataType::register( eZObjectRelationListType::DATA_TYPE_STRING, "eZObjectRelationListType" );
+
 ?>

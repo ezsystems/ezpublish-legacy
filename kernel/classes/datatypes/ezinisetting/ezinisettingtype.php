@@ -622,4 +622,6 @@ class eZIniSettingType extends eZDataType
     }
 }
 
+eZDataType::register( eZIniSettingType::DATA_TYPE_STRING, 'eZIniSettingType' );
+
 ?>

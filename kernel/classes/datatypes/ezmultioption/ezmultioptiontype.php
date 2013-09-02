@@ -457,4 +457,6 @@ class eZMultiOptionType extends eZDataType
     }
 }
 
+eZDataType::register( eZMultiOptionType::DATA_TYPE_STRING, "eZMultiOptionType" );
+
 ?>

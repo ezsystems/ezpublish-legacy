@@ -632,4 +632,6 @@ class eZImageType extends eZDataType
     }
 }
 
+eZDataType::register( eZImageType::DATA_TYPE_STRING, "eZImageType" );
+
 ?>

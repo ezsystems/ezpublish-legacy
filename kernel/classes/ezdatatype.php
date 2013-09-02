@@ -1235,16 +1235,6 @@ class eZDataType
         return false;
     }
 
-    /**
-     * Returns allowed datatypes
-     *
-     * Since 5.2 datatypes can be defined with a pair of 
-     * dataype/class
-     * For keeping backward compability, allowedTypes will be
-     * filled with 'key' or 'val', depending on is_numeric( key ) value
-     *
-     * @return array
-     */ 
     static function allowedTypes()
     {
         $allowedTypes =& $GLOBALS["eZDataTypeAllowedTypes"];
@@ -1252,11 +1242,7 @@ class eZDataType
         {
             $contentINI = eZINI::instance( 'content.ini' );
             $dataTypes = $contentINI->variable( 'DataTypeSettings', 'AvailableDataTypes' );
-            $allowedTypes = array();
-            foreach ( $dataTypes as $key => $val )
-            {
-                $allowedTypes[] =  is_numeric( $key ) ? $val : $key;
-            }
+            $allowedTypes = array_unique( $dataTypes );
         }
         return $allowedTypes;
     }
@@ -1264,31 +1250,12 @@ class eZDataType
     static function loadAndRegisterAllTypes()
     {
         $allowedTypes = eZDataType::allowedTypes();
-        foreach ( $allowedTypes as $type )
+        foreach( $allowedTypes as $type )
         {
             eZDataType::loadAndRegisterType( $type );
         }
     }
 
-    /**
-     * Load and register the datatype $type
-     *
-     * Since 5.2 there is no need to do file_exists and include calls
-     * if datatype is defined in the following way:
-     * AvailableDataTypes[{$type}]={$class}
-     * Ex: AvailableDataTypes[custom]=customType
-     *
-     * It's still possible to define datatypes in the old way, so BC 
-     * shouldn't be a problem for this case
-     * Ex: AvailableDataTypes[]=custom
-     * In this case, you'll need to call eZDataType::register
-     * from your custom class.
-     * 
-     * Recommendation is moving to the new way. 
-     * 
-     * @param string $type
-     * @return bool
-     */
     static function loadAndRegisterType( $type )
     {
         $types =& $GLOBALS["eZDataTypes"];
@@ -1297,20 +1264,9 @@ class eZDataType
             return false;
         }
 
-        $contentINI = eZINI::instance( 'content.ini' );
-        $availableDataTypes = $contentINI->variable( 'DataTypeSettings', 'AvailableDataTypes' );
-        if ( array_key_exists( $type, $availableDataTypes ) )
-        {
-            if ( class_exists( $availableDataTypes[$type] ) )
-            {
-                self::register( $type, $availableDataTypes[$type] );
-                return true;
-            }
-            eZDebug::writeError( "Undefined datatype class: " . $availableDataTypes[$type], __METHOD__ );
-        }
-        
         $baseDirectory = eZExtension::baseDirectory();
-        
+        $contentINI = eZINI::instance( 'content.ini' );
+
         $extensionDirectories = $contentINI->variable( 'DataTypeSettings', 'ExtensionDirectories' );
         $extensionDirectories = array_unique( $extensionDirectories );
         $repositoryDirectories = $contentINI->variable( 'DataTypeSettings', 'RepositoryDirectories' );

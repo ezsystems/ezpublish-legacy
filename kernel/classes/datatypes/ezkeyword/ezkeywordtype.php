@@ -286,4 +286,6 @@ class eZKeywordType extends eZDataType
     }
 }
 
+eZDataType::register( eZKeywordType::DATA_TYPE_STRING, 'eZKeywordType' );
+
 ?>

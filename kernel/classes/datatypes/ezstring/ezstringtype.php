@@ -383,4 +383,6 @@ class eZStringType extends eZDataType
     public $MaxLenValidator;
 }
 
+eZDataType::register( eZStringType::DATA_TYPE_STRING, 'eZStringType' );
+
 ?>

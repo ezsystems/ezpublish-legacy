@@ -64,4 +64,5 @@ class eZFinishUserRegisterType extends eZWorkflowEventType {
 
 }
 
+eZWorkflowEventType::registerEventType( eZFinishUserRegisterType::WORKFLOW_TYPE_STRING, "eZFinishUserRegisterType" );
 ?>
