@@ -6,6 +6,7 @@
  * @package kernel
  */
 
+/** @var eZModule $Module */
 $Module =& $Params['Module'];
 $http = eZHTTPTool::instance();
 
@@ -48,6 +49,7 @@ else if ( $Module->isCurrentAction( 'RemoveWildcard' ) )
 else if ( $Module->isCurrentAction( 'NewWildcard' ) )
 {
     $wildcardSrcText = trim( $Module->actionParameter( 'WildcardSourceText' ) );
+    $wildcardSrcText = ltrim( $wildcardSrcText, '/' );
     $wildcardDstText = trim( $Module->actionParameter( 'WildcardDestinationText' ) );
     $wildcardType = $http->hasPostVariable( 'WildcardType' ) && strlen( trim( $http->postVariable( 'WildcardType' ) ) ) > 0;
 
@@ -103,6 +105,7 @@ $limitList = array( array( 'id'    => 1,
                     array( 'id'    => 4,
                            'value' => 100 ) );
 $limitID = eZPreferences::value( 'admin_urlwildcard_list_limit' );
+$limitValues = array();
 foreach ( $limitList as $limitEntry )
 {
     $limitIDs[]                     = $limitEntry['id'];
