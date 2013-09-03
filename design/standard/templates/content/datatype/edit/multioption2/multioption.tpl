@@ -5,7 +5,7 @@
             <th class="tight"><input type="checkbox" name="{$attribute_base}_data_multioption_remove_{$attribute.id}_{$group.group_id}[]" value="{$MultiOptionList.id}" title="{'Select multioption for removal.'|i18n( 'design/standard/content/datatype' )}" /></th>
             <td>
             <label for="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}">{'Multioption:'|i18n( 'design/standard/content/datatype' )}</label>
-            <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name = "{$attribute_base}_data_multioption_name_{$attribute.id}_{$group.group_id}_{$MultiOptionList.multioption_id}" value="{$MultiOptionList.item.name}" />
+            <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name = "{$attribute_base}_data_multioption_name_{$attribute.id}_{$group.group_id}_{$MultiOptionList.multioption_id}" value="{$MultiOptionList.item.name|wash}" />
             <input type="hidden" name="{$attribute_base}_data_multioption_id_{$attribute.id}_{$group.group_id}[]" value="{$MultiOptionList.multioption_id}" />
 
             {section show=$MultiOptionList.item.optionlist}
@@ -26,9 +26,9 @@
                         {* Remove. *}
                         <td><input type="checkbox" name="{$attribute_base}_data_option_remove_{$attribute.id}_{$group.group_id}_{$MultiOptionList.id}[]" value="{$OptionList.id}" title="{'Select option for removal.'|i18n('design/standard/content/datatype')}" /></td>
                         {* Option. *}
-                        <td><input class="box" type="text" name="{$attribute_base}_data_option_value_{$attribute.id}_{$group.group_id}_{$MultiOptionList.multioption_id}[]" value="{$OptionList.value}" /></td>
+                        <td><input class="box" type="text" name="{$attribute_base}_data_option_value_{$attribute.id}_{$group.group_id}_{$MultiOptionList.multioption_id}[]" value="{$OptionList.value|wash}" /></td>
                         {* Value. *}
-                        <td><input class="box" type="text" name="{$attribute_base}_data_option_additional_price_{$attribute.id}_{$group.group_id}_{$MultiOptionList.multioption_id}[]" value="{$OptionList.additional_price}" /></td>
+                        <td><input class="box" type="text" name="{$attribute_base}_data_option_additional_price_{$attribute.id}_{$group.group_id}_{$MultiOptionList.multioption_id}[]" value="{$OptionList.additional_price|wash}" /></td>
                         <td>
                         {if is_set($OptionList.item.object)}
                             {let imgobj=fetch('content','object',hash(object_id,$OptionList.item.object))}

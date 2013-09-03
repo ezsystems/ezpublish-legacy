@@ -21,7 +21,7 @@
 
 <div class="block">
 <label for="ezcoa-{$attribute.id}_{$attribute.contentclass_attribute_identifier}_{$MultiOptionList.id}_name">{'Name'|i18n( 'design/standard/content/datatype' )}:</label>
-<input id="ezcoa-{$attribute.id}_{$attribute.contentclass_attribute_identifier}_{$MultiOptionList.id}" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name="{$attribute_base}_data_multioption_name_{$attribute.id}_{$MultiOptionList.id}" value="{$MultiOptionList.name}" />
+<input id="ezcoa-{$attribute.id}_{$attribute.contentclass_attribute_identifier}_{$MultiOptionList.id}" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name="{$attribute_base}_data_multioption_name_{$attribute.id}_{$MultiOptionList.id}" value="{$MultiOptionList.name|wash}" />
 <input type="hidden" name="{$attribute_base}_data_multioption_id_{$attribute.id}[]" value="{$MultiOptionList.id}" />
 </div>
 
@@ -44,10 +44,10 @@
 <td><input type="checkbox" name="{$attribute_base}_data_option_remove_{$attribute.id}_{$MultiOptionList.id}[]" value="{$OptionList.id}" title="{'Select option for removal.'|i18n('design/standard/content/datatype')}" /></td>
 
 {* Option. *}
-<td><input class="box" type="text" name="{$attribute_base}_data_option_value_{$attribute.id}_{$MultiOptionList.id}[]" value="{$OptionList.value}" /></td>
+<td><input class="box" type="text" name="{$attribute_base}_data_option_value_{$attribute.id}_{$MultiOptionList.id}[]" value="{$OptionList.value|wash}" /></td>
 
 {* Value. *}
-<td><input class="box" type="text" name="{$attribute_base}_data_option_additional_price_{$attribute.id}_{$MultiOptionList.id}[]" value="{$OptionList.additional_price}" /></td>
+<td><input class="box" type="text" name="{$attribute_base}_data_option_additional_price_{$attribute.id}_{$MultiOptionList.id}[]" value="{$OptionList.additional_price|wash}" /></td>
 
 {* Default. *}
 <td>
