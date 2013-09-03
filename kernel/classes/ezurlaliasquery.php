@@ -101,9 +101,7 @@ class eZURLAliasQuery
 
     function hasAttribute( $name )
     {
-        return in_array( $name,
-                         array_diff( get_object_vars( $this ),
-                                     array( 'query' ) ) );
+        return $name !== "query" && array_key_exists( $name, get_object_vars( $this ) );
     }
 
     function attribute( $name )
