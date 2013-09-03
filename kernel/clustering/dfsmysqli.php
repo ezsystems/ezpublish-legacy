@@ -7,11 +7,6 @@
  */
 
 /**
- * Explicitely loaded here for the case index_cluster.php is used
- */
-include_once 'autoload.php';
-
-/**
  * DFS/MySQLi cluster gateway
  */
 class ezpDfsMySQLiClusterGateway extends ezpClusterGateway
@@ -41,24 +36,20 @@ class ezpDfsMySQLiClusterGateway extends ezpClusterGateway
      */
      protected function dbTable( $filePath )
      {
-         $cacheDir = eZINI::instance()->variable( 'FileSettings', 'CacheDir' );
-         $storageDir = eZINI::instance()->variable( 'FileSettings', 'StorageDir' );
+         // If no custom table is defined, we can just return the default table
+         if ( !defined( 'CLUSTER_METADATA_TABLE_CACHE' ) )
+             return 'ezdfsfile';
 
-         if ( strpos( $filePath, $cacheDir ) !== false and strpos( $filePath, $storageDir ) === false )
+         $cacheDir = defined( 'CLUSTER_METADATA_CACHE_PATH' ) ? CLUSTER_METADATA_CACHE_PATH : "/cache/";
+         $storageDir = defined( 'CLUSTER_METADATA_STORAGE_PATH' ) ? CLUSTER_METADATA_STORAGE_PATH : "/storage/";
+
+         if ( strpos( $filePath, $cacheDir ) !== false && strpos( $filePath, $storageDir ) === false )
          {
-             if ( defined( 'CLUSTER_METADATA_TABLE_CACHE' ) )
-             {
-                 return CLUSTER_METADATA_TABLE_CACHE;
-             }
-             else
-             {
-                 return eZDFSFileHandlerMySQLiBackend::TABLE_METADATA_CACHE;
-             }
+             return CLUSTER_METADATA_TABLE_CACHE;
          }
 
-         return eZDFSFileHandlerMySQLiBackend::TABLE_METADATA;
+         return 'ezdfsfile';
      }
-
 
     public function fetchFileMetadata( $filepath )
     {

@@ -29,7 +29,7 @@ CREATE TABLE ezdfsfile (
   KEY ezdfsfile_expired_name (expired,`name`(250))
 ) ENGINE=InnoDB;
 
-CREATE TABLE ezdfscachefile (
+CREATE TABLE ezdfsfile_cache (
   `name` text NOT NULL,
   name_trunk text NOT NULL,
   name_hash varchar(34) NOT NULL DEFAULT '',
@@ -70,10 +70,13 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         {
             $this->metaDataTableCache = CLUSTER_METADATA_TABLE_CACHE;
         }
-        elseif ( $fileINI->hasVariable( 'eZDFSClusteringSettings', 'MetaDataTableNameCache' ) )
+        else if ( $fileINI->hasVariable( 'eZDFSClusteringSettings', 'MetaDataTableNameCache' ) )
         {
-            $this->metaDataTableCache = $fileINI->variable('eZDFSClusteringSettings', 'MetaDataTableNameCache');
+            $this->metaDataTableCache = $fileINI->variable( 'eZDFSClusteringSettings', 'MetaDataTableNameCache' );
         }
+
+        $this->cacheDir = eZINI::instance( 'site.ini' )->variable( 'FileSettings', 'CacheDir' );
+        $this->storageDir = eZINI::instance( 'site.ini' )->variable( 'FileSettings', 'StorageDir' );
     }
 
     /**
@@ -87,16 +90,15 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
      */
      protected function dbTable( $filePath )
      {
-         $cacheDir = "/cache/";
-         $storageDir = "/storage/";
+         if ( $this->metaDataTableCache == $this->metaDataTable )
+             return $this->metaDataTable;
 
-         if ( strpos( $filePath, $cacheDir ) !== false && strpos( $filePath, $storageDir ) === false )
+         if ( strpos( $filePath, $this->cacheDir ) !== false && strpos( $filePath, $this->storageDir ) === false )
          {
              return $this->metaDataTableCache;
          }
 
          return $this->metaDataTable;
-
     }
 
     /**
@@ -109,6 +111,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
     public function _connect()
     {
         $siteINI = eZINI::instance( 'site.ini' );
+
         // DB Connection setup
         // This part is not actually required since _connect will only be called
         // once, but it is useful to run the unit tests. So be it.
@@ -1020,14 +1023,11 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
      */
     public function _getFileList( $scopes = false, $excludeScopes = false, $limit = false, $path = false )
     {
-
         $filePathList = array();
+        $tables = array_unique( array( $this->metaDataTable, $this->metaDataTableCache ) );
 
-        $tables = array( $this->metaDataTable, $this->metaDataTableCache );
-
-        foreach( $tables as $table )
+        foreach ( $tables as $table )
         {
-
             $query = 'SELECT name FROM ' . $table;
 
             if ( is_array( $scopes ) && count( $scopes ) > 0 )
@@ -1037,11 +1037,11 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
                     $query .= 'NOT ';
                 $query .= "IN ('" . implode( "', '", $scopes ) . "')";
             }
-            if ($path != false && $scopes == false)
+            if ( $path != false && $scopes == false)
             {
                  $query .= " WHERE name LIKE '" . $path . "%'";
             }
-            else if ($path != false)
+            else if ( $path != false)
             {
                  $query .= " AND name LIKE '" . $path . "%'";
             }
@@ -1056,7 +1056,6 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
                 // @todo Throw an exception
                 return false;
             }
-
 
             while ( $row = mysqli_fetch_row( $rslt ) )
             {
@@ -1555,7 +1554,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
                 $row = $this->_selectOneRow( $query, $fname, false, false );
 
                 // file has been renamed, i.e it is no longer a .generating file
-                if( $row and !isset( $row[0] ) )
+                if ( $row and !isset( $row[0] ) )
                     return array( 'result' => 'ok', 'mtime' => $mtime );
 
                 $remainingGenerationTime = $this->remainingCacheGenerationTime( $row );
@@ -1717,7 +1716,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         // f.e a cache-block which takes less than 1 sec to get generated
         // if a line has been updated by the same  values, mysqli_affected_rows
         // returns 0, and updates nothing, we need to extra check this,
-        if( $numRows == 0 )
+        if ( $numRows == 0 )
         {
             $query = "SELECT mtime FROM " . $this->dbTable( $generatingFilePath ) . " WHERE name_hash = {$nameHash}";
             $res = mysqli_query( $this->db, $query );
@@ -1813,7 +1812,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
      */
     protected function remainingCacheGenerationTime( $row )
     {
-        if( !isset( $row[0] ) )
+        if ( !isset( $row[0] ) )
             return -1;
 
         return ( $row[0] + self::$dbparams['cache_generation_timeout'] ) - time();
@@ -1841,7 +1840,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
 
         $filePathList = array();
 
-        foreach ($tables as $table)
+        foreach ( $tables as $table)
         {
             $query = "SELECT name FROM " . $table . " WHERE expired = 1 AND scope IN( $scopeString )";
             if ( $expiry !== false )
@@ -1915,13 +1914,6 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
     protected $transactionCount = 0;
 
     /**
-     * DB file table name
-     * @var string
-     */
-    const TABLE_METADATA = 'ezdfsfile';
-    const TABLE_METADATA_CACHE = 'ezdfsfile';
-
-    /**
      * Distributed filesystem backend
      * @var eZDFSFileHandlerDFSBackend
      */
@@ -1937,14 +1929,26 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
      * custom dfs table name support
      * @var string
      */
-    protected $metaDataTable = self::TABLE_METADATA;
+    protected $metaDataTable = 'ezdfsfile';
 
     /**
-     * custom dfs table cache name support
+     * Custom DFS table for cache storage.
+     * Defaults to the "normal" storage table, meaning that only one table is used.
      * @var string
      */
-    protected $metaDataTableCache = self::TABLE_METADATA_CACHE;
+    protected $metaDataTableCache = 'ezdfsfile';
 
+    /**
+     * Cache files directory, including leading & trailing slashes.
+     * Will be filled in using FileSettings.CacheDir from site.ini
+     * @var string
+     */
+    protected $cacheDir;
 
+    /**
+     * Storage directory, including leading & trailing slashes.
+     * Will be filled in using FileSettings.StorageDir from site.ini
+     * @var string
+     */
+    protected $storageDir;
 }
-?>
