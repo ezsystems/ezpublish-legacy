@@ -48,6 +48,9 @@ Change of behavior
 
   ezjscAjaxContent now returns image's exif fields MakerNote and UserComment base64 encoded.
 
+- The eZDFSFileHandlerMySQLiBackend::TABLE_METADATA constant has been removed
+
+  See http://jira.ez.no/browse/EZP-18865
 
 Removed features
 ----------------

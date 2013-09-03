@@ -243,6 +243,24 @@
  */
 // define( 'CLUSTER_HEADER_X_POWERED_BY', 'eZ Publish' );
 
+/**
+ * DFS/MySQLi only: custom table name for cache files metadata
+ * Optional. Defaults: none (use ezdfsfile)
+ * If set to an existing mysql table, this table will be used for cache files.
+ * Storage files will remain inside ezdfsfile.
+ */
+// define( 'CLUSTER_METADATA_TABLE_CACHE', 'ezdfsfile_cache' );
+
+/**
+ * DFS/MySQLi only: search string to distinguish cache files and storage files
+ * Optional. Defaults: "/cache/", "/storage/"
+ * Only makes sense if CLUSTER_METADATA_TABLE_CACHE is set.
+ *
+ * Changing this only makes sense if FileSettings.CacheDir or FileSettings.StorageDir have been modified.
+ */
+// define( 'CLUSTER_METADATA_CACHE_PATH', '/cache/' );
+// define( 'CLUSTER_METADATA_STORAGE_PATH', '/storage/' );
+
 /*
    LOG HANDLING
    ------------
