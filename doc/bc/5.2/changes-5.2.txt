@@ -56,6 +56,11 @@ Removed features
 Removed constants
 -----------------
 
+- eZContentLanguage::MAX_COUNT
+
+  The number of languages supported cannot be hold in a constant anymore, the
+  method eZContentLanguage::maxCount() should be used instead.
+
 
 Removed globals
 ---------------
