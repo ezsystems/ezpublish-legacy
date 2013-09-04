@@ -10,8 +10,6 @@
 
 class eZContentLanguage extends eZPersistentObject
 {
-    const MAX_COUNT = 30;
-
     /**
      * Constructor.
      *
@@ -58,7 +56,7 @@ class eZContentLanguage extends eZPersistentObject
      * \param name Optional. Name of the language. If not specified, the international language name for the $locale locale
      *             will be used.
      * \return eZContentLanguage object of the added language (or the existing one if specified language has been already used)
-     *         or false in case of any error (invalid locale code or already reached eZContentLanguage::MAX_COUNT languages).
+     *         or false in case of any error (invalid locale code or already reached eZContentLanguage::maxCount() languages).
      * \static
      */
     static function addLanguage( $locale, $name = null )
@@ -85,7 +83,7 @@ class eZContentLanguage extends eZPersistentObject
             return $existingLanguage;
         }
 
-        if ( count( $languages ) >= eZContentLanguage::MAX_COUNT )
+        if ( count( $languages ) >= self::maxCount() )
         {
             eZDebug::writeError( 'Too many languages, cannot add more!', __METHOD__ );
             return false;
@@ -599,7 +597,7 @@ class eZContentLanguage extends eZPersistentObject
      */
     public static function decodeLanguageMask( $langMask, $returnLanguageLocale = false )
     {
-        $maxNumberOfLanguges = eZContentLanguage::MAX_COUNT;
+        $maxNumberOfLanguges = self::maxCount();
         $maxInteger = pow( 2, $maxNumberOfLanguges );
 
         $list = array();
@@ -936,6 +934,17 @@ class eZContentLanguage extends eZPersistentObject
         $cachePath = eZSys::cacheDirectory() . '/ezcontentlanguage_cache.php';
         eZClusterFileHandler::instance()->fileDelete( $cachePath );
     }
-}
 
-?>
+    /**
+     * Returns the maximum number of languages supported.
+     *
+     * On 64-bit platforms we support more languages. PHP uses signed integers,
+     * and the first bit is reserved for the "always available" flag,
+     * so we can use 62 bits on 64 bits hardware, or 30 on 32-bit. The database
+     * uses a 64-bit integer on all platforms.
+     */
+    static public function maxCount()
+    {
+        return ( 8 * PHP_INT_SIZE ) - 2;
+    }
+}

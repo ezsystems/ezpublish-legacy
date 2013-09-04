@@ -158,8 +158,8 @@ $schema = array (
     array (
       'default_language_id' => 
       array (
-        'length' => 11,
-        'type' => 'int',
+        'length' => 20,
+        'type' => 'bigint',
         'not_null' => '1',
         'default' => 0,
       ),
@@ -184,8 +184,8 @@ $schema = array (
       ),
       'language_mask' => 
       array (
-        'length' => 11,
-        'type' => 'int',
+        'length' => 20,
+        'type' => 'bigint',
         'not_null' => '1',
         'default' => 0,
       ),
@@ -241,8 +241,8 @@ $schema = array (
     array (
       'default_language_id' => 
       array (
-        'length' => 11,
-        'type' => 'int',
+        'length' => 20,
+        'type' => 'bigint',
         'not_null' => '1',
         'default' => 0,
       ),
@@ -260,8 +260,8 @@ $schema = array (
       ),
       'language_mask' => 
       array (
-        'length' => 11,
-        'type' => 'int',
+        'length' => 20,
+        'type' => 'bigint',
         'not_null' => '1',
         'default' => 0,
       ),
@@ -314,8 +314,8 @@ $schema = array (
       ),
       'language_id' => 
       array (
-        'length' => 11,
-        'type' => 'int',
+        'length' => 20,
+        'type' => 'bigint',
         'not_null' => '1',
         'default' => 0,
       ),
@@ -328,8 +328,8 @@ $schema = array (
       ),
       'real_language_id' => 
       array (
-        'length' => 11,
-        'type' => 'int',
+        'length' => 20,
+        'type' => 'bigint',
         'not_null' => '1',
         'default' => 0,
       ),
@@ -367,8 +367,8 @@ $schema = array (
       ),
       'language_id' => 
       array (
-        'length' => 11,
-        'type' => 'int',
+        'length' => 20,
+        'type' => 'bigint',
         'not_null' => '1',
         'default' => 0,
       ),
@@ -1136,8 +1136,8 @@ $schema = array (
       ),
       'id' => 
       array (
-        'length' => 11,
-        'type' => 'int',
+        'length' => 20,
+        'type' => 'bigint',
         'not_null' => '1',
         'default' => 0,
       ),
@@ -1333,8 +1333,8 @@ $schema = array (
       ),
       'initial_language_id' => 
       array (
-        'length' => 11,
-        'type' => 'int',
+        'length' => 20,
+        'type' => 'bigint',
         'not_null' => '1',
         'default' => 0,
       ),
@@ -1347,8 +1347,8 @@ $schema = array (
       ),
       'language_mask' => 
       array (
-        'length' => 11,
-        'type' => 'int',
+        'length' => 20,
+        'type' => 'bigint',
         'not_null' => '1',
         'default' => 0,
       ),
@@ -1699,8 +1699,8 @@ $schema = array (
       ),
       'language_id' => 
       array (
-        'length' => 11,
-        'type' => 'int',
+        'length' => 20,
+        'type' => 'bigint',
         'not_null' => '1',
         'default' => 0,
       ),
@@ -1815,15 +1815,15 @@ $schema = array (
       ),
       'initial_language_id' => 
       array (
-        'length' => 11,
-        'type' => 'int',
+        'length' => 20,
+        'type' => 'bigint',
         'not_null' => '1',
         'default' => 0,
       ),
       'language_mask' => 
       array (
-        'length' => 11,
-        'type' => 'int',
+        'length' => 20,
+        'type' => 'bigint',
         'not_null' => '1',
         'default' => 0,
       ),
@@ -2003,8 +2003,8 @@ $schema = array (
       ),
       'language_id' => 
       array (
-        'length' => 11,
-        'type' => 'int',
+        'length' => 20,
+        'type' => 'bigint',
         'not_null' => '1',
         'default' => 0,
       ),
@@ -2181,8 +2181,8 @@ $schema = array (
       ),
       'language_id' => 
       array (
-        'length' => 11,
-        'type' => 'int',
+        'length' => 20,
+        'type' => 'bigint',
         'not_null' => '1',
         'default' => 0,
       ),
@@ -2607,15 +2607,15 @@ $schema = array (
       ),
       'initial_language_id' => 
       array (
-        'length' => 11,
-        'type' => 'int',
+        'length' => 20,
+        'type' => 'bigint',
         'not_null' => '1',
         'default' => 0,
       ),
       'language_mask' => 
       array (
-        'length' => 11,
-        'type' => 'int',
+        'length' => 20,
+        'type' => 'bigint',
         'not_null' => '1',
         'default' => 0,
       ),
@@ -7096,8 +7096,8 @@ $schema = array (
       ),
       'lang_mask' => 
       array (
-        'length' => 11,
-        'type' => 'int',
+        'length' => 20,
+        'type' => 'bigint',
         'not_null' => '1',
         'default' => 0,
       ),
