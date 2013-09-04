@@ -315,11 +315,12 @@ class eZURLAliasQuery
         if ( !is_array( $rows ) || count( $rows ) == 0 )
             return array();
         $list = array();
+        $maxNumberOfLanguages = eZContentLanguage::maxCount();
         foreach ( $rows as $row )
         {
             $row['always_available'] = $row['lang_mask'] % 2;
             $mask = $row['lang_mask'] & ~1;
-            for ( $i = 1; $i < 30; ++$i )
+            for ( $i = 1; $i < $maxNumberOfLanguages; ++$i )
             {
                 $newMask = (1 << $i);
                 if ( ($newMask & $mask) > 0 )
