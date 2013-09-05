@@ -30,6 +30,10 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 
     protected $clusterClass = 'eZDFSFileHandler';
 
+    protected static $tableDefault = 'ezdfsfile';
+
+    protected static $tableCache = 'ezdfsfile_cache';
+
     /* // Commented since __construct breaks data providers
     public function __construct()
     {
@@ -131,7 +135,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
     protected function DBFileExists( $filePath )
     {
         $escapedFilePath = $this->db->escapeString( $filePath );
-        $sql = "SELECT * FROM " . eZDFSFileHandlerMySQLiBackend::TABLE_METADATA .
+        $sql = "SELECT * FROM " . self::$tableDefault .
                " WHERE name_hash = MD5('{$escapedFilePath}')";
         $rows = $this->db->arrayQuery( $sql );
         if ( count( $rows ) == 1 )
@@ -148,7 +152,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
     protected function DBFileExistsAndIsValid( $filePath )
     {
         $escapedFilePath = $this->db->escapeString( $filePath );
-        $sql = "SELECT * FROM " . eZDFSFileHandlerMySQLiBackend::TABLE_METADATA .
+        $sql = "SELECT * FROM " . self::$tableDefault .
                " WHERE name LIKE '{$escapedFilePath}'";
         $rows = $this->db->arrayQuery( $sql );
         if ( count( $rows ) == 1 )
@@ -178,7 +182,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
             unlink( $filePath );
         if ( file_exists( $DFSPath ) and is_file( $DFSPath ) )
             unlink( $DFSPath );
-        $this->db->query( 'DELETE FROM ' . eZDFSFileHandlerMySQLiBackend::TABLE_METADATA .
+        $this->db->query( 'DELETE FROM ' . self::$tableDefault .
                           ' WHERE name_hash = \'' . md5( $filePath ) . '\'' );
     }
 
@@ -214,7 +218,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
         $size = strlen( $fileContents );
 
         // create DB file
-        $sql = "INSERT INTO " . eZDFSFileHandlerMySQLiBackend::TABLE_METADATA .
+        $sql = "INSERT INTO " . self::$tableDefault .
                "      ( name,        name_trunk,  name_hash,   datatype,    scope,    size,    mtime,    expired )" .
                "VALUES( '$filePath', '$filePath', '$nameHash', '$datatype', '$scope', '$size', '$mtime', '$expired' )";
         $this->db->query( $sql );
