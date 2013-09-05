@@ -55,7 +55,7 @@ CREATE TEMPORARY TABLE ezurl_object_link_temp (
    KEY ezurl_ol_coa_version (contentobject_attribute_version),
    KEY ezurl_ol_url_id (url_id),
    UNIQUE KEY unique_key (contentobject_attribute_id, contentobject_attribute_version)
-) IGNORE SELECT * FROM ezurl_object_link;
+) IGNORE SELECT * FROM ezurl_object_link ORDER BY url_id DESC;
 
 TRUNCATE TABLE ezurl_object_link;
 
