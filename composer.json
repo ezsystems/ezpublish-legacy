@@ -10,8 +10,25 @@
             "url": "https://github.com/lolautruche/Archive.git"
         }
     ],
+    "suggest": {
+        "php-64bit": "For support of more than 30 languages, a 64bit php installation on all involved prod/dev machines is required",
+        "ext-curl": "Curl provides better support for interacting with other servers, like downloading packages over SSL",
+        "ext-gd": "Unless you have ImageMagic installed GD is required for eZ Publish to be able to manipulate images",
+        "ext-mysqli": "Mysqli is the default database handler used by eZ Publish",
+        "ext-pcntl": "If you plan to take advantage of eZ Publish Async publishing feature, then pcntl extension is required"
+    },
     "require": {
         "php": ">=5.3.3",
+        "ext-dom": "*",
+        "ext-libxml": "*",
+        "ext-mbstring": "*",
+        "ext-pcre": "*",
+        "ext-json": "*",
+        "ext-iconv": "*",
+        "ext-reflection": "*",
+        "ext-session": "*",
+        "ext-spl": "*",
+        "ext-simplexml": "*",
         "ezsystems/ezpublish-legacy-installer": "*",
         "zetacomponents/archive": "dev-fixUnpackPHP55",
         "zetacomponents/authentication": "@dev",
