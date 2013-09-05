@@ -14,27 +14,22 @@ set_time_limit( 0 );
 require_once 'autoload.php';
 require_once 'PHPUnit/Autoload.php';
 
-require_once 'PHPUnit/Util/Filter.php';
-
-// Whitelist all eZ Publish kernel files
-$baseDir = getcwd();
-$autoloadArray = include 'autoload/ezp_kernel.php';
-foreach ( $autoloadArray as $class => $file )
-{
-    // Exclude files from the tests directory
-    if ( strpos( $file, 'tests' ) !== 0 )
-    {
-//        PHPUnit_Util_Filter::addFileToWhitelist( "{$baseDir}/{$file}" ); //fixme
-    }
-}
-
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ Publish Test Runner\n\n" .
-                                                         "sets up an eZ Publish testing environment" .
-                                                         "\n" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+        "sets up an eZ Publish testing environment" .
+        "\n" ),
+        'use-session' => false,
+        'use-modules' => true,
+        'use-extensions' => true ) );
+
+
+if ( !class_exists( 'ezpTestRunner', true ) )
+{
+    echo "The ezpTestRunner class isn't defined. Are the tests autoloads generated ?\n"
+        . "You can generate them using php bin/php/ezpgenerateautoloads.php -s";
+
+    $script->shutdown(1);
+}
 
 // Override INI override folder from settings/override to
 // tests/settings to not read local override settings
@@ -46,7 +41,6 @@ $ini->loadCache();
 eZContentLanguage::expireCache();
 
 $script->startup();
-// $options = $script->getOptions();
 $script->initialize();
 
 // Avoids Fatal error: eZ Publish did not finish its request if die() is used.
@@ -58,12 +52,6 @@ if ( version_compare( $version, '3.5.0' ) == -1 && $version !== '@package_versio
 {
     die( "PHPUnit 3.5.0 (or later) is required to run this test suite.\n" );
 }
-
-require_once 'PHP/CodeCoverage.php';
-$codeCoverage = new PHP_CodeCoverage;
-$codeCoverage->filter()->addFileToBlacklist( __FILE__, 'PHPUNIT' );
-
-//require_once 'bootstrap.php';
 
 try
 {
