@@ -19,21 +19,34 @@ Default: "ezdfsfile_cache"
 Defines the name of the table where cache files metadata is stored.
 Set it to an existing table to use this table for cache storage.
 
+### `eZDFSClusteringSettings.MetaDataTableNameCache` in file.ini
+
+Default: "ezdfsfile_cache"
+
+Defines the name of the table where cache files metadata is stored.
+Set it to an existing table to use this table for cache storage.
+
+Note: CLUSTER_METADATA_TABLE_CACHE is recommended over the INI setting, since it will affect both
+the FileHandler API, from within requests handled by index.php, and the cluster index used to deliver
+binary files over HTTP. We recommend that you use the constant and not the INI setting.
+
 ### CLUSTER_METADATA_CACHE_PATH constant in config.[cluster.]php
 
 Default: "/cache/"
 
-Path part for storage files. Must be modified if you have changed `FileSettings.StorageDir` in site.ini.
+Path part for storage files, used to distinguish cache files from storage files.
+Must *only be modified if* you have changed `FileSettings.StorageDir` in site.ini.
 
 ### CLUSTER_METADATA_STORAGE_PATH constant in config.[cluster.]php
 
 Default: "/storage/"
 
-Path part for storage files. Must be modified if you have changed `FileSettings.StorageDir` in site.ini.
+Path part for storage files, used to distinguish storage files from cache files.
+Must *only be modified if* you have changed `FileSettings.StorageDir` in site.ini.
 
 ## Upgrading from eZ Publish < 5.2
 
-If you migrate from an earlier version, it is recommended that you remove ache entries from the storage table.
+If you migrate from an earlier version, it is recommended that you remove cache entries from the storage table.
 
 To do so, the safest way is to:
 - unclusterize data (`bin/php/clusterize.php -u`)
