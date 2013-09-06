@@ -1,7 +1,7 @@
 <ul>
 {section var=MultiOptionList loop=$group.multioption_list}
     <li>
-        <label for="{$attribute.id}_{$group.group_id}_{$MultiOptionList.item.multioption_id}">{$MultiOptionList.item.name}:</label>
+        <label for="{$attribute.id}_{$group.group_id}_{$MultiOptionList.item.multioption_id}">{$MultiOptionList.item.name|wash}:</label>
 {def $default_option_id=0}
 {section show=$MultiOptionList.item.default_option_id|gt(0)}
     {set $default_option_id=$MultiOptionList.item.default_option_id}
@@ -31,7 +31,7 @@
               onchange="ezmultioption_check_option( this, rules{$attribute.id}, {$attribute.id} );"
               {cond(not(eq($Option.item.is_selectable, 1 )),'disabled="disabled"', true(),'')}  />
               </td>
-              <td  id="td-{$attribute.id}_{$Option.item.option_id}" >{$Option.item.value}{cond(ne( $Option.item.additional_price, '' ),$Option.item.additional_price|l10n( currency )|prepend('-'), true(),'')}</td>
+              <td  id="td-{$attribute.id}_{$Option.item.option_id}" >{$Option.item.value|wash}{cond(ne( $Option.item.additional_price, '' ),$Option.item.additional_price|l10n( currency )|prepend('-'), true(),'')}</td>
               <td>
               {if is_set($Option.item.object)}
                 {let imgobj=fetch('content','object',hash(object_id,$Option.item.object))}
