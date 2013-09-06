@@ -6160,7 +6160,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             $objectIDList = array();
             foreach ( $subtreeChunk as $curNode )
-                $objectIDList[] = $curNode['contentobject_id'];
+                $objectIDList[] = $curNode['id'];
             unset( $subtreeChunk );
 
             eZContentCacheManager::clearContentCacheIfNeeded( array_unique( $objectIDList ) );

@@ -1424,7 +1424,7 @@ else if ( $module->isCurrentAction( 'ClearViewCache' ) or
             $objectIDList = array();
             foreach ( $subtree as $subtreeNode )
             {
-                $objectIDList[] = $subtreeNode['contentobject_id'];
+                $objectIDList[] = $subtreeNode['id'];
             }
             $objectIDList = array_unique( $objectIDList );
             unset( $subtree );
