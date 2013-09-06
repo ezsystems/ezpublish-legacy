@@ -1926,7 +1926,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
      * Defaults to the "normal" storage table, meaning that only one table is used.
      * @var string
      */
-    protected $metaDataTableCache = 'ezdfsfile';
+    protected $metaDataTableCache = 'ezdfsfile_cache';
 
     /**
      * Cache files directory, including leading & trailing slashes.
