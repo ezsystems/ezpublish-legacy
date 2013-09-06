@@ -394,11 +394,11 @@ class eZTemplateStringOperator
                 $ini = $tpl->ini();
                 $dotText = $ini->variable( 'WashSettings', 'EmailDotText' );
                 $atText = $ini->variable( 'WashSettings', 'EmailAtText' );
-                $operatorValue = str_replace( array( '.',
-                                                     '@' ),
-                                              array( $dotText,
-                                                     $atText ),
-                                              $operatorValue );
+                $operatorValue = str_replace(
+                    array( '.', '@' ),
+                    array( $dotText, $atText ),
+                    htmlspecialchars( $operatorValue )
+                );
             } break;
 
             case 'pdf':
