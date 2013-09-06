@@ -52,6 +52,14 @@ Change of behavior
 
   See http://jira.ez.no/browse/EZP-18865
 
+- Cluster: MySQLi handler for DFS now uses a separate table to store cache.
+
+  A maintenance operation is recommended in order to remove cache from the main table. If you'd rather not do this
+  operation, you can revert to the old behaviour by setting the cache table to the old one. This can be done by
+  setting the CLUSTER_METADATA_TABLE_CACHE to ezdfsfile in config.cluster.php.
+
+  More information can be found on the online documentation.
+
 Removed features
 ----------------
 
