@@ -36,16 +36,12 @@ class ezpDfsMySQLiClusterGateway extends ezpClusterGateway
      */
      protected function dbTable( $filePath )
      {
-         // If no custom table is defined, we can just return the default table
-         if ( !defined( 'CLUSTER_METADATA_TABLE_CACHE' ) )
-             return 'ezdfsfile';
-
          $cacheDir = defined( 'CLUSTER_METADATA_CACHE_PATH' ) ? CLUSTER_METADATA_CACHE_PATH : "/cache/";
          $storageDir = defined( 'CLUSTER_METADATA_STORAGE_PATH' ) ? CLUSTER_METADATA_STORAGE_PATH : "/storage/";
 
          if ( strpos( $filePath, $cacheDir ) !== false && strpos( $filePath, $storageDir ) === false )
          {
-             return CLUSTER_METADATA_TABLE_CACHE;
+             return defined( 'CLUSTER_METADATA_TABLE_CACHE' ) ? CLUSTER_METADATA_TABLE_CACHE : 'ezdfsfile_cache';
          }
 
          return 'ezdfsfile';
