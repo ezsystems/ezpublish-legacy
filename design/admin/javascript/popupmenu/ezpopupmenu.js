@@ -323,7 +323,7 @@ function _doItemSubstitution( menuID, menuHeader )
         {
             CurrentDisabledMenusItems[hrefElement.id] = new Array();
             CurrentDisabledMenusItems[hrefElement.id]['className'] = hrefElement.className;
-            CurrentDisabledMenusItems[hrefElement.id]['href'] = hrefElement.href;
+            CurrentDisabledMenusItems[hrefElement.id]['href'] = hrefElement.getAttribute('href');
             CurrentDisabledMenusItems[hrefElement.id]['onmouseover'] = hrefElement.onmouseover;
             CurrentDisabledMenusItems[hrefElement.id]['onclick'] = hrefElement.onclick;
 
