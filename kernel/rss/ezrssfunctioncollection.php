@@ -23,7 +23,7 @@ class eZRSSFunctionCollection
                                             'error_code' => eZError::KERNEL_NOT_FOUND ) );
 
         $db = eZDB::instance();
-        $res = $db->arrayQuery( "SELECT id FROM ezrss_export WHERE node_id='$nodeID' AND status=" . eZRSSExport::STATUS_VALID );
+        $res = $db->arrayQuery( "SELECT id FROM ezrss_export WHERE node_id = " . (int)$nodeID . " AND status = " . eZRSSExport::STATUS_VALID );
 
         return array( 'result' => isset( $res[0] ) ? true : false );
     }
