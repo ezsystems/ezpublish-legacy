@@ -46,9 +46,11 @@ ALTER TABLE ezurlalias_ml
 -- Start ezp-21465 : Cleanup extra lines in the ezurl_object_link table
 DELETE
 FROM ezurl_object_link AS T1
-WHERE T1.url_id < ANY (SELECT url_id
-      FROM ezurl_object_link T2
-      WHERE T1.url_id <> T2.url_id
-      AND T1.contentobject_attribute_id = T2.contentobject_attribute_id
-      AND T1.contentobject_attribute_version = T2.contentobject_attribute_version);
+WHERE  T1.url_id < ANY (
+  SELECT DISTINCT url_id
+  FROM  ezurl_object_link T2 JOIN ezcontentobject_attribute ON T2.contentobject_attribute_id = ezcontentobject_attribute.id
+  WHERE T1.url_id < T2.url_id
+  AND T1.contentobject_attribute_id = T2.contentobject_attribute_id
+  AND T1.contentobject_attribute_version = T2.contentobject_attribute_version
+  AND ezcontentobject_attribute.data_type_string = 'ezurl');
 -- End ezp-21465

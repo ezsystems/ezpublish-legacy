@@ -47,17 +47,25 @@ ALTER TABLE ezurlalias_ml
 -- Start ezp-21465 : Cleanup extra lines in the ezurl_object_link table
 DROP TEMPORARY TABLE IF EXISTS ezurl_object_link_temp ;
 
-CREATE TEMPORARY TABLE ezurl_object_link_temp (
-   contentobject_attribute_id int(11) NOT NULL DEFAULT '0',
-   contentobject_attribute_version int(11) NOT NULL DEFAULT '0',
-   url_id int(11) NOT NULL DEFAULT '0',
-   KEY ezurl_ol_coa_id (contentobject_attribute_id),
-   KEY ezurl_ol_coa_version (contentobject_attribute_version),
-   KEY ezurl_ol_url_id (url_id),
-   UNIQUE KEY unique_key (contentobject_attribute_id, contentobject_attribute_version)
-) IGNORE SELECT * FROM ezurl_object_link ORDER BY url_id DESC;
+-- create a temporary table containing stale links
+CREATE TEMPORARY TABLE ezurl_object_link_temp
+SELECT DISTINCT contentobject_attribute_id, contentobject_attribute_version, url_id
+FROM ezurl_object_link AS T1 JOIN ezcontentobject_attribute ON T1.contentobject_attribute_id = ezcontentobject_attribute.id
+WHERE ezcontentobject_attribute.data_type_string = "ezurl"
+AND T1.url_id < ANY
+  (SELECT DISTINCT T2.url_id
+  FROM ezurl_object_link T2
+  WHERE T1.url_id < T2.url_id
+  AND T1.contentobject_attribute_id = T2.contentobject_attribute_id
+  AND T1.contentobject_attribute_version = T2.contentobject_attribute_version);
 
-TRUNCATE TABLE ezurl_object_link;
+SET @OLD_SQL_SAFE_UPDATES=@@SQL_SAFE_UPDATES;
+SET SQL_SAFE_UPDATES=0;
 
-INSERT INTO ezurl_object_link SELECT * FROM ezurl_object_link_temp;
+DELETE ezurl_object_link.*
+FROM ezurl_object_link JOIN ezurl_object_link_temp ON ezurl_object_link.url_id = ezurl_object_link_temp.url_id
+AND ezurl_object_link.contentobject_attribute_id = ezurl_object_link_temp.contentobject_attribute_id
+AND ezurl_object_link.contentobject_attribute_version = ezurl_object_link_temp.contentobject_attribute_version;
+
+SET SQL_SAFE_UPDATES=@OLD_SQL_SAFE_UPDATES;
 -- End ezp-21465
