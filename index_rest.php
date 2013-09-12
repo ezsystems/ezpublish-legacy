@@ -18,7 +18,7 @@ require __DIR__ . '/kernel/private/rest/classes/lazy.php';
 eZDebug::setHandleType( eZDebug::HANDLE_TO_PHP );
 $GLOBALS['eZGlobalRequestURI'] = eZSys::serverVariable( 'REQUEST_URI' );
 $ini = eZINI::instance();
-eZSys::init( 'index.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) == 'true' );
+eZSys::init( 'index_rest.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) == 'true' );
 $uri = eZURI::instance( eZSys::requestURI() );
 $GLOBALS['eZRequestedURI'] = $uri;
 
