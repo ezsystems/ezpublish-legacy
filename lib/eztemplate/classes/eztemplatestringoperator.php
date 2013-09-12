@@ -483,7 +483,7 @@ class eZTemplateStringOperator
             $atText = addcslashes( $ini->variable( 'WashSettings', 'EmailAtText' ), "'" );
 
             $values[] = $parameters[0];
-            $code = "%output% = str_replace( array( '.', '@' ), array( '$dotText', '$atText' ), %1% );\n";
+            $code = "%output% = str_replace( array( '.', '@' ), array( '$dotText', '$atText' ), htmlspecialchars( %1% ) );\n";
         }
         /* JAVASCRIPT: Type is static, input is not static */
         else if ( ( $paramCount == 2 ) && isset( $staticValues[1] ) && ( $staticValues[1] == 'javascript' ) )
