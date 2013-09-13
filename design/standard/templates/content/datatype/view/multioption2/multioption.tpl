@@ -18,7 +18,7 @@
                 <option value="{$Option.item.option_id}" id="{$attribute.id}_{$Option.item.option_id}"
                 {cond(eq( sum( $Option.index, 1 ), $default_option_id), 'selected="selected"',true(),'')}
                 {cond(not(eq($Option.item.is_selectable, 1 )),'disabled="disabled"', true(),'')} >
-                {$Option.item.value}{cond(ne( $Option.item.additional_price, '' ),$Option.item.additional_price|l10n( currency )|prepend('-'), true(),'')}</option>
+                {$Option.item.value|wash}{cond(ne( $Option.item.additional_price, '' ),$Option.item.additional_price|l10n( currency )|prepend('-'), true(),'')}</option>
             {/section}
             </select>
          {section-else}
