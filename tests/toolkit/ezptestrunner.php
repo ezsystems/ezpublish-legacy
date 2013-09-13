@@ -48,6 +48,35 @@ class ezpTestRunner extends PHPUnit_TextUI_Command
     }
 
     /**
+     * Return the argument $argumentName given on the command line
+     * $argumentName must be the long option name ( 'configuration' ), not the short option name ( 'c' )
+     *
+     * @param $argumentName
+     *
+     * @return mixed|null
+     */
+    public function getLongOption( $argumentName )
+    {
+        if ( array_key_exists( $argumentName, $this->longOptions ) || array_key_exists( "$argumentName=", $this->longOptions ) )
+        {
+            if ( array_key_exists( $argumentName, $this->arguments ) )
+            {
+                return $this->arguments[$argumentName];
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else
+        {
+            var_dump( "Error: Invalid argument name '{$argumentName}'" );
+            var_dump( $this->longOptions );
+            die;
+        }
+    }
+
+    /**
      * If called, will output a list of all available tests
      *
      * @see handleCustomTestSuite()
