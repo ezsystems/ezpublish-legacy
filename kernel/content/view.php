@@ -174,7 +174,7 @@ else
             false
         );
 
-        return eZClusterFileHandler::instance( $cacheFileArray['cache_path'] )
+        $result = eZClusterFileHandler::instance( $cacheFileArray['cache_path'] )
             ->processCache(
                 array( 'eZNodeviewfunctions', 'contentViewRetrieve' ),
                 array( 'eZNodeviewfunctions', 'contentViewGenerate' ),
@@ -182,6 +182,16 @@ else
                 null,
                 $args
             );
+
+        if ( isset( $result['responseHeaders'] ) )
+        {
+            foreach ( $result['responseHeaders'] as $header )
+            {
+                header( $header );
+            }
+        }
+
+        return $result;
     }
 
     $data = eZNodeviewfunctions::contentViewGenerate( false, $args ); // the false parameter will disable generation of the 'binarydata' entry
