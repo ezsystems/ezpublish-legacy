@@ -104,4 +104,14 @@ interface eZClusterEventListener
      * @return void
      */
     public function deleteByNametrunk( $nametrunk );
+
+    /**
+     * Notifies of a storeFile operation
+     *
+     * @param string $filePath
+     * @param string $datatype
+     * @param string $scope
+     * @return void
+     */
+    public function storeFile( $filePath, $datatype, $scope );
 }

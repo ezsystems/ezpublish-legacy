@@ -98,6 +98,9 @@ Try to use constants instead or configuration objects passed to your custom gate
 - `cluster/storeMetadata` - **Notification**.
   The metadata array is passed as argument.
 
+- `cluster/storeFile` - **Notification**.
+  The file path, datatype and scope are passed as arguments.
+
 - `cluster/loadMetadata` - **Filter**.
   File path we need metadata from is passed as argument.
   Must return an the metadata array or false.
