@@ -1405,33 +1405,8 @@ else if ( $module->isCurrentAction( 'ClearViewCache' ) or
         {
             return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
         }
-        $limit = 50;
-        $offset = 0;
-        $params = array( 'AsObject' => false,
-                         'Depth' => false,
-                         'Limitation' => array() ); // Empty array means no permission checking
-        $subtreeCount = $node->subTreeCount( $params );
-        while ( $offset < $subtreeCount )
-        {
-            $params['Offset'] = $offset;
-            $params['Limit'] = $limit;
-            $subtree = $node->subTree( $params );
-            $offset += count( $subtree );
-            if ( count( $subtree ) == 0 )
-            {
-                break;
-            }
-            $objectIDList = array();
-            foreach ( $subtree as $subtreeNode )
-            {
-                $objectIDList[] = $subtreeNode['id'];
-            }
-            $objectIDList = array_unique( $objectIDList );
-            unset( $subtree );
 
-            foreach ( $objectIDList as $objectID )
-                eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
-        }
+        eZContentObjectTreeNode::clearViewCacheForSubtree( $node );
     }
 
     if ( $module->hasActionParameter( 'CurrentURL' ) )
