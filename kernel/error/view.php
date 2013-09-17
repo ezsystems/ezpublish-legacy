@@ -75,10 +75,13 @@ $GLOBALS["eZRequestError"] = true;
                     }
                     else
                     {
+                        // we need to store the header so that they are listed in view cache data ()
                         $responseHeaders = array(
                             eZSys::serverVariable( 'SERVER_PROTOCOL' ) . " $httpErrorString",
                             "Status: $httpErrorString"
                         );
+                        header( $responseHeaders[0] );
+                        header( $responseHeaders[1] );
                     }
                 }
             }
