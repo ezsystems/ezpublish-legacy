@@ -28,7 +28,7 @@ class eZConfirmOrderHandler
      * as defined in shopaccount.ini[HandlerSettings]Repositories
      * and ExtensionRepositories.
      *
-     * @return eZDefaultConfirmOrderHandler Or similar clases.
+     * @return eZDefaultConfirmOrderHandler Or similar classes.
      */
     static function instance()
     {
