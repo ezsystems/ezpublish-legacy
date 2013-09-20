@@ -659,7 +659,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $datatypeWhereSQL = "
                                    $contentAttributeTableAlias.contentobject_id = ezcontentobject.id AND
                                    $contentAttributeTableAlias.contentclassattribute_id = $classAttributeID AND
-                                   $contentAttributeTableAlias.version = ezcontentobject_name.content_version AND";
+                                   $contentAttributeTableAlias.version = ezcontentobject.current_version AND";
                             $datatypeWhereSQL .= eZContentLanguage::sqlFilter( $contentAttributeTableAlias, 'ezcontentobject' );
 
                             $dataType = eZDataType::create( eZContentObjectTreeNode::dataTypeByClassAttributeID( $classAttributeID ) );

@@ -918,12 +918,10 @@ class eZContentFunctionCollection
             {
                 case 'keyword':
                 case 'name':
-                {
                     $sortingString = '';
                     if ( $sortBy[0] == 'name' )
                     {
                         $sortingString = 'ezcontentobject.name';
-                        $sortingInfo['attributeTargetSQL'] = ', ' . $sortingString;
                     }
                     elseif ( $sortBy[0] == 'keyword' )
                     {
@@ -931,7 +929,6 @@ class eZContentFunctionCollection
                             $sortingString = 'ezkeyword.keyword';
                         else
                             $sortingString = 'keyword';
-                        $sortingInfo['attributeTargetSQL'] = '';
                     }
 
                     $sortOrder = true; // true is ascending
@@ -939,24 +936,25 @@ class eZContentFunctionCollection
                         $sortOrder = $sortBy[1];
                     $sortingOrder = $sortOrder ? ' ASC' : ' DESC';
                     $sortingInfo['sortingFields'] = $sortingString . $sortingOrder;
-                } break;
+                    break;
                 default:
-                {
                     $sortingInfo = eZContentObjectTreeNode::createSortingSQLStrings( $sortBy );
+            }
 
-                    if ( $sortBy[0] == 'attribute' )
-                    {
-                        // if sort_by is 'attribute' we should add ezcontentobject_name to "FromSQL" and link to ezcontentobject
-                        $sortingInfo['attributeFromSQL']  .= ' INNER JOIN ezcontentobject_name ON (ezcontentobject_name.contentobject_id = ezcontentobject.id)';
-                        $sqlTarget = 'DISTINCT ezcontentobject_tree.node_id, '.$sqlKeyword;
-                    }
-                    else // for unique declaration
-                    {
-                        $sortByArray = explode( ' ', $sortingInfo['sortingFields'] );
-                        $sortingInfo['attributeTargetSQL'] .= ', ' . $sortByArray[0];
-                    }
-
-                } break;
+            // Fixing the attributeTargetSQL
+            switch ( $sortBy[0] )
+            {
+                case 'keyword':
+                    $sortingInfo['attributeTargetSQL'] = '';
+                    break;
+                case 'name':
+                    $sortingInfo['attributeTargetSQL'] = ', ezcontentobject.name';
+                    break;
+                case 'attribute':
+                case 'class_name':
+                    break;
+                default:
+                    $sortingInfo['attributeTargetSQL'] .= ', ' . strtok( $sortingInfo["sortingFields"], " " );
             }
 
             $sqlTarget .= $sortingInfo['attributeTargetSQL'];
