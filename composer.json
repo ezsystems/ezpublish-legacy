@@ -4,12 +4,6 @@
     "homepage":    "http://share.ez.no",
     "license":     "GPL-2.0",
     "type":        "ezpublish-legacy",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/lolautruche/Archive.git"
-        }
-    ],
     "suggest": {
         "php-64bit": "For support of more than 30 languages, a 64bit php installation on all involved prod/dev machines is required",
         "ext-curl": "Curl provides better support for interacting with other servers, like downloading packages over SSL",
@@ -30,7 +24,7 @@
         "ext-spl": "*",
         "ext-simplexml": "*",
         "ezsystems/ezpublish-legacy-installer": "*",
-        "zetacomponents/archive": "dev-fixUnpackPHP55",
+        "zetacomponents/archive": "@dev",
         "zetacomponents/authentication": "@dev",
         "zetacomponents/authentication-database-tiein": "@dev",
         "zetacomponents/cache": "@dev",
