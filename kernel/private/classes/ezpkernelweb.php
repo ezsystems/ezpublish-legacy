@@ -941,6 +941,9 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
             }
         }
 
+        // After the module redirect url is completed, add the queryString params so they carry over the redirect operation
+        $redirectURI .= eZSys::queryString();
+
         if ( $ini->variable( 'ContentSettings', 'StaticCache' ) == 'enabled' )
         {
             $staticCacheHandlerClassName = $ini->variable( 'ContentSettings', 'StaticCacheHandler' );
