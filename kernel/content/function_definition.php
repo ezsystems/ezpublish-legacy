@@ -942,14 +942,18 @@ $FunctionList['keyword'] = array( 'name' => 'keyword',
                                                                 'type' => 'integer',
                                                                 'required' => false,
                                                                 'default' => false ),
-                                                        array( 'name' => 'include_duplicates',
+                                                         array( 'name' => 'include_duplicates',
                                                                 'type' => 'bool',
                                                                 'required' => false,
                                                                 'default' => true ),
                                                          array( 'name' => 'strict_matching',
-                                                                 'type' => 'bool',
-                                                                 'required' => false,
-                                                                 'default' => false ) ) );
+                                                                'type' => 'bool',
+                                                                'required' => false,
+                                                                'default' => false ),
+                                                         array( 'name' => 'depth',
+                                                                'type' => 'integer',
+                                                                'required' => false,
+                                                                'default' => 1 ) ) );
 
 
 $FunctionList['keyword_count'] = array( 'name' => 'keyword_count',
@@ -979,7 +983,11 @@ $FunctionList['keyword_count'] = array( 'name' => 'keyword_count',
                                                                array( 'name' => 'strict_matching',
                                                                       'type' => 'bool',
                                                                       'required' => false,
-                                                                      'default' => false ) ) );
+                                                                      'default' => false ),
+                                                               array( 'name' => 'depth',
+                                                                      'type' => 'integer',
+                                                                      'required' => false,
+                                                                      'default' => 1 ) ) );
 
 $FunctionList['access'] = array( 'name' => 'access',
                                  'operation_types' => array( 'read' ),
