@@ -242,7 +242,7 @@ class ezjscAjaxContent
         $ret['owner_id']                	= (int) $contentObject->attribute( 'owner_id' );
         $ret['class_id']                	= (int) $contentObject->attribute( 'contentclass_id' );
         $ret['class_name']              	= $contentObject->attribute( 'class_name' );
-        $ret['path_identification_string'] 	= $node ? $node->attribute( 'path_identification_string' ) : '';
+        $ret['path_identification_string'] 	= $node->attribute( 'path_identification_string' );
         $ret['translations']            	= eZContentLanguage::decodeLanguageMask($contentObject->attribute( 'language_mask' ), true);
         $ret['can_edit']                	= $contentObject->attribute( 'can_edit' );
 

@@ -696,22 +696,10 @@ class eZContentUpload
         if ( $storeResult['require_storage'] )
             $dataMap[$nameAttribute]->store();
 
-        // Getting the current transaction counter to check if all transactions are committed during content/publish operation (see below)
-        $transactionCounter = $db->transactionCounter();
         $tmpresult = $this->publishObject( $result, $result['errors'], $result['notices'],
                                            $object, $publishVersion, $class, $parentNodes, $parentMainNode );
 
-        // If publication was halted/cancelled (workflow, for instance), the transaction counter may not have reached 0.
-        // If not, operation is probably in STATUS_CANCELLED, STATUS_HALTED, STATUS_REPEAT or STATUS_QUEUED
-        // and final commit was not done as it's part of the operation body (see commit-transaction action in content/publish operation definition).
-        // Important note: Will only be committed transactions that weren't closed during the content/publish operation
-        for ( $i = 0, $transactionDiff = $db->transactionCounter() - $transactionCounter; $i < $transactionDiff; ++$i )
-        {
-            $db->commit();
-        }
-
         $db->commit();
-
         return $tmpresult;
     }
 
