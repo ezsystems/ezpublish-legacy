@@ -20,7 +20,7 @@ class eZShopAccountHandler
      * as defined in shopaccount.ini[HandlerSettings]Repositories
      * and ExtensionRepositories.
      *
-     * @return eZDefaultShopAccountHandler Or similar clases.
+     * @return eZDefaultShopAccountHandler Or similar classes.
      */
     static function instance()
     {
