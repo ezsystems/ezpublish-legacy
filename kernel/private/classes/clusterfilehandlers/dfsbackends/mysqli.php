@@ -248,7 +248,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         $nameTrunk       = self::nameTrunk( $dstFilePath, $scope );
 
         // Copy file metadata.
-        if ( $this->_insertUpdate( $this->dbTable( $srcFilePath ),
+        if ( $this->_insertUpdate( $this->dbTable( $dstFilePath ),
                                    array( 'datatype'=> $datatype,
                                           'name' => $dstFilePath,
                                           'name_trunk' => $nameTrunk,
