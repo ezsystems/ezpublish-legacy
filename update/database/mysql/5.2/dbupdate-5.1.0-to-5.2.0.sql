@@ -80,3 +80,17 @@ INNER JOIN
 SET
     o.language_mask = (o.language_mask & 1) | (v.language_mask & ~1);
 -- End EZP-21469
+
+-- Start EZP-21324:
+-- Cleanup extra lines in the ezimagefile table in order to create the unique key:
+DELETE i1
+FROM
+    ezimagefile i1
+INNER JOIN
+    ezimagefile i2 ON i1.contentobject_attribute_id = i2.contentobject_attribute_id AND i1.filepath = i2.filepath
+WHERE
+    i1.id > i2.id;
+
+-- Create the unique key:
+CREATE UNIQUE INDEX ezimagefile_co_attr_id_filepath ON ezimagefile (contentobject_attribute_id, filepath(255));
+-- End EZP-21324

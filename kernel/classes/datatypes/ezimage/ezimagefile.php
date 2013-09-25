@@ -74,6 +74,71 @@ class eZImageFile extends eZPersistentObject
     }
 
     /**
+     * Returns images that are safe for removal for a specific $contentObjectAttributeID
+     *
+     * The ezimagefile table references in which attributes image files are used. This function returns
+     * for a given $contentObjectAttributeID, the list of image files solely owned it.
+     *
+     * @param int $contentObjectAttributeID Content object acctribute ID
+     *
+     * @return array
+     */
+    public static function fetchRemovableImagesFromObjectAttribute( $contentObjectAttributeID )
+    {
+        $result = array();
+
+        foreach (
+            eZDB::instance()->arrayQuery(
+                "SELECT i1.filepath ".
+                "FROM ezimagefile AS i1 ".
+                "LEFT JOIN ezimagefile AS i2 ON i1.filepath = i2.filepath AND i1.id < i2.id ".
+                "WHERE i1.contentobject_attribute_id = " . (int)$contentObjectAttributeID . " AND i2.contentobject_attribute_id IS NULL"
+            ) as $row
+        )
+        {
+            $result[] = $row["filepath"];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Performs possible cleanup after an update to the alias path is performed.
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     */
+    public static function cleanupDataAfterAliasPathUpdate( eZContentObjectAttribute $contentObjectAttribute )
+    {
+        $urlSet = array();
+        $db = eZDB::instance();
+        $contentObjectAttributeId = (int)$contentObjectAttribute->attribute( "id" );
+
+        foreach (
+            $db->arrayQuery(
+                "SELECT data_text FROM ezcontentobject_attribute WHERE id = " . $contentObjectAttributeId
+            ) as $row
+        )
+        {
+            foreach ( simplexml_load_string( $row["data_text"] )->xpath( "//*/@url" ) as $url )
+            {
+                $url = (string)$url;
+
+                if ( $url === "" )
+                    continue;
+
+                // generateSQLINStatement does not add quotes when casting to string
+                $urlSet["'" . $db->escapeString( (string)$url ) . "'"] = true;
+            }
+        }
+
+        $db->query(
+            "DELETE FROM ezimagefile ".
+            "WHERE contentobject_attribute_id = $contentObjectAttributeId AND " .
+            $db->generateSQLINStatement( array_keys( $urlSet ), "filepath", true, false, "string" )
+        );
+    }
+
+    /**
      * Looks up ezcontentobjectattribute entries matching an image filepath and
      * a contentobjectattribute ID
      *
@@ -174,8 +239,7 @@ class eZImageFile extends eZPersistentObject
         $fileObject = eZImageFile::fetchByFilepath( $contentObjectAttributeID, $filepath );
         if ( $fileObject )
             return false;
-        $fileObject = eZImageFile::create( $contentObjectAttributeID, $filepath );
-        $fileObject->store();
+
         return true;
     }
 
