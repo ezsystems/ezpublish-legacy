@@ -15,7 +15,7 @@
                 <th>{'Creator'|i18n( 'design/standard/content/datatype' )}</th>
             </tr>
             <tr>
-            {if $attr.content.can_read}
+            {if or( $attr.content.can_read, $attr.content.can_view_embed )}
                 <td>{$attr.content.id}</td>
                 <td>{$attr.content.name|wash}</td>
                 <td>{$attr.content.class_name|wash}</td>

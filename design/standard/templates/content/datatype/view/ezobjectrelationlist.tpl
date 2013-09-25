@@ -5,7 +5,7 @@
 {section var=Relations loop=$attribute.content.relation_list}
 {if $Relations.item.in_trash|not()}
     {set $content = fetch( content, object, hash( object_id, $Relations.item.contentobject_id ) )}
-    {if $content.can_read}
+    {if or( $content.can_read, $content.can_view_embed)}
         {if or(
             $check_visibility|not,
             fetch( content, node, hash( node_id, $Relations.item.node_id ) ).is_invisible|not
