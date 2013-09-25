@@ -67,3 +67,16 @@ FROM
 WHERE
     o.id = v.contentobject_id AND o.current_version = v.version;
 -- End EZP-21469
+
+-- Start EZP-21324:
+-- Cleanup extra lines in the ezimagefile table in order to create the unique key:
+DELETE FROM
+    ezimagefile i1
+USING
+    ezimagefile i2
+WHERE
+    i1.contentobject_attribute_id = i2.contentobject_attribute_id AND i1.filepath = i2.filepath AND i1.id > i2.id;
+
+-- Create the unique key:
+CREATE UNIQUE INDEX ezimagefile_co_attr_id_filepath ON ezimagefile USING btree (contentobject_attribute_id, filepath);
+-- End EZP-21324

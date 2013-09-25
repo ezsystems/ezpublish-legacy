@@ -653,10 +653,10 @@ class eZImageAliasHandler
             return;
         }
         $attributeData = $handler->originalAttributeData();
-        $files = eZImageFile::fetchForContentObjectAttribute( $attributeData['attribute_id'], false );
+
         $dirs = array();
 
-        foreach ( $files as $filepath )
+        foreach ( eZImageFile::fetchRemovableImagesFromObjectAttribute( $attributeData['attribute_id'] ) as $filepath )
         {
             $file = eZClusterFileHandler::instance( $filepath );
             if ( $file->exists() )
