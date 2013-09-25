@@ -319,6 +319,7 @@ class eZContentFunctionCollection
         {
             $ignoreVisibility = ( eZINI::instance( 'site.ini' )->variable( 'SiteAccessSettings' , 'ShowHiddenNodes' ) == "true" );
         }
+
         $treeParameters = array( 'Offset' => $offset,
                                  'OnlyTranslated' => $onlyTranslated,
                                  'Language' => $language,
@@ -418,6 +419,7 @@ class eZContentFunctionCollection
         {
             $ignoreVisibility = ( eZINI::instance( 'site.ini' )->variable( 'SiteAccessSettings' , 'ShowHiddenNodes' ) == "true" );
         }
+
         $searchArray = eZSearch::buildSearchArray();
         $parameters = array();
         if ( $classID !== false )
