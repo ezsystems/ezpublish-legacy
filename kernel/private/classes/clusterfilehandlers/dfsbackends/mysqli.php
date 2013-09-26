@@ -154,7 +154,14 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         }
         eZDebug::accumulatorStop( 'mysql_cluster_connect' );
         if ( !$this->db )
-            throw new eZClusterHandlerDBNoConnectionException( $serverString, self::$dbparams['user'], self::$dbparams['pass'] );
+        {
+            throw new eZClusterHandlerDBNoConnectionException(
+                $serverString,
+                self::$dbparams['user'],
+                self::$dbparams['pass'],
+                'Error ' . mysqli_connect_errno() . ': ' . mysqli_connect_error()
+            );
+        }
 
         /*if ( !mysql_select_db( self::$dbparams['dbname'], $this->db ) )
             throw new eZClusterHandlerDBNoDatabaseException( self::$dbparams['dbname'] );*/
@@ -1052,9 +1059,11 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             $rslt = $this->_query( $query, "_getFileList( array( " . implode( ', ', is_array( $scopes ) ? $scopes : array() ) . " ), $excludeScopes )" );
             if ( !$rslt )
             {
-                eZDebug::writeDebug( 'Unable to get file list', __METHOD__ );
-                // @todo Throw an exception
-                return false;
+                eZDebug::writeError( 'Unable to get file list', __METHOD__ );
+                throw new Exception(
+                    "dfs/mysqli DB error: " . mysqli_error( $this->db ) . "\nSQL Query: $query",
+                    mysqli_errno( $this->db )
+                );
             }
 
             while ( $row = mysqli_fetch_row( $rslt ) )
@@ -1209,7 +1218,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         eZDebug::accumulatorStart( 'mysql_cluster_query', 'MySQL Cluster', 'DB queries' );
         $time = microtime( true );
 
-        $res = mysqli_query( $this->db, $query );
+        $res = @mysqli_query( $this->db, $query );
         if ( !$res )
         {
             if ( mysqli_errno( $this->db ) == 1146 )
@@ -1221,8 +1230,10 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             {
                 $this->_error( $query, $fname, $error );
                 eZDebug::accumulatorStop( 'mysql_cluster_query' );
-                // @todo Throw an exception
-                return false;
+                throw new Exception(
+                    "dfs/mysqli DB error: " . mysqli_error( $this->db ) . "\nSQL Query: $query",
+                    mysqli_errno( $this->db )
+                );
             }
         }
 
