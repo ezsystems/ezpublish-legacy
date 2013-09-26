@@ -115,6 +115,11 @@ class eZImageShellHandler extends eZImageHandler
         {
             if ( !file_exists( $destinationMimeData['url'] ) )
             {
+                if ( !function_exists( 'system' ) ) 
+                {
+                    eZDebug::writeError( "PHP Warning: system() function has been disabled, you need to re-enable it" );
+                    return false;
+                }
                 eZDebug::writeError( 'Unknown destination file: ' . $destinationMimeData['url'] . " when executing '$systemString'", 'eZImageShellHandler(' . $this->HandlerName . ')' );
                 return false;
             }
