@@ -1046,9 +1046,7 @@ You will need to change the class of the node by using the swap functionality.' 
 
         $db->commit();
 
-        $db->begin();
         eZContentCacheManager::clearAllContentCache();
-        $db->commit();
     }
 
     function setVersion( $version, $set_childs = false )
