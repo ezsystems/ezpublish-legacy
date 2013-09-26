@@ -62,7 +62,7 @@ $pause = 1000; // microseconds, time to wait between heavy operations
 
 if ( !$checkBase && !$checkDFS )
 {
-    $cli->output( 'Nothing to do...' );
+    $cli->warning( 'Specify at least one of -B or -S' );
     $script->showHelp();
     $script->shutdown( 1 );
 }
@@ -78,6 +78,8 @@ if ( $delete &&  $checkDFS )
 
 $cli->output( 'Performing cleanup on directory <' . $checkPath . '>.' );
 
+checkNFS( $checkPath );
+
 if ( $checkBase )
 {
     if ( $delete )
@@ -90,22 +92,40 @@ if ( $checkBase )
     }
 
     $loopRun = true;
-    $limit = $optIterationLimit ? array (0, $optIterationLimit) : false;
-    while ( $loopRun && $files = $fileHandler->getFileList( false, false, $limit, $chekPath ) )
+    $limit = $optIterationLimit ? array( 0, $optIterationLimit ) : false;
+    while ( $loopRun )
     {
+        try
+        {
+            $files = $fileHandler->getFileList( false, false, $limit, $checkPath );
+        }
+        catch ( Exception $e )
+        {
+            abort( "Database error, aborting.\n" . $e->getMessage() );
+        }
+
         foreach ( $files as $file )
         {
             $fh = eZClusterFileHandler::instance( $file );
 
-            if ( !$fh->exists( true ) )
+            try
             {
-                $cli->output( '  - ' . $fh->name() );
-                if ( $delete );
-                // expire the file, and purge it
+                if ( !$fh->exists( true ) )
                 {
-                    $fh->delete();
-                    $fh->purge();
+                    $cli->output( '  - ' . $fh->name() );
+                    checkNFS( $checkPath );
+
+                    // expire the file, and purge it
+                    if ( $delete )
+                    {
+                        $fh->delete();
+                        $fh->purge();
+                    }
                 }
+            }
+            catch ( Exception $e )
+            {
+                abort( "Database error, aborting.\n" . $e->getMessage() );
             }
             usleep( $pause );
         }
@@ -144,13 +164,20 @@ if ( $checkDFS )
         if ( $current->isFile() )
         {
             $relativePath = trim( preg_replace( '@^' . $cleanPregExpr . '@', '', fixWinPath( $filename ) ), '/' );
-            if ( !$fileHandler->fileExists( $relativePath ) )
+            try
             {
-                $cli->output( '  - ' . $relativePath );
-                if ( $delete )
+                if ( !$fileHandler->fileExists( $relativePath ) )
                 {
-                    unlink( $filename );
+                    $cli->output( '  - ' . $relativePath );
+                    if ( $delete )
+                    {
+                        unlink( $filename );
+                    }
                 }
+            }
+            catch ( Exception $e )
+            {
+                abort( "Database error, aborting.\n" . $e->getMessage() );
             }
             usleep( $pause );
         }
@@ -174,4 +201,32 @@ function fixWinPath( $path )
         return str_replace( '\\', '/', $path );
     else
         return $path;
+}
+
+/**
+ * Checks that the NFS share is still available.
+ *
+ * Does so by verifying that $path does exist within the NFS mount point path + $rootPath
+ * @return true
+ */
+function checkNFS( $rootPath )
+{
+    static $path = false;
+
+    if ( !$path )
+    {
+        $dfsBackend = new eZDFSFileHandlerDFSBackend();
+        $path = realpath( $dfsBackend->getMountPoint() ). '/' . $rootPath;
+    }
+
+    if ( !file_exists( $path ) || !is_dir( $path ) )
+    {
+        abort( "DFS mount seems to be gone, aborting" );
+    }
+}
+
+function abort( $message )
+{
+    eZCLI::instance()->error( $message );
+    eZScript::instance()->shutdown( 2 );
 }
