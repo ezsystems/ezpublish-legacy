@@ -335,6 +335,9 @@ class eZModuleOperationInfo
                           &$mementoData, &$bodyCallCount, $operationName, $currentLoopData = null )
     {
         $bodyReturnValue = array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
+
+        $db = eZDB::instance();
+        $transactionCounter = $db->transactionCounter();
         foreach ( $bodyStructure as $body )
         {
             if ( !isset( $body['type'] ) )
@@ -485,24 +488,37 @@ class eZModuleOperationInfo
                             case eZModuleOperationInfo::STATUS_CANCELLED:
                             {
                                 $bodyReturnValue['status'] = eZModuleOperationInfo::STATUS_CANCELLED;
-                                return $bodyReturnValue;
+                                $doReturn = true;
                             }break;
                             case eZModuleOperationInfo::STATUS_HALTED:
                             {
 
                                 $bodyReturnValue['status'] = eZModuleOperationInfo::STATUS_HALTED;
-                                return $bodyReturnValue;
+                                $doReturn = true;
                             }
                             case eZModuleOperationInfo::STATUS_REPEAT:
                             {
 
                                 $bodyReturnValue['status'] = eZModuleOperationInfo::STATUS_REPEAT;
-                                return $bodyReturnValue;
+                                $doReturn = true;
                             }
                         }
                     }else
                     {
                         $bodyReturnValue['status'] = eZModuleOperationInfo::STATUS_CONTINUE;
+                    }
+
+                    if ( $doReturn )
+                    {
+                        $transactionDiff = $db->transactionCounter() - $transactionCounter;
+                        if ( $transactionDiff > 0 )
+                        {
+                            for( $i = 0; $i < $transactionDiff; $i++ )
+                            {
+                                $db->commit();
+                            }
+                        }
+                        return $bodyReturnValue;
                     }
                 } break;
                 case 'method':
