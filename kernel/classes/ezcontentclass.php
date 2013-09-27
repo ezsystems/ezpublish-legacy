@@ -1039,14 +1039,14 @@ You will need to change the class of the node by using the swap functionality.' 
         $handler->setTimestamp( 'sort-key-cache', $time );
         $handler->store();
 
-        eZContentCacheManager::clearAllContentCache();
-
         $this->setAttribute( 'serialized_name_list', $this->NameList->serializeNames() );
         $this->setAttribute( 'serialized_description_list', $this->DescriptionList->serializeNames() );
         parent::store();
         $this->NameList->store( $this );
 
         $db->commit();
+
+        eZContentCacheManager::clearAllContentCache();
     }
 
     function setVersion( $version, $set_childs = false )
