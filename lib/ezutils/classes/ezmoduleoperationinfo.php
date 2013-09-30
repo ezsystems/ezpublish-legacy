@@ -159,6 +159,8 @@ class eZModuleOperationInfo
 
             $this->storeOperationMemento( $operationKeys, $operationParameterDefinitions, $operationParameters, $bodyCallCount, $operationName );
 
+            // Method callback that must be invoked when the operation gets interrupted (trigger, method...)
+            $onInterrupt = isset( $operationDefinition['on-interrupt'] ) ? $operationDefinition['on-interrupt'] : null;
             $runOperation = true;
             if ( $mementoData === null )
             {
@@ -192,7 +194,7 @@ class eZModuleOperationInfo
 
                         $resultArray = $this->executeBody( $callMethod['include_file'], $callMethod['class'], $operationDefinition['body'],
                                                            $operationKeys, $operationParameterDefinitions, $operationParameters,
-                                                           $mementoData, $bodyCallCount, $operationDefinition['name'] );
+                                                           $mementoData, $bodyCallCount, $operationDefinition['name'], null, $onInterrupt );
                         if ( is_array( $resultArray ) )
                         {
                             $lastResultArray = array_merge( $lastResultArray, $resultArray );
@@ -210,7 +212,8 @@ class eZModuleOperationInfo
                 // start  new operation
                 $resultArray = $this->executeBody( $callMethod['include_file'], $callMethod['class'], $operationDefinition['body'],
                                                     $operationKeys, $operationParameterDefinitions, $operationParameters,
-                                                    $mementoData, $bodyCallCount, $operationDefinition['name'] );
+                                                    $mementoData, $bodyCallCount, $operationDefinition['name'],
+                                                    null, $onInterrupt );
             }
 
             if ( is_array( $resultArray ) and
@@ -328,13 +331,15 @@ class eZModuleOperationInfo
      * @param int $bodyCallCount
      * @param string $operationName
      * @param array $currentLoopData
+     * @param array $onInterrupt method array that must be called if the operation is interrupted
      * @return array
      */
     function executeBody( $includeFile, $className, $bodyStructure,
                           $operationKeys, $operationParameterDefinitions, $operationParameters,
-                          &$mementoData, &$bodyCallCount, $operationName, $currentLoopData = null )
+                          &$mementoData, &$bodyCallCount, $operationName, $currentLoopData = null, $onInterrupt = null )
     {
         $bodyReturnValue = array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
+        $interrupt = false;
         foreach ( $bodyStructure as $body )
         {
             if ( !isset( $body['type'] ) )
@@ -469,6 +474,7 @@ class eZModuleOperationInfo
                             $executeTrigger = false;
                         }
                     }
+                    $interrupt = false;
                     if ( $executeTrigger )
                     {
                         $status = $this->executeTrigger( $bodyReturnValue, $body,
@@ -485,19 +491,19 @@ class eZModuleOperationInfo
                             case eZModuleOperationInfo::STATUS_CANCELLED:
                             {
                                 $bodyReturnValue['status'] = eZModuleOperationInfo::STATUS_CANCELLED;
-                                return $bodyReturnValue;
+                                $interrupt = true;
                             }break;
                             case eZModuleOperationInfo::STATUS_HALTED:
                             {
 
                                 $bodyReturnValue['status'] = eZModuleOperationInfo::STATUS_HALTED;
-                                return $bodyReturnValue;
+                                $interrupt = true;
                             }
                             case eZModuleOperationInfo::STATUS_REPEAT:
                             {
 
                                 $bodyReturnValue['status'] = eZModuleOperationInfo::STATUS_REPEAT;
-                                return $bodyReturnValue;
+                                $interrupt = true;
                             }
                         }
                     }else
@@ -540,7 +546,8 @@ class eZModuleOperationInfo
                                     case eZModuleOperationInfo::STATUS_CANCELLED:
                                     case eZModuleOperationInfo::STATUS_HALTED:
                                     {
-                                        return $result;
+                                        $bodyReturnValue = $result;
+                                        $interrupt = true;
                                     } break;
                                 }
                             }
@@ -551,6 +558,22 @@ class eZModuleOperationInfo
                 {
                     eZDebug::writeError( "Unknown operation type $type", __METHOD__ );
                 }
+            }
+
+            if ( $interrupt )
+            {
+                // If the operation defined an interrupt callback, we execute it before returning
+                if ( $onInterrupt )
+                {
+                    $this->executeClassMethod(
+                        $includeFile,
+                        $className,
+                        $onInterrupt['method'],
+                        ( isset( $onInterrupt['parameters'] ) ? $onInterrupt['parameters'] : array() ),
+                        $operationParameters
+                    );
+                }
+                return $bodyReturnValue;
             }
         }
 
