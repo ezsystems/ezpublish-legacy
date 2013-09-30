@@ -16,6 +16,13 @@
 
 class eZContentOperationCollection
 {
+    /**
+     * Used by {@see beginTransaction()} and {@see commitTransaction()} to make sure that we only commit *if*
+     * we are within the operation transaction.
+     * @var bool
+     */
+    private static $transactionStarted = false;
+
     /*!
      Constructor
     */
@@ -110,6 +117,7 @@ class eZContentOperationCollection
     static public function beginTransaction()
     {
         eZDB::instance()->begin();
+        self::$transactionStarted = true;
     }
 
     /**
@@ -117,7 +125,11 @@ class eZContentOperationCollection
      */
     static public function commitTransaction()
     {
-        eZDB::instance()->commit();
+        if ( self::$transactionStarted === true )
+        {
+            eZDB::instance()->commit();
+            self::$transactionStarted = false;
+        }
     }
 
     static public function setVersionStatus( $objectID, $versionNum, $status )
