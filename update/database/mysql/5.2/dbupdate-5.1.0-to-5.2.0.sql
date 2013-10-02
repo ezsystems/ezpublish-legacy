@@ -94,3 +94,9 @@ WHERE
 -- Create the unique key:
 CREATE UNIQUE INDEX ezimagefile_co_attr_id_filepath ON ezimagefile (contentobject_attribute_id, filepath(255));
 -- End EZP-21324
+
+-- Start EZP-21648:
+-- Adding 'priority' and 'is_hidden' columns to the 'eznode_assignment' table
+ALTER TABLE eznode_assignment ADD COLUMN priority int(11) NOT NULL DEFAULT '0';
+ALTER TABLE eznode_assignment ADD COLUMN is_hidden int(11) NOT NULL DEFAULT '0';
+-- End EZP-21648
