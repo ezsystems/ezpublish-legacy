@@ -771,8 +771,12 @@ class eZContentUpload
 
         $mainNode = $object->mainNode();
         $result['contentobject_main_node'] = $mainNode;
-        $result['contentobject_main_node_id'] = $mainNode->attribute( 'node_id' );
-        $this->setResult( array( 'node_id' => $mainNode->attribute( 'node_id' ),
+
+        // The published object may not have a node if publishing was interrupted
+        $mainNodeId = $mainNode ? $mainNode->attribute( 'node_id' ) : 0;
+
+        $result['contentobject_main_node_id'] = $mainNodeId;
+        $this->setResult( array( 'node_id' => $mainNodeId,
                                  'object_id' => $object->attribute( 'id' ),
                                  'object_version' => $publishVersion ) );
 
