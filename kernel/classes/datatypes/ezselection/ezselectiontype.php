@@ -375,7 +375,7 @@ class eZSelectionType extends eZDataType
     function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $selected = $this->objectAttributeContent( $contentObjectAttribute );
-        return !empty( $selected[0] );
+        return isset( $selected[0] ) && $selected[0] != ''; 
     }
 
     function sortKey( $contentObjectAttribute )
