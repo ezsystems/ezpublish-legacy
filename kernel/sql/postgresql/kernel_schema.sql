@@ -2018,7 +2018,9 @@ CREATE TABLE eznode_assignment (
     parent_remote_id character varying(100) DEFAULT ''::character varying NOT NULL,
     remote_id character varying(100) DEFAULT '0'::character varying NOT NULL,
     sort_field integer DEFAULT 1,
-    sort_order integer DEFAULT 1
+    sort_order integer DEFAULT 1,
+    priority integer DEFAULT 0 NOT NULL,
+    is_hidden integer DEFAULT 0 NOT NULL
 );
 
 
