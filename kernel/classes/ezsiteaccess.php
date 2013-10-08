@@ -375,12 +375,30 @@ class eZSiteAccess
 
             if ( isset( $name ) && $name != '' )
             {
-                $name = preg_replace( array( '/[^a-zA-Z0-9]+/', '/_+/', '/^_/', '/_$/' ),
+                $nameClean = preg_replace( array( '/[^a-zA-Z0-9]+/', '/_+/', '/^_/', '/_$/' ),
                                       array( '_', '_', '', '' ),
                                       $name );
-
-                if ( in_array( $name, $siteAccessList ) )
+                
+                if ( in_array( $nameClean, $siteAccessList ) )
                 {
+                    if ( $nameClean !== $name )
+                    {
+                        if ( !$ini->hasVariable( 'SiteAccessSettings', 'NormalizeSANames' ) || $ini->variable( 'SiteAccessSettings', 'NormalizeSANames' ) == 'enabled' )
+                        {
+                            $name = $nameClean;
+                            if ( $ini->hasVariable( 'SiteAccessSettings', 'FeedbackOnNormalize' ) && $ini->variable( 'SiteAccessSettings', 'FeedbackOnNormalize' ) == 'enabled' )
+                            {
+                                header( $_SERVER['SERVER_PROTOCOL'] .  " 301 Moved Permanently" );
+                                header( "Status: 301 Moved Permanently" );
+                                $uriSlice = $uri->URIArray;
+                                array_shift( $uriSlice );
+                                $newUri = $name . '/' . implode( '/' , $uriSlice );
+                                $location = eZSys::indexDir() . "/" . eZURI::encodeIRI( $newUri );
+                                header( "Location: " . $location );
+                                eZExecution::cleanExit();
+                            }
+                        }
+                    }
                     if ( $type == eZSiteAccess::TYPE_URI )
                     {
                         if ( $match_type == 'element' )
