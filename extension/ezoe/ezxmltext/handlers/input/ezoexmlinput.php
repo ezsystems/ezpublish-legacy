@@ -1806,13 +1806,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 $protocol = 'http';
 
                 // Default to https if SSL is enabled
-                // Check if SSL port is defined in site.ini
-                $sslPort = 443;
-                $ini = eZINI::instance();
-                if ( $ini->hasVariable( 'SiteSettings', 'SSLPort' ) )
-                    $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
-
-                if ( eZSys::serverPort() == $sslPort )
+                if ( eZSys::isSSLNow() )
                     $protocol = 'https';
 
                 self::$serverURL = $protocol . '://' . $domain . eZSys::wwwDir();
