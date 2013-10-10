@@ -544,17 +544,9 @@ class eZHTTPTool
         if ( !is_string( $protocol ) )
         {
             $protocol = 'http';
+
             // Default to https if SSL is enabled
-
-            // Check if SSL port is defined in site.ini
-            $ini = eZINI::instance();
-            $sslPort = 443;
-            if ( $ini->hasVariable( 'SiteSettings', 'SSLPort' ) )
-            {
-                $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
-            }
-
-            if ( eZSys::serverPort() == $sslPort )
+            if ( eZSys::isSSLNow() )
             {
                 $protocol = 'https';
                 $port = false;
