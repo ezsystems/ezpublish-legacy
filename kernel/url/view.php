@@ -47,15 +47,7 @@ else
     $domain = getenv( 'HTTP_HOST' );
     $protocol = 'http';
 
-    // Check if SSL port is defined in site.ini
-    $ini = eZINI::instance();
-    $sslPort = 443;
-    if ( $ini->hasVariable( 'SiteSettings', 'SSLPort' ) )
-    {
-        $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
-    }
-
-    if ( eZSys::serverPort() == $sslPort )
+    if ( eZSys::isSSLNow() )
     {
         $protocol = 'https';
     }
