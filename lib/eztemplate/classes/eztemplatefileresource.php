@@ -97,7 +97,7 @@ class eZTemplateFileResource
                 self::$checkFileMtime = true;
 
             if ( $ini->variable( 'TemplateSettings', 'DevelopmentMode' ) === 'enabled' )
-                self::$checkFileExists = true;
+                self::$checkFileMtime = true;
         }
 
         return self::$checkFileMtime;
@@ -244,7 +244,6 @@ class eZTemplateFileResource
         else
             $tstamp = false;
 
-        $tstamp = filemtime( $path );
         $result = false;
         $canCache = true;
         $templateRoot = null;
