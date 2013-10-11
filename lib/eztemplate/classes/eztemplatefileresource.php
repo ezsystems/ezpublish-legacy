@@ -20,7 +20,7 @@ class eZTemplateFileResource
 {
     /**
      * Set site.ini[TemplateSettings]TemplateCheckExists value to disabled to improve performance by
-     * not checking modified time on template files.
+     * not checking existence of template files.
      *
      * @var null|bool
      */
