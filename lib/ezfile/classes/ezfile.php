@@ -151,7 +151,14 @@ class eZFile
             eZDir::mkdir( dirname( $destFile ), false, true );
         }
 
-        $status = rename( $srcFile, $destFile );
+        if ( file_exists( $srcFile ) )
+        {
+            $status = rename( $srcFile, $destFile );
+        }
+        else
+        {
+            $status = false;
+        }
         // Rename operation failed, check $flags to know what to do then
         if ( $status === false )
         {
