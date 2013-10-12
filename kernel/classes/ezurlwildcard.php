@@ -429,8 +429,6 @@ class eZURLWildcard extends eZPersistentObject
      * Assign function names to input variables. Generates the wildcard cache if
      * expired.
      *
-     * @param $regexpArrayCallback function to get an array of regexps
-     *
      * @return array The wildcards index, as an array of regexps
      */
     protected static function wildcardsIndex()
@@ -440,16 +438,16 @@ class eZURLWildcard extends eZPersistentObject
             $cacheIndexFile = self::loadCacheFile();
 
             // if NULL is returned, the cache doesn't exist or isn't valid
-            $wildcardsIndex = $cacheIndexFile->processFile( array( __CLASS__, 'fetchCacheFile' ), self::expiryTimestamp() );
-            if ( $wildcardsIndex === null )
+            self::$wildcardsIndex = $cacheIndexFile->processFile( array( __CLASS__, 'fetchCacheFile' ), self::expiryTimestamp() );
+            if ( self::$wildcardsIndex === null )
             {
                 // This will generate and return the index, and store the cache
                 // files for the different wildcards for later use
-                $wildcardsIndex = self::createWildcardsIndex();
+                self::$wildcardsIndex = self::createWildcardsIndex();
             }
         }
 
-        return $wildcardsIndex;
+        return self::$wildcardsIndex;
     }
 
     /**
@@ -462,7 +460,8 @@ class eZURLWildcard extends eZPersistentObject
      *   ...
      *   'wildcard_<md5>_N.php': contains cached wildcards.
      * Each file has info about eZURLWildcard::WILDCARDS_PER_CACHE_FILE wildcards.
-     * @return void
+     *
+     * @return array
      */
     protected static function createWildcardsIndex()
     {
