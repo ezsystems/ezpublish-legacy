@@ -186,7 +186,8 @@ class eZFSFileHandler
         eZFile::create( basename( $filePath ), dirname( $filePath ), $contents, true );
 
         $perm = eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' );
-        chmod( $filePath, octdec( $perm ) );
+        if ( file_exists( $filePath ) )
+            chmod( $filePath, octdec( $perm ) );
 
         eZDebug::accumulatorStop( 'dbfile' );
     }
@@ -211,7 +212,8 @@ class eZFSFileHandler
 
         eZFile::create( basename( $filePath ), dirname( $filePath ), $contents, true );
         $perm = eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' );
-        chmod( $filePath, octdec( $perm ) );
+        if ( file_exists( $filePath ) )
+            chmod( $filePath, octdec( $perm ) );
 
         eZDebug::accumulatorStop( 'dbfile' );
     }

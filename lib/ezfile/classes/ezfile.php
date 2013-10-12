@@ -60,21 +60,23 @@ class eZFile
                 $dirname .= "/";
             $filepath = $dirname . "ezfile-tmp." . md5( $filepath . getmypid() . mt_rand() );
         }
-
-        $file = fopen( $filepath, 'wb' );
-        if ( $file )
+        if ( file_exists( $filepath ) )
         {
-//             eZDebugSetting::writeNotice( 'ezfile-create', "Created file $filepath", 'eZFile::create' );
-            if ( $data )
-                fwrite( $file, $data );
-            fclose( $file );
-
-            if ( $atomic )
+            $file = fopen( $filepath, 'wb' );
+            if ( $file )
             {
-                // If the renaming process fails, delete the temporary file
-                eZFile::rename( $filepath, $realpath, false, eZFile::CLEAN_ON_FAILURE );
+//             eZDebugSetting::writeNotice( 'ezfile-create', "Created file $filepath", 'eZFile::create' );
+                if ( $data )
+                    fwrite( $file, $data );
+                fclose( $file );
+
+                if ( $atomic )
+                {
+                    // If the renaming process fails, delete the temporary file
+                    eZFile::rename( $filepath, $realpath, false, eZFile::CLEAN_ON_FAILURE );
+                }
+                return true;
             }
-            return true;
         }
 //         eZDebugSetting::writeNotice( 'ezfile-create', "Failed creating file $filepath", 'eZFile::create' );
         return false;
