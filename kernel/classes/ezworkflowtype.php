@@ -30,8 +30,15 @@ class eZWorkflowType
     const STATUS_REDIRECT_REPEAT = 11;
     const STATUS_WORKFLOW_RESET = 12;
 
-    function eZWorkflowType( $group, $type,
-                             $groupName, $name )
+    /**
+     * Constructor
+     *
+     * @param string $group
+     * @param string $type
+     * @param string $groupName
+     * @param string $name
+     */
+    public function __construct( $group, $type, $groupName, $name )
     {
         $this->Group = $group;
         $this->Type = $type;
@@ -48,6 +55,18 @@ class eZWorkflowType
         $this->Attributes["name"] =& $this->Name;
         $this->Attributes["information"] =& $this->Information;
         $this->Attributes["activation_date"] =& $this->ActivationDate;
+    }
+
+    /**
+     * @deprecated Use eZWorkflowType::__construct() instead
+     * @param string $group
+     * @param string $type
+     * @param string $groupName
+     * @param string $name
+     */
+    public function eZWorkflowType( $group, $type, $groupName, $name )
+    {
+        self::__construct( $group, $type, $groupName, $name );
     }
 
     static function statusName( $status )
