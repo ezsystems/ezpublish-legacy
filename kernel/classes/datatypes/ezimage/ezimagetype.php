@@ -333,25 +333,6 @@ class eZImageType extends eZDataType
         }
     }
 
-    public function postStore( $objectAttribute )
-    {
-        $objectAttributeId = $objectAttribute->attribute( "id" );
-
-        if ( ( $doc = simplexml_load_string( $objectAttribute->attribute( "data_text" ) ) ) === false )
-            return;
-
-        // Creates ezimagefile entries
-        foreach ( $doc->xpath( "//*/@url" ) as $url )
-        {
-            $url = (string)$url;
-
-            if ( $url === "" )
-                continue;
-
-            eZImageFile::create( $objectAttributeId, $url )->store();
-        }
-    }
-
     /*!
      HTTP file insertion is supported.
     */
@@ -453,7 +434,6 @@ class eZImageType extends eZDataType
         {
             $imageHandler = $contentObjectAttribute->attribute( 'content' );
             $mainNode = false;
-            $cleanupNeeded = false;
             foreach ( array_keys( $publishedNodes ) as $publishedNodeKey )
             {
                 $publishedNode = $publishedNodes[$publishedNodeKey];
@@ -471,18 +451,12 @@ class eZImageType extends eZDataType
                 {
                     $name = $imageHandler->imageNameByNode( $contentObjectAttribute, $mainNode );
                     $imageHandler->updateAliasPath( $dirpath, $name );
-                    $cleanupNeeded = true;
                 }
             }
             if ( $imageHandler->isStorageRequired() )
             {
                 $imageHandler->store( $contentObjectAttribute );
                 $contentObjectAttribute->store();
-
-                if ( $cleanupNeeded )
-                {
-                    eZImageFile::cleanupDataAfterAliasPathUpdate( $contentObjectAttribute );
-                }
             }
         }
     }
