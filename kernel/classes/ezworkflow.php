@@ -28,11 +28,6 @@ class eZWorkflow extends eZPersistentObject
     const STATUS_WAITING_PARENT = 9;
     const STATUS_FETCH_TEMPLATE_REPEAT = 10;
 
-    function eZWorkflow( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',

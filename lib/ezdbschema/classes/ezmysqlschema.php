@@ -17,17 +17,6 @@
 
 class eZMysqlSchema extends eZDBSchemaInterface
 {
-
-    /*!
-     Constructor
-
-     \param db instance
-    */
-    function eZMysqlSchema( $params )
-    {
-        $this->eZDBSchemaInterface( $params );
-    }
-
     function schema( $params = array() )
     {
         $params = array_merge( array( 'meta_data' => false,

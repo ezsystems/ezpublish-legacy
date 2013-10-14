@@ -20,11 +20,6 @@
 
 class eZInformationCollection extends eZPersistentObject
 {
-    function eZInformationCollection( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     /*!
      \return the persistent object definition for the eZInformationCollection class.
     */

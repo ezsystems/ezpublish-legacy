@@ -17,14 +17,6 @@
 
 class eZForgotPassword extends eZPersistentObject
 {
-    /*!
-     Constructor
-    */
-    function eZForgotPassword( $row = array() )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',

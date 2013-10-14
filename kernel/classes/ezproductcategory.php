@@ -16,11 +16,6 @@
 
 class eZProductCategory extends eZPersistentObject
 {
-    function eZProductCategory( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',

@@ -16,14 +16,6 @@
 
 class eZNotificationCollectionItem extends eZPersistentObject
 {
-    /*!
-     Constructor
-    */
-    function eZNotificationCollectionItem( $row = array() )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',

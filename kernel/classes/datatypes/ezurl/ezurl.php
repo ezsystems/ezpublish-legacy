@@ -21,11 +21,6 @@
 
 class eZURL extends eZPersistentObject
 {
-    function eZURL( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         static $definition = array( 'fields' => array( 'id' => array( 'name' => 'ID',

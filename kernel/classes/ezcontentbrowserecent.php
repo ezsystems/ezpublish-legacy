@@ -32,11 +32,6 @@ eZContentBrowseRecent::fetchListForUser( $userID )
 */
 class eZContentBrowseRecent extends eZPersistentObject
 {
-    function eZContentBrowseRecent( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',

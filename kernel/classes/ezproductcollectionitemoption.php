@@ -10,18 +10,6 @@
 
 class eZProductCollectionItemOption extends eZPersistentObject
 {
-    /**
-     * Initialized an eZProductCollectionItemOption object with the given
-     * attribute array
-     *
-     * @param array $row Array of object attributes
-     */
-    function eZProductCollectionItemOption( $row )
-    {
-        $this->eZPersistentObject( $row );
-
-    }
-
     static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',

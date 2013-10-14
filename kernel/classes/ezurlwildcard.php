@@ -49,15 +49,6 @@ class eZURLWildcard extends eZPersistentObject
      */
     protected static $wildcardsIndex = null;
 
-    /**
-     * Initializes a new URL alias persistent object
-     * @param array $row
-     */
-    public function eZURLWildcard( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     public static function definition()
     {
         static $definition = array( "fields" => array( "id" => array( 'name' => 'ID',

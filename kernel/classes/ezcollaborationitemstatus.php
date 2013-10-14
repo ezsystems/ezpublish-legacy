@@ -16,14 +16,6 @@
 
 class eZCollaborationItemStatus extends eZPersistentObject
 {
-    /*!
-     Constructor
-    */
-    function eZCollaborationItemStatus( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( 'fields' => array( 'collaboration_id' => array( 'name' => 'CollaborationID',

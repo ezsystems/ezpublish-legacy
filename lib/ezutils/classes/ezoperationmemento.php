@@ -16,14 +16,6 @@
 
 class eZOperationMemento extends eZPersistentObject
 {
-    /*!
-     Constructor
-    */
-    function eZOperationMemento( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
