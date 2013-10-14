@@ -41,10 +41,10 @@ Matched $c
 
 class eZTemplateSwitchFunction
 {
-    /*!
-     Initializes the function with the name $name, default is "switch".
-    */
-    function eZTemplateSwitchFunction()
+    /**
+     * Initializes the function with the name $name, default is "switch".
+     */
+    public function __construct()
     {
         $this->SwitchName = 'switch';
     }

@@ -45,9 +45,9 @@ class eZUser extends eZPersistentObject
 
     protected static $anonymousId = null;
 
-    function eZUser( $row = array() )
+    public function __construct( $row = array() )
     {
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
         $this->OriginalPassword = false;
         $this->OriginalPasswordConfirm = false;
     }
@@ -1146,7 +1146,7 @@ WHERE user_id = '" . $userID . "' AND
                             $userId = $currentUser->attribute( 'contentobject_id' );
 
                             $userInfo = array();
-                            $userInfo[$userId] = array( 
+                            $userInfo[$userId] = array(
                                 'contentobject_id' => $userId,
                                 'login' => $currentUser->attribute( 'login' ),
                                 'email' => $currentUser->attribute( 'email' ),
@@ -1166,7 +1166,7 @@ WHERE user_id = '" . $userID . "' AND
                     {
                         eZDebug::writeError( "Undefined ssoHandler class: $className", __METHOD__ );
                     }
-                }                
+                }
             }
         }
 

@@ -17,7 +17,7 @@ class eZExchangeRatesUpdateHandler
     const UNKNOWN_BASE_CURRENCY = 4;
     const INVALID_BASE_CROSS_RATE = 5;
 
-    function eZExchangeRatesUpdateHandler()
+    public function __construct()
     {
         $this->RateList = false;
         $this->BaseCurrency = false;

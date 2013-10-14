@@ -54,11 +54,13 @@
 
 class eZTemplateAttributeOperator
 {
-    /*!
-     Initializes the object with the name $attributeName, default is "attribute" and $dumpName, default is 'dump'
-    */
-    function eZTemplateAttributeOperator( $attributeName = 'attribute',
-                                          $dumpName = 'dump' )
+    /**
+     * Initializes the object with the name $attributeName, default is "attribute" and $dumpName, default is 'dump'
+     *
+     * @param string $attributeName
+     * @param string $dumpName
+     */
+    public function __construct( $attributeName = 'attribute', $dumpName = 'dump' )
     {
         $this->AttributeName = $attributeName;
         $this->DumpName = $dumpName;

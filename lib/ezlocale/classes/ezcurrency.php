@@ -31,11 +31,13 @@
 
 class eZCurrency
 {
-    /*!
-     Creates a new eZCurrency object with the currency value $value. $value can be a numerical
-     value or an eZCurrency object in which case the value is extracted and copied.
-    */
-    function eZCurrency( $value )
+    /**
+     * Creates a new eZCurrency object with the currency value $value. $value can be a numerical
+     * value or an eZCurrency object in which case the value is extracted and copied.
+     *
+     * @param eZCurrency|number $value
+     */
+    public function __construct( $value )
     {
         if ( $value instanceof eZCurrency )
         {

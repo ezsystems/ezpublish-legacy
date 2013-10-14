@@ -24,10 +24,12 @@
 
 class eZTemplateRoot
 {
-    /*!
-     Initializes the object.
-    */
-    function eZTemplateRoot( $children = array() )
+    /**
+     * Constructor
+     *
+     * @param array $children
+     */
+    public function __construct( $children = array() )
     {
         $this->Children = $children;
     }

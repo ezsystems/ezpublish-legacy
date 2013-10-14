@@ -32,10 +32,10 @@ class eZSOAPEnvelope
     const INT = 1;
     const STRING = 2;
 
-    /*!
-      Constructs a new SOAP envelope object.
-    */
-    function eZSOAPEnvelope( )
+    /**
+     * Constructs a new SOAP envelope object.
+     */
+    public function __construct( )
     {
         $this->Header = new eZSOAPHeader();
         $this->Body = new eZSOAPBody();

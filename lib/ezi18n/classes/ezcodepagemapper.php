@@ -18,10 +18,14 @@ class eZCodePageMapper
 {
     const CACHE_CODE_DATE = 1026316422;
 
-    /*!
-     Constructor
-    */
-    function eZCodePageMapper( $input_charset_code, $output_charset_code, $use_cache = true )
+    /**
+     * Constructor
+     *
+     * @param string $input_charset_code
+     * @param string $output_charset_code
+     * @param bool $use_cache
+     */
+    public function __construct( $input_charset_code, $output_charset_code, $use_cache = true )
     {
         $this->RequestedInputCharsetCode = $input_charset_code;
         $this->InputCharsetCode = eZCharsetInfo::realCharsetCode( $input_charset_code );

@@ -28,13 +28,9 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     const UNINSTALL_OBJECTS_ERROR_RANGE_FROM = 101;
     const UNINSTALL_OBJECTS_ERROR_RANGE_TO = 200;
 
-    /*!
-     Constructor
-    */
-    function eZContentObjectPackageHandler()
+    public function __construct()
     {
-        $this->eZPackageHandler( 'ezcontentobject',
-                                 array( 'extract-install-content' => true ) );
+        parent::__construct( 'ezcontentobject', array( 'extract-install-content' => true ) );
     }
 
     /*!

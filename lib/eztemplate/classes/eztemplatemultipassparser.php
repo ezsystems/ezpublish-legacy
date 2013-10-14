@@ -16,10 +16,7 @@
 
 class eZTemplateMultiPassParser extends eZTemplateParser
 {
-    /*!
-     Constructor
-    */
-    function eZTemplateMultiPassParser()
+    public function __construct()
     {
         $this->ElementParser = eZTemplateElementParser::instance();
     }

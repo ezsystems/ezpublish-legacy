@@ -31,9 +31,9 @@ class eZApproveType extends eZWorkflowEventType
     const VERSION_OPTION_EXCEPT_FIRST = 2;
     const VERSION_OPTION_ALL = 3;
 
-    function eZApproveType()
+    public function __construct()
     {
-        $this->eZWorkflowEventType( eZApproveType::WORKFLOW_TYPE_STRING, ezpI18n::tr( 'kernel/workflow/event', "Approve" ) );
+        parent::__construct( eZApproveType::WORKFLOW_TYPE_STRING, ezpI18n::tr( 'kernel/workflow/event', "Approve" ) );
         $this->setTriggerTypes( array( 'content' => array( 'publish' => array( 'before' ) ) ) );
     }
 

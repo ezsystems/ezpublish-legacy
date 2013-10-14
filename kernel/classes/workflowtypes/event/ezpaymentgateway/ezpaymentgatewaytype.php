@@ -22,15 +22,11 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     const GATEWAY_NOT_SELECTED = 0;
     const GATEWAY_SELECTED = 1;
 
-    /*!
-    Constructor.
-    */
-
-    function eZPaymentGatewayType()
+    public function __construct()
     {
-        $this->logger   = eZPaymentLogger::CreateForAdd( "var/log/eZPaymentGatewayType.log" );
+        $this->logger = eZPaymentLogger::CreateForAdd( "var/log/eZPaymentGatewayType.log" );
 
-        $this->eZWorkflowEventType( eZPaymentGatewayType::WORKFLOW_TYPE_STRING, ezpI18n::tr( 'kernel/workflow/event', "Payment Gateway" ) );
+        parent::__construct( eZPaymentGatewayType::WORKFLOW_TYPE_STRING, ezpI18n::tr( 'kernel/workflow/event', "Payment Gateway" ) );
         $this->loadAndRegisterGateways();
     }
 

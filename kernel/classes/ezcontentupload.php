@@ -50,11 +50,13 @@ class eZContentUpload
 
     const STATUS_PERMISSION_DENIED = 1;
 
-    /*!
-     Initializes the object with the session data if they are found.
-     If \a $params is supplied it used instead.
-    */
-    function eZContentUpload( $params = false )
+    /**
+     * Initializes the object with the session data if they are found.
+     * If $params is supplied it is used instead.
+     *
+     * @param bool $params
+     */
+    public function __construct( $params = false )
     {
         $http = eZHTTPTool::instance();
         if ( !$params && $http->hasSessionVariable( 'ContentUploadParameters' ) )

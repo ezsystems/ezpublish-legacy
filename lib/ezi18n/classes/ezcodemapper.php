@@ -21,10 +21,7 @@ class eZCodeMapper
     const TYPE_RANGE = 2;
     const TYPE_REPLACE = 3;
 
-    /*!
-     Constructor
-    */
-    function eZCodeMapper()
+    public function __construct()
     {
         $this->TransformationTables = array();
         $this->TransformationFiles = array();

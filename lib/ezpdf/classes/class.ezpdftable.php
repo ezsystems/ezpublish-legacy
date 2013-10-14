@@ -26,11 +26,16 @@ class eZPDFTable extends Cezpdf
     const HEADER_LEVEL_INDEX = '#indexLevel';
 
     /**
-     Constructor. This class is only used to encapsulate a table.
-    */
+     * Constructor
+     *
+     * This class is only used to encapsulate a table.
+     *
+     * @param string $paper
+     * @param string $orientation
+     */
     function eZPDFTable($paper='a4',$orientation='portrait')
     {
-        $this->Cezpdf($paper, $orientation);
+        parent::__construct( $paper, $orientation );
         $this->TOC = array();
         $this->KeywordArray = array();
         $this->PageCounter = array();

@@ -24,10 +24,16 @@ class eZCollaborationItemHandler
     const NOTIFICATION_COLLECTION_PER_PARTICIPATION_ROLE = 3;
 
     /*!
-     Initializes the handler with identifier and name.
-     Optional parameters can be placed in \a $parameters.
+
     */
-    function eZCollaborationItemHandler( $typeIdentifier, $typeName, $parameters = array() )
+    /**
+     * Initializes the handler with identifier and name and optional parameters
+     *
+     * @param string $typeIdentifier
+     * @param string $typeName
+     * @param array $parameters
+     */
+    public function __construct( $typeIdentifier, $typeName, $parameters = array() )
     {
         $parameters = array_merge( array( 'use-messages' => false,
                                           'type-class-list' => array(),

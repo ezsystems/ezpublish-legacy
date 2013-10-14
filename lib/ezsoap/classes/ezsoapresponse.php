@@ -17,16 +17,18 @@
 
 class eZSOAPResponse extends eZSOAPEnvelope
 {
-    /*!
-      Constructs a new SOAP response
-    */
-    function eZSOAPResponse( $name="", $namespace="" )
+    /**
+     * Constructs a new SOAP response
+     *
+     * @param string $name
+     * @param string $namespace
+     */
+    public function __construct( $name="", $namespace="" )
     {
         $this->Name = $name;
         $this->Namespace = $namespace;
 
-        // call the parents constructor
-        $this->eZSOAPEnvelope();
+        parent::__construct();
     }
 
     /*!

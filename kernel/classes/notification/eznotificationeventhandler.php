@@ -20,11 +20,14 @@ class eZNotificationEventHandler
     const EVENT_SKIPPED = 1;
     const EVENT_UNKNOWN = 2;
     const EVENT_ERROR = 3;
-
-    /*!
-     Constructor
-    */
-    function eZNotificationEventHandler( $idString, $name )
+    
+    /**
+     * Constructor
+     *
+     * @param string $idString
+     * @param string $name
+     */
+    public function __construct( $idString, $name )
     {
         $this->IDString = $idString;
         $this->Name = $name;

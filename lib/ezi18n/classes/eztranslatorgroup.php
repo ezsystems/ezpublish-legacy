@@ -17,12 +17,9 @@
 
 class eZTranslatorGroup extends eZTranslatorHandler
 {
-    /*!
-     Constructor
-    */
-    function eZTranslatorGroup( $is_key_based )
+    public function __construct( $is_key_based )
     {
-        $this->eZTranslatorHandler( $is_key_based );
+        parent::__construct( $is_key_based );
         $this->Handlers = array();
     }
 

@@ -18,10 +18,14 @@
 // if ( !class_exists( 'eZXMLSchema' ) )
 class eZXMLOutputHandler
 {
-    /*!
-     Constructor
-    */
-    function eZXMLOutputHandler( $xmlData, $aliasedType, $contentObjectAttribute = null )
+    /**
+     * Constructor
+     *
+     * @param string $xmlData
+     * @param string $aliasedType
+     * @param eZContentObjectAttribute|null $contentObjectAttribute
+     */
+    public function __construct( $xmlData, $aliasedType, $contentObjectAttribute = null )
     {
         $this->XMLData = $xmlData;
         $this->AliasedHandler = null;

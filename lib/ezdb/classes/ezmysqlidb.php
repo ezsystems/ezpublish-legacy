@@ -22,12 +22,14 @@ class eZMySQLiDB extends eZDBInterface
     const RELATION_FOREIGN_KEY = 5;
     const RELATION_FOREIGN_KEY_BIT = 32;
 
-    /*!
-      Create a new eZMySQLiDB object and connects to the database backend.
-    */
-    function eZMySQLiDB( $parameters )
+    /**
+     * Create a new eZMySQLiDB object and connects to the database backend.
+     *
+     * @param array $parameters
+     */
+    public function __construct( $parameters )
     {
-        $this->eZDBInterface( $parameters );
+        parent::__construct( $parameters );
 
         if ( !extension_loaded( 'mysqli' ) )
         {

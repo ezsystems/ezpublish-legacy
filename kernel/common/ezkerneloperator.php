@@ -15,10 +15,12 @@
 */
 class eZKernelOperator
 {
-    /*!
-     Initializes the object with the name $name
-    */
-    function eZKernelOperator( $name = "ezpreference" )
+    /**
+     * Constructor
+     *
+     * @param string $name
+     */
+    public function __construct( $name = "ezpreference" )
     {
         $this->Operators = array( $name );
     }

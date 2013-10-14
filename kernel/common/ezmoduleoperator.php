@@ -17,10 +17,12 @@
 
 class eZModuleOperator
 {
-    /*!
-     Constructor
-    */
-    function eZModuleOperator( $name = 'ezmodule' )
+    /**
+     * Constructor
+     *
+     * @param string $name
+     */
+    public function __construct( $name = 'ezmodule' )
     {
         $this->Operators = array( $name );
     }

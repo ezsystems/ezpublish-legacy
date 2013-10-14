@@ -17,10 +17,12 @@
 
 class eZTranslatorHandler
 {
-    /*!
-     Constructor
-    */
-    function eZTranslatorHandler( $is_key_based )
+    /**
+     * Constructor
+     *
+     * @param bool $is_key_based
+     */
+    public function __construct( $is_key_based )
     {
         $this->IsKeyBased = $is_key_based;
     }

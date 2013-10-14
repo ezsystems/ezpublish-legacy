@@ -40,7 +40,7 @@ class eZStepInstaller
      * @param string $identifier
      * @param string $name
      */
-    function eZStepInstaller( eZTemplate $tpl, eZHTTPTool $http, eZINI $ini, array &$persistenceList,
+    public function __construct( eZTemplate $tpl, eZHTTPTool $http, eZINI $ini, array &$persistenceList,
                               $identifier, $name )
     {
         $this->Tpl = $tpl;

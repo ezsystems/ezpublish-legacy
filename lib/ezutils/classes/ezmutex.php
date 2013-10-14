@@ -18,14 +18,11 @@ class eZMutex
 {
     const STEAL_STRING = '_eZMutex_Steal';
 
-    /*!
-     Constructor. Creates a mutex object for
-     mutext <name>. The mutex is file based, and a
-     mutex is valid across PHP processes.
-
-     \param mutex name
-    */
-    function eZMutex( $name )
+    /**
+     * Creates a mutex object for mutext <name>. The mutex is file based, and valid across PHP processes.
+     * @param string $name
+     */
+    public function __construct( $name )
     {
         $this->Name = md5( $name );
         $mutexPath = eZDir::path( array( eZSys::cacheDirectory(),

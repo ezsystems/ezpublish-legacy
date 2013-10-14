@@ -25,7 +25,7 @@ class eZHTTPTool
     /*!
      Initializes the class. Use eZHTTPTool::instance to get a single instance.
     */
-    function eZHTTPTool()
+    public function __construct()
     {
         $this->UseFullUrl = false;
     }

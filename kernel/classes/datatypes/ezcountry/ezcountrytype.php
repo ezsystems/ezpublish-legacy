@@ -27,9 +27,9 @@ class eZCountryType extends eZDataType
 
     const MULTIPLE_CHOICE_FIELD = 'data_int1';
 
-    function eZCountryType()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'Country', 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'Country', 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_text' => 'country' ) ) );
     }

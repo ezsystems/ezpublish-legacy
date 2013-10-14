@@ -27,9 +27,9 @@ class eZMultiPriceType extends eZDataType
     const INCLUDED_VAT = 1;
     const EXCLUDED_VAT = 2;
 
-    function eZMultiPriceType()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'Multi-price', 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'Multi-price', 'Datatype name' ),
                             array( 'serialize_supported' => true ) );
     }
 

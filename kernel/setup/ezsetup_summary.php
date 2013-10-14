@@ -16,15 +16,13 @@
 
 class eZSetupSummary
 {
-    /*!
-     Constructor
-
-     Create new object for generating summary
-
-     \param template
-     \param persistence list
-    */
-    function eZSetupSummary( $tpl, &$persistenceList )
+    /**
+     * Creates a new object for generating summary
+     *
+     * @param eZTemplate $tpl
+     * @param array $persistenceList
+     */
+    public function __construct( $tpl, &$persistenceList )
     {
         $this->Tpl =& $tpl;
         $this->PersistenceList =& $persistenceList;

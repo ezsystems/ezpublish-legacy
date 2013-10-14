@@ -23,9 +23,9 @@ class eZTimeType extends eZDataType
     const DEFAULT_EMTPY = 0;
     const DEFAULT_CURRENT_DATE = 1;
 
-    function eZTimeType()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Time", 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Time", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

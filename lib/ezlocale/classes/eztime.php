@@ -72,11 +72,12 @@ class eZTime
     */
     const SECONDS_A_DAY = 86400; // 24*60*60
 
-    /*!
-     Creates a new time object with default locale, if $time is not supplied
-     the current time is used.
-    */
-    function eZTime( $timestamp = false )
+    /**
+     * Creates a new time object with default locale, if $time is not supplied the current time is used.
+     *
+     * @param int|bool $timestamp
+     */
+    public function __construct( $timestamp = false )
     {
         if ( $timestamp === false )
         {

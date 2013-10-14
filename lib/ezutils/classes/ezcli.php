@@ -31,10 +31,10 @@ class eZCLI
 {
     const TERMINAL_ENDOFLINE_STRING = "\n";
 
-    /*!
-     Initializes object and detects if the CLI is used.
-    */
-    function eZCLI()
+    /**
+     * Initializes object and detects if the CLI is used.
+     */
+    public function __construct()
     {
         $endl = "<br/>";
         $webOutput = true;

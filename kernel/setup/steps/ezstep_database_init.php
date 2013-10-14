@@ -16,13 +16,17 @@
 
 class eZStepDatabaseInit extends eZStepInstaller
 {
-    /*!
-     Constructor
-    */
-    function eZStepDatabaseInit( $tpl, $http, $ini, &$persistenceList )
+    /**
+     * Constructor
+     *
+     * @param eZTemplate $tpl
+     * @param eZHTTPTool $http
+     * @param eZINI $ini
+     * @param array $persistenceList
+     */
+    public function __construct( $tpl, $http, $ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
-                                'database_init', 'Database init' );
+        parent::__construct( $tpl, $http, $ini, $persistenceList, 'database_init', 'Database init' );
     }
 
     function processPostData()

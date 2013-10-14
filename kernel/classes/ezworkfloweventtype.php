@@ -16,9 +16,25 @@
 
 class eZWorkflowEventType extends eZWorkflowType
 {
-    function eZWorkflowEventType( $typeString, $name )
+    /**
+     * Constructor
+     *
+     * @param string $typeString
+     * @param string $name
+     */
+    public function __construct( $typeString, $name )
     {
-        $this->eZWorkflowType( "event", $typeString, ezpI18n::tr( 'kernel/workflow/event', "Event" ), $name );
+        parent::__construct( "event", $typeString, ezpI18n::tr( 'kernel/workflow/event', "Event" ), $name );
+    }
+
+    /**
+     * @deprecated
+     * @param string $typeString
+     * @param string $name
+     */
+    public function eZWorkflowEventType( $typeString, $name )
+    {
+        self::__construct( $typeString, $name );
     }
 
     static function registerEventType( $typeString, $class_name )

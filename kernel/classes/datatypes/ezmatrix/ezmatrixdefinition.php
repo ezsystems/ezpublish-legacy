@@ -17,10 +17,10 @@
 
 class eZMatrixDefinition
 {
-    /*!
-     Constructor
-    */
-    function eZMatrixDefinition()
+    /**
+     * Constructor
+     */
+    public function __construct()
     {
         $this->ColumnNames = array();
     }

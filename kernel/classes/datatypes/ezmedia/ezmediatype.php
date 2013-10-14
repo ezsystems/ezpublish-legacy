@@ -23,9 +23,9 @@ class eZMediaType extends eZDataType
     const TYPE_FIELD = "data_text1";
     const TYPE_VARIABLE = "_ezmedia_type_";
 
-    function eZMediaType()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Media", 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Media", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

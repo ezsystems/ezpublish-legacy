@@ -34,12 +34,9 @@ class eZMultiOptionType extends eZDataType
     const DEFAULT_NAME_VARIABLE = "_ezmultioption_default_name_";
     const DATA_TYPE_STRING = "ezmultioption";
 
-    /*!
-     Constructor to initialize the datatype.
-    */
-    function eZMultiOptionType()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Multi-option", 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Multi-option", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

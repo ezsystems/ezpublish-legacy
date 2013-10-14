@@ -16,10 +16,13 @@
 
 class eZTemplateExecuteOperator
 {
-    /*!
-     Constructor
-    */
-    function eZTemplateExecuteOperator( $fetchName = 'fetch', $fetchAliasName = 'fetch_alias' )
+    /**
+     * Constructor
+     *
+     * @param string $fetchName
+     * @param string $fetchAliasName
+     */
+    public function __construct( $fetchName = 'fetch', $fetchAliasName = 'fetch_alias' )
     {
         $this->Operators = array( $fetchName, $fetchAliasName );
         $this->Fetch = $fetchName;

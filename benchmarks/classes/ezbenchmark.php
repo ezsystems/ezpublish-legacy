@@ -18,12 +18,9 @@ require_once( 'lib/ezutils/classes/ezdebug.php' );
 
 class eZBenchmark extends eZBenchmarkUnit
 {
-    /*!
-     Initializes the benchmark with the name \a $name.
-    */
-    function eZBenchmark( $name )
+    function __construct( $name = false )
     {
-        $this->eZBenchmarkUnit( $name );
+        parent::__construct( $name );
     }
 
     function addMark( &$mark )

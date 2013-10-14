@@ -33,13 +33,9 @@
 
 class eZOrderStatusHistory extends eZPersistentObject
 {
-    /*!
-     Initialises the persistent object with \a $row.
-     If \c status_name is present in \a $row it will cache it in the $StatusName variable.
-    */
-    function eZOrderStatusHistory( $row )
+    public function __construct( $row )
     {
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
         $this->Modifier = null;
         $this->StatusName = null;
         if ( isset( $row['status_name'] ) )

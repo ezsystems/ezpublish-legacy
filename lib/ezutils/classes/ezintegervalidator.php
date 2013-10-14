@@ -16,15 +16,18 @@
 
 class eZIntegerValidator extends eZRegExpValidator
 {
-    /*!
-     Constructor
-    */
-    function eZIntegerValidator( $min = false, $max = false )
+    /**
+     * Constructor
+     *
+     * @param int|bool $min
+     * @param int|bool $max
+     */
+    public function __construct( $min = false, $max = false )
     {
         $rule = array( "accepted" => "/^-?[0-9]+$/",
                        "intermediate" => "/(-?[0-9]+)/",
                        "fixup" => "" );
-        $this->eZRegExpValidator( $rule );
+        parent::__construct( $rule );
         $this->MinValue = $min;
         $this->MaxValue = $max;
         if ( $max !== false and $min !== false )

@@ -34,12 +34,12 @@ class eZIdentifierType extends eZDataType
 
     const DATA_TYPE_STRING = "ezidentifier";
 
-    /*!
-     Constructor
-    */
-    function eZIdentifierType()
+    /**
+     * Constructor
+     */
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING,
+        parent::__construct( self::DATA_TYPE_STRING,
                            ezpI18n::tr( 'kernel/classes/datatypes', "Identifier", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_text' => 'identifier',
