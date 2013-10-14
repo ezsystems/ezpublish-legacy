@@ -17,14 +17,6 @@
 
 class eZURLObjectLink extends eZPersistentObject
 {
-    /*!
-     Constructor
-    */
-    function eZURLObjectLink( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         static $definition = array( 'fields' => array( 'url_id' => array( 'name' => 'URLID',

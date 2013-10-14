@@ -33,20 +33,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     const SORT_ORDER_ASC = 1;
 
     /**
-     * Initializes the object with the $row.
-     *
-     * It will try to set each field taken from the database row. Calls fill
-     * to do the job. If $row is an integer, it will try to fetch it from the
-     * database using it as the unique ID.
-     *
-     * @param int|array $row
-     */
-    function eZContentObjectTreeNode( $row = array() )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
-    /**
      * @inheritdoc
      */
     static function definition()

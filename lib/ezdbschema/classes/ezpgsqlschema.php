@@ -68,16 +68,6 @@ class eZPgsqlSchema extends eZDBSchemaInterface
         WHERE a.attrelid = \'<<indexrelid>>\' AND a.attnum IN (<<attids>>) AND NOT a.attisdropped
         ORDER BY a.attnum';
 
-    /*!
-     Constructor
-
-     \param db instance
-    */
-    function eZPgsqlSchema( $db )
-    {
-        $this->eZDBSchemaInterface( $db );
-    }
-
     function schema( $params = array() )
     {
         $params = array_merge( array( 'meta_data' => false,

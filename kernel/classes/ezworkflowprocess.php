@@ -16,11 +16,6 @@
 
 class eZWorkflowProcess extends eZPersistentObject
 {
-    function eZWorkflowProcess( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',

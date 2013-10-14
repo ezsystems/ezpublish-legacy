@@ -16,11 +16,6 @@
 
 class eZUserSetting extends eZPersistentObject
 {
-    function eZUserSetting( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         static $definition = array( 'fields' => array( 'user_id' => array( 'name' => 'UserID',
