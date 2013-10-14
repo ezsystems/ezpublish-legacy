@@ -26,13 +26,6 @@
 class eZTextFileUser extends eZUser
 {
     /*!
-     Constructor
-    */
-    function eZTextFileUser()
-    {
-    }
-
-    /*!
     \static
      Logs in the user if applied username and password is
      valid. The userID is returned if succesful, false if not.

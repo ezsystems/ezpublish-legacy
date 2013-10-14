@@ -19,10 +19,6 @@
 
 class eZDiffTextEngine extends eZDiffEngine
 {
-    function eZDiffTextEngine()
-    {
-    }
-
     /*!
       This function calculates changes in plain text and creates an object to hold
       overview of changes.

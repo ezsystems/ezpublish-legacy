@@ -10,11 +10,6 @@
 
 class eZUserShopAccountHandler
 {
-    function eZUserShopAccountHandler()
-    {
-
-    }
-
     /*!
      Will verify that the user has supplied the correct user information.
      Returns true if we have all the information needed about the user.
