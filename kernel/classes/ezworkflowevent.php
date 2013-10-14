@@ -16,10 +16,19 @@
 
 class eZWorkflowEvent extends eZPersistentObject
 {
-    function eZWorkflowEvent( $row )
+    public function __construct( $row )
     {
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
         $this->Content = null;
+    }
+
+    /**
+     * @deprecated Use eZWorkflowEvent::__construct() instead
+     * @param array $row
+     */
+    public function eZWorkflowEvent( $row )
+    {
+        self::__construct( $row );
     }
 
     static function definition()
