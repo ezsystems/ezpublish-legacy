@@ -160,12 +160,12 @@ class eZContentClassClassGroup extends eZPersistentObject
         }
 
         $db = eZDB::instance();
-        $sql = "SELECT contentclass.* $classNameSqlFilter[nameField]
-                FROM ezcontentclass  contentclass, ezcontentclass_classgroup class_group $classNameSqlFilter[from]
+        $sql = "SELECT contentclass.* {$classNameSqlFilter['nameField']}
+                FROM ezcontentclass  contentclass, ezcontentclass_classgroup class_group {$classNameSqlFilter['from']}
                 WHERE contentclass.id=class_group.contentclass_id
-                $versionCond
-                AND class_group.group_id='$group_id' $classNameSqlFilter[where]
-                $orderByClause";
+                {$versionCond}
+                AND class_group.group_id='$group_id' {$classNameSqlFilter['where']}
+                {$orderByClause}";
         $rows = $db->arrayQuery( $sql );
         return eZPersistentObject::handleRows( $rows, "eZContentClass", $asObject );
     }

@@ -35,13 +35,13 @@ class eZClassFunctionCollection
             $classNameFilter = eZContentClassName::sqlFilter( 'cc' );
             $version = eZContentClass::VERSION_STATUS_DEFINED;
 
-            $sql = "SELECT DISTINCT cc.*, $classNameFilter[nameField] " .
-                   "FROM ezcontentclass cc, ezcontentclass_classgroup ccg, $classNameFilter[from] " .
-                   "WHERE cc.version = $version" .
+            $sql = "SELECT DISTINCT cc.*, {$classNameFilter['nameField']} " .
+                   "FROM ezcontentclass cc, ezcontentclass_classgroup ccg, {$classNameFilter['from']} " .
+                   "WHERE cc.version = {$version}" .
                    "      AND cc.id = ccg.contentclass_id" .
-                   "      AND $groupFilter" .
-                   "      AND $classNameFilter[where] " .
-                   "ORDER BY $classNameFilter[nameField] ASC";
+                   "      AND {$groupFilter}" .
+                   "      AND {$classNameFilter['where']} " .
+                   "ORDER BY {$classNameFilter['nameField']} ASC";
 
             $rows = $db->arrayQuery( $sql );
             $classes = eZPersistentObject::handleRows( $rows, 'eZContentClass', true );

@@ -844,12 +844,12 @@ class eZContentFunctionCollection
                       INNER JOIN ezcontentobject ON (ezcontentobject.id = ezcontentobject_attribute.contentobject_id AND ezcontentobject.current_version = ezcontentobject_attribute.version)
                       INNER JOIN ezcontentobject_tree ON (ezcontentobject_tree.contentobject_id = ezcontentobject.id)
                       INNER JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id)
-                       $sqlPermissionChecking[from]
-                  WHERE 
+                       {$sqlPermissionChecking['from']}
+                  WHERE
                   $parentNodeIDString
                   $sqlMatching
                   $showInvisibleNodesCond
-                  $sqlPermissionChecking[where]
+                  {$sqlPermissionChecking['where']}
                   $sqlClassIDs
                   $sqlOwnerString
                   AND ezcontentclass.version = 0
@@ -1016,13 +1016,13 @@ class eZContentFunctionCollection
                        INNER JOIN ezcontentobject ON (ezcontentobject_attribute.version = ezcontentobject.current_version AND ezcontentobject_attribute.contentobject_id = ezcontentobject.id)
                        INNER JOIN ezcontentobject_tree ON (ezcontentobject_tree.contentobject_id = ezcontentobject.id)
                        INNER JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id)
-                       $sortingInfo[attributeFromSQL]
-                       $sqlPermissionChecking[from]
+                       {$sortingInfo['attributeFromSQL']}
+                       {$sqlPermissionChecking['from']}
                   WHERE
                   $parentNodeIDString
                   $sqlMatching
                   $showInvisibleNodesCond
-                  $sqlPermissionChecking[where]
+                  {$sqlPermissionChecking['where']}
                   $sqlClassIDString
                   $sqlOwnerString
                   AND ezcontentclass.version = 0

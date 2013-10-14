@@ -264,7 +264,7 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
                         ezcontentclass.identifier as class_identifier,
                         ezcontentobject_name.name as name,
                         ezcontentobject_name.real_translation
-                        $sortingInfo[attributeTargetSQL] ";
+                        {$sortingInfo['attributeTargetSQL']} ";
         }
         $query .= "FROM
                         ezcontentobject_trash ezcot
@@ -274,19 +274,19 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
                             ezcot.contentobject_id = ezcontentobject_name.contentobject_id AND
                             ezcot.contentobject_version = ezcontentobject_name.content_version
                         )
-                        $sortingInfo[attributeFromSQL]
-                        $attributeFilter[from]
-                        $sqlPermissionChecking[from]
+                        {$sortingInfo['attributeFromSQL']}
+                        {$attributeFilter['from']}
+                        {$sqlPermissionChecking['from']}
                    WHERE
-                        $sortingInfo[attributeWhereSQL]
-                        $attributeFilter[where]
+                        {$sortingInfo['attributeWhereSQL']}
+                        {$attributeFilter['where']}
                         " . eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
-                        $sqlPermissionChecking[where]
-                        $objectNameFilterSQL
+                        {$sqlPermissionChecking['where']}
+                        {$objectNameFilterSQL}
                         AND " . eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
 
         if ( !$asCount && $sortingInfo['sortingFields'] && strlen( $sortingInfo['sortingFields'] ) > 5  )
-            $query .= " ORDER BY $sortingInfo[sortingFields]";
+            $query .= " ORDER BY {$sortingInfo['sortingFields']}";
 
         $db = eZDB::instance();
         if ( !$offset && !$limit )
