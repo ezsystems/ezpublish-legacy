@@ -19,14 +19,6 @@ class eZTextInputParser
     const CHUNK_TAG = 2;
 
     /*!
-
-    */
-    function eZTextInputParser()
-    {
-
-    }
-
-    /*!
      Will parse the input text and create an array of the input.
      False will be returned if the parsing
     */

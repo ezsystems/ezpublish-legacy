@@ -31,13 +31,6 @@ By using module_params you can ...
 class eZModuleParamsOperator
 {
     /*!
-      Constructor, does nothing by default.
-    */
-    function eZModuleParamsOperator()
-    {
-    }
-
-    /*!
      \return an array with the template operator name.
     */
     function operatorList()

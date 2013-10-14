@@ -31,13 +31,6 @@ class eZUserLoginHandler
     const STEP_LOGIN_USER = 4;
 
     /*!
-     Constructor
-    */
-    function eZUserLoginHandler()
-    {
-    }
-
-    /*!
      \static
      Clean up session variables used by the login procedure.
     */

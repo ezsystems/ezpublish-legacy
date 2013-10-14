@@ -23,13 +23,6 @@ class eZContentOperationCollection
      */
     private static $transactionStarted = false;
 
-    /*!
-     Constructor
-    */
-    function eZContentOperationCollection()
-    {
-    }
-
     static public function readNode( $nodeID )
     {
 

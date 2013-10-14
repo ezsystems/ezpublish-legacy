@@ -16,13 +16,6 @@
 
 class eZNotificationFunctionCollection
 {
-    /*!
-     Constructor
-    */
-    function eZNotificationFunctionCollection()
-    {
-    }
-
     function handlerList()
     {
         $availableHandlers = eZNotificationEventFilter::availableHandlers();

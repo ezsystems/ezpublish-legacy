@@ -42,10 +42,6 @@
 
 class ezjscEncodingTemplateFunctions
 {
-    function ezjscEncodingTemplateFunctions()
-    {
-    }
-
     function operatorList()
     {
         return array( 'json_encode',

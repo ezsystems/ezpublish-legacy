@@ -16,14 +16,6 @@
 
 class eZSetupFunctionCollection
 {
-    /*!
-     Constructor
-    */
-    function eZSetupFunctionCollection()
-    {
-    }
-
-
     function fetchFullVersionString()
     {
         return array( 'result' => eZPublishSDK::version() );

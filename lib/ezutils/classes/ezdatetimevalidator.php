@@ -16,13 +16,6 @@
 
 class eZDateTimeValidator extends eZInputValidator
 {
-    /*!
-     Constructor
-    */
-    function eZDateTimeValidator()
-    {
-    }
-
     static function validateDate( $day, $month, $year )
     {
         $check = checkdate( $month, $day, $year );

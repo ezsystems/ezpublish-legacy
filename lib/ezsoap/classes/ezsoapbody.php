@@ -15,13 +15,6 @@
 
 class eZSOAPBody
 {
-    /*!
-     Creates a new SOAP body object.
-    */
-    function eZSOAPBody( )
-    {
-
-    }
 
 }
 
