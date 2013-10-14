@@ -289,11 +289,11 @@ class eZTemplate
 
     const FILE_ERRORS = 1;
 
-    /*!
-     Intializes the template with left and right delimiters being { and },
-     and a file resource. The literal tag "literal" is also registered.
-    */
-    function eZTemplate()
+    /**
+     * Intializes the template with left and right delimiters being { and }, and a file resource.
+     * The literal tag "literal" is also registered.
+     */
+    public function __construct()
     {
         $this->Tree = array( eZTemplate::NODE_ROOT, false );
         $this->LDelim = "{";

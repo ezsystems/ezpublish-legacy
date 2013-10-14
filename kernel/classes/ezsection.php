@@ -16,13 +16,13 @@
 
 class eZSection extends eZPersistentObject
 {
-    function eZSection( $row )
+    public function __construct( $row )
     {
         if ( !isset( $row['id'] ) )
         {
             $row['id'] = null;
         }
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
     }
 
     /*!

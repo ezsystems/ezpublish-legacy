@@ -16,8 +16,14 @@
 
 class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
 {
-
-    function eZContentObjectPackageInstaller( $package, $type, $installItem )
+    /**
+     * Constructor
+     *
+     * @param eZPackage $package
+     * @param string $type
+     * @param mixed $installItem
+     */
+    public function __construct( $package, $type, $installItem )
     {
         $steps = array();
         $steps[] = array( 'id' => 'site_access',
@@ -35,11 +41,9 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
                           'methods' => array( 'initialize' => 'initializeAdvancedOptions',
                                               'validate' => 'validateAdvancedOptions' ),
                           'template' => 'advanced_options.tpl' );
-        $this->eZPackageInstallationHandler( $package,
-                                             $type,
-                                             $installItem,
-                                             ezpI18n::tr( 'kernel/package', 'Content object import' ),
-                                             $steps );
+        parent::__construct(
+            $package, $type, $installItem, ezpI18n::tr( 'kernel/package', 'Content object import' ), $steps
+        );
     }
 
     /*!

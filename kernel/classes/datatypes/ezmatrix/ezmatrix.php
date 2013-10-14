@@ -17,10 +17,12 @@
 
 class eZMatrix
 {
-    /*!
-     Constructor
-    */
-    function eZMatrix( $name, $numRows = false, $matrixColumnDefinition = false )
+    /**
+     * @param string $name
+     * @param int|bool $numRows
+     * @param eZMatrixDefinition|bool $matrixColumnDefinition
+     */
+    public function __construct( $name, $numRows = false, $matrixColumnDefinition = false )
     {
         $this->Name = $name;
         $this->Matrix = array();

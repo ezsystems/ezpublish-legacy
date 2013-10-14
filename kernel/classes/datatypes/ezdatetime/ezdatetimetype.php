@@ -31,9 +31,9 @@ class eZDateTimeType extends eZDataType
 
     const DEFAULT_ADJUSTMENT = 2;
 
-    function eZDateTimeType()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Date and time", 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Date and time", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

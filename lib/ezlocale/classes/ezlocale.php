@@ -111,11 +111,13 @@ class eZLocale
 {
     const DEBUG_INTERNALS = false;
 
-    /*!
-     Initializes the locale with the locale string \a $localeString.
-     All locale data is read from locale/$localeString.ini
-    */
-    function eZLocale( $localeString )
+    /**
+     * Initializes the locale with the locale string \a $localeString.
+     * All locale data is read from locale/$localeString.ini
+     *
+     * @param string $localeString
+     */
+    public function __construct( $localeString )
     {
         $this->IsValid = false;
         $this->TimePHPArray = array( 'g', 'G', 'h', 'H', 'i', 's', 'U', 'I', 'L', 't' );

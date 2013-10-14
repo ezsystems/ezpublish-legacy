@@ -25,9 +25,9 @@ class eZPriceType extends eZDataType
     const INCLUDED_VAT = 1;
     const EXCLUDED_VAT = 2;
 
-    function eZPriceType()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Price", 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Price", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_float' => 'price' ) ) );
     }

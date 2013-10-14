@@ -27,14 +27,14 @@ class eZContentObjectVersion extends eZPersistentObject
     const STATUS_REPEAT = 6;
     const STATUS_QUEUED = 7;
 
-    function eZContentObjectVersion( $row=array() )
+    public function __construct( $row = array() )
     {
         $this->ContentObjectAttributeArray = false;
         $this->DataMap = false;
         $this->TempNode = null;
         $this->VersionName = null;
         $this->VersionNameCache = array();
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
     }
 
     static function definition()

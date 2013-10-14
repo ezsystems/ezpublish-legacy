@@ -22,10 +22,7 @@
 
 class eZImageGDHandler extends eZImageHandler
 {
-    /*!
-     Constructor
-    */
-    function eZImageGDHandler( $handlerName, $isGloballyEnabled,
+    public function __construct( $handlerName, $isGloballyEnabled,
                                $outputRewriteType = self::REPLACE_SUFFIX,
                                $conversionRules = false )
     {
@@ -106,10 +103,15 @@ class eZImageGDHandler extends eZImageHandler
         {
             $filters[] = array( 'name' => $filterName );
         }
-        $this->eZImageHandler( $handlerName, $isEnabled,
-                               $outputRewriteType,
-                               $supportedInputMIMETypes, $supportedOutputMIMETypes,
-                               $conversionRules, $filters );
+        parent::__construct(
+            $handlerName,
+            $isEnabled,
+            $outputRewriteType,
+            $supportedInputMIMETypes,
+            $supportedOutputMIMETypes,
+            $conversionRules,
+            $filters
+        );
     }
 
     /*!

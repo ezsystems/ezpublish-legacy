@@ -18,12 +18,9 @@ class eZNotificationEvent extends eZPersistentObject
     const STATUS_CREATED = 0;
     const STATUS_HANDLED = 1;
 
-    /*!
-     Constructor
-    */
-    function eZNotificationEvent( $row = array() )
+    public function __construct( $row = array() )
     {
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
         $this->TypeString = $this->attribute( 'event_type_string' );
     }
 

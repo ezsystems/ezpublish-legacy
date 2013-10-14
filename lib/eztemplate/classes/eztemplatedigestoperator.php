@@ -19,10 +19,7 @@
 
 class eZTemplateDigestOperator
 {
-    /*!
-     Constructor.
-    */
-    function eZTemplateDigestOperator()
+    public function __construct()
     {
         $this->Operators = array( 'crc32', 'md5', 'rot13' );
         if ( function_exists( 'sha1' ) )

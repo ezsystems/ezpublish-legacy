@@ -17,10 +17,10 @@
 
 class eZInformationCollectionAttribute extends eZPersistentObject
 {
-    function eZInformationCollectionAttribute( $row )
+    public function __construct( $row )
     {
         $this->Content = null;
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
     }
 
     /*!

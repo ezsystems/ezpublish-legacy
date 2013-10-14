@@ -16,13 +16,17 @@
 
 class eZStepLanguageOptions extends eZStepInstaller
 {
-    /*!
-     Constructor
-    */
-    function eZStepLanguageOptions( $tpl, $http, $ini, &$persistenceList )
+    /**
+     * Constructor
+     *
+     * @param eZTemplate $tpl
+     * @param eZHTTPTool $http
+     * @param eZINI $ini
+     * @param array $persistenceList
+     */
+    public function __construct( $tpl, $http, $ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
-                                'language_options', 'Language options' );
+        parent::__construct( $tpl, $http, $ini, $persistenceList, 'language_options', 'Language options' );
     }
 
     function processPostData()

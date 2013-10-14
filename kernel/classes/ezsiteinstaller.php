@@ -25,7 +25,7 @@ class eZSiteInstaller
     const ERR_ABORT = 1;
     const ERR_CONTINUE = 2;
 
-    function eZSiteInstaller( $parameters = false )
+    public function __construct( $parameters = false )
     {
         $this->initSettings( $parameters );
         $this->initSteps();

@@ -17,10 +17,14 @@
 
 class eZXMLInputHandler
 {
-    /*!
-     Constructor
-    */
-    function eZXMLInputHandler( $xmlData, $aliasedType, $contentObjectAttribute )
+    /**
+     * Constructor
+     *
+     * @param string $xmlData
+     * @param string $aliasedType
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     */
+    public function __construct( $xmlData, $aliasedType, $contentObjectAttribute )
     {
         $this->XMLData = preg_replace( '/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', '', $xmlData, -1, $count );
         if ( $count > 0 )

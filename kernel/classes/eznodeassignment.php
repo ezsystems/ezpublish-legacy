@@ -32,14 +32,11 @@ class eZNodeAssignment extends eZPersistentObject
     const OP_CODE_SET_NOP =      8;
     const OP_CODE_SET =          9;
 
-    /*!
-     Constructor
-    */
-    function eZNodeAssignment( $row )
+    public function __construct( $row )
     {
         $this->TempNode = null;
         $this->Name = false;
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
     }
 
     static function definition()

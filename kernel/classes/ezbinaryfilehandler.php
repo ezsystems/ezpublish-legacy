@@ -32,7 +32,14 @@ class eZBinaryFileHandler
     const RESULT_OK = 1;
     const RESULT_UNAVAILABLE = 2;
 
-    function eZBinaryFileHandler( $identifier, $name, $handleType )
+    /**
+     * Constructor
+     *
+     * @param string $identifier
+     * @param string $name
+     * @param string $handleType
+     */
+    public function __construct( $identifier, $name, $handleType )
     {
         $this->Info = array();
         $this->Info['identifier'] = $identifier;

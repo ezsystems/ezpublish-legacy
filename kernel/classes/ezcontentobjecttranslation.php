@@ -18,7 +18,14 @@
 
 class eZContentObjectTranslation
 {
-    function eZContentObjectTranslation( $contentObjectID, $version, $languageCode )
+    /**
+     * Constructor
+     *
+     * @param int $contentObjectID
+     * @param int $version
+     * @param string $languageCode
+     */
+    public function __construct( $contentObjectID, $version, $languageCode )
     {
         $this->ContentObjectID = $contentObjectID;
         $this->Version = $version;
