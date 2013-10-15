@@ -70,11 +70,11 @@ class eZTemplateFileResource
     {
         if ( self::$checkFileExists === null )
         {
+            self::$checkFileExists = true;
+
             $ini = \eZINI::instance();
             if ( $ini->variable( 'TemplateSettings', 'TemplateCheckExists' ) === 'disabled' )
                 self::$checkFileExists = false;
-            else
-                self::$checkFileExists = true;
 
             if ( $ini->variable( 'TemplateSettings', 'DevelopmentMode' ) === 'enabled' )
                 self::$checkFileExists = true;
@@ -90,11 +90,11 @@ class eZTemplateFileResource
     {
         if ( self::$checkFileMtime === null )
         {
+            self::$checkFileMtime = true;
+
             $ini = \eZINI::instance();
             if ( $ini->variable( 'TemplateSettings', 'TemplateCheckMTime' ) === 'disabled' )
                 self::$checkFileMtime = false;
-            else
-                self::$checkFileMtime = true;
 
             if ( $ini->variable( 'TemplateSettings', 'DevelopmentMode' ) === 'enabled' )
                 self::$checkFileMtime = true;
@@ -239,7 +239,7 @@ class eZTemplateFileResource
         if ( self::checkFileExists() && !file_exists( $path ) )
             return false;
 
-        if ( self::checkFileMtime() === true )
+        if ( self::checkFileMtime() )
             $tstamp = filemtime( $path );
         else
             $tstamp = false;
