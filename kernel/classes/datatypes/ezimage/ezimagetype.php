@@ -630,6 +630,29 @@ class eZImageType extends eZDataType
     {
         return true;
     }
+
+    /**
+     * Iterates over images referenced in data_text, and adds eZImageFile references
+     * @param eZContentObjectAttribute $objectAttribute
+     */
+    function postStore( $objectAttribute )
+    {
+        $objectAttributeId = $objectAttribute->attribute( "id" );
+
+        if ( ( $doc = simplexml_load_string( $objectAttribute->attribute( "data_text" ) ) ) === false )
+            return;
+
+        // Creates ezimagefile entries
+        foreach ( $doc->xpath( "//*/@url" ) as $url )
+        {
+            $url = (string)$url;
+
+            if ( $url === "" )
+                continue;
+
+            eZImageFile::create( $objectAttributeId, $url )->store();
+        }
+    }
 }
 
 eZDataType::register( eZImageType::DATA_TYPE_STRING, "eZImageType" );
