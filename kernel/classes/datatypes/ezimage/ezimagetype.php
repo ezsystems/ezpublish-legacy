@@ -175,16 +175,10 @@ class eZImageType extends eZDataType
 
     function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
-        if ( $version === null )
-        {
-            eZImageAliasHandler::removeAllAliases( $contentObjectAttribute );
-        }
-        else
-        {
-            $imageHandler = $contentObjectAttribute->attribute( 'content' );
-            if ( $imageHandler )
-                $imageHandler->removeAliases( $contentObjectAttribute );
-        }
+        /** @var eZImageAliasHandler $imageHandler */
+        $imageHandler = $contentObjectAttribute->attribute( 'content' );
+        if ( $imageHandler )
+            $imageHandler->removeAliases();
     }
 
     /**
@@ -432,6 +426,7 @@ class eZImageType extends eZDataType
         $hasContent = $contentObjectAttribute->hasContent();
         if ( $hasContent )
         {
+            /** @var eZImageAliasHandler $imageHandler */
             $imageHandler = $contentObjectAttribute->attribute( 'content' );
             $mainNode = false;
             foreach ( array_keys( $publishedNodes ) as $publishedNodeKey )
@@ -480,7 +475,7 @@ class eZImageType extends eZDataType
             $content = $contentObjectAttribute->attribute( 'content' );
             if ( $content )
             {
-                $content->removeAliases( $contentObjectAttribute );
+                $content->removeAliases();
             }
         }
     }
@@ -612,6 +607,7 @@ class eZImageType extends eZDataType
     {
         $delimiterPos = strpos( $string, '|' );
 
+        /** @var eZImageAliasHandler $content */
         $content = $objectAttribute->attribute( 'content' );
         if ( $delimiterPos === false )
         {
@@ -629,6 +625,29 @@ class eZImageType extends eZDataType
     function supportsBatchInitializeObjectAttribute()
     {
         return true;
+    }
+
+    /**
+     * Iterates over images referenced in data_text, and adds eZImageFile references
+     * @param eZContentObjectAttribute $objectAttribute
+     */
+    function postStore( $objectAttribute )
+    {
+        $objectAttributeId = $objectAttribute->attribute( "id" );
+
+        if ( ( $doc = simplexml_load_string( $objectAttribute->attribute( "data_text" ) ) ) === false )
+            return;
+
+        // Creates ezimagefile entries
+        foreach ( $doc->xpath( "//*/@url" ) as $url )
+        {
+            $url = (string)$url;
+
+            if ( $url === "" )
+                continue;
+
+            eZImageFile::appendFilepath( $objectAttributeId, $url, true );
+        }
     }
 }
 
