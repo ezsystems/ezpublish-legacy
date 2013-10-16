@@ -351,7 +351,7 @@ class eZNodeviewfunctions
             ksort( $viewParameters );
             foreach ( $viewParameters as $key => $value )
             {
-                if ( !$key )
+                if ( !$key || $key === '_custom' )
                     continue;
                 $vpString .= 'vp:' . $key . '=' . $value;
             }
