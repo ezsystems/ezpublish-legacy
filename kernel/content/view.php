@@ -91,11 +91,16 @@ if ( isset( $keys['layout'] ) )
 else
     $layout = false;
 
-$viewParameters = array( 'offset' => $Offset,
-                         'year' => $Year,
-                         'month' => $Month,
-                         'day' => $Day,
-                         'namefilter' => false );
+$viewParameters = array(
+    'offset' => $Offset,
+    'year' => $Year,
+    'month' => $Month,
+    'day' => $Day,
+    'namefilter' => false,
+    '_custom' => $UserParameters
+);
+// Keep the following array_merge for BC
+// All user parameters will be exposed as direct variables in template.
 $viewParameters = array_merge( $viewParameters, $UserParameters );
 
 $user = eZUser::currentUser();
