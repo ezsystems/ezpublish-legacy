@@ -239,10 +239,10 @@ class eZTemplateFileResource
         if ( self::checkFileExists() && !file_exists( $path ) )
             return false;
 
+        $tstamp = false;
         if ( self::checkFileMtime() )
             $tstamp = filemtime( $path );
-        else
-            $tstamp = false;
+            
 
         $result = false;
         $canCache = true;
