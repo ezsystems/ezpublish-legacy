@@ -10,13 +10,13 @@
 
 class eZECBHandler extends eZExchangeRatesUpdateHandler
 {
-    function eZECBHandler()
+    public function __construct()
     {
         $this->ServerName = false;
         $this->ServerPort = false;
         $this->RatesURI = false;
 
-        eZExchangeRatesUpdateHandler::eZExchangeRatesUpdateHandler();
+        parent::__construct();
     }
 
     function initialize( $params = array() )

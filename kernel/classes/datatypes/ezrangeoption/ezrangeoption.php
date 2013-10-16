@@ -17,10 +17,12 @@
 
 class eZRangeOption
 {
-    /*!
-     Constructor
-    */
-    function eZRangeOption( $name )
+    /**
+     * Constructor
+     *
+     * @param string $name
+     */
+    public function __construct( $name )
     {
         $this->Name = $name;
         $this->Options = array();

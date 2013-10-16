@@ -18,12 +18,14 @@
 
 class eZTemplateFileResource
 {
-    /*!
-     Initializes with a default resource name "file".
-     Also sets whether the resource servers static data files, this is needed
-     for the cache system.
-    */
-    function eZTemplateFileResource( $name = "file", $servesStaticData = true )
+    /**
+     * Initializes with a default resource name "file".
+     * Also sets whether the resource servers static data files, this is needed for the cache system.
+     *
+     * @param string $name
+     * @param bool $servesStaticData
+     */
+    public function __construct( $name = "file", $servesStaticData = true )
     {
         $this->Name = $name;
         $this->ServesStaticData = $servesStaticData;

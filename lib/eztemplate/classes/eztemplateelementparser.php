@@ -16,13 +16,6 @@
 
 class eZTemplateElementParser
 {
-    /*!
-     Constructor
-    */
-    function eZTemplateElementParser()
-    {
-    }
-
     function templateTypeName( $type )
     {
         switch ( $type )

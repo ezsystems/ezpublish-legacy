@@ -21,10 +21,7 @@
 
 class eZPathElement extends eZPersistentObject
 {
-    /*!
-     Initializes a new path element.
-    */
-    function eZPathElement( $row )
+    public function __construct( $row )
     {
         $this->Path = null;
         $this->PathArray = null;
@@ -32,7 +29,7 @@ class eZPathElement extends eZPersistentObject
         {
             $this->AlwaysAvailable = $row['always_available'];
         }
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
     }
 
     static public function definition()

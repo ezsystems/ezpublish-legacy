@@ -33,12 +33,9 @@
 */
 class eZRole extends eZPersistentObject
 {
-    /*!
-     Constructor
-    */
-    function eZRole( $row = array() )
+    public function __construct( $row = array() )
     {
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
         $this->PolicyArray = 0;
         $this->LimitIdentifier = false;
         $this->LimitValue = false;

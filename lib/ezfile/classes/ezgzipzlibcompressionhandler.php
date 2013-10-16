@@ -18,11 +18,11 @@
 
 class eZGZIPZLIBCompressionHandler extends eZCompressionHandler
 {
-    function eZGZIPZLIBCompressionHandler()
+    public function __construct()
     {
         $this->File = false;
         $this->Level = false;
-        $this->eZCompressionHandler( 'GZIP (zlib)', 'gzipzlib' );
+        parent::__construct( 'GZIP (zlib)', 'gzipzlib' );
     }
 
     /*!

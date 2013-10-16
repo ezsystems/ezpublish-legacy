@@ -52,10 +52,12 @@ class eZTemplateBlockFunction
     const SCOPE_ROOT = 2;
     const SCOPE_GLOBAL = 3;
 
-    /*!
-     Initializes the object with names.
-    */
-    function eZTemplateBlockFunction( $blockName = 'set-block',
+    /**
+     * @param string $blockName
+     * @param string $appendBlockName
+     * @param string $onceName
+     */
+    public function __construct(      $blockName = 'set-block',
                                       $appendBlockName = 'append-block',
                                       $onceName = 'run-once' )
     {

@@ -24,12 +24,9 @@
 
 class eZBenchmarkCLIRunner extends eZBenchmarkRunner
 {
-    /*!
-     Constructor
-    */
-    function eZBenchmarkCLIRunner()
+    public function __construct()
     {
-        $this->eZBenchmarkRunner();
+        parent::__construct();
         $this->MaxMap = false;
     }
 

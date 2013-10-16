@@ -21,12 +21,9 @@ class eZKeywordType extends eZDataType
 {
     const DATA_TYPE_STRING = 'ezkeyword';
 
-    /*!
-     Initializes with a keyword id and a description.
-    */
-    function eZKeywordType()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'Keywords', 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'Keywords', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

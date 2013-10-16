@@ -47,17 +47,17 @@ else
 
 class eZSOAPClient
 {
-    /*!
-      Creates a new SOAP client.
-
-      \param $server The remote server to connect to
-      \param $path The path to the SOAP service on the remote server
-      \param $port The port to connect to, 80 by default. You can use 'ssl' as well to specify that you want to use port 443 over SSL,
-                   but omit the last parameter $useSSL of this method then or set it to true. When $port equals 443, SSL will also be
-                   used if $useSSL is omitted or set to true.
-      \param $useSSL If we need to connect to the remote server with (https://) or without (http://) SSL
-    */
-    function eZSOAPClient( $server, $path = '/', $port = 80, $useSSL = null )
+    /**
+     * Creates a new SOAP client.
+     *
+     * @param string $server The remote server to connect to
+     * @param string $path The path to the SOAP service on the remote server
+     * @param int $port The port to connect to, 80 by default. You can use 'ssl' as well to specify that you want
+     *                  to use port 443 over SSL, but omit the last parameter $useSSL of this method then or set it
+     *                  to true. When $port equals 443, SSL will also be used if $useSSL is omitted or set to true.
+     * @param bool $useSSL If we need to connect to the remote server with (https://) or without (http://) SSL
+     */
+    public function __construct( $server, $path = '/', $port = 80, $useSSL = null )
     {
         $this->Login = "";
         $this->Password = "";

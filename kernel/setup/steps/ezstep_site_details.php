@@ -22,13 +22,17 @@ class eZStepSiteDetails extends eZStepInstaller
     const SITE_ACCESS_HOSTNAME_REGEXP = '/^([a-zA-Z0-9.\-:]*)$/';
     const SITE_ACCESS_PORT_REGEXP = '/^([0-9]*)$/';
 
-    /*!
-     Constructor
-    */
-    function eZStepSiteDetails( $tpl, $http, $ini, &$persistenceList )
+    /**
+     * Constructor
+     *
+     * @param eZTemplate $tpl
+     * @param eZHTTPTool $http
+     * @param eZINI $ini
+     * @param array $persistenceList
+     */
+    public function __construct( $tpl, $http, $ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
-                                'site_details', 'Site details' );
+        parent::__construct( $tpl, $http, $ini, $persistenceList, 'site_details', 'Site details' );
     }
 
     function processPostData()

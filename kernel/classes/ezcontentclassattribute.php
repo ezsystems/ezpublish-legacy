@@ -17,9 +17,9 @@
 
 class eZContentClassAttribute extends eZPersistentObject
 {
-    function eZContentClassAttribute( $row )
+    public function __construct( $row )
     {
-        $this->eZPersistentObject( $row );
+        parent::__construct($row);
 
         $this->Content = null;
         $this->DisplayInfo = null;

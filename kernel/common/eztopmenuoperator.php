@@ -17,10 +17,12 @@
 
 class eZTopMenuOperator
 {
-    /*!
-     Constructor
-    */
-    function eZTopMenuOperator( $name = 'topmenu' )
+    /**
+     * Constructor
+     *
+     * @param string $name
+     */
+    public function __construct( $name = 'topmenu' )
     {
         $this->Operators = array( $name );
         $this->DefaultNames = array(

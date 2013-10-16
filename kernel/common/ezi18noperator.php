@@ -16,7 +16,14 @@
 
 class eZi18nOperator
 {
-    function eZi18nOperator( $name = 'i18n', $extensionName = 'x18n', $dynamicName = 'd18n' )
+    /**
+     * Constructor
+     *
+     * @param string $name
+     * @param string $extensionName
+     * @param string $dynamicName
+     */
+    public function __construct( $name = 'i18n', $extensionName = 'x18n', $dynamicName = 'd18n' )
     {
         $this->Operators = array( $name, $extensionName, $dynamicName );
         $this->Name = $name;

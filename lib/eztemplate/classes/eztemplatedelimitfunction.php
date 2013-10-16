@@ -35,11 +35,11 @@ $tpl->registerFunction( "rdelim", $obj );
 
 class eZTemplateDelimitFunction
 {
-    /*!
-     Initializes the object with a name for the left and right delimiter.
-     Default is ldelim for left and rdelim for right.
-    */
-    function eZTemplateDelimitFunction()
+    /**
+     * Initializes the object with a name for the left and right delimiter.
+     * Default is ldelim for left and rdelim for right.
+     */
+    public function __construct()
     {
         $this->LName = 'ldelim';
         $this->RName = 'rdelim';

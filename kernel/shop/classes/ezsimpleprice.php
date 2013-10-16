@@ -35,7 +35,14 @@ The available attributes are:
 
 class eZSimplePrice
 {
-    function eZSimplePrice( $classAttribute, $contentObjectAttribute, $storedPrice = null )
+    /**
+     * Constructor
+     *
+     * @param eZContentClassAttribute $classAttribute
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param float $storedPrice
+     */
+    public function __construct( $classAttribute, $contentObjectAttribute, $storedPrice = null )
     {
         $this->setVATIncluded( false );
 

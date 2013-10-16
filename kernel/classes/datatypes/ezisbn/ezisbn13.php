@@ -25,13 +25,13 @@ class eZISBN13
     const PREFIX_978 = 978;
     const PREFIX_979 = 979;
 
-    /*!
-     Constructor
-     \param $isbnNr is the ISBN-13 number. example is: 978-0-11-000222-4
-     \param $separator is the hyphen used in the ISBN number to make the
-                       ISBN number more visible.
-    */
-    function eZISBN13( $isbnNr = null, $separator = '-' )
+    /**
+     * Constructor
+     *
+     * @param string|null $isbnNr The ISBN-13 number, e.g. 978-0-11-000222-4
+     * @param string $separator The hyphen used in the ISBN number to make the ISBN number more visible.
+     */
+    public function __construct( $isbnNr = null, $separator = '-' )
     {
         if ( $isbnNr !== null )
         {

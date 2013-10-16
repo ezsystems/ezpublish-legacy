@@ -17,14 +17,6 @@
 
 class eZEnumValue extends eZPersistentObject
 {
-    /*!
-     Constructor
-    */
-    function eZEnumValue( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',

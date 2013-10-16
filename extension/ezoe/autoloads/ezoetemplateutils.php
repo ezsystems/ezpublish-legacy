@@ -35,10 +35,6 @@
 
 class eZOETemplateUtils
 {
-    function eZOETemplateUtils()
-    {
-    }
-
     function operatorList()
     {
         return array( 'ezoe_ini_section' );

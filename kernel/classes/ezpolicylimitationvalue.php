@@ -16,15 +16,6 @@
 */
 class eZPolicyLimitationValue extends eZPersistentObject
 {
-    /*!
-     Constructor
-    */
-    function eZPolicyLimitationValue( $row )
-    {
-          $this->eZPersistentObject( $row );
-    }
-
-
     static function definition()
     {
         static $definition = array( "fields" => array( "id" => array( 'name' => 'ID',

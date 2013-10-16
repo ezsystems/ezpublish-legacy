@@ -32,9 +32,9 @@ class eZImageObject extends eZImageInterface
     const PLACE_RELATIVE = 2;
     ///@}
 
-    function eZImageObject( $imageObjectRef = null, $imageObject = null, $width = false, $height = false )
+    public function __construct( $imageObjectRef = null, $imageObject = null, $width = false, $height = false )
     {
-        $this->eZImageInterface( $imageObjectRef, $imageObject, $width, $height );
+        parent::__construct( $imageObjectRef, $imageObject, $width, $height );
         $this->TemplateURI = 'design:image/imageobject.tpl';
         $this->ImageLayers = array();
         $this->ImageLayerCounter = 0;

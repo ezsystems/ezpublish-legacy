@@ -48,10 +48,7 @@ class Collection
 
 class eZSOAPServer
 {
-    /*!
-      Creates a new eZSOAPServer object.
-    */
-    function eZSOAPServer()
+    public function __construct()
     {
         global $HTTP_RAW_POST_DATA;
         $this->RawPostData = $HTTP_RAW_POST_DATA;

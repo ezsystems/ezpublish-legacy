@@ -16,7 +16,12 @@
 
 class eZObjectForwarder
 {
-    function eZObjectForwarder( $rules )
+    /**
+     * Constructor
+     *
+     * @param array $rules
+     */
+    public function __construct( $rules )
     {
         $this->Rules = $rules;
     }

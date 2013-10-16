@@ -17,14 +17,6 @@
 
 class eZUserAccountKey extends eZPersistentObject
 {
-    /*!
-     Constructor
-    */
-    function eZUserAccountKey( $row = array() )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',

@@ -17,14 +17,11 @@
 
 class eZImageShellHandler extends eZImageHandler
 {
-    /*!
-     Constructor
-    */
-    function eZImageShellHandler( $handlerName, $isEnabled = true, $outputRewriteType = self::REPLACE_SUFFIX,
+    public function __construct( $handlerName, $isEnabled = true, $outputRewriteType = self::REPLACE_SUFFIX,
                                   $supportedInputMIMETypes = false, $supportedOutputMIMETypes = false,
                                   $conversionRules = false, $filters = false, $mimeTagMap = false)
     {
-        $this->eZImageHandler( $handlerName, $isEnabled, $outputRewriteType,
+        parent::__construct( $handlerName, $isEnabled, $outputRewriteType,
                                $supportedInputMIMETypes, $supportedOutputMIMETypes,
                                $conversionRules, $filters, $mimeTagMap );
         $this->Path = false;

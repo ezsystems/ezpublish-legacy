@@ -15,7 +15,11 @@
 */
 class eZWaitUntilDate
 {
-    function eZWaitUntilDate( $eventID, $eventVersion )
+    /**
+     * @param int $eventID
+     * @param int $eventVersion
+     */
+    public function __construct( $eventID, $eventVersion )
     {
         $this->WorkflowEventID = $eventID;
         $this->WorkflowEventVersion = $eventVersion;

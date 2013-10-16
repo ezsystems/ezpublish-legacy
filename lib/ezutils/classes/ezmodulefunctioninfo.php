@@ -21,10 +21,12 @@ class eZModuleFunctionInfo
     const ERROR_CLASS_INSTANTIATE_FAILED = 7;
     const ERROR_MISSING_PARAMETER = 8;
 
-    /*!
-     Constructor
-    */
-    function eZModuleFunctionInfo( $moduleName )
+    /**
+     * Constructor
+     *
+     * @param string $moduleName
+     */
+    public function __construct( $moduleName )
     {
         $this->ModuleName = $moduleName;
         $this->IsValid = false;

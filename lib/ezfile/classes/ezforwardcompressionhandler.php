@@ -18,14 +18,17 @@
 
 class eZForwardCompressionHandler extends eZCompressionHandler
 {
-    /*!
-     See eZCompressionHandler::eZCompressionHandler
-    */
-    function eZForwardCompressionHandler( &$handler,
-                                          $name, $identifier )
+    /**
+     * Constructor
+     *
+     * @param bool|string $handler
+     * @param bool|string $name
+     * @param string $identifier
+     */
+    public function __construct( &$handler, $name, $identifier )
     {
         $this->ForwardHandler =& $handler;
-        $this->eZCompressionHandler( $name, $identifier );
+        parent::__construct( $name, $identifier );
     }
 
     /*!

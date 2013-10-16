@@ -178,12 +178,12 @@ class eZOEInputParser extends eZXMLInputParser
      * @param bool $parseLineBreaks flag if line breaks should be given meaning or not
      * @param bool $removeDefaultAttrs signal if attributes of default value should not be saved.
      */
-    function eZOEInputParser( $validateErrorLevel = eZXMLInputParser::ERROR_NONE,
+    public function __construct( $validateErrorLevel = eZXMLInputParser::ERROR_NONE,
                               $detectErrorLevel = eZXMLInputParser::ERROR_NONE,
                               $parseLineBreaks = false,
                               $removeDefaultAttrs = false )
     {
-        $this->eZXMLInputParser( $validateErrorLevel,
+        parent::__construct( $validateErrorLevel,
                                  $detectErrorLevel,
                                  $parseLineBreaks,
                                  $removeDefaultAttrs );

@@ -18,10 +18,13 @@
 
 class eZSOAPParameter
 {
-    /*!
-      Creates a new SOAP parameter object.
-    */
-    function eZSOAPParameter( $name, $value)
+    /**
+     * Creates a new SOAP parameter object.
+     *
+     * @param string $name
+     * @param mixed $value
+     */
+    public function __construct( $name, $value)
     {
         $this->Name = $name;
         $this->Value = $value;

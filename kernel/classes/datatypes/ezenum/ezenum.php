@@ -17,10 +17,13 @@
 
 class eZEnum
 {
-    /*!
-     Constructor
-    */
-    function eZEnum( $id, $version )
+    /**
+     * Constructor
+     *
+     * @param int $id
+     * @param int $version
+     */
+    public function __construct( $id, $version )
     {
         $this->ClassAttributeID = $id;
         $this->ClassAttributeVersion = $version;

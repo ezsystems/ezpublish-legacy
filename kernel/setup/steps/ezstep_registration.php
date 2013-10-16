@@ -24,10 +24,9 @@ class eZStepRegistration extends eZStepInstaller
      * @param \eZINI $ini
      * @param array $persistenceList
      */
-    function eZStepRegistration( eZTemplate $tpl, eZHTTPTool $http, eZINI $ini, array &$persistenceList )
+    public function __construct( eZTemplate $tpl, eZHTTPTool $http, eZINI $ini, array &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
-                                'registration', 'Registration' );
+        parent::__construct( $tpl, $http, $ini, $persistenceList, 'registration', 'Registration' );
     }
 
     /**

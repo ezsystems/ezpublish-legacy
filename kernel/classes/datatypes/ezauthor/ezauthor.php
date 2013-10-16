@@ -27,7 +27,7 @@
 
 class eZAuthor
 {
-    function eZAuthor( )
+    public function __construct( )
     {
         $this->Authors = array();
         $this->AuthorCount = 0;

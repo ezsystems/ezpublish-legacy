@@ -17,7 +17,7 @@ class eZBCMath extends eZPHPMath
 {
     const DEFAULT_SCALE = 10;
 
-    function eZBCMath( $params = array () )
+    public function __construct( $params = array () )
     {
         if( isset( $params['scale'] ) && is_numeric( $params['scale'] ) )
             $this->setScale( $params['scale'] );

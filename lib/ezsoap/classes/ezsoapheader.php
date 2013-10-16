@@ -17,11 +17,6 @@
 
 class eZSOAPHeader
 {
-    function eZSOAPHeader( )
-    {
-
-    }
-
     /*!
 
     */

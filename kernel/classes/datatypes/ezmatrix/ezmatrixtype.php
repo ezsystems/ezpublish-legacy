@@ -24,12 +24,9 @@ class eZMatrixType extends eZDataType
     const CELL_VARIABLE = '_ezmatrix_cell_';
     const DATA_TYPE_STRING = 'ezmatrix';
 
-    /*!
-     Constructor
-    */
-    function eZMatrixType()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'Matrix', 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'Matrix', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -414,7 +411,7 @@ class eZMatrixType extends eZDataType
         if ( $string != '' )
         {
             $matrixRowsList = eZStringUtils::explodeStr( $string, "&" );
-            
+
             foreach( $matrixRowsList as $key => $value )
             {
                 $newCells = eZStringUtils::explodeStr( $value, '|' );

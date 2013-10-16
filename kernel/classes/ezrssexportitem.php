@@ -17,15 +17,6 @@
 
 class eZRSSExportItem extends eZPersistentObject
 {
-
-    /*!
-     Initializes a new RSSExportItem.
-    */
-    function eZRSSExportItem( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',

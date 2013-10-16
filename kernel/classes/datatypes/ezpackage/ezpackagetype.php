@@ -24,12 +24,9 @@ class eZPackageType extends eZDataType
     const VIEW_MODE_FIELD = 'data_int1';
     const VIEW_MODE_VARIABLE = '_ezpackage_view_mode_';
 
-    /*!
-     Constructor
-    */
-    function eZPackageType()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'Package', 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'Package', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

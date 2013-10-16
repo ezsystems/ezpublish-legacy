@@ -20,13 +20,6 @@
 
 abstract class eZURLAliasFilter
 {
-    /**
-     * Initialize the filter object.
-     */
-    public function eZURLAliasFilter()
-    {
-    }
-
     /*
      *
      * Process the url alias element $text and return the new element as a string.

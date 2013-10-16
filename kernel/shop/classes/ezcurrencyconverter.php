@@ -23,7 +23,7 @@ class eZCurrencyConverter
     const ROUNDING_TYPE_CEIL = 3;
     const ROUNDING_TYPE_FLOOR = 4;
 
-    function eZCurrencyConverter()
+    public function __construct()
     {
         $this->setMathHandler( null );
         $this->setRoundingType( null );

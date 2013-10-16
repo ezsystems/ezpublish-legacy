@@ -10,12 +10,9 @@
 
 class eZImageShellFactory extends eZImageFactory
 {
-    /*!
-     Initializes the factory with the name \c 'shell'
-    */
-    function eZImageShellFactory()
+    public function __construct()
     {
-        $this->eZImageFactory( 'shell' );
+        parent::__construct( 'shell' );
     }
 
     /*!

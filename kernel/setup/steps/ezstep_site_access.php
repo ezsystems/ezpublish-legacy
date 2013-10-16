@@ -16,13 +16,17 @@
 
 class eZStepSiteAccess extends eZStepInstaller
 {
-    /*!
-     Constructor
-    */
-    function eZStepSiteAccess( $tpl, $http, $ini, &$persistenceList )
+    /**
+     * Constructor
+     *
+     * @param eZTemplate $tpl
+     * @param eZHTTPTool $http
+     * @param eZINI $ini
+     * @param array $persistenceList
+     */
+    public function __construct( $tpl, $http, $ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
-                                'site_access', 'Site access' );
+        parent::__construct( $tpl, $http, $ini, $persistenceList, 'site_access', 'Site access' );
     }
 
     function processPostData()

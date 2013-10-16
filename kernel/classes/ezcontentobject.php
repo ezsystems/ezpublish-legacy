@@ -45,9 +45,9 @@ class eZContentObject extends eZPersistentObject
      *
      * @param int|array $row
      */
-    function eZContentObject( $row )
+    public function __construct( $row )
     {
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
         $this->ClassIdentifier = false;
         if ( isset( $row['contentclass_identifier'] ) )
             $this->ClassIdentifier = $row['contentclass_identifier'];

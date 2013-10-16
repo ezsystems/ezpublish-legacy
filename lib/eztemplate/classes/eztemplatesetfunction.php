@@ -39,10 +39,14 @@ class eZTemplateSetFunction
     const SCOPE_ROOT = 2;
     const SCOPE_GLOBAL = 3;
 
-    /*!
-     Initializes the function with the function names $setName and $letName.
-    */
-    function eZTemplateSetFunction( $setName = 'set', $letName = 'let', $defaultName = 'default' )
+    /**
+     * Initializes the function with the function names $setName and $letName.
+     *
+     * @param string $setName
+     * @param string $letName
+     * @param string $defaultName
+     */
+    public function __construct( $setName = 'set', $letName = 'let', $defaultName = 'default' )
     {
         $this->SetName = $setName;
         $this->LetName = $letName;

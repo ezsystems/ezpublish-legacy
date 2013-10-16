@@ -37,7 +37,7 @@ class MyTest extends eZBenchmarkCase
 {
     function MyTest()
     {
-        $this->eZBenchmarkCase( 'My test case' );
+        parent::__construct( 'My test case' );
         $this->addmark( 'markFunctionA', 'Addition mark' );
         $this->addFunctionTest( 'MyFunctionMark', 'Addition mark 2' );
     }
@@ -64,12 +64,9 @@ require_once( 'lib/ezutils/classes/ezdebug.php' );
 
 class eZBenchmarkCase extends eZBenchmarkUnit
 {
-    /*!
-     Constructor
-    */
-    function eZBenchmarkCase( $name = false )
+    function __construct( $name = false )
     {
-        $this->eZBenchmarkUnit( $name );
+        parent::__construct( $name );
     }
 
     function addMark( $method, $name, $parameter = false )

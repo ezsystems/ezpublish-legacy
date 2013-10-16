@@ -21,9 +21,9 @@ class eZISBNType extends eZDataType
     const CLASS_IS_ISBN13 = 'data_int1';
     const CONTENT_VALUE = 'data_text';
 
-    function eZISBNType()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "ISBN", 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "ISBN", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( self::CONTENT_VALUE => 'isbn' ) ) );
     }

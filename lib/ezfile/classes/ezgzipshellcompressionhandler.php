@@ -20,11 +20,11 @@ NOTE: This is not done yet.
 
 class eZGZIPShellCompressionHandler extends eZCompressionHandler
 {
-    function eZGZIPShellCompressionHandler()
+    public function __construct()
     {
         $this->File = false;
-        $thus->Level = false;
-        $this->eZCompressionHandler( 'GZIP (shell)', 'gzipshell' );
+        $this->Level = false;
+        parent::__construct( 'GZIP (shell)', 'gzipshell' );
     }
 
     /*!

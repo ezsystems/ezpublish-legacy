@@ -47,7 +47,7 @@ class eZDBInterface
      *
      * @param array $parameters
      */
-    function eZDBInterface( $parameters )
+    public function __construct( $parameters )
     {
         $server = $parameters['server'];
         $port = $parameters['port'];

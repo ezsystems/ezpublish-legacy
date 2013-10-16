@@ -11,16 +11,6 @@
 class eZContentLanguage extends eZPersistentObject
 {
     /**
-     * Constructor.
-     *
-     * \param row Parameter passed to the constructor of eZPersistentObject.
-     */
-    function eZContentLanguage( $row = array() )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
-    /**
      * Persistent object's definition.
      */
     static function definition()

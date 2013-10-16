@@ -30,10 +30,7 @@ class eZImageAnalyzer
     const TRANSPARENCY_TRANSPARENT = 2;
     const TRANSPARENCY_TRANSLUCENT = 3;
 
-    /*!
-     Constructor
-    */
-    function eZImageAnalyzer()
+    public function __construct()
     {
         $this->Name = false;
         $this->MIMEList = array();

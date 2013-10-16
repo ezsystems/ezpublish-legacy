@@ -26,10 +26,12 @@
 
 class eZImageAliasHandler
 {
-    /*!
-     Creates the handler and creates a reference to the contentobject attribute that created it.
-    */
-    function eZImageAliasHandler( $contentObjectAttribute )
+    /**
+     * Creates the handler and creates a reference to the contentobject attribute that created it.
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     */
+    public function __construct( $contentObjectAttribute )
     {
         $this->ContentObjectAttributeData = array();
         if ( is_object( $contentObjectAttribute ) )

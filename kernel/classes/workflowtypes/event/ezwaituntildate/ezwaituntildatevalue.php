@@ -16,12 +16,9 @@
 
 class eZWaitUntilDateValue extends eZPersistentObject
 {
-    /*!
-     Constructor
-    */
-    function eZWaitUntilDateValue( $row )
+    public function __construct( $row )
     {
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
         $this->ClassName = null;
         $this->ClassAttributeName = null;
 

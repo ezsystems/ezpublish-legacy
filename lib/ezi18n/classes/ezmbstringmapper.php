@@ -23,10 +23,13 @@
 
 class eZMBStringMapper
 {
-    /*!
-     Constructor
-    */
-    function eZMBStringMapper( $input_charset_code, $output_charset_code )
+    /**
+     * Constructor
+     *
+     * @param string $input_charset_code
+     * @param string $output_charset_code
+     */
+    public function __construct( $input_charset_code, $output_charset_code )
     {
         $this->RequestedInputCharsetCode = $input_charset_code;
         $this->InputCharsetCode = eZCharsetInfo::realCharsetCode( $input_charset_code );

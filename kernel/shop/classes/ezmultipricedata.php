@@ -17,11 +17,6 @@ class eZMultiPriceData extends eZPersistentObject
     const ERROR_OK = 0;
     const ERROR_AUTOPRICES_UPDATE_FAILED = 1;
 
-    function eZMultiPriceData( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',

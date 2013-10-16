@@ -31,10 +31,12 @@
 
 class eZTemplateIncludeFunction
 {
-    /*!
-     Initializes the function with the function name $inc_name.
-    */
-    function eZTemplateIncludeFunction( $inc_name = "include" )
+    /**
+     * Initializes the function with the function name $inc_name.
+     *
+     * @param string $inc_name
+     */
+    public function __construct( $inc_name = "include" )
     {
         $this->IncludeName = $inc_name;
     }

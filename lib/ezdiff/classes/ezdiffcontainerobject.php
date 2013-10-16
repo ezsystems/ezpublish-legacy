@@ -16,11 +16,6 @@
 
 class eZDiffContainerObject extends eZDiffContent
 {
-    /*!
-      Constructor
-    */
-    function eZDiffContainerObject()
-    {
-    }
+
 }
 ?>

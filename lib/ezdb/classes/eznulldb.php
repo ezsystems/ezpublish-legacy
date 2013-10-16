@@ -21,14 +21,6 @@ class eZNullDB extends eZDBInterface
     /*!
       Does nothing.
     */
-    function eZNullDB( $parameters )
-    {
-        $this->eZDBInterface( $parameters );
-    }
-
-    /*!
-      Does nothing.
-    */
     function databaseName()
     {
         return 'null';

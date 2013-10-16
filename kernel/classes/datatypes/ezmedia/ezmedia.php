@@ -17,11 +17,6 @@
 
 class eZMedia extends eZPersistentObject
 {
-    function eZMedia( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         static $definition = array( "fields" => array( "contentobject_attribute_id" => array( 'name' => "ContentObjectAttributeID",

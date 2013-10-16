@@ -18,10 +18,12 @@
 
 class eZTemplateVariableElement
 {
-    /*!
-     Initializes the object with the value array and operators.
-    */
-    function eZTemplateVariableElement( $data )
+    /**
+     * Initializes the object with the value array and operators.
+     *
+     * @param mixed $data
+     */
+    public function __construct( $data )
     {
         $this->Variable = $data;
     }

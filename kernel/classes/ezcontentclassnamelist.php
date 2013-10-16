@@ -10,9 +10,9 @@
 
 class eZContentClassNameList extends eZSerializedObjectNameList
 {
-    function eZContentClassNameList( $serializedNameList = false )
+    public function __construct( $serializedNameList = false )
     {
-        eZSerializedObjectNameList::eZSerializedObjectNameList( $serializedNameList );
+        parent::__construct( $serializedNameList );
     }
 
     function create( $serializedNamesString = false )

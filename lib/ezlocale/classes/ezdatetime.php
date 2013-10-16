@@ -60,11 +60,12 @@ print( $dt1->isEqualTo( $dt3 ) ? 'true' : 'false' ); // Prints 'true'
 
 class eZDateTime
 {
-    /*!
-     Creates a new datetime object with default locale, if $datetime is not supplied
-     the current datetime is used.
-    */
-    function eZDateTime( $datetime = false )
+    /**
+     * Creates a new datetime object with default locale, if $datetime is not supplied the current datetime is used.
+     *
+     * @param eZDate|eZTime|bool $datetime
+     */
+    public function __construct( $datetime = false )
     {
         if ( $datetime instanceof eZDate )
         {

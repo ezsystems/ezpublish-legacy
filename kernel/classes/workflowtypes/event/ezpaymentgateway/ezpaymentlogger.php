@@ -14,7 +14,7 @@
 
 class eZPaymentLogger
 {
-    function eZPaymentLogger( $fileName, $mode )
+    public function __construct( $fileName, $mode )
     {
         $this->file = fopen( $fileName, $mode );
     }

@@ -18,11 +18,12 @@
 */
 class eZDiff
 {
-    /*!
-      Instantiates the eZDiff object
-      \param $diffEngineType The type of diff engine to initialize at start
-    */
-    function eZDiff( $diffEngineType = false )
+    /**
+     * Instantiates the eZDiff object
+     *
+     * @param string|bool $diffEngineType The type of diff engine to initialize at start
+     */
+    public function __construct( $diffEngineType = false )
     {
         if ( $diffEngineType )
         {

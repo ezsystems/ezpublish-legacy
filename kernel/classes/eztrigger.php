@@ -24,14 +24,6 @@ class eZTrigger extends eZPersistentObject
     const WORKFLOW_RESET = 6;
     const FETCH_TEMPLATE_REPEAT = 7;
 
-    /*!
-     Constructor
-    */
-    function eZTrigger( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( "fields" => array( 'id' => array( 'name' => 'ID',

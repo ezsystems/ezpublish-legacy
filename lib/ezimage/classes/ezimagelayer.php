@@ -17,13 +17,10 @@
 
 class eZImageLayer extends eZImageInterface
 {
-    /*!
-     Constructor
-    */
-    function eZImageLayer( $imageObjectRef = null, $imageObject = null,
+    public function __construct( $imageObjectRef = null, $imageObject = null,
                            $width = false, $height = false, $font = false )
     {
-        $this->eZImageInterface( $imageObjectRef, $imageObject, $width, $height );
+        parent::__construct( $imageObjectRef, $imageObject, $width, $height );
         $this->setFont( $font );
         $this->TemplateURI = 'design:image/layer.tpl';
     }

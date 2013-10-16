@@ -16,13 +16,6 @@
 
 class eZContentFunctionCollection
 {
-    /*!
-     Constructor
-    */
-    function eZContentFunctionCollection()
-    {
-    }
-
     static public function fetchContentObject( $objectID, $remoteID = false )
     {
         if ( $objectID === false && $remoteID !== false )
@@ -845,7 +838,7 @@ class eZContentFunctionCollection
                       INNER JOIN ezcontentobject_tree ON (ezcontentobject_tree.contentobject_id = ezcontentobject.id)
                       INNER JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id)
                        $sqlPermissionChecking[from]
-                  WHERE 
+                  WHERE
                   $parentNodeIDString
                   $sqlMatching
                   $showInvisibleNodesCond

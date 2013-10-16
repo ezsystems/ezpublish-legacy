@@ -10,9 +10,9 @@
 
 class eZSimplifiedXMLInput extends eZXMLInputHandler
 {
-    function eZSimplifiedXMLInput( &$xmlData, $aliasedType, $contentObjectAttribute )
+    public function __construct( &$xmlData, $aliasedType, $contentObjectAttribute )
     {
-        $this->eZXMLInputHandler( $xmlData, $aliasedType, $contentObjectAttribute );
+        parent::__construct( $xmlData, $aliasedType, $contentObjectAttribute );
 
         $this->IsInputValid = true;
         $this->ContentObjectAttribute = $contentObjectAttribute;

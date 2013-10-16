@@ -18,11 +18,14 @@
 class eZCodePage
 {
     const CACHE_CODE_DATE = 1028204478;
-
-    /*!
-     Initializes the codepage with the charset code $charset_code, and then loads it.
-    */
-    function eZCodePage( $charset_code, $use_cache = true )
+    
+    /**
+     * Initializes the codepage with the charset code $charset_code, and then loads it.
+     *
+     * @param string $charset_code
+     * @param bool $use_cache
+     */
+    public function __construct( $charset_code, $use_cache = true )
     {
         $this->RequestedCharsetCode = $charset_code;
         $this->CharsetCode = eZCharsetInfo::realCharsetCode( $charset_code );

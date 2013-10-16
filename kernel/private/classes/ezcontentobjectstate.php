@@ -18,11 +18,6 @@ class eZContentObjectState extends eZPersistentObject
 {
     const MAX_IDENTIFIER_LENGTH = 45;
 
-    function __construct( $row = array() )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         static $definition = array( "fields" => array( "id" => array( "name" => "ID",

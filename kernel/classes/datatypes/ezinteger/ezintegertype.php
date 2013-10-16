@@ -35,9 +35,9 @@ class eZIntegerType extends eZDataType
     const HAS_MAX_VALUE = 2;
     const HAS_MIN_MAX_VALUE = 3;
 
-    function eZIntegerType()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Integer", 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Integer", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_int' => 'value' ) ) );
         $this->IntegerValidator = new eZIntegerValidator();

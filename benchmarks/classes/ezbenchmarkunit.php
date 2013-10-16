@@ -21,10 +21,12 @@
 
 class eZBenchmarkUnit
 {
-    /*!
-     Constructor
-    */
-    function eZBenchmarkUnit( $name = false )
+    /**
+     * Initializes the benchmark
+     *
+     * @param bool|string $name
+     */
+    function __construct( $name = false )
     {
         if ( !$name )
             $name = get_class( $this );

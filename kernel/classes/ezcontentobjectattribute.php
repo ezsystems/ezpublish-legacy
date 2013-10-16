@@ -18,7 +18,7 @@
 
 class eZContentObjectAttribute extends eZPersistentObject
 {
-    function eZContentObjectAttribute( $row )
+    public function __construct( $row )
     {
         $this->Content = null;
         $this->DisplayInfo = null;
@@ -30,7 +30,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         $this->InputParameters = false;
         $this->HasValidationError = false;
         $this->DataTypeCustom = null;
-        $this->eZPersistentObject( $row );
+        parent::__construct($row);
     }
 
     static function definition()

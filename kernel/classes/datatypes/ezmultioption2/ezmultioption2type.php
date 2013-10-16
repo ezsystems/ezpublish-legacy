@@ -38,9 +38,9 @@ class eZMultiOption2Type extends eZDataType
     /*!
      Constructor to initialize the datatype.
     */
-    function eZMultiOption2Type()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Multi-option2", 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Multi-option2", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

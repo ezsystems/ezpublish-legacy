@@ -16,12 +16,9 @@
 
 class eZFilePackageHandler extends eZPackageHandler
 {
-    /*!
-     Constructor
-    */
-    function eZFilePackageHandler()
+    public function __construct()
     {
-        $this->eZPackageHandler( 'ezfile' );
+        parent::__construct( 'ezfile' );
     }
 
     function install( $package, $installType, $parameters,
