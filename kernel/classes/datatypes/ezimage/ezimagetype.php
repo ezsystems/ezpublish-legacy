@@ -181,6 +181,7 @@ class eZImageType extends eZDataType
         }
         else
         {
+            /** @var eZImageAliasHandler $imageHandler */
             $imageHandler = $contentObjectAttribute->attribute( 'content' );
             if ( $imageHandler )
                 $imageHandler->removeAliases( $contentObjectAttribute );
@@ -432,6 +433,7 @@ class eZImageType extends eZDataType
         $hasContent = $contentObjectAttribute->hasContent();
         if ( $hasContent )
         {
+            /** @var eZImageAliasHandler $imageHandler */
             $imageHandler = $contentObjectAttribute->attribute( 'content' );
             $mainNode = false;
             foreach ( array_keys( $publishedNodes ) as $publishedNodeKey )

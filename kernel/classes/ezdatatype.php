@@ -872,10 +872,12 @@ class eZDataType
     {
     }
 
-    /*!
-     Initializes the object attribute with some data.
-     \note Default implementation does nothing.
-    */
+    /**
+     * Initializes the object attribute with some data.
+     * @param eZContentObjectAttribute $objectAttribute
+     * @param int $currentVersion
+     * @param eZContentObjectAttribute $originalContentObjectAttribute
+     */
     function initializeObjectAttribute( $objectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
     }
