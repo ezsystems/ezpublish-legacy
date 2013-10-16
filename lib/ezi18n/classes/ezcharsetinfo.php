@@ -107,8 +107,6 @@ class eZCharsetInfo
                                  'utf32be' => 'utf-32be',
                                  'utf32le' => 'utf-32le',
 
-                                 'ucs2le' => 'ucs-2le',
-
                                  'ucs4' => 'ucs-4',
                                  'ucs4be' => 'ucs-4be',
                                  'ucs4le' => 'ucs-4le',

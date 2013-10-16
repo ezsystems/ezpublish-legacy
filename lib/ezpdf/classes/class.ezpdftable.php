@@ -197,7 +197,6 @@ class eZPDFTable extends Cezpdf
             'shadeCol2' => eZMath::rgbToCMYK2( 0.7, 0.7, 0.7 ),
             'repeatTableHeader' => 0,
             'fontSize' => 10,
-            'titleFontSize' => 12,
             'titleGap' => 5,
             'lineCol' => array( 0, 0, 0 ),
             'gap' => 5,
