@@ -151,6 +151,15 @@ class eZNodeviewfunctions
         $tpl->setVariable( 'collection_attributes', $collectionAttributes );
         $tpl->setVariable( 'validation', $validation );
         $tpl->setVariable( 'persistent_variable', false );
+        if ( isset( $viewParameters['_custom'] ) )
+        {
+            foreach ( $viewParameters['_custom'] as $customVarName => $customValue )
+            {
+                $tpl->setVariable( $customVarName, $customValue );
+            }
+
+            unset( $viewParameters['_custom'] );
+        }
 
         $parents = $node->attribute( 'path' );
 
