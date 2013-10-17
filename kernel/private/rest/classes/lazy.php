@@ -49,6 +49,12 @@ class ezpRestDbConfig implements ezcBaseConfigurationInitializer
         $dsnAuth = $dbUser . ( $dbPass != '' ? ":$dbPass" : '' );
         $dsn = "{$dbType}://{$dbUser}:{$dbPass}@{$dsnHost}/{$dbName}";
 
+        if ( $dbType == 'oracle' )
+        {
+            // this is the way to properly tell the db we want UTF8 data, regardless of env vars
+            $dsn .= '?charset=AL32UTF8';
+        }
+
         return $dsn;
     }
 }
