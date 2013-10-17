@@ -765,7 +765,10 @@ class eZImageManager
             $alias['filters'] = $filters;
         }
         if ( $ini->hasVariable( $iniGroup, 'Reference' ) )
-            $alias['reference'] = $ini->variable( $iniGroup, 'Reference' );
+        {
+            $alias['reference'] = trim( $ini->variable( $iniGroup, 'Reference' ) );
+            $alias['reference'] = ( $alias['reference'] !== '' ) ? $alias['reference'] : false;
+        }
         return $alias;
     }
 
