@@ -728,7 +728,7 @@ class eZImageAliasHandler
      *
      * @return void
      */
-    function removeAliases( $contentObjectAttribute )
+    function removeAliases()
     {
         // We loop over each image alias, and lookup the file in ezimagefile.
         // Only images referenced by one version (all attributes included) will be removed
@@ -745,7 +745,7 @@ class eZImageAliasHandler
             $imageFilesReferencingFilePath = eZImageFile::fetchListByFilepath( $alias['url'] );
             foreach ( $imageFilesReferencingFilePath as $imageFile )
             {
-                if ( $imageFile->attribute( 'contentobject_attribute_id' ) != $contentObjectAttribute->attribute( 'id' ) )
+                if ( $imageFile->attribute( 'contentobject_attribute_id' ) != $this->ContentObjectAttributeData['id'] )
                 {
                     $filePathIsReferencedByOtherAttributes = true;
                     continue;
@@ -755,12 +755,12 @@ class eZImageAliasHandler
 
                 foreach ( eZImageFile::fetchImageAttributesByFilepath( $alias['url'], $imageFile->attribute( 'contentobject_attribute_id' ) ) as $attribute )
                 {
-                    if ( $attribute['id'] != $contentObjectAttribute->attribute( 'id' ) )
+                    if ( $attribute['id'] != $this->ContentObjectAttributeData['id'] )
                         continue;
 
                     if (
-                        $attribute['version'] != $contentObjectAttribute->attribute( 'version' ) ||
-                        $attribute['language_code'] != $contentObjectAttribute->attribute( 'language_code' )
+                        $attribute['version'] != $this->ContentObjectAttributeData['version'] ||
+                        $attribute['language_code'] != $this->ContentObjectAttributeData['language_code']
                     )
                     {
                         $filePathIsReferencedByOtherAttributes = true;
@@ -809,7 +809,7 @@ class eZImageAliasHandler
         $this->ContentObjectAttributeData['DataTypeCustom']['dom_tree'] = $doc;
         unset( $this->ContentObjectAttributeData['DataTypeCustom']['alias_list'] );
 
-        $this->storeDOMTree( $doc, true, $contentObjectAttribute );
+        $this->storeDOMTree( $doc, true, false );
     }
 
     /*!
@@ -1111,8 +1111,7 @@ class eZImageAliasHandler
                 $mimeData = eZMimeType::findByURL( $httpFile->attribute( 'original_filename' ) );
             }
         }
-        $attr = false;
-        $this->removeAliases( $attr );
+        $this->removeAliases();
         $this->setOriginalAttributeDataValues( $this->ContentObjectAttributeData['id'],
                                                $this->ContentObjectAttributeData['version'],
                                                $this->ContentObjectAttributeData['language_code'] );
@@ -1168,8 +1167,7 @@ class eZImageAliasHandler
             $mimeData = eZMimeType::findByFileContents( $originalFilename );
         }
 
-        $attr = false;
-        $this->removeAliases( $attr );
+        $this->removeAliases();
         $this->setOriginalAttributeDataValues( $this->ContentObjectAttributeData['id'],
                                                $this->ContentObjectAttributeData['version'],
                                                $this->ContentObjectAttributeData['language_code'] );

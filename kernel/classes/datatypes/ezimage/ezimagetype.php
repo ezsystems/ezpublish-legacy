@@ -184,7 +184,7 @@ class eZImageType extends eZDataType
             /** @var eZImageAliasHandler $imageHandler */
             $imageHandler = $contentObjectAttribute->attribute( 'content' );
             if ( $imageHandler )
-                $imageHandler->removeAliases( $contentObjectAttribute );
+                $imageHandler->removeAliases();
         }
     }
 
@@ -482,7 +482,7 @@ class eZImageType extends eZDataType
             $content = $contentObjectAttribute->attribute( 'content' );
             if ( $content )
             {
-                $content->removeAliases( $contentObjectAttribute );
+                $content->removeAliases();
             }
         }
     }
@@ -614,6 +614,7 @@ class eZImageType extends eZDataType
     {
         $delimiterPos = strpos( $string, '|' );
 
+        /** @var eZImageAliasHandler $content */
         $content = $objectAttribute->attribute( 'content' );
         if ( $delimiterPos === false )
         {
