@@ -14,7 +14,14 @@ class ezpRestDbConfig implements ezcBaseConfigurationInitializer
     {
         //Ignoring $instance
         $dsn = self::lazyDbHelper();
-        return ezcDbFactory::create( $dsn );
+        $handler = ezcDbFactory::create( $dsn );
+        if ( strpos( $dsn, 'oracle://' ) === 0 )
+        {
+            $opts = new ezcDbOracleOptions();
+            $opts->quoteIdentifier = ezcDbOracleOptions::QUOTES_UNTOUCHED;
+            $handler->setOptions( $opts );
+        }
+        return $handler;
     }
 
     protected static function lazyDbHelper()
