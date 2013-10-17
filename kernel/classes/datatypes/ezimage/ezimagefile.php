@@ -145,20 +145,16 @@ class eZImageFile extends eZPersistentObject
         // Fetch by file path without $contentObjectAttributeID
         if ( $contentObjectAttributeID === false )
 
-            return eZPersistentObject::fetchObjectList( eZImageFile::definition(),
+            return eZPersistentObject::fetchObject( eZImageFile::definition(),
                                                         null,
                                                         array( 'filepath' => $filepath ),
-                                                        null,
-                                                        null,
-                                                        $asObject,
-                                                        array( 'contentobject_attribute_id', 'filepath' ) );
+                                                        $asObject );
 
         return eZPersistentObject::fetchObject( eZImageFile::definition(),
                                                 null,
                                                 array( 'contentobject_attribute_id' => $contentObjectAttributeID,
                                                        'filepath' => $filepath ),
-                                                $asObject,
-                                                array( 'contentobject_attribute_id', 'filepath' ) );
+                                                $asObject );
     }
 
     /**
