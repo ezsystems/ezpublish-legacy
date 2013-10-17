@@ -80,8 +80,7 @@ class eZImageFile extends eZPersistentObject
      * @param string $filePath file path to look up as URL in the XML string
      * @param int $contentObjectAttributeID
      *
-     * @return array An array of content object attribute ids and versions of
-     *               image files where the url is referenced
+     * @return array An array with a series of ezcontentobject_attribute's id, version and language_code
      *
      * @todo Rewrite ! A where data_text LIKE '%xxx%' is a resource hog !
      */
@@ -117,7 +116,7 @@ class eZImageFile extends eZPersistentObject
         );
         // Escape _ in like to avoid it to act as a wildcard !
         $filepath = addcslashes( $filepath, "_" );
-        $query = "SELECT id, version
+        $query = "SELECT id, version, language_code
                   FROM   ezcontentobject_attribute
                   WHERE  contentobject_id = $contentObjectID AND
                          contentclassattribute_id = $contentClassAttributeID AND
@@ -130,20 +129,57 @@ class eZImageFile extends eZPersistentObject
         return $rows;
     }
 
+    /**
+     * Fetches the eZImageFile objects matching $filepath, optionally filtered by content object attribute id
+     *
+     * @param int $contentObjectAttributeId Optional content object attribute id to filter on. Set to false to disable.
+     * @param string $filepath
+     * @param bool $asObject
+     *
+     * @return eZImageFile
+     *
+     * @todo This method is actually wrong: the method could return multiple objects (EZP-21324)
+     */
     static function fetchByFilepath( $contentObjectAttributeID, $filepath, $asObject = true )
     {
         // Fetch by file path without $contentObjectAttributeID
         if ( $contentObjectAttributeID === false )
-            return eZPersistentObject::fetchObject( eZImageFile::definition(),
-                                                    null,
-                                                    array( 'filepath' => $filepath ),
-                                                    $asObject );
+
+            return eZPersistentObject::fetchObjectList( eZImageFile::definition(),
+                                                        null,
+                                                        array( 'filepath' => $filepath ),
+                                                        null,
+                                                        null,
+                                                        $asObject,
+                                                        array( 'contentobject_attribute_id', 'filepath' ) );
 
         return eZPersistentObject::fetchObject( eZImageFile::definition(),
                                                 null,
                                                 array( 'contentobject_attribute_id' => $contentObjectAttributeID,
                                                        'filepath' => $filepath ),
-                                                $asObject );
+                                                $asObject,
+                                                array( 'contentobject_attribute_id', 'filepath' ) );
+    }
+
+    /**
+     * Fetches unique eZImageFile objects matching $filePath
+     *
+     * @param string $filePath
+     * @param bool $asObject
+     *
+     * @return eZImageFile[]|array
+     */
+    static function fetchListByFilePath( $filePath, $asObject = true )
+    {
+        return eZPersistentObject::fetchObjectList(
+            eZImageFile::definition(),
+            null,
+            array( 'filepath' => $filePath ),
+            null,
+            null,
+            $asObject,
+            array( 'contentobject_attribute_id', 'filepath' )
+        );
     }
 
     static function moveFilepath( $contentObjectAttributeID, $oldFilepath, $newFilepath )
@@ -197,7 +233,6 @@ class eZImageFile extends eZPersistentObject
 
 
     /// \privatesection
-    public $ID;
     public $ContentObjectAttributeID;
     public $Filepath;
 }

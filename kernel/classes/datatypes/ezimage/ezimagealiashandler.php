@@ -647,6 +647,7 @@ class eZImageAliasHandler
      */
     static function removeAllAliases( $contentObjectAttribute )
     {
+        /** @var eZImageAliasHandler $handler */
         $handler = $contentObjectAttribute->attribute( 'content' );
         if ( !$handler->isImageOwner() )
         {
@@ -714,9 +715,10 @@ class eZImageAliasHandler
     }
 
     /**
-     * Removes all the image aliases and their information.
-     * The stored images will also be removed if the attribute is the owner
-     * of the images.
+     * Removes the aliases referenced by $contentObjectAttribute in a specific version
+     *
+     * Files, as well as their references in ezimagefile, are only removed if this attribute/version was
+     * the last one referencing it
      *
      * After the images are removed the attribute will containe an internal
      * structure with empty data
@@ -728,76 +730,61 @@ class eZImageAliasHandler
      */
     function removeAliases( $contentObjectAttribute )
     {
-        $aliasList = $this->aliasList();
-        $alternativeText = false;
-
-        $contentObjectAttributeVersion = $this->ContentObjectAttributeData['version'];
-        $contentObjectAttributeID = $this->ContentObjectAttributeData['id'];
-
-        $isImageOwner = $this->isImageOwner();
-
-        // We loop over each image alias, and look up the file in ezcontentobject_attribute
-        // Only images referenced by one version will be removed
-        foreach ( $aliasList as $aliasName => $alias )
+        // We loop over each image alias, and lookup the file in ezimagefile.
+        // Only images referenced by one version (all attributes included) will be removed
+        foreach ( $this->aliasList() as $aliasName => $alias )
         {
-            $dirpath = $alias['dirpath'];
-            $doNotDelete = false; // Do not delete files from storage
+            $filePathIsReferencedByOtherAttributes = false;
 
-            if ( $aliasName == 'original' )
-                $alternativeText = $alias['alternative_text'];
-            if ( $alias['is_valid'] )
+            if ( !$alias['is_valid'] )
+                continue;
+
+            $aliasDirectory = $alias['dirpath'];
+
+            // we must check all eZImageFile referencing the alias file
+            $imageFilesReferencingFilePath = eZImageFile::fetchListByFilepath( $alias['url'] );
+            foreach ( $imageFilesReferencingFilePath as $imageFile )
             {
-                $filepath = $alias['url'];
-
-                // Fetch ezimage attributes that use $filepath
-                // Always returns current attribute (array of $contentObjectAttributeID and $contentObjectAttributeVersion)
-                $dbResult = eZImageFile::fetchImageAttributesByFilepath( $filepath, $contentObjectAttributeID );
-                $dbResultCount = count( $dbResult );
-                // Check if there are the attributes.
-                if ( $dbResultCount > 0 )
+                if ( $imageFile->attribute( 'contentobject_attribute_id' ) != $contentObjectAttribute->attribute( 'id' ) )
                 {
-                    $doNotDelete = true;
-                    foreach ( $dbResult as $res )
-                    {
-                        // We only look results where the version matches
-                        if ( $res['version'] == $contentObjectAttributeVersion )
-                        {
-                            // If more than one result has been returned, it means
-                            // that another version is using the same image,
-                            // and we should not delete this file
-                            if ( $dbResultCount > 1 )
-                            {
-                                continue;
-                            }
-                            // Only one result means that the current attribute
-                            // & version are the only ones using this image,
-                            // and it can be removed
-                            else
-                            {
-                                $doNotDelete = false;
-                            }
-                        }
+                    $filePathIsReferencedByOtherAttributes = true;
+                    continue;
+                }
 
-                        eZImageFile::appendFilepath( $res['id'], $filepath, true );
+                $imageFileIsReferencedByOtherAttributes = false;
+
+                foreach ( eZImageFile::fetchImageAttributesByFilepath( $alias['url'], $imageFile->attribute( 'contentobject_attribute_id' ) ) as $attribute )
+                {
+                    if ( $attribute['id'] != $contentObjectAttribute->attribute( 'id' ) )
+                        continue;
+
+                    if (
+                        $attribute['version'] != $contentObjectAttribute->attribute( 'version' ) ||
+                        $attribute['language_code'] != $contentObjectAttribute->attribute( 'language_code' )
+                    )
+                    {
+                        $filePathIsReferencedByOtherAttributes = true;
+                        $imageFileIsReferencedByOtherAttributes = true;
+                        break;
                     }
                 }
 
-                if ( !$doNotDelete )
-                {
-                    eZImageFile::removeFilepath( $contentObjectAttributeID, $filepath );
-
-                    $file = eZClusterFileHandler::instance( $filepath );
-                    if ( $file->exists() )
-                    {
-                        $file->delete();
-                        eZDir::cleanupEmptyDirectories( $dirpath );
-                    }
-                    else
-                    {
-                        eZDebug::writeError( "Image file $filepath for alias $aliasName does not exist, could not remove from disk", __METHOD__ );
-                    }
-                }
+                if ( !$imageFileIsReferencedByOtherAttributes )
+                    $imageFile->remove();
             }
+
+            if ( !$filePathIsReferencedByOtherAttributes )
+            {
+                $file = eZClusterFileHandler::instance( $alias['url'] );
+                if ( !$file->exists() )
+                {
+                    eZDebug::writeError( "Image file {$alias['url']} for alias $aliasName does not exist, could not remove from disk", __METHOD__ );
+                    continue;
+                }
+                $file->delete();
+                eZDir::cleanupEmptyDirectories( $aliasDirectory );
+            }
+
         }
 
         $doc = new DOMDocument( '1.0', 'utf-8' );
@@ -815,7 +802,7 @@ class eZImageAliasHandler
         $imageNode->setAttribute( 'mime_type', false );
         $imageNode->setAttribute( 'width', false );
         $imageNode->setAttribute( 'height', false );
-        $imageNode->setAttribute( 'alternative_text', $alternativeText );
+        $imageNode->setAttribute( 'alternative_text', false );
         $imageNode->setAttribute( 'alias_key', false );
         $imageNode->setAttribute( 'timestamp', false );
 

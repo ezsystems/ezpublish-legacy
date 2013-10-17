@@ -923,10 +923,12 @@ class eZDataType
     {
     }
 
-    /*!
-     Clean up stored object attribute
-     \note Default implementation does nothing.
-    */
+    /**
+     * Deletes $objectAttribute datatype data, optionally in version $version.
+     *
+     * @param eZContentObjectAttribute $objectAttribute
+     * @param int $version
+     */
     function deleteStoredObjectAttribute( $objectAttribute, $version = null )
     {
     }

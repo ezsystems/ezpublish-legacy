@@ -888,11 +888,11 @@ class eZContentObjectAttribute extends eZPersistentObject
             $dataType->postInitializeObjectAttribute( $this, $currentVersion, $originalContentObjectAttribute );
     }
 
-    /*!
-     Remove the attribute by using the datatype.
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
+    /**
+     * Remove the attribute $id by using the datatype.
+     * @param int $id
+     * @param int $currentVersion Version number to remove the attribute for. If null, all versions are removed.
+     */
     function removeThis( $id, $currentVersion = null )
     {
         $dataType = $this->dataType();
@@ -1030,9 +1030,10 @@ class eZContentObjectAttribute extends eZPersistentObject
         return $tmp;
     }
 
-    /*!
-     Returns the data type class for the current attribute.
-    */
+    /**
+     * Returns the data type class for the current attribute.
+     * @return eZDataType
+     */
     function dataType()
     {
         $dataType = null;
