@@ -2,7 +2,7 @@
 /**
  * File containing the eZImageAliasHandlerRegression class
  *
- * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -91,7 +91,7 @@ class eZImageEZP21324Test extends ezpDatabaseTestCase
         $copyImageV1AliasList = $copyImageV1AliasHandler->aliasList();
         foreach ( $copyImageV1AliasList as $alias )
         {
-            self::assertImageFileNotExists( $copyImageV1AttributeId, $alias['full_path'] );
+            self::assertImageFileExists( $copyImageV1AttributeId, $alias['full_path'] );
         }
 
         $copyObjectV2DataMap = $copyImage->fetchDataMap();
@@ -108,6 +108,12 @@ class eZImageEZP21324Test extends ezpDatabaseTestCase
         foreach ( $originalAliasList as $alias )
         {
             self::assertImageFileExists( $originalImageAttributeId, $alias['full_path'] );
+        }
+
+        // fails
+        foreach ( $copyImageV1AliasList as $alias )
+        {
+            self::assertImageFileNotExists( $copyImageV2AttributeId, $alias['full_path'] );
         }
 
         foreach ( $copyImageV2AliasList as $alias )
@@ -285,8 +291,7 @@ class eZImageEZP21324Test extends ezpDatabaseTestCase
     {
         self::assertInstanceOf(
             'eZImageFile',
-            self::fetchImageFile( $contentObjectAttributeId, $file ),
-            "eZImageFile doesn't exist for contentobject_attribute_id=$contentObjectAttributeId and filepath=$file"
+            self::fetchImageFile( $contentObjectAttributeId, $file )
         );
     }
 
