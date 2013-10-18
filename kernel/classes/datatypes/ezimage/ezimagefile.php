@@ -146,9 +146,9 @@ class eZImageFile extends eZPersistentObject
         if ( $contentObjectAttributeID === false )
 
             return eZPersistentObject::fetchObject( eZImageFile::definition(),
-                                                        null,
-                                                        array( 'filepath' => $filepath ),
-                                                        $asObject );
+                                                    null,
+                                                    array( 'filepath' => $filepath ),
+                                                    $asObject );
 
         return eZPersistentObject::fetchObject( eZImageFile::definition(),
                                                 null,
