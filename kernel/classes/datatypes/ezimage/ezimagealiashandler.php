@@ -743,9 +743,9 @@ class eZImageAliasHandler
 
             // we must check all eZImageFile referencing the alias file
             $imageFilesReferencingFilePath = eZImageFile::fetchListByFilepath( $alias['url'] );
-            foreach ( $imageFilesReferencingFilePath as $imageFile )
+            foreach ( $imageFilesReferencingFilePath as $imageFileData )
             {
-                if ( $imageFile->attribute( 'contentobject_attribute_id' ) != $this->ContentObjectAttributeData['id'] )
+                if ( $imageFileData['contentobject_attribute_id'] != $this->ContentObjectAttributeData['id'] )
                 {
                     $filePathIsReferencedByOtherAttributes = true;
                     continue;
@@ -753,7 +753,7 @@ class eZImageAliasHandler
 
                 $imageFileIsReferencedByOtherAttributes = false;
 
-                foreach ( eZImageFile::fetchImageAttributesByFilepath( $alias['url'], $imageFile->attribute( 'contentobject_attribute_id' ) ) as $attribute )
+                foreach ( eZImageFile::fetchImageAttributesByFilepath( $alias['url'], $imageFileData['contentobject_attribute_id'] ) as $attribute )
                 {
                     if ( $attribute['id'] != $this->ContentObjectAttributeData['id'] )
                         continue;
@@ -770,7 +770,16 @@ class eZImageAliasHandler
                 }
 
                 if ( !$imageFileIsReferencedByOtherAttributes )
-                    $imageFile->remove();
+                {
+                    // we remove all rows since we can have duplicates
+                    eZImageFile::removeObject(
+                        eZImageFile::definition(),
+                        array(
+                            'contentobject_attribute_id' => $this->ContentObjectAttributeData['id'],
+                            'filepath' => $alias['url']
+                        )
+                    );
+                }
             }
 
             if ( !$filePathIsReferencedByOtherAttributes )

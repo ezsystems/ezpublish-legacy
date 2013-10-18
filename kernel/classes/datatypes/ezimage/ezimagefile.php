@@ -158,23 +158,21 @@ class eZImageFile extends eZPersistentObject
     }
 
     /**
-     * Fetches unique eZImageFile objects matching $filePath
+     * Fetches unique eZImageFile data (as an array) for $filePath
      *
      * @param string $filePath
-     * @param bool $asObject
      *
-     * @return eZImageFile[]|array
+     * @return array array of hash. Keys: contentobject_attribute_id, filepath
      */
-    static function fetchListByFilePath( $filePath, $asObject = true )
+    static function fetchListByFilePath( $filePath )
     {
         return eZPersistentObject::fetchObjectList(
             eZImageFile::definition(),
-            null,
+            array( 'contentobject_attribute_id', 'filepath' ),
             array( 'filepath' => $filePath ),
             null,
             null,
-            $asObject,
-            array( 'contentobject_attribute_id', 'filepath' )
+            false
         );
     }
 
