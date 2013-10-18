@@ -31,7 +31,7 @@ class eZImageEZP21324Test extends ezpDatabaseTestCase
      * - removing version one of the copy of the image object won't delete the image files used by
      *   the original image object
      */
-    public function testRemoveVersion()
+    public function testRemoveCopyVersion()
     {
         $originalImageObject = $this->createImage( "Original image" );
         $originalImageObject = $this->createNewVersion( $originalImageObject );
@@ -61,7 +61,7 @@ class eZImageEZP21324Test extends ezpDatabaseTestCase
      * - given that a copy of the image object is done
      * - removing the copy of the image object won't delete the image files used by the original image object
      */
-    public function testRemoveObject()
+    public function testRemoveCopy()
     {
         $originalImageObject = $this->createImage( "Original image" );
         $originalImageObject = $this->createNewVersion( $originalImageObject );
@@ -85,6 +85,35 @@ class eZImageEZP21324Test extends ezpDatabaseTestCase
     }
 
     /**
+     * Tests that:
+     * - given than an image object is created with an image file,
+     * - given that the original image object is edited, and the image is changed
+     * - removing the copy of the image object deletes image files used by both versions
+     */
+    public function testRemoveObject()
+    {
+        $originalImageObject = $this->createImage( "__METHOD__" );
+        $originalImageDataMap = $originalImageObject->dataMap();
+        $imageAliases = $originalImageDataMap['image']->attribute( 'content' )->aliasList();
+
+        $originalImageObject = $this->createNewVersionWithImage( $originalImageObject );
+        $originalImageDataMap = $originalImageObject->fetchDataMap();
+        $imageAliases += $originalImageDataMap['image']->attribute( 'content' )->aliasList();
+
+        foreach ( $imageAliases as $alias )
+        {
+            self::assertFileExists( $alias['full_path'] );
+        }
+
+        $this->removeObject( $originalImageObject );
+
+        foreach ( $imageAliases as $alias )
+        {
+            self::assertFileNotExists( $alias['full_path'] );
+        }
+    }
+
+    /**
      * @param string $name
      * @return eZContentObject
      */
@@ -100,7 +129,34 @@ class eZImageEZP21324Test extends ezpDatabaseTestCase
 
     protected function createNewVersion( eZContentObject $object )
     {
-        $version = $object->createNewVersion( false, true, eZContentObjectVersion::STATUS_INTERNAL_DRAFT );
+        $version = $object->createNewVersion( false, true, false, false, eZContentObjectVersion::STATUS_INTERNAL_DRAFT );
+        $operationResult = eZOperationHandler::execute(
+            'content',
+            'publish',
+            array(
+                'object_id' => $object->attribute( 'id' ),
+                'version' => $version->attribute( 'version' )
+            )
+        );
+
+        self::assertEquals( 1, $operationResult['status'] );
+
+        return $this->forceFetchContentObject( $object->attribute( 'id' ) );
+    }
+
+    protected function createNewVersionWithImage( eZContentObject $object )
+    {
+        $version = $object->createNewVersion( false, true, false, false, eZContentObjectVersion::STATUS_INTERNAL_DRAFT );
+        $contentObjectAttributes = $version->contentObjectAttributes();
+        foreach ( $contentObjectAttributes as $contentObjectAttribute )
+        {
+            if ( $contentObjectAttribute->attribute( 'identifier' ) != 'ezimage' )
+                continue;
+            $contentObjectAttributes->fromString( self::IMAGE_FILE_PATH );
+            $contentObjectAttributes->store();
+            break;
+        }
+
         $operationResult = eZOperationHandler::execute(
             'content',
             'publish',
