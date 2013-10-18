@@ -67,35 +67,42 @@ class eZImageEZP21324Test extends ezpDatabaseTestCase
         $originalImageObject = $this->createImage( "Original image" );
         $originalImageObject = $this->createNewVersion( $originalImageObject );
         $originalImageDataMap = $originalImageObject->fetchDataMap();
+        $originalImageAttribute = $originalImageDataMap['image'];
         /** @var eZImageAliasHandler $originalImageAliasHandler */
-        $imageAttribute = $originalImageDataMap['image'];
-        $originalImageAliasHandler = $imageAttribute->attribute( 'content' );
+        $originalImageAliasHandler = $originalImageAttribute->attribute( 'content' );
 
         $copyObject = $this->createCopy( $originalImageObject );
-
-        $imageFileIds = array();
+        $copyObjectDataMap = $copyObject->fetchDataMap();
+        $copyImageAttribute = $copyObjectDataMap['image'];
+        /** @var eZImageAliasHandler $originalImageAliasHandler */
+        $copyImageAliasHandler = $copyImageAttribute->attribute( 'content' );
 
         foreach ( $originalImageAliasHandler->aliasList() as $alias )
         {
-            self::assertInstanceOf(
-                'eZImageFile',
-                eZImageFile::fetchByFilepath( $imageAttribute->attribute( 'id' ), $alias['full_path'] )
-            );
-
             self::assertFileExists( $alias['full_path'] );
         }
 
+        $copyAliasList = $copyImageAliasHandler->aliasList();
+        foreach ( $copyAliasList as $alias )
+        {
+            self::assertInstanceOf(
+                'eZImageFile',
+                eZImageFile::fetchByFilepath( $copyImageAttribute->attribute( 'id' ), $alias['full_path'] )
+            );
+        }
         $this->removeObject( $copyObject );
 
         foreach ( $originalImageAliasHandler->aliasList() as $alias )
         {
-            // we want to be sure the ezimagefile entries are gone as well
+            self::assertFileExists( $alias['full_path'] );
+        }
+        // we want to be sure the ezimagefile entries are gone as well
+        foreach ( $copyAliasList as $alias )
+        {
             // @todo Failure: the object ain't referenced by the attribute, and can't be deleted. Add missing ref.
             self::assertNull(
-                eZImageFile::fetchByFilepath( $imageAttribute->attribute( 'id' ), $alias['full_path'] )
+                eZImageFile::fetchByFilepath( $copyImageAttribute->attribute( 'id' ), $alias['full_path'] )
             );
-
-            self::assertFileExists( $alias['full_path'] );
         }
     }
 
