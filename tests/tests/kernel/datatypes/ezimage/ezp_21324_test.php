@@ -23,7 +23,15 @@ class eZImageEZP21324Test extends ezpDatabaseTestCase
         $imageClass->store();
     }
 
-    public function testIssue()
+    /**
+     * Tests that:
+     * - given than an original image object is created with an image file,
+     * - given that the original image object is edited, and the image is not changed
+     * - given that a copy of the image object is done
+     * - removing version one of the copy of the image object won't delete the image files used by
+     *   the original image object
+     */
+    public function testRemoveVersion()
     {
         $originalImageObject = $this->createImage( "Original image" );
         $originalImageObject = $this->createNewVersion( $originalImageObject );
@@ -39,6 +47,36 @@ class eZImageEZP21324Test extends ezpDatabaseTestCase
         }
 
         $this->deleteVersion( $copyObject->version( 1 ) );
+
+        foreach ( $originalImageAliasHandler->aliasList() as $alias )
+        {
+            self::assertFileExists( $alias['full_path'] );
+        }
+    }
+
+    /**
+     * Tests that:
+     * - given than an original image object is created with an image file,
+     * - given that the original image object is edited, and the image is not changed
+     * - given that a copy of the image object is done
+     * - removing the copy of the image object won't delete the image files used by the original image object
+     */
+    public function testRemoveObject()
+    {
+        $originalImageObject = $this->createImage( "Original image" );
+        $originalImageObject = $this->createNewVersion( $originalImageObject );
+        $originalImageDataMap = $originalImageObject->fetchDataMap();
+        /** @var eZImageAliasHandler $originalImageAliasHandler */
+        $originalImageAliasHandler = $originalImageDataMap['image']->attribute( 'content' );
+
+        $copyObject = $this->createCopy( $originalImageObject );
+
+        foreach ( $originalImageAliasHandler->aliasList() as $alias )
+        {
+            self::assertFileExists( $alias['full_path'] );
+        }
+
+        $this->removeObject( $copyObject );
 
         foreach ( $originalImageAliasHandler->aliasList() as $alias )
         {
@@ -142,5 +180,10 @@ class eZImageEZP21324Test extends ezpDatabaseTestCase
     protected function deleteVersion( eZContentObjectVersion $version )
     {
         $version->removeThis();
+    }
+
+    public function removeObject( eZContentObject $contentObject )
+    {
+        $contentObject->purge();
     }
 }
