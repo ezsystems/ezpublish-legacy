@@ -115,6 +115,7 @@
         ez_tinymce_url : {'javascript/tiny_mce.js'|ezdesign},
         ez_contentobject_id : {$attribute.contentobject_id},
         ez_contentobject_version : {$attribute.version},
+        ez_form_token: "@$ezxFormToken@",
         spellchecker_rpc_url : {'/ezoe/spellcheck_rpc'|ezurl},
         spellchecker_languages : '{$spell_languages}',
         atd_rpc_url : {'/ezoe/atd_rpc?url='|ezurl},
