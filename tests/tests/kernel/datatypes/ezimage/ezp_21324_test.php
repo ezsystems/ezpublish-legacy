@@ -36,6 +36,7 @@ class eZImageEZP21324Test extends ezpDatabaseTestCase
         $originalImageObject = $this->createImage( "Original image" );
         $originalImageObject = $this->createNewVersion( $originalImageObject );
         $originalImageDataMap = $originalImageObject->fetchDataMap();
+
         /** @var eZImageAliasHandler $originalImageAliasHandler */
         $originalImageAliasHandler = $originalImageDataMap['image']->attribute( 'content' );
 
@@ -67,12 +68,20 @@ class eZImageEZP21324Test extends ezpDatabaseTestCase
         $originalImageObject = $this->createNewVersion( $originalImageObject );
         $originalImageDataMap = $originalImageObject->fetchDataMap();
         /** @var eZImageAliasHandler $originalImageAliasHandler */
-        $originalImageAliasHandler = $originalImageDataMap['image']->attribute( 'content' );
+        $imageAttribute = $originalImageDataMap['image'];
+        $originalImageAliasHandler = $imageAttribute->attribute( 'content' );
 
         $copyObject = $this->createCopy( $originalImageObject );
 
+        $imageFileIds = array();
+
         foreach ( $originalImageAliasHandler->aliasList() as $alias )
         {
+            self::assertInstanceOf(
+                'eZImageFile',
+                eZImageFile::fetchByFilepath( $imageAttribute->attribute( 'id' ), $alias['full_path'] )
+            );
+
             self::assertFileExists( $alias['full_path'] );
         }
 
@@ -80,6 +89,12 @@ class eZImageEZP21324Test extends ezpDatabaseTestCase
 
         foreach ( $originalImageAliasHandler->aliasList() as $alias )
         {
+            // we want to be sure the ezimagefile entries are gone as well
+            // @todo Failure: the object ain't referenced by the attribute, and can't be deleted. Add missing ref.
+            self::assertNull(
+                eZImageFile::fetchByFilepath( $imageAttribute->attribute( 'id' ), $alias['full_path'] )
+            );
+
             self::assertFileExists( $alias['full_path'] );
         }
     }
