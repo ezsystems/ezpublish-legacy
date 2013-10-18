@@ -173,6 +173,76 @@
         init : function(ed, url) {
             var t = this, s, v, o;
 
+            // eZ: form token aware version of tinymce.util.XHR
+            // it's almost the same as the default one, the only difference
+            // is that we set the X-Csrf-Token header when a POST request
+            // is done. See https://jira.ez.no/browse/EZP-21656
+            tinymce.util.XHR.send = function (o) {
+                var x, t, w = window, c = 0;
+
+                function ready() {
+                    if (!o.async || x.readyState == 4 || c++ > 10000) {
+                        if (o.success && c < 10000 && x.status == 200)
+                            o.success.call(o.success_scope, '' + x.responseText, x, o);
+                        else if (o.error)
+                            o.error.call(o.error_scope, c > 10000 ? 'TIMED_OUT' : 'GENERAL', x, o);
+
+                        x = null;
+                    } else
+                        w.setTimeout(ready, 10);
+                };
+
+                // Default settings
+                o.scope = o.scope || this;
+                o.success_scope = o.success_scope || o.scope;
+                o.error_scope = o.error_scope || o.scope;
+                o.async = o.async === false ? false : true;
+                o.data = o.data || '';
+
+                function get(s) {
+                    x = 0;
+
+                    try {
+                        x = new ActiveXObject(s);
+                    } catch (ex) {
+                    }
+
+                    return x;
+                };
+
+                x = w.XMLHttpRequest ? new XMLHttpRequest() : get('Microsoft.XMLHTTP') || get('Msxml2.XMLHTTP');
+
+                if (x) {
+                    if (x.overrideMimeType)
+                        x.overrideMimeType(o.content_type);
+
+                    // here is the change for the eZ Publish form token
+                    var method = o.type || (o.data ? 'POST' : 'GET');
+                    x.open(method, o.url, o.async);
+
+                    if (method.toLowerCase() === 'post') {
+                        x.setRequestHeader('X-Csrf-Token', ed.settings.ez_form_token);
+                    }
+                    // end form token change
+
+                    if (o.content_type)
+                        x.setRequestHeader('Content-Type', o.content_type);
+
+                    x.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+                    x.send(o.data);
+
+                    // Syncronous request
+                    if (!o.async)
+                        return ready();
+
+                    // Wait for response, onReadyStateChange can not be used since it leaks memory in IE
+                    t = w.setTimeout(ready, 10);
+                }
+
+            };
+            // end tinymce.util.XHR
+
             t.editor = ed;
             t.url = url;
             t.onResolveName = new tinymce.util.Dispatcher(this);
