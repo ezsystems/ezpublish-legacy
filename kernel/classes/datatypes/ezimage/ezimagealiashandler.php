@@ -701,7 +701,8 @@ class eZImageAliasHandler
             }
         }
 
-        $this->storeDOMTree( $doc, true, false );
+        if ( isset( $doc ) )
+            $this->storeDOMTree( $doc, true, false );
     }
 
     /**
@@ -718,15 +719,11 @@ class eZImageAliasHandler
                 $this->removeAliasFile( $alias['url'] );
         }
 
-        if ( $alias['name'] == 'original' )
-        {
-            // also calls storeDOMTree
-            $this->generateXMLData();
-        }
+        $this->generateXMLData();
     }
 
     /**
-     * Removes references to $aliasFile from the attribute, and updates the DOM tree for it.
+     * Removes $aliasFile and references to it for the attribute.
      *
      * The eZImageFile entry as well as the file are only removed if this attribute was the last reference.
      *
