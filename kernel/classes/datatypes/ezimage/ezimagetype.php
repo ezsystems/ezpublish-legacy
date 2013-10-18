@@ -646,7 +646,7 @@ class eZImageType extends eZDataType
             if ( $url === "" )
                 continue;
 
-            eZImageFile::appendFilepath( $objectAttributeId, $url, true );
+            eZImageFile::appendFilepath( $objectAttributeId, $url, false );
         }
     }
 }
