@@ -628,7 +628,7 @@ class eZCache
                 }
                 elseif ( $attr->attribute( 'has_content' ) )
                 {
-                    $attr->attribute( 'content' )->purgeAllAliases( $attr );
+                    $attr->attribute( 'content' )->purgeAllAliases();
                 }
             }
         }

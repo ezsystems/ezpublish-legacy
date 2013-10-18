@@ -644,6 +644,8 @@ class eZImageAliasHandler
      *
      * @param eZContentObjectAttribute
      * @note If you want to remove the alias information use removeAliases().
+     *
+     * @deprecated use removeAliases, it does the same thing
      */
     static function removeAllAliases( $contentObjectAttribute )
     {
@@ -680,145 +682,119 @@ class eZImageAliasHandler
      *
      * @param eZContentObjectAttribute $contentObjectAttribute
      */
-    public function purgeAllAliases( eZContentObjectAttribute $contentObjectAttribute )
+    public function purgeAllAliases()
     {
         $aliasList = $this->aliasList( false );
         unset( $aliasList['original'] ); // keeping original
 
-        foreach ( $aliasList as $aliasName => $alias )
+        foreach ( $aliasList as $alias )
         {
-            $filepath = $alias['url'];
+            if ( $alias['is_valid'] )
+                $this->removeAliasFile( $alias['url'] );
 
-            eZImageFile::removeFilepath( $this->ContentObjectAttributeData['id'], $filepath );
-
-            $file = eZClusterFileHandler::instance( $filepath );
-            if ( $file->exists() )
+            // remove entry from DOM model
+            $doc = $this->ContentObjectAttributeData['DataTypeCustom']['dom_tree'];
+            $domXPath = new DOMXPath( $doc );
+            foreach ( $domXPath->query( "//alias[@name='{$alias['name']}']") as $aliasNode )
             {
-                $file->purge();
-                eZDir::cleanupEmptyDirectories( $alias['dirpath'] );
-            }
-            else
-            {
-                eZDebug::writeError( "Image file $filepath for alias $aliasName does not exist, could not remove from disk", __METHOD__ );
+                $aliasNode->parentNode->removeChild( $aliasNode );
             }
         }
 
-        $doc = $this->ContentObjectAttributeData['DataTypeCustom']['dom_tree'];
-        foreach ( $doc->getElementsByTagName( 'alias' ) as $aliasNode )
-        {
-            $aliasNode->parentNode->removeChild( $aliasNode );
-        }
-        $this->ContentObjectAttributeData['DataTypeCustom']['dom_tree'] = $doc;
-        unset( $this->ContentObjectAttributeData['DataTypeCustom']['alias_list'] );
-
-        $this->storeDOMTree( $doc, true, $contentObjectAttribute );
+        $this->storeDOMTree( $doc, true, false );
     }
 
     /**
-     * Removes the aliases referenced by $contentObjectAttribute in a specific version
+     * Removes the aliases referenced by $contentObjectAttribute
      *
      * Files, as well as their references in ezimagefile, are only removed if this attribute/version was
-     * the last one referencing it
-     *
-     * After the images are removed the attribute will containe an internal
-     * structure with empty data
-     *
-     * @param eZContentObjectAttribute $contentObjectAttribute
-     *        Content object attribute to remove aliases for
-     *
-     * @return void
+     * the last one referencing it. The attribute's XML is then reset to reference no image.
      */
     function removeAliases()
     {
-        // We loop over each image alias, and lookup the file in ezimagefile.
-        // Only images referenced by one version (all attributes included) will be removed
-        foreach ( $this->aliasList() as $aliasName => $alias )
+        foreach ( $this->aliasList() as $alias )
         {
-            $filePathIsReferencedByOtherAttributes = false;
+            if ( $alias['is_valid'] )
+                $this->removeAliasFile( $alias['url'] );
+        }
 
-            if ( !$alias['is_valid'] )
-                continue;
+        if ( $alias['name'] == 'original' )
+        {
+            // also calls storeDOMTree
+            $this->generateXMLData();
+        }
+    }
 
-            $aliasDirectory = $alias['dirpath'];
+    /**
+     * Removes references to $aliasFile from the attribute, and updates the DOM tree for it.
+     *
+     * The eZImageFile entry as well as the file are only removed if this attribute was the last reference.
+     *
+     * @param string $aliasFile
+     *
+     * @return array bool true if something was actually done, false otherwise
+     */
+    public function removeAliasFile( $aliasFile )
+    {
+        if ( $aliasFile == '' )
+            throw new InvalidArgumentException( "Expecting image file path" );
 
-            // we must check all eZImageFile referencing the alias file
-            $imageFilesReferencingFilePath = eZImageFile::fetchListByFilepath( $alias['url'] );
-            foreach ( $imageFilesReferencingFilePath as $imageFileData )
+        $filePathIsReferencedByOtherAttributes = false;
+
+        // we must check all eZImageFile referencing the alias file
+        $imageFilesReferencingFilePath = eZImageFile::fetchListByFilepath( $aliasFile );
+        foreach ( $imageFilesReferencingFilePath as $imageFileData )
+        {
+            if ( $imageFileData['contentobject_attribute_id'] != $this->ContentObjectAttributeData['id'] )
             {
-                if ( $imageFileData['contentobject_attribute_id'] != $this->ContentObjectAttributeData['id'] )
+                $filePathIsReferencedByOtherAttributes = true;
+                continue;
+            }
+
+            $imageFileIsReferencedByOtherAttributes = false;
+
+            // we skip eZImageFile entries that reference another contentobject attribute or another version/language
+            foreach ( eZImageFile::fetchImageAttributesByFilepath( $aliasFile, $imageFileData['contentobject_attribute_id'] ) as $attribute )
+            {
+                if ( $attribute['id'] != $this->ContentObjectAttributeData['id'] )
+                    continue;
+
+                if (
+                    $attribute['version'] != $this->ContentObjectAttributeData['version'] ||
+                    $attribute['language_code'] != $this->ContentObjectAttributeData['language_code']
+                )
                 {
                     $filePathIsReferencedByOtherAttributes = true;
-                    continue;
-                }
-
-                $imageFileIsReferencedByOtherAttributes = false;
-
-                foreach ( eZImageFile::fetchImageAttributesByFilepath( $alias['url'], $imageFileData['contentobject_attribute_id'] ) as $attribute )
-                {
-                    if ( $attribute['id'] != $this->ContentObjectAttributeData['id'] )
-                        continue;
-
-                    if (
-                        $attribute['version'] != $this->ContentObjectAttributeData['version'] ||
-                        $attribute['language_code'] != $this->ContentObjectAttributeData['language_code']
-                    )
-                    {
-                        $filePathIsReferencedByOtherAttributes = true;
-                        $imageFileIsReferencedByOtherAttributes = true;
-                        break;
-                    }
-                }
-
-                if ( !$imageFileIsReferencedByOtherAttributes )
-                {
-                    // we remove all rows since we can have duplicates
-                    eZImageFile::removeObject(
-                        eZImageFile::definition(),
-                        array(
-                            'contentobject_attribute_id' => $this->ContentObjectAttributeData['id'],
-                            'filepath' => $alias['url']
-                        )
-                    );
+                    $imageFileIsReferencedByOtherAttributes = true;
+                    break;
                 }
             }
 
-            if ( !$filePathIsReferencedByOtherAttributes )
-            {
-                $file = eZClusterFileHandler::instance( $alias['url'] );
-                if ( !$file->exists() )
-                {
-                    eZDebug::writeError( "Image file {$alias['url']} for alias $aliasName does not exist, could not remove from disk", __METHOD__ );
-                    continue;
-                }
-                $file->delete();
-                eZDir::cleanupEmptyDirectories( $aliasDirectory );
-            }
+            if ( $imageFileIsReferencedByOtherAttributes )
+                continue;
+
+            // we remove all rows since we can have duplicates
+            eZImageFile::removeObject(
+                eZImageFile::definition(),
+                array(
+                    'contentobject_attribute_id' => $this->ContentObjectAttributeData['id'],
+                    'filepath' => $aliasFile
+                )
+            );
 
         }
 
-        $doc = new DOMDocument( '1.0', 'utf-8' );
-        $imageNode = $doc->createElement( "ezimage" );
-        $doc->appendChild( $imageNode );
-
-        $imageNode->setAttribute( 'serial_number', false );
-        $imageNode->setAttribute( 'is_valid', false );
-        $imageNode->setAttribute( 'filename', false );
-        $imageNode->setAttribute( 'suffix', false );
-        $imageNode->setAttribute( 'basename', false );
-        $imageNode->setAttribute( 'dirpath', false );
-        $imageNode->setAttribute( 'url', false );
-        $imageNode->setAttribute( 'original_filename', false );
-        $imageNode->setAttribute( 'mime_type', false );
-        $imageNode->setAttribute( 'width', false );
-        $imageNode->setAttribute( 'height', false );
-        $imageNode->setAttribute( 'alternative_text', false );
-        $imageNode->setAttribute( 'alias_key', false );
-        $imageNode->setAttribute( 'timestamp', false );
-
-        $this->ContentObjectAttributeData['DataTypeCustom']['dom_tree'] = $doc;
-        unset( $this->ContentObjectAttributeData['DataTypeCustom']['alias_list'] );
-
-        $this->storeDOMTree( $doc, true, false );
+        // remove file, if applicable
+        if ( $filePathIsReferencedByOtherAttributes )
+            return;
+        $file = eZClusterFileHandler::instance( $aliasFile );
+        if ( !$file->exists() )
+        {
+            eZDebug::writeError( "Image file {$aliasFile} does not exist, could not remove from disk", __METHOD__ );
+            return;
+        }
+        $file->delete();
+        eZDir::cleanupEmptyDirectories( dirname( $aliasFile ) );
     }
 
     /*!
