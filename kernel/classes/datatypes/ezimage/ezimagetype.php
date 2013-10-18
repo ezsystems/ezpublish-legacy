@@ -175,17 +175,10 @@ class eZImageType extends eZDataType
 
     function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
-        if ( $version === null )
-        {
-            eZImageAliasHandler::removeAllAliases( $contentObjectAttribute );
-        }
-        else
-        {
-            /** @var eZImageAliasHandler $imageHandler */
-            $imageHandler = $contentObjectAttribute->attribute( 'content' );
-            if ( $imageHandler )
-                $imageHandler->removeAliases();
-        }
+        /** @var eZImageAliasHandler $imageHandler */
+        $imageHandler = $contentObjectAttribute->attribute( 'content' );
+        if ( $imageHandler )
+            $imageHandler->removeAliases();
     }
 
     /**
