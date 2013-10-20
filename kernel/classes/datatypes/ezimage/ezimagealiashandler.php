@@ -835,7 +835,16 @@ class eZImageAliasHandler
                 {
                     $fileHandler = eZClusterFileHandler::instance();
                     $fileHandler->fileLinkCopy( $oldURL, $alias['url'], false );
-                    eZImageFile::appendFilepath( $this->ContentObjectAttributeData['id'], $alias['url'] );
+
+                    // we still move the file if no other attribute from the current content uses it
+                    if ( count( eZImageFile::fetchImageAttributesByFilepath( $oldURL, $this->ContentObjectAttributeData['id'] ) ) == 1 )
+                    {
+                        eZImageFile::moveFilepath( $this->ContentObjectAttributeData['id'], $oldURL, $alias['url'] );
+                    }
+                    else
+                    {
+                        eZImageFile::appendFilepath( $this->ContentObjectAttributeData['id'], $alias['url'] );
+                    }
                 }
                 $this->setAliasVariation( $aliasName, $alias );
             }
