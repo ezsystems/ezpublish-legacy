@@ -283,7 +283,6 @@ class eZImageEZP21324Test extends ezpDatabaseTestCase
             'eZImageFile',
             self::fetchImageFile( $contentObjectAttributeId, $file )
         );
-        self::assertFileExists( $file );
     }
 
     /**
@@ -292,7 +291,6 @@ class eZImageEZP21324Test extends ezpDatabaseTestCase
     protected static function assertImageFileNotExists( $contentObjectAttributeId, $file )
     {
         self::assertNull( self::fetchImageFile( $contentObjectAttributeId, $file ) );
-        self::assertFileNotExists( $file );
     }
 
     /**

@@ -745,7 +745,6 @@ class eZImageAliasHandler
             if ( $imageFileData['contentobject_attribute_id'] != $this->ContentObjectAttributeData['id'] )
             {
                 $filePathIsReferencedByOtherAttributes = true;
-                continue;
             }
 
             $imageFileIsReferencedByOtherAttributes = false;
