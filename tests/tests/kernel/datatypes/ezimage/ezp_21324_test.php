@@ -65,11 +65,16 @@ class eZImageEZP21324Test extends ezpDatabaseTestCase
     public function testRemoveCopy()
     {
         $originalImageObject = $this->createImage( "Original image" );
+
         $originalImageObject = $this->createNewVersion( $originalImageObject );
         $originalImageDataMap = $originalImageObject->fetchDataMap();
         $originalImageAttribute = $originalImageDataMap['image'];
         $originalImageAttributeId = $originalImageAttribute->attribute( 'id' );
-        $originalAliasList = $originalImageAttribute->attribute( 'content' )->aliasList();
+        $originalImageAliasHandler = $originalImageAttribute->attribute( 'content' );
+        $originalAliasList = $originalImageAliasHandler->aliasList();
+
+        // generate medium alias on v2
+        $originalImageV1MediumAliasFile = $originalImageAliasHandler->imageAlias( 'medium');
 
         foreach ( $originalAliasList as $alias )
         {
@@ -81,7 +86,9 @@ class eZImageEZP21324Test extends ezpDatabaseTestCase
         $copyImageV1DataMap = $copyImage->version( 1 )->dataMap();
         $copyImageV1Attribute = $copyImageV1DataMap['image'];
         $copyImageV1AttributeId = $copyImageV1Attribute->attribute( 'id' );
-        $copyImageV1AliasList = $copyImageV1Attribute->attribute( 'content' )->aliasList();
+        $copyImageV1AliasHandler = $copyImageV1Attribute->attribute( 'content' );
+
+        $copyImageV1AliasList = $copyImageV1AliasHandler->aliasList();
         foreach ( $copyImageV1AliasList as $alias )
         {
             self::assertImageFileExists( $copyImageV1AttributeId, $alias['full_path'] );
@@ -113,6 +120,9 @@ class eZImageEZP21324Test extends ezpDatabaseTestCase
         {
             self::assertImageFileNotExists( $copyImageV2AttributeId, $alias['full_path'] );
         }
+
+        // Medium alias from original image should not be referenced since v1 was published
+        self::assertImageFileNotExists( $copyImageV2AttributeId, $originalImageV1MediumAliasFile['full_path'] );
     }
 
     /**
