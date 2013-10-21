@@ -380,7 +380,8 @@ class eZDBSchemaInterface
     function insertSchema( $params = array() )
     {
         $params = array_merge( array( 'schema' => true,
-                                      'data' => false ),
+                                      'data' => false,
+                                      'commit_every_n_rows' => 0 ),
                                $params );
 
         if ( !is_object( $this->DBInstance ) )
@@ -432,14 +433,20 @@ class eZDBSchemaInterface
                     continue;
                 }
 
+                $limit = $params['commit_every_n_rows'];
                 $sqlList = $this->generateTableInsertSQLList( $tableName, $table, $data[$tableName], $params, false );
-                foreach ( $sqlList as $sql )
+                foreach ( $sqlList as $i => $sql )
                 {
                     if ( !$this->DBInstance->query( $sql ) )
                     {
                         eZDebug::writeError( "Failed inserting the SQL:\n$sql" );
                         $this->DBInstance->rollback();
                         return false;
+                    }
+                    if ( $limit && $i > 0 && ( $i % $limit == 0 ) )
+                    {
+                        $this->DBInstance->commit();
+                        $this->DBInstance->begin();
                     }
                 }
             }
