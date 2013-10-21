@@ -147,10 +147,6 @@ class eZNodeviewfunctions
         $tpl->setVariable( 'node', $node );
         $tpl->setVariable( 'viewmode', $viewMode );
         $tpl->setVariable( 'language_code', $languageCode );
-        $tpl->setVariable( 'view_parameters', $viewParameters );
-        $tpl->setVariable( 'collection_attributes', $collectionAttributes );
-        $tpl->setVariable( 'validation', $validation );
-        $tpl->setVariable( 'persistent_variable', false );
         if ( isset( $viewParameters['_custom'] ) )
         {
             foreach ( $viewParameters['_custom'] as $customVarName => $customValue )
@@ -160,6 +156,10 @@ class eZNodeviewfunctions
 
             unset( $viewParameters['_custom'] );
         }
+        $tpl->setVariable( 'view_parameters', $viewParameters );
+        $tpl->setVariable( 'collection_attributes', $collectionAttributes );
+        $tpl->setVariable( 'validation', $validation );
+        $tpl->setVariable( 'persistent_variable', false );
 
         $parents = $node->attribute( 'path' );
 
