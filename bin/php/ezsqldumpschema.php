@@ -23,7 +23,7 @@ $script->startup();
 
 $options = $script->getOptions( "[type:][user:][host:][password;][port:][socket:][output-array][output-serialized][output-sql]" .
                                 "[diff-friendly][meta-data][table-type:][table-charset:][compatible-sql][no-sort]" .
-                                "[format:]" .
+                                "[format:][offset:][limit:]" .
                                 "[output-types:][allow-multi-insert][schema-file:]",
                                 "[database][filename]",
                                 array( 'type' => ( "Which database type to use for source, can be one of:\n" .
@@ -54,7 +54,9 @@ $options = $script->getOptions( "[type:][user:][host:][password;][port:][socket:
                                        'output-types' => ( "A comma separated list of types to include in dump (default is schema only):\n" .
                                                            "schema - Table schema\n" .
                                                            "data - Table data\n" .
-                                                           "all - Both table schema and data" )
+                                                           "all - Both table schema and data" ),
+                                       'offset' => "Used when dumping data: skip the first N rows for every table",
+                                       'limit' => "Used when dumping data: limit export to M rows for every table",
                                        ) );
 $script->initialize();
 
@@ -127,7 +129,9 @@ $dbschemaParameters = array( 'schema' => $includeSchema,
                              'table_charset' => $options['table-charset'],
                              'compatible_sql' => $options['compatible-sql'],
                              'allow_multi_insert' => $options['allow-multi-insert'],
-                             'diff_friendly' => $options['diff-friendly'] );
+                             'diff_friendly' => $options['diff-friendly'],
+                             'offset' => $options['offset'] > 0 ? (int) $options['offset'] : false,
+                             'limit' => $options['limit'] > 0 ? (int) $options['limit'] : false );
 if ( $options['no-sort'] )
 {
     $dbschemaParameters['sort_columns'] = false;
