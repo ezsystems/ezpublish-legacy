@@ -543,12 +543,11 @@ class eZHTTPTool
             $host = eZSys::hostname();
         if ( !is_string( $protocol ) )
         {
-            $protocol = 'http';
+            $protocol = eZSys::serverProtocol();
 
             // Default to https if SSL is enabled
             if ( eZSys::isSSLNow() )
             {
-                $protocol = 'https';
                 $port = false;
             }
         }

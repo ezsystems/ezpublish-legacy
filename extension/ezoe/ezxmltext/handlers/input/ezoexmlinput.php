@@ -1803,11 +1803,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             else
             {
                 $domain = eZSys::hostname();
-                $protocol = 'http';
-
-                // Default to https if SSL is enabled
-                if ( eZSys::isSSLNow() )
-                    $protocol = 'https';
+                $protocol = eZSys::serverProtocol();
 
                 self::$serverURL = $protocol . '://' . $domain . eZSys::wwwDir();
             }

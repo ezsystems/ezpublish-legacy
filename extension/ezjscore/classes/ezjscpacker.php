@@ -326,7 +326,7 @@ class ezjscPacker
             else if ( strpos( $file, '://' ) === 0 )
             {
                 if ( !isset( $protocol ) )
-                    $protocol = ( eZSys::isSSLNow() ? 'https' : 'http' );
+                    $protocol = eZSys::serverProtocol();
 
                 $data['http'][] = $protocol . $file;
                 continue;
