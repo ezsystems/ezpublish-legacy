@@ -315,6 +315,11 @@ class eZContentFunctionCollection
                               $classID, $attribute_filter, $extended_attribute_filter, $class_filter_type, $class_filter_array,
                               $groupBy, $mainNodeOnly, $ignoreVisibility, $limitation, $asObject, $objectNameFilter, $loadDataMap = null )
     {
+        if ( $ignoreVisibility === null )
+        {
+            $ignoreVisibility = ( eZINI::instance( 'site.ini' )->variable( 'SiteAccessSettings' , 'ShowHiddenNodes' ) == "true" );
+        }
+
         $treeParameters = array( 'Offset' => $offset,
                                  'OnlyTranslated' => $onlyTranslated,
                                  'Language' => $language,
@@ -373,6 +378,11 @@ class eZContentFunctionCollection
     {
         $childrenCount = null;
 
+        if ( $ignoreVisibility === null )
+        {
+            $ignoreVisibility = ( eZINI::instance( 'site.ini' )->variable( 'SiteAccessSettings' , 'ShowHiddenNodes' ) == "true" );
+        }
+
         if ( is_numeric( $parentNodeID ) or is_array( $parentNodeID ) )
         {
             $childrenCount = eZContentObjectTreeNode::subTreeCountByNodeID( array( 'Limitation' => $limitation,
@@ -405,6 +415,11 @@ class eZContentFunctionCollection
     static public function fetchContentSearch( $searchText, $subTreeArray, $offset, $limit, $searchTimestamp, $publishDate, $sectionID,
                                  $classID, $classAttributeID, $ignoreVisibility, $limitation, $sortArray )
     {
+        if ( $ignoreVisibility === null )
+        {
+            $ignoreVisibility = ( eZINI::instance( 'site.ini' )->variable( 'SiteAccessSettings' , 'ShowHiddenNodes' ) == "true" );
+        }
+
         $searchArray = eZSearch::buildSearchArray();
         $parameters = array();
         if ( $classID !== false )
@@ -1277,10 +1292,11 @@ class eZContentFunctionCollection
             }
         }
 
-        if ( $ignoreVisibility !== null )
+        if ( $ignoreVisibility === null )
         {
-            $params['IgnoreVisibility'] = $ignoreVisibility;
+            $ignoreVisibility = ( eZINI::instance( 'site.ini' )->variable( 'SiteAccessSettings' , 'ShowHiddenNodes' ) == "true" );
         }
+        $params['IgnoreVisibility'] = $ignoreVisibility;
 
         if ( !$attributeID )
         {
@@ -1322,7 +1338,7 @@ class eZContentFunctionCollection
     }
 
         // Fetches count of reverse related objects
-    static public function fetchRelatedObjectsCount( $objectID, $attributeID, $allRelations )
+    static public function fetchRelatedObjectsCount( $objectID, $attributeID, $allRelations, $ignoreVisibility = null )
     {
         if ( !is_numeric( $objectID ) )
         {
@@ -1369,6 +1385,12 @@ class eZContentFunctionCollection
             }
         }
 
+        if ( $ignoreVisibility === null )
+        {
+            $ignoreVisibility = ( eZINI::instance( 'site.ini' )->variable( 'SiteAccessSettings' , 'ShowHiddenNodes' ) == "true" );
+        }
+        $params['IgnoreVisibility'] = $ignoreVisibility;
+
         return array( 'result' => $object->relatedContentObjectCount( false, $attributeID, $params ) );
     }
 
@@ -1404,10 +1426,11 @@ class eZContentFunctionCollection
                 eZDebug::writeError( "Function parameter 'SortBy' should be an array.", 'content/fetchReverseRelatedObjects' );
             }
         }
-        if ( isset( $ignoreVisibility ) )
+        if ( $ignoreVisibility === null )
         {
-            $params['IgnoreVisibility'] = $ignoreVisibility;
+            $ignoreVisibility = ( eZINI::instance( 'site.ini' )->variable( 'SiteAccessSettings' , 'ShowHiddenNodes' ) == "true" );
         }
+        $params['IgnoreVisibility'] = $ignoreVisibility;
         if ( !$attributeID )
         {
             $attributeID = 0;
@@ -1458,10 +1481,11 @@ class eZContentFunctionCollection
         }
 
         $params = array();
-        if ( isset( $ignoreVisibility ) )
+        if ( $ignoreVisibility === null )
         {
-            $params['IgnoreVisibility'] = $ignoreVisibility;
+            $ignoreVisibility = ( eZINI::instance( 'site.ini' )->variable( 'SiteAccessSettings' , 'ShowHiddenNodes' ) == "true" );
         }
+        $params['IgnoreVisibility'] = $ignoreVisibility;
 
         if ( !$attributeID )
         {

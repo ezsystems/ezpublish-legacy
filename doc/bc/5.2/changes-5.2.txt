@@ -60,6 +60,14 @@ Change of behavior
 
   More information can be found on the online documentation.
 
+- Fixed EZP-19887: Always use settings when ignore_visibility is undefined (or set to null)
+    - eZContentFunctionCollection::fetchRelatedObjectsCount has now a
+       new optional parameter $ignoreVisibility with default value at NULL
+    - fetch functions content/list, content/list_count, content/tree, content/tree_count all now
+       has ignore_visibility set to null by default to use ini setting instead of previous "false"
+    - Fetch function content/related_objects_count now supports ignore_visibility like the others
+
+
 Removed features
 ----------------
 

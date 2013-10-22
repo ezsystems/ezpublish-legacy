@@ -74,7 +74,7 @@ selected="selected"
 <select id="ezcontent_advancesearch_class_attribute_id" name="SearchContentClassAttributeID">
 <option value="-1">{'Any attribute'|i18n( 'design/admin/content/search' )}</option>
 {section name=ClassAttribute loop=$search_content_class_attribute_array}
-<option value="{$Attribute:ClassAttribute:item.id}" 
+<option value="{$Attribute:ClassAttribute:item.id}"
 {if eq( $search_contentclass_attribute_id, $Attribute:ClassAttribute:item.id )}selected="selected"{/if}>
 {$Attribute:ClassAttribute:item.name|wash}
 </option>
