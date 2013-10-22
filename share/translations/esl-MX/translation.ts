@@ -28289,8 +28289,7 @@ Clica en nombres de producto para cambiar la lista de navegación.</translation>
     <message>
         <source>Sign Up</source>
         <comment>Button</comment>
-        <translation>
-Inscribir</translation>
+        <translation>Inscribir</translation>
     </message>
     <message>
         <source>Edit profile</source>

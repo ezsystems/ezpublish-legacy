@@ -25303,8 +25303,7 @@ Para hacer esto necesitas cambiar los comandos %chown en comandos de consola alt
     <message>
         <source>Sign Up</source>
         <comment>Button</comment>
-        <translation>
-Inscribir</translation>
+        <translation>Inscribir</translation>
     </message>
     <message>
         <source>Edit profile</source>
