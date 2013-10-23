@@ -176,6 +176,34 @@ class eZSysTest extends ezpTestCase
         // -------------------------------------------------------------------
     }
 
+    public function testIsSSLNow()
+    {
+        $ini = eZINI::instance();
+
+        self::assertFalse( eZSys::isSSLNow() );
+
+        $_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
+        self::assertTrue( eZSys::isSSLNow() );
+        unset( $_SERVER['HTTP_X_FORWARDED_PROTO'] );
+
+        $_SERVER['HTTP_X_FORWARDED_PORT'] = $ini->variable( 'SiteSettings', 'SSLPort' );
+        self::assertTrue( eZSys::isSSLNow() );
+        unset( $_SERVER['HTTP_X_FORWARDED_PORT'] );
+
+        $_SERVER['HTTP_X_FORWARDED_SERVER'] = $ini->variable( 'SiteSettings', 'SSLProxyServerName' );
+        self::assertTrue( eZSys::isSSLNow() );
+        unset( $_SERVER['HTTP_X_FORWARDED_SERVER'] );
+    }
+
+    public function testServerProtocol()
+    {
+        self::assertEquals( 'http', eZSys::serverProtocol() );
+
+        $_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
+        self::assertEquals( 'https', eZSys::serverProtocol() );
+        unset( $_SERVER['HTTP_X_FORWARDED_PROTO'] );
+    }
+
     /* -----------------------------------------------------------------------
      * HELPER FUNCTIONS
      * -----------------------------------------------------------------------
