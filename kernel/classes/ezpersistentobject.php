@@ -391,15 +391,13 @@ class eZPersistentObject
             if ( $value !== null                                &&
                  $field_def['datatype'] === 'string'            &&
                  array_key_exists( 'max_length', $field_def )   &&
-                 $field_def['max_length'] > 0                   &&
-                 mb_strlen( $value, "utf-8" ) > $field_def['max_length'] )
+                 $field_def['max_length'] > 0 )
             {
-                $obj->setAttribute( $field_name, mb_substr( $value, 0, $field_def['max_length'], "utf-8" ) );
-                eZDebug::writeDebug( $value, "truncation of $field_name to max_length=". $field_def['max_length'] );
+                $obj->setAttribute( $field_name, $db->truncateString( $value, $field_def['max_length'], $field_name ) );
             }
             $bindDataTypes = array( 'text' );
             if ( $db->bindingType() != eZDBInterface::BINDING_NO &&
-                 mb_strlen( $value, "utf-8" ) > 2000 &&
+                 $db->countStringSize( $value ) > 2000 &&
                  is_array( $field_def ) &&
                  in_array( $field_def['datatype'], $bindDataTypes  )
                  )
@@ -1202,7 +1200,7 @@ class eZPersistentObject
 
             $bindDataTypes = array( 'text' );
             if ( $db->bindingType() != eZDBInterface::BINDING_NO &&
-                 mb_strlen( $value, "utf-8" ) > 2000 &&
+                 $db->countStringSize( $value ) > 2000 &&
                  is_array( $fieldDef ) &&
                  in_array( $fieldDef['datatype'], $bindDataTypes  )
                  )

@@ -56,6 +56,14 @@ class eZNamePatternResolverRegression extends ezpTestCase
                 "name",
                 "私は簡単にパブリッシュの記事で使用することができるようなもの.."
             ),
+            array(// test a string that doesn't need to be modified
+                "A string that doesn't need to be altered",
+                0,
+                "..",
+                "<name>",
+                "name",
+                "A string that doesn't need to be altered"
+            )
         );
     }
 
