@@ -27,6 +27,23 @@ class eZHTTPToolRegression extends ezpTestCase
             eZHTTPTool::sendHTTPRequest( $url, 80, false, 'eZ Publish', false )
         );
     }
+
+    /**
+     * Some parts of eZ do not benefit from the enhanced checks implemented
+     * in eZSys::isSSLNow(), especially when using an SSL reverse proxy
+     * configured to send the HTTP_X_FORWARDED_PROTO header.
+     *
+     * @link http://issues.ez.no/21731
+     */
+    public function test_createRedirectUrl()
+    {
+        $path = '/a/root/rel/ative';
+        self::assertEquals( 'http://example.com' . $path, eZHTTPTool::createRedirectUrl( $path, array() ) );
+
+        $_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
+        self::assertEquals( 'https://example.com' . $path, eZHTTPTool::createRedirectUrl( $path, array() ) );
+        unset( $_SERVER['HTTP_X_FORWARDED_PROTO'] );
+    }
 }
 
 ?>
