@@ -158,8 +158,9 @@
 
 				if (node.nodeType == 3) {
 
-					// eZ: don't clone literal, embed and block custom tag
+					// eZ: don't clone literal, links, embed and block custom tag
 					// see https://jira.ez.no/browse/EZP-20355
+					// and https://jira.ez.no/browse/EZP-21807
 
 					// checks whether the elt is contained in an element
 					// that must not be cloned when cloning a cell.
@@ -168,8 +169,8 @@
 						// returns false for the elements that should be filtered out
 						// when cloning a cell.
 						var cloneCheck = function (n) {
-								if ( n.nodeName && n.nodeName.toLowerCase() === 'pre' ) {
-									// literal
+								if ( n.nodeName && ( n.nodeName.toLowerCase() === 'pre' || n.nodeName.toLowerCase() === 'a' ) ) {
+									// literal / link
 									return false;
 								} else if ( dom.hasClass(n, 'ezoeItemNonEditable') ) {
 									// embed
