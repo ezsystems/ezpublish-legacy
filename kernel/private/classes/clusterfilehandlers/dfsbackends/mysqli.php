@@ -1888,6 +1888,34 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
     }
 
     /**
+     * Deletes a batch of cache files from the storage table.
+     *
+     * @param int $limit
+     *
+     * @return int The number of moved rows
+     *
+     * @throws RuntimeException if a MySQL query occurs
+     * @throws InvalidArgumentException if the split table feature is disabled
+     */
+    public function deleteCacheFiles( $limit )
+    {
+        if ( $this->metaDataTable === $this->metaDataTableCache )
+        {
+            throw new InvalidArgumentException( "The split table features is disabled: cache and storage table are identical" );
+        }
+
+        $like = addcslashes( eZSys::cacheDirectory(), '_' ) . DIRECTORY_SEPARATOR . '%';
+
+        $query = "DELETE FROM {$this->metaDataTable} WHERE name LIKE '$like' LIMIT $limit";
+        if ( !mysqli_query( $this->db, $query ) )
+        {
+            throw new RuntimeException( "MySQLi error in $query\n" . mysqli_error( $this->db ), mysqli_errno( $this->db ) );
+        }
+
+        return mysqli_affected_rows( $this->db );
+    }
+
+    /**
      * DB connexion handle
      * @var handle
      */
