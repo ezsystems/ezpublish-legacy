@@ -200,7 +200,6 @@ class eZObjectRelationListType extends eZDataType
         {
             $content['relation_list'] = array();
             $contentObjectAttribute->setContent( $content );
-            $contentObjectAttribute->store();
             return true;
         }
 
