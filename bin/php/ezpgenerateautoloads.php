@@ -75,6 +75,11 @@ $helpOption->mandatory = false;
 $helpOption->shorthelp = "Show help information";
 $params->registerOption( $helpOption );
 
+$quietOption = new ezcConsoleOption( 'q', 'quiet', ezcConsoleInput::TYPE_NONE );
+$quietOption->mandatory = false;
+$quietOption->shorthelp = "do not give any output except when errors occur";
+$params->registerOption( $quietOption );
+
 $targetOption = new ezcConsoleOption( 't', 'target', ezcConsoleInput::TYPE_STRING );
 $targetOption->mandatory = false;
 $targetOption->shorthelp = "The directory to where the generated autoload file should be written.";
@@ -185,7 +190,7 @@ if ( defined( 'EZP_AUTOLOAD_OUTPUT' ) )
 }
 else
 {
-    $autoloadCliOutput = new ezpAutoloadCliOutput();
+    $autoloadCliOutput = new ezpAutoloadCliOutput( $quietOption->value );
 }
 
 $autoloadGenerator->setOutputObject( $autoloadCliOutput );
