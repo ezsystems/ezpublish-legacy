@@ -679,8 +679,6 @@ class eZImageAliasHandler
     /**
      * Removes the images alias while keeping the original image.
      * @see eZCache::purgeAllAliases()
-     *
-     * @param eZContentObjectAttribute $contentObjectAttribute
      */
     public function purgeAllAliases()
     {
