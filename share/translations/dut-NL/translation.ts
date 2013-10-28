@@ -6307,6 +6307,10 @@
         <source>Object Remote ID</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>You are not allowed to view the related object</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view/line</name>
@@ -14599,12 +14603,8 @@ adres verzonden. Volg de instructies in deze e-mail om uw account te activeren.<
 <context>
     <name>design/ezdemo/full/article</name>
     <message>
-        <source>Tip a friend</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Location</source>
-        <translation type="unfinished">Locatie</translation>
+        <translation type="obsolete">Locatie</translation>
     </message>
 </context>
 <context>
@@ -16896,6 +16896,10 @@ Indien u aanvullende opmerkingen voor de goedkeurder heeft of de status wilt zie
     <message>
         <source>Html5 Audio</source>
         <translation type="unfinished">HTML5 Audio</translation>
+    </message>
+    <message>
+        <source>You are not allowed to view the related object</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -22987,6 +22991,14 @@ Deze functionaliteit is ook beschikbaar op een later tijdstip vanaf de beheerint
         <source>Welcome to %edition %version</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Additional packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Looking for other packages? Full archive of all packages can be found &lt;a href=&quot;%packages_url&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/setup/operatorcode</name>
@@ -26303,6 +26315,10 @@ adres verzonden. Volg de instructies in deze e-mail om uw account te activeren.<
     </message>
     <message>
         <source>SSL Zones cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content Language cache</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

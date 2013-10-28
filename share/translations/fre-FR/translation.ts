@@ -6330,6 +6330,10 @@
         <source>Object Remote ID</source>
         <translation>ID externe de l&apos;objet</translation>
     </message>
+    <message>
+        <source>You are not allowed to view the related object</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view/line</name>
@@ -14747,11 +14751,11 @@ your account.</source>
     <name>design/ezdemo/full/article</name>
     <message>
         <source>Tip a friend</source>
-        <translation type="unfinished">Suggérer à un ami</translation>
+        <translation type="obsolete">Suggérer à un ami</translation>
     </message>
     <message>
         <source>Location</source>
-        <translation type="unfinished">Emplacement</translation>
+        <translation type="obsolete">Emplacement</translation>
     </message>
 </context>
 <context>
@@ -17043,6 +17047,10 @@ Si vous voulez laisser un commentaire au responsable de l&apos;approbation ou en
     <message>
         <source>Html5 Audio</source>
         <translation>Son HTML 5</translation>
+    </message>
+    <message>
+        <source>You are not allowed to view the related object</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -23097,6 +23105,14 @@ Ces fonctionnalités sont également disponible plus tard via l&apos;interface d
         <source>Welcome to %edition %version</source>
         <translation>Bienvenue sur %edition %version</translation>
     </message>
+    <message>
+        <source>Additional packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Looking for other packages? Full archive of all packages can be found &lt;a href=&quot;%packages_url&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/setup/operatorcode</name>
@@ -26407,6 +26423,10 @@ your account.</source>
     </message>
     <message>
         <source>SSL Zones cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content Language cache</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -6346,6 +6346,10 @@
         <source>Object Remote ID</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>You are not allowed to view the related object</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view/line</name>
@@ -14763,11 +14767,11 @@ Segueix les instruccions d&apos;aquest correu per activar el teu compte.</transl
     <name>design/ezdemo/full/article</name>
     <message>
         <source>Tip a friend</source>
-        <translation type="unfinished">Recomana a un amic</translation>
+        <translation type="obsolete">Recomana a un amic</translation>
     </message>
     <message>
         <source>Location</source>
-        <translation type="unfinished">Localització</translation>
+        <translation type="obsolete">Localització</translation>
     </message>
 </context>
 <context>
@@ -17058,6 +17062,10 @@ Si vols enviar comentaris a l&apos;encarregat d&apos;aprovar el contingut o veur
     <message>
         <source>Html5 Audio</source>
         <translation type="unfinished">Audio Html5</translation>
+    </message>
+    <message>
+        <source>You are not allowed to view the related object</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -23148,6 +23156,14 @@ També podràs fer-ho més endavant de la Interfície d&apos;Administració.</tr
         <source>Welcome to %edition %version</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Additional packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Looking for other packages? Full archive of all packages can be found &lt;a href=&quot;%packages_url&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/setup/operatorcode</name>
@@ -26477,6 +26493,10 @@ Segueix les instruccions d&apos;aquest correu per activar el teu compte. </trans
     </message>
     <message>
         <source>SSL Zones cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content Language cache</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

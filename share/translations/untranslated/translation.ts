@@ -5687,6 +5687,10 @@
         <source>Object Remote ID</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>You are not allowed to view the related object</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view/line</name>
@@ -13719,17 +13723,6 @@ your account.</source>
     </message>
 </context>
 <context>
-    <name>design/ezdemo/full/article</name>
-    <message>
-        <source>Tip a friend</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Location</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>design/ezwebin/link</name>
     <message>
         <source>Printable version</source>
@@ -15983,6 +15976,10 @@ If you want to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Html5 Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You are not allowed to view the related object</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -21749,6 +21746,14 @@ This functionality is also available at a later time from the Administration Int
         <source>Welcome to %edition %version</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Additional packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Looking for other packages? Full archive of all packages can be found &lt;a href=&quot;%packages_url&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/setup/operatorcode</name>
@@ -25022,6 +25027,10 @@ your account.</source>
     </message>
     <message>
         <source>SSL Zones cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content Language cache</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
