@@ -45,12 +45,7 @@ if ( preg_match("/^(http:)/i", $link ) or
 else
 {
     $domain = getenv( 'HTTP_HOST' );
-    $protocol = 'http';
-
-    if ( eZSys::isSSLNow() )
-    {
-        $protocol = 'https';
-    }
+    $protocol = eZSys::serverProtocol();
 
     $preFix = $protocol . "://" . $domain;
     $preFix .= eZSys::wwwDir();
