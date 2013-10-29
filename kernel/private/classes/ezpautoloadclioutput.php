@@ -42,10 +42,18 @@ class ezpAutoloadCliOutput implements ezpAutoloadOutput
      */
     protected $data = null;
 
-    public function __construct()
+    /**
+     * Constructor of the ezpAutoloadCliOutput class
+     *
+     * @param bool|null $quiet True to not display any messages/warnings to the output.
+     *                         False / null to display all messages.
+     * @return void
+     */
+    public function __construct( $quiet = false )
     {
         $this->output = new ezcConsoleOutput();
         $this->output->formats->warning->color = 'red';
+        $this->output->options->verbosityLevel = $quiet ? 0 : 1;
 
         $this->data = array();
         $this->data['phase1'] = array();
