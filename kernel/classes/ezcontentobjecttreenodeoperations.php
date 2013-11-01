@@ -104,10 +104,32 @@ class eZContentObjectTreeNodeOperations
                 $nodeAssignment->setAttribute( 'op_code', eZNodeAssignment::OP_CODE_MOVE );
                 $nodeAssignment->store();
 
-                // update search index
-                $nodeIDList = array( $nodeID );
-                eZSearch::removeNodeAssignment( $node->attribute( 'main_node_id' ), $newNode->attribute( 'main_node_id' ), $object->attribute( 'id' ), $nodeIDList );
-                eZSearch::addNodeAssignment( $newNode->attribute( 'main_node_id' ), $object->attribute( 'id' ), $nodeIDList );
+                $ini = eZINI::instance( 'site.ini' );
+                $insertPendingAction = false;
+                switch ( $ini->variable( 'SearchSettings', 'DelayedIndexing' ) )
+                {
+                    case 'enabled':
+                        $insertPendingAction = true;
+                        break;
+                    case 'classbased':
+                        $classList = $ini->variable( 'SearchSettings', 'DelayedIndexingClassList' );
+                        if ( is_array( $classList ) && in_array( $object->attribute( 'class_identifier' ), $classList ) )
+                        {
+                            $insertPendingAction = true;
+                        }
+                }
+
+                if ( $insertPendingAction )
+                {
+                    eZDB::instance()->query( "INSERT INTO ezpending_actions( action, param ) VALUES ( 'index_object', '$objectID' )" );
+                }
+                else
+                {
+                    // update search index
+                    $nodeIDList = array( $nodeID );
+                    eZSearch::removeNodeAssignment( $node->attribute( 'main_node_id' ), $newNode->attribute( 'main_node_id' ), $object->attribute( 'id' ), $nodeIDList );
+                    eZSearch::addNodeAssignment( $newNode->attribute( 'main_node_id' ), $object->attribute( 'id' ), $nodeIDList );
+                }
             }
 
             $result = true;
