@@ -872,10 +872,12 @@ class eZDataType
     {
     }
 
-    /*!
-     Initializes the object attribute with some data.
-     \note Default implementation does nothing.
-    */
+    /**
+     * Initializes the object attribute with some data.
+     * @param eZContentObjectAttribute $objectAttribute
+     * @param int $currentVersion
+     * @param eZContentObjectAttribute $originalContentObjectAttribute
+     */
     function initializeObjectAttribute( $objectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
     }
@@ -921,10 +923,12 @@ class eZDataType
     {
     }
 
-    /*!
-     Clean up stored object attribute
-     \note Default implementation does nothing.
-    */
+    /**
+     * Deletes $objectAttribute datatype data, optionally in version $version.
+     *
+     * @param eZContentObjectAttribute $objectAttribute
+     * @param int $version
+     */
     function deleteStoredObjectAttribute( $objectAttribute, $version = null )
     {
     }

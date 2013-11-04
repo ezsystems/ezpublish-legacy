@@ -905,6 +905,7 @@ class eZContentObjectVersion extends eZPersistentObject
 
         foreach ( $contentObjectTranslations as $contentObjectTranslation )
         {
+            /** @var eZContentObjectAttribute $attribute */
             foreach ( $contentObjectTranslation->objectAttributes() as $attribute )
             {
                 $attribute->removeThis( $attribute->attribute( 'id' ), $versionNum );
