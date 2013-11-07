@@ -51,13 +51,12 @@ $totalProcessCount = 0;
 $outList2 = array();
 foreach ( $plist as $p )
 {
-    $mementoMain = eZOperationMemento::fetchMain( $p->attribute( 'memento_key' ) );
     $mementoChild = eZOperationMemento::fetchChild( $p->attribute( 'memento_key' ) );
+    $mementoMain = eZOperationMemento::fetchMain( $mementoChild->attribute( 'main_key' ) );
 
     if ( !$mementoMain or !$mementoChild )
         continue;
 
-    $mementoMainData = $mementoMain->data();
     $mementoChildData = $mementoChild->data();
 
     $triggers = eZTrigger::fetchList( array( 'module_name' => $mementoChildData['module_name'],
