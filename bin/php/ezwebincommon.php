@@ -130,8 +130,7 @@ function checkDir( $dirName )
 {
     if ( !file_exists( $dirName ) )
     {
-        global $autoMode;
-        if( $autoMode == 'on' )
+        if( $GLOBALS['autoMode'] == 'on' )
         {
             $action = 'y';
         }
@@ -195,8 +194,7 @@ function downloadPackages( $packageList, $packageURL, $packageDir, $packageRepos
 
         if( is_object( $package ) )
         {
-            global $autoMode;
-            if( $autoMode == 'on' )
+            if( $GLOBALS['autoMode'] == 'on' )
             {
                 $action = 'y';
             }
@@ -230,8 +228,7 @@ function downloadPackages( $packageList, $packageURL, $packageDir, $packageRepos
     {
         if( file_exists( "$packageDir/$packageName.ezpkg" ) )
         {
-            global $autoMode;
-            if( $autoMode == 'on' )
+            if( $GLOBALS['autoMode'] == 'on' )
             {
                 $action = 'y';
             }
@@ -335,8 +332,7 @@ function installPackages( $packageList, $params = array() )
 
                 if ( isset( $params['error'] ) && is_array( $params['error'] ) && count( $params['error'] ) > 0 )
                 {
-                    global $autoMode;
-                    if( $autoMode == 'on' )
+                    if( $GLOBALS['autoMode'] == 'on' )
                     {
                         switch( $packageType )
                         {
