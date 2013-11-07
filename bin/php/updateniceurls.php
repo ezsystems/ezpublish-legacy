@@ -209,7 +209,7 @@ if ( $options['update-nodes'] )
 function displayProgress( $statusCharacter, $startTime, $currentCount, $totalCount, $currentColumn )
 {
     global $maxColumn;
-    global $cli;
+    $cli = eZCLI::instance();
 
     if ( $statusCharacter !== false )
         $cli->output( $statusCharacter, false );
