@@ -749,6 +749,15 @@ class eZImageAliasHandler
             {
                 $filepath = $alias['url'];
 
+                /**
+                 * If there are no ezimagefile references to this file with this content object attribute id,
+                 * we are dealing with an attribute that was copied from another content.
+                 * The image doesn't belong to us, and we just don't do anything.
+                 * See http://jira.ez.no/browse/EZP-21324
+                 */
+                if ( !eZImageFile::fetchByFilepath( $contentObjectAttributeID, $filepath ) )
+                    continue;
+
                 // Fetch ezimage attributes that use $filepath
                 // Always returns current attribute (array of $contentObjectAttributeID and $contentObjectAttributeVersion)
                 $dbResult = eZImageFile::fetchImageAttributesByFilepath( $filepath, $contentObjectAttributeID );

@@ -79,6 +79,8 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
 
         $this->addTestSuite( 'eZURLTest' );
 
+        $this->addTestSuite( 'eZCacheTest' );
+
         $this->addTestSuite( 'eZOrderRegression' );
         $this->addTestSuite( 'eZSearchEngineRegression' );
     }

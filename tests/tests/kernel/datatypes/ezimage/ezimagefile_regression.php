@@ -67,7 +67,7 @@ class eZImageFileRegression extends ezpDatabaseTestCase
      *
      * @param object $object
      * @param string $newLanguageCode
-     * @return version in new language
+     * @return eZContentObjectVersion in new language
      */
     public function addTranslationDontPublish( $object, $newLanguageCode )
     {
