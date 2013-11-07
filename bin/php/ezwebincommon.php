@@ -18,12 +18,6 @@
 define( "EZ_INSTALL_PACKAGE_EXTRA_ACTION_QUIT", 'q' );
 define( "EZ_INSTALL_PACKAGE_EXTRA_ACTION_SKIP_PACKAGE", 's' );
 
-/*!
- define global vars
-*/
-global $cli;
-global $script;
-
 
 /*!
  includes
@@ -35,38 +29,36 @@ require_once 'autoload.php';
 ***************************************************************/
 function showError( $message, $addEOL = true, $bailOut = true )
 {
-    global $cli;
-    global $script;
-
+    $cli = eZCLI::instance();
     $cli->output( $cli->stylize( 'error', "Error: " .  $message ), $addEOL );
 
     if( $bailOut )
     {
-        $script->shutdown( 1 );
+        eZScript::instance()->shutdown( 1 );
     }
 }
 
 function showWarning( $message, $addEOL = true )
 {
-    global $cli;
+    $cli = eZCLI::instance();
     $cli->output( $cli->stylize( 'warning', "Warning: " . $message ), $addEOL );
 }
 
 function showNotice( $message, $addEOL = true )
 {
-    global $cli;
+    $cli = eZCLI::instance();
     $cli->output( $cli->stylize( 'notice', "Notice: " ) .  $message, $addEOL );
 }
 
 function showMessage( $message, $addEOL = true )
 {
-    global $cli;
+    $cli = eZCLI::instance();
     $cli->output( $cli->stylize( 'blue', $message ), $addEOL );
 }
 
 function showMessage2( $message, $addEOL = true )
 {
-    global $cli;
+    $cli = eZCLI::instance();
     $cli->output( $cli->stylize( 'red', $message ), $addEOL );
 }
 
@@ -188,7 +180,7 @@ function repositoryByVendor( $vendor )
 */
 function downloadPackages( $packageList, $packageURL, $packageDir, $packageRepository )
 {
-    global $cli;
+    $cli = eZCLI::instance();
 
     showMessage2( "Configuring..." );
 
@@ -302,7 +294,7 @@ function downloadPackages( $packageList, $packageURL, $packageDir, $packageRepos
 */
 function installPackages( $packageList, $params = array() )
 {
-    global $cli;
+    $cli = eZCLI::instance();
 
     showMessage2( "Installing..." );
 

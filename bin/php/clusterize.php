@@ -33,8 +33,8 @@ function filePathForBinaryFile($fileName, $mimeType )
 
 function copyBinaryfilesToDB( $remove )
 {
-    global $cli, $fileHandler;
-
+    $cli = eZCLI::instance();
+    $fileHandler = eZClusterFileHandler::instance();
     $db = eZDB::instance();
 
     $cli->output( "Importing binary files to database:");
@@ -52,8 +52,8 @@ function copyBinaryfilesToDB( $remove )
 
 function copyMediafilesToDB( $remove )
 {
-    global $cli, $fileHandler;
-
+    $cli = eZCLI::instance();
+    $fileHandler = eZClusterFileHandler::instance();
     $db = eZDB::instance();
 
     $cli->output( "Importing media files to database:");
@@ -70,8 +70,8 @@ function copyMediafilesToDB( $remove )
 
 function copyImagesToDB( $remove )
 {
-    global $cli, $fileHandler;
-
+    $cli = eZCLI::instance();
+    $fileHandler = eZClusterFileHandler::instance();
     $db = eZDB::instance();
 
     $cli->output( "Importing images and imagealiases files to database:");
@@ -88,7 +88,8 @@ function copyImagesToDB( $remove )
 
 function copyFilesFromDB( $excludeScopes, $remove )
 {
-    global $cli, $fileHandler;
+    $cli = eZCLI::instance();
+    $fileHandler = eZClusterFileHandler::instance();
 
     $cli->output( "Exporting files from database:");
     $filePathList = $fileHandler->getFileList( $excludeScopes, true );

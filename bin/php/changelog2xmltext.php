@@ -199,7 +199,8 @@ if ( $lastSection !== null )
 
 function dumpToText( $nodes )
 {
-    global $cli, $script;
+    $cli = eZCLI::instance();
+    $script = eZScript::instance();
 
     $text = '';
     foreach ( $nodes as $node )

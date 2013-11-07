@@ -23,9 +23,7 @@
 // script initializing
 require_once 'autoload.php';
 
-global $cli;
 global $currencyList;
-
 $currencyList = false;
 
 $cli = eZCLI::instance();
@@ -156,8 +154,8 @@ $script->shutdown( 0 );
 
 function currencyForLocale( $localeString = false )
 {
-    global $cli;
     global $currencyList;
+    $cli = eZCLI::instance();
     $currency = false;
 
     if ( $currencyList === false )

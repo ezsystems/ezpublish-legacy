@@ -20,6 +20,7 @@
 /*!
  define global vars
 */
+global $autoMode;
 
 /*!
  includes
@@ -465,7 +466,6 @@ if ( !$packageURL )
 //
 // 'auto-mode' option
 //
-global $autoMode;
 $autoMode = $scriptOptions['auto-mode'];
 if( $autoMode != 'off' )
 {
