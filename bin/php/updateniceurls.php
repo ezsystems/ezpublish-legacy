@@ -12,6 +12,12 @@
 set_time_limit ( 0 );
 
 require_once 'autoload.php';
+
+/**
+ * define global vars
+ */
+global $options, $maxColumn, $interactive, $performVerification, $backupTables, $backupTableSuffix;
+
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ Publish url-alias imported and updater.\n\n" .
                                                          "Will import urls from the older (3.9) system into the new, controlled by the --import* options.\n" .
@@ -130,6 +136,7 @@ if ( $options['column-width'] !== null )
         $script->shutdown( 1, "The --column-width must be 1 or higher, tried with $columnWidth" );
     }
 }
+
 $maxColumn = max( $columnWidth - $percentLength - $timeLength, $percentLength + $timeLength + 1 );
 $totalChangedNodes = 0;
 $totalNodeCount = 0;
@@ -209,7 +216,8 @@ if ( $options['update-nodes'] )
 function displayProgress( $statusCharacter, $startTime, $currentCount, $totalCount, $currentColumn )
 {
     global $maxColumn;
-    global $cli;
+
+    $cli = eZCLI::instance();
 
     if ( $statusCharacter !== false )
         $cli->output( $statusCharacter, false );
@@ -329,7 +337,7 @@ function logStore( $res, $func, $args )
 
 function resetLogFile( $file )
 {
-    global $cli;
+    eZCLI::instance();
     if ( file_exists( $file ) )
     {
         $s = stat( $file );
@@ -563,10 +571,10 @@ function verifyNodeData( &$result, $node )
 function verifyDataInternal( &$result, $error )
 {
     global $interactive, $performVerification;
-    global $cli;
     if ( !$performVerification )
         return;
 
+    $cli = eZCLI::instance();
     $db = eZDB::instance();
     if ( $db->databaseName() != 'mysql' )
     {
@@ -596,11 +604,13 @@ function verifyDataInternal( &$result, $error )
 
 function backupTables( $stage )
 {
-    global $backupTables, $backupTableSuffix, $cli;
+    global $backupTables, $backupTableSuffix;
     if ( !$backupTables )
         return;
 
     $db = eZDB::instance();
+    $cli = eZCLI::instance();
+
     if ( $db->databaseName() != 'mysql' )
         return; // We only support MySQL for now
 

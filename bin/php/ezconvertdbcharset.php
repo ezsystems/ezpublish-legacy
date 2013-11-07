@@ -51,6 +51,10 @@ define( 'EZ_DROP_CONTENTCLASS_ATTRIBUTE_TMP_TABLE_SQL',
     "DROP TABLE " . EZ_CONTENTCLASS_ATTRIBUTE_TMP_TABLE_NAME );
 
 
+/*
+ * define global vars
+ */
+global $eZDir;
 
 /**
  * Class used to store some of the command line arguments
@@ -88,44 +92,45 @@ class CommandLineArguments
 ***************************************************************/
 function showError( $message, $addEOL = true, $bailOut = true )
 {
-    global $cli, $script, $eZDir;
+    global $eZDir;
 
+    $cli = eZCLI::instance();
     $cli->output( $cli->stylize( 'error', "Error: " .  $message ), $addEOL );
 
     if( $bailOut )
     {
         chdir( $eZDir ); // since it might have changed while running...
-        $script->shutdown( 1 );
+        eZScript::instance()->shutdown( 1 );
     }
 }
 
 function showWarning( $message, $addEOL = true )
 {
-    global $cli;
+    $cli = eZCLI::instance();
     $cli->output( $cli->stylize( 'warning', "Warning: " . $message ), $addEOL );
 }
 
 function showNotice( $message, $addEOL = true )
 {
-    global $cli;
+    $cli = eZCLI::instance();
     $cli->output( $cli->stylize( 'notice', "Notice: " ) .  $message, $addEOL );
 }
 
 function showMessage( $message, $addEOL = true )
 {
-    global $cli;
+    $cli = eZCLI::instance();
     $cli->output( $cli->stylize( 'blue', $message ), $addEOL );
 }
 
 function showMessage2( $message, $addEOL = true )
 {
-    global $cli;
+    $cli = eZCLI::instance();
     $cli->output( $cli->stylize( 'red', $message ), $addEOL );
 }
 
 function showMessage3( $message, $addEOL = true )
 {
-    global $cli;
+    $cli = eZCLI::instance();
     $cli->output( $message, $addEOL );
 }
 
@@ -413,8 +418,7 @@ function checkDBExtraConditionsORACLE()
 {
     global $oracleDbaAccount, $oracleHome;
 
-    //$db = eZDB::instance();
-    global $db;
+    $db = eZDB::instance();
 
     showMessage3( '' );
     showWarning( "The procedure of upgrading the character set of an Oracle database needs manual intervention.\n".
@@ -1282,9 +1286,8 @@ now we have user1..3 data on their tables...
 */
 function changeDBCharsetORACLE( $charset, $collation )
 {
-    global $db, $oracleDbaAccount, $oracleHome, $eZDir;
-
-    //$db = eZDB::instance( false, array( 'user' => $oracleDbaAccount['user'], 'password' => $oracleDbaAccount['password'] ), true );
+    global $oracleDbaAccount, $oracleHome, $eZDir;
+    $db = eZDB::instance();
 
     // since we are here, we should be connected with a dba account (extra conditions check did it)
     $oracleCharset = $db->arrayQuery("select value from nls_database_parameters where parameter = 'NLS_CHARACTERSET'");
@@ -1491,6 +1494,7 @@ EXIT;
 /**************************************************************
 * start script                                                *
 ***************************************************************/
+
 
 // work around a bug in eZSys that prevents it from telling us eZ Publish base dir
 $eZDir = getcwd();
