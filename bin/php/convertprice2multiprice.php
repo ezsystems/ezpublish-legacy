@@ -23,9 +23,6 @@
 // script initializing
 require_once 'autoload.php';
 
-global $cli;
-global $currencyList;
-
 $currencyList = false;
 
 $cli = eZCLI::instance();
@@ -48,6 +45,58 @@ $scriptOptions = $script->getOptions( "",
 
 $script->initialize();
 
+$currencyForLocaleClosure = function ( $localeString = false ) use ( &$currencyList )
+{
+    $cli = eZCLI::instance();
+    $currency = false;
+
+    if ( $currencyList === false )
+    {
+        $currencyList = eZCurrencyData::fetchList();
+    }
+
+    $locale = eZLocale::instance( $localeString );
+    if ( is_object( $locale ) )
+    {
+        // get currency
+        if ( $currencyCode = $locale->currencyShortName() )
+        {
+            if ( !isset( $currencyList[$currencyCode] ) )
+            {
+                $cli->warning( "Currency '$currencyCode' doesn't exist" );
+                $cli->notice( "Creating currency '$currencyCode'... ", false );
+
+                $currencySymbol = $locale->currencySymbol();
+                $localeCode = $locale->localeFullCode();
+
+                if ( $currency = eZCurrencyData::create( $currencyCode, $currencySymbol, $localeCode, '0.00000', '1.00000', '0.00000' ) )
+                {
+                    $cli->output( 'Ok' );
+                    $currency->store();
+                    $currencyList[$currencyCode] = $currency;
+                }
+                else
+                {
+                    $cli->error( 'Failed' );
+                }
+            }
+            else
+            {
+                $currency = $currencyList[$currencyCode];
+            }
+        }
+        else
+        {
+            $cli->error( "Unable to find currency code for the '$localeString' locale" );
+        }
+    }
+    else
+    {
+        $cli->error( "Unable to find '$localeString' locale" );
+    }
+
+    return $currency;
+};
 
 $convertedObjectsCount = 0;
 
@@ -69,7 +118,7 @@ foreach ( $classList as $class )
 
         $cli->output( "Processing objects of the '" . $class->attribute( 'name' ) . "' class" );
 
-        $defaultCurrency = currencyForLocale();
+        $defaultCurrency = $currencyForLocaleClosure();
 
         if ( !$defaultCurrency )
             $script->shutdown( 1 );
@@ -153,59 +202,5 @@ $cli->output( "Total converted objects: $convertedObjectsCount" );
 $cli->output( "Done." );
 
 $script->shutdown( 0 );
-
-function currencyForLocale( $localeString = false )
-{
-    global $cli;
-    global $currencyList;
-    $currency = false;
-
-    if ( $currencyList === false )
-    {
-        $currencyList = eZCurrencyData::fetchList();
-    }
-
-    $locale = eZLocale::instance( $localeString );
-    if ( is_object( $locale ) )
-    {
-        // get currency
-        if ( $currencyCode = $locale->currencyShortName() )
-        {
-            if ( !isset( $currencyList[$currencyCode] ) )
-            {
-                $cli->warning( "Currency '$currencyCode' doesn't exist" );
-                $cli->notice( "Creating currency '$currencyCode'... ", false );
-
-                $currencySymbol = $locale->currencySymbol();
-                $localeCode = $locale->localeFullCode();
-
-                if ( $currency = eZCurrencyData::create( $currencyCode, $currencySymbol, $localeCode, '0.00000', '1.00000', '0.00000' ) )
-                {
-                    $cli->output( 'Ok' );
-                    $currency->store();
-                    $currencyList[$currencyCode] = $currency;
-                }
-                else
-                {
-                    $cli->error( 'Failed' );
-                }
-            }
-            else
-            {
-                $currency = $currencyList[$currencyCode];
-            }
-        }
-        else
-        {
-            $cli->error( "Unable to find currency code for the '$localeString' locale" );
-        }
-    }
-    else
-    {
-        $cli->error( "Unable to find '$localeString' locale" );
-    }
-
-    return $currency;
-}
 
 ?>
