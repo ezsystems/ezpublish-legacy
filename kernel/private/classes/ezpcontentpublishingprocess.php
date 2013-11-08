@@ -172,6 +172,25 @@ class ezpContentPublishingProcess extends eZPersistentObject
         $db = null;
         eZDB::setInstance( null );
 
+        // Force the new stack DB connection closed as well
+        try
+        {
+            $kernel = ezpKernel::instance();
+            if ( $kernel->hasServiceContainer() )
+            {
+                $serviceContainer = $kernel->getServiceContainer();
+                $dbHandler = $serviceContainer->get( 'ezpublish.connection' );
+                $factory = $serviceContainer->get( 'ezpublish.api.storage_engine.legacy.dbhandler.factory' );
+                $dbHandler->setDbHandler(
+                    $factory->buildLegacyDbHandler()->getDbHandler()
+                );
+            }
+        }
+        catch ( LogicException $e )
+        {
+            // we just ignore this, since it means that we are running in a pure legacy context
+        }
+
         // Force the cluster DB connection closed if the cluster handler is DB based
         $cluster = eZClusterFileHandler::instance();
 

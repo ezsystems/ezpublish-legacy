@@ -59,7 +59,6 @@ function help()
 
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
-    global $cronPart;
     $cli = eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {

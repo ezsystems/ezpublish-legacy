@@ -50,7 +50,7 @@ function copyPublishContentObject( $sourceObject,
                                    &$syncObjectIDListSrc, &$syncObjectIDListNew,
                                    $allVersions = false, $keepCreator = false, $keepTime = false )
 {
-    global $cli;
+    $cli = eZCLI::instance();
 
     $sourceObjectID = $sourceObject->attribute( 'id' );
 
