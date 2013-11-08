@@ -60,6 +60,16 @@ Change of behavior
 
   More information can be found on the online documentation.
 
+- Globals in scripts is no longer supported (not working via ezpublish:legacy:script)
+
+  PHP Scripts executed via command line no longer supports assuming global variables in them.
+  This was broken earlier in 5.x when we introduced Symfony command ezpublish:legacy:script
+  to be able to execute legacy scripts while still making sure the integration works. This
+  approach can not technically work with globals, so make sure to refactor your extensions
+  in similar way(s) to how we are doing it in the legacy kernel:
+  - https://github.com/ezsystems/ezpublish-legacy/pull/827
+
+
 Removed features
 ----------------
 
