@@ -116,7 +116,7 @@ if ( $http->hasPostVariable( "DiscardButton" ) )
     $db = eZDB::instance();
     $db->begin();
     $workflow->removeThis( true );
-    eZWorkflowGroupLink::removeWorkflowMembers( $WorkflowID, $WorkflowVersion );
+    eZWorkflowGroupLink::removeWorkflowMembers( $WorkflowID, 1 );
     $db->commit();
 
     $workflowGroups= eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 0, true );
