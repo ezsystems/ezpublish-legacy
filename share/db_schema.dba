@@ -2059,6 +2059,14 @@ $schema = array (
           0 => 'language_code',
         ),
       ),
+      'ezcontentobject_classattr_id' =>
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'contentclassattribute_id',
+        ),
+      ),
       'sort_key_int' => 
       array (
         'type' => 'non-unique',
