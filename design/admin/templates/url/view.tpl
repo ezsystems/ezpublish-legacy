@@ -36,7 +36,7 @@
 {* Address. *}
 <div class="block">
     <label>{'Address'|i18n( 'design/admin/url/view' )}:</label>
-    <a href="{$full_url}">{$full_url}</a>
+    <a href="{$full_url|wash}">{$full_url|wash}</a>
 </div>
 
 {* Address. *}
