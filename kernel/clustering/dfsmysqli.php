@@ -17,7 +17,7 @@ class ezpDfsMySQLiClusterGateway extends ezpClusterGateway
     {
         if ( !$this->db = mysqli_connect( $this->host, $this->user, $this->password, $this->name, $this->port ) )
             throw new RuntimeException( "Failed connecting to the MySQL database " .
-                "(error #". mysqli_errno( $this->db ).": " . mysqli_error( $this->db ) );
+                "(error #". mysqli_connect_errno().": " . mysqli_connect_error() );
 
         if ( !mysqli_set_charset( $this->db, $this->charset ) )
             throw new RuntimeException( "Failed to set database charset to '$this->charset' " .
