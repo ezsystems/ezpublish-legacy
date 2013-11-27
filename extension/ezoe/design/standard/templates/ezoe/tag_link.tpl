@@ -31,7 +31,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
 
 
 <div class="panel_wrapper" style="min-height: 300px;">
-    <div class="panel">
+    <div class="link-dialog">
         <div class="attribute-title">
             <h2 style="padding: 0 0 4px 0;" id="tag-edit-title">{'New %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name_alias, '&gt;') ))}</h2>
         </div>
