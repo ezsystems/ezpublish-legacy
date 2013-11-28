@@ -347,6 +347,11 @@ class eZMediaType extends eZDataType
             $fileHandler = eZClusterFileHandler::instance();
             $fileHandler->fileStore( $filePath, 'media', true, $mime );
         }
+        else if ( $media->attribute( 'filename' ) == '' )
+        {
+            $media->remove();
+            return false;
+        }
 
         $media->store();
         $contentObjectAttribute->setContent( $media );
