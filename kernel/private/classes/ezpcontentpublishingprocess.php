@@ -259,6 +259,15 @@ class ezpContentPublishingProcess extends eZPersistentObject
         {
             $this->reset();
         }
+
+        // generate static cache
+        $ini = eZINI::instance();
+        if ( $ini->variable( 'ContentSettings', 'StaticCache' ) == 'enabled' )
+        {
+            $staticCacheHandlerClassName = $ini->variable( 'ContentSettings', 'StaticCacheHandler' );
+            $staticCacheHandlerClassName::executeActions();
+        }
+
         eZScript::instance()->shutdown();
         exit;
     }
