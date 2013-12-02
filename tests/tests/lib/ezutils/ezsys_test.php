@@ -10,12 +10,6 @@
 
 class eZSysTest extends ezpTestCase
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setName( "eZSysTest" );
-    }
-
     /**
      * Test eZSys $AccessPath as it worked prior to 4.4 without propertied to
      * define scope of path with RemoveSiteAccessIfDefaultAccess=enabled
@@ -202,6 +196,38 @@ class eZSysTest extends ezpTestCase
         $_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
         self::assertEquals( 'https', eZSys::serverProtocol() );
         unset( $_SERVER['HTTP_X_FORWARDED_PROTO'] );
+    }
+    
+    /**
+     * Tests the protected static method getValidwwwDir of the eZSys class
+     *
+     * @dataProvider providerForTestGetValidWwwDir
+     */
+    public function testGetValidWwwDir( $expected, $phpSelf, $scriptFileName, $index )
+    {
+        $method = new ReflectionMethod( 'eZSys', 'getValidwwwDir' );
+        $method->setAccessible( true );
+
+        self::assertEquals( $expected, $method->invoke( null, $phpSelf, $scriptFileName, $index ) );
+    }
+
+    /**
+     * @return array
+     */
+    public function providerForTestGetValidWwwDir()
+    {
+        return array(
+            // expected value, script called, path of the script, name of the index
+            array( false, '', '/some/test/path/index.php', 'index.php' ),
+            array( false, '/index.php', '/some/test/path/index.php', 'indexfail.php' ),
+            array( null, '/index.php', '/some/test/path/indexfail.php', 'index.php' ),
+            array( '', '/index.php', '/some/test/path/index.php', 'index.php' ),
+            array( '~user', '/~user/index.php', '/some/test/path/user/public_html/index.php', 'index.php' ),
+            array( 'path', '/path/index.php', '/some/test/path/index.php', 'index.php' ),
+            array( 'path', '/path/index.php', '\some\test\path\index.php', 'index.php' ),
+            // TODO the following line validates EZP-21983, it will be uncommented once it is fixed
+            // array( null, "/~a\"><body onload=\"alert('Xss')\">/index.php", '/some/test/path/user/public_html/index.php', 'index.php' )
+        );
     }
 
     /* -----------------------------------------------------------------------
