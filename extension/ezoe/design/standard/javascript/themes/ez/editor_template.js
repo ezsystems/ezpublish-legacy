@@ -339,9 +339,9 @@
                 ed.addShortcut('ctrl+9', '', ['FormatBlock', false, '<pre>']);
 
                 // eZ : underline is represented with a custom tag
-                // ie: <span class="ezoeItemCustomTag underline" type="custom">foo bar</span>
+                // ie: <u class="ezoeItemCustomTag underline" type="custom">foo bar</u>
                 ed.formatter.register({
-                    underline : {inline : 'span',
+                    underline : {inline : 'u',
                                  classes : 'ezoeItemCustomTag underline',
                                  attributes : {'type': 'custom'},
                                  exact: true,
