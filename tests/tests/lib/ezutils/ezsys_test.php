@@ -225,8 +225,7 @@ class eZSysTest extends ezpTestCase
             array( '~user', '/~user/index.php', '/some/test/path/user/public_html/index.php', 'index.php' ),
             array( 'path', '/path/index.php', '/some/test/path/index.php', 'index.php' ),
             array( 'path', '/path/index.php', '\some\test\path\index.php', 'index.php' ),
-            // TODO the following line validates EZP-21983, it will be uncommented once it is fixed
-            // array( null, "/~a\"><body onload=\"alert('Xss')\">/index.php", '/some/test/path/user/public_html/index.php', 'index.php' )
+            array( null, "/~a\"><body onload=\"alert('Xss')\">/index.php", '/some/test/path/user/public_html/index.php', 'index.php' )
         );
     }
 
