@@ -1469,12 +1469,10 @@ class eZOEInputParser extends eZXMLInputParser
      */
     public static function customTagIsEnabled( $name )
     {
-        if ( self::$customTagList === null )
-        {
-            $ini = eZINI::instance( 'content.ini' );
-            self::$customTagList = $ini->variable( 'CustomTagSettings', 'AvailableCustomTags' );
-        }
-        return in_array( $name, self::$customTagList );
+        return in_array(
+            $name,
+            eZINI::instance( 'content.ini' )->variable( 'CustomTagSettings', 'AvailableCustomTags' )
+        );
     }
 
      /**
@@ -1516,8 +1514,6 @@ class eZOEInputParser extends eZXMLInputParser
 
 
     protected $anchorAsAttribute = false;
-
-    protected static $customTagList = null;
 }
 
 ?>
