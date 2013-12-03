@@ -66,7 +66,7 @@ foreach ( $linkList as $link )
         }
         else
         {
-            $cli->output( "Couldn't check https protocol" );
+            $cli->output( "HTTPS protocol is not supported by linkcheck" );
         }
     }
     else
