@@ -83,6 +83,8 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
 
         $this->addTestSuite( 'eZOrderRegression' );
         $this->addTestSuite( 'eZSearchEngineRegression' );
+
+        $this->addTestSuite( 'eZCollaborationItemTest' );
     }
 
     public static function suite()
