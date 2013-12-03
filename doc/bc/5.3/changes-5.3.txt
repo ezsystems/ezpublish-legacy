@@ -1,0 +1,40 @@
+Changes to BC and behavior in version 5.3
+=========================================
+
+INI setting changes
+-------------------
+
+
+Change of behavior
+------------------
+
+- Fix EZP-16372: deleting of content lasts very long
+
+  The prototypes of eZSearch::removeObject() and eZSearch::removeObjectById() have changed :
+
+  static function removeObject( $contentObject, $commit = true )
+  becomes
+  static function removeObject( $contentObject, $commit = null )
+
+  This change is needed to make ezfind.ini[IndexOptions]\DisableDeleteCommits option of eZFind actually work.
+
+
+Removed features
+----------------
+
+
+
+
+Removed constants
+-----------------
+
+
+
+Removed globals
+---------------
+
+
+
+
+Deprecated
+----------

@@ -49,7 +49,7 @@ interface ezpSearchEngine
      * @param bool $commit Whether to commit after removing the object
      * @return bool True if the operation succeed.
      */
-    public function removeObject( $contentObject, $commit = true );
+    public function removeObject( $contentObject, $commit = null );
 
     /**
      * Removes a content object by Id from the search database.
@@ -59,7 +59,7 @@ interface ezpSearchEngine
      * @param bool $commit Whether to commit after removing the object
      * @return bool True if the operation succeed.
      */
-    public function removeObjectById( $contentObjectId, $commit = true );
+    public function removeObjectById( $contentObjectId, $commit = null );
 
     /**
      * Searches $searchText in the search database.

@@ -62,7 +62,7 @@ class eZSearch
      * @param bool $commit Whether to commit after removing the object
      * @return bool True if the operation succeed.
      */
-    static function removeObject( $contentObject, $commit = true )
+    static function removeObject( $contentObject, $commit = null )
     {
         $searchEngine = eZSearch::getEngine();
 
@@ -82,7 +82,7 @@ class eZSearch
      * @param bool $commit Whether to commit after removing the object
      * @return bool True if the operation succeed.
      */
-    static function removeObjectById( $contentObjectId, $commit = true )
+    static function removeObjectById( $contentObjectId, $commit = null )
     {
         $searchEngine = eZSearch::getEngine();
         if ( $searchEngine instanceof ezpSearchEngine )
