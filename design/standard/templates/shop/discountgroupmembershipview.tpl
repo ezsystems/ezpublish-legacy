@@ -7,7 +7,7 @@
     <h2>{"Group Name"|i18n("design/standard/shop")}</h2>
 </div>
 <div class="object">
-    {$discountgroup.name} <a href={concat("/shop/discountgroupedit/",$discountgroup.id,"/")|ezurl}><img class="button" src={"edit.gif"|ezimage} width="16" height="16" alt="{'Edit'|i18n('design/standard/shop')}" /></a><br/>
+    {$discountgroup.name|wash} <a href={concat("/shop/discountgroupedit/",$discountgroup.id,"/")|ezurl}><img class="button" src={"edit.gif"|ezimage} width="16" height="16" alt="{'Edit'|i18n('design/standard/shop')}" /></a><br/>
 </div>
 
 <h2>{"Defined rules"|i18n("design/standard/shop")}</h2> 
@@ -38,7 +38,7 @@
         {$:item.discount_percent|l10n(number)}%
     </td>
     <td>
-        {$:item.limitation}
+        {$:item.limitation|wash}
     </td>
     <td width="1">
         <div class="listbutton">

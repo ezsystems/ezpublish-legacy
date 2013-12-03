@@ -11,7 +11,7 @@
 <div class="object">
     <div class="block">
         <label>{"Name"|i18n("design/standard/shop")}</label><div class="labelbreak"></div>
-        <input type="text" name="discountrule_name" value="{$discountrule.name}" size=40>
+        <input type="text" name="discountrule_name" value="{$discountrule.name|wash}" size=40>
     </div>
     <div class="block">
         <label>{"Discount percent"|i18n("design/standard/shop")}</label><div class="labelbreak"></div>

@@ -28,7 +28,7 @@
 {"Subtotal of items"|i18n("design/standard/shop")}:  {$order.product_total_inc_vat|l10n( 'currency', $locale, $symbol )}
 
 {section name=OrderItem loop=$order.order_items show=$order.order_items}
-{$OrderItem:item.description}: 	{$OrderItem:item.price_inc_vat|l10n( 'currency', $locale, $symbol )}
+{$OrderItem:item.description|wash}: 	{$OrderItem:item.price_inc_vat|l10n( 'currency', $locale, $symbol )}
 {/section}
 
 {"Order total"|i18n("design/standard/shop")}: {$order.total_inc_vat|l10n( 'currency', $locale, $symbol )}

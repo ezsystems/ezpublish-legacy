@@ -14,7 +14,7 @@
 </tr>
 {section name=Groups loop=$discountgroup_array sequence=array(bglight,bgdark)}
 <tr>
-    <td class="{$Groups:sequence}"><a href={concat($module.functions.discountgroupview.uri,"/",$Groups:item.id)|ezurl}>{$Groups:item.name}</a></td>
+    <td class="{$Groups:sequence}"><a href={concat($module.functions.discountgroupview.uri,"/",$Groups:item.id)|ezurl}>{$Groups:item.name|wash}</a></td>
     <td class="{$Groups:sequence}" width="1%"><div class="listbutton"><a href={concat($module.functions.discountgroupedit.uri,"/",$Groups:item.id)|ezurl}><img class="button" src={"edit.gif"|ezimage} width="16" height="16" alt="{'Edit'|i18n('design/standard/shop')}" /></a></div></td>
     <td class="{$Groups:sequence}" width="1%"><input type="checkbox" name="discountGroupIDList[]" value="{$Groups:item.id}"></td>
 </tr>

@@ -47,7 +47,7 @@
 <tr class="{$Items.sequence}">
     <td>
     <input type="hidden" name="ProductItemIDList[]" value="{$Items.item.id}" />
-    <a href={concat( '/content/view/full/', $Items.item.node_id, '/' )|ezurl}>{$Items.item.object_name}</a>
+    <a href={concat( '/content/view/full/', $Items.item.node_id, '/' )|ezurl}>{$Items.item.object_name|wash}</a>
     </td>
     <td class="number" align="right">{$Items.item.item_count}</td>
     <td class="number" align="right">{$Items.item.vat_value}%</td>
@@ -67,7 +67,7 @@
     {section var=Options loop=$Items.item.item_object.option_list}
     <tr>
         <td>{$Options.item.name|wash}</td>
-        <td>{$Options.item.value}</td>
+        <td>{$Options.item.value|wash}</td>
         <td class="number" align="right">{$Options.item.price|l10n( 'currency', $locale, $symbol )}</td>
     </tr>
     {/section}
@@ -92,7 +92,7 @@
 
 {section var=OrderItems loop=$order.order_items show=$order.order_items}
 <tr>
-    <td>{$OrderItems.item.description}:</td>
+    <td>{$OrderItems.item.description|wash}:</td>
     <td class="number" align="right">{$OrderItems.item.price_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
     <td class="number" align="right">{$OrderItems.item.price_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
 </tr>

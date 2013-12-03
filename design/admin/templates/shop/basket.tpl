@@ -29,10 +29,10 @@
        <h2>{"You have chosen invalid combination of options"|i18n("design/standard/shop",,)}</h2>
         <ul>
           {section var=UnvalidatedOptions loop=$error_data}
-            <li>{$UnvalidatedOptions.item.name}</li>
+            <li>{$UnvalidatedOptions.item.name|wash}</li>
                   <ul>
                       {section var=Errors loop=$UnvalidatedOptions.item.description}
-                          <li>{$Errors.item}</li>
+                          <li>{$Errors.item|wash}</li>
                       {/section}
                   </ul>
           {/section}
@@ -80,7 +80,7 @@
 {section var=Products loop=$basket.items sequence=array( bglight, bgdark )}
 <tr class="{$Products.sequence}">
     <td><input type="checkbox" name="RemoveProductItemDeleteList[]" value="{$Products.item.id}" title="{'Select item for removal.'|i18n( 'design/admin/shop/basket' )}" /></td>
-    <td><input type="hidden" name="ProductItemIDList[]" value="{$Products.item.id}" /><a href={concat( '/content/view/full/', $Products.item.node_id, '/' )|ezurl}>{$Products.item.object_name}</a></td>
+    <td><input type="hidden" name="ProductItemIDList[]" value="{$Products.item.id}" /><a href={concat( '/content/view/full/', $Products.item.node_id, '/' )|ezurl}>{$Products.item.object_name|wash}</a></td>
     <td><input type="text" name="ProductItemCountList[]" value="{$Products.item.item_count}" size="3" /></td>
     <td class="number" align="right">
     {if ne( $Products.item.vat_value, -1 )}
@@ -101,7 +101,7 @@
     <td colspan="8">
     {*'Selected options'|i18n( 'design/admin/shop/basket' ): *}
 {section var=Options loop=$Products.item.item_object.option_list}
-{$Options.item.name|wash}: {$Options.item.value}
+{$Options.item.name|wash}: {$Options.item.value|wash}
 {delimiter}, {/delimiter}
 {/section}
     </td>
@@ -123,7 +123,7 @@
 {* Show shipping type/cost. *}
 <tr>
 <td colspan="1">&nbsp;</td>
-<td colspan="6"><a href={$shipping_info.management_link|ezurl}>{'Shipping'|i18n( 'design/admin/shop/basket' )}{if $shipping_info.description} ({$shipping_info.description}){/if}</a>:</td>
+<td colspan="6"><a href={$shipping_info.management_link|ezurl}>{'Shipping'|i18n( 'design/admin/shop/basket' )}{if $shipping_info.description} ({$shipping_info.description|wash}){/if}</a>:</td>
 <td class="number" align="right">{$shipping_info.cost|l10n( 'currency', $locale, $symbol )}</td>
 <td class="number" align="right">{$shipping_info.cost|l10n( 'currency', $locale, $symbol )}</td>
 </tr>

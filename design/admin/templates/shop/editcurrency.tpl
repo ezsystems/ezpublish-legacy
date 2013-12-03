@@ -1,6 +1,6 @@
 {if $error}
     <div class="message-error">
-        <h2>{$error}</h2>
+        <h2>{$error|wash}</h2>
     </div>
 {/if}
 

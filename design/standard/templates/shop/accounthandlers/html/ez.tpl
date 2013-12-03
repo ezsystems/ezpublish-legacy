@@ -6,8 +6,8 @@
 <b>{"Customer"|i18n("design/standard/shop")}</b>
 </p>
 <p>
-{'Name'|i18n('design/standard/shop')}: {$order.account_information.first_name} {$order.account_information.last_name}<br />
-{'Email'|i18n('design/standard/shop')}: {$order.account_information.email}<br />
+{'Name'|i18n('design/standard/shop')}: {$order.account_information.first_name|wash} {$order.account_information.last_name|wash}<br />
+{'Email'|i18n('design/standard/shop')}: {$order.account_information.email|wash}<br />
 </p>
 
 </td>
@@ -17,12 +17,12 @@
 <b>{"Address"|i18n("design/standard/shop")}</b>
 </p>
 <p>
-{'Company'|i18n('design/standard/shop')}: {$order.account_information.street1}<br />
-{'Street'|i18n('design/standard/shop')}: {$order.account_information.street2}<br />
-{'Zip'|i18n('design/standard/shop')}: {$order.account_information.zip}<br />
-{'Place'|i18n('design/standard/shop')}: {$order.account_information.place}<br />
-{'State'|i18n('design/standard/shop')}: {$order.account_information.state}<br />
-{'Country/region'|i18n('design/standard/shop')}: {$order.account_information.country}<br />
+{'Company'|i18n('design/standard/shop')}: {$order.account_information.street1|wash}<br />
+{'Street'|i18n('design/standard/shop')}: {$order.account_information.street2|wash}<br />
+{'Zip'|i18n('design/standard/shop')}: {$order.account_information.zip|wash}<br />
+{'Place'|i18n('design/standard/shop')}: {$order.account_information.place|wash}<br />
+{'State'|i18n('design/standard/shop')}: {$order.account_information.state|wash}<br />
+{'Country/region'|i18n('design/standard/shop')}: {$order.account_information.country|wash}<br />
 </p>
 </td>
 </tr>

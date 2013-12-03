@@ -36,7 +36,7 @@
 {/if}
 <ul>
 {foreach $errors as $error}
-<li>{$error}</li>
+<li>{$error|wash}</li>
 {/foreach}
 </ul>
 </div>

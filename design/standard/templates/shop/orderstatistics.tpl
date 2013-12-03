@@ -81,7 +81,7 @@
 
     <tr>
         <td class="{$Product.sequence}">{content_view_gui view=text_linked content_object=$Product.product}</td>
-        <td class="{$Product.sequence}">{$quantity_text}</td>
+        <td class="{$Product.sequence}">{$quantity_text|wash}</td>
         <td class="{$Product.sequence}">{$sum_ex_vat_text}</td>
         <td class="{$Product.sequence}">{$sum_inc_vat_text}</td>
     </tr>
