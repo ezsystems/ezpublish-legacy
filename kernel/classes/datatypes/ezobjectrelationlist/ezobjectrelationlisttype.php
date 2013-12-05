@@ -203,6 +203,11 @@ class eZObjectRelationListType extends eZDataType
             $contentObjectAttribute->store();
             return true;
         }
+        // Type is browse and we have no http input
+        else if ( $selectedObjectIDArray === false )
+        {
+            return false;
+        }
 
         // Check if selection type is not browse
         if ( $classContent['selection_type'] != 0 )
