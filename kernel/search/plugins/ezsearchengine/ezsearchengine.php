@@ -377,7 +377,7 @@ class eZSearchEngine implements ezpSearchEngine
      * @param bool $commit Whether to commit after removing the object
      * @return bool True if the operation succeed.
      */
-    public function removeObject( $contentObject, $commit = true )
+    public function removeObject( $contentObject, $commit = null )
     {
         return $this->removeObjectById( $contentObject->attribute( "id" ), $commit );
     }
@@ -390,7 +390,7 @@ class eZSearchEngine implements ezpSearchEngine
      * @param bool $commit Whether to commit after removing the object
      * @return bool True if the operation succeed.
      */
-    public function removeObjectById( $contentObjectId, $commit = true )
+    public function removeObjectById( $contentObjectId, $commit = null )
     {
         $db = eZDB::instance();
         $doDelete = false;
