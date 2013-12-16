@@ -83,6 +83,7 @@ class eZUser extends eZPersistentObject
                                                       'account_key' => 'accountKey',
                                                       'groups' => 'groups',
                                                       'has_stored_login' => 'hasStoredLogin',
+                                                      'has_publish_object_same_login' => 'hasPublishedObjectSameLogin',
                                                       'original_password' => 'originalPassword',
                                                       'original_password_confirm' => 'originalPasswordConfirm',
                                                       'roles' => 'roles',
@@ -226,6 +227,52 @@ class eZUser extends eZPersistentObject
         $sql = "SELECT * FROM ezuser WHERE contentobject_id='$contentObjectID' AND LENGTH( login ) > 0";
         $rows = $db->arrayQuery( $sql );
         return !empty( $rows );
+    }
+
+    /**
+     * Checks if another published object has the same login
+     *
+     * @return bool true if a published object with the same login is found, false if none
+     */
+    function hasPublishedObjectSameLogin()
+    {
+        $db = eZDB::instance();
+        $login = $db->escapeString( $this->attribute( 'login' ) );
+
+        // Edition of a new ezuser
+        if ( empty( $login) )
+        {
+            return false;
+        }
+
+        $ezusers = eZUser::fetchByName( $login, false );
+
+        // If an ezuser with the same login exists
+        if ( !empty( $ezusers ) )
+        {
+            $contentObject = eZContentObject::fetch( $this->attribute( 'contentobject_id' ) );
+
+            // Checking if ezuser is not required
+            foreach ( $contentObject->fetchClassAttributes() as $attribute )
+            {
+                if ( $attribute->attribute( 'data_type_string' ) == 'ezuser' )
+                {
+                    if ( !$attribute->attribute( 'is_required' ) )
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            // Looking if the object related to the ezuser attribute is published:
+            // there is no versioning on ezuser so we don't consider attributes of drafts.
+            if ( $contentObject->attribute( 'status' ) == eZContentObject::STATUS_PUBLISHED )
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /*!
