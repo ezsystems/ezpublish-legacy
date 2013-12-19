@@ -330,7 +330,7 @@ class eZURLAliasMLTest extends ezpDatabaseTestCase
 
         // ---------------------------------------------------------------- //
         // Not safe characters, all of these should be removed.
-        $e1 = " &;/:=?%[]()+#";
+        $e1 = " &;/:=?%[]()+#\t";
         $e1Result = "_1";
 
         // Safe characters. No char should be removed.
