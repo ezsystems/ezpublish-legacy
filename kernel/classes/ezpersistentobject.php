@@ -98,7 +98,7 @@ class eZPersistentObject
      * @param array $fields
      * @return void
      */
-    public static function replaceFieldsWithShortNames( $db, $fieldDefs, &$fields )
+    public static function replaceFieldsWithShortNames( eZDBInterface $db, array $fieldDefs, &$fields )
     {
         if ( !$db->useShortNames() || !$fields )
             return;
@@ -130,6 +130,37 @@ class eZPersistentObject
 
         }
         $fields = $short_fields_names;
+    }
+
+    /**
+     * For the given array $fields treats its keystable fields names and replaces them
+     * with long names if there is an alias in $fieldDefs.
+     *
+     * @access protected
+     * @param eZDBInterface $db
+     * @param array $fieldDefs
+     * @param array $fields
+     * @return void
+     */
+    protected static function replaceFieldsWithLongNames( eZDBInterface $db, array $fieldDefs, &$fields )
+    {
+        if ( !$db->useShortNames() || !$fields )
+            return;
+
+        foreach ( $fieldDefs as $fieldName => $fieldDefinition )
+        {
+            if ( !isset( $fieldDefinition['short_name'] ) )
+            {
+                continue;
+            }
+            $shortName = $fieldDefinition['short_name'];
+            if ( !isset( $fields[$shortName] ) )
+            {
+                continue;
+            }
+            $fields[$fieldName] = $fields[$shortName];
+            unset( $fields[$shortName] );
+        }
     }
 
     /**
@@ -915,6 +946,16 @@ class eZPersistentObject
      */
     public static function handleRows( $rows, $class_name, $asObject )
     {
+        $objectDefinition = $class_name::definition();
+
+        if ( is_array( $rows ) )
+        {
+            for ( $i = 0; $i < count( $rows ); $i++ )
+            {
+                self::replaceFieldsWithLongNames( eZDB::instance(), $objectDefinition['fields'], $rows[$i] );
+            }
+        }
+
         if ( $asObject )
         {
             $objects = array();
