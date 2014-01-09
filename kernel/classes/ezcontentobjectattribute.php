@@ -30,6 +30,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         $this->InputParameters = false;
         $this->HasValidationError = false;
         $this->DataTypeCustom = null;
+        $this->DataTypeString = null;
         $this->eZPersistentObject( $row );
     }
 
