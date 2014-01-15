@@ -1288,11 +1288,19 @@ WHERE user_id = '" . $userID . "' AND
     {
         $cacheFilePath = eZUser::getCacheDir( $userId ). "/user-data-{$userId}.cache.php" ;
         $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
-        return $cacheFile->processCache( array( 'eZUser', 'retrieveUserCacheFromFile' ),
-                                         array( 'eZUser', 'generateUserCacheForFile' ),
-                                         null,
-                                         self::userInfoExpiry(),
-                                         $userId );
+        $userCache = $cacheFile->processCache( array( 'eZUser', 'retrieveUserCacheFromFile' ),
+                                               array( 'eZUser', 'generateUserCacheForFile' ),
+                                               null,
+                                               self::userInfoExpiry(),
+                                               $userId );
+
+        if ( $userCache instanceof eZClusterFileFailure )
+        {
+            $userCache = self::generateUserCacheForFile( null, $userId );
+            $userCache = $userCache['content'];
+        }
+
+        return $userCache;
     }
 
     /**
