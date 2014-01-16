@@ -1289,21 +1289,20 @@ WHERE user_id = '" . $userID . "' AND
      */
     static protected function getUserCacheByUserId( $userId )
     {
-        if ( eZINI::instance()->variable( 'RoleSettings', 'EnableCaching' ) !== 'true' )
+        $userCache = null;
+
+        if ( eZINI::instance()->variable( 'RoleSettings', 'EnableCaching' ) === 'true' )
         {
-            $userCache = self::generateUserCacheForFile( null, $userId );
-            return $userCache['content'];
+            $cacheFilePath = eZUser::getCacheDir( $userId ) . "/user-data-{$userId}.cache.php";
+            $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
+            $userCache = $cacheFile->processCache( array( 'eZUser', 'retrieveUserCacheFromFile' ),
+                                                   array( 'eZUser', 'generateUserCacheForFile' ),
+                                                   null,
+                                                   self::userInfoExpiry(),
+                                                   $userId );
         }
 
-        $cacheFilePath = eZUser::getCacheDir( $userId ). "/user-data-{$userId}.cache.php" ;
-        $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
-        $userCache = $cacheFile->processCache( array( 'eZUser', 'retrieveUserCacheFromFile' ),
-                                               array( 'eZUser', 'generateUserCacheForFile' ),
-                                               null,
-                                               self::userInfoExpiry(),
-                                               $userId );
-
-        if ( $userCache instanceof eZClusterFileFailure )
+        if ( $userCache === null || $userCache instanceof eZClusterFileFailure )
         {
             $userCache = self::generateUserCacheForFile( null, $userId );
             $userCache = $userCache['content'];
