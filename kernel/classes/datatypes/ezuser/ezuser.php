@@ -1321,7 +1321,24 @@ WHERE user_id = '" . $userID . "' AND
      */
     static function retrieveUserCacheFromFile( $filePath, $mtime, $userId )
     {
-        return include( $filePath );
+        $userCache = include( $filePath );
+
+        // check that the returned array is not corrupted
+        if ( is_array( $userCache )
+          && isset( $userCache['info'] )
+          && isset( $userCache['info'][$userId] )
+          && is_numeric( $userCache['info'][$userId]['contentobject_id'] )
+          && isset( $userCache['groups'] )
+          && isset( $userCache['roles'] )
+          && isset( $userCache['role_limitations'] )
+          && isset( $userCache['access_array'] )
+          && isset( $userCache['discount_rules'] ) )
+        {
+            return $userCache;
+        }
+
+        eZDebug::writeError( 'Cache file ' . $filePath . ' is corrupted, forcing generation.', __METHOD__ );
+        return new eZClusterFileFailure( 1, 'Cache file ' . $filePath . ' is corrupted, forcing generation.' );
     }
 
     /**
