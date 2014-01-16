@@ -1260,8 +1260,11 @@ WHERE user_id = '" . $userID . "' AND
      */
     static public function purgeUserCacheByUserId( $userId )
     {
-        $cacheFilePath = eZUser::getCacheDir( $userId ). "/user-data-{$userId}.cache.php" ;
-        eZClusterFileHandler::instance()->fileDelete( $cacheFilePath );
+        if ( eZINI::instance()->variable( 'RoleSettings', 'EnableCaching' ) === 'true' )
+        {
+            $cacheFilePath = eZUser::getCacheDir( $userId ). "/user-data-{$userId}.cache.php" ;
+            eZClusterFileHandler::instance()->fileDelete( $cacheFilePath );
+        }
     }
 
     /**
@@ -1286,6 +1289,12 @@ WHERE user_id = '" . $userID . "' AND
      */
     static protected function getUserCacheByUserId( $userId )
     {
+        if ( eZINI::instance()->variable( 'RoleSettings', 'EnableCaching' ) !== 'true' )
+        {
+            $userCache = self::generateUserCacheForFile( null, $userId );
+            return $userCache['content'];
+        }
+
         $cacheFilePath = eZUser::getCacheDir( $userId ). "/user-data-{$userId}.cache.php" ;
         $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
         $userCache = $cacheFile->processCache( array( 'eZUser', 'retrieveUserCacheFromFile' ),
