@@ -950,9 +950,10 @@ class eZPersistentObject
 
         if ( is_array( $rows ) )
         {
-            for ( $i = 0; $i < count( $rows ); $i++ )
+            $db = eZDB::instance();
+            foreach( $rows as $row )
             {
-                self::replaceFieldsWithLongNames( eZDB::instance(), $objectDefinition['fields'], $rows[$i] );
+                self::replaceFieldsWithLongNames( $db, $objectDefinition['fields'], $row );
             }
         }
 
