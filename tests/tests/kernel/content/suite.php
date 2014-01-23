@@ -17,6 +17,7 @@ class eZKernelContentTestSuite extends ezpDatabaseTestSuite
 
         $this->addTestSuite( 'ezpContentPublishingBehaviourTest' );
         $this->addTestSuite( 'eZContentOperationDeleteObjectRegression' );
+        $this->addTestSuite( 'eZContentOperationCollectionTest' );
     }
 
     public static function suite()
