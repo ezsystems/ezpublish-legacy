@@ -1206,7 +1206,7 @@ class eZSys
      */
     protected static function getValidwwwDir( $phpSelf, $scriptFileName, $index )
     {
-        if ( !isset( $phpSelf[1] ) || strpos( $phpSelf, $index ) === false )
+        if ( !isset( $phpSelf[1] ) || empty($index) || strpos( $phpSelf, $index ) === false )
             return false;
 
         // validate $index straight away
