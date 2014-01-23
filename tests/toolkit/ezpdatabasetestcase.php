@@ -55,6 +55,11 @@ class ezpDatabaseTestCase extends ezpTestCase
 
             eZDB::setInstance( $this->sharedFixture );
         }
+
+        if ( !( $this->sharedFixture instanceof eZDBInterface ) && eZDB::hasInstance() )
+        {
+            $this->sharedFixture = eZDB::instance();
+        }
     }
 
     protected function tearDown()

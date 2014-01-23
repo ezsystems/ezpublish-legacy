@@ -58,6 +58,11 @@ class ezpDatabaseTestSuite extends ezpTestSuite
             eZDB::setInstance( $this->sharedFixture );
             self::$isDatabaseSetup = true;
         }
+
+        if ( !( $this->sharedFixture instanceof eZDBInterface ) && eZDB::hasInstance() )
+        {
+            $this->sharedFixture = eZDB::instance();
+        }
     }
 }
 ?>
