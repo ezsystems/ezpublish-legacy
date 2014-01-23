@@ -209,6 +209,21 @@ class eZScript
         {
             date_default_timezone_set( $timezone );
         }
+
+        // Check if the current system user is allowed to execute the script
+        $fileIni = eZINI::instance( 'file.ini' );
+        $checkSystemUser = $fileIni->variable( 'FileSettings', 'SystemUserCheck' ) == 'enabled' ;
+        if ( $checkSystemUser && function_exists( 'posix_geteuid' ) )
+        {
+            $currentUser = posix_getpwuid( posix_geteuid() );
+            $requiredUser = $fileIni->variable( 'FileSettings', 'RequiredSystemUser' );
+            if ( $currentUser['name'] !== $requiredUser )
+            {
+                $cli = eZCLI::instance();
+                $cli->error( "Scripts must be executed as '{$requiredUser}'." );
+                exit( 1 );
+            }
+        }
     }
 
     /*!
