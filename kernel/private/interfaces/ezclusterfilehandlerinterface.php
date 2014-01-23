@@ -212,6 +212,14 @@ interface eZClusterFileHandlerInterface
     public function fetchContents();
 
     /**
+     * Loads file meta information.
+     *
+     * @param bool $force File stats will be refreshed if true
+     * @return void
+     */
+    public function loadMetaData( $force = false );
+
+    /**
      * Returns file metadata.
      */
     public function stat();
@@ -326,6 +334,22 @@ interface eZClusterFileHandlerInterface
      *                               return only files that do not belong to any of the scopes listed in $scopes
      */
     public function getFileList( $scopes = false, $excludeScopes = false );
+
+    /**
+     * Stores the data in $fileData to the remote and local file and commits the
+     * transaction.
+     *
+     * The parameter $fileData must contain the same as information as the
+     * $generateCallback returns as explained in processCache().
+     *
+     * This method is just a continuation of the code in processCache()
+     * and is not meant to be called alone since it relies on specific
+     * state in the database.
+     *
+     * @param string|array $fileData
+     * @return string|null
+     */
+    public function storeCache( $fileData );
 
     /**
      * Starts cache generation for the current file.
