@@ -117,7 +117,15 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
         $nodeId = $this->origUrl;
         if ( !is_numeric( $this->origUrl ) )
         {
-            $nodeId = eZURLAliasML::fetchNodeIDByPath( $this->origUrl );
+            $pathPrefix = $this->getSiteAccessIni()->variable( 'SiteAccessSettings', 'PathPrefix' );
+            if ( $pathPrefix != '' )
+            {
+                $nodeId = eZURLAliasML::fetchNodeIDByPath( eZINI::instance()->variable( 'SiteAccessSettings', 'PathPrefix' ) . '/' . $this->origUrl );
+            }
+            if ( !is_numeric( $nodeId ) )
+            {
+                $nodeId = eZURLAliasML::fetchNodeIDByPath( $this->origUrl );
+            }
         }
         $destinationElement = eZURLAliasML::fetchByAction( 'eznode', $nodeId, $this->destinationLocale, false );
 
@@ -158,6 +166,12 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
         }
 
         $this->baseDestinationUrl = rtrim( $this->baseDestinationUrl, '/' );
+
+        $pathPrefix = $this->getSiteAccessIni()->variable( 'SiteAccessSettings', 'PathPrefix' );
+        if ( $pathPrefix != '' )
+        {
+            $urlAlias = ltrim( str_replace( $pathPrefix, '', $urlAlias ), '/' );
+        }
 
         $ini = eZINI::instance();
 
