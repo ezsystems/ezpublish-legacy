@@ -43,6 +43,9 @@
         "zetacomponents/signal-slot": "@dev",
         "zetacomponents/system-information": "@dev"
     },
+    "require-dev": {
+        "satooshi/php-coveralls": "0.6.*"
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "5.2.x-dev"

@@ -1,4 +1,4 @@
-eZ Publish 4 [![Build Status](https://secure.travis-ci.org/ezsystems/ezpublish-legacy.png)](http://travis-ci.org/ezsystems/ezpublish-legacy)
+eZ Publish 4 [![Build Status](https://secure.travis-ci.org/ezsystems/ezpublish-legacy.png)](http://travis-ci.org/ezsystems/ezpublish-legacy)[![Coverage Status](https://coveralls.io/repos/ezsystems/ezpublish-legacy/badge.png?branch=master)](https://coveralls.io/r/ezsystems/ezpublish-legacy?branch=master)
 ============
 
 What is eZ Publish?

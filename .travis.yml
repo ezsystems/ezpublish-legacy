@@ -14,29 +14,43 @@ env:
   global:
     - DB_NAME="testdb"
   matrix:
-    - DB="mysql" DB_USER="root" TIMEZONE="Asia/Calcutta"
-    - DB="mysql" DB_USER="root" TIMEZONE="America/New_York"
-    - DB="postgresql" DB_USER="postgres" TIMEZONE="Asia/Calcutta"
+    - TEST_CONFIG="phpunit.xml.dist" DB="mysql" DB_USER="root" TIMEZONE="Asia/Calcutta"
+    - TEST_CONFIG="phpunit.xml.dist" DB="mysql" DB_USER="root" TIMEZONE="America/New_York"
+    - TEST_CONFIG="phpunit.xml.dist" DB="postgresql" DB_USER="postgres" TIMEZONE="Asia/Calcutta"
+    - TEST_CONFIG="phpunit-coverage.xml" DB="mysql" DB_USER="root" TIMEZONE="America/New_York"
 
 matrix:
+  allow_failures:
+    - php: 5.4
+      env: TEST_CONFIG="phpunit-coverage.xml" DB="mysql" DB_USER="root" TIMEZONE="America/New_York"
   exclude:
     - php: 5.3
-      env: DB="mysql" DB_USER="root" TIMEZONE="America/New_York"
+      env: TEST_CONFIG="phpunit.xml.dist" DB="mysql" DB_USER="root" TIMEZONE="America/New_York"
     - php: 5.4
-      env: DB="mysql" DB_USER="root" TIMEZONE="Asia/Calcutta"
+      env: TEST_CONFIG="phpunit.xml.dist" DB="mysql" DB_USER="root" TIMEZONE="Asia/Calcutta"
     - php: 5.4
-      env: DB="postgres" DB_USER="postgres" TIMEZONE="Asia/Calcutta"
+      env: TEST_CONFIG="phpunit.xml.dist" DB="postgres" DB_USER="postgres" TIMEZONE="Asia/Calcutta"
     - php: 5.5
-      env: DB="mysql" DB_USER="root" TIMEZONE="America/New_York"
+      env: TEST_CONFIG="phpunit.xml.dist" DB="mysql" DB_USER="root" TIMEZONE="America/New_York"
+    - php: 5.3
+      env: TEST_CONFIG="phpunit-coverage.xml" DB="mysql" DB_USER="root" TIMEZONE="America/New_York"
+    - php: 5.3.3
+      env: TEST_CONFIG="phpunit-coverage.xml" DB="mysql" DB_USER="root" TIMEZONE="America/New_York"
+    - php: 5.5
+      env: TEST_CONFIG="phpunit-coverage.xml" DB="mysql" DB_USER="root" TIMEZONE="America/New_York"
 
 before_script:
- - if [ $DB == "mysql" ]; then mysql -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;" -u$DB_USER ; fi
- - if [ $DB == "postgresql" ]; then psql -c "CREATE DATABASE $DB_NAME;" -U $DB_USER ; psql -c "CREATE EXTENSION pgcrypto;" -U $DB_USER $DB_NAME ; fi
+ - if [ "$DB" = "mysql" ]; then mysql -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;" -u$DB_USER ; fi
+ - if [ "$DB" = "postgresql" ]; then psql -c "CREATE DATABASE $DB_NAME;" -U $DB_USER ; psql -c "CREATE EXTENSION pgcrypto;" -U $DB_USER $DB_NAME ; fi
  - php bin/php/ezpgenerateautoloads.php -s -e
- - composer install --prefer-source
+ - composer install --dev --prefer-source
+ - if [[ "$TEST_CONFIG" = *"coverage"* ]]; then mkdir -p build/logs ; fi
 
 script:
-  - php -d date.timezone=$TIMEZONE tests/runtests.php --dsn "$DB://${DB_USER}@127.0.0.1/$DB_NAME"
+  - php -d date.timezone=$TIMEZONE tests/runtests.php -c tests/${TEST_CONFIG} --dsn "$DB://${DB_USER}@127.0.0.1/$DB_NAME"
+
+after_script:
+  - if [[ "$TEST_CONFIG" = *"coverage"* ]]; then php vendor/bin/coveralls -v ; fi
 
 notification:
   email: false
