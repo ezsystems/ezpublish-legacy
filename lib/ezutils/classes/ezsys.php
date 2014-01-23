@@ -1227,7 +1227,7 @@ class eZSys
             $validateDir = '/' . implode( '/', $uri );
         }
 
-        // validate direclty with phpself part
+        // validate directly with phpself part
         if ( strpos( $scriptFileName, $validateDir ) !== false )
             return trim( $phpSelfParts[0], '/' );
 
