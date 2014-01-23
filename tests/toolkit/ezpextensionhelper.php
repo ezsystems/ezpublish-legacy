@@ -59,7 +59,9 @@ class ezpExtensionHelper
         $activeExtensions[] = $extension;
         $ini->setVariable( 'ExtensionSettings', 'ActiveExtensions', $activeExtensions );
         $extensionDirectory = eZExtension::baseDirectory();
+        $ini->prependOverrideDir( $extensionDirectory . '/' . $extension . '/tests/settings', true, 'extension-tests:' . $extension, 'extension' );
         $ini->prependOverrideDir( $extensionDirectory . '/' . $extension . '/settings', true, 'extension:' . $extension, 'extension' );
+        $ini->resetAllInstances(false);
         eZExtension::clearActiveExtensionsMemoryCache();
         return true;
     }
