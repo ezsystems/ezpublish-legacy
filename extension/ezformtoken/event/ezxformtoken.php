@@ -113,7 +113,7 @@ class ezxFormToken
      */
     static public function input( eZURI $uri )
     {
-        if ( $_SERVER['REQUEST_METHOD'] !== 'POST' && empty( $_POST ) )
+        if ( isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] !== 'POST' && empty( $_POST ) )
         {
             eZDebugSetting::writeDebug( 'ezformtoken', 'Input not protected (not POST)', __METHOD__ );
             return null;
