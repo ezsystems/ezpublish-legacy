@@ -35,7 +35,8 @@ class ezpINIHelper
         }
 
         // backup the value
-        self::$modifiedINISettings[] = array( $file, $block, $variable, $ini->variable( $block, $variable ) );
+        $oldValue = $ini->hasVariable( $block, $variable ) ? $ini->variable( $block, $variable ) : null;
+        self::$modifiedINISettings[] = array( $file, $block, $variable, $oldValue );
 
         // change the value
         $ini->setVariable( $block, $variable, $value );
