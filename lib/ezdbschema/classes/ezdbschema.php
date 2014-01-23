@@ -52,7 +52,7 @@ class eZDbSchema
         $schemaHandlerClasses = $ini->variable( 'SchemaSettings', 'SchemaHandlerClasses' );
 
         /* Check if we have a handler */
-        if ( !isset( $schemaHandlerClasses[$dbname] ) )
+        if ( !isset( $schemaHandlerClasses[$dbname] ) || !class_exists( $schemaHandlerClasses[$dbname] ) )
         {
             eZDebug::writeError( "No schema handler for database type: $dbname", __METHOD__ );
             return false;
