@@ -28,7 +28,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
 
     function eZPaymentGatewayType()
     {
-        $this->logger   = eZPaymentLogger::CreateForAdd( "var/log/eZPaymentGatewayType.log" );
+        $this->logger   = new eZPaymentLogger( "eZPaymentGatewayType.log" );
 
         $this->eZWorkflowEventType( eZPaymentGatewayType::WORKFLOW_TYPE_STRING, ezpI18n::tr( 'kernel/workflow/event', "Payment Gateway" ) );
         $this->loadAndRegisterGateways();
@@ -43,11 +43,11 @@ class eZPaymentGatewayType extends eZWorkflowEventType
 
     function execute( $process, $event )
     {
-        $this->logger->writeTimedString( 'execute' );
+        $this->logger->writeString( 'execute' );
 
         if( $process->attribute( 'event_state' ) == eZPaymentGatewayType::GATEWAY_NOT_SELECTED )
         {
-            $this->logger->writeTimedString( 'execute: eZPaymentGatewayType::GATEWAY_NOT_SELECTED' );
+            $this->logger->writeString( 'execute: eZPaymentGatewayType::GATEWAY_NOT_SELECTED' );
 
             $process->setAttribute( 'event_state', eZPaymentGatewayType::GATEWAY_SELECTED );
             if ( !$this->selectGateway( $event ) )
@@ -66,7 +66,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
             return $theGateway->execute( $process, $event );
         }
 
-        $this->logger->writeTimedString( 'execute: something wrong' );
+        $this->logger->writeString( 'execute: something wrong' );
         return eZWorkflowType::STATUS_REJECTED;
     }
 
@@ -255,7 +255,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     {
         $gateway_difinition = $GLOBALS[ 'eZPaymentGateways' ][ $inGatewayType ];
 
-        $this->logger->writeTimedString( $gateway_difinition, "createGateway. gateway_difinition" );
+        $this->logger->writeString( $gateway_difinition, "createGateway. gateway_difinition" );
 
         if( $gateway_difinition )
         {
@@ -325,11 +325,11 @@ class eZPaymentGatewayType extends eZWorkflowEventType
             $event->setAttribute( 'data_text2', $selectedGatewaysTypes[0] );
             $event->store();
 
-            $this->logger->writeTimedString( $selectedGatewaysTypes[0], 'selectGateway' );
+            $this->logger->writeString( $selectedGatewaysTypes[0], 'selectGateway' );
             return true;
         }
 
-        $this->logger->writeTimedString( 'selectGateways. multiple gateways, let user choose.' );
+        $this->logger->writeString( 'selectGateways. multiple gateways, let user choose.' );
         return false;
     }
 
