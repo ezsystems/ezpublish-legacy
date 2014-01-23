@@ -242,7 +242,6 @@ class eZTemplateFileResource
         $tstamp = false;
         if ( self::checkFileMtime() )
             $tstamp = filemtime( $path );
-            
 
         $result = false;
         $canCache = true;
