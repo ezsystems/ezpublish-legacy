@@ -135,8 +135,15 @@ class eZMultiplexerType extends eZWorkflowEventType
 
             case 'usergroups':
             {
-                $groups = eZPersistentObject::fetchObjectList( eZContentObject::definition(), array( 'id', 'name' ),
-                                                                array( 'contentclass_id' => 3 ), null, null, false );
+                $groups = eZPersistentObject::fetchObjectList(
+                    eZContentObject::definition(),
+                    array( 'id', 'name' ),
+                    array( 'contentclass_id' => 3, 'status' => eZContentObject::STATUS_PUBLISHED ),
+                    null,
+                    null,
+                    false
+                );
+
                 foreach ( $groups as $key => $group )
                 {
                     $groups[$key]['Name'] = $group['name'];
