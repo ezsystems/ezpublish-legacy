@@ -140,7 +140,7 @@ interface eZClusterFileHandlerInterface
      *                    disable TTL.
      * @return bool
      */
-    public function isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl );
+    public static function isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl );
 
     /**
      * Calculates if the current file data is expired or not.
@@ -201,7 +201,8 @@ interface eZClusterFileHandlerInterface
 
     /**
      * Returns file contents.
-     * @return contents string, or false in case of an error.
+     * @param string $filePath
+     * @return string|bool string, or false in case of an error.
      */
     public function fileFetchContents( $filePath );
 

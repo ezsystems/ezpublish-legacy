@@ -713,7 +713,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      *                    disable TTL.
      * @return bool
      */
-    public function isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl )
+    public static function isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl )
     {
         if ( $mtime == false or $mtime < 0 )
         {
