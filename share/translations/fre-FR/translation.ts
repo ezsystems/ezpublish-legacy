@@ -6931,15 +6931,15 @@ Note : les paquetages ne seront pas désinstallés.</translation>
         <translation type="obsolete">Propulsé par %edition. Pour plus d&apos;informations, voir &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;%evaluate_link&quot;&gt;Evaluate eZ Publish Enterprise Edition&lt;/a&gt; - &lt;a href=&quot;%share_link&quot;&gt;Become a member of the eZ Community, exchange and contribute&lt;/a&gt;. &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
-        <translation>&lt;a href=&quot;%evaluate_link&quot;&gt;Evaluez eZ Publish Enterprise Edition&lt;/a&gt; - &lt;a href=&quot;%share_link&quot;&gt;Devenez un membre de la eZ Community, échangez et contribuez&lt;/a&gt;. &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; et autres.</translation>
+        <source>&lt;a href=&quot;%evaluate_link&quot;&gt;Evaluate eZ Publish Enterprise Edition&lt;/a&gt; - &lt;a href=&quot;%share_link&quot;&gt;Become a member of the eZ Community, exchange and contribute&lt;/a&gt;. &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2014 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
+        <translation>&lt;a href=&quot;%evaluate_link&quot;&gt;Evaluez eZ Publish Enterprise Edition&lt;/a&gt; - &lt;a href=&quot;%share_link&quot;&gt;Devenez un membre de la eZ Community, échangez et contribuez&lt;/a&gt;. &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2014 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; et autres.</translation>
     </message>
     <message>
         <source>Powered by &lt;span class=&quot;edition-info&quot;&gt;%edition&lt;/span&gt;. For more information see &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
+        <source> &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2014 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

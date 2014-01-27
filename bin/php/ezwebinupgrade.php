@@ -133,7 +133,7 @@ function updateObjects_1_2_0()
 
     $templateLookData = array( "tag_cloud_url" => array( "DataText" => "Tag cloud",
                                                          "Content" => "/content/view/tagcloud/2" ),
-                               "footer_text" => array( "DataText" => "Copyright &#169; 1999-2013 eZ Systems AS. All rights reserved." ) );
+                               "footer_text" => array( "DataText" => "Copyright &#169; 1999-2014 eZ Systems AS. All rights reserved." ) );
 
     $installer->updateContentObjectAttributes( array( 'object_id' => $installer->setting( 'template_look_object_id' ),
                                                       'attributes_data' => $templateLookData ) );
