@@ -63,7 +63,7 @@
     </aside>
 
     <footer>
-        <p><a href="http://ez.no">eZ Publish&trade;</a> copyright &copy; 1999-2013 <a href="http://ez.no">eZ Systems AS</a></p>
+        <p><a href="http://ez.no">eZ Publish&trade;</a> copyright &copy; 1999-2014 <a href="http://ez.no">eZ Systems AS</a></p>
     </footer>
 
 </section>
