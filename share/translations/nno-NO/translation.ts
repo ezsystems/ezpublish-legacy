@@ -6273,7 +6273,7 @@ Note: The packages will not be uninstalled.</source>
 <context>
     <name>design/admin/page_copyright</name>
     <message>
-        <source>&lt;a href=&quot;%evaluate_link&quot;&gt;Evaluate eZ Publish Enterprise Edition&lt;/a&gt; - &lt;a href=&quot;%share_link&quot;&gt;Become a member of the eZ Community, exchange and contribute&lt;/a&gt;. &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
+        <source>&lt;a href=&quot;%evaluate_link&quot;&gt;Evaluate eZ Publish Enterprise Edition&lt;/a&gt; - &lt;a href=&quot;%share_link&quot;&gt;Become a member of the eZ Community, exchange and contribute&lt;/a&gt;. &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2014 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6281,7 +6281,7 @@ Note: The packages will not be uninstalled.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
+        <source> &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2014 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
