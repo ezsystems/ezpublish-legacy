@@ -16,7 +16,7 @@
     <td>{$node.object.published|l10n( shortdatetime )}</td>
     <td>
     <form name="changesection" id="changesection" method="post" action={concat( 'content/edit/', $node.object.id )|ezurl}>
-    <input type="hidden" name="RedirectRelativeURI" value="{$node.url_alias}" />
+    <input type="hidden" name="RedirectRelativeURI" value="{$node.url_alias|wash}" />
     <input type="hidden" name="ChangeSectionOnly" value="1" />
 
     <select id="selected-section-id" name="SelectedSectionId">
@@ -61,7 +61,7 @@
 {* States window. *}
 <form name="statesform" method="post" action={'state/assign'|ezurl}>
 <input type="hidden" name="ObjectID" value="{$node.object.id}" />
-<input type="hidden" name="RedirectRelativeURI" value="{$node.url_alias}" />
+<input type="hidden" name="RedirectRelativeURI" value="{$node.url_alias|wash}" />
 
 <table id="tab-details-states-list" class="list" cellspacing="0" summary="{'States and their states groups for current object.'|i18n( 'design/admin/node/view/full' )}">
 {if $states_count}
