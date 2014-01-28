@@ -484,9 +484,19 @@ class eZContentOperationCollection
     static public function removeOldNodes( $objectID, $versionNum )
     {
         $object = eZContentObject::fetch( $objectID );
-
+        if ( !$object instanceof eZContentObject )
+        {
+            eZDebug::writeError( 'Unable to find object #' . $objectID, __METHOD__ );
+            return;
+        }
 
         $version = $object->version( $versionNum );
+        if ( !$version instanceof eZContentObjectVersion )
+        {
+            eZDebug::writeError( 'Unable to find version #' . $versionNum . ' for object #' . $objectID, __METHOD__ );
+            return;
+        }
+
         $moveToTrash = true;
 
         $assignedExistingNodes = $object->attribute( 'assigned_nodes' );
