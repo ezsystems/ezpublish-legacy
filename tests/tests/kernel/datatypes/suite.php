@@ -19,6 +19,7 @@ class eZDatatypeTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZStringTypeTest' );
         $this->addTestSuite( 'eZCountryTypeTest' );
         $this->addTestSuite( 'eZUserTest' );
+        $this->addTestSuite( 'eZUserCacheTest' );
 //        $this->addTestSuite( 'eZLDAPUserTest' );
         $this->addTestSuite( 'eZTextFileUserTest' );
         $this->addTestSuite( 'eZEmailTypeTest' );

@@ -1304,8 +1304,7 @@ WHERE user_id = '" . $userID . "' AND
 
         if ( $userCache === null || $userCache instanceof eZClusterFileFailure )
         {
-            $userCache = self::generateUserCacheForFile( null, $userId );
-            $userCache = $userCache['content'];
+            $userCache = self::generateUserCacheContent( $userId );
         }
 
         return $userCache;
@@ -1341,7 +1340,78 @@ WHERE user_id = '" . $userID . "' AND
     }
 
     /**
-     * Callback which generates user cache for user
+     * Generate cache content or fallback to an empty array (for BC)
+     *
+     * @since 5.3
+     * @param int $userId
+     * @return array
+     */
+    private static function generateUserCacheContent( $userId )
+    {
+        $cacheData = self::generateUserCacheData( $userId );
+
+        if ( $cacheData === null )
+        {
+            $cacheData = array( 'info' => array(),
+                                'groups' => array(),
+                                'roles' => array(),
+                                'role_limitations' => array(),
+                                'access_array' => array(),
+                                'discount_rules' => array() );
+        }
+
+        return $cacheData;
+    }
+
+    /**
+     * Generate cache content
+     *
+     * @since 5.3
+     * @param int $userId
+     * @return array|null
+     */
+    private static function generateUserCacheData( $userId )
+    {
+        $user = eZUser::fetch( $userId );
+        if ( !$user instanceof eZUser )
+        {
+            return null;
+        }
+
+        // user info (session: eZUserInfoCache)
+        $data['info'][$userId] = array( 'contentobject_id'   => $user->attribute( 'contentobject_id' ),
+                                        'login'              => $user->attribute( 'login' ),
+                                        'email'              => $user->attribute( 'email' ),
+                                        'is_enabled'         => $user->isEnabled( false ),
+                                        'password_hash'      => $user->attribute( 'password_hash' ),
+                                        'password_hash_type' => $user->attribute( 'password_hash_type' ) );
+
+        // user groups list (session: eZUserGroupsCache)
+        $groups = $user->generateGroupIdList();
+        $data['groups'] = $groups;
+
+        // role list (session: eZRoleIDList)
+        $groups[] = $userId;
+        $data['roles'] = eZRole::fetchIDListByUser( $groups );
+
+        // role limitation list (session: eZRoleLimitationValueList)
+        $limitList = $user->limitList( false );
+        foreach ( $limitList as $limit )
+        {
+            $data['role_limitations'][] = $limit['limit_value'];
+        }
+
+        // access array (session: AccessArray)
+        $data['access_array'] = $user->generateAccessArray();
+
+        // discount rules (session: eZUserDiscountRules<userId>)
+        $data['discount_rules'] = eZUserDiscountRule::generateIDListByUserID( $userId );
+
+        return $data;
+    }
+
+    /**
+     * Callback which generates user cache for user, returns null on invalid user
      *
      * @internal
      * @since 4.4
@@ -1349,48 +1419,17 @@ WHERE user_id = '" . $userID . "' AND
      */
     static function generateUserCacheForFile( $filePath, $userId )
     {
-        $data = array( 'info' => array(),
-                       'groups' => array(),
-                       'roles' => array(),
-                       'role_limitations' => array(),
-                       'access_array' => array(),
-                       'discount_rules' => array() );
-        $user = eZUser::fetch( $userId );
-        if ( $user instanceOf eZUser )
+        $cacheData = self::generateUserCacheData( $userId );
+
+        if ( $cacheData !== null )
         {
-            // user info (session: eZUserInfoCache)
-            $data['info'][$userId] = array( 'contentobject_id'   => $user->attribute( 'contentobject_id' ),
-                                            'login'              => $user->attribute( 'login' ),
-                                            'email'              => $user->attribute( 'email' ),
-                                            'is_enabled'         => $user->isEnabled( false ),
-                                            'password_hash'      => $user->attribute( 'password_hash' ),
-                                            'password_hash_type' => $user->attribute( 'password_hash_type' ) );
-
-            // user groups list (session: eZUserGroupsCache)
-            $groups = $user->generateGroupIdList();
-            $data['groups'] = $groups;
-
-            // role list (session: eZRoleIDList)
-            $groups[] = $userId;
-            $data['roles'] = eZRole::fetchIDListByUser( $groups );
-
-            // role limitation list (session: eZRoleLimitationValueList)
-            $limitList = $user->limitList( false );
-            foreach ( $limitList as $limit )
-            {
-                $data['role_limitations'][] = $limit['limit_value'];
-            }
-
-            // access array (session: AccessArray)
-            $data['access_array'] = $user->generateAccessArray();
-
-            // discount rules (session: eZUserDiscountRules<userId>)
-            $data['discount_rules'] = eZUserDiscountRule::generateIDListByUserID( $userId );
+            $cacheData = array( 'content'  => $cacheData,
+                                'scope'    => 'user-info-cache',
+                                'datatype' => 'php',
+                                'store'    => true );
         }
-        return array( 'content'  => $data,
-                      'scope'    => 'user-info-cache',
-                      'datatype' => 'php',
-                      'store'    => true );
+
+        return $cacheData;
     }
 
     /*!
