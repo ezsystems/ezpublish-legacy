@@ -1210,6 +1210,8 @@ class eZContentOperationCollection
     {
         eZContentObjectTreeNode::updateMainNodeID( $mainAssignmentID, $ObjectID, false, $mainAssignmentParentID );
         eZContentCacheManager::clearContentCacheIfNeeded( $ObjectID );
+        eZContentOperationCollection::registerSearchObject( $ObjectID );
+
         return array( 'status' => true );
     }
 
