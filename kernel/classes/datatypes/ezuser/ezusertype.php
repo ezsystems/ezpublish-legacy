@@ -233,8 +233,6 @@ class eZUserType extends eZDataType
 
     function storeObjectAttribute( $contentObjectAttribute )
     {
-        /** @var eZContentObjectAttribute $contentObjectAttribute */
-        /** @var eZUser $user */
         $user = $contentObjectAttribute->content();
         if ( !( $user instanceof eZUser ) )
         {
@@ -244,81 +242,9 @@ class eZUserType extends eZDataType
             $isEnabled = 1;
             $userSetting = eZUserSetting::create( $userID, $isEnabled );
             $userSetting->store();
-
-            $user->store();
-            $contentObjectAttribute->setContent( $user );
         }
-        else
-        {
-            // saving information in the object attribute data_text field to simulate a draft
-            $contentObjectAttribute->setAttribute( 'data_text', $this->serializeDraft( $user ) );
-        }
-    }
-
-    function onPublish( $contentObjectAttribute, $contentObject, $publishedNodes )
-    {
-        /** @var eZContentObjectAttribute $contentObjectAttribute */
-        /** @var eZUser $user */
-        $user = $contentObjectAttribute->content();
-
-        // Publishing draft's content
-        $serializedDraft = $contentObjectAttribute->attribute( 'data_text' );
-
-        if ( !empty( $serializedDraft ) )
-        {
-            $user = $this->updateUserDraft( $user, $serializedDraft );
-        }
-
         $user->store();
         $contentObjectAttribute->setContent( $user );
-    }
-
-    /**
-     * Generates a serialized draft of the ezuser content
-     *
-     * @param eZUser $user
-     * @return string
-     */
-    private function serializeDraft( eZUser $user )
-    {
-        return json_encode(
-            array(
-                 'login' => $user->attribute( 'login' ),
-                 'password_hash' => $user->attribute( 'password_hash' ),
-                 'email' => $user->attribute( 'email' ),
-                 'password_hash_type' => $user->attribute( 'password_hash_type' )
-            )
-        );
-    }
-
-    /**
-     * Unserialize draft data generated with serializeDraft()
-     *
-     * @param $serializedDraft
-     * @return mixed
-     */
-    private function unserializeDraft( $serializedDraft )
-    {
-        return json_decode( $serializedDraft );
-    }
-
-    /**
-     * Updates ezuser with data generated with getSerializedDraft()
-     *
-     * @param eZUser $user
-     * @param $serializedDraft
-     * @return eZUser updated user
-     */
-    private function updateUserDraft( eZUser $user, $serializedDraft )
-    {
-        $draft = $this->unserializeDraft( $serializedDraft );
-
-        $user->setAttribute( 'login', $draft->login );
-        $user->setAttribute( 'password_hash', $draft->password_hash );
-        $user->setAttribute( 'email', $draft->email );
-        $user->setAttribute( 'password_hash_type', $draft->password_hash_type );
-
-        return $user;
     }
 
     /*!
@@ -352,19 +278,8 @@ class eZUserType extends eZDataType
         {
             $GLOBALS['eZUserObject_' . $userID] = eZUser::fetch( $userID );
         }
-
-        /** @var eZUser $user */
         $user = eZUser::fetch( $userID );
         eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
-
-        // Looking for a "draft" and loading it's content
-        $serializedDraft = $contentObjectAttribute->attribute( 'data_text' );
-
-        if ( !empty( $serializedDraft ) )
-        {
-            $user = $this->updateUserDraft( $user, $serializedDraft );
-        }
-
         return $user;
     }
 
