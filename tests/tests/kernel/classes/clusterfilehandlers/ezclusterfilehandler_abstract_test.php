@@ -382,7 +382,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         $expiry = -1;
         $curtime = time();
         $ttl = null;
-        $result = $ch->isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
+        $result = $ch::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
         self::assertTrue( $result, "negative mtime: expired expected" );
 
         // FALSE mtime: expired
@@ -390,7 +390,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         $expiry = -1;
         $curtime = time();
         $ttl = null;
-        $result = $ch->isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
+        $result = $ch::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
         self::assertTrue( $result, "false mtime: expired expected" );
 
         // NULL TTL + mtime < expiry: expired
@@ -398,7 +398,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         $expiry = time();
         $curtime = time();
         $ttl = null;
-        $result = $ch->isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
+        $result = $ch::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
         self::assertTrue( $result,
             "no TTL + mtime < expiry: expired expected" );
 
@@ -407,7 +407,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         $expiry = time() - 3600; // expires in the future
         $curtime = time();
         $ttl = null;
-        $result = $ch->isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
+        $result = $ch::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
         self::assertFalse( $result,
             "no TTL + mtime > expiry: not expired expected" );
 
@@ -416,7 +416,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         $expiry = -1; // disable expiry check
         $curtime = time();
         $ttl = 60; // 60 seconds TTL
-        $result = $ch->isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
+        $result = $ch::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
         self::assertFalse( $result,
             "TTL + ( mtime < ( curtime - ttl ) ): !expired expected" );
 
@@ -425,7 +425,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         $expiry = -1; // disable expiry check
         $curtime = time();
         $ttl = 60; // 60 seconds TTL
-        $result = $ch->isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
+        $result = $ch::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
         self::assertTrue( $result,
             "TTL + ( mtime > ( curtime - ttl ) ): expired expected" );
 
@@ -434,7 +434,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         $expiry = time(); // file is expired
         $curtime = time();
         $ttl = 60; // 60 seconds TTL
-        $result = $ch->isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
+        $result = $ch::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
         self::assertTrue( $result,
             "TTL + ( mtime < expiry ): expired expected" );
 
@@ -443,7 +443,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         $expiry = time() - 90;
         $curtime = time();
         $ttl = 60;
-        $result = $ch->isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
+        $result = $ch::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
         self::assertFalse( $result,
             "TTL + ( mtime > expiry ): !expired expected" );
     }
