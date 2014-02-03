@@ -1206,7 +1206,7 @@ class eZSys
      */
     protected static function getValidwwwDir( $phpSelf, $scriptFileName, $index )
     {
-        if ( !isset( $phpSelf[1] ) || strpos( $phpSelf, $index ) === false )
+        if ( !isset( $phpSelf[1] ) || empty($index) || strpos( $phpSelf, $index ) === false )
             return false;
 
         // validate $index straight away
@@ -1227,7 +1227,7 @@ class eZSys
             $validateDir = '/' . implode( '/', $uri );
         }
 
-        // validate direclty with phpself part
+        // validate directly with phpself part
         if ( strpos( $scriptFileName, $validateDir ) !== false )
             return trim( $phpSelfParts[0], '/' );
 
