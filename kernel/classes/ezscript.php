@@ -278,17 +278,13 @@ class eZScript
             $cli->output( "Notice: This script uses 'use-extensions' => false, meaning extension settings are not loaded!" );
         }
 
-        $siteaccess = $this->SiteAccess;
-        if ( $siteaccess )
+        if ( $this->SiteAccess )
         {
-            $access = array( 'name' => $siteaccess,
-                             'type' => eZSiteAccess::TYPE_STATIC );
+            $access = array( 'name' => $this->SiteAccess, 'type' => eZSiteAccess::TYPE_STATIC );
         }
         else
         {
-            $ini = eZINI::instance();
-            $siteaccess = $ini->variable( 'SiteSettings', 'DefaultAccess' );
-            $access = array( 'name' => $siteaccess,
+            $access = array( 'name' => eZINI::instance()->variable( 'SiteSettings', 'DefaultAccess' ),
                              'type' => eZSiteAccess::TYPE_DEFAULT );
         }
 
@@ -1176,11 +1172,9 @@ class eZScript
 
 function eZDBCleanup()
 {
-    if ( class_exists( 'ezdb' )
-         and eZDB::hasInstance() )
+    if ( class_exists( 'ezdb' ) && eZDB::hasInstance() )
     {
-        $db = eZDB::instance();
-        $db->setIsSQLOutputEnabled( false );
+        eZDB::instance()->setIsSQLOutputEnabled( false );
     }
 }
 
