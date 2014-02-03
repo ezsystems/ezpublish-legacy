@@ -503,7 +503,7 @@ class eZScript
     /*!
      Sets the current site access to \a $siteAccess.
      \note This will only work if it is set before initialized() is called.
-     \note This will be filled in if getOptions() is used and the user specifices it in the arguments.
+     \note This will be filled in if getOptions() is used and the user specifies it in the arguments.
     */
     function setUseSiteAccess( $siteAccess )
     {
@@ -880,7 +880,7 @@ class eZScript
     }
 
     /*!
-     Parse command line into options array. If stanadrd options are in use, carry
+     Parse command line into options array. If standard options are in use, carry
      out the associated task (eg. switch siteaccess ir logged-in user)
      /param $config see ezcli::parseOptionString
      /param $argumentConfig  see ezcli::getOptions (unused for now)
