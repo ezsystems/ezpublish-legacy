@@ -1029,7 +1029,7 @@ class eZScript
                 }
                 $allowedDebugLevels = array();
                 $useDebugAccumulators = false;
-                $useDebugTimingpoints = false;
+                $useDebugTimingPoints = false;
                 $useIncludeFiles = false;
                 foreach ( $levels as $level )
                 {
@@ -1037,7 +1037,7 @@ class eZScript
                     {
                         $useDebugAccumulators = true;
                         $allowedDebugLevels = false;
-                        $useDebugTimingpoints = true;
+                        $useDebugTimingPoints = true;
                         break;
                     }
                     if ( $level == 'accumulator' )
@@ -1047,7 +1047,7 @@ class eZScript
                     }
                     if ( $level == 'timing' )
                     {
-                        $useDebugTimingpoints = true;
+                        $useDebugTimingPoints = true;
                         continue;
                     }
                     if ( $level == 'include' )
@@ -1071,7 +1071,7 @@ class eZScript
                 $this->setUseDebugOutput( true );
                 $this->setAllowedDebugLevels( $allowedDebugLevels );
                 $this->setUseDebugAccumulators( $useDebugAccumulators );
-                $this->setUseDebugTimingPoints( $useDebugTimingpoints );
+                $this->setUseDebugTimingPoints( $useDebugTimingPoints );
                 $this->setUseIncludeFiles( $useIncludeFiles );
                 $this->setDebugMessage( "\n\n" . str_repeat( '#', 36 ) . $cli->style( 'emphasize' ) . " DEBUG " . $cli->style( 'emphasize-end' )  . str_repeat( '#', 36 ) . "\n" );
             }
