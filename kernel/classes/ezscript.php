@@ -47,6 +47,26 @@ $script->shutdown(); // Finish execution
 */
 class eZScript
 {
+    public $IsInitialized;
+    public $InitializationErrorMessage;
+    public $DebugMessage;
+    public $UseDebugOutput;
+    public $UseDebugAccumulators;
+    public $UseDebugTimingPoints;
+    public $UseIncludeFiles;
+    public $UseSession;
+    public $UseExtensions;
+    public $UseModules;
+    public $User;
+    public $SiteAccess;
+    public $ExitCode;
+    public $IsQuiet;
+    public $ShowVerbose;
+    public $AllowedDebugLevels;
+    public $MinVersion;
+    public $MaxVersion;
+    public $ArgumentConfig;
+
     /*!
      Constructor
     */
@@ -1165,20 +1185,6 @@ class eZScript
         $i18nSettings['mbstring-extension'] = $ini->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled';
         eZTextCodec::updateSettings( $i18nSettings );
     }
-
-    /// \privatesection
-    public $IsInitialized;
-    public $InitializationErrorMessage;
-    public $DebugMessage;
-    public $UseDebugOutput;
-    public $UseSession;
-    public $UseExtensions;
-    public $UseModules;
-    public $User;
-    public $SiteAccess;
-    public $ExitCode;
-    public $IsQuiet;
-    public $ShowVerbose;
 }
 
 function eZDBCleanup()
