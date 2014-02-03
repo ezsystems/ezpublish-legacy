@@ -1192,7 +1192,15 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
     {
         $this->requestInit();
 
-        $return = $callback();
+        try
+        {
+            $return = $callback();
+        }
+        catch ( Exception $e )
+        {
+            $this->shutdown( $postReinitialize );
+            throw $e;
+        }
 
         $this->shutdown( $postReinitialize );
 
