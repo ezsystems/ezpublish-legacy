@@ -163,38 +163,25 @@ class eZScript
             $this->MaxVersion = $settings['max_version'];
     }
 
-    /*!
-     Checks if the script is run on correct eZ Publish version.
-    */
+    /**
+     * Checks if the script is run on correct eZ Publish version.
+     *
+     * Not used by eZ Publish anymore, kept for compatibility
+     */
     function validateVersion()
     {
-        $versionValidated = false;
-        $ezversion = eZPublishSDK::version();
-        if ( $this->MinVersion !== false )
+        $ezVersion = eZPublishSDK::version();
+        if ( $this->MinVersion === false )
         {
-            if ( $this->MaxVersion !== false )
-            {
-                if ( version_compare( $this->MinVersion, $ezversion , 'le' ) &&
-                     version_compare( $this->MaxVersion, $ezversion , 'ge' ) )
-                {
-                    return true;
-                }
-                return false;
-            }
-            if ( version_compare( $this->MinVersion, $ezversion , 'le' ) )
-            {
-                return true;
-            }
-            return false;
+            return version_compare( $this->MaxVersion, $ezVersion , 'ge' );
         }
-        else
+
+        if ( $this->MaxVersion === false )
         {
-            if ( version_compare( $this->MaxVersion, $ezversion , 'ge' ) )
-            {
-                return true;
-            }
-            return false;
+            return version_compare( $this->MinVersion, $ezVersion , 'le' );
         }
+
+        return version_compare( $this->MinVersion, $ezVersion , 'le' ) && version_compare( $this->MaxVersion, $ezVersion , 'ge' );
     }
 
     /*!
