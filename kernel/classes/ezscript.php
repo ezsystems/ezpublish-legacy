@@ -292,7 +292,7 @@ class eZScript
                              'type' => eZSiteAccess::TYPE_DEFAULT );
         }
 
-        $access = eZSiteAccess::change( $access );
+        eZSiteAccess::change( $access );
 
         if ( $this->UseExtensions )
         {
@@ -1193,10 +1193,6 @@ function eZFatalError()
     $unbold = $cli->style( 'bold-end' );
     $par = $cli->style( 'paragraph' );
     $unpar = $cli->style( 'paragraph-end' );
-
-    $allowedDebugLevels = true;
-    $useDebugAccumulators = true;
-    $useDebugTimingpoints = true;
 
     eZDebug::setHandleType( eZDebug::HANDLE_NONE );
     if ( !$webOutput )
