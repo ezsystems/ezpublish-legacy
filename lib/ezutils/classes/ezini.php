@@ -376,10 +376,17 @@ class eZINI
                 {
                     if ( is_array( $varValue ) )
                     {
-                        $this->BlockValuesPlacement[$blockName][$varName] = array_fill_keys(
+                        $placement = array_fill_keys(
                             array_keys( $varValue ),
                             self::INJECTED_PATH
                         );
+                        if ( preg_match( $varName, -2 ) == '[]' )
+                        {
+                            $rawVarName = rtrim( $varName, '[]' );
+                            if ( isset( self::$injectedSettings[$this->FileName][$blockName][$rawVarName] ) )
+                                return array_merge( $this->BlockValuesPlacement[$blockName][$varName], $placement );
+                        }
+                        return $placement;
                     }
                     else
                     {
@@ -1383,7 +1390,14 @@ class eZINI
         if ( isset( self::$injectedSettings[$this->FileName][$blockName][$varName] ) )
             return self::$injectedSettings[$this->FileName][$blockName][$varName];
         else if ( isset( $this->BlockValues[$blockName][$varName] ) )
-            return $this->BlockValues[$blockName][$varName];
+        {
+            $value = $this->BlockValues[$blockName][$varName];
+            if ( isset( self::$injectedSettings[$this->FileName][$blockName]["$varName  \[\]"] ) )
+            {
+                $value = array_merge( $value, self::$injectedSettings[$this->FileName][$blockName]["$varName\[\]"] );
+            }
+            return $value;
+        }
         else if ( !isset( $this->BlockValues[$blockName] ) )
             eZDebug::writeError( "Undefined group: '$blockName' in " . $this->FileName, __METHOD__ );
         else
@@ -1417,6 +1431,13 @@ class eZINI
             if ( isset( self::$injectedSettings[$this->FileName][$blockName][$varName] ) )
             {
                 $ret[$key] = self::$injectedSettings[$this->FileName][$blockName][$varName];
+            }
+            else if ( isset( self::$injectedSettings[$this->FileName][$blockName]["$varName\[\]"] ) )
+            {
+                $ret[$key] = array_merge(
+                    $this->BlockValues[$blockName][$varName],
+                    self::$injectedSettings[$this->FileName][$blockName]["$varName\[\]"]
+                );
             }
             else if ( isset( $this->BlockValues[$blockName][$varName] ) )
             {
@@ -1487,12 +1508,7 @@ class eZINI
      */
     function variableArray( $blockName, $varName )
     {
-        if ( isset( self::$injectedSettings[$this->FileName][$blockName][$varName] ) )
-            $ret = self::$injectedSettings[$this->FileName][$blockName][$varName];
-        else if ( isset( $this->BlockValues[$blockName][$varName] ) )
-            $ret = $this->BlockValues[$blockName][$varName];
-        else
-            return false;
+        $ret = $this->variable( $blockName, $varName );
 
         if ( is_array( $ret ) )
         {
@@ -1540,6 +1556,8 @@ class eZINI
         }
         if ( isset( self::$injectedSettings[$this->FileName][$blockName] ) )
         {
+            // @todo EZP-22210: isn't  that a bit brutal ? This could override *many* values...
+            // Or does it only apply when a full block is overridden ?
             $ret = array_merge(
                 $this->BlockValues[$blockName],
                 self::$injectedSettings[$this->FileName][$blockName]
