@@ -380,7 +380,7 @@ class eZINI
                             array_keys( $varValue ),
                             self::INJECTED_PATH
                         );
-                        if ( preg_match( $varName, -2 ) == '[]' )
+                        if ( substr( $varName, -2 ) == '[]' )
                         {
                             $rawVarName = rtrim( $varName, '[]' );
                             if ( isset( self::$injectedSettings[$this->FileName][$blockName][$rawVarName] ) )
@@ -1392,9 +1392,9 @@ class eZINI
         else if ( isset( $this->BlockValues[$blockName][$varName] ) )
         {
             $value = $this->BlockValues[$blockName][$varName];
-            if ( isset( self::$injectedSettings[$this->FileName][$blockName]["$varName  \[\]"] ) )
+            if ( isset( self::$injectedSettings[$this->FileName][$blockName][$varName . '[]'] ) )
             {
-                $value = array_merge( $value, self::$injectedSettings[$this->FileName][$blockName]["$varName\[\]"] );
+                $value = array_merge( $value, self::$injectedSettings[$this->FileName][$blockName][$varName . '[]'] );
             }
             return $value;
         }
