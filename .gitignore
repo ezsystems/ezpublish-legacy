@@ -11,8 +11,10 @@ settings/siteaccess/*
 lib/ezc/
 var/autoload/
 var/cache/
+var/*/cache/
 var/*_site/
 var/log/
+var/*/log/
 var/storage/
 var/dfsmount/
 var/test*
