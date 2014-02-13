@@ -643,7 +643,7 @@ class eZStepCreateSites extends eZStepInstaller
 
         // Call user function for additional setup tasks.
         if ( function_exists( 'eZSitePreInstall' ) )
-            eZSitePreInstall();
+            eZSitePreInstall( $siteType );
 
 
         // Make sure objects use the selected main language instead of eng-GB
