@@ -1451,8 +1451,25 @@ class eZINI
      */
     function hasVariable( $blockName, $varName )
     {
-        return ( isset( self::$injectedSettings[$this->FileName][$blockName][$varName] )
-            || isset( $this->BlockValues[$blockName][$varName] ) );
+        // 1. Check if the variable is set in either injected or regular settings.
+        if (
+            !isset( self::$injectedSettings[$this->FileName][$blockName][$varName] )
+            && !isset( $this->BlockValues[$blockName][$varName] )
+        )
+        {
+            return false;
+        }
+
+        // 2. Check if injected setting isn't strictly false (false being the default value when a variable doesn't exist).
+        if (
+            isset( self::$injectedSettings[$this->FileName][$blockName][$varName] )
+            && self::$injectedSettings[$this->FileName][$blockName][$varName] === false
+        )
+        {
+            return false;
+        }
+
+        return true;
     }
 
     /**
