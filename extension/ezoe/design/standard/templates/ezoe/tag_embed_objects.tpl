@@ -97,6 +97,8 @@ function inlineSelectorChange( e, el )
     // embed and embed-inline have different settings
     var viewList = jQuery('#embed_view_source'), classList = jQuery('#embed_class_source'), inline = el.checked;
     var tag = inline ? 'embed-inline' : 'embed', editorEl = eZOEPopupUtils.settings.editorElement, def = attributeDefaults[ tag ];
+    var align = jQuery('#embed_align_source'), middleAlign = jQuery('#embed_align_source option[value="middle"]');
+
     if ( tag === selectedTagName ) return;
     selectedTagName = tag;
     eZOEPopupUtils.settings.selectedTag = tag;
@@ -111,6 +113,19 @@ function inlineSelectorChange( e, el )
     {
         var viewValue = editorEl.getAttribute('view');
         var classValue = jQuery.trim( editorEl.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|ezoeItem\w+|mceVisualAid)/g, '') );
+    }
+
+    if ( inline )
+    {
+        if ( align.val() === middleAlign.attr('value') )
+        {
+            align.val('');
+        }
+        middleAlign.hide();
+    }
+    else
+    {
+        middleAlign.show();
     }
 
     if ( viewValue && viewListData[ tag ].join !== undefined && (' ' + viewListData[ tag ].join(' ') + ' ').indexOf( ' ' + viewValue + ' ' ) !== -1 )

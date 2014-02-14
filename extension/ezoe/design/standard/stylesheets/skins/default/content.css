@@ -191,6 +191,16 @@ div.ezoeItemNonEditable, span.ezoeItemNonEditable
     padding-left: 16px;
 }
 
+span.ezoeItemNonEditable[align="right"]
+{
+    float: right;
+}
+
+span.ezoeItemNonEditable[align="left"]
+{
+    float: left;
+}
+
 /* core.css ez layout styles for embed tags */
 
 div.ezoeItemNonEditable div.block /* Used around groups of objects which are connected in some way, and requires extra margins to the surroundings */

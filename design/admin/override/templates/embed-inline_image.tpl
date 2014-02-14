@@ -5,5 +5,6 @@
 {else}
 {set image_variation=$object.data_map.image.content[ezini( 'ImageSettings', 'DefaultEmbedAlias', 'content.ini' )]}
 {/if}
-<img src={$image_variation.full_path|ezroot} alt="{$object.data_map.image.content.alternative_text|wash(xhtml)}" />
+<img src={$image_variation.full_path|ezroot} alt="{$object.data_map.image.content.alternative_text|wash(xhtml)}"
+    {cond( $attribute_parameters.align, concat( ' class="embed-inline-', $attribute_parameters.align, '"' ), '' )} />
 {/let}
