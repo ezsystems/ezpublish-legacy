@@ -125,14 +125,14 @@ class eZINI
     static protected $injectedSettings = array();
 
     /**
-     * Settings injected at runtime settings that are merged with
-     * any other value found in local .ini and override files.
+     * Settings injected at runtime that are merged with
+     * other *array* value found in local .ini and override files.
      * Structure:
      * eZINI::$injectedSettings['site.ini'][Section][Variable]
      *
-     * Applies AFTER self::$injectedSettings
+     * Applies after and on top of self::$injectedSettings
      *
-     * @see eZINI::injectSettings()
+     * @see eZINI::injectMergeSettings()
      * @see eZINI::variable()
      * @var array
      */
@@ -2028,12 +2028,12 @@ class eZINI
 
     /**
      * Injects merge settings at runtime.
-     * Work like $injectedSettings, but will *merge* the values if
+     * Work like $injectedSettings, but will *merge* the values instead of overwriting them.
      *
      * @since 5.3
      * @param array $settings hash of settings organized under filename, block
      *        and variable, for instance:
-     *        $settings['site.ini']['DatabaseSettings']['Server'] = '127.0.0.1';
+     *        $settings['site.ini']['ActiveExtensions'] = 'myownextension';
      */
     static function injectMergeSettings( array $settings )
     {
