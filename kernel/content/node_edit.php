@@ -406,6 +406,10 @@ function checkNodeActions( $module, $class, $object, $version, $contentObjectAtt
         $assigned = $version->nodeAssignments();
         $publishedAssigned = $object->assignedNodes( false );
         $isTopLevel = false;
+        foreach ( $assigned as $assignment )
+        {
+            $ignoreNodesSelect[] = $assignment->attribute( 'parent_node' );
+        }
         foreach ( $publishedAssigned as $element )
         {
             $append = false;
