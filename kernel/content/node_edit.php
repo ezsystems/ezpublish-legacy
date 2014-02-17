@@ -343,6 +343,29 @@ function storeNodeAssignments( $module, $class, $object, $version, $contentObjec
             $nodeAssignment->setAttribute( 'sort_order', $sortOrder );
         }
 
+        $hiddenStatePostVarName = 'FutureNodeHiddenState_' . $nodeAssignment->attribute( 'parent_node' );
+        if ( $http->hasPostVariable( $hiddenStatePostVarName ) )
+        {
+            switch ( $http->postVariable( $hiddenStatePostVarName ) )
+            {
+                case 'visible':
+                    $isHidden = 0;
+                    break;
+                case 'hidden':
+                    $isHidden = 1;
+                    break;
+                case 'unchanged':
+                    // Node assignment operations are allowed only for content object in draft state,
+                    // meaning having no published version.
+                    // In this case no node exists for it either, so 'unchanged' is handled as 'visible'.
+                    $isHidden = 0;
+                    break;
+                default:
+                    $isHidden = 0;
+            }
+
+            $nodeAssignment->setAttribute( 'is_hidden', $isHidden );
+        }
 
         if ( $nodeAssignment->attribute( 'is_main' ) == 1 and
              $nodeAssignment->attribute( 'parent_node' ) != $mainNodeID )
