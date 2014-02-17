@@ -217,9 +217,9 @@ class eZNodeAssignment extends eZPersistentObject
         {
             $parameters['from_node_id'] = 0;
         }
-        if ( !isset( $parameters['parent_remote_id'] ) )
+        if ( !isset( $parameters['parent_remote_id'] ) || empty( $parameters['parent_remote_id'] ) )
         {
-            $parameters['parent_remote_id'] = '';
+            $parameters['parent_remote_id'] = eZRemoteIdUtility::generate( 'node' );
         }
         if ( !isset( $parameters['op_code'] ) )
         {
