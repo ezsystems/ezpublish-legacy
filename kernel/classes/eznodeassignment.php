@@ -49,7 +49,7 @@ class eZNodeAssignment extends eZPersistentObject
                                                         'default' => 0,
                                                         'required' => true ),
                                          'remote_id' => array( 'name' => 'RemoteID',
-                                                               'datatype' => 'integer',
+                                                               'datatype' => 'string',
                                                                'default' => 0,
                                                                'required' => true ),
                                          'contentobject_id' => array( 'name' => 'ContentobjectID',
