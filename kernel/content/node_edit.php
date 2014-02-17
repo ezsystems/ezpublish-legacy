@@ -551,7 +551,20 @@ function checkNodeActions( $module, $class, $object, $version, $contentObjectAtt
                 unset( $assignment );
             }
 
-            if ( $hasChildren )
+            if ( $object->attribute( 'status' ) == eZContentObject::STATUS_DRAFT )
+            {
+                $db = eZDB::instance();
+                $db->begin();
+                foreach ( $assignments as $assignment )
+                {
+                    if ( $assignment->attribute( 'op_code' ) == eZNodeAssignment::OP_CODE_CREATE )
+                    {
+                        $assignment->purge();
+                    }
+                }
+                $db->commit();
+            }
+            else if ( $hasChildren )
             {
                 // We need user confirmation if at least one node we want to remove assignment for contains children.
                 // Aactual removal is done in content/removeassignment in this case.
