@@ -90,7 +90,13 @@ function checkNodeAssignments( $module, $class, $object, $version, $contentObjec
                     $setMainNode = false;
                     $db = eZDB::instance();
                     $db->begin();
-                    $version->assignToNode( $nodeID, $isMain );
+                    $version->assignToNode(
+                        $nodeID,
+                        $isMain,
+                        0,
+                        $class->attribute( 'sort_field' ),
+                        $class->attribute( 'sort_order' )
+                    );
                     $db->commit();
                 }
             }
