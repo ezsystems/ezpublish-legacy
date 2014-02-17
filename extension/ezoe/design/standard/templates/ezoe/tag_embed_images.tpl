@@ -101,6 +101,16 @@ function inlineSelectorChange( e, el )
         var classValue = jQuery.trim( editorEl.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|ezoeAlign\w+|ezoeItem\w+|mceVisualAid)/g, '') );
     }
 
+    // If inline is checked disabling aligment selection
+    var embedAlign = jQuery( '#embed_align' );
+
+    if ( inline ){
+        jQuery( '#embed_align_source' ).val("");
+        embedAlign.hide();
+    }else{
+        embedAlign.show();
+    }
+
     if ( viewValue && viewListData[ tag ].join !== undefined && (' ' + viewListData[ tag ].join(' ') + ' ').indexOf( ' ' + viewValue + ' ' ) !== -1 )
         viewList.val( viewValue );
     else if ( def['view'] !== undefined )
