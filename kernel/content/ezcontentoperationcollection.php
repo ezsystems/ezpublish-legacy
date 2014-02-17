@@ -362,6 +362,12 @@ class eZContentOperationCollection
             {
                 $existingNode->setAttribute( 'remote_id', $nodeAssignment->attribute( 'parent_remote_id' ) );
             }
+            if ( $nodeAssignment->attribute( 'is_hidden' ) )
+            {
+                $existingNode->setAttribute( 'is_hidden', 1 );
+                $existingNode->setAttribute( 'is_invisible', 1 );
+            }
+            $existingNode->setAttribute( 'priority', $nodeAssignment->attribute( 'priority' ) );
             $existingNode->setAttribute( 'sort_field', $nodeAssignment->attribute( 'sort_field' ) );
             $existingNode->setAttribute( 'sort_order', $nodeAssignment->attribute( 'sort_order' ) );
         }
