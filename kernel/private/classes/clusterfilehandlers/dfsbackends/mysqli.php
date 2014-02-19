@@ -2,7 +2,7 @@
 /**
  * File containing the eZDFSFileHandlerMySQLiBackend class.
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -154,7 +154,14 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         }
         eZDebug::accumulatorStop( 'mysql_cluster_connect' );
         if ( !$this->db )
-            throw new eZClusterHandlerDBNoConnectionException( $serverString, self::$dbparams['user'], self::$dbparams['pass'] );
+        {
+            throw new eZClusterHandlerDBNoConnectionException(
+                $serverString,
+                self::$dbparams['user'],
+                self::$dbparams['pass'],
+                'Error ' . mysqli_connect_errno() . ': ' . mysqli_connect_error()
+            );
+        }
 
         /*if ( !mysql_select_db( self::$dbparams['dbname'], $this->db ) )
             throw new eZClusterHandlerDBNoDatabaseException( self::$dbparams['dbname'] );*/
@@ -248,7 +255,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         $nameTrunk       = self::nameTrunk( $dstFilePath, $scope );
 
         // Copy file metadata.
-        if ( $this->_insertUpdate( $this->dbTable( $srcFilePath ),
+        if ( $this->_insertUpdate( $this->dbTable( $dstFilePath ),
                                    array( 'datatype'=> $datatype,
                                           'name' => $dstFilePath,
                                           'name_trunk' => $nameTrunk,
@@ -1052,9 +1059,11 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             $rslt = $this->_query( $query, "_getFileList( array( " . implode( ', ', is_array( $scopes ) ? $scopes : array() ) . " ), $excludeScopes )" );
             if ( !$rslt )
             {
-                eZDebug::writeDebug( 'Unable to get file list', __METHOD__ );
-                // @todo Throw an exception
-                return false;
+                eZDebug::writeError( 'Unable to get file list', __METHOD__ );
+                throw new Exception(
+                    "dfs/mysqli DB error: " . mysqli_error( $this->db ) . "\nSQL Query: $query",
+                    mysqli_errno( $this->db )
+                );
             }
 
             while ( $row = mysqli_fetch_row( $rslt ) )
@@ -1209,7 +1218,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         eZDebug::accumulatorStart( 'mysql_cluster_query', 'MySQL Cluster', 'DB queries' );
         $time = microtime( true );
 
-        $res = mysqli_query( $this->db, $query );
+        $res = @mysqli_query( $this->db, $query );
         if ( !$res )
         {
             if ( mysqli_errno( $this->db ) == 1146 )
@@ -1221,8 +1230,10 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             {
                 $this->_error( $query, $fname, $error );
                 eZDebug::accumulatorStop( 'mysql_cluster_query' );
-                // @todo Throw an exception
-                return false;
+                throw new Exception(
+                    "dfs/mysqli DB error: " . mysqli_error( $this->db ) . "\nSQL Query: $query",
+                    mysqli_errno( $this->db )
+                );
             }
         }
 
@@ -1885,6 +1896,34 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             list( $domain, $method ) = explode( '/', $eventName );
             $this->eventHandler->attach( $eventName, array( $listener, $method ) );
         }
+    }
+
+    /**
+     * Deletes a batch of cache files from the storage table.
+     *
+     * @param int $limit
+     *
+     * @return int The number of moved rows
+     *
+     * @throws RuntimeException if a MySQL query occurs
+     * @throws InvalidArgumentException if the split table feature is disabled
+     */
+    public function deleteCacheFiles( $limit )
+    {
+        if ( $this->metaDataTable === $this->metaDataTableCache )
+        {
+            throw new InvalidArgumentException( "The split table features is disabled: cache and storage table are identical" );
+        }
+
+        $like = addcslashes( eZSys::cacheDirectory(), '_' ) . DIRECTORY_SEPARATOR . '%';
+
+        $query = "DELETE FROM {$this->metaDataTable} WHERE name LIKE '$like' LIMIT $limit";
+        if ( !mysqli_query( $this->db, $query ) )
+        {
+            throw new RuntimeException( "MySQLi error in $query\n" . mysqli_error( $this->db ), mysqli_errno( $this->db ) );
+        }
+
+        return mysqli_affected_rows( $this->db );
     }
 
     /**

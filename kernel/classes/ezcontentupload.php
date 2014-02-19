@@ -2,7 +2,7 @@
 /**
  * File containing the eZContentUpload class.
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -696,22 +696,10 @@ class eZContentUpload
         if ( $storeResult['require_storage'] )
             $dataMap[$nameAttribute]->store();
 
-        // Getting the current transaction counter to check if all transactions are committed during content/publish operation (see below)
-        $transactionCounter = $db->transactionCounter();
         $tmpresult = $this->publishObject( $result, $result['errors'], $result['notices'],
                                            $object, $publishVersion, $class, $parentNodes, $parentMainNode );
 
-        // If publication was halted/cancelled (workflow, for instance), the transaction counter may not have reached 0.
-        // If not, operation is probably in STATUS_CANCELLED, STATUS_HALTED, STATUS_REPEAT or STATUS_QUEUED
-        // and final commit was not done as it's part of the operation body (see commit-transaction action in content/publish operation definition).
-        // Important note: Will only be committed transactions that weren't closed during the content/publish operation
-        for ( $i = 0, $transactionDiff = $db->transactionCounter() - $transactionCounter; $i < $transactionDiff; ++$i )
-        {
-            $db->commit();
-        }
-
         $db->commit();
-
         return $tmpresult;
     }
 
@@ -783,8 +771,12 @@ class eZContentUpload
 
         $mainNode = $object->mainNode();
         $result['contentobject_main_node'] = $mainNode;
-        $result['contentobject_main_node_id'] = $mainNode->attribute( 'node_id' );
-        $this->setResult( array( 'node_id' => $mainNode->attribute( 'node_id' ),
+
+        // The published object may not have a node if publishing was interrupted
+        $mainNodeId = $mainNode ? $mainNode->attribute( 'node_id' ) : 0;
+
+        $result['contentobject_main_node_id'] = $mainNodeId;
+        $this->setResult( array( 'node_id' => $mainNodeId,
                                  'object_id' => $object->attribute( 'id' ),
                                  'object_version' => $publishVersion ) );
 

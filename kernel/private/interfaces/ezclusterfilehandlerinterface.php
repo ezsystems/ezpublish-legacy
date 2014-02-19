@@ -2,7 +2,7 @@
 /**
  * File containing the eZClusterFileHandlerInterface interface.
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -140,7 +140,7 @@ interface eZClusterFileHandlerInterface
      *                    disable TTL.
      * @return bool
      */
-    public function isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl );
+    public static function isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl );
 
     /**
      * Calculates if the current file data is expired or not.
@@ -201,7 +201,8 @@ interface eZClusterFileHandlerInterface
 
     /**
      * Returns file contents.
-     * @return contents string, or false in case of an error.
+     * @param string $filePath
+     * @return string|bool string, or false in case of an error.
      */
     public function fileFetchContents( $filePath );
 
@@ -210,6 +211,14 @@ interface eZClusterFileHandlerInterface
      * @return string|bool contents string, or false in case of an error.
      */
     public function fetchContents();
+
+    /**
+     * Loads file meta information.
+     *
+     * @param bool $force File stats will be refreshed if true
+     * @return void
+     */
+    public function loadMetaData( $force = false );
 
     /**
      * Returns file metadata.
@@ -326,6 +335,22 @@ interface eZClusterFileHandlerInterface
      *                               return only files that do not belong to any of the scopes listed in $scopes
      */
     public function getFileList( $scopes = false, $excludeScopes = false );
+
+    /**
+     * Stores the data in $fileData to the remote and local file and commits the
+     * transaction.
+     *
+     * The parameter $fileData must contain the same as information as the
+     * $generateCallback returns as explained in processCache().
+     *
+     * This method is just a continuation of the code in processCache()
+     * and is not meant to be called alone since it relies on specific
+     * state in the database.
+     *
+     * @param string|array $fileData
+     * @return string|null
+     */
+    public function storeCache( $fileData );
 
     /**
      * Starts cache generation for the current file.

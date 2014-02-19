@@ -1,6 +1,6 @@
 <form name="statesform" method="post" action={'state/assign'|ezurl}>
 <input type="hidden" name="ObjectID" value="{$node.object.id}" />
-<input type="hidden" name="RedirectRelativeURI" value="{$node.url_alias}" />
+<input type="hidden" name="RedirectRelativeURI" value="{$node.url_alias|wash}" />
 
 <div class="context-block">
 

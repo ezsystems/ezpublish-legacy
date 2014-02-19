@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -91,11 +91,16 @@ if ( isset( $keys['layout'] ) )
 else
     $layout = false;
 
-$viewParameters = array( 'offset' => $Offset,
-                         'year' => $Year,
-                         'month' => $Month,
-                         'day' => $Day,
-                         'namefilter' => false );
+$viewParameters = array(
+    'offset' => $Offset,
+    'year' => $Year,
+    'month' => $Month,
+    'day' => $Day,
+    'namefilter' => false,
+    '_custom' => $UserParameters
+);
+// Keep the following array_merge for BC
+// All user parameters will be exposed as direct variables in template.
 $viewParameters = array_merge( $viewParameters, $UserParameters );
 
 $user = eZUser::currentUser();

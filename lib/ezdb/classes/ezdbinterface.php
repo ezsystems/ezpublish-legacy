@@ -2,7 +2,7 @@
 /**
  * File containing the eZDBInterface class.
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -1505,6 +1505,46 @@ class eZDBInterface
             throw new RuntimeException( "Unknown eZDB error handling mode $errorHandling" );
 
         $this->errorHandling = $errorHandling;
+    }
+
+    /**
+     * Truncates a $string to a $maxLength
+     *
+     * This method is meant to be overridden if needed by different DB implementation:
+     * for example oracle handles bytes and not char
+     *
+     * @param $string
+     * @param $maxLength
+     * @param $fieldName
+     * @param $truncationSuffix string to be added at the end, room will be left so it can be added later.
+     *
+     * @return string
+     */
+    public function truncateString( $string, $maxLength, $fieldName, $truncationSuffix = '' )
+    {
+        if ( mb_strlen( $string, "utf-8" ) <= $maxLength )
+        {
+            return $string;
+        }
+
+        eZDebug::writeDebug( $string, "truncation of $fieldName to max_length=". $maxLength );
+
+        return mb_substr(  $string , 0, $maxLength - mb_strlen( $truncationSuffix, "utf-8" ), "utf-8" );
+    }
+
+    /**
+     * Returns the size of the $string
+     *
+     * This method is meant to be overridden if needed by different DB implementation:
+     * for example oracle handles bytes and not char
+     *
+     * @param $string
+     *
+     * @return int
+     */
+    public function countStringSize( $string )
+    {
+        return mb_strlen( $string, "utf-8" );
     }
 
     /**

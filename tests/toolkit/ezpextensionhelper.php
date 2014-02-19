@@ -2,7 +2,7 @@
 /**
  * File containing the ezpExtensionHelper class
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -59,7 +59,9 @@ class ezpExtensionHelper
         $activeExtensions[] = $extension;
         $ini->setVariable( 'ExtensionSettings', 'ActiveExtensions', $activeExtensions );
         $extensionDirectory = eZExtension::baseDirectory();
+        $ini->prependOverrideDir( $extensionDirectory . '/' . $extension . '/tests/settings', true, 'extension-tests:' . $extension, 'extension' );
         $ini->prependOverrideDir( $extensionDirectory . '/' . $extension . '/settings', true, 'extension:' . $extension, 'extension' );
+        $ini->resetAllInstances(false);
         eZExtension::clearActiveExtensionsMemoryCache();
         return true;
     }

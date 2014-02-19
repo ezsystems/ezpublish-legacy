@@ -2,7 +2,7 @@
 /**
  * File containing the ezpSearchEngine interface
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -49,7 +49,7 @@ interface ezpSearchEngine
      * @param bool $commit Whether to commit after removing the object
      * @return bool True if the operation succeed.
      */
-    public function removeObject( $contentObject, $commit = true );
+    public function removeObject( $contentObject, $commit = null );
 
     /**
      * Removes a content object by Id from the search database.
@@ -59,7 +59,7 @@ interface ezpSearchEngine
      * @param bool $commit Whether to commit after removing the object
      * @return bool True if the operation succeed.
      */
-    public function removeObjectById( $contentObjectId, $commit = true );
+    public function removeObjectById( $contentObjectId, $commit = null );
 
     /**
      * Searches $searchText in the search database.

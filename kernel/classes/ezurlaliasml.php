@@ -2,7 +2,7 @@
 /**
  * File containing the eZURLAlias class.
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -63,10 +63,71 @@ class eZURLAliasML extends eZPersistentObject
     const ACTION_INVALID = 51;
     const DB_ERROR = 101;
 
-    /*!
-     Optionally computed path string for this element, used for caching purposes.
+    /**
+     * Optionally computed path string for this element, used for caching purposes.
+     *
+     * @var string
      */
     public $Path;
+
+    /**
+     * @var int
+     */
+    public $ID;
+
+    /**
+     * @var int
+     */
+    public $Parent;
+
+    /**
+     * @var int
+     */
+    public $Link;
+
+    /**
+     * @var string
+     */
+    public $Text;
+
+    /**
+     * @var string
+     */
+    public $TextMD5;
+
+    /**
+     * @var int
+     */
+    public $LangMask;
+
+    /**
+     * @var string
+     */
+    public $Action;
+
+    /**
+     * @var string
+     */
+    public $ActionType;
+
+    /**
+     * @var int
+     */
+    public $AliasRedirects;
+
+    /**
+     * @var int
+     */
+    public $IsAlias;
+
+    /**
+     * @var bool
+     */
+    public $IsOriginal;
+
+    /**
+     * @var string|null
+     */
     private static $charset = null;
 
     /*!

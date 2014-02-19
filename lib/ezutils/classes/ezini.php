@@ -2,7 +2,7 @@
 /**
  * File containing the eZINI class.
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -123,6 +123,20 @@ class eZINI
      * @var array
      */
     static protected $injectedSettings = array();
+
+    /**
+     * Settings injected at runtime that are merged with
+     * other *array* value found in local .ini and override files.
+     * Structure:
+     * eZINI::$injectedSettings['site.ini'][Section][Variable]
+     *
+     * Applies after and on top of self::$injectedSettings
+     *
+     * @see eZINI::injectMergeSettings()
+     * @see eZINI::variable()
+     * @var array
+     */
+    static protected $injectedMergeSettings = array();
 
     /**
      * Initialization of eZINI object
@@ -385,6 +399,28 @@ class eZINI
                     {
                         $this->BlockValuesPlacement[$blockName][$varName] = self::INJECTED_PATH;
                     }
+                }
+            }
+        }
+
+        if ( isset( self::$injectedMergeSettings[$this->FileName] ) )
+        {
+            foreach ( self::$injectedMergeSettings[$this->FileName] as $blockName => $variables )
+            {
+                foreach ( $variables as $varName => $varValue )
+                {
+                    if ( !is_array( $varValue ) || !is_array( $this->BlockValuesPlacement[$blockName][$varName] ) )
+                    {
+                        throw new RuntimeException( "injected-merge-settings can only reference and contain array values" );
+                    }
+
+                    $this->BlockValuesPlacement[$blockName][$varName] = array_merge(
+                        $this->BlockValuesPlacement[$blockName][$varName],
+                        array_fill_keys(
+                            array_keys( $varValue ),
+                            self::INJECTED_PATH
+                        )
+                    );
                 }
             }
         }
@@ -1380,11 +1416,29 @@ class eZINI
      */
     function variable( $blockName, $varName )
     {
+        if ( isset( $this->BlockValues[$blockName][$varName] ) )
+        {
+            $value = $this->BlockValues[$blockName][$varName];
+        }
+
         if ( isset( self::$injectedSettings[$this->FileName][$blockName][$varName] ) )
-            return self::$injectedSettings[$this->FileName][$blockName][$varName];
-        else if ( isset( $this->BlockValues[$blockName][$varName] ) )
-            return $this->BlockValues[$blockName][$varName];
-        else if ( !isset( $this->BlockValues[$blockName] ) )
+        {
+            $value = self::$injectedSettings[$this->FileName][$blockName][$varName];
+        }
+
+        if ( isset( $value ) && isset( self::$injectedMergeSettings[$this->FileName][$blockName][$varName] ) )
+        {
+            if ( !is_array( $value ) || !is_array( self::$injectedMergeSettings[$this->FileName][$blockName][$varName] ) )
+            {
+                throw new RuntimeException( "injected-merge-settings can only reference and contain array values" );
+            }
+            $value = array_merge( $value, self::$injectedMergeSettings[$this->FileName][$blockName][$varName] );
+        }
+
+        if ( isset( $value ) )
+            return $value;
+
+        if ( !isset( $this->BlockValues[$blockName] ) )
             eZDebug::writeError( "Undefined group: '$blockName' in " . $this->FileName, __METHOD__ );
         else
             eZDebug::writeError( "Undefined variable: '$varName' in group '$blockName' in " . $this->FileName, __METHOD__ );
@@ -1414,17 +1468,26 @@ class eZINI
         }
         foreach ( $varNames as $key => $varName )
         {
+            $ret[$key] = null;
+
+            if ( isset( $this->BlockValues[$blockName][$varName] ) )
+            {
+                $ret[$key] = $this->BlockValues[$blockName][$varName];
+            }
             if ( isset( self::$injectedSettings[$this->FileName][$blockName][$varName] ) )
             {
                 $ret[$key] = self::$injectedSettings[$this->FileName][$blockName][$varName];
             }
-            else if ( isset( $this->BlockValues[$blockName][$varName] ) )
+            if ( isset( self::$injectedMergeSettings[$this->FileName][$blockName][$varName] ) )
             {
-                $ret[$key] = $this->BlockValues[$blockName][$varName];
-            }
-            else
-            {
-                $ret[$key] = null;
+                if ( !is_array( $ret[$key] ) || !is_array( self::$injectedMergeSettings[$this->FileName][$blockName][$varName] ) )
+                {
+                    throw new RuntimeException( "injected-merge-settings can only reference and contain array values" );
+                }
+                $ret[$key] = array_merge(
+                    $this->BlockValues[$blockName][$varName],
+                    self::$injectedMergeSettings[$this->FileName][$blockName][$varName]
+                );
             }
 
             if ( isset( $ret[$key] ) && isset( $signatures[$key] ) )
@@ -1451,8 +1514,25 @@ class eZINI
      */
     function hasVariable( $blockName, $varName )
     {
-        return ( isset( self::$injectedSettings[$this->FileName][$blockName][$varName] )
-            || isset( $this->BlockValues[$blockName][$varName] ) );
+        // 1. Check if the variable is set in either injected or regular settings.
+        if (
+            !isset( self::$injectedSettings[$this->FileName][$blockName][$varName] )
+            && !isset( $this->BlockValues[$blockName][$varName] )
+        )
+        {
+            return false;
+        }
+
+        // 2. Check if injected setting isn't strictly false (false being the default value when a variable doesn't exist).
+        if (
+            isset( self::$injectedSettings[$this->FileName][$blockName][$varName] )
+            && self::$injectedSettings[$this->FileName][$blockName][$varName] === false
+        )
+        {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -1487,12 +1567,7 @@ class eZINI
      */
     function variableArray( $blockName, $varName )
     {
-        if ( isset( self::$injectedSettings[$this->FileName][$blockName][$varName] ) )
-            $ret = self::$injectedSettings[$this->FileName][$blockName][$varName];
-        else if ( isset( $this->BlockValues[$blockName][$varName] ) )
-            $ret = $this->BlockValues[$blockName][$varName];
-        else
-            return false;
+        $ret = $this->variable( $blockName, $varName );
 
         if ( is_array( $ret ) )
         {
@@ -1604,25 +1679,32 @@ class eZINI
      */
     function groups()
     {
-        if ( isset( self::$injectedSettings[$this->FileName] ) )
+        if ( isset( self::$injectedSettings[$this->FileName] ) || isset( self::$injectedMergeSettings[$this->FileName] ) )
         {
-            $fileSettings = self::$injectedSettings[$this->FileName];
-            $result = array();
-            foreach ( $this->BlockValues as $blockName => $vars )
+            $result = $this->BlockValues;
+            foreach ( $result as $blockName => $vars )
             {
-                if ( isset( $fileSettings[$blockName] ) )
+                foreach ( $vars as $varName => $varValue )
                 {
-                    $result[$blockName] = array_merge(
-                        $vars,
-                        $fileSettings[$blockName]
-                    );
-                }
-                else
-                {
-                    $result[$blockName] = $vars;
+                    if ( isset( self::$injectedSettings[$this->FileName][$blockName][$varName] ) )
+                    {
+                        $result[$blockName][$varName] = self::$injectedSettings[$this->FileName][$blockName][$varName];
+                    }
+                    if ( isset( self::$injectedMergeSettings[$this->FileName][$blockName][$varName] ) )
+                    {
+                        if ( !is_array( $result[$blockName][$varName] ) || !is_array( self::$injectedMergeSettings[$this->FileName][$blockName][$varName] ) )
+                        {
+                            throw new RuntimeException( "injected-merge-settings can only reference and contain array values" );
+                        }
+
+                        $result[$blockName][$varName] = array_merge(
+                            $varValue,
+                            self::$injectedMergeSettings[$this->FileName][$blockName][$varName]
+                        );
+                    }
                 }
             }
-            foreach ( $fileSettings as $blockName => $vars )
+            foreach ( self::$injectedSettings[$this->FileName] as $blockName => $vars )
             {
                 if ( !isset( $result[$blockName] ) )
                 {
@@ -1959,6 +2041,20 @@ class eZINI
     static function injectSettings( array $settings )
     {
         self::$injectedSettings = $settings;
+    }
+
+    /**
+     * Injects merge settings at runtime.
+     * Work like $injectedSettings, but will *merge* the values instead of overwriting them.
+     *
+     * @since 5.3
+     * @param array $settings hash of settings organized under filename, block
+     *        and variable, for instance:
+     *        $settings['site.ini']['ActiveExtensions'] = 'myownextension';
+     */
+    static function injectMergeSettings( array $settings )
+    {
+        self::$injectedMergeSettings = $settings;
     }
 
     /// \privatesection

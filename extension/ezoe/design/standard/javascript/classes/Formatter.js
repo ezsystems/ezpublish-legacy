@@ -51,7 +51,11 @@
 			getContentEditable = dom.getContentEditable;
 
 		function isTextBlock(name) {
-			return !!ed.schema.getTextBlocks()[name.toLowerCase()];
+			if (name.nodeType) {
+				name = name.nodeName;
+			}
+
+			return !!ed.schema.getTextBlockElements()[name.toLowerCase()];
 		}
 
 		function getParents(node, selector) {
@@ -437,7 +441,7 @@
 
 						// Is it valid to wrap this item
 						if (contentEditable && !hasContentEditableState && isValid(wrapName, nodeName) && isValid(parentName, wrapName) &&
-								!(!node_specific && node.nodeType === 3 && node.nodeValue.length === 1 && node.nodeValue.charCodeAt(0) === 65279) && !isCaretNode(node)) {
+								!(!node_specific && node.nodeType === 3 && node.nodeValue.length === 1 && node.nodeValue.charCodeAt(0) === 65279) && !isCaretNode(node) && (!format.inline || !isBlock(node))) {
 							// Start wrapping
 							if (!currentWrapElm) {
 								// Wrap the node
@@ -1895,17 +1899,6 @@
 			return next;
 		};
 
-		/**
-		 * Returns true/false if the specified node is a text block or not.
-		 *
-		 * @private
-		 * @param {Node} node Node to check.
-		 * @return {boolean} True/false if the node is a text block.
-		 */
-		function isTextBlock(name) {
-			return /^(h[1-6]|p|div|pre|address|dl|dt|dd)$/.test(name);
-		};
-
 		function getContainer(rng, start) {
 			var container, offset, lastIdx, walker;
 
@@ -2141,11 +2134,23 @@
 					node.appendChild(dom.doc.createTextNode(INVISIBLE_CHAR));
 					node = node.firstChild;
 
-					// Insert caret container after the formated node
-					dom.insertAfter(caretContainer, formatNode);
+					var block = dom.getParent(formatNode, isTextBlock);
+
+					if (block && dom.isEmpty(block)) {
+						// Replace formatNode with caretContainer when removing format from empty block like <p><b>|</b></p>
+						formatNode.parentNode.replaceChild(caretContainer, formatNode);
+					} else {
+						// Insert caret container after the formated node
+						dom.insertAfter(caretContainer, formatNode);
+					}
 
 					// Move selection to text node
 					selection.setCursorLocation(node, 1);
+
+					// If the formatNode is empty, we can remove it safely. 
+					if (dom.isEmpty(formatNode)) {
+						dom.remove(formatNode);
+					}
 				}
 			};
 

@@ -2,7 +2,7 @@
 /**
  * File containing the eZLDAPUser class.
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -855,8 +855,8 @@ class eZLDAPUser extends eZUser
                 $newNodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObjectID,
                                                                       'contentobject_version' => 1,
                                                                       'parent_node' => $parentNodeID,
+                                                                      'parent_remote_id' => uniqid( 'LDAP_' ),
                                                                       'is_main' => ( $defaultUserPlacement == $parentNodeID ? 1 : 0 ) ) );
-                $newNodeAssignment->setAttribute( 'parent_remote_id', uniqid( 'LDAP_' ) );
                 $newNodeAssignment->store();
             }
 
@@ -995,8 +995,8 @@ class eZLDAPUser extends eZUser
         $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObjectID,
                                                            'contentobject_version' => 1,
                                                            'parent_node' => $defaultPlacement,
+                                                           'parent_remote_id' => uniqid( 'LDAP_' ),
                                                            'is_main' => 1 ) );
-        $nodeAssignment->setAttribute( 'parent_remote_id', uniqid( 'LDAP_' ) );
         $nodeAssignment->store();
 
         foreach( $parentNodeIDs as $parentNodeID )
@@ -1004,8 +1004,8 @@ class eZLDAPUser extends eZUser
             $newNodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObjectID,
                                                                   'contentobject_version' => 1,
                                                                   'parent_node' => $parentNodeID,
+                                                                  'parent_remote_id' => uniqid( 'LDAP_' ),
                                                                   'is_main' => 0 ) );
-            $newNodeAssignment->setAttribute( 'parent_remote_id', uniqid( 'LDAP_' ) );
             $newNodeAssignment->store();
         }
 

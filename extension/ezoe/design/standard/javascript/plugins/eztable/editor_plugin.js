@@ -158,8 +158,9 @@
 
 				if (node.nodeType == 3) {
 
-					// eZ: don't clone literal, embed and block custom tag
+					// eZ: don't clone literal, links, embed and block custom tag
 					// see https://jira.ez.no/browse/EZP-20355
+					// and https://jira.ez.no/browse/EZP-21807
 
 					// checks whether the elt is contained in an element
 					// that must not be cloned when cloning a cell.
@@ -168,8 +169,8 @@
 						// returns false for the elements that should be filtered out
 						// when cloning a cell.
 						var cloneCheck = function (n) {
-								if ( n.nodeName && n.nodeName.toLowerCase() === 'pre' ) {
-									// literal
+								if ( n.nodeName && ( n.nodeName.toLowerCase() === 'pre' || n.nodeName.toLowerCase() === 'a' ) ) {
+									// literal / link
 									return false;
 								} else if ( dom.hasClass(n, 'ezoeItemNonEditable') ) {
 									// embed
@@ -203,7 +204,7 @@
 
 					// Add something to the inner node
 					if (curNode)
-						curNode.innerHTML = tinymce.isIE ? '&nbsp;' : '<br data-mce-bogus="1" />';
+						curNode.innerHTML = tinymce.isIE && !tinymce.isIE11 ? '&nbsp;' : '<br data-mce-bogus="1" />';
 
 					return false;
 				}
@@ -216,7 +217,7 @@
 			if (formatNode) {
 				cell.appendChild(formatNode);
 			} else {
-				if (!tinymce.isIE)
+				if (!tinymce.isIE || tinymce.isIE11)
 					cell.innerHTML = '<br data-mce-bogus="1" />';
 			}
 
@@ -385,7 +386,7 @@
 										startCell.removeChild(node);
 								});
 							}
-
+							
 							// Remove cell
 							dom.remove(cell);
 						}
@@ -605,7 +606,7 @@
 		function pasteRows(rows, before) {
 			// If we don't have any rows in the clipboard, return immediately
 			if(!rows)
-				 return;
+				return;
 
 			var selectedRows = getSelectedRows(),
 				targetRow = selectedRows[before ? 0 : selectedRows.length - 1],
@@ -1037,23 +1038,23 @@
 				});
 				function tableCellSelected(ed, rng, n, currentCell) {
 					// The decision of when a table cell is selected is somewhat involved.  The fact that this code is
-					// required is actually a pointer to the root cause of this bug. A cell is selected when the start
+					// required is actually a pointer to the root cause of this bug. A cell is selected when the start 
 					// and end offsets are 0, the start container is a text, and the selection node is either a TR (most cases)
 					// or the parent of the table (in the case of the selection containing the last cell of a table).
-					var TEXT_NODE = 3, table = ed.dom.getParent(rng.startContainer, 'TABLE'),
+					var TEXT_NODE = 3, table = ed.dom.getParent(rng.startContainer, 'TABLE'), 
 					tableParent, allOfCellSelected, tableCellSelection;
-					if (table)
+					if (table) 
 					tableParent = table.parentNode;
-					allOfCellSelected =rng.startContainer.nodeType == TEXT_NODE &&
-						rng.startOffset == 0 &&
-						rng.endOffset == 0 &&
-						currentCell &&
+					allOfCellSelected =rng.startContainer.nodeType == TEXT_NODE && 
+						rng.startOffset == 0 && 
+						rng.endOffset == 0 && 
+						currentCell && 
 						(n.nodeName=="TR" || n==tableParent);
-					tableCellSelection = (n.nodeName=="TD"||n.nodeName=="TH")&& !currentCell;
+					tableCellSelection = (n.nodeName=="TD"||n.nodeName=="TH")&& !currentCell;	   
 					return  allOfCellSelected || tableCellSelection;
 					// return false;
 				}
-
+				
 				// this nasty hack is here to work around some WebKit selection bugs.
 				function fixTableCellSelection(ed) {
 					if (!tinymce.isWebKit)
@@ -1062,18 +1063,18 @@
 					var rng = ed.selection.getRng();
 					var n = ed.selection.getNode();
 					var currentCell = ed.dom.getParent(rng.startContainer, 'TD,TH');
-
+				
 					if (!tableCellSelected(ed, rng, n, currentCell))
 						return;
 						if (!currentCell) {
 							currentCell=n;
 						}
-
+					
 					// Get the very last node inside the table cell
 					var end = currentCell.lastChild;
 					while (end.lastChild)
 						end = end.lastChild;
-
+					
 					// Select the entire table cell. Nothing outside of the table cell should be selected.
 					rng.setEnd(end, end.nodeValue.length);
 					ed.selection.setRng(rng);
@@ -1155,7 +1156,7 @@
 									var targetParent = getTargetParent(upBool, tableNode, middleNode, 'tbody');
 									if (targetParent !== null) {
 										return moveToRowInTarget(upBool, targetParent, sourceNode, event);
-						}
+									}
 								}
 								return escapeTable(upBool, currentRow, siblingDirection, tableNode, event);
 							}
@@ -1171,7 +1172,7 @@
 								return tbodies[topOrBottom];
 							} else {
 								return tbodies[position + (upBool ? -1 : 1)];
-						}
+							}
 						}
 
 						function getFirstHeadOrFoot(upBool, parent) {
@@ -1200,7 +1201,7 @@
 									var backUpSibling = getChildForDirection(currentRow, !upBool);
 									moveCursorToStartOfElement(backUpSibling);
 									return tinymce.dom.Event.cancel(event);
-						}
+								}
 							}
 						}
 
@@ -1288,7 +1289,7 @@
 
 					if (last && last.nodeName == 'TABLE') {
 						if (ed.settings.forced_root_block)
-							ed.dom.add(ed.getBody(), ed.settings.forced_root_block, null, tinymce.isIE ? '&nbsp;' : '<br data-mce-bogus="1" />');
+							ed.dom.add(ed.getBody(), ed.settings.forced_root_block, null, tinymce.isIE && !tinymce.isIE11 ? '&nbsp;' : '<br data-mce-bogus="1" />');
 						else
 							ed.dom.add(ed.getBody(), 'br', {'data-mce-bogus': '1'});
 					}

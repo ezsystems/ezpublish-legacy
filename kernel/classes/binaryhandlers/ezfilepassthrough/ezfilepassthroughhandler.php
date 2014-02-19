@@ -2,7 +2,7 @@
 /**
  * File containing the eZFilePassthroughHandler class.
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -83,7 +83,7 @@ class eZFilePassthroughHandler extends eZBinaryFileHandler
      * Checks if a file should be downloaded to disk or displayed inline in
      * the browser.
      *
-     * This method returns "attachment" if no setting for the mime type is found.
+     * Behavior by MIME type and default behavior are configured in file.ini
      *
      * @param string $mimetype
      * @return string "attachment" or "inline"
@@ -98,7 +98,7 @@ class eZFilePassthroughHandler extends eZBinaryFileHandler
             return $mimeTypes[$mimeType];
         }
 
-        return "attachment";
+        return $ini->variable( 'PassThroughSettings', 'DefaultContentDisposition' );
     }
 }
 

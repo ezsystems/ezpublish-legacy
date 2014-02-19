@@ -23,7 +23,7 @@
                 
                 <tr class="{$seq}">
                     <td>{$item.priority}</td>
-                {if $item_object.can_read}
+                {if or( $item_object.can_read, $item_object.can_view_embed )}
                     <td>{$item.contentobject_id}</td>
                     <td>{$item.contentobject_version}</td>
                     <td>{$item_object.name|wash}</td>

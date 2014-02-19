@@ -2,7 +2,7 @@
 <?php
 /**
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package
@@ -91,8 +91,27 @@ else
 
 // PID file IS locked after that point
 
-pcntl_signal( SIGTERM, 'daemonSignalHandler' );
-pcntl_signal( SIGINT, 'daemonSignalHandler' );
+/**
+ * Signal handler for the daemon process
+ * @param int $signo Signal number
+ */
+$daemonSignalHandler = function ( $signo ) use ( $pidFp, $pidFile )
+{
+    switch( $signo )
+    {
+        case SIGTERM:
+        case SIGINT:
+            flock( $pidFp, LOCK_UN );
+            fclose( $pidFp );
+
+            ezpContentPublishingQueueProcessor::terminate();
+            @unlink( $pidFile );
+            eZScript::instance()->shutdown( 0 );
+            break;
+    }
+};
+pcntl_signal( SIGTERM, $daemonSignalHandler );
+pcntl_signal( SIGINT, $daemonSignalHandler );
 
 if ( $options['daemon'] )
 {
@@ -141,7 +160,7 @@ if ( $options['daemon'] )
         $script->shutdown( 1, 'unable to create a new session' );
     }
 
-    pcntl_signal( SIGTERM, 'daemonSignalHandler' );
+    pcntl_signal( SIGTERM, $daemonSignalHandler );
 
     $pid = getmypid();
     $cli->output( "Publishing daemon started. Process ID: $pid" );
@@ -172,7 +191,7 @@ else
 // actual daemon code
 $processor = ezpContentPublishingQueueProcessor::instance();
 $processor->setOutput( $output );
-$processor->setSignalHandler( 'daemonSignalHandler' );
+$processor->setSignalHandler( $daemonSignalHandler );
 $processor->run();
 
 eZScript::instance()->shutdown( 0 );
@@ -190,24 +209,3 @@ function childHandler( $signo )
         case SIGCHLD: eZScript::instance()->shutdown( 1 ); break;
     }
 }
-
-/**
- * Signal handler for the daemon process
- * @param int $signo Signal number
- */
-function daemonSignalHandler( $signo )
-{
-    switch( $signo )
-    {
-        case SIGTERM:
-        case SIGINT:
-            flock( $GLOBALS['pidFp'], LOCK_UN );
-            fclose( $GLOBALS['pidFp'] );
-
-            ezpContentPublishingQueueProcessor::terminate();
-            @unlink( $GLOBALS['pidFile'] );
-            eZScript::instance()->shutdown( 0 );
-            break;
-    }
-}
-?>

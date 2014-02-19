@@ -2,6 +2,9 @@
 {default finetune=false() refresh=false() retry=false() dont_show_back=false() dont_show_forward=false()}
   <div class="buttonblock navigation-block" align="right">
     <input type="hidden" name="eZSetup_current_step" value="{$setup_current_step|wash}" />
+    {if eq( $dont_show_forward, 0)}
+        <input class="defaultbutton" style="visibility: hidden;" type="submit" name="eZSetup_next_button" value="{"Next"|i18n("design/standard/setup/init", "next button in installation")} &gt;" />
+    {/if}
     {if eq( $dont_show_back, 1 )|not()}
       <input class="button" type="submit" name="eZSetup_back_button" value="&lt; {"Back"|i18n("design/standard/setup/init", "back button in installation")}" />
     {/if}

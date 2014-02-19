@@ -2,7 +2,7 @@
 /**
  * File containing the eZOEXMLTextRegression class
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
  * @package tests
  */
@@ -163,6 +163,75 @@ class eZOEXMLTextRegression extends ezpDatabaseTestCase
         $oeHandler = new eZOEXMLInput( $xmlData, false,  $folder->short_description );
         $xhtml = $oeHandler->attribute( 'input_xml' );
         self::assertEquals( '&lt;p&gt;French typography&amp;nbsp;:&lt;/p&gt;&lt;p&gt;&lt;br /&gt;&lt;/p&gt;', $xhtml );
+    }
+
+    /**
+     * Test for EZP-21986
+     * Make sure a <u> tag is transformed into the underline custom tag.
+     *
+     * @link https://jira.ez.no/browse/EZP-21986
+     */
+    public function testParseUnderlineTag()
+    {
+        ezpINIHelper::setINISetting(
+            'content.ini', 'CustomTagSettings',
+            'AvailableCustomTags', array( 'underline' )
+        );
+        ezpINIHelper::setINISetting(
+            'content.ini', 'CustomTagSettings',
+            'IsInline', array( 'underline' => 'true' )
+        );
+        unset( $GLOBALS["eZXMLSchemaGlobalInstance"] );
+
+        $htmlData = '<p>If I could <u type="custom" class="ezoeItemCustomTag underline">sleep</u> forever</p><p>I could forget about <u type="custom">everything</u></p>';
+        $parser = new eZOEInputParser();
+        $dom = $parser->process( $htmlData );
+        self::assertInstanceOf( 'DomDocument', $dom );
+        $xpath = new DomXPath( $dom );
+        $underlines = $xpath->query( '//custom[@name="underline"]' );
+        $underline = $underlines->item( 0 );
+        self::assertEquals( "sleep", $underline->textContent );
+
+        $underline = $underlines->item( 1 );
+        self::assertEquals( "everything", $underline->textContent );
+
+        ezpINIHelper::restoreINISettings();
+        unset( $GLOBALS["eZXMLSchemaGlobalInstance"] );
+    }
+
+    /**
+     * Test for EZP-21986
+     * Make sure the custom tag underline is transformed into a <u> tag
+     *
+     * @link https://jira.ez.no/browse/EZP-21986
+     */
+    public function testCustomUnderlineToU()
+    {
+        ezpINIHelper::setINISetting(
+            'content.ini', 'CustomTagSettings',
+            'AvailableCustomTags', array( 'underline' )
+        );
+        ezpINIHelper::setINISetting(
+            'content.ini', 'CustomTagSettings',
+            'IsInline', array( 'underline' => 'true' )
+        );
+
+        $xmlData = '<?xml version="1.0" encoding="utf-8"?>';
+        $xmlData .= '<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+            xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+            xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+            <paragraph>If I could <custom name="underline">sleep</custom> forever</paragraph>
+        </section>';
+
+        $folder = new ezpObject( 'folder', 2 );
+        $folder->name = 'The Dandy Warhols - Sleep';
+        $folder->short_description = '';
+
+        $oeHandler = new eZOEXMLInput( $xmlData, false, $folder->short_description );
+        $xhtml = $oeHandler->attribute( 'input_xml' );
+        self::assertEquals( '&lt;p&gt;If I could &lt;u class=&quot;ezoeItemCustomTag underline&quot; type=&quot;custom&quot;&gt;sleep&lt;/u&gt; forever&lt;/p&gt;&lt;p&gt;&lt;br /&gt;&lt;/p&gt;', $xhtml );
+
+        ezpINIHelper::restoreINISettings();
     }
 
     /**

@@ -2,7 +2,7 @@
 /**
  * File containing the ezpContentPublishingQueueProcess class.
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -172,6 +172,25 @@ class ezpContentPublishingProcess extends eZPersistentObject
         $db = null;
         eZDB::setInstance( null );
 
+        // Force the new stack DB connection closed as well
+        try
+        {
+            $kernel = ezpKernel::instance();
+            if ( $kernel->hasServiceContainer() )
+            {
+                $serviceContainer = $kernel->getServiceContainer();
+                $dbHandler = $serviceContainer->get( 'ezpublish.connection' );
+                $factory = $serviceContainer->get( 'ezpublish.api.storage_engine.legacy.dbhandler.factory' );
+                $dbHandler->setDbHandler(
+                    $factory->buildLegacyDbHandler()->getDbHandler()
+                );
+            }
+        }
+        catch ( LogicException $e )
+        {
+            // we just ignore this, since it means that we are running in a pure legacy context
+        }
+
         // Force the cluster DB connection closed if the cluster handler is DB based
         $cluster = eZClusterFileHandler::instance();
 
@@ -240,6 +259,15 @@ class ezpContentPublishingProcess extends eZPersistentObject
         {
             $this->reset();
         }
+
+        // generate static cache
+        $ini = eZINI::instance();
+        if ( $ini->variable( 'ContentSettings', 'StaticCache' ) == 'enabled' )
+        {
+            $staticCacheHandlerClassName = $ini->variable( 'ContentSettings', 'StaticCacheHandler' );
+            $staticCacheHandlerClassName::executeActions();
+        }
+
         eZScript::instance()->shutdown();
         exit;
     }

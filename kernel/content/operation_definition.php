@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -44,6 +44,10 @@ $OperationList['publish'] = array( 'name' => 'publish',
                                                           array( 'name' => 'version',
                                                                  'type' => 'integer',
                                                                  'required' => true ) ),
+                                   'on-interrupt' => array( 'type' => 'method',
+                                                            'name' => 'commit-transaction',
+                                                            'frequency' => 'once',
+                                                            'method' => 'commitTransaction' ),
                                    'body' => array( array( 'type' => 'method',
                                                            'name' => 'begin-transaction',
                                                            'frequency' => 'once',
@@ -79,8 +83,8 @@ $OperationList['publish'] = array( 'name' => 'publish',
                                                     array( 'type' => 'trigger',
                                                            'name' => 'pre_publish',
                                                            'keys' => array( 'object_id',
-                                                                            'version' )
-                                                           ),
+                                                                            'version' ),
+                                                    ),
                                                     array( 'type' => 'method',
                                                            'name' => 'copy-translations',
                                                            'frequency' => 'once',

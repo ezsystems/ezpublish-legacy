@@ -2,7 +2,7 @@
 /**
  * File containing the eZContentObject class.
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -1408,7 +1408,7 @@ class eZContentObject extends eZPersistentObject
             }
             $newNodeAssignment = $copiedVersion->assignToNode( $node->attribute( 'parent_node_id' ), $node->attribute( 'is_main' ), 0,
                                                                $node->attribute( 'sort_field' ), $node->attribute( 'sort_order' ),
-                                                               $remoteID );
+                                                               $remoteID, $node->attribute( 'remote_id' ) );
             // Reset execution bit
             $newNodeAssignment->setAttribute( 'op_code', $newNodeAssignment->attribute( 'op_code' ) & ~1 );
             $newNodeAssignment->store();
@@ -2772,6 +2772,7 @@ class eZContentObject extends eZPersistentObject
         $data = array( 'contentobject_id' => $this->ID,
                        'contentobject_version' => $this->attribute( 'current_version' ),
                        'parent_node' => $parentNodeID,
+                       'parent_remote_id' => $node->attribute( 'remote_id' ),
                        'is_main' => 0 );
         $nodeAssignment = eZNodeAssignment::create( $data );
         $nodeAssignment->setAttribute( 'op_code', eZNodeAssignment::OP_CODE_CREATE_NOP );

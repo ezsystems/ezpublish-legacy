@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -90,7 +90,13 @@ function checkNodeAssignments( $module, $class, $object, $version, $contentObjec
                     $setMainNode = false;
                     $db = eZDB::instance();
                     $db->begin();
-                    $version->assignToNode( $nodeID, $isMain );
+                    $version->assignToNode(
+                        $nodeID,
+                        $isMain,
+                        0,
+                        $class->attribute( 'sort_field' ),
+                        $class->attribute( 'sort_order' )
+                    );
                     $db->commit();
                 }
             }
@@ -337,6 +343,29 @@ function storeNodeAssignments( $module, $class, $object, $version, $contentObjec
             $nodeAssignment->setAttribute( 'sort_order', $sortOrder );
         }
 
+        $hiddenStatePostVarName = 'FutureNodeHiddenState_' . $nodeAssignment->attribute( 'parent_node' );
+        if ( $http->hasPostVariable( $hiddenStatePostVarName ) )
+        {
+            switch ( $http->postVariable( $hiddenStatePostVarName ) )
+            {
+                case 'visible':
+                    $isHidden = 0;
+                    break;
+                case 'hidden':
+                    $isHidden = 1;
+                    break;
+                case 'unchanged':
+                    // Node assignment operations are allowed only for content object in draft state,
+                    // meaning having no published version.
+                    // In this case no node exists for it either, so 'unchanged' is handled as 'visible'.
+                    $isHidden = 0;
+                    break;
+                default:
+                    $isHidden = 0;
+            }
+
+            $nodeAssignment->setAttribute( 'is_hidden', $isHidden );
+        }
 
         if ( $nodeAssignment->attribute( 'is_main' ) == 1 and
              $nodeAssignment->attribute( 'parent_node' ) != $mainNodeID )
@@ -377,6 +406,10 @@ function checkNodeActions( $module, $class, $object, $version, $contentObjectAtt
         $assigned = $version->nodeAssignments();
         $publishedAssigned = $object->assignedNodes( false );
         $isTopLevel = false;
+        foreach ( $assigned as $assignment )
+        {
+            $ignoreNodesSelect[] = $assignment->attribute( 'parent_node' );
+        }
         foreach ( $publishedAssigned as $element )
         {
             $append = false;
@@ -545,7 +578,20 @@ function checkNodeActions( $module, $class, $object, $version, $contentObjectAtt
                 unset( $assignment );
             }
 
-            if ( $hasChildren )
+            if ( $object->attribute( 'status' ) == eZContentObject::STATUS_DRAFT )
+            {
+                $db = eZDB::instance();
+                $db->begin();
+                foreach ( $assignments as $assignment )
+                {
+                    if ( $assignment->attribute( 'op_code' ) == eZNodeAssignment::OP_CODE_CREATE )
+                    {
+                        $assignment->purge();
+                    }
+                }
+                $db->commit();
+            }
+            else if ( $hasChildren )
             {
                 // We need user confirmation if at least one node we want to remove assignment for contains children.
                 // Aactual removal is done in content/removeassignment in this case.

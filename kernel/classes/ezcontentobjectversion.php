@@ -2,7 +2,7 @@
 /**
  * File containing the eZContentObjectVersion class.
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -771,7 +771,7 @@ class eZContentObjectVersion extends eZPersistentObject
         return eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ), $this->attribute( 'version' ) );
     }
 
-    function assignToNode( $nodeID, $main = 0, $fromNodeID = 0, $sortField = null, $sortOrder = null, $remoteID = 0 )
+    function assignToNode( $nodeID, $main = 0, $fromNodeID = 0, $sortField = null, $sortOrder = null, $remoteID = 0, $parentRemoteId = null )
     {
         if ( $fromNodeID == 0 && ( $this->attribute( 'status' ) == eZContentObjectVersion::STATUS_DRAFT ||
                                    $this->attribute( 'status' ) == eZContentObjectVersion::STATUS_INTERNAL_DRAFT ) )
@@ -781,6 +781,7 @@ class eZContentObjectVersion extends eZPersistentObject
                           'parent_node' => $nodeID,
                           'is_main' => $main,
                           'remote_id' => $remoteID,
+                          'parent_remote_id' => $parentRemoteId,
                           'from_node_id' => $fromNodeID );
         if ( $sortField !== null )
             $nodeRow['sort_field'] = $sortField;

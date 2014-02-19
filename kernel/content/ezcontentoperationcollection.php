@@ -2,7 +2,7 @@
 /**
  * File containing the eZContentOperationCollection class.
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -16,6 +16,13 @@
 
 class eZContentOperationCollection
 {
+    /**
+     * Used by {@see beginTransaction()} and {@see commitTransaction()} to make sure that we only commit *if*
+     * we are within the operation transaction.
+     * @var bool
+     */
+    private static $transactionStarted = false;
+
     /*!
      Constructor
     */
@@ -110,6 +117,7 @@ class eZContentOperationCollection
     static public function beginTransaction()
     {
         eZDB::instance()->begin();
+        self::$transactionStarted = true;
     }
 
     /**
@@ -117,7 +125,11 @@ class eZContentOperationCollection
      */
     static public function commitTransaction()
     {
-        eZDB::instance()->commit();
+        if ( self::$transactionStarted === true )
+        {
+            eZDB::instance()->commit();
+            self::$transactionStarted = false;
+        }
     }
 
     static public function setVersionStatus( $objectID, $versionNum, $status )
@@ -350,6 +362,12 @@ class eZContentOperationCollection
             {
                 $existingNode->setAttribute( 'remote_id', $nodeAssignment->attribute( 'parent_remote_id' ) );
             }
+            if ( $nodeAssignment->attribute( 'is_hidden' ) )
+            {
+                $existingNode->setAttribute( 'is_hidden', 1 );
+                $existingNode->setAttribute( 'is_invisible', 1 );
+            }
+            $existingNode->setAttribute( 'priority', $nodeAssignment->attribute( 'priority' ) );
             $existingNode->setAttribute( 'sort_field', $nodeAssignment->attribute( 'sort_field' ) );
             $existingNode->setAttribute( 'sort_order', $nodeAssignment->attribute( 'sort_order' ) );
         }
@@ -472,9 +490,19 @@ class eZContentOperationCollection
     static public function removeOldNodes( $objectID, $versionNum )
     {
         $object = eZContentObject::fetch( $objectID );
-
+        if ( !$object instanceof eZContentObject )
+        {
+            eZDebug::writeError( 'Unable to find object #' . $objectID, __METHOD__ );
+            return;
+        }
 
         $version = $object->version( $versionNum );
+        if ( !$version instanceof eZContentObjectVersion )
+        {
+            eZDebug::writeError( 'Unable to find version #' . $versionNum . ' for object #' . $objectID, __METHOD__ );
+            return;
+        }
+
         $moveToTrash = true;
 
         $assignedExistingNodes = $object->attribute( 'assigned_nodes' );
@@ -575,7 +603,7 @@ class eZContentOperationCollection
         if ( eZSearch::needRemoveWithUpdate() )
         {
             eZDebug::accumulatorStart( 'remove_object', 'search_total', 'remove object' );
-            eZSearch::removeObjectById( $objectID, $needCommit );
+            eZSearch::removeObjectById( $objectID );
             eZDebug::accumulatorStop( 'remove_object' );
         }
 
@@ -1198,6 +1226,8 @@ class eZContentOperationCollection
     {
         eZContentObjectTreeNode::updateMainNodeID( $mainAssignmentID, $ObjectID, false, $mainAssignmentParentID );
         eZContentCacheManager::clearContentCacheIfNeeded( $ObjectID );
+        eZContentOperationCollection::registerSearchObject( $ObjectID );
+
         return array( 'status' => true );
     }
 

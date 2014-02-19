@@ -2,7 +2,7 @@
 /**
  * File containing the eZObjectRelationListType class.
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -202,6 +202,11 @@ class eZObjectRelationListType extends eZDataType
             $contentObjectAttribute->setContent( $content );
             $contentObjectAttribute->store();
             return true;
+        }
+        // Type is browse and we have no http input
+        else if ( $selectedObjectIDArray === false )
+        {
+            return false;
         }
 
         // Check if selection type is not browse

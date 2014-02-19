@@ -3,7 +3,7 @@
 /**
  * File containing the ezpgenerateautoloads.php script.
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -74,6 +74,11 @@ $helpOption = new ezcConsoleOption( 'h', 'help' );
 $helpOption->mandatory = false;
 $helpOption->shorthelp = "Show help information";
 $params->registerOption( $helpOption );
+
+$quietOption = new ezcConsoleOption( 'q', 'quiet', ezcConsoleInput::TYPE_NONE );
+$quietOption->mandatory = false;
+$quietOption->shorthelp = "do not give any output except when errors occur";
+$params->registerOption( $quietOption );
 
 $targetOption = new ezcConsoleOption( 't', 'target', ezcConsoleInput::TYPE_STRING );
 $targetOption->mandatory = false;
@@ -185,7 +190,7 @@ if ( defined( 'EZP_AUTOLOAD_OUTPUT' ) )
 }
 else
 {
-    $autoloadCliOutput = new ezpAutoloadCliOutput();
+    $autoloadCliOutput = new ezpAutoloadCliOutput( $quietOption->value );
 }
 
 $autoloadGenerator->setOutputObject( $autoloadCliOutput );

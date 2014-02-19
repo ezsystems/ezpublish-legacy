@@ -64,55 +64,68 @@ tinymce.util.Quirks = function(editor) {
 	 */
 	function cleanupStylesWhenDeleting() {
 		function removeMergedFormatSpans(isDelete) {
-			var rng, blockElm, node, clonedSpan;
+			var rng, blockElm, wrapperElm, bookmark, container, offset, elm;
+
+			function isAtStartOrEndOfElm() {
+				if (container.nodeType == 3) {
+					if (isDelete && offset == container.length) {
+						return true;
+					}
+
+					if (!isDelete && offset === 0) {
+						return true;
+					}
+				}
+			}
 
 			rng = selection.getRng();
+			var tmpRng = [rng.startContainer, rng.startOffset, rng.endContainer, rng.endOffset];
 
-			// Find root block
-			blockElm = dom.getParent(rng.startContainer, dom.isBlock);
-
-			// On delete clone the root span of the next block element
-			if (isDelete) {
-				blockElm = dom.getNext(blockElm, dom.isBlock);
+			if (!rng.collapsed) {
+				isDelete = true;
 			}
 
-			// Locate root span element and clone it since it would otherwise get merged by the "apple-style-span" on delete/backspace
-			if (blockElm) {
-				node = blockElm.firstChild;
+			container = rng[(isDelete ? 'start' : 'end') + 'Container'];
+			offset = rng[(isDelete ? 'start' : 'end') + 'Offset'];
 
-				// Ignore empty text nodes
-				while (node && node.nodeType == 3 && node.nodeValue.length === 0) {
-					node = node.nextSibling;
+			if (container.nodeType == 3) {
+				blockElm = dom.getParent(rng.startContainer, dom.isBlock);
+
+				// On delete clone the root span of the next block element
+				if (isDelete) {
+					blockElm = dom.getNext(blockElm, dom.isBlock);
 				}
 
-				if (node && node.nodeName === 'SPAN') {
-					clonedSpan = node.cloneNode(false);
+				if (blockElm && (isAtStartOrEndOfElm() || !rng.collapsed)) {
+					// Wrap children of block in a EM and let WebKit stick is
+					// runtime styles junk into that EM
+					wrapperElm = dom.create('em', {'id': '__mceDel'});
+
+					each(tinymce.grep(blockElm.childNodes), function(node) {
+						wrapperElm.appendChild(node);
+					});
+
+					blockElm.appendChild(wrapperElm);
 				}
 			}
-
-			each(dom.select('span', blockElm), function(span) {
-				span.setAttribute('data-mce-mark', '1');
-			});
 
 			// Do the backspace/delete action
+			rng = dom.createRng();
+			rng.setStart(tmpRng[0], tmpRng[1]);
+			rng.setEnd(tmpRng[2], tmpRng[3]);
+			selection.setRng(rng);
 			editor.getDoc().execCommand(isDelete ? 'ForwardDelete' : 'Delete', false, null);
 
-			// Find all odd apple-style-spans
-			blockElm = dom.getParent(rng.startContainer, dom.isBlock);
-			each(dom.select('span', blockElm), function(span) {
-				var bm = selection.getBookmark();
+			// Remove temp wrapper element
+			if (wrapperElm) {
+				bookmark = selection.getBookmark();
 
-				if (clonedSpan) {
-					dom.replace(clonedSpan.cloneNode(false), span, true);
-				} else if (!span.getAttribute('data-mce-mark')) {
-					dom.remove(span, true);
-				} else {
-					span.removeAttribute('data-mce-mark');
+				while (elm = dom.get('__mceDel')) {
+					dom.remove(elm, true);
 				}
 
-				// Restore the selection
-				selection.moveToBookmark(bm);
-			});
+				selection.moveToBookmark(bookmark);
+			}
 		}
 
 		editor.onKeyDown.add(function(editor, e) {
@@ -519,6 +532,12 @@ tinymce.util.Quirks = function(editor) {
 				// Override delete if the start container is a text node and is at the beginning of text or
 				// just before/after the last character to be deleted in collapsed mode
 				if (container.nodeType == 3 && container.nodeValue.length > 0 && ((offset === 0 && !collapsed) || (collapsed && offset === (isDelete ? 0 : 1)))) {
+					// Edge case when deleting <p><b><img> |x</b></p>
+					sibling = container.previousSibling;
+					if (sibling && sibling.nodeName == "IMG") {
+						return;
+					}
+
 					nonEmptyElements = editor.schema.getNonEmptyElements();
 
 					// Prevent default logic since it's broken
@@ -995,6 +1014,26 @@ tinymce.util.Quirks = function(editor) {
 		}
 	}
 
+	/**
+	 * IE 11 has an annoying issue where you can't move focus into the editor
+	 * by clicking on the white area HTML element. We used to be able to to fix this with
+	 * the fixCaretSelectionOfDocumentElementOnIe fix. But since M$ removed the selection
+	 * object it's not possible anymore. So we need to hack in a ungly CSS to force the
+	 * body to be at least 150px. If the user clicks the HTML element out side this 150px region
+	 * we simply move the focus into the first paragraph. Not ideal since you loose the
+	 * positioning of the caret but goot enough for most cases.
+	 */
+	function bodyHeight() {
+		editor.contentStyles.push('body {min-height: 100px}');
+		editor.onClick.add(function(ed, e) {
+			if (e.target.nodeName == 'HTML') {
+				editor.execCommand('SelectAll');
+				editor.selection.collapse(true);
+				editor.nodeChanged();
+			}
+		});
+	}
+
 	// All browsers
 	disableBackspaceIntoATable();
 	removeBlockQuoteOnBackSpace();
@@ -1018,7 +1057,7 @@ tinymce.util.Quirks = function(editor) {
 	}
 
 	// IE
-	if (tinymce.isIE) {
+	if (tinymce.isIE && !tinymce.isIE11) {
 		removeHrOnBackspace();
 		ensureBodyHasRoleApplication();
 		addNewLinesBeforeBrInPre();
@@ -1028,8 +1067,13 @@ tinymce.util.Quirks = function(editor) {
 		keepNoScriptContents();
 	}
 
+	// IE 11+
+	if (tinymce.isIE11) {
+		bodyHeight();
+	}
+
 	// Gecko
-	if (tinymce.isGecko) {
+	if (tinymce.isGecko && !tinymce.isIE11) {
 		removeHrOnBackspace();
 		focusBody();
 		removeStylesWhenDeletingAccrossBlockElements();

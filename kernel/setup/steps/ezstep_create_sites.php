@@ -2,7 +2,7 @@
 /**
  * File containing the eZStepCreateSites class.
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -643,7 +643,7 @@ class eZStepCreateSites extends eZStepInstaller
 
         // Call user function for additional setup tasks.
         if ( function_exists( 'eZSitePreInstall' ) )
-            eZSitePreInstall();
+            eZSitePreInstall( $siteType );
 
 
         // Make sure objects use the selected main language instead of eng-GB
@@ -1321,22 +1321,34 @@ language_locale='eng-GB'";
             return false;
         }
 
+        $newUserObject = $userObject->createNewVersion( false, false );
+        if ( !is_object( $newUserObject ) )
+        {
+            $resultArray['errors'][] = array( 'code' => 'EZSW-022',
+                'text' => "Could not create new version of administrator content object" );
+            return false;
+        }
+        $dataMap = $newUserObject->attribute( 'data_map' );
+        $error = false;
+
         if ( trim( $admin['email'] ) )
         {
+            if ( !isset( $dataMap['user_account'] ) )
+            {
+                $resultArray['errors'][] = array( 'code' => 'EZSW-023',
+                    'text' => "Administrator content object does not have a 'user_account' attribute" );
+                return false;
+            }
+
             $userAccount->setInformation( 14, 'admin', $admin['email'], $admin['password'], $admin['password'] );
+            $dataMap['user_account']->setContent( $userAccount );
+            $dataMap['user_account']->store();
+            $publishAdmin = true;
+            $userAccount->store();
         }
 
         if ( trim( $admin['first_name'] ) or trim( $admin['last_name'] ) )
         {
-            $newUserObject = $userObject->createNewVersion( false, false );
-            if ( !is_object( $newUserObject ) )
-            {
-                $resultArray['errors'][] = array( 'code' => 'EZSW-022',
-                                                  'text' => "Could not create new version of administrator content object" );
-                return false;
-            }
-            $dataMap = $newUserObject->attribute( 'data_map' );
-            $error = false;
             if ( !isset( $dataMap['first_name'] ) )
             {
                 $resultArray['errors'][] = array( 'code' => 'EZSW-023',
@@ -1360,7 +1372,6 @@ language_locale='eng-GB'";
             $newUserObject->store();
             $publishAdmin = true;
         }
-        $userAccount->store();
 
         if ( $publishAdmin )
         {

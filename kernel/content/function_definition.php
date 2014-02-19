@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -942,14 +942,18 @@ $FunctionList['keyword'] = array( 'name' => 'keyword',
                                                                 'type' => 'integer',
                                                                 'required' => false,
                                                                 'default' => false ),
-                                                        array( 'name' => 'include_duplicates',
+                                                         array( 'name' => 'include_duplicates',
                                                                 'type' => 'bool',
                                                                 'required' => false,
                                                                 'default' => true ),
                                                          array( 'name' => 'strict_matching',
-                                                                 'type' => 'bool',
-                                                                 'required' => false,
-                                                                 'default' => false ) ) );
+                                                                'type' => 'bool',
+                                                                'required' => false,
+                                                                'default' => false ),
+                                                         array( 'name' => 'depth',
+                                                                'type' => 'integer',
+                                                                'required' => false,
+                                                                'default' => 1 ) ) );
 
 
 $FunctionList['keyword_count'] = array( 'name' => 'keyword_count',
@@ -979,7 +983,11 @@ $FunctionList['keyword_count'] = array( 'name' => 'keyword_count',
                                                                array( 'name' => 'strict_matching',
                                                                       'type' => 'bool',
                                                                       'required' => false,
-                                                                      'default' => false ) ) );
+                                                                      'default' => false ),
+                                                               array( 'name' => 'depth',
+                                                                      'type' => 'integer',
+                                                                      'required' => false,
+                                                                      'default' => 1 ) ) );
 
 $FunctionList['access'] = array( 'name' => 'access',
                                  'operation_types' => array( 'read' ),

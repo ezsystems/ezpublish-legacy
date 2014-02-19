@@ -7,7 +7,7 @@
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ JSCore extension for eZ Publish
 // SOFTWARE RELEASE: 1.x
-// COPYRIGHT NOTICE: Copyright  (C) 1999-2013 eZ Systems AS
+// COPYRIGHT NOTICE: Copyright  (C) 1999-2014 eZ Systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
 //   This program is free software; you can redistribute it and/or
@@ -326,7 +326,7 @@ class ezjscPacker
             else if ( strpos( $file, '://' ) === 0 )
             {
                 if ( !isset( $protocol ) )
-                    $protocol = ( eZSys::isSSLNow() ? 'https' : 'http' );
+                    $protocol = eZSys::serverProtocol();
 
                 $data['http'][] = $protocol . $file;
                 continue;
@@ -493,7 +493,7 @@ class ezjscPacker
      */
     static function fixImgPaths( $fileContent, $file )
     {
-        if ( preg_match_all( "/url\(\s*[\'|\"]?([A-Za-z0-9_\-\/\.\\%?&#]+)[\'|\"]?\s*\)/ix", $fileContent, $urlMatches ) )
+        if ( preg_match_all( "/url\(\s*[\'|\"]?([A-Za-z0-9_\-\/\.\\%?&#=]+)[\'|\"]?\s*\)/ix", $fileContent, $urlMatches ) )
         {
            $urlMatches = array_unique( $urlMatches[1] );
            $cssPathArray   = explode( '/', $file );

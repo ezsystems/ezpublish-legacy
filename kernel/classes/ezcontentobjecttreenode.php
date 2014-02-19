@@ -2,7 +2,7 @@
 /**
  * File containing the eZContentObjectTreeNode class.
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -659,7 +659,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $datatypeWhereSQL = "
                                    $contentAttributeTableAlias.contentobject_id = ezcontentobject.id AND
                                    $contentAttributeTableAlias.contentclassattribute_id = $classAttributeID AND
-                                   $contentAttributeTableAlias.version = ezcontentobject_name.content_version AND";
+                                   $contentAttributeTableAlias.version = ezcontentobject.current_version AND";
                             $datatypeWhereSQL .= eZContentLanguage::sqlFilter( $contentAttributeTableAlias, 'ezcontentobject' );
 
                             $dataType = eZDataType::create( eZContentObjectTreeNode::dataTypeByClassAttributeID( $classAttributeID ) );

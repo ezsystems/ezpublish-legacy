@@ -2,7 +2,7 @@
 /**
  * File containing the eZPersistentObject class.
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -73,36 +73,14 @@ class eZPersistentObject
         if ( !is_array( $row ) )
             return;
         $def = $this->definition();
-        $useShortNames = eZDB::instance()->useShortNames();
 
-        if ( $useShortNames )
+        foreach ( $def["fields"] as $key => $item )
         {
-            foreach ( $def["fields"] as $key => $item )
+            if ( isset( $item['name'] ) )
             {
-                if ( isset( $item['short_name'] ) && $item['short_name'] )
-                {
-                    $key = $item['short_name'];
-                }
-
-                if ( isset( $item['name'] ) )
-                {
-                    $item = $item['name'];
-                }
-
-                $this->$item = isset( $row[$key] ) ? $row[$key] : null;
+                $item = $item['name'];
             }
-        }
-        else
-        {
-            foreach ( $def["fields"] as $key => $item )
-            {
-                if ( isset( $item['name'] ) )
-                {
-                    $item = $item['name'];
-                }
-
-                $this->$item = isset( $row[$key] ) ? $row[$key] : null;
-            }
+            $this->$item = isset( $row[$key] ) ? $row[$key] : null;
         }
 
         return true;
@@ -120,7 +98,7 @@ class eZPersistentObject
      * @param array $fields
      * @return void
      */
-    public static function replaceFieldsWithShortNames( $db, $fieldDefs, &$fields )
+    public static function replaceFieldsWithShortNames( eZDBInterface $db, array $fieldDefs, &$fields )
     {
         if ( !$db->useShortNames() || !$fields )
             return;
@@ -152,6 +130,37 @@ class eZPersistentObject
 
         }
         $fields = $short_fields_names;
+    }
+
+    /**
+     * For the given array $fields treats its keystable fields names and replaces them
+     * with long names if there is an alias in $fieldDefs.
+     *
+     * @access protected
+     * @param eZDBInterface $db
+     * @param array $fieldDefs
+     * @param array $fields
+     * @return void
+     */
+    protected static function replaceFieldsWithLongNames( eZDBInterface $db, array $fieldDefs, &$fields )
+    {
+        if ( !$db->useShortNames() || !$fields )
+            return;
+
+        foreach ( $fieldDefs as $fieldName => $fieldDefinition )
+        {
+            if ( !isset( $fieldDefinition['short_name'] ) )
+            {
+                continue;
+            }
+            $shortName = $fieldDefinition['short_name'];
+            if ( !isset( $fields[$shortName] ) )
+            {
+                continue;
+            }
+            $fields[$fieldName] = $fields[$shortName];
+            unset( $fields[$shortName] );
+        }
     }
 
     /**
@@ -391,15 +400,13 @@ class eZPersistentObject
             if ( $value !== null                                &&
                  $field_def['datatype'] === 'string'            &&
                  array_key_exists( 'max_length', $field_def )   &&
-                 $field_def['max_length'] > 0                   &&
-                 mb_strlen( $value, "utf-8" ) > $field_def['max_length'] )
+                 $field_def['max_length'] > 0 )
             {
-                $obj->setAttribute( $field_name, mb_substr( $value, 0, $field_def['max_length'], "utf-8" ) );
-                eZDebug::writeDebug( $value, "truncation of $field_name to max_length=". $field_def['max_length'] );
+                $obj->setAttribute( $field_name, $db->truncateString( $value, $field_def['max_length'], $field_name ) );
             }
             $bindDataTypes = array( 'text' );
             if ( $db->bindingType() != eZDBInterface::BINDING_NO &&
-                 mb_strlen( $value, "utf-8" ) > 2000 &&
+                 $db->countStringSize( $value ) > 2000 &&
                  is_array( $field_def ) &&
                  in_array( $field_def['datatype'], $bindDataTypes  )
                  )
@@ -939,6 +946,17 @@ class eZPersistentObject
      */
     public static function handleRows( $rows, $class_name, $asObject )
     {
+        $objectDefinition = $class_name::definition();
+
+        if ( is_array( $rows ) )
+        {
+            $db = eZDB::instance();
+            foreach( $rows as $row )
+            {
+                self::replaceFieldsWithLongNames( $db, $objectDefinition['fields'], $row );
+            }
+        }
+
         if ( $asObject )
         {
             $objects = array();
@@ -1202,7 +1220,7 @@ class eZPersistentObject
 
             $bindDataTypes = array( 'text' );
             if ( $db->bindingType() != eZDBInterface::BINDING_NO &&
-                 mb_strlen( $value, "utf-8" ) > 2000 &&
+                 $db->countStringSize( $value ) > 2000 &&
                  is_array( $fieldDef ) &&
                  in_array( $fieldDef['datatype'], $bindDataTypes  )
                  )

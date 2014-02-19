@@ -93,7 +93,7 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
     // setup navigation on bookmark / browse / search links to their 'boxes' (panels)
     jQuery( 'a.atr_link_search_link, a.atr_link_browse_link, a.atr_link_bookmark_link' ).click( function(){
         ezoeLinkAttribute.id = ezoeLinkAttribute.lid( this.id );
-        jQuery('div.panel').hide();
+        jQuery('div.panel, div.link-dialog').hide();
         jQuery('#' + ezoeLinkAttribute.box( this.id ) ).show();
         jQuery('#' + ezoeLinkAttribute.box( this.id ) + ' input[type=text]:first').focus();
     });
@@ -195,8 +195,8 @@ var ezoeLinkAttribute = {
     {
         ezoeLinkAttribute.id = null;
         jQuery('div.panel').hide();
-        jQuery('div.panel:first').show();
-        jQuery('div.panel:first input[type=text]:first').focus();
+        jQuery('div.link-dialog').show();
+        jQuery('div.link-dialog input[type=text]:first').focus();
     }
 };
 

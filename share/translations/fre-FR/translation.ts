@@ -62,7 +62,7 @@
     </message>
     <message>
         <source>Step 2/3: Choose a location for the new &apos;%class&apos; object</source>
-        <translation>Étape 2/3 : Choississez un emplacement pour le nouvel object &apos;%class&apos;</translation>
+        <translation>Étape 2/3 : Choisissez un emplacement pour le nouvel object &apos;%class&apos;</translation>
     </message>
     <message>
         <source>Please choose a location for the &apos;%class&apos; object that is going to be created from it.</source>
@@ -6330,6 +6330,10 @@
         <source>Object Remote ID</source>
         <translation>ID externe de l&apos;objet</translation>
     </message>
+    <message>
+        <source>You are not allowed to view the related object</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view/line</name>
@@ -6927,15 +6931,15 @@ Note : les paquetages ne seront pas désinstallés.</translation>
         <translation type="obsolete">Propulsé par %edition. Pour plus d&apos;informations, voir &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;%evaluate_link&quot;&gt;Evaluate eZ Publish Enterprise Edition&lt;/a&gt; - &lt;a href=&quot;%share_link&quot;&gt;Become a member of the eZ Community, exchange and contribute&lt;/a&gt;. &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
-        <translation>&lt;a href=&quot;%evaluate_link&quot;&gt;Evaluez eZ Publish Enterprise Edition&lt;/a&gt; - &lt;a href=&quot;%share_link&quot;&gt;Devenez un membre de la eZ Community, échangez et contribuez&lt;/a&gt;. &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; et autres.</translation>
+        <source>&lt;a href=&quot;%evaluate_link&quot;&gt;Evaluate eZ Publish Enterprise Edition&lt;/a&gt; - &lt;a href=&quot;%share_link&quot;&gt;Become a member of the eZ Community, exchange and contribute&lt;/a&gt;. &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2014 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
+        <translation>&lt;a href=&quot;%evaluate_link&quot;&gt;Evaluez eZ Publish Enterprise Edition&lt;/a&gt; - &lt;a href=&quot;%share_link&quot;&gt;Devenez un membre de la eZ Community, échangez et contribuez&lt;/a&gt;. &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2014 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; et autres.</translation>
     </message>
     <message>
         <source>Powered by &lt;span class=&quot;edition-info&quot;&gt;%edition&lt;/span&gt;. For more information see &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2013 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
+        <source> &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2014 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -9670,7 +9674,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>%valfield does not contain a valid string.</source>
-        <translation>%valfield ne contient pas une chaine valide.</translation>
+        <translation>%valfield ne contient pas une chaîne valide.</translation>
     </message>
     <message>
         <source>If the string is all numbers use the numeric type instead.</source>
@@ -14747,11 +14751,11 @@ your account.</source>
     <name>design/ezdemo/full/article</name>
     <message>
         <source>Tip a friend</source>
-        <translation type="unfinished">Suggérer à un ami</translation>
+        <translation type="obsolete">Suggérer à un ami</translation>
     </message>
     <message>
         <source>Location</source>
-        <translation type="unfinished">Emplacement</translation>
+        <translation type="obsolete">Emplacement</translation>
     </message>
 </context>
 <context>
@@ -15416,7 +15420,7 @@ your account.</source>
     </message>
     <message>
         <source>Drop-down menu / multi menu</source>
-        <translation>Menu déroulant / menu déroulant à mutli-sélection</translation>
+        <translation>Menu déroulant / menu déroulant à multi-sélection</translation>
     </message>
     <message>
         <source>Range data for the ISBN-13 does not exist</source>
@@ -17044,6 +17048,10 @@ Si vous voulez laisser un commentaire au responsable de l&apos;approbation ou en
         <source>Html5 Audio</source>
         <translation>Son HTML 5</translation>
     </message>
+    <message>
+        <source>You are not allowed to view the related object</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/diff</name>
@@ -18258,7 +18266,7 @@ Si vous voulez laisser un commentaire au responsable de l&apos;approbation ou en
         
     Sélectionner l&apos;emplacement et cliquer sur le bouton %buttonname.
     Utiliser les éléments récents et les signets pour un déplacement dans l&apos;arborescence plus rapide est également possible.
-    Cliquer sur les noms des emplacements pour parcourir l&apos;arbosrescence.</translation>
+    Cliquer sur les noms des emplacements pour parcourir l&apos;arborescence.</translation>
     </message>
     <message>
         <source>Please choose where you want to place the new %classname.
@@ -18270,7 +18278,7 @@ Si vous voulez laisser un commentaire au responsable de l&apos;approbation ou en
 	
 	Sélectionner l&apos;emplacement et cliquer sur le bouton %buttonname.
     Utiliser les éléments récents et les signets pour un déplacement dans l&apos;arborescence plus rapide est également possible.
-    Cliquer sur les noms des emplacements pour parcourir l&apos;arbosrescence.</translation>
+    Cliquer sur les noms des emplacements pour parcourir l&apos;arborescence.</translation>
     </message>
     <message>
         <source>These are the objects you have bookmarked. Click on an object to view it or if you have permission you can edit the object by clicking the edit button.
@@ -18290,7 +18298,7 @@ Si vous voulez laisser un commentaire au responsable de l&apos;approbation ou en
         
     Sélectionner les éléments et cliquer sur le bouton %buttonname.
     Utiliser les éléments récents et les signets pour un déplacement dans l&apos;arborescence plus rapide est également possible.
-    Cliquer sur les noms des emplacements pour parcourir l&apos;arbosrescence.</translation>
+    Cliquer sur les noms des emplacements pour parcourir l&apos;arborescence.</translation>
     </message>
     <message>
         <source>Please choose where you want to copy %objectname.
@@ -18302,7 +18310,7 @@ Si vous voulez laisser un commentaire au responsable de l&apos;approbation ou en
         
     Sélectionner l&apos;emplacement de destination et cliquer sur le bouton %buttonname.
     Utiliser les éléments récents et les signets pour un déplacement dans l&apos;arborescence plus rapide est également possible.
-    Cliquer sur les noms des emplacements pour parcourir l&apos;arbosrescence.</translation>
+    Cliquer sur les noms des emplacements pour parcourir l&apos;arborescence.</translation>
     </message>
     <message>
         <source>Please choose where you want to copy subtree of node %node_name.
@@ -18314,7 +18322,7 @@ Si vous voulez laisser un commentaire au responsable de l&apos;approbation ou en
         
     Sélectionner l&apos;emplacement de destination et cliquer sur le bouton %buttonname.
     Utiliser les éléments récents et les signets pour un déplacement dans l&apos;arborescence plus rapide est également possible.
-    Cliquer sur les noms des emplacements pour parcourir l&apos;arbosrescence.</translation>
+    Cliquer sur les noms des emplacements pour parcourir l&apos;arborescence.</translation>
     </message>
     <message>
         <source>Please choose where you want to place %objectname.
@@ -18326,7 +18334,7 @@ Si vous voulez laisser un commentaire au responsable de l&apos;approbation ou en
         
     Sélectionner l&apos;emplacement de destination et cliquer sur le bouton %buttonname.
     Utiliser les éléments récents et les signets pour un déplacement dans l&apos;arborescence plus rapide est également possible.
-    Cliquer sur les noms des emplacements pour parcourir l&apos;arbosrescence.</translation>
+    Cliquer sur les noms des emplacements pour parcourir l&apos;arborescence.</translation>
     </message>
     <message>
         <source>Please choose the new placement for %name.
@@ -18352,7 +18360,7 @@ Si vous voulez laisser un commentaire au responsable de l&apos;approbation ou en
         
     Sélectionner vos emplacements et cliquer sur le bouton %buttonname.
     Utiliser les éléments récents et les signets pour un déplacement dans l&apos;arborescence plus rapide est également possible.
-    Cliquer sur les noms des emplacements pour parcourir l&apos;arbosrescence.</translation>
+    Cliquer sur les noms des emplacements pour parcourir l&apos;arborescence.</translation>
     </message>
     <message>
         <source>Please choose objects which you want to relate to %name.
@@ -18364,7 +18372,7 @@ Si vous voulez laisser un commentaire au responsable de l&apos;approbation ou en
         
     Sélectionner vos objets et cliquer sur le bouton %buttonname.
     Utiliser les éléments récents et les signets pour un déplacement dans l&apos;arborescence plus rapide est également possible.
-    Cliquer sur les noms des emplacements pour parcourir l&apos;arbosrescence.</translation>
+    Cliquer sur les noms des emplacements pour parcourir l&apos;arborescence.</translation>
     </message>
     <message>
         <source>Choose the node to exchange for %objectname</source>
@@ -18380,7 +18388,7 @@ Si vous voulez laisser un commentaire au responsable de l&apos;approbation ou en
      
     Sélectionner le nœud et cliquer sur le bouton %buttonname.
     Utiliser les éléments récents et les signets pour un déplacement dans l&apos;arborescence plus rapide est également possible.
-    Cliquer sur les noms des emplacements pour parcourir l&apos;arbosrescence.</translation>
+    Cliquer sur les noms des emplacements pour parcourir l&apos;arborescence.</translation>
     </message>
     <message>
         <source>These are the current objects you are working on. The drafts are owned by you and can only be seen by you.
@@ -22317,7 +22325,7 @@ Pour résoudre ce problème, vous devez choisir l&apos;une des options suivantes
     </message>
     <message>
         <source>Change the second line from %false to %true.</source>
-        <translation>Changez le seconde ligne de %flase à %true.</translation>
+        <translation>Changez le seconde ligne de %false à %true.</translation>
     </message>
     <message>
         <source>The selected languages are used to determine character sets, date / number formats, etc.</source>
@@ -22804,7 +22812,7 @@ Il est possible de changer ces paramètres plus tard.</translation>
     </message>
     <message>
         <source>This section is used to configure how eZ Publish delivers its outgoing Email.</source>
-        <translation>Cette secion est utilisée pour configurer comment eZ Publish peut délivrer les courriels sortant.</translation>
+        <translation>Cette section est utilisée pour configurer comment eZ Publish peut délivrer les courriels sortant.</translation>
     </message>
     <message>
         <source>The eZ Publish system uses email to send out important notices such as user registration and content approval. On Linux/UNIX: try to use sendmail. On Windows: use an SMTP server.</source>
@@ -23096,6 +23104,14 @@ Ces fonctionnalités sont également disponible plus tard via l&apos;interface d
     <message>
         <source>Welcome to %edition %version</source>
         <translation>Bienvenue sur %edition %version</translation>
+    </message>
+    <message>
+        <source>Additional packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Looking for other packages? Full archive of all packages can be found &lt;a href=&quot;%packages_url&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -26409,6 +26425,10 @@ your account.</source>
         <source>SSL Zones cache</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Content Language cache</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/class</name>
@@ -27236,7 +27256,7 @@ your account.</source>
     </message>
     <message>
         <source>%count invalid character(s) have been found and replaced by a space</source>
-        <translation>%count caratère(s) invalide(s) ont été trouvé(s) et remplacé(s) par un espace</translation>
+        <translation>%count caractère(s) invalide(s) ont été trouvé(s) et remplacé(s) par un espace</translation>
     </message>
 </context>
 <context>
@@ -28111,7 +28131,7 @@ your account.</source>
     </message>
     <message>
         <source>Content class &apos;%classname&apos; (%classidentifier)</source>
-        <translation>La clase contenu &apos;%classname&apos; (%classidentifier)</translation>
+        <translation>La classe contenu &apos;%classname&apos; (%classidentifier)</translation>
     </message>
     <message>
         <source>Remove object and its sub-item(s)</source>

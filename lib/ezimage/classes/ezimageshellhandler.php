@@ -2,7 +2,7 @@
 /**
  * File containing the eZImageShellHandler class.
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -71,8 +71,8 @@ class eZImageShellHandler extends eZImageHandler
         // Still expand File*.jpg as the shell would do, however, this is only true for the file's basename part and not
         // for the whole path.
         $argumentList[] = eZSys::escapeShellArgument(
-            dirname( $sourceMimeData['url'] ) . DIRECTORY_SEPARATOR . addcslashes(
-                basename( $sourceMimeData['url'] ),
+            $sourceMimeData['dirpath'] . DIRECTORY_SEPARATOR . addcslashes(
+                $sourceMimeData['filename'],
                 // ImageMagick meta-characters
                 '~*?[]{}<>'
             )

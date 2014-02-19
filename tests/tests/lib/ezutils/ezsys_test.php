@@ -2,7 +2,7 @@
 /**
  * File containing the eZSysTest class
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -174,6 +174,34 @@ class eZSysTest extends ezpTestCase
         $ini->setVariable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess', $orgRemoveSiteaccess );
         eZSys::clearAccessPath( false );
         // -------------------------------------------------------------------
+    }
+
+    public function testIsSSLNow()
+    {
+        $ini = eZINI::instance();
+
+        self::assertFalse( eZSys::isSSLNow() );
+
+        $_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
+        self::assertTrue( eZSys::isSSLNow() );
+        unset( $_SERVER['HTTP_X_FORWARDED_PROTO'] );
+
+        $_SERVER['HTTP_X_FORWARDED_PORT'] = $ini->variable( 'SiteSettings', 'SSLPort' );
+        self::assertTrue( eZSys::isSSLNow() );
+        unset( $_SERVER['HTTP_X_FORWARDED_PORT'] );
+
+        $_SERVER['HTTP_X_FORWARDED_SERVER'] = $ini->variable( 'SiteSettings', 'SSLProxyServerName' );
+        self::assertTrue( eZSys::isSSLNow() );
+        unset( $_SERVER['HTTP_X_FORWARDED_SERVER'] );
+    }
+
+    public function testServerProtocol()
+    {
+        self::assertEquals( 'http', eZSys::serverProtocol() );
+
+        $_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
+        self::assertEquals( 'https', eZSys::serverProtocol() );
+        unset( $_SERVER['HTTP_X_FORWARDED_PROTO'] );
     }
 
     /* -----------------------------------------------------------------------

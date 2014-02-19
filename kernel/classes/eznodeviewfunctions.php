@@ -2,7 +2,7 @@
 /**
  * File containing the eZNodeviewfunctions class.
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -147,6 +147,15 @@ class eZNodeviewfunctions
         $tpl->setVariable( 'node', $node );
         $tpl->setVariable( 'viewmode', $viewMode );
         $tpl->setVariable( 'language_code', $languageCode );
+        if ( isset( $viewParameters['_custom'] ) )
+        {
+            foreach ( $viewParameters['_custom'] as $customVarName => $customValue )
+            {
+                $tpl->setVariable( $customVarName, $customValue );
+            }
+
+            unset( $viewParameters['_custom'] );
+        }
         $tpl->setVariable( 'view_parameters', $viewParameters );
         $tpl->setVariable( 'collection_attributes', $collectionAttributes );
         $tpl->setVariable( 'validation', $validation );
@@ -342,7 +351,7 @@ class eZNodeviewfunctions
             ksort( $viewParameters );
             foreach ( $viewParameters as $key => $value )
             {
-                if ( !$key )
+                if ( !$key || $key === '_custom' )
                     continue;
                 $vpString .= 'vp:' . $key . '=' . $value;
             }

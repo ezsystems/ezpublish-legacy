@@ -2,7 +2,7 @@
 /**
  * File containing the eZAutoloadGenerator class.
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -330,20 +330,26 @@ class eZAutoloadGenerator
                     $extraExcludeKernelDirs = $extraExcludeDirs;
                     $extraExcludeKernelDirs[] = "@^{$sanitisedBasePath}{$dirSep}extension@";
                     $extraExcludeKernelDirs[] = "@^{$sanitisedBasePath}{$dirSep}tests@";
-                    $retFiles[self::MODE_KERNEL] = $this->buildFileList( $sanitisedBasePath, $extraExcludeKernelDirs );
+                    $retFiles[$modusOperandi] = $this->buildFileList( $sanitisedBasePath, $extraExcludeKernelDirs );
                     break;
 
                 case self::MODE_EXTENSION:
                 case self::MODE_KERNEL_OVERRIDE:
-                    $retFiles[$modusOperandi] = $this->buildFileList( "$sanitisedBasePath/extension", $extraExcludeDirs );
+                    $extraExcludeExtensionDirs = $extraExcludeDirs;
+                    $extraExcludeExtensionDirs[] = "@^{$sanitisedBasePath}{$dirSep}extension{$dirSep}[^{$dirSep}]+{$dirSep}tests@";
+                    $retFiles[$modusOperandi] = $this->buildFileList( "$sanitisedBasePath/extension", $extraExcludeExtensionDirs );
                     break;
 
                 case self::MODE_TESTS:
-                    $retFiles[self::MODE_TESTS] = $this->buildFileList( "$sanitisedBasePath/tests", $extraExcludeDirs );
+                    $retFiles[$modusOperandi] = $this->buildFileList( "$sanitisedBasePath/tests", $extraExcludeDirs );
+                    $extraExcludeExtensionDirs = $extraExcludeDirs;
+                    $extraExcludeExtensionDirs[] = "@^{$sanitisedBasePath}{$dirSep}extension{$dirSep}[^{$dirSep}]+{$dirSep}(?!tests)@";
+                    $extensionTestFiles = $this->buildFileList("$sanitisedBasePath/extension", $extraExcludeExtensionDirs );
+                    $retFiles[$modusOperandi] = array_merge( $retFiles[$modusOperandi], $extensionTestFiles );
                     break;
 
                 case self::MODE_SINGLE_EXTENSION:
-                    $retFiles = array( self::MODE_SINGLE_EXTENSION => $this->buildFileList( "$sanitisedBasePath", $extraExcludeDirs ) );
+                    $retFiles = array( $modusOperandi => $this->buildFileList( "$sanitisedBasePath", $extraExcludeDirs ) );
                     break;
             }
         }
@@ -377,6 +383,7 @@ class eZAutoloadGenerator
     {
         $dirSep = preg_quote( DIRECTORY_SEPARATOR );
         $exclusionFilter = array( "@^{$path}{$dirSep}(var|settings|benchmarks|bin|autoload|port_info|update|templates|tmp|UnitTest|lib{$dirSep}ezc)@" );
+
         if ( !empty( $extraFilter ) and is_array( $extraFilter ) )
         {
             foreach( $extraFilter as $filter )
@@ -899,7 +906,7 @@ class eZAutoloadGenerator
 /**
  * Autoloader definition for eZ Publish $description files.
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel

@@ -2,7 +2,7 @@
 /**
  * File containing the eZNamePatternResolver class
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
@@ -37,6 +37,8 @@
  */
 class eZNamePatternResolver
 {
+    const FIELD_NAME_MAX_SIZE = 255;
+
     /**
      * Holds token groups
      *
@@ -130,15 +132,20 @@ class eZNamePatternResolver
         // Replace tokens with real values
         $objectName = $this->translatePattern();
 
-        // Make sure length is not longer then $limit unless it's 0
-        if ( !$limit || mb_strlen( $objectName, "utf-8" ) <= $limit )
+        $db = eZDB::instance();
+
+        $limit = $limit ?: self::FIELD_NAME_MAX_SIZE;
+
+        if ( $db->countStringSize( $objectName ) <= $limit )
         {
             return $objectName;
         }
-        else
-        {
-            return preg_replace( "/[\pZ\pC]+$/u", '', mb_substr( $objectName, 0, $limit - mb_strlen( $sequence, "utf-8" ), "utf-8" ) ) . $sequence;
-        }
+
+        return preg_replace(
+            "/[\pZ\pC]+$/u",
+            '',
+            $db->truncateString( $objectName, $limit, 'name', $sequence )
+        ). $sequence;
     }
 
     /**

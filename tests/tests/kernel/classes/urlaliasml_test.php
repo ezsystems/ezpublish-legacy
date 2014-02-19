@@ -2,7 +2,7 @@
 /**
  * File containing the eZURLAliasMLTest class
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package tests
@@ -330,7 +330,7 @@ class eZURLAliasMLTest extends ezpDatabaseTestCase
 
         // ---------------------------------------------------------------- //
         // Not safe characters, all of these should be removed.
-        $e1 = " &;/:=?%[]()+#";
+        $e1 = " &;/:=?%[]()+#\t";
         $e1Result = "_1";
 
         // Safe characters. No char should be removed.

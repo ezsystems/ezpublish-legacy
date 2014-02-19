@@ -80,3 +80,9 @@ INNER JOIN
 SET
     o.language_mask = (o.language_mask & 1) | (v.language_mask & ~1);
 -- End EZP-21469
+
+-- Start EZP-21648:
+-- Adding 'priority' and 'is_hidden' columns to the 'eznode_assignment' table
+ALTER TABLE eznode_assignment ADD COLUMN priority int(11) NOT NULL DEFAULT '0';
+ALTER TABLE eznode_assignment ADD COLUMN is_hidden int(11) NOT NULL DEFAULT '0';
+-- End EZP-21648

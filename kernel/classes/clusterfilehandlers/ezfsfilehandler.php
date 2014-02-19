@@ -2,13 +2,13 @@
 /**
  * File containing the eZFSFileHandler class.
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
  */
 
-class eZFSFileHandler
+class eZFSFileHandler implements eZClusterFileHandlerInterface
 {
     const EXPIRY_TIMESTAMP = 233366400;
 
@@ -927,7 +927,7 @@ class eZFSFileHandler
     /**
      * Ends the cache generation started by startCacheGeneration().
      */
-    public function endCacheGeneration()
+    public function endCacheGeneration( $rename = true )
     {
         return true;
     }
@@ -978,6 +978,21 @@ class eZFSFileHandler
     public function hasStaleCacheSupport()
     {
         return false;
+    }
+
+    public function getFileList($scopes = false, $excludeScopes = false)
+    {
+        return false;
+    }
+
+    public function isDBFileExpired($expiry, $curtime, $ttl)
+    {
+        return self::isFileExpired( $this->filePath, @filemtime( $this->filePath ), $expiry, $curtime, $ttl );
+    }
+
+    public function isLocalFileExpired($expiry, $curtime, $ttl)
+    {
+        return self::isFileExpired( $this->filePath, @filemtime( $this->filePath ), $expiry, $curtime, $ttl );
     }
 
     public $metaData = null;

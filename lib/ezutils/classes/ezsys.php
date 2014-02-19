@@ -4,7 +4,7 @@
  *
  * Portions are modifications of patches by Andreas Böckler and Francis Nart
  *
- * @copyright Copyright (C) 1999-2013 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
@@ -1206,7 +1206,7 @@ class eZSys
      */
     protected static function getValidwwwDir( $phpSelf, $scriptFileName, $index )
     {
-        if ( !isset( $phpSelf[1] ) || strpos( $phpSelf, $index ) === false )
+        if ( !isset( $phpSelf[1] ) || empty($index) || strpos( $phpSelf, $index ) === false )
             return false;
 
         // validate $index straight away
@@ -1227,7 +1227,7 @@ class eZSys
             $validateDir = '/' . implode( '/', $uri );
         }
 
-        // validate direclty with phpself part
+        // validate directly with phpself part
         if ( strpos( $scriptFileName, $validateDir ) !== false )
             return trim( $phpSelfParts[0], '/' );
 
