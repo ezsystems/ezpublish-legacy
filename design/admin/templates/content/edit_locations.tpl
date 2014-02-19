@@ -135,13 +135,9 @@
     {* Visibility status after publishing. *}
     <td>
     <select {if $location_ui_enabled|not}disabled="disabled" {/if}name="FutureNodeHiddenState_{$Node:parent_node.node_id}">
-    <option value="unchanged" selected="selected">{'Unchanged'|i18n( 'design/admin/content/edit' )}</option>
-    {if or($Node:item.node|not, $Node:item.node.is_hidden)}
-    <option value="visible">{'Visible'|i18n( 'design/admin/content/edit' )}</option>
-    {/if}
-    {if or($Node:item.node|not, $Node:item.node.is_hidden|not)}
-    <option value="hidden">{'Hidden'|i18n( 'design/admin/content/edit' )}</option>
-    {/if}
+    <option value="unchanged">{'Unchanged'|i18n( 'design/admin/content/edit' )}</option>
+    <option value="visible"{if $Node:item.is_hidden|not} selected="selected"{/if}>{'Visible'|i18n( 'design/admin/content/edit' )}</option>
+    <option value="hidden"{if $Node:item.is_hidden} selected="selected"{/if}>{'Hidden'|i18n( 'design/admin/content/edit' )}</option>
     </select>
     </td>
 

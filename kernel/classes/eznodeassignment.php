@@ -49,7 +49,7 @@ class eZNodeAssignment extends eZPersistentObject
                                                         'default' => 0,
                                                         'required' => true ),
                                          'remote_id' => array( 'name' => 'RemoteID',
-                                                               'datatype' => 'integer',
+                                                               'datatype' => 'string',
                                                                'default' => 0,
                                                                'required' => true ),
                                          'contentobject_id' => array( 'name' => 'ContentobjectID',
@@ -93,6 +93,14 @@ class eZNodeAssignment extends eZPersistentObject
                                                                       'datatype' => 'string',
                                                                       'default' => '',
                                                                       'required' => false ),
+                                         'is_hidden' => array( 'name' => 'Hidden',
+                                                               'datatype' => 'integer',
+                                                               'default' => 0,
+                                                               'required' => false ),
+                                         'priority' => array( 'name' => 'Priority',
+                                                               'datatype' => 'integer',
+                                                               'default' => 0,
+                                                               'required' => false ),
                                          'op_code' => array( 'name' => 'OpCode',
                                                              'datatype' => 'int',
                                                              'default' => 0, // eZNodeAssignment::OP_CODE_NOP
@@ -205,6 +213,14 @@ class eZNodeAssignment extends eZPersistentObject
         {
             $parameters['is_main'] = 0;
         }
+        if ( !isset( $parameters['is_hidden'] ) )
+        {
+            $parameters['is_hidden'] = 0;
+        }
+        if ( !isset( $parameters['priority'] ) )
+        {
+            $parameters['priority'] = 0;
+        }
         if ( !isset( $parameters['sort_field'] ) )
         {
             $parameters['sort_field'] = eZContentObjectTreeNode::SORT_FIELD_PUBLISHED;
@@ -217,9 +233,9 @@ class eZNodeAssignment extends eZPersistentObject
         {
             $parameters['from_node_id'] = 0;
         }
-        if ( !isset( $parameters['parent_remote_id'] ) )
+        if ( !isset( $parameters['parent_remote_id'] ) || empty( $parameters['parent_remote_id'] ) )
         {
-            $parameters['parent_remote_id'] = '';
+            $parameters['parent_remote_id'] = eZRemoteIdUtility::generate( 'node' );
         }
         if ( !isset( $parameters['op_code'] ) )
         {
@@ -502,6 +518,8 @@ class eZNodeAssignment extends eZPersistentObject
                                 'sort_field' => $this->attribute( 'sort_field' ),
                                 'sort_order' => $this->attribute( 'sort_order' ),
                                 'is_main' => $this->attribute( 'is_main' ),
+                                'is_hidden' => $this->attribute( 'is_hidden' ),
+                                'priority' => $this->attribute( 'priority' ),
                                 'parent_remote_id' => $this->attribute( 'parent_remote_id' ) );
         if ( $contentObjectID !== false )
             $assignmentRow['contentobject_id'] = $contentObjectID;
@@ -584,6 +602,8 @@ class eZNodeAssignment extends eZPersistentObject
     public $SortOrder;
     public $Main;
     public $FromNodeID;
+    public $Hidden;
+    public $Priority;
 }
 
 ?>
