@@ -42,7 +42,7 @@ class eZObjectRelationListType extends eZDataType
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $postVariableName = $base . "_data_object_relation_list_" . $contentObjectAttribute->attribute( "id" );
-        if ( $http->hasPostVariable( $postVariableName ) && !( $contentObjectAttribute->validateIsRequired() && $http->postVariable( $postVariableName ) == array( "no_relation" ) ) )
+        if ( !$contentObjectAttribute->validateIsRequired() && ( !$http->hasPostVariable( $postVariableName ) || $http->postVariable( $postVariableName ) == array( "no_relation" )) )
         {
             return eZInputValidator::STATE_ACCEPTED;
         }
