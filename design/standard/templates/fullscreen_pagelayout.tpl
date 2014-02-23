@@ -4,15 +4,14 @@
 <html lang="{$site.http_equiv.Content-language|wash}">
 
 <head>
-{section name=JavaScript loop=ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' ) }
-    <script type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
-{/section}
-    <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
-<style type="text/css">
-{section var=css_file loop=ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' )}
-    @import url({concat( 'stylesheets/',$css_file )|ezdesign});
-{/section}
-</style>
+{ezcss_load( array(
+    'core.css',
+    ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' )
+) )}
+
+{ezscript_load( array(
+    ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' )
+) )}
 
 {include uri="design:page_head.tpl"}
 
