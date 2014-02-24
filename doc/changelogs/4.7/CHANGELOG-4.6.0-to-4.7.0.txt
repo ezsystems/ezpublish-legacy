@@ -1,0 +1,121 @@
+Bugfixes
+========
+- #13270: Wrong logic to fetch temporary workflows in workflowlist view
+- #15035: Webdav Media access buggy when accessing in accentuated language
+- #17642: error with object relations and ajax-based "find objects"
+- #17809: Offset not remembered when updating order status
+- #18207: Lots of errors when clearing cache with --purge
+- #18241: Wrong error message when publishing a former draft (Thanks Brendan Pike !)
+- #18259: PHP 5.4 compliance : Bad variable used in eZModuleFunctionInfo::execute(...)
+- #18320: Fatal error on publish when parent translation not available
+- #18434: alphabetical navigator falls back to google navigator if not configured (Benjamin Choquet)
+- #18469: Navigation in trash is missing
+- #18434: No paging while in content/browse in admin2
+- #18475: Login problems for users using IE8 - duplicate session headers
+- #18479: RSS Export: problem when a title contains the "&"
+- #18561: IE users are logged out in result of comment posting
+- #18613: Empty ezcontentlanguage_cache.php not being regenerated
+- #18750: comments made in a webshop order are not visible
+- #18767: eZContentObjectTreeNode::subtree always have at least one order by
+- #18771: i18n translations are not utilized in the versionview
+- #18790: Unable to publish content when object relation list is made required after another required attribute was missing
+- #18886: New users only viewable by Administrator until validate
+- #18897: Driving with brakes on // sql wildcards not escaped // slow queries (Morel Sebastien)
+- #18947: [HipHop check]  is unknown in kernel/content/node_edit.php on line 744
+- #18957: Big performance bug during cache generation.
+- #18970: Password in email.
+- #18972: Autoload generation with namespace PHP namespace can be defined using semi colon, but bracket also (Jeremy Poulain)
+- #18973: Missing  parameter in modify method (Jeremy Poulain)
+- #18975: order of HostUriMatchMapItems items is crucial when using host_uri matchorder
+- #18986: [eZ Pending Actions] 2 records in less than one second
+- #18987: ezodf export to openoffice in sequence
+- #18999: Wrong usage of LIMIT in postgreSQL DFS
+- #19005: Having ezp-next in eZ Publish ends up to fatal error in /setup/info
+- #19024: Mixed up class attribute IDs after re-order
+- #19026: PHP 5.4 compliance : Bad variable used in eZModuleOperationInfo::execute(...)
+- #19027: PHP 5.4 compliance : New ['REQUEST_TIME'] format makes request date fail or at least inconsistent
+- #19029: Namespace support : backslash is not escaped in generated class name
+- #19030: Improve checking for variable on fetch method, ezcontentobjecttreenode.php
+- #19032: Mail Headers are not encoded when using SMTP
+- #19038: Edit-conflicts are not displayed when editing an article via the edit-button on the dashboard (crevillo)
+- #19044: Static cache generation fails in https://
+- #19055: Broken nice URLS: Objects without translation X show children as system urls in siteaccess X
+- #19057: Version editing conflict after draft has been denied
+- #19062: URL Wildcard not working due to url alias placeholder.
+- #19069: workflow crash
+- #19095: change german translation (Jarosław Heba)
+- #19097: Admin2 reverse object relations tab does not include hidden objects
+- #19098: preview is not working for items in search result (back office of ezp 4.6) (Jarosław Heba)
+- #19113: 404 instead of 405 when accessing a resource with a not-supported HTTP method
+- #19116: Using parameters not supported in custom HTTP methods
+- #19125: Concurrent object creation: duplicate key error on ezurlialias_ml
+- #19146: useless? comment in ezdbinterface. Useless brackets too. (crevillo)
+- #19152: Slow after publish workflow induces Asynchronous Publishing process floods
+- #19236: decimals of prices are incorrectly stored (float -> double)
+- #19238: Vulnerability issue
+- #19246: Preview not working correctly with Html5 Videos
+- #19247: Pause/Resuming a download not working in firefox
+- #19248: ezdb clustering on mysqli is broken in 4.7.0-dev, problem with  in gateway.php
+- #19268: eZHTTPTool::createRedirectUrl() is broken with "override_protocol" param
+- #19284: ezcache script should not fail if data is corrupted
+- #19297: clustering doesn't respect StoreFilePermissions
+- #19299: Uploading an image to an article in IE8 raises an error
+- #19303: Ezpublish 4.7 Beta 1 - Install Wizard with Summary Overlayed
+- #19305: 500 response received when using REST without auth and with non GET verb
+- #19323: Fail to upload docx files with DFS
+- #19337: Database Check Failed after upgrading from Ez Publish 4.6 > 4.7 rc1 with Postgres (step 1)
+- #19354: ezcontentstaging : changing main node assignment is not synced on postgres
+- #19366: Uploading images to a dfs mysql cluster not working
+- #19382: ezformtoken not present in dfs cluster mysql
+- Error when using namespaces in a REST controller
+- Changed max size of a mimetype to 255 in eZ DFS
+- Made sure we use the ezjscore settings while loading YUI3 modules
+- Fixed toolbar display in IE 6 and 7
+- Avoid a JavaScript error when TemplateCompile is disabled
+- Transaction counter is not reset after a DB error
+- Fixed cluster expiry timeout handling
+- Collapsible content edit left menu breaks the page in Chrome
+- wrong use of ezscript_require in object relation(s) edit templates
+- Broken edit form in IE6
+- Really hide the scroll to top link in IE6
+- Display issue in IE8 when uncollapsing the content edit left menu
+
+Changes
+=======
+- #17073: Switch to html5 doctype
+- #19028: PHP 5.4 compliance : Add traits support in autoload system
+- #19073: show remote id in details tab in administration interface (crevillo)
+- #19215: Audit feature should be improved for multisite installations (crevillo)
+- Added setting to avoid potential access to blacklisted attributes containing sensitive data
+- Improved registration form
+- Display latest draft for editors when viewing a tree node
+- Debugging improvements (Gaetano Giunta)
+- Implemented opt-in feature: Display latest draft for editors when viewing a tree node
+- Added filtering on class in fetch related objects (Alexandre SEBBANE)
+- New events: content/view & request/preinput
+- Added support for deleting packages. (HenrikWM)
+- Added extension point for ezmultivariatetest extension
+- Added: support for JSON encoded body with POST request
+- Implemented mobile devices detection mechanism
+- Allow to display list of included php files in the debug report (Gaetano Giunta)
+- Y.eZ.CollapsibleMenu now accepts callbacks and style definition with a function in its configuration
+- the language switcher tpl operator also returns the default locale associated with a siteaccess
+- Modified constructor on RAD templateoperator (Philippe)
+- Added button right div by default in the edit toolbar
+- Use $cli->output instead of $cli->notice (Henrik W. M.)
+- 'is_file()' calles 'file_exists()' internally, use only 'is_file' instead. (Henrik W. M.)
+- md5sum() should only attempt to process files, so added a check 'is_file' to prevent a php-error that will be thrown if $file is
+  directory and not a file. (Henrik W. M.)
+- Rewritten cluster index mechanism
+- Set the focus to the year input when using the JS calendar
+- Store the content edit left menu state in a preference
+- Make sure the YUI3_config is used when loading YUI3 components
+- Added an extension point in content/edit.tpl to easily include custom templates
+- Changed modal window and ajax uploader component to be 2 YUI3 modules
+- adding a new filter triggered just before the debug report in order to be able to use accumulator, add debug report in the
+  callback triggered by this new output filter (Jerome Despatis)
+- Support HTTPS SSL for switchlanguage (Alexandre LEBLANC)
+- Make Fatal Error message a bit more frindly
+- Prevented the database from being setup more than once
+- Made MySQLi as default for eZDB cluster backend instead of MySQL
+- Avoid shell error message displayed if 'convert' is not found
