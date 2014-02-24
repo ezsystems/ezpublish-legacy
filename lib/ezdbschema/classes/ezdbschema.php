@@ -97,7 +97,7 @@ class eZDbSchema
             }
             else
             {
-                eZDebug::writeError( "Unknown format for file $filename" );
+                eZDebug::writeError( "Unknown format for file $filename", __METHOD__ );
                 return false;
             }
         }

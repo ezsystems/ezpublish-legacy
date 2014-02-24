@@ -155,7 +155,7 @@ class eZTemplateIfFunction
     {
         if ( count( $functionParameters ) == 0 || !count( $functionParameters['condition'] ) )
         {
-            eZDebug::writeError( "Not enough arguments passed to 'if' function." );
+            eZDebug::writeError( "Not enough arguments passed to 'if' function.", __METHOD__ );
             return;
         }
 
@@ -184,7 +184,7 @@ class eZTemplateIfFunction
                 {
                     if ( $foundElse  )
                     {
-                        eZDebug::writeError( "Duplicated 'else'" );
+                        eZDebug::writeError( "Duplicated 'else'", __METHOD__ );
                         $show = false;
                         continue;
                     }
@@ -197,7 +197,7 @@ class eZTemplateIfFunction
                 {
                     if ( $foundElse  )
                     {
-                        eZDebug::writeError( "There should be no more 'elseif' after 'else'" );
+                        eZDebug::writeError( "There should be no more 'elseif' after 'else'", __METHOD__ );
                         $show = false;
                         continue;
                     }

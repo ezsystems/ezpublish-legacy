@@ -82,7 +82,7 @@ class eZTopMenuOperator
 
         if ( !$ini->hasVariable( 'TopAdminMenu', 'Tabs' ) )
         {
-            eZDebug::writeError( 'Top Admin menu is not configured. Ini  setting [TopAdminMenu] Tabs[] is missing' );
+            eZDebug::writeError( 'Top Admin menu is not configured. Ini  setting [TopAdminMenu] Tabs[] is missing', __METHOD__ );
             $operatorValue = array();
             return;
         }

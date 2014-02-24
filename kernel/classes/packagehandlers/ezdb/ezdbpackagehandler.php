@@ -56,18 +56,18 @@ class eZDBPackageHandler extends eZPackageHandler
 
             if ( $canInsert )
             {
-                eZDebug::writeDebug( "Installing SQL file $path/$filename" );
+                eZDebug::writeDebug( "Installing SQL file $path/$filename", __METHOD__ );
                 $db->insertFile( $path, $filename, false );
                 return true;
             }
             else
             {
-                eZDebug::writeDebug( "Skipping SQL file $path/$filename" );
+                eZDebug::writeDebug( "Skipping SQL file $path/$filename", __METHOD__ );
             }
         }
         else
         {
-            eZDebug::writeError( "Could not find SQL file $path/$filename" );
+            eZDebug::writeError( "Could not find SQL file $path/$filename", __METHOD__ );
         }
         return false;
     }

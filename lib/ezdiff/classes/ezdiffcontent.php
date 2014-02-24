@@ -107,7 +107,7 @@ class eZDiffContent
 
             default:
             {
-                eZDebug::writeError( "Attribute '$attrName' does not exist", 'eZDiffContent' );
+                eZDebug::writeError( "Attribute '$attrName' does not exist", __METHOD__ );
                 return null;
             }break;
         }

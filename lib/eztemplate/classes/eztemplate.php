@@ -537,11 +537,11 @@ class eZTemplate
                 if ( eZTemplate::isDebugEnabled() )
                 {
                     $fname = $resourceData['template-filename'];
-                    eZDebug::writeDebug( "FETCH START URI: $template, $fname" );
+                    eZDebug::writeDebug( "FETCH START URI: $template, $fname", __METHOD__ );
                 }
                 $this->process( $root, $text, "", "" );
                 if ( eZTemplate::isDebugEnabled() )
-                    eZDebug::writeDebug( "FETCH END URI: $template, $fname" );
+                    eZDebug::writeDebug( "FETCH END URI: $template, $fname", __METHOD__ );
             }
 
             eZDebug::accumulatorStop( 'template_processing' );
@@ -642,10 +642,10 @@ class eZTemplate
              is_object( $func ) )
         {
             if ( eZTemplate::isMethodDebugEnabled() )
-                eZDebug::writeDebug( "START FUNCTION: $functionName" );
+                eZDebug::writeDebug( "START FUNCTION: $functionName", __METHOD__ );
             $value = $func->process( $this, $textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace );
             if ( eZTemplate::isMethodDebugEnabled() )
-                eZDebug::writeDebug( "END FUNCTION: $functionName" );
+                eZDebug::writeDebug( "END FUNCTION: $functionName", __METHOD__ );
             return $value;
         }
         else
@@ -800,7 +800,7 @@ class eZTemplate
         $this->Level++;
         if ( $this->Level > $this->MaxLevel )
         {
-            eZDebug::writeError( $this->MaxLevelWarning, __METHOD__ . " Level: $this->Level @ $uri" );
+            eZDebug::writeError( $this->MaxLevelWarning, __METHOD__ . " Level: $this->Level @ $uri", __METHOD__ );
             $textElements[] = $this->MaxLevelWarning;
             $this->Level--;
             return;
@@ -833,11 +833,11 @@ class eZTemplate
             if ( eZTemplate::isDebugEnabled() )
             {
                 $fname = $resourceData['template-filename'];
-                eZDebug::writeDebug( "START URI: $uri, $fname" );
+                eZDebug::writeDebug( "START URI: $uri, $fname", __METHOD__ );
             }
             $this->process( $resourceData['root-node'], $text, $rootNamespace, $currentNamespace );
             if ( eZTemplate::isDebugEnabled() )
-                eZDebug::writeDebug( "END URI: $uri, $fname" );
+                eZDebug::writeDebug( "END URI: $uri, $fname", __METHOD__ );
             $this->setIncludeOutput( $uri, $text );
             $textElements[] = $text;
         }
@@ -1004,7 +1004,7 @@ class eZTemplate
             $template = $uri;
         if ( eZTemplate::isDebugEnabled() )
         {
-            eZDebug::writeNotice( "eZTemplate: Loading template \"$template\" with resource \"$res\"" );
+            eZDebug::writeNotice( "Loading template \"$template\" with resource \"$res\"", __METHOD__ );
         }
         if ( isset( $this->Resources[$res] ) and is_object( $this->Resources[$res] ) )
         {
@@ -1340,11 +1340,11 @@ class eZTemplate
             {
                 $value = $valueData['value'];
                 if ( eZTemplate::isMethodDebugEnabled() )
-                    eZDebug::writeDebug( "START OPERATOR: $operatorName" );
+                    eZDebug::writeDebug( "START OPERATOR: $operatorName", __METHOD__ );
                 $op->modify( $this, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, $value, $namedParameters,
                              $placement );
                 if ( eZTemplate::isMethodDebugEnabled() )
-                    eZDebug::writeDebug( "END OPERATOR: $operatorName" );
+                    eZDebug::writeDebug( "END OPERATOR: $operatorName", __METHOD__ );
                 $valueData['value'] = $value;
             }
             else
@@ -2242,7 +2242,7 @@ class eZTemplate
             {
                 eZDebug::writeWarning( "Path '$path' does not have the file 'eztemplateautoload.php' allthough it reported it had one.\n" .
                                        "Looked for file '" . $autoloadFile . "'\n" .
-                                       "Check the setting [TemplateSettings]/ExtensionAutoloadPath or AutoloadPathList in your site.ini settings." );
+                                       "Check the setting [TemplateSettings]/ExtensionAutoloadPath or AutoloadPathList in your site.ini settings.", __METHOD__ );
             }
         }
     }

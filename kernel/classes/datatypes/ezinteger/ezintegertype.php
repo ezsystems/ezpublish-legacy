@@ -283,7 +283,7 @@ class eZIntegerType extends eZDataType
                     else
                     {
                         $state = eZInputValidator::STATE_INTERMEDIATE;
-                        eZDebug::writeNotice( "Integer minimum value great than maximum value." );
+                        eZDebug::writeNotice( "Integer minimum value greater than maximum value.", __METHOD__ );
                         return $state;
                     }
                 }

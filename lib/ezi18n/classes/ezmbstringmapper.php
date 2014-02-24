@@ -35,16 +35,16 @@ class eZMBStringMapper
         $this->Valid = false;
         if ( !$this->isCharsetSupported( $input_charset_code ) )
         {
-            eZDebug::writeError( "Input charset $input_charset_code not supported", "eZMBStringMapper" );
+            eZDebug::writeError( "Input charset $input_charset_code not supported", __METHOD__ );
         }
         else if ( !$this->isCharsetSupported( $output_charset_code ) )
         {
-            eZDebug::writeError( "Output charset $output_charset_code not supported", "eZMBStringMapper" );
+            eZDebug::writeError( "Output charset $output_charset_code not supported", __METHOD__ );
         }
         else if ( $this->hasMBStringExtension() )
             $this->Valid = true;
         else
-            eZDebug::writeError( "No mbstring functions available", "eZMBStringMapper" );
+            eZDebug::writeError( "No mbstring functions available", __METHOD__ );
     }
 
     /*!

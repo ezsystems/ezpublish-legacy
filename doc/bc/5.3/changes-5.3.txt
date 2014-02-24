@@ -18,6 +18,9 @@ Change of behavior
 
   This change is needed to make ezfind.ini[IndexOptions]\DisableDeleteCommits option of eZFind actually work.
 
+- Debug messages triggered by eZDebug::write* now consistently contain the method names in which they were triggered.
+
+  If you rely on the previously static labels, e.g. for log parsing, please consider adapting your parsers.
 
 Removed features
 ----------------

@@ -396,7 +396,7 @@ class eZExtension
             }
             else if ( $extensionSubdir )
             {
-                eZDebug::writeWarning( "Extension '$extensionDirectory' does not have the subdirectory $extensionSubdir, looked for directory '" . $extensionPath . "'" );
+                eZDebug::writeWarning( "Extension '$extensionDirectory' does not have the subdirectory $extensionSubdir, looked for directory '" . $extensionPath . "'", __METHOD__ );
             }
         }
         $foundType = false;

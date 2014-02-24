@@ -953,7 +953,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
     public function fileDeleteByWildcard( $wildcard )
     {
         $wildcard = self::cleanPath( $wildcard );
-        eZDebug::writeWarning( "Using " . __METHOD__ . " is not recommended since it has some severe performance issues" );
+        eZDebug::writeWarning( "Using " . __METHOD__ . " is not recommended since it has some severe performance issues", __METHOD__ );
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileDeleteByWildcard( '$wildcard' )" );
 
         self::$dbbackend->_deleteByWildcard( $wildcard );
@@ -1327,7 +1327,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
                 return false;
             }
         } catch( RuntimeException $e ) {
-            eZDebug::writeError( "An error occured ending cache generation on '$this->realFilePath'", 'cluster.log' );
+            eZDebug::writeError( "An error occured ending cache generation on '$this->realFilePath'", __METHOD__ );
         }
     }
 

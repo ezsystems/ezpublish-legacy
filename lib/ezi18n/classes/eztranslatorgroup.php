@@ -135,7 +135,7 @@ class eZTranslatorGroup extends eZTranslatorHandler
     {
         if ( !$this->isKeyBased() and $handler->isKeyBased() )
         {
-            eZDebug::writeError( "Cannot register keybased handler for non-keybased group", "eZTranslatorGroup" );
+            eZDebug::writeError( "Cannot register keybased handler for non-keybased group", __METHOD__ );
             return false;
         }
         $this->Handlers[] = $handler;

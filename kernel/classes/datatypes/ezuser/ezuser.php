@@ -1190,13 +1190,13 @@ WHERE user_id = '" . $userID . "' AND
         if ( !$currentUser )
         {
             $currentUser = eZUser::fetch( self::anonymousId() );
-            eZDebug::writeWarning( 'User not found, returning anonymous' );
+            eZDebug::writeWarning( 'User not found, returning anonymous', __METHOD__ );
         }
 
         if ( !$currentUser )
         {
             $currentUser = new eZUser( array( 'id' => -1, 'login' => 'NoUser' ) );
-            eZDebug::writeWarning( 'Anonymous user not found, returning NoUser' );
+            eZDebug::writeWarning( 'Anonymous user not found, returning NoUser', __METHOD__ );
         }
 
         $GLOBALS["eZUserGlobalInstance_$id"] = $currentUser;
@@ -2272,14 +2272,14 @@ WHERE user_id = '" . $userID . "' AND
                         if ( !empty( $buffer ) or $ret === false )
                         {
                             eZDebug::writeError( "There was an error while evaluating the policy functions value of the '$moduleName/$viewName' view. " .
-                                                 "Please check the '$moduleName/module.php' file." );
+                                                 "Please check the '$moduleName/module.php' file.", __METHOD__ );
                             $accessAllowed = false;
                         }
                     }
                     else
                     {
                         eZDebug::writeError( "There is a mistake in the functions array data of the '$moduleName/$viewName' view. " .
-                                             "Please check the '$moduleName/module.php' file." );
+                                             "Please check the '$moduleName/module.php' file.", __METHOD__ );
                         $accessAllowed = false;
                     }
                 }

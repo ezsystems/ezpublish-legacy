@@ -509,7 +509,7 @@ class eZPackage
             }
             else
             {
-                eZDebug::writeError( "Could not open file $file for md5sum calculation" );
+                eZDebug::writeError( "Could not open file $file for md5sum calculation", __METHOD__ );
             }
         }
         else
@@ -1107,7 +1107,7 @@ class eZPackage
     {
         if ( is_dir( $archiveName ) )
         {
-            eZDebug::writeError( "Importing from directory is not supported." );
+            eZDebug::writeError( "Importing from directory is not supported.", __METHOD__ );
             $retValue = false;
             return $retValue;
         }
@@ -1141,7 +1141,7 @@ class eZPackage
                 {
                     if ( !$archive->extractCurrent( $archivePath ) )
                     {
-                        eZDebug::writeError( "Failed extracting package definition file from $archivePath" );
+                        eZDebug::writeError( "Failed extracting package definition file from $archivePath", __METHOD__ );
                         return false;
                     }
                 }
@@ -1186,12 +1186,12 @@ class eZPackage
                 $package = eZPackage::fetch( $packageName, $fullRepositoryPath, false, $dbAvailable );
                 if ( !$package )
                 {
-                    eZDebug::writeError( "Failed loading imported package $packageName from $fullRepositoryPath" );
+                    eZDebug::writeError( "Failed loading imported package $packageName from $fullRepositoryPath", __METHOD__ );
                 }
             }
             else
             {
-                eZDebug::writeError( "Failed loading temporary package $packageName" );
+                eZDebug::writeError( "Failed loading temporary package $packageName", __METHOD__ );
             }
 
             return $package;
@@ -1281,7 +1281,7 @@ class eZPackage
         }
         else
         {
-            eZDebug::writeError( "Failed to write package '$filename'" );
+            eZDebug::writeError( "Failed to write package '$filename'", __METHOD__ );
         }
         return false;
     }
@@ -1870,7 +1870,7 @@ class eZPackage
         {
             if ( !$this->installItem( $item, $installParameters ) )
             {
-                eZDebug::writeDebug( $item, 'item which failed installing' );
+                eZDebug::writeDebug( 'item which failed installing: ' . var_export( $item ), __METHOD__ );
                 $installResult = false;
             }
         }

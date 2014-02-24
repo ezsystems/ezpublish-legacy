@@ -193,7 +193,7 @@ class eZNodeAssignment extends eZPersistentObject
     {
         if ( !isset( $parameters['contentobject_id'] ) )
         {
-            eZDebug::writeError( $parameters, "Cannot create node assignment without contentobject_id" );
+            eZDebug::writeError( "Cannot create node assignment without contentobject_id, got: " . var_export( $parameters ), __METHOD__ );
             $retValue = null;
             return $retValue;
         }

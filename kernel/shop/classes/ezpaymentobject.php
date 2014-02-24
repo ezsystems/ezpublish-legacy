@@ -137,7 +137,7 @@ class eZPaymentObject extends eZPersistentObject
             $bodyMemento = eZOperationMemento::fetchChild( $theProcess->attribute( 'memento_key' ) );
             if ( $bodyMemento === null )
             {
-                eZDebug::writeError( $bodyMemento, "Empty body memento in workflow.php" );
+                eZDebug::writeError( "Empty body memento in workflow.php", __METHOD__ );
                 return $operationResult;
             }
             $bodyMementoData =  $bodyMemento->data();

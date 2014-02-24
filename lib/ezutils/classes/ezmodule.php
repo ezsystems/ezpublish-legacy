@@ -960,7 +960,7 @@ class eZModule
             if ( !isset( $allowedHosts[$urlComponents['host']] ) )
             {
                 // Non-authorized host, return only the URI (without host) + query string and fragment if present.
-                eZDebug::writeError( "Redirection requested on non-authorized host '{$urlComponents['host']}'" );
+                eZDebug::writeError( "Redirection requested on non-authorized host '{$urlComponents['host']}'", __METHOD__ );
                 header( $_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden' );
                 echo "Redirection requested on non-authorized host";
                 eZDB::checkTransactionCounter();
@@ -1643,7 +1643,7 @@ class eZModule
              !isset( $this->Functions[$functionName] ) )
         {
             eZDebug::writeError( "Undefined view: " . $this->Module["name"] . "::$functionName ",
-                                 "eZModule" );
+                                 __METHOD__ );
             $this->setExitStatus( self::STATUS_FAILED );
             $Return = null;
             return $Return;
@@ -1902,7 +1902,7 @@ class eZModule
                 {
                     eZDebug::writeWarning( "Extension '$extensionRepository' was reported to have modules but has not yet been activated.\n" .
                                            "Check the setting ModuleSettings/ExtensionRepositories in module.ini for your extensions\n" .
-                                           "or make sure it is activated in the setting ExtensionSettings/ActiveExtensions in site.ini." );
+                                           "or make sure it is activated in the setting ExtensionSettings/ActiveExtensions in site.ini.", __METHOD__ );
                 }
                 else if ( file_exists( $modulePath ) )
                 {
@@ -1912,13 +1912,13 @@ class eZModule
                 {
                     eZDebug::writeWarning( "Extension '$extensionRepository' was reported to have modules but the extension itself does not exist.\n" .
                                            "Check the setting ModuleSettings/ExtensionRepositories in module.ini for your extensions.\n" .
-                                           "You should probably remove this extension from the list." );
+                                           "You should probably remove this extension from the list.", __METHOD__ );
                 }
                 else
                 {
                     eZDebug::writeWarning( "Extension '$extensionRepository' does not have the subdirectory 'modules' allthough it reported it had modules.\n" .
                                            "Looked for directory '" . $modulePath . "'\n" .
-                                           "Check the setting ModuleSettings/ExtensionRepositories in module.ini for your extension." );
+                                           "Check the setting ModuleSettings/ExtensionRepositories in module.ini for your extension.", __METHOD__ );
                 }
             }
 
@@ -2126,7 +2126,7 @@ class eZModule
                 } break;
                 default:
                 {
-                    eZDebug::writeError( "Unknown access rule: $name=$value", 'Access' );
+                    eZDebug::writeError( "Unknown access rule: $name=$value", __METHOD__ );
                 } break;
             }
         }

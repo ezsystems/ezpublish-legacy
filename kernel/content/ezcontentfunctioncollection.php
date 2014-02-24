@@ -1068,7 +1068,7 @@ class eZContentFunctionCollection
              $type = "data_text";
         else
         {
-            eZDebug::writeError( "DatatypeString not supported in fetch same_classattribute_node, use int, float or text" );
+            eZDebug::writeError( "DatatypeString not supported in fetch same_classattribute_node, use int, float or text", __METHOD__ );
             return false;
         }
         $db = eZDB::instance();
@@ -1273,7 +1273,7 @@ class eZContentFunctionCollection
             }
             else
             {
-                eZDebug::writeError( "Function parameter 'SortBy' should be an array.", 'content/fetchRelatedObjects' );
+                eZDebug::writeError( "Function parameter 'SortBy' should be an array.", __METHOD__ );
             }
         }
 
@@ -1313,7 +1313,7 @@ class eZContentFunctionCollection
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
             if ( !$attributeID )
             {
-                eZDebug::writeError( "Can't get class attribute ID by identifier" );
+                eZDebug::writeError( "Can't get class attribute ID by identifier", __METHOD__ );
                 return false;
             }
         }
@@ -1364,7 +1364,7 @@ class eZContentFunctionCollection
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
             if ( !$attributeID )
             {
-                eZDebug::writeError( "Can't get class attribute ID by identifier" );
+                eZDebug::writeError( "Can't get class attribute ID by identifier", __METHOD__ );
                 return false;
             }
         }
@@ -1401,7 +1401,7 @@ class eZContentFunctionCollection
             }
             else
             {
-                eZDebug::writeError( "Function parameter 'SortBy' should be an array.", 'content/fetchReverseRelatedObjects' );
+                eZDebug::writeError( "Function parameter 'SortBy' should be an array.", __METHOD__ );
             }
         }
         if ( isset( $ignoreVisibility ) )
@@ -1434,7 +1434,7 @@ class eZContentFunctionCollection
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
             if ( !$attributeID )
             {
-                eZDebug::writeError( "Can't get class attribute ID by identifier" );
+                eZDebug::writeError( "Can't get class attribute ID by identifier", __METHOD__ );
                 return false;
             }
         }
@@ -1489,7 +1489,7 @@ class eZContentFunctionCollection
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
             if ( !$attributeID )
             {
-                eZDebug::writeError( "Can't get class attribute ID by identifier" );
+                eZDebug::writeError( "Can't get class attribute ID by identifier", __METHOD__ );
                 return false;
             }
         }

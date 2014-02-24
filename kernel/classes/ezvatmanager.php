@@ -30,7 +30,7 @@ class eZVATManager
         {
             if ( $handler === true )
             {
-                eZDebug::writeWarning( "No VAT handler specified but dynamic VAT charging is used." );
+                eZDebug::writeWarning( "No VAT handler specified but dynamic VAT charging is used.", __METHOD__ );
             }
 
             return null;
@@ -45,7 +45,7 @@ class eZVATManager
 
         if ( !$country && $requireUserCountry )
         {
-            eZDebug::writeNotice( "User country is not specified." );
+            eZDebug::writeNotice( "User country is not specified.", __METHOD__ );
         }
 
         return $handler->getVatPercent( $object, $country );
@@ -120,7 +120,7 @@ class eZVATManager
             $country = eZShopFunctions::getPreferredUserCountry();
             if ( $country )
             {
-                eZDebug::writeDebug( "Applying user's preferred country <$country> while charging VAT" );
+                eZDebug::writeDebug( "Applying user's preferred country <$country> while charging VAT", __METHOD__ );
                 return $country;
             }
         }

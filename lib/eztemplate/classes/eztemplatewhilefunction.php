@@ -114,7 +114,7 @@ class eZTemplateWhileFunction
     {
         if ( count( $functionParameters ) == 0 )
         {
-            eZDebug::writeError( "Not enough arguments passed to 'while' function." );
+            eZDebug::writeError( "Not enough arguments passed to 'while' function.", __METHOD__ );
             return;
         }
 

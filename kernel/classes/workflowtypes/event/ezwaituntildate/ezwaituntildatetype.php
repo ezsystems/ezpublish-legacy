@@ -174,12 +174,12 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
                 }
                 else
                 {
-                    eZDebug::writeError( "no class selected" );
+                    eZDebug::writeError( "no class selected", __METHOD__ );
                 }
             }break;
             default :
             {
-                eZDebug::writeError( "Unknown custom HTTP action: " . $action, "eZEnumType" );
+                eZDebug::writeError( "Unknown custom HTTP action: " . $action, __METHOD__ );
             }break;
         }
 

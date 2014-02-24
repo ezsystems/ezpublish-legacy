@@ -308,7 +308,7 @@ class eZDB
             $stack = $db->generateFailedTransactionStack();
             if ( $stack !== false )
             {
-                eZDebug::writeError( $stack, 'Transaction stack' );
+                eZDebug::writeError( "Transaction stack:" . var_export( $stack ), __METHOD__ );
             }
             $ini = eZINI::instance();
             // In debug mode the transaction will be invalidated causing the top-level commit

@@ -322,7 +322,7 @@ class eZEnumType extends eZDataType
             }break;
             default :
             {
-                eZDebug::writeError( 'Unknown custom HTTP action: ' . $action, 'eZEnumType' );
+                eZDebug::writeError( 'Unknown custom HTTP action: ' . $action, __METHOD__ );
             }break;
         }
     }

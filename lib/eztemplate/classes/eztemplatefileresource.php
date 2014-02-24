@@ -264,7 +264,7 @@ class eZTemplateFileResource
                 }
 
                 if ( eZTemplate::isDebugEnabled() )
-                    eZDebug::writeNotice( "$path, $charset" );
+                    eZDebug::writeNotice( "$path, $charset", __METHOD__ );
                 $codec = eZTextCodec::instance( $charset, false, false );
                 if ( $codec )
                 {

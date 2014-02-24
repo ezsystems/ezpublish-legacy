@@ -313,7 +313,7 @@ class eZSiteAccess
                                 default:
                                 {
                                     $hasHostMatch = false;
-                                    eZDebug::writeError( "Unknown host_uri host match: $matchHostMethod", "access" );
+                                    eZDebug::writeError( "Unknown host_uri host match: $matchHostMethod", __METHOD__ );
                                 } break;
                             }
 
@@ -364,7 +364,7 @@ class eZSiteAccess
                 } break;
                 default:
                 {
-                    eZDebug::writeError( "Unknown access match: $matchprobe", "access" );
+                    eZDebug::writeError( "Unknown access match: $matchprobe", __METHOD__ );
                 } break;
             }
 

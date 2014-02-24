@@ -211,7 +211,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             }
             else
             {
-                eZDebug::writeWarning( "Node #$nodeID doesn't exist", "XML output handler: link" );
+                eZDebug::writeWarning( "Node #$nodeID doesn't exist", __METHOD__ );
             }
         }
         elseif ( $element->getAttribute( 'object_id' ) != null )
@@ -233,12 +233,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 }
                 else
                 {
-                    eZDebug::writeWarning( "Object #$objectID doesn't have assigned nodes", "XML output handler: link" );
+                    eZDebug::writeWarning( "Object #$objectID doesn't have assigned nodes", __METHOD__ );
                 }
             }
             else
             {
-                eZDebug::writeWarning( "Object #$objectID doesn't exist", "XML output handler: link" );
+                eZDebug::writeWarning( "Object #$objectID doesn't exist", __METHOD__ );
             }
         }
         elseif ( $element->getAttribute( 'href' ) != null )
@@ -286,7 +286,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 }
                 else
                 {
-                    eZDebug::writeWarning( "Node #$nodeID doesn't exist", "XML output handler: embed" );
+                    eZDebug::writeWarning( "Node #$nodeID doesn't exist", __METHOD__ );
                     return $ret;
                 }
             }
@@ -294,12 +294,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
         if ( !isset( $object ) || !$object || !( $object instanceof eZContentObject ) )
         {
-            eZDebug::writeWarning( "Can't fetch object #$objectID", "XML output handler: embed" );
+            eZDebug::writeWarning( "Can't fetch object #$objectID", __METHOD__ );
             return $ret;
         }
         if ( $object->attribute( 'status' ) != eZContentObject::STATUS_PUBLISHED )
         {
-            eZDebug::writeWarning( "Object #$objectID is not published", "XML output handler: embed" );
+            eZDebug::writeWarning( "Object #$objectID is not published", __METHOD__ );
             return $ret;
         }
 
@@ -310,7 +310,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 // embed with a node ID
                 if ( $node->attribute( 'is_invisible' ) )
                 {
-                    eZDebug::writeNotice( "Node #{$nodeID} is invisible", "XML output handler: embed" );
+                    eZDebug::writeNotice( "Node #{$nodeID} is invisible", __METHOD__ );
                     return $ret;
                 }
             }

@@ -138,7 +138,7 @@ class eZImageTextLayer extends eZImageLayer
             return $Return;
         if ( !function_exists( 'ImageTTFBBox' ) )
         {
-            eZDebug::writeError( 'ImageTTFBBox function not in PHP, check PHP compilation', 'ezimagetextlayer.php' );
+            eZDebug::writeError( 'ImageTTFBBox function not in PHP, check PHP compilation', __METHOD__ );
             return $Return;
         }
         $bbox = ImageTTFBBox( $font->pointSize(), $angle, $font->realFile(), $text );

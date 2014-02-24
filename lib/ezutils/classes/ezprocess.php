@@ -52,7 +52,7 @@ class eZProcess
         }
         else
             eZDebug::writeWarning( "PHP script $file does not exist, cannot run.",
-                                   "eZProcess" );
+                                   __METHOD__ );
         return $Result;
     }
 

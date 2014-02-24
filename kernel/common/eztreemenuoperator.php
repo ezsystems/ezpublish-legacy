@@ -70,7 +70,7 @@ class eZTreeMenuOperator
         // node_id is not used anymore
         if ( !empty( $namedParameters['node_id'] ) )
         {
-            eZDebug::writeNotice( 'Deprecated parameter "node_id" in treemenu template operator' );
+            eZDebug::writeNotice( 'Deprecated parameter "node_id" in treemenu template operator', __METHOD__ );
         }
 
         if ( $classFilter === false )

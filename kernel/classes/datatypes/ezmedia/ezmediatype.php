@@ -338,7 +338,7 @@ class eZMediaType extends eZDataType
             }
 
             $orig_dir = $mediaFile->storageDir( "original" );
-            eZDebug::writeNotice( "dir=$orig_dir" );
+            eZDebug::writeNotice( "dir=$orig_dir", __METHOD__ );
             $media->setAttribute( "filename", basename( $mediaFile->attribute( "filename" ) ) );
             $media->setAttribute( "original_filename", $mediaFile->attribute( "original_filename" ) );
             $media->setAttribute( "mime_type", $mime );

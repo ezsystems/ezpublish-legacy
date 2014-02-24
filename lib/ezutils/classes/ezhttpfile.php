@@ -68,7 +68,7 @@ class eZHTTPFile
         if ( !$this->IsTemporary )
         {
             eZDebug::writeError( "Cannot store non temporary file: " . $this->Filename,
-                                 "eZHTTPFile" );
+                                 __METHOD__ );
             return false;
         }
         $this->IsTemporary = false;
@@ -111,7 +111,7 @@ class eZHTTPFile
 
         if ( !move_uploaded_file( $this->Filename, $dest_name ) )
         {
-            eZDebug::writeError( "Failed moving uploaded file " . $this->Filename . " to destination $dest_name" );
+            eZDebug::writeError( "Failed moving uploaded file " . $this->Filename . " to destination $dest_name", __METHOD__ );
             unlink( $dest_name );
             $ret = false;
         }
@@ -283,7 +283,7 @@ class eZHTTPFile
             else
             {
                 eZDebug::writeError( "Unknown file for post variable: $http_name",
-                                     "eZHTTPFile" );
+                                     __METHOD__ );
             }
         }
         return $GLOBALS["eZHTTPFile-$http_name"];

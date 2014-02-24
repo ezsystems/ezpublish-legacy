@@ -55,7 +55,7 @@ class eZTextInputParser
                                                 "Text" => $textChunk,
                                                 "TagName" => "#text" );
 
-                        eZDebug::writeNotice( $textChunk, "New text chunk in input" );
+                        eZDebug::writeNotice( "New text chunk in input: {$textChunk}", __METHOD__ );
                     }
                 }
                 // get the tag
@@ -75,14 +75,14 @@ class eZTextInputParser
                                         );
 
                 $pos += $tagEnd - $pos;
-                eZDebug::writeNotice( $tagChunk, "New tag chunk in input" );
+                eZDebug::writeNotice( "New tag chunk in input: {$tagChunk}", __METHOD__ );
             }
             else
             {
 
                 // just plain text in the rest
                 $textChunk = substr( $text, $pos, strlen( $text ) );
-                eZDebug::writeNotice( $textChunk, "New text chunk in input" );
+                eZDebug::writeNotice( "New text chunk in input: {$textChunk}", __METHOD__ );
 
                 if ( strlen( trim( $textChunk ) ) != 0 )
                 {

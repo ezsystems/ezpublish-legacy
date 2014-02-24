@@ -127,7 +127,7 @@ class eZUserOperationCollection
             if ( $verifyUserTypeClass && method_exists( $verifyUserTypeClass, 'verifyUser' ) )
                 $sendUserMail  = call_user_func( array( $verifyUserTypeClass, 'verifyUser' ), $user, $tpl );
             else
-                eZDebug::writeWarning( "Unknown VerifyUserType '$verifyUserType'", 'user/register' );
+                eZDebug::writeWarning( "Unknown VerifyUserType '$verifyUserType'", __METHOD__ );
         }
 
         // send verification mail to user if email type or custum verify user type returned true
@@ -188,7 +188,7 @@ class eZUserOperationCollection
         $object = eZContentObject::fetch( $userID );
         if( $object->attribute( 'current_version' ) !== '1' )
         {
-            eZDebug::writeError( 'Current version is wrong for the user object. User ID: ' . $userID , 'user/register' );
+            eZDebug::writeError( 'Current version is wrong for the user object. User ID: ' . $userID, __METHOD__ );
             return array( 'status' => eZModuleOperationInfo::STATUS_CANCELLED );
         }
         eZDebugSetting::writeNotice( 'kernel-user' , 'publishing user object', 'user register' );

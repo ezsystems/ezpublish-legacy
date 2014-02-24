@@ -1284,7 +1284,7 @@ class eZDataType
             {
                 eZDebug::writeWarning( "Extension '$extensionDirectory' does not have the subdirectory 'datatypes'\n" .
                                        "Looked for directory '" . $extensionPath . "'\n" .
-                                       "Cannot look for datatype '$type' in this extension." );
+                                       "Cannot look for datatype '$type' in this extension.", __METHOD__ );
             }
         }
         $foundEventType = false;

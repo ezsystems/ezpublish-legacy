@@ -43,7 +43,7 @@ class eZShopOperationCollection
 
         if ( !$order )
         {
-            eZDebug::writeError( "No such order: $orderID" );
+            eZDebug::writeError( "No such order: $orderID", __METHOD__ );
             return array( 'status' => eZModuleOperationInfo::STATUS_CANCELLED );
         }
 
@@ -317,7 +317,7 @@ class eZShopOperationCollection
 
         if ( !$priceFound )
         {
-            eZDebug::writeError( 'Attempted to add object without price to basket.' );
+            eZDebug::writeError( 'Attempted to add object without price to basket.', __METHOD__ );
             return array( 'status' => eZModuleOperationInfo::STATUS_CANCELLED );
         }
 
@@ -373,7 +373,7 @@ class eZShopOperationCollection
         $collection = $basket->attribute( 'productcollection' );
         if ( !$collection )
         {
-            eZDebug::writeError( 'Unable to find product collection.' );
+            eZDebug::writeError( 'Unable to find product collection.', __METHOD__ );
             return array( 'status' => eZModuleOperationInfo::STATUS_CANCELLED );
         }
         else

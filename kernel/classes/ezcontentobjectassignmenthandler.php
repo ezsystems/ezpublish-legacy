@@ -146,13 +146,13 @@ class eZContentObjectAssignmentHandler
             if ( isset( $assignmentRules[1] ) )
                 $mainID = $assignmentRules[1];
         }
-        eZDebug::writeDebug( $assignments, 'assignments' );
+        eZDebug::writeDebug( $assignments, __METHOD__ );
         if ( $assignments )
         {
             if ( $mainID )
                 $mainID = $this->nodeID( $mainID );
             $nodeList = $this->nodeIDList( $assignments );
-            eZDebug::writeDebug( $nodeList, 'nodeList' );
+            eZDebug::writeDebug( $nodeList, __METHOD__ );
             $assignmentCount = 0;
             eZDebug::writeDebug( $this->CurrentObject->attribute( 'id' ), 'current object' );
             eZDebug::writeDebug( $this->CurrentVersion->attribute( 'version' ), 'current version' );
@@ -163,12 +163,12 @@ class eZContentObjectAssignmentHandler
                     continue;
                 $parentContentObject = $node->attribute( 'object' );
 
-                eZDebug::writeDebug( "Checking for '$nodeID'" );
+                eZDebug::writeDebug( "Checking for '$nodeID'", __METHOD__ );
                 if ( $parentContentObject->checkAccess( 'create',
                                                         $contentClassID,
                                                         $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
                 {
-                    eZDebug::writeDebug( "Adding to '$nodeID' and main = '$mainID'" );
+                    eZDebug::writeDebug( "Adding to '$nodeID' and main = '$mainID'", __METHOD__ );
                     if ( $mainID === false )
                     {
                         $isMain = ( $assignmentCount == 0 );

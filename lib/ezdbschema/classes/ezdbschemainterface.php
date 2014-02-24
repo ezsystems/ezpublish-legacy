@@ -409,7 +409,7 @@ class eZDBSchemaInterface
                 {
                     if ( !$this->DBInstance->query( $sql ) )
                     {
-                        eZDebug::writeError( "Failed inserting the SQL:\n$sql" );
+                        eZDebug::writeError( "Failed inserting the SQL:\n$sql", __METHOD__ );
                         return false;
                     }
                 }
@@ -437,7 +437,7 @@ class eZDBSchemaInterface
                 {
                     if ( !$this->DBInstance->query( $sql ) )
                     {
-                        eZDebug::writeError( "Failed inserting the SQL:\n$sql" );
+                        eZDebug::writeError( "Failed inserting the SQL:\n$sql", __METHOD__ );
                         $this->DBInstance->rollback();
                         return false;
                     }
@@ -917,7 +917,7 @@ class eZDBSchemaInterface
 
         if ( !$ini )
         {
-            eZDebug::writeError( "Error loading $schemaType schema transformation rules" );
+            eZDebug::writeError( "Error loading $schemaType schema transformation rules", __METHOD__ );
             return false;
         }
 
@@ -1001,7 +1001,7 @@ class eZDBSchemaInterface
                     $localIdxName = $val;
                     if ( !$tableName || !$genericIdxName || !$localIdxName )
                     {
-                        eZDebug::writeWarning( "Malformed index name translation rule: $key => $val" );
+                        eZDebug::writeWarning( "Malformed index name translation rule: $key => $val", __METHOD__ );
                         continue;
                     }
                     $transformationRules['index-name'][] = array( $tableName, $genericIdxName, $localIdxName );
@@ -1020,7 +1020,7 @@ class eZDBSchemaInterface
                 $colOptOverride = $val;
                 if ( !$tableName || !$colName || !$colOptOverride )
                 {
-                    eZDebug::writeWarning( "Malformed column option translation rule: $key => $val" );
+                    eZDebug::writeWarning( "Malformed column option translation rule: $key => $val", __METHOD__ );
                     continue;
                 }
                 $transformationRules['column-option'][] = array( $tableName, $colName, $colOptOverride );
@@ -1297,7 +1297,7 @@ class eZDBSchemaInterface
                 } break;
                 default:
                 {
-                    eZDebug::writeWarning( "Column option override '$colOptOverride' is not supported" );
+                    eZDebug::writeWarning( "Column option override '$colOptOverride' is not supported", __METHOD__ );
                 } break;
             }
 

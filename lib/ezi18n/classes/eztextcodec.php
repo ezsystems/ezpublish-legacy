@@ -197,7 +197,7 @@ class eZTextCodec
         {
             eZDebug::writeError( "Cannot create textcodec from characterset " . $this->RequestedInputCharsetCode .
                                  " to characterset " . $this->RequestedOutputCharsetCode,
-                                 "eZTextCodec" );
+                                 __METHOD__ );
             if ( !$conversionFunction )
                 $conversionFunction = $noneConversionFunction;
             if ( !$strlenFunction )

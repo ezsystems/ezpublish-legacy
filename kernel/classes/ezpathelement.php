@@ -97,7 +97,7 @@ class eZPathElement extends eZPersistentObject
      */
     function store( $fieldFilters = null )
     {
-        eZDebug::writeError( "Cannot store objects of eZPathElement, use eZURLAliasML instead" );
+        eZDebug::writeError( "Cannot store objects of eZPathElement, use eZURLAliasML instead", __METHOD__ );
         return;
     }
 
@@ -106,7 +106,7 @@ class eZPathElement extends eZPersistentObject
      */
     function removeThis()
     {
-        eZDebug::writeError( "Cannot remove objects of eZPathElement, use eZURLAliasML instead" );
+        eZDebug::writeError( "Cannot remove objects of eZPathElement, use eZURLAliasML instead", __METHOD__ );
         return;
     }
 

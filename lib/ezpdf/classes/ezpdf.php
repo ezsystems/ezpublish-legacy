@@ -101,7 +101,7 @@ class eZPDF
                 }
                 $operatorValue .= '>';
 
-                eZDebug::writeNotice( 'PDF: Changed font.' );
+                eZDebug::writeNotice( 'PDF: Changed font.', __METHOD__ );
             } break;
 
             case 'table':
@@ -1067,7 +1067,7 @@ class eZPDF
     {
         $this->PDF = new eZPDFTable( $paper, $orientation );
         $this->PDF->selectFont( 'lib/ezpdf/classes/fonts/Helvetica' );
-        eZDebug::writeNotice( 'PDF: File created' );
+        eZDebug::writeNotice( 'PDF: File created', __METHOD__ );
     }
 
     /// The array of operators, used for registering operators
