@@ -1,0 +1,264 @@
+Bugfixes
+========
+- #12285: undefined when having embed content in embed content
+- #12922: Database transaction error when search phrase longer than 250 characters
+- #14229: Role count might be unconsistent on role/list view
+- #15061: ez scripts that declare support for use_session cannot print help text if db is in siteaccess
+- #15183: collaboration_participation_view tpl function broken
+- #15640: PNG transparency is lost when swithed to gd (http://share.ez.no/forums/developer/png-image-resize-loose-transparency)
+- #15717: impossible to purge image aliases
+- #15985: Debug notices when translating an object to a new language
+- #16189: TC-186: Deleted products still appears in the Whishlist
+- #16471: ezstring default value should not be truncated
+- #16796: Command line script siteaccess messages
+- #17123: Policy problem with node additionnal locations
+- #17279: Unable to publish when object relation list is required
+- #17350: admin2: make the new class selector in the 'create child node here' combo work
+- #17358: translation cache is expiring all the time
+- #17387: DFS Binary downloads get cached locally
+- #17656: Subtree limitation is not properly honored for multi-located contents
+- #17781: image aliases not restored when restoring object from trash
+- #17831: Translation expiry reset at every request
+- #18007: LDAP user and group strings are not escaped
+- #18056: URLs and Images in RSS feed do not use absolute URLs
+- #18120: Object State Group Objects ordering not working
+- #18149: special character not supported by eZXMLInputParser
+- #18164: ezenum values are lost with ezscriptmonitor/eZContentClassEditDeferredHandler
+- #18173: OAuth authentication with access token doesn't check client validity
+- #18179: Headers don't comply to OAuth 2.0 r10 spec in case of an OAuth error
+- #18182: Image ConversionRules not ezdfs cluster compatible
+- #18186: Special characters in custom-tags's xml attributes cause crash
+- #18196: AlphabeticalFilter is not working in admin2
+- #18197: i18n doesn't use TS cache when fallback is set to eng-GB
+- #18201: Wrong encoding of class name in gear popup menu
+- #18211: URL datatype is not case sensitive
+- #18214: admin1: js error prevents context menu to pop up
+- #18215: Information stays after deleting a file
+- #18220: &nbsp; in eZ XML are not part of content
+- #18227: Asynchronous publishing won't clear cache on a DB based cluster setup
+- #18231: Infinite loop on transaction when mysql is gone away
+- #18233: The web shop should not use table locking
+- #18238: object state limitation is not applied in notifications
+- #18249: "Object name pattern" composed of object relation attributes gets erroneous language.
+- #18253: Fatal error when overriding eZSiteAccess
+- #18256: Moved URLs and URLs with incorrect casing produce 2 full page loads
+- #18258: Ensure that indexing succeeds
+- #18268: Confusion between chi-CN and chi-TW local
+- #18271: Static cache is not generated on Event/Approve objects
+- #18272: SQL parse errors in cleandata.sql
+- #18273: Wrong default parameter value in eZContentClass::instantiate, causing fatal error upon further object edition.
+- #18285: Shop was deprecated in 4.5 but not documented as such in doc/bc
+- #18292: ezfind - Search for article with location deleted generates fatal error
+- #18297: Autolink operator doesn't make difference between a raw URL and an attribute content
+- #18298: Setting priorities does not work with ezformtoken
+- #18303: Errors are not shown when -q,--quiet is used
+- #18304: eZCLI ignores the quiet mode when used from cronjobs
+- #18312: An uploaded image content object, created from a content object, is always created in English
+- #18318: Asynchronous publishing hooks are not called
+- #18319: Admin design - Class attribute order up/down buttons lead to empty page
+- #18325: eZSys::isSSL not fail save
+- #18327: workflow description is wrong after deleting one event
+- #18334: ezsection::fetchByIdentifier() should return null if no section is found
+- #18336: Alignment in table cells is not rendered properly if RenderParagraphInTableCells=disabled.
+- #18339: On eZDFS cluster eZmedia files not removed from hdd
+- #18341: show object states in a backend subitems list
+- #18343: eZSearch::getEngine() does not return a siteaccess specific instance
+- #18353: Node view override keys parent_node_remote_id and parent_object_remote_id don't work with node_view_gui
+- #18358: inconsistency in a method name in eZImageFile class
+- #18373: permission problem: Can't create an object of a certain class
+- #18377: ezpgenerateautoloads.php scans to much directories
+- #18382: Indexing fails on newly added date attribute
+- #18401: php warning in content/edit with multilingual install (language translation selection template)
+- #18407: Bad progress bar in updatecontentobjectname.php script
+- #18408: ezfile-tmp* files remain when eZFile::rename() fails
+- #18418: pdf.php typo error
+- #18420: Unexpected error #0 when trying to start cache generation on (dfsmysql)
+- #18426: #HostUriMatchMapItems[]=example.com;;examle; given in site.ini as example is wrong
+- #18436: download headers filename error
+- #18444: file.ini settings cannot be made in extensions if using a CLI script
+- #18449: Can't print search results in MSIE
+- #18466: Changes to DefaultVersionHistoryLimit not reflected on existing objects
+- #18467: User register : sometimes it is impossible to activate account and 2 mails
+- #18472: Section changes are not correctly indexed
+- #18487: Search index is not updated when removing a location other than the main one
+- #18503: Objects embedded are shown even after being hidden
+- #18508: Need cleanup of abandoned/broken cluster data
+- #18514: Multiplexer - Classes to run workflow is limited by database
+- #18532: Typo in translation on content_structure_menu_dynamic.tpl
+- #18538: Adding an attribute to a content class may result in max allowed memory fatal error
+- #18553: Cluster: index_image_*.php serves blank page on missing image, no error message
+- #18555: Debug by ip not usable if being a proxy
+- #18581: XSS issue for ezoption templates
+- #18582: WebDav doesn't work
+- #18584: PHP notice in Author datatype
+- #18592: php warning on array_merge when 2nd arg is not an array, when a datatype template contains no \n
+- #18594: Moving content object within datatype ezimage to trash causing DB Transaction error.
+- #18611: Clearing the design base cache causes timeouts
+- #18612: object relations: no limit + offset
+- #18638: append() tpl operator generates a warning when adding a scalar value in an array
+- #18652: eZXML removes spaces around adjacent inline tags
+- #18653: Fatal error when searching for some special characters
+- #18703: A user can remove any locations if he has right to delete one
+- #18709: Poll bug: eZ flow default install with content
+- #18711: bug in kernel/user/ezuseroperationcollection.php
+- #18714: admin2: "Select none" button does the same as "Select All Visible" button
+- #18729: Wrong account activation message
+- #18737: Regression in eZXMLInputParser::parseAttributes with attr='0'
+- #18774: An error is given when publishing when using Asynchronous publishing
+- #18776: Admin2: Number of items per page returns always to 25
+- #18793: Ubuntu 11.10 adds PCNTL function to php.ini "disable_functions"
+- #18825: Length should not be taken into account for integer while checking DB consistency
+- #18841: Database upgrade check tool consider "CHAR" type as a field of 1 char exactly
+- #18842: Float values stored using DOUBLE PRECISION instead of REAL in PostgreSQL
+- #18843: PHP Fatal Error in Asynchronous publishing
+- #18847: Delay Indexing is not working on Oracle
+- #18849: dfscleanup.php won't remove DFS files
+- #18851: ctrl+c doesn't stop bin/php/ezasynchronouspublisher.php (oracle)
+- #18881: Stop producing an error on normal redirection
+- #18908: Error when removing an object
+- #18909: Wrong link in install wizard
+- Fixed: ezpgenerateautoloads.php warning
+- Fixed: Missing CONNECTIONTIMEOUT when Setup wizard uses curl
+- Fixed: isset() not checking the array key used, only array
+- Fixed: host_uri broken by $uriString typo
+- Fixed: make sure to use the global YUI3 config when loading YUI components
+- Fixed: Syntax error regression in eZSys on PHP 5.2
+- Fixed: use of .attr() to make sure it is valid for jQuery 1.6
+- Fixed: PHP warning eZDFSFileHandler::getFileList()
+- Fixed: Croatian flag not displaying in admin interface
+- Fixed: style of table headers to be consistent across browsers
+- Fixed: typo in location.tpl template for AJAX Uploader
+- Fixed: make sure all strings related to AJAX Uploader can be translated
+- Fixed: JavaScript error with Image Editor when Packing is enabled
+- Fixed: documentation of eZAjaxUploader and eZModalWindow
+- Fixed: JavaScript when ezformtoken is enabled
+- Fixed: error messages have no specific style
+- Fixed: ezajaxrelations_jquery.js to work the new html code
+- Fixed: issue where buttons eZDebug toolbar do not work with ezformtoken extension
+- Fixed: the following typoes in a number of files throughout the ezpublish git tree:
+- Fixed: documentation issue for asynchronous publishing queue reader
+- Fixed: problem with cached provider
+- Fixed: format error in the display of comments
+- Fixed: documentation not updated in 21b4e61fee45e781b6bcfed88c4287960e29acbf
+- Fixed: broken code for handling links in the content package
+- Fixed: bin/php/ezapplytemplate.php which fails to template files.
+- Fixed: tests defined with parameter not provided by their @dataProvider
+- Fixed: tests defined with parameter not provided by their @dataProvider
+- Fixed: incorrect call to eZSession.
+- Fixed: whitelist for test files
+- Fixed: objectname_filter is not working if object is translated
+
+Enhancements
+============
+- #10827: Adding a CLI trash purge script
+- #16091: Improve content/hide policy limitation
+- #16171: admin2: window_controls_user.tpl- adding new tabs in own extension
+- #16188: TC-186: The Wishlist does not have a Date and action link to edit the content
+- #17226: Disable subtreeexpirycleanup.php cronjob by default, as DelayedCacheBlockCleanup is disabled
+- #17797: DFS cluster should not use match by LIKE
+- #18013: cronjobs/updateviewcount.php is far too much suboptimized
+- #18158: It should be possible to track who and when (un)hided the node.
+- #18160: Don't download all thumbnails from admin interface if not needed
+- #18512: Custom headers only available for content/view module as a root fallback
+- #18513: Make attribute() template operator more flexible
+- #16560: UI improvement for "Find object" interface in object relation datatype
+- #18389: windows media video: update video player templates
+- Implemented support for PUT and DELETE + fallback to support those over POST with _method param
+- Implemented: Use new eZSys::clientIp() api introduced in pull #104 for all ip use
+- Implemented: upload from object relation list attributes
+- Implemented parent_node_remote_id and parent_object_remote_id new node view override keys
+- Implement support for form token in ajax POST requests
+- Allow you to use eZTemplate::setIsDebugEnabled() to desactivate the template debug in specific views.
+- Made buttons a bit bigger especially in Chrome/Safari
+- Changed: set vertical align of icon title to middle
+- Changed: set vertical align to middle in tables
+- Added fallback from SiteURL (site.ini) in case that the ServerVariable 'HTTP_HOST' is not set (e.g. during Shell execution)
+- Added: allow to specify language of objects created with eZContentUpload::handleLocalFile()
+- The text part of the URL datatype ("_ezurl_text_") shouldn't be required since only URL part is esential in this datatype.
+- Added the AJAX uploader for ezobjectrelation attributes
+- Added eZModalWindow JavaScript component
+- Improved usability of ezobjectrelation content edit
+- Improved usability of ezobjectrelationlist content edit
+- Improved usability of  ezobjectrelationlist class attribute edit
+- Check mail address validity following RFC 5322 and RFC 5321.
+- Allow ezuser fromString to be used for updates
+- Added: Variable "DefaultHostName" in site.ini and retrieval of it in eZSys::hostname()
+- Added: a default value to Name input and added a smart default value handling
+- Added: StaticCache handlers, with a dedicated interface
+- Allow you to use depth uri in the "HostUriMatchMapItems" of your settings (ex: "paris/fr", "paris/en", etc)
+- Added: Strict deprecation warnings on commonly used loose functions.
+- Added: Additional "Create New" Class button + language drop down in top of class list view
+- Improved html quote string consistency & xhtml support in anchor id
+- Autoload generator now compatible with namespaces
+- Changed: updatesearchindex.php to use CLI output mechanism
+- Changed: updatesearchindex.php script to reflect changes from #018258
+- Add hook to synchronize image alias with remote system (cdn)
+- Added clickable flags in subitems for editing
+- Add form token support on class edit attribute move up/down ajax call
+- Changed: standardizing ezpSeachEngine across search engines
+- Changed: using "instanceof" rather than "is_object" with ezpSearchEngine
+- Changed: Improved and standardized eZTemplateNodeTool:is*() functions
+- Optimized: eZTemplateNodeTool::isStringElement()
+- Optimized: eZTemplateNodeTool::isConstantElement()
+- Improved: some eZTemplateNodeTool methods to avoid calling useless count() calls
+- Improved: some eZTemplateNodeTool methods to avoid calling in_array()
+- Changed: replacing deprecated eZTemplateNodeTool::elementStaticValue() calls
+- Changed: reusing createConstantElement() from createStaticElement().
+- Changed: replacing deprecated eZTemplateNodeTool::createStaticElement() calls
+- Changed: replacing deprecated eZTemplateNodeTool::isStaticElement() calls
+- Replaced ['eZStaticCache-ActionList'] by a private static property in eZStaticCache
+- Added default placeholder template for the REST interface OutputFormat feature.
+- Added comments about ability to set custom filters to be executed upon each REST request.
+- Added: feature doc for user registration with workflow
+- Updated: [note]dbschema.ini converted datatype can only use stanard dba datatype
+- Added notes on known issues with ExtensionOrdering feature in site.ini
+- Add support for RFC 2822 and ISO 8601 date formating with %r and %c
+- Unit tests: Added method to generate phpunit configuration file when you run ezpgenerateautoloads.php.
+- Unit tests: Removed whitelist and blacklist singleton from code source. Now to run code coverage you need to use the configuration option of runtest script.
+- Unit tests: Modified test suite run files to be compatible with PHPUnit 3.5
+- Added doc about namespace support in extensions
+- PHPDoc & CS: On eZContentFunctions::createAndPublishObject()
+
+Pull requests
+=============
+- #014: from ideatosrl
+- #047: from jeromegamez
+- #050: from jeromegamez
+- #054: from crevillo
+- #055: from crevillo
+- #057: from patrickallaert
+- #068: from masev
+- #071: from crevillo
+- #073: from joekepley
+- #074: from jeromegamez
+- #076: from nmeirik
+- #077: from crevillo
+- #079: from alexsebbane
+- #083: from crevillo
+- #087: from alnio
+- #088: from crevillo
+- #089: from cgjengedal
+- #090: from jeromegamez
+- #091: from myxt
+- #092: from freshteapot
+- #094: from freshteapot
+- #095: from tzilliox
+- #102: from lafka
+- #103: from thiagocamposviana
+- #104: from alafon
+- #105: from crevillo
+- #107: from nfrp
+- #108: from nifty
+- #109: from peterkeung
+- #110: from xmak
+- #111: from xmak
+- #112: from jeromegamez
+- #113: from tzilliox
+- #114: from dpobel
+- #115: from jeromegamez
+- #116: from eeggenberger
+- #117: from emodric
+- #119: from pkamps
+- #121: from nottavi
+- #126: from thiagocamposviana
+- #135: from jdespatis
