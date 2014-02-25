@@ -4,23 +4,18 @@
 <html lang="{$site.http_equiv.Content-language|wash}">
 
 <head>
-{section name=JavaScript loop=ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' ) }
-<script type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
-{/section}
-{section name=JavaScript loop=ezini( 'JavaScriptSettings', 'FrontendJavaScriptList', 'design.ini' ) }
-<script type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
-{/section}
 
-    <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
-    <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
-<style type="text/css">
-{section var=css_file loop=ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' )}
-    @import url({concat( 'stylesheets/',$css_file )|ezdesign});
-{/section}
-{section var=css_file loop=ezini( 'StylesheetSettings', 'FrontendCSSFileList', 'design.ini' )}
-    @import url({concat( 'stylesheets/',$css_file )|ezdesign});
-{/section}
-</style>
+{ezcss_load( array(
+    'core.css',
+    'debug.css',
+    ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' ),
+    ezini( 'StylesheetSettings', 'FrontendCSSFileList', 'design.ini' )
+) )}
+
+{ezscript_load( array(
+    ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' ),
+    ezini( 'JavaScriptSettings', 'FrontendJavaScriptList', 'design.ini' )
+) )}
 
 {include uri="design:page_head.tpl"}
 

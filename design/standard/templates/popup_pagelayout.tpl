@@ -4,7 +4,8 @@
 <html lang="{$site.http_equiv.Content-language|wash}">
 
 <head>
-    <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
+
+{ezcss_load( array( 'core.css' ) )}
 
 {include uri="design:page_head.tpl"}
 
