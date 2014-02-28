@@ -528,6 +528,16 @@ div.oe-window
     clear: both;
 }
 
+.embed-inline-left
+{
+    float: left;
+}
+
+.embed-inline-right
+{
+    float: right;
+}
+
 /*Multioption datatype */
 table.multioption, table.multioption table
 {
