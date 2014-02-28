@@ -30,6 +30,7 @@ tags[]=content
 tags[]=template
 path=public
 isClustered=true
+class=ezjscCacheManager
 
 
 
