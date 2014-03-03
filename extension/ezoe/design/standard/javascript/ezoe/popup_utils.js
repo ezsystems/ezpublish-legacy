@@ -451,7 +451,7 @@ var eZOEPopupUtils = {
         {
             var o = jQuery( el ), name = o.attr("name"), value, style;
             if ( o.hasClass('mceItemSkip') || !name ) return;
-            if ( o.attr("type") === 'checkbox' && !o.attr("checked") ) return;
+            if ( o.attr("type") === 'checkbox' && !o.prop("checked") ) return;
 
             // see if there is a save hander that needs to do some work on the value
             if ( handler[el.id] !== undefined && handler[el.id].call !== undefined )
@@ -486,7 +486,7 @@ var eZOEPopupUtils = {
         {
             var o = jQuery( el ), name = o.attr("name");
             if ( o.hasClass('mceItemSkip') || !name ) return;
-            if ( o.attr("type") === 'checkbox' && !o.attr("checked") ) return;
+            if ( o.attr("type") === 'checkbox' && !o.prop("checked") ) return;
             // see if there is a save hander that needs to do some work on the value
             if ( handler[el.id] !== undefined && handler[el.id].call !== undefined )
                 args[name] = handler[el.id].call( o, el, o.val() );
