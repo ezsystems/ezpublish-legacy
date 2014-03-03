@@ -223,6 +223,9 @@ class eZSSLZone
         if ( !isset( $inSSL ) )
             return;
 
+        // disable any further redirection/usage of SSLZones
+        $GLOBALS['eZSSLZoneEnabled'] = false;
+
         // $nowSSl is true if current access mode is HTTPS.
         $nowSSL = eZSys::isSSLNow();
 
@@ -319,7 +322,7 @@ class eZSSLZone
          * i.e. it cannot choose access mode itself,
          * then do nothing.
          */
-        if ( !$redirect && !eZSSLZone::isKeepModeView( $module, $view ) )
+        if ( !eZSSLZone::isKeepModeView( $module, $view ) )
             return;
 
         $pathString = $node->attribute( 'path_string' );
