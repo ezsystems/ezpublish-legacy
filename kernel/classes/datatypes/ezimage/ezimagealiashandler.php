@@ -703,8 +703,12 @@ class eZImageAliasHandler
         }
 
         $doc = $this->ContentObjectAttributeData['DataTypeCustom']['dom_tree'];
-        foreach ( $doc->getElementsByTagName( 'alias' ) as $aliasNode )
+        $aliasNodes = $doc->getElementsByTagName( 'alias' );
+        // looping downward avoids the re-calculation of the range of valid child
+        // indices from 0 to length - 1 through each loop
+        for ( $index = $aliasNodes->length - 1; $index >= 0; $index-- )
         {
+            $aliasNode = $aliasNodes->item( $index );
             $aliasNode->parentNode->removeChild( $aliasNode );
         }
         $this->ContentObjectAttributeData['DataTypeCustom']['dom_tree'] = $doc;
