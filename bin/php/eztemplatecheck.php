@@ -29,6 +29,7 @@ $sys = eZSys::instance();
 $script->initialize();
 
 $result = true;
+$nbInvalidTemplates = 0;
 
 if ( count( $options['arguments'] ) > 0 )
 {
@@ -71,12 +72,17 @@ if ( count( $options['arguments'] ) > 0 )
         }
         else
         {
-            $status = $tpl->validateTemplateFile( $file );
+            $resourceData = $tpl->validateTemplateFile( $file, true );
+            $status = $resourceData['result'];
             $text = false;
             if ( $status )
                 $text = "Template file valid: " . $cli->stylize( 'file', $file );
             else
+            {
                 $text = "Template file invalid: " . $cli->stylize( 'file', $file );
+                $nbInvalidTemplates++;
+                showResourceData( $resourceData );
+            }
             if ( !$status )
                 $result = false;
             $script->iterate( $cli, $status, $text );
@@ -107,12 +113,17 @@ else
         foreach ( $files as $fileRelative )
         {
             $file = $baseDir . '/' . $fileRelative;
-            $status = $tpl->validateTemplateFile( $file );
+            $resourceData = $tpl->validateTemplateFile( $file, true );
+            $status = $resourceData['result'];
             $text = false;
             if ( $status )
                 $text = "Template file valid: " . $cli->stylize( 'file', $file );
             else
+            {
                 $text = "Template file invalid: " . $cli->stylize( 'file', $file );
+                $nbInvalidTemplates++;
+                showResourceData( $resourceData );
+            }
             if ( !$status )
                 $result = false;
             $script->iterate( $cli, $status, $text );
@@ -122,11 +133,42 @@ else
 
 if ( !$result )
 {
-    $script->shutdown( 1, "Some templates did not validate" );
+    $script->shutdown( 1, "Some templates ($nbInvalidTemplates) did not validate" );
 }
 else
 {
     $script->shutdown();
+}
+
+function showResourceData( $resourceData )
+{
+    $cli = eZCLI::instance();
+
+    if ( isset( $resourceData['errors'] ) )
+    {
+        $cli->output( 'Errors:' );
+        foreach( $resourceData['errors'] as $error )
+            showError( $error );
+    }
+    if ( isset( $resourceData['warnings'] ) )
+    {
+        $cli->output( 'Warnings:' );
+        foreach( $resourceData['warnings'] as $warning )
+            showError( $warning );
+    }
+}
+
+function showError( $error )
+{
+    $cli = eZCLI::instance();
+
+    $str = $error['name'] . ': ' . $error['text'];
+    if( $error['placement'] !== false )
+    {
+        $p = $error['placement'];
+        $str .= ' at ' . $p['templatefile'] . ' LINE ' . $p['start']['line'];
+    }
+    $cli->output( $str );
 }
 
 ?>

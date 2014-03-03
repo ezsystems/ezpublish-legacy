@@ -901,6 +901,8 @@ class eZTemplate
         if ( $returnResourceData )
         {
             $resourceData['result'] = $result;
+            $resourceData['errors'] = $this->ErrorLog();
+            $resourceData['warnings'] = $this->WarningLog();
             return $resourceData;
         }
         return $result;
