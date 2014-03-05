@@ -771,6 +771,17 @@ class eZContentObjectVersion extends eZPersistentObject
         return eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ), $this->attribute( 'version' ) );
     }
 
+    /**
+     * @param int $nodeID
+     * @param int $main
+     * @param int $fromNodeID
+     * @param null|int $sortField
+     * @param null|int $sortOrder
+     * @param int|string $remoteID remote id of the node assignment
+     * @param null|string $parentRemoteId remote id of the assigned tree node (not the parent tree node!)
+     *
+     * @return eZNodeAssignment|null
+     */
     function assignToNode( $nodeID, $main = 0, $fromNodeID = 0, $sortField = null, $sortOrder = null, $remoteID = 0, $parentRemoteId = null )
     {
         if ( $fromNodeID == 0 && ( $this->attribute( 'status' ) == eZContentObjectVersion::STATUS_DRAFT ||

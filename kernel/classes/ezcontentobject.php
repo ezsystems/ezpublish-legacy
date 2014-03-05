@@ -2772,6 +2772,8 @@ class eZContentObject extends eZPersistentObject
         $data = array( 'contentobject_id' => $this->ID,
                        'contentobject_version' => $this->attribute( 'current_version' ),
                        'parent_node' => $parentNodeID,
+                       // parent_remote_id in node assignment holds remote id of the added location,
+                       // not of the parent location or of the node assignment itself
                        'parent_remote_id' => $node->attribute( 'remote_id' ),
                        'is_main' => 0 );
         $nodeAssignment = eZNodeAssignment::create( $data );
