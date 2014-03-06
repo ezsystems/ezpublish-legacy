@@ -452,8 +452,29 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
      */
     protected function _deleteInner( $filePath, $fname )
     {
-        if ( !$this->_query( "UPDATE " . $this->dbTable( $filePath ) . " SET mtime=-ABS(mtime), expired=1 WHERE name_hash=" . $this->_md5( $filePath ), $fname ) )
-            return $this->_fail( "Deleting file $filePath failed" );
+        $baseQuery = "UPDATE " . $this->dbTable( $filePath ) . " SET mtime=-ABS(mtime), expired=1 WHERE ";
+
+        // single file
+        if ( $this->_exists( $filePath ) )
+        {
+            if ( !$this->_query( $baseQuery . "name_hash=" . $this->_md5( $filePath ), $fname ) )
+            {
+                return $this->_fail( "Deleting file $filePath failed" );
+            }
+        }
+        // directory
+        else
+        {
+            if ( $this->pathSupportsNameTrunk( $filePath ) )
+            {
+                $this->_query( $baseQuery . " name_trunk=" . $this->_quote( $filePath ) );
+            }
+            else
+            {
+                $this->_query( $baseQuery . " name LIKE " . $this->_quote( trim( $filePath, '/' ) . "/%" ) );
+            }
+        }
+
         return true;
     }
 
@@ -564,7 +585,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
     {
         foreach ( $dirList as $dirItem )
         {
-            if ( strstr( $commonPath, '/cache/content' ) !== false or strstr( $commonPath, '/cache/template-block' ) !== false )
+            if ( $this->pathSupportsNameTrunk( $commonPath ) )
             {
                 $event = 'cluster/deleteByNametrunk';
                 $nametrunk = "$commonPath/$dirItem/$commonSuffix";
@@ -1783,6 +1804,11 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
     {
         switch ( $scope )
         {
+            case 'ezjscore':
+            {
+                $nameTrunk = eZSys::cacheDirectory() . '/public';
+            } break;
+
             case 'viewcache':
             {
                 $fileName = basename( $filePath );
@@ -1924,6 +1950,20 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         }
 
         return mysqli_affected_rows( $this->db );
+    }
+
+    /**
+     * Checks if $path supports the name trunk feature.
+     * @param $path
+     * @return bool
+     */
+    protected function pathSupportsNameTrunk( $path )
+    {
+        return (
+            strstr( $path, '/cache/content' ) !== false ||
+            strstr( $path, '/cache/template-block' ) !== false ||
+            strstr( $path, '/cache/public' ) !== false
+        );
     }
 
     /**
