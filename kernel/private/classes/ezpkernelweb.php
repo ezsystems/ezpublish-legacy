@@ -270,7 +270,7 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
             $this->settings['siteaccess'] :
             eZSiteAccess::match(
                 eZURI::instance( eZSys::requestURI() ),
-                eZSys::hostname(),
+                eZSys::hostname( false ),
                 eZSys::serverPort(),
                 eZSys::indexFile()
             )

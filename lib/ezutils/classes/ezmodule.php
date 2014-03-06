@@ -954,7 +954,7 @@ class eZModule
             $uri = '/';
 
         $urlComponents = parse_url( $uri );
-        if ( isset( $urlComponents['host'] ) && $urlComponents['host'] !== eZSys::hostname() )
+        if ( isset( $urlComponents['host'] ) && $urlComponents['host'] !== eZSys::hostname( false ) )
         {
             $allowedHosts = $this->getAllowedRedirectHosts();
             if ( !isset( $allowedHosts[$urlComponents['host']] ) )
