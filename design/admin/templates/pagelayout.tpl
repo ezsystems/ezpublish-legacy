@@ -42,14 +42,14 @@ div#maincolumn {ldelim} padding-right: 20px; padding-left: 50px; {rdelim}
 </style>
 {/if}
 
+{include uri='design:page_head_style.tpl'}
+{include uri='design:page_head_script.tpl'}
+
 {* Pr uri header cache
  Need navigation part for cases like content/browse where node id is taken from caller params *}
 {cache-block keys=array( $module_result.uri, $user_hash, $admin_theme, $access_type, first_set( $module_result.navigation_part, $navigation_part.identifier ), $search_hash ) ignore_content_expiry}
 
 {include uri='design:page_head.tpl'}
-
-{include uri='design:page_head_style.tpl'}
-{include uri='design:page_head_script.tpl'}
 
 </head>
 <body>
