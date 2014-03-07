@@ -48,6 +48,7 @@ class eZNodeAssignment extends eZPersistentObject
                                                         'datatype' => 'integer',
                                                         'default' => 0,
                                                         'required' => true ),
+                                         // Used for the remote id of the node assignment itself
                                          'remote_id' => array( 'name' => 'RemoteID',
                                                                'datatype' => 'string',
                                                                'default' => 0,
@@ -89,6 +90,7 @@ class eZNodeAssignment extends eZPersistentObject
                                                                   'foreign_class' => 'eZContentObjectTreeNode',
                                                                   'foreign_attribute' => 'node_id',
                                                                   'multiplicity' => '1..*' ),
+                                         // Used for the remote id of the corresponding tree node (not the parent tree node!)
                                          'parent_remote_id' => array( 'name' => 'ParentRemoteID',
                                                                       'datatype' => 'string',
                                                                       'default' => '',
@@ -594,6 +596,7 @@ class eZNodeAssignment extends eZPersistentObject
     /// Used for giving unique values to an assignment which can later be checked.
     /// This is often used in templates to provide limited choices for assignments.
     public $RemoteID;
+    // Used for the remote id of the corresponding tree node (not the parent tree node!)
     public $ParentRemoteID;
     public $ContentobjectID;
     public $ContentObjectVersion;

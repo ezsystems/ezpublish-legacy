@@ -855,6 +855,8 @@ class eZLDAPUser extends eZUser
                 $newNodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObjectID,
                                                                       'contentobject_version' => 1,
                                                                       'parent_node' => $parentNodeID,
+                                                                      // parent_remote_id in node assignment holds remote id of the tree node,
+                                                                      // not of the parent location or of the node assignment itself
                                                                       'parent_remote_id' => uniqid( 'LDAP_' ),
                                                                       'is_main' => ( $defaultUserPlacement == $parentNodeID ? 1 : 0 ) ) );
                 $newNodeAssignment->store();
@@ -995,6 +997,8 @@ class eZLDAPUser extends eZUser
         $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObjectID,
                                                            'contentobject_version' => 1,
                                                            'parent_node' => $defaultPlacement,
+                                                           // parent_remote_id in node assignment holds remote id of the tree node,
+                                                           // not of the parent location or of the node assignment itself
                                                            'parent_remote_id' => uniqid( 'LDAP_' ),
                                                            'is_main' => 1 ) );
         $nodeAssignment->store();
@@ -1004,6 +1008,8 @@ class eZLDAPUser extends eZUser
             $newNodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObjectID,
                                                                   'contentobject_version' => 1,
                                                                   'parent_node' => $parentNodeID,
+                                                                  // parent_remote_id in node assignment holds remote id of the tree node,
+                                                                  // not of the parent location or of the node assignment itself
                                                                   'parent_remote_id' => uniqid( 'LDAP_' ),
                                                                   'is_main' => 0 ) );
             $newNodeAssignment->store();
