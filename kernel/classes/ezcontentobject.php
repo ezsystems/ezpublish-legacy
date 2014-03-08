@@ -3530,7 +3530,11 @@ class eZContentObject extends eZPersistentObject
         {
             if ( isset( $params['IgnoreVisibility'] ) )
             {
-                $showInvisibleNodesCond = self::createFilterByVisibilitySQLString( $params['IgnoreVisibility'], 'inner_object' );
+                $showInvisibleNodesCond = self::createFilterByVisibilitySQLString(
+                    $params['IgnoreVisibility'],
+                    // inner_object represents the source of relation while outer_object represents the target
+                    $reverseRelatedObjects ? 'inner_object' : 'outer_object'
+                );
             }
         }
 
