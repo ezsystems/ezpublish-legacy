@@ -57,7 +57,7 @@ class ezpSessionHandlerSymfony extends ezpSessionHandler
     public function regenerate( $updateBackendData = true )
     {
         $oldSessionId = session_id();
-        $this->storage->regenerate();
+        $this->storage->regenerate( $updateBackendData );
         $newSessionId = session_id();
 
         ezpEvent::getInstance()->notify( 'session/regenerate', array( $oldSessionId, $newSessionId ) );
