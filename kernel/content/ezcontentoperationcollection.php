@@ -915,6 +915,12 @@ class eZContentOperationCollection
     static public function deleteObject( $deleteIDArray, $moveToTrash = false )
     {
         $ini = eZINI::instance();
+        $aNodes = eZContentObjectTreeNode::fetch( $deleteIDArray );
+        if( !is_array( $aNodes ) )
+        {
+            $aNodes = array( $aNodes );
+        }
+
         $delayedIndexingValue = $ini->variable( 'SearchSettings', 'DelayedIndexing' );
         if ( $delayedIndexingValue === 'enabled' || $delayedIndexingValue === 'classbased' )
         {
@@ -922,9 +928,6 @@ class eZContentOperationCollection
             $classList = $ini->variable( 'SearchSettings', 'DelayedIndexingClassList' ); // Will be used below if DelayedIndexing is classbased
             $assignedNodesByObject = array();
             $nodesToDeleteByObject = array();
-            $aNodes = eZContentObjectTreeNode::fetch( $deleteIDArray );
-            if( !is_array( $aNodes ) )
-                $aNodes = array( $aNodes );
 
             foreach ( $aNodes as $node )
             {
@@ -972,6 +975,14 @@ class eZContentOperationCollection
             }
         }
 
+        // Add assigned nodes to the clear cache list
+        // This allows to clear assigned nodes separately (e.g. in reverse proxies)
+        // as once content is removed, there is no more assigned nodes, and http cache clear is not possible any more.
+        // See https://jira.ez.no/browse/EZP-22447
+        foreach ( $aNodes as $node )
+        {
+            eZContentCacheManager::addAdditionalNodeIDPerObject( $node->attribute( 'contentobject_id' ), $node->attribute( 'node_id' ) );
+        }
         eZContentObjectTreeNode::removeSubtrees( $deleteIDArray, $moveToTrash );
         return array( 'status' => true );
     }
