@@ -667,27 +667,31 @@ class eZSys
      * First tries to use X-Forward-Host before it goes on to use host in header, if none of them
      * exists fallback to use host part of site.ini\[SiteSettings]|SiteURL setting.
      *
+     * @param bool $withPort wether to return the port as well, if set.
      * @return string
     */
-    public static function hostname()
+    public static function hostname( $withPort = true )
     {
-        $hostName = null;
-        $forwardedHostsString = self::serverVariable( 'HTTP_X_FORWARDED_HOST', true );
-        if ( $forwardedHostsString )
+        if ( $forwardedHostsString = self::serverVariable( 'HTTP_X_FORWARDED_HOST', true ) )
         {
             $forwardedHosts = explode( ',', $forwardedHostsString );
-            $hostName = trim( $forwardedHosts[0] );
+            $host = trim( $forwardedHosts[0] );
+        }
+        else if ( self::serverVariable( 'HTTP_HOST', true ) )
+        {
+            $host = self::serverVariable( 'HTTP_HOST' );
+        }
+        else
+        {
+            $host = eZINI::instance()->variable( 'SiteSettings', 'SiteURL' );
         }
 
-        if ( !$hostName && self::serverVariable( 'HTTP_HOST', true ) )
-        {
-            $hostName = self::serverVariable( 'HTTP_HOST' );
-        }
+        // $host may contain port and/or URI, so parse it
+        $hostName = parse_url( "http://$host", PHP_URL_HOST );
 
-        if ( !$hostName )
+        if ( $withPort && ( $port = parse_url( $host, PHP_URL_PORT ) ) )
         {
-            $siteUrl = eZINI::instance()->variable( 'SiteSettings', 'SiteURL' );
-            $hostName = parse_url( "http://{$siteUrl}", PHP_URL_HOST );
+            $hostName .= ':' . $port;
         }
 
         return $hostName;
@@ -787,27 +791,21 @@ class eZSys
      */
     public static function serverURL()
     {
-        $host = self::hostname();
-        $url = '';
-        if ( $host )
+        $protocolStr = 'http://';
+        $hostName = self::hostname( false );
+
+        if ( self::isSSLNow() )
         {
-            if ( self::isSSLNow() )
-            {
-                // https case
-                $host = preg_replace( '/:\d+$/', '', $host );
-
-                $ini = eZINI::instance();
-                $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
-
-                $sslPortString = ( $sslPort == eZSSLZone::DEFAULT_SSL_PORT ) ? '' : ":$sslPort";
-                $url = "https://" . $host  . $sslPortString;
-            }
-            else
-            {
-                $url = "http://" . $host;
-            }
+            $protocolStr = 'https://';
+            $sslPort = eZINI::instance()->variable( 'SiteSettings', 'SSLPort' );
+            $portStr = ( $sslPort == eZSSLZone::DEFAULT_SSL_PORT ) ? '' : ":$sslPort";
         }
-        return $url;
+        else if ( self::serverPort() != 80 )
+        {
+            $portStr = ':' . self::serverPort();
+        }
+
+        return $protocolStr . $hostName . $portStr;
     }
 
     /**
@@ -820,14 +818,11 @@ class eZSys
     {
         if ( empty( $GLOBALS['eZSysServerPort'] ) )
         {
-            $hostname = self::hostname();
-            if ( preg_match( "/.*:([0-9]+)/", $hostname, $regs ) )
+            $host = self::hostname( true );
+
+            if ( !$port = parse_url( "http://{$host}", PHP_URL_PORT ) )
             {
-                $port = (int) $regs[1];
-            }
-            else
-            {
-                $port = (int) self::serverVariable( 'SERVER_PORT', true );
+                $port = (int)self::serverVariable( 'SERVER_PORT', true );
             }
 
             if ( !$port )

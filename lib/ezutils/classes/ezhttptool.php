@@ -540,7 +540,10 @@ class eZHTTPTool
         if ( $parameters['override_port'] )
             $port = $parameters['override_port'];
         if ( !is_string( $host ) )
-            $host = eZSys::hostname();
+        {
+            $hasPort = is_string( $port );
+            $host = eZSys::hostname( !$hasPort );
+        }
         if ( !is_string( $protocol ) )
         {
             $protocol = eZSys::serverProtocol();
