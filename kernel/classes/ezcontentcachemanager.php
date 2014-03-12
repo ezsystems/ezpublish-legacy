@@ -34,6 +34,48 @@ class eZContentCacheManager
     const CLEAR_ALL_CACHE      = 63;
     const CLEAR_DEFAULT        = 15; // CLEAR_NODE_CACHE and CLEAR_PARENT_CACHE and CLEAR_RELATING_CACHE and CLEAR_KEYWORD_CACHE
 
+    /**
+     * Hash of additional NodeIDs to append the node list, for clearing view cache.
+     * Indexed by contentObjectID.
+     *
+     * @var array
+     */
+    private static $additionalNodeIDsPerObject = array();
+
+    /**
+     * Adds an additional NodeID to be appended to the node list for clearing view cache.
+     *
+     * @param int $contentObjectID
+     * @param int $additionalNodeID
+     */
+    public static function addAdditionalNodeIDPerObject( $contentObjectID, $additionalNodeID )
+    {
+        if ( !isset( self::$additionalNodeIDsPerObject[$contentObjectID] ) )
+        {
+            self::$additionalNodeIDsPerObject[$contentObjectID] = array();
+        }
+
+        self::$additionalNodeIDsPerObject[$contentObjectID][] = $additionalNodeID;
+    }
+
+    /**
+     * Appends additional node IDs.
+     *
+     * @param eZContentObject $contentObject
+     * @param array $nodeIDList
+     */
+    private static function appendAdditionalNodeIDs( eZContentObject $contentObject, &$nodeIDList )
+    {
+        $contentObjectId = $contentObject->attribute( 'id' );
+        if ( !isset( self::$additionalNodeIDsPerObject[$contentObjectId] ) )
+            return;
+
+        foreach ( self::$additionalNodeIDsPerObject[$contentObjectId] as $nodeID )
+        {
+            $nodeIDList[] = $nodeID;
+        }
+    }
+
     /*!
      \static
      Appends parent nodes ids of \a $object to \a $nodeIDList array.
@@ -587,6 +629,8 @@ class eZContentCacheManager
                 }
             }
         }
+
+        self::appendAdditionalNodeIDs( $contentObject, $nodeList );
 
         //self::writeDebugBits( $handledObjectList, self::CLEAR_SIBLINGS_CACHE );
     }
