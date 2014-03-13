@@ -954,7 +954,12 @@ class eZModule
             $uri = '/';
 
         $urlComponents = parse_url( $uri );
-        if ( isset( $urlComponents['host'] ) && $urlComponents['host'] !== eZSys::hostname() )
+        // eZSys::hostname() can contain port if present.
+        // So parsing it with parse_url() as well to only get host.
+        $currentHostname = eZSys::hostname();
+        $currentHostnameParsed = parse_url( $currentHostname, PHP_URL_HOST );
+        $currentHostname = $currentHostnameParsed ? $currentHostnameParsed : $currentHostname;
+        if ( isset( $urlComponents['host'] ) && $urlComponents['host'] !== $currentHostname )
         {
             $allowedHosts = $this->getAllowedRedirectHosts();
             if ( !isset( $allowedHosts[$urlComponents['host']] ) )
