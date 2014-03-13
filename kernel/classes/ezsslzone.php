@@ -223,7 +223,8 @@ class eZSSLZone
         if ( !isset( $inSSL ) )
             return;
 
-        // disable any further redirection/usage of SSLZones
+        // Disable any further redirection/usage of SSLZones, see EZP-22204
+        // Prevents inner modules from redirecting to SSL if requested
         $GLOBALS['eZSSLZoneEnabled'] = false;
 
         // $nowSSl is true if current access mode is HTTPS.
