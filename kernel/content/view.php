@@ -188,7 +188,8 @@ else
                 $args
             );
 
-        if ( isset( $result['responseHeaders'] ) )
+        // check if $result is an array (could also be eZClusterFileFailure) and contains responseHeaders
+        if ( is_array( $result ) && !empty( $result['responseHeaders'] ) )
         {
             foreach ( $result['responseHeaders'] as $header )
             {
