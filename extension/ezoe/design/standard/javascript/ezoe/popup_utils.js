@@ -230,7 +230,7 @@ var eZOEPopupUtils = {
             }
             else if ( eZOEPopupUtils.xmlToXhtmlHash[s.tagName] )
             {
-                s.editorElement = eZOEPopupUtils.insertTagCleanly( ed, eZOEPopupUtils.xmlToXhtmlHash[s.tagName], '&nbsp;' );
+                s.editorElement = eZOEPopupUtils.insertTagCleanly( ed, eZOEPopupUtils.xmlToXhtmlHash[s.tagName], tinymce.isIE ? '&nbsp;' : '<br data-mce-bogus="1" />' );
             }
             if ( s.onTagGenerated )
             {
