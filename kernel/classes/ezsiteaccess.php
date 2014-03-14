@@ -522,7 +522,10 @@ class eZSiteAccess
                 else
                     $access['uri_part'] = array();
             }
-            $access['uri_part'] = self::washName( $access['uri_part'] );
+            else
+            {
+                $access['uri_part'] = self::washName( $access['uri_part'] );
+            }
 
             eZSys::setAccessPath( $access['uri_part'], $name );
 
