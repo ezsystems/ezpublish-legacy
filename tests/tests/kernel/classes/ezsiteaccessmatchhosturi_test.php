@@ -97,13 +97,13 @@ class eZSiteAccessMatchHostUriTest extends ezpTestCase
             array(
                 'name' => $name,
                 'type' => $type,
-                'uri_part' => $washedUriPart
+                'uri_part' => array( $washedUriPart )
             ),
             eZSiteAccess::change(
                 array(
                     'name' => $name,
                     'type' => $type,
-                    'uri_part' => $dirtyUriPart
+                    'uri_part' => array( $dirtyUriPart )
                 )
             )
         );
