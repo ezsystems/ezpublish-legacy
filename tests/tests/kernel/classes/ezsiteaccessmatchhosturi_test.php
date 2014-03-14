@@ -86,4 +86,38 @@ class eZSiteAccessMatchHostUriTest extends ezpTestCase
             array( "abcdefg/foo/abc", "abcdefg_foo", eZSiteAccess::TYPE_HTTP_HOST_URI, array( "abcdefg", "foo" ) ),
         );
     }
+
+    /**
+     * Test for eZSiteAccess::change(), washing non-latin1 chars from the site access.
+     * @dataProvider providerForTestChange
+     */
+    public function testChange( $name, $type, $dirtyUriPart, $washedUriPart )
+    {
+        $this->assertEquals(
+            array(
+                'name' => $name,
+                'type' => $type,
+                'uri_part' => $washedUriPart
+            ),
+            eZSiteAccess::change(
+                array(
+                    'name' => $name,
+                    'type' => $type,
+                    'uri_part' => $dirtyUriPart
+                )
+            )
+        );
+    }
+
+    public function providerForTestChange()
+    {
+        return array(
+            array( 'eng', eZSiteAccess::TYPE_HTTP_HOST_URI, 'eng', 'eng' ),
+            array( 'eng', eZSiteAccess::TYPE_HTTP_HOST_URI, 'engæ', 'eng' ),
+            array( 'eng', eZSiteAccess::TYPE_HTTP_HOST_URI, 'engæøå', 'eng' ),
+            array( 'eng', eZSiteAccess::TYPE_HTTP_HOST_URI, 'engæøåÆØÅ', 'eng' ),
+            array( 'eng', eZSiteAccess::TYPE_HTTP_HOST_URI, '€eng$', 'eng' ),
+            array( 'eng', eZSiteAccess::TYPE_HTTP_HOST_URI, '€åeng$ø', 'eng' ),
+        );
+    }
 }
