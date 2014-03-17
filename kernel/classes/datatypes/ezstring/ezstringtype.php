@@ -66,9 +66,15 @@ class eZStringType extends eZDataType
         }
     }
 
-    /*
-     Private method, only for using inside this class.
-    */
+    /**
+     * Validates $data with the constraints defined on the class attribute
+     *
+     * @param $data
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param eZContentClassAttribute $classAttribute
+     *
+     * @return int
+     */
     function validateStringHTTPInput( $data, $contentObjectAttribute, $classAttribute )
     {
         $maxLen = $classAttribute->attribute( self::MAX_LEN_FIELD );

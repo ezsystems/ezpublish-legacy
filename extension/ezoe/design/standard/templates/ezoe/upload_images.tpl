@@ -61,7 +61,7 @@ eZOEPopupUtils.settings.browseClassGenerator = function( n, hasImage ){
         <div class="panel">
             <table class="properties">
 
-                {include uri="design:ezoe/upload/common_attributes.tpl" file_name_attribute='accept="image/*"'}
+                {include uri="design:ezoe/upload/common_attributes.tpl" objectname_input_name='ContentObjectAttribute_name' file_name_attribute='accept="image/*"'}
 
                 <!-- Next two attributes are image specific  -->
                 <tr>

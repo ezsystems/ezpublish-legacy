@@ -43,9 +43,15 @@ class eZIntegerType extends eZDataType
         $this->IntegerValidator = new eZIntegerValidator();
     }
 
-    /*!
-     Private method, only for using inside this class.
-    */
+    /**
+     * Validates $data with the constraints defined on the class attribute
+     *
+     * @param $data
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param eZContentClassAttribute $classAttribute
+     *
+     * @return int
+     */
     function validateIntegerHTTPInput( $data, $contentObjectAttribute, $classAttribute )
     {
         $min = $classAttribute->attribute( self::MIN_VALUE_FIELD );
