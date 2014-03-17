@@ -375,9 +375,7 @@ class eZSiteAccess
 
             if ( isset( $name ) && $name != '' )
             {
-                $name = preg_replace( array( '/[^a-zA-Z0-9]+/', '/_+/', '/^_/', '/_$/' ),
-                                      array( '_', '_', '', '' ),
-                                      $name );
+                $name = self::washName( $name );
 
                 if ( in_array( $name, $siteAccessList ) )
                 {
@@ -524,6 +522,11 @@ class eZSiteAccess
                 else
                     $access['uri_part'] = array();
             }
+            else
+            {
+                $access['uri_part'] = self::washName( $access['uri_part'] );
+            }
+
             eZSys::setAccessPath( $access['uri_part'], $name );
 
             eZUpdateDebugSettings();
@@ -531,6 +534,27 @@ class eZSiteAccess
         }
 
         return $access;
+    }
+
+    /**
+     * Washes site access name
+     *
+     * Allowed characters are [a-z], [A-Z] and [0-9], and the "_" (underscore). The washing rules are:
+     * - Characters not in the previous list (alphanumerical and underscore) are replaced by an "_" (underscore);
+     * - Multiple consecutive "_" (underscores) are replaced by a single underscore;
+     * - Leading and trailing "_" are removed.
+     *
+     * @since 5.3
+     * @param string $name The site access name, as received from the browser
+     * @return string The washed name
+     */
+    private static function washName( $name )
+    {
+        return preg_replace(
+            array( '/[^a-zA-Z0-9]+/', '/_+/', '/^_/', '/_$/' ),
+            array( '_', '_', '', '' ),
+            $name
+        );
     }
 
     /**
