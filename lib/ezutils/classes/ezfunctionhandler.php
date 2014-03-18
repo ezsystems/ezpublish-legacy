@@ -44,7 +44,7 @@ class eZFunctionHandler
             $moduleFunctionInfo = eZFunctionHandler::moduleFunctionInfo( $aliasSettings->variable( $aliasFunctionName, 'Module' ) );
             if ( !$moduleFunctionInfo->isValid() )
             {
-                eZDebug::writeError( "Cannot execute function '$aliasFunctionName' in module '$moduleName', no valid data", __METHOD__ );
+                eZDebug::writeError( "Cannot execute function '$aliasFunctionName' in module '{$moduleFunctionInfo->ModuleName}', no valid data", __METHOD__ );
                 return null;
             }
 
