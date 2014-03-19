@@ -1,9 +1,12 @@
 {if is_unset( $file_name_attribute )}
     {def $file_name_attribute = ''}
 {/if}
+{if is_unset( $objectname_input_name )}
+    {def $objectname_input_name = 'objectName'}
+{/if}
 <tr>
     <td class="column1"><label id="titlelabel" for="objectName">{'Name'|i18n('design/standard/ezoe')}</label></td>
-    <td colspan="2"><input id="objectName" name="objectName" size="40" type="text" value="" title="{'Name for the uploaded object, filename is used if none is specified.'|i18n('design/standard/ezoe/wai')}" /></td>
+    <td colspan="2"><input id="objectName" name="{$objectname_input_name|wash()}" size="40" type="text" value="" title="{'Name for the uploaded object, filename is used if none is specified.'|i18n('design/standard/ezoe/wai')}" /></td>
 </tr>
 <tr>
     <td class="column1"><label id="srclabel" for="fileName">{'File'|i18n('design/standard/ezoe')}</label></td>

@@ -52,7 +52,7 @@ tinyMCEPopup.onInit.add( function(){
         <div class="panel">
             <table class="properties">
 
-                {include uri="design:ezoe/upload/common_attributes.tpl"}
+                {include uri="design:ezoe/upload/common_attributes.tpl" objectname_input_name='ContentObjectAttribute_name'}
 
                 <!-- Next attribute is file / media specific  -->
                 <tr>

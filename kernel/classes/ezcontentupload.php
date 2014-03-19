@@ -451,10 +451,11 @@ class eZContentUpload
      * @param string|false $localeCode
      *        Locale code (eg eng-GB, fre-FR, ...) to use when creating the
      *        object or the version.
+     * @param boolean $publish whether to publish the new created content object
      *
      * @return boolean
      */
-    function handleUpload( &$result, $httpFileIdentifier, $location, $existingNode, $nameString = '', $localeCode = false )
+    function handleUpload( &$result, $httpFileIdentifier, $location, $existingNode, $nameString = '', $localeCode = false, $publish = true )
     {
         $result = array( 'errors' => array(),
                          'notices' => array(),
@@ -696,8 +697,43 @@ class eZContentUpload
         if ( $storeResult['require_storage'] )
             $dataMap[$nameAttribute]->store();
 
-        $tmpresult = $this->publishObject( $result, $result['errors'], $result['notices'],
-                                           $object, $publishVersion, $class, $parentNodes, $parentMainNode );
+        if ( is_array( $parentNodes ) )
+        {
+            foreach ( $parentNodes as $key => $parentNode )
+            {
+                $object->createNodeAssignment(
+                    $parentNode,
+                    $parentNode == $parentMainNode
+                );
+            }
+        }
+
+        $object->setName( $class->contentObjectName( $object ) );
+        $object->store();
+
+        if ( $publish )
+        {
+            $tmpresult = $this->publishObject(
+                $result, $result['errors'], $result['notices'],
+                $object, $publishVersion, $class, $parentNodes, $parentMainNode
+            );
+        }
+        else
+        {
+            $tmpresult = $result;
+            $tmpresult['contentobject'] = $object;
+            $tmpresult['contentobject_id'] = $object->attribute( 'id' );
+            $tmpresult['contentobject_version'] = $publishVersion;
+            $tmpresult['contentobject_main_node'] = false;
+            $tmpresult['contentobject_main_node_id'] = false;
+            $this->setResult(
+                array(
+                    'node_id' => 0,
+                    'object_id' => $object->attribute( 'id' ),
+                    'object_version' => $publishVersion
+                )
+            );
+        }
 
         $db->commit();
         return $tmpresult;
@@ -712,17 +748,6 @@ class eZContentUpload
     function publishObject( &$result, &$errors, &$notices,
                             $object, $publishVersion, $class, $parentNodes, $parentMainNode )
     {
-        if ( is_array( $parentNodes ) )
-        {
-            foreach ( $parentNodes as $key => $parentNode )
-            {
-                $object->createNodeAssignment( $parentNode, $parentNode == $parentMainNode );
-            }
-        }
-
-        $object->setName( $class->contentObjectName( $object ) );
-        $object->store();
-
         $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
                                                                                      'version' => $publishVersion ) );
 
