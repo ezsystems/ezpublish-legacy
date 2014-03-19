@@ -449,6 +449,14 @@
                         node.firstChild.replaceData( 0, 1, ' ' );
                 });
 
+                // replaces ezoeAlign* class so that the PHP parser does not ignore
+                // an other class see https://jira.ez.no/browse/EZP-22487
+                $f.find('.ezoeAligncenter, .ezoeAlignjustify, .ezoeAlignleft, .ezoeAlignright').each(function (i, node) {
+                    var $node = jQuery(node);
+
+                    $node.removeClass('ezoeAlign' + $node.attr('align'));
+                });
+
                 o.content = $f.html();
             });
 
