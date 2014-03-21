@@ -17,11 +17,9 @@
 class eZContentOperationCollection
 {
     /**
-     * Used by {@see beginTransaction()} and {@see commitTransaction()} to make sure that we only commit *if*
-     * we are within the operation transaction.
-     * @var bool
+     * Use by {@see beginTransaction()} and {@see commitTransaction()} to handle nested publish operations
      */
-    private static $transactionStarted = false;
+    private static $operationsStack = 0;
 
     /*!
      Constructor
@@ -116,8 +114,11 @@ class eZContentOperationCollection
      */
     static public function beginTransaction()
     {
-        eZDB::instance()->begin();
-        self::$transactionStarted = true;
+        // We only start a transaction if another content publish operation hasn't been started
+        if ( ++self::$operationsStack === 1 )
+        {
+            eZDB::instance()->begin();
+        }
     }
 
     /**
@@ -125,10 +126,9 @@ class eZContentOperationCollection
      */
     static public function commitTransaction()
     {
-        if ( self::$transactionStarted === true )
+        if ( --self::$operationsStack === 0 )
         {
             eZDB::instance()->commit();
-            self::$transactionStarted = false;
         }
     }
 
