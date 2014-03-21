@@ -574,17 +574,19 @@ class eZHTTPTool
     }
 
     /**
-     * \static
      * Performs an HTTP redirect.
      *
-     * \param  $path  The path to redirect
-     * \param  $parameters  \see createRedirectUrl()
-     * \param  $status  The HTTP status code as a string
-     * \param  $encodeURL  Encode the URL. This should normally be true, but
-     * may be set to false to avoid double encoding when redirect() is called
-     * twice.
+     * @param string $path The path to redirect to
+     * @param array $parameters See createRedirectUrl(). Defaults to empty array.
+     * @param bool $status The HTTP status code as a string (code + text, e.g. "302 Found"). Defaults to false.
+     * @param bool $encodeURL Encodes the URL.
+     *                        This should normally be true, but may be set to false to avoid double encoding when redirect() is called twice.
+     *                        Defaults to true
+     * @param bool $returnRedirectObject If true, will return an ezpKernelRedirect object.
+     *
+     * @return null|ezpKernelRedirect
      */
-    static function redirect( $path, $parameters = array(), $status = false, $encodeURL = true )
+    static function redirect( $path, $parameters = array(), $status = false, $encodeURL = true, $returnRedirectObject = false )
     {
         $url = eZHTTPTool::createRedirectUrl( $path, $parameters );
         if ( strlen( $status ) > 0 )
@@ -599,12 +601,21 @@ class eZHTTPTool
         }
 
         eZHTTPTool::headerVariable( 'Location', $url );
-
         /* Fix for redirecting using workflows and apache 2 */
-        echo '<HTML><HEAD>';
-        echo '<META HTTP-EQUIV="Refresh" Content="0;URL='. htmlspecialchars( $url ) .'">';
-        echo '<META HTTP-EQUIV="Location" Content="'. htmlspecialchars( $url ) .'">';
-        echo '</HEAD><BODY></BODY></HTML>';
+        $escapedUrl = htmlspecialchars( $url );
+        $content = <<<EOT
+<HTML><HEAD>
+<META HTTP-EQUIV="Refresh" Content="0;URL=$escapedUrl">
+<META HTTP-EQUIV="Location" Content="$escapedUrl">
+</HEAD><BODY></BODY></HTML>
+EOT;
+
+        if ( $returnRedirectObject )
+        {
+            return new ezpKernelRedirect( $url, $status ?: null, $content );
+        }
+
+        echo $content;
     }
 
     /*!

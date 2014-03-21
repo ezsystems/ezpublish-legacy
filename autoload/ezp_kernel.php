@@ -599,6 +599,7 @@ return array(
       'ezpI18n'                                            => 'kernel/common/ezpi18n.php',
       'ezpKernel'                                          => 'kernel/private/classes/ezpkernel.php',
       'ezpKernelHandler'                                   => 'kernel/private/interfaces/ezpkernelhandler.php',
+      'ezpKernelRedirect'                                  => 'kernel/private/classes/ezpkernelredirect.php',
       'ezpKernelResult'                                    => 'kernel/private/classes/ezpkernelresult.php',
       'ezpKernelTreeMenu'                                  => 'kernel/private/classes/ezpkerneltreemenu.php',
       'ezpKernelWeb'                                       => 'kernel/private/classes/ezpkernelweb.php',
