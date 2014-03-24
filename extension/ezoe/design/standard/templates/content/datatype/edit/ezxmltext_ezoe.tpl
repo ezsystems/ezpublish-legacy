@@ -165,6 +165,15 @@
             // with soft carriage return from Word in Firefox
             // see issue http://issues.ez.no/18702
             o.node.innerHTML = o.node.innerHTML.replace(/<br\s?.*\/?>\n/gi,'<br>'); 
+            {literal}
+            if (
+                pl.editor.pasteAsPlainText
+                && o.node.childNodes.length === 1
+                && o.node.firstChild.tagName.toLowerCase() === 'pre'
+            ) {
+                o.node.innerHTML = o.node.firstChild.innerHTML.replace(/\n/g, "<br />");
+            }
+            {/literal}
         {rdelim}
 
     {rdelim};
