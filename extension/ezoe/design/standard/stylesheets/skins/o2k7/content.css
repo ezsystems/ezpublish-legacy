@@ -98,6 +98,7 @@ pre
   color: #000;
   margin: 8px;
   font-size: 1.1em;
+  white-space: pre-line;
 }
 
 /* general block tags (embed and custom) */
