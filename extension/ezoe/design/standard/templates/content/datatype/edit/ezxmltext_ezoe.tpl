@@ -129,6 +129,7 @@
         /* the URL to the button image to display */
         //atd_button_url              : "atdbuttontr.gif",
         atd_css_url : {'javascript/plugins/AtD/css/content.css'|ezdesign},
+        paste_text_linebreaktype : "br",
         paste_preprocess : function(pl, o) {ldelim}
             var ed = pl.editor, uid, elt, prev;
 
