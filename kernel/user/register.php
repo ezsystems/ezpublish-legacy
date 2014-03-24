@@ -48,6 +48,28 @@ if ( $redirectNumber == '3' )
 $db = eZDB::instance();
 $db->begin();
 
+// Fix issue EZP-22524
+if ( $http->hasSessionVariable( "RegisterUserID" ) )
+{
+    if ( $http->hasSessionVariable( 'StartedRegistration' ) )
+    {
+        eZDebug::writeWarning( 'Cancel module run to protect against multiple form submits', 'user/register' );
+        $http->removeSessionVariable( "RegisterUserID" );
+        $http->removeSessionVariable( 'StartedRegistration' );
+        $db->commit();
+        return eZModule::HOOK_STATUS_CANCEL_RUN;
+    }
+
+    $userID = $http->sessionVariable( "RegisterUserID" );
+
+    $object = eZContentObject::fetch( $userID );
+    if ( $object === null )
+    {
+        $http->removeSessionVariable( "RegisterUserID" );
+        $http->removeSessionVariable( 'StartedRegistration' );
+    }
+}
+
 // Create new user object if user is not logged in
 if ( !$http->hasSessionVariable( "RegisterUserID" ) )
 {
@@ -138,19 +160,6 @@ if ( !$http->hasSessionVariable( "RegisterUserID" ) )
                                                        'parent_node' => $defaultUserPlacement,
                                                        'is_main' => 1 ) );
     $nodeAssignment->store();
-}
-else
-{
-    if ( $http->hasSessionVariable( 'StartedRegistration' ) )
-    {
-        eZDebug::writeWarning( 'Cancel module run to protect against multiple form submits', 'user/register' );
-        $http->removeSessionVariable( "RegisterUserID" );
-        $http->removeSessionVariable( 'StartedRegistration' );
-        $db->commit();
-        return eZModule::HOOK_STATUS_CANCEL_RUN;
-    }
-
-    $userID = $http->sessionVariable( "RegisterUserID" );
 }
 
 $Params['ObjectID'] = $userID;
