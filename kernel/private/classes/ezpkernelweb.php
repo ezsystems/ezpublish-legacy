@@ -367,7 +367,8 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
 
         if ( $this->module->exitStatus() == eZModule::STATUS_REDIRECT )
         {
-            $this->redirect();
+            $this->shutdown();
+            return $this->redirect();
         }
 
         $uiContextName = $this->module->uiContextName();
@@ -966,11 +967,7 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
 
         eZDB::checkTransactionCounter();
 
-        if ( $automaticRedirect )
-        {
-            eZHTTPTool::redirect( $redirectURI, array(), $this->module->redirectStatus() );
-        }
-        else
+        if ( !$automaticRedirect )
         {
             // Make sure any errors or warnings are reported
             if ( $ini->variable( 'DebugSettings', 'DisplayDebugWarnings' ) === 'enabled' )
@@ -1014,10 +1011,12 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
 
             eZDebug::addTimingPoint( "Script end" );
 
+            ob_start();
             eZDisplayResult( $templateResult );
+            return new ezpKernelResult( ob_get_clean() );
         }
 
-        eZExecution::cleanExit();
+        return eZHTTPTool::redirect( $redirectURI, array(), $this->module->redirectStatus(), true, true );
     }
 
     /**
