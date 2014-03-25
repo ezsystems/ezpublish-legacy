@@ -1011,9 +1011,8 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
 
             eZDebug::addTimingPoint( "Script end" );
 
-            ob_start();
             eZDisplayResult( $templateResult );
-            return new ezpKernelResult( ob_get_clean() );
+            eZExecution::cleanExit();
         }
 
         return eZHTTPTool::redirect( $redirectURI, array(), $this->module->redirectStatus(), true, true );
