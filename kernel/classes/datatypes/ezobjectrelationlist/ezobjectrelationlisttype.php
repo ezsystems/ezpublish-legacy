@@ -281,19 +281,39 @@ class eZObjectRelationListType extends eZDataType
             {
                 $subObjectID = $relationItem['contentobject_id'];
                 $attributeBase = $base . '_ezorl_edit_object_' . $subObjectID;
-                $object = $content['temp'][$subObjectID]['object'];
-                if ( $object )
-                {
-                    $attributes = $content['temp'][$subObjectID]['attributes'];
 
-                    $customActionAttributeArray = array();
-                    $fetchResult = $object->fetchInput( $attributes, $attributeBase,
-                                                        $customActionAttributeArray,
-                                                        $contentObjectAttribute->inputParameters() );
-                    $content['temp'][$subObjectID]['attribute-input-map'] = $fetchResult['attribute-input-map'];
-                    $content['temp'][$subObjectID]['attributes'] = $attributes;
-                    $content['temp'][$subObjectID]['object'] = $object;
+                if ( !isset( $content['temp'][$subObjectID] ) )
+                {
+                    if ( !$object = eZContentObject::fetch( $subObjectID ) )
+                    {
+                        continue;
+                    }
+                    $attributes = $object->contentObjectAttributes(
+                        true,
+                        $relationItem['contentobject_version'],
+                        $contentObjectAttribute->attribute( 'language_code' )
+                    );
+                    $content['temp'][$subObjectID] = array(
+                        'require-fixup' => false,
+                        'attributes' => $attributes,
+                        'object' => $object,
+                    );
                 }
+
+                $object = $content['temp'][$subObjectID]['object'];
+                if ( !$object )
+                {
+                    continue;
+                }
+                $attributes = $content['temp'][$subObjectID]['attributes'];
+
+                $customActionAttributeArray = array();
+                $fetchResult = $object->fetchInput( $attributes, $attributeBase,
+                                                    $customActionAttributeArray,
+                                                    $contentObjectAttribute->inputParameters() );
+                $content['temp'][$subObjectID]['attribute-input-map'] = $fetchResult['attribute-input-map'];
+                $content['temp'][$subObjectID]['attributes'] = $attributes;
+                $content['temp'][$subObjectID]['object'] = $object;
             }
             $relationItem['priority'] = $prioritiesByContentObjectId[$relationItem['contentobject_id']];
         }
