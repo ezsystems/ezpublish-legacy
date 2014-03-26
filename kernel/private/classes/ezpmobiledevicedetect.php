@@ -36,7 +36,24 @@ class ezpMobileDeviceDetect
      */
     public static function isEnabled()
     {
-        return ( eZINI::instance()->variable( 'SiteAccessSettings', 'DetectMobileDevice' ) === 'enabled' );
+        if ( eZINI::instance()->variable( 'SiteAccessSettings', 'DetectMobileDevice' ) === 'enabled' )
+        {
+            $mobileSaList = eZINI::instance()->variable( 'SiteAccessSettings', 'MobileSiteAccessList' );
+
+            if ( !empty( $mobileSaList ) )
+            {
+                return true;
+            }
+            else
+            {
+                eZDebug::writeError(
+                    "DetectMobileDevice is enabled and MobileSiteAccessList is empty, please check your site.ini configuration",
+                    __METHOD__
+                );
+            }
+        }
+
+        return false;
     }
 
     /**

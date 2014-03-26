@@ -21,6 +21,7 @@ class ezpMobileDeviceDetectTest extends ezpTestCase
 
         // Enable mobile device detection
         ezpINIHelper::setINISetting( 'site.ini', 'SiteAccessSettings', 'DetectMobileDevice', 'enabled' );
+        ezpINIHelper::setINISetting( 'site.ini', 'SiteAccessSettings', 'MobileSiteAccessList', array( 'eng' ) );
 
         $this->mobileDeviceDetect = $this->getMock( 'ezpMobileDeviceDetect', null, array( $this->getMock( 'ezpMobileDeviceRegexpFilter', null ) ) );
     }
@@ -41,6 +42,17 @@ class ezpMobileDeviceDetectTest extends ezpTestCase
     public function testIsEnabled()
     {
         $this->assertTrue( $this->mobileDeviceDetect->isEnabled() );
+    }
+
+    /**
+     * Tests if mobile device detection is enabled but MobileSiteAccessList is not provided
+     *
+     */
+    public function testIsEnabledBadSetting()
+    {
+        ezpINIHelper::setINISetting( 'site.ini', 'SiteAccessSettings', 'MobileSiteAccessList', '' );
+
+        $this->assertFalse( $this->mobileDeviceDetect->isEnabled() );
     }
 
     /**
