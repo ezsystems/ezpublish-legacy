@@ -375,10 +375,28 @@ class eZSiteAccess
 
             if ( isset( $name ) && $name != '' )
             {
-                $name = self::washName( $name );
+                $nameClean = self::washName( $name );
 
-                if ( in_array( $name, $siteAccessList ) )
+                if ( in_array( $nameClean, $siteAccessList ) )
                 {
+                    if ( $nameClean !== $name )
+                    {
+                        if ( !$ini->hasVariable( 'SiteAccessSettings', 'NormalizeSANames' ) || $ini->variable( 'SiteAccessSettings', 'NormalizeSANames' ) == 'enabled' )
+                        {
+                            $name = $nameClean;
+                            if ( $ini->hasVariable( 'SiteAccessSettings', 'RedirectOnNormalize' ) && $ini->variable( 'SiteAccessSettings', 'RedirectOnNormalize' ) == 'enabled' )
+                            {
+                                header( $_SERVER['SERVER_PROTOCOL'] .  " 301 Moved Permanently" );
+                                header( "Status: 301 Moved Permanently" );
+                                $uriSlice = $uri->URIArray;
+                                array_shift( $uriSlice );
+                                $newUri = $name . '/' . implode( '/' , $uriSlice );
+                                $location = eZSys::indexDir() . "/" . eZURI::encodeIRI( $newUri );
+                                header( "Location: " . $location );
+                                eZExecution::cleanExit();
+                            }
+                        }
+                    }
                     if ( $type == eZSiteAccess::TYPE_URI )
                     {
                         if ( $match_type == 'element' )
