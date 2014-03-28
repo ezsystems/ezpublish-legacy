@@ -41,7 +41,7 @@
                 //trace( $item.attr("link") );
                 html += '<li>' +
                         '<h5><a href ="' + $item.attr( "link" ) + '?utm_content=eZ+Publish+Community+Project+{/literal}{$versionString}{literal}&utm_source=eZ+Publish+Community+Project+Dashboard&utm_medium=eZ+Publish+Community+Project+Dashboard&utm_campaign=eZ+Publish+Community+Project+Dashboard' + '">' + $item.attr( "title" ) + '</a></h5> ' +
-                        '<p>' + $item.attr("author") + ' - <em>' + $date.getDate() + '/' + $date.getMonth() + '/' + $date.getFullYear() + ' ' + $date.getHours() + ':' + $date.getMinutes() + '</em></p>' +
+                        '<p>' + $item.attr("author") + ' - <em>' + $date.getDate() + '/' + ( $date.getMonth() + 1 ) + '/' + $date.getFullYear() + ' ' + $date.getHours() + ':' + $date.getMinutes() + '</em></p>' +
                     // '<p>' + $item.attr("c:date") + '</p>' +
                         '</li>';
             });
