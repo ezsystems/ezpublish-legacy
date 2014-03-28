@@ -37,7 +37,7 @@
         {if eq( $Policies.item.module_name, '*' )}
             <i>{'all modules'|i18n( 'design/admin/role/view' )} </i>
         {else}
-            {$Policies.item.module_name}
+            {$Policies.item.module_name|wash}
         {/if}
     </td>
 
@@ -46,7 +46,7 @@
         {if eq( $Policies.item.function_name, '*' )}
             <i>{'all functions'|i18n( 'design/admin/role/view' )} </i>
         {else}
-            {$Policies.item.function_name}
+            {$Policies.item.function_name|wash}
         {/if}
     </td>
 
