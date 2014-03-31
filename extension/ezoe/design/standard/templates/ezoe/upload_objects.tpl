@@ -80,7 +80,7 @@ tinyMCEPopup.onInit.add( function(){
                     </tr>
                     {foreach $grouped_related_contentobjects.objects as $relation sequence array( bglight, bgdark ) as $sequence}
                         <tr class="{$sequence}">
-                            <td class="name">{$relation.object.class_name|class_icon( small, $relation.object.class_name )}&nbsp;<a href="JavaScript:eZOEPopupUtils.selectByEmbedId( {$relation.object.id} )">{$relation.object.name|wash|shorten( 35 )}</a></td>
+                            <td class="name">{$relation.object.class_name|class_icon( small, $relation.object.class_name )}&nbsp;<a href="JavaScript:eZOEPopupUtils.selectByEmbedId( {$relation.object.id|wash('javascript')} )">{$relation.object.name|wash|shorten( 35 )}</a></td>
                             <td class="class">{$relation.object.class_name|wash}</td>
                         </tr>
                     {/foreach}

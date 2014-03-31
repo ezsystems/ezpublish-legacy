@@ -81,7 +81,7 @@ tinyMCEPopup.onInit.add( function(){
                         </tr>
                         {foreach $grouped_related_contentobjects.files as $file sequence array( bglight, bgdark ) as $sequence}
                             <tr class="{$sequence}">
-                                <td class="name">{$file.object.class_name|class_icon( small, $file.object.class_name )}&nbsp;<a href="JavaScript:eZOEPopupUtils.selectByEmbedId( {$file.object.id} )">{$file.object.name|wash|shorten( 35 )}</a></td>
+                                <td class="name">{$file.object.class_name|class_icon( small, $file.object.class_name )}&nbsp;<a href="JavaScript:eZOEPopupUtils.selectByEmbedId( {$file.object.id|wash('javascript')} )">{$file.object.name|wash|shorten( 35 )}</a></td>
                                 <td class="filetype">{$file.object.data_map.file.content.mime_type|wash}</td>
                                 <td class="filesize">{$file.object.data_map.file.content.filesize|si( byte )}</td>
                             </tr>
