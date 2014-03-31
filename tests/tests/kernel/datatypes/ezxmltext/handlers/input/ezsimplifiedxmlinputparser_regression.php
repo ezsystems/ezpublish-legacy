@@ -35,4 +35,30 @@ class eZSimplifiedXMLInputParserRegression extends ezpDatabaseTestCase
         $this->assertEquals( 1, count( $parser->getMessages() ) );
     }
 
+    /**
+     * Test for EZP-22517
+     *
+     * Checks that the header level is kept.
+     *
+     * @link https://jira.ez.no/browse/EZP-22517
+     */
+    public function testHeaderCustomTag()
+    {
+        $parser = new eZSimplifiedXMLInputParser( 0, eZXMLInputParser::ERROR_NONE );
+        $input = '<header level="3">h3</header>
+<custom name="factbox" custom:title="factbox" custom:align="right">
+<header level="2">h2</header>
+</custom>';
+        $dom = $parser->process( $input );
+        self::assertInstanceOf( 'DomDocument', $dom );
+        $xpath = new DomXPath( $dom );
+        $header3 = $xpath->query( '/section/section/section/section/header' );
+        $header2 = $xpath->query( '/section/section/section/paragraph/custom/header' );
+
+        self::assertEquals( 1, $header3->length );
+        self::assertEquals( "h3", $header3->item( 0 )->textContent );
+        self::assertEquals( 1, $header2->length );
+        self::assertEquals( "h2", $header2->item( 0 )->textContent );
+    }
+
 }

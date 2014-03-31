@@ -166,6 +166,29 @@ class eZOEXMLTextRegression extends ezpDatabaseTestCase
     }
 
     /**
+     * Test for EZP-22517
+     *
+     * Checks that the header level is kept.
+     *
+     * @link https://jira.ez.no/browse/EZP-22517
+     */
+    public function testHeaderCustomTag()
+    {
+        $parser = new eZOEInputParser();
+        $html = '<h3>h3</h3><div class="ezoeItemCustomTag factbox" type="custom" customattributes="title|factboxattribute_separationalign|right"><h2>h2</h2></div>';
+        $dom = $parser->process( $html );
+        self::assertInstanceOf( 'DomDocument', $dom );
+        $xpath = new DomXPath( $dom );
+        $header3 = $xpath->query( '/section/section/section/section/header' );
+        $header2 = $xpath->query( '/section/section/section/paragraph/custom/header' );
+
+        self::assertEquals( 1, $header3->length );
+        self::assertEquals( "h3", $header3->item( 0 )->textContent );
+        self::assertEquals( 1, $header2->length );
+        self::assertEquals( "h2", $header2->item( 0 )->textContent );
+    }
+
+    /**
      * Test for EZP-21986
      * Make sure a <u> tag is transformed into the underline custom tag.
      *
