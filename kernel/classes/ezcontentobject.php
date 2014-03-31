@@ -1330,33 +1330,6 @@ class eZContentObject extends eZPersistentObject
     {
         $db = eZDB::instance();
         $db->begin();
-        // Check if we have enough space in version list
-        if ( $versionCheck )
-        {
-            $versionlimit = eZContentClass::versionHistoryLimit( $this->attribute( 'contentclass_id' ) );
-            $versionCount = $this->getVersionCount();
-            if ( $versionCount >= $versionlimit )
-            {
-                // Remove oldest archived version
-                $params = array( 'conditions'=> array( 'status' => eZContentObjectVersion::STATUS_ARCHIVED ) );
-                $versions = $this->versions( true, $params );
-                if ( count( $versions ) > 0 )
-                {
-                    $modified = $versions[0]->attribute( 'modified' );
-                    $removeVersion = $versions[0];
-                    foreach ( $versions as $version )
-                    {
-                        $currentModified = $version->attribute( 'modified' );
-                        if ( $currentModified < $modified )
-                        {
-                            $modified = $currentModified;
-                            $removeVersion = $version;
-                        }
-                    }
-                    $removeVersion->removeThis();
-                }
-            }
-        }
 
         // get the next available version number
         $nextVersionNumber = $this->nextVersion();
@@ -1412,6 +1385,34 @@ class eZContentObject extends eZPersistentObject
             // Reset execution bit
             $newNodeAssignment->setAttribute( 'op_code', $newNodeAssignment->attribute( 'op_code' ) & ~1 );
             $newNodeAssignment->store();
+        }
+
+        // Removing last item if we don't have enough space in version list
+        if ( $versionCheck )
+        {
+            $versionlimit = eZContentClass::versionHistoryLimit( $this->attribute( 'contentclass_id' ) );
+            $versionCount = $this->getVersionCount();
+            if ( $versionCount >= $versionlimit )
+            {
+                // Remove oldest archived version
+                $params = array( 'conditions'=> array( 'status' => eZContentObjectVersion::STATUS_ARCHIVED ) );
+                $versions = $this->versions( true, $params );
+                if ( count( $versions ) > 0 )
+                {
+                    $modified = $versions[0]->attribute( 'modified' );
+                    $removeVersion = $versions[0];
+                    foreach ( $versions as $version )
+                    {
+                        $currentModified = $version->attribute( 'modified' );
+                        if ( $currentModified < $modified )
+                        {
+                            $modified = $currentModified;
+                            $removeVersion = $version;
+                        }
+                    }
+                    $removeVersion->removeThis();
+                }
+            }
         }
 
         $db->commit();
