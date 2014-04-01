@@ -447,7 +447,7 @@ var eZOEPopupUtils = {
             'style': ''
         }, s = eZOEPopupUtils.settings, handler = s.customAttributeSaveHandler;
         var customArr = [];
-        jQuery( '#' + node + ' input,#' + node + ' select' ).each(function( i, el )
+        jQuery( '#' + node + ' input,#' + node + ' select,#' + node + ' textarea' ).each(function( i, el )
         {
             var o = jQuery( el ), name = o.attr("name"), value, style;
             if ( o.hasClass('mceItemSkip') || !name ) return;
@@ -558,7 +558,7 @@ var eZOEPopupUtils = {
             var key = t.shift();
             values[key] = t.join('|');
         }
-        jQuery( '#' + node + ' input,#' + node + ' select' ).each(function( i, el )
+        jQuery( '#' + node + ' input,#' + node + ' select,#' + node + ' textarea' ).each(function( i, el )
         {
             var o = jQuery( el ), name = el.name;
             if ( o.hasClass('mceItemSkip') || !name )
