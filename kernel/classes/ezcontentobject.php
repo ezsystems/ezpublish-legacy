@@ -1392,7 +1392,7 @@ class eZContentObject extends eZPersistentObject
         {
             $versionlimit = eZContentClass::versionHistoryLimit( $this->attribute( 'contentclass_id' ) );
             $versionCount = $this->getVersionCount();
-            if ( $versionCount >= $versionlimit )
+            if ( $versionCount > $versionlimit )
             {
                 // Remove oldest archived version
                 $params = array( 'conditions'=> array( 'status' => eZContentObjectVersion::STATUS_ARCHIVED ) );
