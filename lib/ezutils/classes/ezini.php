@@ -701,6 +701,10 @@ class eZINI
             chmod( $cachedFile, self::$filePermission );
         }
 
+        // EZP-22579: php5.5 opcache caches php files very aggressively & needs direct call on invalidation in this case
+        clearstatcache( true, $cachedFile );
+        if ( function_exists( 'opcache_invalidate' ) )
+            opcache_invalidate( $cachedFile, true );
 
         if ( self::isDebugEnabled() )
             eZDebug::writeNotice( "Wrote cache file '$cachedFile'", __METHOD__ );
