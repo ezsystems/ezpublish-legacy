@@ -1,4 +1,4 @@
 Branch Info
 ===========
-This branch is not maintained, go to http://ez.no for information on how to obtain
-a subscription of stable updates.
+This branch is only available to eZ Publish Platform Enterprise Edition (EE) subscribers.
+Go to [ez.no](http://ez.no/Products/Compare-Versions "eZ Publish editions comparison page") for more information on how to get a subscription for stable EE versions.
