@@ -75,7 +75,7 @@
     {else}
             <select name="ContentObjectLanguageCode">
             {foreach $node.object.can_edit_languages as $language}
-                       <option value="{$language.locale}"{if $language.locale|eq($node.object.current_language)} selected="selected"{/if}>{$language.name|wash}</option>
+                       <option value="{$language.locale|wash}"{if $language.locale|eq($node.object.current_language)} selected="selected"{/if}>{$language.name|wash}</option>
             {/foreach}
             {if gt( $can_create_languages|count, 0 )}
                 <option value="">{'New translation'|i18n( 'design/admin/node/view/full')}</option>

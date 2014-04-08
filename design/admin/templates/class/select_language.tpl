@@ -22,7 +22,7 @@
     <div class="indent">
         {foreach $editLanguages as $language}
             <label>
-                <input name="EditLanguage" type="radio" value="{$language.locale}"{run-once} checked="checked"{/run-once} /> {$language.name|wash}
+                <input name="EditLanguage" type="radio" value="{$language.locale|wash}"{run-once} checked="checked"{/run-once} /> {$language.name|wash}
             </label>
             <div class="labelbreak"></div>
         {/foreach}
@@ -41,7 +41,7 @@
 
         {foreach $class.prioritized_languages as $language}
             <label>
-                <input name="FromLanguage" type="radio" value="{$language.locale}" /> {$language.name|wash}
+                <input name="FromLanguage" type="radio" value="{$language.locale|wash}" /> {$language.name|wash}
             </label>
             <div class="labelbreak"></div>
         {/foreach}
