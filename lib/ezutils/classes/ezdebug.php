@@ -1478,7 +1478,7 @@ class eZDebug
                         $contents = htmlspecialchars( $debug['String'] );
 
                     echo "<tr class='$style'><td class='debugheader'$identifierText><b><span>$name:</span> $label</b></td>
-                                    <td class='debugheader'>$time</td></tr>
+                                    <td class='debugheader' style=\"text-align:right;\">$time</td></tr>
                                     <tr><td colspan='2'><pre$pre>" .  $contents . "</pre></td></tr>";
                 }
                 else
@@ -1586,8 +1586,8 @@ class eZDebug
                 if ( $as_html )
                 {
                     echo "<tr class='data'><td>" . $point["Description"] . "</td>
-                          <td align=\"right\">$elapsed</td><td align=\"right\">$relElapsed</td>
-                          <td align=\"right\">$memory</td><td align=\"right\">$relMemory</td></tr>";
+                          <td style=\"text-align:right;\">$elapsed</td><td style=\"text-align:right;\">$relElapsed</td>
+                          <td style=\"text-align:right;\">$memory</td><td style=\"text-align:right;\">$relMemory</td></tr>";
                 }
                 else
                 {
@@ -1662,10 +1662,10 @@ class eZDebug
                     $groupAverage = number_format( ( $groupData['time'] / $groupData['count'] ), $this->TimingAccuracy );
                     if ( $as_html )
                     {
-                        echo ( "<td align=\"right\"><i>$groupElapsed</i></td>".
-                               "<td align=\"right\"><i>$groupPercent</i></td>".
-                               "<td align=\"right\"><i>$groupCount</i></td>".
-                               "<td align=\"right\"><i>$groupAverage</i></td>" );
+                        echo ( "<td style=\"text-align:right;\"><i>$groupElapsed</i></td>".
+                               "<td style=\"text-align:right;\"><i>$groupPercent</i></td>".
+                               "<td style=\"text-align:right;\"><i>$groupCount</i></td>".
+                               "<td style=\"text-align:right;\"><i>$groupAverage</i></td>" );
                     }
                     else
                     {
@@ -1701,10 +1701,10 @@ class eZDebug
                     {
                         echo ( "<tr class='data'>" .
                                          "<td>$childName</td>" .
-                                         "<td align=\"right\">$childElapsed</td>" .
-                                         "<td align=\"right\">$childPercent</td>" .
-                                         "<td align=\"right\">$childCount</td>" .
-                                         "<td align=\"right\">$childAverage</td>" .
+                                         "<td style=\"text-align:right;\">$childElapsed</td>" .
+                                         "<td style=\"text-align:right;\">$childPercent</td>" .
+                                         "<td style=\"text-align:right;\">$childCount</td>" .
+                                         "<td style=\"text-align:right;\">$childAverage</td>" .
                                          "</tr>" );
                     }
                     else
