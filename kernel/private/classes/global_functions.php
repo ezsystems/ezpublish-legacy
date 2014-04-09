@@ -35,7 +35,7 @@ function eZDisplayDebug()
 
         {
             $tpl = eZTemplate::factory();
-            $result = "<tr><td>" . $tpl->fetch( 'design:setup/debug_toolbar.tpl' ) . "</td></tr>";
+            $result = "<tr><td colspan='2'>" . $tpl->fetch( 'design:setup/debug_toolbar.tpl' ) . "</td></tr>";
             eZDebug::appendTopReport( "Debug toolbar", $result );
         }
 
