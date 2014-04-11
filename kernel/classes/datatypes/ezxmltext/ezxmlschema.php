@@ -75,7 +75,7 @@ class eZXMLSchema
                               'isInline' => false,
                               'attributes' => array( 'class' ) ),
 
-        'header'    => array( 'blockChildrenAllowed' => false,
+        'header'    => array( 'blockChildrenAllowed' => array( 'line' ),
                               'inlineChildrenAllowed' => true,
                               'childrenRequired' => true,
                               'isInline' => false,

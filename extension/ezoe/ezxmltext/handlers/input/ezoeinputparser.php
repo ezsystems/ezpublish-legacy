@@ -743,6 +743,21 @@ class eZOEInputParser extends eZXMLInputParser
             $newParent->appendChild( $element );
             $ret['result'] = $newParent;
         }
+        else if (
+            $parentName === 'header'
+            && (
+                $parent->getElementsByTagName( 'line' )->length
+                || $parent->getElementsByTagName( 'br' )->length
+            )
+        )
+        {
+            // by default the header element does not need a line element
+            // unless it contains a <br> or a previously created <line>
+            $newLine = $this->createAndPublishElement( 'line', $ret );
+            $element = $parent->replaceChild( $newLine, $element );
+            $newLine->appendChild( $element );
+            $ret['result'] = $newLine;
+        }
         elseif ( $parentName === 'paragraph' )
         {
             $newLine = $this->createAndPublishElement( 'line', $ret );
