@@ -189,6 +189,49 @@ class eZOEXMLTextRegression extends ezpDatabaseTestCase
     }
 
     /**
+     * Test for EZP-22563
+     *
+     * Make sure break inside header is now supported
+     *
+     * @link https://jira.ez.no/browse/EZP-22563
+     */
+    public function testHeaderBreak()
+    {
+        $parser = new eZOEInputParser();
+        $input = '<h1>Franz Ferdinand<br>Love Illumination<br>Right Thoughts, Right Words, Right Action</h1>';
+        $dom = $parser->process( $input );
+        self::assertInstanceOf( 'DomDocument', $dom );
+        $lines = $dom->getElementsByTagName( 'line' );
+
+        self::assertEquals( 3, $lines->length );
+        self::assertEquals( "Franz Ferdinand", $lines->item( 0 )->textContent );
+        self::assertEquals( "Love Illumination", $lines->item( 1 )->textContent );
+        self::assertEquals( "Right Thoughts, Right Words, Right Action", $lines->item( 2 )->textContent );
+    }
+
+    /**
+     * Test for EZP-22563
+     *
+     * Make sure an header without break is still parsed without any line
+     * element.
+     *
+     * @link https://jira.ez.no/browse/EZP-22563
+     */
+    public function testHeaderNoBreak()
+    {
+        $parser = new eZOEInputParser();
+        $input = '<h1>Franz Ferdinand - Love Illumination</h1>';
+        $dom = $parser->process( $input );
+        self::assertInstanceOf( 'DomDocument', $dom );
+        $lines = $dom->getElementsByTagName( 'line' );
+        $header = $dom->getElementsByTagName( 'header' );
+
+        self::assertEquals( 0, $lines->length );
+        self::assertEquals( 1, $header->length );
+        self::assertEquals( "Franz Ferdinand - Love Illumination", $header->item( 0 )->textContent );
+    }
+
+    /**
      * Test for EZP-21986
      * Make sure a <u> tag is transformed into the underline custom tag.
      *
