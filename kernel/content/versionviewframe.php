@@ -94,6 +94,11 @@ if ( $Module->isCurrentAction( 'Publish' ) and
         return $Result;
     }
 
+    $behaviour = new ezpContentPublishingBehaviour();
+    $behaviour->isTemporary = true;
+    $behaviour->disableAsynchronousPublishing = false;
+    ezpContentPublishingBehaviour::setBehaviour( $behaviour );
+
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $ObjectID,
                                                                                  'version' => $EditVersion ) );
     $object = eZContentObject::fetch( $ObjectID );
