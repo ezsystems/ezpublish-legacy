@@ -61,4 +61,48 @@ class eZSimplifiedXMLInputParserRegression extends ezpDatabaseTestCase
         self::assertEquals( "h2", $header2->item( 0 )->textContent );
     }
 
+    /**
+     * Test for EZP-22563
+     *
+     * Make sure break inside header is now supported
+     *
+     * @link https://jira.ez.no/browse/EZP-22563
+     */
+    public function testHeaderBreak()
+    {
+        $parser = new eZSimplifiedXMLInputParser( 0, eZXMLInputParser::ERROR_ALL, eZXMLInputParser::ERROR_ALL, true );
+        $input = '<header level="1">Franz Ferdinand
+Love Illumination
+Right Thoughts, Right Words, Right Action</header>';
+        $dom = $parser->process( $input );
+        self::assertInstanceOf( 'DomDocument', $dom );
+        $lines = $dom->getElementsByTagName( 'line' );
+
+        self::assertEquals( 3, $lines->length );
+        self::assertEquals( "Franz Ferdinand", $lines->item( 0 )->textContent );
+        self::assertEquals( "Love Illumination", $lines->item( 1 )->textContent );
+        self::assertEquals( "Right Thoughts, Right Words, Right Action", $lines->item( 2 )->textContent );
+    }
+
+    /**
+     * Test for EZP-22563
+     *
+     * Make sure an header without break is still parsed without any line
+     * element.
+     *
+     * @link https://jira.ez.no/browse/EZP-22563
+     */
+    public function testHeaderNoBreak()
+    {
+        $parser = new eZSimplifiedXMLInputParser( 0 );
+        $input = '<header level="1">Franz Ferdinand - Love Illumination</header>';
+        $dom = $parser->process( $input );
+        self::assertInstanceOf( 'DomDocument', $dom );
+        $lines = $dom->getElementsByTagName( 'line' );
+        $header = $dom->getElementsByTagName( 'header' );
+
+        self::assertEquals( 0, $lines->length );
+        self::assertEquals( 1, $header->length );
+        self::assertEquals( "Franz Ferdinand - Love Illumination", $header->item( 0 )->textContent );
+    }
 }
