@@ -40,7 +40,6 @@ function eZSetupTestTable()
                   'memory_limit' => array( 'eZSetupTestMemLimit' ),
                   'execution_time' => array( 'eZSetupTestExecutionTime' ),
                   'allow_url_fopen' => array( 'eZSetupTestAllowURLFOpen' ),
-                  'accept_path_info' => array( 'eZSetupTestAcceptPathInfo' ),
                   'timezone' => array( 'eZSetupTestTimeZone' ),
                   'ezcversion' => array( 'eZSetupTestComponentsVersion' ) );
 }
@@ -363,29 +362,6 @@ function eZSetupTestAllowURLFOpen( $type )
     $allowFOpen = ini_get( 'allow_url_fopen' ) != 0;
     return array( 'result' => $allowFOpen,
                   'persistent_data' => array( 'result' => array( 'value' => $allowFOpen ) ) );
-}
-
-/*!
-  Test if Apache setting for AcceptPathInfo is enabled
-*/
-function eZSetupTestAcceptPathInfo( $type )
-{
-    // rl: this one works only if 'allow_url_fopen' is On
-    // $allowFOpen = ini_get( 'allow_url_fopen' ) != 0;
-    // todo: additional check for case of 'allow_url_fopen' is Off
-
-    $testPath = $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'] . '/eZ_accept_path_info_test';
-    $protocol = 'http';
-    /* We attempt to use the https protocol when the https port is used */
-    if ( $_SERVER['SERVER_PORT'] == 443 )
-    {
-        $protocol = 'https';
-    }
-    $testPath = "{$protocol}://" . str_replace( '//', '/', $testPath );
-    $fp = @fopen( $testPath, 'r' );
-
-    return array( 'result' => ( $fp !== false ),
-                  'persistent_data' => array( 'result' => array( 'value' => ( $fp !== false ) ) ) );
 }
 
 function eZSetupTestFunctionExists( $type )
