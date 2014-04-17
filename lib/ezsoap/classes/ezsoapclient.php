@@ -164,7 +164,7 @@ class eZSOAPClient
                 $ch = curl_init ( $URL );
                 if ( $this->Timeout != 0 )
                 {
-                    curl_setopt( $ch, CURLOPT_TIMEOUT, $this->TimeOut );
+                    curl_setopt( $ch, CURLOPT_TIMEOUT, $this->Timeout );
                 }
                 $payload = $request->payload();
 
