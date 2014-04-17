@@ -107,10 +107,23 @@
 
 <div class="block">
 {if and( $remove_info.can_remove_all, eq( $delete_items_exist,true() ), not( $remove_info.has_pending_object ) )}
+
     {if $move_to_trash_allowed}
-    <input type="hidden" name="SupportsMoveToTrash" value="1" />
-    <p><input type="checkbox" name="MoveToTrash" value="1" {if $move_to_trash}checked="checked" {/if}title="{'If "Move to trash" is checked, the items will be moved to the trash instead of being permanently deleted.'|i18n( 'design/admin/node/removeobject' )|wash}" />{'Move to trash'|i18n('design/admin/node/removeobject')}</p>
+        <input type="hidden" name="SupportsMoveToTrash" value="1" />
     {/if}
+
+    <p>
+        <input type="checkbox" name="MoveToTrash" value="1"
+               {if and($move_to_trash, $move_to_trash_allowed) }checked="checked" {/if}
+               {if not($move_to_trash_allowed)}disabled="disabled" {/if}
+               title="{'If "Move to trash" is checked, the items will be moved to the trash instead of being permanently deleted.'|i18n( 'design/admin/node/removeobject' )|wash}"
+        />
+        {'Move to trash'|i18n('design/admin/node/removeobject')}
+        {if not($move_to_trash_allowed)}
+            - {'Objects containing ezuser attributes can not be sent to trash'|i18n('design/admin/node/removeobject')}
+        {/if}
+    </p>
+
 {/if}
 </div>
 
