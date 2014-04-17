@@ -1630,6 +1630,13 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
                 return false;
             }
             $generatingMetaData = mysqli_fetch_assoc( $res );
+            
+            if ( empty( $generatingMetaData ) )
+            {
+                eZDebug::writeError("An error occured while ending cache generation,  $generatingFilePath", $fname );
+                $this->_rollback( $fname );
+                return false;
+            }
 
             // the original file does not exist: we move the generating file
             $res = $this->_query( "SELECT * FROM " . $this->dbTable( $filePath ) . " WHERE name_hash = " . $this->_md5( $filePath ) . " FOR UPDATE", $fname, false );
