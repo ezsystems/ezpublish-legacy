@@ -46,6 +46,13 @@ class eZImageType extends eZDataType
     {
         $imageHandler = $contentObjectAttribute->attribute( "content" );
         $originalAlias = $imageHandler->imageAlias( "original" );
+
+        // check if there is an actual image, 'is_valid' says if there is an image or not
+        if ( $originalAlias['is_valid'] != '1' && empty( $originalAlias['filename'] ) )
+        {
+            return;
+        }
+
         $basenameHashed = md5( $originalAlias["basename"] );
         $trashedFolder = "{$originalAlias["dirpath"]}/trashed";
         $imageHandler->updateAliasPath( $trashedFolder, $basenameHashed );
