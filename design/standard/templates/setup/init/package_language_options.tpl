@@ -24,11 +24,11 @@
         <td>{$package_language.name}</td>
         <td>
             <select name={concat("eZSetupPackageLanguageMap[", $package_language.locale, "]")}>
-                <option value="skip">{'Skip content in this language'|i18n( 'design/standard/setup/init' )}</option>
-                <option value="{$package_language.locale}">{'Create language'|i18n( 'design/standard/setup/init' )}</option>
-                {foreach $site_language_list as $site_language}
-                    <option value="{$site_language.locale}">{concat('Map to '|i18n( 'design/standard/setup/init' ),$site_language.name)}</option>
+                {foreach $site_language_list as $site_language_key => $site_language}
+                    <option value="{$site_language.locale}"{if $site_language_key|eq(0)} selected="selected"{/if}>{concat('Map to '|i18n( 'design/standard/setup/init' ),$site_language.name)}</option>
                 {/foreach}
+                <option value="{$package_language.locale}">{'Create language'|i18n( 'design/standard/setup/init' )}</option>
+                <option value="skip">{'Skip content in this language'|i18n( 'design/standard/setup/init' )}</option>
             </select>
         </td>
     </tr>
