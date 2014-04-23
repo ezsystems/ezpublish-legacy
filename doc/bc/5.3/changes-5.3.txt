@@ -18,6 +18,12 @@ Change of behavior
 
   This change is needed to make ezfind.ini[IndexOptions]\DisableDeleteCommits option of eZFind actually work.
 
+- EZP-22641: changed ezmultiupload preview templates source
+
+  ezmultiupload now uses content/view templates instead of node/view templates.
+  This makes it able to display unpublished content (approval, async. publishing...)
+  As a consequence, overrides of node/view/line_thumbnail.tpl must be changed to
+  overrides of content/view/line_thumbnail.tpl.
 
 Removed features
 ----------------
