@@ -99,7 +99,10 @@ class ezpKernelTreeMenu implements ezpKernelHandler
         eZExecution::addFatalErrorHandler(
             function ()
             {
-                header( $_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error' );
+                if ( !headers_sent() )
+                {
+                    header( $_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error' );
+                }
             }
         );
         eZDebug::setHandleType( eZDebug::HANDLE_FROM_PHP );
