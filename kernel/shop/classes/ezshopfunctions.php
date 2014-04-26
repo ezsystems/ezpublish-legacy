@@ -107,13 +107,23 @@ class eZShopFunctions
         return in_array( $dataTypeString, eZShopFunctions::productDatatypeStringList() );
     }
 
-    /*!
-     \static
-    */
+    /**
+     * Since 5.3 you can define a ini variable containing all datatypes having prices.
+     * If the setting is not present, function will return a hardcoded list of them
+     * like it did before.
+     *
+     * @return array
+     */
     static function productDatatypeStringList()
     {
-        return array( 'ezprice',
-                      'ezmultiprice' );
+        $ini = eZINI::instance();
+        if ( $ini->hasVariable( 'ShopSettings', 'ProductDatatypeStringList' ) )
+            return eZINI::instance()->variable('ShopSettings', 'ProductDatatypeStringList' );
+
+        return array(
+            'ezprice',
+            'ezmultiprice'
+        );
     }
 
     static function productClassList()
