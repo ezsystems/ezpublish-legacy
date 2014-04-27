@@ -5310,6 +5310,10 @@
         <source>Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.</source>
         <translation>Usunięcie nie powiodło się, ponieważ w węźle znajduje się obiekt, na którym wykonywana jest operacja. Proszę zakończyć dany proces, a następnie powtórzyć operację usunięcia.</translation>
     </message>
+    <message>
+        <source>Objects containing ezuser attributes can not be sent to trash</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
@@ -23307,7 +23311,7 @@ This functionality is also available at a later time from the Administration Int
     </message>
     <message>
         <source>enter the following into your httpd.conf file.</source>
-        <translation>wprowadź następujące dane do pliku konfiguracyjnego httpd.conf.</translation>
+        <translation type="obsolete">wprowadź następujące dane do pliku konfiguracyjnego httpd.conf.</translation>
     </message>
     <message>
         <source>Remember to restart your web server afterwards.</source>
@@ -23315,7 +23319,7 @@ This functionality is also available at a later time from the Administration Int
     </message>
     <message>
         <source>AcceptPathInfo disabled or running in CGI mode</source>
-        <translation>AcceptPathInfo wyłączone lub PHP jest uruchomione w trybie CGI</translation>
+        <translation type="obsolete">AcceptPathInfo wyłączone lub PHP jest uruchomione w trybie CGI</translation>
     </message>
     <message>
         <source>Missing text creation functions</source>
@@ -23406,7 +23410,7 @@ Jest to naruszenie zasad bezpieczeństwa i katalog powinien zostać zmieniony na
     </message>
     <message>
         <source>You need to enable AcceptPathInfo in your Apache config file, if you&apos;re using apache 2.x.</source>
-        <translation>Apache w wersji 2.x wymaga włączonej opcji AcceptPathInfo w pliku konfiguracyjnym.</translation>
+        <translation type="obsolete">Apache w wersji 2.x wymaga włączonej opcji AcceptPathInfo w pliku konfiguracyjnym.</translation>
     </message>
     <message>
         <source>allow_url_fopen ini setting is disabled</source>
@@ -23446,7 +23450,7 @@ Jest to naruszenie zasad bezpieczeństwa i katalog powinien zostać zmieniony na
     </message>
     <message>
         <source>If you&apos;re running apache 1.3, eZ Publish will not run in CGI mode.</source>
-        <translation>Jeśli używasz Apache 1.3, eZ publish nie będzie działał w trybie CGI.</translation>
+        <translation type="obsolete">Jeśli używasz Apache 1.3, eZ publish nie będzie działał w trybie CGI.</translation>
     </message>
     <message>
         <source>eZ Publish cannot write to the</source>
@@ -23715,6 +23719,26 @@ Aby to zrobić, należy polecenia %chown zamienić na alternatywne polecenia pow
     <message>
         <source>To fix this, edit your php.ini configuration and add E to the variables_order setting and restart your webserver.</source>
         <translation>Aby to naprawić należy w pliku php.ini dodać E do ustawienia variables_order i ponownie uruchomić serwer www.</translation>
+    </message>
+    <message>
+        <source>Missing intl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The intl extension, required for internationalization, is not installed or enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More information on installing it is available at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing xsl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The xsl extension, required by rich text handling, is not installed or enabled.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -5343,6 +5343,10 @@
         <source>Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Objects containing ezuser attributes can not be sent to trash</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
@@ -23417,11 +23421,11 @@ This functionality is also available at a later time from the Administration Int
     </message>
     <message>
         <source>AcceptPathInfo disabled or running in CGI mode</source>
-        <translation>AcceptPathInfo отключено либо выполняется в режиме CGI</translation>
+        <translation type="obsolete">AcceptPathInfo отключено либо выполняется в режиме CGI</translation>
     </message>
     <message>
         <source>enter the following into your httpd.conf file.</source>
-        <translation>введите следующее в ваш файл httpd.conf.</translation>
+        <translation type="obsolete">введите следующее в ваш файл httpd.conf.</translation>
     </message>
     <message>
         <source>Remember to restart your web server afterwards.</source>
@@ -23523,7 +23527,7 @@ This is a security problem and should be changed to another global temporary dir
     </message>
     <message>
         <source>You need to enable AcceptPathInfo in your Apache config file, if you&apos;re using apache 2.x.</source>
-        <translation>Если вы используете apache 2.x., необходимо включить AcceptPathInfo в конфигурационном файле Apache.</translation>
+        <translation type="obsolete">Если вы используете apache 2.x., необходимо включить AcceptPathInfo в конфигурационном файле Apache.</translation>
     </message>
     <message>
         <source>allow_url_fopen ini setting is disabled</source>
@@ -23571,7 +23575,7 @@ Without this the setup cannot finish and parts of eZ Publish will fail.</source>
     </message>
     <message>
         <source>If you&apos;re running apache 1.3, eZ Publish will not run in CGI mode.</source>
-        <translation>Выполнение в режиме CGI при запуске apache 1.3, eZ Publish невозможно.</translation>
+        <translation type="obsolete">Выполнение в режиме CGI при запуске apache 1.3, eZ Publish невозможно.</translation>
     </message>
     <message>
         <source>Your PHP does not have support for all databases that eZ Publish support.</source>
@@ -23831,6 +23835,26 @@ To do this you need to change the %chown commands under Alternative shell comman
     </message>
     <message>
         <source>To fix this, edit your php.ini configuration and add E to the variables_order setting and restart your webserver.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing intl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The intl extension, required for internationalization, is not installed or enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More information on installing it is available at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing xsl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The xsl extension, required by rich text handling, is not installed or enabled.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

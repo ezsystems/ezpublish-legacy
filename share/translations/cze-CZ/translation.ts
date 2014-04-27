@@ -5338,6 +5338,10 @@ Parametry jsou pojeny počátečními a koncovými tags.</translation>
         <source>Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Objects containing ezuser attributes can not be sent to trash</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
@@ -23464,11 +23468,11 @@ Tato funkčnost je také dostupná později v administračním rozhraní.</trans
     </message>
     <message>
         <source>AcceptPathInfo disabled or running in CGI mode</source>
-        <translation>AcceptPathInfo je deaktivované nebo běží v módu CGI</translation>
+        <translation type="obsolete">AcceptPathInfo je deaktivované nebo běží v módu CGI</translation>
     </message>
     <message>
         <source>enter the following into your httpd.conf file.</source>
-        <translation>vložte následující do Vašeho httpd.conf souboru.</translation>
+        <translation type="obsolete">vložte následující do Vašeho httpd.conf souboru.</translation>
     </message>
     <message>
         <source>Remember to restart your web server afterwards.</source>
@@ -23571,7 +23575,7 @@ Toto by mohlo ohrozit bezpečnost. Je třeba ho umístit do jiného dočasného 
     </message>
     <message>
         <source>You need to enable AcceptPathInfo in your Apache config file, if you&apos;re using apache 2.x.</source>
-        <translation>Pokud používáte apache 2.x., potřebujete aktivovat AcceptPathInfo ve Vašem konfiguračním souboru Apache.</translation>
+        <translation type="obsolete">Pokud používáte apache 2.x., potřebujete aktivovat AcceptPathInfo ve Vašem konfiguračním souboru Apache.</translation>
     </message>
     <message>
         <source>allow_url_fopen ini setting is disabled</source>
@@ -23611,7 +23615,7 @@ Toto by mohlo ohrozit bezpečnost. Je třeba ho umístit do jiného dočasného 
     </message>
     <message>
         <source>If you&apos;re running apache 1.3, eZ Publish will not run in CGI mode.</source>
-        <translation>Pokud máte spuštěnou verzi 1.3 apache, eZ Publish nebude spuštěn v CGI módu.</translation>
+        <translation type="obsolete">Pokud máte spuštěnou verzi 1.3 apache, eZ Publish nebude spuštěn v CGI módu.</translation>
     </message>
     <message>
         <source>eZ Publish cannot write to the</source>
@@ -23879,6 +23883,26 @@ Abyste to mohli provést potřebujete změnit %chown příkazy pod alternativní
     </message>
     <message>
         <source>To fix this, edit your php.ini configuration and add E to the variables_order setting and restart your webserver.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing intl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The intl extension, required for internationalization, is not installed or enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More information on installing it is available at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing xsl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The xsl extension, required by rich text handling, is not installed or enabled.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

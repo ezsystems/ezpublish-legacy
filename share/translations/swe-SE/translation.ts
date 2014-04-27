@@ -5339,6 +5339,10 @@ Knapp</translation>
         <source>Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.</source>
         <translation>Borttagningen misslyckades då det finns väntande underobjekt i noden. Slutför pågående process innan du försöker ta bort igen.</translation>
     </message>
+    <message>
+        <source>Objects containing ezuser attributes can not be sent to trash</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
@@ -23433,11 +23437,11 @@ Denna funktionalitet finns också tillgänglig senare via Administrationsgränss
     </message>
     <message>
         <source>AcceptPathInfo disabled or running in CGI mode</source>
-        <translation>AcceptPathInfo avstängd eller körs i CGI-alternativ</translation>
+        <translation type="obsolete">AcceptPathInfo avstängd eller körs i CGI-alternativ</translation>
     </message>
     <message>
         <source>enter the following into your httpd.conf file.</source>
-        <translation>fyll i följande i din httpd.conf fil.</translation>
+        <translation type="obsolete">fyll i följande i din httpd.conf fil.</translation>
     </message>
     <message>
         <source>Remember to restart your web server afterwards.</source>
@@ -23539,7 +23543,7 @@ Detta är ett säkerhetsproblem och bör ändras till en annan global temporär 
     </message>
     <message>
         <source>You need to enable AcceptPathInfo in your Apache config file, if you&apos;re using apache 2.x.</source>
-        <translation>Du måste starta AcceptPathInfo i din Apache konfigurationsfil om du använder apache 2.x.</translation>
+        <translation type="obsolete">Du måste starta AcceptPathInfo i din Apache konfigurationsfil om du använder apache 2.x.</translation>
     </message>
     <message>
         <source>allow_url_fopen ini setting is disabled</source>
@@ -23579,7 +23583,7 @@ Detta är ett säkerhetsproblem och bör ändras till en annan global temporär 
     </message>
     <message>
         <source>If you&apos;re running apache 1.3, eZ Publish will not run in CGI mode.</source>
-        <translation>Om du kör apache 1.3 kommer eZ Publish inte att köra i CGI-läge.</translation>
+        <translation type="obsolete">Om du kör apache 1.3 kommer eZ Publish inte att köra i CGI-läge.</translation>
     </message>
     <message>
         <source>eZ Publish cannot write to the</source>
@@ -23848,6 +23852,26 @@ För att göra detta måste du ändra %chown kommandona under Alternativa shell-
     <message>
         <source>To fix this, edit your php.ini configuration and add E to the variables_order setting and restart your webserver.</source>
         <translation>För att ändra, redigera din php.ini-konfiguration och lägg till &apos;E&apos; till &apos;variables_order&apos;-inställningen och starta om din webbserver.</translation>
+    </message>
+    <message>
+        <source>Missing intl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The intl extension, required for internationalization, is not installed or enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More information on installing it is available at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing xsl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The xsl extension, required by rich text handling, is not installed or enabled.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

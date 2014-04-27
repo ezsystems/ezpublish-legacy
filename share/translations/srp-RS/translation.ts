@@ -6071,6 +6071,10 @@
         <source>Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Objects containing ezuser attributes can not be sent to trash</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
@@ -26035,11 +26039,11 @@ It is possible to change these settings at a later time.</source>
     </message>
     <message>
         <source>AcceptPathInfo disabled or running in CGI mode</source>
-        <translation>AcceptPathInfo је деактивиран или ради у CGI-у </translation>
+        <translation type="obsolete">AcceptPathInfo је деактивиран или ради у CGI-у </translation>
     </message>
     <message>
         <source>enter the following into your httpd.conf file.</source>
-        <translation>унесите следеће у своју httpd.conf датотеку.</translation>
+        <translation type="obsolete">унесите следеће у своју httpd.conf датотеку.</translation>
     </message>
     <message>
         <source>Remember to restart your web server afterwards.</source>
@@ -26195,7 +26199,7 @@ It is possible to change these settings at a later time.</source>
     </message>
     <message>
         <source>You need to enable AcceptPathInfo in your Apache config file, if you&apos;re using apache 2.x.</source>
-        <translation>Морате да омогућите AcceptPathInfo у вашем Apache config фајлу, ако користите apache 2.x.</translation>
+        <translation type="obsolete">Морате да омогућите AcceptPathInfo у вашем Apache config фајлу, ако користите apache 2.x.</translation>
     </message>
     <message>
         <source>If you&apos;re running apache 1.3, eZ publish will not run in CGI mode.</source>
@@ -26215,7 +26219,7 @@ It is possible to change these settings at a later time.</source>
     </message>
     <message>
         <source>If you&apos;re running apache 1.3, eZ Publish will not run in CGI mode.</source>
-        <translation>Ако користите apache 1.3, eZ publish неће радити у CGI моду.</translation>
+        <translation type="obsolete">Ако користите apache 1.3, eZ publish неће радити у CGI моду.</translation>
     </message>
     <message>
         <source>eZ Publish cannot write to the</source>
@@ -26513,6 +26517,26 @@ To do this you need to change the %chown commands under Alternative shell comman
     </message>
     <message>
         <source>To fix this, edit your php.ini configuration and add E to the variables_order setting and restart your webserver.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing intl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The intl extension, required for internationalization, is not installed or enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More information on installing it is available at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing xsl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The xsl extension, required by rich text handling, is not installed or enabled.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -6015,6 +6015,10 @@
         <source>Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Objects containing ezuser attributes can not be sent to trash</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
@@ -25992,11 +25996,11 @@ This functionality is also available at a later time from the Administration Int
     </message>
     <message>
         <source>AcceptPathInfo disabled or running in CGI mode</source>
-        <translation>AcceptPathInfo 已停用，或是在 CGI 模式中執行</translation>
+        <translation type="obsolete">AcceptPathInfo 已停用，或是在 CGI 模式中執行</translation>
     </message>
     <message>
         <source>enter the following into your httpd.conf file.</source>
-        <translation>輸入下列設定到你的 httpd.conf 檔案。</translation>
+        <translation type="obsolete">輸入下列設定到你的 httpd.conf 檔案。</translation>
     </message>
     <message>
         <source>Remember to restart your web server afterwards.</source>
@@ -26158,7 +26162,7 @@ To do this you need to change the %chown commands under Alternative shell comman
     </message>
     <message>
         <source>You need to enable AcceptPathInfo in your Apache config file, if you&apos;re using apache 2.x.</source>
-        <translation>如果你請使用 apache 2.x，你需要在你的 Apache 配置檔案中啟用 AcceptPathInfo。</translation>
+        <translation type="obsolete">如果你請使用 apache 2.x，你需要在你的 Apache 配置檔案中啟用 AcceptPathInfo。</translation>
     </message>
     <message>
         <source>If you&apos;re running apache 1.3, eZ publish will not run in CGI mode.</source>
@@ -26202,7 +26206,7 @@ To do this you need to change the %chown commands under Alternative shell comman
     </message>
     <message>
         <source>If you&apos;re running apache 1.3, eZ Publish will not run in CGI mode.</source>
-        <translation type="unfinished">如果你正在執行 apache 1.3，eZ publish 將無法在 CGI 模式中運行。</translation>
+        <translation type="obsolete">如果你正在執行 apache 1.3，eZ publish 將無法在 CGI 模式中運行。</translation>
     </message>
     <message>
         <source>Your PHP does not have support for all databases that eZ Publish support.</source>
@@ -26470,6 +26474,26 @@ To do this you need to change the %chown commands under Alternative shell comman
     </message>
     <message>
         <source>To fix this, edit your php.ini configuration and add E to the variables_order setting and restart your webserver.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing intl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The intl extension, required for internationalization, is not installed or enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More information on installing it is available at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing xsl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The xsl extension, required by rich text handling, is not installed or enabled.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

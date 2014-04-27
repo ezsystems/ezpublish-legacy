@@ -5369,6 +5369,10 @@
         <source>Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.</source>
         <translation>La eliminació ha fallat per que hi han sub objectes pendents sota el node. Si us plau, acaba el procés corresponent i desprès torna al procés d&apos;eliminació.</translation>
     </message>
+    <message>
+        <source>Objects containing ezuser attributes can not be sent to trash</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
@@ -23540,11 +23544,11 @@ També podràs fer-ho més endavant de la Interfície d&apos;Administració.</tr
     </message>
     <message>
         <source>AcceptPathInfo disabled or running in CGI mode</source>
-        <translation>AcceptPathInfo desactivat o mode CGI en funcionament </translation>
+        <translation type="obsolete">AcceptPathInfo desactivat o mode CGI en funcionament </translation>
     </message>
     <message>
         <source>enter the following into your httpd.conf file.</source>
-        <translation>introdueix el següent en el fitxer httpd.conf.</translation>
+        <translation type="obsolete">introdueix el següent en el fitxer httpd.conf.</translation>
     </message>
     <message>
         <source>Remember to restart your web server afterwards.</source>
@@ -23646,7 +23650,7 @@ Això és un problema de seguretat i ha de ser canviat a un altre directori glob
     </message>
     <message>
         <source>You need to enable AcceptPathInfo in your Apache config file, if you&apos;re using apache 2.x.</source>
-        <translation>Has d&apos;activar AcceptPathInfo al teu fitxer de configuració d&apos;Apache, si estàs fent servir apache 2.x.</translation>
+        <translation type="obsolete">Has d&apos;activar AcceptPathInfo al teu fitxer de configuració d&apos;Apache, si estàs fent servir apache 2.x.</translation>
     </message>
     <message>
         <source>allow_url_fopen ini setting is disabled</source>
@@ -23694,7 +23698,7 @@ Sense aquests canvis la instal·lació no pot finalitzar i fallaran algunes part
     </message>
     <message>
         <source>If you&apos;re running apache 1.3, eZ Publish will not run in CGI mode.</source>
-        <translation>Si estàs fent servir apache 1.3, eZ Publish no funcionarà en mode CGI.</translation>
+        <translation type="obsolete">Si estàs fent servir apache 1.3, eZ Publish no funcionarà en mode CGI.</translation>
     </message>
     <message>
         <source>Your PHP does not have support for all databases that eZ Publish support.</source>
@@ -23959,6 +23963,26 @@ Per fer-ho, cal que canviïs els comandaments %chown sota els comandaments alter
     <message>
         <source>To fix this, edit your php.ini configuration and add E to the variables_order setting and restart your webserver.</source>
         <translation>Per arreglar això, edita l&apos;arxiu php.ini i afegeix E a la configuració variables_order i reinicia el teu servidor web.</translation>
+    </message>
+    <message>
+        <source>Missing intl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The intl extension, required for internationalization, is not installed or enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More information on installing it is available at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing xsl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The xsl extension, required by rich text handling, is not installed or enabled.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

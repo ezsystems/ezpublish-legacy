@@ -5368,6 +5368,10 @@
         <source>Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.</source>
         <translation>ノードの下に、保留中のサブオブジェクトが存在するため、削除はできませんでした。関連するタスクを完了させてから改めて削除してください。</translation>
     </message>
+    <message>
+        <source>Objects containing ezuser attributes can not be sent to trash</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
@@ -23468,11 +23472,11 @@ This functionality is also available at a later time from the Administration Int
     </message>
     <message>
         <source>AcceptPathInfo disabled or running in CGI mode</source>
-        <translation>AcceptPathInfo が無効または CGI モードで動作しています</translation>
+        <translation type="obsolete">AcceptPathInfo が無効または CGI モードで動作しています</translation>
     </message>
     <message>
         <source>enter the following into your httpd.conf file.</source>
-        <translation>httpd.conf ファイルに下記の設定を追加してください。</translation>
+        <translation type="obsolete">httpd.conf ファイルに下記の設定を追加してください。</translation>
     </message>
     <message>
         <source>Remember to restart your web server afterwards.</source>
@@ -23573,7 +23577,7 @@ This is a security problem and should be changed to another global temporary dir
     </message>
     <message>
         <source>You need to enable AcceptPathInfo in your Apache config file, if you&apos;re using apache 2.x.</source>
-        <translation>apache 2.x をご利用の場合、Apache の構成ファイル中で AcceptPathInfo を有効にしてください。</translation>
+        <translation type="obsolete">apache 2.x をご利用の場合、Apache の構成ファイル中で AcceptPathInfo を有効にしてください。</translation>
     </message>
     <message>
         <source>allow_url_fopen ini setting is disabled</source>
@@ -23613,7 +23617,7 @@ This is a security problem and should be changed to another global temporary dir
     </message>
     <message>
         <source>If you&apos;re running apache 1.3, eZ Publish will not run in CGI mode.</source>
-        <translation>apache1.3を使う場合、eZ PublishをCGIモードで実行できません。</translation>
+        <translation type="obsolete">apache1.3を使う場合、eZ PublishをCGIモードで実行できません。</translation>
     </message>
     <message>
         <source>Your PHP does not have support for all databases that eZ Publish support.</source>
@@ -23885,6 +23889,26 @@ Webサーバのユーザとグループを知っている場合は、ファイ�
     <message>
         <source>To fix this, edit your php.ini configuration and add E to the variables_order setting and restart your webserver.</source>
         <translation>これを直すために、「php.ini」を直し、「variables_order」設定に「E」を追加して、ウェブサーバを再起動してください。</translation>
+    </message>
+    <message>
+        <source>Missing intl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The intl extension, required for internationalization, is not installed or enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More information on installing it is available at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing xsl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The xsl extension, required by rich text handling, is not installed or enabled.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -6142,6 +6142,10 @@
         <source>Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.</source>
         <translation>La eliminación falló debido a que hay sub objetos pendientes bajo este nodo. Por favor finalice los procesos pendientes e intente volver a eliminar.</translation>
     </message>
+    <message>
+        <source>Objects containing ezuser attributes can not be sent to trash</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
@@ -26385,11 +26389,11 @@ Esta funcionalidad se encuentra también disponible más adelante desde la Inter
     </message>
     <message>
         <source>AcceptPathInfo disabled or running in CGI mode</source>
-        <translation>AcceptPathInfo esta desactivado o ejecutándose en modo CGI</translation>
+        <translation type="obsolete">AcceptPathInfo esta desactivado o ejecutándose en modo CGI</translation>
     </message>
     <message>
         <source>enter the following into your httpd.conf file.</source>
-        <translation>Poner lo siguiente en el archivo httpd.conf.</translation>
+        <translation type="obsolete">Poner lo siguiente en el archivo httpd.conf.</translation>
     </message>
     <message>
         <source>Remember to restart your web server afterwards.</source>
@@ -26551,7 +26555,7 @@ Para hacer esto necesitas cambiar los comandos %chown en comandos de consola alt
     </message>
     <message>
         <source>You need to enable AcceptPathInfo in your Apache config file, if you&apos;re using apache 2.x.</source>
-        <translation>Se necesita activar AcceptPathInfo en el archivo de configuración de Apache, si se usas apache 2.x.</translation>
+        <translation type="obsolete">Se necesita activar AcceptPathInfo en el archivo de configuración de Apache, si se usas apache 2.x.</translation>
     </message>
     <message>
         <source>If you&apos;re running apache 1.3, eZ publish will not run in CGI mode.</source>
@@ -26631,7 +26635,7 @@ Para hacer esto necesitas cambiar los comandos %chown en comandos de consola alt
     </message>
     <message>
         <source>If you&apos;re running apache 1.3, eZ Publish will not run in CGI mode.</source>
-        <translation>Si estás usando apache 1.3, eZ Publish no funcionará en modo CGI.</translation>
+        <translation type="obsolete">Si estás usando apache 1.3, eZ Publish no funcionará en modo CGI.</translation>
     </message>
     <message>
         <source>Your PHP does not have support for all databases that eZ Publish support.</source>
@@ -26892,6 +26896,26 @@ Para hacer esto necesitas cambiar los comandos %chown en comandos de consola alt
     <message>
         <source>To fix this, edit your php.ini configuration and add E to the variables_order setting and restart your webserver.</source>
         <translation>Para corregir esto, edita tu archivo de configuración php.ini y agrega E a la configuración variables_order y reinicia tu servidor web.</translation>
+    </message>
+    <message>
+        <source>Missing intl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The intl extension, required for internationalization, is not installed or enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More information on installing it is available at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing xsl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The xsl extension, required by rich text handling, is not installed or enabled.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

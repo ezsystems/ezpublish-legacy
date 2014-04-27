@@ -5143,6 +5143,10 @@ Database bogstavkodning</translation>
         <source>Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Objects containing ezuser attributes can not be sent to trash</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
@@ -22962,11 +22966,11 @@ Datatypenavn</translation>
     </message>
     <message>
         <source>AcceptPathInfo disabled or running in CGI mode</source>
-        <translation>AcceptPathInfo deativeret eller kører i CGI-tilstand</translation>
+        <translation type="obsolete">AcceptPathInfo deativeret eller kører i CGI-tilstand</translation>
     </message>
     <message>
         <source>enter the following into your httpd.conf file.</source>
-        <translation>indtast det følgende i din httpd.conf fil.</translation>
+        <translation type="obsolete">indtast det følgende i din httpd.conf fil.</translation>
     </message>
     <message>
         <source>Remember to restart your web server afterwards.</source>
@@ -23068,7 +23072,7 @@ Dette er eet sikkerhedsproblem og skulle ændres til et andet globalt, midlertid
     </message>
     <message>
         <source>You need to enable AcceptPathInfo in your Apache config file, if you&apos;re using apache 2.x.</source>
-        <translation>Du skal aktivere AcceptPathInfo i din Apache config-fil, hvis du anvender apache 2.x.</translation>
+        <translation type="obsolete">Du skal aktivere AcceptPathInfo i din Apache config-fil, hvis du anvender apache 2.x.</translation>
     </message>
     <message>
         <source>allow_url_fopen ini setting is disabled</source>
@@ -23108,7 +23112,7 @@ Dette er eet sikkerhedsproblem og skulle ændres til et andet globalt, midlertid
     </message>
     <message>
         <source>If you&apos;re running apache 1.3, eZ Publish will not run in CGI mode.</source>
-        <translation>Hvis du kører apache 1.3, vil eZ Publish ikke køre i CGI-tilstand.</translation>
+        <translation type="obsolete">Hvis du kører apache 1.3, vil eZ Publish ikke køre i CGI-tilstand.</translation>
     </message>
     <message>
         <source>eZ Publish cannot write to the</source>
@@ -23376,6 +23380,26 @@ For at gøre det skal du ændre %chown kommandoer under Alternative skal-kommand
     </message>
     <message>
         <source>To fix this, edit your php.ini configuration and add E to the variables_order setting and restart your webserver.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing intl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The intl extension, required for internationalization, is not installed or enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More information on installing it is available at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing xsl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The xsl extension, required by rich text handling, is not installed or enabled.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

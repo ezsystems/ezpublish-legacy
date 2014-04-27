@@ -5922,6 +5922,10 @@ Tem certeza de que deseja remover a informação coletada?</translation>
         <source>Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.</source>
         <translation>A remoção falhou porque existe um sub-objeto pendente sob o nó. Por favor termine o processo relevante e então refaça a remoção.</translation>
     </message>
+    <message>
+        <source>Objects containing ezuser attributes can not be sent to trash</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
@@ -24068,11 +24072,11 @@ Esta funcionalidade também está disponível após a configuração inicial na 
     </message>
     <message>
         <source>AcceptPathInfo disabled or running in CGI mode</source>
-        <translation>AcceptPathInfo desabilitado ou rodando em modo CGI</translation>
+        <translation type="obsolete">AcceptPathInfo desabilitado ou rodando em modo CGI</translation>
     </message>
     <message>
         <source>enter the following into your httpd.conf file.</source>
-        <translation>adicione o seguinte em seu arquivo httpd.conf.</translation>
+        <translation type="obsolete">adicione o seguinte em seu arquivo httpd.conf.</translation>
     </message>
     <message>
         <source>Remember to restart your web server afterwards.</source>
@@ -24174,7 +24178,7 @@ Este é um problema de segurança e deve ser mudado para um outro diretório pro
     </message>
     <message>
         <source>You need to enable AcceptPathInfo in your Apache config file, if you&apos;re using apache 2.x.</source>
-        <translation>Você precisa habilitar o AcceptPathInfo em seu arquivo de configuração do Apache, se estiver usando o apache 2.x.</translation>
+        <translation type="obsolete">Você precisa habilitar o AcceptPathInfo em seu arquivo de configuração do Apache, se estiver usando o apache 2.x.</translation>
     </message>
     <message>
         <source>allow_url_fopen ini setting is disabled</source>
@@ -24222,7 +24226,7 @@ Sem isto, o assistente não pode terminar e partes do eZ Publish irão falhar.</
     </message>
     <message>
         <source>If you&apos;re running apache 1.3, eZ Publish will not run in CGI mode.</source>
-        <translation>Se você estiver executando o apache 1.3, o eZ Publish não será executado em modo CGI.</translation>
+        <translation type="obsolete">Se você estiver executando o apache 1.3, o eZ Publish não será executado em modo CGI.</translation>
     </message>
     <message>
         <source>Your PHP does not have support for all databases that eZ Publish support.</source>
@@ -24487,6 +24491,26 @@ Para fazer isso, você pode usar o comando %chown embaixo dos comandos do shell 
     <message>
         <source>To fix this, edit your php.ini configuration and add E to the variables_order setting and restart your webserver.</source>
         <translation>Para corrigir isso, edite o seu arquivo de configuração php.ini e adicione E na diretiva variables_order e reinicie o seu servidor web.</translation>
+    </message>
+    <message>
+        <source>Missing intl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The intl extension, required for internationalization, is not installed or enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More information on installing it is available at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing xsl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The xsl extension, required by rich text handling, is not installed or enabled.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

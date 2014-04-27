@@ -5342,6 +5342,10 @@
         <source>Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.</source>
         <translation>Het verwijderen is mislukt omdat er subobjecten onder de locatie in de wachtrij staan. Wacht tot het betreffende proces is afgelopen en probeer het opnieuw.</translation>
     </message>
+    <message>
+        <source>Objects containing ezuser attributes can not be sent to trash</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
@@ -23374,11 +23378,11 @@ Deze functionaliteit is ook beschikbaar op een later tijdstip vanaf de beheerint
     </message>
     <message>
         <source>AcceptPathInfo disabled or running in CGI mode</source>
-        <translation>AcceptPathInfo is uitgeschakeld, of CGI mode wordt gebruikt</translation>
+        <translation type="obsolete">AcceptPathInfo is uitgeschakeld, of CGI mode wordt gebruikt</translation>
     </message>
     <message>
         <source>enter the following into your httpd.conf file.</source>
-        <translation>voeg de volgende gegevens toe in uw httpd.conf bestand.</translation>
+        <translation type="obsolete">voeg de volgende gegevens toe in uw httpd.conf bestand.</translation>
     </message>
     <message>
         <source>Remember to restart your web server afterwards.</source>
@@ -23472,7 +23476,7 @@ Dit is een groot beveiligings lek en dient onmiddellijk te worden verholpen!</tr
     </message>
     <message>
         <source>You need to enable AcceptPathInfo in your Apache config file, if you&apos;re using apache 2.x.</source>
-        <translation>U moet AcceptPathInfo in uw Apache configuratiebestand inschakelen indien u apache 2.x gebruikt.</translation>
+        <translation type="obsolete">U moet AcceptPathInfo in uw Apache configuratiebestand inschakelen indien u apache 2.x gebruikt.</translation>
     </message>
     <message>
         <source>allow_url_fopen ini setting is disabled</source>
@@ -23512,7 +23516,7 @@ Dit is een groot beveiligings lek en dient onmiddellijk te worden verholpen!</tr
     </message>
     <message>
         <source>If you&apos;re running apache 1.3, eZ Publish will not run in CGI mode.</source>
-        <translation>Indien u apache 1.3 heeft geactiveerd, zal eZ Publish niet in de CGI-modus werken.</translation>
+        <translation type="obsolete">Indien u apache 1.3 heeft geactiveerd, zal eZ Publish niet in de CGI-modus werken.</translation>
     </message>
     <message>
         <source>eZ Publish cannot write to the</source>
@@ -23780,6 +23784,26 @@ Om dit te doen, moet u de %chown commando&apos;s bij de alternatieve shellcomman
     </message>
     <message>
         <source>To fix this, edit your php.ini configuration and add E to the variables_order setting and restart your webserver.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing intl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The intl extension, required for internationalization, is not installed or enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More information on installing it is available at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing xsl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The xsl extension, required by rich text handling, is not installed or enabled.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

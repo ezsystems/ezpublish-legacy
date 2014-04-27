@@ -5353,6 +5353,10 @@
         <source>Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.</source>
         <translation>La suppression a échoué car une opération est en cours sur un objet sous ce nœud. Veuillez terminer l&apos;application responsable de cet état avant de réitérer la suppression.</translation>
     </message>
+    <message>
+        <source>Objects containing ezuser attributes can not be sent to trash</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
@@ -23448,11 +23452,11 @@ Ces fonctionnalités sont également disponible plus tard via l&apos;interface d
     </message>
     <message>
         <source>AcceptPathInfo disabled or running in CGI mode</source>
-        <translation>AcceptPathInfo désactivé ou utilisation du mode CGI</translation>
+        <translation type="obsolete">AcceptPathInfo désactivé ou utilisation du mode CGI</translation>
     </message>
     <message>
         <source>enter the following into your httpd.conf file.</source>
-        <translation>Entrer la suite dans le fichier httpd.conf.</translation>
+        <translation type="obsolete">Entrer la suite dans le fichier httpd.conf.</translation>
     </message>
     <message>
         <source>Remember to restart your web server afterwards.</source>
@@ -23590,7 +23594,7 @@ Ceci représente un problème de sécurité et devrait être changé en un autre
     </message>
     <message>
         <source>You need to enable AcceptPathInfo in your Apache config file, if you&apos;re using apache 2.x.</source>
-        <translation>Vous devez activer l&apos;option AcceptPathInfo dans votre fichier de configuration Apache, si vous utilisez apache 2.x.</translation>
+        <translation type="obsolete">Vous devez activer l&apos;option AcceptPathInfo dans votre fichier de configuration Apache, si vous utilisez apache 2.x.</translation>
     </message>
     <message>
         <source>allow_url_fopen ini setting is disabled</source>
@@ -23630,7 +23634,7 @@ Ceci représente un problème de sécurité et devrait être changé en un autre
     </message>
     <message>
         <source>If you&apos;re running apache 1.3, eZ Publish will not run in CGI mode.</source>
-        <translation>Si vous utilisez Apache 1.3, eZ Publish ne fonctionnera pas en mode CGI.</translation>
+        <translation type="obsolete">Si vous utilisez Apache 1.3, eZ Publish ne fonctionnera pas en mode CGI.</translation>
     </message>
     <message>
         <source>eZ Publish cannot write to the</source>
@@ -23897,6 +23901,26 @@ Pour faire cela, vous avez besoin de changer les commandes %chown sous une autre
     <message>
         <source>To fix this, edit your php.ini configuration and add E to the variables_order setting and restart your webserver.</source>
         <translation>Pour corriger cela, éditez votre configuration php.ini et ajouter E à la variable de configuration variables_order et redémarrez votre serveur web.</translation>
+    </message>
+    <message>
+        <source>Missing intl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The intl extension, required for internationalization, is not installed or enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More information on installing it is available at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing xsl extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The xsl extension, required by rich text handling, is not installed or enabled.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
