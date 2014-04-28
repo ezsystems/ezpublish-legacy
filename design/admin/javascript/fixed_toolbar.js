@@ -33,7 +33,7 @@ YUI(YUI3_config).use('event', 'node-screen', 'node-style', 'selector-css3', 'tra
             formY = parseInt(columns.getY()) - toolbarHeight;
             Y.on('scroll', handleScroll);
             if ( form.get('docScrollY') < formY ) {
-                window.scrollTo(0, formY + 1, 0);
+                window.scrollTo(0, formY + 1);
                 firstInput = form.one('input[type=text]:enabled');
                 if ( firstInput )
                     firstInput.focus();
