@@ -28,7 +28,6 @@ class eZDateTimeValidator extends eZInputValidator
         $check = checkdate( $month, $day, $year );
         $datetime = mktime( 0, 0, 0, $month, $day, $year );
         if ( !$check or
-             $year < 1970 or
              $datetime === false )
         {
             return eZInputValidator::STATE_INVALID;
@@ -54,7 +53,6 @@ class eZDateTimeValidator extends eZInputValidator
         $check = checkdate( $month, $day, $year );
         $datetime = mktime( $hour, $minute, $second, $month, $day, $year );
         if ( !$check or
-             $year < 1970 or
              $datetime === false or
              eZDateTimeValidator::validateTime( $hour, $minute ) == eZInputValidator::STATE_INVALID )
         {
