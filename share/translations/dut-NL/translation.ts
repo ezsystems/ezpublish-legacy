@@ -22021,7 +22021,7 @@ Om dit probleem op te lossten kunt u het volgende doen:</translation>
     </message>
     <message>
         <source>Site registration</source>
-        <translation>Registratie van de site</translation>
+        <translation type="obsolete">Registratie van de site</translation>
     </message>
     <message>
         <source>Site access configuration</source>
@@ -22187,31 +22187,31 @@ Om dit probleem op te lossten kunt u het volgende doen:</translation>
     </message>
     <message>
         <source>Send registration</source>
-        <translation>Aanmelding versturen</translation>
+        <translation type="obsolete">Aanmelding versturen</translation>
     </message>
     <message>
         <source>System details (OS type, etc)</source>
-        <translation>Systeemgegevens (OS type, enz.)</translation>
+        <translation type="obsolete">Systeemgegevens (OS type, enz.)</translation>
     </message>
     <message>
         <source>The test results</source>
-        <translation>De testresultaten</translation>
+        <translation type="obsolete">De testresultaten</translation>
     </message>
     <message>
         <source>The database type</source>
-        <translation>Het database-type</translation>
+        <translation type="obsolete">Het database-type</translation>
     </message>
     <message>
         <source>The site name</source>
-        <translation>De naam van de website</translation>
+        <translation type="obsolete">De naam van de website</translation>
     </message>
     <message>
         <source>The url of the site</source>
-        <translation>De URL van de website</translation>
+        <translation type="obsolete">De URL van de website</translation>
     </message>
     <message>
         <source>Languages chosen</source>
-        <translation>Geselecteerde talen</translation>
+        <translation type="obsolete">Geselecteerde talen</translation>
     </message>
     <message>
         <source>Site security</source>
@@ -22851,11 +22851,11 @@ eZ Publish link</translation>
     </message>
     <message>
         <source>By sending registration the following data will be sent to eZ Systems</source>
-        <translation>Door de registratie te verzenden, zullen de volgende gegevens naar eZ Systems verzonden worden</translation>
+        <translation type="obsolete">Door de registratie te verzenden, zullen de volgende gegevens naar eZ Systems verzonden worden</translation>
     </message>
     <message>
         <source>This data will help to improve future releases of eZ Publish.</source>
-        <translation>Deze gegevens zullen helpen om de toekomstige releases van eZ Publish te verbeteren.</translation>
+        <translation type="obsolete">Deze gegevens zullen helpen om de toekomstige releases van eZ Publish te verbeteren.</translation>
     </message>
     <message>
         <source>Your site is not running in a virtual host mode, this is insecure. It is recommended to run eZ Publish in virtual host mode. If you do not have the possibility to use virtual host mode, you should follow the instructions below about how to install an .htaccess file. The .htaccess file tells the web server to restrict the access to certain files.</source>
@@ -22948,48 +22948,12 @@ Deze functionaliteit is ook beschikbaar op een later tijdstip vanaf de beheerint
         <translation type="unfinished">Land</translation>
     </message>
     <message>
-        <source>In order to provide you with the best service in the future, we need some statistics to know a bit about your usage of eZ Publish and its underlying platform.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>In return this will also provide you with heads-up on security issues, notifications about updates, upgrades and other important news.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This happens periodically, and you will always be able to opt-out of this at anytime.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Could not send registration data</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Required data is either missing or is invalid</source>
-        <translation type="unfinished">Vereiste data ontbreekt of is ongeldig</translation>
-    </message>
-    <message>
-        <source>Registration information email:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Vereiste data ontbreekt of is ongeldig</translation>
     </message>
     <message>
         <source>Company</source>
-        <translation type="unfinished">Bedrijf</translation>
-    </message>
-    <message>
-        <source>Is this the first time you are installing eZ Publish?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Included some simple technical information?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Contents of registration email</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>We care for your privacy. Read more &lt;a href=&apos;%link&apos; target=&apos;_blank&apos;&gt;here&lt;/a&gt;. This data will be treated securely and not shared with third parties without your permission.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Bedrijf</translation>
     </message>
     <message>
         <source>Welcome to %edition %version</source>
@@ -23005,6 +22969,44 @@ Deze functionaliteit is ook beschikbaar op een later tijdstip vanaf de beheerint
     </message>
     <message>
         <source>Notice: The out of the box front-end site often relies on data within a package. This is why it is strongly suggested to map the package language to your primary language, otherwise you&apos;ll need to adjust the configuration and template files to get it working.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Opensource software is nothing without a vibrant community!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;If you need to share knowledge, exchange tips with developers or simply find some improvement tricks, the eZ Community is the place to go.&lt;/p&gt;
+
+&lt;p&gt;
+How do you access it?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Go on &lt;a href=&quot;http://share.ez.no/&quot; title=&quot;eZ Community&quot;&gt;share.ez.no&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Click on Register (top of the page) and create your profile&lt;/li&gt;
+&lt;li&gt;Here you can check out the &lt;a href=&quot;http://share.ez.no/blogs&quot;&gt;blog posts&lt;/a&gt;,
+    &lt;a href=&quot;http://share.ez.no/events&quot;&gt;events&lt;/a&gt;, &lt;a href=&quot;http://share.ez.no/members-partners/find-a-partner&quot;&gt;partners&lt;/a&gt;...&lt;/li&gt;
+&lt;/ul&gt;&lt;/p&gt;
+&lt;p&gt;We<byte value="x19"/>re looking forward to seeing what you share with the Community!&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discover the eZ Publish Platform forums</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ Publish 5 platform</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Installation &amp; configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Setup and design</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>General</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
