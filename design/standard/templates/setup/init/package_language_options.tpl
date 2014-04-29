@@ -34,6 +34,11 @@
     </tr>
   {/foreach}
   </table>
+
+<p>
+<em>{"Notice: The out of the box front-end site often relies on data within a package. This is why it is strongly suggested to map the package language to your primary language, otherwise you'll need to adjust the configuration and template files to get it working."|i18n("design/standard/setup/init")}</em>
+</p>
+
 </fieldset>
 
 {include uri="design:setup/persistence.tpl"}
