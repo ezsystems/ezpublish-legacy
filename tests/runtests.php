@@ -12,7 +12,6 @@
 set_time_limit( 0 );
 
 require_once 'autoload.php';
-require_once 'PHPUnit/Autoload.php';
 
 if ( !class_exists( 'ezpTestRunner', true ) )
 {
