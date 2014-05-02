@@ -348,8 +348,8 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
             $realParentPathArray = $this->originalNodeParent->attribute( 'path_array' );
             $realParentPath = implode( '/', $realParentPathArray );
 
-            array_pop( $this->pathArray );
-            $thisParentPath = implode( '/', $this->pathArray );
+            $thisParentPathArray = array_slice( $this->pathArray, 0, -1 );
+            $thisParentPath = implode( '/', $thisParentPathArray );
 
             if ( $thisParentPath == $realParentPath )
             {
