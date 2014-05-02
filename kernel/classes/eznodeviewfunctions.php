@@ -563,7 +563,7 @@ class eZNodeviewfunctions
 
         if ( $node->attribute( 'is_invisible' ) && !eZContentObjectTreeNode::showInvisibleNodes() )
         {
-            return self::contentViewGenerateError( $Module, eZError::KERNEL_ACCESS_DENIED );
+            return self::contentViewGenerateError( $Module, eZError::KERNEL_NOT_AVAILABLE );
         }
 
         if ( !$node->canRead() )
