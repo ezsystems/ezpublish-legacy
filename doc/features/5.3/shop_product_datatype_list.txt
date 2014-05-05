@@ -1,0 +1,15 @@
+Shop Module
+============
+
+It is now possible to define a list of datatypes containing prices. This will
+allow you to add custom datatypes and work with them in the shop.
+
+Before this setting, you were restricted to use "ezprice" and/or "ezmultiprice" whenever
+you need to use shop module.
+
+A simple use case if described in https://jira.ez.no/browse/EZP-22754
+
+To define your list, you only need to add an array ini variable called 'ProductDatatypeStringList'
+under the [ShopSettings] group in any of your site.ini.append.php files
+
+A commented out example is included in settings/site.ini file
