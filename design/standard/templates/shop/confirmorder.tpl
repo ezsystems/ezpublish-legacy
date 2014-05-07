@@ -51,7 +51,7 @@
 <tr>
 	<td class="{$ProductItem:sequence}">
 	<input type="hidden" name="ProductItemIDList[]" value="{$ProductItem:item.id}" />
-	<a href={concat("/content/view/full/",$ProductItem:item.node_id,"/")|ezurl}>{$ProductItem:item.object_name}</a>
+	<a href={concat("/content/view/full/",$ProductItem:item.node_id,"/")|ezurl}>{$ProductItem:item.object_name|wash}</a>
 	</td>
 	<td class="{$ProductItem:sequence}">
 	{$ProductItem:item.item_count}
@@ -86,8 +86,8 @@
 </tr>
      {section name=Options loop=$ProductItem:item.item_object.option_list}
       <tr>
-        <td width="33%">{$ProductItem:Options:item.name}</td>
-        <td width="33%">{$ProductItem:Options:item.value}</td>
+        <td width="33%">{$ProductItem:Options:item.name|wash}</td>
+        <td width="33%">{$ProductItem:Options:item.value|wash}</td>
         <td width="33%">{$ProductItem:Options:item.price|l10n( 'currency', $locale, $symbol )}</td>
       </tr>
     {/section}
@@ -121,7 +121,7 @@
 {section name=OrderItem loop=$order.order_items show=$order.order_items sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$OrderItem:sequence}">
-	{$OrderItem:item.description}:
+	{$OrderItem:item.description|wash}:
 	</td>
 	<td class="{$OrderItem:sequence}">
 	{$OrderItem:item.price_ex_vat|l10n( 'currency', $locale, $symbol )}

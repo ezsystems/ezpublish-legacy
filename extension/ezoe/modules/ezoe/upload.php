@@ -121,7 +121,7 @@ if ( $http->hasPostVariable( 'uploadButton' ) || $forcedUpload )
         }
 
         $uploadVersion = $uploadedOk['contentobject']->currentVersion();
-        $newObjectID = $uploadedOk['contentobject']->attribute( 'id' );
+        $newObjectID = (int)$uploadedOk['contentobject']->attribute( 'id' );
 
         foreach ( $uploadVersion->dataMap() as $key => $attr )
         {
@@ -201,7 +201,7 @@ if ( $http->hasPostVariable( 'uploadButton' ) || $forcedUpload )
             eZContentObject::RELATION_EMBED
         );
         echo '<html><head><title>HiddenUploadFrame</title><script type="text/javascript">';
-        echo 'window.parent.eZOEPopupUtils.selectByEmbedId( ' . $newObjectID . ', ' . $newObjectNodeID . ', "' . $newObjectName . '" );';
+        echo 'window.parent.eZOEPopupUtils.selectByEmbedId( ' . $newObjectID . ', ' . $newObjectNodeID . ', ' . json_encode( $newObjectName ) . ' );';
         echo '</script></head><body></body></html>';
     }
     catch ( InvalidArgumentException $e )

@@ -6,7 +6,7 @@
 
 <h1 class="context-title">{'Order #%order_id [%order_status]'|i18n( 'design/admin/shop/orderview',,
                             hash( '%order_id', $order.order_nr,
-                                  '%order_status', $order.status_name ) )}</h1>
+                                  '%order_status', $order.status_name|wash ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 

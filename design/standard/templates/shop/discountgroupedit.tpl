@@ -2,14 +2,14 @@
 <form action={concat($module.functions.discountgroupedit.uri,"/",$discount_group.id)|ezurl} method="post" name="DiscountGroupEdit">
 
 <div class="maincontentheader">
-    <h1>{"Edit discount group - %1"|i18n("design/standard/shop",,array($discount_group.name))}</h1>
+    <h1>{"Edit discount group - %1"|i18n("design/standard/shop",,array($discount_group.name|wash))}</h1>
 </div>
 
 <div class="objectheader">
     <h2>{"Name"|i18n("design/standard/shop")}</h2>
 </div>
 <div class="object">
-    <input type="text" name="discount_group_name" value="{$discount_group.name}" size=40>
+    <input type="text" name="discount_group_name" value="{$discount_group.name|wash}" size=40>
 </div>
 
 <div class="buttonblock">

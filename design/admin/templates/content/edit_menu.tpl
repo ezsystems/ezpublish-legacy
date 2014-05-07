@@ -61,9 +61,9 @@
 {foreach $object.languages as $language}
 	{if not( eq($language.locale, $object.current_language_object.locale) )} {* Only providing other languages than current *}
 	<label>
-	<input type="radio" name="FromLanguage" value="{$language.locale}"{if $language.locale|eq($from_language)} checked="checked"{/if} />
-	<img src="{$language.locale|flag_icon}" width="18" height="12" alt="{$language.locale}" style="vertical-align: middle;" />
-	{$language.locale}
+	<input type="radio" name="FromLanguage" value="{$language.locale|wash}"{if $language.locale|eq($from_language)} checked="checked"{/if} />
+	<img src="{$language.locale|flag_icon}" width="18" height="12" alt="{$language.locale|wash}" style="vertical-align: middle;" />
+	{$language.locale|wash}
 	</label>
 	{/if}
 {/foreach}

@@ -36,7 +36,7 @@
 <div class="context-information">
 <p class="left modified">{'Last modified: %time, %username'|i18n( 'design/admin/class/view',, hash( '%username',$class.modifier.contentobject.name, '%time', $class.modified|l10n( shortdatetime ) ) )|wash}</p>
 {def $locale = fetch( 'content', 'locale', hash( 'locale_code', $language_code ) )}
-<p class="right translation">{$locale.intl_language_name}&nbsp;<img src="{$language_code|flag_icon}" width="18" height="12" alt="{$language_code}" style="vertical-align: middle;" /></p>
+<p class="right translation">{$locale.intl_language_name}&nbsp;<img src="{$language_code|flag_icon}" width="18" height="12" alt="{$language_code|wash}" style="vertical-align: middle;" /></p>
 {undef $locale}
 <div class="break"></div>
 </div>

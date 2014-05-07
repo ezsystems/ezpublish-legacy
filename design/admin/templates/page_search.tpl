@@ -68,7 +68,7 @@
                         {/foreach}
                     </select>
 
-                    <label{if $disabled} class="disabled"{/if}><input type="radio" name="SubTreeArray" value="{$search_node_id}" checked="checked" title="{$search_title|wash}" />{$search_title|wash}</label>
+                    <label{if $disabled} class="disabled"{/if}><input type="radio" name="SubTreeArray" value="{$search_node_id|wash}" checked="checked" title="{$search_title|wash}" />{$search_title|wash}</label>
                     {if $search_node_id|ne( 1 )}
                     <label{if $disabled} class="disabled"{/if}><input type="radio" name="SubTreeArray" value="1"{if $disabled} disabled="disabled"{else} title="{'Search in all content'|i18n( 'design/admin/pagelayout' )}"{/if} />{'Search in all content'|i18n( 'design/admin/pagelayout' )}</label>
                     {/if}

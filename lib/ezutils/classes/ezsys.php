@@ -1223,7 +1223,14 @@ class eZSys
         if ( $phpSelf[1] === '~' )
         {
             $uri = explode( '/', ltrim( $validateDir, '/' ) );
-            array_shift( $uri );
+            $userName = ltrim( array_shift( $uri ), "~" );
+
+            // validating that we have user/ in path
+            if ( !strpos( $scriptFileName, $userName ."/" ) )
+            {
+                return null;
+            }
+
             $validateDir = '/' . implode( '/', $uri );
         }
 

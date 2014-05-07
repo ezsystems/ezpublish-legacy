@@ -253,7 +253,7 @@
     {if $node.can_edit}
         <select id="ezcontent_urlalias_language" name="LanguageCode" title="{'Choose the language for the new URL alias.'|i18n( 'design/admin/content/urlalias' )}">
         {foreach $languages as $language}
-                   <option value="{$language.locale}"{if $language.locale|eq($node.object.current_language)} selected="selected"{/if}>{$language.name|wash}</option>
+                   <option value="{$language.locale|wash}"{if $language.locale|eq($node.object.current_language)} selected="selected"{/if}>{$language.name|wash}</option>
         {/foreach}
         </select>
     {else}

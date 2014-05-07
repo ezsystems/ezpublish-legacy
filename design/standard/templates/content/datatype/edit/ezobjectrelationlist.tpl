@@ -282,7 +282,7 @@
                                 {def $languages=$Relation:object.languages}
                                 <select name="{$attribute_base}_translation_source_{$attribute.id}_{$Relation:object.id}" title="{'This object is not translated, please select the language the new translation will be based on.'|i18n( 'design/standard/content/datatype' )}">
                                     {foreach $languages as $language}
-                                        <option value="{$language.locale}" {if $language.locale|eq( $Relation:object.initial_language_code )}selected="selected"{/if}>{$language.name}</option>
+                                        <option value="{$language.locale|wash}" {if $language.locale|eq( $Relation:object.initial_language_code )}selected="selected"{/if}>{$language.name|wash}</option>
                                     {/foreach}
                                     <option value="">{'None'|i18n( 'design/standard/content/datatype' )}</option>
                                 </select>

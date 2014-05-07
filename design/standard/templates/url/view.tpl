@@ -7,7 +7,7 @@
 <p>{"This means that the URL is no longer available or has been moved."|i18n('design/standard/url')}</p>
 </div>
 {/if}
-<p>{"The URL points to %1."|i18n('design/standard/url',,array(concat('<a href="',$full_url,'">',$full_url,"</a>")))}</p>
+<p>{"The URL points to %1."|i18n('design/standard/url',,array(concat('<a href="',$full_url|wash,'">',$full_url|wash,"</a>")))}</p>
 
 <p>{"Objects which use this link"|i18n('design/standard/url')}:
 

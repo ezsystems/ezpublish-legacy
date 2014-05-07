@@ -2,7 +2,7 @@
 <div class="maincontentheader">
   <h1>{"Order %order_id [%order_status]"|i18n("design/standard/shop",,
        hash( '%order_id', $order.order_nr,
-             '%order_status', $order.status_name ) )}</h1>
+             '%order_status', $order.status_name|wash ) )}</h1>
 </div>
 
 <b>{"Customer"|i18n("design/standard/shop")}</b>
@@ -54,7 +54,7 @@
 {section name=ProductItem loop=$order.product_items show=$order.product_items sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$ProductItem:sequence}">
-	<a href={concat("/content/view/full/",$ProductItem:item.node_id,"/")|ezurl}>{$ProductItem:item.object_name}</a>
+	<a href={concat("/content/view/full/",$ProductItem:item.node_id,"/")|ezurl}>{$ProductItem:item.object_name|wash}</a>
 	</td>
 	<td class="{$ProductItem:sequence}">
 	{$ProductItem:item.item_count}
@@ -100,7 +100,7 @@
 {section name=OrderItem loop=$order.order_items show=$order.order_items sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$OrderItem:sequence}">
-	{$OrderItem:item.description}:
+	{$OrderItem:item.description|wash}:
 	</td>
 	<td class="{$OrderItem:sequence}">
 	{$OrderItem:item.price_ex_vat|l10n( 'currency', $locale, $symbol )}

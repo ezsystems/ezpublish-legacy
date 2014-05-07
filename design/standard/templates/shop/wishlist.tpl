@@ -42,7 +42,7 @@
 	<td class="{$ProductItem:sequence}">
 	<input type="hidden" name="ProductItemIDList[]" value="{$ProductItem:item.id}" />
 	{$ProductItem:item.id} - 
-	<a href={concat("/content/view/full/",$ProductItem:item.node_id,"/")|ezurl}>{$ProductItem:item.object_name}</a>
+	<a href={concat("/content/view/full/",$ProductItem:item.node_id,"/")|ezurl}>{$ProductItem:item.object_name|wash}</a>
 	</td>
 	<td class="{$ProductItem:sequence}">
 
@@ -84,7 +84,7 @@
     {section var=option_item loop=$ProductItem:item.item_object.option_list}
         <tr>
             <td width="33%">{$ProductItem:option_item.name|wash}</td>
-            <td width="33%">{$ProductItem:option_item.value}</td>
+            <td width="33%">{$ProductItem:option_item.value|wash}</td>
             <td width="33%">{if $ProductItem:option_item.price|ne( 0 )}{$ProductItem:option_item.price|l10n(currency)}{/if}</td>
         </tr>
     {/section}

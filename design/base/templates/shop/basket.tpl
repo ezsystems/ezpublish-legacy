@@ -77,7 +77,7 @@
     {section var=product_item loop=$basket.items sequence=array(bglight,bgdark)}
     <tr>
         <td class="{$product_item.sequence} product-name" colspan="6">
-        <a href={concat("/content/view/full/",$product_item.node_id,"/")|ezurl}>{$product_item.object_name}</a>
+        <a href={concat("/content/view/full/",$product_item.node_id,"/")|ezurl}>{$product_item.object_name|wash}</a>
         </td>
     </tr>
     <tr>
@@ -114,7 +114,7 @@
          {section var=option_item loop=$product_item.item_object.option_list}
          <tr>
              <td class="shop-option_name">{$option_item.name|wash}</td>
-             <td class="shop-option_value">{$option_item.value}</td>
+             <td class="shop-option_value">{$option_item.value|wash}</td>
              <td class="shop-option_price">{if $option_item.price|ne( 0 )}{$option_item.price|l10n( 'currency', $locale, $symbol )}{/if}</td>
          </tr>
          {/section}
@@ -131,7 +131,7 @@
     {if is_set( $shipping_info )}
     {* Show shipping type/cost. *}
     <tr>
-    <td class="product-subtotal" colspan="4">{if is_set($shipping_info.management_link)}<a href={$shipping_info.management_link|ezurl}>{/if}{if $shipping_info.description}{$shipping_info.description}{else}{'Shipping'|i18n( 'design/admin/shop/basket' )}{/if}{if is_set($shipping_info.management_link)}</a>{/if}:</td>
+    <td class="product-subtotal" colspan="4">{if is_set($shipping_info.management_link)}<a href={$shipping_info.management_link|ezurl}>{/if}{if $shipping_info.description}{$shipping_info.description|wash}{else}{'Shipping'|i18n( 'design/admin/shop/basket' )}{/if}{if is_set($shipping_info.management_link)}</a>{/if}:</td>
     <td class="product-subtotal">{$shipping_info.cost|l10n( 'currency', $locale, $symbol )}</td>
     <td class="product-subtotal">
     &nbsp;

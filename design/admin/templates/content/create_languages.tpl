@@ -88,7 +88,7 @@
     {foreach $languages as $language}
         {if $language_codes|contains($language.locale)}
             <label>
-                <input name="ContentLanguageCode" type="radio" value="{$language.locale}"{run-once} checked="checked"{/run-once} /> {$language.name|wash}
+                <input name="ContentLanguageCode" type="radio" value="{$language.locale|wash}"{run-once} checked="checked"{/run-once} /> {$language.name|wash}
             </label>
             <div class="labelbreak"></div>
         {/if}

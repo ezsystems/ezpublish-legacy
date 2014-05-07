@@ -1,7 +1,7 @@
 <div class="shop-orderview">
     <h1>{"Order %order_id [%order_status]"|i18n("design/base/shop",,
          hash( '%order_id', $order.order_nr,
-               '%order_status', $order.status_name ) )}</h1>
+               '%order_status', $order.status_name|wash ) )}</h1>
 
     {shop_account_view_gui view=html order=$order}
     {def $currency = fetch( 'shop', 'currency', hash( 'code', $order.productcollection.currency_code ) )
@@ -35,7 +35,7 @@
     {section var=product_item loop=$order.product_items sequence=array(bglight,bgdark)}
     <tr>
         <td class="{$product_item.sequence} product-name" colspan="6">
-        <a href={concat("/content/view/full/",$product_item.node_id,"/")|ezurl}>{$product_item.object_name}</a>
+        <a href={concat("/content/view/full/",$product_item.node_id,"/")|ezurl}>{$product_item.object_name|wash}</a>
         </td>
     </tr>
     <tr>
@@ -63,8 +63,8 @@
          <table class="shop-option_list">
          {section var=option_item loop=$product_item.item_object.option_list}
          <tr>
-             <td class="shop-option_name">{$option_item.name}<br/>
-             <td class="shop-option_value">{$option_item.value}</td>
+             <td class="shop-option_name">{$option_item.name|wash}<br/>
+             <td class="shop-option_value">{$option_item.value|wash}</td>
              <td class="shop-option_price">{if $option_item.price|ne( 0 )}{$option_item.price|l10n( 'currency', $locale, $symbol )}{/if}</td>
          </tr>
          {/section}

@@ -121,7 +121,7 @@
         <div class="right">
             <select name="SortingField" title="{'Select sorting field.'|i18n( 'design/standard/shop/productsoverview' )}">
                 {foreach $sorting_field_list as $field => $fieldTitle}
-                    <option value="{$field}" {if eq( $sorting_field, $field)}selected="selected"{/if}>{$fieldTitle}</option>
+                    <option value="{$field}" {if eq( $sorting_field, $field)}selected="selected"{/if}>{$fieldTitle|wash}</option>
                 {/foreach}
             </select>
 

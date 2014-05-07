@@ -28,6 +28,13 @@ class eZUser extends eZPersistentObject
     /// Passwords in plaintext, should not be used for real sites
     const PASSWORD_HASH_PLAINTEXT = 5;
 
+    /**
+     * Max length allowed for a login or a password
+     *
+     * @var string
+     */
+    const AUTH_STRING_MAX_LENGTH = 4096;
+
     /// Authenticate by matching the login field
     const AUTHENTICATE_LOGIN = 1;
     /// Authenticate by matching the email field
@@ -738,6 +745,9 @@ WHERE user_id = '" . $userID . "' AND
 
         if ( $authenticationMatch === false )
             $authenticationMatch = eZUser::authenticationMatch();
+
+        $login = self::trimAuthString( $login );
+        $password = self::trimAuthString( $password );
 
         $loginEscaped = $db->escapeString( $login );
         $passwordEscaped = $db->escapeString( $password );
@@ -1750,6 +1760,9 @@ WHERE user_id = '" . $userID . "' AND
     */
     static function createHash( $user, $password, $site, $type, $hash = false )
     {
+        $user = self::trimAuthString( $user );
+        $password = self::trimAuthString( $password );
+
         $str = '';
         if( $type == self::PASSWORD_HASH_MD5_USER )
         {
@@ -1778,6 +1791,26 @@ WHERE user_id = '" . $userID . "' AND
         }
         eZDebugSetting::writeDebug( 'kernel-user', $str, "ezuser($type)" );
         return $str;
+    }
+
+    /**
+     * If needed, trims $string using AUTH_STRING_MAX_LENGTH to
+     * avoid DDOS attack when the password is hashed.
+     *
+     * @param $string
+     *
+     * @return string valid password
+     */
+    private static function trimAuthString( $string )
+    {
+        if ( strlen( $string ) <= self::AUTH_STRING_MAX_LENGTH )
+        {
+            return $string;
+        }
+        else
+        {
+            return substr( $string, 0, self::AUTH_STRING_MAX_LENGTH );
+        }
     }
 
     /*!

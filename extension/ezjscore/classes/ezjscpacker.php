@@ -243,7 +243,7 @@ class ezjscPacker
             'pack_level'     => $packLevel,
             'sub_path'       => $subPath,
             'cache_dir'      => self::getCacheDir(),
-            'www_dir'        => self::getWwwDir(),
+            'www_dir'        => htmlspecialchars( self::getWwwDir(), ENT_COMPAT, 'UTF-8' ),
             'index_dir'      => self::getIndexDir(),
             'custom_host'    => ( isset( $customHosts[$fileExtension] ) ? $customHosts[$fileExtension] : '' ),
         );

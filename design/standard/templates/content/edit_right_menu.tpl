@@ -81,7 +81,7 @@
                 <p class="menufieldlabel">{$language.name|wash}</p>
             </td>
             <td>
-                <input type="radio" name="FromLanguage" value="{$language.locale}"{if $language.locale|eq($from_language)} checked="checked"{/if} />
+                <input type="radio" name="FromLanguage" value="{$language.locale|wash}"{if $language.locale|eq($from_language)} checked="checked"{/if} />
             </td>
         </tr>
         {/foreach}

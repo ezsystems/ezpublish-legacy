@@ -14,9 +14,13 @@ $Offset = $Params['Offset'];
 if ( !is_numeric( $Offset ) )
     $Offset = 0;
 
+/** @var eZCollaborationItem $collabItem */
 $collabItem = eZCollaborationItem::fetch( $ItemID );
-if ( $collabItem === null )
-    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
+
+if ( !$collabItem->userIsParticipant( eZUser::currentUser() ) )
+{
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel', array() );
+}
 
 $collabHandler = $collabItem->handler();
 $collabItem->handleView( $ViewMode );

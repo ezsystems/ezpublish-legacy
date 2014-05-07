@@ -501,6 +501,40 @@ class eZCollaborationItem extends eZPersistentObject
         return true;
     }
 
+    /**
+     * Checks if $user is a participant in this collaboration item
+     * @param eZUser $user
+     * @return bool
+     */
+    public function userIsParticipant( eZUser $user )
+    {
+        /** @var eZCollaborationItemParticipantLink $participantLink */
+        foreach ( $this->participantList() as $participantLink )
+        {
+            $participant = $participantLink->participant();
+
+            if ( $participant instanceof eZUser )
+            {
+                if ( $participant->attribute( 'contentobject_id' ) == $user->attribute( 'contentobject_id' ) )
+                {
+                    return true;
+                }
+            }
+            // user group
+            else if ( $participant instanceof eZContentObject )
+            {
+                foreach ( $user->groups() as $userGroup )
+                {
+                    if ( $participant->attribute( 'id' ) == $userGroup->attribute( 'id' ) )
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     /*!
      \static
      Removes all collaboration items by fetching them and calling remove on them.

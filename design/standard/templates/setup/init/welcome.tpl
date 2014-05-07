@@ -22,7 +22,7 @@
    <legend>{"Select installation language"|i18n("design/standard/setup/init")}:</legend>
    <select name="eZSetupWizardLanguage">
     {foreach $language_list as $language}
-        <option value="{$language.locale_code}"  {if eq( $language.locale_code, $primary_language )}selected="selected"{/if}>{$language.intl_language_name}</option>
+        <option value="{$language.locale_code|wash}"  {if eq( $language.locale_code, $primary_language )}selected="selected"{/if}>{$language.intl_language_name|wash}</option>
     {/foreach}
    </select>
   </fieldset>

@@ -15,7 +15,7 @@
         {$Orderstatus.item.status_id}
     </td>
     <td>
-        <input type="text" name="orderstatus_name_{$Orderstatus.item.id}" value="{$Orderstatus.item.name}" size="24" />
+        <input type="text" name="orderstatus_name_{$Orderstatus.item.id}" value="{$Orderstatus.item.name|wash}" size="24" />
     </td>
     <td>
         {if $Orderstatus.item.is_active}{'Is active'|i18n( 'design/standard/shop' )}{else}{'Is inactive'|i18n( 'design/standard/shop' )}{/if}

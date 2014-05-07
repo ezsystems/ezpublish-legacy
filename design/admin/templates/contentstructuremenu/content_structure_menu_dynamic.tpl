@@ -62,7 +62,7 @@ var treeMenu;
         'object_id', cond( $root_node.object.id, $root_node.object.id, true(), 0 ),
         'class_id', $root_node.object.contentclass_id,
         'has_children', gt( $root_node.children_count, 0),
-        'name', $root_node.name,
+        'name', $root_node.name|wash,
         'url', $root_node_url|ezurl('no'),
         'modified_subnode', $root_node.modified_subnode,
         'languages', $root_node.object.language_codes,

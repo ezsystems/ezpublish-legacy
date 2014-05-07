@@ -237,7 +237,7 @@
 <div class="block">
     <select name="LanguageCode" title="{'Choose the language for the new URL alias.'|i18n( 'design/admin/content/urlalias_global' )}">
     {foreach $languages as $language}
-               <option value="{$language.locale}">{$language.name|wash}</option>
+               <option value="{$language.locale|wash}">{$language.name|wash}</option>
     {/foreach}
     </select>
 </div>

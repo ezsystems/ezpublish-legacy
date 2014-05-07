@@ -51,7 +51,7 @@
     <select name="Categories[]" size="{$categories_list_size}" multiple="multiple">
         <option {if $category_ids|count|eq(0)}selected="selected"{/if} value="*">{'Any'|i18n( 'design/admin/shop/editvatrule' )}</option>
     {foreach $all_product_categories as $current_cat}
-        <option {if $category_ids|contains( $current_cat.id )}selected="selected"{/if} value="{$current_cat.id}">{$current_cat.name}</option>
+        <option {if $category_ids|contains( $current_cat.id )}selected="selected"{/if} value="{$current_cat.id}">{$current_cat.name|wash}</option>
         {/foreach}
     </select>
     </td>
@@ -64,7 +64,7 @@
     <td>
     <select name="VatType" size="1">
     {foreach $all_vat_types as $current_vat_type}
-        <option {if eq( $vat_type_id, $current_vat_type.id )}selected="selected"{/if} value="{$current_vat_type.id}">{$current_vat_type.name} ({$current_vat_type.percentage}%)</option>
+        <option {if eq( $vat_type_id, $current_vat_type.id )}selected="selected"{/if} value="{$current_vat_type.id}">{$current_vat_type.name|wash} ({$current_vat_type.percentage}%)</option>
         {/foreach}
     </select>
     </td>

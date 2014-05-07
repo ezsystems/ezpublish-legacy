@@ -73,6 +73,9 @@ class eZUserAuthenticationTest extends ezpTestCase
             array( 'admin', 'password', 'ez.no', eZUser::PASSWORD_HASH_PLAINTEXT, false, 'passwordx' ),
             array( 'AVeryLongUsername', 'wîŧħAQuiteßécurePasswörð', 'ez.no', eZUser::PASSWORD_HASH_PLAINTEXT, false, 'wîŧħAQuiteßécurePasswörðx' ),
 
+            // Test with a very long login and password, it will be trimmed so the hash should not be valid
+            array( str_repeat( 'user', 1100 ), str_repeat( 'pass', 1100 ), 'ez.no', eZUser::PASSWORD_HASH_MD5_USER, false, '0d37bb08a57694b888ff71dd84280eaa' ),
+
             // Wrong type used
             array( true, 'password', 'ez.no', eZUser::PASSWORD_HASH_MD5_USER, false, '51f9ee797053cbfa8c77e8fa273f5518' ),
             array( 'admin', true, 'ez.no', eZUser::PASSWORD_HASH_MD5_USER, false, '51f9ee797053cbfa8c77e8fa273f5518' ),

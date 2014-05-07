@@ -56,7 +56,7 @@ class eZTemplatesStatisticsReporter
             eZURI::transformURI( $templateOverrideFunction );
 
             $std_base = eZTemplateDesignResource::designSetting( 'standard' );
-            $wwwDir = eZSys::wwwDir();
+            $wwwDir = htmlspecialchars( eZSys::wwwDir(), ENT_COMPAT, 'UTF-8' );
             $editIconFile = "$wwwDir/design/$std_base/images/edit.gif";
             $overrideIconFile = "$wwwDir/design/$std_base/images/override-template.gif";
 

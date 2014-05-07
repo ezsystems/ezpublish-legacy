@@ -66,7 +66,7 @@
 
     {* Name. *}
     <td>
-        {$WishedItems.item.item_object.contentobject.class_identifier|class_icon( small, $WishedItems.item.item_object.contentobject.class_name )}&nbsp;<a href={concat( '/content/view/full/', $WishedItems.item.node_id, '/' )|ezurl}>{$WishedItems.item.object_name}</a>
+        {$WishedItems.item.item_object.contentobject.class_identifier|class_icon( small, $WishedItems.item.item_object.contentobject.class_name )}&nbsp;<a href={concat( '/content/view/full/', $WishedItems.item.node_id, '/' )|ezurl}>{$WishedItems.item.object_name|wash}</a>
         {section show=$WishedItems.item.item_object.option_list}
             ({*'Selected options'|i18n( 'design/admin/shop/wishlist' ): *}
 {section var=Options loop=$WishedItems.item.item_object.option_list}

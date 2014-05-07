@@ -44,7 +44,7 @@
 
 <div class="context-information">
 <p class="left modified">{'Last modified'|i18n( 'design/admin/node/view/full' )}: {$node.object.modified|l10n(shortdatetime)}, <a href={$node.object.current.creator.main_node.url_alias|ezurl}>{$node.object.current.creator.name|wash}</a> ({'Node ID'|i18n( 'design/admin/node/view/full' )}: {$node.node_id}, {'Object ID'|i18n( 'design/admin/node/view/full' )}: {$node.object.id})</p>
-<p class="right translation">{$node.object.current_language_object.locale_object.intl_language_name}&nbsp;<img src="{$node.object.current_language|flag_icon}" width="18" height="12" alt="{$language_code}" style="vertical-align: middle;" /></p>
+<p class="right translation">{$node.object.current_language_object.locale_object.intl_language_name}&nbsp;<img src="{$node.object.current_language|flag_icon}" width="18" height="12" alt="{$language_code|wash}" style="vertical-align: middle;" /></p>
 <div class="break"></div>
 </div>
 
@@ -75,7 +75,7 @@
     {else}
             <select name="ContentObjectLanguageCode">
             {foreach $node.object.can_edit_languages as $language}
-                       <option value="{$language.locale}"{if $language.locale|eq($node.object.current_language)} selected="selected"{/if}>{$language.name|wash}</option>
+                       <option value="{$language.locale|wash}"{if $language.locale|eq($node.object.current_language)} selected="selected"{/if}>{$language.name|wash}</option>
             {/foreach}
             {if gt( $can_create_languages|count, 0 )}
                 <option value="">{'New translation'|i18n( 'design/admin/node/view/full')}</option>

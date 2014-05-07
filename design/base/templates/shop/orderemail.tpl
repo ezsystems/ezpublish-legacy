@@ -17,7 +17,7 @@
 {"Product items"|i18n("design/standard/shop")}:
 
 {section name=ProductItem loop=$order.product_items}
-{$ProductItem:item.object_name}: {$ProductItem:item.item_count} x {$ProductItem:item.price_inc_vat|l10n( 'currency', $locale, $symbol )}: {$ProductItem:item.total_price_inc_vat|l10n( 'currency', $locale, $symbol )}
+{$ProductItem:item.object_name|wash}: {$ProductItem:item.item_count} x {$ProductItem:item.price_inc_vat|l10n( 'currency', $locale, $symbol )}: {$ProductItem:item.total_price_inc_vat|l10n( 'currency', $locale, $symbol )}
 
 {/section}
 

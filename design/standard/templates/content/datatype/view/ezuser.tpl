@@ -13,7 +13,7 @@
 
 <div class="element">
 <label>{'Email'|i18n( 'design/standard/content/datatype' )}:</label>
-<a href="mailto:{$attribute.content.email}">{$attribute.content.email}</a>
+<a href="mailto:{$attribute.content.email|wash}">{$attribute.content.email|wash}</a>
 </div>
 
 <div class="element">
