@@ -24416,7 +24416,7 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>Site registration</source>
-        <translation>網站註冊</translation>
+        <translation type="obsolete">網站註冊</translation>
     </message>
     <message>
         <source>By sending registration the following data will be sent to eZ systems</source>
@@ -24582,31 +24582,31 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>Send registration</source>
-        <translation>發送註冊資料</translation>
+        <translation type="obsolete">發送註冊資料</translation>
     </message>
     <message>
         <source>System details (OS type, etc)</source>
-        <translation>系統詳細資料 (作業系統類型…等等)</translation>
+        <translation type="obsolete">系統詳細資料 (作業系統類型…等等)</translation>
     </message>
     <message>
         <source>The test results</source>
-        <translation>測試結果</translation>
+        <translation type="obsolete">測試結果</translation>
     </message>
     <message>
         <source>The database type</source>
-        <translation>資料庫型態</translation>
+        <translation type="obsolete">資料庫型態</translation>
     </message>
     <message>
         <source>The site name</source>
-        <translation>站台名稱</translation>
+        <translation type="obsolete">站台名稱</translation>
     </message>
     <message>
         <source>The url of the site</source>
-        <translation>站台的網址</translation>
+        <translation type="obsolete">站台的網址</translation>
     </message>
     <message>
         <source>Languages chosen</source>
-        <translation>所選的語言</translation>
+        <translation type="obsolete">所選的語言</translation>
     </message>
     <message>
         <source>This data will help to improve future releases of eZ publish.</source>
@@ -25368,11 +25368,11 @@ It is possible to change these settings at a later time.</source>
     </message>
     <message>
         <source>By sending registration the following data will be sent to eZ Systems</source>
-        <translation type="unfinished">下列資訊將藉由傳送註冊資料而送到 eZ 系統</translation>
+        <translation type="obsolete">下列資訊將藉由傳送註冊資料而送到 eZ 系統</translation>
     </message>
     <message>
         <source>This data will help to improve future releases of eZ Publish.</source>
-        <translation type="unfinished">此資料將會協助改善未來釋出的 eZ publish。</translation>
+        <translation type="obsolete">此資料將會協助改善未來釋出的 eZ publish。</translation>
     </message>
     <message>
         <source>Your site is not running in a virtual host mode, this is insecure. It is recommended to run eZ Publish in virtual host mode. If you do not have the possibility to use virtual host mode, you should follow the instructions below about how to install an .htaccess file. The .htaccess file tells the web server to restrict the access to certain files.</source>
@@ -25478,48 +25478,12 @@ This functionality is also available at a later time from the Administration Int
         <translation type="unfinished">國家</translation>
     </message>
     <message>
-        <source>In order to provide you with the best service in the future, we need some statistics to know a bit about your usage of eZ Publish and its underlying platform.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>In return this will also provide you with heads-up on security issues, notifications about updates, upgrades and other important news.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This happens periodically, and you will always be able to opt-out of this at anytime.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Could not send registration data</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Required data is either missing or is invalid</source>
-        <translation type="unfinished">必要資料若非缺少就是無效</translation>
-    </message>
-    <message>
-        <source>Registration information email:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">必要資料若非缺少就是無效</translation>
     </message>
     <message>
         <source>Company</source>
-        <translation type="unfinished">公司</translation>
-    </message>
-    <message>
-        <source>Is this the first time you are installing eZ Publish?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Included some simple technical information?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Contents of registration email</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>We care for your privacy. Read more &lt;a href=&apos;%link&apos; target=&apos;_blank&apos;&gt;here&lt;/a&gt;. This data will be treated securely and not shared with third parties without your permission.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">公司</translation>
     </message>
     <message>
         <source>Welcome to %edition %version</source>
@@ -25535,6 +25499,44 @@ This functionality is also available at a later time from the Administration Int
     </message>
     <message>
         <source>Notice: The out of the box front-end site often relies on data within a package. This is why it is strongly suggested to map the package language to your primary language, otherwise you&apos;ll need to adjust the configuration and template files to get it working.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Opensource software is nothing without a vibrant community!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;If you need to share knowledge, exchange tips with developers or simply find some improvement tricks, the eZ Community is the place to go.&lt;/p&gt;
+
+&lt;p&gt;
+How do you access it?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Go on &lt;a href=&quot;http://share.ez.no/&quot; title=&quot;eZ Community&quot;&gt;share.ez.no&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Click on Register (top of the page) and create your profile&lt;/li&gt;
+&lt;li&gt;Here you can check out the &lt;a href=&quot;http://share.ez.no/blogs&quot;&gt;blog posts&lt;/a&gt;,
+    &lt;a href=&quot;http://share.ez.no/events&quot;&gt;events&lt;/a&gt;, &lt;a href=&quot;http://share.ez.no/members-partners/find-a-partner&quot;&gt;partners&lt;/a&gt;...&lt;/li&gt;
+&lt;/ul&gt;&lt;/p&gt;
+&lt;p&gt;We<byte value="x19"/>re looking forward to seeing what you share with the Community!&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discover the eZ Publish Platform forums</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ Publish 5 platform</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Installation &amp; configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Setup and design</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>General</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -22151,7 +22151,7 @@ Pour résoudre ce problème, vous devez choisir l&apos;une des options suivantes
     </message>
     <message>
         <source>Site registration</source>
-        <translation>Enregistrement du site</translation>
+        <translation type="obsolete">Enregistrement du site</translation>
     </message>
     <message>
         <source>This security tweak takes care of protecting configuration files and other important files.</source>
@@ -22361,31 +22361,31 @@ Pour résoudre ce problème, vous devez choisir l&apos;une des options suivantes
     </message>
     <message>
         <source>Send registration</source>
-        <translation>Envoyer l&apos;enregistrement</translation>
+        <translation type="obsolete">Envoyer l&apos;enregistrement</translation>
     </message>
     <message>
         <source>System details (OS type, etc)</source>
-        <translation>Détails système (OS, etc.)</translation>
+        <translation type="obsolete">Détails système (OS, etc.)</translation>
     </message>
     <message>
         <source>The test results</source>
-        <translation>Résultats du test</translation>
+        <translation type="obsolete">Résultats du test</translation>
     </message>
     <message>
         <source>The database type</source>
-        <translation>Type de base de données</translation>
+        <translation type="obsolete">Type de base de données</translation>
     </message>
     <message>
         <source>The site name</source>
-        <translation>Nom du site</translation>
+        <translation type="obsolete">Nom du site</translation>
     </message>
     <message>
         <source>The url of the site</source>
-        <translation>URL du site</translation>
+        <translation type="obsolete">URL du site</translation>
     </message>
     <message>
         <source>Languages chosen</source>
-        <translation>Langues choisies</translation>
+        <translation type="obsolete">Langues choisies</translation>
     </message>
     <message>
         <source>If you do not have shell access, you will have to copy the file using an FTP client or ask your hosting provider to do this for you.</source>
@@ -22933,11 +22933,11 @@ Il est possible de changer ces paramètres plus tard.</translation>
     </message>
     <message>
         <source>By sending registration the following data will be sent to eZ Systems</source>
-        <translation>En envoyant l&apos;enregistrement les données suivantes seront envoyés à eZ Systems</translation>
+        <translation type="obsolete">En envoyant l&apos;enregistrement les données suivantes seront envoyés à eZ Systems</translation>
     </message>
     <message>
         <source>This data will help to improve future releases of eZ Publish.</source>
-        <translation>Ces données aideront à améliorer les futures versions de eZ Publish.</translation>
+        <translation type="obsolete">Ces données aideront à améliorer les futures versions de eZ Publish.</translation>
     </message>
     <message>
         <source>Your site is not running in a virtual host mode, this is insecure. It is recommended to run eZ Publish in virtual host mode. If you do not have the possibility to use virtual host mode, you should follow the instructions below about how to install an .htaccess file. The .htaccess file tells the web server to restrict the access to certain files.</source>
@@ -23063,47 +23063,47 @@ Ces fonctionnalités sont également disponible plus tard via l&apos;interface d
     </message>
     <message>
         <source>In order to provide you with the best service in the future, we need some statistics to know a bit about your usage of eZ Publish and its underlying platform.</source>
-        <translation>Afin de vous fournir le meilleur service, nous avons besoin de statistiques pour en savoir un peu plus sur votre utilisation d&apos;eZ Publish et sa plate-forme sous-jacente.</translation>
+        <translation type="obsolete">Afin de vous fournir le meilleur service, nous avons besoin de statistiques pour en savoir un peu plus sur votre utilisation d&apos;eZ Publish et sa plate-forme sous-jacente.</translation>
     </message>
     <message>
         <source>In return this will also provide you with heads-up on security issues, notifications about updates, upgrades and other important news.</source>
-        <translation>En retour nous vous fournirons des informations sur la sécurité, des notifications sur les mises à jour, mises à niveau et nouvelles importantes.</translation>
+        <translation type="obsolete">En retour nous vous fournirons des informations sur la sécurité, des notifications sur les mises à jour, mises à niveau et nouvelles importantes.</translation>
     </message>
     <message>
         <source>This happens periodically, and you will always be able to opt-out of this at anytime.</source>
-        <translation>Cela arrive régulièrement, et vous pourrez résiliez à tout moment.</translation>
+        <translation type="obsolete">Cela arrive régulièrement, et vous pourrez résiliez à tout moment.</translation>
     </message>
     <message>
         <source>Could not send registration data</source>
-        <translation>Nous n&apos;avons pas pu envoyer les données d&apos;enregistrement</translation>
+        <translation type="obsolete">Nous n&apos;avons pas pu envoyer les données d&apos;enregistrement</translation>
     </message>
     <message>
         <source>Required data is either missing or is invalid</source>
-        <translation>Des données obligatoires sont manquantes ou invalides</translation>
+        <translation type="obsolete">Des données obligatoires sont manquantes ou invalides</translation>
     </message>
     <message>
         <source>Registration information email:</source>
-        <translation>Email d&apos;enregistrement :</translation>
+        <translation type="obsolete">Email d&apos;enregistrement :</translation>
     </message>
     <message>
         <source>Company</source>
-        <translation>Entreprise</translation>
+        <translation type="obsolete">Entreprise</translation>
     </message>
     <message>
         <source>Is this the first time you are installing eZ Publish?</source>
-        <translation>Est-ce la première fois que vous installez eZ Publish ?</translation>
+        <translation type="obsolete">Est-ce la première fois que vous installez eZ Publish ?</translation>
     </message>
     <message>
         <source>Included some simple technical information?</source>
-        <translation>Inclure des informations techniques simples ?</translation>
+        <translation type="obsolete">Inclure des informations techniques simples ?</translation>
     </message>
     <message>
         <source>Contents of registration email</source>
-        <translation>Contenu de l&apos;email d&apos;enregistrement</translation>
+        <translation type="obsolete">Contenu de l&apos;email d&apos;enregistrement</translation>
     </message>
     <message>
         <source>We care for your privacy. Read more &lt;a href=&apos;%link&apos; target=&apos;_blank&apos;&gt;here&lt;/a&gt;. This data will be treated securely and not shared with third parties without your permission.</source>
-        <translation>Nous prenons soin de votre vie privée. Lire la suite &lt;a href=&apos;%link&apos; target=&apos;_blank&apos;&gt;ici&lt;/a&gt;. Ces données seront traitées de manière sécurisée et ne seront pas partagées avec des tiers sans votre autorisation.</translation>
+        <translation type="obsolete">Nous prenons soin de votre vie privée. Lire la suite &lt;a href=&apos;%link&apos; target=&apos;_blank&apos;&gt;ici&lt;/a&gt;. Ces données seront traitées de manière sécurisée et ne seront pas partagées avec des tiers sans votre autorisation.</translation>
     </message>
     <message>
         <source>Welcome to %edition %version</source>
@@ -23119,6 +23119,44 @@ Ces fonctionnalités sont également disponible plus tard via l&apos;interface d
     </message>
     <message>
         <source>Notice: The out of the box front-end site often relies on data within a package. This is why it is strongly suggested to map the package language to your primary language, otherwise you&apos;ll need to adjust the configuration and template files to get it working.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Opensource software is nothing without a vibrant community!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;If you need to share knowledge, exchange tips with developers or simply find some improvement tricks, the eZ Community is the place to go.&lt;/p&gt;
+
+&lt;p&gt;
+How do you access it?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Go on &lt;a href=&quot;http://share.ez.no/&quot; title=&quot;eZ Community&quot;&gt;share.ez.no&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Click on Register (top of the page) and create your profile&lt;/li&gt;
+&lt;li&gt;Here you can check out the &lt;a href=&quot;http://share.ez.no/blogs&quot;&gt;blog posts&lt;/a&gt;,
+    &lt;a href=&quot;http://share.ez.no/events&quot;&gt;events&lt;/a&gt;, &lt;a href=&quot;http://share.ez.no/members-partners/find-a-partner&quot;&gt;partners&lt;/a&gt;...&lt;/li&gt;
+&lt;/ul&gt;&lt;/p&gt;
+&lt;p&gt;We<byte value="x19"/>re looking forward to seeing what you share with the Community!&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discover the eZ Publish Platform forums</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ Publish 5 platform</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Installation &amp; configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Setup and design</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>General</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

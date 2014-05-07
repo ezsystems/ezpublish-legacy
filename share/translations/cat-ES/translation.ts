@@ -22251,35 +22251,35 @@ Per solucionar aquest problema cal que facis el següent:</translation>
     </message>
     <message>
         <source>Site registration</source>
-        <translation>Registre del lloc</translation>
+        <translation type="obsolete">Registre del lloc</translation>
     </message>
     <message>
         <source>Send registration</source>
-        <translation>Envia el registre</translation>
+        <translation type="obsolete">Envia el registre</translation>
     </message>
     <message>
         <source>System details (OS type, etc)</source>
-        <translation>Detalls del sistema (sistema operatiu, etc.)</translation>
+        <translation type="obsolete">Detalls del sistema (sistema operatiu, etc.)</translation>
     </message>
     <message>
         <source>The test results</source>
-        <translation>Els resultats del test</translation>
+        <translation type="obsolete">Els resultats del test</translation>
     </message>
     <message>
         <source>The database type</source>
-        <translation>El tipus de base de dades</translation>
+        <translation type="obsolete">El tipus de base de dades</translation>
     </message>
     <message>
         <source>The site name</source>
-        <translation>El nom del lloc</translation>
+        <translation type="obsolete">El nom del lloc</translation>
     </message>
     <message>
         <source>The url of the site</source>
-        <translation>La URL del lloc</translation>
+        <translation type="obsolete">La URL del lloc</translation>
     </message>
     <message>
         <source>Languages chosen</source>
-        <translation>Els idiomes escollits</translation>
+        <translation type="obsolete">Els idiomes escollits</translation>
     </message>
     <message>
         <source>If you do not have shell access, you will have to copy the file using an FTP client or ask your hosting provider to do this for you.</source>
@@ -22943,7 +22943,7 @@ Amb la teva ajuda podem solucionar els errors que pugui tenir eZ Publish i imple
     </message>
     <message>
         <source>By sending registration the following data will be sent to eZ Systems</source>
-        <translation>En enviar el registre, es trametran les següents dades a eZ Systems</translation>
+        <translation type="obsolete">En enviar el registre, es trametran les següents dades a eZ Systems</translation>
     </message>
     <message>
         <source>Your site is not running in a virtual host mode, this is insecure. It is recommended to run eZ Publish in virtual host mode. If you do not have the possibility to use virtual host mode, you should follow the instructions below about how to install an .htaccess file. The .htaccess file tells the web server to restrict the access to certain files.</source>
@@ -23065,7 +23065,7 @@ També podràs fer-ho més endavant de la Interfície d&apos;Administració.</tr
     </message>
     <message>
         <source>This data will help to improve future releases of eZ Publish.</source>
-        <translation>Aquesta informació ens ajudarà a millorar noves versions d&apos;eZ Publish.</translation>
+        <translation type="obsolete">Aquesta informació ens ajudarà a millorar noves versions d&apos;eZ Publish.</translation>
     </message>
     <message>
         <source>The problems are usually file-system related and can be easily fixed by copy / paste / running the suggested commands in a system shell.</source>
@@ -23113,48 +23113,8 @@ També podràs fer-ho més endavant de la Interfície d&apos;Administració.</tr
         <translation type="unfinished">País</translation>
     </message>
     <message>
-        <source>In order to provide you with the best service in the future, we need some statistics to know a bit about your usage of eZ Publish and its underlying platform.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>In return this will also provide you with heads-up on security issues, notifications about updates, upgrades and other important news.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This happens periodically, and you will always be able to opt-out of this at anytime.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Could not send registration data</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Required data is either missing or is invalid</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Registration information email:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Company</source>
-        <translation type="unfinished">Empresa</translation>
-    </message>
-    <message>
-        <source>Is this the first time you are installing eZ Publish?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Included some simple technical information?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Contents of registration email</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>We care for your privacy. Read more &lt;a href=&apos;%link&apos; target=&apos;_blank&apos;&gt;here&lt;/a&gt;. This data will be treated securely and not shared with third parties without your permission.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Empresa</translation>
     </message>
     <message>
         <source>Welcome to %edition %version</source>
@@ -23170,6 +23130,44 @@ També podràs fer-ho més endavant de la Interfície d&apos;Administració.</tr
     </message>
     <message>
         <source>Notice: The out of the box front-end site often relies on data within a package. This is why it is strongly suggested to map the package language to your primary language, otherwise you&apos;ll need to adjust the configuration and template files to get it working.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Opensource software is nothing without a vibrant community!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;If you need to share knowledge, exchange tips with developers or simply find some improvement tricks, the eZ Community is the place to go.&lt;/p&gt;
+
+&lt;p&gt;
+How do you access it?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Go on &lt;a href=&quot;http://share.ez.no/&quot; title=&quot;eZ Community&quot;&gt;share.ez.no&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Click on Register (top of the page) and create your profile&lt;/li&gt;
+&lt;li&gt;Here you can check out the &lt;a href=&quot;http://share.ez.no/blogs&quot;&gt;blog posts&lt;/a&gt;,
+    &lt;a href=&quot;http://share.ez.no/events&quot;&gt;events&lt;/a&gt;, &lt;a href=&quot;http://share.ez.no/members-partners/find-a-partner&quot;&gt;partners&lt;/a&gt;...&lt;/li&gt;
+&lt;/ul&gt;&lt;/p&gt;
+&lt;p&gt;We<byte value="x19"/>re looking forward to seeing what you share with the Community!&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discover the eZ Publish Platform forums</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ Publish 5 platform</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Installation &amp; configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Setup and design</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>General</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
