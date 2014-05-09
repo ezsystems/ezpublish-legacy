@@ -62,7 +62,6 @@ class eZUserDiscountRule extends eZPersistentObject
         }
         else
         {
-            eZExpiryHandler::registerShutdownFunction();
             $handler = eZExpiryHandler::instance();
             $handler->setTimestamp( 'user-discountrules-cache', time() );
             $handler->store();
@@ -100,7 +99,6 @@ class eZUserDiscountRule extends eZPersistentObject
         {
             $http = eZHTTPTool::instance();
 
-            eZExpiryHandler::registerShutdownFunction();
             $handler = eZExpiryHandler::instance();
             $expiredTimeStamp = 0;
             if ( $handler->hasTimestamp( 'user-discountrules-cache' ) )

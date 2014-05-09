@@ -732,8 +732,6 @@ class eZTSTranslator extends eZTranslatorHandler
      */
     public static function expireCache( $timestamp = false, $locale = null )
     {
-        eZExpiryHandler::registerShutdownFunction();
-
         if ( $timestamp === false )
             $timestamp = time();
 

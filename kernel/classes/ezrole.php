@@ -262,7 +262,6 @@ class eZRole extends eZPersistentObject
         $db->commit();
 
         // Expire role cache
-        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-info-cache', time() );
         $handler->setTimestamp( 'user-class-cache', time() );
