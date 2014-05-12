@@ -15,6 +15,9 @@ class ezjscCacheManager
      */
     public static function clearCache( array $cacheItem )
     {
-        eZClusterFileHandler::instance()->fileDeleteByDirList( array( $cacheItem['path'] ), eZSys::cacheDirectory(), '' );
+        eZClusterFileHandler::instance()->fileDeleteByDirList(
+            array( 'javascript', 'stylesheets' ),
+            eZSys::cacheDirectory() . '/' . $cacheItem['path'], ''
+        );
     }
 }
