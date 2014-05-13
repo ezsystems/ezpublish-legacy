@@ -25164,7 +25164,7 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     </message>
     <message>
         <source>Your email address has been confirmed. An administrator needs to approve your sign up request, before your login becomes valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Din e-postadresse har blitt bekreftet. En Administrator trenger å godkjenne registeringen før konto blir gyldig.</translation>
     </message>
 </context>
 <context>
@@ -25278,11 +25278,11 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     </message>
     <message>
         <source>Your registration has been approved. You can login with your account %username.</source>
-        <translation type="unfinished"></translation>
+        <translation>Din registrering har blitt godkjent. Du kan logge inn med din konto %username.</translation>
     </message>
     <message>
         <source>Click the following URL to login:</source>
-        <translation type="unfinished"></translation>
+        <translation>Klikk på følgende URL for å logge inn.</translation>
     </message>
 </context>
 <context>
@@ -26008,18 +26008,18 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     <name>extension/oauth</name>
     <message>
         <source>Application authorization</source>
-        <translation type="unfinished"></translation>
+        <translation>Applikasjons autorisasjon</translation>
     </message>
     <message>
         <source>The application %application_name% has requested access to this website on your behalf.</source>
-        <translation type="unfinished"></translation>
+        <translation>Applikasjonen %application_name% har bedt om tilgang til denne websiden på vegne av deg.</translation>
     </message>
 </context>
 <context>
     <name>extension/oauth/authorize</name>
     <message>
         <source>Authorize</source>
-        <translation type="unfinished"></translation>
+        <translation>Godkjenn</translation>
     </message>
     <message>
         <source>Deny</source>
@@ -26030,11 +26030,11 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     <name>extension/oauthadmin</name>
     <message>
         <source>New REST application</source>
-        <translation type="unfinished"></translation>
+        <translation>Ny REST applikasjon</translation>
     </message>
     <message>
         <source>oAuth admin</source>
-        <translation type="unfinished"></translation>
+        <translation>Oauth administrering</translation>
     </message>
     <message>
         <source>Confirm removal</source>
@@ -26042,7 +26042,7 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     </message>
     <message>
         <source>Application &lt;%application_name&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Applikasjon &lt;%application_name&gt;</translation>
     </message>
     <message>
         <source>Last modified</source>
@@ -26074,7 +26074,7 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     </message>
     <message>
         <source>Edit this application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rediger denne applikasjonen.</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -26082,15 +26082,15 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     </message>
     <message>
         <source>Delete this application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Slett denne applikasjonen.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this application?</source>
-        <translation type="unfinished"></translation>
+        <translation>Er du sikker på at du vil fjerne denne applikasjonen?</translation>
     </message>
     <message>
         <source>Are you sure you want to remove these applications?</source>
-        <translation type="unfinished"></translation>
+        <translation>Er du sikker på at du vil fjerne disse applikasjonene?</translation>
     </message>
     <message>
         <source>Confirm</source>
@@ -26098,7 +26098,7 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     </message>
     <message>
         <source>Confirm removal of these applications.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bekreft fjerning av disse applikasjonene.</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -26126,11 +26126,11 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     </message>
     <message>
         <source>REST applications (%applications_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>REST applikasjoner (%applications_count)</translation>
     </message>
     <message>
         <source>List of applications</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste med applikasjoner</translation>
     </message>
     <message>
         <source>Invert selection.</source>
@@ -26146,11 +26146,11 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     </message>
     <message>
         <source>Select application for removal.</source>
-        <translation type="unfinished"></translation>
+        <translation>Velg applikasjon(er) for å fjerne</translation>
     </message>
     <message>
         <source>Edit the &lt;%application_name&gt; application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rediger &lt;%application_name&gt; applikasjonen.</translation>
     </message>
     <message>
         <source>Remove selected</source>
@@ -26158,15 +26158,15 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     </message>
     <message>
         <source>Remove the selected applications.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern den valgte applikasjonen.</translation>
     </message>
     <message>
         <source>New application</source>
-        <translation type="unfinished"></translation>
+        <translation>Ny applikasjon</translation>
     </message>
     <message>
         <source>Create a new application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lag en ny applikasjon.</translation>
     </message>
     <message>
         <source>Back</source>
@@ -26177,11 +26177,11 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     <name>index.php</name>
     <message>
         <source>Some errors occurred, see debug for more information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Noen feil oppstod, se debug for mer informasjon.</translation>
     </message>
     <message>
         <source>Some general warnings occured, see debug for more information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Noen generelle advarsler oppstod, se debug for mer informasjon.</translation>
     </message>
 </context>
 <context>
@@ -26268,11 +26268,11 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     </message>
     <message>
         <source>SSL Zones cache</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL Soner cache</translation>
     </message>
     <message>
         <source>Content Language cache</source>
-        <translation type="unfinished"></translation>
+        <translation>Innholdsspråk cache</translation>
     </message>
 </context>
 <context>
@@ -27008,7 +27008,7 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     <message>
         <source>The emails do not match.</source>
         <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
+        <translation>E-postene stemmer ikke overens.</translation>
     </message>
 </context>
 <context>
@@ -27326,7 +27326,7 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     </message>
     <message>
         <source>Publishing queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Publiserings kø</translation>
     </message>
 </context>
 <context>
@@ -27515,11 +27515,11 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     </message>
     <message>
         <source>The uploaded file size is above the maximum limit.</source>
-        <translation type="unfinished"></translation>
+        <translation>Den opplastede filens størrelse er over maksimumsgrensen.</translation>
     </message>
     <message>
         <source>A system error occured while writing the uploaded file.</source>
-        <translation type="unfinished"></translation>
+        <translation>En system feil oppstod under lagring av den opplastede filen.</translation>
     </message>
 </context>
 <context>
@@ -27659,19 +27659,19 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     <name>kernel/oauthadmin</name>
     <message>
         <source>oAuth admin</source>
-        <translation type="unfinished"></translation>
+        <translation>Oauth administrering</translation>
     </message>
     <message>
         <source>Edit REST application</source>
-        <translation type="unfinished"></translation>
+        <translation>Rediger REST applikasjon</translation>
     </message>
     <message>
         <source>Registered REST applications</source>
-        <translation type="unfinished"></translation>
+        <translation>Registrerte REST applikasjoner</translation>
     </message>
     <message>
         <source>REST application: %application_name%</source>
-        <translation type="unfinished"></translation>
+        <translation>REST Applikasjon: %application_name%</translation>
     </message>
 </context>
 <context>
@@ -28621,15 +28621,15 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     </message>
     <message>
         <source>oAuth</source>
-        <translation type="unfinished"></translation>
+        <translation>oAuth</translation>
     </message>
     <message>
         <source>authorization</source>
-        <translation type="unfinished"></translation>
+        <translation>autorisasjon</translation>
     </message>
     <message>
         <source>Unactivated users</source>
-        <translation type="unfinished"></translation>
+        <translation>Ikke aktivisert brukere</translation>
     </message>
 </context>
 <context>
@@ -28644,7 +28644,7 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     </message>
     <message>
         <source>User registration approved</source>
-        <translation type="unfinished"></translation>
+        <translation>Bruker registrering godkjent</translation>
     </message>
 </context>
 <context>
@@ -28737,7 +28737,7 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     </message>
     <message>
         <source>Finish User Registration</source>
-        <translation type="unfinished"></translation>
+        <translation>Fullførte bruker registrering</translation>
     </message>
 </context>
 <context>
