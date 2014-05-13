@@ -177,7 +177,7 @@ class eZContentStructureTreeOperator
                              ezcontentclass.version=0 AND
                              $notEqParentString
                              $classCondition
-                             ezcontentobject_tree.contentobject_is_published = 1
+                             ezcontentobject_tree.contentobject_is_published = 1 AND
                              " . eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
                              $showInvisibleNodesCond
                              $permissionChecking[where]
