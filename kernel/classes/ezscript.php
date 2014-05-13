@@ -402,6 +402,7 @@ class eZScript
 
         eZExecution::cleanup();
         eZExecution::setCleanExit();
+        eZExpiryHandler::shutdown();
         $this->setIsInitialized( false );
         if ( $exitCode !== false )
             $this->ExitCode = $exitCode;

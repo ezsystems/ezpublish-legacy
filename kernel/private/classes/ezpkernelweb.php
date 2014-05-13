@@ -1226,6 +1226,7 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
     {
         eZExecution::cleanup();
         eZExecution::setCleanExit();
+        eZExpiryHandler::shutdown();
         if ( $reInitialize )
             $this->isInitialized = false;
     }

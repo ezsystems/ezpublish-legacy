@@ -390,7 +390,6 @@ class eZContentClass extends eZPersistentObject
         if ( $enableCaching )
         {
             $http = eZHTTPTool::instance();
-            eZExpiryHandler::registerShutdownFunction();
             $handler = eZExpiryHandler::instance();
             $expiredTimeStamp = 0;
             if ( $handler->hasTimestamp( 'user-class-cache' ) )
@@ -911,7 +910,6 @@ You will need to change the class of the node by using the swap functionality.' 
            }
         }
 
-        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-class-cache', time() );
         $handler->store();
@@ -1031,7 +1029,6 @@ You will need to change the class of the node by using the swap functionality.' 
         }
         eZContentClassClassGroup::removeClassMembers( $this->ID, $previousVersion );
 
-        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $time = time();
         $handler->setTimestamp( 'user-class-cache', $time );
@@ -1832,7 +1829,6 @@ You will need to change the class of the node by using the swap functionality.' 
                                           '',
                                           array( 'clustering' => 'classidentifiers' ) );
 
-            eZExpiryHandler::registerShutdownFunction();
             $handler = eZExpiryHandler::instance();
             $expiryTime = 0;
             if ( $handler->hasTimestamp( 'class-identifier-cache' ) )

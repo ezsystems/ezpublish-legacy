@@ -354,7 +354,6 @@ class eZContentObjectStateGroup extends eZPersistentObject
             }
         }
 
-        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'state-limitations', time() );
 
@@ -691,7 +690,6 @@ class eZContentObjectStateGroup extends eZPersistentObject
 
             if ( $storedTimeStamp === false )
             {
-                eZExpiryHandler::registerShutdownFunction();
                 $handler->setTimestamp( 'state-limitations', time() );
             }
         }

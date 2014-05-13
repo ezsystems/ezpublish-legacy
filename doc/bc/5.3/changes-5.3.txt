@@ -44,3 +44,7 @@ Removed globals
 
 Deprecated
 ----------
+- eZExpiryHandler::registerShutdownFunction() is deprecated (EZP-22749)
+
+  The method isn't removed, but it won't register anything anymore. eZExpiryHandler::shutdown() will be called instead
+  upon kernel shutdown. The register call can be removed, but not doing so won't have any negative effect.

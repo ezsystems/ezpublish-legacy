@@ -23,7 +23,6 @@ class ezpRestCacheStorageApcCluster extends ezcCacheStorageApcPlain
 
     public function __construct( $location = null, array $options = array() )
     {
-        eZExpiryHandler::registerShutdownFunction();
         $this->expiryHandler = eZExpiryHandler::instance();
 
         parent::__construct( $location, $options );

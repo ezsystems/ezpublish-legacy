@@ -1526,8 +1526,6 @@ class eZContentFunctionCollection
 
     static public function fetchContentTreeMenuExpiry()
     {
-        eZExpiryHandler::registerShutdownFunction();
-
         $expiryHandler = eZExpiryHandler::instance();
 
         if ( !$expiryHandler->hasTimestamp( 'content-tree-menu' ) )
