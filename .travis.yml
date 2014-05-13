@@ -14,26 +14,29 @@ env:
   global:
     - DB_NAME="testdb"
   matrix:
-    - DB="mysql" DB_USER="root" TIMEZONE="Asia/Calcutta"
-    - DB="mysql" DB_USER="root" TIMEZONE="America/New_York"
-    - DB="postgresql" DB_USER="postgres" TIMEZONE="Asia/Calcutta"
+    - DB="mysql" DB_USER="root"
+    - DB="postgresql" DB_USER="postgres"
 
+# Aim to run tests on all versions of php, make sure each db is run at least once
 matrix:
   exclude:
+    - php: 5.3.3
+      env: DB="postgresql" DB_USER="postgres"
     - php: 5.3
-      env: DB="mysql" DB_USER="root" TIMEZONE="America/New_York"
+      env: DB="mysql" DB_USER="root"
     - php: 5.4
-      env: DB="mysql" DB_USER="root" TIMEZONE="Asia/Calcutta"
-    - php: 5.4
-      env: DB="postgres" DB_USER="postgres" TIMEZONE="Asia/Calcutta"
+      env: DB="postgresql" DB_USER="postgres"
     - php: 5.5
-      env: DB="mysql" DB_USER="root" TIMEZONE="America/New_York"
+      env: DB="mysql" DB_USER="root"
 
 before_script:
  - if [ $DB == "mysql" ]; then mysql -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;" -u$DB_USER ; fi
  - if [ $DB == "postgresql" ]; then psql -c "CREATE DATABASE $DB_NAME;" -U $DB_USER ; psql -c "CREATE EXTENSION pgcrypto;" -U $DB_USER $DB_NAME ; fi
  - composer install --prefer-source
  - php bin/php/ezpgenerateautoloads.php -s -e
+ # Detecting timezone issues by testing on random timezone
+ - declare -a TIMEZONES=("America/New_York" "Asia/Calcutta" "UTC")
+ - declare -a TIMEZONE=${TIMEZONES["`shuf -i 0-2 -n 1`"]}
 
 
 script:
