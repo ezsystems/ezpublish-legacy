@@ -145,11 +145,11 @@ do
         $script->iterate( $cli, true );
     }
 
+    $searchEngine->commit();
+
     $limit['offset'] += $length;
 
 } while ( count( $objects ) == $length );
-
-$searchEngine->commit();
 
 $cli->output();
 $cli->output( "done" );
