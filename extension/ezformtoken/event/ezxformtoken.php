@@ -256,6 +256,11 @@ class ezxFormToken
         self::$isEnabled = (bool)$isEnabled;
     }
 
+    static public function isEnabled()
+    {
+        return (bool)self::$isEnabled;
+    }
+
     /**
      * Figures out if current user should be protected or not
      * based on if (s)he has a session and is logged in.
