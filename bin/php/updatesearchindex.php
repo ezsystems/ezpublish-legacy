@@ -145,6 +145,10 @@ do
         $script->iterate( $cli, true );
     }
 
+    // Commit is done on each batch, make sure to enable optimal commit settings for your search engine.
+    // Example: ezfind as of eZ Publish 5.3 allows you to enable either SoftCommit to avoid, or
+    //          CommitWithin to let Solr defer and better handle hard commits which slow down indexing.
+    //          See settings in ezfind for more information.
     $searchEngine->commit();
 
     $limit['offset'] += $length;
