@@ -4641,7 +4641,7 @@
     <name>design/admin/dashboard/community</name>
     <message>
         <source>What&apos;s happening in the eZ Community</source>
-        <translation type="unfinished"></translation>
+        <translation>Quoi de neuf dans la communauté eZ</translation>
     </message>
 </context>
 <context>
@@ -4734,12 +4734,13 @@
     </message>
     <message>
         <source>You are running &lt;span class=&quot;edition-info&quot;&gt;%edition&lt;/span&gt;, it might not be up to date with the latest hot fixes and service packs. Contact &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; for more infomation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous utilisez &lt;span class=&quot;edition-info&quot;&gt;%edition&lt;/span&gt;, qui peut ne pas être à jour avec les dernières corrections et service packs. Contactez &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; pour plus d&apos;information.</translation>
     </message>
     <message>
         <source>You are using %edition, the &lt;span id=&quot;ez-publish-community-project-is-innovative-and-cutting-edge&quot;&gt;innovative and cutting-edge&lt;/span&gt; version of eZ Publish, built by &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; and the &lt;a href=&quot;%ez_community_link&quot;&gt;eZ Community&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;If this platform is critical for your business, we strongly recommend to subscribe to the Enterprise Edition of eZ Publish. More on &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt;&apos; website.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous utilisez %edition, la version &lt;span id=&quot;ez-publish-community-project-is-innovative-and-cutting-edge&quot;&gt;innovante et à la pointe&lt;/span&gt; d&apos;eZ Publish, mis à disposition par &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt; et la &lt;a href=&quot;%ez_community_link&quot;&gt;eZ Community&lt;/a&gt; &lt;/p&gt;
+&lt;p&gt;Si cette plateforme est critique pour votre entreprise, nous vous encourageons vivement à souscrire à l&apos;Édition Entreprise d&apos;eZ Publish. Plus d&apos;informations sur le site web d&apos;&lt;a href=&quot;%ez_link&quot;&gt;eZ Systems&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -5355,7 +5356,7 @@
     </message>
     <message>
         <source>Objects containing ezuser attributes can not be sent to trash</source>
-        <translation type="unfinished"></translation>
+        <translation>Les objets contenant des attributs ezuser ne peuvent pas être envoyés à la corbeille</translation>
     </message>
 </context>
 <context>
@@ -6336,7 +6337,7 @@
     </message>
     <message>
         <source>You are not allowed to view the related object</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous n&apos;êtes pas autorisé à voir l&apos;objet associé</translation>
     </message>
 </context>
 <context>
@@ -6940,15 +6941,15 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Powered by &lt;span class=&quot;edition-info&quot;&gt;%edition&lt;/span&gt;. For more information see &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Propulsé par &lt;span class=&quot;edition-info&quot;&gt;%edition&lt;/span&gt;. Voir &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt; pour plus d&apos;information.</translation>
     </message>
     <message>
         <source> &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2014 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; and others.</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;a href=&quot;%ezpublish_link&quot;&gt;eZ Publish&lt;/a&gt; Copyright &amp;copy; 1999-2014 &lt;a href=&quot;%ez_link&quot;&gt;eZ Systems AS&lt;/a&gt; et autres.</translation>
     </message>
     <message>
         <source> For more information see &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pour plus d&apos;informations veuillez consulter &lt;a href=%about_link&gt;ezinfo/about&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -13166,11 +13167,11 @@ your account.</source>
     </message>
     <message>
         <source>or</source>
-        <translation type="unfinished">ou</translation>
+        <translation>ou</translation>
     </message>
     <message>
         <source>Register new account</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer un nouveau compte</translation>
     </message>
 </context>
 <context>
@@ -17054,7 +17055,7 @@ Si vous voulez laisser un commentaire au responsable de l&apos;approbation ou en
     </message>
     <message>
         <source>You are not allowed to view the related object</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous n&apos;êtes pas autorisé à voir l&apos;objet associé</translation>
     </message>
 </context>
 <context>
@@ -23111,19 +23112,19 @@ Ces fonctionnalités sont également disponible plus tard via l&apos;interface d
     </message>
     <message>
         <source>Additional packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Paquetages supplémentaires</translation>
     </message>
     <message>
         <source>Looking for other packages? Full archive of all packages can be found &lt;a href=&quot;%packages_url&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous cherchez d&apos;autres paquetages ? Les archives de tous les paquetages peuvent être trouvés &lt;a href=&quot;%packages_url&quot; target=&quot;_blank&quot;&gt;ici&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Notice: The out of the box front-end site often relies on data within a package. This is why it is strongly suggested to map the package language to your primary language, otherwise you&apos;ll need to adjust the configuration and template files to get it working.</source>
-        <translation type="unfinished"></translation>
+        <translation>Attention : Le site web fourni par défaut se base souvent sur les données se trouvant dans un paquetage. C&apos;est pourquoi il est fortement recommandé de faire correspondre la langue du paquetage avec votre langue primaire, sinon vos devrez ajuster la configuration et les fichiers de gabarit pour que cela fonctionne.</translation>
     </message>
     <message>
         <source>Opensource software is nothing without a vibrant community!</source>
-        <translation type="unfinished"></translation>
+        <translation>Un logiciel opensource n&apos;est rien sans une une communauté vivante !</translation>
     </message>
     <message>
         <source>&lt;p&gt;If you need to share knowledge, exchange tips with developers or simply find some improvement tricks, the eZ Community is the place to go.&lt;/p&gt;
@@ -23137,27 +23138,37 @@ How do you access it?&lt;/p&gt;
     &lt;a href=&quot;http://share.ez.no/events&quot;&gt;events&lt;/a&gt;, &lt;a href=&quot;http://share.ez.no/members-partners/find-a-partner&quot;&gt;partners&lt;/a&gt;...&lt;/li&gt;
 &lt;/ul&gt;&lt;/p&gt;
 &lt;p&gt;We<byte value="x19"/>re looking forward to seeing what you share with the Community!&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Si vous souhaitez partager vos connaissances, échanger des astuces avec d&apos;autres développeurs ou simplement trouver des idées d&apos;amélioration, la eZ Community est l&apos;endroit où aller.&lt;/p&gt;
+
+&lt;p&gt;
+Comment y accéder ?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Allez sur &lt;a href=&quot;http://share.ez.no/&quot; title=&quot;eZ Community&quot;&gt;share.ez.no&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Cliquez sur <em>Register</em> (en haut de la page) et créez votre profil&lt;/li&gt;
+&lt;li&gt;Ici vous trouverez &lt;a href=&quot;http://share.ez.no/blogs&quot;&gt;des actualités sur les blogs&lt;/a&gt;,
+    &lt;a href=&quot;http://share.ez.no/events&quot;&gt;des événements&lt;/a&gt;, &lt;a href=&quot;http://share.ez.no/members-partners/find-a-partner&quot;&gt;des partenaires&lt;/a&gt;...&lt;/li&gt;
+&lt;/ul&gt;&lt;/p&gt;
+&lt;p&gt;Nous avons hâte de voir ce que vous avez à partager avec la communauté !&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Discover the eZ Publish Platform forums</source>
-        <translation type="unfinished"></translation>
+        <translation>Découvrez les forums sur eZ Publish Platform</translation>
     </message>
     <message>
         <source>eZ Publish 5 platform</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ Publish 5 platform</translation>
     </message>
     <message>
         <source>Installation &amp; configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Intallation &amp; configuration</translation>
     </message>
     <message>
         <source>Setup and design</source>
-        <translation type="unfinished"></translation>
+        <translation>Setup and design</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Général</translation>
     </message>
 </context>
 <context>
@@ -23946,23 +23957,23 @@ Pour faire cela, vous avez besoin de changer les commandes %chown sous une autre
     </message>
     <message>
         <source>Missing intl extension</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;extension Intl est manquante</translation>
     </message>
     <message>
         <source>The intl extension, required for internationalization, is not installed or enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;extension Intl, requise pour l&apos;internationalisation, n&apos;est pas installée ou activée.</translation>
     </message>
     <message>
         <source>More information on installing it is available at</source>
-        <translation type="unfinished"></translation>
+        <translation>Plus d&apos;informations pour l&apos;installer</translation>
     </message>
     <message>
         <source>Missing xsl extension</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;extension XSL est manquante</translation>
     </message>
     <message>
         <source>The xsl extension, required by rich text handling, is not installed or enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;extension XSL, requise par la gestion du texte riche, n&apos;est pas installée ou activée.</translation>
     </message>
 </context>
 <context>
@@ -26489,11 +26500,11 @@ your account.</source>
     </message>
     <message>
         <source>SSL Zones cache</source>
-        <translation type="unfinished"></translation>
+        <translation>Cache de Zones SSL</translation>
     </message>
     <message>
         <source>Content Language cache</source>
-        <translation type="unfinished"></translation>
+        <translation>Cache de langage de contenu</translation>
     </message>
 </context>
 <context>
