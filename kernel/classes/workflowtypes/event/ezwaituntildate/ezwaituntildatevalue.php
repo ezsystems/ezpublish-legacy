@@ -72,6 +72,11 @@ class eZWaitUntilDateValue extends eZPersistentObject
         if ( $this->ClassName === null )
         {
             $contentClass = eZContentClass::fetch( $this->attribute( 'contentclass_id' ) );
+            if ( !$contentClass instanceof eZContentClass )
+            {
+                eZDebug::writeError( 'Unable to find eZContentClass #' . $this->attribute( 'contentclass_id' ), __METHOD__ );
+                return null;
+            }
             $this->ClassName = $contentClass->attribute( 'name' );
         }
         return $this->ClassName;
@@ -82,6 +87,11 @@ class eZWaitUntilDateValue extends eZPersistentObject
         if ( $this->ClassAttributeName === null )
         {
             $contentClassAttribute = eZContentClassAttribute::fetch( $this->attribute( 'contentclass_attribute_id' ) );
+            if ( !$contentClassAttribute instanceof eZContentClassAttribute )
+            {
+                eZDebug::writeError( 'Unable to find eZContentClassAttribute #' . $this->attribute( 'contentclass_attribute_id' ), __METHOD__ );
+                return null;
+            }
             $this->ClassAttributeName = $contentClassAttribute->attribute( 'name' );
         }
         return $this->ClassAttributeName;

@@ -15,8 +15,8 @@
 </tr>
 {section name=Entries loop=$event.content.entry_list sequence=array(bglight,bgdark)}
 <tr>
-    <td class="{$Entries:sequence}">{$Entries:item.class_name}</td>
-    <td class="{$Entries:sequence}">{$Entries:item.classattribute_name}</td>
+    <td class="{$Entries:sequence}">{if $Entries:item.class_name|is_null|not}{$Entries:item.class_name}{else}{"Item can not be found"|i18n("design/standard/workflow/eventtype/view")}{/if}</td>
+    <td class="{$Entries:sequence}">{if $Entries:item.classattribute_name|is_null|not}{$Entries:item.classattribute_name}{else}{"Item can not be found"|i18n("design/standard/workflow/eventtype/view")}{/if}</td>
 </tr>
 {/section}
 </table>

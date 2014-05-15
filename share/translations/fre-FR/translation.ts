@@ -26228,6 +26228,10 @@ your account.</source>
         <source>Language</source>
         <translation>Langue</translation>
     </message>
+    <message>
+        <source>Item can not be found</source>
+        <translation>Element introuvable</translation>
+    </message>
 </context>
 <context>
     <name>design/starndard/node</name>

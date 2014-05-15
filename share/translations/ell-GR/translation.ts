@@ -25539,6 +25539,10 @@ your account.</source>
         <source>Language</source>
         <translation>Γλώσσα</translation>
     </message>
+    <message>
+        <source>Item can not be found</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/starndard/node</name>
