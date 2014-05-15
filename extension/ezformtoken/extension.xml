@@ -3,7 +3,7 @@
     <metadata>
         <name>eZ Form Token LS</name>
         <version>//autogentag//</version>
-        <copyright>Copyright (C) 1999-2014 eZ Systems AS</copyright>
-        <license>//EZP_LICENSE//</license>
+        <copyright>Copyright (C) eZ Systems AS. All rights reserved.</copyright>
+        <license>This software is distributed under same license as eZ Publish</license>
     </metadata>
 </software>
