@@ -23144,7 +23144,7 @@ How do you access it?&lt;/p&gt;
 Comment y accéder ?&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Allez sur &lt;a href=&quot;http://share.ez.no/&quot; title=&quot;eZ Community&quot;&gt;share.ez.no&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Cliquez sur <em>Register</em> (en haut de la page) et créez votre profil&lt;/li&gt;
+&lt;li&gt;Cliquez sur &lt;em&gt;Register&lt;/em&gt; (en haut de la page) et créez votre profil&lt;/li&gt;
 &lt;li&gt;Ici vous trouverez &lt;a href=&quot;http://share.ez.no/blogs&quot;&gt;des actualités sur les blogs&lt;/a&gt;,
     &lt;a href=&quot;http://share.ez.no/events&quot;&gt;des événements&lt;/a&gt;, &lt;a href=&quot;http://share.ez.no/members-partners/find-a-partner&quot;&gt;des partenaires&lt;/a&gt;...&lt;/li&gt;
 &lt;/ul&gt;&lt;/p&gt;
