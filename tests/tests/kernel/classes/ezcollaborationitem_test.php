@@ -7,7 +7,7 @@
  * @version //autogentag//
  */
 
-class eZCollaborationItemTest extends ezpTestCase
+class eZCollaborationItemTest extends ezpDatabaseTestCase
 {
     public function setUp()
     {
