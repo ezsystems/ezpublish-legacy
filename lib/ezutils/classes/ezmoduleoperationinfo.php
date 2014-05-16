@@ -498,7 +498,7 @@ class eZModuleOperationInfo
 
                                 $bodyReturnValue['status'] = eZModuleOperationInfo::STATUS_HALTED;
                                 $interrupt = true;
-                            }
+                            }break;
                             case eZModuleOperationInfo::STATUS_REPEAT:
                             {
 
