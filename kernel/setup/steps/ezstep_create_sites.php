@@ -1021,7 +1021,12 @@ language_locale='eng-GB'";
         $extensionsToEnable = array();
         // Included in "fat" install, needs to override $extraCommonSettings extensions
         $extensionsPrepended = array( 'ezjscore', /*@EZP_BUILD_EXTENSION_ACTIVATE@*/ 'ezoe', 'ezformtoken' );
-        foreach ( array( 'ezie', 'ezodf', 'ezprestapiprovider' ) as $extension )
+        foreach (
+            array(
+                'ezie', 'ezodf', 'ezprestapiprovider', 'ezmultiupload', 'eztags',
+                'ezautosave', 'ez_network', 'ez_network_demo'
+            ) as $extension
+        )
         {
             if ( file_exists( "extension/$extension" ) )
             {
