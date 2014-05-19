@@ -19,9 +19,19 @@ case "down":
         {
             if ( isset( $Params["EventID"] ) )
             {
-                $event = eZWorkflowEvent::fetch( $Params["EventID"], true, 1,
-                                                 array( "workflow_id", "version", "placement" ) );
-                $event->move( $Params["FunctionName"] == "up" ? false : true );
+                /** @var eZWorkflowEvent $event */
+                $event = eZWorkflowEvent::fetch(
+                    $Params["EventID"],
+                    true,
+                    1,
+                    array( "workflow_id", "version", "placement" )
+                );
+
+                if ( $event instanceof eZWorkflowEvent )
+                {
+                    $event->move( $Params["FunctionName"] == "up" ? false : true );
+                }
+
                 $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $WorkflowID );
                 return;
             }
