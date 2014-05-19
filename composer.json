@@ -35,7 +35,7 @@
         "zetacomponents/event-log": "dev-master#eee54a1",
         "zetacomponents/feed": "dev-master#e0190e9",
         "zetacomponents/image-conversion": "dev-master#36f34c8",
-        "zetacomponents/mail": "dev-master#71b05a4",
+        "zetacomponents/mail": "1.8.*@beta",
         "zetacomponents/mvc-tools": "dev-master#6f2c1eb",
         "zetacomponents/mvc-authentication-tiein": "dev-master#9bae3a7",
         "zetacomponents/persistent-object": "dev-master#a4c8b95",
