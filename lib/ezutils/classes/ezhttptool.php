@@ -750,6 +750,9 @@ EOT;
                 curl_setopt( $ch, CURLOPT_TIMEOUT, 15 );
                 curl_setopt( $ch, CURLOPT_FAILONERROR, 1 );
                 curl_setopt( $ch, CURLOPT_NOBODY, 1 );
+                // Force Get request because CURLOPT_NOBODY sets 
+                // the request method to HEAD which is restricted on most servers
+                curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET');
             }
 
             if ( $userAgent )
