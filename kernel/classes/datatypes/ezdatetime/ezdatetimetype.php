@@ -147,7 +147,7 @@ class eZDateTimeType extends eZDataType
 
             if ( ( $year == '' and $month == '' and $day == '' and
                    $hour == '' and $minute == '' and ( !$useSeconds or $second == '' ) ) or
-                 !checkdate( $month, $day, $year ) or $year < 1970 )
+                 !checkdate( $month, $day, $year ) )
             {
                     $dateTime->setTimeStamp( 0 );
             }
@@ -239,7 +239,7 @@ class eZDateTimeType extends eZDataType
             $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             if ( ( $year == '' and $month == ''and $day == '' and
                    $hour == '' and $minute == '' and ( !$useSeconds or $second == '' ) ) or
-                 !checkdate( $month, $day, $year ) or $year < 1970 )
+                 !checkdate( $month, $day, $year ) )
             {
                     $dateTime->setTimeStamp( 0 );
             }

@@ -85,9 +85,9 @@ class eZDateTime
             $datetime = time();
         }
 
-        $this->DateTime = $datetime;
+        $this->DateTime = intval( $datetime );
         $this->Locale = eZLocale::instance();
-        $this->IsValid = $datetime > 0;
+        $this->IsValid = true;
     }
 
     function attributes()
@@ -192,7 +192,7 @@ class eZDateTime
     function setTimeStamp( $stamp )
     {
         $this->DateTime = $stamp;
-        $this->IsValid = $stamp > 0;
+        $this->IsValid = true;
     }
 
     /*!
