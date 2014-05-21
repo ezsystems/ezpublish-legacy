@@ -80,7 +80,7 @@ class eZStepSiteTypes extends eZStepInstaller
             curl_setopt( $ch, CURLOPT_FILE, $fp );
             curl_setopt( $ch, CURLOPT_HEADER, 0 );
             curl_setopt( $ch, CURLOPT_FAILONERROR, 1 );
-            curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 3 );
+            curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 30 );
             // Get proxy
             $ini = eZINI::instance();
             $proxy = $ini->hasVariable( 'ProxySettings', 'ProxyServer' ) ? $ini->variable( 'ProxySettings', 'ProxyServer' ) : false;
