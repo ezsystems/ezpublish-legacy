@@ -228,7 +228,7 @@ class ezjscAjaxContent
             $params['imageDataTypes'] = $ini->variable( 'ImageDataTypeSettings', 'AvailableImageDataTypes' );
 
         $ret                            	= array();
-        $attrtibuteArray                	= array();
+        $attributeArray                	= array();
         $ret['name']                    	= htmlentities( $contentObject->attribute( 'name' ), ENT_QUOTES, "UTF-8" );
         $ret['contentobject_id']        	= $ret['id'] = (int) $contentObject->attribute( 'id' );
         $ret['contentobject_remote_id'] 	= $contentObject->attribute( 'remote_id' );
@@ -422,13 +422,13 @@ class ezjscAjaxContent
                     continue;
                 }
 
-                $attrtibuteArray[ $key ]['id']         = $atr->attribute( 'id' );
-                $attrtibuteArray[ $key ]['type']       = $dataTypeString;
-                $attrtibuteArray[ $key ]['identifier'] = $key;
+                $attributeArray[ $key ]['id']         = $atr->attribute( 'id' );
+                $attributeArray[ $key ]['type']       = $dataTypeString;
+                $attributeArray[ $key ]['identifier'] = $key;
                 if ( isset ( $datatypeBlacklist[$dataTypeString] ) )
-                    $attrtibuteArray[ $key ]['content'] = null;
+                    $attributeArray[ $key ]['content'] = null;
                 else
-                    $attrtibuteArray[ $key ]['content'] = $atr->toString();
+                    $attributeArray[ $key ]['content'] = $atr->toString();
 
                 // images
                 if ( in_array( $dataTypeString, $params['imageDataTypes'], true) && $atr->hasContent() )
@@ -479,11 +479,11 @@ class ezjscAjaxContent
                         }
                     );
 
-                    $attrtibuteArray[ $key ]['content'] = $imageArray;
+                    $attributeArray[ $key ]['content'] = $imageArray;
                 }
             }
         }
-        $ret['data_map'] = $attrtibuteArray;
+        $ret['data_map'] = $attributeArray;
         return $ret;
     }
 
