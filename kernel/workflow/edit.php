@@ -319,19 +319,19 @@ else if ( $http->hasPostVariable( "DeleteButton" ) )
 // Add new workflow event
 else if ( $http->hasPostVariable( "NewButton" ) )
 {
-    $new_event = eZWorkflowEvent::create( $WorkflowID, $cur_type );
-    $new_event_type = $new_event->eventType();
-    $db = eZDB::instance();
-    $db->begin();
+    if ( $canStore )
+    {
+        $new_event = eZWorkflowEvent::create( $WorkflowID, $cur_type );
+        $new_event_type = $new_event->eventType();
+        $db = eZDB::instance();
+        $db->begin();
 
-    if ($canStore)
-        $workflow->store( $event_list );
+        $new_event_type->initializeEvent( $new_event );
+        $new_event->store();
 
-    $new_event_type->initializeEvent( $new_event );
-    $new_event->store();
-
-    $db->commit();
-    $event_list[] = $new_event;
+        $db->commit();
+        $event_list[] = $new_event;
+    }
 }
 else if ( $canStore )
 {
