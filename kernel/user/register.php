@@ -266,7 +266,10 @@ if ( !function_exists( 'checkContentActions' ) )
             $http->removeSessionVariable( 'StartedRegistration' );
 
             // if everything is passed, login the user
-            if( $operationResult['status'] === eZModuleOperationInfo::STATUS_CONTINUE )
+            if (
+                $operationResult['status'] === eZModuleOperationInfo::STATUS_CONTINUE
+                && $ini->variable( "UserSettings", "RegisterAutoLogin" ) === "enabled"
+            )
             {
                 $user->loginCurrent();
             }
