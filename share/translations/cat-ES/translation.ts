@@ -23133,7 +23133,7 @@ També podràs fer-ho més endavant de la Interfície d&apos;Administració.</tr
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Opensource software is nothing without a vibrant community!</source>
+        <source>Open source software is nothing without a vibrant community!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -25895,7 +25895,7 @@ Esta funcionalidad se encuentra también disponible más adelante desde la Inter
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Opensource software is nothing without a vibrant community!</source>
+        <source>Open source software is nothing without a vibrant community!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

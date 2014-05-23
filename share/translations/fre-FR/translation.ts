@@ -23123,7 +23123,7 @@ Ces fonctionnalités sont également disponible plus tard via l&apos;interface d
         <translation>Attention : Le site web fourni par défaut se base souvent sur les données se trouvant dans un paquetage. C&apos;est pourquoi il est fortement recommandé de faire correspondre la langue du paquetage avec votre langue primaire, sinon vos devrez ajuster la configuration et les fichiers de gabarit pour que cela fonctionne.</translation>
     </message>
     <message>
-        <source>Opensource software is nothing without a vibrant community!</source>
+        <source>Open source software is nothing without a vibrant community!</source>
         <translation>Un logiciel opensource n&apos;est rien sans une une communauté vivante !</translation>
     </message>
     <message>

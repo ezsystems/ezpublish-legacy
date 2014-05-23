@@ -23157,8 +23157,8 @@ Esta funcionalidad queda también disponible más adelante desde la Interfaz de 
         <translation>Nota: El sitio por defecto provisto a menudo depende de datos contenidos en un paquete. Por eso le recomentamos fijar el idioma del paquete a su idioma primario . De no hacerlo así, necesitará ajustar configuraciones y plantillas para que el sitio funcione.</translation>
     </message>
     <message>
-        <source>Opensource software is nothing without a vibrant community!</source>
-        <translation>¡El Software Opensource no es nada sin una comunidad activa!</translation>
+        <source>Open source software is nothing without a vibrant community!</source>
+        <translation>¡El Software Open source no es nada sin una comunidad activa!</translation>
     </message>
     <message>
         <source>&lt;p&gt;If you need to share knowledge, exchange tips with developers or simply find some improvement tricks, the eZ Community is the place to go.&lt;/p&gt;
