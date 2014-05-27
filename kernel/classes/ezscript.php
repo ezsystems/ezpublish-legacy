@@ -1217,8 +1217,11 @@ function eZFatalError()
 /*!
   Dummy function, required by some scripts in eZ Publish.
 */
-function eZUpdateDebugSettings( $useDebug = null )
+if ( !function_exists( 'eZUpdateDebugSettings' ) )
 {
+    function eZUpdateDebugSettings( $useDebug = null )
+    {
+    }
 }
 
 /*!
