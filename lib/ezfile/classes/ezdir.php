@@ -266,7 +266,10 @@ class eZDir
         // RecursiveDelete fails if ...
         // $dir is not a directory
         if ( !is_dir( $dir ) )
+        {
+            eZDebug::writeError( "The path: $dir is not a folder" , __METHOD__ );
             return false;
+        }
 
         if ( $rootCheck )
         {
@@ -298,7 +301,10 @@ class eZDir
 
         // the directory cannot be opened
         if ( ! ( $handle = @opendir( $dir ) ) )
+        {
+            eZDebug::writeError( "Cannot access folder:". dirname( $dir) , __METHOD__ );
             return false;
+        }
 
         while ( ( $file = readdir( $handle ) ) !== false )
         {
