@@ -154,7 +154,7 @@ if ( $checkDFS )
         $cli->output( 'Checking files on the DFS share...' );
     }
 
-    $dfsBackend = new eZDFSFileHandlerDFSBackend();
+    $dfsBackend = eZDFSFileHandlerBackendFactory::build();
     foreach ( $dfsBackend->getFilesList( $checkPath ) as $filePathName )
     {
         try

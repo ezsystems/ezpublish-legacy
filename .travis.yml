@@ -40,7 +40,7 @@ before_script:
 
 
 script:
-  - php -d date.timezone=$TIMEZONE tests/runtests.php --dsn "$DB://${DB_USER}@127.0.0.1/$DB_NAME"
+  - php -d date.timezone=$TIMEZONE tests/runtests.php --debug --dsn "$DB://${DB_USER}@127.0.0.1/$DB_NAME"
 
 notification:
   email: false
