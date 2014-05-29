@@ -29,6 +29,14 @@ class eZDFSFileHandlerDFSBackend implements eZDFSFileHandlerDFSBackendInterface
     }
 
     /**
+     * The legacy handler supports any type of file
+     */
+    public function supports( $path )
+    {
+        return true;
+    }
+
+    /**
      * Creates a copy of $srcFilePath from DFS to $dstFilePath on DFS
      *
      * @param string $srcFilePath Local source file path

@@ -167,10 +167,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             throw new eZClusterHandlerDBNoDatabaseException( self::$dbparams['dbname'] );*/
 
         // DFS setup
-        if ( $this->dfsbackend === null )
-        {
-            $this->dfsbackend = new eZDFSFileHandlerDFSBackend();
-        }
+        $this->dfsbackend = eZDFSFileHandlerBackendFactory::build();
 
         $charset = trim( $siteINI->variable( 'DatabaseSettings', 'Charset' ) );
         if ( $charset === '' )
