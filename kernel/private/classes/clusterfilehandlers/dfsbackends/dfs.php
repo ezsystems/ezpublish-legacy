@@ -8,7 +8,7 @@
  * @package kernel
  */
 
-class eZDFSFileHandlerDFSBackend
+class eZDFSFileHandlerDFSBackend implements eZDFSFileHandlerDFSBackendInterface
 {
     public function __construct()
     {
@@ -29,10 +29,20 @@ class eZDFSFileHandlerDFSBackend
     }
 
     /**
+     * The legacy handler supports any type of file
+     */
+    public function supports( $path )
+    {
+        return true;
+    }
+
+    /**
      * Creates a copy of $srcFilePath from DFS to $dstFilePath on DFS
      *
      * @param string $srcFilePath Local source file path
      * @param string $dstFilePath Local destination file path
+     *
+     * @return bool
      */
     public function copyFromDFSToDFS( $srcFilePath, $dstFilePath )
     {
@@ -269,7 +279,20 @@ class eZDFSFileHandlerDFSBackend
      */
     public function existsOnDFS( $filePath )
     {
-        return file_exists( $this->makeDFSPath( $filePath ) );
+        if ( file_exists( $this->makeDFSPath( $filePath ) ) )
+        {
+            return true;
+        }
+
+        // Verify that mount point is still there
+        $filePathDir = substr( $filePath, 0, strpos( $filePath, '/' ) + 1 );
+        $path = realpath( $this->getMountPoint() ). '/' . $filePathDir;
+        if ( !file_exists( $path ) || !is_dir( $path ) )
+        {
+            throw new eZDFSFileHandlerBackendException( "NFS mount root $path not found" );
+        }
+
+        return false;
     }
 
     /**
@@ -277,7 +300,7 @@ class eZDFSFileHandlerDFSBackend
      *
      * @return string
      */
-    public function getMountPoint()
+    protected function getMountPoint()
     {
         return $this->mountPointPath;
     }
@@ -348,6 +371,27 @@ class eZDFSFileHandlerDFSBackend
     public function getDfsFileSize( $filePath )
     {
         return filesize( $this->makeDFSPath( $filePath ) );
+    }
+
+    /**
+     * Returns an iterator over the files within $basePath on the backend
+     *
+     * @param string $basePath a path relative to the mount point
+     *
+     * @return Iterator An iterator that returns a DFS File pathname as the value
+     */
+    public function getFilesList( $basePath )
+    {
+        // The custom iterator filters out the file path in order to get a relative one
+        return new eZDFSFileHandlerDFSBackendFilterIterator(
+            new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator(
+                    $this->mountPointPath . '/' . $basePath,
+                    FilesystemIterator::SKIP_DOTS|FilesystemIterator::UNIX_PATHS
+                )
+            ),
+            $this->mountPointPath
+        );
     }
 
     /**
