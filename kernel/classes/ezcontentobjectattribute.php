@@ -1452,6 +1452,17 @@ class eZContentObjectAttribute extends eZPersistentObject
         return false;
     }
 
+    /**
+     * Removes all links for a given Class Attribute Id.
+     * @param int $attributeId
+     */
+    public static function removeRelationsByContentClassAttributeId( $attributeId )
+    {
+        $id = (int)$attributeId;
+        $db = eZDB::instance();
+        $db->query( "DELETE FROM ezcontentobject_link WHERE contentclassattribute_id=$id" );
+    }
+
     /// Contains the value(s) submitted in HTTP form
     public $HTTPValue;
 

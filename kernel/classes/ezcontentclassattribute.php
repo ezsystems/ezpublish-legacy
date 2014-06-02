@@ -523,6 +523,9 @@ class eZContentClassAttribute extends eZPersistentObject
                                            $down );
     }
 
+    /**
+     * @return eZDataType
+     */
     function dataType()
     {
         return eZDataType::create( $this->DataTypeString );

@@ -393,6 +393,11 @@ class eZObjectRelationType extends eZDataType
                       'fuzzy_match' => $fuzzyMatch );
     }
 
+    function deleteNotVersionedStoredClassAttribute( eZContentClassAttribute $classAttribute )
+    {
+        eZContentObjectAttribute::removeRelationsByContentClassAttributeId( $classAttribute->attribute( 'id' ) );
+    }
+
     function customClassAttributeHTTPAction( $http, $action, $classAttribute )
     {
         switch ( $action )
