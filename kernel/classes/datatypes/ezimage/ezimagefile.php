@@ -223,6 +223,69 @@ class eZImageFile extends eZPersistentObject
         eZPersistentObject::removeObject( eZImageFile::definition(), array( 'contentobject_attribute_id' => $contentObjectAttributeID ) );
     }
 
+    /**
+     * Tests if $filepath is referenced by content attributes of the same $attributeId in different $attributeVersion or $languageCode
+     *
+     * @param string $filepath
+     * @param int $attributeId Content object attribute ID
+     * @param int $attributeVersion Content object attribute version
+     * @param string $languageCode Attribute language code
+     * @return bool true if $filepath is referenced by other attributes, false otherwise
+     */
+    public static function isReferencedByOtherAttributes( $filepath, $attributeId, $attributeVersion, $languageCode )
+    {
+        $db = eZDB::instance();
+        $filepath = $db->escapeString( $filepath );
+
+        // Check eZImageFile and eZContentobjectAttribute for references to the alias file, in another version/language
+        $rows = $db->arrayQuery(
+            sprintf(
+                "
+                SELECT count(*) as count FROM ezcontentobject_attribute
+                INNER JOIN ezimagefile ON ezcontentobject_attribute.id=ezimagefile.contentobject_attribute_id
+                WHERE ezimagefile.filepath='%s'
+                AND ezcontentobject_attribute.data_text LIKE '%%url=\"%s\"%%'
+                AND ezcontentobject_attribute.id = %d
+                AND ( ezcontentobject_attribute.version != %d OR ezcontentobject_attribute.language_code != '%s' )
+                ",
+                $filepath, $filepath,
+                $attributeId,
+                $attributeVersion,
+                $languageCode
+            )
+        );
+
+        return (int)$rows[0]['count'] > 0;
+    }
+
+    /**
+     * Tests if there are ezimagefile rows with a different $attributeId that reference $filepath
+     *
+     * @param string $filepath
+     * @param int $attributeId
+     * @return bool
+     */
+    public static function isReferencedByOtherImageFiles( $filepath, $attributeId )
+    {
+        $db = eZDB::instance();
+        $filepath = $db->escapeString( $filepath );
+
+        $rows = $db->arrayQuery(
+            sprintf(
+                "
+                SELECT count(*) as count FROM ezcontentobject_attribute
+                INNER JOIN ezimagefile ON ezcontentobject_attribute.id=ezimagefile.contentobject_attribute_id
+                WHERE ezimagefile.filepath='%s'
+                AND ezcontentobject_attribute.id != %d
+                ",
+                $filepath,
+                $attributeId
+            )
+        );
+
+        return (int)$rows[0]['count'] > 0;
+    }
+
 
     /// \privatesection
     public $ContentObjectAttributeID;

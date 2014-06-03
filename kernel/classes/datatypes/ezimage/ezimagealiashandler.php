@@ -734,71 +734,39 @@ class eZImageAliasHandler
         if ( $aliasFile == '' )
             throw new InvalidArgumentException( "Expecting image file path" );
 
-        $db = eZDB::instance();
-        $aliasFilePath = $db->escapeString( $aliasFile );
+        // We only delete the eZImageFile if it isn't referenced by attributes of the same id but different version/language
+        if ( eZImageFile::isReferencedByOtherAttributes(
+            $aliasFile,
+            $this->ContentObjectAttributeData['id'],
+            $this->ContentObjectAttributeData['version'],
+            $this->ContentObjectAttributeData['language_code'] ) )
+        {
+            return;
+        }
 
-        // Check eZImageFile and eZContentobjectAttribute for references to the alias file, in another version/language
-        $rows = $db->arrayQuery(
-            sprintf(
-                "
-                SELECT count(*) as count FROM ezcontentobject_attribute
-                INNER JOIN ezimagefile ON ezcontentobject_attribute.id=ezimagefile.contentobject_attribute_id
-                WHERE ezimagefile.filepath='%s'
-                AND ezcontentobject_attribute.data_text LIKE '%%url=\"%s\"%%'
-                AND ezcontentobject_attribute.id = %d
-                AND ( ezcontentobject_attribute.version != %d OR ezcontentobject_attribute.language_code != '%s' )
-                ",
-                $aliasFilePath, $aliasFilePath,
-                $this->ContentObjectAttributeData['id'],
-                $this->ContentObjectAttributeData['version'],
-                $this->ContentObjectAttributeData['language_code']
+        eZImageFile::removeObject(
+            eZImageFile::definition(),
+            array(
+                'contentobject_attribute_id' => $this->ContentObjectAttributeData['id'],
+                'filepath' => $aliasFile
             )
         );
 
-        // if there are any results, there are other attributes (version/language) referencing this alias file
-        if ( (int)$rows[0]['count'] == 0 )
+        // We only remove the image file if other eZImageFile of the same attribute use it (other versions)
+        if ( eZImageFile::isReferencedByOtherImageFiles( $aliasFile, $this->ContentObjectAttributeData['id'] ) )
         {
-            eZImageFile::removeObject(
-                eZImageFile::definition(),
-                array(
-                    'contentobject_attribute_id' => $this->ContentObjectAttributeData['id'],
-                    'filepath' => $aliasFile
-                )
-            );
-
-            // Check if there are any eZImageFile rows referencing the alias file
-            $rows = $db->arrayQuery(
-                sprintf(
-                    "
-                    SELECT count(*) as count FROM ezcontentobject_attribute
-                    INNER JOIN ezimagefile ON ezcontentobject_attribute.id=ezimagefile.contentobject_attribute_id
-                    WHERE ezimagefile.filepath='%s'
-                    AND ezcontentobject_attribute.id != %d
-                    ",
-                    $aliasFilePath,
-                    $this->ContentObjectAttributeData['id']
-                )
-            );
-            // the file may be deleted if there are no results
-            $filePathIsReferencedByOtherAttributes = (int)$rows[0]['count'] > 0;
-        }
-        else
-        {
-            $filePathIsReferencedByOtherAttributes = true;
+            return;
         }
 
         // finally, remove file if applicable
-        if ( !$filePathIsReferencedByOtherAttributes )
+        $file = eZClusterFileHandler::instance( $aliasFile );
+        if ( !$file->exists() )
         {
-            $file = eZClusterFileHandler::instance( $aliasFile );
-            if ( !$file->exists() )
-            {
-                eZDebug::writeError( "Image file {$aliasFile} does not exist, could not remove from disk", __METHOD__ );
-                return;
-            }
-            $file->delete();
-            eZDir::cleanupEmptyDirectories( dirname( $aliasFile ) );
+            eZDebug::writeError( "Image file {$aliasFile} does not exist, could not remove from disk", __METHOD__ );
+            return;
         }
+        $file->delete();
+        eZDir::cleanupEmptyDirectories( dirname( $aliasFile ) );
     }
 
     /*!
