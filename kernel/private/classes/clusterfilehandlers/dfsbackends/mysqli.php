@@ -1961,7 +1961,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
 
     /**
      * Distributed filesystem backend
-     * @var eZDFSFileHandlerDFSBackend
+     * @var eZDFSFileHandlerDFSBackendInterface
      */
     protected $dfsbackend = null;
 
