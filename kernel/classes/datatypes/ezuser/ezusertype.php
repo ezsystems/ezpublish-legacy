@@ -250,6 +250,13 @@ class eZUserType extends eZDataType
         }
         else
         {
+            // No "draft" for version 1 to avoid regression for existing code creating new users.
+            if ( $contentObjectAttribute->attribute( 'version' ) == '1' )
+            {
+                $user->store();
+                $contentObjectAttribute->setContent( $user );
+            }
+
             // saving information in the object attribute data_text field to simulate a draft
             $contentObjectAttribute->setAttribute( 'data_text', $this->serializeDraft( $user ) );
         }

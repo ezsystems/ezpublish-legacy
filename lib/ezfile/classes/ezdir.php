@@ -266,15 +266,45 @@ class eZDir
         // RecursiveDelete fails if ...
         // $dir is not a directory
         if ( !is_dir( $dir ) )
+        {
+            eZDebug::writeError( "The path: $dir is not a folder" , __METHOD__ );
             return false;
+        }
 
-        // rootCheck is enabled and $dir is not part of the root directory
-        if ( $rootCheck && strpos( dirname( realpath( $dir ) ) . DIRECTORY_SEPARATOR, realpath( eZSys::rootDir() ) . DIRECTORY_SEPARATOR ) === false )
-            return false;
+        if ( $rootCheck )
+        {
+            // rootCheck is enabled, check if $dir is part of authorized directories
+            $allowedDirs = eZINI::instance()->variable( 'FileSettings', 'AllowedDeletionDirs' );
+            // Also adding eZ Publish root dir.
+            $rootDir = eZSys::rootDir() . DIRECTORY_SEPARATOR;
+            array_unshift( $allowedDirs, $rootDir );
+
+            $dirRealPath = dirname( realpath( $dir ) ) . DIRECTORY_SEPARATOR;
+            $canDelete = false;
+            foreach ( $allowedDirs as $allowedDir )
+            {
+                if ( strpos( $dirRealPath, realpath( $allowedDir ) ) === 0 )
+                {
+                    $canDelete = true;
+                    break;
+                }
+            }
+
+            if ( !$canDelete )
+            {
+                eZDebug::writeError(
+                    "Recursive delete denied for '$dir' as its realpath '$dirRealPath' is outside eZ Publish root and not registered in AllowedDeletionDirs."
+                );
+                return false;
+            }
+        }
 
         // the directory cannot be opened
         if ( ! ( $handle = @opendir( $dir ) ) )
+        {
+            eZDebug::writeError( "Cannot access folder:". dirname( $dir) , __METHOD__ );
             return false;
+        }
 
         while ( ( $file = readdir( $handle ) ) !== false )
         {
