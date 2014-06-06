@@ -48,7 +48,7 @@ class eZDFSFileHandlerBackendFactory
 
         if ( self::hasFactorySupport( $className ) )
         {
-            $handler = $className::factory();
+            $handler = $className::build();
         }
         else
         {
@@ -73,6 +73,6 @@ class eZDFSFileHandlerBackendFactory
     private static function hasFactorySupport( $className )
     {
         $implementedClasses = class_implements( $className );
-        return isset( $implementedClasses['eZDFSFileHandlerFactoryDFSBackendInterface'] );
+        return isset( $implementedClasses['eZDFSFileHandlerDFSBackendFactoryInterface'] );
     }
 }
