@@ -942,6 +942,16 @@ class eZDataType
     }
 
     /**
+     * Clean up stored class attribute for content class that is not versioned.
+     * Note: Default implementation does nothing
+     *
+     * @param eZContentClassAttribute $classAttribute
+     */
+    function deleteNotVersionedStoredClassAttribute( eZContentClassAttribute $classAttribute )
+    {
+    }
+
+    /**
      * Return content action(s) which can be performed on object containing
      * the current datatype. Return format is array of arrays with key 'name'
      * and 'action'. 'action' can be mapped to url in datatype.ini

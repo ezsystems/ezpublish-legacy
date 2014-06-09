@@ -27,6 +27,7 @@ class eZContentClassEditHandler
         // Delete object attributes which have been removed.
         foreach ( $oldClassAttributes as $oldClassAttribute )
         {
+            /** @var eZContentClassAttribute $oldClassAttribute */
             $attributeExists = false;
             $oldClassAttributeID = $oldClassAttribute->attribute( 'id' );
             foreach ( $class->fetchAttributes( ) as $newClassAttribute )
@@ -43,6 +44,8 @@ class eZContentClassEditHandler
                 {
                     $objectAttribute->removeThis( $objectAttribute->attribute( 'id' ) );
                 }
+
+                $oldClassAttribute->datatype()->deleteNotVersionedStoredClassAttribute( $oldClassAttribute );
             }
         }
         $class->storeDefined( $attributes );

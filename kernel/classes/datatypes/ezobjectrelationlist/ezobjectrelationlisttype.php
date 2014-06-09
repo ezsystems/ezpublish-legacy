@@ -833,6 +833,11 @@ class eZObjectRelationListType extends eZDataType
         }
     }
 
+    function deleteNotVersionedStoredClassAttribute( eZContentClassAttribute $classAttribute )
+    {
+        eZContentObjectAttribute::removeRelationsByContentClassAttributeId( $classAttribute->attribute( 'id' ) );
+    }
+
     function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         $contentobjectID = false;
