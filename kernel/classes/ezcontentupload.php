@@ -425,6 +425,17 @@ class eZContentUpload
         if ( $storeResult['require_storage'] )
             $dataMap[$nameAttribute]->store();
 
+        if ( is_array( $parentNodes ) )
+        {
+            foreach ( $parentNodes as $parentNode )
+            {
+                $object->createNodeAssignment(
+                    $parentNode,
+                    $parentNode == $parentMainNode
+                );
+            }
+        }
+
         return $this->publishObject( $result, $result['errors'], $result['notices'],
                                      $object, $publishVersion, $class, $parentNodes, $parentMainNode );
     }
