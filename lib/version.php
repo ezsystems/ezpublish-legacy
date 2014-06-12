@@ -15,11 +15,11 @@
 class eZPublishSDK
 {
     const VERSION_MAJOR = 5;
-    const VERSION_MINOR = 3;
+    const VERSION_MINOR = 4;
     const VERSION_RELEASE = 0;
     const VERSION_STATE = 'alpha1';
     const VERSION_DEVELOPMENT = true;
-    const VERSION_ALIAS = '5.3';
+    const VERSION_ALIAS = '5.4';
     const EDITION = 'eZ Publish Community Project';
 
     /*!
