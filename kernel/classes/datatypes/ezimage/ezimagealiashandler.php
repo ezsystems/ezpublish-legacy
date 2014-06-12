@@ -734,53 +734,31 @@ class eZImageAliasHandler
         if ( $aliasFile == '' )
             throw new InvalidArgumentException( "Expecting image file path" );
 
-        $filePathIsReferencedByOtherAttributes = false;
-
-        // we must check all eZImageFile referencing the alias file
-        $imageFilesReferencingFilePath = eZImageFile::fetchListByFilepath( $aliasFile );
-        foreach ( $imageFilesReferencingFilePath as $imageFileData )
+        // We only delete the eZImageFile if it isn't referenced by attributes of the same id but different version/language
+        if ( eZImageFile::isReferencedByOtherAttributes(
+            $aliasFile,
+            $this->ContentObjectAttributeData['id'],
+            $this->ContentObjectAttributeData['version'],
+            $this->ContentObjectAttributeData['language_code'] ) )
         {
-            if ( $imageFileData['contentobject_attribute_id'] != $this->ContentObjectAttributeData['id'] )
-            {
-                $filePathIsReferencedByOtherAttributes = true;
-            }
-
-            $imageFileIsReferencedByOtherAttributes = false;
-
-            // we skip eZImageFile entries that reference another contentobject attribute or another version/language
-            foreach ( eZImageFile::fetchImageAttributesByFilepath( $aliasFile, $imageFileData['contentobject_attribute_id'] ) as $attribute )
-            {
-                if ( $attribute['id'] != $this->ContentObjectAttributeData['id'] )
-                    continue;
-
-                if (
-                    $attribute['version'] != $this->ContentObjectAttributeData['version'] ||
-                    $attribute['language_code'] != $this->ContentObjectAttributeData['language_code']
-                )
-                {
-                    $filePathIsReferencedByOtherAttributes = true;
-                    $imageFileIsReferencedByOtherAttributes = true;
-                    break;
-                }
-            }
-
-            if ( $imageFileIsReferencedByOtherAttributes )
-                continue;
-
-            // we remove all rows since we can have duplicates
-            eZImageFile::removeObject(
-                eZImageFile::definition(),
-                array(
-                    'contentobject_attribute_id' => $this->ContentObjectAttributeData['id'],
-                    'filepath' => $aliasFile
-                )
-            );
-
+            return;
         }
 
-        // remove file, if applicable
-        if ( $filePathIsReferencedByOtherAttributes )
+        eZImageFile::removeObject(
+            eZImageFile::definition(),
+            array(
+                'contentobject_attribute_id' => $this->ContentObjectAttributeData['id'],
+                'filepath' => $aliasFile
+            )
+        );
+
+        // We only remove the image file if other eZImageFile of the same attribute use it (other versions)
+        if ( eZImageFile::isReferencedByOtherImageFiles( $aliasFile, $this->ContentObjectAttributeData['id'] ) )
+        {
             return;
+        }
+
+        // finally, remove file if applicable
         $file = eZClusterFileHandler::instance( $aliasFile );
         if ( !$file->exists() )
         {
