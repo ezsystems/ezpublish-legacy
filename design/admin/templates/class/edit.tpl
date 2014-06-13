@@ -343,7 +343,7 @@ jQuery(function( $ )//called on document.ready
 {
     var el = $('#LastChangedID input[name^=ContentAttribute_name]');
     if ( el.size() ) {
-        window.scrollTo(0, Math.max( el.offset().top - 180 ));
+        window.scrollTo(0, Math.max( el.offset().top - 180, 0 ));
         el.focus();
     }
 
