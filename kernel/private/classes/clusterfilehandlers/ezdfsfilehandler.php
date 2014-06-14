@@ -106,6 +106,11 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         $this->filePath = $filePath;
     }
 
+    public static function resetDBBackend()
+    {
+        self::$dbbackend = null;
+    }
+
     /**
      * Disconnects the cluster handler from the database
      */
