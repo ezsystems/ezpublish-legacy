@@ -12,22 +12,15 @@
  */
 class eZDFSFileHandlerBackendFactory
 {
-    private static $instance;
-
     /**
      * Builds the configured DFSBackend handler
      * @return eZDFSFileHandlerDFSBackendInterface
      */
     public static function build()
     {
-        if ( !isset( self::$instance ) )
-        {
-            self::$instance = self::buildHandler(
-                eZINI::instance( 'file.ini' )->variable( 'eZDFSClusteringSettings', 'DFSBackend' )
-            );
-        }
-
-        return self::$instance;
+        return static::buildHandler(
+            eZINI::instance( 'file.ini' )->variable( 'eZDFSClusteringSettings', 'DFSBackend' )
+        );
     }
 
     /**
