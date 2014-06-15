@@ -1931,6 +1931,16 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
     }
 
     /**
+     * Transforms $filePath so that it contains a valid href to the file, wherever it is stored.
+     * @param string
+     * @return string
+     */
+    public function applyServerUri( $filePath )
+    {
+        return $this->dfsbackend->applyServerUri( $filePath );
+    }
+
+    /**
      * DB connexion handle
      * @var handle
      */

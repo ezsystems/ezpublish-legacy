@@ -123,4 +123,11 @@ interface eZDFSFileHandlerDFSBackendInterface
      * @return Iterator An iterator that returns a DFS File pathname as the value
      */
     public function getFilesList( $basePath );
+
+    /**
+     * Transforms $filePath so that it contains a valid href to the file, wherever it is stored.
+     * @param string $filePath Example: /var/site/storage/images/example.png
+     * @return string http://static.example.com/var/site/storage/images/example.png
+     */
+    public function applyServerUri( $filePath );
 }
