@@ -26192,13 +26192,6 @@ per attivare il tuo account.</translation>
     </message>
 </context>
 <context>
-    <name>design/starndard/node</name>
-    <message>
-        <source>Are you sure you want to remove these items?</source>
-        <translation>Sei sicuro di voler rimuovere questi elementi?</translation>
-    </message>
-</context>
-<context>
     <name>extension/oauth</name>
     <message>
         <source>Application authorization</source>

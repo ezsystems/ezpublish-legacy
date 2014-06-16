@@ -26171,13 +26171,6 @@ Následujte instrukce v tomto e-mailu pro aktivaci Vašeho účtu.</translation>
     </message>
 </context>
 <context>
-    <name>design/starndard/node</name>
-    <message>
-        <source>Are you sure you want to remove these items?</source>
-        <translation type="unfinished">Jste si jisti, že chcete vyjmout tyto položky?</translation>
-    </message>
-</context>
-<context>
     <name>extension/oauth</name>
     <message>
         <source>Application authorization</source>

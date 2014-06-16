@@ -25814,13 +25814,6 @@ kako ga aktivirati.</translation>
     </message>
 </context>
 <context>
-    <name>design/starndard/node</name>
-    <message>
-        <source>Are you sure you want to remove these items?</source>
-        <translation type="unfinished">Jeste li sigurni da želite ukloniti navedene elemente?</translation>
-    </message>
-</context>
-<context>
     <name>extension/oauth</name>
     <message>
         <source>Application authorization</source>

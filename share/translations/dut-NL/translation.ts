@@ -26075,13 +26075,6 @@ adres verzonden. Volg de instructies in deze e-mail om uw account te activeren.<
     </message>
 </context>
 <context>
-    <name>design/starndard/node</name>
-    <message>
-        <source>Are you sure you want to remove these items?</source>
-        <translation>Weet u zeker dat u deze items wil verwijderen?</translation>
-    </message>
-</context>
-<context>
     <name>extension/oauth</name>
     <message>
         <source>Application authorization</source>

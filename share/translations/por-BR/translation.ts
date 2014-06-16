@@ -26777,13 +26777,6 @@ especificado. Siga as instruções do e-mail para ativar a sua conta.</translati
     </message>
 </context>
 <context>
-    <name>design/starndard/node</name>
-    <message>
-        <source>Are you sure you want to remove these items?</source>
-        <translation>Tem certeza que deseja remover estes itens?</translation>
-    </message>
-</context>
-<context>
     <name>extension/oauth</name>
     <message>
         <source>Application authorization</source>

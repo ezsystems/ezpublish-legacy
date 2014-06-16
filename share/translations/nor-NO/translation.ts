@@ -25998,13 +25998,6 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     </message>
 </context>
 <context>
-    <name>design/starndard/node</name>
-    <message>
-        <source>Are you sure you want to remove these items?</source>
-        <translation>Er du sikker på at du vil fjerne disse elementene?</translation>
-    </message>
-</context>
-<context>
     <name>extension/oauth</name>
     <message>
         <source>Application authorization</source>

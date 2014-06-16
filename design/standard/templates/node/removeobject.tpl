@@ -9,7 +9,7 @@
 <h2>Warning:</h2>
 <p>{'The items contain more than the maximum possible nodes for subtree removal and will not be deleted. You can remove this subtree using the ezsubtreeremove.php script.'|i18n( 'design/ezwebin/node/removeobject' )}</p>
 {else}
-<h2>{"Are you sure you want to remove these items?"|i18n("design/starndard/node")}</h2>
+<h2>{"Are you sure you want to remove these items?"|i18n("design/standard/node")}</h2>
 {/if}
 <ul>
 {section name=Result loop=$DeleteResult}
