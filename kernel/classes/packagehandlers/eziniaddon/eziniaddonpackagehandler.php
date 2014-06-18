@@ -33,7 +33,7 @@ class eZINIAddonPackageHandler extends eZPackageHandler
     */
     function install( $package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      $content, $installParameters,
+                      $content, &$installParameters,
                       &$installData )
     {
         $db = eZDB::instance();
