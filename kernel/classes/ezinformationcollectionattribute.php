@@ -66,7 +66,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
                                                                'required' => true ),
                                          'data_int' => array( 'name' => 'DataInt',
                                                               'datatype' => 'integer',
-                                                              'default' => 0,
+                                                              'default' => null,
                                                               'required' => true ),
                                          'data_float' => array( 'name' => 'DataFloat',
                                                                 'datatype' => 'float',
