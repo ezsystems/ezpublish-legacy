@@ -29790,13 +29790,6 @@ your account.</source>
     </message>
 </context>
 <context>
-    <name>design/starndard/node</name>
-    <message>
-        <source>Are you sure you want to remove these items?</source>
-        <translation>您确定要删除这些项目吗?</translation>
-    </message>
-</context>
-<context>
     <name>design/weblog/layout</name>
     <message>
         <source>Comments</source>

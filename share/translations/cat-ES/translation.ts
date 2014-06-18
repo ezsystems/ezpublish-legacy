@@ -26249,13 +26249,6 @@ Segueix les instruccions d&apos;aquest correu per activar el teu compte. </trans
     </message>
 </context>
 <context>
-    <name>design/starndard/node</name>
-    <message>
-        <source>Are you sure you want to remove these items?</source>
-        <translation type="unfinished">Estàs segur de voler esborrar aquests elements?</translation>
-    </message>
-</context>
-<context>
     <name>extension/oauth</name>
     <message>
         <source>Application authorization</source>
