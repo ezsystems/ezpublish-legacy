@@ -298,11 +298,9 @@ class eZImageType extends eZDataType
 
         }
 
-        if ( $content )
+        if ( $result && $hasImageAltText )
         {
-            if ( $hasImageAltText )
-                $content->setAttribute( 'alternative_text', $imageAltText );
-            $result = true;
+            $content->setAttribute( 'alternative_text', $imageAltText );
         }
 
         return $result;
