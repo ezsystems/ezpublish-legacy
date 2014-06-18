@@ -26169,6 +26169,10 @@ Následujte instrukce v tomto e-mailu pro aktivaci Vašeho účtu.</translation>
         <source>Language</source>
         <translation>Jazyk</translation>
     </message>
+    <message>
+        <source>Item can not be found</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>extension/oauth</name>

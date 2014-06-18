@@ -25996,6 +25996,10 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
         <source>Language</source>
         <translation>Språk</translation>
     </message>
+    <message>
+        <source>Item can not be found</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>extension/oauth</name>

@@ -25812,6 +25812,10 @@ kako ga aktivirati.</translation>
         <source>Language</source>
         <translation>Jezik</translation>
     </message>
+    <message>
+        <source>Item can not be found</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>extension/oauth</name>
