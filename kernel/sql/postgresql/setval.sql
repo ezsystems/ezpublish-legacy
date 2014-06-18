@@ -55,7 +55,6 @@ SELECT setval('ezrss_export_item_s',max(id)+1) FROM ezrss_export_item;
 SELECT setval('ezrss_export_s',max(id)+1) FROM ezrss_export;
 SELECT setval('ezrss_import_s',max(id)+1) FROM ezrss_import;
 SELECT setval('ezsearch_object_word_link_s',max(id)+1) FROM ezsearch_object_word_link;
-SELECT setval('ezsearch_return_count_s',max(id)+1) FROM ezsearch_return_count;
 SELECT setval('ezsearch_search_phrase_s',max(id)+1) FROM ezsearch_search_phrase;
 SELECT setval('ezsearch_word_s',max(id)+1) FROM ezsearch_word;
 SELECT setval('ezsection_s',max(id)+1) FROM ezsection;

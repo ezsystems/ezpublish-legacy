@@ -1,0 +1,36 @@
+Changes to BC and behavior in version 5.4
+=========================================
+
+INI setting changes
+-------------------
+
+
+Change of behavior
+------------------
+
+
+
+Removed features
+----------------
+
+- EZP-23082: completely remove ezsearch_return_count table
+
+  The table ezsearch_return_count is not used by eZ Publish anymore, so simply remove it.
+  This drastically decreases the size of the database for huge sites.
+
+
+Removed constants
+-----------------
+
+
+
+Removed globals
+---------------
+
+
+
+Deprecated
+----------
+
+
+

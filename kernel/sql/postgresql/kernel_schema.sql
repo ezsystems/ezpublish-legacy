@@ -880,19 +880,6 @@ CREATE SEQUENCE ezsearch_object_word_link_s
 
 
 
-CREATE SEQUENCE ezsearch_return_count_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
-    CACHE 1;
-
-
-
-
-
-
-
 CREATE SEQUENCE ezsearch_search_phrase_s
     START 1
     INCREMENT 1
@@ -2540,19 +2527,6 @@ CREATE TABLE ezsearch_object_word_link (
 
 
 
-CREATE TABLE ezsearch_return_count (
-    count integer DEFAULT 0 NOT NULL,
-    id integer DEFAULT nextval('ezsearch_return_count_s'::text) NOT NULL,
-    phrase_id integer DEFAULT 0 NOT NULL,
-    "time" integer DEFAULT 0 NOT NULL
-);
-
-
-
-
-
-
-
 CREATE TABLE ezsearch_search_phrase (
     id integer DEFAULT nextval('ezsearch_search_phrase_s'::text) NOT NULL,
     phrase character varying(250),
@@ -3814,14 +3788,6 @@ CREATE INDEX ezsearch_object_word_link_word ON ezsearch_object_word_link USING b
 
 
 
-CREATE INDEX ezsearch_return_cnt_ph_id_cnt ON ezsearch_return_count USING btree (phrase_id, count);
-
-
-
-
-
-
-
 CREATE INDEX ezsearch_search_phrase_count ON ezsearch_search_phrase USING btree (phrase_count);
 
 
@@ -4869,15 +4835,6 @@ ALTER TABLE ONLY ezscheduled_script
 
 ALTER TABLE ONLY ezsearch_object_word_link
     ADD CONSTRAINT ezsearch_object_word_link_pkey PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezsearch_return_count
-    ADD CONSTRAINT ezsearch_return_count_pkey PRIMARY KEY (id);
 
 
 
