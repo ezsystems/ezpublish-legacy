@@ -720,7 +720,7 @@ class eZCache
      */
     static function clearGlobalINICache( $cacheItem )
     {
-        eZDir::recursiveDelete( $cacheItem['path'] );
+        eZDir::recursiveDelete( $cacheItem['path'], false );
     }
 
     /**
