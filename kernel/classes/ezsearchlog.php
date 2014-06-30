@@ -51,22 +51,8 @@ class eZSearchLog
             $db->query( "INSERT INTO
                               ezsearch_search_phrase ( phrase, phrase_count, result_count )
                          VALUES ( '$phrase', 1, $returnCount )" );
-
-            /* when breaking BC: delete next line */
-            $phraseID = $db->lastSerialID( 'ezsearch_search_phrase', 'id' );
         }
         $db->unlock();
-
-        /* when breaking BC: delete next lines */
-        /* ezsearch_return_count is not used any more by eZ Publish
-           but perhaps someone else added some functionality... */
-        $time = time();
-        // store the search result
-        $db->query( "INSERT INTO
-                           ezsearch_return_count ( phrase_id, count, time )
-                     VALUES ( '$phraseID', '$returnCount', '$time' )" );
-        /* end of BC breaking delete*/
-
         $db->commit();
     }
 
@@ -92,9 +78,6 @@ class eZSearchLog
     {
         $db = eZDB::instance();
         $query = "DELETE FROM ezsearch_search_phrase";
-        $db->query( $query );
-        /* when breaking BC: delete those two lines */
-        $query = "DELETE FROM ezsearch_return_count";
         $db->query( $query );
     }
 }

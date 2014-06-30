@@ -55,7 +55,6 @@ SELECT setval('ezproductcollection_item_s', max(id)) , 'ezproductcollection_item
 SELECT setval('ezproductcollection_item_opt_s', max(id)) , 'ezproductcollection_item_opt' as tablename FROM ezproductcollection_item_opt;
 SELECT setval('ezrole_s', max(id)) , 'ezrole' as tablename FROM ezrole;
 SELECT setval('ezsearch_object_word_link_s', max(id)) , 'ezsearch_object_word_link' as tablename FROM ezsearch_object_word_link;
-SELECT setval('ezsearch_return_count_s', max(id)) , 'ezsearch_return_count' as tablename FROM ezsearch_return_count;
 SELECT setval('ezsearch_search_phrase_s', max(id)) , 'ezsearch_search_phrase' as tablename FROM ezsearch_search_phrase;
 SELECT setval('ezsearch_word_s', max(id)) , 'ezsearch_word' as tablename FROM ezsearch_word;
 SELECT setval('ezsection_s', max(id)) , 'ezsection' as tablename FROM ezsection;

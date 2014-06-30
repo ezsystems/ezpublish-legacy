@@ -1386,19 +1386,6 @@ CREATE TABLE ezsearch_object_word_link (
 
 
 
-CREATE TABLE ezsearch_return_count (
-  count int(11) NOT NULL default '0',
-  id int(11) NOT NULL auto_increment,
-  phrase_id int(11) NOT NULL default '0',
-  time int(11) NOT NULL default '0',
-  PRIMARY KEY  (id),
-  KEY ezsearch_return_cnt_ph_id_cnt (phrase_id,count)
-) ENGINE=InnoDB;
-
-
-
-
-
 CREATE TABLE ezsearch_search_phrase (
   id int(11) NOT NULL auto_increment,
   phrase varchar(250) default NULL,

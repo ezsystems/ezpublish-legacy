@@ -6309,59 +6309,6 @@ $schema = array (
       ),
     ),
   ),
-  'ezsearch_return_count' => 
-  array (
-    'name' => 'ezsearch_return_count',
-    'fields' => 
-    array (
-      'count' => 
-      array (
-        'length' => 11,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
-      'id' => 
-      array (
-        'type' => 'auto_increment',
-        'default' => false,
-      ),
-      'phrase_id' => 
-      array (
-        'length' => 11,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
-      'time' => 
-      array (
-        'length' => 11,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
-    ),
-    'indexes' => 
-    array (
-      'PRIMARY' => 
-      array (
-        'type' => 'primary',
-        'fields' => 
-        array (
-          0 => 'id',
-        ),
-      ),
-      'ezsearch_return_cnt_ph_id_cnt' => 
-      array (
-        'type' => 'non-unique',
-        'fields' => 
-        array (
-          0 => 'phrase_id',
-          1 => 'count',
-        ),
-      ),
-    ),
-  ),
   'ezsearch_search_phrase' => 
   array (
     'name' => 'ezsearch_search_phrase',
