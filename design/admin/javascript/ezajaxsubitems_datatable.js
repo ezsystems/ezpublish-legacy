@@ -61,6 +61,8 @@ var sortableSubitems = function () {
 
         var thumbView = function(cell, record, column, data) {
             var url = record.getData('thumbnail_url');
+            // thumbnail_url is html-encoded, revert and escape url
+            url = encodeURI( $('<span/>').html( url ).text() );
             if (url) {
                 var thBack = 'background: url(' + url + ') no-repeat;';
                 var thWidth = ' width: ' + record.getData('thumbnail_width') + 'px;';
