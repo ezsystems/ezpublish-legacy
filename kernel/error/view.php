@@ -187,6 +187,8 @@ $Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/error', 'Error' )
                                 'url' => false ) );
 $Result['errorCode'] = $httpErrorCode;
 $Result['errorMessage'] = $httpErrorName;
+$Result['errorType'] = $errorType;
+$Result['errorNumber'] = $errorNumber;
 
 if ( isset( $responseHeaders ) )
     $Result['responseHeaders'] = $responseHeaders;
