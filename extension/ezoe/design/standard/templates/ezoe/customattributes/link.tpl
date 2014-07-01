@@ -197,6 +197,7 @@ var ezoeLinkAttribute = {
         jQuery('div.panel').hide();
         jQuery('div.link-dialog').show();
         jQuery('div.link-dialog input[type=text]:first').focus();
+        jQuery('div.panel.current').show();
     }
 };
 
