@@ -395,6 +395,14 @@ class eZDFSFileHandlerDFSBackend implements eZDFSFileHandlerDFSBackendInterface
     }
 
     /**
+     * No transformation is required since files are served from the same host
+     */
+    public function applyServerUri( $filePath )
+    {
+        return $filePath;
+    }
+
+    /**
      * Path to the local distributed filesystem mount point
      * @var string
      */
