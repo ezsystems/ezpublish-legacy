@@ -41,8 +41,8 @@
 {section var=Entries loop=$event.content.entry_list sequence=array( bglight, bgdark )}
 <tr class="{$Entries.sequence}">
 <td><input type="checkbox" name="WorkflowEvent_data_waituntildate_remove_{$event.id}[]" value="{$Entries.item.id}" /></td>
-<td>{$Entries.item.class_name}</td>
-<td>{$Entries.item.classattribute_name}</td>
+<td>{if $Entries.item.class_name|is_null|not}{$Entries.item.class_name}{else}<b><i>{"Item can not be found"|i18n("design/standard/workflow/eventtype/view")}</i></b>{/if}</td>
+<td>{if $Entries.item.classattribute_name|is_null|not}{$Entries.item.classattribute_name}{else}<b><i>{"Item can not be found"|i18n("design/standard/workflow/eventtype/view")}</i></b>{/if}</td>
 </tr>
 {/section}
 </table>
