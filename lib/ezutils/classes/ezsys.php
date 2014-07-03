@@ -1214,7 +1214,7 @@ class eZSys
             return null;
 
         // optimize '/index.php' pattern
-        if ( $phpSelf === $index || $phpSelf === "/{$index}" )
+        if ( $phpSelf === "/{$index}" )
             return '';
 
         $phpSelfParts = explode( $index, $phpSelf );
