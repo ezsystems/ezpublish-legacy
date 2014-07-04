@@ -478,6 +478,17 @@ class eZNodeviewfunctions
             {
                 if ( !isset( $Result['content_info'] ) )
                 {
+                    // set error type & number for kernel errors (see https://jira.ez.no/browse/EZP-23046)
+                    if ( isset( $Result['errorType'] ) && isset( $Result['errorNumber'] ) )
+                    {
+                        $res = eZTemplateDesignResource::instance();
+                        $res->setKeys(
+                            array(
+                                array( 'error_type', $Result['errorType'] ),
+                                array( 'error_number', $Result['errorNumber'] )
+                            )
+                        );
+                    }
                     return $Result;
                 }
                 $keyArray = array( array( 'object', $Result['content_info']['object_id'] ),
@@ -609,13 +620,14 @@ class eZNodeviewfunctions
      */
     static protected function contentViewGenerateError( eZModule $Module, $error, $store = true, array $errorParameters = array() )
     {
+        $content = $Module->handleError(
+            $error,
+            'kernel',
+            $errorParameters
+        );
+
         return array(
-            'content' =>
-                $content = $Module->handleError(
-                    $error,
-                    'kernel',
-                    $errorParameters
-                ),
+            'content' => $content,
             'scope' => 'viewcache',
             'store' => $store,
             'binarydata' => serialize( $content ),
