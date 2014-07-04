@@ -47,19 +47,19 @@ function eZSetupTestTable()
 function eZSetupConfigVariable( $type, $name )
 {
     $config = eZINI::instance( 'setup.ini' );
-    return $config->variable( $type, $name );
+    return ( $config->hasVariable( $type, $name ) ) ? $config->variable( $type, $name ) : false;
 }
 
 function eZSetupImageConfigVariableArray( $type, $name )
 {
     $config = eZINI::instance( 'image.ini' );
-    return $config->variableArray( $type, $name );
+    return ( $config->hasVariable( $type, $name ) ) ? $config->variableArray( $type, $name ) : false;
 }
 
 function eZSetupConfigVariableArray( $type, $name )
 {
     $config = eZINI::instance( 'setup.ini' );
-    return $config->variableArray( $type, $name );
+    return ( $config->hasVariable( $type, $name ) ) ? $config->variableArray( $type, $name ) : false;
 }
 
 function eZSetupRunTests( $testList, $client, &$givenPersistentList )
@@ -137,8 +137,11 @@ function eZSetupCheckTestFunctions( $type )
         if ( $successCount == 0 )
             $result = false;
     }
-    else if ( $successCount < count( $extensionList ) )
+    else if ( is_array( $extensionList ) && $successCount < count( $extensionList ) )
+    {
         $result = false;
+    }
+
     return array( 'result' => $result,
                   'persistence_list' => $persistenceData,
                   'test_results' => $testResults );
