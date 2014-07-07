@@ -10,6 +10,8 @@
 #[CustomTagSettings]
 #AvailableCustomTags[]=pagebreak
 #AvailableCustomTags[]=underline
+## Add a more user-friendly name to the dropdown list of custom tags
+#CustomTagsDescription[pagebreak]=Page break
 #IsInline[underline]=true
 ## Displays the custom tag as an image so you cannot create sub content.
 ## Will use custom image if there is a custom attribute on the tag named 'image_url'
