@@ -375,6 +375,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             return 0;
         }
         // the candidate for purge are indexed in an array
+        $files = array();
         for ( $i = 0; $i < $resultCount; $i++ )
         {
             $row = mysqli_fetch_assoc( $res );
