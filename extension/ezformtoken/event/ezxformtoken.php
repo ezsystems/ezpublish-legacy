@@ -201,14 +201,19 @@ class ezxFormToken
                 $templateResult
             );
         }
-        // else fallback to hidden span inside body
-        else
+        // Fallback to hidden span inside body if any.
+        else if ( strpos( $templateResult, '<body' ) !== false )
         {
             $templateResult = preg_replace(
                 '/(<body[^>]*>)/i',
                 '\\1' . "\n<span style='display:none;' id=\"{$field}_js\" title=\"{$token}\"></span>\n",
                 $templateResult
             );
+        }
+        // No body tag, just prepend the hidden span tag to generated HTML code.
+        else
+        {
+            $templateResult = "\n<span style='display:none;' id=\"{$field}_js\" title=\"{$token}\"></span>\n" . $templateResult;
         }
 
         $templateResult = preg_replace(
