@@ -514,6 +514,11 @@ class eZCache
                 return;
             }
 
+            if ( !file_exists( $cachePath ) )
+            {
+                return;
+            }
+
             if ( is_file( $cachePath ) )
             {
                 $handler = eZFileHandler::instance( false );
