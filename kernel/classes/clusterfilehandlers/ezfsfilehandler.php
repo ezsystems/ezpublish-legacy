@@ -671,9 +671,13 @@ class eZFSFileHandler implements eZClusterFileHandlerInterface
                 if ( file_exists( $path ) )
                     eZDebug::writeError( "File still exists after removal: '$path'", __METHOD__ );
             }
-            else
+            else if ( is_dir( $path ) )
             {
                 eZDir::recursiveDelete( $path );
+            }
+            else
+            {
+                continue;
             }
         }
 
