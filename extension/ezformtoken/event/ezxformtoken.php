@@ -159,8 +159,11 @@ class ezxFormToken
      * Appends tokens to  POST forms if user is logged in.
      *
      * @param string $templateResult ByRef
+     * @param bool $filterForms For use when the output has already been filtered, but not for the whole layout.
+     *
+     * @return mixed|string
      */
-    static public function output( $templateResult )
+    static public function output( $templateResult, $filterForms = true )
     {
         if ( !self::shouldProtectUser() )
         {
@@ -211,11 +214,14 @@ class ezxFormToken
             );
         }
 
-        $templateResult = preg_replace(
-            '/(<form\W[^>]*\bmethod=(\'|"|)POST(\'|"|)\b[^>]*>)/i',
-            '\\1' . "\n<input type=\"hidden\" name=\"{$field}\" value=\"{$token}\" />\n",
-            $templateResult
-        );
+        if ( $filterForms )
+        {
+            $templateResult = preg_replace(
+                '/(<form\W[^>]*\bmethod=(\'|"|)POST(\'|"|)\b[^>]*>)/i',
+                '\\1' . "\n<input type=\"hidden\" name=\"{$field}\" value=\"{$token}\" />\n",
+                $templateResult
+            );
+        }
 
         return str_replace( $replaceKey, $token, $templateResult );
     }
