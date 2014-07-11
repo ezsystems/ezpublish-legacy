@@ -785,8 +785,6 @@ class eZImageManager
      */
     function createImageAlias( $aliasName, &$existingAliasList, $parameters = array() )
     {
-        $fname = "createImageAlias( $aliasName )";
-
         // check for $aliasName validity
         $aliasList = $this->aliasList();
         if ( !isset( $aliasList[$aliasName] ) )
