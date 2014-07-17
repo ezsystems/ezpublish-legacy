@@ -313,7 +313,9 @@ class ezjscAjaxContent
                     $thumbHeight = isset( $imageAlias['height'] ) ? (int) $imageAlias['height'] : 0;
 
                     if ( $thumbUrl !== '' )
-                        eZURI::transformURI( $thumbUrl, true );
+                    {
+                        eZURI::transformURI( $thumbUrl, true, null, false );
+                    }
 
                     break;
                 }
