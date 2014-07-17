@@ -113,7 +113,10 @@ class eZHTTPHeader
 
                 if ( strpos( $uriString, $path ) === 0 )
                 {
-                    @list( $headerValue, $depth, $level ) = explode( ';', $value );
+                    $config = eZStringUtils::explodeStr( $value, ';' );
+                    $headerValue = $config[0];
+                    $depth = isset( $config[1] ) ? $config[1] : null;
+                    $level = isset( $config[2] ) ? $config[2] : null;
 
                     if ( $header == 'Expires' )
                     {
