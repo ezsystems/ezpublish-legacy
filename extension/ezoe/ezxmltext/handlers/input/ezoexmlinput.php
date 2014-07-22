@@ -1218,6 +1218,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                             {
                                 $imageAlias  = $content->imageAlias( $size );
                                 $srcString   = $URL . '/' . $imageAlias['url'];
+                                eZURI::transformURI( $srcString, true, null, false );
                                 $imageWidth  = $imageAlias['width'];
                                 $imageHeight = $imageAlias['height'];
                                 break;
