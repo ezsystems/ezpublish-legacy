@@ -11,6 +11,7 @@ class eZCollaborationItemTest extends ezpDatabaseTestCase
 {
     public function setUp()
     {
+        parent::setUp();
         $participantsList = array(
             $this->createParticipantLinkPartialMock(
                 array(
@@ -37,8 +38,9 @@ class eZCollaborationItemTest extends ezpDatabaseTestCase
     /**
      * @dataProvider providerForIsParticipant
      */
-    public function testIsParticipant( $expectedResult, eZUser $user )
+    public function testIsParticipant( $expectedResult, $userId, array $groupIdArray = array() )
     {
+        $user = $this->createUserMock( $userId, $groupIdArray );
         self::assertEquals(
             $expectedResult,
             $this->getCollaborationItemPartialMock()->userIsParticipant( $user )
@@ -48,13 +50,12 @@ class eZCollaborationItemTest extends ezpDatabaseTestCase
     public function providerForIsParticipant()
     {
         return array(
+            array( true, 1 ),
+            array( false, 2 ),
 
-            array( true, $this->createUserMock( 1 ) ),
-            array( false, $this->createUserMock( 2 ) ),
-
-            array( true, $this->createUserMock( 3, array( 2 ) ) ),
-            array( true, $this->createUserMock( 3, array( 2, 3 ) ) ),
-            array( false, $this->createUserMock( 3, array( 3 ) ) ),
+            array( true, 3, array( 2 ) ),
+            array( true, 3, array( 2, 3 ) ),
+            array( false, 3, array( 3 ) ),
         );
     }
 
