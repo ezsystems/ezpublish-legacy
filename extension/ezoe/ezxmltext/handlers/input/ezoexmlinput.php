@@ -1247,7 +1247,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                         $objectAttr .= ' class="' . $className . '"';
 
                     $output .= '<img id="' . $idString . '" title="' . $objectName . '" src="' .
-                               $srcString . '" width="' . $imageWidth . '" height="' . $imageHeight .
+                               htmlspecialchars( $srcString ) . '" width="' . $imageWidth . '" height="' . $imageHeight .
                                '" ' . $objectAttr . $customAttributePart . $styleString . ' />';
                 }
                 else if ( self::embedTagIsCompatibilityMode() )
