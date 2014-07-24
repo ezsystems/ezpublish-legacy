@@ -62,7 +62,7 @@ var sortableSubitems = function () {
         var thumbView = function(cell, record, column, data) {
             var url = encodeURI(record.getData('thumbnail_url'));
             if (url) {
-                var thBack = 'background: url(\'' + url.replace("'", "\\'") + '\') no-repeat;';
+                var thBack = 'background: url(\'' + url.replace(/'/g, "\\'") + '\') no-repeat;';
                 var thWidth = ' width: ' + record.getData('thumbnail_width') + 'px;';
                 var thHeight = ' height: ' + record.getData('thumbnail_height') + 'px;';
                 cell.innerHTML = '<div class="thumbview"><div id="thumbfield" class="thumbfield"></div><span><div style="' + thBack + thWidth + thHeight + '"></div></span></div>';
