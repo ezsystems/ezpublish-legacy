@@ -25,6 +25,49 @@ Change of behavior
   As a consequence, overrides of node/view/line_thumbnail.tpl must be changed to
   overrides of content/view/line_thumbnail.tpl.
 
+- **[v5.3.3]** EZP-23019 : date and datetime datatypes use NULL as empty value
+
+  Both datatypes previously used 0 as their default value. This ensures that value does not fall back
+  to 1970-01-01T00:00:00Z. Note that the sort default value is still 0 which can result in
+  inconsistencies when trying to sort some objects with unset dates.
+
+  This led to a regression in eZ Publish 5.3.
+
+  Among others, it broke the empty default value setting in ezdate,
+  making the edit form display a date on epoch, on january 1st 1970, the
+  hour depending on the timezone.
+
+  The bug has been fixed, but users may not have paid attention to it, and
+  might have submitted content without paying attention to the date value.
+
+  You can figure out if this happened using a few simple steps. First, you
+  need to know what date was wrongly entered for those, as it depends on your
+  server settings.
+
+  **Create a database backup first**
+
+  You can figure that out by running this php code::
+
+    echo mktime( 0, 0, 0, 1, 1, 1970 );
+
+  Then you can search for this value in your database, with this query::
+
+    SELECT * FROM ezcontentobject_attribute
+    WHERE data_type_string='ezdate' AND data_int=<value>
+
+  This shell oneliner will do it for you::
+
+    TS=`php -r "echo mktime( 0, 0, 0, 1, 1, 1970 );"` \
+    mysql -u <username> ezpublish5_legacy -e "SELECT * FROM ezcontentobject_attribute WHERE data_type_string='ezdate' AND data_int=$TS"
+
+  To set the date value to an empty date, run this query::
+
+    UPDATE ezcontentobject_attribute
+    SET data_int=null
+    WHERE data_type_string='ezdate' AND data_int=<value>
+
+  Do not forget to clear your viewcache and template blocks for  the changes to show up.
+
 Removed features
 ----------------
 

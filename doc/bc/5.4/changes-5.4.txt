@@ -8,12 +8,6 @@ INI setting changes
 Change of behavior
 ------------------
 
-- EZP-23019 : date and datetime datatypes use NULL as empty value
-
-  Both datatypes previously used 0 as their default value. This ensures that value does not fall back
-  to 1970-01-01T00:00:00Z. Note that the sort default value is still 0 which can result in
-  inconsistencies when trying to sort some objects with unset dates.
-
 Removed features
 ----------------
 
