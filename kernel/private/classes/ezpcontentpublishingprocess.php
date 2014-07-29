@@ -158,8 +158,7 @@ class ezpContentPublishingProcess extends eZPersistentObject
         $contentObjectVersion = $this->version()->attribute( 'version' );
 
         // $processObject = ezpContentPublishingProcess::fetchByContentObjectVersion( $contentObjectId, $contentObjectVersion );
-        $this->setAttribute( 'status', self::STATUS_WORKING );
-        $this->store( array( 'status' ) );
+        $this->setStatus( self::STATUS_WORKING, true, "beginning publishing" );
 
         // prepare the cluster file handler for the fork
         eZClusterFileHandler::preFork();
@@ -197,8 +196,7 @@ class ezpContentPublishingProcess extends eZPersistentObject
         // error, cancel
         if ( $pid == -1 )
         {
-            $this->setAttribute( 'status', self::STATUS_PENDING );
-            $this->store( array( 'status' ) );
+            $this->setStatus( self::STATUS_PENDING, true, "pcntl_fork() failed" );
             return false;
         }
         else if ( $pid )
@@ -223,7 +221,8 @@ class ezpContentPublishingProcess extends eZPersistentObject
             unset( $creator, $creatorId );
 
             $operationResult = eZOperationHandler::execute( 'content', 'publish',
-                array( 'object_id' => $contentObjectId, 'version' => $contentObjectVersion  ) );
+                array( 'object_id' => $contentObjectId, 'version' => $contentObjectVersion  )
+            );
 
             // Statuses other than CONTINUE require special handling
             if ( $operationResult['status'] != eZModuleOperationInfo::STATUS_CONTINUE )
@@ -248,7 +247,7 @@ class ezpContentPublishingProcess extends eZPersistentObject
 
             // mark the process as completed
             $this->setAttribute( 'pid', 0 );
-            $this->setAttribute( 'status', $processStatus );
+            $this->setStatus( $processStatus, false, "publishing operation finished" );
             $this->setAttribute( 'finished', time() );
             $this->store( array( 'status', 'finished', 'pid' ) );
 
@@ -257,7 +256,7 @@ class ezpContentPublishingProcess extends eZPersistentObject
         }
         catch( eZDBException $e )
         {
-            $this->reset();
+            $this->reset( "database error: " . $e->getMessage() );
         }
 
         // generate static cache
@@ -328,13 +327,56 @@ class ezpContentPublishingProcess extends eZPersistentObject
      *       might block a slot if it fails constantly
      *       Maybe use a STATUS_RESET status, that gives lower priority to the item
      */
-    public function reset()
+    public function reset( $message )
     {
-        $this->setAttribute( 'status', self::STATUS_PENDING );
+        $this->setStatus( self::STATUS_PENDING, false, "::reset() with message '$message'" );
         $this->setAttribute( 'pid', 0 );
         $this->store( array( 'status', 'pid' ) );
     }
 
+    /**
+     * Sets the status to $status and stores (by default) the persistent object
+     * @param int $status
+     * @param bool $store
+     */
+    private function setStatus( $status, $store = true, $reason = null )
+    {
+        $this->logStatusChange( $status, $reason );
+        $this->setAttribute( 'status', $status );
+        if ( $store )
+        {
+            $this->store( array( 'status' ) );
+        }
+    }
+
+    private function logStatusChange( $status, $reason = null )
+    {
+        $contentObjectId = $this->version()->attribute( 'contentobject_id' );
+        $versionNumber = $this->version()->attribute( 'version' );
+        eZLog::write(
+            sprintf(
+                "Setting status for content %d.%d to %s (reason: %s)",
+                $contentObjectId,
+                $versionNumber,
+                $this->getStatusString( $status ),
+                $reason ?: "none given"
+            ),
+            sprintf( "async-%d.log", $contentObjectId )
+        );
+    }
+
+    private function getStatusString( $status )
+    {
+        $statusMap = array(
+            self::STATUS_PENDING => 'pending',
+            self::STATUS_DEFERRED => 'deferred',
+            self::STATUS_FINISHED => 'finished',
+            self::STATUS_UNKNOWN => 'unknown',
+            self::STATUS_WORKING => 'working'
+        );
+
+        return isset( $statusMap[$status] ) ? $statusMap[$status] : "<<invalid status>>";
+    }
+
     private $versionObject = null;
 }
-?>
