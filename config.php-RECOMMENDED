@@ -294,5 +294,12 @@
  */
 // define( 'CUSTOM_LOG_ROTATE_FILES', 3 );
 
+/**
+ * Extra directories eZDir is allowed to delete from (see eZDir::recursiveDelete()).
+ * By default, it is only possible to delete from inside eZ Publish root directory.
+ * Directories listed will be added as authorized directory prefixes.
+ * Values must be absolute paths, semicolon seperated.
+ */
+// define( 'EXTRA_ALLOWED_DELETION_DIRS', '/var/share/somedir/var/ini;/var/share/somedir/var/cache' );
 
 ?>
