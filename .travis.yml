@@ -37,6 +37,7 @@ before_script:
  # Detecting timezone issues by testing on random timezone
  - declare -a TIMEZONES=("America/New_York" "Asia/Calcutta" "UTC")
  - declare -a TIMEZONE=${TIMEZONES["`shuf -i 0-2 -n 1`"]}
+ - export TIMEZONE=UTC
 
 
 script:
