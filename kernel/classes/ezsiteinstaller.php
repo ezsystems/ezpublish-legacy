@@ -1039,6 +1039,20 @@ class eZSiteInstaller
             return false;
         }
 
+        // verify one of the nodes contains children and the other is not a container.
+        if ( !$node->classIsContainer() && $selectedNode->childrenCount() > 0 )
+        {
+            $this->reportError( "Cannot use node $selectedNodeID as the exchanging node for $nodeID, as it contains sub items (node is not container)",
+                                'eZSiteInstaller::swapNodes' );
+            return false;
+        }
+        if ( !$selectedNode->classIsContainer() && $node->childrenCount() > 0 )
+        {
+            $this->reportError( "Cannot use node $selectedNodeID as the exchanging node for $nodeID, as it is not container (node contains sub items)",
+                                'eZSiteInstaller::swapNodes' );
+            return false;
+        }
+
         // clear cache.
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 

@@ -1,3 +1,7 @@
+{if and( eq( $browse.action_name, 'SwapNode' ), is_set( $browse.persistent_data.ContentNodeID ) )}
+    {def $swap_node = fetch( 'content', 'node', hash( 'node_id', $browse.persistent_data.ContentNodeID ) )}
+{/if}
+
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight">
@@ -57,7 +61,17 @@
                 <input type="{$select_type}" name="_Disabled" value="" disabled="disabled" />
             {/if}
         {else}
+            {*
+              Do not allow node selection if
+              - Action is move, copy or add node, and item is not a container
+              - Action is swap node, and node to swap has children and item is not a container, and vice versa
+            *}
             {if and( or( eq( $browse.action_name, 'MoveNode' ), eq( $browse.action_name, 'CopyNode' ), eq( $browse.action_name, 'AddNodeAssignment' ) ), $Nodes.item.object.content_class.is_container|not )}
+                <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item[$select_attribute]}" disabled="disabled" />
+            {elseif and( eq( $browse.action_name, 'SwapNode' ),
+                         eq( get_class( $swap_node ), 'ezcontentobjecttreenode' ),
+                         or( and( $swap_node.children_count|gt(0), $Nodes.item.object.content_class.is_container|not ),
+                             and( $swap_node.is_container|not, $Nodes.item.children_count|gt(0) ) ) )}
                 <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item[$select_attribute]}" disabled="disabled" />
             {else}
                 <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item[$select_attribute]}" />
