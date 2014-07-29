@@ -178,7 +178,11 @@ class eZImageType extends eZDataType
         /** @var eZImageAliasHandler $imageHandler */
         $imageHandler = $contentObjectAttribute->attribute( 'content' );
         if ( $imageHandler )
+        {
+            $imageHandler->setAttribute( 'alternative_text', false );
             $imageHandler->removeAliases();
+            $imageHandler->store( $contentObjectAttribute );
+        }
     }
 
     /**
@@ -472,11 +476,7 @@ class eZImageType extends eZDataType
     {
         if( $action == "delete_image" )
         {
-            $content = $contentObjectAttribute->attribute( 'content' );
-            if ( $content )
-            {
-                $content->removeAliases();
-            }
+            $this->deleteStoredObjectAttribute( $contentObjectAttribute );
         }
     }
 
