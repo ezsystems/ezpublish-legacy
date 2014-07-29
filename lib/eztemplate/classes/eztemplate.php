@@ -1077,7 +1077,8 @@ class eZTemplate
         if ( !is_array( $dataElements ) )
         {
             $this->error( "elementValue",
-                          "Missing array data structure, got " . gettype( $dataElements ) );
+                          "Missing array data structure, got " . gettype( $dataElements ),
+                          $placement );
             return null;
         }
         foreach ( $dataElements as $dataElement )
@@ -1137,7 +1138,7 @@ class eZTemplate
                 case eZTemplate::TYPE_ATTRIBUTE:
                 {
                     $attributeData = $dataElement[1];
-                    $attributeValue = $this->elementValue( $attributeData, $rootNamespace, $currentNamespace, false, $checkExistance );
+                    $attributeValue = $this->elementValue( $attributeData, $rootNamespace, $currentNamespace, $placement, $checkExistance );
 
                     if ( $attributeValue !== null )
                     {
@@ -1250,7 +1251,8 @@ class eZTemplate
                 {
                     if ( !$checkExistance )
                         $this->error( "elementValue",
-                                      "Unknown data type: '$dataType'" );
+                                      "Unknown data type: '$dataType'",
+                                      $placement );
                     return null;
                 }
             }
@@ -1324,7 +1326,7 @@ class eZTemplate
             else
             {
                 $parameterData = $operatorParameters[$i];
-                $namedParameters[$parameterName] = $this->elementValue( $parameterData, $rootNamespace, $currentNamespace, false, $checkExistance );
+                $namedParameters[$parameterName] = $this->elementValue( $parameterData, $rootNamespace, $currentNamespace, $placement, $checkExistance );
             }
             ++$i;
         }
