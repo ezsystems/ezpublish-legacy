@@ -35,12 +35,12 @@ before_script:
  - composer install --prefer-source
  - php bin/php/ezpgenerateautoloads.php -s -e
  # Detecting timezone issues by testing on random timezone
- - declare -a TIMEZONES=("America/New_York" "Asia/Calcutta" "UTC")
- - declare -a TIMEZONE=${TIMEZONES["`shuf -i 0-2 -n 1`"]}
-
+  - TEST_TIMEZONES=("America/New_York" "Asia/Calcutta" "UTC")
+  - TEST_TIMEZONE=${TEST_TIMEZONES["`shuf -i 0-2 -n 1`"]}
+  - echo "$TEST_TIMEZONE"
 
 script:
-  - php -d date.timezone=$TIMEZONE tests/runtests.php --dsn "$DB://${DB_USER}@127.0.0.1/$DB_NAME" tests extension/ezoe
+  - php -d date.timezone=$TEST_TIMEZONE tests/runtests.php --dsn "$DB://${DB_USER}@127.0.0.1/$DB_NAME" tests extension/ezoe
 
 notification:
   email: false
