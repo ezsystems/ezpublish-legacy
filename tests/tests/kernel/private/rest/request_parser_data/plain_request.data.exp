@@ -14,7 +14,7 @@ ezpRestRequest::__set_state(array(
    'isEncrypted' => false,
    'date' => 
   DateTime::__set_state(array(
-     'date' => '2010-11-30 04:14:52',
+     'date' => '2010-11-30 04:14:52.000000',
      'timezone_type' => 1,
      'timezone' => '+00:00',
   )),
