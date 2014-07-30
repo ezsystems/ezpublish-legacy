@@ -2,51 +2,43 @@
 /* global YUI3_config */
 /* exported eZAsynchronousPublishingApp */
 var eZAsynchronousPublishingApp = (function() {
-    var ret = {}, Y, publishQueueUpdater, ajaxURI,
-        yCallback = function (yui, result) {
+    var ret = {}, ajaxURI, Y,
+        yCallback = function (yui) {
             Y = yui;
-            Y.on("contentready", function (e) {
-                updateStatus(Y);
-                publishQueueUpdater = Y.later(1000, null, updateStatus, null, true);
-            }, '#ezap-message-publishing');
+            Y.on("domready", function (e) {
+                updateStatus();
+            });
         },
         updateStatus = function () {
             Y.io.ez(ajaxURI, {
                 on: {
                     success: function (id, r) {
-                        var status;
+                        var responseDoc = Y.JSON.parse(r.responseText);
 
-                        if ( r.responseJSON.error_text ) {
+                        if ( responseDoc.error_text ) {
                             toggle('#ezap-error');
-                            Y.one('#ezap-error').setContent( r.responseJSON.error_text );
+                            Y.one('#ezap-error').setContent(responseDoc.error_text);
+                            Y.later(1000, null, updateStatus, null, false);
                         } else {
-                            status = r.responseJSON.content.status;
-
                             // publishing finished
-                            if ( status == 'finished' )
+                            if ( responseDoc.content.status == 'finished' )
                             {
-                                if ( publishQueueUpdater ) {
-                                    publishQueueUpdater.cancel();
-                                }
-
                                 if ( ret.cfg.redirect_uri !== false ) {
                                     window.location = ret.cfg.redirect_uri;
                                 } else {
                                     toggle('#ezap-message-finished');
                                     Y.one('#ezap-message-finished #ezap-contentview-uri').set(
-                                        'href', r.responseJSON.content.node_uri
+                                        'href', responseDoc.content.node_uri
                                     );
                                 }
-                            } else if ( status == 'deferred' ) {
+                            } else if ( responseDoc.content.status == 'deferred' ) {
                                 // deferred to crontab
-                                if ( publishQueueUpdater ) {
-                                    publishQueueUpdater.cancel();
-                                }
-
                                 toggle('#ezap-message-deferred');
                                 Y.one('#ezap-message-finished #ezap-contentview-uri').set(
-                                    'href', r.responseJSON.content.versionview_uri
+                                    'href', responseDoc.content.versionview_uri
                                 );
+                            } else {
+                                Y.later(1000, null, updateStatus, null, false);
                             }
                         }
                     }
@@ -63,7 +55,7 @@ var eZAsynchronousPublishingApp = (function() {
 
     ret.init = function() {
         ajaxURI = 'ezpublishingqueue::status::' + ret.cfg.contentobject_id + '::' + ret.cfg.version;
-        YUI(YUI3_config).use('node', 'io-ez', yCallback);
+        YUI(YUI3_config).use('node', 'io-ez', 'json-parse', yCallback);
     };
 
     return ret;
