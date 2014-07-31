@@ -35,7 +35,8 @@
 eZAsynchronousPublishingApp.cfg = {ldelim}
     contentobject_id: {$contentObjectId},
     version: {$version},
-    redirect_uri: {if is_set( $redirect_uri )}'{$redirect_uri}'{else}false{/if}
+    redirect_uri: {if is_set( $redirect_uri )}"{$redirect_uri|wash( 'javascript' )}"{else}false{/if},
+    failure_message: "{'A fatal error occured while checking the version status, you can try to refresh this page or contact your administrator.'|i18n( 'design/standard/location' )|wash( 'javascript' )}",
 {rdelim};
 eZAsynchronousPublishingApp.init()
 </script>
