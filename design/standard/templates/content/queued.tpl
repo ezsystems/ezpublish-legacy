@@ -37,6 +37,8 @@ eZAsynchronousPublishingApp.cfg = {ldelim}
     version: {$version},
     redirect_uri: {if is_set( $redirect_uri )}"{$redirect_uri|wash( 'javascript' )}"{else}false{/if},
     failure_message: "{'A fatal error occured while checking the version status, you can try to refresh this page or contact your administrator.'|i18n( 'design/standard/location' )|wash( 'javascript' )}",
+    last_checked_message: "{'(Checking every %ms%ms and checked %times% times so far)'|i18n( 'design/standard/location' )|wash( 'javascript' )}",
+
 {rdelim};
 eZAsynchronousPublishingApp.init()
 </script>
@@ -46,20 +48,20 @@ eZAsynchronousPublishingApp.init()
 </div>
 
 {* placeholder for text shown while the object is being published *}
-<div class="ezap-placeholder" id="ezap-message-publishing">
+<div class="ezap-placeholder message-confirmation" id="ezap-message-publishing">
     <h1>{'Your content is being published'|i18n( 'design/standard/content' )}</h1>
     {"Please wait while your content is being published"|i18n('design/standard/location')}
 </div>
 
 {* placeholder for text shown when the object has been published *}
-<div class="ezap-placeholder" id="ezap-message-finished" style="display: none">
+<div class="ezap-placeholder message-feedback" id="ezap-message-finished" style="display: none">
     <h1>{'Publishing finished'|i18n( 'design/standard/content' )}</h1>
     {"Your content has been published successfully"|i18n( 'design/standard/location' )}<br />
     <a id="ezap-contentview-uri" href="#">{"View the published item"|i18n('design/standard/location')}</a>
 </div>
 
 {* placeholder for text shown when publishing has been deferred to cron (for instance by ezapprove) *}
-<div class="ezap-placeholder" id="ezap-message-deferred" style="display: none">
+<div class="ezap-placeholder message-feedback" id="ezap-message-deferred" style="display: none">
     <h1>{'Your content is pending an external action'|i18n( 'design/standard/content' )}</h1>
     {"Publishing has been deferred to crontab and will be published when the operation resumes. The object is also listed in your dashboard under pending items."|i18n( 'design/standard/location' )}
     <a id="ezap-versionview-uri" href="#">{"View your pending content"|i18n( 'design/standard/location' )}</a>

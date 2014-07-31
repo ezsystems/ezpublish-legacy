@@ -8,6 +8,7 @@ var eZAsynchronousPublishingApp = (function() {
             wait_time: 1000,
             redirect_uri: false,
         },
+        checkedCount = 0,
         failureCount = 0,
         errorElement, publishingElement, finishedElement, deferredElement;
 
@@ -50,6 +51,10 @@ var eZAsynchronousPublishingApp = (function() {
                                 );
                             });
                         } else {
+                            if ( checkedCount ) {
+                                displayStatus(publishingElement, lastCheckUpdate);
+                            }
+                            checkedCount++;
                             retryUpdateStatus();
                         }
                     }
@@ -92,6 +97,10 @@ var eZAsynchronousPublishingApp = (function() {
         if ( failureCount > ret.cfg.max_allowed_failures ) {
             displayStatus(errorElement, message);
         } else {
+            if ( checkedCount ) {
+                displayStatus(publishingElement, lastCheckUpdate);
+            }
+            checkedCount++;
             retryUpdateStatus();
         }
     }
@@ -104,6 +113,29 @@ var eZAsynchronousPublishingApp = (function() {
      */
     function retryUpdateStatus() {
         Y.later(ret.cfg.wait_time, null, updateStatus, null, false);
+    }
+
+    /**
+     * Updates (or creates) the last check message indicating to the user how
+     * many times the publishing state was checked. This method is supposed to
+     * be passed as a callback to the `displayStatus` method.
+     *
+     * @method lastCheckUpdate
+     * @private
+     * @param {Y.Node} element
+     */
+    function lastCheckUpdate(element) {
+        var last = element.one('.last-check');
+
+        if ( !last ) {
+            element.append('<span class="last-check"></span>');
+            last = element.one('.last-check');
+        }
+        last.setContent(
+            ret.cfg.last_checked_message.replace(
+                '%times%', checkedCount
+            ).replace('%ms%', ret.cfg.wait_time)
+        );
     }
 
     /**
