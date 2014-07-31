@@ -349,19 +349,27 @@ class ezpContentPublishingProcess extends eZPersistentObject
         }
     }
 
+    /**
+     * Logs a debug message when the process' status is updated
+     *
+     * @param string $status New status
+     * @param null $reason Optional reason
+     */
     private function logStatusChange( $status, $reason = null )
     {
         $contentObjectId = $this->version()->attribute( 'contentobject_id' );
         $versionNumber = $this->version()->attribute( 'version' );
-        eZLog::write(
+        eZDebugSetting::writeDebug(
+            'kernel-content-publish',
             sprintf(
-                "Setting status for content %d.%d to %s (reason: %s)",
+                "process #%d, content %d.%d, status changed to %s (reason: %s)",
+                $this->attribute( 'ezcontentobject_version_id' ),
                 $contentObjectId,
                 $versionNumber,
                 $this->getStatusString( $status ),
                 $reason ?: "none given"
             ),
-            sprintf( "async-%d.log", $contentObjectId )
+            'Asynchronous publishing process status changed'
         );
     }
 
