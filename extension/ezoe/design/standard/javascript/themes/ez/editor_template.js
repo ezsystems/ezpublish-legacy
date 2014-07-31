@@ -1832,7 +1832,12 @@
                 toAlign = [],
                 that = this;
 
-            if ( selectedNode === ed.getBody() ) {
+            if ( ed.dom.select('.mceSelected').length ) {
+                // the selection is inside a table,
+                // the (ez)table plugin added the mceSelected class on td or tr
+                // and we align the paragraphs inside selected cells
+                toAlign = ed.dom.select('.mceSelected p');
+            } else if ( selectedNode === ed.getBody() ) {
                 // multi element selection, building an array
                 // of the selected nodes
                 var elt = ed.selection.getStart(),
