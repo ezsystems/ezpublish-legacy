@@ -178,7 +178,11 @@ class eZImageType extends eZDataType
         /** @var eZImageAliasHandler $imageHandler */
         $imageHandler = $contentObjectAttribute->attribute( 'content' );
         if ( $imageHandler )
+        {
+            $imageHandler->setAttribute( 'alternative_text', false );
             $imageHandler->removeAliases();
+            $imageHandler->store( $contentObjectAttribute );
+        }
     }
 
     /**
@@ -298,9 +302,11 @@ class eZImageType extends eZDataType
 
         }
 
-        if ( $result && $hasImageAltText )
+        if ( $content )
         {
-            $content->setAttribute( 'alternative_text', $imageAltText );
+            if ( $hasImageAltText )
+                $content->setAttribute( 'alternative_text', $imageAltText );
+            $result = true;
         }
 
         return $result;
@@ -470,11 +476,7 @@ class eZImageType extends eZDataType
     {
         if( $action == "delete_image" )
         {
-            $content = $contentObjectAttribute->attribute( 'content' );
-            if ( $content )
-            {
-                $content->removeAliases();
-            }
+            $this->deleteStoredObjectAttribute( $contentObjectAttribute );
         }
     }
 
