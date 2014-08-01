@@ -104,17 +104,7 @@ class ezpContentPublishingQueue implements ezpContentPublishingQueueReaderInterf
      */
     public static function next()
     {
-        $queuedProcess = eZPersistentObject::fetchObjectList( ezpContentPublishingProcess::definition(),
-            null,
-            array( 'status' => ezpContentPublishingProcess::STATUS_PENDING ),
-            array( 'created' => 'desc' ),
-            array( 'offset' => 0, 'length' => 1 )
-        );
-
-        if ( count( $queuedProcess ) == 0 )
-            return false;
-        else
-            return $queuedProcess[0];
+        return self::getNextItem();
     }
 
     /**
@@ -122,5 +112,42 @@ class ezpContentPublishingQueue implements ezpContentPublishingQueueReaderInterf
      * @var ezcSignalCollection
      */
     protected static $signals = null;
+
+    /**
+     * Returns the next queued item, excluding those for which another version of the same content is being published.
+     * @return ezpContentPublishingProcess|false
+     */
+    private static function getNextItem()
+    {
+        $pendingStatusValue = ezpContentPublishingProcess::STATUS_PENDING;
+        $workingStatusValue = ezpContentPublishingProcess::STATUS_WORKING;
+
+        $sql = <<< SQL
+SELECT *
+FROM
+  ezpublishingqueueprocesses p,
+  ezcontentobject_version v
+WHERE p.status = $pendingStatusValue
+  AND p.ezcontentobject_version_id = v.id
+  AND v.contentobject_id NOT IN (
+    SELECT v.contentobject_id
+    FROM ezpublishingqueueprocesses p,
+      ezcontentobject_version v
+    WHERE
+      p.ezcontentobject_version_id = v.id
+      AND p.status = $workingStatusValue
+  )
+ORDER BY p.created, p.ezcontentobject_version_id ASC
+SQL;
+        $db = eZDB::instance();
+        $rows = $db->arrayQuery( $sql, array( 'offset' => 0, 'limit' => 1 ) );
+        if ( count( $rows ) == 0 )
+            return false;
+
+        /** @var ezpContentPublishingProcess[] $persistentObjects */
+        $persistentObjects = eZPersistentObject::handleRows( $rows, 'ezpContentPublishingProcess', true );
+        return $persistentObjects[0];
+    }
+
 }
 ?>

@@ -78,39 +78,43 @@ class ezpContentPublishingQueueProcessor
         while ( $this->canProcess )
         {
             try {
-                /**
-                 * @var ezpContentPublishingProcess
-                 */
-                $publishingItem = call_user_func( array( $this->queueReader, 'next' ) );
-                if ( $publishingItem !== false )
-                {
-                    if ( !$this->isSlotAvailable() )
-                    {
-                        $this->out->write( "No slot is available", 'async.log' );
-                        sleep ( 1 );
-                        continue;
-                    }
-                    else
-                    {
-                        $this->out->write( "Processing item #" . $publishingItem->attribute( 'ezcontentobject_version_id' ), 'async.log' );
-                        $pid = $publishingItem->publish();
-                        pcntl_signal( SIGINT, $this->signalHandler );
-                        $this->currentJobs[$pid] = $publishingItem;
-
-                        // In the event that a signal for this pid was caught before we get here, it will be in our
-                        // signalQueue array
-                        // Process it now as if we'd just received the signal
-                        if( isset( $this->signalQueue[$pid] ) )
-                        {
-                            $this->out->write( "found $pid in the signal queue, processing it now" );
-                            $this->childSignalHandler( SIGCHLD, $pid, $this->signalQueue[$pid] );
-                            unset( $this->signalQueue[$pid] );
-                        }
-                    }
-                }
-                else
+                /** @var ezpContentPublishingProcess $publishingItem */
+                $publishingItem = $this->getNextItem();
+                if ( $publishingItem === false )
                 {
                     sleep( $this->sleepInterval );
+                    continue;
+                }
+
+                if ( !$this->isSlotAvailable() )
+                {
+                    $this->out->write( "No slot is available", 'async.log' );
+                    sleep( $this->sleepInterval );
+                    continue;
+                }
+
+                $this->out->write(
+                    sprintf(
+                        "Processing item #%d (content %d.%d)",
+                        $publishingItem->attribute( 'ezcontentobject_version_id' ),
+                        $publishingItem->version()->attribute( 'contentobject_id' ),
+                        $publishingItem->version()->attribute( 'version' )
+                    ),
+                    'async.log'
+                );
+
+                $pid = $publishingItem->publish();
+                pcntl_signal( SIGINT, $this->signalHandler );
+                $this->currentJobs[$pid] = $publishingItem;
+
+                // In the event that a signal for this pid was caught before we get here, it will be in our
+                // signalQueue array
+                // Process it now as if we'd just received the signal
+                if ( isset( $this->signalQueue[$pid] ) )
+                {
+                    $this->out->write( "found $pid in the signal queue, processing it now" );
+                    $this->childSignalHandler( SIGCHLD, $pid, $this->signalQueue[$pid] );
+                    unset( $this->signalQueue[$pid] );
                 }
             } catch ( eZDBException $e ) {
                 $this->out->write( "Database error #" . $e->getCode() . ": " . $e->getMessage() );
@@ -252,6 +256,14 @@ class ezpContentPublishingQueueProcessor
     }
 
     /**
+     * @return mixed
+     */
+    private function getNextItem()
+    {
+        return call_user_func( array( $this->queueReader, 'next' ) );
+    }
+
+    /**
      * @var eZINI
      */
     private $contentINI;
@@ -287,5 +299,10 @@ class ezpContentPublishingQueueProcessor
      * @var callback
      */
     private $signalHandler;
+
+    /**
+     * @var ezpContentPublishingQueueReaderInterface
+     */
+    private $queueReader;
 }
 ?>
