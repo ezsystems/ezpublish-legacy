@@ -77,4 +77,4 @@
 
     </div>
 </div>
-{/let}
+{undef $parent $previous_item $next_item}
