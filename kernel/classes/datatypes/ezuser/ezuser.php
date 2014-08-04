@@ -232,7 +232,30 @@ class eZUser extends eZPersistentObject
         $contentObjectID = $this->attribute( 'contentobject_id' );
         $sql = "SELECT * FROM ezuser WHERE contentobject_id='$contentObjectID' AND LENGTH( login ) > 0";
         $rows = $db->arrayQuery( $sql );
-        return !empty( $rows );
+        if ( !empty( $rows ) )
+        {
+            return true;
+        }
+
+        // If there are no stored logins, we look for a "draft" login before we give up
+        $userObject = eZContentObject::fetch( $contentObjectID );
+        if ( $userObject instanceof eZContentObject )
+        {
+            foreach ( $userObject->attribute( 'contentobject_attributes' ) as $contentObjectAttribute )
+            {
+                if ( $contentObjectAttribute->attribute( 'data_type_string' ) === 'ezuser' )
+                {
+                    $serializedDraft = $contentObjectAttribute->attribute( 'data_text' );
+                    if ( !empty( $serializedDraft ) )
+                    {
+                        return true;
+                    }
+                    break; // Assuming no more than one ezuser attribute per class
+                }
+            }
+        }
+
+        return false;
     }
 
     /*!
