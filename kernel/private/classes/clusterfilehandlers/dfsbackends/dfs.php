@@ -370,7 +370,9 @@ class eZDFSFileHandlerDFSBackend implements eZDFSFileHandlerDFSBackendInterface
      */
     public function getDfsFileSize( $filePath )
     {
-        return filesize( $this->makeDFSPath( $filePath ) );
+        $dfsFilePath = $this->makeDFSPath( $filePath );
+        clearstatcache( true, $dfsFilePath );
+        return filesize( $dfsFilePath );
     }
 
     /**

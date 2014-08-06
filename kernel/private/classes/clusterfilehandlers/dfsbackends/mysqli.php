@@ -684,6 +684,23 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             $this->__mkdir_p( dirname( $tmpFilePath ) );
             eZDebugSetting::writeDebug( 'kernel-clustering', "copying DFS://$filePath to FS://$tmpFilePath on try: $loopCount " );
 
+            // validate that dfs filesize and metadata size match
+            if ( $dfsFileSize != $metaData['size'] )
+            {
+                eZDebugSetting::writeDebug( 'kernel-clustering', "DFS size ($dfsFileSize) for file '$filePath' does not match metadata size {$metaData['size']}", __METHOD__ );
+                $metaData = $this->_fetchMetadata( $filePath );
+                if ( !$metaData )
+                {
+                    // @todo Throw an exception
+                    eZDebug::writeError( "File '$filePath' does not exist while trying to fetch.", __METHOD__ );
+                    return false;
+                }
+                $dfsFileSize = $this->dfsbackend->getDfsFileSize( $filePath );
+                usleep( self::TIME_UNTIL_RETRY );
+                ++$loopCount;
+                continue;
+            }
+
             // copy DFS file to temporary FS path
             // @todo Throw an exception
             if ( !$this->dfsbackend->copyFromDFS( $filePath, $tmpFilePath ) )
@@ -715,7 +732,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         while ( $dfsFileSize > $localFileSize && $loopCount < $this->maxCopyTries );
 
         // Copy from DFS has failed :-(
-        eZDebug::writeError( "Size ($localFileSize) of written data for file '$tmpFilePath' does not match expected size {$metaData['size']}", __METHOD__ );
+        eZDebug::writeError( "Size ($localFileSize) of written data for file '$tmpFilePath' does not match expected size {$dfsFileSize}", __METHOD__ );
         unlink( $tmpFilePath );
         return false;
     }
@@ -1627,7 +1644,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
                 return false;
             }
             $generatingMetaData = mysqli_fetch_assoc( $res );
-            
+
             if ( empty( $generatingMetaData ) )
             {
                 eZDebug::writeError("An error occured while ending cache generation,  $generatingFilePath", $fname );
