@@ -65,7 +65,7 @@ class ezjscServerFunctionsPublishingQueue extends ezjscServerFunctions
         else
         {
             $version = eZContentObjectVersion::fetchVersion( $version, $contentObjectId );
-            if ( $version === null )
+            if ( !$version )
                 throw new ezcBaseFunctionalityNotSupportedException( 'status', 'Object version not found' );
             else
                 $return = array( 'status' =>  'queued' );

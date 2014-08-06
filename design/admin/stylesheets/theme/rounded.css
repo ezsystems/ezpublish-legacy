@@ -582,3 +582,28 @@ font-size:0.9em;
 {
 position:absolute;
 }
+
+/* asynchronous publishing queued page */
+.ezap-placeholder h1 {
+    margin-bottom: 0.8em;
+}
+
+#ezap-message-publishing {
+    border-color: #555;
+}
+
+#ezap-message-publishing h1:before {
+    content: "\021BB";
+    color: #555;
+}
+
+#ezap-message-finished h1:before, #ezap-message-deferred h1:before {
+    content: "\02713";
+    color: #3e8d29;
+    font-weight: bold;
+}
+
+#ezap-error {
+    font-size: 1.4em;
+    padding: 0.5em;
+}
