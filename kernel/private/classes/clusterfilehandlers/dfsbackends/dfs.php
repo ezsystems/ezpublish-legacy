@@ -100,6 +100,11 @@ class eZDFSFileHandlerDFSBackend implements eZDFSFileHandlerDFSBackendInterface
             $ret = $this->copyTimestamp( $srcFilePath, $dstFilePath );
         }
 
+        if ( !$ret && file_exists( $dstFilePath ) )
+        {
+            unlink( $dstFilePath );
+        }
+
         $this->accumulatorStop();
 
         return $ret;
