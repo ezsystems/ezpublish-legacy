@@ -169,6 +169,7 @@
             if (
                 pl.editor.pasteAsPlainText
                 && o.node.childNodes.length === 1
+                && o.node.firstChild.tagName
                 && o.node.firstChild.tagName.toLowerCase() === 'pre'
             ) {
                 o.node.innerHTML = o.node.firstChild.innerHTML.replace(/\n/g, "<br />");
