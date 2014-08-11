@@ -66,14 +66,28 @@ class ezpRestHttpRequestParserRegression extends ezpRegressionTest
         $expectedFileName = $name . '.exp';
         if ( !file_exists( $expectedFileName ) )
         {
-            file_put_contents( $expectedFileName, var_export( $req, true ) );
+            file_put_contents( $expectedFileName, self::normalizedVarExport( $req ) );
             self::fail( 'Missing expected data file.' );
         }
         else
         {
             $expected = file_get_contents( $expectedFileName );
-            self::assertEquals( $expected, var_export( $req, true ), $expectedFileName );
+            self::assertEquals( $expected, self::normalizedVarExport( $req ), $expectedFileName );
         }
+    }
+
+    /*
+     * Since PHP 5.4.30, DateTime are not serialized the same way as previous versions.
+     * See http://php.net/ChangeLog-5.php#5.4.30 & https://bugs.php.net/bug.php?id=67308
+     */
+    private static function normalizedVarExport( $var )
+    {
+        $var = var_export( $var, true );
+        if ( PHP_VERSION_ID < 50430 )
+        {
+            $var = preg_replace( '%(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})%', '$1.000000', $var );
+        }
+        return $var;
     }
 
     public static function suite()
