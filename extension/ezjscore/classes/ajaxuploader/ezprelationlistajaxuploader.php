@@ -195,7 +195,7 @@ class ezpRelationListAjaxUploader implements ezpAjaxUploaderHandlerInterface
                 ezpI18n::tr(
                     'extension/ezjscore/ajaxuploader',
                     'Unable to create the content object to add to the relation: %detail',
-                    null, array( '%detail', $result['errors'][0]['description'] )
+                    null, array( '%detail' => $result['errors'][0]['description'] )
                 )
             );
         }
