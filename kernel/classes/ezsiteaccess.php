@@ -547,6 +547,8 @@ class eZSiteAccess
 
             eZSys::setAccessPath( $access['uri_part'], $name );
 
+            eZContentLanguage::clearPrioritizedLanguages();
+
             eZUpdateDebugSettings();
             eZDebugSetting::writeDebug( 'kernel-siteaccess', "Updated settings to use siteaccess '$name'", __METHOD__ );
         }
@@ -622,6 +624,8 @@ class eZSiteAccess
         {
             $moduleRepositories = eZModule::activeModuleRepositories();
             eZModule::setGlobalPathList( $moduleRepositories );
+
+            eZContentLanguage::clearPrioritizedLanguages();
         }
 
         return $access;
