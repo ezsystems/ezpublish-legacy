@@ -40,7 +40,7 @@
 {if $object_is_draft}
     <input type="submit" value="{'Set'|i18n( 'design/admin/node/view/full' )}" name="SectionEditButton" class="button" />
 {else}
-    <input type="submit" value="{'Set'|i18n( 'design/admin/node/view/full' )}" name="SectionEditButton" class="button-disabled" disabled="disabled" />
+    <input type="submit" value="{'Set'|i18n( 'design/admin/node/view/full' )}" name="SectionEditButton" class="button-disabled" disabled="disabled" title="{'This action is not available in edit view when content object is published!'|i18n('design/admin/content/edit')}" />
 {/if}
 </div>
 {* DESIGN: Content END *}</div></div></div>

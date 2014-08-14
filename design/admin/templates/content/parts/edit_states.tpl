@@ -27,7 +27,9 @@
 
 
 <div class="block">
-{if and( $enable_StateEditButton, $object_is_draft )}
+{if $object_is_draft|not()}
+    <input type="submit" value="{'Set'|i18n( 'design/admin/node/view/full' )}" name="StateEditButton" class="button-disabled" disabled="disabled" title="{'This action is not available in edit view when content object is published!'|i18n('design/admin/content/edit')}" />
+{elseif $enable_StateEditButton}
     <input type="submit" value="{'Set'|i18n( 'design/admin/node/view/full' )}" name="StateEditButton" class="button" />
 {else}
     <input type="submit" value="{'Set'|i18n( 'design/admin/node/view/full' )}" name="StateEditButton" class="button-disabled" disabled="disabled" />
