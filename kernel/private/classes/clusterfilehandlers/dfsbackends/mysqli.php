@@ -713,6 +713,11 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             {
                 return $filePath;
             }
+            // Sizes might have been corrupted by FS problems. Enforcing temp file removal.
+            else if ( file_exists( $tmpFilePath ) )
+            {
+                unlink( $tmpFilePath );
+            }
 
             usleep( self::TIME_UNTIL_RETRY );
             ++$loopCount;
