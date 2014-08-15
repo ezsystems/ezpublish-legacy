@@ -77,3 +77,14 @@
 </div>
 
 <!-- Translation box end-->
+
+{* Edit section *}
+<div class="sections">
+{include uri='design:content/parts/edit_sections.tpl'}
+</div>
+
+
+{* Edit states *}
+<div class="states">
+{include uri='design:content/parts/edit_states.tpl'}
+</div>
