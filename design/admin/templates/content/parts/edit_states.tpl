@@ -32,7 +32,7 @@
 {elseif $enable_StateEditButton}
     <input type="submit" value="{'Set'|i18n( 'design/admin/node/view/full' )}" name="StateEditButton" class="button" />
 {else}
-    <input type="submit" value="{'Set'|i18n( 'design/admin/node/view/full' )}" name="StateEditButton" class="button-disabled" disabled="disabled" />
+    <input type="submit" value="{'Set'|i18n( 'design/admin/node/view/full' )}" name="StateEditButton" class="button-disabled" disabled="disabled" title="{'No content object state is configured.'|i18n('design/admin/content/edit')}" />
 {/if}
 </div>
 </div></div></div></div></div></div>
