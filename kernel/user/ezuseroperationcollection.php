@@ -212,9 +212,14 @@ class eZUserOperationCollection
      */
     static public function sendUserNotification( $userID )
     {
+        $ini = eZINI::instance();
+
+        if ( $ini->variable( 'UserSettings', 'EmailRegistrationInfo' ) === "disabled") {
+            return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
+        }
+
         eZDebugSetting::writeNotice( 'Sending approval notification to the user.' , 'kernel-user', 'user register' );
         $user = eZUser::fetch( $userID );
-        $ini = eZINI::instance();
         // Send mail
         $tpl = eZTemplate::factory();
         $tpl->setVariable( 'user',  $user );
