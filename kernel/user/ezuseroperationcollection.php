@@ -214,7 +214,8 @@ class eZUserOperationCollection
     {
         $ini = eZINI::instance();
 
-        if ( $ini->variable( 'UserSettings', 'EmailRegistrationInfo' ) === "disabled") {
+        if ( $ini->variable( 'UserSettings', 'EmailRegistrationInfo' ) === "disabled" )
+        {
             return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
         }
 
