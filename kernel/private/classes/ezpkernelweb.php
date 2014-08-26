@@ -550,6 +550,20 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
                 $tpl->setVariable( 'requested_uri_string', $this->actualRequestedURI );
             }
 
+            // Set the view parameters
+            $viewParameters = array();
+            $uriUserParameters = $uri->userParameters();
+
+            foreach( $uriUserParameters as $key => $param )
+            {
+                if( $param != '' )
+                {
+                    $viewParameters = array_merge( $viewParameters, array( $key => $param ) );
+                }
+            }
+
+            $tpl->setVariable( 'view_parameters', $viewParameters );
+
             // Set UI context and component
             $tpl->setVariable( 'ui_context', $moduleResult['ui_context'] );
             $tpl->setVariable( 'ui_component', $moduleResult['ui_component'] );
