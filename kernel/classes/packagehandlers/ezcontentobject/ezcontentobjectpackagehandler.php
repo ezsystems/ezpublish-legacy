@@ -1567,7 +1567,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             else
             {
                 $nodeID = false;
-                $subtree = false;
                 if ( is_numeric( $argument ) )
                 {
                     $nodeID = (int)$argument;
@@ -1585,7 +1584,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                     if ( preg_match( "#(.+)/\*$#", $path, $matches ) )
                     {
                         $path = $matches[1];
-                        $subtree = true;
                     }
                     $node = eZContentObjectTreeNode::fetchByURLPath( $path );
                     if ( is_object( $node ) )
@@ -1601,7 +1599,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 if ( $nodeID )
                 {
                     $nodeItem['node-id-list'][] = array( 'id' => $nodeID,
-                                                         'subtree' => $subtree,
+                                                         'subtree' => true,
                                                          'node' => &$node );
                 }
                 if ( $error )
