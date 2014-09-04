@@ -34,8 +34,11 @@ class ezpTestDatabaseHelper
             return $db;
         }
 
+        $dsnRoot = clone $dsn;
+        $dsnRoot->parts['database'] = null;
+
         try {
-            $dbRoot = ezpDatabaseHelper::dbAsRootInstance( $dsn );
+            $dbRoot = ezpDatabaseHelper::dbAsRootInstance( $dsnRoot );
             if ( !$dbRoot->IsConnected )
             {
                 throw new Exception( $dbRoot->ErrorMessage );
