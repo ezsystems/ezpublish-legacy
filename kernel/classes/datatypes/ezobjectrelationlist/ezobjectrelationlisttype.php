@@ -69,7 +69,7 @@ class eZObjectRelationListType extends eZDataType
             }
             return eZInputValidator::STATE_ACCEPTED;
         }
-        else
+        else if ( eZINI::instance()->variable( 'BackwardCompatibilitySettings', 'AdvancedObjectRelationList' ) == "disabled" )
         {
             // If in browse mode and relations have been added using the search field
             // items are stored in the post variable
