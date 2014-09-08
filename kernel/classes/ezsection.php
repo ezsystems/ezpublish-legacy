@@ -210,7 +210,7 @@ class eZSection extends eZPersistentObject
         if ( !$currentUser->canAssignSectionToObject( $sectionID, $object ) )
         {
             eZDebug::writeError(
-                "You do not have permissions to assign the section <" . $selectedSection->attribute( "name" ) .  "> to the object <" . $object->attribute( "name" ) . ">."
+                "You do not have permissions to assign the section <" . $this->attribute( "name" ) .  "> to the object <" . $object->attribute( "name" ) . ">."
             );
             return false;
         }
