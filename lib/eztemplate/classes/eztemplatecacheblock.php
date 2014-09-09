@@ -167,7 +167,7 @@ class eZTemplateCacheBlock
      */
     static function cachePath( $keyString, $nodeID = false )
     {
-        $filename = eZSys::ezcrc32( $keyString ) . ".cache";
+        $filename = md5( $keyString ) . ".cache";
 
         $phpDir = eZTemplateCacheBlock::templateBlockCacheDir();
         if ( is_numeric( $nodeID ) )
