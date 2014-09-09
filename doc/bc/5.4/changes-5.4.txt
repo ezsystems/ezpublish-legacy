@@ -8,6 +8,15 @@ INI setting changes
 Change of behavior
 ------------------
 
+- EZP-23296: Template Block Cache has cache key collisions
+
+  The template cache blocks where using crc32 which has a high probability of collisions.
+  Feature has been changed to use md5 like viewcache already uses.
+
+  Note: To avoid that you have to many cache blocks take advantage of putting identical once in
+  own template so they will share cache (template and location of block is part of internal unique key).
+
+
 Removed features
 ----------------
 
