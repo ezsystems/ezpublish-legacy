@@ -88,6 +88,118 @@ class eZDebugRegression extends ezpTestCase
         $debug = eZDebug::instance();
         $this->assertEquals( 0, $debug->TimeAccumulatorList[__METHOD__]['recursive_counter'] );
     }
+
+    /**
+     * Test for EZP-23343
+     *
+     * Make sure an IPv6 ipaddress is in a network
+     *
+     * @link https://jira.ez.no/browse/EZP-23343
+     */
+    function testeZDebugIsIPInNetIPv6LocalHostNetworkRange()
+    {
+        $class = new ReflectionClass( 'eZDebug' );
+        $methodIsAllowedByCurrentIP = $class->getMethod( 'isIPInNetIPv6' );
+        $methodIsAllowedByCurrentIP->setAccessible( true );
+
+        $object = new eZDebug();
+        $this->assertEquals( true, $methodIsAllowedByCurrentIP->invokeArgs( $object, array( '::1', '::1/32' ) ) );
+        $this->assertEquals( true, $methodIsAllowedByCurrentIP->invokeArgs( $object, array( '::2', '::1/32' ) ) );
+        $this->assertEquals( true, $methodIsAllowedByCurrentIP->invokeArgs( $object, array( '::7', '::1/32' ) ) );
+
+        $this->assertEquals( true, $methodIsAllowedByCurrentIP->invokeArgs( $object, array( '2001:db8:1234:0000:0000:0000:0000:0000', '2001:db8:1234::/48' ) ) );
+        $this->assertEquals( true, $methodIsAllowedByCurrentIP->invokeArgs( $object, array( '2001:db8:1234:0000:0000:0000:0000:0007', '2001:db8:1234::/48' ) ) );
+        $this->assertEquals( true, $methodIsAllowedByCurrentIP->invokeArgs( $object, array( '2001:db8:1234:ffff:ffff:ffff:ffff:ffff', '2001:db8:1234::/48' ) ) );
+    }
+
+    /**
+     * Test for EZP-23343
+     *
+     * Make sure the 'packed' output of inet_pton
+     * is transformed into a full binary representation
+     *
+     * @link https://jira.ez.no/browse/EZP-23343
+     */
+    function testeZDebugPackedToBin()
+    {
+        $class = new ReflectionClass( 'eZDebug' );
+        $methodIsAllowedByCurrentIP = $class->getMethod( 'packedToBin' );
+        $methodIsAllowedByCurrentIP->setAccessible( true );
+
+        $object = new eZDebug();
+        $this->assertEquals( '00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001', $methodIsAllowedByCurrentIP->invokeArgs( $object, array( inet_pton( '::1' ) ) ) );
+        $this->assertEquals( '00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000111', $methodIsAllowedByCurrentIP->invokeArgs( $object, array( inet_pton( '::7' ) ) ) );
+        $this->assertEquals( '00100000000000010000110110111000000100100011010000000000000000000000000000000000000000000000000000000000000000000000000000000000', $methodIsAllowedByCurrentIP->invokeArgs( $object, array( inet_pton( '2001:db8:1234::' ) ) ) );
+        $this->assertEquals( '00100000000000010000110110111000000100100011010011111111111111111111111111111111111111111111111111111111111111111111111111111111', $methodIsAllowedByCurrentIP->invokeArgs( $object, array( inet_pton( '2001:db8:1234:ffff:ffff:ffff:ffff:ffff' ) ) ) );
+    }
+
+    /**
+     * Test for EZP-23343
+     *
+     * Make sure debug output is displayed for an IPv6 localhost address
+     *
+     * @link https://jira.ez.no/browse/EZP-23343
+     */
+    function testDebugOutputIPv6LocalHost()
+    {
+        $class = new ReflectionClass( 'eZDebug' );
+        $methodIsAllowedByCurrentIP = $class->getMethod( 'isAllowedByCurrentIP' );
+        $methodIsAllowedByCurrentIP->setAccessible( true );
+
+        $object = new eZDebug();
+        $this->assertEquals( true, $methodIsAllowedByCurrentIP->invokeArgs( $object, array( array( '::1/32', 'commandline' ) ) ) );
+    }
+
+    /**
+     * Test for EZP-23343
+     *
+     * Make sure debug output is displayed for an IPv6 public address
+     *
+     * @link https://jira.ez.no/browse/EZP-23343
+     */
+    function testDebugOutputIPv6PublicHost()
+    {
+        $class = new ReflectionClass( 'eZDebug' );
+        $methodIsAllowedByCurrentIP = $class->getMethod( 'isAllowedByCurrentIP' );
+        $methodIsAllowedByCurrentIP->setAccessible( true );
+
+        $object = new eZDebug();
+        $this->assertEquals( true, $methodIsAllowedByCurrentIP->invokeArgs( $object, array( array( '2001:db8:1234::/48', 'commandline' ) ) ) );
+    }
+
+    /**
+     * Test for EZP-23343
+     *
+     * Make sure debug output is displayed for an IPv4 localhost address
+     *
+     * @link https://jira.ez.no/browse/EZP-23343
+     */
+    function testDebugOutputIPv4LocalHost()
+    {
+        $class = new ReflectionClass( 'eZDebug' );
+        $methodIsAllowedByCurrentIP = $class->getMethod( 'isAllowedByCurrentIP' );
+        $methodIsAllowedByCurrentIP->setAccessible( true );
+
+        $object = new eZDebug();
+        $this->assertEquals( true, $methodIsAllowedByCurrentIP->invokeArgs( $object, array( array( '127.0.0.1/32', 'commandline' ) ) ) );
+    }
+
+    /**
+     * Test for EZP-23343
+     *
+     * Make sure debug output is displayed for an IPv4 public address
+     *
+     * @link https://jira.ez.no/browse/EZP-23343
+     */
+    function testDebugOutputIPv4PublicHost()
+    {
+        $class = new ReflectionClass( 'eZDebug' );
+        $methodIsAllowedByCurrentIP = $class->getMethod( 'isAllowedByCurrentIP' );
+        $methodIsAllowedByCurrentIP->setAccessible( true );
+
+        $object = new eZDebug();
+        $this->assertEquals( true, $methodIsAllowedByCurrentIP->invokeArgs( $object, array( array( '192.0.2.0/24', 'commandline' ) ) ) );
+    }
 }
 
 ?>

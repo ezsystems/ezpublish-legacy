@@ -1063,6 +1063,60 @@ class eZDebug
         return( strcmp( $firstpart, $firstip ) == 0 );
     }
 
+    /**
+     * Determine if an IPv6 ipaddress is in a network. E.G. 2620:0:860:2:: in 2620:0:860:2::/64
+     *
+     * @param string $ipAddress IP Address
+     * @param string $ipAddressRange IP Address Range
+     * @return bool Returns true if address is in the network and false if not in the network
+     */
+    private static function isIPInNetIPv6( $ipAddress, $ipAddressRange )
+    {
+        // Split the ip addres range into network part and netmask number
+        list( $ipAddressRangeNetworkPrefix, $networkMaskBits ) = explode( '/', $ipAddressRange );
+
+        // Convert ip addresses to their binary representations, truncate to the specified network mask length
+        $binaryIpAddressRangeNetworkPrefix = substr( self::packedToBin( inet_pton( $ipAddressRangeNetworkPrefix ) ), 0, $networkMaskBits );
+        $binaryIpAddressNetworkPrefix = substr( self::packedToBin( inet_pton( $ipAddress ) ), 0, $networkMaskBits );
+
+        return $binaryIpAddressRangeNetworkPrefix === $binaryIpAddressNetworkPrefix;
+    }
+
+    /**
+     * Turns the 'packed' output of inet_pton into a full binary representation
+     *
+     * @param string $packedIPAddress Packed ip address in binary string form
+     * @return string Returns binary string representation
+     */
+     private static function packedToBin( $packedIPAddress )
+     {
+        $binaryIPAddress = '';
+
+        // In PHP v5.5 (and up) the unpack function's returned value formats behavior differs
+        if ( version_compare( PHP_VERSION, '5.5.0-dev', '>=' ) )
+        {
+            // Turns the space padded string into an array of the unpacked in_addr representation
+            // In PHP v5.5 format 'a' retains trailing null bytes
+            $unpackedIPAddress = unpack( 'a16', $packedIPAddress );
+        }
+        else
+        {
+            // Turns the space padded string into an array of the unpacked in_addr representation
+            // In PHP v5.4 <= format 'A' retains trailing null bytes
+            $unpackedIPAddress = unpack( 'A16', $packedIPAddress );
+        }
+        $unpackedIPAddressArray = str_split( $unpackedIPAddress[1] );
+
+        // Get each characters ascii number, then turn that number into a binary
+        // and pad it with 0's to the left if it isn't 8 digits long
+        foreach( $unpackedIPAddressArray as $character )
+        {
+            $binaryIPAddress .= str_pad( decbin( ord( $character ) ), 8, '0', STR_PAD_LEFT );
+        }
+
+        return $binaryIPAddress;
+     }
+
     /*!
      \static
      Updates the settings for debug handling with the settings array \a $settings.
@@ -1838,30 +1892,62 @@ class eZDebug
 
     }
 
-    /*!
-     If debugging is allowed for the current IP address.
-    */
+    /**
+     * If debugging is allowed for the current IP address.
+     *
+     * @param array $allowedIpList
+     * @return bool
+     */
     private static function isAllowedByCurrentIP( $allowedIpList )
     {
+        $ipAddresIPV4Pattern = "/^(([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+))(\/([0-9]+)$|$)/";
+        $ipAddressIPV6Pattern = "/^((([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|(([0-9A-Fa-f]{1,4}:){0,5}:((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|(::([0-9A-Fa-f]{1,4}:){0,5}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|([0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})|(::([0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){1,7}:))(\/([0-9]+)$|$)$/";
+
         $ipAddress = eZSys::clientIP();
         if ( $ipAddress )
         {
             foreach( $allowedIpList as $itemToMatch )
             {
-                if ( preg_match("/^(([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+))(\/([0-9]+)$|$)/", $itemToMatch, $matches ) )
+                // Test for IPv6 Addresses first instead of IPv4 addresses as IPv6
+                // addresses can contain dot separators within them
+                if ( preg_match( "/:/", $ipAddress ) )
                 {
-                    if ( $matches[6] )
+                    if ( preg_match( $ipAddressIPV6Pattern, $itemToMatch, $matches ) )
                     {
-                        if ( self::isIPInNet( $ipAddress, $matches[1], $matches[7] ) )
+                        if ( $matches[69] )
                         {
-                            return true;
+                            if ( self::isIPInNetIPv6( $ipAddress, $itemToMatch ) )
+                            {
+                                return true;
+                            }
+
+                        }
+                        else
+                        {
+                            if ( $matches[1] == $itemToMatch )
+                            {
+                                return true;
+                            }
                         }
                     }
-                    else
+                }
+                elseif ( preg_match( "/\./", $ipAddress) )
+                {
+                    if ( preg_match( $ipAddresIPV4Pattern, $itemToMatch, $matches ) )
                     {
-                        if ( $matches[1] == $ipAddress )
+                        if ( $matches[6] )
                         {
-                            return true;
+                            if ( self::isIPInNet( $itemToMatch, $matches[1], $matches[7] ) )
+                            {
+                                return true;
+                             }
+                        }
+                        else
+                        {
+                            if ( $matches[1] == $itemToMatch )
+                            {
+                                return true;
+                            }
                         }
                     }
                 }
