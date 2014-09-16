@@ -722,4 +722,21 @@ class eZSiteAccess
         eZDebug::writeWarning("Tried to find siteaccess based on '$language' but '$sa' is not a valid RelatedSiteAccessList[]", __METHOD__ );
         return null;
     }
+
+    /**
+     * Checks if $siteAccessName matches a configured siteaccess
+     * @param $siteAccessName
+     * @return bool
+     */
+    public static function exists( $siteAccessName )
+    {
+        foreach ( eZSiteAccess::siteAccessList() as $siteaccessListItem )
+        {
+            if ( $siteaccessListItem['name'] == $siteAccessName )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

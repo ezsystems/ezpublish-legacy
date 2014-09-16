@@ -30,11 +30,16 @@ eZExtension::activateExtensions( 'default' );
 // debug settings here
 function eZUpdateDebugSettings() {}
 
-// load siteaccess
-$access = eZSiteAccess::match( $uri,
-                      eZSys::hostname(),
-                      eZSys::serverPort(),
-                      eZSys::indexFile() );
+// set siteaccess from X-Siteaccess header if given and exists
+if ( isset( $_SERVER['HTTP_X_SITEACCESS'] ) && eZSiteAccess::exists( $_SERVER['HTTP_X_SITEACCESS'] ) )
+{
+    $access = array( 'name' => $_SERVER['HTTP_X_SITEACCESS'], 'type' => eZSiteAccess::TYPE_STATIC );
+}
+else
+{
+    $access = eZSiteAccess::match( $uri, eZSys::hostname(), eZSys::serverPort(), eZSys::indexFile() );
+}
+
 $access = eZSiteAccess::change( $access );
 
 // load siteaccess extensions
