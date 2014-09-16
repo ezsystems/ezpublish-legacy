@@ -1107,7 +1107,7 @@ WHERE user_id = '" . $userID . "' AND
      */
     static function instance( $id = false )
     {
-        if ( !empty( $GLOBALS["eZUserGlobalInstance_$id"] ) )
+        if ( is_numeric( $id ) && $id > 0 && !empty( $GLOBALS["eZUserGlobalInstance_$id"] ) )
         {
             return $GLOBALS["eZUserGlobalInstance_$id"];
         }
@@ -1228,7 +1228,10 @@ WHERE user_id = '" . $userID . "' AND
             eZDebug::writeWarning( 'Anonymous user not found, returning NoUser' );
         }
 
-        $GLOBALS["eZUserGlobalInstance_$id"] = $currentUser;
+        if ( is_numeric( $id ) && $id > 0 )
+        {
+            $GLOBALS["eZUserGlobalInstance_$id"] = $currentUser;
+        }
         return $currentUser;
     }
 
