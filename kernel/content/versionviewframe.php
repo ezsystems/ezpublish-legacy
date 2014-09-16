@@ -101,6 +101,16 @@ if ( $Module->isCurrentAction( 'Publish' ) and
 
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $ObjectID,
                                                                                  'version' => $EditVersion ) );
+    // redirect if requested by the publishing operation
+    if ( isset( $operationResult['status'] ) && ( $operationResult['status'] == eZModuleOperationInfo::STATUS_HALTED ) )
+    {
+        if (isset( $operationResult['redirect_url'] ))
+        {
+            $Module->redirectTo( $operationResult['redirect_url'] );
+            return;
+        }
+    }
+
     $object = eZContentObject::fetch( $ObjectID );
     $http = eZHTTPTool::instance();
     if ( $object->attribute( 'main_node_id' ) != null )
