@@ -35,15 +35,26 @@ foreach( $pcntlFunctions as $pcntlFunction )
 
 $options = $script->getOptions(
     // options definition
-    "[n|daemon][p:|pid-file:]",
+    "[n|daemon][p:|pid-file:][cleanup-interval:]",
     // arguments definition
     "",
     // options documentation
     array( 'daemon' => 'Run in the background',
-           'pid-file' => 'PID file' ) );
+           'pid-file' => 'PID file',
+           'cleanup-interval' => 'Number of seconds between each db table cleanup. Default value is 43200 (12 hours)' ) );
 $sys = eZSys::instance();
 
 $script->initialize();
+
+$cleanup = 0;
+if ( isset( $options['cleanup-interval'] ) )
+{
+    $cleanup = $options['cleanup-interval'];
+    if ( !is_int( $cleanup ) || $cleanup < 1 )
+    {
+        $script->shutdown( 3, "Invalid value for cleanup-interval:'$cleanup'" );
+    }
+}
 
 if ( isset( $options['pid-file'] ) )
 {
@@ -192,6 +203,7 @@ else
 $processor = ezpContentPublishingQueueProcessor::instance();
 $processor->setOutput( $output );
 $processor->setSignalHandler( $daemonSignalHandler );
+$processor->setCleanupInterval( $cleanup );
 $processor->run();
 
 eZScript::instance()->shutdown( 0 );

@@ -28,6 +28,9 @@ class ezpContentPublishingQueueProcessor
         // output to log by default
         $this->setOutput( new ezpAsynchronousPublisherLogOutput );
 
+        // initiates timer for the DB cleanup process
+        $this->cleanupLastTime = time();
+
         // Queue reader handler
         $this->queueReader = $this->contentINI->variable( 'PublishingSettings', 'AsynchronousPublishingQueueReader' );
         $reflection = new ReflectionClass( $this->queueReader );
@@ -78,6 +81,7 @@ class ezpContentPublishingQueueProcessor
         while ( $this->canProcess )
         {
             try {
+                $this->cleanupFinishedProcesses();
                 /** @var ezpContentPublishingProcess $publishingItem */
                 $publishingItem = $this->getNextItem();
                 if ( $publishingItem === false )
@@ -145,6 +149,41 @@ class ezpContentPublishingQueueProcessor
             if ( !$process->isAlive() )
             {
                 $process->reset();
+            }
+        }
+    }
+
+    /**
+     * Removes FINISHED processes rows from the db, older than one week, all in one db call
+     * method self-manages the removal, based on the defined treshhold
+     *
+     * @return void
+     */
+    private function cleanupFinishedProcesses()
+    {
+        if ( time() < ( $this->cleanupLastTime + $this->cleanupInterval ) )
+        {
+            return;
+        }
+
+        $processes = count( ezpContentPublishingProcess::fetchProcesses( ezpContentPublishingProcess::STATUS_FINISHED ) );
+        if ( $processes > 0 )
+        {
+            //Remove all objects at once
+            // this is required as the MySQL connection might be closed anytime by a fork
+            try
+            {
+                eZDebug::writeNotice( "ASYNC:: removing processes entries marked as STATUS_FINISHED in database.");
+                $db = eZDB::instance();
+                eZDB::setInstance( null );
+                $lastWeek = time() - (7 * 24 * 60 * 60);
+                $processTable = ezpContentPublishingProcess::definition()['name'];
+                $db->query( "DELETE from ". $processTable. " WHERE status =".  ezpContentPublishingProcess::STATUS_FINISHED. " AND finished < ". $lastWeek );
+                $this->cleanupLastTime = time();
+            }
+            catch( eZDBException $e ) 
+            {
+                // Do nothing, this will be retried until the DB is back up
             }
         }
     }
@@ -264,6 +303,19 @@ class ezpContentPublishingQueueProcessor
     }
 
     /**
+     * Sets the cleanup variables
+     * @param int $interval
+     * @param \
+     */
+    public function setCleanupInterval( $interval )
+    {
+        if ( $interval > 0 )
+        {
+            $this->cleanupInterval = $interval;
+        }
+    }
+
+    /**
      * @var eZINI
      */
     private $contentINI;
@@ -304,5 +356,17 @@ class ezpContentPublishingQueueProcessor
      * @var ezpContentPublishingQueueReaderInterface
      */
     private $queueReader;
+
+    /**
+     * Time counter for cleanup of finished processes
+     * @var int
+     */
+    private $cleanupLastTime;
+
+    /**
+     * Interval for cleanup of finished processes. Default value is 12 hours in seconds
+     * @var int
+     */
+    private $cleanupInterval = 43200;
 }
 ?>
