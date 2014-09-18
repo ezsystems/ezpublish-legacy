@@ -918,11 +918,12 @@ class eZContentLanguage extends eZPersistentObject
     }
 
     /**
-     * Removes all memory cache forcing it to read from database again for next method calls.
+     * Removes all caches forcing it to read from database again for next method calls.
      *
      * \static
+     * @param bool $expireCluster whether expire cluster or not.
      */
-    static function expireCache()
+    static function expireCache( $expireCluster = true )
     {
         unset( $GLOBALS['eZContentLanguageList'],
                $GLOBALS['eZContentLanguagePrioritizedLanguages'],
@@ -931,8 +932,11 @@ class eZContentLanguage extends eZPersistentObject
 
         // With the solution to #14227 we also need to clear the cached
         // list of languages
-        $cachePath = eZSys::cacheDirectory() . '/ezcontentlanguage_cache.php';
-        eZClusterFileHandler::instance()->fileDelete( $cachePath );
+        if ( $expireCluster )
+        {
+            $cachePath = eZSys::cacheDirectory() . '/ezcontentlanguage_cache.php';
+            eZClusterFileHandler::instance()->fileDelete( $cachePath );
+        }
     }
 
     /**

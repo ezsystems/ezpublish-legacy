@@ -245,7 +245,7 @@ eZTranslatorManager::resetTranslations();
 ezpI18n::reset();
 eZContentObject::clearCache();
 
-eZContentLanguage::expireCache();
+eZContentLanguage::expireCache( false );
 
 $Module->setTitle( 'View ' . $class->attribute( 'name' ) . ' - ' . $contentObject->attribute( 'name' ) );
 
