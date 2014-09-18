@@ -30,6 +30,8 @@ class ezpContentPublishingQueueProcessor
 
         // initiates timer for the DB cleanup process
         $this->cleanupLastTime = time();
+        $this->cleanupInterval = $this->contentINI->variable( 'PublishingSettings', 'AsynchronousCleanupInterval' );
+        $this->cleanupAgeLimit = $this->contentINI->variable( 'PublishingSettings', 'AsynchronousCleanupAgeLimit' );
 
         // Queue reader handler
         $this->queueReader = $this->contentINI->variable( 'PublishingSettings', 'AsynchronousPublishingQueueReader' );
@@ -154,8 +156,8 @@ class ezpContentPublishingQueueProcessor
     }
 
     /**
-     * Removes FINISHED processes rows from the db, older than one week, all in one db call
-     * method self-manages the removal, based on the defined treshhold
+     * Removes FINISHED processes rows from the db (in one db call)
+     * method self-manages the removal, based on the defined cleanupInterval and cleanupAgeLimit
      *
      * @return void
      */
@@ -176,9 +178,9 @@ class ezpContentPublishingQueueProcessor
                 eZDebug::writeNotice( "ASYNC:: removing processes entries marked as STATUS_FINISHED in database.");
                 $db = eZDB::instance();
                 eZDB::setInstance( null );
-                $lastWeek = time() - (7 * 24 * 60 * 60);
+                $deleteBefore = time() - $this->cleanupAgeLimit;
                 $processTable = ezpContentPublishingProcess::definition()['name'];
-                $db->query( "DELETE from ". $processTable. " WHERE status =".  ezpContentPublishingProcess::STATUS_FINISHED. " AND finished < ". $lastWeek );
+                $db->query( "DELETE from ". $processTable. " WHERE status =".  ezpContentPublishingProcess::STATUS_FINISHED. " AND finished < ". $deleteBefore );
                 $this->cleanupLastTime = time();
             }
             catch( eZDBException $e ) 
@@ -303,19 +305,6 @@ class ezpContentPublishingQueueProcessor
     }
 
     /**
-     * Sets the cleanup variables
-     * @param int $interval
-     * @param \
-     */
-    public function setCleanupInterval( $interval )
-    {
-        if ( $interval > 0 )
-        {
-            $this->cleanupInterval = $interval;
-        }
-    }
-
-    /**
      * @var eZINI
      */
     private $contentINI;
@@ -368,5 +357,12 @@ class ezpContentPublishingQueueProcessor
      * @var int
      */
     private $cleanupInterval = 43200;
+
+    /**
+     * All finished processes after this age limit will be cleaned up.
+     * Default value is a week (in seconds)
+     * @var int
+     */
+    private $cleanupAgeLimit = 604800;
 }
 ?>
