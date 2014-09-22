@@ -1,0 +1,12 @@
+Event system
+============
+
+- Added new events for image aliases removal
+
+New events
+----------
+
+image/invalidateAliases
+image/removeAliases ( $originalAliasURI )
+image/purgeAliases ( $originalAliasURI )
+image/trashAliases ( $originalAliasURI )

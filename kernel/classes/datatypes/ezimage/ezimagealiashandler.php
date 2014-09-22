@@ -683,6 +683,7 @@ class eZImageAliasHandler
     public function purgeAllAliases()
     {
         $aliasList = $this->aliasList( false );
+        ezpEvent::getInstance()->notify( 'image/purgeAliases', array( $aliasList['original']['url'] ) );
         unset( $aliasList['original'] ); // keeping original
 
         foreach ( $aliasList as $alias )
@@ -711,10 +712,16 @@ class eZImageAliasHandler
      */
     function removeAliases()
     {
-        foreach ( $this->aliasList() as $alias )
+        $aliasList = $this->aliasList();
+        foreach ( $aliasList as $alias )
         {
             if ( $alias['is_valid'] )
                 $this->removeAliasFile( $alias['url'] );
+        }
+
+        if ( !empty( $aliasList['original']['url'] ) )
+        {
+            ezpEvent::getInstance()->notify( 'image/removeAliases', array( $aliasList['original']['url'] ) );
         }
 
         $this->generateXMLData();

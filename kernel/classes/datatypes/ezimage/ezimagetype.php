@@ -57,6 +57,7 @@ class eZImageType extends eZDataType
 
         // Now clean all other aliases, not cleanly registered within the attribute content
         // First get all remaining aliases full path to then safely move them to the trashed folder
+        ezpEvent::getInstance()->notify( 'image/trashAliases', array( $originalAlias['url'] ) );
         $aliasNames = array_keys( $imageHandler->aliasList() );
         $aliasesPath = array();
         foreach ( $aliasNames as $aliasName )
