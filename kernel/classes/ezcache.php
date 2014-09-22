@@ -540,6 +540,7 @@ class eZCache
         $expiryHandler = eZExpiryHandler::instance();
         $expiryHandler->setTimestamp( 'image-manager-alias', time() );
         $expiryHandler->store();
+        ezpEvent::getInstance()->notify( 'image/invalidateAliases' );
     }
 
     /**
