@@ -547,6 +547,8 @@ class eZSiteAccess
 
             eZSys::setAccessPath( $access['uri_part'], $name );
 
+            eZContentLanguage::expireCache( false );
+
             eZUpdateDebugSettings();
             eZDebugSetting::writeDebug( 'kernel-siteaccess', "Updated settings to use siteaccess '$name'", __METHOD__ );
         }
