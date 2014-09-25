@@ -118,7 +118,7 @@ class ezpTestRunner extends PHPUnit_TextUI_Command
   --db-per-test             Use a clean database per test
   --dsn <resource>          Use the database specified with a DSN: type://user:password@host/database.
                             An example to connect with the local MySQL database is:
-                            mysqli://root@mypass@localhost/unittests
+                            mysqli://root:mypass@localhost/unittests
   --list-suites             Lists all suites
   --list-tests              Lists all tests
 

@@ -34,7 +34,21 @@ class ezpTestDatabaseHelper
             return $db;
         }
 
-        $dbRoot = ezpDatabaseHelper::dbAsRootInstance( $dsn );
+        $dsnRoot = clone $dsn;
+        $dsnRoot->parts['database'] = null;
+
+        try {
+            $dbRoot = ezpDatabaseHelper::dbAsRootInstance( $dsnRoot );
+            if ( !$dbRoot->IsConnected )
+            {
+                throw new Exception( $dbRoot->ErrorMessage );
+            }
+        }
+        catch ( Exception $e )
+        {
+            echo $e->getMessage() . PHP_EOL;
+            eZExecution::cleanExit();
+        }
 
         if ( self::exists( $dbRoot, $dsn->database ) )
         {
