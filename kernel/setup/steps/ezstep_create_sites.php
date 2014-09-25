@@ -660,13 +660,13 @@ id=$engLanguageID";
             $db->query( $updateSql );
             eZContentLanguage::expireCache();
             $primaryLanguageObj = eZContentLanguage::fetchByLocale( $primaryLanguageLocaleCode );
-            /*
+
             // Add it if it is missing (most likely)
             if ( !$primaryLanguageObj )
             {
                 $primaryLanguageObj = eZContentLanguage::addLanguage( $primaryLanguageLocaleCode, $primaryLanguageName );
             }
-            */
+
             $primaryLanguageID = (int)$primaryLanguageObj->attribute( 'id' );
 
             // Find objects which are always available
@@ -1124,12 +1124,21 @@ language_locale='eng-GB'";
                     {
                         $templateLookObject = current( $objectList );
                         $dataMap = $templateLookObject->fetchDataMap();
-                        $dataMap[ 'title' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteName'] );
-                        $dataMap[ 'title' ]->store();
-                        $dataMap[ 'siteurl' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteURL'] );
-                        $dataMap[ 'siteurl' ]->store();
-                        $dataMap[ 'email' ]->setAttribute( 'data_text', $siteINIChanges['MailSettings']['AdminEmail'] );
-                        $dataMap[ 'email' ]->store();
+                        if ( isset( $dataMap[ 'title' ] ) )
+                        {
+                            $dataMap[ 'title' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteName'] );
+                            $dataMap[ 'title' ]->store();
+                        }
+                        if ( isset( $dataMap[ 'siteurl' ] ) )
+                        {
+                            $dataMap[ 'siteurl' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteURL'] );
+                            $dataMap[ 'siteurl' ]->store();
+                        }
+                        if ( isset( $dataMap[ 'email' ] ) )
+                        {
+                            $dataMap[ 'email' ]->setAttribute( 'data_text', $siteINIChanges['MailSettings']['AdminEmail'] );
+                            $dataMap[ 'email' ]->store();
+                        }
                         $objectName = $templateLookClass->contentObjectName( $templateLookObject );
                         $templateLookObject->setName( $objectName );
                         $templateLookObject->store();
