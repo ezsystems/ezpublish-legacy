@@ -238,6 +238,12 @@ interface eZClusterFileHandlerInterface
     public function mtime();
 
     /**
+     * Returns file mimetype / content type.
+     * @return string|null
+     */
+    public function dataType();
+
+    /**
      * Returns file name.
      * @return string
      */
