@@ -14,16 +14,16 @@ class eZDFSFileHandlerDFSBackend implements eZDFSFileHandlerDFSBackendInterface
     {
         $mountPointPath = eZINI::instance( 'file.ini' )->variable( 'eZDFSClusteringSettings', 'MountPointPath' );
 
-        if ( !$mountPointPath = realpath( $mountPointPath ) )
+        if ( ( $realPath = realpath( $mountPointPath ) ) == false )
             throw new eZDFSFileHandlerNFSMountPointNotFoundException( $mountPointPath );
 
-        if ( !is_writeable( $mountPointPath ) )
+        if ( is_writeable( $realPath ) == false )
             throw new eZDFSFileHandlerNFSMountPointNotWriteableException( $mountPointPath );
 
-        if ( substr( $mountPointPath, -1 ) != '/' )
-            $mountPointPath = "$mountPointPath/";
+        if ( substr( $realPath, -1 ) != '/' )
+            $realPath = "$realPath/";
 
-        $this->mountPointPath = $mountPointPath;
+        $this->mountPointPath = $realPath;
 
         $this->filePermissionMask = octdec( eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' ) );
     }
