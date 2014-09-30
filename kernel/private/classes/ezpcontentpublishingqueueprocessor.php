@@ -179,7 +179,8 @@ class ezpContentPublishingQueueProcessor
                 $db = eZDB::instance();
                 eZDB::setInstance( null );
                 $deleteBefore = time() - $this->cleanupAgeLimit;
-                $processTable = ezpContentPublishingProcess::definition()['name'];
+                $definition = ezpContentPublishingProcess::definition()
+                $processTable = $definition['name'];
                 $db->query( "DELETE from ". $processTable. " WHERE status =".  ezpContentPublishingProcess::STATUS_FINISHED. " AND finished < ". $deleteBefore );
                 $this->cleanupLastTime = time();
             }
