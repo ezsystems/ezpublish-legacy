@@ -571,6 +571,18 @@ class eZFSFileHandler implements eZClusterFileHandlerInterface
     }
 
     /**
+     * Returns file mime-type / content-type.
+     * @return string|null
+     */
+    public function dataType()
+    {
+        $fileInfo = new finfo( FILEINFO_MIME_TYPE | FILEINFO_SYMLINK );
+        $mimeType = $fileInfo->file( $this->filePath );
+        eZDebugSetting::writeDebug( 'kernel-clustering', $mimeType, "fs::dataType( {$this->filePath} )" );
+        return $mimeType ?: null;
+    }
+
+    /**
      * Returns file modification time.
      *
      * \public
