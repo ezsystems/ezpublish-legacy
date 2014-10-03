@@ -3,6 +3,7 @@ UPDATE ezsite_data SET value='5.4.0alpha1' WHERE name='ezpublish-version';
 
 DROP TABLE ezsearch_return_count;
 
+-- Skip this if updating from 5.3.3 or higher as this should ideally not be applied twice
 UPDATE ezcontentobject_attribute
     SET data_int = NULL
 WHERE
