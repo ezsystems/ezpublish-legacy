@@ -28,7 +28,7 @@ class eZURLAliasFilterAppendNodeID extends eZURLAliasFilter
      *
      * @param string The text of the URL alias
      * @param object The eZContentObject object being published
-     * @params object The eZContentObjectTreeNode in which the eZContentObject is published
+     * @param object The eZContentObjectTreeNode in which the eZContentObject is published
      * @return string The transformed URL alias with the nodeID
      */
     public function process( $text, &$languageObject, &$caller )
