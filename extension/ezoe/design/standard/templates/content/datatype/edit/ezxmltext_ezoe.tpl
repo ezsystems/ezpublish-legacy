@@ -131,7 +131,7 @@
         atd_css_url : {'javascript/plugins/AtD/css/content.css'|ezdesign},
         paste_text_linebreaktype : "br",
         paste_preprocess : function(pl, o) {ldelim}
-            var ed = pl.editor, uid, elt, prev;
+            var ed = pl.editor, uid, elt, prev, bm;
 
             // Strip <a> HTML tags from clipboard content (Happens on Internet Explorer)
             o.content = o.content.replace( /(\s[a-z]+=")<a\s[^>]+>([^<]+)<\/a>/gi, '$1$2' );
@@ -144,6 +144,7 @@
             if ( tinymce.isWebKit ) {
                 uid = tinymce.DOM.uniqueId();
                 ed.focus();
+                bm = ed.selection.getBookmark();
                 ed.execCommand('mceInsertContent', false, '<span id="' + uid + '"></span>');
                 elt = ed.getDoc().getElementById(uid);
 
@@ -157,6 +158,7 @@
                     }
                 }
                 ed.dom.remove(elt);
+                ed.selection.moveToBookmark(bm);
             }
             {/literal}
         {rdelim},
