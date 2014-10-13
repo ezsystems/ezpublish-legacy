@@ -82,7 +82,16 @@ foreach ( $rssImportArray as $rssImport )
 
 }
 
-eZStaticCache::executeActions();
+if ( eZINI::instance( 'site.ini' )->variable( 'ContentSettings', 'StaticCache' ) == 'enabled' )
+{
+    $optionArray = array( 'iniFile' => 'site.ini',
+                          'iniSection' => 'ContentSettings',
+                          'iniVariable' => 'StaticCacheHandler' );
+
+    $options = new ezpExtensionOptions( $optionArray );
+    $staticCacheHandler = eZExtension::getHandlerClass( $options );
+    $staticCacheHandler::executeActions();
+}
 
 /*!
   Parse RSS 1.0 feed
