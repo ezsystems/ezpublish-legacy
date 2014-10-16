@@ -113,26 +113,24 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
         if ( isset( $settings['injected-settings'] ) )
         {
             $injectedSettings = array();
-            foreach ( $settings["injected-settings"] as $keySetting => $injectedSetting )
+            foreach ( $settings['injected-settings'] as $keySetting => $injectedSetting )
             {
-                list( $file, $section, $setting ) = explode( "/", $keySetting );
+                list( $file, $section, $setting ) = explode( '/', $keySetting );
                 $injectedSettings[$file][$section][$setting] = $injectedSetting;
             }
-            // those settings override anything else in local .ini files and
-            // their overrides
+            // Those settings override anything else in local .ini files and their overrides
             eZINI::injectSettings( $injectedSettings );
         }
 
         if ( isset( $settings['injected-merge-settings'] ) )
         {
             $injectedSettings = array();
-            foreach ( $settings["injected-merge-settings"] as $keySetting => $injectedSetting )
+            foreach ( $settings['injected-merge-settings'] as $keySetting => $injectedSetting )
             {
-                list( $file, $section, $setting ) = explode( "/", $keySetting );
+                list( $file, $section, $setting ) = explode( '/', $keySetting );
                 $injectedSettings[$file][$section][$setting] = $injectedSetting;
             }
-            // those settings override anything else in local .ini files and
-            // their overrides
+            // Those settings override anything else in local .ini files and their overrides
             eZINI::injectMergeSettings( $injectedSettings );
         }
 
