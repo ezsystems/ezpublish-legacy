@@ -20,6 +20,11 @@ env:
 
 # Aim to run tests on all versions of php, make sure each db is run at least once
 matrix:
+  allow_failures:
+    # Temporary until we can prioritize fixing xml issues in 5.6:
+    # https://travis-ci.org/ezsystems/ezpublish-legacy/jobs/38474236
+    - php: 5.6
+      env: DB="mysql" DB_USER="root"
   exclude:
     - php: 5.3.3
       env: DB="postgresql" DB_USER="postgres"
