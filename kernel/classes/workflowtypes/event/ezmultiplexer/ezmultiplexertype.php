@@ -352,6 +352,11 @@ class eZMultiplexerType extends eZWorkflowEventType
 
     function fetchHTTPInput( $http, $base, $event )
     {
+        if ( !$http->hasPostVariable( "StoreButton" ) )
+        {
+            return;
+        }
+
         $sectionsVar = $base . "_event_ezmultiplexer_section_ids_" . $event->attribute( "id" );
         if ( $http->hasPostVariable( $sectionsVar ) )
         {
@@ -384,12 +389,12 @@ class eZMultiplexerType extends eZWorkflowEventType
         if ( $http->hasPostVariable( $usersVar ) )
         {
             $usersArray = $http->postVariable( $usersVar );
-            if ( in_array( '-1', $usersArray ) )
-            {
-                $usersArray = array( -1 );
-            }
             $usersString = implode( ',', $usersArray );
             $event->setAttribute( "data_text2", $usersString );
+        }
+        else
+        {
+            $event->setAttribute( "data_text2", '' );
         }
 
         $classesVar = $base . "_event_ezmultiplexer_class_ids_" . $event->attribute( "id" );
