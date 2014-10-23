@@ -30,7 +30,7 @@ $script->startup();
 
 $options = $script->getOptions( "[clear-tag:][clear-id:][clear-all]" . /*[purge-tag:][purge-id:][purge-all]*/ "[iteration-sleep:][iteration-max:][expiry:][list-tags][list-ids][purge]",
                                 "",
-                                array( 'clear-tag' => 'Clears all caches related to a given tag',
+                                array( 'clear-tag' => 'Clears all caches related to a given tag, separate multiple tags with a comma',
                                        'clear-id' => 'Clears all caches related to a given id, separate multiple ids with a comma',
                                        'clear-all' => 'Clears all caches',
                                        'purge' => 'Enforces purging of cache items which ensures that specified entries are physically removed (Useful for saving diskspace). Used together with the clear-* options.',
