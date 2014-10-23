@@ -68,7 +68,12 @@ class eZContentObjectTreeNodeOperations
         }
 
         // clear cache for old placement.
-        eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
+        // If child count exceeds threshold, do nothing here, and instead clear all view cache at the end.
+        $childCountInThresholdRange = eZContentCache::inCleanupThresholdRange( $node->childrenCount( false ) );
+        if ( $childCountInThresholdRange )
+        {
+            eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
+        }
 
         $db = eZDB::instance();
         $db->begin();
@@ -120,7 +125,15 @@ class eZContentObjectTreeNodeOperations
         $db->commit();
 
         // clear cache for new placement.
-        eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
+        // If child count exceeds threshold, clear all view cache instead.
+        if ( $childCountInThresholdRange )
+        {
+            eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
+        }
+        else
+        {
+            eZContentCacheManager::clearAllContentCache();
+        }
 
         return $result;
     }
