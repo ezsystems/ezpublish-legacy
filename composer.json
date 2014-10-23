@@ -54,12 +54,12 @@
         "zetacomponents/mvc-tools": "~1.2",
         "zetacomponents/mvc-authentication-tiein": "~1.1",
         "zetacomponents/persistent-object": "~1.8",
-        "zetacomponents/php-generator": "~1.1",
         "zetacomponents/signal-slot": "~1.2",
         "zetacomponents/system-information": "~1.1",
         "zetacomponents/webdav": "~1.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.7.*"
+        "phpunit/phpunit": "3.7.*",
+        "zetacomponents/php-generator": "~1.1"
     }
 }
