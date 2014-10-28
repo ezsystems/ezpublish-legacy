@@ -27,6 +27,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     const SORT_FIELD_MODIFIED_SUBNODE = 10;
     const SORT_FIELD_NODE_ID = 11;
     const SORT_FIELD_CONTENTOBJECT_ID = 12;
+    const SORT_FIELD_VISIBILITY = 13;
 
     const SORT_ORDER_DESC = 0;
     const SORT_ORDER_ASC = 1;
@@ -642,6 +643,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         case 'priority':
                         {
                             $sortingFields .= $treeTableName . '.priority';
+                        } break;
+                        case 'visibility':
+                        {
+                            $sortingFields .= $treeTableName . '.is_invisible';
                         } break;
                         case 'name':
                         {
@@ -2718,6 +2723,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 return 'node_id';
             case self::SORT_FIELD_CONTENTOBJECT_ID:
                 return 'contentobject_id';
+            case self::SORT_FIELD_VISIBILITY:
+                return 'is_invisible';
         }
     }
 
@@ -2755,6 +2762,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 return self::SORT_FIELD_NODE_ID;
             case 'contentobject_id':
                 return self::SORT_FIELD_CONTENTOBJECT_ID;
+            case 'is_invisible':
+                return self::SORT_FIELD_VISIBILITY;
         }
     }
 

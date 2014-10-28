@@ -110,7 +110,7 @@ var sortableSubitems = function () {
             {key:"crank", label:"", sortable:false, formatter:customMenu, resizeable:false},
             {key:"thumbnail", label:labelsObj.DATA_TABLE_COLS.thumbnail, sortable:false, formatter:thumbView, resizeable:false},
             {key:"name", label:labelsObj.DATA_TABLE_COLS.name, sortable:true, resizeable:true, formatter:formatName},
-            {key:"hidden_status_string", label: labelsObj.DATA_TABLE_COLS.visibility, sortable:false, resizeable:true},
+            {key:"hidden_status_string", label: labelsObj.DATA_TABLE_COLS.visibility, sortable:true, resizeable:true},
             {key:"class_name", label:labelsObj.DATA_TABLE_COLS.type, sortable:true, resizeable:true},
             {key:"creator", label:labelsObj.DATA_TABLE_COLS.modifier, sortable:false, resizeable:true},
             {key:"modified_date", label:labelsObj.DATA_TABLE_COLS.modified, sortable:true, resizeable:true},

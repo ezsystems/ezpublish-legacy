@@ -234,6 +234,9 @@ class ezjscServerFunctionsNode extends ezjscServerFunctions
             case 'published_date':
                 $sortKey = 'published';
                 break;
+            case 'hidden_status_string':
+                $sortKey = 'visibility';
+                break;
             default:
                 $sortKey = $sort;
         }
