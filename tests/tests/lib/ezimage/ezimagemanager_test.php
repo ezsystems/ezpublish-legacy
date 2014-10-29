@@ -41,6 +41,17 @@ class eZImageManagerTest extends ezpTestCase
         $this->imageIni = eZINI::instance( 'image.ini' );
     }
 
+    public function tearDown()
+    {
+        $filename = 'tests/tests/lib/ezimage/data/andernach_multihandler.jpg';
+        if ( is_file( $filename ) )
+        {
+            unlink( $filename );
+        }
+
+        parent::tearDown();
+    }
+
     /**
      * Test scenario for image alias using filters from multiple image handlers
      * for issue #15773: Infinite loop in ImageManager when using filters from multiple image handlers
