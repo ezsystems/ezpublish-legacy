@@ -625,7 +625,7 @@ class eZDateTimeType extends eZDataType
 
             default:
             {
-                $default = null;
+                return array();
             }
         }
 
