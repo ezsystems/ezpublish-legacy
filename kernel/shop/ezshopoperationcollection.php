@@ -239,7 +239,7 @@ class eZShopOperationCollection
                 $orderItem = new eZOrderItem( array( 'order_id' => $orderID,
                                                      'description' => $shippingInfo['description'],
                                                      'price' => $shippingInfo['cost'],
-                                                     'vat' => $shippingInfo['vat_value'],
+                                                     'vat_value' => $shippingInfo['vat_value'],
                                                      'is_vat_inc' => $shippingInfo['is_vat_inc'],
                                                      'type' => 'ezcustomshipping' ) );
                 $orderItem->store();
