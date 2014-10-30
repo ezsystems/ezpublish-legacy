@@ -2833,6 +2833,14 @@ class eZContentObject extends eZPersistentObject
                                  "eZContentObject::addContentObjectRelation" );
             return false;
         }
+
+        if ( !eZContentObject::exists( $toObjectID ) )
+        {
+            eZDebug::writeError( "Related object ID (toObjectID): '$toObjectID', does not refer to any existing object.",
+                                 "eZContentObject::addContentObjectRelation" );
+            return false;
+        }
+
         $fromObjectID =(int) $fromObjectID;
         $attributeID =(int) $attributeID;
         $fromObjectVersion =(int) $fromObjectVersion;
