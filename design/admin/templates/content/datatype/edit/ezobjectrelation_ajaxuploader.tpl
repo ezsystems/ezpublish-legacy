@@ -16,6 +16,12 @@
     {literal}
     (function () {
         YUI(YUI3_config).use('ezmodalwindow', 'ezajaxuploader', function (Y) {
+
+            // move modal-window outside the form (add it to the body node)
+            var modalwindow = Y.one('#relation-modal-window');
+            Y.one(document.body).append( modalwindow.cloneNode(true) );
+            modalwindow.remove();
+
             var uploaderConf = {
                 target: {},
                 open: {
