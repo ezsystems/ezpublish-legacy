@@ -105,6 +105,57 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
         return in_array( $currentContentObjectLocale, $siteLanguageList, true );
     }
 
+
+    /**
+     * Prepend PathPrefix from the current SA to url, if applicable
+     *
+     * @param  string $url
+     *
+     * @return string The url with pathprefix prepended
+     */
+    protected static function addPathPrefixIfNeeded( $url )
+    {
+        $siteINI = eZINI::instance( 'site.ini' );
+        if ( $siteINI->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) )
+        {
+            $pathPrefix = $siteINI->variable( 'SiteAccessSettings', 'PathPrefix' );
+            if ( !empty( $pathPrefix ) )
+            {
+                $url = $pathPrefix . '/' . $url;
+            }
+        }
+        return $url;
+    }
+
+    /**
+     * Remove PathPrefix from url, if applicable (present in siteaccess and matched in url)
+     *
+     * @param  eZINI  $saIni eZINI instance of site.ini for the siteaccess to check
+     * @param  string $url
+     *
+     * @return bool   true if no PathPrefix exists, or removed from url. false if not removed.
+     */
+    protected static function removePathPrefixIfNeeded( eZINI $saIni, &$url )
+    {
+        if ( $saIni->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) )
+        {
+            $pathPrefix = $saIni->variable( 'SiteAccessSettings', 'PathPrefix' );
+            if ( !empty( $pathPrefix ) )
+            {
+                if ( strpos( $url, $pathPrefix . '/' ) === 0 )
+                {
+                    $url = substr( $url, strlen( $pathPrefix ) + 1 );
+                }
+                else
+                {
+                    // PathPrefix exists, but not matched in url.
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     /**
      * Returns URL alias for the specified <var>$locale</var>
      *
@@ -115,8 +166,15 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
     public function destinationUrl()
     {
         $nodeId = $this->origUrl;
+        $urlAlias = '';
+
         if ( !is_numeric( $this->origUrl ) )
         {
+            if ( !$this->isUrlPointingToModule( $this->origUrl ) )
+            {
+                $this->origUrl = self::addPathPrefixIfNeeded( $this->origUrl );
+            }
+
             $nodeId = eZURLAliasML::fetchNodeIDByPath( $this->origUrl );
         }
         $destinationElement = eZURLAliasML::fetchByAction( 'eznode', $nodeId, $this->destinationLocale, false );
@@ -132,18 +190,24 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
             // destination siteaccess, for instance an untranslated object. In
             // which case we will point to the root of the site, unless it is
             // available as a fallback.
-
-            if ( $this->isUrlPointingToModule( $this->origUrl ) ||
-                 $this->isLocaleAvailableAsFallback() )
+            if ( $nodeId )
             {
-                // We have a module, we're keeping the orignal url.
                 $urlAlias = $this->origUrl;
+
+                // if applicable, remove destination PathPrefix from url,
+                if ( !self::removePathPrefixIfNeeded( $this->getSiteAccessIni(), $urlAlias ) )
+                {
+                    // If destination siteaccess has a PathPrefix but url is not matched,
+                    // also check current SA's prefix, and remove if it matches.
+                    self::removePathPrefixIfNeeded( eZINI::instance( 'site.ini' ), $urlAlias );
+                }
             }
             else
             {
-                // We probably have an untranslated object, which is not
-                // available with SiteLanguageList setting, we direct to root.
-                $urlAlias = '';
+                if ( $this->isUrlPointingToModule( $this->origUrl ) )
+                {
+                    $urlAlias = $this->origUrl;
+                }
             }
         }
         else
