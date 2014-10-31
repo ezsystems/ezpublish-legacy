@@ -1017,11 +1017,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     $filterValue = is_array( $filter[2] ) ? '' : $db->escapeString( $filter[2] );
 
                     $useAttributeFilter = false;
+                    $filterFieldType = 'integer';
                     switch ( $filterAttributeID )
                     {
                         case 'path':
                         {
                             $filterField = 'path_string';
+                            $filterFieldType = 'string';
                         } break;
                         case 'published':
                         {
@@ -1103,11 +1105,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         case 'class_identifier':
                         {
                             $filterField = 'ezcontentclass.identifier';
+                            $filterFieldType = 'string';
                         } break;
                         case 'class_name':
                         {
                             $classNameFilter = eZContentClassName::sqlFilter();
                             $filterField = $classNameFilter['nameField'];
+                            $filterFieldType = 'string';
                             $filterSQL['from'] .= " INNER JOIN $classNameFilter[from] ON ($classNameFilter[where])";
                         } break;
                         case 'priority':
@@ -1117,6 +1121,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         case 'name':
                         {
                             $filterField = 'ezcontentobject_name.name';
+                            $filterFieldType = 'string';
                         } break;
                         case 'owner':
                         {
@@ -1284,7 +1289,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                     while ( list( $key, $value ) = each( $filter[2] ) )
                                     {
                                         // Non-numerics must be escaped to avoid SQL injection
-                                        $filter[2][$key] = is_numeric( $value ) ? $value : "'" . $db->escapeString( $value ) . "'";
+                                        switch ( $filterFieldType )
+                                        {
+                                            case 'string':
+                                                $filter[2][$key] = "'" . $db->escapeString( $value ) . "'";
+                                                break;
+                                            case 'integer':
+                                            default:
+                                                $filter[2][$key] = (int) $value;
+                                        }
                                     }
                                     $filterValue = '(' .  implode( ",", $filter[2] ) . ')';
                                 }
