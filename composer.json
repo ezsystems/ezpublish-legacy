@@ -37,7 +37,7 @@
         "ezsystems/ezsi-ls": "~5.3",
         "ezsystems/ezstarrating-ls-extension": "~5.3",
         "ezsystems/ezwt-ls-extension": "~5.3",
-        "ezsystems/ezfind-ls": "~5.3|>=2014.05",
+        "ezsystems/ezfind-ls": "~5.3|>=2014.11",
         "ezsystems/eztags-ls": "~1.3",
         "zetacomponents/archive": "~1.5",
         "zetacomponents/authentication": "~1.4",
