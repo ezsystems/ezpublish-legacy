@@ -14,8 +14,8 @@
 
 class eZPublishSDK
 {
-    const VERSION_MAJOR = 5;
-    const VERSION_MINOR = 4;
+    const VERSION_MAJOR = 2014;
+    const VERSION_MINOR = 11;
     const VERSION_RELEASE = 0;
     const VERSION_STATE = 'alpha1';
     const VERSION_DEVELOPMENT = true;
@@ -37,14 +37,10 @@ class eZPublishSDK
         }
         else
         {
-            $versionText = eZPublishSDK::majorVersion() . '.' . eZPublishSDK::minorVersion();
+            $versionText = 'Community Project ' . eZPublishSDK::majorVersion() . '.' . eZPublishSDK::minorVersion();
 //            $development = eZPublishSDK::developmentVersion();
 //            if ( $development !== false )
 //                $versionText .= '.' . $development;
-            if ( $withRelease )
-                $versionText .= "." . eZPublishSDK::release();
-            if ( $withState )
-                $versionText .= eZPublishSDK::state();
         }
         return $versionText;
     }
