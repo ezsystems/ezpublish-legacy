@@ -2177,6 +2177,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 return $retValue;
             }
 
+            if ( !isset( $nodeParams['ResultID'] ) )
+            {
+                eZDebug::writeError( 'Missing ResultID', __METHOD__ );
+                return null;
+            }
+
             if ( $nodeParams === null )
             {
                 $nodeParams = array(

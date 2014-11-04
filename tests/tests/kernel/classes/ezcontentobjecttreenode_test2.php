@@ -47,4 +47,27 @@ class eZContentObjectTreeNodeTest2 extends ezpDatabaseTestCase
         $attributeFilter = eZContentObjectTreeNode::createAttributeFilterSQLStrings( $attributeFilterParams );
         $this->assertEquals( $expected, $attributeFilter['where'] );
     }
+
+    /**
+     *
+     *
+     * @link http://issues.ez.no/XXXXX
+     */
+    public function testIssueXXXXX()
+    {
+        $nodesParams = array(
+             array(
+                 'ParentNodeID' => 2,
+                 'ResultID' => 1,
+                 'AttributeFilter' => array( array( 'folder/show_children', '=', array( 1, '3', 'foo', '1foo', 'foo_1' ) ) )
+             ),
+             array(
+                 'ParentNodeID' => 2,
+                 'ResultID' => 1,
+                 'AttributeFilter' => array( array( 'class_name', 'in', array( 3, 'a', 'b' ) ) )
+             ),
+        );
+        eZDB::setErrorHandling( eZDB::ERROR_HANDLING_EXCEPTIONS );
+        eZContentObjectTreeNode::subTreeMultiPaths( $nodesParams );
+    }
 }
