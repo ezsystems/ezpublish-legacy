@@ -822,7 +822,7 @@ You will need to change the class of the node by using the swap functionality.' 
                 continue;
             }
 
-            if ( $dataType->isClassAttributeRemovable( $attribute ) )
+            if ( !$dataType->isClassAttributeRemovable( $attribute ) )
             {
                 $info = $dataType->classAttributeRemovableInformation( $attribute, $includeAll );
                 $result['list'][] = $info;
