@@ -18,23 +18,23 @@
             <uses>
                 <name>YUI3</name>
                 <license>Licensed under BSD License</license>
-                <copyright>Copyright (c) 2013, Yahoo! Inc. All rights reserved.</copyright>
+                <copyright>Copyright (c) 2014, Yahoo! Inc. All rights reserved.</copyright>
                 <info_url>http://yuilibrary.com/</info_url>
-                <version>3.9.0</version>
+                <version>3.17.2</version>
             </uses>
             <uses>
                 <name>jQuery</name>
                 <license>Licensed under MIT license</license>
                 <copyright>Copyright (c) 2013 John Resig</copyright>
                 <info_url>http://jquery.com/</info_url>
-                <version>1.9.1</version>
+                <version>1.10.2</version>
             </uses>
             <uses>
                 <name>jQuery UI</name>
                 <license>Dual licensed under MIT and GPL licenses</license>
                 <copyright>Copyright (c) 2013 jQuery project / jQuery UI team</copyright>
                 <info_url>http://jqueryui.com/about</info_url>
-                <version>1.10.1</version>
+                <version>1.10.3</version>
             </uses>
         </software>
 

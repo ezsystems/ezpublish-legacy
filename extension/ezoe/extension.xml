@@ -11,9 +11,9 @@
             <uses>
                 <name>Moxiecode TinyMCE Javascript HTML WYSIWYG editor</name>
                 <license>GNU Lesser General Public License v2.1</license>
-                <copyright>Copyright (C) 2003-2012, Moxiecode Systems AB, All rights reserved.</copyright>
+                <copyright>Copyright (C) 2003-2013, Moxiecode Systems AB, All rights reserved.</copyright>
                 <info_url>http://tinymce.com/</info_url>
-                <version>3.5.8</version>
+                <version>3.5.10.1</version>
             </uses>
             <uses>
                 <name>Tango Icon theme</name>
