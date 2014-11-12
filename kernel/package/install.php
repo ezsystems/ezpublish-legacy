@@ -14,7 +14,8 @@ $installer = false;
 $currentItem = 0;
 $displayStep = false;
 
-if ( $http->hasSessionVariable( 'eZPackageInstallerData' ) )
+// use session data when performing install steps (currentAction is set)
+if ( $module->currentAction() && $http->hasSessionVariable( 'eZPackageInstallerData' ) )
 {
     $persistentData = $http->sessionVariable( 'eZPackageInstallerData' );
     if ( isset( $persistentData['currentItem'] ) )
