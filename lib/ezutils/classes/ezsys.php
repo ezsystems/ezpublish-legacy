@@ -1234,13 +1234,16 @@ class eZSys
             $validateDir = '/' . implode( '/', $uri );
         }
 
-        // validate directly with phpself part
-        if ( strpos( $scriptFileName, $validateDir ) !== false )
-            return trim( $phpSelfParts[0], '/' );
+        if ( !empty( $validateDir ) )
+        {
+            // validate directly with phpself part
+            if ( strpos( $scriptFileName, $validateDir ) !== false )
+                return trim( $phpSelfParts[0], '/' );
 
-        // validate with windows path
-        if ( strpos( $scriptFileName, str_replace( '/', '\\', $validateDir ) ) !== false )
-            return trim( $phpSelfParts[0], '/' );
+            // validate with windows path
+            if ( strpos( $scriptFileName, str_replace( '/', '\\', $validateDir ) ) !== false )
+                return trim( $phpSelfParts[0], '/' );
+        }
 
         return null;
     }
