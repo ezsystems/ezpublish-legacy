@@ -151,6 +151,7 @@ class eZContentObject extends eZPersistentObject
                                                                          'multiplicity' => '1..*' ) ),
                       "keys" => array( "id" ),
                       "function_attributes" => array( "current" => "currentVersion",
+                                                      "published_version" => "publishedVersion",
                                                       'versions' => 'versions',
                                                       'author_array' => 'authorArray',
                                                       "class_name" => "className",
@@ -1200,6 +1201,27 @@ class eZContentObject extends eZPersistentObject
     function currentVersion( $asObject = true )
     {
         return eZContentObjectVersion::fetchVersion( $this->attribute( "current_version" ), $this->ID, $asObject );
+    }
+
+    /**
+     * Returns the published version of the object, or false if not published yet.
+     *
+     * @return  int|null
+     */
+    public function publishedVersion()
+    {
+        $params = array(
+            'conditions' => array(
+                'status' => eZContentObjectVersion::STATUS_PUBLISHED
+            )
+        );
+        $versions = $this->versions( false, $params );
+
+        if ( !empty( $versions ) )
+        {
+            return $versions[0]['version'];
+        }
+        return null;
     }
 
     /**
