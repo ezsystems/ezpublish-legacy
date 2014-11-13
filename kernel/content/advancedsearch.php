@@ -147,7 +147,7 @@ if ( $http->hasVariable( 'SubTreeArray' ) )
 
 $Module->setTitle( "Search for: $searchText" );
 
-$classArray = eZContentClass::fetchList();
+$classArray = eZContentClass::fetchList( eZContentClass::VERSION_STATUS_DEFINED, true, false, array( 'name' => 'asc' ) );
 
 $sectionArray = eZSection::fetchList();
 
