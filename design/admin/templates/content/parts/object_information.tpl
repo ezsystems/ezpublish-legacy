@@ -40,7 +40,7 @@
 <p>
 <label>{'Published version'|i18n( 'design/admin/content/history' )}:</label>
 {if $object.published}
-{$object.current_version}
+{$object.published_version}
 {else}
 {'Not yet published'|i18n( 'design/admin/content/history' )}
 {/if}
