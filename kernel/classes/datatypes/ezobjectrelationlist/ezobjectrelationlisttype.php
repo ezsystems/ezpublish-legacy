@@ -586,7 +586,7 @@ class eZObjectRelationListType extends eZDataType
                                 $contentModified = true;
                             }
                         }
-                        else
+                        else if ( $object->attribute( 'status' ) != eZContentObject::STATUS_ARCHIVED )
                         {
                             if ( !isset( $copiedRelatedAccordance[ $relationItem['contentobject_id'] ] ) )
                                 $copiedRelatedAccordance[ $relationItem['contentobject_id'] ] = array();
