@@ -164,7 +164,7 @@ if ( $checkDFS )
                 $cli->output( '  - ' . $filePathName );
                 if ( $delete )
                 {
-                    unlink( $filePathName );
+                    $dfsBackend->delete( $filePathName );
                 }
             }
         }
