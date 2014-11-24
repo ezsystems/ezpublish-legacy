@@ -218,6 +218,23 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
             $siteLanguageList = $saIni->variable( 'RegionalSettings', 'SiteLanguageList' );
 
             $urlAlias = $destinationElement[0]->getPath( $this->destinationLocale, $siteLanguageList );
+
+            //Remove PathPrefix if applicable
+            if ( $saIni->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) )
+            {
+                $pathPrefix = $saIni->variable( 'SiteAccessSettings', 'PathPrefix' );
+                if( $pathPrefix )
+                {
+                    $pathIdenStr = substr( $pathPrefix, strlen( $pathPrefix ) -1 ) == '/'
+                                    ? $urlAlias . '/'
+                                    : $urlAlias;
+                    if ( strncasecmp( $pathIdenStr, $pathPrefix, strlen( $pathPrefix ) ) == 0 )
+                    {
+                        $urlAlias = eZURLAliasML::cleanURL( substr( $urlAlias, strlen( $pathPrefix ) ) );
+                    }
+                }
+            }
+
             $urlAlias .= $this->userParamString;
         }
 
