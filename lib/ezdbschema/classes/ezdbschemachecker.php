@@ -228,7 +228,7 @@ class eZDbSchemaChecker
     static function diffIndex( $index1, $index2, $schema1Type, $schema2Type )
     {
         if ( ( $index1['type'] != $index2['type'] ) ||
-             count( array_diff( $index1, $index2 ) ) )
+             serialize( $index1 ) !== serialize( $index2 ) )
         {
             return $index2;
         }
