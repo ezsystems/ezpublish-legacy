@@ -33,6 +33,7 @@
     {include uri="design:content/edit_right_menu.tpl"}
     <!-- Right part end -->
 
+    {include uri='design:content/edit_redirection.tpl'}
     </td>
 </tr>
 </table>
