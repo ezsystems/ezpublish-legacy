@@ -969,10 +969,10 @@ class eZURLAliasML extends eZPersistentObject
         {
             $langMask = "(" . trim( eZContentLanguage::languagesSQLFilter( 'ezurlalias_ml', 'lang_mask' ) ) . ") AND ";
         }
-        else if ( is_string( $maskLanguages ) )
+        else if ( is_string( $maskLanguages ) || is_array( $maskLanguages ) )
         {
             // maskByLocale can support array input, here we only want one item.
-            $mask = eZContentLanguage::maskByLocale( $maskLanguages );
+            $mask = eZContentLanguage::maskByLocale( (array)$maskLanguages );
             $langFilter = $db->bitAnd( 'lang_mask', $mask );
             $langMask = "({$langFilter} > 0) AND";
         }
