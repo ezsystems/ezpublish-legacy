@@ -565,8 +565,10 @@ class eZContentOperationCollection
      *       the calls within a db transaction; thus within db->begin and db->commit.
      *
      * @param int $objectID Id of the object.
+     * @param int $version Operation collection passes this default param. Not used in the method
+     * @param bool $isMoved true if node is being moved
      */
-    static public function registerSearchObject( $objectID )
+    static public function registerSearchObject( $objectID, $version = null, $isMoved = false )
     {
         $objectID = (int)$objectID;
         eZDebug::createAccumulatorGroup( 'search_total', 'Search Total' );
@@ -591,7 +593,9 @@ class eZContentOperationCollection
 
         if ( $insertPendingAction )
         {
-            eZDB::instance()->query( "INSERT INTO ezpending_actions( action, param ) VALUES ( 'index_object', '$objectID' )" );
+            $action = $isMoved ? 'index_moved_node' : 'index_object';
+
+            eZDB::instance()->query( "INSERT INTO ezpending_actions( action, param ) VALUES ( '$action', '$objectID' )" );
             return;
         }
 
