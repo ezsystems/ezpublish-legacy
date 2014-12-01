@@ -51,6 +51,30 @@ class eZSOAPClientTest extends ezpTestCase
         $client = new eZSOAPClient( 'soap.example.com', '/', $port );
         $this->assertEquals( $this->readAttribute( $client, 'Port' ), $expectedPortResult );
     }
+
+    /**
+     * Provider for testSoapClientSend
+     *
+     * NB: This relies on network connection to soap.critmon1.ez.no
+     */
+    public static function providerTestSoapClientSend()
+    {
+        return array(
+            array( 'bb4a091369e40cbf682a278cfd35f04a', 'soap.critmon1.ez.no', '/', 80, 'hostID', 'network_namespace' ),
+            array( 'bb4a091369e40cbf682a278cfd35f04a', 'soap.critmon1.ez.no', '/', 443, 'hostID', 'network_namespace' ),
+        );
+    }
+
+    /**
+     * @dataProvider providerTestSoapClientSend
+     */
+    public function testSoapClientSend( $expectedSendResult, $server, $path, $port, $name, $namespace, $parameters = array() )
+    {
+        $client = new eZSOAPClient( $server, $path, $port );
+        $request = new eZSOAPRequest( $name, $namespace, $parameters );
+        $response = $client->send( $request );
+        $this->assertEquals( $response->value(), $expectedSendResult );
+    }
 }
 
 ?>
