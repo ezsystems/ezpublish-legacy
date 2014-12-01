@@ -741,7 +741,6 @@ EOT;
                 $ch,
                 array(
                     CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_SSL_VERIFYPEER => false
                 )
             );
             if ( $justCheckURL )
