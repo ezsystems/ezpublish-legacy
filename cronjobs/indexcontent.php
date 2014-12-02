@@ -29,7 +29,7 @@ $needRemoveWithUpdate = $searchEngine->needRemoveWithUpdate();
 while( true )
 {
     $entries = $db->arrayQuery(
-        "SELECT param FROM ezpending_actions WHERE action = 'index_object' GROUP BY param ORDER BY min(created)",
+        "SELECT param, action FROM ezpending_actions WHERE action = 'index_object' OR action = 'index_moved_node' GROUP BY param ORDER BY min(created)",
         array( 'limit' => $limit, 'offset' => $offset )
     );
 
@@ -38,6 +38,7 @@ while( true )
         foreach ( $entries as $entry )
         {
             $objectID = (int)$entry['param'];
+            $action = $entry['action'];
 
             $cli->output( "\tIndexing object ID #$objectID" );
             $db->begin();
@@ -49,12 +50,64 @@ while( true )
                 {
                     $searchEngine->removeObject( $object, false );
                 }
+
                 $removeFromPendingActions = $searchEngine->addObject( $object, false );
+
+                // When moving content (and only, because of performances), reindex the subtree
+                if ( $action == 'index_moved_node' )
+                {
+                    $nodeId = $object->attribute( 'main_node_id' );
+                    $node = eZContentObjectTreeNode::fetch( $nodeId );
+
+                    if ( !( $node instanceof eZContentObjectTreeNode ) )
+                    {
+                        $cli->error( "An error occured while trying fetching node $nodeId" );
+                    }
+
+                    $offset = 0;
+                    $limit = 50;
+
+                    $params = array( 'Limitation' => array(), 'MainNodeOnly' => true );
+
+                    $subtreeCount = $node->subTreeCount( $params );
+
+                    while ( $offset < $subtreeCount )
+                    {
+                        $subTree = $node->subTree(
+                            array_merge(
+                                $params,
+                                array( 'Offset' => $offset, 'Limit' => $limit, 'SortBy' => array() )
+                            )
+                        );
+
+                        if ( !empty( $subTree ) )
+                        {
+                            foreach ( $subTree as $innerNode )
+                            {
+                                /** @var $innerNode eZContentObjectTreeNode */
+                                $childObject = $innerNode->attribute( 'object' );
+                                if ( !$childObject )
+                                {
+                                    continue;
+                                }
+
+                                $searchEngine->addObject( $childObject, false );
+                            }
+                        }
+
+                        $offset += $limit;
+
+                        if ( $offset >= $subtreeCount )
+                        {
+                            break;
+                        }
+                    }
+                }
             }
 
             if ( $removeFromPendingActions )
             {
-                $db->query( "DELETE FROM ezpending_actions WHERE action = 'index_object' AND param = '$objectID'" );
+                $db->query( "DELETE FROM ezpending_actions WHERE action = '$action' AND param = '$objectID'" );
             }
             else
             {

@@ -53,6 +53,7 @@ class eZContentOperationDeleteObjectRegression extends ezpDatabaseTestCase
         $this->folder->remove();
         $this->article->remove();
         eZPendingActions::removeByAction( 'index_object' );
+        eZPendingActions::removeByAction( 'index_moved_node' );
         $this->nodeIds = array();
         $this->objectIds = array();
 
