@@ -2851,15 +2851,13 @@ class eZContentObject extends eZPersistentObject
 
         if ( !is_numeric( $toObjectID ) )
         {
-            eZDebug::writeError( "Related object ID (toObjectID): '$toObjectID', is not a numeric value.",
-                                 "eZContentObject::addContentObjectRelation" );
+            eZDebug::writeError( "Related object ID (toObjectID): '$toObjectID', is not a numeric value.", __METHOD__ );
             return false;
         }
 
         if ( !eZContentObject::exists( $toObjectID ) )
         {
-            eZDebug::writeError( "Related object ID (toObjectID): '$toObjectID', does not refer to any existing object.",
-                                 "eZContentObject::addContentObjectRelation" );
+            eZDebug::writeError( "Related object ID (toObjectID): '$toObjectID', does not refer to any existing object.", __METHOD__ );
             return false;
         }
 
@@ -5680,7 +5678,7 @@ class eZContentObject extends eZPersistentObject
             {
                 if ( ! $contentObject->name( $versionNum, $translation ) )
                 {
-                    eZDebug::writeNotice( "Setting name '$objectName' for version ($versionNum) of the content object ($objectID) in language($translation)" );
+                    eZDebug::writeNotice( "Setting name '$objectName' for version ($versionNum) of the content object ($objectID) in language($translation)", __METHOD__ );
                     $contentObject->setName( $objectName, $versionNum, $translation );
                 }
             }
