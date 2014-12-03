@@ -1204,7 +1204,7 @@ class eZContentObject extends eZPersistentObject
     }
 
     /**
-     * Returns the published version of the object, or false if not published yet.
+     * Returns the published version of the object, or null if not published yet.
      *
      * @return  int|null
      */
