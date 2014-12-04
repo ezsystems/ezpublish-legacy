@@ -62,6 +62,7 @@ while( true )
                     if ( !( $node instanceof eZContentObjectTreeNode ) )
                     {
                         $cli->error( "An error occured while trying fetching node $nodeId" );
+                        continue;
                     }
 
                     $offset = 0;
