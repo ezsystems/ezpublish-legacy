@@ -398,10 +398,14 @@ class eZBinaryFileType extends eZDataType
 
         $httpFile->setMimeType( $mimeData['name'] );
 
+        $suffix = false;
+        if ( isset( $mimeData['suffix'] ) )
+            $suffix = $mimeData['suffix'];
+
         $db = eZDB::instance();
         $db->begin();
 
-        if ( !$httpFile->store( "original", false, false ) )
+        if ( !$httpFile->store( "original", $suffix, false ) )
         {
             $result['errors'][] = array( 'description' => ezpI18n::tr( 'kernel/classes/datatypes/ezbinaryfile',
                                                         'Failed to store file %filename. Please contact the site administrator.', null,
