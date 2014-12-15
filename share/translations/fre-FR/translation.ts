@@ -28432,7 +28432,7 @@ your account.</source>
     </message>
     <message>
         <source>Enter account information</source>
-        <translation>Entez les informations du compte utilisateur</translation>
+        <translation>Entrez les informations du compte utilisateur</translation>
     </message>
     <message>
         <source>VAT types</source>
