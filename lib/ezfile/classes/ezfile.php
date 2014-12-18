@@ -255,7 +255,7 @@ class eZFile
             $endOffset = ( $length !== false ) ? ( $length + $startOffset - 1 ) : $fileSize - 1;
             header( "Content-Length: " . ( $endOffset - $startOffset + 1 ) );
             header( "Content-Range: bytes {$startOffset}-{$endOffset}/{$fileSize}" );
-            header( "HTTP/1.1 206 Partial Content" );
+            eZHTTPTool::sendHTTPResponseCode( 206 );
         }
         else
         {

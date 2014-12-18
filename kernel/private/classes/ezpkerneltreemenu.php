@@ -76,7 +76,7 @@ class ezpKernelTreeMenu implements ezpKernelHandler
             define( 'MAX_AGE', $this->settings['max-age'] );
             if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
             {
-                header( $_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified' );
+                eZHTTPTool::sendHTTPResponseCode( 304 );
                 header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + MAX_AGE ) . ' GMT' );
                 header( 'Cache-Control: max-age=' . MAX_AGE );
                 header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', strtotime( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ) . ' GMT' );
@@ -99,7 +99,7 @@ class ezpKernelTreeMenu implements ezpKernelHandler
             {
                 if ( !headers_sent() )
                 {
-                    header( $_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error' );
+                    eZHTTPTool::sendHTTPResponseCode( 500 );
                 }
             }
         );
@@ -340,7 +340,7 @@ class ezpKernelTreeMenu implements ezpKernelHandler
         }
         else
         {
-            header( $_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error' );
+            eZHTTPTool::sendHTTPResponseCode( 500 );
             eZExecution::cleanup();
             eZExecution::setCleanExit();
 

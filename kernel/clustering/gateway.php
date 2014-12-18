@@ -241,7 +241,7 @@ abstract class ezpClusterGateway
                 else
                 {
                     header( "Content-Range: bytes $startOffset-$endOffset/$filesize" );
-                    header( "HTTP/1.1 206 Partial Content" );
+                    eZHTTPTool::sendHTTPResponseCode( 206 );
                 }
             }
         }
@@ -281,7 +281,7 @@ abstract class ezpClusterGateway
         {
             case 404:
                 $filename = htmlspecialchars( $filename );
-                header( $_SERVER['SERVER_PROTOCOL'] . " 404 Not Found" );
+                eZHTTPTool::sendHTTPResponseCode( 404 );
                 echo <<<EOF
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 <html><head>
@@ -294,7 +294,7 @@ EOF;
             exit( 1 );
 
             case 416:
-                header( $_SERVER['SERVER_PROTOCOL'] . " 416 Requested Range Not Satisfiable" );
+                eZHTTPTool::sendHTTPResponseCode( 416 );
                 echo <<<EOF
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 <html><head>
@@ -309,7 +309,7 @@ EOF;
             default:
                 if ( !CLUSTER_ENABLE_DEBUG )
                     $message = "An error has occured";
-                header( $_SERVER['SERVER_PROTOCOL'] . " 500 Internal Server Error" );
+                eZHTTPTool::sendHTTPResponseCode( 500 );
                 echo <<<EOF
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 <html><head>
@@ -324,7 +324,7 @@ EOF;
 
     private function notModified()
     {
-        header( "HTTP/1.1 304 Not Modified" );
+        eZHTTPTool::sendHTTPResponseCode( 304 );
         if ( !defined( 'CLUSTER_PERSISTENT_CONNECTION' ) || CLUSTER_PERSISTENT_CONNECTION == false )
         {
             $this->close();

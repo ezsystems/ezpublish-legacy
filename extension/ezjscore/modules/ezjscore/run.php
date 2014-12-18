@@ -37,7 +37,7 @@ $userParams = $Params['UserParameters'];
 // Functions that earlier existed in index_ajax.php (now removed from ezjscore)
 function exitWithInternalError( $errorText )
 {
-    header( $_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error' );
+    eZHTTPTool::sendHTTPResponseCode( 500 );
     //include_once( 'extension/ezjscore/classes/ezjscajaxcontent.php' );
     $contentType = ezjscAjaxContent::getHttpAccept();
 

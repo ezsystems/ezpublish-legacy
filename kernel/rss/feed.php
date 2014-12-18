@@ -72,7 +72,7 @@ else
 
             if( strcmp( $lastModified, $ifModifiedSince ) == 0 )
             {
-                header( 'HTTP/1.1 304 Not Modified' );
+                eZHTTPTool::sendHTTPResponseCode( 304 );
                 header( 'Last-Modified: ' . $lastModified );
                 header( 'X-Powered-By: ' . eZPublishSDK::EDITION );
                 eZExecution::cleanExit();

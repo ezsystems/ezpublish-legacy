@@ -589,18 +589,12 @@ class eZHTTPTool
     static function redirect( $path, $parameters = array(), $status = false, $encodeURL = true, $returnRedirectObject = false )
     {
         $url = eZHTTPTool::createRedirectUrl( $path, $parameters );
-        if ( strlen( $status ) > 0 )
-        {
-            header( $_SERVER['SERVER_PROTOCOL'] .  " " . $status );
-            eZHTTPTool::headerVariable( "Status", $status );
-        }
 
         if ( $encodeURL )
         {
             $url = eZURI::encodeURL( $url );
         }
 
-        eZHTTPTool::headerVariable( 'Location', $url );
         /* Fix for redirecting using workflows and apache 2 */
         $escapedUrl = htmlspecialchars( $url );
         $content = <<<EOT
@@ -615,17 +609,31 @@ EOT;
             return new ezpKernelRedirect( $url, $status ?: null, $content );
         }
 
+        eZHTTPTool::headerVariable( 'Location', $url, true, $status ?: null );
         echo $content;
     }
 
-    /*!
-     \static
-     Sets the header variable \a $headerName to have the data \a $headerData.
-     \note Calls PHPs header() with a constructed string.
-    */
-    static function headerVariable( $headerName, $headerData )
+    /**
+     * Sets the header variable
+     *
+     * @param $headerName
+     * @param $headerData
+     * @param bool $replace
+     * @param null|int $httpResponseCode
+     */
+    static function headerVariable( $headerName, $headerData, $replace = true, $httpResponseCode = null )
     {
-        header( $headerName .': '. $headerData );
+        header( $headerName .': '. $headerData, $replace, $httpResponseCode );
+    }
+
+    /**
+     * Sets the HTTP response code
+     *
+     * @param int $httpResponseCode
+     */
+    static function sendHTTPResponseCode( $httpResponseCode )
+    {
+        eZHTTPTool::headerVariable( 'X-PHP-Response-Code', $httpResponseCode, true, $httpResponseCode );
     }
 
     function createPostVarsFromImageButtons()

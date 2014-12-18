@@ -223,7 +223,7 @@ if ( $contentClassHasInput == 0 && $http->hasPostVariable( 'MoveUp' ) )
     if ( $attribute instanceof eZContentClassAttribute )
         $attribute->move( false );
     else
-        header( $_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request' );
+        eZHTTPTool::sendHTTPResponseCode( 400 );
     eZDB::checkTransactionCounter();
     eZExecution::cleanExit();
 }
@@ -234,7 +234,7 @@ else if ( $contentClassHasInput == 0 && $http->hasPostVariable( 'MoveDown' ) )
     if ( $attribute instanceof eZContentClassAttribute )
         $attribute->move( true );
     else
-        header( $_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request' );
+        eZHTTPTool::sendHTTPResponseCode( 400 );
     eZDB::checkTransactionCounter();
     eZExecution::cleanExit();
 }

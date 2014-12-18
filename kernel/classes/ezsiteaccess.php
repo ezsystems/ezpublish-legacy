@@ -386,13 +386,11 @@ class eZSiteAccess
                             $name = $nameClean;
                             if ( $ini->hasVariable( 'SiteAccessSettings', 'RedirectOnNormalize' ) && $ini->variable( 'SiteAccessSettings', 'RedirectOnNormalize' ) == 'enabled' )
                             {
-                                header( $_SERVER['SERVER_PROTOCOL'] .  " 301 Moved Permanently" );
-                                header( "Status: 301 Moved Permanently" );
                                 $uriSlice = $uri->URIArray;
                                 array_shift( $uriSlice );
                                 $newUri = $name . '/' . implode( '/' , $uriSlice );
                                 $location = eZSys::indexDir() . "/" . eZURI::encodeIRI( $newUri );
-                                header( "Location: " . $location );
+                                eZHTTPTool::headerVariable( 'Location', $location, true, 301 );
                                 eZExecution::cleanExit();
                             }
                         }
