@@ -51,7 +51,6 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
     /**
      * Get instance siteaccess specific site.ini
      *
-     * @param string $sa
      * @return void
      */
     protected function getSiteAccessIni()
@@ -142,7 +141,7 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
             $pathPrefix = $saIni->variable( 'SiteAccessSettings', 'PathPrefix' );
             if ( !empty( $pathPrefix ) )
             {
-                if ( strpos( $url, $pathPrefix . '/' ) === 0 )
+                if ( ( strpos( $url, $pathPrefix . '/' ) === 0 ) || ( $pathPrefix === $url ) )
                 {
                     $url = substr( $url, strlen( $pathPrefix ) + 1 );
                 }
@@ -159,8 +158,6 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
     /**
      * Returns URL alias for the specified <var>$locale</var>
      *
-     * @param string $url
-     * @param string $locale
      * @return void
      */
     public function destinationUrl()
