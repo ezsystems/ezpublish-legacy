@@ -1883,7 +1883,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             return $limitation;
         }
-        
+
         $currentUser = eZUser::currentUser();
         $currentUserID = $currentUser->attribute( 'contentobject_id' );
         $limitationList = array();
@@ -2080,7 +2080,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( $asObject )
         {
-            $retNodeList = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+            $retNodeList = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray, true, null, $language );
             if ( $loadDataMap === true )
                 eZContentObject::fillNodeListAttributes( $retNodeList );
             else if ( $loadDataMap && is_numeric( $loadDataMap ) && $loadDataMap >= count( $retNodeList ) )
@@ -2316,7 +2316,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( $asObject )
         {
-            $retNodeList = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+            $retNodeList = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray, true, null, $language );
         }
         else
         {
@@ -3147,7 +3147,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             if ( $asObject )
             {
-                $returnValue = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+                $returnValue = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray, true, null, $lang );
                 if ( count( $returnValue ) === 1 )
                     $returnValue = $returnValue[0];
             }
@@ -5221,7 +5221,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     // This code is automatically generated from templates/classcreatelist.ctpl
     // code-template::auto-generated:END can-instantiate-class-list
 
-    static public function makeObjectsArray( $array , $with_contentobject = true, array $propertiesOverride = null )
+    static public function makeObjectsArray( $array , $with_contentobject = true, array $propertiesOverride = null, $lang = null )
     {
         $retNodes = array();
         if ( !is_array( $array ) )
@@ -5310,7 +5310,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 }
                 if ( isset( $node['real_translation'] ) && $node['real_translation'] != '' )
                 {
-                    $object->CurrentLanguage = $node['real_translation'];
+                    if ( $node['real_translation'] == $lang )
+                    {
+                        $object->CurrentLanguage = $node['real_translation'];
+                    }
+
                     $contentObject->CurrentLanguage = $node['real_translation'];
                 }
                 if ( $node['node_id'] == 1 )
@@ -5747,7 +5751,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         $contentobject_id = $this->attribute( 'contentobject_id' );
         $obj = eZContentObject::fetch( $contentobject_id );
-        $obj->setCurrentLanguage( $this->CurrentLanguage );
+        if ( $this->CurrentLanguage )
+        {
+            $obj->setCurrentLanguage( $this->CurrentLanguage );
+        }
         $this->ContentObject = $obj;
         return $obj;
     }
