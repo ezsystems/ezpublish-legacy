@@ -1,5 +1,5 @@
-eZ Publish 4 [![Build Status](https://secure.travis-ci.org/ezsystems/ezpublish-legacy.png)](http://travis-ci.org/ezsystems/ezpublish-legacy)
-============
+eZ Publish 4 (Referred to as `legacy` in eZ Publish 5.x) [![Build Status](https://secure.travis-ci.org/ezsystems/ezpublish-legacy.png)](http://travis-ci.org/ezsystems/ezpublish-legacy)
+=======================================================
 
 What is eZ Publish?
 -------------------
