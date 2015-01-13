@@ -214,6 +214,12 @@ class eZMysqlSchema extends eZDBSchemaInterface
             }
             $indexes[$kn]['fields'][$row['Seq_in_index'] - 1] = $indexFieldDef;
         }
+        // make sure all index elements are sorted, to ease comparisons
+        foreach( $indexes as &$index )
+        {
+            ksort( $index['fields'] );
+        }
+
         if ( $params['sort_indexes'] )
         {
             ksort( $indexes );
