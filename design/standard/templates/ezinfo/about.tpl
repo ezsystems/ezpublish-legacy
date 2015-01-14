@@ -6,7 +6,7 @@
 </div>
 <div class="object">
     {if is_set( $what_is_ez_publish )}
-       <p>{$what_is_ez_publish}</p>
+       {$what_is_ez_publish}
     {/if}
 </div>
 
@@ -14,8 +14,10 @@
     <h2>{'License'|i18n( 'design/standard/ezinfo/about' )}</h2>
 </div>
 <div class="object">
-    {if is_set( $license )}
-       <p>{$license}</p>
+    {if $license}
+        <pre style="height: 300px; overflow:scroll;">{$license|wash}</pre>
+    {else}
+        <p>{'Could not load LICENSE file! You should have a LICENSE file in your eZ Publish root directory.'|i18n( 'design/standard/ezinfo/about' )}</p>
     {/if}
 </div>
 
@@ -45,7 +47,7 @@
 </div>
 <div class="object">
     <p>
-        Copyright &copy; 1999-2014 <a href="http://ez.no/">eZ Systems AS</a>, with portions copyright by other parties. A complete list of all contributors and third-party
+        Copyright for eZ Publish is included in the License shown above. Portions are copyright by other parties. A complete list of all contributors and third-party
         software follows.
     </p>
 </div>
