@@ -268,7 +268,7 @@ class eZWordToImageOperator
                 }
                 else
                 {
-                    $size = reset( $sizes );
+                    $size = $sizes[0];
                 }
 
                 $pathDivider = strpos( $size, ';' );
