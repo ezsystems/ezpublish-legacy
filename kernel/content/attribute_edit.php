@@ -316,6 +316,10 @@ if ( $storingAllowed && $hasObjectInput)
         $object->storeInput( $contentObjectAttributes,
                              $attributeInputMap );
         $db->commit();
+        ezpEvent::getInstance()->notify(
+            'content/cache/version',
+            array( $object->attribute( 'id' ), $version->attribute( 'version' ) )
+        );
     }
 
     $validation['processed'] = true;
