@@ -1878,6 +1878,38 @@ class eZObjectRelationListType extends eZDataType
         return $return;
     }
 
+    /*!
+     Replaces node ID for object with given ID in the relations list
+    */
+    function updateRelatedObjectNodeID( $contentObjectAttribute, $objectID, $mainNodeID )
+    {
+        $xmlText = $contentObjectAttribute->attribute( 'data_text' );
+        if ( trim( $xmlText ) == '' ) return;
+
+        $doc = $this->parseXML( $xmlText );
+
+        $return = false;
+        $root = $doc->documentElement;
+        $relationList = $root->getElementsByTagName( 'relation-list' )->item( 0 );
+        if ( $relationList )
+        {
+            $relationItems = $relationList->getElementsByTagName( 'relation-item' );
+            if ( !empty( $relationItems ) )
+            {
+                foreach( $relationItems as $relationItem )
+                {
+                    if ( $relationItem->getAttribute( 'contentobject-id' ) == $objectID )
+                    {
+                        $relationItem->setAttribute( 'node-id', $mainNodeID );
+                        $return = true;
+                    }
+                }
+            }
+        }
+        $this->storeObjectDOMDocument( $doc, $contentObjectAttribute );
+        return $return;
+    }
+
     function supportsBatchInitializeObjectAttribute()
     {
         return true;

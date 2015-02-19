@@ -1791,6 +1791,37 @@ class eZContentObject extends eZPersistentObject
         }
     }
 
+    /*!
+     EZP-24030: If the object has attribute level reverse related objects,
+     change the node id reference to the (new) main node id.
+    */
+    function updateMainNodeForReverseAttributeRelations( $mainNodeID )
+    {
+        $db = eZDB::instance();
+
+        // Finds all the attributes that store relations to the given object.
+        $result = $db->arrayQuery( "SELECT attr.*
+                                    FROM ezcontentobject_link link,
+                                         ezcontentobject_attribute attr
+                                    WHERE link.from_contentobject_id=attr.contentobject_id AND
+                                          link.from_contentobject_version=attr.version AND
+                                          link.contentclassattribute_id=attr.contentclassattribute_id AND
+                                          link.to_contentobject_id=" . $this->attribute( 'id' ) );
+
+        // Update references in XML.
+        if ( count( $result ) > 0 )
+        {
+            foreach( $result as $row )
+            {
+                $attr = new eZContentObjectAttribute( $row );
+                $dataType = $attr->dataType();
+                $dataType->updateRelatedObjectNodeID( $attr, $this->attribute( 'id' ), $mainNodeID );
+                eZContentCacheManager::clearObjectViewCache( $attr->attribute( 'contentobject_id' ), true );
+                $attr->storeData();
+            }
+        }
+    }
+
     /**
      * Deletes the current object, all versions and translations, and corresponding tree nodes from the database
      *
