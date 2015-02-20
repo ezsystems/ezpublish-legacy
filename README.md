@@ -61,6 +61,12 @@ Installation
 Read doc/INSTALL or go to http://doc.ez.no/eZ-Publish
 
 
+Issue tracker
+-------------
+Submitting bugs, improvements and stories is possible on https://jira.ez.no/browse/EZP.
+If you discover a security issue, please see how to responsibly report such issues on https://doc.ez.no/Security.
+
+
 Where to get more help
 ----------------------
 eZ Publish documentation: http://doc.ez.no/eZ-Publish
