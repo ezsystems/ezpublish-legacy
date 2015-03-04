@@ -58,7 +58,7 @@ class eZDFSFileHandlerDFSBackend implements eZDFSFileHandlerDFSBackendInterface
         }
         else
         {
-            $ret = $this->createFile( $dstFilePath, file_get_contents( $srcFilePath ), false );
+            $ret = $this->createFile( $dstFilePath, fopen( $srcFilePath, 'rb' ), false );
         }
 
         $this->accumulatorStop();
@@ -92,7 +92,7 @@ class eZDFSFileHandlerDFSBackend implements eZDFSFileHandlerDFSBackendInterface
         }
         else
         {
-            $ret = $this->createFile( $dstFilePath, file_get_contents( $srcFilePath ) );
+            $ret = $this->createFile( $dstFilePath, fopen( $srcFilePath, 'rb' ) );
         }
 
         if ( $ret )
@@ -123,8 +123,9 @@ class eZDFSFileHandlerDFSBackend implements eZDFSFileHandlerDFSBackendInterface
     {
         $this->accumulatorStart();
 
-        $srcFileContents = file_get_contents( $srcFilePath );
-        if ( $srcFileContents === false )
+        $srcFileSize = filesize( $srcFilePath );
+        $srcFileHandle = fopen( $srcFilePath, 'rb' );
+        if ( $srcFileHandle === false )
         {
             $this->accumulatorStop();
             eZDebug::writeError( "Error getting contents of file 'FS://$srcFilePath'.", __METHOD__ );
@@ -137,17 +138,16 @@ class eZDFSFileHandlerDFSBackend implements eZDFSFileHandlerDFSBackendInterface
         }
 
         $dstFilePath = $this->makeDFSPath( $dstFilePath );
-        $ret = $this->createFile( $dstFilePath, $srcFileContents, true );
+        $ret = $this->createFile( $dstFilePath, $srcFileHandle, true );
         if ( $ret )
         {
             // Double checking if the file has been correctly created
-            $srcFileSize = strlen( $srcFileContents );
             clearstatcache( true, $dstFilePath );
             $dstFileSize = filesize( $dstFilePath );
             if ( $dstFileSize != $srcFileSize )
             {
                 eZDebug::writeError( "Size ($dstFileSize) of written data for file FS://$dstFilePath does not match expected size of original DFS file ($srcFileSize)", __METHOD__ );
-                return false;
+                $ret = false;
             }
         }
 
