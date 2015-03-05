@@ -33,20 +33,29 @@ class eZAutoLinkOperator
                                             'default' => null ) );
     }
 
-    static function formatUri( $url, $max, $method = '' )
+    static function formatUri( $url, $max )
+    {
+        $text = $url;
+        if (strlen($text) > $max)
+        {
+            $text = substr($text, 0, ($max / 2) - 3). '...'. substr($text, strlen($text) - ($max / 2));
+        }
+        return "<a href=\"$url\" title=\"$url\">$text</a>";
+    }
+    
+    static function formatUriSimple( $url, $max, $method = '' )
     {
         if ( $method == 'www.' )
         {
             $textFull = $method . $url;
-            $text = $textFull;
             $url = 'http://' . $method . $url;
         }
         else
         {
             $textFull = $url;
-            $text = $textFull;
             $url = $method . $url;
         }
+        $text = $textFull;
         if (strlen($text) > $max)
         {
             $text = substr($text, 0, ($max / 2) - 3). '...'. substr($text, strlen($text) - ($max / 2));
@@ -57,13 +66,24 @@ class eZAutoLinkOperator
     /*!
      \static
     */
-    static function addURILinks( $text, $max, $methods = 'http|https|ftp' )
+    static function addURILinks( $text, $max, $methods = 'http|https|ftp', $simpleWww = false )
     {
-        return preg_replace(
-            "`(?<!href=\"|href='|src=\"|src='|value=\"|value=')((?:(?:$methods):\/\/)|www.)([\w]+(?:.[\w]+)(?:[\w\-\.,@?^=%&:\/~\+#;*\(\)\!]*[\w\-\@?^=%&\/~\+#;*\(\)\!])?)`e",
-            'eZAutoLinkOperator::formatUri("$2", '. $max. ', "$1")',
-            $text
-        );
+        if ( $simpleWww )
+        {
+            return preg_replace(
+                "`(?<!href=\"|href='|src=\"|src='|value=\"|value=')((?:(?:$methods):\/\/)|www.)([\w]+(?:.[\w]+)(?:[\w\-\.,@?^=%&:\/~\+#;*\(\)\!]*[\w\-\@?^=%&\/~\+#;*\(\)\!])?)`e",
+                'eZAutoLinkOperator::formatUriSimple("$2", '. $max. ', "$1")',
+                $text
+            );
+        }
+        else
+        {
+            return preg_replace(
+                "`(?<!href=\"|href='|src=\"|src='|value=\"|value=')($methods):\/\/[\w]+(.[\w]+)([\w\-\.,@?^=%&:\/~\+#;*\(\)\!]*[\w\-\@?^=%&\/~\+#;*\(\)\!])?`e",
+                'eZAutoLinkOperator::formatUri("$0", '. $max. ')',
+                $text
+            );
+        }
     }
 
 
@@ -71,6 +91,7 @@ class eZAutoLinkOperator
     {
         $ini = $tpl->ini();
         $max = $ini->variable( 'AutoLinkOperator', 'MaxCharacters' );
+        $simpleWww = ( $ini->variable( 'AutoLinkOperator', 'ChangeUrlWithoutProtocol' ) == 'enabled' );
         if ( $namedParameters['max_chars'] !== null )
         {
             $max = $namedParameters['max_chars'];
@@ -83,7 +104,7 @@ class eZAutoLinkOperator
         $operatorValue = preg_replace( "#(([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+@([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+)#", "<a href='mailto:\\1'>\\1</a>", $operatorValue );
 
         // Replace http/ftp etc. links
-        $operatorValue = eZAutoLinkOperator::addURILinks($operatorValue, $max, $methodText);
+        $operatorValue = eZAutoLinkOperator::addURILinks( $operatorValue, $max, $methodText, $simpleWww );
     }
 
     /// \privatesection
