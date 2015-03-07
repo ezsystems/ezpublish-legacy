@@ -10,6 +10,13 @@
 
 class eZAutoLinkOperator
 {
+    static $max = 72;
+    
+    static $isLinkWwwUrl = false;
+    
+    static $hideProtoclText = '';
+    
+    
     function eZAutoLinkOperator( $name = 'autolink' )
     {
         $this->Operators = array( $name );
@@ -33,6 +40,11 @@ class eZAutoLinkOperator
                                             'default' => null ) );
     }
 
+    /*!
+     Leave for backward compatibilty.
+     \static
+     \deprecated
+    */
     static function formatUri( $url, $max )
     {
         $text = $url;
@@ -43,68 +55,78 @@ class eZAutoLinkOperator
         return "<a href=\"$url\" title=\"$url\">$text</a>";
     }
     
-    static function formatUriSimple( $url, $max, $method = '' )
+    static function formatUriCallback( $matches )
     {
-        if ( $method == 'www.' )
+        $method = $matches[1];
+        $www = $matches[2];
+        $domainPath = $matches[3];
+        
+        $url = $method . $www . $domainPath;
+        
+        if ( self::$isLinkWwwUrl && $www == 'www.' )
         {
-            $textFull = $method . $url;
-            $url = 'http://' . $method . $url;
+            $url = 'http://' . $www . $domainPath;
         }
-        else
+        
+        $textFull = $url;
+        
+        if ( self::$hideProtoclText != '' )
         {
-            $textFull = $url;
-            $url = $method . $url;
+            $textFull = preg_replace( '`^(?:' . self::$hideProtoclText . '):\/\/(.*)$`', '$1', $textFull );
         }
+        
         $text = $textFull;
-        if (strlen($text) > $max)
+        if (strlen($text) > self::$max)
         {
-            $text = substr($text, 0, ($max / 2) - 3). '...'. substr($text, strlen($text) - ($max / 2));
+            $text = substr($text, 0, (self::$max / 2) - 3). '...'. substr($text, strlen($text) - (self::$max / 2));
         }
         return "<a href=\"$url\" title=\"$textFull\">$text</a>";
     }
 
     /*!
+      $max - leave for backward compatibilty
      \static
     */
-    static function addURILinks( $text, $max, $methods = 'http|https|ftp', $simpleWww = false )
+    static function addURILinks( $text, $max = false, $methods = 'http|https|ftp' )
     {
-        if ( $simpleWww )
-        {
-            return preg_replace(
-                "`(?<!href=\"|href='|src=\"|src='|value=\"|value=')((?:(?:$methods):\/\/)|www.)([\w]+(?:.[\w]+)(?:[\w\-\.,@?^=%&:\/~\+#;*\(\)\!]*[\w\-\@?^=%&\/~\+#;*\(\)\!])?)`e",
-                'eZAutoLinkOperator::formatUriSimple("$2", '. $max. ', "$1")',
-                $text
-            );
-        }
+        if ( $max !== false && is_int( $max ) )
+            self::$max = $max;
+        
+        if ( self::$isLinkWwwUrl )
+            $mainSearchText = "(?:((?:$methods):\/\/)|(www\.))";
         else
-        {
-            return preg_replace(
-                "`(?<!href=\"|href='|src=\"|src='|value=\"|value=')($methods):\/\/[\w]+(.[\w]+)([\w\-\.,@?^=%&:\/~\+#;*\(\)\!]*[\w\-\@?^=%&\/~\+#;*\(\)\!])?`e",
-                'eZAutoLinkOperator::formatUri("$0", '. $max. ')',
-                $text
-            );
-        }
+            $mainSearchText = "($methods)(:\/\/)";
+        
+        return preg_replace_callback(
+            "`(?<!href=\"|href='|src=\"|src='|value=\"|value=')$mainSearchText([\w]+(?:.[\w]+)(?:[\w\-\.,@?^=%&:\/~\+#;*\(\)\!]*[\w\-\@?^=%&\/~\+#;*\(\)\!])?)`",
+            'eZAutoLinkOperator::formatUriCallback',
+            $text
+        );
     }
 
 
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters, $placement )
     {
         $ini = $tpl->ini();
-        $max = $ini->variable( 'AutoLinkOperator', 'MaxCharacters' );
-        $simpleWww = ( $ini->variable( 'AutoLinkOperator', 'ChangeUrlWithoutProtocol' ) == 'enabled' );
+        self::$max = $ini->variable( 'AutoLinkOperator', 'MaxCharacters' );
         if ( $namedParameters['max_chars'] !== null )
         {
-            $max = $namedParameters['max_chars'];
+            self::$max = $namedParameters['max_chars'];
         }
 
         $methods = $ini->variable( 'AutoLinkOperator', 'Methods' );
         $methodText = implode( '|', $methods );
 
+        self::$isLinkWwwUrl = ( $ini->variable( 'AutoLinkOperator', 'LinkWwwUrlsWithoutProtocol' ) == 'enabled' );
+        
+        $hideProtocls = $ini->variable( 'AutoLinkOperator', 'HideProtocols' );
+        self::$hideProtoclText = implode( '|', $hideProtocls );
+        
         // Replace mail
         $operatorValue = preg_replace( "#(([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+@([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+)#", "<a href='mailto:\\1'>\\1</a>", $operatorValue );
 
         // Replace http/ftp etc. links
-        $operatorValue = eZAutoLinkOperator::addURILinks( $operatorValue, $max, $methodText, $simpleWww );
+        $operatorValue = eZAutoLinkOperator::addURILinks( $operatorValue, false, $methodText );
     }
 
     /// \privatesection
