@@ -3613,7 +3613,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
         }
 
-        $this->updatePathIdentificationString( $pathIdentificationName );
+        // Only update pathIdentificationString if new name is defined (not set for RootNode)
+        if ( $pathIdentificationName )
+        {
+            $this->updatePathIdentificationString( $pathIdentificationName );
+        }
 
         $languageID = $obj->attribute( 'initial_language_id' );
         $cleanup    = false;
