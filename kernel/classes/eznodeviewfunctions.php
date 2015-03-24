@@ -236,6 +236,7 @@ class eZNodeviewfunctions
         $contentInfoArray['class_group']             = $object->attribute( 'match_ingroup_id_list' );
         $contentInfoArray['state']                   = $object->attribute( 'state_id_array' );
         $contentInfoArray['state_identifier']        = $object->attribute( 'state_identifier_array' );
+        $contentInfoArray['section_identifier']      = $sectionIdentifier;
         $contentInfoArray['parent_class_id']         = $parentClassID;
         $contentInfoArray['parent_class_identifier'] = $parentClassIdentifier;
         $contentInfoArray['parent_node_remote_id']   = $parentNodeRemoteID;
@@ -515,6 +516,10 @@ class eZNodeviewfunctions
 
                 if ( isset( $Result['content_info']['class_identifier'] ) )
                     $keyArray[] = array( 'class_identifier', $Result['content_info']['class_identifier'] );
+
+                // Added in 5.3.5 / 5.4.2, so test that cache contains this before using
+                if ( isset( $Result['content_info']['section_identifier'] ) )
+                    $keyArray[] = array( 'section_identifier', $Result['content_info']['section_identifier'] );
 
                 $res = eZTemplateDesignResource::instance();
                 $res->setKeys( $keyArray );
