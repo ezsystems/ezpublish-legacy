@@ -36,7 +36,7 @@ $options = $script->getOptions( "[clear-tag:][clear-id:][clear-all]" . /*[purge-
                                        'purge' => 'Enforces purging of cache items which ensures that specified entries are physically removed (Useful for saving diskspace). Used together with the clear-* options.',
                                        'iteration-sleep' => 'Amount of seconds to sleep between each iteration when performing a purge operation, can be a float.',
                                        'iteration-max' => 'Amount of items to remove in each iteration when performing a purge operation.',
-                                       'expiry' => 'Date or relative time which specifies when cache items are to be considered expired, e.g \'now\', \'-2 days\' or \'last monday\'',
+                                       'expiry' => 'Date or relative time which specifies when cache items are to be considered expired, e.g \'now\', \'-2 days\' or \'last monday\'. Can only be used together with --purge.',
                                        'list-tags' => 'Lists all available tags',
                                        'list-ids' => 'Lists all available ids' ) );
 
@@ -55,6 +55,11 @@ if ( $options['iteration-max'] )
 $purgeExpiry = false;
 if ( $options['expiry'] )
 {
+    if ( !$options['purge'] )
+    {
+        $cli->error( "--expiry can only be used together with --purge" );
+        $script->shutdown( 1 );
+    }
     $expiryText = trim( $options['expiry'] );
     $purgeExpiry = strtotime( $expiryText );
     if ( $purgeExpiry == -1 || $purgeExpiry === false )
