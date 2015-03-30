@@ -14,8 +14,7 @@ require __DIR__ . '/kernel/private/rest/classes/lazy.php';
 // Below we are setting up a minimal eZ Publish environment from the old index.php
 // This is a temporary measure.
 
-// We want PHP to deal with all errors here.
-eZDebug::setHandleType( eZDebug::HANDLE_TO_PHP );
+eZDebug::setHandleType( eZDebug::HANDLE_NONE );
 $GLOBALS['eZGlobalRequestURI'] = eZSys::serverVariable( 'REQUEST_URI' );
 $ini = eZINI::instance();
 eZSys::init( 'index_rest.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) == 'true' );
@@ -25,10 +24,27 @@ $GLOBALS['eZRequestedURI'] = $uri;
 // load extensions
 eZExtension::activateExtensions( 'default' );
 
-// setup for eZSiteAccess:change() needs some methods defined in old index.php
-// We disable it, since we dont' want any override settings to change the
-// debug settings here
-function eZUpdateDebugSettings() {}
+// setup for eZSiteAccess:change() needs some functions defined in old index.php
+function eZUpdateDebugSettings()
+{
+    $ini = eZINI::instance();
+    $debugSettings = array( 'debug-enabled' => false );
+    $logList = $ini->variable( 'DebugSettings', 'AlwaysLog' );
+    $logMap = array(
+        'notice' => eZDebug::LEVEL_NOTICE,
+        'warning' => eZDebug::LEVEL_WARNING,
+        'error' => eZDebug::LEVEL_ERROR,
+        'debug' => eZDebug::LEVEL_DEBUG,
+        'strict' => eZDebug::LEVEL_STRICT
+    );
+    $debugSettings['always-log'] = array();
+    foreach ( $logMap as $name => $level )
+    {
+        $debugSettings['always-log'][$level] = in_array( $name, $logList );
+    }
+
+    eZDebug::updateSettings( $debugSettings );
+}
 
 // set siteaccess from X-Siteaccess header if given and exists
 if ( isset( $_SERVER['HTTP_X_SITEACCESS'] ) && eZSiteAccess::exists( $_SERVER['HTTP_X_SITEACCESS'] ) )
@@ -54,7 +70,6 @@ if( ezpRestDebug::isDebugEnabled() )
     $debug = ezpRestDebug::getInstance();
     $debug->updateDebugSettings();
 }
-
 
 $mvcConfig = new ezpMvcConfiguration();
 
