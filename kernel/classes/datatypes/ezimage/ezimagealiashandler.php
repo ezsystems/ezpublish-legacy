@@ -269,7 +269,7 @@ class eZImageAliasHandler
             }
         }
         $objectName = eZImageAliasHandler::normalizeImageName( $objectName );
-        $objectName .= $this->imageSerialNumber();
+        $objectName = $this->trimToFileSystemFileName( $objectName ) . $this->imageSerialNumber();
 
         return $objectName;
     }
@@ -304,7 +304,7 @@ class eZImageAliasHandler
             }
         }
         $objectName = eZImageAliasHandler::normalizeImageName( $objectName );
-        return $objectName;
+        return $this->trimToFileSystemFileName( $objectName );
     }
 
     /*!
@@ -378,11 +378,34 @@ class eZImageAliasHandler
         $pathParts = array( eZSys::storageDirectory(), $contentImageSubtree );
         if ( $pathString != '' )
         {
-            $pathParts[] = $pathString;
+            //Make sure that all folders are smaller than the FS limit
+            foreach ( explode( '/', $pathString ) as $folder )
+            {
+                $pathParts[] = $this->trimToFileSystemFileName( $folder );
+            }
         }
         $pathParts[] = $attributeID . '-' . $attributeVersion . '-' . $attributeLanguage;
         $imagePath = implode( '/', $pathParts );
         return $imagePath;
+    }
+
+    /**
+     * Trims a filename to a given limit (in bytes).
+     * It can be used to avoid file system limitations
+     *
+     * @param string $longName
+     * @param int $limit in bytes
+     *
+     * @return string shortened name
+     */
+    private function trimToFileSystemFileName( $longName, $limit = 200 )
+    {
+        if ( strlen( $longName ) <= $limit )
+        {
+            return $longName;
+        }
+
+        return mb_strcut( $longName, 0, $limit, "utf-8" );
     }
 
     /*!
