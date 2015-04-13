@@ -167,6 +167,9 @@ function copyPublishContentObject( $sourceObject,
         return 0;
     }
 
+    $db = eZDB::instance();
+    $db->begin();
+
     // make copy of source object
     $newObject             = $sourceObject->copy( $allVersions ); // insert source and new object's ids in $syncObjectIDList
     // We should reset section that will be updated in updateSectionID().
@@ -226,6 +229,8 @@ function copyPublishContentObject( $sourceObject,
             $newObjAssignments[0]->store();
         }
     }
+
+    $db->commit();
 
     // publish the newly created object
     $result = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $newObject->attribute( 'id' ),
