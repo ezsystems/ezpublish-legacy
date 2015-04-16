@@ -189,6 +189,7 @@ function copyPublishContentObject( $sourceObject,
                 $newNode->setAttribute( 'priority',     $srcNode->attribute( 'priority' ) );
                 $newNode->setAttribute( 'is_hidden',    $srcNode->attribute( 'is_hidden' ) );
                 $newNode->setAttribute( 'is_invisible', $srcNode->attribute( 'is_invisible' ) );
+                $newNode->store();
                 $syncNodeIDListSrc[] = $srcNode->attribute( 'node_id' );
                 $syncNodeIDListNew[] = $newNode->attribute( 'node_id' );
                 $bSrcParentFound = true;
