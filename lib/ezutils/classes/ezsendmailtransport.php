@@ -65,7 +65,9 @@ class eZSendmailTransport extends eZMailTransport
             if ( $sys->osType() != 'win32' )
             {
                 $excludeHeaders[] = 'To';
-                $receiverEmailText = count( $mail->ReceiverElements ) > 0 ? $mail->receiverEmailText() : 'undisclosed-recipients:;';
+                $insertUndisclosedRecipient = $ini->variable( 'MailSettings', 'SendmailInsertUndisclosedRecipient' );
+                $recipientText = $insertUndisclosedRecipient == 'disabled' ? '' : 'undisclosed-recipients:;';
+                $receiverEmailText = count( $mail->ReceiverElements ) > 0 ? $mail->receiverEmailText() : $recipientText;
             }
             // If Windows PHP mail() implementation, we can specify a To: header in the $additional_headers parameter,
             // it will be used as the only To: header.
