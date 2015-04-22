@@ -457,7 +457,6 @@ class eZObjectRelationListType extends eZDataType
                         $version->store();
                     }
 
-                    $object->setAttribute( 'status', eZContentObject::STATUS_DRAFT );
                     $object->store();
                 }
             }
