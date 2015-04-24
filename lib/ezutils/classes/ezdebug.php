@@ -1937,14 +1937,14 @@ class eZDebug
                     {
                         if ( $matches[6] )
                         {
-                            if ( self::isIPInNet( $itemToMatch, $matches[1], $matches[7] ) )
+                            if ( self::isIPInNet( $ipAddress, $matches[1], $matches[7] ) )
                             {
                                 return true;
                              }
                         }
                         else
                         {
-                            if ( $matches[1] == $itemToMatch )
+                            if ( $matches[1] == $ipAddress )
                             {
                                 return true;
                             }
