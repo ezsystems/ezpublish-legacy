@@ -429,6 +429,7 @@ class ezjscPacker
         // Merge file content and create new cache file
         $content = '';
         $isCSS = $data['file_extension'] === '.css';
+        $isJS  = $data['file_extension'] === '.js';
         foreach( $data['locale'] as $i => $file )
         {
             // if this is a js / css generator, call to get content
@@ -461,6 +462,10 @@ class ezjscPacker
 
             $content .= "/* start: $file */\r\n";
             $content .= $fileContent;
+            if ( $isJS )
+            {
+                $content .= ';';
+            }
             $content .= "\r\n/* end: $file */\r\n\r\n";
         }
 
