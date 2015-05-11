@@ -113,7 +113,11 @@ if ( $module->isCurrentAction( "Generate" ) )
             $user   = $users[0];
             $time   = time();
             $userID = $user->id();
-            $hashKey = md5( $userID . ':' . $time . ':' . mt_rand() );
+            $hashKey = md5(
+                $userID . ':' . microtime() . ':' .
+                ( function_exists( "openssl_random_pseudo_bytes" ) ?
+                    openssl_random_pseudo_bytes( 32 ) : mt_rand() )
+            );
 
             // Create forgot password object
             if ( eZOperationHandler::operationIsAvailable( 'user_forgotpassword' ) )
