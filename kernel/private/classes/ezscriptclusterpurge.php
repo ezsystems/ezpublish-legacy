@@ -78,13 +78,17 @@ class eZScriptClusterPurge
 
         $limit = array( 0, $this->optIterationLimit );
 
+        $clusterHandler = eZClusterFileHandler::instance();
+        $qty = $clusterHandler->fetchExpiredItemsCount( $this->optScopes, $this->optExpiry );
+
+        $cli->output( "Number of expired items: " . $qty );
         $cli->output( "Purging expired items:" );
 
         self::monitor( "start" );
 
         // Fetch a limited list of purge items from the handler itself
-        $clusterHandler = eZClusterFileHandler::instance();
-        while ( $filesList = $clusterHandler->fetchExpiredItems( $this->optScopes, $limit, $this->optExpiry ) )
+        $counter = 0;
+        while ( $counter < $qty && $filesList = $clusterHandler->fetchExpiredItems( $this->optScopes, $limit, $this->optExpiry ) )
         {
             self::monitor( "iteration start" );
             foreach( $filesList as $file )
@@ -108,6 +112,8 @@ class eZScriptClusterPurge
                 $limit[0] += $limit[1];
             }
             self::monitor( "iteration end" );
+
+            $counter += count( $filesList );
         }
 
         self::monitor( "end" );

@@ -1871,6 +1871,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             {
                 $query .= ' AND mtime < ' . (time() - $expiry);
             }
+            $query .= " ORDER BY RAND()";
             if ( $limit !== false )
             {
                 $query .= " LIMIT {$limit[0]}, {$limit[1]}";
@@ -1884,6 +1885,43 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         }
 
         return $filePathList;
+    }
+
+    /**
+     * Fetches the number of expired files from the DB
+     *
+     * @param array $scopes Array of scopes to consider. At least one.
+     * @param bool|int $expiry Number of seconds, only items older than this will be returned.
+     *
+     * @throws ezcBaseValueException
+     * @return int
+     */
+    public function expiredFilesListCount( $scopes, $expiry = false )
+    {
+        $tables = array( $this->metaDataTable, $this->metaDataTableCache );
+
+        if ( count( $scopes ) == 0 )
+            throw new ezcBaseValueException( 'scopes', $scopes, "array of scopes", "parameter" );
+
+        $scopeString = $this->_sqlList( $scopes );
+
+        $qty = 0;
+        foreach ( $tables as $table )
+        {
+            $query = "SELECT COUNT(1) as qty FROM " . $table . " WHERE expired = 1 AND scope IN ( $scopeString )";
+            if ( $expiry !== false )
+            {
+                $query .= ' AND mtime < ' . (time() - $expiry);
+            }
+            $res = $this->_query( $query, __METHOD__ );
+
+            while ( $row = mysqli_fetch_assoc( $res ) )
+                $qty += $row['qty'];
+
+            mysqli_free_result( $res );
+        }
+
+        return $qty;
     }
 
     /**
