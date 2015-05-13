@@ -21,9 +21,12 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
      */
     public $apiPrefix;
 
-    public function __construct()
+    private $responseWriterClass;
+
+    public function __construct( $responseWriterClass = null )
     {
         $this->apiPrefix = eZINI::instance( 'rest.ini' )->variable( 'System', 'ApiPrefix' );
+        $this->responseWriterClass = $responseWriterClass;
     }
 
     public function createFatalRedirectRequest( ezcMvcRequest $request, ezcMvcResult $result, Exception $e )
@@ -49,7 +52,8 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
 
     public function createResponseWriter( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request, ezcMvcResult $result, ezcMvcResponse $response )
     {
-        return new ezpRestHttpResponseWriter( $response );
+        $class = isset( $this->responseWriterClass ) ? $this->responseWriterClass : 'ezpRestHttpResponseWriter';
+        return new $class( $response );
     }
 
     public function createRouter( ezcMvcRequest $request )
