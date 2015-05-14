@@ -951,11 +951,16 @@ class eZOEInputParser extends eZXMLInputParser
             if ( $trim )
             {
                 // Trim and remove if empty
-                $element->textContent = ltrim( $element->textContent );
-                if ( $element->textContent == '' )
+                $parent = $element->parentNode;
+                $trimmedElement = new DOMText( ltrim( $element->textContent ) );
+
+                if ( $trimmedElement->textContent == '' )
                 {
-                    $parent = $element->parentNode;
-                    $element = $parent->removeChild( $element );
+                    $parent->removeChild( $element );
+                }
+                else
+                {
+                    $parent->replaceChild( $trimmedElement, $element );
                 }
             }
         }
