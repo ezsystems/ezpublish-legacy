@@ -10,6 +10,8 @@ php:
 branches:
   only:
     - master
+    - 5.4
+    - stable-5.3
 
 env:
   global:
