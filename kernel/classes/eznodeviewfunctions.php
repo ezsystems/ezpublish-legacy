@@ -606,7 +606,7 @@ class eZNodeviewfunctions
         );
 
         // by setting cache_ttl to 0 in tpl code no cachfile should be generated
-        if ( isset( $result['no_cache'] ) and $result['no_cache'] )
+        if ( isset( $result['no_cache'] ) && $result['no_cache'] )
         {
             $noCache = true;
         }
