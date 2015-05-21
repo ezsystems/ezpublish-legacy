@@ -131,7 +131,4 @@ class ezpMvcConfigurableDispatcher extends ezcMvcConfigurableDispatcher
         }
         while ( $continue );
     }
-
-
-
 }
