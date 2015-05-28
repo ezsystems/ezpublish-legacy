@@ -585,6 +585,23 @@ class eZExtension
     {
         self::$activeExtensionsCache = array();
     }
+
+    /**
+     * Clears (removes) active extension cache files from the cache folder.
+     * @return void
+     */
+    public static function clearActiveExtensionsCache()
+    {
+        $filesList = glob( self::CACHE_DIR . 'active_extensions_*.php' );
+        foreach ( $filesList as $path )
+        {
+            if ( is_file( $path ) )
+            {
+                $handler = eZFileHandler::instance( false );
+                $handler->unlink( $path );
+            }
+        }
+    }
 }
 
 ?>

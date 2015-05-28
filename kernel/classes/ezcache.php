@@ -781,6 +781,7 @@ class eZCache
         $handler->setTimestamp( $cacheItem['expiry-key'], time() );
         $handler->store();
 
+        eZExtension::clearActiveExtensionsCache();
         eZExtension::clearActiveExtensionsMemoryCache();
     }
 
