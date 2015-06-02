@@ -2017,7 +2017,7 @@ $schema = array (
       ),
       'sort_key_string' => 
       array (
-        'length' => 255,
+        'length' => 4096,
         'type' => 'varchar',
         'not_null' => '1',
         'default' => '',
