@@ -108,8 +108,6 @@ class eZSOAPServer
     */
     function processRequest()
     {
-        global $HTTP_SERVER_VARS;
-
         if ( $_SERVER["REQUEST_METHOD"] != "POST" )
         {
             print( "Error: this web page does only understand POST methods" );
