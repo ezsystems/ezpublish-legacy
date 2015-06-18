@@ -45,6 +45,11 @@ class ezpSessionHandlerSymfony extends ezpSessionHandler
 
     public function destroy( $sessionId )
     {
+        if ( eZSys::isShellExecution() )
+        {
+            return false;
+        }
+
         $sfHandler = $this->storage->getSaveHandler();
         ezpEvent::getInstance()->notify( 'session/destroy', array( $sessionId ) );
         if ( method_exists( $sfHandler, 'destroy' ) )
@@ -56,6 +61,11 @@ class ezpSessionHandlerSymfony extends ezpSessionHandler
 
     public function regenerate( $updateBackendData = true )
     {
+        if ( eZSys::isShellExecution() )
+        {
+            return false;
+        }
+
         $oldSessionId = session_id();
         $this->storage->regenerate( $updateBackendData );
         $newSessionId = session_id();
@@ -72,11 +82,15 @@ class ezpSessionHandlerSymfony extends ezpSessionHandler
             eZSession::triggerCallback( 'regenerate_post', array( $db, $escNewKey, $escOldKey, $escUserID ) );
         }
         return true;
-
     }
 
     public function gc( $maxLifeTime )
     {
+        if ( eZSys::isShellExecution() )
+        {
+            return false;
+        }
+
         ezpEvent::getInstance()->notify( 'session/gc', array( $maxLifeTime ) );
         $db = eZDB::instance();
         eZSession::triggerCallback( 'gc_pre', array( $db, $maxLifeTime ) );
