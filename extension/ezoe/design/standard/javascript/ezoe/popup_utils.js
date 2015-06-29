@@ -212,8 +212,9 @@ var eZOEPopupUtils = {
             }
             else if ( s.tagName === 'link' )
             {
-                var links, linkClass = 'ezoeInsertedLink';
+                var links, linkClass = 'ezoeInsertedLink', origClass;
 
+                origClass = args['class'];
                 args['class'] = args['class'] ? args['class'] + " " + linkClass : linkClass;
                 ed.execCommand('mceInsertLink', false, args, {skip_undo : 1} );
                 links = ed.dom.select('.' + linkClass);
@@ -221,6 +222,7 @@ var eZOEPopupUtils = {
                     ed.dom.removeClass(link, linkClass);
                 });
                 s.editorElement = links[0];
+                args['class'] = origClass;
 
                 // fixup if we are inside embed tag
                 if ( tmp = eZOEPopupUtils.getParentByTag( s.editorElement, 'div,span', 'ezoeItemNonEditable' ) )
