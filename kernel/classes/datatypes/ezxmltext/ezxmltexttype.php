@@ -99,6 +99,7 @@ class eZXMLTextType extends eZDataType
     {
         $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "XML block", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
+        $this->deletedStoredObjectAttribute = array();
     }
 
     /*!
@@ -776,6 +777,9 @@ class eZXMLTextType extends eZDataType
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
 
+        if ( isset( $this->deletedStoredObjectAttribute[ $contentObjectAttributeID ] ) )
+            return;
+
         $db = eZDB::instance();
 
         /* First we remove the link between the keyword and the object
@@ -818,6 +822,12 @@ class eZXMLTextType extends eZDataType
 
             $db->query( "DELETE FROM ezurl WHERE id IN ($unusedUrlIDString)" );
         }
+
+        /* If all the versions/urls of the attribute were removed, do not try to remove them again */
+        if ( $version == null )
+        {
+            $this->deletedStoredObjectAttribute[ $contentObjectAttributeID ] = true;
+        }
     }
 
     function diff( $old, $new, $options = false )
@@ -843,6 +853,12 @@ class eZXMLTextType extends eZDataType
         $xmlText = "'" . $db->escapeString( $xmlText ) . "'";
         return array( 'data_text' => $xmlText );
     }
+
+    /**
+     * List of fully deleted object attributes by id, used to know when we don't need to perform additional url cleanup
+     * @var array
+     */
+    protected $deletedStoredObjectAttribute;
 }
 
 eZDataType::register( eZXMLTextType::DATA_TYPE_STRING, "eZXMLTextType" );
