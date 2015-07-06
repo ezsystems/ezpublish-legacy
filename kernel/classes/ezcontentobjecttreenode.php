@@ -1289,15 +1289,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                     while ( list( $key, $value ) = each( $filter[2] ) )
                                     {
                                         // Non-numerics must be escaped to avoid SQL injection
-                                        switch ( $filterFieldType )
-                                        {
-                                            case 'string':
-                                                $filter[2][$key] = "'" . $db->escapeString( $value ) . "'";
-                                                break;
-                                            case 'integer':
-                                            default:
-                                                $filter[2][$key] = (int) $value;
-                                        }
+                                        $filter[2][$key] = is_numeric( $value ) ? $value : "'" . $db->escapeString( $value ) . "'";
                                     }
                                     $filterValue = '(' .  implode( ",", $filter[2] ) . ')';
                                 }
