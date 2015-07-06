@@ -1135,6 +1135,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         default:
                         {
                             $useAttributeFilter = true;
+                            $filterFieldType = false;
                         } break;
                     }
 
@@ -1288,8 +1289,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                     reset( $filter[2] );
                                     while ( list( $key, $value ) = each( $filter[2] ) )
                                     {
+                                      // If filterFieldType is explicitely set
+                                      if( $filterFieldType ){
+                                        $filter[2][$key] = ( $filterFieldType == "integer" ) ? (int) $value : "'" . $db->escapeString( $value ) . "'";
+                                      }else{
                                         // Non-numerics must be escaped to avoid SQL injection
                                         $filter[2][$key] = is_numeric( $value ) ? $value : "'" . $db->escapeString( $value ) . "'";
+                                      }
                                     }
                                     $filterValue = '(' .  implode( ",", $filter[2] ) . ')';
                                 }
