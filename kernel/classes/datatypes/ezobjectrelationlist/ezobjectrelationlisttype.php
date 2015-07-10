@@ -422,11 +422,6 @@ class eZObjectRelationListType extends eZDataType
         // order by asc
         sort( $translationList );
 
-        if ( ( $countTsl == 1 ) or ( $countTsl > 1 and $translationList[0] == $langCode ) )
-        {
-             eZContentObject::fetch( $contentObjectID )->removeContentObjectRelation( false, $contentObjectVersion, $contentClassAttributeID, eZContentObject::RELATION_ATTRIBUTE );
-        }
-
         foreach( $content['relation_list'] as $relationItem )
         {
             // Installing content object, postUnserialize is not called yet,
