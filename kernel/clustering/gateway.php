@@ -189,7 +189,7 @@ abstract class ezpClusterGateway
             if ( CLUSTER_EXPIRY_TIMEOUT !== false )
                 header( "Expires: " . gmdate( 'D, d M Y H:i:s', time() + CLUSTER_EXPIRY_TIMEOUT ) . ' GMT' );
 
-            header( "ETag: $mtime-$filesize" );
+            header( "ETag: \"$mtime-$filesize\"" );
             $serverVariables = array_change_key_case( $_SERVER, CASE_UPPER );
             if ( isset( $serverVariables['HTTP_IF_NONE_MATCH'] ) && trim( $serverVariables['HTTP_IF_NONE_MATCH'] ) != "$mtime-$filesize" )
             {
