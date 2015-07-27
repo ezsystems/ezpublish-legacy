@@ -1178,6 +1178,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 if ( $filterDataType == 'string' )
                                 {
                                     $sortKey = 'sort_key_string';
+                                    $filterFieldType = 'string';
                                 }
                                 else
                                 {
