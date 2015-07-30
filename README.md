@@ -52,7 +52,7 @@ Main eZ Publish features
 - Flexible workflow management system
 - Full support for Unicode
 - Template engine
-- A REST API
+- A read only REST API
 - Database abstraction layer
 - MVC architecture
 - Support for highly available and scalable configurations (multi-server clusters)
