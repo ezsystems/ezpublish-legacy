@@ -31,8 +31,8 @@ The eZ Publish Proprietary License gives you the right to use the source code
 for making your own commercial software. It allows you full protection of your
 work made with eZ Publish. You may re-brand, license and close your source
 code. eZ Publish is not free of charge when used under the terms of the
-Professional License. For pricing and ordering, please contact us at
-info@ez.no or visit http://ez.no/products/proprietary_license_options
+Professional License. For pricing and ordering, please contact info@ez.no
+or visit http://ez.no
 
 
 Main eZ Publish features
