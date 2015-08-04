@@ -111,6 +111,11 @@ class eZBooleanType extends eZDataType
         }
         else
         {
+            /*
+             * Note: in other DataTypes, false is returned if the variable is not present.
+             * Since HTTP checkboxes are not present in the POST when they are not checked,
+             * eZBooleanType might behave a bit differently. See EZP-24630 for a concrete use case.
+             */
             $data = 0;
         }
         $contentObjectAttribute->setAttribute( "data_int", $data );
