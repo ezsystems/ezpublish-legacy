@@ -1,5 +1,5 @@
 {
-    "name":        "mirum/ezsystems/ezpublish-legacy",
+    "name":        "mirum/ezpublish-legacy",
     "description": "eZ Publish LegacyStack (4.x) - changed dependency for eztags to v2",
     "homepage":    "http://share.ez.no",
     "license":     "GPL-2.0",
