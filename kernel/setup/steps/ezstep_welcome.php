@@ -64,6 +64,11 @@ class eZStepWelcome extends eZStepInstaller
         $this->PersistenceList['tests_run'] = $testsRun;
         $this->PersistenceList['optional_tests_run'] = $testsRun;
 
+        if ( $this->hasKickstartData() )
+        {
+            return $this->kickstartContinueNextStep();
+        }
+
         return false; // Always show welcome message
     }
 
