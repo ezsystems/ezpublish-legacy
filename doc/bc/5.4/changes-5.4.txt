@@ -3,7 +3,13 @@ Changes to BC and behavior in version 5.4
 
 INI setting changes
 -------------------
-
+- EZP-24744 - Increase password security
+  
+  With the implementation of this new feature, a new option has been introduced
+  for the user HashType, the bcrypt. This new option will encrypt the user password
+  using bcrypt algorithm.
+  Caution - Using the PASSWORD_BCRYPT, will result in the password parameter 
+  being truncated to a maximum length of 72 characters
 
 Change of behavior
 ------------------

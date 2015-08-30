@@ -56,7 +56,8 @@
         "zetacomponents/persistent-object": "~1.8",
         "zetacomponents/signal-slot": "~1.2",
         "zetacomponents/system-information": "~1.1",
-        "zetacomponents/webdav": "~1.1"
+        "zetacomponents/webdav": "~1.1",
+        "ircmaxell/password-compat": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
