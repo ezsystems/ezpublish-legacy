@@ -874,8 +874,11 @@ class eZContentOperationCollection
         {
             $allNodes = $objectIdList[$objectId]->assignedNodes();
             // Registering node that will be promoted as 'main'
-            $mainNodeChanged[$objectId] = $allNodes[0];
-            eZContentObjectTreeNode::updateMainNodeID( $allNodes[0]->attribute( 'node_id' ), $objectId, false, $allNodes[0]->attribute( 'parent_node_id' ) );
+            if ( isset( $allNodes[0] ) )
+            {
+                $mainNodeChanged[$objectId] = $allNodes[0];
+                eZContentObjectTreeNode::updateMainNodeID( $allNodes[0]->attribute( 'node_id' ), $objectId, false, $allNodes[0]->attribute( 'parent_node_id' ) );
+            }
         }
 
         // Give other search engines that the default one a chance to reindex
