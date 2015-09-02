@@ -16,6 +16,13 @@ $http = eZHTTPTool::instance();
 $tpl = eZTemplate::factory();
 
 $Email = urldecode( $Email );
+
+// workaround because it seems not possible to get an urlencoded "+" character accross $Params
+if ( $http->hasGetVariable( "email" ) )
+{
+    $Email = $http->getVariable( "email" );
+}
+
 $productList = eZOrder::productList( $CustomerID, $Email );
 $orderList = eZOrder::orderList( $CustomerID, $Email );
 
