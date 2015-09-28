@@ -62,48 +62,50 @@ while( true )
                     if ( !( $node instanceof eZContentObjectTreeNode ) )
                     {
                         $cli->error( "An error occured while trying fetching node $nodeId" );
-                        continue;
+                        $removeFromPendingActions = true;
                     }
-
-                    $offset = 0;
-                    $limit = 50;
-
-                    $params = array( 'Limitation' => array(), 'MainNodeOnly' => true );
-
-                    $subtreeCount = $node->subTreeCount( $params );
-
-                    while ( $offset < $subtreeCount )
+                    else
                     {
-                        $subTree = $node->subTree(
-                            array_merge(
-                                $params,
-                                array( 'Offset' => $offset, 'Limit' => $limit, 'SortBy' => array() )
-                            )
-                        );
+                        $subtreeOffset = 0;
+                        $subtreeLimit = 50;
 
-                        if ( !empty( $subTree ) )
+                        $params = array( 'Limitation' => array(), 'MainNodeOnly' => true );
+
+                        $subtreeCount = $node->subTreeCount( $params );
+
+                        while ( $subtreeOffset < $subtreeCount )
                         {
-                            foreach ( $subTree as $innerNode )
+                            $subTree = $node->subTree(
+                                array_merge(
+                                    $params,
+                                    array( 'Offset' => $subtreeOffset, 'Limit' => $subtreeLimit, 'SortBy' => array() )
+                                )
+                            );
+
+                            if ( !empty( $subTree ) )
                             {
-                                /** @var $innerNode eZContentObjectTreeNode */
-                                $childObject = $innerNode->attribute( 'object' );
-                                if ( !$childObject )
+                                foreach ( $subTree as $innerNode )
                                 {
-                                    continue;
+                                    /** @var $innerNode eZContentObjectTreeNode */
+                                    $childObject = $innerNode->attribute( 'object' );
+                                    if ( !$childObject )
+                                    {
+                                        continue;
+                                    }
+
+                                    $searchEngine->addObject( $childObject, false );
+
+                                    // clear object cache to conserve memory
+                                    eZContentObject::clearCache();
                                 }
-
-                                $searchEngine->addObject( $childObject, false );
-
-                                // clear object cache to conserve memory
-                                eZContentObject::clearCache();
                             }
-                        }
 
-                        $offset += $limit;
+                            $subtreeOffset += $subtreeLimit;
 
-                        if ( $offset >= $subtreeCount )
-                        {
-                            break;
+                            if ( $subtreeOffset >= $subtreeCount )
+                            {
+                                break;
+                            }
                         }
                     }
                 }
