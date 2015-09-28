@@ -93,6 +93,9 @@ while( true )
                                 }
 
                                 $searchEngine->addObject( $childObject, false );
+
+                                // clear object cache to conserve memory
+                                eZContentObject::clearCache();
                             }
                         }
 
