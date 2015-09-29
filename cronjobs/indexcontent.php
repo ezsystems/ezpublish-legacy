@@ -62,6 +62,8 @@ while( true )
                     if ( !( $node instanceof eZContentObjectTreeNode ) )
                     {
                         $cli->error( "An error occured while trying fetching node $nodeId" );
+                        $db->query( "DELETE FROM ezpending_actions WHERE action = '$action' AND param = '$objectID'" );
+                        $db->commit();
                         continue;
                     }
 
