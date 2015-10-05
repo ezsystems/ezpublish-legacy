@@ -88,9 +88,10 @@ if ( !$options['n'] )
     sleep( 30 );
 }
 
-function processRelationRows()
+function processRelationRows( $relationCount )
 {
-    global $db, $cli, $relationCount;
+    $cli = eZCLI::instance();
+    $db = eZDB::instance();
 
     if ( $db->databaseName() == 'mysql' )
     {
@@ -123,7 +124,7 @@ $cli->output();
 if ( $relationCount > 0 )
 {
     $cli->output( "Processing Relation field values..." );
-    processRelationRows();
+    processRelationRows( $relationCount );
 }
 else
 {
@@ -132,7 +133,7 @@ else
 
 function processRelationListRow( array $row )
 {
-    global $db;
+    $db = eZDB::instance();
 
     $document = new DOMDocument( "1.0", "utf-8" );
     $document->loadXML( $row["data_text"] );
@@ -167,9 +168,11 @@ function processRelationListRow( array $row )
     return $removedRelations;
 }
 
-function loadRelationListRows( $pass )
+function loadRelationListRows( $pass, $optIterationLimit )
 {
-    global $db, $cli, $script, $optIterationLimit;
+    $script = eZScript::instance();
+    $cli = eZCLI::instance();
+    $db = eZDB::instance();
 
     $relationListQuery = "SELECT id, version, contentobject_id, data_text
                       FROM ezcontentobject_attribute
@@ -191,14 +194,14 @@ function loadRelationListRows( $pass )
     return $relationListArray;
 }
 
-function processRelationListRows()
+function processRelationListRows( $optIterationLimit, $optIterationSleep, $verboseLevel )
 {
-    global $cli, $optIterationLimit, $optIterationSleep, $verboseLevel;
+    $cli = eZCLI::instance();
 
     $pass = 0;
     $relationListUpdatedCount = 0;
 
-    $relationListArray = loadRelationListRows( $pass );
+    $relationListArray = loadRelationListRows( $pass, $optIterationLimit );
 
     while( count( $relationListArray ) )
     {
@@ -225,7 +228,7 @@ function processRelationListRows()
 
         sleep( $optIterationSleep );
         $pass++;
-        $relationListArray = loadRelationListRows( $pass );
+        $relationListArray = loadRelationListRows( $pass, $optIterationLimit );
     }
 
     $cli->output( "Updated total of {$relationListUpdatedCount} RelationList field values." );
@@ -236,7 +239,7 @@ $cli->output();
 if ( $relationListCount > 0 )
 {
     $cli->output( "Processing RelationList field values..." );
-    processRelationListRows();
+    processRelationListRows( $optIterationLimit, $optIterationSleep, $verboseLevel );
 }
 else
 {
