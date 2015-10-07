@@ -67,19 +67,19 @@ while( true )
                         continue;
                     }
 
-                    $offset = 0;
-                    $limit = 50;
+                    $subtreeOffset = 0;
+                    $subtreeLimit = 50;
 
                     $params = array( 'Limitation' => array(), 'MainNodeOnly' => true );
 
                     $subtreeCount = $node->subTreeCount( $params );
 
-                    while ( $offset < $subtreeCount )
+                    while ( $subtreeOffset < $subtreeCount )
                     {
                         $subTree = $node->subTree(
                             array_merge(
                                 $params,
-                                array( 'Offset' => $offset, 'Limit' => $limit, 'SortBy' => array() )
+                                array( 'Offset' => $subtreeOffset, 'Limit' => $subtreeLimit, 'SortBy' => array() )
                             )
                         );
 
@@ -101,9 +101,9 @@ while( true )
                             }
                         }
 
-                        $offset += $limit;
+                        $subtreeOffset += $subtreeLimit;
 
-                        if ( $offset >= $subtreeCount )
+                        if ( $subtreeOffset >= $subtreeCount )
                         {
                             break;
                         }
