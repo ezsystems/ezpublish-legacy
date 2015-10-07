@@ -114,6 +114,7 @@ while( true )
             if ( $removeFromPendingActions )
             {
                 $db->query( "DELETE FROM ezpending_actions WHERE action = '$action' AND param = '$objectID'" );
+                eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
             }
             else
             {
