@@ -875,7 +875,6 @@ div.content-navigation div.context-information p.left
 div.content-navigation div.context-information p.right
 {
     position:absolute;
-    top: -2.5em;
     width: 30%;
     right:0em;
 }
