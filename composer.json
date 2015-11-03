@@ -9,7 +9,7 @@
         "ext-curl": "Curl provides better support for interacting with other servers, like downloading packages over SSL",
         "ext-gd": "Unless you have ImageMagic installed GD is required for eZ Publish to be able to manipulate images",
         "ext-mysqli": "Mysqli is the default database handler used by eZ Publish",
-        "ext-pcntl": "If you plan to take advantage of eZ Publish Async publishing feature, then pcntl extension is required",
+        "ext-pcntl": "If you plan to take advantage of eZ Publish Async publishing feature, then pcntl extension is required"
     },
     "require": {
         "php": ">=5.3.3",
