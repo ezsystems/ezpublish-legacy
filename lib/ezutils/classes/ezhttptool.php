@@ -724,13 +724,15 @@ EOT;
         return session_id( $sessionKey );
     }
 
-    /*!
-     \static
-     \param $url
-     \param $justCheckURL if true, we should check url only not downloading data.
-     \return data from \p $url, false if invalid URL
-    */
-    static function getDataByURL( $url, $justCheckURL = false, $userAgent = false )
+
+    /**
+     * @param string $url           url to get data from
+     * @param bool $justCheckURL    if true, we should check url only not downloading data.
+     * @param string $userAgent     override userAgent request header
+     * @param bool $forceGetRequest if true, force curl to perform a 'GET' request even if just checking url.
+     * @return string|bool          data from $url, false if invalid URL.
+     */
+    static function getDataByURL( $url, $justCheckURL = false, $userAgent = false, $forceGetRequest = false )
     {
         // First try CURL
         if ( extension_loaded( 'curl' ) )
@@ -740,16 +742,23 @@ EOT;
             curl_setopt_array(
                 $ch,
                 array(
+                    CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_SSL_VERIFYPEER => false
                 )
             );
+            $ini = eZINI::instance();
             if ( $justCheckURL )
             {
-                curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 2 );
+                $connTimeout = $ini->hasVariable( 'LinkCheck', 'ConnectTimeout' ) ? (int)$ini->variable( 'LinkCheck', 'ConnectTimeout' ) : 3;
+                curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, $connTimeout );
                 curl_setopt( $ch, CURLOPT_TIMEOUT, 15 );
-                curl_setopt( $ch, CURLOPT_FAILONERROR, 1 );
-                curl_setopt( $ch, CURLOPT_NOBODY, 1 );
+                curl_setopt( $ch, CURLOPT_FAILONERROR, true );
+                curl_setopt( $ch, CURLOPT_NOBODY, true );
+                // force curl to use the 'GET' http method instead of 'HEAD' when just checking url
+                if ( $forceGetRequest )
+                {
+                    curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
+                }
             }
 
             if ( $userAgent )
@@ -757,7 +766,6 @@ EOT;
                 curl_setopt( $ch, CURLOPT_USERAGENT, $userAgent );
             }
 
-            $ini = eZINI::instance();
             $proxy = $ini->hasVariable( 'ProxySettings', 'ProxyServer' ) ? $ini->variable( 'ProxySettings', 'ProxyServer' ) : false;
             // If we should use proxy
             if ( $proxy )
@@ -770,32 +778,30 @@ EOT;
                     curl_setopt ( $ch, CURLOPT_PROXYUSERPWD, "$userName:$password" );
                 }
             }
+
+            $result = curl_exec( $ch );
+            curl_close( $ch );
+
             // If we should check url without downloading data from it.
             if ( $justCheckURL )
             {
-                if ( !curl_exec( $ch ) )
+                if ( $result !== false )
                 {
-                    curl_close( $ch );
-                    return false;
+                    return true;
                 }
-
-                curl_close( $ch );
-                return true;
-            }
-            // Getting data
-            ob_start();
-            if ( !curl_exec( $ch ) )
-            {
-                curl_close( $ch );
-                ob_end_clean();
+                if ( !$forceGetRequest )
+                {
+                    // if HEAD request failed with anything other than a 404, repeating using a GET request
+                    $httpCode = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
+                    if ( $httpCode != 404 )
+                    {
+                        return self::getDataByURL( $url, $justCheckURL, $userAgent, true );
+                    }
+                }
                 return false;
             }
 
-            curl_close ( $ch );
-            $data = ob_get_contents();
-            ob_end_clean();
-
-            return $data;
+            return $result;
         }
 
         if ( $userAgent )

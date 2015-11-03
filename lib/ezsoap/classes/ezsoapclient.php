@@ -183,8 +183,6 @@ class eZSOAPClient
                     $HTTPCall .= "\r\n" . $payload;
 
                     curl_setopt( $ch, CURLOPT_URL, $URL );
-                    curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-                    curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, 1 );
                     curl_setopt( $ch, CURLOPT_HEADER, 1 );
                     curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
                     curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, $HTTPCall );  // Don't use CURLOPT_CUSTOMREQUEST without making sure your server supports the custom request method first.

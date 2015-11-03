@@ -857,14 +857,17 @@ class eZModule
             $uri .= $unorderedURI;
         }
 
-        if ( is_array( $userParameters ) )
+        if ( !empty( $userParameters ) && is_array( $userParameters ) )
         {
+            // Remove any slash(es) at the end of the uri, because the user params are appended with a leading slash
+            $uri = preg_replace( "#(^.*)(/+)$#", "\$1", $uri );
             foreach ( $userParameters as $name => $value )
             {
                 $uri .= '/(' . $name . ')/' . $value;
             }
         }
 
+        // Remove multiple slashes at the end of the uri
         $uri = preg_replace( "#(^.*)(//+)$#", "\$1", $uri );
         if ( $anchor !== false )
             $uri .= '#' . urlencode( $anchor );

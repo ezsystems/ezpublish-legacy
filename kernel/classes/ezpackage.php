@@ -1973,13 +1973,21 @@ class eZPackage
         $vendorNode = $root->getElementsByTagName( 'vendor' )->item( 0 );
         $parameters['vendor'] = is_object( $vendorNode ) ? $vendorNode->textContent : false;
         $parameters['summary'] = $root->getElementsByTagName( 'summary' )->item( 0 )->textContent;
-        $parameters['description'] = $root->getElementsByTagName( 'description' )->item( 0 )->textContent;
+        $description = $root->getElementsByTagName( 'description' );
+        if ( $description->length > 0 )
+        {
+            $parameters['description'] = $description->item( 0 )->textContent;
+        }
         $priorities = $root->getElementsByTagName( 'priority' );
         if ( $priorities->length > 0 )
         {
             $parameters['priority'] = $priorities->item( 0 )->getAttribute( 'value' );
         }
-        $parameters['type'] = $root->getElementsByTagName( 'type' )->item( 0 )->getAttribute( 'value' );
+        $type = $root->getElementsByTagName( 'type' );
+        if ( $type->length > 0 )
+        {
+            $parameters['type'] = $type->item( 0 )->getAttribute( 'value' );
+        }
 
         if ( $parameters['vendor'] )
         {

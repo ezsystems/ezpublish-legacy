@@ -632,6 +632,13 @@ class eZAutoloadGenerator
                             case T_CLASS:
                             case T_INTERFACE:
                             case $tTrait:
+                                // Ignore token if prefixed by a double colon: "<ClassName>::class"
+                                // @see http://php.net/manual/en/language.oop5.basic.php#language.oop5.basic.class.class
+                                // TEXT_TOKEN - "::"-TEXT_TOKEN - CLASS_TOKEN
+                                if ($tokens[$key-1][1] === '::') {
+                                    break;
+                                }
+
                                 // Increment stat for found class.
                                 $this->incrementProgressStat( self::OUTPUT_PROGRESS_PHASE2, 'classCount' );
 

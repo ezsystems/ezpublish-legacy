@@ -11,6 +11,14 @@ define( 'EZ_ABOUT_THIRDPARTY_SOFTWARE_FILE', 'var/storage/third_party_software.p
 
 
 /*!
+  Returns contents of LICENSE file in ezp legacy root directory, or false on failure.
+*/
+function getLicense()
+{
+    return file_get_contents( 'LICENSE' );
+}
+
+/*!
   Returns list of contributors;
   Searches all php files in \a $pathToDir and tries to fetch contributor's info
 */
@@ -103,38 +111,25 @@ function strReplaceByArray( $searches = array(), $subjects = array() )
 
 $ezinfo = eZPublishSDK::version( true );
 
-$whatIsEzPublish = 'eZ Publish is a professional PHP application framework with advanced
-CMS (content management system) functionality. As a CMS its most notable
-featureis its revolutionary, fully customizable and extendable content
-model. Thisis also what makes eZ Publish suitable as a platform for
-general PHP  development,allowing you to rapidly create professional
-web-based applications.
+$whatIsEzPublish = '<p>eZ Publish is a professional PHP application framework with advanced
+CMS (content management system) functionality. As a CMS, its most notable
+feature is its revolutionary, fully customizable and extendable content
+model. This is also what makes eZ Publish suitable as a platform for
+general PHP development, allowing you to rapidly create professional
+web-based applications.</p>
 
-Standard CMS functionality (such as news publishing, e-commerce and
+<p>Standard CMS functionality (such as news publishing, e-commerce and
 forums) are already implemented and ready to use. Standalone libraries
 can be used for cross-platform database-independent browser-neutral
 PHP projects. Because eZ Publish is a web-based application, it can
-be accessed from anywhere you have an internet connection.';
+be accessed from anywhere you have an internet connection.</p>';
 
-$license =
-## BEGIN LICENSE INFO ##
-'This copy of eZ Publish is distributed under the terms and conditions of
-the GNU General Public License (GPL). Briefly summarized, the GPL gives
-you the right to use, modify and share this copy of eZ Publish. If you
-choose to share eZ Publish, you may only share it under the terms and
-conditions of the GPL. If you share a modified version of eZ Publish,
-these modifications must also be placed under the GPL. Read the
-complete legal terms and conditions of the GPL at
-http://www.gnu.org/licenses/gpl.txt or see the file named LICENSE in
-the root directory of this eZ Publish distribution.';
-## END LICENSE INFO ##
-
+$license = getLicense();
 $contributors = getContributors( EZ_ABOUT_CONTRIBUTORS_DIR );
 $thirdPartySoftware = getThirdPartySoftware( EZ_ABOUT_THIRDPARTY_SOFTWARE_FILE );
 $extensions = getExtensionsInfo();
 
 list( $whatIsEzPublish,
-      $license,
       $contributors,
       $thirdPartySoftware,
       $extensions ) = strReplaceByArray( array( 'eZ Systems AS' => '<a href="http://ez.no/">eZ Systems AS</a>',
@@ -143,7 +138,7 @@ list( $whatIsEzPublish,
                                                 'eZ systems as' => '<a href="http://ez.no/">eZ Systems AS</a>',
                                                 'eZ Publish' => '<a href="http://ez.no/ezpublish">eZ Publish</a>',
                                                 'eZ publish' => '<a href="http://ez.no/ezpublish">eZ Publish</a>' ),
-                                         array( $whatIsEzPublish, $license, $contributors, $thirdPartySoftware, $extensions ) );
+                                         array( $whatIsEzPublish, $contributors, $thirdPartySoftware, $extensions ) );
 
 $tpl = eZTemplate::factory();
 $tpl->setVariable( 'ezinfo', $ezinfo );

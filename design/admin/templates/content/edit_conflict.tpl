@@ -84,6 +84,22 @@
 <input class="button" type="submit" name="ShowPublishedData" value="{'Show the published data'|i18n( 'design/admin/content/edit_draft' )}" title="{'Create a new draft. The contents of the new draft will be copied from the published version.'|i18n( 'design/admin/content/edit_draft' )}" />
 <input type="hidden" name="PublishAfterConflict" value="1" />
 
+{*
+   EZP-24630: ezboolean work around.
+   Since unchecked textboxes are not present in POST, storing their value in a hidden field.
+ *}
+{foreach $object.contentobject_attributes as $attribute}
+    {if eq( $attribute.data_type_string, 'ezboolean' )}
+        <input
+            id="ezcoa-{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}"
+            class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}"
+            type="hidden"
+            name="ContentObjectAttribute_data_boolean_{$attribute.id}"
+            value="{$attribute.data_int|wash}"
+        />
+    {/if}
+{/foreach}
+
 </div>
 {* DESIGN: Control bar END *}</div></div>
 

@@ -90,7 +90,7 @@
     <td><a href={concat( '/content/versionview/', $object.id, '/', $version.version, '/', $initial_language.locale )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version, '%translation', $initial_language.name ) )}">{$version.version}</a></td>
 
     {* Status. *}
-    <td>{$version.status|choose( 'Draft'|i18n( 'design/admin/content/history' ), 'Published'|i18n( 'design/admin/content/history' ), 'Pending'|i18n( 'design/admin/content/history' ), 'Archived'|i18n( 'design/admin/content/history' ), 'Rejected'|i18n( 'design/admin/content/history' ), 'Untouched draft'|i18n( 'design/admin/content/history' ) )}</td>
+    <td>{$version.status|choose( 'Draft'|i18n( 'design/admin/content/history' ), 'Published'|i18n( 'design/admin/content/history' ), 'Pending'|i18n( 'design/admin/content/history' ), 'Archived'|i18n( 'design/admin/content/history' ), 'Rejected'|i18n( 'design/admin/content/history' ), 'Untouched draft'|i18n( 'design/admin/content/history' ), 'Repeat'|i18n( 'design/standard/content/history' ), 'Queued'|i18n( 'design/standard/content/history' ) )}</td>
 
     {* Modified translation. *}
     <td>
@@ -168,7 +168,6 @@
 {if $object.can_diff}
 {def $languages=$object.languages}
 <div class="button-right">
-<form action={concat( $module.functions.history.uri, '/', $object.id, '/' )|ezurl} method="post">
         <select name="Language">
             {foreach $languages as $lang}
                 <option value="{$lang.locale}">{$lang.name|wash}</option>
@@ -186,7 +185,6 @@
         </select>
     <input type="hidden" name="ObjectID" value="{$object.id}" />
     <input class="button" type="submit" name="DiffButton" value="{'Show differences'|i18n( 'design/admin/content/history' )}" />
-</form>
 </div>
 {/if}
 
@@ -195,12 +193,10 @@
 
 <div class="block">
 <div class="button-left">
-<form name="versionsback" action={concat( '/content/history/', $object.id, '/' )|ezurl} method="post">
 {if is_set( $redirect_uri )}
 <input class="text" type="hidden" name="RedirectURI" value="{$redirect_uri}" />
 {/if}
 <input class="button" type="submit" name="BackButton" value="{'Back'|i18n( 'design/admin/content/history' )}" />
-</form>
 
 </div>
 </div>

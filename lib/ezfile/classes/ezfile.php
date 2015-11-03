@@ -66,7 +66,19 @@ class eZFile
         {
 //             eZDebugSetting::writeNotice( 'ezfile-create', "Created file $filepath", 'eZFile::create' );
             if ( $data )
-                fwrite( $file, $data );
+            {
+                if ( is_resource( $data ) )
+                {
+                    // block-copy source $data to new $file in 1MB chunks
+                    while ( !feof( $data ) )
+                    {
+                        fwrite( $file, fread( $data, 1048576 ) );
+                    }
+                    fclose( $data );
+                }
+                else
+                    fwrite( $file, $data );
+            }
             fclose( $file );
 
             if ( $atomic )

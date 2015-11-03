@@ -1,4 +1,4 @@
-<select id="{$custom_attribute_id}_source_types" class="mceItemSkip atr_link_source_types" title="{"List of possible link types. Link types that use the '://' format are technically called protocols."|i18n('design/standard/ezoe')}">
+<select data-tag-name="{$tag_name|wash()}" id="{$custom_attribute_id}_source_types" class="mceItemSkip atr_link_source_types" title="{"List of possible link types. Link types that use the '://' format are technically called protocols."|i18n('design/standard/ezoe')}">
 {if ezini_hasvariable( $custom_attribute_settings, 'LinkType', 'ezoe_attributes.ini' )}
 {foreach ezini( $custom_attribute_settings, 'LinkType', 'ezoe_attributes.ini' ) as $custom_value => $custom_name}
     <option value="{if $custom_value|ne('-0-')}{$custom_value|wash}{/if}"{if $custom_attribute_default|contains( $custom_value )} selected="selected"{/if}>{$custom_name|wash}</option>
@@ -31,7 +31,8 @@
 // register function to be called on end of init
 eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
 {
-    var drop = jQuery( 'select.atr_link_source_types'), inp = jQuery( 'input.link_href_input' );
+    var drop = jQuery( 'select.atr_link_source_types'), inp = jQuery( 'input.link_href_input' ),
+        tagName = drop.attr('data-tag-name');
 
     // init source type selection
     inp.each(function( i ){
@@ -50,7 +51,7 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
     // add event to lookup changes to source type
     drop.change(function( e )
     {
-        var lid = ezoeLinkAttribute.lid( this.id ), input = document.getElementById( lid+'_source' );
+        var lid = ezoeLinkAttribute.lid( this.id, tagName ), input = document.getElementById( lid+'_source' );
         if ( this.value === 'ezobject://' )
         {
         	input.value = this.value + ezoeLinkAttribute.node['contentobject_id'];
@@ -72,7 +73,7 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
     inp.keyup( function( e )
     {
         e = e || window.event;
-        var c = e.keyCode || e.which, lid = ezoeLinkAttribute.lid( this.id ), dropdown = jQuery( '#'+lid + '_source_types' );
+        var c = e.keyCode || e.which, lid = ezoeLinkAttribute.lid( this.id, tagName ), dropdown = jQuery( '#'+lid + '_source_types' );
         clearTimeout( ezoeLinkAttribute.timeOut );
 
         // break if user is pressing arrow keys
@@ -92,10 +93,10 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
 
     // setup navigation on bookmark / browse / search links to their 'boxes' (panels)
     jQuery( 'a.atr_link_search_link, a.atr_link_browse_link, a.atr_link_bookmark_link' ).click( function(){
-        ezoeLinkAttribute.id = ezoeLinkAttribute.lid( this.id );
+        ezoeLinkAttribute.id = ezoeLinkAttribute.lid( this.id, tagName );
         jQuery('div.panel, div.link-dialog').hide();
-        jQuery('#' + ezoeLinkAttribute.box( this.id ) ).show();
-        jQuery('#' + ezoeLinkAttribute.box( this.id ) + ' input[type=text]:first').focus();
+        jQuery('#' + ezoeLinkAttribute.box( this.id, tagName ) ).show();
+        jQuery('#' + ezoeLinkAttribute.box( this.id, tagName ) + ' input[type=text]:first').focus();
     });
     jQuery( '#embed_search_go_back_link, #embed_browse_go_back_link, #embed_bookmark_go_back_link' ).click( ezoeLinkAttribute.toggleBack );
 });
@@ -145,7 +146,7 @@ var ezoeLinkAttribute = {
     node : {'contentobject_id': '', 'node_id': '', 'name': '' },
     ajaxCheck : function( url, lid )
     {
-        var url = tinyMCEPopup.editor.settings.ez_extension_url + '/load/' + url, lid = lid ? lid : ezoeLinkAttribute.lid(this.id);
+        var url = tinyMCEPopup.editor.settings.ez_extension_url + '/load/' + url;
         jQuery.get( url, {}, function(r){ ezoeLinkAttribute.postBack(r, lid )}, 'json'  );
     },
     postBack : function( r, lid )
@@ -178,16 +179,16 @@ var ezoeLinkAttribute = {
         });
         types.val( selectedValue );
     },
-    // get link attributre id from element id
-    lid : function( id )
+    // get link attribute id from element id
+    lid : function( id, tagName )
     {
-        var arr = id.split('_');
-        return arr[0] + '_' + arr[1];
+        var arr = id.replace(new RegExp("^" + tagName), "").split('_');
+        return tagName + '_' + arr[1];
     },
     // get box id by link id
-    box : function( id )
+    box : function( id, tagName )
     {
-        var arr = id.split('_');
+        var arr = id.replace(new RegExp("^" + tagName), "").split('_');
         return arr[2] + '_box';
     },
     // Toggle panel back to initial panel

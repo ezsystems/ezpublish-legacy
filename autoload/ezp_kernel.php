@@ -604,6 +604,7 @@ return array(
       'ezpKernel'                                          => 'kernel/private/classes/ezpkernel.php',
       'ezpKernelHandler'                                   => 'kernel/private/interfaces/ezpkernelhandler.php',
       'ezpKernelRedirect'                                  => 'kernel/private/classes/ezpkernelredirect.php',
+      'ezpKernelRest'                                      => 'kernel/private/rest/classes/ezpkernelrest.php',
       'ezpKernelResult'                                    => 'kernel/private/classes/ezpkernelresult.php',
       'ezpKernelTreeMenu'                                  => 'kernel/private/classes/ezpkerneltreemenu.php',
       'ezpKernelWeb'                                       => 'kernel/private/classes/ezpkernelweb.php',

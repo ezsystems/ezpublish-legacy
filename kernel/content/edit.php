@@ -204,6 +204,13 @@ if ( $http->hasPostVariable( 'NewDraftButton' ) )
     }
 }
 
+// Action to base current translation on a different language
+if ( $Module->isCurrentAction( 'FromLanguage' ) && $http->hasPostVariable( 'FromLanguage' ) && is_numeric( $EditVersion ) )
+{
+    $FromLanguage = $http->postVariable( 'FromLanguage' );
+    return $Module->redirectToView( 'edit', array( $obj->attribute( 'id' ), $EditVersion, $EditLanguage, $FromLanguage ) );
+}
+
 // Action for the edit_language.tpl page.
 // LanguageSelection is used to choose a language to edit the object in.
 if ( $http->hasPostVariable( 'LanguageSelection' ) )

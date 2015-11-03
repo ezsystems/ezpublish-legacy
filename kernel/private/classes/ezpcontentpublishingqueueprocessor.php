@@ -33,6 +33,9 @@ class ezpContentPublishingQueueProcessor
         $this->cleanupInterval = $this->contentINI->variable( 'PublishingSettings', 'AsynchronousCleanupInterval' );
         $this->cleanupAgeLimit = $this->contentINI->variable( 'PublishingSettings', 'AsynchronousCleanupAgeLimit' );
 
+        // initiate current time for cache refresh
+        $this->lastRefreshTimestamp = time();
+
         // Queue reader handler
         $this->queueReader = $this->contentINI->variable( 'PublishingSettings', 'AsynchronousPublishingQueueReader' );
         $reflection = new ReflectionClass( $this->queueReader );
@@ -109,6 +112,8 @@ class ezpContentPublishingQueueProcessor
                     'async.log'
                 );
 
+                $this->refreshCacheStateInfo();
+
                 $pid = $publishingItem->publish();
                 pcntl_signal( SIGINT, $this->signalHandler );
                 $this->currentJobs[$pid] = $publishingItem;
@@ -136,6 +141,22 @@ class ezpContentPublishingQueueProcessor
                 sleep( 1 );
             }
         }
+    }
+
+    /**
+     * Refreshes/reloads cache and other state information periodically.
+     */
+    private function refreshCacheStateInfo()
+    {
+        if ( time() < ( $this->lastRefreshTimestamp + $this->sleepInterval ) )
+        {
+            return;
+        }
+
+        // Reload expiry timestamps
+        eZExpiryHandler::instance()->restore();
+
+        $this->lastRefreshTimestamp = time();
     }
 
     /**
@@ -352,6 +373,12 @@ class ezpContentPublishingQueueProcessor
      * @var int
      */
     private $cleanupLastTime;
+
+     /**
+     * Time counter for refresh of cache/state information
+     * @var int
+     */
+    private $lastRefreshTimestamp;
 
     /**
      * Interval for cleanup of finished processes. Default value is 12 hours in seconds

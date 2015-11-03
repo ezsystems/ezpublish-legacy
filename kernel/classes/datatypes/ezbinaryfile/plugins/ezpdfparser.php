@@ -25,7 +25,10 @@ class eZPDFParser
 
         // save the buffer contents
         $buffer = ob_get_contents();
-        ob_end_clean();
+        if ( $buffer )
+        {
+            ob_end_clean();
+        }
 
         // fetch the module printout
         ob_start();

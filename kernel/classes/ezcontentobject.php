@@ -151,6 +151,7 @@ class eZContentObject extends eZPersistentObject
                                                                          'multiplicity' => '1..*' ) ),
                       "keys" => array( "id" ),
                       "function_attributes" => array( "current" => "currentVersion",
+                                                      "published_version" => "publishedVersion",
                                                       'versions' => 'versions',
                                                       'author_array' => 'authorArray',
                                                       "class_name" => "className",
@@ -1200,6 +1201,27 @@ class eZContentObject extends eZPersistentObject
     function currentVersion( $asObject = true )
     {
         return eZContentObjectVersion::fetchVersion( $this->attribute( "current_version" ), $this->ID, $asObject );
+    }
+
+    /**
+     * Returns the published version of the object, or null if not published yet.
+     *
+     * @return  int|null
+     */
+    public function publishedVersion()
+    {
+        $params = array(
+            'conditions' => array(
+                'status' => eZContentObjectVersion::STATUS_PUBLISHED
+            )
+        );
+        $versions = $this->versions( false, $params );
+
+        if ( !empty( $versions ) )
+        {
+            return $versions[0]['version'];
+        }
+        return null;
     }
 
     /**
@@ -2829,15 +2851,13 @@ class eZContentObject extends eZPersistentObject
 
         if ( !is_numeric( $toObjectID ) )
         {
-            eZDebug::writeError( "Related object ID (toObjectID): '$toObjectID', is not a numeric value.",
-                                 "eZContentObject::addContentObjectRelation" );
+            eZDebug::writeError( "Related object ID (toObjectID): '$toObjectID', is not a numeric value.", __METHOD__ );
             return false;
         }
 
         if ( !eZContentObject::exists( $toObjectID ) )
         {
-            eZDebug::writeError( "Related object ID (toObjectID): '$toObjectID', does not refer to any existing object.",
-                                 "eZContentObject::addContentObjectRelation" );
+            eZDebug::writeError( "Related object ID (toObjectID): '$toObjectID', does not refer to any existing object.", __METHOD__ );
             return false;
         }
 
@@ -5503,7 +5523,7 @@ class eZContentObject extends eZPersistentObject
                     $contentObject->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'object' ) );
                     $contentObject->store();
                     unset( $contentObject );
-                    $contentObject = $contentClass->instantiate( $ownerID, $sectionID );
+                    $contentObject = $contentClass->instantiateIn( $initialLanguage, $ownerID, $sectionID );
                     $firstVersion = true;
                 } break;
 
@@ -5565,7 +5585,9 @@ class eZContentObject extends eZPersistentObject
                                                                          $firstVersion,
                                                                          $nodeList,
                                                                          $options,
-                                                                         $package );
+                                                                         $package,
+                                                                         'ezcontentobject',
+                                                                         $initialLanguage );
 
             if ( !$contentObjectVersion )
             {
@@ -5656,7 +5678,7 @@ class eZContentObject extends eZPersistentObject
             {
                 if ( ! $contentObject->name( $versionNum, $translation ) )
                 {
-                    eZDebug::writeNotice( "Setting name '$objectName' for version ($versionNum) of the content object ($objectID) in language($translation)" );
+                    eZDebug::writeNotice( "Setting name '$objectName' for version ($versionNum) of the content object ($objectID) in language($translation)", __METHOD__ );
                     $contentObject->setName( $objectName, $versionNum, $translation );
                 }
             }

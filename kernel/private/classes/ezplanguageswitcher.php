@@ -51,7 +51,6 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
     /**
      * Get instance siteaccess specific site.ini
      *
-     * @param string $sa
      * @return void
      */
     protected function getSiteAccessIni()
@@ -142,7 +141,7 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
             $pathPrefix = $saIni->variable( 'SiteAccessSettings', 'PathPrefix' );
             if ( !empty( $pathPrefix ) )
             {
-                if ( strpos( $url, $pathPrefix . '/' ) === 0 )
+                if ( ( strpos( $url, $pathPrefix . '/' ) === 0 ) || ( $pathPrefix === $url ) )
                 {
                     $url = substr( $url, strlen( $pathPrefix ) + 1 );
                 }
@@ -159,8 +158,6 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
     /**
      * Returns URL alias for the specified <var>$locale</var>
      *
-     * @param string $url
-     * @param string $locale
      * @return void
      */
     public function destinationUrl()
@@ -177,7 +174,13 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
 
             $nodeId = eZURLAliasML::fetchNodeIDByPath( $this->origUrl );
         }
-        $destinationElement = eZURLAliasML::fetchByAction( 'eznode', $nodeId, $this->destinationLocale, false );
+
+        $siteLanguageList = $this->getSiteAccessIni()->variable( 'RegionalSettings', 'SiteLanguageList' );
+        // set prioritized languages of destination SA, and fetch corresponding (prioritized) URL alias
+        eZContentLanguage::setPrioritizedLanguages( $siteLanguageList );
+        $destinationElement = eZURLAliasML::fetchByAction( 'eznode', $nodeId, false, true );
+
+        eZContentLanguage::clearPrioritizedLanguages();
 
         if ( empty( $destinationElement ) || ( !isset( $destinationElement[0] ) && !( $destinationElement[0] instanceof eZURLAliasML ) ) )
         {
@@ -194,7 +197,7 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
             {
                 $urlAlias = $this->origUrl;
 
-                // if applicable, remove destination PathPrefix from url,
+                // if applicable, remove destination PathPrefix from url
                 if ( !self::removePathPrefixIfNeeded( $this->getSiteAccessIni(), $urlAlias ) )
                 {
                     // If destination siteaccess has a PathPrefix but url is not matched,
@@ -213,11 +216,11 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
         else
         {
             // Translated object found, forwarding to new URL.
-
-            $saIni = $this->getSiteAccessIni();
-            $siteLanguageList = $saIni->variable( 'RegionalSettings', 'SiteLanguageList' );
-
             $urlAlias = $destinationElement[0]->getPath( $this->destinationLocale, $siteLanguageList );
+
+            // if applicable, remove destination PathPrefix from url
+            self::removePathPrefixIfNeeded( $this->getSiteAccessIni(), $urlAlias );
+
             $urlAlias .= $this->userParamString;
         }
 

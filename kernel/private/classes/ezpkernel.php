@@ -32,7 +32,7 @@ class ezpKernel implements ezpWebBasedKernelHandler
         if ( version_compare( PHP_VERSION, '5.3.3' ) < 0 )
         {
             echo "<h1>Unsupported PHP version " . PHP_VERSION . "</h1>",
-            "<p>eZ Publish 5.x does not run with PHP version lower than 5.3.</p>",
+            "<p>eZ Publish 5.x does not run with PHP version lower than 5.3.3.</p>",
             "<p>For more information about supported software please visit ",
             "<a href=\"http://ez.no/\" >us, eZ Systems, on http://ez.no</a>. See you there :-)</p>";
             exit;
@@ -120,6 +120,16 @@ class ezpKernel implements ezpWebBasedKernelHandler
     }
 
     /**
+     * Checks if the kernel has already been instantiated.
+     *
+     * @return bool
+     */
+    public static function hasInstance()
+    {
+        return self::$instance !== null;
+    }
+
+    /**
      * Returns the current instance of ezpKernel.
      *
      * @throws LogicException if no instance of ezpKernel has been instantiated
@@ -127,14 +137,15 @@ class ezpKernel implements ezpWebBasedKernelHandler
      */
     public static function instance()
     {
-        if ( self::$instance === null )
+        if ( !self::hasInstance() )
         {
             throw new LogicException(
                 'Cannot return the instance of '
-                    . __CLASS__
-                    . ', it has not been instantiated'
+                . __CLASS__
+                . ', it has not been instantiated'
             );
         }
         return self::$instance;
     }
 }
+

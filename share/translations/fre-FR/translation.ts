@@ -25510,7 +25510,7 @@ your account.</source>
     </message>
     <message>
         <source>Your registration has been approved. You can login with your account %username.</source>
-        <translation>Votre inscription a été approuvée. Vous pouvez maintenant vous identifier avec compte %username.</translation>
+        <translation>Votre inscription a été approuvée. Vous pouvez maintenant vous identifier avec votre compte %username.</translation>
     </message>
     <message>
         <source>Click the following URL to login:</source>
@@ -28432,7 +28432,7 @@ your account.</source>
     </message>
     <message>
         <source>Enter account information</source>
-        <translation>Entez les informations du compte utilisateur</translation>
+        <translation>Entrez les informations du compte utilisateur</translation>
     </message>
     <message>
         <source>VAT types</source>

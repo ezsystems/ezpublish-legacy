@@ -30,6 +30,19 @@ class eZContentObjectTreeNodeTest2 extends ezpDatabaseTestCase
             array( 'class_identifier', "                            ( ezcontentclass.identifier IN ('1','3','foo','1foo','foo_1')  ) AND " ),
             array( 'class_name',       "                            ( ezcontentclass_name.name IN ('1','3','foo','1foo','foo_1')  ) AND " ),
             array( 'name',             "                            ( ezcontentobject_name.name IN ('1','3','foo','1foo','foo_1')  ) AND " ),
+            // custom
+            array( 1,                  "
+                                  a0.contentobject_id = ezcontentobject.id AND
+                                  a0.contentclassattribute_id = 1 AND
+                                  a0.version = ezcontentobject_name.content_version AND 
+ ( a0.language_id & ezcontentobject.language_mask > 0 AND
+     ( (   ezcontentobject.language_mask - ( ezcontentobject.language_mask & a0.language_id ) ) & 1 )
+   + ( ( ( ezcontentobject.language_mask - ( ezcontentobject.language_mask & a0.language_id ) ) & 2 ) )
+   <
+     ( a0.language_id & 1 )
+   + ( ( a0.language_id & 2 ) )
+ ) 
+ AND                             ( a0.sort_key_string IN ('1','3','foo','1foo','foo_1')  ) AND " ),
         );
     }
 

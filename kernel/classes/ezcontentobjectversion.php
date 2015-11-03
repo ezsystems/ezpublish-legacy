@@ -1250,16 +1250,19 @@ class eZContentObjectVersion extends eZPersistentObject
      \param ownerID owner ID
      \param sectionID section ID
      \param activeVersion new object, true if first version of new object
+     \param firstVersion If true, unserialize to version 1, otherwise create new version
+     \param nodeList
      \param options
      \param package
+     \param handlerType
+     \param firstVersioninitialLanguage Locale string (e.g. "eng-GB") of the initial language to use if unserializing to version 1.
 
      \returns created object, false if could not create object/xml invalid
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    static function unserialize( $domNode, $contentObject, $ownerID, $sectionID, $activeVersion, $firstVersion, &$nodeList, &$options, $package, $handlerType = 'ezcontentobject' )
+    static function unserialize( $domNode, $contentObject, $ownerID, $sectionID, $activeVersion, $firstVersion, &$nodeList, &$options, $package, $handlerType = 'ezcontentobject', $firstVersioninitialLanguage = false )
     {
-
         $oldVersion = $domNode->getAttributeNS( 'http://ez.no/ezobject', 'version' );
         $status = $domNode->getAttributeNS( 'http://ez.no/ezobject', 'status' );
         $languageNodeArray = $domNode->getElementsByTagName( 'object-translation' );
@@ -1275,12 +1278,19 @@ class eZContentObjectVersion extends eZPersistentObject
                 $currentLanguages[] = $language;
             }
         }
-        foreach ( eZContentLanguage::prioritizedLanguages() as $language )
+        if ( $firstVersion )
         {
-            if ( in_array( $language->attribute( 'locale' ), $currentLanguages ) )
+            $initialLanguage = $firstVersioninitialLanguage;
+        }
+        if ( !$initialLanguage )
+        {
+            foreach ( eZContentLanguage::prioritizedLanguages() as $language )
             {
-                $initialLanguage = $language->attribute( 'locale' );
-                break;
+                if ( in_array( $language->attribute( 'locale' ), $currentLanguages ) )
+                {
+                    $initialLanguage = $language->attribute( 'locale' );
+                    break;
+                }
             }
         }
         if ( !$initialLanguage )

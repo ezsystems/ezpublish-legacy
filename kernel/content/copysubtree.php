@@ -167,6 +167,9 @@ function copyPublishContentObject( $sourceObject,
         return 0;
     }
 
+    $db = eZDB::instance();
+    $db->begin();
+
     // make copy of source object
     $newObject             = $sourceObject->copy( $allVersions ); // insert source and new object's ids in $syncObjectIDList
     // We should reset section that will be updated in updateSectionID().
@@ -227,6 +230,8 @@ function copyPublishContentObject( $sourceObject,
         }
     }
 
+    $db->commit();
+
     // publish the newly created object
     $result = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $newObject->attribute( 'id' ),
                                                                         'version'   => $curVersion ) );
@@ -278,6 +283,7 @@ function copyPublishContentObject( $sourceObject,
                 else
                     $newNode->setAttribute( 'is_invisible', $srcNode->attribute( 'is_invisible' ) );
 
+                $newNode->store();
                 $syncNodeIDListSrc[] = $srcNode->attribute( 'node_id' );
                 $syncNodeIDListNew[] = $newNode->attribute( 'node_id' );
                 $bSrcParentFound = true;

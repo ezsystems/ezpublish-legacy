@@ -67,11 +67,13 @@
     <div class="login-input-wrapper">
         <input class="defaultbutton" type="submit" id="loginbutton" name="LoginButton" value="{'Log in'|i18n( 'design/admin/user/login', 'Login button' )}" tabindex="3" title="{'Click here to log in using the username/password combination entered in the fields above.'|i18n( 'design/admin/user/login' )}" />
     </div>
-    <div class="login-text-wrapper">
-        {'or'|i18n( 'design/admin/user/login')}
-        <br/>
-        <a href={'/user/register'|ezurl()}>{'Register new account'|i18n( 'design/admin/user/login')}</a>
-    </div>
+    {if ezmodule( 'user/register' )}
+        <div class="login-text-wrapper">
+            {'or'|i18n( 'design/admin/user/login')}
+            <br/>
+            <a href={'/user/register'|ezurl()}>{'Register new account'|i18n( 'design/admin/user/login')}</a>
+        </div>
+    {/if}
 </div>
 {* DESIGN: Control bar END *}</div></div>
 </div>

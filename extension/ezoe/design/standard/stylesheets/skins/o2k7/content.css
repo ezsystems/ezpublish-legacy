@@ -154,6 +154,27 @@ span.ezoeItemCustomTag.underline
   text-decoration: underline
 }
 
+/* table valign */
+td[customattributes*="valign|top"], th[customattributes*="valign|top"]
+{
+    vertical-align: top;
+}
+
+td[customattributes*="valign|baseline"], th[customattributes*="valign|baseline"]
+{
+    vertical-align: baseline;
+}
+
+td[customattributes*="valign|middle"], th[customattributes*="valign|middle"]
+{
+    vertical-align: middle;
+}
+
+td[customattributes*="valign|bottom"], th[customattributes*="valign|bottom"]
+{
+    vertical-align: bottom;
+}
+
 /* Visualisation of default block custom tags */
 
 div.ezoeItemCustomTag.pagebreak

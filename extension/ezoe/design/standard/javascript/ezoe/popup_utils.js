@@ -212,10 +212,18 @@ var eZOEPopupUtils = {
             }
             else if ( s.tagName === 'link' )
             {
-                var tempid = args['id'];
-                args['id'] = '__mce_tmp';
+                var links, linkClass = 'ezoeInsertedLink', origClass;
+
+                origClass = args['class'];
+                args['class'] = args['class'] ? args['class'] + " " + linkClass : linkClass;
                 ed.execCommand('mceInsertLink', false, args, {skip_undo : 1} );
-                s.editorElement = ed.dom.get('__mce_tmp');
+                links = ed.dom.select('.' + linkClass);
+                tinymce.each(links, function (link) {
+                    ed.dom.removeClass(link, linkClass);
+                });
+                s.editorElement = links[0];
+                args['class'] = origClass;
+
                 // fixup if we are inside embed tag
                 if ( tmp = eZOEPopupUtils.getParentByTag( s.editorElement, 'div,span', 'ezoeItemNonEditable' ) )
                 {
@@ -226,7 +234,6 @@ var eZOEPopupUtils = {
                     tmp.parentNode.insertBefore(s.editorElement, tmp);
                     s.editorElement.appendChild( tmp );
                 }
-                args['id'] = tempid;
             }
             else if ( eZOEPopupUtils.xmlToXhtmlHash[s.tagName] )
             {

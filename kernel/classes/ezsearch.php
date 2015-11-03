@@ -563,15 +563,16 @@ class eZSearch
      * @param int $mainNodeID
      * @param int $objectID
      * @param array $nodeAssignmentIDList
+     * @param bool $isMoved true if node is being moved
      * @return false|mixed False in case method is undefined, otherwise return the result of the search engine call
      */
-    public static function addNodeAssignment( $mainNodeID, $objectID, $nodeAssignmentIDList )
+    public static function addNodeAssignment( $mainNodeID, $objectID, $nodeAssignmentIDList, $isMoved = false )
     {
         $searchEngine = eZSearch::getEngine();
 
         if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'addNodeAssignment' ) )
         {
-            return $searchEngine->addNodeAssignment( $mainNodeID, $objectID, $nodeAssignmentIDList );
+            return $searchEngine->addNodeAssignment( $mainNodeID, $objectID, $nodeAssignmentIDList, $isMoved );
         }
 
         return false;

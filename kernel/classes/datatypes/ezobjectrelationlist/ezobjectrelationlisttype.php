@@ -422,11 +422,6 @@ class eZObjectRelationListType extends eZDataType
         // order by asc
         sort( $translationList );
 
-        if ( ( $countTsl == 1 ) or ( $countTsl > 1 and $translationList[0] == $langCode ) )
-        {
-             eZContentObject::fetch( $contentObjectID )->removeContentObjectRelation( false, $contentObjectVersion, $contentClassAttributeID, eZContentObject::RELATION_ATTRIBUTE );
-        }
-
         foreach( $content['relation_list'] as $relationItem )
         {
             // Installing content object, postUnserialize is not called yet,
@@ -457,7 +452,6 @@ class eZObjectRelationListType extends eZDataType
                         $version->store();
                     }
 
-                    $object->setAttribute( 'status', eZContentObject::STATUS_DRAFT );
                     $object->store();
                 }
             }
@@ -598,7 +592,7 @@ class eZObjectRelationListType extends eZDataType
                                 $contentModified = true;
                             }
                         }
-                        else
+                        else if ( $object->attribute( 'status' ) != eZContentObject::STATUS_ARCHIVED )
                         {
                             if ( !isset( $copiedRelatedAccordance[ $relationItem['contentobject_id'] ] ) )
                                 $copiedRelatedAccordance[ $relationItem['contentobject_id'] ] = array();
@@ -814,18 +808,33 @@ class eZObjectRelationListType extends eZDataType
         return $doc;
     }
 
+    /**
+     * Returns xml identifier to attribute map
+     *
+     * Key is xml identifier as used in attribute data_string format, and value is the name exposed in attribute.
+     *
+     * Warning: Besides contentobject_id most attributes are not updated on changes and hence represent the values when
+     *          the relation was first created. These should ideally have been prefixed with "original" (see inline).
+     *          You can see this in affect all over this datatype that for instance version number from attribute
+     *          source is newer used for basis to generate things like title, metadata or toString value.
+     *
+     * @return array
+     */
     static function contentObjectArrayXMLMap()
     {
         return array( 'identifier' => 'identifier',
                       'priority' => 'priority',
                       'in-trash' => 'in_trash',
                       'contentobject-id' => 'contentobject_id',
+                      'is-modified' => 'is_modified',
+
+                      // The following attributes should in retrospective have been prefixed with "original"
+                      // If you are interested in current published meta data of relation, fetch content object.
                       'contentobject-version' => 'contentobject_version',
                       'node-id' => 'node_id',
                       'parent-node-id' => 'parent_node_id',
                       'contentclass-id' => 'contentclass_id',
                       'contentclass-identifier' => 'contentclass_identifier',
-                      'is-modified' => 'is_modified',
                       'contentobject-remote-id' => 'contentobject_remote_id' );
     }
 
@@ -1564,15 +1573,23 @@ class eZObjectRelationListType extends eZDataType
                 $attributes = $content['temp'][$subObjectID]['attributes'];
             else
             {
-                $subObjectVersion = $relationItem['contentobject_version'];
-                $object = eZContentObject::fetch( $subObjectID );
+                $subObjectVersionNum = $relationItem['contentobject_version'];
+                $subObject = eZContentObject::fetch( $subObjectID );
+
+                // Using last version of object (version inside xml data is the original version)
+                $subCurrentVersionObject = $subObject->currentVersion();
+                if( $subCurrentVersionObject instanceof eZContentObjectVersion )
+                {
+                    $subObjectVersionNum = $subCurrentVersionObject->attribute( 'version' );
+                }
+
                 if ( eZContentObject::recursionProtect( $subObjectID ) )
                 {
-                    if ( !$object )
+                    if ( !$subObject )
                     {
                         continue;
                     }
-                    $attributes = $object->contentObjectAttributes( true, $subObjectVersion, $language );
+                    $attributes = $subObject->contentObjectAttributes( true, $subObjectVersionNum, $language );
                 }
             }
 

@@ -109,10 +109,10 @@ class eZContentObjectTreeNodeOperations
                 $nodeAssignment->setAttribute( 'op_code', eZNodeAssignment::OP_CODE_MOVE );
                 $nodeAssignment->store();
 
-                // update search index
+                // update search index specifying we are doing a move operation
                 $nodeIDList = array( $nodeID );
                 eZSearch::removeNodeAssignment( $node->attribute( 'main_node_id' ), $newNode->attribute( 'main_node_id' ), $object->attribute( 'id' ), $nodeIDList );
-                eZSearch::addNodeAssignment( $newNode->attribute( 'main_node_id' ), $object->attribute( 'id' ), $nodeIDList );
+                eZSearch::addNodeAssignment( $newNode->attribute( 'main_node_id' ), $object->attribute( 'id' ), $nodeIDList, true );
             }
 
             $result = true;

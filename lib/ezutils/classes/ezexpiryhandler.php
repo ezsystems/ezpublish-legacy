@@ -61,6 +61,24 @@ class eZExpiryHandler
      */
     function store()
     {
+        if ( !$this->IsModified )
+        {
+            return;
+        }
+
+        // EZP-23908: Restore timestamps before saving, to reduce chance of race condition issues
+        $modifiedTimestamps = $this->Timestamps;
+        $this->restore();
+
+        // Apply timestamps that have been added or modified in this process
+        foreach ( $modifiedTimestamps as $name => $value )
+        {
+            if ( $value > self::getTimestamp( $name, 0 ) )
+            {
+                $this->setTimestamp( $name, $value );
+            }
+        }
+
         if ( $this->IsModified )
         {
             $this->CacheFile->storeContents( "<?php\n\$Timestamps = " . var_export( $this->Timestamps, true ) . ";\n?>", 'expirycache', false, true );
