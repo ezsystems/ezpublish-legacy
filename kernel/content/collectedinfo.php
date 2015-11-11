@@ -37,12 +37,16 @@ $http = eZHTTPTool::instance();
 
 $tpl = eZTemplate::factory();
 
-$icMap = array();
-if ( $http->hasSessionVariable( 'InformationCollectionMap' ) )
-    $icMap = $http->sessionVariable( 'InformationCollectionMap' );
 $icID = false;
-if ( isset( $icMap[$object->attribute( 'id' )] ) )
-    $icID = $icMap[$object->attribute( 'id' )];
+if ( $http->hasSessionVariable( 'InformationCollectionMap' ) ) {
+    $icMap = $http->sessionVariable( 'InformationCollectionMap' );
+
+    if ( isset( $icMap[$object->attribute( 'id' )] ) ) {
+        $icID = $icMap[$object->attribute( 'id' )];
+    }
+}
+if ( !$icID )
+    return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 $informationCollectionTemplate = eZInformationCollection::templateForObject( $object );
 $attributeHideList = eZInformationCollection::attributeHideList();
