@@ -435,6 +435,9 @@ YUI( YUI3_config ).add('io-ez', function( Y )
         if ( self::hasPostValue( $http, 'EncodingFormatDate' ) )
             $encodeParams['formatDate'] = $http->postVariable( 'EncodingFormatDate' );
 
+        if ( self::hasPostValue( $http, 'EncodingDataMap' ) )
+            $encodeParams['dataMap'] = $http->postVariable( 'EncodingDataMap' );
+
         // Prepare search parameters
         $params = array( 'SearchOffset' => $searchOffset,
                          'SearchLimit' => $searchLimit,
