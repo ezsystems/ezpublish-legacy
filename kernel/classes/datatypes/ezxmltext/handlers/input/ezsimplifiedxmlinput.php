@@ -105,6 +105,13 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             $contentObject->appendInputRelationList( $parser->getRelatedObjectIDArray(), eZContentObject::RELATION_EMBED );
             $contentObject->appendInputRelationList( $parser->getLinkedObjectIDArray(), eZContentObject::RELATION_LINK );
 
+            // Fixes EZP-24710 by processing the XML through ezoe
+            $tempOutputHandler = new eZXHTMLXMLOutput( $xmlString, false, $contentObjectAttribute );
+            $tempOutputText = $tempOutputHandler->outputText();
+            $parser = new eZOEInputParser();
+            $document = $parser->process( $tempOutputText );
+            $xmlString = eZXMLTextType::domString( $document );
+
             $contentObjectAttribute->setAttribute( 'data_text', $xmlString );
             return eZInputValidator::STATE_ACCEPTED;
         }
