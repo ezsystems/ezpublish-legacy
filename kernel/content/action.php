@@ -1098,7 +1098,7 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
     if ( $http->hasPostVariable( 'ContentObjectID' ) )
     {
         $objectID = $http->postVariable( 'ContentObjectID' );
-        eZContentCacheManager::clearContentCache( $objectID );
+        eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
     }
 
     if ( $http->hasPostVariable( 'RedirectURIAfterPriority' ) )
