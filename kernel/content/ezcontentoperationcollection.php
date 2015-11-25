@@ -1195,7 +1195,7 @@ class eZContentOperationCollection
              $curNode->store();
              $db->commit();
              $object = $curNode->object();
-             eZContentCacheManager::clearContentCache( $object->attribute( 'id' ) );
+             eZContentCacheManager::clearContentCacheIfNeeded( $object->attribute( 'id' ) );
         }
         return array( 'status' => true );
     }
