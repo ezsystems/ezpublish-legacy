@@ -51,8 +51,8 @@ if ( $optDryRun ) {
  */
 function fixupTrashedImageXml( $imageAttribute, $optDryRun )
 {
-    if ( stripos(' dirpath="/trashed" ', $imageAttribute['data_text']) === false ||
-        stripos(' is_valid="" ', $imageAttribute['data_text']) === false )
+    if ( stripos( $imageAttribute['data_text'], ' dirpath="/trashed" ' ) === false ||
+        stripos( $imageAttribute['data_text'], ' is_valid="" ' ) === false )
     {
         return;
     }
