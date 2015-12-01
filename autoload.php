@@ -21,7 +21,13 @@ if ( file_exists( __DIR__ . '/config.php' ) )
 
 if ( !defined( 'EZCBASE_ENABLED' ) )
 {
-    $appName = defined( 'EZP_APP_FOLDER_NAME' ) ? EZP_APP_FOLDER_NAME : 'ezpublish';
+    $defaultAppName = "app";
+    if ( !file_exists( __DIR__ . "/../$defaultAppName" ) )
+    {
+        $defaultAppName = "ezpublish";
+    }
+
+    $appName = defined( 'EZP_APP_FOLDER_NAME' ) ? EZP_APP_FOLDER_NAME : $defaultAppName;
     $appFolder = __DIR__ . "/../$appName";
     $legacyVendorDir = __DIR__ . "/vendor";
 

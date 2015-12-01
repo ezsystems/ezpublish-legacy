@@ -16,7 +16,13 @@ if ( file_exists( "config.php" ) )
 
 // Setup, includes
 //{
-$appName = defined( 'EZP_APP_FOLDER_NAME' ) ? EZP_APP_FOLDER_NAME : 'ezpublish';
+$defaultAppName = "app";
+if ( !file_exists( __DIR__ . "/../../../$defaultAppName" ) )
+{
+    $defaultAppName = "ezpublish";
+}
+
+$appName = defined( 'EZP_APP_FOLDER_NAME' ) ? EZP_APP_FOLDER_NAME : $defaultAppName;
 $appFolder = getcwd() . "/../$appName";
 $legacyVendorDir = getcwd() . "/vendor";
 
