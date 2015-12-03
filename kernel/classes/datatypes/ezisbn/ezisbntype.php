@@ -224,6 +224,7 @@ class eZISBNType extends eZDataType
 
             if ( !$contentObjectAttribute->validateIsRequired() and ( !$number13 or $number13 == '' ) )
             {
+                $contentObjectAttribute->setAttribute( self::CONTENT_VALUE, '' );
                 return true;
             }
 
