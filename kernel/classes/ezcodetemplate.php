@@ -311,7 +311,7 @@ class eZCodeTemplate
         {
             $originalMD5 = md5_file( $filePath );
             $updatedMD5 = md5_file( $tempFile );
-            if ( $originalMD5 == $updatedMD5 )
+            if ( $originalMD5 === $updatedMD5 )
             {
                 unlink( $tempFile );
                 return self::STATUS_NO_CHANGE;
