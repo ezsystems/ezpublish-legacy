@@ -323,12 +323,36 @@ class eZUserOperationCollection
             $newHash = $user->createHash( $login, $newPassword, $site, $type );
             $user->setAttribute( 'password_hash', $newHash );
             $user->store();
+
+            // "Draft" must be in sync with the PersistentObject
+            self::updateUserDraft( $user );
+
             return array( 'status' => true );
         }
         else
         {
             eZDebug::writeError( "Failed to change password of user $userID (could not fetch user)", __METHOD__ );
             return array( 'status' => false );
+        }
+    }
+
+    /**
+     * Update the "draft" of a given user
+     *
+     * @param $user eZUser
+     */
+    static private function updateUserDraft( $user )
+    {
+        $userObject = eZContentObject::fetch( $user->id() );
+
+        foreach ( $userObject->dataMap() as $attribute )
+        {
+            if ( $attribute->ContentClassAttributeIdentifier == 'user_account' )
+            {
+                $attribute->setAttribute( 'data_text', eZUserType::serializeDraft( $user ) );
+                $attribute->store();
+                break;
+            }
         }
     }
 
