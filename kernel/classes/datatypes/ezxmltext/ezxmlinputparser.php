@@ -782,40 +782,8 @@ class eZXMLInputParser
             return $text;
         }
         // Convert other HTML entities to the current charset characters.
-        $codec = eZTextCodec::instance( 'unicode', false );
-        $pos = 0;
-        $domString = "";
-        while ( $pos < strlen( $text ) - 1 )
-        {
-            $startPos = $pos;
-            while( !( $text[$pos] == '&' && isset($text[$pos + 1]) && $text[$pos + 1] == '#' ) && $pos < strlen( $text ) - 1 )
-            {
-                $pos++;
-            }
-
-            $domString .= substr( $text, $startPos, $pos - $startPos );
-
-            if ( $pos < strlen( $text ) - 1 )
-            {
-                $endPos = strpos( $text, ';', $pos + 2 );
-                if ( $endPos === false )
-                {
-                    $pos += 2;
-                    continue;
-                }
-
-                $code = substr( $text, $pos + 2, $endPos - ( $pos + 2 ) );
-                $char = $codec->convertString( array( $code ) );
-
-                $pos = $endPos + 1;
-                $domString .= $char;
-            }
-            else
-            {
-                $domString .= substr( $text, $pos, 2 );
-            }
-        }
-        return $domString;
+        $convmap = array( 0x0, 0x2FFFF, 0, 0xFFFF );
+        return mb_decode_numericentity( $text, $convmap, 'UTF-8' );
     }
 
     /*!
