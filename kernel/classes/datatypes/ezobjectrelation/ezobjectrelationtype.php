@@ -158,23 +158,34 @@ class eZObjectRelationType extends eZDataType
         $contentObjectID = $contentObjectAttribute->ContentObjectID;
         $contentObjectVersion = $contentObjectAttribute->Version;
 
-        $obj = $contentObjectAttribute->object();
-        //get eZContentObjectVersion
-        $currVerobj = $obj->version( $contentObjectVersion );
-        // get array of language codes
-        $transList = $currVerobj->translations( false );
-        $countTsl = count( $transList );
+        /** @var eZContentObject */
+        $contentObject = $contentObjectAttribute->object();
 
-        if ( ( $countTsl == 1 ) )
+        // check if previous relation(s) can be removed according to existing translations
+        if ( $contentObjectAttribute->contentClassAttributeCanTranslate() )
         {
-             eZContentObject::fetch( $contentObjectID )->removeContentObjectRelation( false, $contentObjectVersion, $contentClassAttributeID, eZContentObject::RELATION_ATTRIBUTE );
+            /** @var eZContentObjectVersion */
+            $currVerobj = $contentObject->version( $contentObjectVersion );
+            // get array of language codes
+            $transList = $currVerobj->translations( false );
+            $removeRelation = ( count( $transList ) == 1 );
+        }
+        else
+        {
+            // not translatable, replace/remove previous relation
+            $removeRelation = true;
+        }
+
+        if ( $removeRelation )
+        {
+             $contentObject->removeContentObjectRelation( false, $contentObjectVersion, $contentClassAttributeID, eZContentObject::RELATION_ATTRIBUTE );
         }
 
         $objectID = $contentObjectAttribute->attribute( "data_int" );
 
         if ( $objectID )
         {
-            eZContentObject::fetch( $contentObjectID )->addContentObjectRelation( $objectID, $contentObjectVersion, $contentClassAttributeID, eZContentObject::RELATION_ATTRIBUTE );
+            $contentObject->addContentObjectRelation( $objectID, $contentObjectVersion, $contentClassAttributeID, eZContentObject::RELATION_ATTRIBUTE );
         }
     }
 
