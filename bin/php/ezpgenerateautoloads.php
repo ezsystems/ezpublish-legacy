@@ -18,7 +18,7 @@ if ( file_exists( "config.php" ) )
 //{
 $appName = defined( 'EZP_APP_FOLDER_NAME' ) ? EZP_APP_FOLDER_NAME : 'ezpublish';
 $appFolder = getcwd() . "/../$appName";
-$legacyVendorDir = getcwd() . "/vendor";
+$legacyVendorDir = getcwd() . "/../vendor";
 
 $baseEnabled = true;
 // Bundled
