@@ -129,7 +129,7 @@ class eZUserType extends eZDataType
                                                                              'eZUserType' ) );
                         return eZInputValidator::STATE_INVALID;
                     }
-                    if ( $password != $passwordConfirm )
+                    if ( $password !== $passwordConfirm )
                     {
                         $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                              'The passwords do not match.',

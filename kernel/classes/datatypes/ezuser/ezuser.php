@@ -264,7 +264,7 @@ class eZUser extends eZPersistentObject
         $this->setAttribute( "email", $email );
         $this->setAttribute( "login", $login );
         if ( eZUser::validatePassword( $password ) and
-             $password == $passwordConfirm ) // Cannot change login or password_hash without login and password
+             $password === $passwordConfirm ) // Cannot change login or password_hash without login and password
         {
             $this->setAttribute( "password_hash", eZUser::createHash( $login, $password, eZUser::site(),
                                                                       eZUser::hashType() ) );
