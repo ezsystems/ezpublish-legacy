@@ -25,9 +25,10 @@
     -----------------------------
     If installation is in a eZ Publish 5/Symfony context, composer will be attempted to be used
     if the following file is found: '../EZP_APP_FOLDER_NAME/autoload.php'
-    Default EZP_APP_FOLDER_NAME value is "ezpublish" and this constant gives you possibility to change it.
+    Default EZP_APP_FOLDER_NAME value is "app" and this constant gives you possibility to change it.
+    In eZ Publish 5.x, default value of EZP_APP_FOLDER_NAME was "ezpublish".
 */
-//define( 'EZP_APP_FOLDER_NAME', 'app' );
+//define( 'EZP_APP_FOLDER_NAME', 'my_app' );
 
 /*
     USING BUNDLED COMPONENTS
