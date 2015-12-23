@@ -26,7 +26,7 @@ class eZContentObjectTreeNodeTest2 extends ezpDatabaseTestCase
             array( 'owner',            "                            ( ezcontentobject.owner_id IN (1,3,0,1,0)  ) AND " ),
             array( 'visibility',       "                            ( ezcontentobject_tree.is_invisible IN (1,3,0,1,0)  ) AND " ),
             // string
-            array( 'path',             "                            ( path_string IN ('1','3','foo','1foo','foo_1')  ) AND " ),
+            array( 'path',             "                            ( ezcontentobject_tree.path_string IN ('1','3','foo','1foo','foo_1')  ) AND " ),
             array( 'class_identifier', "                            ( ezcontentclass.identifier IN ('1','3','foo','1foo','foo_1')  ) AND " ),
             array( 'class_name',       "                            ( ezcontentclass_name.name IN ('1','3','foo','1foo','foo_1')  ) AND " ),
             array( 'name',             "                            ( ezcontentobject_name.name IN ('1','3','foo','1foo','foo_1')  ) AND " ),

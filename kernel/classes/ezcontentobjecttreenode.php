@@ -1022,7 +1022,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     {
                         case 'path':
                         {
-                            $filterField = 'path_string';
+                            $filterField = 'ezcontentobject_tree.path_string';
                             $filterFieldType = 'string';
                         } break;
                         case 'published':
