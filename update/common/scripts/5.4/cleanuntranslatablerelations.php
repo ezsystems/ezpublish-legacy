@@ -44,13 +44,36 @@ if ( $optDryRun ) {
 }
 
 
+/**
+ * Parse xml_text from ezobjectrelationlist attribute and return array of related content ids
+ *
+ * @param string $relationListXml relationlist xml (data_text)
+ *
+ * @return int[] array of content ids, or empty
+ */
+function parseRelationListIds( $relationListXml )
+{
+    $xml = simplexml_load_string( $relationListXml );
+    $list = $xml->{'relation-list'};
+
+    $contentIds = array();
+    foreach ( $list->children() as $item ) {
+        $contentIds[] = (int)$item['contentobject-id'];
+    }
+
+    return array_unique( $contentIds );
+}
+
+
+
 // main loop
 do {
     // get all relations for all attribute versions from non-translatable ezobjectrelation class attributes
     $rows = $db->arrayQuery(
-        "SELECT contentobject_id, attr.version, classattr.id as attr_id, data_int FROM ezcontentobject_attribute attr ".
+        "SELECT contentobject_id, attr.version, classattr.id as attr_id, classattr.data_type_string, attr.data_int, attr.data_text " .
+        "FROM ezcontentobject_attribute attr ".
         "INNER JOIN ezcontentclass_attribute classattr ON attr.contentclassattribute_id=classattr.id " .
-        "WHERE classattr.data_type_string='ezobjectrelation' AND can_translate=0 AND NOT data_int IS null " .
+        "WHERE classattr.data_type_string IN ( 'ezobjectrelation', 'ezobjectrelationlist' ) AND can_translate=0 " .
         "GROUP BY contentobject_id, version, data_int"
     );
 
@@ -62,20 +85,42 @@ do {
     {
         $contentObjectId = $attributeInfo['contentobject_id'];
         $version = $attributeInfo['version'];
-        $relationId = $attributeInfo['data_int'];
         $attrId = $attributeInfo['attr_id'];
 
         $relationType = eZContentObject::RELATION_ATTRIBUTE;
 
-        if ( !$optDryRun )
-        {
-            $db->query(
-                "DELETE FROM ezcontentobject_link " .
-                "WHERE relation_type=$relationType " .
-                "AND contentclassattribute_id=$attrId AND from_contentobject_id=$contentObjectId AND from_contentobject_version=$version " .
-                "AND to_contentobject_id != $relationId"
-            );
+        if ( $attributeInfo['data_type_string'] == 'ezobjectrelation' ) {
+            $relationId = $attributeInfo['data_int'];
+
+            if ( empty($relationId) )
+                continue;
+
+            if ( !$optDryRun ) {
+                $db->query(
+                    "DELETE FROM ezcontentobject_link " .
+                    "WHERE relation_type=$relationType " .
+                    "AND contentclassattribute_id=$attrId AND from_contentobject_id=$contentObjectId AND from_contentobject_version=$version " .
+                    "AND to_contentobject_id != $relationId"
+                );
+            }
+
+        } else {
+            // process objectrelationlist
+            $relationIds = parseRelationListIds( $attributeInfo['data_text'] );
+            if ( empty($relationIds) )
+                continue;
+
+            $relationIdsSql = implode( ', ', $relationIds );
+            if ( !$optDryRun ) {
+                $rows = $db->query(
+                    "DELETE FROM ezcontentobject_link " .
+                    "WHERE relation_type=$relationType " .
+                    "AND contentclassattribute_id=$attrId AND from_contentobject_id=$contentObjectId AND from_contentobject_version=$version " .
+                    "AND to_contentobject_id NOT IN ( $relationIdsSql )"
+                );
+            }
         }
+
     }
     $db->commit();
 
