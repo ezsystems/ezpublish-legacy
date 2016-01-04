@@ -29,6 +29,8 @@ $db = eZDB::instance();
 
 $script->setIterationData( '.', '~' );
 
+$updateDoneForId = array();
+
 while ( $binaryFiles = eZPersistentObject::fetchObjectList( eZBinaryFile::definition(), null, null, null, array( 'offset' => $offset, 'limit' => $limit ) ) )
 {
     foreach ( $binaryFiles as $binaryFile )
@@ -58,10 +60,15 @@ while ( $binaryFiles = eZPersistentObject::fetchObjectList( eZBinaryFile::defini
             $newFilePath = $binaryFile->attribute( 'filepath' );
 
             $file = eZClusterFileHandler::instance( $oldFilePath );
-            if ( $file->exists() )
+            if ( isset( $updateDoneForId[$binaryFile->attribute( 'contentobject_attribute_id' )] ) )
+            {
+                // The file has been renamed already, do nothing here.
+            }
+            else if ( $file->exists() )
             {
                 $text = "renamed $fileName to $newFileName";
                 $file->move( $newFilePath );
+                $updateDoneForId[$binaryFile->attribute( 'contentobject_attribute_id' )] = true;
             }
             else
             {
