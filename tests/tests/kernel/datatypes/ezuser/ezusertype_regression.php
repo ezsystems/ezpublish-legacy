@@ -182,6 +182,45 @@ class eZUserTypeRegression extends ezpDatabaseTestCase
     }
 
     /**
+     * Tests that updating the password alone will update the internally stored user data
+     */
+    public function testUpdatePasswordUpdatesSerializedData()
+    {
+        $userId = $this->userObject->attribute('id');
+
+        $passwordHash = $this->getSerializedPasswordHash($this->userObject);
+
+        eZUserOperationCollection::password($userId, 'newpassword');
+
+        $updatedPasswordHash = $this->getSerializedPasswordHash( eZContentObject::fetch($userId) );
+
+        self::assertNotEquals(
+            $passwordHash,
+            $updatedPasswordHash,
+            "The password hash stored in the user attribute should have been updated"
+        );
+    }
+
+    /**
+     * @param \eZContentObject $userObject
+     *
+     * @return string The serialized password hash, or null if none is set
+     */
+    private function getSerializedPasswordHash(eZContentObject $userObject)
+    {
+        $dataMap = $userObject->dataMap();
+
+        $userAccountAttributeText = $dataMap['user_account']->attribute('data_text');
+
+        // empty on initial version
+        if (!empty($userAccountAttributeText)) {
+            return json_decode($userAccountAttributeText)->password_hash;
+        }
+
+        return null;
+    }
+
+    /**
      * Enables the current user
      */
     private function enableCurrentUser()
