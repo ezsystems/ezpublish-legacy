@@ -60,7 +60,9 @@ while ( $binaryFiles = eZPersistentObject::fetchObjectList( eZBinaryFile::defini
             $newFilePath = $binaryFile->attribute( 'filepath' );
 
             $file = eZClusterFileHandler::instance( $oldFilePath );
-            if ( isset( $updateDoneForId[$binaryFile->attribute( 'contentobject_attribute_id' )] ) )
+            $newFile = eZClusterFileHandler::instance( $newFilePath );
+            if ( isset( $updateDoneForId[$binaryFile->attribute( 'contentobject_attribute_id' )] ) ||
+                 $newFile->exists() )
             {
                 // The file has been renamed already, do nothing here.
             }
