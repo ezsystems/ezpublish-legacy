@@ -422,6 +422,12 @@ class eZObjectRelationListType extends eZDataType
         // order by asc
         sort( $translationList );
 
+        // check if previous relation(s) should first be removed
+        if ( !$attribute->contentClassAttributeCanTranslate() )
+        {
+             $obj->removeContentObjectRelation( false, $contentObjectVersion, $contentClassAttributeID, eZContentObject::RELATION_ATTRIBUTE );
+        }
+
         foreach( $content['relation_list'] as $relationItem )
         {
             // Installing content object, postUnserialize is not called yet,
