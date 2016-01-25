@@ -53,7 +53,8 @@ if ( $optDryRun ) {
  */
 function parseRelationListIds( $relationListXml )
 {
-    if ( empty( trim( $relationListXml ) ) )
+    $relationListXml = trim( $relationListXml );
+    if ( empty( $relationListXml ) )
         return array();
 
     $xml = simplexml_load_string( $relationListXml );
