@@ -92,6 +92,8 @@ function copyObject( $Module, $object, $allVersions, $newParentNodeID )
                                                      ) );
     $nodeAssignment->store();
 
+    $db->commit();
+    
     // publish the newly created object
     eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $newObject->attribute( 'id' ),
                                                               'version'   => $curVersion ) );
@@ -99,7 +101,6 @@ function copyObject( $Module, $object, $allVersions, $newParentNodeID )
     $newNode = $newObject->attribute( 'main_node' );
     eZContentObjectTreeNode::updateNodeVisibility( $newNode, $newParentNode );
 
-    $db->commit();
     return $Module->redirectToView( 'view', array( 'full', $newParentNodeID ) );
 }
 
