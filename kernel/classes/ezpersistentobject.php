@@ -951,7 +951,7 @@ class eZPersistentObject
         if ( is_array( $rows ) )
         {
             $db = eZDB::instance();
-            foreach( $rows as $row )
+            foreach( $rows as &$row )
             {
                 self::replaceFieldsWithLongNames( $db, $objectDefinition['fields'], $row );
             }
