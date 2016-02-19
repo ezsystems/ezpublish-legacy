@@ -1022,7 +1022,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     {
                         case 'path':
                         {
-                            $filterField = 'path_string';
+                            $filterField = 'ezcontentobject_tree.path_string';
                             $filterFieldType = 'string';
                         } break;
                         case 'published':
@@ -1035,7 +1035,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         } break;
                         case 'modified_subnode':
                         {
-                            $filterField = 'modified_subnode';
+                            $filterField = 'ezcontentobject_tree.modified_subnode';
                         } break;
                         case 'node_id':
                         {
@@ -1100,7 +1100,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         } break;
                         case 'depth':
                         {
-                            $filterField = 'depth';
+                            $filterField = 'ezcontentobject_tree.depth';
                         } break;
                         case 'class_identifier':
                         {
