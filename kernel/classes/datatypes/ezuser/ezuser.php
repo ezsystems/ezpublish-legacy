@@ -54,6 +54,11 @@ class eZUser extends eZPersistentObject
 
     function eZUser( $row = array() )
     {
+        if ( isset( $row['login'] ) && !isset( $row['login_normalized'] ) )
+        {
+            $row['login_normalized'] = $this->normalizeLogin( $row['login'] );
+        }
+
         $this->eZPersistentObject( $row );
         $this->OriginalPassword = false;
         $this->OriginalPasswordConfirm = false;
@@ -69,6 +74,10 @@ class eZUser extends eZPersistentObject
                                                                       'foreign_attribute' => 'id',
                                                                       'multiplicity' => '0..1' ),
                                          'login' => array( 'name' => 'Login',
+                                                           'datatype' => 'string',
+                                                           'default' => '',
+                                                           'required' => true ),
+                                         'login_normalized' => array( 'name' => 'LoginNormalized',
                                                            'datatype' => 'string',
                                                            'default' => '',
                                                            'required' => true ),
@@ -291,7 +300,7 @@ class eZUser extends eZPersistentObject
     {
         return eZPersistentObject::fetchObject( eZUser::definition(),
                                                 null,
-                                                array( 'LOWER( login )' => strtolower( $login ) ),
+                                                array( 'login_normalized' => self::normalizeLogin( $login ) ),
                                                 $asObject );
     }
 
@@ -773,7 +782,7 @@ WHERE user_id = '" . $userID . "' AND
 
         $loginArray = array();
         if ( $authenticationMatch & self::AUTHENTICATE_LOGIN )
-            $loginArray[] = "login='$loginEscaped'";
+            $loginArray[] = "login_normalized='" . self::normalizeLogin( $loginEscaped ) . "'";
         if ( $authenticationMatch & self::AUTHENTICATE_EMAIL )
         {
             if ( eZMail::validate( $login ) )
@@ -782,7 +791,7 @@ WHERE user_id = '" . $userID . "' AND
             }
         }
         if ( empty( $loginArray ) )
-            $loginArray[] = "login='$loginEscaped'";
+            $loginArray[] = "login_normalized='" . self::normalizeLogin( $loginEscaped ) . "'";
         $loginText = implode( ' OR ', $loginArray );
 
         $contentObjectStatus = eZContentObject::STATUS_PUBLISHED;
@@ -1175,7 +1184,7 @@ WHERE user_id = '" . $userID . "' AND
                             $userId = $currentUser->attribute( 'contentobject_id' );
 
                             $userInfo = array();
-                            $userInfo[$userId] = array( 
+                            $userInfo[$userId] = array(
                                 'contentobject_id' => $userId,
                                 'login' => $currentUser->attribute( 'login' ),
                                 'email' => $currentUser->attribute( 'email' ),
@@ -1195,7 +1204,7 @@ WHERE user_id = '" . $userID . "' AND
                     {
                         eZDebug::writeError( "Undefined ssoHandler class: $className", __METHOD__ );
                     }
-                }                
+                }
             }
         }
 
@@ -2896,8 +2905,43 @@ WHERE user_id = '" . $userID . "' AND
         return $hasAccessToSite;
     }
 
+    /**
+     * Returns normalized (lowercase) login
+     *
+     * @param string $login
+     *
+     * @return string
+     */
+    public function normalizeLogin( $login )
+    {
+        return mb_strtolower( $login, 'UTF-8' );
+    }
+
+    /**
+     * Sets the attribute $attr to the value $val.
+     *
+     * The attribute must be present in the objects definition fields or set functions.
+     *
+     * This method is overriden to have a single place (other than the constructor) where
+     * normalized login is set.
+     *
+     * @param string $attr
+     * @param mixed $val
+     * @return void
+     */
+    public function setAttribute( $attr, $val )
+    {
+        parent::setAttribute( $attr, $val );
+
+        if ( $attr === 'login' )
+        {
+            parent::setAttribute( 'login_normalized', $this->normalizeLogin( $val ) );
+        }
+    }
+
     /// \privatesection
     public $Login;
+    public $LoginNormalized;
     public $Email;
     public $PasswordHash;
     public $PasswordHashType;

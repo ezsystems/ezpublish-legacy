@@ -43,11 +43,11 @@ class eZLDAPUser extends eZUser
 
         $loginArray = array();
         if ( $authenticationMatch & eZUser::AUTHENTICATE_LOGIN )
-            $loginArray[] = "login='$loginEscaped'";
+            $loginArray[] = "login_normalized='" . self::normalizeLogin( $loginEscaped ) . "'";
         if ( $authenticationMatch & eZUser::AUTHENTICATE_EMAIL )
             $loginArray[] = "email='$loginEscaped'";
         if ( count( $loginArray ) == 0 )
-            $loginArray[] = "login='$loginEscaped'";
+            $loginArray[] = "login_normalized='" . self::normalizeLogin( $loginEscaped )  . "'";
         $loginText = implode( ' OR ', $loginArray );
 
         $contentObjectStatus = eZContentObject::STATUS_PUBLISHED;
