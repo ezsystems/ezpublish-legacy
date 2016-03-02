@@ -72,25 +72,29 @@ while ( true )
             continue;
         }
 
-        $versionToRemove = $versionCount - $versionLimit;
-        $versions = $object->versions( true, array(
-            'conditions' => array( 'status' => eZContentObjectVersion::STATUS_ARCHIVED ),
-            'sort' => array( 'modified' => 'asc' ),
-            'limit' => array( 'limit' => $versionToRemove, 'offset' => 0 ),
-        ) );
-
-        $removedVersion = 0;
-        $db->begin();
-        foreach( $versions as $version )
+        $versionsToRemove = $versionCount - $versionLimit;
+        $removedVersions = 0;
+        $batchVersionsToRemove = 20;
+        while ( $removedVersions < $versionsToRemove )
         {
-            $version->removeThis();
-            $removedVersion++;
+            $versions = $object->versions( true, array(
+                'conditions' => array( 'status' => eZContentObjectVersion::STATUS_ARCHIVED ),
+                'sort' => array( 'modified' => 'asc' ),
+                'limit' => array( 'limit' => $batchVersionsToRemove, 'offset' => $removedVersions ),
+            ) );
+
+            $db->begin();
+            foreach( $versions as $version )
+            {
+                $version->removeThis();
+                $removedVersions++;
+            }
+            $db->commit();
         }
-        $db->commit();
 
-        if ( $removedVersion > 0 )
+        if ( $removedVersions > 0 )
         {
-            $script->iterate( $cli, true, "Removed {$removedVersion} archived versions of object #{$object->attribute( 'id' )}" );
+            $script->iterate( $cli, true, "Removed {$removedVersions} archived versions of object #{$object->attribute( 'id' )}" );
         }
         else
         {
