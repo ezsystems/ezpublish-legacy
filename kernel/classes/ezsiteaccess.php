@@ -552,6 +552,8 @@ class eZSiteAccess
             eZUpdateDebugSettings();
             eZDebugSetting::writeDebug( 'kernel-siteaccess', "Updated settings to use siteaccess '$name'", __METHOD__ );
         }
+        
+        eZExpiryHandler::refresh();
 
         return $access;
     }

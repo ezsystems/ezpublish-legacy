@@ -160,6 +160,15 @@ class eZExpiryHandler
 
         return $GLOBALS['eZExpiryHandlerInstance'];
     }
+    
+    static function refresh()
+    {
+        if ( isset( $GLOBALS['eZExpiryHandlerInstance'] ) )
+        {
+            unset( $GLOBALS['eZExpiryHandlerInstance'] );
+        }
+        return self::instance();
+    }
 
     /**
      * Checks if a shared instance of eZExpiryHandler exists
