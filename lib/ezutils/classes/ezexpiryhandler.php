@@ -167,7 +167,6 @@ class eZExpiryHandler
         {
             unset( $GLOBALS['eZExpiryHandlerInstance'] );
         }
-        return self::instance();
     }
 
     /**
