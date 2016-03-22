@@ -64,6 +64,14 @@ class ezjscServerFunctionsNode extends ezjscServerFunctions
             throw new ezcBaseFunctionalityNotSupportedException( 'Fetch node list', "Parent node '$parentNodeID' is not valid" );
         }
 
+        $ezjscoreIni = eZINI::instance( 'ezjscore.ini' );
+        $hardLimit = (int)$ezjscoreIni->variable( 'ezjscServer_ezjscnode', 'HardLimit' );
+
+        if ( $hardLimit > 0 && $limit > $hardLimit )
+        {
+            $limit = $hardLimit;
+        }
+
         $params = array( 'Depth' => 1,
                          'Limit' => $limit,
                          'Offset' => $offset,
