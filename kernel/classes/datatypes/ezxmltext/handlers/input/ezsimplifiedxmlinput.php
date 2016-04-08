@@ -28,6 +28,15 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $objectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $objectAttributeVersion = $contentObjectAttribute->attribute('version');
 
+        // Ensure links that have been removed from the attribute version are removed from the object link table
+        $linkObjectLinkList = eZURLObjectLink::fetchLinkObjectList( $objectAttributeID, $objectAttributeVersion );
+        foreach ( $linkObjectLinkList as $linkObjectLink ) {
+            if ( !in_array( $linkObjectLink->attribute( 'url_id' ), $urlIDArray ) ) {
+                $linkObjectLink->remove();
+            }
+        }
+
+        // Ensure links that have been added to the attribute version are added to the object link table
         foreach( $urlIDArray as $urlID )
         {
             $linkObjectLink = eZURLObjectLink::fetch( $urlID, $objectAttributeID, $objectAttributeVersion );

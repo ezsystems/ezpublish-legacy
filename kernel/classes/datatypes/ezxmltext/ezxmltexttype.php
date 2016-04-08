@@ -185,11 +185,12 @@ class eZXMLTextType extends eZDataType
                     $urlIdArray[] = $link->getAttribute( 'url_id' );
                 }
             }
+            $urlIdArray = array_unique( $urlIdArray );
 
-            if ( count( $urlIdArray ) > 0 )
-            {
-                eZSimplifiedXMLInput::updateUrlObjectLinks( $attribute, $urlIdArray );
-            }
+            $db = eZDB::instance();
+            $db->begin();
+            eZSimplifiedXMLInput::updateUrlObjectLinks( $attribute, $urlIdArray );
+            $db->commit();
 
             // linked objects
             $linkedObjectIdArray = $this->getRelatedObjectList( $dom->getElementsByTagName( 'link' ) );
