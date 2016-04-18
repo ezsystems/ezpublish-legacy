@@ -149,6 +149,72 @@ class eZObjectRelationType extends eZDataType
         return false;
     }
 
+    function storeClassAttributeContent( $classAttribute, $content )
+    {
+        if ( is_array( $content ) )
+        {
+            $doc = $this->createClassDOMDocument( $content );
+            $this->storeClassDOMDocument( $doc, $classAttribute );
+            return true;
+        }
+        return false;
+    }
+
+    static function storeClassDOMDocument( $doc, $classAttribute )
+    {
+        $docText = self::domString( $doc );
+        $classAttribute->setAttribute( 'data_text5', $docText );
+    }
+
+    static function storeObjectDOMDocument( $doc, $objectAttribute )
+    {
+        $docText = self::domString( $doc );
+        $objectAttribute->setAttribute( 'data_text', $docText );
+    }
+
+    /*!
+     \static
+     \return the XML structure in \a $domDocument as text.
+             It will take of care of the necessary charset conversions
+             for content storage.
+    */
+    static function domString( $domDocument )
+    {
+        $ini = eZINI::instance();
+        $xmlCharset = $ini->variable( 'RegionalSettings', 'ContentXMLCharset' );
+        if ( $xmlCharset == 'enabled' )
+        {
+            $charset = eZTextCodec::internalCharset();
+        }
+        else if ( $xmlCharset == 'disabled' )
+            $charset = true;
+        else
+            $charset = $xmlCharset;
+        if ( $charset !== true )
+        {
+            $charset = eZCharsetInfo::realCharsetCode( $charset );
+        }
+        $domString = $domDocument->saveXML();
+        return $domString;
+    }
+
+    static function createClassDOMDocument( $content )
+    {
+        $doc = new DOMDocument( '1.0', 'utf-8' );
+        $root = $doc->createElement( 'related-object' );
+        $constraints = $doc->createElement( 'constraints' );
+        foreach ( $content['class_constraint_list'] as $constraintClassIdentifier )
+        {
+            unset( $constraintElement );
+            $constraintElement = $doc->createElement( 'allowed-class' );
+            $constraintElement->setAttribute( 'contentclass-identifier', $constraintClassIdentifier );
+            $constraints->appendChild( $constraintElement );
+        }
+        $root->appendChild( $constraints );
+        $doc->appendChild( $root );
+        return $doc;
+    }
+
     /*!
      Stores relation to the ezcontentobject_link table
     */
@@ -213,6 +279,19 @@ class eZObjectRelationType extends eZDataType
     {
         $selectionTypeName = 'ContentClass_ezobjectrelation_selection_type_' . $classAttribute->attribute( 'id' );
         $content = $classAttribute->content();
+        $postVariable = 'ContentClass_ezobjectrelation_class_list_' . $classAttribute->attribute( 'id' );
+        if ( $http->hasPostVariable( $postVariable ) )
+        {
+            $constrainedList = $http->postVariable( $postVariable );
+            $constrainedClassList = array();
+            foreach ( $constrainedList as $constraint )
+            {
+                if ( trim( $constraint ) != '' )
+                    $constrainedClassList[] = $constraint;
+            }
+            $content['class_constraint_list'] = $constrainedClassList;
+            $hasData = true;
+        }
         $hasData = false;
         if ( $http->hasPostVariable( $selectionTypeName ) )
         {
@@ -239,12 +318,33 @@ class eZObjectRelationType extends eZDataType
         return false;
     }
 
+    function initializeClassAttribute( $classAttribute )
+    {
+        $xmlText = $classAttribute->attribute( 'data_text5' );
+        if ( trim( $xmlText ) == '' )
+        {
+            $content = $this->defaultClassAttributeContent();
+            return $this->storeClassAttributeContent( $classAttribute, $content );
+        }
+    }
+
     function preStoreClassAttribute( $classAttribute, $version )
     {
         $content = $classAttribute->content();
         $classAttribute->setAttribute( 'data_int1', $content['selection_type'] );
         $classAttribute->setAttribute( 'data_int2', $content['default_selection_node'] );
         $classAttribute->setAttribute( 'data_int3', $content['fuzzy_match'] );
+
+        $xmlContentArray = array();
+        $defaultClassAttributeContent = $this->defaultClassAttributeContent();
+        foreach( $content as $xmlKey => $xmlContent )
+        {
+            if( isset( $defaultClassAttributeContent[$xmlKey] ) )
+            {
+                $xmlContentArray[$xmlKey] = $xmlContent;
+            }
+        }
+        $this->storeClassAttributeContent( $classAttribute, $xmlContentArray );
     }
 
     /*!
@@ -335,6 +435,21 @@ class eZObjectRelationType extends eZDataType
                     if ( isset( $nodePlacement[$contentObjectAttribute->attribute( 'id' )] ) )
                         $browseParameters['start_node'] = eZContentBrowse::nodeAliasID( $nodePlacement[$contentObjectAttribute->attribute( 'id' )] );
                 }
+
+                // Fetch the list of "allowed" classes .
+                // A user can select objects of only those allowed classes when browsing.
+                $classAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
+                $classContent   = $classAttribute->content();
+                if ( isset( $classContent['class_constraint_list'] ) )
+                {
+                    $classConstraintList = $classContent['class_constraint_list'];
+                }
+                else
+                {
+                    $classConstraintList = array();
+                }
+                $browseParameters['class_array'] = $classConstraintList;
+
                 eZContentBrowse::browse( $browseParameters,
                                          $module );
             } break;
@@ -368,6 +483,18 @@ class eZObjectRelationType extends eZDataType
         return $object;
     }
 
+    static function parseXML( $xmlText )
+    {
+        $dom = new DOMDocument( '1.0', 'utf-8' );
+        $dom->loadXML( $xmlText );
+        return $dom;
+    }
+
+    function defaultClassAttributeContent()
+    {
+        return array( 'class_constraint_list' => array() );
+    }
+
     /*!
      Sets \c grouped_input to \c true when browse mode is active or
      a dropdown with a fuzzy match is used.
@@ -399,14 +526,41 @@ class eZObjectRelationType extends eZDataType
         $selectionType = $classObjectAttribute->attribute( "data_int1" );
         $defaultSelectionNode = $classObjectAttribute->attribute( "data_int2" );
         $fuzzyMatch = $classObjectAttribute->attribute( "data_int3" );
-        return array( 'selection_type' => $selectionType,
-                      'default_selection_node' => $defaultSelectionNode,
-                      'fuzzy_match' => $fuzzyMatch );
+
+        $attributeContent = array( 'selection_type' => $selectionType,
+                                   'default_selection_node' => $defaultSelectionNode,
+                                   'fuzzy_match' => $fuzzyMatch );
+
+        $attributeXMLContent = $this->defaultClassAttributeContent();
+        $xmlText = $classObjectAttribute->attribute( 'data_text5' );
+        if ( trim( $xmlText ) != '' )
+        {
+            $doc = $this->parseXML( $xmlText );
+            $attributeXMLContent = $this->createClassContentStructure( $doc );
+        }
+        return array_merge( $attributeContent, $attributeXMLContent );
+
     }
 
     function deleteNotVersionedStoredClassAttribute( eZContentClassAttribute $classAttribute )
     {
         eZContentObjectAttribute::removeRelationsByContentClassAttributeId( $classAttribute->attribute( 'id' ) );
+    }
+
+    function createClassContentStructure( $doc )
+    {
+        $content = $this->defaultClassAttributeContent();
+        $root = $doc->documentElement;
+        $constraints = $root->getElementsByTagName( 'constraints' )->item( 0 );
+        if ( $constraints )
+        {
+            $allowedClassList = $constraints->getElementsByTagName( 'allowed-class' );
+            foreach( $allowedClassList as $allowedClass )
+            {
+                $content['class_constraint_list'][] = $allowedClass->getAttribute( 'contentclass-identifier' );
+            }
+        }
+        return $content;
     }
 
     function customClassAttributeHTTPAction( $http, $action, $classAttribute )
