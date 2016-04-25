@@ -386,46 +386,35 @@ class eZObjectRelationListType extends eZDataType
         return $newObjectInstance->attribute( 'id' );
     }
 
-    function storeObjectAttribute( $attribute )
+    function storeObjectAttribute( $contentObjectAttribute )
     {
-        $content = $attribute->content();
+        $content = $contentObjectAttribute->content();
         if ( isset( $content['new_object'] ) )
         {
-            $newID = $this->createNewObject( $attribute, $content['new_object'] );
+            $newID = $this->createNewObject( $contentObjectAttribute, $content['new_object'] );
             // if this is a single element selection mode (radio or dropdown), then the newly created item is the only one selected
             if ( $newID )
             {
                 if ( isset( $content['singleselect'] ) )
                     $content['relation_list'] = array();
-                $content['relation_list'][] = $this->appendObject( $newID, 0, $attribute );
+                $content['relation_list'][] = $this->appendObject( $newID, 0, $contentObjectAttribute );
             }
             unset( $content['new_object'] );
-            $attribute->setContent( $content );
+            $contentObjectAttribute->setContent( $content );
         }
 
-        $contentClassAttributeID = $attribute->ContentClassAttributeID;
-        $contentObjectID = $attribute->ContentObjectID;
-        $contentObjectVersion = $attribute->Version;
+        $contentClassAttributeID = $contentObjectAttribute->ContentClassAttributeID;
+        $contentObjectID = $contentObjectAttribute->ContentObjectID;
+        $contentObjectVersion = $contentObjectAttribute->Version;
 
-        $obj = $attribute->object();
-        //get eZContentObjectVersion
-        $currVerobj = $obj->version( $contentObjectVersion );
+        /** @var eZContentObject */
+        $contentObject = $contentObjectAttribute->object();
 
-        // create translation List
-        // $translationList will contain for example eng-GB, ita-IT etc.
-        $translationList = $currVerobj->translations( false );
-
-        // get current language_code
-        $langCode = $attribute->attribute( 'language_code' );
-        // get count of LanguageCode in translationList
-        $countTsl = count( $translationList );
-        // order by asc
-        sort( $translationList );
 
         // check if previous relation(s) should first be removed
-        if ( !$attribute->contentClassAttributeCanTranslate() )
+        if ( !$contentObjectAttribute->contentClassAttributeCanTranslate() )
         {
-             $obj->removeContentObjectRelation( false, $contentObjectVersion, $contentClassAttributeID, eZContentObject::RELATION_ATTRIBUTE );
+            $contentObject->removeContentObjectRelation( false, $contentObjectVersion, $contentClassAttributeID, eZContentObject::RELATION_ATTRIBUTE );
         }
 
         foreach( $content['relation_list'] as $relationItem )
@@ -462,7 +451,7 @@ class eZObjectRelationListType extends eZDataType
                 }
             }
         }
-        return $this->storeObjectAttributeContent( $attribute, $content );
+        return $this->storeObjectAttributeContent( $contentObjectAttribute, $content );
     }
 
     function onPublish( $contentObjectAttribute, $contentObject, $publishedNodes )
