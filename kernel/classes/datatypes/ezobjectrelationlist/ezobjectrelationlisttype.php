@@ -406,15 +406,52 @@ class eZObjectRelationListType extends eZDataType
         $contentClassAttributeID = $contentObjectAttribute->ContentClassAttributeID;
         $contentObjectID = $contentObjectAttribute->ContentObjectID;
         $contentObjectVersion = $contentObjectAttribute->Version;
+        $languageCode = $contentObjectAttribute->attribute( 'language_code' );
 
         /** @var eZContentObject */
         $contentObject = $contentObjectAttribute->object();
 
+        // cleanup previous relations
+        $contentObject->removeContentObjectRelation( false, $contentObjectVersion, $contentClassAttributeID, eZContentObject::RELATION_ATTRIBUTE );
 
-        // check if previous relation(s) should first be removed
-        if ( !$contentObjectAttribute->contentClassAttributeCanTranslate() )
+        // if translatable, we need to re-add the relations for other languages of (previously) published version.
+        if ( $contentObjectAttribute->contentClassAttributeCanTranslate() )
         {
-            $contentObject->removeContentObjectRelation( false, $contentObjectVersion, $contentClassAttributeID, eZContentObject::RELATION_ATTRIBUTE );
+            $existingRelations = array();
+
+            // get published translations of this attribute
+            $pubAttribute = eZContentObjectAttribute::fetch($contentObjectAttribute->ID, $contentObject->publishedVersion());
+            if ( $pubAttribute )
+            {
+                foreach( $pubAttribute->fetchAttributeTranslations() as $attributeTranslation )
+                {
+                    // skip if language is the one being saved
+                    if ( $attributeTranslation->LanguageCode === $languageCode )
+                        continue;
+
+                    $relationList = $attributeTranslation->value();
+                    foreach ($relList['relation_list'] as $relationItem) {
+                        $existingRelations[] = $relationItem['contentobject_id'];
+                    }
+                }
+            }
+
+            // fetch existing attribute translations for current editing version
+            foreach( $contentObjectAttribute->fetchAttributeTranslations() as $attributeTranslation )
+            {
+                if ( $attributeTranslation->LanguageCode === $languageCode )
+                    continue;
+
+                $relationList = $attributeTranslation->value();
+                foreach ($relationList['relation_list'] as $relationItem) {
+                    $existingRelations[] = $relationItem['contentobject_id'];
+                }
+            }
+
+            foreach( array_unique($existingRelations) as $existingObjectId )
+            {
+                $contentObject->addContentObjectRelation( $existingObjectId, $contentObjectVersion, $contentClassAttributeID, eZContentObject::RELATION_ATTRIBUTE );
+            }
         }
 
         foreach( $content['relation_list'] as $relationItem )
