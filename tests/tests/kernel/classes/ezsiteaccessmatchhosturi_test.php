@@ -87,9 +87,12 @@ class eZSiteAccessMatchHostUriTest extends ezpTestCase
             array( "abcdef/foo/bar", "abcdef_foo", eZSiteAccess::TYPE_HTTP_HOST_URI, array( "abcdef", "foo" ) ),
             array( "abcdefg/foo/abc", "abcdefg_foo", eZSiteAccess::TYPE_HTTP_HOST_URI, array( "abcdefg", "foo" ) ),
             array( "engæ", "eng", eZSiteAccess::TYPE_HTTP_HOST_URI, array( "engæ" ) ),
+            array( "engæøå", "admin", eZSiteAccess::TYPE_DEFAULT, array() ),
+            array( "æeng", "admin", eZSiteAccess::TYPE_DEFAULT, array() ),
             array( "engæ/foo", "eng_foo", eZSiteAccess::TYPE_HTTP_HOST_URI, array( "engæ", "foo" ) ),
             array( "engæ/bar", "eng", eZSiteAccess::TYPE_HTTP_HOST_URI, array( "engæ" ) ),
-            array( "engæøå", "admin", eZSiteAccess::TYPE_DEFAULT, array() ),
+            array( "engæøå/foo", "admin", eZSiteAccess::TYPE_DEFAULT, array() ),
+            array( "engæ/fooæ", "eng", eZSiteAccess::TYPE_HTTP_HOST_URI, array( "engæ" ) ),
             array( "engæøå/fooæ", "admin", eZSiteAccess::TYPE_DEFAULT, array() ),
         );
     }
