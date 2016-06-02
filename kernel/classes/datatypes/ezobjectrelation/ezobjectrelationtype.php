@@ -448,7 +448,11 @@ class eZObjectRelationType extends eZDataType
                 {
                     $classConstraintList = array();
                 }
-                $browseParameters['class_array'] = $classConstraintList;
+
+                if ( count($classConstraintList) > 0 )
+                {
+                    $browseParameters['class_array'] = $classConstraintList;
+                }
 
                 eZContentBrowse::browse( $browseParameters,
                                          $module );
