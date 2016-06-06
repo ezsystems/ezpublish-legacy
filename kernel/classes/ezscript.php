@@ -185,7 +185,7 @@ class eZScript
     */
     function startup()
     {
-        error_reporting( E_ALL );
+        error_reporting( E_ALL & ~E_DEPRECATED );
 
         eZDebug::setHandleType( eZDebug::HANDLE_TO_PHP );
 
