@@ -56,7 +56,7 @@ class eZUser extends eZPersistentObject
     {
         if ( isset( $row['login'] ) && !isset( $row['login_normalized'] ) )
         {
-            $row['login_normalized'] = $this->normalizeLogin( $row['login'] );
+            $row['login_normalized'] = self::normalizeLogin( $row['login'] );
         }
 
         $this->eZPersistentObject( $row );
@@ -2912,7 +2912,7 @@ WHERE user_id = '" . $userID . "' AND
      *
      * @return string
      */
-    public function normalizeLogin( $login )
+    public static function normalizeLogin( $login )
     {
         return mb_strtolower( $login, 'UTF-8' );
     }
@@ -2935,7 +2935,7 @@ WHERE user_id = '" . $userID . "' AND
 
         if ( $attr === 'login' )
         {
-            parent::setAttribute( 'login_normalized', $this->normalizeLogin( $val ) );
+            parent::setAttribute( 'login_normalized', self::normalizeLogin( $val ) );
         }
     }
 
