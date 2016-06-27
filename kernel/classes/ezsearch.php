@@ -156,7 +156,7 @@ class eZSearch
         if ( $searchEngine instanceof ezpSearchEngine )
         {
             // This method was renamed in pre 3.5 trunk
-            if ( method_exists( $searchEngine, 'supportedSearchTypes' ) )
+            if ( is_callable( array( $searchEngine, 'supportedSearchTypes' ) ) )
             {
                 $searchTypesDefinition = $searchEngine->supportedSearchTypes();  // new and correct
             }
@@ -438,7 +438,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'cleanup' ) )
+        if ( $searchEngine instanceof ezpSearchEngine && is_callable( array( $searchEngine, 'cleanup' ) ) )
         {
             $searchEngine->cleanup();
         }
@@ -509,7 +509,7 @@ class eZSearch
     public static function updateObjectsSection( array $objectIDs, $sectionID )
     {
         $searchEngine = eZSearch::getEngine();
-        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'updateObjectsSection' ) )
+        if ( $searchEngine instanceof ezpSearchEngine && is_callable( array( $searchEngine, 'updateObjectsSection' ) ) )
         {
             return $searchEngine->updateObjectsSection( $objectIDs, $sectionID );
         }
@@ -528,7 +528,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'updateNodeSection' ) )
+        if ( $searchEngine instanceof ezpSearchEngine && is_callable( array( $searchEngine, 'updateNodeSection' ) ) )
         {
             return $searchEngine->updateNodeSection( $nodeID, $sectionID );
         }
@@ -548,7 +548,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'updateNodeVisibility' ) )
+        if ( $searchEngine instanceof ezpSearchEngine && is_callable( array( $searchEngine, 'updateNodeVisibility' ) ) )
         {
             return $searchEngine->updateNodeVisibility( $nodeID, $action );
         }
@@ -570,7 +570,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'addNodeAssignment' ) )
+        if ( $searchEngine instanceof ezpSearchEngine && is_callable( array( $searchEngine, 'addNodeAssignment' ) ) )
         {
             return $searchEngine->addNodeAssignment( $mainNodeID, $objectID, $nodeAssignmentIDList, $isMoved );
         }
@@ -592,7 +592,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'removeNodeAssignment' ) )
+        if ( $searchEngine instanceof ezpSearchEngine && is_callable( array( $searchEngine, 'removeNodeAssignment' ) ) )
         {
             return $searchEngine->removeNodeAssignment( $mainNodeID, $newMainNodeID, $objectID, $nodeAssigmentIDList );
         }
@@ -611,7 +611,7 @@ class eZSearch
     {
         $searchEngine = self::getEngine();
 
-        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'removeNodes' ) )
+        if ( $searchEngine instanceof ezpSearchEngine && is_callable( array( $searchEngine, 'removeNodes' ) ) )
         {
             return $searchEngine->removeNodes( $nodeIdList );
         }
@@ -631,7 +631,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'updateObjectState' ) )
+        if ( $searchEngine instanceof ezpSearchEngine && is_callable( array( $searchEngine, 'updateObjectState' ) ) )
         {
             return $searchEngine->updateObjectState( $objectID, $objectStateList );
         }
@@ -652,7 +652,7 @@ class eZSearch
     {
         $searchEngine = eZSearch::getEngine();
 
-        if ( $searchEngine instanceof ezpSearchEngine && method_exists( $searchEngine, 'swapNode' ) )
+        if ( $searchEngine instanceof ezpSearchEngine && is_callable( array( $searchEngine, 'swapNode' ) ) )
         {
             return $searchEngine->swapNode( $nodeID, $selectedNodeID, $nodeIdList = array() );
         }
