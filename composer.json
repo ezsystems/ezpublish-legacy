@@ -1,5 +1,5 @@
 {
-    "name":        "ezsystems/ezpublish-legacy",
+    "name":        "sport1online/ezpublish-legacy",
     "description": "eZ Publish LegacyStack (4.x)",
     "homepage":    "http://share.ez.no",
     "license":     "GPL-2.0",
@@ -15,6 +15,16 @@
         "ezsystems/ezfind-ls": "ezfind is a Solr based advance search engine for eZ Publish with a lot more features then the built in search",
         "ezsystems/eztags-ls": "eztags is a full tagging/taxonomy solution for eZ Publish replacing the simpler builtin ezkeywords datatype"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/sport1online/ezpublish-legacy-installer"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/sport1online/ezfind"
+        }
+    ],
     "require": {
         "php": ">=5.3.3",
         "ext-dom": "*",
@@ -27,7 +37,7 @@
         "ext-session": "*",
         "ext-spl": "*",
         "ext-simplexml": "*",
-        "ezsystems/ezpublish-legacy-installer": "*",
+        "sport1online/ezpublish-legacy-installer": "v2016.07.*",
         "ezsystems/ezautosave-ls": "~5.3",
         "ezsystems/ezdemo-ls-extension": "~5.3",
         "ezsystems/ezflow-ls-extension": "~5.3",
@@ -61,5 +71,8 @@
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
         "zetacomponents/php-generator": "~1.1"
+    },
+    "replace": {
+        "ezsystems/ezpublish-legacy": "*"
     }
 }
