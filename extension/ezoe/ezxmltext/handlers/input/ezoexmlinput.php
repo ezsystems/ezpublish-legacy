@@ -46,7 +46,7 @@ class eZOEXMLInput extends eZXMLInputHandler
      * @param string $aliasedType
      * @param eZContentObjectAttribute $contentObjectAttribute
      */
-    function eZOEXMLInput( &$xmlData, $aliasedType, $contentObjectAttribute )
+    function eZOEXMLInput( $xmlData, $aliasedType, $contentObjectAttribute )
     {
         $this->eZXMLInputHandler( $xmlData, $aliasedType, $contentObjectAttribute );
 

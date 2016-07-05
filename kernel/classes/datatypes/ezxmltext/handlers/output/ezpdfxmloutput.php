@@ -11,7 +11,7 @@
 class eZPDFXMLOutput extends eZXHTMLXMLOutput
 {
 
-    function eZPDFXMLOutput( &$xmlData, $aliasedType, $contentObjectAttribute = null )
+    function eZPDFXMLOutput( $xmlData, $aliasedType, $contentObjectAttribute = null )
     {
         $this->eZXHTMLXMLOutput( $xmlData, $aliasedType, $contentObjectAttribute );
 

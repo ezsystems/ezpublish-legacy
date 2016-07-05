@@ -125,7 +125,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                              'renderHandler' => 'renderText' )
     );
 
-    function eZXHTMLXMLOutput( &$xmlData, $aliasedType, $contentObjectAttribute = null )
+    function eZXHTMLXMLOutput( $xmlData, $aliasedType, $contentObjectAttribute = null )
     {
         $this->eZXMLOutputHandler( $xmlData, $aliasedType, $contentObjectAttribute );
 
