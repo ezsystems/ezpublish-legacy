@@ -544,11 +544,20 @@ class eZExtension
             // we rely on the autoload system here
             if ( class_exists( $handler ) )
             {
-                $reflection = new ReflectionClass( $handler );
-                // only pass parameters if the class has a constructor
-                if ( $reflection->getConstructor() !== null && $handlerParams !== null && is_array( $handlerParams ) && count( $handlerParams ) > 0 )
+                // only use reflection if we have params to avoid exception on objects without constructor
+                if ( $handlerParams !== null && is_array( $handlerParams ) && count( $handlerParams ) > 0 )
                 {
-                    $object = $reflection->newInstanceArgs( $handlerParams );
+                    $reflection = new ReflectionClass( $handler );
+                    // detect if class has a constructor, and if not write a notice about that
+                    if ( $reflection->getConstructor() !== null )
+                    {
+                        $object = $reflection->newInstanceArgs( $handlerParams );
+                    }
+                    else
+                    {
+                        eZDebug::writeNotice( 'Constructor is missing but parameters are provided to class ' . $handler . " as defined in setting $iniFile [$iniSection] $iniVariable", __METHOD__ );
+                        $object = new $handler();
+                    }
                 }
                 else
                 {
