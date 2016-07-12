@@ -544,10 +544,10 @@ class eZExtension
             // we rely on the autoload system here
             if ( class_exists( $handler ) )
             {
-                // only use reflection if we have params to avoid exception on objects withouth constructor
-                if ( $handlerParams !== null && is_array( $handlerParams ) && count( $handlerParams ) > 0 )
+                $reflection = new ReflectionClass( $handler );
+                // only pass parameters if the class has a constructor
+                if ( $reflection->getConstructor() !== null && $handlerParams !== null && is_array( $handlerParams ) && count( $handlerParams ) > 0 )
                 {
-                    $reflection = new ReflectionClass( $handler );
                     $object = $reflection->newInstanceArgs( $handlerParams );
                 }
                 else
