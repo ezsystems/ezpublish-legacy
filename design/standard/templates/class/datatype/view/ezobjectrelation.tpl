@@ -7,6 +7,18 @@
     <p>{$content.selection_type|choose( 'Browse'|i18n( 'design/standard/class/datatype' ), 'Drop-down list'|i18n( 'design/standard/class/datatype' ), 'Drop-down tree'|i18n( 'design/standard/class/datatype' ) )}</p>
 </div>
 
+{* Allowed classes. *}
+<div class="block">
+    <label>{'Allowed classes'|i18n( 'design/standard/class/datatype' )}:</label>
+    {section show=$content.class_constraint_list|count|lt( 1 )}
+    <p>{'Any'|i18n( 'design/standard/class/datatype' )}</p>
+    {section-else}
+    <ul>
+    {section var=Classes loop=$content.class_constraint_list}<li>{$Classes.item}</li>{/section}
+    </ul>
+    {/section}
+</div>
+
 {* Selection item/node. *}
 <div class="block">
 <label>{'Default selection item'|i18n( 'design/standard/class/datatype' )}:</label>

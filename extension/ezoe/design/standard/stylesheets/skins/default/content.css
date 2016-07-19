@@ -44,6 +44,7 @@ h6
 }
 
 .mceItemTable, .mceItemTable td, .mceItemTable th, .mceItemTable caption, .mceItemVisualAid {border: 1px dashed #BBB;}
+.mceItemTable td { min-height: 20px; }
 a.mceItemAnchor {display:inline-block; -webkit-user-select:all; -webkit-user-modify:read-only; -moz-user-select:all; -moz-user-modify:read-only; width:11px !important; height:11px  !important; background:url(img/items.gif) no-repeat center center}
 span.mceItemNbsp {background: #DDD}
 td.mceSelected, th.mceSelected {background-color:#3399ff !important}
