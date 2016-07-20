@@ -515,7 +515,7 @@ class ezjscPacker
                        $newMatchPath .= implode( '/', $cssPathSlice ) . '/';
                    }
                    $newMatchPath .= str_replace( '../', '', $match );
-                   $fileContent = str_replace( $match, $newMatchPath, $fileContent );
+                   $fileContent = preg_replace( "/url\(\s*[\'|\"]?".preg_quote($match, '/')."[\'|\"]?\s*\)/", "url($newMatchPath)", $fileContent );
                }
            }
         }
