@@ -270,8 +270,6 @@ var eZOEPopupUtils = {
 
             if ( 'TABLE'.indexOf( s.editorElement.tagName ) === 0 )
                 ed.selection.select( jQuery( s.editorElement ).find( "tr:first-child > *:first-child" ).get(0), true );
-            else if ( 'DIV'.indexOf( s.editorElement.tagName ) === 0 )
-                ed.selection.select( s.editorElement );
             else
                 ed.selection.select( s.editorElement, true );
             ed.nodeChanged();
