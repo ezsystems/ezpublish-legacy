@@ -605,8 +605,7 @@ class eZXMLInputParser
         $tagCode = substr( $data, $tagBeginPos, $endPos - $tagBeginPos );
         if ( strpos( $tagCode, '=' ) === false )
         {
-            // this tag has not attribute, so the next '>' is the right one.
-            // attribute on this tag, the next '>' is the right one
+            // this tag has no attribute, so the next '>' is the right one.
             return $endPos;
         }
         if ( $this->isValidXmlTag( $tagCode ) )

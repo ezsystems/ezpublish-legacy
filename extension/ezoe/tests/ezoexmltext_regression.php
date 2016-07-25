@@ -27,16 +27,12 @@ class eZOEXMLTextRegression extends ezpDatabaseTestCase
     {
         return array(
             array(
-                '<div type="custom" class="ezoeItemCustomTag factbox" customattributes="title|This > is > a > fact > attribute_separationalign|right">
-    <p>This is a fact</p>
-</div>',
+                '<div type="custom" class="ezoeItemCustomTag factbox" customattributes="title|This > is > a > fact > attribute_separationalign|right"><p>This is a fact</p></div>',
                 '<?xml version="1.0" encoding="utf-8"?>
 <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/" xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/"><paragraph xmlns:tmp="http://ez.no/namespaces/ezpublish3/temporary/"><custom name="factbox" custom:title="This &gt; is &gt; a &gt; fact &gt; "><paragraph>This is a fact</paragraph></custom></paragraph></section>',
             ),
             array(
-                '<div type="custom" class="ezoeItemCustomTag factbox" customattributes="title|<a href=&quot;#test&quot;>Test</a>attribute_separationalign|right">
-    <p>This is a fact</p>
-</div>',
+                '<div type="custom" class="ezoeItemCustomTag factbox" customattributes="title|<a href=&quot;#test&quot;>Test</a>attribute_separationalign|right"><p>This is a fact</p></div>',
                 '<?xml version="1.0" encoding="utf-8"?>
 <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/" xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/"><paragraph xmlns:tmp="http://ez.no/namespaces/ezpublish3/temporary/"><custom name="factbox" custom:title="&lt;a href=&amp;quot;#test&amp;quot;&gt;Test&lt;/a&gt;"><paragraph>This is a fact</paragraph></custom></paragraph></section>',
             )
