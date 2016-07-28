@@ -501,6 +501,9 @@ class ezjscPacker
            // Pop the css file name
            array_pop( $cssPathArray );
            $cssPathCount = count( $cssPathArray );
+           // Sort by url length
+           array_multisort( array_map( 'strlen', $urlMatches ), SORT_DESC, $urlMatches );
+           $replace = array();
            foreach ( $urlMatches as $match )
            {
                $match = str_replace( '\\', '/', $match );
@@ -515,9 +518,15 @@ class ezjscPacker
                        $newMatchPath .= implode( '/', $cssPathSlice ) . '/';
                    }
                    $newMatchPath .= str_replace( '../', '', $match );
-                   $fileContent = str_replace( $match, $newMatchPath, $fileContent );
+                   // Set match hash
+                   $hash = md5( uniqid( mt_rand(), true ) );
+                   // Store hash and new match path
+                   $replace[$hash] = $newMatchPath;
+                   // Replace match element by hash
+                   $fileContent = str_replace( $match, $hash, $fileContent );
                }
            }
+           $fileContent = str_replace( array_keys( $replace ), array_values( $replace ), $fileContent );
         }
         return $fileContent;
     }
