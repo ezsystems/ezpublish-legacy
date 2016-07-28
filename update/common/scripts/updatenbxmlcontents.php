@@ -31,8 +31,8 @@ $options = $script->getOptions(
     )
 );
 $optDryRun = (bool)$options['dry-run'];
-$optIterationSleep = (int)$options['iteration-sleep'] ?: 1;
-$optIterationLimit = (int)$options['iteration-limit'] ?: 100;
+$optIterationSleep = $options['iteration-sleep'] ? (int)$options['iteration-sleep'] : 1;
+$optIterationLimit = $options['iteration-limit'] ? (int)$options['iteration-limit'] : 100;
 $verboseLevel = $script->verboseOutputLevel();
 
 $limit = array(
@@ -43,7 +43,8 @@ $limit = array(
 $script->initialize();
 $db = eZDB::instance();
 
-if ( $optDryRun ) {
+if ( $optDryRun )
+
     $cli->warning( "dry-run mode" );
 }
 
