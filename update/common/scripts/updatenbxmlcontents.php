@@ -44,7 +44,7 @@ $script->initialize();
 $db = eZDB::instance();
 
 if ( $optDryRun )
-
+{
     $cli->warning( "dry-run mode" );
 }
 
@@ -60,8 +60,10 @@ function updateEzxmlNonbreakSpaces( $attribute, $optDryRun, $verbose )
     $version = $attribute['version'];
     $xmlData = $attribute['data_text'];
 
-    $pattern = '/(<paragraph[^>]*\>)(.*)&amp;nbsp;(.*)(<\/paragraph>)/';
-    $replace = "\\1\\2\xC2\xA0\\3\\4";
+    $matchTags = implode('|', array( 'paragraph', 'header') );
+    $pattern = '/(<(?<tag>' . $matchTags . ')[^>]*\>)(.*)&amp;nbsp;(.*)(<\/(?P=tag)>)/';
+    $replace = "\\1\\3\xC2\xA0\\4\\5";
+
     do {
         $xmlData = preg_replace( $pattern, $replace, $xmlData, -1, $countReplaced );
     } while ($countReplaced > 0);
