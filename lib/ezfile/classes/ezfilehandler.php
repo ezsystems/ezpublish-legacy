@@ -383,7 +383,13 @@ class eZFileHandler
         }
 
         $destinationFD = fopen( $destinationFilename, 'wb' );
-        chmod( $destinationFilename, octdec( eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' ) ) );
+        if ( ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) &&
+             eZINI::instance()->variable( 'FileSettings', 'ControlFilePermissions' ) !== 'false' ) {
+            $filePerm = eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' );
+            if ( $filePerm ) {
+                @chmod( $destinationFilename, octdec( $filePerm ) );
+            }
+        }
         if ( !$destinationFD )
         {
             @fclose( $sourceFD );

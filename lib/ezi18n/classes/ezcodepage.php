@@ -467,14 +467,20 @@ class eZCodePage
 
         if ( file_exists( $filename ) )
         {
-            // Store the old umask and set a new one.
-            $oldPermissionSetting = umask( 0 );
+            if ( ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) &&
+                 eZINI::instance()->variable( 'FileSettings', 'ControlFilePermissions' ) !== 'false' ) {
+                // Store the old umask and set a new one.
+                $oldPermissionSetting = umask( 0 );
 
-            // Change the permission setting.
-            @chmod( $filename, $permissionArray['file_permission'] );
+                // Change the permission setting.
+                $filePerm = $permissionArray['file_permission'];
+                if ( $filePerm ) {
+                    @chmod( $filename, $permissionArray['file_permission'] );
+                }
 
-            // Restore the old umask.
-            umask( $oldPermissionSetting );
+                // Restore the old umask.
+                umask( $oldPermissionSetting );
+            }
         }
     }
 

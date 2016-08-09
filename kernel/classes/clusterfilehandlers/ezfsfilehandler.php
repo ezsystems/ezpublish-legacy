@@ -185,8 +185,11 @@ class eZFSFileHandler implements eZClusterFileHandlerInterface
 
         eZFile::create( basename( $filePath ), dirname( $filePath ), $contents, true );
 
-        $perm = eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' );
-        chmod( $filePath, octdec( $perm ) );
+        if ( ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) &&
+             eZINI::instance()->variable( 'FileSettings', 'ControlFilePermissions' ) !== 'false' ) {
+            $perm = eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' );
+            @chmod( $filePath, octdec( $perm ) );
+        }
 
         eZDebug::accumulatorStop( 'dbfile' );
     }
@@ -210,8 +213,11 @@ class eZFSFileHandler implements eZClusterFileHandlerInterface
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
         eZFile::create( basename( $filePath ), dirname( $filePath ), $contents, true );
-        $perm = eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' );
-        chmod( $filePath, octdec( $perm ) );
+        if ( ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) &&
+             eZINI::instance()->variable( 'FileSettings', 'ControlFilePermissions' ) !== 'false' ) {
+            $perm = eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' );
+            @chmod( $filePath, octdec( $perm ) );
+        }
 
         eZDebug::accumulatorStop( 'dbfile' );
     }

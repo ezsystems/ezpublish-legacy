@@ -144,8 +144,11 @@ class eZSSLZone
                     fwrite( $fh, "<?php\n\$pathStringsArray = " . var_export( $pathStringsArray, true ) . ";\n?>" );
                     fclose( $fh );
 
-                    $perm = eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' );
-                    chmod( $cacheFileName, octdec( $perm ) );
+                    if ( ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) &&
+                         eZINI::instance()->variable( 'FileSettings', 'ControlFilePermissions' ) !== 'false' ) {
+                        $perm = eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' );
+                        @chmod( $cacheFileName, octdec( $perm ) );
+                    }
                 }
 
                 return $GLOBALS['eZSSLZonesCachedPathStrings'] = $pathStringsArray;

@@ -119,10 +119,15 @@ class eZHTTPFile
         {
             $ret = true;
             $this->Filename = $dest_name;
-            $perm = $ini->variable( "FileSettings", "StorageFilePermissions" );
-            $oldumask = umask( 0 );
-            chmod( $dest_name, octdec( $perm ) );
-            umask( $oldumask );
+            if ( ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) &&
+                 $ini->variable( 'FileSettings', 'ControlFilePermissions' ) !== 'false' ) {
+                $perm = $ini->variable( "FileSettings", "StorageFilePermissions" );
+                if ( $perm ) {
+                    $oldumask = umask( 0 );
+                    @chmod( $dest_name, octdec( $perm ) );
+                    umask( $oldumask );
+                }
+            }
 
             // Write log message to storage.log
             $storageDir = $dir . "/";

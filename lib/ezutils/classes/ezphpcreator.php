@@ -779,8 +779,12 @@ $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
             if ( !$this->FileResource )
                 eZDebug::writeError( "Could not open file '$path' for writing, perhaps wrong permissions" );
             if ( $this->FileResource and
-                 !$pathExisted )
-                chmod( $path, $perm );
+                 !$pathExisted ) {
+                if ( ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) &&
+                     $ini->variable( 'FileSettings', 'ControlFilePermissions' ) !== 'false' && $perm ) {
+                    @chmod( $path, $perm );
+                }
+            }
             umask( $oldumask );
         }
         return $this->FileResource;
@@ -951,8 +955,13 @@ print( $values['MyValue'] );
 
             if ( !$this->ClusteringEnabled )
             {
-                $perm = octdec( eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' ) );
-                chmod( eZDir::path( array( $this->PHPDir, $this->PHPFile ) ), $perm );
+                if ( ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) &&
+                     eZINI::instance()->variable( 'FileSettings', 'ControlFilePermissions' ) !== 'false' ) {
+                    $perm = octdec( eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' ) );
+                    if ( $perm ) {
+                        @chmod( eZDir::path( array( $this->PHPDir, $this->PHPFile ) ), $perm );
+                    }
+                }
             }
 
             // Write log message to storage.log

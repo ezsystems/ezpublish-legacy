@@ -122,7 +122,10 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
             $oldumask = umask( 0 );
             fwrite( $fp, $templateCode );
             fclose( $fp );
-            chmod( $fileName, octdec( $filePermission ) );
+            if ( ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) &&
+                 eZINI::instance()->variable( 'FileSettings', 'ControlFilePermissions' ) !== 'false' ) {
+                @chmod( $fileName, octdec( $filePermission ) );
+            }
             umask( $oldumask );
 
             // Store override.ini.append file
@@ -155,9 +158,12 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
             {
                 $s = stat($overridePath);
                 $mode = $s["mode"] & 0777; // get only the last 9 bits.
-                if ($mode & $filePermission != $filePermission ) // filePermission wrong?
-                {
-                    chmod( $overridePath, octdec( $filePermission ) );
+                if ( ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) &&
+                     eZINI::instance()->variable( 'FileSettings', 'ControlFilePermissions' ) !== 'false' ) {
+                    if ($mode & $filePermission != $filePermission ) // filePermission wrong?
+                    {
+                        @chmod( $overridePath, octdec( $filePermission ) );
+                    }
                 }
             }
             umask( $oldumask );

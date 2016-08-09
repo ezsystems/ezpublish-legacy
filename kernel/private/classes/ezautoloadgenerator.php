@@ -247,28 +247,23 @@ class eZAutoloadGenerator
             $filename = $this->nameTable( $location );
             $filePath = $targetBasedir . DIRECTORY_SEPARATOR . $filename;
 
-             $file = fopen( $filePath, "w+" );
-             if ( $file )
-             {
-                 fwrite( $file, $this->dumpArrayStart( $location ) );
-                 fwrite( $file, $data );
-                 fwrite( $file, $this->dumpArrayEnd() );
-                 fclose( $file );
-                 if ( defined( 'EZP_INI_FILE_PERMISSION' ) )
-                 {
-                    chmod( $filePath, EZP_INI_FILE_PERMISSION );
-                 }
-                 else
-                 {
-                    chmod( $filePath, 0777 );
-                 }
-
-             }
-             else
-             {
-                 throw new Exception( __METHOD__ . ": The file {$filePath} is not writable by the system." );
-             }
-         }
+            $file = fopen( $filePath, "w+" );
+            if ( $file )
+            {
+                fwrite( $file, $this->dumpArrayStart( $location ) );
+                fwrite( $file, $data );
+                fwrite( $file, $this->dumpArrayEnd() );
+                fclose( $file );
+                $filePerm = defined( 'EZP_INI_FILE_PERMISSION' ) ? EZP_INI_FILE_PERMISSION : 0777;
+                if ( ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) && $filePerm ) {
+                    @chmod( $filePath, $filePerm );
+                }
+            }
+            else
+            {
+                throw new Exception( __METHOD__ . ": The file {$filePath} is not writable by the system." );
+            }
+        }
     }
 
     /**

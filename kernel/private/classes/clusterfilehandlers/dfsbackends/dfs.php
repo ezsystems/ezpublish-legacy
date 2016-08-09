@@ -332,7 +332,10 @@ class eZDFSFileHandlerDFSBackend implements eZDFSFileHandlerDFSBackendInterface
 
     protected function fixPermissions( $filePath )
     {
-        chmod( $filePath, $this->filePermissionMask );
+        if ( ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) &&
+             eZINI::instance()->variable( 'FileSettings', 'ControlFilePermissions' ) !== 'false' && $this->filePermissionMask ) {
+            @chmod( $filePath, $this->filePermissionMask );
+        }
     }
 
     /**

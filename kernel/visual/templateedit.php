@@ -152,7 +152,10 @@ if ( $module->isCurrentAction( 'Save' ) )
 
         $siteConfig = eZINI::instance( 'site.ini' );
         $filePermissions = $siteConfig->variable( 'FileSettings', 'StorageFilePermissions');
-        chmod( $template, octdec( $filePermissions ) );
+        if ( ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) &&
+             eZINI::instance()->variable( 'FileSettings', 'ControlFilePermissions' ) !== 'false' ) {
+            @chmod( $template, octdec( $filePermissions ) );
+        }
 
         // Expire content view cache
         eZContentCacheManager::clearAllContentCache();

@@ -698,7 +698,10 @@ class eZINI
         // Rename cache temp file to final desitination and set permissions
         if( eZFile::rename( $tmpCacheFile, $cachedFile ) )
         {
-            chmod( $cachedFile, self::$filePermission );
+            if ( ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) &&
+                 eZINI::instance()->variable( 'FileSettings', 'ControlFilePermissions' ) !== 'false' && self::$filePermission ) {
+                @chmod( $cachedFile, self::$filePermission );
+            }
         }
 
         // EZP-22579: php5.5 opcache caches php files very aggressively & needs direct call on invalidation in this case
@@ -1085,7 +1088,10 @@ class eZINI
             return false;
         }
 
-        chmod( $filePath, self::$filePermission );
+        if ( ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) &&
+             eZINI::instance()->variable( 'FileSettings', 'ControlFilePermissions' ) !== 'false' && self::$filePermission ) {
+            @chmod( $filePath, self::$filePermission );
+        }
 
         if ( file_exists( $backupFilePath ) )
             unlink( $backupFilePath );

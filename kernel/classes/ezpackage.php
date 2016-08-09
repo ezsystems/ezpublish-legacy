@@ -1230,8 +1230,11 @@ class eZPackage
     static function applyStorageFilePermissions( $filename )
     {
         $siteConfig = eZINI::instance( 'site.ini' );
-        $filePermissions = $siteConfig->variable( 'FileSettings', 'StorageFilePermissions');
-        chmod( $filename, octdec( $filePermissions ) );
+        if ( ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) &&
+             $siteConfig->variable( 'FileSettings', 'ControlFilePermissions' ) !== 'false' ) {
+            $filePermissions = $siteConfig->variable( 'FileSettings', 'StorageFilePermissions');
+            chmod( $filename, octdec( $filePermissions ) );
+        }
     }
 
     /*!

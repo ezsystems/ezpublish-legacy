@@ -60,8 +60,14 @@ class eZLog
             if ( !$fileExisted )
             {
                 $ini = eZINI::instance();
-                $permissions = octdec( $ini->variable( 'FileSettings', 'LogFilePermissions' ) );
-                @chmod( $fileName, $permissions );
+                if ( ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) &&
+                     $ini->variable( 'FileSettings', 'ControlFilePermissions' ) !== 'false' ) {
+                    $filePerm = $ini->variable( 'FileSettings', 'LogFilePermissions' );
+                    if ( $filePerm ) {
+                        $permissions = octdec( $filePerm );
+                        @chmod( $fileName, $permissions );
+                    }
+                }
             }
             @umask( $oldumask );
         }
@@ -116,8 +122,14 @@ class eZLog
             @fclose( $logFile );
             if ( !$fileExisted )
             {
-                $permissions = octdec( $ini->variable( 'FileSettings', 'LogFilePermissions' ) );
-                @chmod( $fileName, $permissions );
+                if ( ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) &&
+                     $ini->variable( 'FileSettings', 'ControlFilePermissions' ) !== 'false' ) {
+                    $filePerm = $ini->variable( 'FileSettings', 'LogFilePermissions' );
+                    if ( $filePerm ) {
+                        $permissions = octdec( $filePerm );
+                        @chmod( $fileName, $permissions );
+                    }
+                }
             }
             @umask( $oldumask );
         }

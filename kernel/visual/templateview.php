@@ -76,7 +76,10 @@ if ( $module->isCurrentAction( 'UpdateOverride' ) )
 
         $oldumask = umask( 0 );
         $overrideINI->save( "siteaccess/$siteAccess/override.ini.append" );
-        chmod( "settings/siteaccess/$siteAccess/override.ini.append", octdec( $filePermission ) );
+        if ( ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) &&
+             eZINI::instance()->variable( 'FileSettings', 'ControlFilePermissions' ) !== 'false' ) {
+            @chmod( "settings/siteaccess/$siteAccess/override.ini.append", octdec( $filePermission ) );
+        }
         umask( $oldumask );
     }
 }

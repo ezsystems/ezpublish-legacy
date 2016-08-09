@@ -247,12 +247,17 @@ class eZImageHandler
         $ini = eZINI::instance( 'image.ini' );
         $perm = $ini->variable( "FileSettings", "ImagePermissions" );
         $success = false;
-        $oldmask = umask( 0 );
-        if ( !chmod( $filepath, octdec( $perm ) ) )
-            eZDebug::writeError( "Chmod $perm $filepath failed", __METHOD__ );
-        else
+        if ( ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) &&
+             eZINI::instance()->variable( 'FileSettings', 'ControlFilePermissions' ) !== 'false' && $perm ) {
+            $oldmask = umask( 0 );
+            if ( !chmod( $filepath, octdec( $perm ) ) )
+                eZDebug::writeError( "Chmod $perm $filepath failed", __METHOD__ );
+            else
+                $success = true;
+            umask( $oldmask );
+        } else {
             $success = true;
-        umask( $oldmask );
+        }
         return $success;
     }
 
