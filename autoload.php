@@ -69,6 +69,12 @@ if ( !defined( 'EZCBASE_ENABLED' ) )
     define( 'EZCBASE_ENABLED', $baseEnabled );
 }
 
+// Check if the composer autoloader exists, if so use it to load classes no matter what the above code did
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) && !class_exists('\\Composer\\Autoload\\ClassLoader') )
+{
+    require __DIR__ . '/vendor/autoload.php';
+}
+
 // Check if ezpAutoloader exists because it can be already declared if running in the Symfony context (e.g. CLI scripts)
 if ( !class_exists( 'ezpAutoloader', false ) )
 {
