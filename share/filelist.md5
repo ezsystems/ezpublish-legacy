@@ -3306,15 +3306,6 @@ d309651283e0e0f068c201dd4de66c37  settings/content.ini
 e52a4f2806b0f493dade3633bd354a74  settings/layout.ini
 869937b15bdcac7020c88de446d92905  settings/notification.ini
 765eb0e204d11883b0064bcf2eaa6ac2  settings/fetchalias.ini
-6ab42322e9bd79fffa4d3ff3e7876b61  settings/siteaccess/mysite/override.ini.append
-5f30c781ff243f7a940242284405134c  settings/siteaccess/mysite/site.ini.append
-459570c4f6e440a4f8fdc53cc37675b2  settings/siteaccess/plain/override.ini.append
-5a245e70a9d690bebead2124428274bf  settings/siteaccess/plain/site.ini.append
-612350a55b174887983e216a2241497e  settings/siteaccess/base/image.ini.append
-0ff93c271ef51f3a49678c5e0bed4afd  settings/siteaccess/base/override.ini.append
-39023a7b5c05eab213bd563b1d4ed80b  settings/siteaccess/base/site.ini.append
-586bd70f4df72bd5fd7e559afd9a8f66  settings/siteaccess/base/toolbar.ini.append
-748e7ad9d5c6e05c254acdccaae673d4  settings/siteaccess/base/forum.ini
 3c162948b74ca8af7e1ade690681edd3  settings/toolbar.ini
 ee34ba73cd4d3c4f413eecabf9969da9  settings/mime.ini
 9c4e9da24ba940450e10857bfbd06939  settings/datatype.ini
