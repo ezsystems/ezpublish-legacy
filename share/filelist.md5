@@ -101,7 +101,6 @@ da8a97ec6120651324eac6025344e771  bin/startup/debian/ezasynchronouspublisher.def
 e3929992261c61cb22a5efd45f8896a0  bin/startup/debian/ezasynchronouspublisher
 48b0a8f89e5095abc1f6a0e056fd3108  bin/startup/rhel/ezasynchronouspublisher.defaults
 5b7c5d7c2a74a6a2202156a5ad68b9ff  bin/startup/rhel/ezasynchronouspublisher
-9aba979502ca20408807539ccdf31118  composer.json
 891ee635373d96db01060bae6cdb9314  config.php-RECOMMENDED
 10ccd346aa6d74de876eac867709440b  cronjobs/workflow.php
 c34fc2bc7bcf8c61c4e3c4fc28845f91  cronjobs/session_gc.php
@@ -4359,4 +4358,4 @@ d81e72a661fda323196001cfc82a84cc  update/database/mysql/4.5/unstable/dbupdate-4.
 a336daabadfb439fec9d8bdc8f6251a7  update/database/mysql/5.4/dbupdate-5.3.0-to-5.4.0.sql
 7680457ef9ecafd8fe9a146626d2d8a5  update/database/mysql/5.4/dbupdate-cluster-5.3.0-to-5.4.0.sql
 1e060c4fb875f95388321a1bf31d4e8b  webdav.php
-beaced48d4d1946bc5d4dbe28b2afcb7  bin/shell/updatemd5.sh
+1b0f49a438186a8361726e4b4ace4fae  bin/shell/updatemd5.sh

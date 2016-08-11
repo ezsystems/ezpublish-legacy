@@ -3,7 +3,7 @@
 set -e
 
 echo -n "Creating MD5 checksums"
-MD5_FILES=`find * -wholename "./var" -prune -o -wholename "*/.svn" -prune -o -type f -print | grep -F README.md -v | grep -F composer -v | grep -F share/filelist.md5 -v  | sort`
+MD5_FILES=`find * -wholename "./var" -prune -o -wholename "*/.svn" -prune -o -type f -print | grep -F README.md -v | grep -F composer.json -v | grep -F share/filelist.md5 -v  | sort`
 
 for MD5_FILE in $MD5_FILES; do
     MD5_LINE=$(md5sum "$MD5_FILE")
