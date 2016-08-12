@@ -275,6 +275,10 @@ class eZUserType extends eZDataType
         {
             $user = $this->updateUserDraft( $user, $serializedDraft );
         }
+        // clear the serialized draft, otherwise it will override the new password hashes
+        // from a change or forgot password action upon a new profile/user object versions
+        $contentObjectAttribute->setAttribute('data_text', '');
+        $contentObjectAttribute->storeData();
 
         $user->store();
         $contentObjectAttribute->setContent( $user );
