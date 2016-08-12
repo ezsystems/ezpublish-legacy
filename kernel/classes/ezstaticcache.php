@@ -520,7 +520,7 @@ class eZStaticCache implements ezpStaticCache
             eZDir::mkdir( $dir, false, true );
         }
 
-        $oldumask = umask( 0 );
+        $oldumask = (defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) ? umask( 0 ) : umask();
 
         $tmpFileName = $file . '.' . md5( $file. uniqid( "ezp". getmypid(), true ) );
 

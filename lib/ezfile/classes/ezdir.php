@@ -81,9 +81,15 @@ class eZDir
         }
         $dir = eZDir::cleanPath( $dir, self::SEPARATOR_UNIX );
 
-        $oldumask = umask( 0 );
-        $success = @mkdir( $dir, $perm, $recursive );
-        umask( $oldumask );
+        if ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) {
+            $oldumask = umask( 0 );
+            $success = @mkdir( $dir, $perm, $recursive );
+            umask( $oldumask );
+        }
+        else
+        {
+            $success = @mkdir( $dir, $perm, $recursive );
+        }
         return $success;
     }
 
@@ -151,9 +157,15 @@ class eZDir
     */
     static function doMkdir( $dir, $perm, $recursive = false )
     {
-        $oldumask = umask( 0 );
-        $success = @mkdir( $dir, $perm, $recursive );
-        umask( $oldumask );
+        if ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) {
+            $oldumask = umask( 0 );
+            $success = @mkdir( $dir, $perm, $recursive );
+            umask( $oldumask );
+        }
+        else
+        {
+            $success = @mkdir( $dir, $perm, $recursive );
+        }
         return $success;
     }
 

@@ -234,9 +234,15 @@ class eZAutoloadGenerator
             }
             else if ( !file_exists( $targetBasedir ) )
             {
-                if ( defined( 'EZP_INI_FILE_PERMISSION' ) )
-                {
-                    mkdir( $targetBasedir, EZP_INI_FILE_PERMISSION, true );
+                if ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) {
+                    if ( defined( 'EZP_INI_FILE_PERMISSION' ) && EZP_INI_FILE_PERMISSION !== false )
+                    {
+                        mkdir( $targetBasedir, EZP_INI_FILE_PERMISSION, true );
+                    }
+                    else
+                    {
+                        mkdir( $targetBasedir, 0777, true );
+                    }
                 }
                 else
                 {

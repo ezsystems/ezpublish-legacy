@@ -710,7 +710,7 @@ class eZBinaryFileType extends eZDataType
         $destinationPath = eZSys::storageDirectory() . '/original/' . $mimeTypeCategory . '/';
         if ( !file_exists( $destinationPath ) )
         {
-            $oldumask = umask( 0 );
+            $oldumask = (defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) ? umask( 0 ) : umask();
             if ( !eZDir::mkdir( $destinationPath, false, true ) )
             {
                 umask( $oldumask );

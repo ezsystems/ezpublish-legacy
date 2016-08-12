@@ -763,7 +763,7 @@ $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
                 eZDir::mkdir( $this->PHPDir, false, true );
             }
             $path = $this->PHPDir . '/' . $this->PHPFile;
-            $oldumask = umask( 0 );
+            $oldumask = (defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) ? umask( 0 ) : umask();
             $pathExisted = file_exists( $path );
             if ( $atomic )
             {

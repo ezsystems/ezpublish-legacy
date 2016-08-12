@@ -119,7 +119,7 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
         if ( $fp )
         {
             $filePermission = $ini->variable( 'FileSettings', 'StorageFilePermissions' );
-            $oldumask = umask( 0 );
+            $oldumask = (defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) ? umask( 0 ) : umask();
             fwrite( $fp, $templateCode );
             fclose( $fp );
             if ( ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) &&
@@ -151,7 +151,7 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
                 $overrideINI->setVariable( $templateName, 'Match', $matchArray );
             }
 
-            $oldumask = umask( 0 );
+            $oldumask = (defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) ? umask( 0 ) : umask();
             $overrideINI->save( "siteaccess/$siteAccess/override.ini.append" );
             $overridePath = "settings/siteaccess/$siteAccess/override.ini.append.php";
             if ( file_exists( $overridePath ) )

@@ -36,7 +36,7 @@ class eZLog
     static function write( $message, $logName = 'common.log', $dir = 'var/log' )
     {
         $fileName = $dir . '/' . $logName;
-        $oldumask = @umask( 0 );
+        $oldumask = (defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) ? @umask( 0 ) : @umask();
 
         $fileExisted = file_exists( $fileName );
         if ( $fileExisted and
@@ -88,7 +88,7 @@ class eZLog
         $logDir = $ini->variable( 'FileSettings', 'LogDir' );
         $logName = 'storage.log';
         $fileName = $varDir . '/' . $logDir . '/' . $logName;
-        $oldumask = @umask( 0 );
+        $oldumask = (defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) ? @umask( 0 ) : @umask();
 
         clearstatcache( true, $fileName );
         $fileExisted = file_exists( $fileName );

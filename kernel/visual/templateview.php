@@ -74,7 +74,7 @@ if ( $module->isCurrentAction( 'UpdateOverride' ) )
 
         $filePermission = $ini->variable( 'FileSettings', 'StorageFilePermissions' );
 
-        $oldumask = umask( 0 );
+        $oldumask = (defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) ? umask( 0 ) : umask();
         $overrideINI->save( "siteaccess/$siteAccess/override.ini.append" );
         if ( ( defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) &&
              eZINI::instance()->variable( 'FileSettings', 'ControlFilePermissions' ) !== 'false' ) {

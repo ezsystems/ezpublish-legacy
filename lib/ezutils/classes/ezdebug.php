@@ -888,7 +888,7 @@ class eZDebug
         {
             eZDir::mkdir( $logDir, false, true );
         }
-        $oldumask = @umask( 0 );
+        $oldumask = (defined('EZP_USE_FILE_PERMISSIONS') ? EZP_USE_FILE_PERMISSIONS : true ) ? @umask( 0 ) : @umask();
         clearstatcache( true, $fileName );
         $fileExisted = file_exists( $fileName );
         if ( $fileExisted and
