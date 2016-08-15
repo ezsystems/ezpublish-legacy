@@ -254,7 +254,8 @@ class eZDebug
              $type != self::HANDLE_FROM_PHP and
              $type != self::HANDLE_EXCEPTION )
             $type = self::HANDLE_NONE;
-        if ( extension_loaded( 'xdebug' ) and
+        if ( extension_loaded( 'xdebug' ) &&
+             (isset($GLOBALS['ezpDebug']['UseXdebug']) ? $GLOBALS['ezpDebug']['UseXdebug'] : true) &&
              $type == self::HANDLE_FROM_PHP )
             $type = self::HANDLE_NONE;
         if ( $type == $instance->HandleType )
