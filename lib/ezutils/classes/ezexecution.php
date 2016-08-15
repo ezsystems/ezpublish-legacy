@@ -147,15 +147,20 @@ class eZExecution
     {
         if ( !self::$shutdownHandle )
         {
-            register_shutdown_function( array('eZExecution', 'uncleanShutdownHandler') );
+            // Allow the handlers to be disabled, e.g. if handled by another PHP library
+            if ( isset($GLOBALS['ezpExecution']['installHandler']) ? $GLOBALS['ezpExecution']['installHandler'] : true ) {
+                register_shutdown_function( array('eZExecution', 'uncleanShutdownHandler') );
+                set_exception_handler( array('eZExecution', 'defaultExceptionHandler') );
+            }
+
             /*
                 see:
                 - http://www.php.net/manual/en/function.session-set-save-handler.php
                 - http://bugs.php.net/bug.php?id=33635
                 - http://bugs.php.net/bug.php?id=33772
             */
-            register_shutdown_function( array('eZSession', 'stop') );
-            set_exception_handler( array('eZExecution', 'defaultExceptionHandler') );
+            @register_shutdown_function( array('eZSession', 'stop') );
+
             self::$shutdownHandle = true;
         }
 
