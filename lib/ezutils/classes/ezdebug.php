@@ -247,6 +247,9 @@ class eZDebug
     {
         $instance = eZDebug::instance();
 
+        if (isset($GLOBALS['ezpDebug']['Type']) && $GLOBALS['ezpDebug']['Type'] !== null)
+            $type = $GLOBALS['ezpDebug']['Type'];
+
         if ( $type != self::HANDLE_TO_PHP and
              $type != self::HANDLE_FROM_PHP and
              $type != self::HANDLE_EXCEPTION )
