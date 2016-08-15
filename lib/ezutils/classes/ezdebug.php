@@ -269,19 +269,10 @@ class eZDebug
                 set_error_handler( array( $instance, 'recursionProtectErrorHandler' ) );
             } break;
 
-            case self::HANDLE_TO_PHP:
-            {
-                restore_error_handler();
-            } break;
-
             case self::HANDLE_EXCEPTION:
             {
                 set_error_handler( array( $instance, 'exceptionErrorHandler' ) );
             } break;
-
-            case self::HANDLE_NONE:
-            {
-            }
         }
         $oldHandleType = $instance->HandleType;
         $instance->HandleType = $type;
