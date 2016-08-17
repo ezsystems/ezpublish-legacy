@@ -520,7 +520,18 @@ class eZSiteAccess
             $ini = eZINI::instance();
         }
 
-        $ini->prependOverrideDir( "siteaccess/$name", false, 'siteaccess', 'siteaccess' );
+        $siteaccessFolders = isset($GLOBALS['EZP_INI_SITEACCESS_FOLDERS']) ? $GLOBALS['EZP_INI_SITEACCESS_FOLDERS'] : false;
+        if ($siteaccessFolders)
+        {
+            foreach ( $siteaccessFolders as $siteaccessFolder )
+            {
+                $ini->prependOverrideDir( "$siteaccessFolder/$name", false, 'siteaccess', 'siteaccess' );
+            }
+        }
+        else
+        {
+            $ini->prependOverrideDir( "siteaccess/$name", false, 'siteaccess', 'siteaccess' );
+        }
 
         /* Make sure extension siteaccesses are prepended */
         eZExtension::prependExtensionSiteAccesses( $name, $ini );
