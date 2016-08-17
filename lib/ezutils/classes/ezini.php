@@ -504,6 +504,10 @@ class eZINI
                     $inputFiles[] = $overrideFile . '.append';
                 }
             }
+            if (isset($GLOBALS['EZP_INI_DEBUG_FILELIST']) && $GLOBALS['EZP_INI_DEBUG_FILELIST'])
+            {
+                trigger_error(json_encode($inputFiles, version_compare(PHP_VERSION, '5.4.0') >= 0 ? (JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : 0));
+            }
         }
     }
 
@@ -1239,6 +1243,10 @@ class eZINI
             }
         }
 
+        if (isset($GLOBALS['EZP_INI_DEBUG_OVERRIDES']) && $GLOBALS['EZP_INI_DEBUG_OVERRIDES'])
+        {
+            trigger_error(json_encode($folders, version_compare(PHP_VERSION, '5.4.0') >= 0 ? (JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : 0));
+        }
         return $folders;
     }
 
