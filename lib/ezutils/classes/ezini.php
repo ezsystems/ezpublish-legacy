@@ -1217,6 +1217,19 @@ class eZINI
                 'extension' => array(),
                 'override' => array( array( 'override', false ) )
         );
+        static $overrideFolders = null;
+        if ($overrideFolders === null)
+        {
+            $overrideFolders = isset($GLOBALS['EZP_INI_OVERRIDE_FOLDERS']) ? $GLOBALS['EZP_INI_OVERRIDE_FOLDERS'] : false;
+            if ($overrideFolders)
+            {
+                $def['override'] = array();
+                foreach ( $overrideFolders as $overrideFolder )
+                {
+                    $def['override'][] = array( $overrideFolder, true );
+                }
+            }
+        }
         return $def;
     }
 
