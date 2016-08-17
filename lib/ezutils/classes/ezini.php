@@ -1185,9 +1185,9 @@ class eZINI
         static $prioritizeSiteaccess = null;
         if ($prioritizeSiteaccess === null)
         {
-            $prioritizeSiteaccess = defined('EZP_INI_ORDER_SITEACCESS') ? 'EZP_INI_ORDER_SITEACCESS' : false;
+            $prioritizeSiteaccess = isset($GLOBALS['EZP_INI_ORDER_SITEACCESS']) ? $GLOBALS['EZP_INI_ORDER_SITEACCESS'] : false;
         }
-        // Define EZP_INI_ORDER_SITEACCESS = true to get a proper ordering of siteaccess vs extension
+        // Set $GLOBALS['EZP_INI_ORDER_SITEACCESS'] = true to get a proper ordering of siteaccess vs extension
         // This allows a siteaccess to override ini settings from extensions
         if ($prioritizeSiteaccess)
         {
