@@ -1191,12 +1191,55 @@ class eZINI
         // This allows a siteaccess to override ini settings from extensions
         if ($prioritizeSiteaccess)
         {
-            return array_merge( $dirs['extension'], $dirs['sa-extension'], $dirs['override'], $dirs['siteaccess'] );
+            // For some reason the extension siteaccess is not placed inside 'sa-extension'
+            // To fix this these entries are moved into the correct $dirs entry.
+            foreach (array_keys($dirs['siteaccess']) as $key)
+            {
+                if (substr($key, 0, 15) == 'ext-siteaccess:')
+                {
+                    $dirs['sa-extension'][$key] = $dirs['siteaccess'][$key];
+                    unset($dirs['siteaccess'][$key]);
+                }
+            }
+            $folders = array_merge( $dirs['extension'], $dirs['sa-extension'], $dirs['override'], $dirs['siteaccess'] );
         }
         else // compatibility
         {
-           return array_merge( $dirs['sa-extension'], $dirs['siteaccess'], $dirs['extension'], $dirs['override'] );
+            $folders = array_merge( $dirs['sa-extension'], $dirs['siteaccess'], $dirs['extension'], $dirs['override'] );
         }
+
+        // Remove trailing slash, to ensure similar paths can be detected
+        $folders = array_map(function ($item) { $item[0] = rtrim($item[0], '/'); return $item; }, $folders);
+
+        // Filter out duplicate settings folders, this can happen if the override
+        // folder is set inside an extension which also part of the extension list
+        // The last folder will then be used as it has the most priority in terms
+        // of overriding.
+        $uniquePaths = array();
+        foreach (array_reverse($folders) as $key => $item)
+        {
+            $path = $item[0];
+            // Prefix with something unique if not a global path
+            if (!$item[1])
+            {
+                $path = 'ezp-settings:' . $path;
+            }
+            if (!isset($uniquePaths[$path]))
+            {
+                $uniquePaths[$path] = $key;
+            }
+        }
+        // Flip keys/values to make it easier to check if a folder key is still in use
+        $uniquePaths = array_flip($uniquePaths);
+        foreach ($folders as $key => $item)
+        {
+            if (!isset($uniquePaths[$key]))
+            {
+                unset($folders[$key]);
+            }
+        }
+
+        return $folders;
     }
 
     /**
