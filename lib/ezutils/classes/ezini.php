@@ -1182,7 +1182,21 @@ class eZINI
             eZDebug::writeWarning( "Undefined override dir scope: '$scope'", __METHOD__ );
         }
 
-        return array_merge( $dirs['sa-extension'], $dirs['siteaccess'], $dirs['extension'], $dirs['override'] );
+        static $prioritizeSiteaccess = null;
+        if ($prioritizeSiteaccess === null)
+        {
+            $prioritizeSiteaccess = defined('EZP_INI_ORDER_SITEACCESS') ? 'EZP_INI_ORDER_SITEACCESS' : false;
+        }
+        // Define EZP_INI_ORDER_SITEACCESS = true to get a proper ordering of siteaccess vs extension
+        // This allows a siteaccess to override ini settings from extensions
+        if ($prioritizeSiteaccess)
+        {
+            return array_merge( $dirs['extension'], $dirs['sa-extension'], $dirs['override'], $dirs['siteaccess'] );
+        }
+        else // compatibility
+        {
+           return array_merge( $dirs['sa-extension'], $dirs['siteaccess'], $dirs['extension'], $dirs['override'] );
+        }
     }
 
     /**
