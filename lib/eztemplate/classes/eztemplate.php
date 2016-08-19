@@ -295,9 +295,10 @@ class eZTemplate
     */
     function eZTemplate()
     {
-        $this->Tree = array( eZTemplate::NODE_ROOT, false );
+        $this->Tree = eZTemplateNodeTool::createRootElement();
         $this->LDelim = "{";
         $this->RDelim = "}";
+        $this->PostProcessors = null;
 
         $this->IncludeText = array();
         $this->IncludeOutput = array();
@@ -529,6 +530,7 @@ class eZTemplate
                 if ( $this->executeCompiledTemplate( $resourceData, $textElements, "", "", $extraParameters ) )
                 {
                     $text = implode( '', $textElements );
+                    $text = $this->postProcessTemplateText( $resourceData, $text );
                     $templateCompilationUsed = true;
                 }
             }
@@ -540,6 +542,7 @@ class eZTemplate
                     eZDebug::writeDebug( "FETCH START URI: $template, $fname" );
                 }
                 $this->process( $root, $text, "", "" );
+                $text = $this->postProcessTemplateText( $resourceData, $text );
                 if ( eZTemplate::isDebugEnabled() )
                     eZDebug::writeDebug( "FETCH END URI: $template, $fname" );
             }
@@ -670,9 +673,11 @@ class eZTemplate
      Loads the template using the URI $uri and parses it.
      \return The root node of the tree if \a $returnResourceData is false,
              if \c true the entire resource data structure.
+     @deprecated This function is no longer of any use (nor in use)
     */
     function load( $uri, $extraParameters = false, $returnResourceData = false )
     {
+        exit("eZTemplate::load is deprecated<br>\n");
         $resourceData = $this->loadURIRoot( $uri, true, $extraParameters );
         if ( !$resourceData or
              $resourceData['root-node'] === null )
@@ -766,7 +771,7 @@ class eZTemplate
             if ( !$resourceData['compiled-template'] and
                  $resourceData['root-node'] === null )
             {
-                $resourceData['root-node'] = array( eZTemplate::NODE_ROOT, false );
+                $resourceData['root-node'] = eZTemplateNodeTool::createRootElement();
                 $templateText = $resourceData["text"];
                 $keyData = $resourceData['key-data'];
                 $this->setIncludeText( $uri, $templateText );
@@ -824,8 +829,14 @@ class eZTemplate
 
         if ( $resourceData['compiled-template'] )
         {
-            if ( $this->executeCompiledTemplate( $resourceData, $textElements, $rootNamespace, $currentNamespace, $extraParameters ) )
+            $localElements = array();
+            if ( $this->executeCompiledTemplate( $resourceData, $localElements, $rootNamespace, $currentNamespace, $extraParameters ) )
+            {
+                $text = implode('', $localElements);
+                $text = $this->postProcessTemplateText( $resourceData, $text );
+                $textElements[] = $text;
                 $templateCompilationUsed = true;
+            }
         }
         if ( !$templateCompilationUsed )
         {
@@ -839,6 +850,7 @@ class eZTemplate
             if ( eZTemplate::isDebugEnabled() )
                 eZDebug::writeDebug( "END URI: $uri, $fname" );
             $this->setIncludeOutput( $uri, $text );
+            $text = $this->postProcessTemplateText( $resourceData, $text );
             $textElements[] = $text;
         }
 
@@ -848,6 +860,92 @@ class eZTemplate
         }
         $this->Level--;
 
+    }
+
+    /*!
+     * Post processes the rendered template output by going trough all processors
+     * and then returning the new output text.
+     */
+    function postProcessTemplateText( $resourceData, $text )
+    {
+        if ( !self::usePostProcessor() )
+        {
+            return $text;
+        }
+        $processors = $this->getPostProcessors();
+        foreach ($processors as $processor)
+        {
+            $text = $processor($resourceData, $text);
+        }
+        return $text;
+    }
+
+    function getPostProcessors()
+    {
+        if ( $this->PostProcessors === null )
+        {
+            $ini = eZINI::instance();
+            if ( $ini->hasVariable( 'TemplateSettings', 'PostProcessors' ) )
+            {
+                $processors = $ini->variable( 'TemplateSettings', 'PostProcessors' );
+                foreach ($processors as $key => $processor)
+                {
+                    // Detect static calls and turn them into an array with two elements
+                    if (strpos($processor, '::') !== false)
+                    {
+                        $processor = explode('::', $processor, 2);
+                        $processors[$key] = $processor;
+                    }
+                }
+            }
+            else
+            {
+                $processors = array(
+                    array('eZTemplate', 'trimRootWhitespace'),
+                    array('eZTemplate', 'insertDebugInfo'),
+                );
+            }
+            $this->PostProcessors = $processors;
+        }
+        return $this->PostProcessors;
+    }
+
+    static public function trimRootWhitespace( $resourceData, $text )
+    {
+        return preg_replace("/^\s+(\\<[a-z][a-z0-9_-]+)/s", "\\1", $text);
+    }
+
+    static public function insertDebugInfo( $resourceData, $text )
+    {
+        if ( eZTemplate::isDebugEnabled() )
+        {
+            if ( self::useHtmlAttribute() )
+            {
+                $path = htmlspecialchars($resourceData['template-filename']);
+                $text = preg_replace("#^(\s*\\<[a-z][a-z0-9_-]+)#s", "\\1 data-ezp-tpl-path=\"$path\" \\2", $text, 1);
+            }
+            else
+            {
+                $path = $resourceData['template-filename'];
+                $uri = $resourceData['uri'];
+
+                $preText = "\n<!-- START: including template: $path ($uri) -->\n";
+                if ( eZTemplate::isXHTMLCodeIncluded() )
+                    $preText .= "<p class=\"small\">$path</p><br/>\n";
+                $postText = "\n<!-- STOP: including template: $path ($uri) -->\n";
+
+                // Avoid placing a comment before the doctype which can trigger quirks mode
+                if ( stripos( $text, '<!DOCTYPE' ) === 0 )
+                {
+                    $text = preg_replace("#(<html[^>]+>)#s", "\\1$preText", $text) . $postText;
+                }
+                else
+                {
+                    $text = $preText . $text . $postText;
+                }
+            }
+        }
+        return $text;
     }
 
     function canCompileTemplate( $resourceData, &$extraParameters )
@@ -888,7 +986,7 @@ class eZTemplate
         $this->IsCachingAllowed = $isCachingAllowed;
 
         $root =& $resourceData['root-node'];
-        $root = array( eZTemplate::NODE_ROOT, false );
+        $root = eZTemplateNodeTool::createRootElement();
         $templateText = $resourceData["text"];
         $rootNamespace = '';
         $this->parse( $templateText, $root, $rootNamespace, $resourceData );
@@ -935,7 +1033,7 @@ class eZTemplate
         if ( !$isCompiled )
         {
             $root =& $resourceData['root-node'];
-            $root = array( eZTemplate::NODE_ROOT, false );
+            $root = eZTemplateNodeTool::createRootElement();
             $templateText = $resourceData["text"];
             $rootNamespace = '';
             $this->parse( $templateText, $root, $rootNamespace, $resourceData );
@@ -1737,12 +1835,19 @@ class eZTemplate
     */
     function appendDebugNodes( &$root, &$resourceData )
     {
-        $path = $resourceData['template-filename'];
         // Do not ouput debug on pagelayout templates to avoid trigering
         // browser quirks mode
         if ( isset( $root[1][0][2] ) && is_string( $root[1][0][2] ) && stripos( $root[1][0][2], '<!DOCTYPE' ) === 0 )
             return;
+        $path = $resourceData['template-filename'];
         $uri = $resourceData['uri'];
+
+        if ( self::usePostProcessor() )
+        {
+            // New way of handling debug info, will be handled by post processing
+            return;
+        }
+
         $preText = "\n<!-- START: including template: $path ($uri) -->\n";
         if ( eZTemplate::isXHTMLCodeIncluded() )
             $preText .= "<p class=\"small\">$path</p><br/>\n";
@@ -2442,6 +2547,26 @@ class eZTemplate
             $GLOBALS['eZTemplateDebugXHTMLCodeEnabled'] = $ini->variable( 'TemplateSettings', 'ShowXHTMLCode' ) == 'enabled';
         }
         return $GLOBALS['eZTemplateDebugXHTMLCodeEnabled'];
+    }
+
+    static function useHtmlAttribute()
+    {
+        if ( !isset( $GLOBALS['eZTemplateDebugAttribute'] ) )
+        {
+            $ini = eZINI::instance();
+            $GLOBALS['eZTemplateDebugAttribute'] = $ini->hasVariable( 'TemplateSettings', 'DebugInAttribute' ) && $ini->variable( 'TemplateSettings', 'DebugInAttribute' ) == 'enabled';
+        }
+        return $GLOBALS['eZTemplateDebugAttribute'];
+    }
+
+    static function usePostProcessor()
+    {
+        if ( !isset( $GLOBALS['eZTemplatePostProcessor'] ) )
+        {
+            $ini = eZINI::instance();
+            $GLOBALS['eZTemplatePostProcessor'] = $ini->hasVariable( 'TemplateSettings', 'UsePostProcessor' ) && $ini->variable( 'TemplateSettings', 'UsePostProcessor' ) == 'enabled';
+        }
+        return $GLOBALS['eZTemplatePostProcessor'];
     }
 
     /*!

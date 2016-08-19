@@ -55,6 +55,15 @@ class eZTemplateNodeTool
 
     /*!
      \static
+     Creates an element which represents the root of the tree.
+    */
+    static function createRootElement()
+    {
+        return array( eZTemplate::NODE_ROOT, false );
+    }
+
+    /*!
+     \static
      Creates an element which represents the static value and returns it,
      the type of the variable determines the type of the element.
     */
