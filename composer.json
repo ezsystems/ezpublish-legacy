@@ -4,12 +4,6 @@
     "homepage":    "http://aplia.no",
     "license":     "GPL-2.0",
     "type":        "ezpublish-legacy",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "/home/jb/dev/ezbootstrap/ezinstaller"
-        }
-    ],
     "require": {
         "php": ">=5.3.3",
         "zetacomponents/archive": "@dev",
