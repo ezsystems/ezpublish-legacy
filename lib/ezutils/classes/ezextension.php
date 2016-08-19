@@ -551,7 +551,7 @@ class eZExtension
                     // detect if class has a constructor, and if not write a notice about that
                     if ( $reflection->getConstructor() !== null )
                     {
-                        $refMethod = new ReflectionMethod($handler, $reflection->getConstructor()->getName());
+                        $refMethod = new ReflectionMethod( $handler, $reflection->getConstructor()->getName() );
                         $params = $refMethod->getParameters();
                         $args = array();
                         foreach( $params as $key => $param )
