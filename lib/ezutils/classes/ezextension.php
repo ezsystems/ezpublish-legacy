@@ -553,22 +553,19 @@ class eZExtension
                     {
                         $refMethod = new ReflectionMethod($handler, $reflection->getConstructor()->getName());
                         $params = $refMethod->getParameters();
-
-                        $re_args = array();
-
-                        foreach($params as $key => $param)
+                        $args = array();
+                        foreach( $params as $key => $param )
                         {
-                            if ($param->isPassedByReference())
+                            if ( $param->isPassedByReference() )
                             {
-                                $re_args[$key] = &$handlerParams[$key];
+                                $args[$key] = &$handlerParams[$key];
                             }
                             else
                             {
-                                $re_args[$key] = $handlerParams[$key];
+                                $args[$key] = $handlerParams[$key];
                             }
                         }
-
-                        $object = $reflection->newInstanceArgs( $re_args );
+                        $object = $reflection->newInstanceArgs( $args );
                     }
                     else
                     {
