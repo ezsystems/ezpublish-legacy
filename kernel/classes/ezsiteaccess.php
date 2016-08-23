@@ -523,7 +523,7 @@ class eZSiteAccess
         $siteaccessFolders = isset($GLOBALS['EZP_INI_SITEACCESS_FOLDERS']) ? $GLOBALS['EZP_INI_SITEACCESS_FOLDERS'] : false;
         if ($siteaccessFolders)
         {
-            foreach ( $siteaccessFolders as $key => $siteaccessFolder )
+            foreach ( array_reverse($siteaccessFolders) as $key => $siteaccessFolder )
             {
                 $ini->prependOverrideDir( "$siteaccessFolder/$name", /*$globalDir=*/ true, "siteaccess:$key", 'siteaccess' );
             }
