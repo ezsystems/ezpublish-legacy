@@ -168,6 +168,7 @@ class eZDebug
         $this->OverrideList = array();
         $this->topReportsList = array();
         $this->bottomReportsList = array();
+        $this->isLogging = false;
     }
 
     function reset()
@@ -710,6 +711,14 @@ class eZDebug
         $enabled = eZDebug::isDebugEnabled();
         if ( !$alwaysLog and !$enabled )
             return;
+
+        // Avoid recursion if the code below triggers another ::write*
+        if ($this->isLogging) {
+            return;
+        }
+
+        $this->isLogging = true;
+
         switch ( $verbosityLevel )
         {
             case self::LEVEL_NOTICE:
@@ -769,6 +778,8 @@ class eZDebug
                 }
             }
         }
+
+        $this->isLogging = false;
     }
 
     /*!
