@@ -290,7 +290,38 @@ class eZAutoloadGenerator
         }
 
         $defaultExcludeArray = explode( "\n", trim( file_get_contents( $defaultExcludeFile ) ) );
-        return array_merge( $defaultExcludeArray, $this->options->excludeDirs );
+        $excludeDirs = array_merge( $defaultExcludeArray, $this->options->excludeDirs );
+        if ( is_dir( $this->options->basePath . DIRECTORY_SEPARATOR . 'extension' ) )
+        {
+            foreach ( scandir($this->options->basePath . DIRECTORY_SEPARATOR . 'extension') as $item)
+            {
+                if ($item == "." || $item == "..")
+                {
+                    continue;
+                }
+                $extensionPath = $this->options->basePath . DIRECTORY_SEPARATOR . 'extension' . DIRECTORY_SEPARATOR . $item;
+                $extensionIgnore = $extensionPath . DIRECTORY_SEPARATOR . self::DEFAULT_EXCLUDE_FILE;
+                if ( file_exists( $extensionIgnore ) )
+                {
+                    $excludeContent = trim( file_get_contents( $extensionIgnore ) );
+                    if ($excludeContent)
+                    {
+                        foreach ( explode( "\n", $excludeContent) as $subPath )
+                        {
+                            if ( $subPath )
+                            {
+                                $excludeDirs[] = 'extension' . DIRECTORY_SEPARATOR . $item . DIRECTORY_SEPARATOR . $subPath;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        $excludeDirs[] = 'extension' . DIRECTORY_SEPARATOR . $item;
+                    }
+                }
+            }
+        }
+        return $excludeDirs;
     }
 
     /**
