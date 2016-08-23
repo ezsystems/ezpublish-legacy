@@ -612,7 +612,7 @@ class eZXMLInputParser
         {
             return $endPos;
         }
-        return $this->findEndOpeningTagPosition( $data, $tagBeginPos, $endPos + 1 );
+        return $this->findEndOpeningTagPosition( $data, $tagBeginPos, $endPos - $tagBeginPos + 1 );
     }
 
     /**
