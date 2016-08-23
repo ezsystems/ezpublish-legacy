@@ -669,7 +669,7 @@ class eZOEInputParser extends eZXMLInputParser
         if ( $this->XMLSchema->isInline( $element ) )
             return null;
 
-        self::elementStylesToAttribute( $element );
+        $this->elementStylesToAttribute( $element );
         return null;
     }
 
@@ -692,7 +692,7 @@ class eZOEInputParser extends eZXMLInputParser
                 $anchorElement = $element->removeChild( $anchorElement );
             }
         }
-        self::elementStylesToAttribute( $element );
+        $this->elementStylesToAttribute( $element );
         return null;
     }
 
@@ -706,7 +706,7 @@ class eZOEInputParser extends eZXMLInputParser
      */
     function transformStyles( $element, &$params )
     {
-        self::elementStylesToAttribute( $element );
+        $this->elementStylesToAttribute( $element );
         return null;
     }
 
@@ -1506,7 +1506,7 @@ class eZOEInputParser extends eZXMLInputParser
      *
      * @param DOMElement $element
      */
-    protected static function elementStylesToAttribute( DOMElement $element )
+    protected function elementStylesToAttribute( DOMElement $element )
     {
         $styleString = $element->getAttribute( 'style' );
         if ( $styleString )
@@ -1525,7 +1525,16 @@ class eZOEInputParser extends eZXMLInputParser
                     $name = 'align';
 
                 if ( $name )
-                    $element->setAttribute( $name, $value );
+                {
+                    try
+                    {
+                        $element->setAttribute( $name, $value );
+                    }
+                    catch (DOMException $e)
+                    {
+                        $this->handleError( self::ERROR_DATA, $e->getMessage() );
+                    }
+                }
             }
         }
     }
