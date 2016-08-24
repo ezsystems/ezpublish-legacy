@@ -43,9 +43,17 @@ class eZCacheHelper
         );
 
         $warnPaths = array();
+        $cachePath = eZSys::globalCachePath();
         foreach ( $cacheEntries as $cacheEntry )
         {
-            $absPath = realpath( eZSys::cacheDirectory() . DIRECTORY_SEPARATOR . $cacheEntry['path'] );
+            if ( substr($cacheEntry['path'], 0, strlen($cachePath)) == $cachePath )
+            {
+                $absPath = realpath( $cacheEntry['path'] );
+            }
+            else
+            {
+                $absPath = realpath( eZSys::cacheDirectory() . DIRECTORY_SEPARATOR . $cacheEntry['path'] );
+            }
             $absPathElementCount = count( explode( DIRECTORY_SEPARATOR, rtrim( $absPath, DIRECTORY_SEPARATOR ) ) );
             // Refuse to delete root directory ('/' or 'C:\')
             // 2 => since one path element ('/foo') produces two exploded elements
