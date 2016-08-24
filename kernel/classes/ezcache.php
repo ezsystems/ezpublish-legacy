@@ -21,11 +21,49 @@
 class eZCache
 {
     /**
-     * Return a list of all cache items in the system.
+     * Return a list of all default cache items in the system.
      *
      * @return array The list of cache items
      */
     static function fetchList()
+    {
+        $all = self::fetchAll();
+        $list = array();
+        foreach ($all as $item)
+        {
+            if ( !isset( $item['default'] ) || $item['default'] )
+            {
+                $list[] = $item;
+            }
+        }
+        return $list;
+    }
+
+    /**
+     * Return a list of all non-default cache items in the system.
+     *
+     * @return array The list of cache items
+     */
+    static function fetchNonDefault()
+    {
+        $all = self::fetchAll();
+        $list = array();
+        foreach ($all as $item)
+        {
+            if ( isset( $item['default'] ) && !$item['default'] )
+            {
+                $list[] = $item;
+            }
+        }
+        return $list;
+    }
+
+    /**
+     * Return a list of all cache items in the system.
+     *
+     * @return array The list of cache items
+     */
+    static function fetchAll()
     {
         static $cacheList = null;
         if ( $cacheList === null )
@@ -44,7 +82,7 @@ class eZCache
                                        'id' => 'global_ini',
                                        'tag' => array( 'ini' ),
                                        'enabled' => true,
-                                       'path' => 'var/cache/ini',
+                                       'path' => eZSys::iniCachePath(),
                                        'function' => array( 'eZCache', 'clearGlobalINICache' ),
                                        'purge-function' => array( 'eZCache', 'clearGlobalINICache' ) ),
                                 array( 'name' => ezpI18n::tr( 'kernel/cache', 'INI cache' ),
@@ -98,6 +136,8 @@ class eZCache
                                        'tag' => array( 'image' ),
                                        'path' => false,
                                        'enabled' => true,
+                                       // imagealias should not be cleared by default as it is quite expensive
+                                       'default' => false,
                                        'function' => array( 'eZCache', 'clearImageAlias' ),
                                        'purge-function' => array( 'eZCache', 'purgeImageAlias' ),
                                        'is-clustered' => true ),
@@ -249,6 +289,11 @@ class eZCache
                     $cacheItem['path'] = $ini->variable( $name, 'path' );
                 else
                     $cacheItem['path'] = false;
+
+                if ( $ini->hasVariable( $name, 'default' ) )
+                    $cacheItem['default'] = $ini->variable( $name, 'default' );
+                else
+                    $cacheItem['default'] = true;
 
                 if ( $ini->hasVariable( $name, 'class' ) )
                     $cacheItem['function'] = array( $ini->variable( $name, 'class' ), 'clearCache' );

@@ -28,11 +28,12 @@ $helper = new eZCacheHelper(
 
 $script->startup();
 
-$options = $script->getOptions( "[clear-tag:][clear-id:][clear-all]" . /*[purge-tag:][purge-id:][purge-all]*/ "[iteration-sleep:][iteration-max:][expiry:][list-tags][list-ids][purge]",
+$options = $script->getOptions( "[clear-tag:][clear-id:][clear-all][clear-non-default]" . /*[purge-tag:][purge-id:][purge-all]*/ "[iteration-sleep:][iteration-max:][expiry:][list-tags][list-ids][purge]",
                                 "",
                                 array( 'clear-tag' => 'Clears all caches related to a given tag, separate multiple tags with a comma',
                                        'clear-id' => 'Clears all caches related to a given id, separate multiple ids with a comma',
-                                       'clear-all' => 'Clears all caches',
+                                       'clear-all' => 'Clears all default caches',
+                                       'clear-non-default' => 'Clears all non-default caches',
                                        'purge' => 'Enforces purging of cache items which ensures that specified entries are physically removed (Useful for saving diskspace). Used together with the clear-* options.',
                                        'iteration-sleep' => 'Amount of seconds to sleep between each iteration when performing a purge operation, can be a float.',
                                        'iteration-max' => 'Amount of items to remove in each iteration when performing a purge operation.',
@@ -154,6 +155,16 @@ if ( $options['clear-all'] )
         $helper->purgeItems( $cacheList, false, $purgeSleep, $purgeMax, $purgeExpiry );
     else
         $helper->clearItems( $cacheList, false );
+    $script->shutdown( 0 );
+}
+
+if ( $options['clear-non-default'] )
+{
+    $noAction = false;
+    if ( $purge )
+        $helper->purgeItems( eZCache::fetchNonDefault(), false, $purgeSleep, $purgeMax, $purgeExpiry );
+    else
+        $helper->clearItems( eZCache::fetchNonDefault(), false );
     $script->shutdown( 0 );
 }
 
