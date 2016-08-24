@@ -492,6 +492,111 @@ class eZSys
     }
 
     /**
+     * Returns path to the site installation. Path may be relative or absolute.
+     *
+     * Can be configured with the environment variable 'WWW_ROOT'.
+     *
+     * Note: A value of '' means the path is the current working directory.
+     */
+    static function wwwPath()
+    {
+        static $path = null;
+        if ( $path === null )
+        {
+            $path = isset($_ENV['WWW_ROOT']) ? $_ENV['WWW_ROOT'] : '';
+            if ($path && substr($path, -1, 1) != '/')
+            {
+                $path .= '/';
+            }
+        }
+        return $path;
+    }
+
+    /**
+     * Returns path to the eZ publish installation. Path may be relative or absolute.
+     * If no path is configured it is the same ::wwwPath()
+     *
+     * Can be configured with the environment variable 'EZP_ROOT'.
+     *
+     * Note: A value of '' means the path is the current working directory.
+     */
+    static function ezpPath()
+    {
+        static $path = null;
+        if ( $path === null )
+        {
+            $path = isset($_ENV['EZP_ROOT']) ? $_ENV['EZP_ROOT'] : self::wwwPath();
+            if ($path && substr($path, -1, 1) != '/')
+            {
+                $path .= '/';
+            }
+        }
+        return $path;
+    }
+
+    /**
+     * Returns path to the root of the var folder, ie. the main var folder and not
+     * the one beloning to the site. Path may be relative or absolute.
+     * If no path is configured it is relative to ::wwwPath()
+     *
+     * Can be configured with the environment variable 'EZP_VAR_PATH'.
+     */
+    static function varRootPath()
+    {
+        static $path = null;
+        if ( $path === null )
+        {
+            $path = isset($_ENV['EZP_VAR_PATH']) ? $_ENV['EZP_VAR_PATH'] : (self::wwwPath() . 'var');
+            if ($path && substr($path, -1, 1) != '/')
+            {
+                $path .= '/';
+            }
+        }
+        return $path;
+    }
+
+    /**
+     * Returns path to the global cache folder. Path may be relative or absolute.
+     * The global cache is where the most basic cache files are placed, such as ini cache.
+     * If no path is configured it is relative to ::varRootPath()
+     *
+     * Can be configured with the environment variable 'EZP_GLOBAL_CACHE_PATH'.
+     */
+    static function globalCachePath()
+    {
+        static $path = null;
+        if ( $path === null )
+        {
+            $path = isset($_ENV['EZP_GLOBAL_CACHE_PATH']) ? $_ENV['EZP_GLOBAL_CACHE_PATH'] : (self::varRootPath() . 'cache');
+            if ($path && substr($path, -1, 1) != '/')
+            {
+                $path .= '/';
+            }
+        }
+        return $path;
+    }
+
+    /**
+     * Returns path to the ini cache folder. Path may be relative or absolute.
+     * If no path is configured it is relative to ::globalCachePath()
+     *
+     * Can be configured with the environment variable 'EZP_GLOBAL_CACHE_PATH'.
+     */
+    static function iniCachePath()
+    {
+        static $path = null;
+        if ( $path === null )
+        {
+            $path = isset($_ENV['EZP_INI_CACHE_PATH']) ? $_ENV['EZP_INI_CACHE_PATH'] : (self::globalCachePath() . 'ini');
+            if ($path && substr($path, -1, 1) != '/')
+            {
+                $path .= '/';
+            }
+        }
+        return $path;
+    }
+
+    /**
      * Returns the path of the current var directory
      *
      * @return string
