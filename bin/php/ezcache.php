@@ -78,12 +78,10 @@ if ( $options['purge'] )
 }
 $noAction = true;
 
-$cacheList = eZCache::fetchList();
-
 if ( $options['list-tags'] )
 {
     $noAction = false;
-    $tagList = eZCache::fetchTagList( $cacheList );
+    $tagList = eZCache::fetchTagList( eZCache::fetchAll() );
     if ( $script->verboseOutputLevel() > 0 )
     {
         $cli->output( "The following tags are defined:" );
@@ -97,7 +95,7 @@ if ( $options['list-tags'] )
         $column += 2;
         foreach ( $tagList as $tagName )
         {
-            $cacheEntries = eZCache::fetchByTag( $tagName, $cacheList );
+            $cacheEntries = eZCache::fetchByTag( $tagName, eZCache::fetchAll() );
             $cli->output( $cli->stylize( 'emphasize', $tagName ) . ':', false );
             $i = 0;
             foreach ( $cacheEntries as $cacheEntry )
@@ -126,14 +124,14 @@ if ( $options['list-ids'] )
     {
         $cli->output( "The following ids are defined:" );
         $column = 0;
-        foreach ( $cacheList as $cacheInfo )
+        foreach ( eZCache::fetchAll() as $cacheInfo )
         {
             $len = strlen( $cacheInfo['id'] );
             if ( $len > $column )
                 $column = $len;
         }
         $column += 2;
-        foreach ( $cacheList as $cacheInfo )
+        foreach ( eZCache::fetchAll() as $cacheInfo )
         {
             $cli->output( $cli->stylize( 'emphasize', $cacheInfo['id'] ) . ':', false );
             $cli->output( str_repeat( ' ', $column - strlen( $cacheInfo['id'] ) - 1 ), false );
@@ -143,7 +141,7 @@ if ( $options['list-ids'] )
     else
     {
         $cli->output( "The following ids are defined: (use --verbose for more details)" );
-        $cli->output( $cli->stylize( 'emphasize', implode( ', ', eZCache::fetchIDList( $cacheList ) ) ) );
+        $cli->output( $cli->stylize( 'emphasize', implode( ', ', eZCache::fetchIDList( eZCache::fetchAll() ) ) ) );
     }
     $script->shutdown( 0 );
 }
@@ -152,9 +150,9 @@ if ( $options['clear-all'] )
 {
     $noAction = false;
     if ( $purge )
-        $helper->purgeItems( $cacheList, false, $purgeSleep, $purgeMax, $purgeExpiry );
+        $helper->purgeItems( eZCache::fetchList(), false, $purgeSleep, $purgeMax, $purgeExpiry );
     else
-        $helper->clearItems( $cacheList, false );
+        $helper->clearItems( eZCache::fetchList(), false );
     $script->shutdown( 0 );
 }
 
@@ -172,7 +170,7 @@ if ( $options['clear-tag'] )
 {
     $noAction = false;
     $tagName = $options['clear-tag'];
-    $cacheEntries = eZCache::fetchByTag( $tagName, $cacheList );
+    $cacheEntries = eZCache::fetchByTag( $tagName, eZCache::fetchAll() );
     if ( $purge )
         $helper->purgeItems( $cacheEntries, $tagName, $purgeSleep, $purgeMax, $purgeExpiry );
     else
@@ -187,7 +185,7 @@ if ( $options['clear-id'] )
     $cacheEntries = array();
     foreach ( explode( ',', $idName ) as $id )
     {
-        $cacheEntry = eZCache::fetchByID( $id, $cacheList );
+        $cacheEntry = eZCache::fetchByID( $id, eZCache::fetchAll() );
         if ( $cacheEntry )
         {
             $cacheEntries[] = $cacheEntry;
