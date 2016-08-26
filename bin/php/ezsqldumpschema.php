@@ -23,6 +23,7 @@ $script->startup();
 
 $options = $script->getOptions( "[type:][user:][host:][password;][port:][socket:][output-array][output-serialized][output-sql]" .
                                 "[diff-friendly][meta-data][table-type:][table-charset:][compatible-sql][no-sort]" .
+                                "[tables:+]" .
                                 "[format:]" .
                                 "[output-types:][allow-multi-insert][schema-file:]",
                                 "[database][filename]",
@@ -44,6 +45,7 @@ $options = $script->getOptions( "[type:][user:][host:][password;][port:][socket:
                                                          "Oracle: " ),
                                        'table-charset' => 'Defines the charset to use on tables, the names of the charset depends on database type',
                                        'schema-file' => 'The schema file to use when dumping data structures, is only required when dumping from files',
+                                       'tables' => 'Limit schema dump to only these tables',
                                        'format' => ( "The output format (default is generic)\n" .
                                                      "generic - Format which suits all databases\n" .
                                                      "local - Format which suits only the database it was dumped from." ),
@@ -131,6 +133,10 @@ $dbschemaParameters = array( 'schema' => $includeSchema,
 if ( $options['no-sort'] )
 {
     $dbschemaParameters['sort_columns'] = false;
+}
+if ( $options['tables'] )
+{
+    $dbschemaParameters['table_include'] = $options['tables'];
 }
 
 $outputType = 'serialized';
