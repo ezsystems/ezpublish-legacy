@@ -1376,6 +1376,9 @@ class eZContentOperationCollection
         //call appropriate method from search engine
         eZSearch::updateObjectState($objectID, $selectedStateIDList);
 
+        // Triggering content/state/assign event for persistence cache purge
+        ezpEvent::getInstance()->notify( 'content/state/assign', array( $objectID, $selectedStateIDList ) );
+
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
         return array( 'status' => true );
