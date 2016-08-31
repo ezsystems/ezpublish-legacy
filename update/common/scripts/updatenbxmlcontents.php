@@ -72,7 +72,9 @@ function updateEzxmlNonbreakSpaces( $attribute, $optDryRun, $verbose )
         eZCLI::instance()->output( "Updating data for content #$contentId (ver. $version) ..." );
     }
     if ( !$optDryRun ) {
-        eZDB::instance()->query( "UPDATE ezcontentobject_attribute SET data_text='$xmlData' WHERE id='$id'" );
+        $db = eZDB::instance();
+        $xmlData = $db->escapeString( $xmlData );
+        $db->query( "UPDATE ezcontentobject_attribute SET data_text='$xmlData' WHERE id='$id'" );
     }
 }
 
