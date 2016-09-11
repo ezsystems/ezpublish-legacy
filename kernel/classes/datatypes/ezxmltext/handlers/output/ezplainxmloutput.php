@@ -10,7 +10,7 @@
 
 class eZPlainXMLOutput extends eZXMLOutputHandler
 {
-    function eZPlainXMLOutput( &$xmlData, $aliasedType )
+    function eZPlainXMLOutput( $xmlData, $aliasedType )
     {
         $this->eZXMLOutputHandler( $xmlData, $aliasedType );
     }
