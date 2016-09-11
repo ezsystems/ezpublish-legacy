@@ -495,6 +495,7 @@ class ezjscPacker
     {
         if ( preg_match_all( "/url\(\s*[\'|\"]?([A-Za-z0-9_\-\/\.\\%?&#=]+)[\'|\"]?\s*\)/ix", $fileContent, $urlMatches ) )
         {
+           $urlPaths = array();
            $urlMatches = array_unique( $urlMatches[1] );
            $cssPathArray   = explode( '/', $file );
            $wwwDir = self::getWwwDir();
@@ -515,9 +516,10 @@ class ezjscPacker
                        $newMatchPath .= implode( '/', $cssPathSlice ) . '/';
                    }
                    $newMatchPath .= str_replace( '../', '', $match );
-                   $fileContent = str_replace( $match, $newMatchPath, $fileContent );
+                   $urlPaths[$match] = $newMatchPath;
                }
            }
+           $fileContent = strtr( $fileContent, $urlPaths );
         }
         return $fileContent;
     }
