@@ -16,6 +16,10 @@ Change of behavior
   Note: To avoid that you have to many cache blocks take advantage of putting identical once in
   own template so they will share cache (template and location of block is part of internal unique key).
 
+- EZP-26028: Unable to use Online Editor when using PHP7
+
+  To fix this issue, first parameter of all XML input and output handlers, `$xmlData` can not be a reference anymore.
+
 
 Removed features
 ----------------

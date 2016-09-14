@@ -2,6 +2,7 @@ Event system
 ============
 
 - Added new events for image aliases removal
+- 5.4.6 Added new events for state assigments
 
 New events
 ----------
@@ -10,3 +11,6 @@ image/invalidateAliases
 image/removeAliases ( $originalAliasURI )
 image/purgeAliases ( $originalAliasURI )
 image/trashAliases ( $originalAliasURI )
+
+
+content/state/assign ( $objectID, $selectedStateIDList )

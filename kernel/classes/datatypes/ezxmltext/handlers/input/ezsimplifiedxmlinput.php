@@ -10,7 +10,7 @@
 
 class eZSimplifiedXMLInput extends eZXMLInputHandler
 {
-    function eZSimplifiedXMLInput( &$xmlData, $aliasedType, $contentObjectAttribute )
+    function eZSimplifiedXMLInput( $xmlData, $aliasedType, $contentObjectAttribute )
     {
         $this->eZXMLInputHandler( $xmlData, $aliasedType, $contentObjectAttribute );
 
