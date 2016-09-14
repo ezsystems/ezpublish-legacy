@@ -174,10 +174,10 @@ class eZExecution
     /**
      * Installs the default Exception handler
      *
-     * @params Exception the exception
+     * @params Exception|Throwable the exception
      * @return void
      */
-    static public function defaultExceptionHandler( Exception $e )
+    static public function defaultExceptionHandler( $e )
     {
         if( PHP_SAPI != 'cli' )
         {
