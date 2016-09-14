@@ -10,6 +10,41 @@
 class eZOEXMLTextRegression extends ezpDatabaseTestCase
 {
     /**
+     * Test for EZP-26096
+     * @link https://jira.ez.no/browse/EZP-26096
+     * @dataProvider providerParsingGreaterThanAttribute
+     */
+    public function testParsingGreaterThanAttribute( $html, $expectedXml )
+    {
+        $parser = new eZOEInputParser();
+        $dom = $parser->process( $html );
+
+        self::assertInstanceOf( 'DomDocument', $dom );
+        self::assertEquals( $expectedXml, trim( $dom->saveXML() ) );
+    }
+
+    public function providerParsingGreaterThanAttribute()
+    {
+        return array(
+            array(
+                '<div type="custom" class="ezoeItemCustomTag factbox" customattributes="title|This > is > a > fact > attribute_separationalign|right"><p>This is a fact</p></div>',
+                '<?xml version="1.0" encoding="utf-8"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/" xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/"><paragraph xmlns:tmp="http://ez.no/namespaces/ezpublish3/temporary/"><custom name="factbox" custom:title="This &gt; is &gt; a &gt; fact &gt; "><paragraph>This is a fact</paragraph></custom></paragraph></section>',
+            ),
+            array(
+                '<div type="custom" class="ezoeItemCustomTag factbox" customattributes="title|<a href=&quot;#test&quot;>Test</a>attribute_separationalign|right"><p>This is a fact</p></div>',
+                '<?xml version="1.0" encoding="utf-8"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/" xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/"><paragraph xmlns:tmp="http://ez.no/namespaces/ezpublish3/temporary/"><custom name="factbox" custom:title="&lt;a href=&amp;quot;#test&amp;quot;&gt;Test&lt;/a&gt;"><paragraph>This is a fact</paragraph></custom></paragraph></section>',
+            ),
+            array(
+                '<div type="custom" class="ezoeItemCustomTag factbox" customattributes="title|<a href=&quot;#test&quot;>Test</a>attribute_separationalign|right"><p>This is a fact</p></div><p>Text between</p><div type="custom" class="ezoeItemCustomTag factbox" customattributes="title|<a href=&quot;#test&quot;>Test</a>attribute_separationalign|right"><p>This is a fact</p></div>',
+                '<?xml version="1.0" encoding="utf-8"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/" xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/"><paragraph xmlns:tmp="http://ez.no/namespaces/ezpublish3/temporary/"><custom name="factbox" custom:title="&lt;a href=&amp;quot;#test&amp;quot;&gt;Test&lt;/a&gt;"><paragraph>This is a fact</paragraph></custom></paragraph><paragraph>Text between</paragraph><paragraph xmlns:tmp="http://ez.no/namespaces/ezpublish3/temporary/"><custom name="factbox" custom:title="&lt;a href=&amp;quot;#test&amp;quot;&gt;Test&lt;/a&gt;"><paragraph>This is a fact</paragraph></custom></paragraph></section>',
+            ),
+        );
+    }
+
+    /**
      * Test for issue #16605: Online Editor adds a lot of Non Breaking spaces (nbsp)
      * 
      * @link http://issues.ez.no/16605
