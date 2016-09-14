@@ -544,11 +544,20 @@ class eZExtension
             // we rely on the autoload system here
             if ( class_exists( $handler ) )
             {
-                // only use reflection if we have params to avoid exception on objects withouth constructor
+                // only use reflection if we have params to avoid exception on objects without constructor
                 if ( $handlerParams !== null && is_array( $handlerParams ) && count( $handlerParams ) > 0 )
                 {
                     $reflection = new ReflectionClass( $handler );
-                    $object = $reflection->newInstanceArgs( $handlerParams );
+                    // detect if class has a constructor, and if not write a notice about that
+                    if ( $reflection->getConstructor() !== null )
+                    {
+                        $object = $reflection->newInstanceArgs( $handlerParams );
+                    }
+                    else
+                    {
+                        eZDebug::writeNotice( 'Constructor is missing but parameters are provided to class ' . $handler . " as defined in setting $iniFile [$iniSection] $iniVariable", __METHOD__ );
+                        $object = new $handler();
+                    }
                 }
                 else
                 {
