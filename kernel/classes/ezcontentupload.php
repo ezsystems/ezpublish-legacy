@@ -246,7 +246,7 @@ class eZContentUpload
         // The handler will be responsible for the rest of the execution.
         if ( is_object( $handler ) )
         {
-            $originalFilename = $filePath;
+            $originalFilename = $nameString != '' ? $nameString : $filePath;
             return $handler->handleFile( $this, $result,
                                          $filePath, $originalFilename, $mimeData,
                                          $location, $existingNode );
