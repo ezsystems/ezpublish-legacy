@@ -174,7 +174,7 @@ class eZExecution
     /**
      * Installs the default Exception handler
      *
-     * @params Exception the exception
+     * @params Exception|Throwable the exception
      * @return void
      */
     static public function defaultExceptionHandler( $e )
