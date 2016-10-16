@@ -8,12 +8,12 @@
  * @package kernel
  */
 
-/*!
-  \class eZTemplatedesignresource eztemplatedesignresource.php
-  \brief Handles template file loading with override support
-
-*/
-
+/**
+ * Class eZTemplateDesignResource
+ * Handles template file loading with override support
+ *
+ * @package kernel
+ */
 class eZTemplateDesignResource extends eZTemplateFileResource
 {
     const DESIGN_BASE_CACHE_NAME = 'designbase_';
@@ -952,6 +952,27 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     function setKeys( $keys )
     {
         $this->mergeKeys( $this->Keys, $keys );
+    }
+
+    /**
+     * Sets a single key value. By default the value is overwritten unless $override
+     * is set to false
+     *
+     * @param string $key
+     * @param mixed $value
+     * @param bool $override
+     * @return $this
+     */
+    public function setKeyValue( $key, $value, $override = true )
+    {
+        if( !$override )
+        {
+            $value = isset( $this->Keys[ $key ] ) ? $this->Keys[ $key ] : $value;
+        }
+
+        $this->Keys[ $key ] = $value;
+
+        return $this;
     }
 
     /*!
