@@ -77,6 +77,10 @@ class eZNodeviewfunctions
                                           array $viewParameters = array( 'offset' => 0, 'year' => false, 'month' => false, 'day' => false ),
                                           $collectionAttributes = false, $validation = false )
     {
+        // Build DesignKeys
+        $res = eZTemplateDesignResource::instance();
+        $res->setKeyValue( 'layout', '', false );
+
         $section = eZSection::fetch( $object->attribute( 'section_id' ) );
         if ( $section )
         {
@@ -135,7 +139,6 @@ class eZNodeviewfunctions
             }
         }
 
-        $res = eZTemplateDesignResource::instance();
         $res->setKeys( $keyArray );
 
         if ( $languageCode )
