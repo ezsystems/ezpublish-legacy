@@ -651,18 +651,18 @@ class eZContentOperationCollection
         $publishedLanguageCodes = array_keys( $publishedLanguages );
 
         $version = $object->version( $versionNum );
-        $versionTranslationList = $version->translationList( false, false );
+        $versionTranslationList = array_keys( eZContentLanguage::languagesByMask( $version->attribute( 'language_mask' ) ) );
 
         foreach ( $publishedVersionTranslations as $translation )
         {
-            if ( in_array( $translation->attribute( 'language_code' ), $versionTranslationList )
-              || !in_array( $translation->attribute( 'language_code' ), $publishedLanguageCodes ) )
+            $translationLanguageCode = $translation->attribute( 'language_code' );
+            if ( in_array( $translationLanguageCode, $versionTranslationList )
+                || !in_array( $translationLanguageCode, $publishedLanguageCodes ) )
             {
                 continue;
             }
 
-            $contentObjectAttributes = $translation->objectAttributes();
-            foreach ( $contentObjectAttributes as $attribute )
+            foreach ( $translation->objectAttributes() as $attribute )
             {
                 $clonedAttribute = $attribute->cloneContentObjectAttribute( $versionNum, $publishedVersionNum, $objectID );
                 $clonedAttribute->sync();
