@@ -587,12 +587,12 @@ class eZSearchEngine implements ezpSearchEngine
             $sectionQuery = '';
             if ( is_numeric( $searchSectionID ) and  $searchSectionID > 0 )
             {
-                $sectionQuery = "ezsearch_object_word_link.section_id = '$searchSectionID' AND ";
+                $sectionQuery = "ezsearch_object_word_link.section_id = '" . (int)$searchSectionID . "' AND ";
             }
             else if ( is_array( $searchSectionID ) )
             {
                 // Build query for searching in an array of sections
-                $sectionQuery = $db->generateSQLINStatement( $searchSectionID, 'ezsearch_object_word_link.section_id', false, false, 'int' ) . " AND ";
+                $sectionQuery = $db->generateSQLINStatement( array_map( 'intval', $searchSectionID ), 'ezsearch_object_word_link.section_id', false, false, 'int' ) . " AND ";
             }
 
             $searchDateQuery = '';
@@ -660,13 +660,13 @@ class eZSearchEngine implements ezpSearchEngine
             if ( is_numeric( $searchContentClassID ) and $searchContentClassID > 0 )
             {
                 // Build query for searching in one class
-                $classQuery = "ezsearch_object_word_link.contentclass_id = '$searchContentClassID' AND ";
+                $classQuery = "ezsearch_object_word_link.contentclass_id = '" . (int)$searchContentClassID . "' AND ";
                 $this->GeneralFilter['classAttributeQuery'] = $classQuery;
             }
             else if ( is_array( $searchContentClassID ) )
             {
                 // Build query for searching in a number of classes
-                $classString = $db->generateSQLINStatement( $searchContentClassID, 'ezsearch_object_word_link.contentclass_id', false, false, 'int' );
+                $classString = $db->generateSQLINStatement( array_map( 'intval', $searchContentClassID ), 'ezsearch_object_word_link.contentclass_id', false, false, 'int' );
                 $classQuery = "$classString AND ";
                 $this->GeneralFilter['classAttributeQuery'] = $classQuery;
             }
@@ -679,7 +679,7 @@ class eZSearchEngine implements ezpSearchEngine
             else if ( is_array( $searchContentClassAttributeID ) )
             {
                 // Build query for searching in a number of attributes
-                $classAttributeQuery = $db->generateSQLINStatement( $searchContentClassAttributeID , 'ezsearch_object_word_link.contentclass_attribute_id', false, false, 'int' ) . ' AND ';
+                $classAttributeQuery = $db->generateSQLINStatement( array_map( 'intval', $searchContentClassAttributeID ), 'ezsearch_object_word_link.contentclass_attribute_id', false, false, 'int' ) . ' AND ';
             }
 
             // Get the total number of objects
@@ -1488,7 +1488,7 @@ class eZSearchEngine implements ezpSearchEngine
     {
         $db = eZDB::instance();
         $identifier = $db->escapeString( $searchParams['identifier'] );
-        $textValue = $db->escapeString( $searchParams['value'] );
+        $textValue = $searchParams['value'];
 
         $searchText = $this->normalizeText( $textValue, false );
 
@@ -1565,7 +1565,7 @@ class eZSearchEngine implements ezpSearchEngine
     {
         $db = eZDB::instance();
         $classAttributeID = $db->escapeString( $searchParams['classattribute_id'] );
-        $textValue = $db->escapeString( $searchParams['value'] );
+        $textValue = $searchParams['value'];
 
 //        $searchText = $this->normalizeText( $textValue );
         $searchText = $textValue;
@@ -1620,7 +1620,7 @@ class eZSearchEngine implements ezpSearchEngine
     {
         $db = eZDB::instance();
         $classAttributeID = $db->escapeString( $searchParams['classattribute_id'] );
-        $textValue = $db->escapeString( $searchParams['value'] );
+        $textValue = $searchParams['value'];
 
         $searchText = $this->normalizeText( $textValue, false );
 
@@ -2029,7 +2029,7 @@ class eZSearchEngine implements ezpSearchEngine
             {
                 if ( $wordsCount > 0 )
                     $wordQueryString .= " or ";
-                $wordQueryString .= " word='$searchWord' ";
+                $wordQueryString .= " word='" . $db->escapeString( $searchWord ) . "' ";
                 $wordsCount++;
             }
         }
@@ -2051,7 +2051,7 @@ class eZSearchEngine implements ezpSearchEngine
         $patternWordIDHash = array();
         foreach ( $patternWordArray as $word )
         {
-            $patternWordIDRes = $db->arrayQuery( "SELECT id, word, object_count FROM ezsearch_word where  word like '" . $word . "%'  order by object_count" );
+            $patternWordIDRes = $db->arrayQuery( "SELECT id, word, object_count FROM ezsearch_word where  word like '" . $db->escapeString( $word ) . "%'  order by object_count" );
             $matchedWords = array();
             foreach ( $patternWordIDRes as $wordRes )
             {
@@ -2111,20 +2111,20 @@ class eZSearchEngine implements ezpSearchEngine
                 if ( $searchWord[$wordLength] == '*' )
                 {
                     $baseWord = substr( $searchWord, 0, $wordLength );
-                    $wildCardQueryString[] = " word LIKE '". $baseWord ."%' ";
+                    $wildCardQueryString[] = " word LIKE '". $db->escapeString( $baseWord ) ."%' ";
                     continue;
                 }
                 else if ( $searchWord[0] == '*' ) /* Change this to allow searching for shorter/longer words using wildcard */
                 {
                     $baseWord = substr( $searchWord, 1, $wordLength );
-                    $wildCardQueryString[] = " word LIKE '%". $baseWord ."' ";
+                    $wildCardQueryString[] = " word LIKE '%". $db->escapeString( $baseWord ) ."' ";
                     continue;
                 }
             }
             if ( $i > 0 )
                 $wordQueryString .= " or ";
 
-            $wordQueryString .= " word='$searchWord' ";
+            $wordQueryString .= " word='" . $db->escapeString( $searchWord ) . "' ";
             $i++;
         }
 
