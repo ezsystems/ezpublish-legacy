@@ -231,6 +231,11 @@ class eZStylePackageCreator extends eZPackageCreationHandler
         if ( !eZHTTPFile::canFetch( 'PackageImageFile' ) )
             return true;
 
+        if ( !self::httpFileIsImage( ezpI18n::tr( 'kernel/package', 'PackageImageFile' ), $errorList ) )
+        {
+            return false;
+        }
+
         $file = eZHTTPFile::fetch( 'PackageImageFile' );
 
         $result = true;
