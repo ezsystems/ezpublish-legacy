@@ -1316,12 +1316,20 @@ class eZTemplate
                     if ( !$checkExistance )
                         $this->warning( "eZTemplateOperatorElement", "Parameter '$parameterName' ($i) missing",
                                         $placement );
-                    $namedParameters[$parameterName] = $parameterType["default"];
                 }
-                else
+
+                if( !isset( $parameterType[ 'default' ] ) )
                 {
-                    $namedParameters[$parameterName] = $parameterType["default"];
+                    $this->warning(
+                        'eZTemplateOperatorElement',
+                        "Operator '$operatorName' has no default value for the parameter '$parameterName' ($i) ",
+                        $placement
+                    );
+
+                    $parameterType[ 'default' ] = null;
                 }
+
+                $namedParameters[$parameterName] = $parameterType[ 'default' ];
             }
             else
             {
