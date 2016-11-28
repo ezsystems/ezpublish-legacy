@@ -12,7 +12,6 @@ YUI(YUI3_config).add('ezajaxuploader', function (Y) {
      *          - validationErrorText [default "Some required fields are empty."] text to show if a required field is not filled
      *          - validationErrorTextElement [default ".ajaxuploader-error"] selector to get the element where to put the validationErrorText
      *          - errorTemplate [default"'<div class="message-error">%message</div>'"] template to use when displaying a server side error, %message is the variable for the message
-     *          - defaultValuedInputClass [default "has-default-value"] CSS class set on input that have a default value
      *          - loading Object containing the following values
      *              - opacity [default 0.2] opacity to set while an AJAX request is being done
      *              - loader [default "#ajaxuploader-loader"] selector to get the GIF loader to show
@@ -73,7 +72,6 @@ YUI(YUI3_config).add('ezajaxuploader', function (Y) {
         parseJSONErrorText: "Unable to parse the JSON response.",
         validationErrorTextElement: '.ajaxuploader-error',
         errorTemplate: '<div class="message-error">%message</div>',
-        defaultValuedInputClass: 'has-default-value',
         loading:{
             opacity: 0.2,
             loader: "#ajaxuploader-loader",
@@ -129,29 +127,7 @@ YUI(YUI3_config).add('ezajaxuploader', function (Y) {
     eZAjaxUploader.prototype.delegateWindowEvents = function () {
 
         var contentNode = this.modalWindow.getContentNode();
-        var that = this, sub, defaultValues = {};
-
-        var clearDefaultValueHint = function (e) {
-            defaultValues[this.generateID()] = this.get('value');
-            this.set('value', '');
-            this.removeClass(that.conf.defaultValuedInputClass).addClass(eZAjaxUploader.HAD_DEFAULT_VALUE);
-        };
-        sub = contentNode.delegate(
-            'click', clearDefaultValueHint, '.' + this.conf.defaultValuedInputClass
-        );
-        this.windowEvents.push(sub);
-
-        var restoreDefaultValueHint = function(e) {
-            var id = this.generateID();
-            if ( this.get('value') == '' && defaultValues[id] ) {
-                this.set('value', defaultValues[id]);
-                this.addClass(that.conf.defaultValuedInputClass);
-            }
-        };
-        sub = contentNode.delegate(
-            'blur', restoreDefaultValueHint, '.' + eZAjaxUploader.HAD_DEFAULT_VALUE
-        );
-        this.windowEvents.push(sub);
+        var that = this, sub;
 
         /**
          * Highlight the submit button by adding the "defaultbutton" class when a location is choosen
@@ -202,7 +178,6 @@ YUI(YUI3_config).add('ezajaxuploader', function (Y) {
                 return;
             }
             contentNode.all('label').removeClass(that.conf.labelErrorClass);
-            contentNode.all('.has-default-value').set('value', '');
             contentNode.one(that.conf.validationErrorTextElement).setContent("");
 
             for(var k in that.conf.target) {
