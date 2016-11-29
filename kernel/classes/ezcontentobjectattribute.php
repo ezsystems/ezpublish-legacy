@@ -178,6 +178,14 @@ class eZContentObjectAttribute extends eZPersistentObject
         }
     }
 
+    /**
+     * @param $classAttributeID
+     * @param $objectID
+     * @param $version
+     * @param $languageID
+     * @param bool $asObject
+     * @return eZContentObjectAttribute
+     */
     static function fetchByClassAttributeID( $classAttributeID, $objectID, $version, $languageID, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
@@ -395,6 +403,9 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                 $asObject );
     }
 
+    /**
+     * @return eZContentObject|null
+     */
     function object()
     {
         if( isset( $this->ContentObjectID ) and $this->ContentObjectID )
@@ -404,6 +415,9 @@ class eZContentObjectAttribute extends eZPersistentObject
         return null;
     }
 
+    /**
+     * @return eZContentObjectVersion
+     */
     function objectVersion()
     {
         return eZContentObjectVersion::fetchVersion( $this->Version, $this->ContentObjectID );
