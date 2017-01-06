@@ -18,28 +18,48 @@ class eZSiteData extends eZPersistentObject
      */
     public static function definition()
     {
-        return array( 'fields'       => array( 'name'               => array( 'name'     => 'name',
-                                                                              'datatype' => 'string',
-                                                                              'default'  => null,
-                                                                              'required' => true ),
-
-                                               'value'             => array( 'name'     => 'value',
-                                                                             'datatype' => 'string',
-                                                                             'default'  => null,
-                                                                             'required' => true ),
-
-                                            ),
-
-                      'keys'                 => array( 'name' ),
-                      'class_name'           => 'eZSiteData',
-                      'name'                 => 'ezsite_data',
-                      'function_attributes'  => array()
+        return array(
+            'fields' => array(
+                'name' => array(
+                    'name'     => 'name',
+                    'datatype' => 'string',
+                    'default'  => null,
+                    'required' => true
+                ),
+                'value' => array(
+                    'name'     => 'value',
+                    'datatype' => 'string',
+                    'default'  => null,
+                    'required' => true
+                ),
+            ),
+            'keys'                 => array( 'name' ),
+            'class_name'           => 'eZSiteData',
+            'name'                 => 'ezsite_data',
+            'function_attributes'  => array()
         );
+    }
+
+	/**
+	 * @param string $key
+	 * @param string $value
+	 * @return eZSiteData
+	 */
+    public static function createNew( $key, $value )
+    {
+		$eZSiteData = new eZSiteData( array(
+		    'name' => $key,
+			'value' => $value
+        ) );
+
+		$eZSiteData->store();
+		return $eZSiteData;
     }
 
     /**
      * Fetches a site data by name
      * @param string $name
+     * @return eZPersistentObject
      */
     public static function fetchByName( $name )
     {
