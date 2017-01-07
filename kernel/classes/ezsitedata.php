@@ -8,11 +8,16 @@
  * @package kernel
  */
 
+/**
+ * eZPersistentObject implementation for ezsite_data table.
+ * Allows to store and fetch key/value pairs
+ *
+ * Class eZSiteData
+ */
 class eZSiteData extends eZPersistentObject
 {
     /**
      * Schema definition
-     * eZPersistentObject implementation for ezsite_data table
      * @see kernel/classes/ezpersistentobject.php
      * @return array
      */
@@ -33,31 +38,32 @@ class eZSiteData extends eZPersistentObject
                     'required' => true
                 ),
             ),
-            'keys'                 => array( 'name' ),
-            'class_name'           => 'eZSiteData',
-            'name'                 => 'ezsite_data',
-            'function_attributes'  => array()
+            'keys'                => array( 'name' ),
+            'class_name'          => 'eZSiteData',
+            'name'                => 'ezsite_data',
+            'function_attributes' => array()
         );
     }
 
-	/**
-	 * @param string $key
-	 * @param string $value
-	 * @return eZSiteData
-	 */
-    public static function createNew( $key, $value )
+    /**
+     * Cronstructs a new eZSiteData instance. You need to call 'store()'
+     * in order to store it into the DB.
+     *
+     * @param string $key
+     * @param string $value
+     * @return eZSiteData
+     */
+    public static function create( $name, $value )
     {
-		$eZSiteData = new eZSiteData( array(
-		    'name' => $key,
-			'value' => $value
+        return new eZSiteData( array(
+            'name' => $name,
+            'value' => $value
         ) );
-
-		$eZSiteData->store();
-		return $eZSiteData;
     }
 
     /**
      * Fetches a site data by name
+	 *
      * @param string $name
      * @return eZPersistentObject
      */

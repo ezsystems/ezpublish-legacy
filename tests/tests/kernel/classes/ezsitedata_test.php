@@ -55,11 +55,11 @@ class eZSiteDataTest extends ezpDatabaseTestCase
     }
 
     /**
-     * Unit test for testCreateNew() method
+     * Unit test for testCreate() method
      */
-    public function testCreateNew()
+    public function testCreate()
     {
-        $obj = eZSiteData::createNew( 'foo', 'bar' );
+        $obj = eZSiteData::create( 'foo', 'bar' );
         $obj->store();
         unset( $obj );
 
