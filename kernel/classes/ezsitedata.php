@@ -10,7 +10,7 @@
 
 /**
  * eZPersistentObject implementation for ezsite_data table.
- * Allows to store and fetch key/value pairs
+ * Enables you to store and fetch key/value pairs
  *
  * Class eZSiteData
  */
@@ -46,7 +46,7 @@ class eZSiteData extends eZPersistentObject
     }
 
     /**
-     * Cronstructs a new eZSiteData instance. You need to call 'store()'
+     * Constructs a new eZSiteData instance. You need to call 'store()'
      * in order to store it into the DB.
      *
      * @param string $key
