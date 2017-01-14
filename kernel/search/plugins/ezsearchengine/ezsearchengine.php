@@ -462,21 +462,15 @@ class eZSearchEngine implements ezpSearchEngine
         return $this->CreatedTempTablesNames;
     }
 
-    /*!
-     Runs a query to the search engine.
-    */
+    /**
+     * Runs a query to the search engine.
+     *
+     * @param string $searchText Search term
+     * @param array $params Search parameters
+     * @param array $searchTypes Search types. Deprecated!
+     */
     public function search( $searchText, $params = array(), $searchTypes = array() )
     {
-        if ( count( $searchTypes ) == 0 )
-        {
-            $searchTypes['general'] = array();
-            $searchTypes['subtype'] = array();
-            $searchTypes['and'] = array();
-        }
-        else if ( !isset( $searchTypes['general'] ) )
-        {
-            $searchTypes['general'] = array();
-        }
         $allowSearch = true;
         if ( trim( $searchText ) == '' )
         {
@@ -492,14 +486,6 @@ class eZSearchEngine implements ezpSearchEngine
             $db = eZDB::instance();
 
             $nonExistingWordArray = array();
-            $searchTypeMap = array( 'class' => 'SearchContentClassID',
-                                    'publishdate' => 'SearchDate',
-                                    'subtree' => 'SearchSubTreeArray' );
-
-            foreach ( $searchTypes['general'] as $searchType )
-            {
-                $params[$searchTypeMap[$searchType['subtype']]] = $searchType['value'];
-            }
 
             if ( isset( $params['SearchOffset'] ) )
                 $searchOffset = $params['SearchOffset'];
@@ -808,21 +794,6 @@ class eZSearchEngine implements ezpSearchEngine
             $ini = eZINI::instance();
 
             $tmpTableCount = 0;
-            $i = 0;
-            foreach ( $searchTypes['and'] as $searchType )
-            {
-                $methodName = $this->constructMethodName( $searchType );
-                $intermediateResult = $this->callMethod( $methodName, array( $searchType ) );
-                if ( $intermediateResult == false )
-                {
-                    // cleanup temp tables
-                    $db->dropTempTableList( $sqlPermissionChecking['temp_tables'] );
-
-                    return array( "SearchResult" => array(),
-                                  "SearchCount" => 0,
-                                  "StopWordArray" => array() );
-                }
-            }
 
             // Do not execute search if site.ini:[SearchSettings]->AllowEmptySearch is enabled, but no conditions are set.
             if ( !$searchDateQuery &&
@@ -1397,250 +1368,6 @@ class eZSearchEngine implements ezpSearchEngine
                       'general_filter' => $generalSearchFilter );
     }
 
-    function searchAttributeInteger( $searchParams )
-    {
-        $classAttributeID = $searchParams['classattribute_id'];
-        $value = $searchParams['value'];
-
-        $classAttributeQuery = "";
-        if ( is_numeric( $classAttributeID ) and  $classAttributeID > 0 )
-        {
-            $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$classAttributeID' AND ";
-        }
-
-        $searchPartSql = " ezsearch_object_word_link.integer_value = $value AND";
-
-        $searchPartText =  $classAttributeQuery . $searchPartSql;
-        $tableResult = $this->createTemporaryTable( $searchPartText );
-
-        if ( $tableResult === false )
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-
-    function searchAttributeIntegers( $searchParams )
-    {
-        $classAttributeID = $searchParams['classattribute_id'];
-        $values = $searchParams['values'];
-
-        $classAttributeQuery = "";
-        if ( is_numeric( $classAttributeID ) and  $classAttributeID > 0 )
-        {
-            $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$classAttributeID' AND ";
-        }
-
-        $integerValuesSql = implode( ', ', $values );
-        $searchPartSql = " ezsearch_object_word_link.integer_value IN ( $integerValuesSql ) AND";
-
-        $searchPartText =  $classAttributeQuery . $searchPartSql;
-        $tableResult = $this->createTemporaryTable( $searchPartText );
-
-        if ( $tableResult === false )
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-
-    function searchAttributeByRange( $searchParams )
-    {
-        $classAttributeID = $searchParams['classattribute_id'];
-        $fromValue = $searchParams['from'];
-        $toValue = $searchParams['to'];
-
-        $classAttributeQuery = "";
-        if ( is_numeric( $classAttributeID ) and  $classAttributeID > 0 )
-        {
-            $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$classAttributeID' AND ";
-        }
-
-        $searchPartSql = " ezsearch_object_word_link.integer_value BETWEEN $fromValue AND $toValue AND";
-        $searchPartText =  $classAttributeQuery . $searchPartSql;
-        $tableResult = $this->createTemporaryTable( $searchPartText );
-
-        if ( $tableResult === false )
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-
-    }
-
-    function searchAttributeByIdentifier( $searchParams )
-    {
-        $identifier = $searchParams['identifier'];
-        $textValue = $searchParams['value'];
-
-        $searchText = $this->normalizeText( $textValue, false );
-
-        $phrasesResult = $this->getPhrases( $searchText );
-        $phraseTextArray = $phrasesResult['phrases'];
-        $nonPhraseText = $phrasesResult['nonPhraseText'];
-        $fullText = $phrasesResult['fullText'];
-
-        $totalObjectCount = $this->fetchTotalObjectCount();
-
-        $wordIDArrays = $this->prepareWordIDArrays( $searchText );
-        $wordIDArray = $wordIDArrays['wordIDArray'];
-        $wordIDHash = $wordIDArrays['wordIDHash'];
-        $wildIDArray = $wordIDArrays['wildIDArray'];
-
-        $searchWordArray = $this->splitString( $searchText );
-
-        $nonExistingWordCount = count( $searchWordArray ) - count( $wordIDHash );
-        if ( $nonExistingWordCount > 0 )
-            return false;
-
-        $searchPartsArray = $this->buildSearchPartArray( $phraseTextArray, $nonPhraseText, $wordIDHash,
-                                                         $wildIDArray, $identifier );
-        $this->buildTempTablesForFullTextSearch( $searchPartsArray, array() );
-        $this->GeneralFilter['classAttributeQuery'] = '';
-        return true;
-    }
-
-    function searchAttributeByIdentifierRange( $searchParams )
-    {
-        $identifier = $searchParams['identifier'];
-        $fromValue = $searchParams['from'];
-        $toValue = $searchParams['to'];
-
-        $searchPartSql = " ezsearch_object_word_link.integer_value BETWEEN $fromValue AND $toValue AND ezsearch_object_word_link.identifier = '$identifier' AND";
-        $tableResult = $this->createTemporaryTable( $searchPartSql );
-
-        if ( $tableResult === false )
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-
-    function searchAttributeIntegersByIdentifier( $searchParams )
-    {
-        $identifier = $searchParams['identifier'];
-        $values = $searchParams['values'];
-
-        $integerValuesSql = implode( ', ', $values );
-        $searchPartSql = " ezsearch_object_word_link.integer_value IN ( $integerValuesSql ) AND ezsearch_object_word_link.identifier = '$identifier' AND";
-        $tableResult = $this->createTemporaryTable( $searchPartSql );
-
-        if ( $tableResult === false )
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-
-    function searchAttributePatternText( $searchParams )
-    {
-        $classAttributeID = $searchParams['classattribute_id'];
-        $textValue = $searchParams['value'];
-
-//        $searchText = $this->normalizeText( $textValue );
-        $searchText = $textValue;
-
-        $classAttributeQuery = "";
-        if ( is_numeric( $classAttributeID ) and  $classAttributeID > 0 )
-        {
-            $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$classAttributeID' AND ";
-            $this->GeneralFilter['classAttributeQuery'] = $classAttributeQuery;
-        }
-
-        $wordIDArrays = $this->prepareWordIDArraysForPattern( $searchText );
-        $wordIDArray = $wordIDArrays['wordIDArray'];
-        $wordIDHash = $wordIDArrays['wordIDHash'];
-        $wildIDArray = array();
-        $patternWordIDHash = $wordIDArrays['patternWordIDHash'];
-
-        $searchWordArray = $this->splitString( $searchText );
-
-        $nonExistingWordCount = count( $searchWordArray ) - count( $wordIDHash ) - count( $patternWordIDHash );
-        if ( $nonExistingWordCount > 0 )
-            return false;
-
-        preg_replace( "/(\w+\*\s)/", " ", $searchText );
-        $nonPhraseText = $this->normalizeText( $searchText, false );
-
-        $searchPartsArray = $this->buildSearchPartArrayForWords( $nonPhraseText, $wordIDHash, $wildIDArray );
-
-        foreach ( $patternWordIDHash as $patternWord )
-        {
-            $searchPart = '( ';
-            $i = 0;
-            foreach ( $patternWord as $word )
-            {
-                if ( $i > 0 )
-                    $searchPart .= ' or ';
-                $wordID = $word['id'];
-                $searchPart .= "ezsearch_object_word_link.word_id='$wordID' ";
-
-                $i++;
-            }
-            $searchPart .= ' ) AND ';
-            $this->createTemporaryTable( $searchPart );
-        }
-
-        $this->buildTempTablesForFullTextSearch( $searchPartsArray, array() );
-        $this->GeneralFilter['classAttributeQuery'] = '';
-        return true;
-    }
-
-    function searchAttributeFulltext( $searchParams )
-    {
-        $classAttributeID = $searchParams['classattribute_id'];
-        $textValue = $searchParams['value'];
-
-        $searchText = $this->normalizeText( $textValue, false );
-
-        $phrasesResult = $this->getPhrases( $searchText );
-        $phraseTextArray = $phrasesResult['phrases'];
-        $nonPhraseText = $phrasesResult['nonPhraseText'];
-        $fullText = $phrasesResult['fullText'];
-
-
-        $classAttributeQuery = "";
-        if ( is_numeric( $classAttributeID ) and  $classAttributeID > 0 )
-        {
-            $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$classAttributeID' AND ";
-            $this->GeneralFilter['classAttributeQuery'] = $classAttributeQuery;
-        }
-
-        $totalObjectCount = $this->fetchTotalObjectCount();
-
-        $wordIDArrays = $this->prepareWordIDArrays( $searchText );
-        $wordIDArray = $wordIDArrays['wordIDArray'];
-        $wordIDHash = $wordIDArrays['wordIDHash'];
-        $wildIDArray = $wordIDArrays['wildIDArray'];
-
-        $searchWordArray = $this->splitString( $searchText );
-
-        $nonExistingWordCount = count( $searchWordArray ) - count( $wordIDHash );
-        if ( $nonExistingWordCount > 0 )
-            return false;
-        $searchPartsArray = $this->buildSearchPartArray( $phraseTextArray, $nonPhraseText,
-                                                         $wordIDHash, $wildIDArray );
-
-        $this->buildTempTablesForFullTextSearch( $searchPartsArray, array() );
-        $this->GeneralFilter['classAttributeQuery'] = '';
-        return true;
-    }
-
     function createTemporaryTable( $searchPartText  )
     {
 
@@ -2158,26 +1885,6 @@ class eZSearchEngine implements ezpSearchEngine
         $objectCount = $db->arrayQuery( "SELECT COUNT(*) AS count FROM ezcontentobject" );
         $totalObjectCount = $objectCount[0]["count"];
         return $totalObjectCount;
-    }
-
-    function constructMethodName( $searchTypeData )
-    {
-        $type = $searchTypeData['type'];
-        $subtype = $searchTypeData['subtype'];
-        $methodName = 'search' . $type . $subtype;
-        return $methodName;
-
-    }
-
-    function callMethod( $methodName, $parameterArray )
-    {
-        if ( !method_exists( $this, $methodName ) )
-        {
-            eZDebug::writeError( $methodName, "Method does not exist in ez search engine" );
-            return false;
-        }
-
-        return call_user_func_array( array( $this, $methodName ), $parameterArray );
     }
 
     /*!

@@ -151,8 +151,6 @@ $classArray = eZContentClass::fetchList( eZContentClass::VERSION_STATUS_DEFINED,
 
 $sectionArray = eZSection::fetchList();
 
-$searchArray = eZSearch::buildSearchArray();
-
 if ( $useSearchCode )
 {
     $searchResult = eZSearch::search( $searchText, array( 'SearchSectionID' => $searchSectionID,
@@ -162,12 +160,7 @@ if ( $useSearchCode )
                                                           'SearchDate' => $searchDate,
                                                           'SearchTimestamp' => $searchTimestamp,
                                                           'SearchLimit' => $pageLimit,
-                                                          'SearchOffset' => $Offset ),
-                                       $searchArray );
-    if ( strlen(trim($searchText)) == 0 && count( $searchArray ) > 0  )
-    {
-        $searchText = 'search by additional parameter';
-    }
+                                                          'SearchOffset' => $Offset ) );
 }
 
 $viewParameters = array( 'offset' => $Offset );
@@ -218,39 +211,6 @@ else
 $tpl->setVariable( 'content_class_array', $classArray );
 $tpl->setVariable( 'section_array', $sectionArray );
 $tpl->setVariable( 'search_content_class_attribute_array', $searchContentClassAttributeArray );
-
-// Set template variable containing search terms for attribute-based search.
-$searchTermsArray = array();
-// BEGIN old code for backwards compatibility
-// Set template variable for attribute-based search.
-// Make it a hash with classattribute_id as key. If it has an identifier, add that to the key.
-$searchArrayByClassAttributeID = array();
-// END old code for backwards compatibility
-foreach ( $searchArray as $searchItem )
-{
-    foreach ( $searchItem as $searchTerms )
-    {
-        if ( isSet( $searchTerms['identifier'] ) )
-        {
-            $searchTermsArray[$searchTerms['identifier']] = $searchTerms;
-            // BEGIN old code for backwards compatibility
-            $searchArrayByClassAttributeID[$searchTerms['classattribute_id'] . '_' .
-                                           $searchTerms['identifier']] = $searchTerms;
-            // END old code for backwards compatibility
-        }
-        else
-        {
-            $searchTermsArray[$searchTerms['classattribute_id']] = $searchTerms;
-            // BEGIN old code for backwards compatibility
-            $searchArrayByClassAttributeID[$searchTerms['classattribute_id']] = $searchTerms;
-            // END old code for backwards compatibility
-        }
-    }
-}
-$tpl->setVariable( 'search_terms_array', $searchTermsArray );
-// BEGIN old code for backwards compatibility
-$tpl->setVariable( 'search_array_by_class_attribute_id', $searchArrayByClassAttributeID );
-// END old code for backwards compatibility
 
 if ( $searchSectionID != -1 )
 {

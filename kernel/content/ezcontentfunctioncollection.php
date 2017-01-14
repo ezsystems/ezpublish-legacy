@@ -405,7 +405,6 @@ class eZContentFunctionCollection
     static public function fetchContentSearch( $searchText, $subTreeArray, $offset, $limit, $searchTimestamp, $publishDate, $sectionID,
                                  $classID, $classAttributeID, $ignoreVisibility, $limitation, $sortArray )
     {
-        $searchArray = eZSearch::buildSearchArray();
         $parameters = array();
         if ( $classID !== false )
             $parameters['SearchContentClassID'] = $classID;
@@ -427,8 +426,7 @@ class eZContentFunctionCollection
         if ( $searchTimestamp )
             $parameters['SearchTimestamp'] = $searchTimestamp;
         $searchResult = eZSearch::search( $searchText,
-                                          $parameters,
-                                          $searchArray );
+                                          $parameters );
         return array( 'result' => $searchResult );
     }
 

@@ -67,7 +67,7 @@ interface ezpSearchEngine
      * @see supportedSearchTypes()
      * @param string $searchText Search term
      * @param array $params Search parameters
-     * @param array $searchTypes Search types
+     * @param array $searchTypes Search types. Deprecated!
      */
     public function search( $searchText, $params = array(), $searchTypes = array() );
 
