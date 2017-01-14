@@ -37,10 +37,15 @@ class ezpDatabaseTestSuite extends ezpTestSuite
      */
     protected static $isDatabaseSetup = false;
 
+    protected function setUp()
+    {
+        $this->setDatabaseEnv();
+    }
+
     /**
      * Sets up the database environment
      */
-    protected function setUp()
+    protected function setDatabaseEnv()
     {
         if ( !ezpTestRunner::dbPerTest() && !self::$isDatabaseSetup )
         {
@@ -60,4 +65,5 @@ class ezpDatabaseTestSuite extends ezpTestSuite
         }
     }
 }
+
 ?>
