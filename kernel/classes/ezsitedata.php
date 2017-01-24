@@ -49,7 +49,7 @@ class eZSiteData extends eZPersistentObject
      * Constructs a new eZSiteData instance. You need to call 'store()'
      * in order to store it into the DB.
      *
-     * @param string $key
+     * @param string $name
      * @param string $value
      * @return eZSiteData
      */
@@ -63,14 +63,13 @@ class eZSiteData extends eZPersistentObject
 
     /**
      * Fetches a site data by name
-	 *
+     *
      * @param string $name
-     * @return eZPersistentObject
+     * @return eZSiteData
      */
     public static function fetchByName( $name )
     {
-        $result = parent::fetchObject( self::definition(), null, array( 'name' => $name ) );
-        return $result;
+        return parent::fetchObject( self::definition(), null, array( 'name' => $name ) );
     }
 
 }

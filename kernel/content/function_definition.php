@@ -1222,4 +1222,13 @@ $FunctionList['content_tree_menu_expiry'] = array( 'name' => 'content_tree_menu_
                                                    'parameter_type' => 'standard',
                                                    'parameters' => array() );
 
+$FunctionList['site_data'] = array( 'name' => 'site_data',
+                                    'operation_types' => array( 'read' ),
+                                    'call_method' => array( 'class' => 'eZContentFunctionCollection',
+                                                            'method' => 'fetchSiteData' ),
+                                    'parameter_type' => 'standard',
+                                    'parameters' => array( array( 'name' => 'name',
+                                                                  'type' => 'string',
+                                                                  'required' => true ) ) );
+
 ?>

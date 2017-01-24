@@ -1534,6 +1534,17 @@ class eZContentFunctionCollection
 
         return array( 'result' => $expiryHandler->timestamp( 'content-tree-menu' ) );
     }
+
+    /**
+     * Fetches an eZSiteData instance if it exists in the database.
+     *
+     * @param string $name
+     * @return array
+     */
+    static public function fetchSiteData( $name )
+    {
+        return array( 'result' => eZSiteData::fetchByName( $name ) );
+    }
 }
 
 ?>
