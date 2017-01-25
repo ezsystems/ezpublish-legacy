@@ -629,7 +629,11 @@ class eZXMLInputParser
             $code .= '/';
         }
         $code .= '>';
-        $code = '<' . str_replace( '<', '&lt;', substr( $code, 1 ) );
+        $code = '<' . str_replace(
+            array( '<', '&' ),
+            array( '&lt;', '&amp;' ),
+            substr( $code, 1 )
+        );
         $errorHanding = libxml_use_internal_errors( true );
         $simpleXml = simplexml_load_string( $code );
         libxml_use_internal_errors( $errorHanding );

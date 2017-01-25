@@ -105,4 +105,23 @@ Right Thoughts, Right Words, Right Action</header>';
         self::assertEquals( 1, $header->length );
         self::assertEquals( "Franz Ferdinand - Love Illumination", $header->item( 0 )->textContent );
     }
+
+    /**
+     * Test for EZP-26832
+     *
+     * & might not be escaped but the user typing some simplified XML and before
+     * the fix for EZP-26832, this broke the XML parsing.
+     *
+     * @link https://jira.ez.no/browse/EZP-26832
+     */
+    public function testParseAttributeWithAmpersand()
+    {
+        $parser = new eZSimplifiedXMLInputParser(0, eZXMLInputParser::ERROR_SYNTAX);
+        $this->assertNotEquals(
+            false,
+            $parser->process(
+                '<link href="http://google.com/?this=that&something=nothing">link</link>'
+            )
+        );
+    }
 }
