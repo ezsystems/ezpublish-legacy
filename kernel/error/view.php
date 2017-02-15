@@ -56,39 +56,47 @@ $GLOBALS["eZRequestError"] = true;
 
     if ( $errorHandlerType != 'redirect' )
     {
-        // Set apache error headers if error.ini tells us to
+        // Set response headers if error.ini tells us to
+        // $errorType is 'kernel' or 'shop'
         if ( $errorINI->hasVariable( 'ErrorSettings-' . $errorType, 'HTTPError' ) )
         {
             $errorMap = $errorINI->variable( 'ErrorSettings-' . $errorType, 'HTTPError' );
             if ( isset( $errorMap[$errorNumber] ) )
             {
                 $httpErrorCode = $errorMap[$errorNumber];
-                if ( $errorINI->hasVariable( 'HTTPError-' . $httpErrorCode, 'HTTPName' ) )
+
+                if ( $errorINI->hasVariable( 'HTTPError-' . $httpErrorCode, 'HeaderList' ) )
                 {
-                    $httpErrorName = $errorINI->variable( 'HTTPError-' . $httpErrorCode, 'HTTPName' );
-                    $httpErrorString = "$httpErrorCode $httpErrorName";
+                    if( !empty( $errorINI->variable( 'HTTPError-' . $httpErrorCode, 'HeaderList' ) ) )
+                    {
+                        foreach( $errorINI->variable( 'HTTPError-' . $httpErrorCode, 'HeaderList' ) as $name => $value )
+                        {
+                            header( $name . ': '. $value );
+
+                            // Copy 'Status' header to a protocol header
+                            if( $name == 'Status' )
+                            {
+                                header( eZSys::serverVariable( 'SERVER_PROTOCOL' ) .
+                                    " $httpErrorCode $value"
+                                );
+                            }
+                        }
+                    }
+
+                    // This is triggered if the URL alias translator wants to redirect
+                    // to another URL
+                    // Not sure why it's wrapped in $errorINI->hasVariable( 'HTTPError-'...
                     if ( $errorNumber == eZError::KERNEL_MOVED )
                     {
                         $module->redirectTo( $extraErrorParameters['new_location'] );
-                        $module->setRedirectStatus( $httpErrorString );
                         return array(); // $Result of this view
-                    }
-                    else
-                    {
-                        // we need to store the header so that they are listed in view cache data ()
-                        $responseHeaders = array(
-                            eZSys::serverVariable( 'SERVER_PROTOCOL' ) . " $httpErrorString",
-                            "Status: $httpErrorString"
-                        );
-                        header( $responseHeaders[0] );
-                        header( $responseHeaders[1] );
                     }
                 }
             }
         }
     }
 
-    eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "error/view.php" );
+    eZDebug::writeError( "Error occurred using URI: " . $_SERVER['REQUEST_URI'] , "error/view.php" );
 
     if ( $errorHandlerType == 'redirect' )
     {
