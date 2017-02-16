@@ -582,6 +582,11 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
         eZDisplayResult( $templateResult );
         $content .= ob_get_clean();
 
+        if( $ini->variable( 'HTTPHeaderSettings', 'SetContentLengthHeader' ) == 'enabled' )
+        {
+            header( 'Content-Length: '. strlen( $content ) );
+        }
+
         $this->shutdown();
 
         return new ezpKernelResult( $content, array( 'module_result' => $moduleResult ) );
