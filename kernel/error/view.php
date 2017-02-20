@@ -14,6 +14,7 @@ $errorNumber = $Params['Number'];
 $extraErrorParameters = $Params['ExtraParameters'];
 $httpErrorCode = null;
 $httpErrorName = null;
+$Result = array();
 
 $tpl->setVariable( 'parameters', $extraErrorParameters );
 
@@ -71,18 +72,25 @@ $GLOBALS["eZRequestError"] = true;
                     {
                         foreach( $errorINI->variable( 'HTTPError-' . $httpErrorCode, 'HeaderList' ) as $name => $value )
                         {
-                            header( $name . ': '. $value );
+                            // store header on $Result to get it into the content cache
+                            $Result['responseHeaders'][] = $name . ': '. $value;
 
                             // Copy 'Status' header to a protocol header
+                            // TODO: should use http_response_code()
                             if( $name == 'Status' )
                             {
-                                header( eZSys::serverVariable( 'SERVER_PROTOCOL' ) .
-                                    " $httpErrorCode $value"
-                                );
+                                $Result['responseHeaders'][] =
+                                    eZSys::serverVariable( 'SERVER_PROTOCOL' ) . " $httpErrorCode $value";
                             }
                         }
-                    }
 
+                        // apply header
+                        foreach( $Result['responseHeaders'] as $header )
+                        {
+                            header( $header );
+                        }
+                    }
+                    
                     // This is triggered if the URL alias translator wants to redirect
                     // to another URL
                     // Not sure why it's wrapped in $errorINI->hasVariable( 'HTTPError-'...
@@ -187,7 +195,6 @@ if ( (isset( $Params['ExtraParameters']['AccessList'] ) ) and  ( $ini->variable(
 $res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'error_type', $errorType ), array( 'error_number', $errorNumber ) ) );
 
-$Result = array();
 $Result['content'] = $tpl->fetch( "design:error/$errorType/$errorNumber.tpl" );
 $Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/error', 'Error' ),
                                 'url' => false ),
@@ -197,6 +204,3 @@ $Result['errorCode'] = $httpErrorCode;
 $Result['errorMessage'] = $httpErrorName;
 $Result['errorType'] = $errorType;
 $Result['errorNumber'] = $errorNumber;
-
-if ( isset( $responseHeaders ) )
-    $Result['responseHeaders'] = $responseHeaders;
