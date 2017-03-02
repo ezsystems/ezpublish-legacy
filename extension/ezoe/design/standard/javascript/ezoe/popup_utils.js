@@ -745,7 +745,7 @@ var eZOEPopupUtils = {
         var postData = '', val;
         jQuery.each( jQuery('#' + id + ' input, #' + id + ' select').serializeArray(), function(i, o){
             if ( o.value )
-                postData += ( postData ? '&' : '') + o.name + '=' + o.value;
+                postData += ( postData ? '&' : '') + o.name + '=' + encodeURIComponent(o.value);
         });
         return postData;
     },

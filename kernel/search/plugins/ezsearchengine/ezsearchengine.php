@@ -1399,8 +1399,9 @@ class eZSearchEngine implements ezpSearchEngine
 
     function searchAttributeInteger( $searchParams )
     {
-        $classAttributeID = $searchParams['classattribute_id'];
-        $value = $searchParams['value'];
+        $db = eZDB::instance();
+        $classAttributeID = $db->escapeString( $searchParams['classattribute_id'] );
+        $value = (int)$db->escapeString( $searchParams['value'] );
 
         $classAttributeQuery = "";
         if ( is_numeric( $classAttributeID ) and  $classAttributeID > 0 )
@@ -1408,7 +1409,7 @@ class eZSearchEngine implements ezpSearchEngine
             $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$classAttributeID' AND ";
         }
 
-        $searchPartSql = " ezsearch_object_word_link.integer_value = $value AND";
+        $searchPartSql = " ezsearch_object_word_link.integer_value = '$value' AND";
 
         $searchPartText =  $classAttributeQuery . $searchPartSql;
         $tableResult = $this->createTemporaryTable( $searchPartText );
@@ -1425,8 +1426,13 @@ class eZSearchEngine implements ezpSearchEngine
 
     function searchAttributeIntegers( $searchParams )
     {
-        $classAttributeID = $searchParams['classattribute_id'];
-        $values = $searchParams['values'];
+        $db = eZDB::instance();
+        $classAttributeID = $db->escapeString( $searchParams['classattribute_id'] );
+        $values = array();
+        foreach ( $searchParams['values'] as $value )
+        {
+            $values[] = (int)$db->escapeString( $value );
+        }
 
         $classAttributeQuery = "";
         if ( is_numeric( $classAttributeID ) and  $classAttributeID > 0 )
@@ -1434,8 +1440,8 @@ class eZSearchEngine implements ezpSearchEngine
             $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$classAttributeID' AND ";
         }
 
-        $integerValuesSql = implode( ', ', $values );
-        $searchPartSql = " ezsearch_object_word_link.integer_value IN ( $integerValuesSql ) AND";
+        $integerValuesSql = implode( "', '", $values );
+        $searchPartSql = " ezsearch_object_word_link.integer_value IN ( '$integerValuesSql' ) AND";
 
         $searchPartText =  $classAttributeQuery . $searchPartSql;
         $tableResult = $this->createTemporaryTable( $searchPartText );
@@ -1452,9 +1458,10 @@ class eZSearchEngine implements ezpSearchEngine
 
     function searchAttributeByRange( $searchParams )
     {
-        $classAttributeID = $searchParams['classattribute_id'];
-        $fromValue = $searchParams['from'];
-        $toValue = $searchParams['to'];
+        $db = eZDB::instance();
+        $classAttributeID = $db->escapeString( $searchParams['classattribute_id'] );
+        $fromValue = (int)$db->escapeString( $searchParams['from'] );
+        $toValue = (int)$db->escapeString( $searchParams['to'] );
 
         $classAttributeQuery = "";
         if ( is_numeric( $classAttributeID ) and  $classAttributeID > 0 )
@@ -1462,7 +1469,7 @@ class eZSearchEngine implements ezpSearchEngine
             $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$classAttributeID' AND ";
         }
 
-        $searchPartSql = " ezsearch_object_word_link.integer_value BETWEEN $fromValue AND $toValue AND";
+        $searchPartSql = " ezsearch_object_word_link.integer_value BETWEEN '$fromValue' AND '$toValue' AND";
         $searchPartText =  $classAttributeQuery . $searchPartSql;
         $tableResult = $this->createTemporaryTable( $searchPartText );
 
@@ -1479,8 +1486,9 @@ class eZSearchEngine implements ezpSearchEngine
 
     function searchAttributeByIdentifier( $searchParams )
     {
-        $identifier = $searchParams['identifier'];
-        $textValue = $searchParams['value'];
+        $db = eZDB::instance();
+        $identifier = $db->escapeString( $searchParams['identifier'] );
+        $textValue = $db->escapeString( $searchParams['value'] );
 
         $searchText = $this->normalizeText( $textValue, false );
 
@@ -1511,11 +1519,12 @@ class eZSearchEngine implements ezpSearchEngine
 
     function searchAttributeByIdentifierRange( $searchParams )
     {
-        $identifier = $searchParams['identifier'];
-        $fromValue = $searchParams['from'];
-        $toValue = $searchParams['to'];
+        $db = eZDB::instance();
+        $identifier = $db->escapeString( $searchParams['identifier'] );
+        $fromValue = (int)$db->escapeString( $searchParams['from'] );
+        $toValue = (int)$db->escapeString( $searchParams['to'] );
 
-        $searchPartSql = " ezsearch_object_word_link.integer_value BETWEEN $fromValue AND $toValue AND ezsearch_object_word_link.identifier = '$identifier' AND";
+        $searchPartSql = " ezsearch_object_word_link.integer_value BETWEEN '$fromValue' AND '$toValue' AND ezsearch_object_word_link.identifier = '$identifier' AND";
         $tableResult = $this->createTemporaryTable( $searchPartSql );
 
         if ( $tableResult === false )
@@ -1530,11 +1539,16 @@ class eZSearchEngine implements ezpSearchEngine
 
     function searchAttributeIntegersByIdentifier( $searchParams )
     {
-        $identifier = $searchParams['identifier'];
-        $values = $searchParams['values'];
+        $db = eZDB::instance();
+        $identifier = $db->escapeString( $searchParams['identifier'] );
+        $values = array();
+        foreach ( $searchParams['values'] as $value )
+        {
+            $values[] = (int)$db->escapeString( $value );
+        }
 
-        $integerValuesSql = implode( ', ', $values );
-        $searchPartSql = " ezsearch_object_word_link.integer_value IN ( $integerValuesSql ) AND ezsearch_object_word_link.identifier = '$identifier' AND";
+        $integerValuesSql = implode( "', '", $values );
+        $searchPartSql = " ezsearch_object_word_link.integer_value IN ( '$integerValuesSql' ) AND ezsearch_object_word_link.identifier = '$identifier' AND";
         $tableResult = $this->createTemporaryTable( $searchPartSql );
 
         if ( $tableResult === false )
@@ -1549,8 +1563,9 @@ class eZSearchEngine implements ezpSearchEngine
 
     function searchAttributePatternText( $searchParams )
     {
-        $classAttributeID = $searchParams['classattribute_id'];
-        $textValue = $searchParams['value'];
+        $db = eZDB::instance();
+        $classAttributeID = $db->escapeString( $searchParams['classattribute_id'] );
+        $textValue = $db->escapeString( $searchParams['value'] );
 
 //        $searchText = $this->normalizeText( $textValue );
         $searchText = $textValue;
@@ -1603,8 +1618,9 @@ class eZSearchEngine implements ezpSearchEngine
 
     function searchAttributeFulltext( $searchParams )
     {
-        $classAttributeID = $searchParams['classattribute_id'];
-        $textValue = $searchParams['value'];
+        $db = eZDB::instance();
+        $classAttributeID = $db->escapeString( $searchParams['classattribute_id'] );
+        $textValue = $db->escapeString( $searchParams['value'] );
 
         $searchText = $this->normalizeText( $textValue, false );
 
