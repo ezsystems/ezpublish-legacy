@@ -1373,6 +1373,10 @@ class eZContentOperationCollection
             $state = eZContentObjectState::fetchById( $selectedStateID );
             $object->assignState( $state );
         }
+        eZAudit::writeAudit( 'state-assign', array( 'Content object ID' => $object->attribute( 'id' ),
+                                                    'Content object name' => $object->attribute( 'name' ),
+                                                    'Selected State ID Array' => implode( ', ' , $selectedStateIDList ),
+                                                    'Comment' => 'Updated states of the current object: eZContentOperationCollection::updateObjectState()' ) );
         //call appropriate method from search engine
         eZSearch::updateObjectState($objectID, $selectedStateIDList);
 
