@@ -625,7 +625,8 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
                     {
                         $objectHasMovedURI .= '/(' . $name . ')/' . $value;
                     }
-
+                    $objectHasMovedURI .= eZSys::queryString();
+                    
                     $objectHasMovedError = true;
                 }
             }
