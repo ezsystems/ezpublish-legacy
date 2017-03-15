@@ -120,7 +120,8 @@ if ( !class_exists( 'ezpAutoloader', false ) )
                 {
                     // won't work, as eZDebug isn't initialized yet at that time
                     // eZDebug::writeError( "Kernel override is enabled, but var/autoload/ezp_override.php has not been generated\nUse bin/php/ezpgenerateautoloads.php -o", 'autoload.php' );
-                    if ( $ezpKernelOverrideClasses = include __DIR__ . '/var/autoload/ezp_override.php' )
+                    $ezpKernelOverridePath = __DIR__ . '/var/autoload/ezp_override.php';
+                    if ( file_exists( $ezpKernelOverridePath ) && $ezpKernelOverrideClasses = include $ezpKernelOverridePath )
                     {
                         self::$ezpClasses = array_merge( self::$ezpClasses, $ezpKernelOverrideClasses );
                     }
