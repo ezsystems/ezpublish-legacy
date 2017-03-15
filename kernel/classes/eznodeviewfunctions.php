@@ -346,6 +346,12 @@ class eZNodeviewfunctions
             $cacheNameExtra = $user->attribute( 'contentobject_id' ) . '-';
         }
 
+        // Add the request protocol to the cache key generation
+        if ( strpos( $viewCacheTweak, 'protocol' ) !== false )
+        {
+            $cacheHashArray[] = eZSys::isSSLNow();
+        }
+
         // Make the cache unique for every case of view parameters
         if ( strpos( $viewCacheTweak, 'ignore_viewparameters' ) === false && $viewParameters )
         {
