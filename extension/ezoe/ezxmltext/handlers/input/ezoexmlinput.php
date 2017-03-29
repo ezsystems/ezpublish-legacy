@@ -1744,12 +1744,12 @@ class eZOEXMLInput extends eZXMLInputHandler
                 if ( $customAttributePart === '' )
                 {
                     $customAttributePart = ' customattributes="';
-                    $customAttributePart .= $attribute->name . '|' . $attribute->value;
+                    $customAttributePart .= $attribute->name . '|' . htmlspecialchars( $attribute->value );
                 }
                 else
                 {
                    $customAttributePart .= 'attribute_separation' . $attribute->name . '|' .
-                                           $attribute->value;
+                       htmlspecialchars( $attribute->value );
                 }
                 if ( isset( self::$customAttributeStyleMap[$attribute->name] ) )
                 {
