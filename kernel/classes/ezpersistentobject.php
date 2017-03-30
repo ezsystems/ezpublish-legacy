@@ -873,6 +873,8 @@ class eZPersistentObject
                         $sort_text .= ", ";
                     if ( $sort_type == "desc" )
                         $sort_text .= "$sort_id DESC";
+                    else if ( is_array( $sort_type ) )
+                        $sort_text .= "FIELD(" . $sort_id. "," . implode( ',', $sort_type ) . ")";
                     else
                         $sort_text .= "$sort_id ASC";
                     ++$i;
