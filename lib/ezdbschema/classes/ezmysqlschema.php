@@ -81,10 +81,14 @@ class eZMysqlSchema extends eZDBSchemaInterface
         foreach( $resultArray as $row )
         {
             $field = array();
-            $field['type'] = $this->parseType ( $row['Type'], $field['length'] );
+            $field['type'] = $this->parseType ( $row['Type'], $field['length'], $field['unsigned'] );
             if ( !$field['length'] )
             {
                 unset( $field['length'] );
+            }
+            if ( !$field['unsigned'] )
+            {
+                unset( $field['unsigned'] );
             }
             $field['not_null'] = 0;
             if ( $row['Null'] != 'YES' )
@@ -222,14 +226,18 @@ class eZMysqlSchema extends eZDBSchemaInterface
         return $indexes;
     }
 
-    function parseType( $type_info, &$length_info )
+    function parseType( $type_info, &$length_info, &$unsigned_info )
     {
-        preg_match ( "@([a-z ]*)(\(([0-9]*|[0-9]*,[0-9]*)\))?@", $type_info, $matches );
+        preg_match ( "@([a-z]*)(\(([0-9]*|[0-9]*,[0-9]*)\))?\s*(unsigned)?@i", $type_info, $matches );
         if ( isset( $matches[3] ) )
         {
             $length_info = $matches[3];
             if ( is_numeric( $length_info ) )
                 $length_info = (int)$length_info;
+        }
+        if ( isset( $matches[4] ) )
+        {
+            $unsigned_info = true;
         }
         return $matches[1];
     }
@@ -364,6 +372,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
 
         $sql_def = $field_name . ' ';
         $defaultText = $mysqlCompatible ? "default" : "DEFAULT";
+        $unsigned = ( isset( $def['unsigned'] ) && $def['unsigned'] ) ? ' unsigned' : '';
 
         if ( $def['type'] != 'auto_increment' )
         {
@@ -373,6 +382,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
             {
                 $type .= "({$def['length']})";
             }
+            $type .= $unsigned;
             $defList[] = $type;
             if ( isset( $def['not_null'] ) && ( $def['not_null'] ) )
             {
@@ -401,11 +411,11 @@ class eZMysqlSchema extends eZDBSchemaInterface
             $incrementText = $mysqlCompatible ? "auto_increment" : "AUTO_INCREMENT";
             if ( $diffFriendly )
             {
-                $sql_def .= "int(11)\n    NOT NULL\n    $incrementText";
+                $sql_def .= "int(11)$unsigned\n    NOT NULL\n    $incrementText";
             }
             else
             {
-                $sql_def .= "int(11) NOT NULL $incrementText";
+                $sql_def .= "int(11)$unsigned NOT NULL $incrementText";
             }
             $skip_primary = true;
         }
