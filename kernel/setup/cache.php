@@ -99,14 +99,42 @@ if ( $module->isCurrentAction( 'RegenerateStaticCache' ) )
     $cacheCleared['static'] = true;
 }
 
-$tpl->setVariable( "cache_cleared", $cacheCleared );
-$tpl->setVariable( "cache_enabled", $cacheEnabled );
-$tpl->setVariable( 'cache_list', $cacheList );
+// if cache is cleared - store result in session and redirect to the the current page again
+// so the translations are shown correctly
+if( $module->isCurrentAction( 'ClearCache' )
+   || $module->isCurrentAction( 'ClearAllCache' )
+   || $module->isCurrentAction( 'ClearContentCache' )
+   || $module->isCurrentAction( 'ClearINICache' )
+   || $module->isCurrentAction( 'ClearTemplateCache' )
+   || $module->isCurrentAction( 'RegenerateStaticCache' ) )
+{
+    $cacheClearedSerialized = urlencode( base64_encode( serialize( array( 'cache_cleared' => $cacheCleared, 'cache_enabled' => $cacheEnabled ) ) ) );
+    $http->setSessionVariable( 'CacheCleared', $cacheClearedSerialized );
+    $module->redirectTo( 'setup/cache/' );
+}
+else
+{
 
+    if( $http->hasSessionVariable( 'CacheCleared' ) )
+    {
+        $cacheClearedArraySerialized = $http->sessionVariable( 'CacheCleared' );
+        $http->removeSessionVariable( 'CacheCleared' );
 
-$Result = array();
-$Result['content'] = $tpl->fetch( "design:setup/cache.tpl" );
-$Result['path'] = array( array( 'url' => false,
-                                'text' => ezpI18n::tr( 'kernel/setup', 'Cache admin' ) ) );
+        $cacheClearedArray = unserialize( base64_decode( urldecode( $cacheClearedArraySerialized ) ) );
+        if( is_array( $cacheClearedArray ) )
+        {
+            $cacheCleared = $cacheClearedArray['cache_cleared'];
+            $cacheEnabled = $cacheClearedArray['cache_enabled'];
+        }
+    }
 
+    $tpl->setVariable( 'cache_cleared', $cacheCleared );
+    $tpl->setVariable( 'cache_enabled', $cacheEnabled );
+    $tpl->setVariable( 'cache_list', $cacheList );
+
+    $Result = array();
+    $Result['content'] = $tpl->fetch( 'design:setup/cache.tpl' );
+    $Result['path'] = array( array( 'url' => false,
+                                    'text' => ezpI18n::tr( 'kernel/setup', 'Cache admin' ) ) );
+}
 ?>
