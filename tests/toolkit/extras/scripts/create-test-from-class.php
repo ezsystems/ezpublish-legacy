@@ -10,6 +10,7 @@
  */
 
 require_once 'autoload.php';
+require_once 'PHPUnit/Autoload.php';
 
 
 class ezpGenerateTestCaseFromClass
