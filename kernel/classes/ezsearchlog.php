@@ -34,7 +34,11 @@ class eZSearchLog
             $phrase = substr( $phrase , 0 , 247 ) . "...";
         }
         $phrase = $db->escapeString( $phrase );
-
+        // 250 is the numbers of characters accepted by the DB table, so shorten to fit
+        if ( strlen( $phrase ) > 250 )
+        {
+            $phrase = substr( $phrase , 0 , 247 ) . "...";
+        }
         // find or store the phrase
         $phraseRes = $db->arrayQuery( "SELECT id FROM ezsearch_search_phrase WHERE phrase='$phrase'" );
 

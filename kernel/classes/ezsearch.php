@@ -119,10 +119,20 @@ class eZSearch
     static function search( $searchText, $params, $searchTypes = array() )
     {
         $searchEngine = eZSearch::getEngine();
-
+        $ini = eZINI::instance();
+        $logSearchStats = $ini->variable( 'SearchSettings', 'LogSearchStats' ) == 'enabled';
         if ( $searchEngine instanceof ezpSearchEngine )
         {
-            return $searchEngine->search( $searchText, $params, $searchTypes );
+            $result = $searchEngine->search( $searchText, $params, $searchTypes );
+            if ( $logSearchStats and
+                    trim( $searchText ) != "" and
+                     is_array( $result ) and
+                     array_key_exists( 'SearchCount', $result ) and
+                     is_numeric( $result['SearchCount'] ) )
+            {
+                eZSearchLog::addPhrase( $searchText, $result["SearchCount"] );
+            }
+            return $result;
         }
     }
 
