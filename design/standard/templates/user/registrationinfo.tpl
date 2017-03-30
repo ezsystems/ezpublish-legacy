@@ -26,7 +26,10 @@ http://{$hostname}{concat( 'user/activate/', $hash, '/', $object.main_node_id )|
 {/if}
 
 
+
+{if ezini( 'UserSettings', 'VerifyUserType' )|compare( '' )}
 {'Link to user information'|i18n('design/standard/user/register')}:
-http://{$hostname}{concat('content/view/full/',$object.main_node_id)|ezurl(no)}
+	http://{$hostname}{concat('content/view/full/',$object.main_node_id)|ezurl(no)}
+{/if}
 
 {/let}
