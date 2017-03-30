@@ -1,10 +1,13 @@
 # Rules related to greek
-#
+# 
 # The following charsets uses characters from greek:
 # cp437, cp737, cp860, cp861, cp862, cp863, cp864, cp865, cp869, cp932,
 # iso-8859-7, macintosh, windows-1253
 #
 # See basic.tr for formatting options
+# Transliteration in greek, is used in URLs and identifiers
+# I've tried (<theodoros papageorgiou> theo@webwiz.gr) to create nice greekglish in url's
+# this is a work in progress
 
 greek_uppercase:
 U+03AC = U+0386
