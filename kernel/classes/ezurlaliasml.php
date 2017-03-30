@@ -641,6 +641,7 @@ class eZURLAliasML extends eZPersistentObject
                     }
                 }
 
+                // Note: Modifies the language mask for multiple languages using the same text
                 $bitOr = $db->bitOr( $db->bitAnd( 'lang_mask', ~1 ), $languageMask );
                 // Note: The `text` field is updated too, this ensures case-changes are stored.
                 $query = "UPDATE ezurlalias_ml SET link = id, lang_mask = {$bitOr}, text = '{$textEsc}', action = '{$actionStr}', action_type = '{$actionTypeStr}', is_alias = 0, is_original = 1 " .
