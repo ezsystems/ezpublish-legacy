@@ -736,6 +736,11 @@ class eZContentOperationCollection
 
        eZContentObject::fixReverseRelations( $objectID, 'move' );
 
+        if ( !eZSearch::getEngine() instanceof eZSearchEngine )
+        {
+            eZContentOperationCollection::registerSearchObject( $objectID );
+        }
+
        return array( 'status' => true );
     }
 
@@ -1214,12 +1219,20 @@ class eZContentOperationCollection
         $curNode = eZContentObjectTreeNode::fetch( $parentNodeID );
         if ( $curNode instanceof eZContentObjectTreeNode )
         {
+             $objectIDs = array();
              $db = eZDB::instance();
              $db->begin();
              for ( $i = 0, $l = count( $priorityArray ); $i < $l; $i++ )
              {
                  $priority = (int) $priorityArray[$i];
                  $nodeID = (int) $priorityIDArray[$i];
+                 $node = eZContentObjectTreeNode::fetch( $nodeID );
+                 if ( !$node instanceof eZContentObjectTreeNode )
+                 {
+                     continue;
+                 }
+
+                 $objectIDs[] = $node->attribute( 'contentobject_id' );
                  $db->query( "UPDATE
                                   ezcontentobject_tree
                               SET
@@ -1229,6 +1242,13 @@ class eZContentOperationCollection
              }
              $curNode->updateAndStoreModified();
              $db->commit();
+             if ( !eZSearch::getEngine() instanceof eZSearchEngine )
+             {
+                 foreach ( $objectIDs as $objectID )
+                 {
+                     eZContentOperationCollection::registerSearchObject( $objectID );
+                 }
+             }
         }
         return array( 'status' => true );
     }
