@@ -72,7 +72,7 @@ class ezjscCssOptimizer
             // Optimize hex colors from #bbbbbb to #bbb
             $css = preg_replace( "/color:#([0-9a-fA-F])\\1([0-9a-fA-F])\\2([0-9a-fA-F])\\3/", "color:#\\1\\2\\3", $css );
         }
-        return $css;
+        return trim( $css );
     }
 }
 ?>
