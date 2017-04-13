@@ -24,7 +24,7 @@ eZDebug::updateSettings(
 $useCacheHeaders = isset( $UserParameters['use-cache-headers'] ) ? (bool)$UserParameters['use-cache-headers'] : true;
 if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) && $useCacheHeaders )
 {
-    header( $_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified' );
+    eZHTTPTool::sendHTTPResponseCode( 304 );
     header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + MAX_AGE ) . ' GMT' );
     header( 'Cache-Control: max-age=' . MAX_AGE );
     header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', strtotime( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ) . ' GMT' );
@@ -41,7 +41,7 @@ $contentstructuremenuINI = eZINI::instance( 'contentstructuremenu.ini' );
 
 if ( $contentstructuremenuINI->variable( 'TreeMenu', 'Dynamic' ) != 'enabled' )
 {
-    header( $_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden' );
+    eZHTTPTool::sendHTTPResponseCode( 403 );
     $Result['content'] = json_encode(
         array(
              'error'    => ezpI18n::tr( 'kernel/content/treemenu', 'Cannot display the treemenu because it is disabled.' ),
@@ -96,7 +96,7 @@ $node = eZContentObjectTreeNode::fetch( $nodeID );
 
 if ( !$node )
 {
-    header( $_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found' );
+    eZHTTPTool::sendHTTPResponseCode( 404 );
     $Result['content'] = '';
 }
 else if ( !$node->canRead() )
@@ -109,7 +109,7 @@ else if ( !$node->canRead() )
         )
     );
 
-    header( $_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden' );
+    eZHTTPTool::sendHTTPResponseCode( 403 );
     header( 'Content-Type: application/json' );
     header( 'Content-Length: '.strlen( $jsonText ) );
 

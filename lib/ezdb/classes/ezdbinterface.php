@@ -1059,7 +1059,7 @@ class eZDBInterface
                 {
                     if ( !headers_sent() )
                     {
-                        header("HTTP/1.1 500 Internal Server Error");
+                        eZHTTPTool::sendHTTPResponseCode( 500 );
                     }
                     $site = eZSys::serverVariable( 'HTTP_HOST' );
                     $uri = eZSys::serverVariable( 'REQUEST_URI' );

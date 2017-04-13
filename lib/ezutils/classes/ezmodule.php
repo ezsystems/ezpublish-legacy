@@ -969,7 +969,7 @@ class eZModule
             {
                 // Non-authorized host, return only the URI (without host) + query string and fragment if present.
                 eZDebug::writeError( "Redirection requested on non-authorized host '{$urlComponents['host']}'" );
-                header( $_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden' );
+                eZHTTPTool::sendHTTPResponseCode( 403 );
                 echo "Redirection requested on non-authorized host";
                 eZDB::checkTransactionCounter();
                 eZExecution::cleanExit();

@@ -181,7 +181,7 @@ class eZExecution
     {
         if( PHP_SAPI != 'cli' )
         {
-            header( 'HTTP/1.x 500 Internal Server Error' );
+            eZHTTPTool::sendHTTPResponseCode( 500 );
             header( 'Content-Type: text/html' );
 
             echo "An unexpected error has occurred. Please contact the webmaster.<br />";

@@ -22,7 +22,8 @@ $restINI = eZINI::instance( 'rest.ini' );
 // Redirect URI, required to handle other errors, checked first
 if ( ( $pRedirectUri = getHTTPVariable( 'redirect_uri' ) ) === false )
 {
-    response( '400 Bad Request' );
+    eZHTTPTool::sendHTTPResponseCode( 400 );
+    eZExecution::cleanExit();
 }
 
 // Client ID
@@ -167,7 +168,8 @@ if ( $pResponseType == 'token')
     $parameters[] = "expires_in=$rExpiresIn";
     $location = "{$pRedirectUri}?" . implode( $parameters, '&' );
 
-    response( '302 Found', $location );
+    eZHTTPTool::headerVariable( 'Location', $location, true, 302 );
+    eZExecution::cleanExit();
 }
 elseif ( $pResponseType ==  'code')
 {
@@ -199,7 +201,8 @@ elseif ( $pResponseType ==  'code')
     $parameters[] = "expires_in=$rExpiresIn";
     $location = "{$pRedirectUri}?" . implode( $parameters, '&' );
 
-    response( '302 Found', $location );
+    eZHTTPTool::headerVariable( 'Location', $location, true, 302 );
+    eZExecution::cleanExit();
 }
 
 /**
@@ -216,23 +219,7 @@ function error( $redirectUri, $errorCode, $message = null )
     $location = "{$redirectUri}?error=" . urlencode( $errorCode );
     if( $message !== null )
         $location .= '&error_description=' . urlencode( $message );
-    response( '302 Found', $location );
-}
-
-/**
- * oAuth2 response handler function. Terminates execution after sending the headers.
- *
- * @param string $httpHeader The HTTP header to be sent as a response
- * @param string $location The location to redirect to. No redirection is done if not provided.
- *
- * @return void
- */
-function response( $httpHeader, $location = null )
-{
-    header( "HTTP/1.1 $httpHeader" );
-    if ( $location !== null )
-        // debug stuff: echo "header( \"Location: $location\" );\n";
-        header( "Location: $location" );
+    eZHTTPTool::headerVariable( 'Location', $location, true, 302 );
     eZExecution::cleanExit();
 }
 

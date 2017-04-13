@@ -28,7 +28,7 @@ if ( !defined( 'CLUSTER_STORAGE_BACKEND' ) || CLUSTER_STORAGE_BACKEND === null )
     {
         $message = "An error has occured";
     }
-    header( $_SERVER['SERVER_PROTOCOL'] . " 500 Internal Server Error" );
+    eZHTTPTool::sendHTTPResponseCode( 500 );
     echo <<<EOF
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 <html><head>
@@ -71,7 +71,7 @@ if ( !file_exists( $clusterGatewayFile ) )
     {
         $message = "An error has occured";
     }
-    header( $_SERVER['SERVER_PROTOCOL'] . " 500 Internal Server Error" );
+    eZHTTPTool::sendHTTPResponseCode( 500 );
     echo <<<EOF
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 <html><head>

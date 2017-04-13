@@ -88,7 +88,7 @@ else
 // abort if no calls where found
 if ( !$callList )
 {
-    header( $_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error' );
+    eZHTTPTool::sendHTTPResponseCode( 500 );
     $response = array( 'error_text' => 'No server call defined', 'content' => '' );
     echo ezjscAjaxContent::autoEncode( $response, $contentType );
     eZExecution::cleanExit();
