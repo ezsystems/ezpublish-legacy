@@ -1741,7 +1741,6 @@ class eZTemplate
      Creates some text nodes before and after the children of \a $root.
      It will extract the current filename and uri and create some XHTML
      comments and inline text.
-     \sa isXHTMLCodeIncluded
     */
     function appendDebugNodes( &$root, &$resourceData )
     {
@@ -1752,8 +1751,6 @@ class eZTemplate
             return;
         $uri = $resourceData['uri'];
         $preText = "\n<!-- START: including template: $path ($uri) -->\n";
-        if ( eZTemplate::isXHTMLCodeIncluded() )
-            $preText .= "<p class=\"small\">$path</p><br/>\n";
         $postText = "\n<!-- STOP: including template: $path ($uri) -->\n";
 
         $preNode = eZTemplateNodeTool::createTextNode( $preText );
@@ -2434,22 +2431,6 @@ class eZTemplate
     public function ini()
     {
         return eZINI::instance( "template.ini" );
-    }
-
-    /*!
-     \static
-     \return true if special XHTML code should be included before the included template file.
-             This code will display the template filename in the browser but will eventually
-             break the design.
-    */
-    static function isXHTMLCodeIncluded()
-    {
-        if ( !isset( $GLOBALS['eZTemplateDebugXHTMLCodeEnabled'] ) )
-        {
-            $ini = eZINI::instance();
-            $GLOBALS['eZTemplateDebugXHTMLCodeEnabled'] = $ini->variable( 'TemplateSettings', 'ShowXHTMLCode' ) == 'enabled';
-        }
-        return $GLOBALS['eZTemplateDebugXHTMLCodeEnabled'];
     }
 
     /*!
