@@ -1137,7 +1137,7 @@ class eZPackage
             // Search for the files we want to extract
             foreach( $archive as $entry )
             {
-                if ( in_array( $entry->getPath(), $fileList ) )
+                if ( in_array( trim($entry->getPath(),DIRECTORY_SEPARATOR), $fileList ) )
                 {
                     if ( !$archive->extractCurrent( $archivePath ) )
                     {
