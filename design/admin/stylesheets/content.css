@@ -257,6 +257,14 @@ fieldset.ezcca-collapsible.ezcca-collapsed legend a
     background: url("../images/2/yui_sprite.png") no-repeat 0 -350px;
 }
 
+fieldset legend  {
+  display: table-cell;
+}
+
+fieldset legend span.classattribute-description {
+  display: block;
+}
+
 /* OBJECTRELATIONLIST */
 
 .ezcca-edit-datatype-ezobjectrelationlist h4, .ezcca-edit-datatype-ezobjectrelation h4
