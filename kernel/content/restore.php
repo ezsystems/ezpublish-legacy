@@ -136,19 +136,10 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
     $object->restoreObjectAttributes();
 
     $user = eZUser::currentUser();
+    // Getting the current transaction counter to check if all transactions are committed during content/publish operation (see below)
+    $transactionCounter = $db->transactionCounter();
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $objectID,
                                                                                  'version' => $version->attribute( 'version' ) ) );
-    if ( ( array_key_exists( 'status', $operationResult ) && $operationResult['status'] != eZModuleOperationInfo::STATUS_CONTINUE ) )
-    {
-        switch( $operationResult['status'] )
-        {
-            case eZModuleOperationInfo::STATUS_HALTED:
-            case eZModuleOperationInfo::STATUS_CANCELLED:
-            {
-                $module->redirectToView( 'trash' );
-            }
-        }
-    }
     $objectID = $object->attribute( 'id' );
     $object = eZContentObject::fetch( $objectID );
     $mainNodeID = $object->attribute( 'main_node_id' );
@@ -165,9 +156,35 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
 
     eZContentObject::fixReverseRelations( $objectID, 'restore' );
 
-    $db->commit();
-    $module->redirectToView( 'view', array( 'full', $mainNodeID ) );
-    return;
+    if ( ( array_key_exists( 'status', $operationResult ) && $operationResult['status'] != eZModuleOperationInfo::STATUS_CONTINUE ) )
+    {
+        // Check if publication related transaction counter is clean.
+        // If not, operation is probably in STATUS_CANCELLED, STATUS_HALTED, STATUS_REPEAT or STATUS_QUEUED
+        // and final commit was not done as it's part of the operation body (see commit-transaction action in content/publish operation definition).
+        // Important note: Will only be committed transactions that weren't closed during the content/publish operation
+        $transactionDiff = $db->transactionCounter() - $transactionCounter;
+        for ( $i = 0; $i < $transactionDiff; ++$i )
+        {
+            $db->commit();
+        }
+
+        // Now committing the transaction began earlier.
+        $db->commit();
+
+        switch( $operationResult['status'] )
+        {
+            case eZModuleOperationInfo::STATUS_HALTED:
+            case eZModuleOperationInfo::STATUS_CANCELLED:
+            {
+                return $module->redirectToView( 'trash' );
+            }
+        }
+    }
+    else
+    {
+        $db->commit();
+        return $module->redirectToView( 'view', array( 'full', $mainNodeID ) );
+    }
 }
 
 $tpl = eZTemplate::factory();
