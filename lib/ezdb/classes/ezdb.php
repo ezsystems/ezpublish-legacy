@@ -8,98 +8,89 @@
  * @package lib
  */
 
-/*! \defgroup eZDB Database abstraction layer */
-
-/*!
-  \class eZDB ezdb.php
-  \ingroup eZDB
-  \brief The eZDB class provides database wrapper functions
-  The eZ db library procides a database independent framework for
-  SQL databases. The current supported databases are: PostgreSQL and
-  MySQL.
-
-  eZ db is designed to be used with the following type subset of SQL:
-  int, float, varchar and text.
-
-  To store date and time values int's are used. eZ locale is used to
-  present the date and times on a localized format. That way we don't have
-  to worry about the different date and time formats used in the different
-  databases.
-
-  Auto incrementing numbers, sequences, are used to generate unique id's
-  for a table row. This functionality is abstracted as it works different
-  in the different databases.
-
-  Limit and offset functionality is also abstracted by the eZ db library.
-
-  eZ db is designed to use lowercase in all table/column names. This is
-  done to prevent errors as the different databases handles this differently.
-  Especially when returning the data as an associative array.
-
-  \code
-
-  // Get the current database instance
-  // will create a new database object and connect to the database backend
-  // if there is already created an instance for this session the existing
-  // object will be returned.
-  // the settings for the database connections are set in site.ini
-  $db = eZDB::instance();
-
-  // Run a simple query
-  $db->query( 'DELETE FROM sql_test' );
-
-  // insert some data
-  $str = $db->escapeString( "Testing escaping'\"" );
-  $db->query( "INSERT INTO sql_test ( name, description ) VALUES ( 'New test', '$str' )" );
-
-  // Get the last serial value for the sql_test table
-  $rowID = $db->lastSerialID( 'sql_test', 'id' );
-
-  // fetch some data into an array of associative arrays
-  $rows = $db->arrayQuery( 'SELECT * FROM sql_test' );
-
-  foreach ( $rows as $row )
-  {
-     print( $row['name'] );
-  }
-
-  // fetch some data with a limit
-  // will return the 10 first rows in the result
-  $ret = $db->arrayQuery( 'SELECT id, name, description, rownum FROM sql_test',
-                           array( 'offset' => 0, 'limit' => 10 ) );
-
-  // check which implementation we're running
-  print( $db->databaseName() );
-
-  \endcode
-
-  \sa eZLocale eZINI
-*/
-
+/**
+ * The eZDB class provides database wrapper functions
+ *
+ * The eZ db library procides a database independent framework for SQL databases. The current supported databases are:
+ * PostgreSQL and MySQL.
+ *
+ * eZDB is designed to be used with the following type subset of SQL:
+ * int, float, varchar and text.
+ *
+ * To store date and time values int's are used. eZ locale is used to present the date and times on a localized format.
+ * That way we don't have to worry about the different date and time formats used in the different databases.
+ *
+ * Auto incrementing numbers, sequences, are used to generate unique id's for a table row. This functionality is
+ * abstracted as it works different in the different databases.
+ *
+ * Limit and offset functionality is also abstracted by the eZ db library.
+ *
+ * eZ db is designed to use lowercase in all table/column names. This is done to prevent errors as the different
+ * databases handles this differently. Especially when returning the data as an associative array.
+ *
+ * Examples:
+ *
+ * <code>
+ * // Get the current database instance
+ * // Will create a new database object and connect to the database backend if there is already created an instance for
+ * // this session the existing object will be returned. The settings for the database connections are set in site.ini.
+ * $db = eZDB::instance();
+ *
+ * // Run a simple query
+ * $db->query( 'DELETE FROM sql_test' );
+ *
+ * // insert some data
+ * $str = $db->escapeString( "Testing escaping'\"" );
+ * $db->query( "INSERT INTO sql_test ( name, description ) VALUES ( 'New test', '$str' )" );
+ *
+ * // Get the last serial value for the sql_test table
+ * $rowID = $db->lastSerialID( 'sql_test', 'id' );
+ *
+ * // fetch some data into an array of associative arrays
+ * $rows = $db->arrayQuery( 'SELECT * FROM sql_test' );
+ *
+ * foreach ( $rows as $row )
+ * {
+ *     print( $row['name'] );
+ * }
+ *
+ * // fetch some data with a limit
+ * // will return the 10 first rows in the result
+ * $ret = $db->arrayQuery( 'SELECT id, name, description, rownum FROM sql_test', array(
+ *     'offset' => 0, 'limit' => 10
+ * ) );
+ *
+ * // check which implementation we're running
+ * print( $db->databaseName() );
+ * </code>
+ */
 class eZDB
 {
-    /*!
-      Constructor.
-      NOTE: Should not be used.
-    */
+    /**
+     * Constructor.
+     *
+     * Should NOT be used.
+     */
     private function __construct()
     {
         eZDebug::writeError( 'This class should not be instantiated', __METHOD__ );
     }
 
-    /*!
-      \static
-      Returns an instance of the database object.
-    */
+    /**
+     * Returns true if an instance of the database object is available
+     *
+     * @return bool
+     */
     static function hasInstance()
     {
         return isset( $GLOBALS['eZDBGlobalInstance'] ) && $GLOBALS['eZDBGlobalInstance'] instanceof eZDBInterface;
     }
 
-    /*!
-     \static
-     Sets the global database instance to \a $instance.
-    */
+    /**
+     * Sets the global database instance to $instance.
+     *
+     * @param eZDBInterface $instance
+     */
     static function setInstance( $instance )
     {
         $GLOBALS['eZDBGlobalInstance'] = $instance;
@@ -109,8 +100,8 @@ class eZDB
      * Returns a shared instance of the eZDBInterface class aka database object.
      * If you want to change the current database values you should use $forceNewInstance.
      *
-     * @param string|false $databaseImplementation
-     * @param array|false $databaseParameters If array, then key 'use_defaults' (bool) is used.
+     * @param string|bool $databaseImplementation
+     * @param array|bool $databaseParameters If array, then key 'use_defaults' (bool) is used.
      * @param bool $forceNewInstance
      * @return eZDBInterface
      */
@@ -122,7 +113,7 @@ class eZDB
         if ( !( $impl instanceof eZDBInterface ) )
             $fetchInstance = true;
 
-        if ( $forceNewInstance  )
+        if ( $forceNewInstance )
         {
             unset($impl);
             $impl = false;
@@ -198,24 +189,27 @@ class eZDB
             $useSlaveServer = false;
             if ( $useSlave == "enabled" )
                 $useSlaveServer = true;
-            $defaultDatabaseParameters = array( 'server' => $server,
-                                                'port' => $port,
-                                                'user' => $user,
-                                                'password' => $pwd,
-                                                'database' => $db,
-                                                'use_slave_server' => $useSlaveServer,
-                                                'slave_server' => $slaveServer,
-                                                'slave_port' => $slaveServerPort,
-                                                'slave_user' => $slaveServerUser,
-                                                'slave_password' => $slaveServerPassword,
-                                                'slave_database' => $slaveServerDatabase,
-                                                'charset' => $charset,
-                                                'is_internal_charset' => $isInternalCharset,
-                                                'socket' => $socketPath,
-                                                'builtin_encoding' => $builtinEncoding,
-                                                'connect_retries' => $retries,
-                                                'use_persistent_connection' => $usePersistentConnection,
-                                                'show_errors' => true );
+            $defaultDatabaseParameters = array(
+                'server' => $server,
+                'port' => $port,
+                'user' => $user,
+                'password' => $pwd,
+                'database' => $db,
+                'use_slave_server' => $useSlaveServer,
+                'slave_server' => $slaveServer,
+                'slave_port' => $slaveServerPort,
+                'slave_user' => $slaveServerUser,
+                'slave_password' => $slaveServerPassword,
+                'slave_database' => $slaveServerDatabase,
+                'charset' => $charset,
+                'is_internal_charset' => $isInternalCharset,
+                'socket' => $socketPath,
+                'builtin_encoding' => $builtinEncoding,
+                'connect_retries' => $retries,
+                'use_persistent_connection' => $usePersistentConnection,
+                'show_errors' => true
+            );
+
             /* This looks funny, but is needed to fix a crash in PHP */
             $b = $databaseParameters;
             $databaseParameters = $defaultDatabaseParameters;
@@ -257,11 +251,13 @@ class eZDB
             if ( isset( $b['show_errors'] ) )
                 $databaseParameters['show_errors'] = $b['show_errors'];
 
-            $optionArray = array( 'iniFile'       => 'site.ini',
-                                  'iniSection'    => 'DatabaseSettings',
-                                  'iniVariable'   => 'ImplementationAlias',
-                                  'handlerIndex'  => $databaseImplementation,
-                                  'handlerParams' => array( $databaseParameters ) );
+            $optionArray = array(
+                'iniFile'       => 'site.ini',
+                'iniSection'    => 'DatabaseSettings',
+                'iniVariable'   => 'ImplementationAlias',
+                'handlerIndex'  => $databaseImplementation,
+                'handlerParams' => array( $databaseParameters )
+            );
 
             $options = new ezpExtensionOptions( $optionArray );
 
@@ -283,13 +279,14 @@ class eZDB
         return $impl;
     }
 
-    /*!
-      Checks transaction counter
-      If the current transaction counter is 1 or higher
-      means 1 or more transactions are running and a negative value
-      means something is wrong.
-      Prints the error.
-    */
+    /**
+     * Checks the transaction counter
+     *
+     * A transaction counter of 1 or higher means 1 or more transactions are running.
+     * A negative value means something is wrong.
+     *
+     * @return array|bool
+     */
     static function checkTransactionCounter()
     {
         $result = true;
@@ -338,7 +335,7 @@ class eZDB
      *        Possible values are:pm
      *        - eZDB::ERROR_HANDLING_STANDARD: backward compatible error handling, using reportError
      *        - eZDB::ERROR_HANDLING_EXCEPTION: using exceptions
-     * @throw RuntimeException thrown when an invalid error handling is given
+     * @throws RuntimeException thrown when an invalid error handling is given
      * @access private
      * @since 4.5
      */
