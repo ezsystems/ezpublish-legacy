@@ -466,7 +466,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
                     }
 
                     // check if FS file is older than DB file
-                    if ( !$this->useStaleCache && $this->isLocalFileExpired( $this->metaData['mtime'], $curtime, $ttl ) )
+                    if ( !$this->useStaleCache && $this->isDBFileExpired( $this->metaData['mtime'], $curtime, $ttl ) )
                     {
                         eZDebugSetting::writeDebug( 'kernel-clustering', "Local file (mtime=" . @filemtime( $this->filePath ) . ") is older than DB, checking with DB", __METHOD__ );
                         $forceDB = true;
