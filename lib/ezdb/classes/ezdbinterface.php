@@ -59,7 +59,7 @@ class eZDBInterface
         $slavePort = $parameters['slave_port'];
         $slaveUser = $parameters['slave_user'];
         $slavePassword = $parameters['slave_password'];
-        $slaveDB =  $parameters['slave_database'];
+        $slaveDB = $parameters['slave_database'];
         $socketPath = $parameters['socket'];
         $charset = $parameters['charset'];
         $isInternalCharset = $parameters['is_internal_charset'];
@@ -120,7 +120,7 @@ class eZDBInterface
         {
             $this->OutputSQL = true;
 
-            $this->SlowSQLTimeout = (int) $ini->variable( "DatabaseSettings", "SlowQueriesOutput" );
+            $this->SlowSQLTimeout = (int)$ini->variable( "DatabaseSettings", "SlowQueriesOutput" );
         }
         if ( $ini->variable( "DatabaseSettings", "DebugTransactions" ) == "enabled" )
         {
@@ -155,7 +155,8 @@ class eZDBInterface
             'charset' => 'Charset',
             'is_internal_charset' => 'IsInternalCharset',
             'use_builting_encoding' => 'UseBuiltinEncoding',
-            'retry_count' => 'ConnectRetries' );
+            'retry_count' => 'ConnectRetries'
+        );
     }
 
     /**
@@ -227,43 +228,48 @@ class eZDBInterface
      */
     function prepareSqlQuery( &$fd, &$buffer )
     {
-
         $sqlQueryArray = array();
-        while( count( $sqlQueryArray ) == 0 && !feof( $fd ) )
+        while ( count( $sqlQueryArray ) == 0 && !feof( $fd ) )
         {
             $buffer  .= fread( $fd, 4096 );
             if ( $buffer )
             {
                 // Fix SQL file by deleting all comments and newlines
                 // eZDebug::writeDebug( $buffer, "read data" );
-                $sqlQuery = preg_replace( array( "/^#.*\n" . "/m",
-                                                 "#^/\*.*\*/\n" . "#m",
-                                                 "/^--.*\n" . "/m",
-                                                 "/\n|\r\n|\r/m" ),
-                                          array( "",
-                                                 "",
-                                                 "",
-                                                 "\n" ),
-                                          $buffer );
-//            eZDebug::writeDebug( $sqlQuery, "read data" );
+                $sqlQuery = preg_replace(
+                    array(
+                        "/^#.*\n" . "/m",
+                        "#^/\*.*\*/\n" . "#m",
+                        "/^--.*\n" . "/m",
+                        "/\n|\r\n|\r/m"
+                    ),
+                    array(
+                        "",
+                        "",
+                        "",
+                        "\n"
+                    ),
+                    $buffer
+                );
+
+                // eZDebug::writeDebug( $sqlQuery, "read data" );
 
                 // Split the query into an array
                 $sqlQueryArray = preg_split( "/;\n/m", $sqlQuery );
 
-                if ( preg_match( '/;\n/m', $sqlQueryArray[ count( $sqlQueryArray ) -1 ] ) )
+                if ( preg_match( '/;\n/m', $sqlQueryArray[ count( $sqlQueryArray ) - 1 ] ) )
                 {
                     $buffer = '';
                 }
                 else
                 {
-                    $buffer = $sqlQueryArray[ count( $sqlQueryArray ) -1 ];
-                    array_splice( $sqlQueryArray, count( $sqlQueryArray ) -1 , 1 );
+                    $buffer = $sqlQueryArray[ count( $sqlQueryArray ) - 1 ];
+                    array_splice( $sqlQueryArray, count( $sqlQueryArray ) - 1, 1 );
                 }
             }
             else
             {
                 return $sqlQueryArray;
-
             }
         }
         return $sqlQueryArray;
@@ -301,7 +307,7 @@ class eZDBInterface
             if ( $sqlArray && is_array( $sqlArray ) )
             {
                 $done = true;
-                foreach( $sqlArray as $singleQuery )
+                foreach ( $sqlArray as $singleQuery )
                 {
                     $singleQuery = preg_replace( "/\n|\r\n|\r/", " ", $singleQuery );
                     if ( preg_match( "#^ */(.+)$#", $singleQuery, $matches ) )
@@ -318,7 +324,6 @@ class eZDBInterface
                         }
                     }
                 }
-
             }
             $this->OutputSQL = $oldOutputSQL;
         }
@@ -696,7 +701,7 @@ class eZDBInterface
     function begin()
     {
         $ini = eZINI::instance();
-        if ($ini->variable( "DatabaseSettings", "Transactions" ) == "enabled")
+        if ( $ini->variable( "DatabaseSettings", "Transactions" ) == "enabled" )
         {
             if ( $this->TransactionCounter > 0 )
             {
@@ -710,9 +715,11 @@ class eZDBInterface
                         $subLevels =& $subLevels[count( $subLevels ) - 1]['sub_levels'];
                     }
                     // Next entry will be at the end
-                    $subLevels[count( $subLevels )] = array( 'level' => $this->TransactionCounter,
-                                                             'trace' => $bt,
-                                                             'sub_levels' => array() );
+                    $subLevels[count( $subLevels )] = array(
+                        'level' => $this->TransactionCounter,
+                        'trace' => $bt,
+                        'sub_levels' => array()
+                    );
                 }
                 ++$this->TransactionCounter;
                 return false;
@@ -723,9 +730,11 @@ class eZDBInterface
                 {
                     // Start new stack tree for debugging
                     $bt = debug_backtrace();
-                    $this->TransactionStackTree = array( 'level' => $this->TransactionCounter,
-                                                         'trace' => $bt,
-                                                         'sub_levels' => array() );
+                    $this->TransactionStackTree = array(
+                        'level' => $this->TransactionCounter,
+                        'trace' => $bt,
+                        'sub_levels' => array()
+                    );
                 }
             }
             $this->TransactionIsValid = true;
@@ -754,9 +763,9 @@ class eZDBInterface
      * @return bool
      */
      function beginQuery()
-    {
-        return false;
-    }
+     {
+         return false;
+     }
 
     /**
      * Commits the current transaction. If this is not the outermost it will not commit
@@ -771,7 +780,7 @@ class eZDBInterface
     function commit()
     {
         $ini = eZINI::instance();
-        if ($ini->variable( "DatabaseSettings", "Transactions" ) == "enabled")
+        if ( $ini->variable( "DatabaseSettings", "Transactions" ) == "enabled" )
         {
             if ( $this->TransactionCounter <= 0 )
             {
@@ -855,7 +864,7 @@ class eZDBInterface
             $this->TransactionStackTree = array();
         }
         $ini = eZINI::instance();
-        if ($ini->variable( "DatabaseSettings", "Transactions" ) == "enabled")
+        if ( $ini->variable( "DatabaseSettings", "Transactions" ) == "enabled" )
         {
             if ( $this->TransactionCounter <= 0 )
             {
@@ -908,7 +917,7 @@ class eZDBInterface
         $indent = '';
         if ( $indentCount > 0 )
         {
-            $indent = str_repeat( " ", $indentCount*4 );
+            $indent = str_repeat( " ", $indentCount * 4 );
         }
         $stackText .= $indent . "Level " . $stack['level'] . "\n" . $indent . "{" . $indent . "\n";
         $stackText .= $indent . "  Began at:\n";
@@ -1059,25 +1068,25 @@ class eZDBInterface
                 {
                     if ( !headers_sent() )
                     {
-                        header("HTTP/1.1 500 Internal Server Error");
+                        header( "HTTP/1.1 500 Internal Server Error" );
                     }
                     $site = eZSys::serverVariable( 'HTTP_HOST' );
                     $uri = eZSys::serverVariable( 'REQUEST_URI' );
 
-                    print( "<div class=\"fatal-error\" style=\"" );
-                    print( 'margin: 0.5em 0 1em 0; ' .
+                    print ( "<div class=\"fatal-error\" style=\"" );
+                    print ( 'margin: 0.5em 0 1em 0; ' .
                            'padding: 0.25em 1em 0.75em 1em;' .
                            'border: 4px solid #000000;' .
                            'background-color: #f8f8f4;' .
                            'border-color: #f95038;" >' );
-                    print( "<b>Fatal error</b>: A database transaction in eZ Publish failed.<br/>" );
-                    print( "<p>" );
-                    print( "The current execution was stopped to prevent further problems.<br/>\n" .
+                    print ( "<b>Fatal error</b>: A database transaction in eZ Publish failed.<br/>" );
+                    print ( "<p>" );
+                    print ( "The current execution was stopped to prevent further problems.<br/>\n" .
                            "You should contact the <a href=\"mailto:$adminEmail?subject=Transaction failed on $site and URI $uri with ID $transID\">System Administrator</a> of this site with the information on this page.<br/>\n" .
                            "The current transaction ID is <b>$transID</b> and has been logged.<br/>\n" .
                            "Please include the transaction ID and the current URL when contacting the system administrator.<br/>\n" );
-                    print( "</p>" );
-                    print( "</div>" );
+                    print ( "</p>" );
+                    print ( "</div>" );
 
                     $templateResult = null;
                     if ( function_exists( 'eZDisplayResult' ) )
@@ -1087,12 +1096,14 @@ class eZDBInterface
                 }
                 else
                 {
-                    fputs( STDERR,"Fatal error: A database transaction in eZ Publish failed.\n" );
+                    fputs( STDERR, "Fatal error: A database transaction in eZ Publish failed.\n" );
                     fputs( STDERR, "\n" );
-                    fputs( STDERR, "The current execution was stopped to prevent further problems.\n" .
-                           "You should contact the System Administrator ($adminEmail) of this site.\n" .
-                           "The current transaction ID is $transID and has been logged.\n" .
-                           "Please include the transaction ID and the name of the current script when contacting the system administrator.\n" );
+                    fputs(
+                        STDERR, "The current execution was stopped to prevent further problems.\n" .
+                        "You should contact the System Administrator ($adminEmail) of this site.\n" .
+                        "The current transaction ID is $transID and has been logged.\n" .
+                        "Please include the transaction ID and the name of the current script when contacting the system administrator.\n"
+                    );
                     fputs( STDERR, "\n" );
 
                     fputs( STDERR, eZDebug::printReport( false, false, true ) );
@@ -1191,11 +1202,13 @@ class eZDBInterface
      */
     function relationName( $relationType )
     {
-        $names = array( eZDBInterface::RELATION_TABLE => 'TABLE',
-                        eZDBInterface::RELATION_SEQUENCE => 'SEQUENCE',
-                        eZDBInterface::RELATION_TRIGGER => 'TRIGGER',
-                        eZDBInterface::RELATION_VIEW => 'VIEW',
-                        eZDBInterface::RELATION_INDEX => 'INDEX' );
+        $names = array(
+            eZDBInterface::RELATION_TABLE => 'TABLE',
+            eZDBInterface::RELATION_SEQUENCE => 'SEQUENCE',
+            eZDBInterface::RELATION_TRIGGER => 'TRIGGER',
+            eZDBInterface::RELATION_VIEW => 'VIEW',
+            eZDBInterface::RELATION_INDEX => 'INDEX',
+        );
         if ( !isset( $names[$relationType] ) )
             return false;
         return $names[$relationType];
@@ -1241,7 +1254,7 @@ class eZDBInterface
         if ( !is_array( $pieces ) )
             return $str;
 
-        foreach( $pieces as $piece )
+        foreach ( $pieces as $piece )
         {
             settype( $piece, $type );
             $str .= $piece.$glue;
@@ -1414,7 +1427,8 @@ class eZDBInterface
         {
             $uniqueTempTableName = str_replace( '%', $randomizeIndex, $pattern );
             $randomizeIndex++;
-        } while ( in_array( $uniqueTempTableName, $tableList ) );
+        }
+        while ( in_array( $uniqueTempTableName, $tableList ) );
 
         return $uniqueTempTableName;
     }
@@ -1452,10 +1466,10 @@ class eZDBInterface
      * @param bool $not
      *        Will generate a "NOT IN" ( if set to true ) statement instead
      *        of an "IN" ( if set to false , default )
-     * @param $unique
+     * @param bool $unique
      *        Wether or not to make the array unique. Not implemented in this
      *        class, but can be used by extending classes (oracle does use it)
-     * @param $type The type to cast the array elements to
+     * @param string|bool $type The type to cast the array elements to
      *
      * @return string A string with the correct IN statement like for example
      *         "columnName IN ( element1, element2 )"
@@ -1496,6 +1510,7 @@ class eZDBInterface
      *        Possible values are:pm
      *        - eZDB::ERROR_HANDLING_STANDARD: backward compatible error handling, using reportError
      *        - eZDB::ERROR_HANDLING_EXCEPTION: using exceptions
+     * @throws RuntimeException
      * @since 4.5
      */
     public function setErrorHandling( $errorHandling )
