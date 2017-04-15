@@ -1758,10 +1758,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                     $stateGroupTable = "ezcobj_state_grp_{$stateIndex}_perm";
                                     $stateAliasTables[$stateIdentifier] = $stateTable;
 
-                                    $sqlPermissionCheckingFrom .=
-                                        " INNER JOIN ezcobj_state_link $stateLinkTable ON ($stateLinkTable.contentobject_id = ezcontentobject.id) " .
-                                        " INNER JOIN ezcobj_state_group $stateGroupTable ON ($stateGroupTable.identifier = '" . $db->escapeString( $stateIdentifier ) . "') " .
-                                        " INNER JOIN ezcobj_state $stateTable ON ($stateTable.id = $stateLinkTable.contentobject_state_id AND $stateTable.group_id = $stateGroupTable.id) ";
+                                    $sqlPermissionCheckingFrom .= ", ezcobj_state_link $stateLinkTable ";
+                                    $sqlPermissionCheckingFrom .= ", ezcobj_state_group $stateGroupTable ";
+                                    $sqlPermissionCheckingFrom .= ", ezcobj_state $stateTable ";
+                                    
+                                    $sqlPermissionCheckingWhere .= "AND $stateLinkTable.contentobject_id = ezcontentobject.id " .
+                                      							                "AND $stateTable.id = $stateLinkTable.contentobject_state_id " .
+                                                                    "AND $stateTable.group_id = $stateGroupTable.id " .
+                                                                    "AND $stateGroupTable.identifier='" . $db->escapeString( $stateIdentifier ) . "' ";
                                 }
 
                                 if ( count( $limitationArray[$ident] ) > 1 )
