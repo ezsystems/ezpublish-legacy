@@ -30,6 +30,7 @@ if ( !defined( 'EZCBASE_ENABLED' ) )
     $appName = defined( 'EZP_APP_FOLDER_NAME' ) ? EZP_APP_FOLDER_NAME : $defaultAppName;
     $appFolder = __DIR__ . "/../$appName";
     $legacyVendorDir = __DIR__ . "/vendor";
+    $legacyVendorDir2 = __DIR__ . "/../vendor";
 
     // Bundled
     if ( defined( 'EZP_USE_BUNDLED_COMPONENTS' ) ? EZP_USE_BUNDLED_COMPONENTS === true : file_exists( __DIR__ . "/lib/ezc" ) )
@@ -50,10 +51,15 @@ if ( !defined( 'EZCBASE_ENABLED' ) )
         require_once "{$appFolder}/autoload.php";
         $baseEnabled = false;
     }
-    // Composer if in eZ Publish legacy context
+    // Composer if in eZ Publish legacy context (2 variants)
     else if ( file_exists( "{$legacyVendorDir}/autoload.php" ) )
     {
         require_once "{$legacyVendorDir}/autoload.php";
+        $baseEnabled = false;
+    }
+    else if ( file_exists( "{$legacyVendorDir2}/autoload.php" ) )
+    {
+        require_once "{$legacyVendorDir2}/autoload.php";
         $baseEnabled = false;
     }
     // PEAR install
