@@ -20,12 +20,12 @@ class eZPaymentGateway
     */
     function eZPaymentGateway()
     {
-        $this->logger = eZPaymentLogger::CreateForAdd( "var/log/eZPaymentGateway.log" );
+        $this->logger = new eZPaymentLogger( "eZPaymentGateway.log" );
     }
 
     function execute( $process, $event )
     {
-        $this->logger->writeTimedString( 'You must override this function.', 'execute' );
+        $this->logger->writeString( 'You must override this function.', 'execute' );
         return eZWorkflowType::STATUS_REJECTED;
     }
 
@@ -45,7 +45,7 @@ class eZPaymentGateway
     function createShortDescription( $order, $maxDescLen )
     {
         //__DEBUG__
-        $this->logger->writeTimedString("createShortDescription");
+        $this->logger->writeString("createShortDescription");
         //___end____
 
         $descText       = '';
@@ -65,7 +65,7 @@ class eZPaymentGateway
         }
 
         //__DEBUG__
-        $this->logger->writeTimedString("descText=$descText");
+        $this->logger->writeString("descText=$descText");
         //___end____
 
         return $descText;

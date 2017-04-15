@@ -14,53 +14,91 @@
 
 class eZPaymentLogger
 {
-    function eZPaymentLogger( $fileName, $mode )
+    /**
+     * @var string
+     */
+    public $fileName;
+
+    /**
+     * @param $fileName
+     */
+    function eZPaymentLogger( $fileName )
     {
-        $this->file = fopen( $fileName, $mode );
+        // If $fileName is a filepath, strip the path elements
+        $parts = explode( '/', $fileName );
+        $this->fileName = array_pop( $parts );
     }
 
+    /**
+     * @deprecated
+     * @param $fileName
+     * @return eZPaymentLogger
+     */
     static function CreateNew($fileName)
     {
-        return new eZPaymentLogger( $fileName, "wt" );
+        eZDebug::writeStrict( 'Method ' . __METHOD__ . ' has been deprecated. Use \'new eZPaymentLogger($fileName)\' instead.', 'Deprecation' );
+        return new self( $fileName );
     }
 
+    /**
+     * @deprecated
+     * @param string $fileName
+     * @return eZPaymentLogger
+     */
     static function CreateForAdd($fileName)
     {
-        return new eZPaymentLogger( $fileName, "a+t" );
+        eZDebug::writeStrict( 'Method ' . __METHOD__ . ' has been deprecated. Use \'new eZPaymentLogger($fileName)\' instead.', 'Deprecation' );
+        return new self( $fileName );
     }
 
-    function writeString( $string, $label='' )
+    /**
+     * @param string|array|object $string
+     * @param string $label
+     * @return bool
+     */
+    function writeString( $string, $label = '' )
     {
-        if( $this->file )
+        if( $this->fileName )
         {
             if ( is_object( $string ) || is_array( $string ) )
+            {
                 $string = eZDebug::dumpVariable( $string );
+            }
 
-            if( $label == '' )
-                fputs( $this->file, $string."\r\n" );
-            else
-                fputs( $this->file, $label . ': ' . $string."\r\n" );
+            if ( $label !== '' )
+            {
+                $string = "{$label}: {$string}";
+            }
+
+            eZLog::write( $string, $this->fileName );
+
+            return true;
         }
+
+        return false;
     }
 
+    /**
+     * @deprecated
+     * @see writeString()
+     * @param $string
+     * @param string $label
+     * @return bool
+     */
     function writeTimedString( $string, $label='' )
     {
-        if( $this->file )
-        {
-            $time = $this->getTime();
+        eZDebug::writeStrict( 'Method ' . __METHOD__ . ' has been deprecated. Use eZPaymentLogger::writeString() instead.', 'Deprecation' );
 
-            if ( is_object( $string ) || is_array( $string ) )
-                $string = eZDebug::dumpVariable( $string );
-
-            if( $label == '' )
-                fputs( $this->file, $time. '  '. $string. "\n" );
-            else
-                fputs( $this->file, $time. '  '. $label. ': '. $string. "\n" );
-        }
+        return $this->writeString( $string, $label );
     }
 
+    /**
+     * @deprecated
+     * @return string
+     */
     static function getTime()
     {
+        eZDebug::writeStrict( 'Method ' . __METHOD__ . ' has been deprecated.', 'Deprecation' );
         $time = strftime( "%d-%m-%Y %H-%M" );
         return $time;
     }

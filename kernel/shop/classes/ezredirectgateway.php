@@ -28,15 +28,15 @@ class eZRedirectGateway extends eZPaymentGateway
     function eZRedirectGateway()
     {
         //__DEBUG__
-        $this->logger   = eZPaymentLogger::CreateForAdd( "var/log/eZRedirectGateway.log" );
-        $this->logger->writeTimedString( 'eZRedirectGateway::eZRedirectGateway()' );
+        $this->logger   = new eZPaymentLogger( "eZRedirectGateway.log" );
+        $this->logger->writeString( 'eZRedirectGateway::eZRedirectGateway()' );
         //___end____
     }
 
     function execute( $process, $event )
     {
         //__DEBUG__
-        $this->logger->writeTimedString("execute");
+        $this->logger->writeString("execute");
         //___end____
 
         $processParameters = $process->attribute( 'parameter_list' );
@@ -47,21 +47,21 @@ class eZRedirectGateway extends eZPaymentGateway
             case self::OBJECT_CREATED:
             {
                 //__DEBUG__
-                $this->logger->writeTimedString("case eZRedirectGateway::OBJECT_CREATED");
+                $this->logger->writeString("case eZRedirectGateway::OBJECT_CREATED");
                 //___end____
 
                 $thePayment = eZPaymentObject::fetchByProcessID( $processID );
                 if ( is_object( $thePayment ) && $thePayment->approved() )
                 {
                     //__DEBUG__
-                    $this->logger->writeTimedString("Payment accepted.");
+                    $this->logger->writeString("Payment accepted.");
                     //___end____
                     return eZWorkflowType::STATUS_ACCEPTED;
                 }
                 //__DEBUG__
                 else
                 {
-                    $this->logger->writeTimedString("Error. Payment rejected: unable to fetch 'eZPaymentObject' or payment status 'not approved'");
+                    $this->logger->writeString("Error. Payment rejected: unable to fetch 'eZPaymentObject' or payment status 'not approved'");
                 }
                 //___end____
 
@@ -70,7 +70,7 @@ class eZRedirectGateway extends eZPaymentGateway
 
             case self::OBJECT_NOT_CREATED:
                 //__DEBUG__
-                $this->logger->writeTimedString("case eZRedirectGateway::OBJECT_NOT_CREATED");
+                $this->logger->writeString("case eZRedirectGateway::OBJECT_NOT_CREATED");
                 //___end____
 
             default:
@@ -88,7 +88,7 @@ class eZRedirectGateway extends eZPaymentGateway
                 else
                 {
                     //__DEBUG__
-                    $this->logger->writeTimedString("Unable to create 'eZPaymentObject'. Payment rejected.");
+                    $this->logger->writeString("Unable to create 'eZPaymentObject'. Payment rejected.");
                     //___end____
                     return eZWorkflowType::STATUS_REJECTED;
                 }
@@ -96,7 +96,7 @@ class eZRedirectGateway extends eZPaymentGateway
         }
 
         //__DEBUG__
-        $this->logger->writeTimedString("return eZWorkflowType::STATUS_REDIRECT_REPEAT");
+        $this->logger->writeString("return eZWorkflowType::STATUS_REDIRECT_REPEAT");
         //___end____
         return eZWorkflowType::STATUS_REDIRECT_REPEAT;
     }
@@ -112,7 +112,7 @@ class eZRedirectGateway extends eZPaymentGateway
     function cleanup( $process, $event )
     {
         //__DEBUG__
-        $this->logger->writeTimedString("cleanup");
+        $this->logger->writeString("cleanup");
         //___end____
 
         $paymentObj = eZPaymentObject::fetchByProcessID( $process->attribute( 'id' ) );
@@ -131,7 +131,7 @@ class eZRedirectGateway extends eZPaymentGateway
     function createPaymentObject( $processID, $orderID )
     {
         //__DEBUG__
-        $this->logger->writeTimedString("createPaymentObject. You have to override this");
+        $this->logger->writeString("createPaymentObject. You have to override this");
         //___end____
         return null;
     }
@@ -143,7 +143,7 @@ class eZRedirectGateway extends eZPaymentGateway
     function createRedirectionUrl( $process )
     {
         //__DEBUG__
-        $this->logger->writeTimedString("createRedirectionUrl. You have to override this");
+        $this->logger->writeString("createRedirectionUrl. You have to override this");
         //___end____
         return null;
     }
