@@ -267,7 +267,6 @@ class eZDir
         // $dir is not a directory
         if ( !is_dir( $dir ) )
         {
-            eZDebug::writeError( "The path: $dir is not a folder" , __METHOD__ );
             return false;
         }
 
