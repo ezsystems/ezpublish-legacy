@@ -752,6 +752,20 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
                         {
                             $accessList = $accessParams['accessList'];
                         }
+
+                        // Hardcoded check for the case where the user does not have content/edit access,
+                        // but does have access to user/selfedit, and is editing their own user object.
+                        if ( !$moduleAccessAllowed &&
+                             $functionName === 'edit' &&
+                             $this->module->attribute( 'name' ) === 'content' &&
+                             $params[0] === $currentUser->attribute( 'contentobject_id') )
+                        {
+                            $selfEditAccess = $currentUser->hasAccessTo( 'user', 'selfedit' );
+                            if ( $selfEditAccess['accessWord'] === 'yes' )
+                            {
+                                $moduleAccessAllowed = true;
+                            }
+                        }
                     }
                     else
                     {
