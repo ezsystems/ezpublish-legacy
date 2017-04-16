@@ -298,6 +298,12 @@ class eZPgsqlSchema extends eZDBSchemaInterface
                 $indexes[$kn]['fields'][$rank] = $fields[$id];
             }
         }
+        // make sure all index elements are sorted, to ease comparisons
+        foreach( $indexes as &$index )
+        {
+            ksort( $index['fields'] );
+        }
+
         if ( $params['sort_indexes'] )
         {
             ksort( $indexes );
@@ -405,7 +411,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 
             case 'double precision':
                 return 'double';
-                
+
             case 'real':
                 return 'float';
 
