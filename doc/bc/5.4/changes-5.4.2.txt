@@ -1,0 +1,11 @@
+Changes to BC and behavior in version 5.4
+=========================================
+
+INI setting changes
+-------------------
+
+- EZP-23725: Wrong path_identification_string when editing in frontend siteaccess using PathPrefix and RootNode
+
+  As of 5.4.2/5.3.5 a new setting has been introduced, content.ini/[NodeSettings]/SiteNode
+  It is a better fit use cases of defining root of your frontend site content root and is from now on the recommended
+  way over setting RootNode to something else then the actual Content root of the global repository.
