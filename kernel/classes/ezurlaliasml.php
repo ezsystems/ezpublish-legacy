@@ -675,6 +675,7 @@ class eZURLAliasML extends eZPersistentObject
             // 0. Check if the entry to be updated represents multiple languages:
             // IF YES:
             //  1. "Downgrade" existing entry, by removing the active translation's language id from the language_mask.
+            //  2. Create a new history entry, for the active translation only, by copying from the existing entry.
             // IF NO:
             //  1. Mark entry as a history entry
 
@@ -687,6 +688,21 @@ class eZURLAliasML extends eZPersistentObject
                     $currentEntry = new eZURLAliasML( $toBeUpdated[0] );
                     $currentEntry->LangMask = (int)$currentEntry->LangMask & ~$languageID;
                     $currentEntry->store();
+
+                    // Create new history entry
+                    $newRow = array( 'id'              => $currentEntry->attribute( 'id' ),
+                                     'text'            => $currentEntry->attribute( 'text' ),
+                                     'text_md5'        => $currentEntry->attribute( 'text_md5' ),
+                                     'parent'          => $currentEntry->attribute( 'parent' ),
+                                     'action'          => $currentEntry->attribute( 'action' ),
+                                     'action_type'     => $currentEntry->attribute( 'action_type' ),
+                                     'link'            => $currentEntry->attribute( 'link' ),
+                                     'is_alias'        => $currentEntry->attribute( 'is_alias' ),
+                                     'alias_redirects' => $currentEntry->attribute( 'alias_redirects' ),
+                                     'lang_mask'       => $languageMask,
+                                     'is_original'     => 0 );
+                    $newEntry = new eZURLAliasML( $newRow );
+                    $newEntry->store();
                 }
                 else
                 {
