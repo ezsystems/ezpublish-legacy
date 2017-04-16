@@ -1007,8 +1007,11 @@ WHERE user_id = '" . $userID . "' AND
         if ( !( $flags & self::NO_SESSION_REGENERATE) )
             eZSession::regenerate();
 
-        eZSession::set( 'eZUserLoggedInID', $userID );
-        self::cleanup();
+        if ( $userID != self::anonymousId() || eZSession::hasStarted() )
+        {
+            eZSession::set( 'eZUserLoggedInID', $userID );
+            self::cleanup();
+        }
     }
 
     /*!
