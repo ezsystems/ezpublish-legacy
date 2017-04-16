@@ -12,28 +12,21 @@
  */
 class eZDFSFileHandlerBackendFactory
 {
-    private static $instance;
-
     /**
      * Builds the configured DFSBackend handler
      * @return eZDFSFileHandlerDFSBackendInterface
      */
     public static function build()
     {
-        if ( !isset( self::$instance ) )
-        {
-            self::$instance = self::buildHandler(
-                eZINI::instance( 'file.ini' )->variable( 'eZDFSClusteringSettings', 'DFSBackend' )
-            );
-        }
-
-        return self::$instance;
+        return static::buildHandler(
+            eZINI::instance( 'file.ini' )->variable( 'eZDFSClusteringSettings', 'DFSBackend' )
+        );
     }
 
     /**
      * Builds a DFSBackend handler from $className
      *
-     * @param string $className
+     * @param string $className A classname, or a reference to a Symfony2 service ("@symfony2.service")
      * @return eZDFSFileHandlerDFSBackendInterface
      *
      * @throws InvalidArgumentException if $className doesn't implement eZDFSFileHandlerDFSBackendInterface
@@ -41,15 +34,31 @@ class eZDFSFileHandlerBackendFactory
      */
     public static function buildHandler( $className )
     {
+        // Symfony2 service
+        if ( substr( $className, 0, 1 ) == '@' )
+        {
+            try
+            {
+                return ezpKernel::instance()->getServiceContainer()->get( substr( $className, 1 ) );
+            }
+            catch ( LogicException $e )
+            {
+                $className = 'eZDFSFileHandlerDFSBackend';
+            }
+        }
+
         if ( !class_exists( $className ) )
         {
             throw new InvalidArgumentException( "Invalid DFSBackend class $className. Were autoloads generated ?" );
         }
 
+        // factory aware class
         if ( self::hasFactorySupport( $className ) )
         {
+            /** @var $className eZDFSFileHandlerDFSBackendFactoryInterface */
             $handler = $className::build();
         }
+        // lambda class
         else
         {
             $handler = new $className();
