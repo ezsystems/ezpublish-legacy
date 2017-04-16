@@ -296,4 +296,13 @@
 // define( 'CUSTOM_LOG_ROTATE_FILES', 3 );
 
 
+/**
+ * Directory that eZDir is allowed to delete from (see eZDir::recursiveDelete()).
+ * By default, it is only possible to delete from inside eZ Publish root directory.
+ * Directory listed will be added as authorized directory prefix.
+ * Value must be an absolute path.
+ */
+// define( 'ALLOWED_DELETION_DIR', '/var/share/somedir' );
+
+
 ?>
