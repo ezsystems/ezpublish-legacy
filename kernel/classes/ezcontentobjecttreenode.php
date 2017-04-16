@@ -2905,8 +2905,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
             eZContentObjectTreeNode::assignSectionToSubTree( $mainNodeID, $newSectionID );
         }
 
-        $db->commit();
+        // EZP-24030: If the object has attribute level reverse related objects, change the node id reference to the new main node id.
+        $contentObject->updateMainNodeForReverseAttributeRelations( $mainNodeID );
 
+        $db->commit();
     }
 
     function fetchByCRC( $pathStr )
