@@ -552,6 +552,8 @@ class eZSiteAccess
             eZUpdateDebugSettings();
             eZDebugSetting::writeDebug( 'kernel-siteaccess', "Updated settings to use siteaccess '$name'", __METHOD__ );
         }
+        
+        eZContentLanguage::clearPrioritizedLanguages();
 
         return $access;
     }
@@ -625,6 +627,8 @@ class eZSiteAccess
             $moduleRepositories = eZModule::activeModuleRepositories();
             eZModule::setGlobalPathList( $moduleRepositories );
         }
+        
+        eZContentLanguage::clearPrioritizedLanguages();
 
         return $access;
     }
