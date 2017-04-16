@@ -205,7 +205,7 @@ class ezjscPackerTemplateFunctions
             {
                 if ( !isset( self::$loaded['js_files'] ) )
                 {
-                    self::setPersistentArray( 'js_files', self::flattenArray( $namedParameters['script_array'] ), $tpl, true );
+                    self::setPersistentArray( 'js_files', self::flattenArray( $namedParameters['script_array'] ), $tpl, true, true );
                     break;
                 }// let 'ezscript' handle loaded calls
                 elseif ( $operatorName === 'ezscript_require' )
