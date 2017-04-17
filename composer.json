@@ -1,6 +1,6 @@
 {
     "name":        "ezsystems/ezpublish-legacy",
-    "description": "eZ Publish LegacyStack (4.x)",
+    "description": "eZ Publish LegacyStack (4.x) - changed dependency for eztags to v2",
     "homepage":    "http://share.ez.no",
     "license":     "GPL-2.0",
     "type":        "ezpublish-legacy",
@@ -9,11 +9,7 @@
         "ext-curl": "Curl provides better support for interacting with other servers, like downloading packages over SSL",
         "ext-gd": "Unless you have ImageMagic installed GD is required for eZ Publish to be able to manipulate images",
         "ext-mysqli": "Mysqli is the default database handler used by eZ Publish",
-        "ext-pcntl": "If you plan to take advantage of eZ Publish Async publishing feature, then pcntl extension is required",
-        "ezsystems/ezsi-ls": "ezsi would allow you to use Edge/Server Side Includes of blocks in templates",
-        "ezsystems/ezscriptmonitor-ls": "ezscriptmonitor makes it possible to better deal with long running bulk operations within eZ Publish",
-        "ezsystems/ezfind-ls": "ezfind is a Solr based advance search engine for eZ Publish with a lot more features then the built in search",
-        "ezsystems/eztags-ls": "eztags is a full tagging/taxonomy solution for eZ Publish replacing the simpler builtin ezkeywords datatype"
+        "ext-pcntl": "If you plan to take advantage of eZ Publish Async publishing feature, then pcntl extension is required"
     },
     "require": {
         "php": ">=5.3.3",
@@ -39,6 +35,8 @@
         "ezsystems/ezprestapiprovider-ls": "~5.3",
         "ezsystems/ezstarrating-ls-extension": "~5.3",
         "ezsystems/ezwt-ls-extension": "~5.3",
+        "ezsystems/ezfind-ls": "~5.3|>=2014.11",
+        "ezsystems/eztags-ls": "~2.0",
         "zetacomponents/archive": "~1.5",
         "zetacomponents/authentication": "~1.4",
         "zetacomponents/authentication-database-tiein": "~1.2",
