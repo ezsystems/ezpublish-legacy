@@ -105,7 +105,33 @@ class ezjscServerFunctionsNode extends ezjscServerFunctions
         {
             $list = array();
         }
-
+        
+        // Save sort order
+        $sortOrder = -1;
+        switch ($sort) {
+          case "published_date":
+            $sortOrder = 2;
+            break;
+          case "modified_date":
+            $sortOrder = 3;
+            break;
+          case "section":
+            $sortOrder = 4;
+            break;
+          case "class_name":
+            $sortOrder = 7;
+            break;
+          case "priority":
+            $sortOrder = 8;
+            break;
+          case "name":
+            $sortOrder = 9;
+            break;
+        }
+        if ($sortOrder > -1) {
+          $changeSortOrder = eZContentOperationCollection::changeSortOrder($parentNodeID, $sortOrder, $order == 1);
+        }
+        
         return array( 'parent_node_id' => $parentNodeID,
                       'count' => count( $nodeArray ),
                       'total_count' => (int)$count,
