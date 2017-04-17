@@ -113,12 +113,18 @@ if ( $tagName === 'custom' )
     if ( $contentIni->hasVariable( 'CustomTagSettings', 'IsInline' ) )
         $customInlineList = $contentIni->variable( 'CustomTagSettings', 'IsInline' );
 
+    if ( $contentIni->hasVariable( 'CustomTagSettings', 'IsHidden' ) )
+        $customIsHiddenList = $contentIni->variable( 'CustomTagSettings', 'IsHidden' );
+
     foreach( $contentIni->variable( 'CustomTagSettings', 'AvailableCustomTags' ) as $tag )
     {
-        if ( isset( $customTagDescription[$tag] ) )
-            $classList[$tag] = $customTagDescription[$tag];
-        else
-            $classList[$tag] = $tag;
+        if( !( isset( $customIsHiddenList[ $tag ] ) && $customIsHiddenList[ $tag ] == 'true' ) )
+        {
+            if ( isset( $customTagDescription[$tag] ) )
+                $classList[$tag] = $customTagDescription[$tag];
+            else
+                $classList[$tag] = $tag;
+        }
     }
 }
 else
