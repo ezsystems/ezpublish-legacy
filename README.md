@@ -86,3 +86,4 @@ Where to get more help
 ----------------------
 eZ Publish documentation: http://doc.ez.no/eZ-Publish
 eZ Publish forums: http://share.ez.no/forums/
+Your integration partner Mugo: http://www.mugo.ca
