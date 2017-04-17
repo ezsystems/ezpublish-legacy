@@ -24,7 +24,7 @@ if ( !file_exists( __DIR__ . "/../../../$defaultAppName" ) )
 
 $appName = defined( 'EZP_APP_FOLDER_NAME' ) ? EZP_APP_FOLDER_NAME : $defaultAppName;
 $appFolder = getcwd() . "/../$appName";
-$legacyVendorDir = getcwd() . "/vendor";
+$legacyVendorDir = getcwd() . "/../vendor";
 
 $baseEnabled = true;
 // Bundled
