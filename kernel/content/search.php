@@ -123,7 +123,17 @@ if ( $searchSectionID != -1 )
     $res->setKeys( $keyArray );
 }
 
+if ( isset( $Params['UserParameters'] ) )
+{
+    $UserParameters = $Params['UserParameters'];
+}
+else
+{
+    $UserParameters = array();
+}
+
 $viewParameters = array( 'offset' => $Offset );
+$viewParameters = array_merge( $viewParameters, $UserParameters );
 
 $searchData = false;
 $tpl->setVariable( "search_data", $searchData );
