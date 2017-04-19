@@ -7270,6 +7270,13 @@ $schema = array (
         'not_null' => '1',
         'default' => '',
       ),
+      'login_normalized' => 
+      array (
+        'length' => 150,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
       'password_hash' => 
       array (
         'length' => 50,
@@ -7296,10 +7303,10 @@ $schema = array (
       ),
       'ezuser_login' => 
       array (
-        'type' => 'non-unique',
+        'type' => 'unique',
         'fields' => 
         array (
-          0 => 'login',
+          0 => 'login_normalized',
         ),
       ),
     ),

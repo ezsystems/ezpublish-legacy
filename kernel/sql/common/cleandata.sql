@@ -38755,11 +38755,13 @@ INSERT INTO ezuser (
   contentobject_id,
   email,
   login,
+  login_normalized,
   password_hash,
   password_hash_type
 ) VALUES (
   10,
   'nospam@ez.no',
+  'anonymous',
   'anonymous',
   '4e6f6184135228ccd45f8233d72a0363',
   2
@@ -38768,11 +38770,13 @@ INSERT INTO ezuser (
   contentobject_id,
   email,
   login,
+  login_normalized,
   password_hash,
   password_hash_type
 ) VALUES (
   14,
   'nospam@ez.no',
+  'admin',
   'admin',
   'c78e3b0f3d9244ed8c6d1c29464bdff9',
   2
