@@ -114,8 +114,8 @@ class eZContentObjectTreeNodeOperations
                 eZSearch::removeNodeAssignment( $node->attribute( 'main_node_id' ), $newNode->attribute( 'main_node_id' ), $object->attribute( 'id' ), $nodeIDList );
                 eZSearch::addNodeAssignment( $newNode->attribute( 'main_node_id' ), $object->attribute( 'id' ), $nodeIDList, true );
             } else {
-				eZContentOperationCollection::registerSearchObject( $objectID, null, true );
-			}
+                eZContentOperationCollection::registerSearchObject( $objectID, null, true );
+            }
 
             $result = true;
         }
