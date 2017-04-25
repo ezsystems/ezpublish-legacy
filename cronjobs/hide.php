@@ -49,6 +49,7 @@ foreach ( $rootNodeIDList as $nodeID )
                 {
                     $cli->output( 'Hiding node: "' . $node->attribute( 'name' ) . '" (' . $node->attribute( 'node_id' ) . ')' );
                     eZContentObjectTreeNode::hideSubTree( $node );
+					eZSearch::updateNodeVisibility( $node->attribute( 'node_id' ), 'hide' );
                 }
                 // clear memory after every batch
                 eZContentObject::clearCache();
