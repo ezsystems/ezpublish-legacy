@@ -229,27 +229,11 @@ class eZImageType extends eZDataType
                                                                      'The image file must have non-zero size.' ) );
                 return eZInputValidator::STATE_INVALID;
              }
-             if ( function_exists( 'getimagesize' ) )
+
+             if( !self::validateImageFile( $imagefile ) )
              {
-                $info = getimagesize( $imagefile );
-                if ( !$info )
-                {
-                    $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
-                                                                         'A valid image file is required.' ) );
-                    return eZInputValidator::STATE_INVALID;
-                }
-             }
-             else
-             {
-                 $mimeType = eZMimeType::findByURL( $_FILES[$httpFileName]['name'] );
-                 $nameMimeType = $mimeType['name'];
-                 $nameMimeTypes = explode("/", $nameMimeType);
-                 if ( $nameMimeTypes[0] != 'image' )
-                 {
-                     $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
-                                                                          'A valid image file is required.' ) );
-                     return eZInputValidator::STATE_INVALID;
-                 }
+                 $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'A valid image file is required.' ) );
+                 return eZInputValidator::STATE_INVALID;
              }
         }
         if ( $mustUpload && $canFetchResult == eZHTTPFile::UPLOADEDFILE_DOES_NOT_EXIST )
@@ -271,6 +255,15 @@ class eZImageType extends eZDataType
             return eZInputValidator::STATE_INVALID;
         }
         return eZInputValidator::STATE_ACCEPTED;
+    }
+
+    private static function validateImageFile( $file )
+    {
+        $ini = eZINI::instance( 'image.ini' );
+        $fInfo = finfo_open( FILEINFO_MIME_TYPE );
+        $imageType = finfo_file( $fInfo, $file );
+
+        return in_array( $imageType, $ini->variable( 'ValidUploadFormats', 'MIMEList' ) );
     }
 
     /**
@@ -325,8 +318,9 @@ class eZImageType extends eZDataType
         $imageHandler = $contentObjectAttribute->attribute( 'content' );
         if ( $imageHandler )
         {
+            // prevent storing of an invalid upload file
             $httpFile = $imageHandler->httpFile( true );
-            if ( $httpFile )
+            if ( $httpFile && $contentObjectAttribute->IsValid == eZInputValidator::STATE_ACCEPTED  )
             {
                 $imageAltText = $imageHandler->attribute( 'alternative_text' );
 
