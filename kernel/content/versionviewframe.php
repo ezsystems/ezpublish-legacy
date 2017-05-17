@@ -127,7 +127,10 @@ if ( $Module->isCurrentAction( 'Publish' ) and
         }
         else
         {
-            $Module->redirectToView( 'view', array( 'full', $object->attribute( 'main_parent_node_id' ) ) );
+            $nodeToView = $object->attribute( 'main_parent_node_id' );
+            if ( $nodeToView == 1 )
+              $nodeToView = $object->attribute( 'main_node_id' );
+            $Module->redirectToView( 'view', array( 'full', $nodeToView ) );
         }
     }
     else if ( $node instanceof eZContentObjectTreeNode && $node->attribute( 'parent_node_id' ) )
