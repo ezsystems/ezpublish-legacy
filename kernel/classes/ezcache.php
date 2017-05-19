@@ -732,6 +732,8 @@ class eZCache
     static function clearGlobalINICache( $cacheItem )
     {
         eZDir::recursiveDelete( $cacheItem['path'] );
+        // There might exist some changes in ssl zones as well.
+        eZSSLZone::clearCacheIfNeeded();
     }
 
     /**
