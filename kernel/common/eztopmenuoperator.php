@@ -103,31 +103,16 @@ class eZTopMenuOperator
             if ( $ini->hasVariable( 'Topmenu_' . $tabID , 'PolicyList' ) )
             {
                 $policyList = $ini->variable( 'Topmenu_' . $tabID , 'PolicyList' );
-                foreach( $policyList as $policy )
+
+                if ( isset( $policyList['default'] ) )
                 {
-                    // Value is either "<node_id>" or "<module>/<function>"
-                    if ( strpos( $policy, '/' ) !== false )
+                    $menuItem['access'] = $this->checkPolicy( $policyList['default'] );
+                }
+                else
+                {
+                    foreach( $policyList as $policy )
                     {
-                        if ( !isset( $user ) )
-                            $user = eZUser::currentUser();
-
-                        list( $module, $function ) = explode( '/', $policy );
-                        $result = $user->hasAccessTo( $module, $function );
-
-                        if ( $result['accessWord'] === 'no' )
-                        {
-                            $menuItem['access'] = false;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        $node = eZContentObjectTreeNode::fetch( $policy );
-                        if ( !$node instanceof eZContentObjectTreeNode || !$node->attribute('can_read') )
-                        {
-                            $menuItem['access'] = false;
-                            break;
-                        }
+                        $menuItem['access'] = $this->checkPolicy( $policy );
                     }
                 }
             }
@@ -190,6 +175,40 @@ class eZTopMenuOperator
         $menu[count($menu) - 1]['position'] = 'last';
 
         $operatorValue = $menu;
+    }
+
+    /**
+     * Checks if the current user has access to the given policy
+     *
+     * @param string $policy
+     * @return bool
+     */
+    protected function checkPolicy( $policy )
+    {
+        // Value is either "<node_id>" or "<module>/<function>"
+        if ( strpos( $policy, '/' ) !== false )
+        {
+            if ( !isset( $user ) )
+                $user = eZUser::currentUser();
+
+            list( $module, $function ) = explode( '/', $policy );
+            $result = $user->hasAccessTo( $module, $function );
+
+            if ( $result['accessWord'] === 'no' )
+            {
+                return false;
+            }
+        }
+        else
+        {
+            $node = eZContentObjectTreeNode::fetch( $policy );
+            if ( !$node instanceof eZContentObjectTreeNode || !$node->attribute('can_read') )
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /// \privatesection
