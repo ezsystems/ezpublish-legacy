@@ -347,7 +347,76 @@ class eZXMLSchema
             }
             else
             {
-                return $this->Schema[$element->nodeName]['customAttributes'];
+                // Custom attributes per tag
+                $customAttributes = $this->Schema[$element->nodeName]['customAttributes'];
+
+                // Only embed(-inline) tags can have class/classgroup based custom tags
+                $embedTags = array( 'embed', 'embed-inline' );
+                if ( !in_array( $element->nodeName, $embedTags ) )
+                {
+                    return $customAttributes;
+                }
+
+                // Check for class/classgroup based custom attributes in embed(-inline) tags (these are not allowed in custom tags)
+                $objectID = $element->getAttribute( 'object_id' );
+                $nodeID = $element->getAttribute( 'node_id' );
+                $object = false;
+
+                if ( is_numeric( $objectID ) )
+                {
+                    $object = eZContentObject::fetch( $objectID );
+                }
+                else if ( is_numeric( $nodeID ) )
+                {
+                    $node = eZContentObjectTreeNode::fetch( $nodeID );
+                    if ( $node instanceof eZContentObjectTreeNode )
+                        $object = $node->object();
+                }
+
+                if ( !($object instanceof eZContentObject ) )
+                {
+                    eZDebug::writeError( "Unable to fetch embed object $objectID or node $nodeID, cannot load class-based custom attributes", __METHOD__ );
+                    return $customAttributes;
+                }
+
+                $classIdentifier = $object->attribute( 'class_identifier' );
+                $contentIni = eZINI::instance( 'content.ini' );
+
+                // Class based custom attributes
+                foreach( $embedTags as $embedTag )
+                {
+                    if ( $contentIni->hasVariable( $embedTag . '_' . $classIdentifier, 'CustomAttributes' ) )
+                    {
+                        $customAttributes = array_merge( $customAttributes, $contentIni->variable( $embedTag . '_' . $classIdentifier, 'CustomAttributes' ) );
+                    }
+                }
+
+                // Class group based custom attributes
+                foreach ( $contentIni->variable( 'RelationGroupSettings', 'Groups' ) as $group )
+                {
+                    $settingName = ucfirst( $group ) . 'ClassList';
+                    if ( $contentIni->hasVariable( 'RelationGroupSettings', $settingName ) )
+                    {
+                        if ( !in_array( $classIdentifier, $contentIni->variable( 'RelationGroupSettings', $settingName ) ) )
+                        {
+                            continue;
+                        }
+
+                        foreach( $embedTags as $embedTag )
+                        {
+                            if ( $contentIni->hasVariable( $embedTag . '-type_' . $group, 'CustomAttributes' ) )
+                            {
+                                $customAttributes = array_merge( $customAttributes, $contentIni->variable( $embedTag . '-type_' . $group, 'CustomAttributes' ) );
+                            }
+                        }
+                    }
+                    else
+                    {
+                        eZDebug::writeDebug( "Missing content.ini[RelationGroupSettings]$settingName setting.", __METHOD__ );
+                    }
+                }
+
+                return $customAttributes;
             }
         }
         return array();
