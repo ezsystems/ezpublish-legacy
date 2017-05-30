@@ -262,8 +262,14 @@ var eZOEPopupUtils = {
                 if ( n && n.nodeName )
                     s.editorElement = n;
             }
-            else
+            else {
                 ed.dom.setAttribs( s.editorElement, args );
+                // apply attributes to all '__mce_tmp' elements
+                if ( s.tagName == 'link' ) do {
+                    if ( nextElem = ed.dom.get('__mce_tmp') )
+                        ed.dom.setAttribs( nextElem, args );
+                } while ( nextElem )
+            }
 
             if ( args['id'] === undefined )
                 ed.dom.setAttrib( s.editorElement, 'id', '' );
