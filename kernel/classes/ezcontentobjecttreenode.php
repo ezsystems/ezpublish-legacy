@@ -3519,7 +3519,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         // Only set name if current node is not the content root
         $ini = eZINI::instance( 'content.ini' );
-        $contentRootID = $ini->variable( 'NodeSettings', 'RootNode' );
+        $contentRootID = $ini->variable( 'NodeSettings', 'ContentTreeRootNode' );
         $obj           = $this->object();
         $alwaysMask    = ( $obj->attribute( 'language_mask' ) & 1 );
         $languages     = $obj->allLanguages();
@@ -3622,6 +3622,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $text     = $nameEntry['text'];
             $language = $nameEntry['language'];
+
             $result = eZURLAliasML::storePath( $text, 'eznode:' . $nodeID, $language, false, $alwaysMask, $parentElementID, $cleanup );
             if ( $result['status'] === true )
                 $changeCount++;
