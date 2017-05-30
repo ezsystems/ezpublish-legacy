@@ -185,7 +185,10 @@ class eZBinaryFileType extends eZDataType
                 $file = eZClusterFileHandler::instance( $filePath );
 
                 if ( $file->exists() and count( $binaryObjectsWithSameFileName ) < 1 )
+                {
                     $file->delete();
+                    $file->purge();
+                }
             }
         }
         else
@@ -208,7 +211,10 @@ class eZBinaryFileType extends eZDataType
                 $file = eZClusterFileHandler::instance( $filePath );
 
                 if ( $file->exists() and count( $binaryObjectsWithSameFileName ) < 1 )
+                {
                     $file->delete();
+                    $file->purge();
+                }
             }
         }
     }
