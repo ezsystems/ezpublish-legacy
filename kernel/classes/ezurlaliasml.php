@@ -1506,11 +1506,15 @@ class eZURLAliasML extends eZPersistentObject
         $internalURIString = $uriString;
         $originalURIString = $uriString;
 
+        if ( $reverse )
+        {
+            return eZURLAliasML::reverseTranslate( $uri, $uriString, $internalURIString );
+        }
+
         $ini = eZINI::instance();
 
         $prefixAdded = false;
-        $prefix = $ini->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) &&
-                      $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) != '' ? eZURLAliasML::cleanURL( $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) ) : false;
+        $prefix = self::getPathPrefix();
 
         if ( $prefix )
         {
@@ -1543,10 +1547,6 @@ class eZURLAliasML extends eZPersistentObject
         $db = eZDB::instance();
         $elements = explode( '/', $internalURIString );
         $len      = count( $elements );
-        if ( $reverse )
-        {
-            return eZURLAliasML::reverseTranslate( $uri, $uriString, $internalURIString );
-        }
 
         $i = 0;
         $selects = array();
@@ -1786,6 +1786,7 @@ class eZURLAliasML extends eZPersistentObject
                     }
                 }
                 $uriString = join( '/', $path );
+                $uriString = self::removePathPrefixFromURI( $uriString );
                 if ( $uri instanceof eZURI )
                 {
                     $uri->setURIString( $uriString, false );
@@ -1802,6 +1803,53 @@ class eZURLAliasML extends eZPersistentObject
             }
         }
         return false;
+    }
+
+    /*!
+     \private
+     \static
+     Returns PathPrefix without leading or trailing slashes if it's configured. Otherwise returns false.
+     */
+    static public function getPathPrefix()
+    {
+        $ini = eZINI::instance();
+
+        return $ini->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) &&
+            $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) != ''
+            ? eZURLAliasML::cleanURL( $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) )
+            : false;
+    }
+
+    /*!
+     \private
+     \static
+     Remove PathPrefix from the URI string, if it's configured and not affected by PathPrefixExclude. Returns the URI string.
+     */
+    static public function removePathPrefixFromURI($uriString)
+    {
+        $ini = eZINI::instance();
+
+        $prefix = self::getPathPrefix();
+        if ( !$prefix )
+        {
+            return $uriString;
+        }
+
+        $exclude = $ini->hasVariable( 'SiteAccessSettings', 'PathPrefixExclude' )
+            ? $ini->variable( 'SiteAccessSettings', 'PathPrefixExclude' )
+            : false;
+        foreach ( $exclude as $item )
+        {
+            $escapedItem = preg_quote( $item, '#' );
+            if ( preg_match( "#^$escapedItem(/.*)?$#i", $uriString ) )
+            {
+                return $uriString;
+            }
+        }
+
+        $escapedPrefix = preg_quote( $prefix, '#' );
+        $modifiedUriString = preg_replace( "#^$escapedPrefix/?#i", '', $uriString );
+        return $modifiedUriString === null ? $uriString : $modifiedUriString;
     }
 
     /*!
