@@ -34,14 +34,35 @@ class eZOEXMLTextRegression extends ezpDatabaseTestCase
             array(
                 '<div type="custom" class="ezoeItemCustomTag factbox" customattributes="title|<a href=&quot;#test&quot;>Test</a>attribute_separationalign|right"><p>This is a fact</p></div>',
                 '<?xml version="1.0" encoding="utf-8"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/" xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/"><paragraph xmlns:tmp="http://ez.no/namespaces/ezpublish3/temporary/"><custom name="factbox" custom:title="&lt;a href=&amp;quot;#test&amp;quot;&gt;Test&lt;/a&gt;"><paragraph>This is a fact</paragraph></custom></paragraph></section>',
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/" xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/"><paragraph xmlns:tmp="http://ez.no/namespaces/ezpublish3/temporary/"><custom name="factbox" custom:title="&lt;a href=&quot;#test&quot;&gt;Test&lt;/a&gt;"><paragraph>This is a fact</paragraph></custom></paragraph></section>',
             ),
             array(
                 '<div type="custom" class="ezoeItemCustomTag factbox" customattributes="title|<a href=&quot;#test&quot;>Test</a>attribute_separationalign|right"><p>This is a fact</p></div><p>Text between</p><div type="custom" class="ezoeItemCustomTag factbox" customattributes="title|<a href=&quot;#test&quot;>Test</a>attribute_separationalign|right"><p>This is a fact</p></div>',
                 '<?xml version="1.0" encoding="utf-8"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/" xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/"><paragraph xmlns:tmp="http://ez.no/namespaces/ezpublish3/temporary/"><custom name="factbox" custom:title="&lt;a href=&amp;quot;#test&amp;quot;&gt;Test&lt;/a&gt;"><paragraph>This is a fact</paragraph></custom></paragraph><paragraph>Text between</paragraph><paragraph xmlns:tmp="http://ez.no/namespaces/ezpublish3/temporary/"><custom name="factbox" custom:title="&lt;a href=&amp;quot;#test&amp;quot;&gt;Test&lt;/a&gt;"><paragraph>This is a fact</paragraph></custom></paragraph></section>',
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/" xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/"><paragraph xmlns:tmp="http://ez.no/namespaces/ezpublish3/temporary/"><custom name="factbox" custom:title="&lt;a href=&quot;#test&quot;&gt;Test&lt;/a&gt;"><paragraph>This is a fact</paragraph></custom></paragraph><paragraph>Text between</paragraph><paragraph xmlns:tmp="http://ez.no/namespaces/ezpublish3/temporary/"><custom name="factbox" custom:title="&lt;a href=&quot;#test&quot;&gt;Test&lt;/a&gt;"><paragraph>This is a fact</paragraph></custom></paragraph></section>',
             ),
         );
+    }
+
+    /**
+     * Test for proper escaping for custom tag attribute values
+     */
+    public function testEscapeAttributeValue()
+    {
+        $xmlData = '<?xml version="1.0" encoding="utf-8"?>';
+        $xmlData .= '<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/" xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">';
+        $xmlData .= "<paragraph>";
+        $xmlData .= '<custom name="factbox" custom:title="&quot;fipsfuchs&quot;" custom:align="&amp;quot;fipsfuchs&amp;quot;"></custom>';
+        $xmlData .= "</paragraph>";
+        $xmlData .= "</section>";
+
+        $folder = new ezpObject( 'folder', 2 );
+        $folder->name = 'Escape Attribute Value';
+        $folder->short_description = '';
+
+        $oeHandler = new eZOEXMLInput( $xmlData, false,  $folder->short_description );
+        $xhtml = $oeHandler->attribute( 'input_xml' );
+        self::assertEquals( '&lt;div class=&quot;ezoeItemCustomTag factbox&quot; type=&quot;custom&quot; customattributes=&quot;title|&amp;quot;fipsfuchs&amp;quot;attribute_separationalign|&amp;amp;quot;fipsfuchs&amp;amp;quot;&quot;&gt;&lt;p&gt;factbox&lt;/p&gt;&lt;/div&gt;&lt;p&gt;&lt;br /&gt;&lt;/p&gt;', $xhtml );
     }
 
     /**
