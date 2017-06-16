@@ -1638,8 +1638,11 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         if ( !$this->_query( $query, "_startCacheGeneration( $filePath )", false ) )
         {
             $errno = mysqli_errno( $this->db );
+
             //once deadlock found / lock wait timeout found, we return ko status which will force read from stale cache
             //'remaining' item is irrelevant in this case, but it needs to be set
+            //1205 is 'Lock wait timeout exceeded; try restarting transaction'
+            //1213 is 'Deadlock found when trying to get lock; try restarting transaction'
             if ( in_array( $errno, array( 1205, 1213 ) ) )
             {
                 return array( 'result' => 'ko', 'remaining' => 0 );
