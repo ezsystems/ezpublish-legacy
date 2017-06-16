@@ -1638,6 +1638,13 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         if ( !$this->_query( $query, "_startCacheGeneration( $filePath )", false ) )
         {
             $errno = mysqli_errno( $this->db );
+            //once deadlock found / lock wait timeout found, we return ko status which will force read from stale cache
+            //'remaining' item is irrelevant in this case, but it needs to be set
+            if ( in_array( $errno, array( 1205, 1213 ) ) )
+            {
+                return array( 'result' => 'ko', 'remaining' => 0 );
+            }
+
             if ( $errno != 1062 )
             {
                 eZDebug::writeError( "Unexpected error #$errno when trying to start cache generation on $filePath (".mysqli_error( $this->db ).")", __METHOD__ );
