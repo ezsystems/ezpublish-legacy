@@ -2873,7 +2873,7 @@ class eZContentObject extends eZPersistentObject
                   WHERE  from_contentobject_id=$fromObjectID AND
                          from_contentobject_version=$fromObjectVersion AND
                          to_contentobject_id=$toObjectID AND
-                         $relationTypeMatch != 0 AND
+                         $relationTypeMatch >= 0 AND
                          contentclassattribute_id=$attributeID";
         $count = $db->arrayQuery( $query );
         // if current relation does not exist
