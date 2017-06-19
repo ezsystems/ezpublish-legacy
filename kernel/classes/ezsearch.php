@@ -671,7 +671,7 @@ class eZSearch
         {
             foreach ( $node->children() as $child )
             {
-                self::addNodeAssignment( $child->MainNodeID, $child->ContentObjectID, array( $child->MainNodeID ), true);
+                self::addNodeAssignment( $child->MainNodeID, $child->ContentObjectID, array( $child->MainNodeID ), true );
                 self::refreshChildren( $child );
             }
        }
