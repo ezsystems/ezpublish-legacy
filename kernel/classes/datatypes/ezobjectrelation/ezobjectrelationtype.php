@@ -250,7 +250,7 @@ class eZObjectRelationType extends eZDataType
                             continue;
 
                         if ( $attributeTranslation->attribute( 'data_int' ) )
-                            $existingRelations[$attributeTranslation->languageCode] = (int)$attributeTranslation->attribute( 'data_int' );
+                            $existingRelations[$attributeTranslation->LanguageCode] = (int)$attributeTranslation->attribute( 'data_int' );
                     }
                 }
 
@@ -261,7 +261,7 @@ class eZObjectRelationType extends eZDataType
                         continue;
 
                     if ( $attributeTranslation->attribute( 'data_int' ) )
-                        $existingRelations[$attributeTranslation->languageCode] = (int)$attributeTranslation->attribute( 'data_int' );
+                        $existingRelations[$attributeTranslation->LanguageCode] = (int)$attributeTranslation->attribute( 'data_int' );
                 }
 
                 // re-add existing or new relations for other languages

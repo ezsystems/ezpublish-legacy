@@ -433,7 +433,7 @@ class eZObjectRelationListType extends eZDataType
                             continue;
 
                         $relationList = $attributeTranslation->value();
-                        foreach ($relList['relation_list'] as $relationItem) {
+                        foreach ($relationList['relation_list'] as $relationItem) {
                             $existingRelations[] = $relationItem['contentobject_id'];
                         }
                     }
