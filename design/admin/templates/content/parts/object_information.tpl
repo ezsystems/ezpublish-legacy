@@ -29,9 +29,13 @@
 <p>
 <label>{'Modified'|i18n( 'design/admin/content/history' )}:</label>
 {if $object.modified}
-{def $latest_version=$object.versions|extract_right(1)[0]}
 {$object.modified|l10n( shortdatetime )}<br />
-{$latest_version.creator.name|wash}
+{foreach $object.versions as $version}
+{if eq($version.version, $object.published_version)}
+{$version.creator.name|wash}
+{break}
+{/if}
+{/foreach}
 {else}
 {'Not yet published'|i18n( 'design/admin/content/history' )}
 {/if}
