@@ -1654,7 +1654,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
                 eZDebug::writeDebug( $query, '$query' );
 
                 // @todo Make this an actual error, maybe an exception
-                return array( 'res' => 'ko' );
+                return array( 'result' => 'error' );
             }
             // error 1062 is expected, since it means duplicate key (file is being generated)
             else
