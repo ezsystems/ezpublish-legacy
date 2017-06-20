@@ -2474,7 +2474,7 @@ WHERE user_id = '" . $userID . "' AND
             {
                 $this->GroupsAsObjects = array();
 
-                foreach ($this->groups() as $group)
+                foreach ( $this->groups() as $group )
                 {
                     $this->GroupsAsObjects[] = new eZContentObject( $group );
                 }
