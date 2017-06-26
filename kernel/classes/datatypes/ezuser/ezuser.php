@@ -1415,6 +1415,8 @@ WHERE user_id = '" . $userID . "' AND
                                         'password_hash'      => $user->attribute( 'password_hash' ),
                                         'password_hash_type' => $user->attribute( 'password_hash_type' ) );
 
+        // setting caching enabled flag to false is a protection against infinite recursion.
+        // At the end of this method flag is set to previous value again
         $previousCachingState = $user->setCachingEnabled( false );
         // user groups list (session: eZUserGroupsCache)
         $data['groups'] = $user->groups();
