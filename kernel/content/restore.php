@@ -163,9 +163,10 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
         }
     }
 
+    $db->commit();
+
     eZContentObject::fixReverseRelations( $objectID, 'restore' );
 
-    $db->commit();
     $module->redirectToView( 'view', array( 'full', $mainNodeID ) );
     return;
 }
