@@ -1653,7 +1653,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
                 eZDebug::writeError( "Unexpected error #$errno when trying to start cache generation on $filePath (".mysqli_error( $this->db ).")", __METHOD__ );
                 eZDebug::writeDebug( $query, '$query' );
 
-                // @todo Make this an actual error, maybe an exception
+                // @todo throw an exception
                 return array( 'result' => 'error' );
             }
             // error 1062 is expected, since it means duplicate key (file is being generated)
