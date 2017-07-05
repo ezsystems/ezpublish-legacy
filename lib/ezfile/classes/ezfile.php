@@ -169,7 +169,7 @@ class eZFile
         	    eZDebug::writeWarning( "$srcFile could not be renamed to $destFile", __METHOD__ );
 
             if ( $flags & self::CLEAN_ON_FAILURE )
-        	    unlink( $srcFile );
+        	    @unlink( $srcFile );
         }
 
         return $status;
