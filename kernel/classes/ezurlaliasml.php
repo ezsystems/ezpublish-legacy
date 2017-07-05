@@ -842,6 +842,15 @@ class eZURLAliasML extends eZPersistentObject
                         $curElementID = $curID;
                         break;
                     }
+
+                    // If the current node is the same action, but the language is different
+                    // (enables adding the same URL alias for other languages)
+                    if ( !( (int)$row['lang_mask'] & $languageID ) )
+                    {
+                        // We can reuse the element so record the ID
+                        $curElementID = $curID;
+                        break;
+                    }
                 }
                 else if ( $curAction == 'nop:' || $row['is_original'] == 0 )
                 {
