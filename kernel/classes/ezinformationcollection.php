@@ -735,20 +735,18 @@ class eZInformationCollection extends eZPersistentObject
     */
     static function isCollectingSensitiveData( $contentObject )
     {
-        if ( !$contentObject )
-            return false;
-        $type = eZInformationCollection::typeForObject( $contentObject );
-
         $ini = eZINI::instance( 'collect.ini' );
-        $collectSensitiveDataList = $ini->variable( 'CollectionSettings', 'CollectSensitiveDataList' );
 
-        $collectSensitiveData = false;
+        $collectSensitiveData = $ini->variable( 'CollectionSettings', 'CollectSensitiveData' );
 
-        if ( isset( $collectSensitiveDataList[$type] ) )
-            $collectSensitiveData = $collectSensitiveDataList[$type];
+        if ( $contentObject instanceof eZContentObject )
+        {
+            $type = eZInformationCollection::typeForObject( $contentObject );
+            $collectSensitiveDataList = $ini->variable( 'CollectionSettings', 'CollectSensitiveDataList' );
 
-        if ( !$collectSensitiveData )
-            $collectSensitiveData = $ini->variable( 'CollectionSettings', 'CollectSensitiveData' );
+            if ( isset( $collectSensitiveDataList[$type] ) )
+                $collectSensitiveData = $collectSensitiveDataList[$type];
+        }
 
         return $collectSensitiveData === 'true';
     }
