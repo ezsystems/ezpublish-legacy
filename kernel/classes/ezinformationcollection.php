@@ -728,6 +728,28 @@ class eZInformationCollection extends eZPersistentObject
         $db->query( "DELETE FROM ezinfocollection" );
         $db->commit();
     }
+
+    /*!
+     \static
+     \return \c true if the information collection contains sensitive data.
+    */
+    static function isCollectingSensitiveData( $contentObject )
+    {
+        $ini = eZINI::instance( 'collect.ini' );
+
+        $collectSensitiveData = $ini->variable( 'CollectionSettings', 'CollectSensitiveData' );
+
+        if ( $contentObject instanceof eZContentObject )
+        {
+            $type = eZInformationCollection::typeForObject( $contentObject );
+            $collectSensitiveDataList = $ini->variable( 'CollectionSettings', 'CollectSensitiveDataList' );
+
+            if ( isset( $collectSensitiveDataList[$type] ) )
+                $collectSensitiveData = $collectSensitiveDataList[$type];
+        }
+
+        return $collectSensitiveData === 'true';
+    }
 }
 
 ?>

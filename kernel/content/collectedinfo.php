@@ -45,7 +45,7 @@ if ( $http->hasSessionVariable( 'InformationCollectionMap' ) ) {
         $icID = $icMap[$object->attribute( 'id' )];
     }
 }
-if ( !$icID )
+if ( !$icID && eZInformationCollection::isCollectingSensitiveData( $object ) )
     return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 $informationCollectionTemplate = eZInformationCollection::templateForObject( $object );
