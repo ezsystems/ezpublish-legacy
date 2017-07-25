@@ -708,7 +708,7 @@ class eZXMLInputParser
                     if ( isset( $this->Namespaces[$prefix] ) )
                     {
                         $URI = $this->Namespaces[$prefix];
-                        $element->setAttributeNS( $URI, $qualifiedName, $value );
+                        $element->setAttributeNS( $URI, $qualifiedName, htmlspecialchars_decode( $value ) );
                     }
                     else
                     {
@@ -717,7 +717,7 @@ class eZXMLInputParser
                 }
                 else
                 {
-                    $element->setAttribute( $qualifiedName, $value );
+                    $element->setAttribute( $qualifiedName,  htmlspecialchars_decode( $value ) );
                 }
             }
         }
