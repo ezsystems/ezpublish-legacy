@@ -136,6 +136,9 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
     $object->restoreObjectAttributes();
 
     $user = eZUser::currentUser();
+
+    $db->commit();
+
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $objectID,
                                                                                  'version' => $version->attribute( 'version' ) ) );
     if ( ( array_key_exists( 'status', $operationResult ) && $operationResult['status'] != eZModuleOperationInfo::STATUS_CONTINUE ) )
@@ -162,8 +165,6 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
             eZUser::purgeUserCacheByUserId( $object->attribute( 'id' ) );
         }
     }
-
-    $db->commit();
 
     eZContentObject::fixReverseRelations( $objectID, 'restore' );
 
