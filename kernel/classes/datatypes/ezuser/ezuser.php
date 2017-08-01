@@ -1423,8 +1423,8 @@ WHERE user_id = '" . $userID . "' AND
         $data['groups'] = $user->groups();
 
         // role list (session: eZRoleIDList)
-        $groups[] = $userId;
-        $data['roles'] = eZRole::fetchIDListByUser( $groups );
+        $data['groups'][] = $userId;
+        $data['roles'] = eZRole::fetchIDListByUser( $data['groups'] );
 
         // role limitation list (session: eZRoleLimitationValueList)
         $limitList = $user->limitList();
