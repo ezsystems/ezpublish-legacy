@@ -55,6 +55,9 @@
 {if $attribute.class_content.default_selection_node}
     <input type="hidden" name="{$attribute_base}_browse_for_object_start_node[{$attribute.id}]" value="{$attribute.class_content.default_selection_node|wash}" />
 {/if}
+{if is_set( $class_content.class_constraint_list[0] )}
+    <input type="hidden" name="{$attribute_base}_browse_for_object_class_constraint_list[{$attribute.id}]" value="{$class_content.class_constraint_list|implode(',')}" />
+{/if}
 {if $attribute.content}
     <input class="button ezobject-relation-remove-button" type="submit" name="CustomActionButton[{$attribute.id}_remove_object]" value="{'Remove object'|i18n( 'design/standard/content/datatype' )}" />
 {else}
@@ -88,14 +91,27 @@
 {* Dropdown list. *}
 {case match=1}
 {let parent_node=fetch( content, node, hash( node_id, $class_content.default_selection_node ) )}
-
+{def $nodesList=cond( and( is_set( $class_content.class_constraint_list ), $class_content.class_constraint_list|count|ne( 0 ) ),
+                         fetch( 'content', 'list',
+                                hash( 'parent_node_id', $parent_node.node_id,
+                                      'class_filter_type','include',
+                                      'class_filter_array', $class_content.class_constraint_list,
+                                      'sort_by', $parent_node.sort_array
+                                     ) ),
+                         fetch( 'content', 'list',
+                                hash( 'parent_node_id', $parent_node.node_id,
+                                      'sort_by', $parent_node.sort_array )
+                                     ) )
+                        )}
 <select id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}" class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" name="{$attribute_base}_data_object_relation_id_{$attribute.id}">
 {if $attribute.contentclass_attribute.is_required|not}
 <option value="" {if eq( $attribute.data_int, '' )}selected="selected"{/if}>{'No relation'|i18n( 'design/standard/content/datatype' )}</option>
 {/if}
-{section var=Nodes loop=fetch( content, list, hash( parent_node_id, $parent_node.node_id, sort_by, $parent_node.sort_array ) )}
-<option value="{$Nodes.item.contentobject_id}" {if eq( $attribute.data_int, $Nodes.item.contentobject_id )}selected="selected"{/if}>{$Nodes.item.name|wash}</option>
-{/section}
+{if $nodesList}
+    {foreach $nodesList as $nodeOption}
+        <option value="{$nodeOption.contentobject_id}" {if eq( $attribute.data_int, $nodeOption.contentobject_id )}selected="selected"{/if}>{$nodeOption.name|wash()}</option>
+    {/foreach}
+{/if}
 </select>
 
 {if $class_content.fuzzy_match}
