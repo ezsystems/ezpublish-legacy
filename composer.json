@@ -61,5 +61,8 @@
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
         "zetacomponents/php-generator": "~1.1"
+    },
+    "conflict": {
+        "ezsystems/ezpublish-kernel": "<6.11@dev || >=2014.11"
     }
 }
