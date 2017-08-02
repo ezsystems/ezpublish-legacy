@@ -134,6 +134,7 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
     $version->store();
 
     $object->restoreObjectAttributes();
+
     $user = eZUser::currentUser();
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $objectID,
                                                                                  'version' => $version->attribute( 'version' ) ) );
@@ -163,6 +164,7 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
     }
 
     eZContentObject::fixReverseRelations( $objectID, 'restore', false );
+
     $db->commit();
 
     // we need to clear cache again after db transcation is commited
