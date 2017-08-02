@@ -1244,6 +1244,7 @@ class eZContentOperationCollection
              $db->commit();
              if ( !eZSearch::getEngine() instanceof eZSearchEngine )
              {
+                 eZContentCacheManager::clearContentCacheIfNeeded( $objectIDs );
                  foreach ( $objectIDs as $objectID )
                  {
                      eZContentOperationCollection::registerSearchObject( $objectID );
