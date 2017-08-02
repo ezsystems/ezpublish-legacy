@@ -1762,8 +1762,9 @@ class eZContentObject extends eZPersistentObject
      *
      * @param int $objectID
      * @param string|bool $mode See eZObjectRelationListType::fixRelatedObjectItem() for valid modes
+     * @param bool $clearCacheIfEnabled If set to false cache won't be cleared
      */
-    static function fixReverseRelations( $objectID, $mode = false )
+    static function fixReverseRelations( $objectID, $mode = false, $clearCacheIfEnabled = true )
     {
         $db = eZDB::instance();
         $objectID = (int) $objectID;
@@ -1786,7 +1787,7 @@ class eZContentObject extends eZPersistentObject
                 $dataType->fixRelatedObjectItem( $attr, $objectID, $mode );
                 $objectIDList[] = $attr->attribute( 'contentobject_id' );
             }
-            if ( eZINI::instance()->variable( 'ContentSettings', 'ViewCaching' ) === 'enabled' )
+            if ( $clearCacheIfEnabled && eZINI::instance()->variable( 'ContentSettings', 'ViewCaching' ) === 'enabled' )
                 eZContentCacheManager::clearObjectViewCacheArray( $objectIDList );
         }
     }
