@@ -1420,11 +1420,12 @@ WHERE user_id = '" . $userID . "' AND
         // At the end of this method flag is set to previous value again
         $previousCachingState = $user->setCachingEnabled( false );
         // user groups list (session: eZUserGroupsCache)
-        $data['groups'] = $user->groups();
+        $groups = $user->groups(); 
+        $data['groups'] = $groups;
 
         // role list (session: eZRoleIDList)
-        $data['groups'][] = $userId;
-        $data['roles'] = eZRole::fetchIDListByUser( $data['groups'] );
+        $groups[] = $userId;
+        $data['roles'] = eZRole::fetchIDListByUser( $groups );
 
         // role limitation list (session: eZRoleLimitationValueList)
         $limitList = $user->limitList();
