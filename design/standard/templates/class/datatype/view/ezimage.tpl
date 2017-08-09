@@ -3,3 +3,15 @@
     <label>{'Max file size'|i18n( 'design/standard/class/datatype' )}:</label>
     <p>{$class_attribute.data_int1}&nbsp;MB</p>
 </div>
+
+<div class="block">
+    <p>
+        <b>
+        {if $class_attribute.data_int2|eq( 1 )}
+            {'Image alt text is not required'|i18n( 'design/standard/class/datatype' )}
+        {else}
+            {'Image alt text required'|i18n( 'design/standard/class/datatype' )}
+        {/if}
+        </b>
+    </p>
+</div>
