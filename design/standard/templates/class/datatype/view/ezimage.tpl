@@ -8,9 +8,9 @@
     <p>
         <b>
         {if $class_attribute.data_int2|eq( 1 )}
-            {'Image alt text is not required'|i18n( 'design/standard/class/datatype' )}
-        {else}
             {'Image alt text required'|i18n( 'design/standard/class/datatype' )}
+        {else}
+            {'Image alt text is not required'|i18n( 'design/standard/class/datatype' )}
         {/if}
         </b>
     </p>
