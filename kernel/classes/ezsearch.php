@@ -659,6 +659,23 @@ class eZSearch
 
         return false;
     }
+
+    /**
+     * Notifies search engine to refresh information about children of given node
+     *
+     * @param eZContentObjectTreeNode $node
+     */
+    public static function refreshChildren( $node )
+    {
+        if ( $node->childrenCount( false ) > 0 )
+        {
+            foreach ( $node->children() as $child )
+            {
+                self::addNodeAssignment( $child->MainNodeID, $child->ContentObjectID, array( $child->MainNodeID ), true );
+                self::refreshChildren( $child );
+            }
+       }
+    }
 }
 
 ?>

@@ -113,6 +113,7 @@ class eZContentObjectTreeNodeOperations
                 $nodeIDList = array( $nodeID );
                 eZSearch::removeNodeAssignment( $node->attribute( 'main_node_id' ), $newNode->attribute( 'main_node_id' ), $object->attribute( 'id' ), $nodeIDList );
                 eZSearch::addNodeAssignment( $newNode->attribute( 'main_node_id' ), $object->attribute( 'id' ), $nodeIDList, true );
+                eZSearch::refreshChildren( $node );
             }
 
             $result = true;
