@@ -144,10 +144,15 @@ if ( $http->hasPostVariable( 'uploadButton' ) || $forcedUpload )
                             {
                                 throw new InvalidArgumentException( $attr->validationError() );
                             }
+                            else
+                            {
+                                $attr->fromString( $postVar );
+                                $attr->store();
+                            }
                         }
+                        break;
                     case 'eztext':
                     case 'ezkeyword':
-                        // Hard to read: this gets executed also for ezstring
                         $attr->fromString( $postVar );
                         $attr->store();
                         break;
