@@ -64,5 +64,10 @@
     },
     "conflict": {
         "ezsystems/ezpublish-kernel": "<6.11@dev || >=2014.11"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2017.08.x-dev"
+        }
     }
 }
