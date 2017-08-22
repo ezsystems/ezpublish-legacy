@@ -25,7 +25,7 @@
         "ext-simplexml": "*",
         "ezsystems/ezpublish-legacy-installer": "*",
         "ezsystems/ezautosave-ls": "~5.3",
-        "ezsystems/ezdemo-ls-extension": "~5.3",
+        "ezsystems/ezdemo-ls-extension": "~5.4",
         "ezsystems/ezflow-ls-extension": "~5.3",
         "ezsystems/ezgmaplocation-ls-extension": "~5.3",
         "ezsystems/ezie-ls": "~5.3",
