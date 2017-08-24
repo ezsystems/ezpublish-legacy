@@ -18,6 +18,22 @@
 
 class eZTemplateFileResource
 {
+    /**
+     * Set site.ini[TemplateSettings]TemplateCheckExists value to disabled to improve performance by
+     * not checking existence of template files.
+     *
+     * @var null|bool
+     */
+    static protected $checkFileExists = null;
+
+    /**
+     * Set site.ini[TemplateSettings]TemplateCheckMTime value to disabled to improve performance by
+     * not checking modified time on template files.
+     *
+     * @var null|bool
+     */
+    static protected $checkFileMtime = null;
+
     /*!
      Initializes with a default resource name "file".
      Also sets whether the resource servers static data files, this is needed
@@ -45,6 +61,46 @@ class eZTemplateFileResource
     function servesStaticData()
     {
         return $this->ServesStaticData;
+    }
+
+    /**
+     * @return bool|null
+     */
+    protected static function checkFileExists()
+    {
+        if ( self::$checkFileExists === null )
+        {
+            self::$checkFileExists = true;
+
+            $ini = \eZINI::instance();
+            if ( $ini->variable( 'TemplateSettings', 'TemplateCheckExists' ) === 'disabled' )
+                self::$checkFileExists = false;
+
+            if ( $ini->variable( 'TemplateSettings', 'DevelopmentMode' ) === 'enabled' )
+                self::$checkFileExists = true;
+        }
+
+        return self::$checkFileExists;
+    }
+
+    /**
+     * @return bool|null
+     */
+    protected static function checkFileMtime()
+    {
+        if ( self::$checkFileMtime === null )
+        {
+            self::$checkFileMtime = true;
+
+            $ini = \eZINI::instance();
+            if ( $ini->variable( 'TemplateSettings', 'TemplateCheckMTime' ) === 'disabled' )
+                self::$checkFileMtime = false;
+
+            if ( $ini->variable( 'TemplateSettings', 'DevelopmentMode' ) === 'enabled' )
+                self::$checkFileMtime = true;
+        }
+
+        return self::$checkFileMtime;
     }
 
     function templateNodeTransformation( $functionName, &$node,
@@ -158,7 +214,7 @@ class eZTemplateFileResource
     */
     function handleResource( $tpl, &$resourceData, $method, &$extraParameters )
     {
-        return $this->handleResourceData( $tpl, $this, $resourceData, $method, $extraParameters );
+        return static::handleResourceData( $tpl, $this, $resourceData, $method, $extraParameters );
     }
 
     /*!
@@ -168,7 +224,7 @@ class eZTemplateFileResource
      It will load the template file and handle any charsets conversion if necessary.
      It will also handle tree node caching if one is found.
     */
-    function handleResourceData( $tpl, $handler, &$resourceData, $method, &$extraParameters )
+    static function handleResourceData( $tpl, $handler, &$resourceData, $method, &$extraParameters )
     {
         // &$templateRoot, &$text, &$tstamp, $uri, $resourceName, &$path, &$keyData
         $templateRoot =& $resourceData['root-node'];
@@ -180,9 +236,13 @@ class eZTemplateFileResource
         $keyData =& $resourceData['key-data'];
         $localeData =& $resourceData['locales'];
 
-        if ( !file_exists( $path ) )
+        if ( self::checkFileExists() && !file_exists( $path ) )
             return false;
-        $tstamp = filemtime( $path );
+
+        $tstamp = false;
+        if ( self::checkFileMtime() )
+            $tstamp = filemtime( $path );
+
         $result = false;
         $canCache = true;
         $templateRoot = null;
