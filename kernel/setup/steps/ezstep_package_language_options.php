@@ -24,7 +24,7 @@ class eZStepPackageLanguageOptions extends eZStepInstaller
      * @param eZINI $ini
      * @param array $persistenceList
      */
-    function eZStepPackageLanguageOptions( $tpl, $http, $ini, &$persistenceList )
+    public function __construct( $tpl, $http, $ini, &$persistenceList )
     {
         parent::__construct( $tpl, $http, $ini, $persistenceList, 'package_language_options', 'Package language options' );
     }
