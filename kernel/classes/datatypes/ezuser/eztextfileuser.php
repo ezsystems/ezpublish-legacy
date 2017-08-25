@@ -25,6 +25,10 @@
 
 class eZTextFileUser extends eZUser
 {
+    public function __construct()
+    {
+    }
+
     /*!
     \static
      Logs in the user if applied username and password is

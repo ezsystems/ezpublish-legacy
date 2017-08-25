@@ -15,6 +15,14 @@
 
 class eZInstallScriptPackageInstaller extends eZPackageInstallationHandler
 {
+    /**
+     * The Constructor should be implemented in the child class
+     * and call the constructor of eZPackageInstallationHandler.
+     */
+    public function __construct( $package, $type, $installItem, $name = null, $steps = null )
+    {
+    }
+
     /*!
      Returns \c 'stable', content class packages are always stable.
     */
