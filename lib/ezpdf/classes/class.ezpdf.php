@@ -160,7 +160,7 @@ class Cezpdf extends Cpdf
     }
 
 // ------------------------------------------------------------------------------
-// 2003-11-04 K�re K�hler H�vik ( eZ Systems, http://ez.no )
+// 2003-11-04 Kåre Køhler Høvik ( eZ Systems, http://ez.no )
 // Set fontsize
 
     function setFontSize( $size )
@@ -169,7 +169,7 @@ class Cezpdf extends Cpdf
     }
 
 // ------------------------------------------------------------------------------
-// 2003-11-06 K�re K�hler H�vik ( eZ Systems, http://ez.no )
+// 2003-11-06 Kåre Køhler Høvik ( eZ Systems, http://ez.no )
 // Set justification
 
     function setJustification( $align )
@@ -178,7 +178,7 @@ class Cezpdf extends Cpdf
     }
 
 // ------------------------------------------------------------------------------
-// 2003-11-06 K�re K�hler H�vik ( eZ Systems, http://ez.no )
+// 2003-11-06 Kåre Køhler Høvik ( eZ Systems, http://ez.no )
 // Get justification
 
     function justification()
@@ -187,7 +187,7 @@ class Cezpdf extends Cpdf
     }
 
 // ------------------------------------------------------------------------------
-// 2003-11-04 K�re K�hler H�vik ( eZ Systems, http://ez.no )
+// 2003-11-04 Kåre Køhler Høvik ( eZ Systems, http://ez.no )
 // Get fontsize
 
     function fontSize()
@@ -1315,7 +1315,7 @@ class Cezpdf extends Cpdf
     }
 
 // ------------------------------------------------------------------------------
-// 2003-11-04 K�re K�hler H�vik ( eZ Systems, http://ez.no )
+// 2003-11-04 Kåre Køhler Høvik ( eZ Systems, http://ez.no )
 // Set fontsize
 
     function strike( $info )
