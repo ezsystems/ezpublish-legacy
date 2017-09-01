@@ -1,74 +1,39 @@
 {
-    "name":        "ezsystems/ezpublish-legacy",
+    "name":        "aplia/ezpublish-legacy",
     "description": "eZ Publish LegacyStack (4.x)",
-    "homepage":    "http://share.ez.no",
+    "homepage":    "http://aplia.no",
     "license":     "GPL-2.0",
     "type":        "ezpublish-legacy",
-    "suggest": {
-        "php-64bit": "For support of more than 30 languages, a 64bit php installation on all involved prod/dev machines is required",
-        "ext-curl": "Curl provides better support for interacting with other servers, like downloading packages over SSL",
-        "ext-gd": "Unless you have ImageMagic installed GD is required for eZ Publish to be able to manipulate images",
-        "ext-mysqli": "Mysqli is the default database handler used by eZ Publish",
-        "ext-openssl": "OpenSSL provides cryptographically secure random bytes, which is used in certain parts of the product to greatly improve security",
-        "ext-pcntl": "If you plan to take advantage of eZ Publish Async publishing feature, then pcntl extension is required",
-        "ezsystems/ezsi-ls": "ezsi would allow you to use Edge/Server Side Includes of blocks in templates",
-        "ezsystems/ezscriptmonitor-ls": "ezscriptmonitor makes it possible to better deal with long running bulk operations within eZ Publish",
-        "ezsystems/ezfind-ls": "ezfind is a Solr based advance search engine for eZ Publish with a lot more features then the built in search",
-        "ezsystems/eztags-ls": "eztags is a full tagging/taxonomy solution for eZ Publish replacing the simpler builtin ezkeywords datatype"
-    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "/home/jb/dev/ezbootstrap/ezinstaller"
+        }
+    ],
     "require": {
         "php": ">=5.3.3",
-        "ext-dom": "*",
-        "ext-libxml": "*",
-        "ext-mbstring": "*",
-        "ext-pcre": "*",
-        "ext-json": "*",
-        "ext-iconv": "*",
-        "ext-reflection": "*",
-        "ext-session": "*",
-        "ext-spl": "*",
-        "ext-simplexml": "*",
-        "ezsystems/ezpublish-legacy-installer": "*",
-        "ezsystems/ezautosave-ls": "~5.3",
-        "ezsystems/ezdemo-ls-extension": "~5.4",
-        "ezsystems/ezflow-ls-extension": "~5.3",
-        "ezsystems/ezgmaplocation-ls-extension": "~5.3",
-        "ezsystems/ezie-ls": "~5.3",
-        "ezsystems/ezmbpaex-ls": "~5.3",
-        "ezsystems/ezmultiupload-ls": "~5.3",
-        "ezsystems/ezodf-ls": "~5.3",
-        "ezsystems/ezprestapiprovider-ls": "~5.3",
-        "ezsystems/ezstarrating-ls-extension": "~5.3",
-        "ezsystems/ezwt-ls-extension": "~5.3",
-        "zetacomponents/archive": "~1.5",
-        "zetacomponents/authentication": "~1.4",
-        "zetacomponents/authentication-database-tiein": "~1.2",
-        "zetacomponents/cache": "~1.6",
-        "zetacomponents/configuration": "~1.4",
-        "zetacomponents/console-tools": "~1.7",
-        "zetacomponents/database": "~1.5",
-        "zetacomponents/debug": "~1.3",
-        "zetacomponents/event-log": "~1.5",
-        "zetacomponents/feed": "~1.4",
-        "zetacomponents/image-conversion": "~1.4",
-        "zetacomponents/mail": "~1.8",
-        "zetacomponents/mvc-tools": "~1.2",
-        "zetacomponents/mvc-authentication-tiein": "~1.1",
-        "zetacomponents/persistent-object": "~1.8",
-        "zetacomponents/signal-slot": "~1.2",
-        "zetacomponents/system-information": "~1.1",
-        "zetacomponents/webdav": "~1.1"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "3.7.*",
-        "zetacomponents/php-generator": "~1.1"
-    },
-    "conflict": {
-        "ezsystems/ezpublish-kernel": "<6.11@dev || >=2014.11"
+        "zetacomponents/archive": "@dev",
+        "zetacomponents/authentication": "@dev",
+        "zetacomponents/authentication-database-tiein": "@dev",
+        "zetacomponents/cache": "@dev",
+        "zetacomponents/configuration": "@dev",
+        "zetacomponents/console-tools": "@dev",
+        "zetacomponents/database": "@dev",
+        "zetacomponents/debug": "@dev",
+        "zetacomponents/feed": "@dev",
+        "zetacomponents/image-conversion": "@dev",
+        "zetacomponents/mail": "@dev",
+        "zetacomponents/mvc-tools": "@dev",
+        "zetacomponents/mvc-authentication-tiein": "@dev",
+        "zetacomponents/persistent-object": "@dev",
+        "zetacomponents/php-generator": "@dev",
+        "zetacomponents/signal-slot": "@dev",
+        "zetacomponents/system-information": "@dev"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2017.08.x-dev"
+            "dev-master": "5.2.x-dev"
         }
     }
 }
+
