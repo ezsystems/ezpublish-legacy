@@ -15,7 +15,31 @@
  * @version //autogentag//
  * @package kernel
  */
-class eZDBException extends ezcBaseException
+class eZDBException extends Exception
 {
+    /**
+     * Original message, before escaping
+     */
+    public $originalMessage;
+
+    /**
+     * Constructs a new eZDBException with $message and $code
+     *
+     * @param string $message
+     * @param int $code
+     */
+    public function __construct( $message, $code = 0 )
+    {
+        $this->originalMessage = $message;
+
+        if ( php_sapi_name() == 'cli' )
+        {
+            parent::__construct( $message, $code );
+        }
+        else
+        {
+            parent::__construct( htmlspecialchars( $message, $code ) );
+        }
+    }
 }
 ?>
