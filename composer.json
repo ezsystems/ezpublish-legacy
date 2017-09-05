@@ -64,7 +64,7 @@
         "zetacomponents/php-generator": "~1.1"
     },
     "conflict": {
-        "ezsystems/ezpublish-kernel": "<6.11@dev || >=2014.11"
+        "ezsystems/ezpublish-kernel": "<6.11 || >=2014.11 <2017.08"
     },
     "extra": {
         "branch-alias": {
