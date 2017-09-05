@@ -24,11 +24,6 @@
         "zetacomponents/php-generator": "@dev",
         "zetacomponents/signal-slot": "@dev",
         "zetacomponents/system-information": "@dev"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "5.2.x-dev"
-        }
     }
 }
 
