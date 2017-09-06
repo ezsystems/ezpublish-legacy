@@ -1162,38 +1162,6 @@ class eZContentObjectAttribute extends eZPersistentObject
             return false;
     }
 
-
-    /*!
-     \static
-     Goes trough all attributes and fetches metadata for the ones that is searchable.
-     \return an array with metadata information.
-    */
-    static function metaDataArray( &$attributes )
-    {
-        $metaDataArray = array();
-        if ( !is_array( $attributes ) )
-            return false;
-        foreach( $attributes as $attribute )
-        {
-            $classAttribute = $attribute->contentClassAttribute();
-            if ( $classAttribute->attribute( 'is_searchable' ) )
-            {
-                $attributeMetaData = $attribute->metaData();
-                if ( $attributeMetaData !== false )
-                {
-                    if ( !is_array( $attributeMetaData ) )
-                    {
-                        $attributeMetaData = array( array( 'id' => '',
-                                                           'text' => $attributeMetaData ) );
-                    }
-                    $metaDataArray = array_merge( $metaDataArray, $attributeMetaData );
-                }
-            }
-        }
-        return $metaDataArray;
-    }
-
-
     /*!
      Sets the content for the current attribute
     */

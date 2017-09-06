@@ -618,24 +618,17 @@ class eZObjectRelationType extends eZDataType
         $object = $this->objectAttributeContent( $contentObjectAttribute );
         if ( $object )
         {
-            if ( eZContentObject::recursionProtect( $object->attribute( 'id' ) ) )
+            // Does the related object exist in the same language as the current content attribute ?
+            if ( in_array( $contentObjectAttribute->attribute( 'language_code' ), $object->attribute( 'current' )->translationList( false, false ) ) )
             {
-                // Does the related object exist in the same language as the current content attribute ?
-                if ( in_array( $contentObjectAttribute->attribute( 'language_code' ), $object->attribute( 'current' )->translationList( false, false ) ) )
-                {
-                    $attributes = $object->attribute( 'current' )->contentObjectAttributes( $contentObjectAttribute->attribute( 'language_code' ) );
-                }
-                else
-                {
-                    $attributes = $object->contentObjectAttributes();
-                }
-
-                return eZContentObjectAttribute::metaDataArray( $attributes );
+                $attributes = $object->attribute( 'current' )->contentObjectAttributes( $contentObjectAttribute->attribute( 'language_code' ) );
             }
             else
             {
-                return array();
+                $attributes = $object->contentObjectAttributes();
             }
+
+            return self::metaDataArray( $attributes );
         }
         return false;
     }
@@ -814,6 +807,46 @@ class eZObjectRelationType extends eZDataType
     }
 
     /// \privatesection
+
+    /**
+     * Goes trough all attributes and fetches metadata for the ones that is searchable.
+     * Returns an array with metadata information.
+     *
+     * @param $attributes
+     * @return array|bool
+     */
+    private static function metaDataArray( &$attributes )
+    {
+        $metaDataArray = array();
+        if ( !is_array( $attributes ) )
+            return false;
+        foreach( $attributes as $attribute )
+        {
+            $classAttribute = $attribute->contentClassAttribute();
+            $excludeDataTypes = array( 'ezobjectrelationlist', 'ezobjectrelation' );
+
+            if (
+                $classAttribute->attribute( 'is_searchable' ) &&
+                ! in_array( $classAttribute->attribute( 'data_type_string' ), $excludeDataTypes )
+            )
+            {
+                $attributeMetaData = $attribute->metaData();
+                if ( $attributeMetaData !== false )
+                {
+                    if ( !is_array( $attributeMetaData ) )
+                    {
+                        $attributeMetaData = array( array(
+                            'id' => '',
+                            'text' => $attributeMetaData
+                        ) );
+                    }
+                    $metaDataArray = array_merge( $metaDataArray, $attributeMetaData );
+                }
+            }
+        }
+        return $metaDataArray;
+    }
+
 }
 
 eZDataType::register( eZObjectRelationType::DATA_TYPE_STRING, "eZObjectRelationType" );
