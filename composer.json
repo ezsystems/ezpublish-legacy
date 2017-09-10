@@ -1,5 +1,5 @@
 {
-    "name":        "runelangseid/ezpublish-legacy",
+    "name":        "aplia/ezpublish-legacy",
     "description": "eZ Publish LegacyStack (4.x)",
     "homepage":    "http://aplia.no",
     "license":     "GPL-2.0",
