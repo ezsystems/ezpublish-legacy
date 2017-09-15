@@ -1415,8 +1415,12 @@ WHERE user_id = '" . $userID . "' AND
                                         'password_hash'      => $user->attribute( 'password_hash' ),
                                         'password_hash_type' => $user->attribute( 'password_hash_type' ) );
 
+        // function groups relies on caching. The function generateUserCacheData relies on function groups.
+        // To avoid an infinitive loop, the code is disabling caching in function generateUserCacheData.
+        // At the end of this method flag is set to previous value again
+        $previousCachingState = $user->setCachingEnabled( false );
         // user groups list (session: eZUserGroupsCache)
-        $groups = $user->generateGroupIdList();
+        $groups = $user->groups();
         $data['groups'] = $groups;
 
         // role list (session: eZRoleIDList)
@@ -1424,7 +1428,7 @@ WHERE user_id = '" . $userID . "' AND
         $data['roles'] = eZRole::fetchIDListByUser( $groups );
 
         // role limitation list (session: eZRoleLimitationValueList)
-        $limitList = $user->limitList( false );
+        $limitList = $user->limitList();
         foreach ( $limitList as $limit )
         {
             $data['role_limitations'][] = $limit['limit_value'];
@@ -1435,6 +1439,8 @@ WHERE user_id = '" . $userID . "' AND
 
         // discount rules (session: eZUserDiscountRules<userId>)
         $data['discount_rules'] = eZUserDiscountRule::generateIDListByUserID( $userId );
+
+        $user->setCachingEnabled( $previousCachingState );
 
         return $data;
     }
@@ -1920,7 +1926,7 @@ WHERE user_id = '" . $userID . "' AND
      */
     function generateAccessArray()
     {
-        $idList = $this->generateGroupIdList();
+        $idList = $this->groups();
         $idList[] = $this->attribute( 'contentobject_id' );
 
         return eZRole::accessArrayByUserID( $idList );
@@ -2470,64 +2476,29 @@ WHERE user_id = '" . $userID . "' AND
         {
             if ( !isset( $this->GroupsAsObjects ) )
             {
-                $db = eZDB::instance();
-                $contentobjectID = $this->attribute( 'contentobject_id' );
-                $userGroups = $db->arrayQuery( "SELECT d.*, c.path_string
-                                                FROM ezcontentobject_tree  b,
-                                                     ezcontentobject_tree  c,
-                                                     ezcontentobject d
-                                                WHERE b.contentobject_id='$contentobjectID' AND
-                                                      b.parent_node_id = c.node_id AND
-                                                      d.id = c.contentobject_id
-                                                ORDER BY c.contentobject_id  ");
-                $userGroupArray = array();
-                $pathArray = array();
-                foreach ( $userGroups as $group )
-                {
-                    $pathItems = explode( '/', $group["path_string"] );
-                    array_pop( $pathItems );
-                    array_pop( $pathItems );
-                    foreach ( $pathItems as $pathItem )
-                    {
-                        if ( $pathItem != '' && $pathItem > 1 )
-                            $pathArray[] = $pathItem;
-                    }
-                    $userGroupArray[] = new eZContentObject( $group );
-                }
-                $pathArray = array_unique( $pathArray );
+                $this->GroupsAsObjects = array();
 
-                if ( !empty( $pathArray ) )
+                foreach ( $this->groups() as $group )
                 {
-                    $extraGroups = $db->arrayQuery( "SELECT d.*
-                                                FROM ezcontentobject_tree  c,
-                                                     ezcontentobject d
-                                                WHERE c.node_id in ( " . implode( ', ', $pathArray ) . " ) AND
-                                                      d.id = c.contentobject_id
-                                                ORDER BY c.contentobject_id  ");
-                    foreach ( $extraGroups as $group )
-                    {
-                        $userGroupArray[] = new eZContentObject( $group );
-                    }
+                    $this->GroupsAsObjects[] = new eZContentObject( $group );
                 }
-
-                $this->GroupsAsObjects = $userGroupArray;
             }
+
             return $this->GroupsAsObjects;
         }
         else
         {
             if ( !isset( $this->Groups ) )
             {
-                if ( eZINI::instance()->variable( 'RoleSettings', 'EnableCaching' ) === 'true' )
+                $this->fetchUserCacheIfNeeded();
+                if ( !isset($this->UserCache['groups']) )
                 {
-                    $userCache = $this->getUserCache();
-                    $this->Groups = $userCache['groups'];
+                    $this->UserCache['groups'] = $this->generateGroupIdList();
                 }
-                else
-                {
-                    $this->Groups = $this->generateGroupIdList();
-                }
+
+                $this->Groups = $this->UserCache['groups'];
             }
+
             return $this->Groups;
         }
     }
@@ -2896,6 +2867,32 @@ WHERE user_id = '" . $userID . "' AND
         return $hasAccessToSite;
     }
 
+    /**
+     * Fetches user cache when given preconditions are met
+     */
+    protected function fetchUserCacheIfNeeded()
+    {
+        if ( null === $this->UserCache && true === $this->CachingEnabled && 'true' === eZINI::instance()->variable( 'RoleSettings', 'EnableCaching' ))
+        {
+            $this->UserCache = $this->getUserCache();
+        }
+    }
+
+    /**
+     * Sets cachingEnabled flag to given value. Returns previous value of cachingEnabled flag
+     *
+     * @param bool $cachingEnabled
+     *
+     * @return bool
+     */
+    protected function setCachingEnabled( $cachingEnabled )
+    {
+        $previousValue = $this->CachingEnabled;
+        $this->CachingEnabled = $cachingEnabled;
+
+        return $previousValue;
+    }
+
     /// \privatesection
     public $Login;
     public $Email;
@@ -2921,6 +2918,8 @@ WHERE user_id = '" . $userID . "' AND
      * @since 4.3
      */
     protected static $userHasLoggedOut = false;
+
+    private $CachingEnabled = true;
 }
 
 ?>
