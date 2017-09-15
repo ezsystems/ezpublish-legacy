@@ -47,6 +47,26 @@ $script->shutdown(); // Finish execution
 */
 class eZScript
 {
+    public $IsInitialized;
+    public $InitializationErrorMessage;
+    public $DebugMessage;
+    public $UseDebugOutput;
+    public $UseDebugAccumulators;
+    public $UseDebugTimingPoints;
+    public $UseIncludeFiles;
+    public $UseSession;
+    public $UseExtensions;
+    public $UseModules;
+    public $User;
+    public $SiteAccess;
+    public $ExitCode;
+    public $IsQuiet;
+    public $ShowVerbose;
+    public $AllowedDebugLevels;
+    public $MinVersion;
+    public $MaxVersion;
+    public $ArgumentConfig;
+
     /*!
      Constructor
     */
@@ -143,38 +163,25 @@ class eZScript
             $this->MaxVersion = $settings['max_version'];
     }
 
-    /*!
-     Checks if the script is run on correct eZ Publish version.
-    */
+    /**
+     * Checks if the script is run on correct eZ Publish version.
+     *
+     * Not used by eZ Publish anymore, kept for compatibility
+     */
     function validateVersion()
     {
-        $versionValidated = false;
-        $ezversion = eZPublishSDK::version();
-        if ( $this->MinVersion !== false )
+        $ezVersion = eZPublishSDK::version();
+        if ( $this->MinVersion === false )
         {
-            if ( $this->MaxVersion !== false )
-            {
-                if ( version_compare( $this->MinVersion, $ezversion , 'le' ) &&
-                     version_compare( $this->MaxVersion, $ezversion , 'ge' ) )
-                {
-                    return true;
-                }
-                return false;
-            }
-            if ( version_compare( $this->MinVersion, $ezversion , 'le' ) )
-            {
-                return true;
-            }
-            return false;
+            return version_compare( $this->MaxVersion, $ezVersion , 'ge' );
         }
-        else
+
+        if ( $this->MaxVersion === false )
         {
-            if ( version_compare( $this->MaxVersion, $ezversion , 'ge' ) )
-            {
-                return true;
-            }
-            return false;
+            return version_compare( $this->MinVersion, $ezVersion , 'le' );
         }
+
+        return version_compare( $this->MinVersion, $ezVersion , 'le' ) && version_compare( $this->MaxVersion, $ezVersion , 'ge' );
     }
 
     /*!
@@ -274,21 +281,17 @@ class eZScript
             $cli->output( "Notice: This script uses 'use-extensions' => false, meaning extension settings are not loaded!" );
         }
 
-        $siteaccess = $this->SiteAccess;
-        if ( $siteaccess )
+        if ( $this->SiteAccess )
         {
-            $access = array( 'name' => $siteaccess,
-                             'type' => eZSiteAccess::TYPE_STATIC );
+            $access = array( 'name' => $this->SiteAccess, 'type' => eZSiteAccess::TYPE_STATIC );
         }
         else
         {
-            $ini = eZINI::instance();
-            $siteaccess = $ini->variable( 'SiteSettings', 'DefaultAccess' );
-            $access = array( 'name' => $siteaccess,
+            $access = array( 'name' => eZINI::instance()->variable( 'SiteSettings', 'DefaultAccess' ),
                              'type' => eZSiteAccess::TYPE_DEFAULT );
         }
 
-        $access = eZSiteAccess::change( $access );
+        eZSiteAccess::change( $access );
 
         if ( $this->UseExtensions )
         {
@@ -500,7 +503,7 @@ class eZScript
     /*!
      Sets the current site access to \a $siteAccess.
      \note This will only work if it is set before initialized() is called.
-     \note This will be filled in if getOptions() is used and the user specifices it in the arguments.
+     \note This will be filled in if getOptions() is used and the user specifies it in the arguments.
     */
     function setUseSiteAccess( $siteAccess )
     {
@@ -877,7 +880,7 @@ class eZScript
     }
 
     /*!
-     Parse command line into options array. If stanadrd options are in use, carry
+     Parse command line into options array. If standard options are in use, carry
      out the associated task (eg. switch siteaccess ir logged-in user)
      /param $config see ezcli::parseOptionString
      /param $argumentConfig  see ezcli::getOptions (unused for now)
@@ -1026,7 +1029,7 @@ class eZScript
                 }
                 $allowedDebugLevels = array();
                 $useDebugAccumulators = false;
-                $useDebugTimingpoints = false;
+                $useDebugTimingPoints = false;
                 $useIncludeFiles = false;
                 foreach ( $levels as $level )
                 {
@@ -1034,7 +1037,7 @@ class eZScript
                     {
                         $useDebugAccumulators = true;
                         $allowedDebugLevels = false;
-                        $useDebugTimingpoints = true;
+                        $useDebugTimingPoints = true;
                         break;
                     }
                     if ( $level == 'accumulator' )
@@ -1044,7 +1047,7 @@ class eZScript
                     }
                     if ( $level == 'timing' )
                     {
-                        $useDebugTimingpoints = true;
+                        $useDebugTimingPoints = true;
                         continue;
                     }
                     if ( $level == 'include' )
@@ -1068,7 +1071,7 @@ class eZScript
                 $this->setUseDebugOutput( true );
                 $this->setAllowedDebugLevels( $allowedDebugLevels );
                 $this->setUseDebugAccumulators( $useDebugAccumulators );
-                $this->setUseDebugTimingPoints( $useDebugTimingpoints );
+                $this->setUseDebugTimingPoints( $useDebugTimingPoints );
                 $this->setUseIncludeFiles( $useIncludeFiles );
                 $this->setDebugMessage( "\n\n" . str_repeat( '#', 36 ) . $cli->style( 'emphasize' ) . " DEBUG " . $cli->style( 'emphasize-end' )  . str_repeat( '#', 36 ) . "\n" );
             }
@@ -1169,29 +1172,13 @@ class eZScript
         $i18nSettings['mbstring-extension'] = $ini->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled';
         eZTextCodec::updateSettings( $i18nSettings );
     }
-
-    /// \privatesection
-    public $IsInitialized;
-    public $InitializationErrorMessage;
-    public $DebugMessage;
-    public $UseDebugOutput;
-    public $UseSession;
-    public $UseExtensions;
-    public $UseModules;
-    public $User;
-    public $SiteAccess;
-    public $ExitCode;
-    public $IsQuiet;
-    public $ShowVerbose;
 }
 
 function eZDBCleanup()
 {
-    if ( class_exists( 'ezdb' )
-         and eZDB::hasInstance() )
+    if ( class_exists( 'ezdb' ) && eZDB::hasInstance() )
     {
-        $db = eZDB::instance();
-        $db->setIsSQLOutputEnabled( false );
+        eZDB::instance()->setIsSQLOutputEnabled( false );
     }
 }
 
@@ -1204,10 +1191,6 @@ function eZFatalError()
     $unbold = $cli->style( 'bold-end' );
     $par = $cli->style( 'paragraph' );
     $unpar = $cli->style( 'paragraph-end' );
-
-    $allowedDebugLevels = true;
-    $useDebugAccumulators = true;
-    $useDebugTimingpoints = true;
 
     eZDebug::setHandleType( eZDebug::HANDLE_NONE );
     if ( !$webOutput )
