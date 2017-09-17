@@ -41,6 +41,11 @@ class eZPersistentObject
     public $PersistentDataDirty;
 
     /**
+     * @var eZDBInterface
+     */
+    private $dbInstance;
+
+    /**
      * Initializes the object with the $row.
      *
      * It will try to set each field taken from the database row. Calls fill
@@ -48,13 +53,29 @@ class eZPersistentObject
      * database using it as the unique ID.
      *
      * @param int|array $row
+     * @param \eZDBInterface|null $customDbInstance Makes it possible to specify another db instance
+     *        then the global one. Only supported by persistence objects that use {@link getDbInstance()}
+     *        instead of {@link eZDB::instance()} direclty. Available since 4.7.
      */
-    public function eZPersistentObject( $row )
+    public function eZPersistentObject( $row, eZDBInterface $dbInstance = null )
     {
         $this->PersistentDataDirty = false;
         if ( is_numeric( $row ) )
             $row = $this->fetch( $row, false );
         $this->fill( $row );
+
+        if ( $dbInstance !== null )
+            $this->dbInstance = $dbInstance;
+        else
+            $this->dbInstance = eZDB::instance();
+    }
+
+    /**
+     * @return eZDBInterface
+     */
+    protected function getDbInstance()
+    {
+        return $this->dbInstance;
     }
 
     /**
@@ -261,7 +282,7 @@ class eZPersistentObject
      */
     public static function removeObject( $def, $conditions = null, $extraConditions = null )
     {
-        $db = eZDB::instance();
+        $db = $this->getDbInstance();
 
         $table = $def["name"];
         if ( is_array( $extraConditions ) )
@@ -328,7 +349,7 @@ class eZPersistentObject
      */
     public static function storeObject( $obj, $fieldFilters = null )
     {
-        $db = eZDB::instance();
+        $db = $this->getDbInstance();
         $useFieldFilters = ( isset( $fieldFilters ) && is_array( $fieldFilters ) && $fieldFilters );
 
         $def = $obj->definition();
@@ -626,7 +647,7 @@ class eZPersistentObject
      */
     public static function conditionTextByRow( $conditions, $row )
     {
-        $db = eZDB::instance();
+        $db = $this->getDbInstance();
 
         $where_text = "";
         if ( is_array( $conditions ) and
@@ -798,7 +819,7 @@ class eZPersistentObject
                               $custom_tables = null,
                               $custom_conds = null )
     {
-        $db = eZDB::instance();
+        $db = $this->getDbInstance();
         $fields = $def["fields"];
         $tables = $def["name"];
         $class_name = $def["class_name"];
@@ -990,7 +1011,7 @@ class eZPersistentObject
      */
     public static function swapRow( $table, $keys, $order_id, $rows, $id1, $id2 )
     {
-        $db = eZDB::instance();
+        $db = $this->getDbInstance();
         $text = $order_id . "='" . $db->escapeString( $rows[$id1][$order_id] ) . "' WHERE ";
         $i = 0;
         foreach ( $keys as $key )
@@ -1017,7 +1038,7 @@ class eZPersistentObject
      */
     public static function newObjectOrder( $def, $orderField, $conditions )
     {
-        $db = eZDB::instance();
+        $db = $this->getDbInstance();
         $table = $def["name"];
         $keys = $def["keys"];
 
@@ -1052,7 +1073,7 @@ class eZPersistentObject
      */
     public static function reorderObject( $def, $orderField, $conditions, $down = true )
     {
-        $db = eZDB::instance();
+        $db = $this->getDbInstance();
         $table = $def["name"];
         $keys = $def["keys"];
 
@@ -1160,7 +1181,7 @@ class eZPersistentObject
      */
     public static function escapeArray( $array )
     {
-        $db = eZDB::instance();
+        $db = $this->getDbInstance();
         $out = array();
         foreach( $array as $key => $value )
         {
@@ -1192,7 +1213,7 @@ class eZPersistentObject
      */
     public static function updateObjectList( $parameters )
     {
-        $db = eZDB::instance();
+        $db = $this->getDbInstance();
         $def = $parameters['definition'];
         $table = $def['name'];
         $fields = $def['fields'];
