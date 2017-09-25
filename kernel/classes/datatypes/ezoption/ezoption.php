@@ -27,7 +27,12 @@
 
 class eZOption
 {
-    function eZOption( $name )
+    /**
+     * Constructor
+     * 
+     * @param string $name
+     */
+    public function __construct( $name )
     {
         $this->Name = $name;
         $this->Options = array();

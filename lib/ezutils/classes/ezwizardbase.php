@@ -19,14 +19,14 @@ class eZWizardBase
     const STAGE_PRE = 0;
     const STAGE_POST = 1;
 
-    /*!
-     Constructor
-
-     \param $tpl Template class
-     \param $module Module
-     \param $storageName Storage Name, optional.
-    */
-    function eZWizardBase( $tpl, &$module, $storageName = false )
+    /**
+     * Constructor
+     *
+     * @param eZTemplate $tpl
+     * @param eZModule $module
+     * @param string|bool $storageName
+     */
+    public function __construct( $tpl, &$module, $storageName = false )
     {
         if ( $storageName )
         {

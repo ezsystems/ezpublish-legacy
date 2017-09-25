@@ -35,12 +35,9 @@ class eZMultiPrice extends eZSimplePrice
     const CALCULATION_TYPE_DISCOUNT_INCLUDE = 3;
     const CALCULATION_TYPE_DISCOUNT_EXCLUDE = 4;
 
-    /*!
-     Constructor
-    */
-    function eZMultiPrice( $classAttribute, $contentObjectAttribute, $storedPrice = null )
+    public function __construct( $classAttribute, $contentObjectAttribute, $storedPrice = null )
     {
-        eZSimplePrice::eZSimplePrice( $classAttribute, $contentObjectAttribute, $storedPrice );
+        parent::__construct( $classAttribute, $contentObjectAttribute, $storedPrice );
 
         $isVatIncluded = ( $classAttribute->attribute( eZMultiPriceType::INCLUDE_VAT_FIELD ) == 1 );
         $VATID = $classAttribute->attribute( eZMultiPriceType::VAT_ID_FIELD );

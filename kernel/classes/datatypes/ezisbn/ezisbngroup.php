@@ -23,14 +23,6 @@
 class eZISBNGroup extends eZPersistentObject
 {
     /*!
-     Constructor
-    */
-    function eZISBNGroup( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
-    /*!
      \static
      returns a definition of the ISBN group.
     */

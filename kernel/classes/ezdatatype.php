@@ -44,11 +44,14 @@
 
 class eZDataType
 {
-    /*!
-     Initializes the datatype with the string id \a $dataTypeString and
-     the name \a $name.
-    */
-    function eZDataType( $dataTypeString, $name, $properties = array() )
+    /**
+     * Initializes the datatype with the string id $dataTypeString and the name $name.
+     *
+     * @param string $dataTypeString
+     * @param string $name
+     * @param array $properties
+     */
+    public function __construct( $dataTypeString, $name, $properties = array() )
     {
         $this->DataTypeString = $dataTypeString;
         $this->Name = $name;
@@ -72,6 +75,18 @@ class eZDataType
         $this->Attributes["properties"] = array( "translation_allowed" => $translationAllowed,
                                                  'serialize_supported' => $serializeSupported,
                                                  'object_serialize_map' => $objectSerializeMap );
+    }
+
+    /**
+     * @deprecated Use eZDataType::__construct() instead
+     * @param string $dataTypeString
+     * @param string $name
+     * @param array $properties
+     */
+    public function eZDataType( $dataTypeString, $name, $properties = array() )
+    {
+        self::__construct( $dataTypeString, $name, $properties );
+
     }
 
     /*!

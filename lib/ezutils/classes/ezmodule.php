@@ -254,7 +254,7 @@ class eZModule
      *        Always set to false in the current code base, since the check is
      *        usually performed before the constructor is called
      */
-    function eZModule( $path, $file, $moduleName, $checkFileExistence = true )
+    public function __construct( $path, $file, $moduleName, $checkFileExistence = true )
     {
         $this->initialize( $path, $file, $moduleName, $checkFileExistence);
     }

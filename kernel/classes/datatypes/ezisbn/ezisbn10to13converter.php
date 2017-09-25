@@ -17,7 +17,7 @@ class eZISBN10To13Converter
      \param $params custom parameters to the class. The Force parameter is now set as a
                     class variable for the other functions.
     */
-    function eZISBN10To13Converter( $script, $cli, $params )
+    public function __construct( $script, $cli, $params )
     {
         $this->Script = $script;
         $this->Cli = $cli;

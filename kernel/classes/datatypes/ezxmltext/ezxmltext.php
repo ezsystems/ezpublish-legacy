@@ -17,7 +17,13 @@
 
 class eZXMLText
 {
-    function eZXMLText( $xmlData, $contentObjectAttribute )
+    /**
+     * Constructor
+     *
+     * @param string $xmlData
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     */
+    public function __construct( $xmlData, $contentObjectAttribute )
     {
         $this->XMLData = $xmlData;
         $this->ContentObjectAttribute = $contentObjectAttribute;

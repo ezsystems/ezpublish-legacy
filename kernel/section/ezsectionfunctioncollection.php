@@ -16,13 +16,6 @@
 
 class eZSectionFunctionCollection
 {
-    /*!
-     Constructor
-    */
-    function eZSectionFunctionCollection()
-    {
-    }
-
     /**
      * Fetch section object given either section id or section identifier. There should be one and only one parameter.
      * @param integer $sectionID

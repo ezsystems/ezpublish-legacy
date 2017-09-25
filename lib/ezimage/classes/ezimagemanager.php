@@ -83,11 +83,10 @@ $img1 = $img->convert( "image1.png", "cache/", // Scale PNG image and place in c
 
 class eZImageManager
 {
-    /*!
-     Initializes the manager by registering a application/octet-stream mimetype
-     which is applied for all unknown files.
-    */
-    function eZImageManager()
+    /**
+     * Initializes the manager by registering a application/octet-stream mimetype which is applied for all unknown files.
+     */
+    public function __construct()
     {
         $this->SupportedFormats = array();
         $this->SupportedMIMEMap = array();
@@ -941,7 +940,7 @@ class eZImageManager
                     // url and alias name.
                     ezpEvent::getInstance()->notify( 'image/alias', array( $currentAliasData['url'],
                                                                            $currentAliasData['name'] ) );
-                    
+
                     return true;
                 }
                 // conversion failed, we abort generation

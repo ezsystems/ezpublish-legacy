@@ -19,12 +19,9 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
     const NOTIFICATION_HANDLER_ID = 'ezcollaboration';
     const TRANSPORT = 'ezmail';
 
-    /*!
-     Constructor
-    */
-    function eZCollaborationNotificationHandler()
+    public function __construct()
     {
-        $this->eZNotificationEventHandler( self::NOTIFICATION_HANDLER_ID, "Collaboration Handler" );
+        parent::__construct( self::NOTIFICATION_HANDLER_ID, "Collaboration Handler" );
     }
 
     function attributes()

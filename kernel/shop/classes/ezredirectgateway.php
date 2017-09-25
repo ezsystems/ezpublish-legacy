@@ -22,10 +22,7 @@ class eZRedirectGateway extends eZPaymentGateway
     const OBJECT_NOT_CREATED = 1;
     const OBJECT_CREATED = 2;
 
-    /*!
-    Constructor.
-    */
-    function eZRedirectGateway()
+    public function __construct()
     {
         //__DEBUG__
         $this->logger   = eZPaymentLogger::CreateForAdd( "var/log/eZRedirectGateway.log" );

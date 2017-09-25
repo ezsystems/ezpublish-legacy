@@ -34,13 +34,6 @@ class eZSiteAccess
     const SUBTYPE_PRE = 1;
     const SUBTYPE_POST = 2;
 
-    /*!
-     Constructor
-    */
-    function eZSiteAccess()
-    {
-    }
-
     static function siteAccessList()
     {
         $siteAccessList = array();

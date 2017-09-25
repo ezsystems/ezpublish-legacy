@@ -130,13 +130,9 @@ class eZURLAliasML extends eZPersistentObject
      */
     private static $charset = null;
 
-    /*!
-     Initializes a new URL alias from database row.
-     \note If 'path' is set it will be cached in $Path.
-    */
-    function eZURLAliasML( $row )
+    public function __construct( $row )
     {
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
         $this->Path = null;
         if ( isset( $row['path'] ) )
         {

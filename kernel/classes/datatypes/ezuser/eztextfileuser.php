@@ -25,10 +25,7 @@
 
 class eZTextFileUser extends eZUser
 {
-    /*!
-     Constructor
-    */
-    function eZTextFileUser()
+    public function __construct()
     {
     }
 

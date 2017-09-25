@@ -16,13 +16,6 @@
 
 class eZURLFunctionCollection
 {
-    /*!
-     Constructor
-    */
-    function eZURLFunctionCollection()
-    {
-    }
-
     function fetchList( $isValid, $offset, $limit, $onlyPublished )
     {
         $parameters = array( 'is_valid' => $isValid,

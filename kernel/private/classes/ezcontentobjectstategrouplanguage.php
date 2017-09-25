@@ -19,11 +19,6 @@
  */
 class eZContentObjectStateGroupLanguage extends eZPersistentObject
 {
-    function __construct( $row = array() )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         static $definition = array( "fields" => array( "contentobject_state_group_id" => array( "name" => "ContentObjectStateGroupID",

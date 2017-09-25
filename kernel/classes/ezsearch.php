@@ -17,11 +17,6 @@
 
 class eZSearch
 {
-    function eZSearch()
-    {
-
-    }
-
    /*!
      \static
      determine how to pass the commit argument, for deletes and updates

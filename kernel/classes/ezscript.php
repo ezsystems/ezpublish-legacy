@@ -47,9 +47,9 @@ $script->shutdown(); // Finish execution
 */
 class eZScript
 {
-    /*!
-     Constructor
-    */
+    /**
+     * @param array $settings
+     */
     function __construct( $settings = array() )
     {
         $settings += array(

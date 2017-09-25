@@ -27,12 +27,14 @@ class eZTemplateDesignResource extends eZTemplateFileResource
      */
     protected static $overrideArrayCache = null;
 
-    /*!
-     Initializes with a default resource name "design".
-    */
-    function eZTemplateDesignResource( $name = "design" )
+    /**
+     * Constructor
+     *
+     * @param string $name
+     */
+    public function __construct( $name = "design" )
     {
-        $this->eZTemplateFileResource( $name, true );
+        parent::__construct( $name, true );
         $this->Keys = array();
         $this->KeyStack = array();
     }

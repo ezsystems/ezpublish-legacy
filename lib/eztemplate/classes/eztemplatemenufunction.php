@@ -16,10 +16,12 @@
 
 class eZTemplateMenuFunction
 {
-    /*!
-     Initializes the object with names.
-    */
-    function eZTemplateMenuFunction( $blockName = 'menu' )
+    /**
+     * Initializes the object with names.
+     *
+     * @param string $blockName
+     */
+    public function __construct( $blockName = 'menu' )
     {
         $this->BlockName = $blockName;
     }

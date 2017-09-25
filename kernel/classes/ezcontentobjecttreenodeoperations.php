@@ -21,13 +21,6 @@
 class eZContentObjectTreeNodeOperations
 {
     /*!
-     Constructor
-    */
-    function eZContentObjectTreeNodeOperations()
-    {
-    }
-
-    /*!
      \static
      A wrapper for eZContentObjectTreeNode's 'move' operation.
      It does:

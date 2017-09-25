@@ -10,11 +10,6 @@
 
 class eZContentClassName extends eZPersistentObject
 {
-    function eZContentClassName( $row )
-    {
-        eZPersistentObject::eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( 'fields' => array( 'contentclass_id' => array( 'name' => 'ContentClassID',

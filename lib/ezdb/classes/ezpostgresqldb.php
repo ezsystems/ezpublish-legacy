@@ -19,12 +19,15 @@
 */
 class eZPostgreSQLDB extends eZDBInterface
 {
-    /*!
-      Creates a new eZPostgreSQLDB object and connects to the database.
-    */
-    function eZPostgreSQLDB( $parameters )
+    /**
+     * Creates a new eZPostgreSQLDB object and connects to the database.
+     *
+     * @param array $parameters
+     * @throws eZDBNoConnectionException
+     */
+    public function __construct( $parameters )
     {
-        $this->eZDBInterface( $parameters );
+        parent::__construct( $parameters );
 
         if ( !extension_loaded( 'pgsql' ) )
         {

@@ -10,7 +10,12 @@
 
 class eZAutoLinkOperator
 {
-    function eZAutoLinkOperator( $name = 'autolink' )
+    /**
+     * Constructor
+     *
+     * @param string $name
+     */
+    public function __construct( $name = 'autolink' )
     {
         $this->Operators = array( $name );
     }

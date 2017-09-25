@@ -16,12 +16,9 @@
 
 class eZMarkTemplateCompiler extends eZBenchmarkCase
 {
-    /*!
-     Constructor
-    */
-    function eZMarkTemplateCompiler( $name )
+    public function __construct( $name = false )
     {
-        $this->eZBenchmarkCase( $name );
+        parent::__construct( $name );
         $this->addMark( 'markProcess', 'Processed template mark' );
         $this->addMark( 'markCompilation', 'Compiled template mark' );
     }

@@ -23,9 +23,9 @@ class eZImageType extends eZDataType
     const FILESIZE_VARIABLE = '_ezimage_max_filesize_';
     const DATA_TYPE_STRING = "ezimage";
 
-    function eZImageType()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Image", 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Image", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

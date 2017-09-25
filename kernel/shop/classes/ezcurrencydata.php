@@ -22,9 +22,9 @@ class eZCurrencyData extends eZPersistentObject
     const STATUS_ACTIVE = '1';
     const STATUS_INACTIVE = '2';
 
-    function eZCurrencyData( $row )
+    public function __construct( $row )
     {
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
         $this->RateValue = false;
     }
 

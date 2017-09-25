@@ -16,10 +16,15 @@
 
 class eZStepSiteTypes extends eZStepInstaller
 {
-    /*!
-     Constructor
-    */
-    function eZStepSiteTypes( $tpl, $http, $ini, &$persistenceList )
+    /**
+     * Constructor
+     *
+     * @param eZTemplate $tpl
+     * @param eZHTTPTool $http
+     * @param eZINI $ini
+     * @param array $persistenceList
+     */
+    public function __construct( $tpl, $http, $ini, &$persistenceList )
     {
         $ini = eZINI::instance( 'package.ini' );
         $indexURL = trim( $ini->variable( 'RepositorySettings', 'RemotePackagesIndexURL' ) );
@@ -39,8 +44,7 @@ class eZStepSiteTypes extends eZStepInstaller
         else
             $this->XMLIndexURL = $this->IndexURL . '/index.xml';
 
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
-                                'site_types', 'Site types' );
+        parent::__construct( $tpl, $http, $ini, $persistenceList, 'site_types', 'Site types' );
     }
 
     /**

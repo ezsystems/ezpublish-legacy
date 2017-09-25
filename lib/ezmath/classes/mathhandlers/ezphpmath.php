@@ -15,10 +15,6 @@
 
 class eZPHPMath
 {
-    function eZPHPMath( $params = array() )
-    {
-    }
-
     static function create( $type, $params = array() )
     {
         $filename = 'lib/ezmath/classes/mathhandlers/' . $type . '.php';
