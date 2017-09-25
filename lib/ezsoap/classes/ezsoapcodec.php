@@ -17,13 +17,6 @@
 class eZSOAPCodec
 {
     /*!
-     Constructor
-    */
-    function eZSOAPCodec()
-    {
-    }
-
-    /*!
       \static
       Encodes a PHP variable into a SOAP datatype.
     */

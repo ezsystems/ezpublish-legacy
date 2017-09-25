@@ -33,11 +33,6 @@ eZContentBrowseBookmark::fetchListForUser( $userID )
 
 class eZContentBrowseBookmark extends eZPersistentObject
 {
-    function eZContentBrowseBookmark( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',

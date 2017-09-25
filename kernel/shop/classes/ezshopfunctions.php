@@ -10,10 +10,6 @@
 
 class eZShopFunctions
 {
-    function eZShopFunctions()
-    {
-    }
-
     /*!
      \static
     */

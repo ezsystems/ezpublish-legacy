@@ -28,12 +28,16 @@
 
 class eZImageFont
 {
-    /*!
-     Initializes the object with a family, point size and path.
-     X and y adjustment may also be specified.
-    */
-    function eZImageFont( $family, $size, $path,
-                          $xAdjustment = 0, $yAdjustment = 0 )
+    /**
+     * Initializes the object with a family, point size and path. X and y adjustment may also be specified.
+     *
+     * @param string $family
+     * @param int $size
+     * @param string $path
+     * @param int $xAdjustment
+     * @param int $yAdjustment
+     */
+    public function __construct( $family, $size, $path, $xAdjustment = 0, $yAdjustment = 0 )
     {
         $this->FontFamily = $family;
         $this->FontPath = $path;

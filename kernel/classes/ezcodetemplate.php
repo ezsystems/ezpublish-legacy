@@ -25,10 +25,10 @@ class eZCodeTemplate
     /// Code file was updated, but no new elements has been added
     const STATUS_NO_CHANGE = 2;
 
-    /*!
-     Constructor
-    */
-    function eZCodeTemplate()
+    /**
+     *
+     */
+    public function __construct()
     {
         $ini = eZINI::instance( 'codetemplate.ini' );
         $this->Templates = array();

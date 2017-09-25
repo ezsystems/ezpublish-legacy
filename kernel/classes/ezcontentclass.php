@@ -28,11 +28,11 @@ class eZContentClass extends eZPersistentObject
      */
     const CONTENT_OBJECT_NAME_MAX_LENGTH = 255;
 
-    function eZContentClass( $row )
+    public function __construct( $row )
     {
         if ( is_array( $row ) )
         {
-            $this->eZPersistentObject( $row );
+            parent::__construct( $row );
             $this->VersionCount = false;
             $this->InGroups = null;
             $this->AllGroups = null;

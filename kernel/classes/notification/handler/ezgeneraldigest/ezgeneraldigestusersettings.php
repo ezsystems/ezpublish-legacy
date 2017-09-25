@@ -21,14 +21,6 @@ class eZGeneralDigestUserSettings extends eZPersistentObject
     const TYPE_MONTHLY = 2;
     const TYPE_DAILY = 3;
 
-    /*!
-     Constructor
-    */
-    function eZGeneralDigestUserSettings( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',

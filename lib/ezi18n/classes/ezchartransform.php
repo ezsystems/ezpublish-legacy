@@ -27,13 +27,6 @@ class eZCharTransform
     const CODE_DATE = 1177423380;
 
     /*!
-     Constructor
-    */
-    function eZCharTransform()
-    {
-    }
-
-    /*!
      Transforms the text according to the rules defined in \a $rule using character set \a $charset.
      \param $text The text string to be converted, currently Unicode arrays are not supported
      \param $rule Which transformation rule to use, can either be a string identifier or an array with identifiers.

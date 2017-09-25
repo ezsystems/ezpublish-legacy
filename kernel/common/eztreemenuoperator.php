@@ -10,7 +10,12 @@
 
 class eZTreeMenuOperator
 {
-    function eZTreeMenuOperator( $name = 'treemenu' )
+    /**
+     * Constructor
+     *
+     * @param string $name
+     */
+    public function __construct( $name = 'treemenu' )
     {
         $this->Operators = array( $name );
     }

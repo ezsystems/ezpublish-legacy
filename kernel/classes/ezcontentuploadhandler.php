@@ -26,10 +26,13 @@
 
 class eZContentUploadHandler
 {
-    /*!
-     Initialises the handler with the name.
-    */
-    function eZContentUploadHandler( $name, $identifier )
+    /**
+     * Initialises the handler with the name.
+     *
+     * @param string $name
+     * @param string $identifier
+     */
+    public function __construct( $name, $identifier )
     {
         $this->Name = $name;
         $this->Identifier = $identifier;

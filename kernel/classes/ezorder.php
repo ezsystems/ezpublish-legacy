@@ -22,9 +22,9 @@ class eZOrder extends eZPersistentObject
     const SHOW_ARCHIVED = 1;
     const SHOW_ALL = 2;
 
-    function eZOrder( $row )
+    public function __construct( $row )
     {
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
         $this->Status = null;
     }
 
@@ -372,14 +372,14 @@ class eZOrder extends eZPersistentObject
             {
                 $priceExVAT = $price / ( 100 + $vatValue ) * 100;
                 $priceIncVAT = $price;
-                
+
             }
             else
             {
                 $priceExVAT = $price;
                 $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
             }
-            
+
             $count = $productItem['item_count'];
             $realPricePercent = ( 100 - $productItem['discount'] ) / 100;
             $totalPriceExVAT = round( $count * $priceExVAT * $realPricePercent, 2 );
@@ -401,7 +401,7 @@ class eZOrder extends eZPersistentObject
                 'product' => &$contentObjectIDHash[$currentContentObjectID],
                 'product_info' => $productInfo
             );
-        
+
             // Fetching all ContentObject ids in one query, filling the hash with the corresponding ContentObject
             foreach ( eZContentObject::fetchList( true, array( "id" => array( array_keys( $contentObjectIDHash ) ) ) ) as $contentObject )
             {
@@ -803,7 +803,7 @@ class eZOrder extends eZPersistentObject
                 $priceExVAT = $price;
                 $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
             }
-            
+
             $count = $productItem->attribute( 'item_count' );
             $discountPercent = $productItem->attribute( 'discount' );
             $realPricePercent = ( 100 - $discountPercent ) / 100;

@@ -11,13 +11,6 @@
 class eZDefaultBasketInfoHandler
 {
     /*!
-     Constructor
-    */
-    function eZDefaultBasketInfoHandler()
-    {
-    }
-
-    /*!
      Calculate additional information about vat and prices for items in the basket.
     */
     function updatePriceInfo( $productCollectionID, &$basketInfo )

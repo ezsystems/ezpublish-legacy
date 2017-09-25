@@ -84,10 +84,6 @@
 
 class ezjscPackerTemplateFunctions
 {
-    function ezjscPackerTemplateFunctions()
-    {
-    }
-
     function operatorList()
     {
         return array( 'ezscript', 'ezscript_require', 'ezscript_load', 'ezscriptfiles', 'ezcss', 'ezcss_require', 'ezcss_load', 'ezcssfiles'  );

@@ -16,13 +16,6 @@
 
 class eZLayoutFunctionCollection
 {
-    /*!
-     Constructor
-    */
-    function eZLayoutFunctionCollection()
-    {
-    }
-
     function fetchSitedesignList()
     {
         $contentINI = eZINI::instance( 'content.ini' );

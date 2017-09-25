@@ -31,11 +31,13 @@ eZContentBrowse::browse( array( 'action_name' => 'MyActionName' ), $module );
 
 class eZContentBrowse
 {
-    /*!
-     Initializes the object with the session data if they are found.
-     If \a $params is supplied it used instead.
-    */
-    function eZContentBrowse( $params = array() )
+    /**
+     * Initializes the object with the session data if they are found.
+     * If $params is supplied, it uses them instead
+     *
+     * @param array $params
+     */
+    function __construct( $params = array() )
     {
         $http = eZHTTPTool::instance();
         if ( !$params && $http->hasSessionVariable( 'BrowseParameters' ) )

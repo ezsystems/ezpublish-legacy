@@ -19,9 +19,9 @@ class eZBooleanType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezboolean";
 
-    function eZBooleanType()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Checkbox", 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Checkbox", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_int' => 'value' ) ) );
     }

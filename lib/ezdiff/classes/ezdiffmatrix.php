@@ -19,11 +19,13 @@
 
 class eZDiffMatrix
 {
-
-    /*!
-      Constructor
-    */
-    function eZDiffMatrix( $rows = null, $cols = null)
+    /**
+     * Constructor
+     *
+     * @param int|null $rows
+     * @param int|null $cols
+     */
+    public function __construct( $rows = null, $cols = null)
     {
         if ( isset( $rows ) && is_numeric( $rows ) )
             $this->Rows = $rows;

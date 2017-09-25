@@ -11,9 +11,9 @@
 class eZPDFXMLOutput extends eZXHTMLXMLOutput
 {
 
-    function eZPDFXMLOutput( $xmlData, $aliasedType, $contentObjectAttribute = null )
+    public function __construct( $xmlData, $aliasedType, $contentObjectAttribute = null )
     {
-        $this->eZXHTMLXMLOutput( $xmlData, $aliasedType, $contentObjectAttribute );
+        parent::__construct( $xmlData, $aliasedType, $contentObjectAttribute );
 
         $this->OutputTags['table']['initHandler'] = 'initHandlerTable';
         $this->OutputTags['li']['initHandler'] = 'initHandlerLi';

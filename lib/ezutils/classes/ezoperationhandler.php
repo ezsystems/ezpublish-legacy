@@ -16,13 +16,6 @@
 
 class eZOperationHandler
 {
-    /*!
-     Constructor
-    */
-    function eZOperationHandler()
-    {
-    }
-
     /**
      * Factory for modules' moduleOperationInfo objects.
      *

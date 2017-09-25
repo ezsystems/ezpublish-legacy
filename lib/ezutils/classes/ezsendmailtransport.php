@@ -18,13 +18,6 @@
 
 class eZSendmailTransport extends eZMailTransport
 {
-    /*!
-     Constructor
-    */
-    function eZSendmailTransport()
-    {
-    }
-
     function sendMail( eZMail $mail )
     {
         $ini = eZINI::instance();

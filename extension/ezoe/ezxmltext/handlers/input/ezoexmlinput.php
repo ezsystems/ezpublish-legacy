@@ -38,17 +38,9 @@
 */
 class eZOEXMLInput extends eZXMLInputHandler
 {
-     /**
-     * Constructor
-     * For more info see {@link eZXMLInputHandler::eZXMLInputHandler()}
-     *
-     * @param string $xmlData
-     * @param string $aliasedType
-     * @param eZContentObjectAttribute $contentObjectAttribute
-     */
-    function eZOEXMLInput( $xmlData, $aliasedType, $contentObjectAttribute )
+    public function __construct( $xmlData, $aliasedType, $contentObjectAttribute )
     {
-        $this->eZXMLInputHandler( $xmlData, $aliasedType, $contentObjectAttribute );
+        parent::__construct( $xmlData, $aliasedType, $contentObjectAttribute );
 
         $contentIni = eZINI::instance( 'content.ini' );
         if ( $contentIni->hasVariable( 'header', 'UseStrictHeaderRule' ) === true )

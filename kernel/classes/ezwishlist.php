@@ -18,11 +18,6 @@
 
 class eZWishList extends eZPersistentObject
 {
-    function eZWishList( $row = array() )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     /*!
      \return the persistent object definition for the eZCard class.
     */

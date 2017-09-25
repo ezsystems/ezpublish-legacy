@@ -107,11 +107,11 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         '#text'     => array( 'structHandler' => 'structHandlerText' )
         );
 
-    function eZSimplifiedXMLInputParser( $contentObjectID, $validateErrorLevel = eZXMLInputParser::ERROR_ALL, $detectErrorLevel = eZXMLInputParser::ERROR_ALL,
+    public function __construct( $contentObjectID, $validateErrorLevel = eZXMLInputParser::ERROR_ALL, $detectErrorLevel = eZXMLInputParser::ERROR_ALL,
                                          $parseLineBreaks = false, $removeDefaultAttrs = false )
     {
         $this->contentObjectID = $contentObjectID;
-        $this->eZXMLInputParser( $validateErrorLevel, $detectErrorLevel, $parseLineBreaks, $removeDefaultAttrs );
+        parent::__construct( $validateErrorLevel, $detectErrorLevel, $parseLineBreaks, $removeDefaultAttrs );
     }
 
     /*

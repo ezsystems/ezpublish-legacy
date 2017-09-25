@@ -38,10 +38,6 @@
 
 class ezjscAccessTemplateFunctions
 {
-    function ezjscAccessTemplateFunctions()
-    {
-    }
-
     function operatorList()
     {
         return array( 'has_access_to_limitation' );
