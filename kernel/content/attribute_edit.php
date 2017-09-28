@@ -219,11 +219,11 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' )
 {
     // Need to detect if post_max_size has been reached. If so, all post variables are gone...
     $postMaxSize = trim( ini_get( 'post_max_size' ) );
+    $postMaxSizeBytes = (int)$postMaxSize;
 
     // As of PHP 5.3.2 it is possible to configure unlimited post_max_size, further checking
-    if ($postMaxSize == 0)
+    if ($postMaxSizeBytes !== 0)
     {
-        $postMaxSizeBytes = $postMaxSize;
         $postMaxSizeUnit = 'b';
         // post_max_size can have values like 8M which needs to be converted to bytes
         $last = strtolower( $postMaxSize[strlen($postMaxSize)-1] );
