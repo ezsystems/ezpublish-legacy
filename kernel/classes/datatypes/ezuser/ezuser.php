@@ -625,18 +625,8 @@ WHERE user_id = '" . $userID . "' AND
     {
         $ini = eZINI::instance();
         $type = strtolower( $ini->variable( 'UserSettings', 'HashType' ) );
-        if ( $type == 'md5_site' )
-            return self::PASSWORD_HASH_MD5_SITE;
-        else if ( $type == 'md5_user' )
-            return self::PASSWORD_HASH_MD5_USER;
-        else if ( $type == 'plaintext' )
-            return self::PASSWORD_HASH_PLAINTEXT;
-        else if ( $type == 'bcrypt' )
-            return self::PASSWORD_HASH_BCRYPT;
-        else if ( $type == 'php_default' )
-            return self::PASSWORD_HASH_PHP_DEFAULT;
-        else
-            return self::PASSWORD_HASH_MD5_PASSWORD;
+
+        return self::passwordHashTypeID( $type );
     }
 
     /*!
