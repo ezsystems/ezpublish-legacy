@@ -63,7 +63,8 @@ class ezpKernelTreeMenu implements ezpKernelHandler
             'use-cache-headers'         => true,
             'max-age'                   => 86400,
             'siteaccess'                => null,
-            'use-exceptions'            => false
+            'use-exceptions'            => false,
+            'service-container'         => null,
         );
         unset( $settings, $injectedSettings, $file, $section, $setting, $keySetting, $injectedSetting );
 
@@ -118,7 +119,20 @@ class ezpKernelTreeMenu implements ezpKernelHandler
 
         // init uri code
         $GLOBALS['eZGlobalRequestURI'] = eZSys::serverVariable( 'REQUEST_URI' );
-        eZSys::init( 'index.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) === 'true' );
+        if ( $this->hasServiceContainer() && $this->getServiceContainer()->has( 'request' ) )
+        {
+            eZSys::init(
+                basename( $this->getServiceContainer()->get( 'request' )->server->get( 'SCRIPT_FILENAME' ) ),
+                $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) === 'true'
+            );
+        }
+        else
+        {
+            eZSys::init(
+                'index.php',
+                $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) === 'true'
+            );
+        }
         $this->uri = eZURI::instance( eZSys::requestURI() );
 
         $GLOBALS['eZRequestedURI'] = $this->uri;
@@ -363,7 +377,7 @@ class ezpKernelTreeMenu implements ezpKernelHandler
      */
     public function hasServiceContainer()
     {
-        return false;
+        return isset( $this->settings['service-container'] );
     }
 
     /**
@@ -374,6 +388,6 @@ class ezpKernelTreeMenu implements ezpKernelHandler
      */
     public function getServiceContainer()
     {
-        return;
+        return $this->settings['service-container'];
     }
 }
