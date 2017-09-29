@@ -813,8 +813,7 @@ WHERE user_id = '" . $userID . "' AND
                         ezcontentobject.id=contentobject_id AND
                         ( ( password_hash_type!=4 ) OR
                           ( password_hash_type=4 AND
-                              ( $loginText ) AND
-                          password_hash=PASSWORD('$passwordEscaped') ) )";
+                            password_hash=PASSWORD('$passwordEscaped') ) )";
         }
         else
         {
