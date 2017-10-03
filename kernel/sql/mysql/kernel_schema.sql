@@ -1604,7 +1604,7 @@ CREATE TABLE ezuser (
   contentobject_id int(11) NOT NULL default '0',
   email varchar(150) NOT NULL default '',
   login varchar(150) NOT NULL default '',
-  password_hash varchar(50) default NULL,
+  password_hash varchar(255) default NULL,
   password_hash_type int(11) NOT NULL default '1',
   PRIMARY KEY  (contentobject_id),
   KEY ezuser_login (login)
