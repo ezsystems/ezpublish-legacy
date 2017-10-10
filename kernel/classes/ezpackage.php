@@ -1125,29 +1125,27 @@ class eZPackage
 
             eZDir::mkdir( $archivePath, false, true );
 
-            $archiveOptions = new ezcArchiveOptions( array( 'readOnly' => true ) );
-
-            // Fix for issue #15891: ezjscore - file names are cutted
-            // Force the type of the archive as ezcArchive::TAR_GNU so that long file names are supported on Windows
-            // The previous value for the second parameter was null which meant the type was guessed from the
-            // archive, but on Windows it was detected as TAR_USTAR and this lead to filenames being limited
-            // to 100 characters
-            $archive = ezcArchive::open( "compress.zlib://$archiveName", ezcArchive::TAR_GNU, $archiveOptions );
-
             $fileList = array();
             $fileList[] = eZPackage::definitionFilename();
 
-            // Search for the files we want to extract
-            foreach( $archive as $entry )
+            try
             {
-                if ( in_array( $entry->getPath(), $fileList ) )
+                // The $tmpFile is required for $archiveName files without a file extension.
+                // PHP PharData cannot handle files without a file extension.
+                $tmpFile = $archiveName;
+                if( !phar::isValidPharFilename( $archiveName, false ) )
                 {
-                    if ( !$archive->extractCurrent( $archivePath ) )
-                    {
-                        eZDebug::writeError( "Failed extracting package definition file from $archivePath" );
-                        return false;
-                    }
+                    $tmpFile = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'package_'. rand() .'.ezpkg';
+                    copy( $archiveName, $tmpFile );
                 }
+
+                $phar = new PharData( $tmpFile );
+                $phar->extractTo( $archivePath, $fileList, true );
+            }
+            catch( Exception $e )
+            {
+                eZDebug::writeError( "Failed loading temporary package $packageName" );
+                return false;
             }
 
             $definitionFileName = eZDir::path( array( $archivePath, self::definitionFilename() ) );
@@ -1184,7 +1182,7 @@ class eZPackage
                 {
                     eZDir::mkdir( $packagePath, false, true );
                 }
-                $archive->extract( $packagePath );
+                $phar->extractTo( $packagePath );
 
                 $package = eZPackage::fetch( $packageName, $fullRepositoryPath, false, $dbAvailable );
                 if ( !$package )
@@ -1195,6 +1193,12 @@ class eZPackage
             else
             {
                 eZDebug::writeError( "Failed loading temporary package $packageName" );
+            }
+
+            // Remove the tmp file if it was created
+            if( $tmpFile !== $archiveName )
+            {
+                unlink( $tmpFile );
             }
 
             return $package;
