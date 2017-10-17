@@ -404,7 +404,8 @@ class eZMySQLiDB extends eZDBInterface
             }
             else
             {
-                $errorMessage = 'Query error (' . mysqli_errno( $connection ) . '): ' . mysqli_error( $connection ) . '. Query: ' . $sql;
+                $this->setError();
+                $errorMessage = 'Query error (' . $this->ErrorNumber . '): ' . $this->ErrorMessage . '. Query: ' . $sql;
                 eZDebug::writeError( $errorMessage, __CLASS__  );
                 $oldRecordError = $this->RecordError;
                 // Turn off error handling while we unlock
