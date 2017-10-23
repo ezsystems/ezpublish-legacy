@@ -7272,7 +7272,7 @@ $schema = array (
       ),
       'password_hash' => 
       array (
-        'length' => 50,
+        'length' => 255,
         'type' => 'varchar',
         'default' => NULL,
       ),
