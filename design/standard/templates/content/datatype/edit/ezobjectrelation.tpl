@@ -100,7 +100,7 @@
                                      ) ),
                          fetch( 'content', 'list',
                                 hash( 'parent_node_id', $parent_node.node_id,
-                                      'sort_by', $parent_node.sort_array )
+                                      'sort_by', $parent_node.sort_array
                                      ) )
                         )}
 <select id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}" class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" name="{$attribute_base}_data_object_relation_id_{$attribute.id}">
