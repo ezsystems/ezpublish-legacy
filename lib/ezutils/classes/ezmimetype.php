@@ -303,11 +303,17 @@ class eZMimeType
      Finds the MIME type for the url \a $url by examining the contents of the url and returns it.
      If \a $returnDefault is set to \c true then it will always return a MIME structure,
      if not it will return \c false if none were found.
-     \note Currently it only calls findByURL()
     */
     static function findByFileContents( $url, $returnDefault = true )
     {
-        return eZMimeType::findByURL( $url, $returnDefault );
+        $mime = eZMimeType::findByURL( $url, $returnDefault );
+
+        if ( false !== $returnDefault && false !== $mime )
+        {
+            $mime['name'] = image_type_to_mime_type(exif_imagetype($url));
+        }
+
+        return $mime;
     }
 
     /*!
