@@ -308,7 +308,7 @@ class eZMimeType
     {
         $mime = eZMimeType::findByURL( $url, $returnDefault );
 
-        if ( false !== $returnDefault && false !== $mime && !empty( $url ) )
+        if ( false !== $returnDefault && false !== $mime && !empty( $url ) && file_exists( $url ) )
         {
             $mime['name'] = mime_content_type($url);
         }
