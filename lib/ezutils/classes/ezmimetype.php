@@ -310,7 +310,7 @@ class eZMimeType
 
         if ( false !== $returnDefault && false !== $mime && !empty( $url ) )
         {
-            $mime['name'] = image_type_to_mime_type(exif_imagetype($url));
+            $mime['name'] = mime_content_type($url);
         }
 
         return $mime;
