@@ -1,6 +1,6 @@
 {
-    "name":        "aplia/ezpublish-legacy",
-    "description": "eZ Publish LegacyStack (4.x)",
+    "name":        "aplia/apublish",
+    "description": "Aplia Publish. Fork of eZ Publish Legacy",
     "homepage":    "http://aplia.no",
     "license":     "GPL-2.0",
     "type":        "ezpublish-legacy",
