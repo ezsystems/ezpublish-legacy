@@ -184,17 +184,17 @@ class eZSearchEngine implements ezpSearchEngine
                 // Build a has of the existing words
                 $wordResCount = count( $wordRes );
                 $existingWordArray = array();
-                $wordIDArrayChuck = array();
+                $wordIDArray = array();
                 for ( $i = 0; $i < $wordResCount; $i++ )
                 {
-                    $wordIDArrayChuck[] = $wordRes[$i]['id'];
+                    $wordIDArray[] = $wordRes[$i]['id'];
                     $existingWordArray[] = $wordRes[$i]['word'];
                     $wordArray[$wordRes[$i]['word']] = $wordRes[$i]['id'];
                 }
 
                 // Update the object count of existing words by one
-                $wordIDString = implode( ',', $wordIDArrayChuck );
-                if ( count( $wordIDArrayChuck ) > 0 )
+                $wordIDString = implode( ',', $wordIDArray );
+                if ( count( $wordIDArray ) > 0 )
                     $db->query( "UPDATE ezsearch_word SET object_count=( object_count + 1 ) WHERE id IN ( $wordIDString )" );
 
                 // Insert if there is any news words
