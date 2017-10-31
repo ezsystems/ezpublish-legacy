@@ -32,10 +32,7 @@
 
 class eZMimeType
 {
-    /*!
-     Constructor
-    */
-    function eZMimeType()
+    public function __construct()
     {
         $this->SuffixList = array();
         $this->PrefixList = array();

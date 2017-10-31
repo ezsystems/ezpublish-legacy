@@ -16,10 +16,13 @@
 
 class eZPackageHandler
 {
-    /*!
-     Constructor
-    */
-    function eZPackageHandler( $handlerType, $parameters = array() )
+    /**
+     * Constructor
+     *
+     * @param string $handlerType
+     * @param array $parameters
+     */
+    public function __construct( $handlerType, $parameters = array() )
     {
         $parameters = array_merge( array( 'extract-install-content' => false ),
                                    $parameters );

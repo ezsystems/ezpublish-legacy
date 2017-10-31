@@ -5,25 +5,28 @@
     "license":     "GPL-2.0",
     "type":        "ezpublish-legacy",
     "require": {
-        "php": ">=5.3.3",
-        "zetacomponents/archive": "@dev",
-        "zetacomponents/authentication": "@dev",
-        "zetacomponents/authentication-database-tiein": "@dev",
-        "zetacomponents/cache": "@dev",
-        "zetacomponents/configuration": "@dev",
-        "zetacomponents/console-tools": "@dev",
-        "zetacomponents/database": "@dev",
-        "zetacomponents/debug": "@dev",
-        "zetacomponents/event-log": "@dev",
-        "zetacomponents/feed": "@dev",
-        "zetacomponents/image-conversion": "@dev",
-        "zetacomponents/mail": "@dev",
-        "zetacomponents/mvc-tools": "@dev",
-        "zetacomponents/mvc-authentication-tiein": "@dev",
-        "zetacomponents/persistent-object": "@dev",
-        "zetacomponents/php-generator": "@dev",
-        "zetacomponents/signal-slot": "@dev",
-        "zetacomponents/system-information": "@dev"
+        "php": "~5.5|~7.0",
+        "zetacomponents/archive": "~1.5",
+        "zetacomponents/authentication": "~1.4",
+        "zetacomponents/authentication-database-tiein": "~1.2",
+        "zetacomponents/cache": "~1.6",
+        "zetacomponents/configuration": "~1.4",
+        "zetacomponents/console-tools": "~1.7",
+        "zetacomponents/database": "~1.5",
+        "zetacomponents/debug": "~1.3",
+        "zetacomponents/event-log": "~1.5",
+        "zetacomponents/feed": "~1.4",
+        "zetacomponents/image-conversion": "~1.4",
+        "zetacomponents/mail": "~1.8",
+        "zetacomponents/mvc-tools": "~1.2",
+        "zetacomponents/mvc-authentication-tiein": "~1.1",
+        "zetacomponents/persistent-object": "~1.8",
+        "zetacomponents/signal-slot": "~1.2",
+        "zetacomponents/system-information": "~1.1",
+        "zetacomponents/webdav": "~1.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*",
+        "zetacomponents/php-generator": "~1.1"
     }
 }
-

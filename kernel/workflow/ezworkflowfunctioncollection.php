@@ -16,14 +16,6 @@
 
 class eZWorkflowFunctionCollection
 {
-    /*!
-     Constructor
-    */
-    function eZWorkflowFunctionCollection()
-    {
-    }
-
-
     function fetchWorkflowStatuses()
     {
         return array( 'result' => eZWorkflow::statusNameMap() );

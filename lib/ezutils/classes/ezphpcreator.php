@@ -73,10 +73,15 @@ class eZPHPCreator
     const METHOD_CALL_PARAMETER_VALUE = 1;
     const METHOD_CALL_PARAMETER_VARIABLE = 2;
 
-    /*!
-     Initializes the creator with the directory path \a $dir and filename \a $file.
-    */
-    function eZPHPCreator( $dir, $file, $prefix = '', $options = array() )
+    /**
+     * Initializes the creator with the directory path $dir and filename $file.
+     *
+     * @param string $dir
+     * @param string $file
+     * @param string $prefix
+     * @param array $options
+     */
+    public function __construct( $dir, $file, $prefix = '', $options = array() )
     {
         $this->PHPDir = $dir;
         $this->PHPFile = $file;

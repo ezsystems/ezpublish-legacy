@@ -19,10 +19,7 @@
 
 class eZTemplateStringOperator
 {
-    /*!
-     Constructor.
-    */
-    function eZTemplateStringOperator()
+    public function __construct()
     {
         $this->Operators = array( 'upcase', 'downcase',
                                   'count_words', 'count_chars',

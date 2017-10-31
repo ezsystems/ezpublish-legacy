@@ -16,13 +16,6 @@
 
 class eZUserOperationCollection
 {
-    /*!
-     Constructor
-    */
-    function eZUserOperationCollection()
-    {
-    }
-
    /**
      * Changes user settings
      *
@@ -318,10 +311,11 @@ class eZUserOperationCollection
         if ( $user instanceof eZUser )
         {
             $login   = $user->attribute( 'login' );
-            $type    = $user->attribute( 'password_hash_type' );
+            $type    = eZUser::hashType();
             $site    = $user->site();
             $newHash = $user->createHash( $login, $newPassword, $site, $type );
             $user->setAttribute( 'password_hash', $newHash );
+            $user->setAttribute( 'password_hash_type', $type );
             $user->store();
 
             // "Draft" must be in sync with the PersistentObject

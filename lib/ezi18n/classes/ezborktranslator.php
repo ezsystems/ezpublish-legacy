@@ -44,12 +44,9 @@
 
 class eZBorkTranslator extends eZTranslatorHandler
 {
-    /*!
-     Construct the translator.
-    */
-    function eZBorkTranslator()
+    public function __construct()
     {
-        $this->eZTranslatorHandler( false );
+        parent::__construct( false );
 
         $this->Messages = array();
     }

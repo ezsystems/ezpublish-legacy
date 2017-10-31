@@ -152,7 +152,7 @@ class eZINI
      * @param bool $load @since 4.5 Lets you disable automatic loading of ini values in
      *                   cases where changes on instance will be done first.
      */
-    function eZINI( $fileName = 'site.ini', $rootDir = '', $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false, $load = true )
+    public function __construct( $fileName = 'site.ini', $rootDir = '', $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false, $load = true )
     {
         $this->Charset = 'utf8';
         if ( $fileName == '' )

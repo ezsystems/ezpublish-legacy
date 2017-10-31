@@ -16,13 +16,6 @@
 
 class eZInfocollectorFunctionCollection
 {
-    /*!
-     Constructor
-    */
-    function eZInfocollectorFunctionCollection()
-    {
-    }
-
     static public function fetchCollectedInfoCount( $objectAttributeID, $objectID, $value, $creatorID = false, $userIdentifier = false )
     {
         if ( $objectAttributeID )

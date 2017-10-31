@@ -17,12 +17,9 @@ class eZCurrentTimeType extends eZNotificationEventType
 {
     const NOTIFICATION_TYPE_STRING = 'ezcurrenttime';
 
-    /*!
-     Constructor
-    */
-    function eZCurrentTimeType()
+    public function __construct()
     {
-        $this->eZNotificationEventType( self::NOTIFICATION_TYPE_STRING );
+        parent::__construct( self::NOTIFICATION_TYPE_STRING );
     }
 
     function initializeEvent( $event, $params )

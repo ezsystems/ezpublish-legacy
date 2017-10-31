@@ -19,7 +19,7 @@ class eZFinishUserRegisterType extends eZWorkflowEventType {
 
     public function  __construct()
     {
-        $this->eZWorkflowEventType( eZFinishUserRegisterType::WORKFLOW_TYPE_STRING, ezpI18n::tr( 'kernel/workflow/event', "Finish User Registration" ) );
+        parent::__construct( eZFinishUserRegisterType::WORKFLOW_TYPE_STRING, ezpI18n::tr( 'kernel/workflow/event', "Finish User Registration" ) );
         $this->setTriggerTypes( array( 'content' => array( 'publish' => array( 'after' ) ) ) );
     }
 

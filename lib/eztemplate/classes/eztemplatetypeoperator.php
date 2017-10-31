@@ -33,10 +33,24 @@ $var|get_class or get_class( $var )
 
 class eZTemplateTypeOperator
 {
-    /*!
-     Initializes the operator class with the various operator names.
-    */
-    function eZTemplateTypeOperator(  /*! The name array */
+    /**
+     * Initializes the operator class with the various operator names.
+     *
+     * @param string $isArrayName
+     * @param string $isBooleanName
+     * @param string $isIntegerName
+     * @param string $isFloatName
+     * @param string $isNumericName
+     * @param string $isStringName
+     * @param string $isObjectName
+     * @param string $isClassName
+     * @param string $isNullName
+     * @param string $isSetName
+     * @param string $isUnsetName
+     * @param string $getTypeName
+     * @param string $getClassName
+     */
+    public function __construct(  /*! The name array */
                                       $isArrayName = "is_array",
                                       $isBooleanName = "is_boolean",
                                       $isIntegerName = "is_integer",

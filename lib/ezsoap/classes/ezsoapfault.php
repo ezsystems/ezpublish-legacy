@@ -17,10 +17,13 @@
 
 class eZSOAPFault
 {
-    /*!
-     Constructs a new eZSOAPFault object
-    */
-    function eZSOAPFault( $faultCode = "", $faultString = "" )
+    /**
+     * Constructs a new eZSOAPFault object
+     *
+     * @param string $faultCode
+     * @param string $faultString
+     */
+    public function __construct( $faultCode = "", $faultString = "" )
     {
         $this->FaultCode = $faultCode;
         $this->FaultString = $faultString;

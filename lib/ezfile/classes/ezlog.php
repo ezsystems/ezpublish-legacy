@@ -22,13 +22,6 @@ class eZLog
     const MAX_LOGFILE_SIZE = 204800; // 200*1024
 
     /*!
-      Creates a new log object.
-    */
-    function eZLog( )
-    {
-    }
-
-    /*!
      \static
      \public
      Writes a message $message to a given file name $name and directory $dir for logging

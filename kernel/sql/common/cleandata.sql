@@ -38761,8 +38761,8 @@ INSERT INTO ezuser (
   10,
   'nospam@ez.no',
   'anonymous',
-  '4e6f6184135228ccd45f8233d72a0363',
-  2
+  '$2y$10$ucfC921pDYoruiPZdod7hO2oiGbsHQ/5OmRqRui7v5Txc.Oaq15rW',
+  7
 );
 INSERT INTO ezuser (
   contentobject_id,
@@ -38774,8 +38774,8 @@ INSERT INTO ezuser (
   14,
   'nospam@ez.no',
   'admin',
-  'c78e3b0f3d9244ed8c6d1c29464bdff9',
-  2
+  '$2y$10$FDn9NPwzhq85cLLxfD5Wu.L3SL3Z/LNCvhkltJUV0wcJj7ciJg2oy',
+  7
 );
 
 INSERT INTO ezuser_role (

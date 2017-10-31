@@ -16,10 +16,12 @@
 
 class eZContentObjectAssignmentHandler
 {
-    /*!
-     Constructor
-    */
-    function eZContentObjectAssignmentHandler( $contentObject, $contentVersion )
+    /**
+     * Constructor
+     * @param eZContentObject $contentObject
+     * @param eZContentObjectVersion $contentVersion
+     */
+    public function __construct( $contentObject, $contentVersion )
     {
         $this->CurrentObject = $contentObject;
         $this->CurrentVersion = $contentVersion;
@@ -214,7 +216,14 @@ class eZContentObjectAssignmentHandler
     }
 
     /// \privatesection
+    /**
+     * @var eZContentObject
+     */
     public $CurrentObject;
+
+    /**
+     * @var eZContentObjectVersion
+     */
     public $ContentVersion;
 }
 

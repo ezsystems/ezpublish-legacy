@@ -54,11 +54,13 @@
 
 class eZFileHandler
 {
-    /*!
-     Initializes the handler. Optionally the parameters \a $filename
-     and \a $mode may be provided to automatically open the file.
-    */
-    function eZFileHandler( $handlerIdentifier = false, $handlerName = false )
+    /**
+     * Initializes the handler.
+     *
+     * @param string|bool $handlerIdentifier
+     * @param string|bool $handlerName
+     */
+    public function __construct( $handlerIdentifier = false, $handlerName = false )
     {
         if ( !$handlerIdentifier )
         {

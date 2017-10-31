@@ -27,6 +27,10 @@ class eZUser extends eZPersistentObject
     const PASSWORD_HASH_MYSQL = 4;
     /// Passwords in plaintext, should not be used for real sites
     const PASSWORD_HASH_PLAINTEXT = 5;
+    /// Passwords in bcrypt format
+    const PASSWORD_HASH_BCRYPT = 6;
+    /// Passwords in PHP default format
+    const PASSWORD_HASH_PHP_DEFAULT = 7;
 
     /**
      * Max length allowed for a login or a password
@@ -52,9 +56,9 @@ class eZUser extends eZPersistentObject
 
     protected static $anonymousId = null;
 
-    function eZUser( $row = array() )
+    public function __construct( $row = array() )
     {
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
         $this->OriginalPassword = false;
         $this->OriginalPasswordConfirm = false;
     }
@@ -135,6 +139,14 @@ class eZUser extends eZPersistentObject
             {
                 return 'plaintext';
             } break;
+            case self::PASSWORD_HASH_BCRYPT:
+            {
+                return 'bcrypt';
+            } break;
+            case self::PASSWORD_HASH_PHP_DEFAULT:
+            {
+                return 'php_default';
+            } break;
         }
     }
 
@@ -165,6 +177,14 @@ class eZUser extends eZPersistentObject
             case 'plaintext':
             {
                 return self::PASSWORD_HASH_PLAINTEXT;
+            } break;
+            case 'bcrypt':
+            {
+                return self::PASSWORD_HASH_BCRYPT;
+            } break;
+            case 'php_default':
+            {
+                return self::PASSWORD_HASH_PHP_DEFAULT;
             } break;
         }
     }
@@ -605,14 +625,8 @@ WHERE user_id = '" . $userID . "' AND
     {
         $ini = eZINI::instance();
         $type = strtolower( $ini->variable( 'UserSettings', 'HashType' ) );
-        if ( $type == 'md5_site' )
-            return self::PASSWORD_HASH_MD5_SITE;
-        else if ( $type == 'md5_user' )
-            return self::PASSWORD_HASH_MD5_USER;
-        else if ( $type == 'plaintext' )
-            return self::PASSWORD_HASH_PLAINTEXT;
-        else
-            return self::PASSWORD_HASH_MD5_PASSWORD;
+
+        return self::passwordHashTypeID( $type );
     }
 
     /*!
@@ -799,8 +813,7 @@ WHERE user_id = '" . $userID . "' AND
                         ezcontentobject.id=contentobject_id AND
                         ( ( password_hash_type!=4 ) OR
                           ( password_hash_type=4 AND
-                              ( $loginText ) AND
-                          password_hash=PASSWORD('$passwordEscaped') ) )";
+                            password_hash=PASSWORD('$passwordEscaped') ) )";
         }
         else
         {
@@ -1175,7 +1188,7 @@ WHERE user_id = '" . $userID . "' AND
                             $userId = $currentUser->attribute( 'contentobject_id' );
 
                             $userInfo = array();
-                            $userInfo[$userId] = array( 
+                            $userInfo[$userId] = array(
                                 'contentobject_id' => $userId,
                                 'login' => $currentUser->attribute( 'login' ),
                                 'email' => $currentUser->attribute( 'email' ),
@@ -1195,7 +1208,7 @@ WHERE user_id = '" . $userID . "' AND
                     {
                         eZDebug::writeError( "Undefined ssoHandler class: $className", __METHOD__ );
                     }
-                }                
+                }
             }
         }
 
@@ -1809,6 +1822,25 @@ WHERE user_id = '" . $userID . "' AND
         else if ( $type == self::PASSWORD_HASH_PLAINTEXT )
         {
             $str = $password;
+        }
+        else if ( ( $type == self::PASSWORD_HASH_BCRYPT ||
+                    $type == self::PASSWORD_HASH_PHP_DEFAULT ) &&
+                  $hash )
+        {
+            if ( password_verify( $password, $hash ) )
+            {
+                return $hash;
+            }
+
+            return false;
+        }
+        else if ( $type == self::PASSWORD_HASH_BCRYPT )
+        {
+            $str = password_hash( $password, PASSWORD_BCRYPT );
+        }
+        else if ( $type == self::PASSWORD_HASH_PHP_DEFAULT )
+        {
+            $str = password_hash( $password, PASSWORD_DEFAULT );
         }
         else // self::PASSWORD_HASH_MD5_PASSWORD
         {

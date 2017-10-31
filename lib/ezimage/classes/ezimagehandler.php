@@ -21,18 +21,19 @@ class eZImageHandler
     const REPLACE_SUFFIX = 2;
     const PREPEND_TAG_REPLACE_SUFFIX = 3;
 
-    /*!
-     Initializes the image handler with data sent from the inheriting class.
-     \param $handlerName The name of the current handler
-     \param $isEnabled A boolean which tells whether the handler can be used or not
-     \param $outputRewriteType Defines how output filenames are rewritten
-     \param $supportedInputMIMETypes A list of MIME-Types the handler supports as input or \c false if no type as defined
-     \param $supportedOutputMIMETypes A list of MIME-Types the handler supports as output or \c false if no type as defined
-     \param $conversionRules A list of conversion rules specific for this handler, is combined with the global rules
-     \param $filters A list of filters this handler supports
-     \param $mimeTagMap A mapping table which maps from a MIME-Type to a specific tag, this tag can be used when rewriting the filename.
-    */
-    function eZImageHandler( $handlerName, $isEnabled = true, $outputRewriteType = self::REPLACE_SUFFIX,
+    /**
+     * Initializes the image handler with data sent from the inheriting class.
+     *
+     * @param string $handlerName The name of the current handler
+     * @param bool $isEnabled  A boolean which tells whether the handler can be used or not
+     * @param int $outputRewriteType Defines how output filenames are rewritten
+     * @param array|bool $supportedInputMIMETypes A list of MIME-Types the handler supports as input or \c false if no type as defined
+     * @param array|$supportedOutputMIMETypes A list of MIME-Types the handler supports as output or \c false if no type as defined
+     * @param array|bool $conversionRules A list of conversion rules specific for this handler, is combined with the global rules
+     * @param array|bool $filters A list of filters this handler supports
+     * @param array|bool $mimeTagMap A mapping table which maps from a MIME-Type to a specific tag, this tag can be used when rewriting the filename.
+     */
+    public function __construct( $handlerName, $isEnabled = true, $outputRewriteType = self::REPLACE_SUFFIX,
                              $supportedInputMIMETypes = false, $supportedOutputMIMETypes,
                              $conversionRules = false, $filters = false, $mimeTagMap = false )
     {

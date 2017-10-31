@@ -16,7 +16,7 @@
 
 class eZContentObjectPackageCreator extends eZPackageCreationHandler
 {
-    function eZContentObjectPackageCreator( $id )
+    public function __construct( $id )
     {
         $steps = array();
         $steps[] = array( 'id' => 'object',
@@ -34,9 +34,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
         $steps[] = $this->packageInformationStep();
         $steps[] = $this->packageMaintainerStep();
         $steps[] = $this->packageChangelogStep();
-        $this->eZPackageCreationHandler( $id,
-                                         ezpI18n::tr( 'kernel/package', 'Content object export' ),
-                                         $steps );
+        parent::__construct( $id, ezpI18n::tr( 'kernel/package', 'Content object export' ), $steps );
     }
 
     /*!

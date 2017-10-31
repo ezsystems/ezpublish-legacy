@@ -26,10 +26,10 @@
 
 class eZTemplateSectionIterator
 {
-    /*!
-     Initializes the iterator with empty values.
-    */
-    function eZTemplateSectionIterator()
+    /**
+     * Initializes the iterator with empty values.
+     */
+    public function __construct()
     {
         $this->InternalAttributes = array( 'item' => false,
                                            'key' => false,

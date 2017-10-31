@@ -10,12 +10,9 @@
 
 class eZImageGDFactory extends eZImageFactory
 {
-    /*!
-     Initializes the factory with the name \c 'shell'
-    */
-    function eZImageGDFactory()
+    public function __construct()
     {
-        $this->eZImageFactory( 'gd' );
+        parent::__construct( 'gd' );
     }
 
     /*!

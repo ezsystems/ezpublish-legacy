@@ -20,13 +20,6 @@
 class eZMath
 {
     /*!
-     Constructor
-    */
-    function eZMath()
-    {
-    }
-
-    /*!
      \static
 
      Normalize RGB color array to 0..1 range

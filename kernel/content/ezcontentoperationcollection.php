@@ -21,13 +21,6 @@ class eZContentOperationCollection
      */
     private static $operationsStack = 0;
 
-    /*!
-     Constructor
-    */
-    function eZContentOperationCollection()
-    {
-    }
-
     static public function readNode( $nodeID )
     {
 

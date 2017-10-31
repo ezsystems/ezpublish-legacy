@@ -21,13 +21,6 @@
 class eZUTF8Codec
 {
     /*!
-     Initializes utf8 codec.
-    */
-    function eZUTF8Codec()
-    {
-    }
-
-    /*!
      Converts an UTF8 string into Unicode values and returns an array with the values.
     */
     static function convertStringToUnicode( $str )

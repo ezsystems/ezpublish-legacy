@@ -24,13 +24,17 @@ class eZStepSiteAdmin extends eZStepInstaller
     const PASSWORD_MISSING = 6;
     const PASSWORD_TOO_SHORT = 7;
 
-    /*!
-     Constructor
-    */
-    function eZStepSiteAdmin( $tpl, $http, $ini, &$persistenceList )
+    /**
+     * Constructor
+     *
+     * @param eZTemplate $tpl
+     * @param eZHTTPTool $http
+     * @param eZINI $ini
+     * @param array $persistenceList
+     */
+    public function __construct( $tpl, $http, $ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
-                                'site_admin', 'Site admin' );
+        parent::__construct( $tpl, $http, $ini, $persistenceList, 'site_admin', 'Site admin' );
     }
 
     function processPostData()

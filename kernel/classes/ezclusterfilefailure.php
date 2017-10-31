@@ -22,11 +22,18 @@ class eZClusterFileFailure
           FILE_CONTENT_GENERATE = 2,
           FILE_RETRIEVAL_FAILED = 3;
 
-    // Error codes:
-    // 1 - file expired
-    // 2 - file contents must be manually generated
-    // 3 - Failed to retrieve file from DFS
-    function eZClusterFileFailure( $errno, $message = false )
+    /**
+     * Constructor
+     *
+     * Error codes:
+     * 1 - file expired
+     * 2 - file contents must be manually generated
+     * 3 - Failed to retrieve file from DFS
+     *
+     * @param int $errno
+     * @param bool|string $message
+     */
+    public function __construct( $errno, $message = false )
     {
         $this->Errno = $errno;
         $this->Message = $message;

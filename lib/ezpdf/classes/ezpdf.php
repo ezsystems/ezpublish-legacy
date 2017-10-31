@@ -20,11 +20,12 @@
 
 class eZPDF
 {
-
-    /*!
-     Initializes the object with the name $name, default is "attribute".
-    */
-    function eZPDF( $name = "pdf" )
+    /**
+     * Initializes the object with the name $name, default is "pdf".
+     *
+     * @param string $name
+     */
+    public function __construct( $name = "pdf" )
     {
         $this->Operators = array( $name );
         $this->Config = eZINI::instance( 'pdf.ini' );
