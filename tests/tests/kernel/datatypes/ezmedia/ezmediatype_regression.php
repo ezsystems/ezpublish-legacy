@@ -82,7 +82,6 @@ class eZMediaTypeRegression extends ezpDatabaseTestCase
         $className = 'Media test class';
         $classIdentifier = 'media_test_class';
         $filePath = 'tests/tests/kernel/datatypes/ezmedia/ezmediatype_regression_issue16400.flv';
-        eZFile::create( $filePath );
         $attributeName = 'Media';
         $attributeIdentifier = 'media';
         $attributeType = 'ezmedia';
