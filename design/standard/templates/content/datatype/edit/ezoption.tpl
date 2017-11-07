@@ -9,7 +9,7 @@
 <div class="block">
 <label>{'Options'|i18n( 'design/standard/content/datatype' )}:</label>
 
-{section show=$attribute.content.option_list}
+{if $attribute.content.option_list}
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight">&nbsp;</th>
@@ -19,30 +19,30 @@
     {/if}
 </tr>
 
-{section var=Options loop=$attribute.content.option_list sequence=array( bglight, bgdark )}
-<tr class="{$Options.sequence}">
+{foreach $attribute.content.option_list as $index => $Options sequence array( bglight, bgdark ) as $optionSequence}
+<tr class="{$optionSequence}">
 
 {* Remove. *}
 <td>
-<input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_remove_{$Options.index}" class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="checkbox" name="{$attribute_base}_data_option_remove_{$attribute.id}[]" value="{$Options.item.id}" title="{'Select option for removal.'|i18n( 'design/standard/content/datatype' )}" />
-<input type="hidden" name="{$attribute_base}_data_option_id_{$attribute.id}[]" value="{$Options.item.id}" />
+<input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_remove_{$index}" class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="checkbox" name="{$attribute_base}_data_option_remove_{$attribute.id}[]" value="{$Options.id}" title="{'Select option for removal.'|i18n( 'design/standard/content/datatype' )}" />
+<input type="hidden" name="{$attribute_base}_data_option_id_{$attribute.id}[]" value="{$Options.id}" />
 </td>
 
 {* Option. *}
-<td><input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_{$Options.index}" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name="{$attribute_base}_data_option_value_{$attribute.id}[]" value="{$Options.item.value|wash()}" /></td>
+<td><input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_{$index}" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name="{$attribute_base}_data_option_value_{$attribute.id}[]" value="{$Options.value|wash()}" /></td>
 
 {if $attribute.is_information_collector|not}
 {* Price. *}
-<td><input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_{$Options.index}" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name="{$attribute_base}_data_option_additional_price_{$attribute.id}[]" value="{$Options.item.additional_price|wash}" /></td>
+<td><input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_{$index}" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name="{$attribute_base}_data_option_additional_price_{$attribute.id}[]" value="{$Options.additional_price|wash}" /></td>
 {/if}
 
 </tr>
-{/section}
+{/foreach}
 
 </table>
-{section-else}
+{else}
 <p>{'There are no options.'|i18n( 'design/standard/content/datatype' )}</p>
-{/section}
+{/if}
 
 
 {if $attribute.content.option_list}

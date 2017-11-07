@@ -54,11 +54,6 @@
             {foreach $currency_list as $currency}
                 <option value="{$currency.code}">{$currency.code}</option>
             {/foreach}
-            {*
-            {section var=Currency loop=$currency_list}
-                <option value="{$Currency.code}">{$Currency.code}</option>
-            {/section}
-            *}
         </select>
 
         {* 'Set price' button *}

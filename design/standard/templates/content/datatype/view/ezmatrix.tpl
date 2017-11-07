@@ -2,16 +2,16 @@
 {let matrix=$attribute.content}
 <table class="list" cellspacing="0">
 <tr>
-{section var=ColumnNames loop=$matrix.columns.sequential}
-<th>{$ColumnNames.item.name}</th>
-{/section}
+{foreach $matrix.columns.sequential as $ColumnNames}
+<th>{$ColumnNames.name}</th>
+{/foreach}
 </tr>
-{section var=Rows loop=$matrix.rows.sequential sequence=array( bglight, bgdark )}
-<tr class="{$Rows.sequence}">
-    {section var=Columns loop=$Rows.item.columns}
-    <td>{$Columns.item|wash( xhtml )}</td>
-    {/section}
+{foreach $matrix.rows.sequential as $Rows sequence array( bglight, bgdark ) as $rowSequence}
+<tr class="{$rowSequence}">
+    {foreach $Rows.item.columns as $Columns}
+    <td>{$Columns|wash( xhtml )}</td>
+    {/foreach}
 </tr>
-{/section}
+{/foreach}
 </table>
 {/let}

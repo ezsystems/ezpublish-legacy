@@ -7,17 +7,17 @@
 <label for="ezpackage_data_text_{$attribute.id}_siteaccess">{'Siteaccess'|i18n( 'design/standard/edit/' )}:</label>
 <select id="ezpackage_data_text_{$attribute.id}_siteaccess" name="CurrentSiteAccess">
     <option value="Global">{'Global (override)'|i18n( 'design/standard/edit/' )}</option>
-    {section name=SiteAccess loop=ezini('SiteAccessSettings','AvailableSiteAccessList')}
-        <option value="{$SiteAccess:item}"
+    {foreach ezini('SiteAccessSettings','AvailableSiteAccessList') as $SiteAccess}
+        <option value="{$SiteAccess}"
         {foreach $package_list as $Package}
-        {if eq( concat( $Package.name, ':', $SiteAccess:item ), $attribute.data_text )}
+        {if eq( concat( $Package.name, ':', $SiteAccess ), $attribute.data_text )}
                 selected="selected"
             {set scope=root package_attr_name=$Package.name}
             {break}
         {/if}
         {/foreach}
-        >{$:item}</option>
-    {/section}
+        >{$SiteAccess}</option>
+    {/foreach}
 </select>
 </div>
 

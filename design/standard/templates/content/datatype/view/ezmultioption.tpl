@@ -4,19 +4,19 @@
 {$attribute.content.name|wash}
 </div>
 
-{section var=Multioptions loop=$attribute.content.multioption_list}
+{foreach $attribute.content.multioption_list as $Multioptions}
 <div class="block">
-<label>{$Multioptions.item.name|wash}:</label>
+<label>{$Multioptions.name|wash}:</label>
 <select name="eZOption[{$attribute.id}][]">
-    {section var=Option loop=$Multioptions.item.optionlist}
+    {section var=Option loop=$Multioptions.optionlist}
             {if ne( $Option.item.additional_price, '' )}
-                {if eq( sum( $Option.index, 1 ), $Multioptions.item.default_option_id )}
+                {if eq( sum( $Option.index, 1 ), $Multioptions.default_option_id )}
                     <option value="{$Option.item.option_id}" selected="selected">{$Option.item.value|wash}-{$Option.item.additional_price|l10n( currency )}</option>
                 {else}
                     <option value="{$Option.item.option_id}">{$Option.item.value|wash}-{$Option.item.additional_price|l10n( currency )}</option>
                 {/if}
             {else}
-                {if eq(sum($Option.index,1), $Multioptions.item.default_option_id)}
+                {if eq(sum($Option.index,1), $Multioptions.default_option_id)}
                     <option value="{$Option.item.option_id}" selected="selected">{$Option.item.value|wash}</option>
                 {else}
                     <option value="{$Option.item.option_id}">{$Option.item.value|wash}</option>
@@ -25,4 +25,4 @@
         {/section}
     </select>
 </div>
-{/section}
+{/foreach}

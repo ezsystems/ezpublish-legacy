@@ -3,31 +3,31 @@
 {let matrix=$attribute.content}
 
 {* Matrix. *}
-{section show=$matrix.rows.sequential}
+{if $matrix.rows.sequential}
 <table class="list" cellspacing="0">
 
 <tr>
     <th class="tight">&nbsp;</th>
-    {section var=ColumnNames loop=$matrix.columns.sequential}<th>{$ColumnNames.item.name}</th>{/section}
+    {foreach $matrix.columns.sequential as $ColumnNames}<th>{$ColumnNames.name}</th>{/foreach}
 </tr>
 
-{section var=Rows loop=$matrix.rows.sequential sequence=array( bglight, bgdark )}
-<tr class="{$Rows.sequence}">
+{foreach $matrix.rows.sequential as $index => $Rows sequence array( bglight, bgdark ) as $rowSequence}
+<tr class="{$rowSequence}">
 
 {* Remove. *}
-<td><input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_remove_{$Rows.index}" class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="checkbox" name="{$attribute_base}_data_matrix_remove_{$attribute.id}[]" value="{$Rows.index}" title="{'Select row for removal.'|i18n( 'design/standard/content/datatype' )}" /></td>
+<td><input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_remove_{$index}" class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="checkbox" name="{$attribute_base}_data_matrix_remove_{$attribute.id}[]" value="{$index}" title="{'Select row for removal.'|i18n( 'design/standard/content/datatype' )}" /></td>
 
 {* Custom columns. *}
-{section var=Columns loop=$Rows.item.columns}
-<td><input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_matrix_cell_{$Rows.index}_{$Columns.index}" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name="{$attribute_base}_ezmatrix_cell_{$attribute.id}[]" value="{$Columns.item|wash( xhtml )}" /></td>
-{/section}
+{foreach $Rows.columns as $cIndex => $Columns}
+<td><input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_matrix_cell_{$index}_{$cIndex}" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name="{$attribute_base}_ezmatrix_cell_{$attribute.id}[]" value="{$Columns|wash( xhtml )}" /></td>
+{/foreach}
 
 </tr>
-{/section}
+{/foreach}
 </table>
-{section-else}
+{else}
 <p>{'There are no rows in the matrix.'|i18n( 'design/standard/content/datatype' )}</p>
-{/section}
+{/if}
 
 
 {* Buttons. *}
