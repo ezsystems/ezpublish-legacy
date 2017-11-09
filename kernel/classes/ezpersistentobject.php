@@ -49,7 +49,7 @@ class eZPersistentObject
      *
      * @param int|array $row
      */
-    public function __construct( $row )
+    public function __construct( $row = null )
     {
         $this->PersistentDataDirty = false;
         if ( is_numeric( $row ) )
@@ -59,9 +59,9 @@ class eZPersistentObject
 
     /**
      * @deprecated Use eZPersistentObject::__construct() instead
-     * @param array $row
+     * @param int|array $row
      */
-    public function eZPersistentObject( $row )
+    public function eZPersistentObject( $row = null )
     {
         self::__construct( $row );
     }
