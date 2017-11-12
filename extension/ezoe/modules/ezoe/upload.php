@@ -122,23 +122,35 @@ if ( $http->hasPostVariable( 'uploadButton' ) || $forcedUpload )
 
         $uploadVersion = $uploadedOk['contentobject']->currentVersion();
         $newObjectID = (int)$uploadedOk['contentobject']->attribute( 'id' );
+        $imageAltText = '';
 
         foreach ( $uploadVersion->dataMap() as $key => $attr )
         {
             //post pattern: ContentObjectAttribute_attribute-identifier
             $base = 'ContentObjectAttribute_'. $key;
-            $postVar = trim( $http->postVariable( $base, '' ) );
-            if ( $postVar !== '' )
+            if( $http->hasPostVariable( $base ) )
             {
+                $postVar = trim( $http->postVariable( $base, '' ) );
                 switch ( $attr->attribute( 'data_type_string' ) )
                 {
                     case 'ezstring':
-                        $classAttr = $attr->attribute( 'contentclass_attribute' );
-                        $dataType = $classAttr->attribute( 'data_type' );
-                        if ( $dataType->validateStringHTTPInput( $postVar, $attr, $classAttr ) !== eZInputValidator::STATE_ACCEPTED )
+                        // Not very clean, it prevents overwriting the object name
+                        // by an empty POST value
+                        if( $postVar != '' )
                         {
-                            throw new InvalidArgumentException( $attr->validationError() );
+                            $classAttr = $attr->attribute( 'contentclass_attribute' );
+                            $dataType = $classAttr->attribute( 'data_type' );
+                            if ( $dataType->validateStringHTTPInput( $postVar, $attr, $classAttr ) !== eZInputValidator::STATE_ACCEPTED )
+                            {
+                                throw new InvalidArgumentException( $attr->validationError() );
+                            }
+                            else
+                            {
+                                $attr->fromString( $postVar );
+                                $attr->store();
+                            }
                         }
+                        break;
                     case 'eztext':
                     case 'ezkeyword':
                         $attr->fromString( $postVar );
@@ -167,10 +179,23 @@ if ( $http->hasPostVariable( 'uploadButton' ) || $forcedUpload )
                         $attr->store();
                         break;
                     case 'ezimage':
-                        // validation has been done by eZContentUpload
                         $content = $attr->attribute( 'content' );
-                        $content->setAttribute( 'alternative_text', $postVar );
-                        $content->store( $attr );
+
+                        // Check if the alt text is required
+                        if(
+                            eZImageType::isAltTextRequired( $attr ) &&
+                            !trim( $postVar )
+                        )
+                        {
+                            throw new InvalidArgumentException(
+                                ezpI18n::tr( 'design/standard/error/kernel','Alternative text required.' )
+                            );
+                        }
+                        else
+                        {
+                            $content->setAttribute( 'alternative_text', $postVar );
+                            $content->store( $attr );
+                        }
                         break;
                     case 'ezxmltext':
                         $parser = new eZOEInputParser();

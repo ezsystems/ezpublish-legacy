@@ -3,3 +3,10 @@
 <label>{'Max file size'|i18n( 'design/standard/class/datatype ')}:</label>
 <input type="text" name="ContentClass_ezimage_max_filesize_{$class_attribute.id}" value="{$class_attribute.data_int1}" size="5" maxlength="5" />&nbsp;MB
 </div>
+
+<div class="element">
+    <label for="ContentAttribute_alttextrequired_{$class_attribute.id}">
+        <input type="checkbox" id="ContentAttribute_alttextrequired_{$class_attribute.id}" name="ContentAttribute_alttextrequired_checked[{$class_attribute.id}]" value="{$class_attribute.id}" {if $class_attribute.data_int2}checked="checked"{/if} title="{'Use this checkbox to make image alt text mandatory.'|i18n( 'design/standard/class/datatype' )}">
+        {'Image alt text required'|i18n( 'design/standard/class/datatype' )}
+    </label>
+</div>

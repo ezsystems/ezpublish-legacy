@@ -370,6 +370,17 @@ class ezjscServerFunctionsAjaxUploader extends ezjscServerFunctions
             $http->postVariable( 'UploadLocation', false ),
             $http->postVariable( 'UploadName', '' )
         );
+
+        if( $http->hasPostVariable( 'UploadAlternativeText' ) )
+        {
+            $data_map     = $contentObject->attribute( 'data_map' );
+            $imgAttribute = $data_map[ 'image' ];
+            $content      = $imgAttribute->attribute( 'content' );
+
+            $content->setAttribute( 'alternative_text', $http->postVariable( 'UploadAlternativeText' ) );
+            $content->store( $imgAttribute );
+        }
+
         unlink( $tmpFile );
 
         $tpl = eZTemplate::factory();
