@@ -60,7 +60,7 @@ class eZSiteData extends eZPersistentObject
 
     /**
      * Fetches a site data by name
-	 *
+     *
      * @param string $name
      * @return eZPersistentObject
      */
