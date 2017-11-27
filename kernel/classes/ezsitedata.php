@@ -23,25 +23,22 @@ class eZSiteData extends eZPersistentObject
      */
     public static function definition()
     {
-        return array(
-            'fields' => array(
-                'name' => array(
-                    'name'     => 'name',
-                    'datatype' => 'string',
-                    'default'  => null,
-                    'required' => true
-                ),
-                'value' => array(
-                    'name'     => 'value',
-                    'datatype' => 'string',
-                    'default'  => null,
-                    'required' => true
-                ),
-            ),
-            'keys'                => array( 'name' ),
-            'class_name'          => 'eZSiteData',
-            'name'                => 'ezsite_data',
-            'function_attributes' => array()
+        return array( 'fields'       => array( 'name'               => array( 'name'     => 'name',
+                                                                              'datatype' => 'string',
+                                                                              'default'  => null,
+                                                                              'required' => true ),
+
+                                               'value'             => array( 'name'     => 'value',
+                                                                             'datatype' => 'string',
+                                                                             'default'  => null,
+                                                                             'required' => true ),
+
+                                            ),
+
+                      'keys'                 => array( 'name' ),
+                      'class_name'           => 'eZSiteData',
+                      'name'                 => 'ezsite_data',
+                      'function_attributes'  => array()
         );
     }
 
