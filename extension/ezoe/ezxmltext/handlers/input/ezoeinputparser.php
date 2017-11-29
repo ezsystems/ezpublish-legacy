@@ -1250,9 +1250,9 @@ class eZOEInputParser extends eZXMLInputParser
                 if ( !eZContentObject::exists( $objectID ))
                 {
                     $this->Messages[] = ezpI18n::tr( 'design/standard/ezoe/handler',
-                                                'Object %1 does not exist.',
+                                                'Invalid link: "%1". Target object does not exist.',
                                                 false,
-                                                array( $objectID ) );
+                                                array( $matches[0] ) );
                 }
             }
             /*
@@ -1273,9 +1273,9 @@ class eZOEInputParser extends eZXMLInputParser
                     if ( !$node instanceOf eZContentObjectTreeNode )
                     {
                         $this->Messages[] = ezpI18n::tr( 'design/standard/ezoe/handler',
-                                                    'Node %1 does not exist.',
+                                                    'Invalid link: "%1". Target node does not exist.',
                                                     false,
-                                                    array( $nodeID ) );
+                                                    array( $matches[0] ) );
                     }
                 }
                 else
@@ -1284,9 +1284,9 @@ class eZOEInputParser extends eZXMLInputParser
                     if ( !$node instanceOf eZContentObjectTreeNode )
                     {
                         $this->Messages[] = ezpI18n::tr( 'design/standard/ezoe/handler',
-                                                    'Node &apos;%1&apos; does not exist.',
+                                                    'Invalid link: "%1". Target node does not exist.',
                                                     false,
-                                                    array( $nodePath ) );
+                                                    array( $matches[0] ) );
                     }
                     else
                     {
