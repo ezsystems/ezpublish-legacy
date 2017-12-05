@@ -14,6 +14,7 @@ $errorNumber = $Params['Number'];
 $extraErrorParameters = $Params['ExtraParameters'];
 $httpErrorCode = null;
 $httpErrorName = null;
+$Result = array();
 
 $tpl->setVariable( 'parameters', $extraErrorParameters );
 
@@ -56,39 +57,53 @@ $GLOBALS["eZRequestError"] = true;
 
     if ( $errorHandlerType != 'redirect' )
     {
-        // Set apache error headers if error.ini tells us to
+        // Set response headers if error.ini tells us to
+        // $errorType is 'kernel' or 'shop'
         if ( $errorINI->hasVariable( 'ErrorSettings-' . $errorType, 'HTTPError' ) )
         {
             $errorMap = $errorINI->variable( 'ErrorSettings-' . $errorType, 'HTTPError' );
             if ( isset( $errorMap[$errorNumber] ) )
             {
                 $httpErrorCode = $errorMap[$errorNumber];
-                if ( $errorINI->hasVariable( 'HTTPError-' . $httpErrorCode, 'HTTPName' ) )
+
+                $headers = kernelErrorGetHeaderList( $errorINI, $httpErrorCode );
+
+                if( !empty( $headers ) )
                 {
-                    $httpErrorName = $errorINI->variable( 'HTTPError-' . $httpErrorCode, 'HTTPName' );
-                    $httpErrorString = "$httpErrorCode $httpErrorName";
+                    foreach( $headers as $name => $value )
+                    {
+                        // store header on $Result to get it into the content cache
+                        $Result['responseHeaders'][] = $name . ': '. $value;
+
+                        // Copy 'Status' header to a protocol header
+                        // TODO: should use http_response_code()
+                        if( $name == 'Status' )
+                        {
+                            $Result['responseHeaders'][] =
+                                eZSys::serverVariable( 'SERVER_PROTOCOL' ) . " $httpErrorCode $value";
+                        }
+                    }
+
+                    // apply header
+                    foreach( $Result['responseHeaders'] as $header )
+                    {
+                        header( $header );
+                    }
+
+                    // This is triggered if the URL alias translator wants to redirect
+                    // to another URL
+                    // Not sure why it's wrapped in $errorINI->hasVariable( 'HTTPError-'...
                     if ( $errorNumber == eZError::KERNEL_MOVED )
                     {
                         $module->redirectTo( $extraErrorParameters['new_location'] );
-                        $module->setRedirectStatus( $httpErrorString );
                         return array(); // $Result of this view
-                    }
-                    else
-                    {
-                        // we need to store the header so that they are listed in view cache data ()
-                        $responseHeaders = array(
-                            eZSys::serverVariable( 'SERVER_PROTOCOL' ) . " $httpErrorString",
-                            "Status: $httpErrorString"
-                        );
-                        header( $responseHeaders[0] );
-                        header( $responseHeaders[1] );
                     }
                 }
             }
         }
     }
 
-    eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "error/view.php" );
+    eZDebug::writeError( "Error occurred using URI: " . $_SERVER['REQUEST_URI'] , "error/view.php" );
 
     if ( $errorHandlerType == 'redirect' )
     {
@@ -179,7 +194,6 @@ if ( (isset( $Params['ExtraParameters']['AccessList'] ) ) and  ( $ini->variable(
 $res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'error_type', $errorType ), array( 'error_number', $errorNumber ) ) );
 
-$Result = array();
 $Result['content'] = $tpl->fetch( "design:error/$errorType/$errorNumber.tpl" );
 $Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/error', 'Error' ),
                                 'url' => false ),
@@ -190,5 +204,25 @@ $Result['errorMessage'] = $httpErrorName;
 $Result['errorType'] = $errorType;
 $Result['errorNumber'] = $errorNumber;
 
-if ( isset( $responseHeaders ) )
-    $Result['responseHeaders'] = $responseHeaders;
+/**
+ * @param eZINI $errorINI
+ * @param string $httpErrorCode
+ * @return array
+ */
+function kernelErrorGetHeaderList( $errorINI, $httpErrorCode )
+{
+    $return = array();
+
+    if( $errorINI->hasVariable( 'HTTPError-' . $httpErrorCode, 'HeaderList' ) )
+    {
+        $return = $errorINI->variable( 'HTTPError-' . $httpErrorCode, 'HeaderList' );
+    }
+
+    // Make code backwards compatible - "HTTPName" is deprecated
+    if( $errorINI->hasVariable( 'HTTPError-' . $httpErrorCode, 'HTTPName' ) )
+    {
+        $return[ 'Status' ] = $errorINI->variable( 'HTTPError-' . $httpErrorCode, 'HTTPName' );
+    }
+
+    return $return;
+}
