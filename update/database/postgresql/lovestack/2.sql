@@ -1,0 +1,1 @@
+ALTER TABLE ezuser ALTER COLUMN password_hash TYPE VARCHAR(255);
