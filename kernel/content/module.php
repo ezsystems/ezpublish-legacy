@@ -654,6 +654,7 @@ $FunctionList['manage_locations'] = array( 'Class' => $ClassID,
                                            'Section' => $SectionID,
                                            'Owner' => $Assigned,
                                            'Subtree' => $Subtree );
+$FunctionList['manage_locations'] = array_merge( $FunctionList['manage_locations'], $stateLimitations );
 
 $FunctionList['hide'] = array( 'Class' => $ClassID,
                                'Section' => $SectionID,
