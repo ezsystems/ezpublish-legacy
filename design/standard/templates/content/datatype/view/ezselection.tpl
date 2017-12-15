@@ -2,8 +2,7 @@
 {let selected_id_array=$attribute.content}
 {foreach $attribute.class_content.options as $Options}
     {if $selected_id_array|contains( $Options.id )}
-        {$Options.name|wash( xhtml )}
+        {$Options.name|wash( xhtml )}<br />
     {/if}
-    {delimiter}<br/>{/delimiter}
 {/foreach}
 {/let}
