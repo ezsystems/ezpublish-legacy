@@ -168,7 +168,6 @@ class eZSearchEngine implements ezpSearchEngine
         $trans = eZCharTransform::instance();
 
         $wordCount = count( $indexArrayOnlyWords );
-        $wordIDArray = array();
         $wordArray = array();
         // store the words in the index and remember the ID
         $dbName = $db->databaseName();
@@ -185,6 +184,7 @@ class eZSearchEngine implements ezpSearchEngine
                 // Build a has of the existing words
                 $wordResCount = count( $wordRes );
                 $existingWordArray = array();
+                $wordIDArray = array();
                 for ( $i = 0; $i < $wordResCount; $i++ )
                 {
                     $wordIDArray[] = $wordRes[$i]['id'];
