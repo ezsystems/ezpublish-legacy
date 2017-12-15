@@ -156,7 +156,14 @@ class eZMySQLiDB extends eZDBInterface
 
         if ( $this->IsConnected and $charset !== null )
         {
-            $status = mysqli_set_charset( $connection, eZMySQLCharset::mapTo( $charset ) );
+            $mysqlCharset = eZMySQLCharset::mapTo( $charset );
+            $ini = eZINI::instance( 'site.ini' );
+            if ( $ini->variable( "DatabaseSettings", "FixMySQLUtf8" ) == "enabled" && $mysqlCharset == "utf8" )
+            {
+                $mysqlCharset = 'utf8mb4';
+            }
+
+            $status = mysqli_set_charset( $connection, $mysqlCharset );
             if ( !$status )
             {
                 $this->setError();
