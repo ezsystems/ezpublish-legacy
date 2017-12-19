@@ -1273,7 +1273,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 if ( is_array( $filter[2] ) )
                                 {
                                     reset( $filter[2] );
-                                    while ( list( $key, $value ) = each( $filter[2] ) )
+                                    foreach ( $filter[2] as $key => $value )
                                     {
                                         // Non-numerics must be escaped to avoid SQL injection
                                         switch ( $filterFieldType )

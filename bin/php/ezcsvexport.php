@@ -70,7 +70,7 @@ $script->resetIteration( $subTreeCount );
 $subTree = $node->subTree();
 $openedFPs = array();
 
-while ( list( $key, $childNode ) = each( $subTree ) )
+foreach ( $subTree as $key => $childNode )
 {
     $status = true;
 
@@ -158,9 +158,9 @@ while ( list( $key, $childNode ) = each( $subTree ) )
     $script->iterate( $cli, $status );
 }
 
-while ( $fp = each( $openedFPs ) )
+foreach ( $openedFPs as $fp )
 {
-    fclose( $fp['value'] );
+    fclose( $fp );
 }
 
 $script->shutdown();
