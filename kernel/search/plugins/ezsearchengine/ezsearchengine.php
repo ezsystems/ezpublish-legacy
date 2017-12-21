@@ -297,7 +297,8 @@ class eZSearchEngine implements ezpSearchEngine
             $indexWord = $indexArray[$i]['Word'];
             $contentClassAttributeID = $indexArray[$i]['ContentClassAttributeID'];
             $identifier = $indexArray[$i]['identifier'];
-            $integerValue = $indexArray[$i]['integer_value'];
+            $integerValue = min( $indexArray[$i]['integer_value'], eZDBInterface::MAX_INT );
+            $integerValue = max( $integerValue, eZDBInterface::MIN_INT );
             $wordID = $wordIDArray[$indexWord];
 
             if ( isset( $indexArray[$i+1] ) )
