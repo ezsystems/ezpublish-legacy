@@ -96,7 +96,11 @@ class eZSearchEngine implements ezpSearchEngine
                     // Split text on whitespace
                     if ( is_numeric( trim( $text ) ) )
                     {
-                        $integerValue = (int) $text;
+                        //verify if value does not exceed MySQL int(11) unsigned maximum value
+                        if( (int)$text > (int)2147483647 )
+                            $integerValue = 0;
+                        else
+                            $integerValue = (int) $text;                      
                     }
                     else
                     {
