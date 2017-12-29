@@ -105,7 +105,7 @@ while ( $objectData = fgetcsv( $fp, $csvLineLength , ';', '"' ) )
 
     $attributes = $contentObject->attribute( 'contentobject_attributes' );
 
-    while ( list( $key, $attribute ) = each( $attributes ) )
+    foreach ( $attributes as $key => $attribute )
     {
         $dataString = $objectData[$key];
         switch ( $datatypeString = $attribute->attribute( 'data_type_string' ) )

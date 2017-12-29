@@ -93,8 +93,7 @@ class ezpRestOauthAuthenticationStyle extends ezpRestAuthenticationStyle impleme
 
         foreach ( $reasons as $line )
         {
-            list( $key, $value ) = each( $line );
-            $reasonText[] = $errorMap[$key][$value];
+            $reasonText[] = $errorMap[key( $line )][current( $line )];
         }
         $res->variables['ezcAuth_reasons']  = $reasonText;
     }

@@ -1884,7 +1884,7 @@ class eZTemplate
         if ( method_exists( $func_obj, "attributeList" ) )
         {
             $attrs = $func_obj->attributeList();
-            while ( list( $attr_name, $has_children ) = each( $attrs ) )
+            foreach ( $attrs as $attr_name => $has_children )
             {
                 $this->FunctionAttributes[$attr_name] = $has_children;
             }

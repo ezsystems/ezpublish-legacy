@@ -39,7 +39,7 @@ class eZTemplatePHPOperator
             $php_names = array( $php_names );
         $this->PHPNames = $php_names;
         reset( $php_names );
-        while ( list( $key, $val ) = each( $php_names ) )
+        foreach ( $php_names as $key => $val )
         {
             $this->Operators[] = $key;
         }
