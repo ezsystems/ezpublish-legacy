@@ -166,7 +166,8 @@ class eZPDFTable extends Cezpdf
         if (!is_array($cols)){
             // take the columns from the first row of the data set
             reset($data);
-            list($k,$v)=each($data);
+            $k=key($data);
+            $v=current($data);
             if (!is_array($v)){
                 return;
             }
