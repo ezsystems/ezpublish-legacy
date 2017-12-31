@@ -32,6 +32,10 @@ class eZUser extends eZPersistentObject
     /// Passwords in PHP default format
     const PASSWORD_HASH_PHP_DEFAULT = 7;
 
+    /// Default password hashing algorithm, used in case of invalid configuration or usage.
+    /// Update this if support for better algorithms is added.
+    const DEFAULT_PASSWORD_HASH = self::PASSWORD_HASH_PHP_DEFAULT;
+
     /**
      * Max length allowed for a login or a password
      *
@@ -161,7 +165,6 @@ class eZUser extends eZPersistentObject
             {
                 return self::PASSWORD_HASH_MD5_PASSWORD;
             } break;
-            default:
             case 'md5_user':
             {
                 return self::PASSWORD_HASH_MD5_USER;
@@ -186,6 +189,13 @@ class eZUser extends eZPersistentObject
             {
                 return self::PASSWORD_HASH_PHP_DEFAULT;
             } break;
+            default:
+            {
+                eZDebug::writeError( "Password hash type identifier '$identifier' is not recognized. " .
+                                     'Check the site.ini [UserSettings] HashType setting. ' .
+                                     'Defaulting to ' . self::passwordHashTypeName( self::DEFAULT_PASSWORD_HASH ) );
+                return self::DEFAULT_PASSWORD_HASH;
+            }
         }
     }
 
@@ -1842,9 +1852,11 @@ WHERE user_id = '" . $userID . "' AND
         {
             $str = password_hash( $password, PASSWORD_DEFAULT );
         }
-        else // self::PASSWORD_HASH_MD5_PASSWORD
+        else // self::DEFAULT_PASSWORD_HASH
         {
-            $str = md5( $password );
+            eZDebug::writeError( "Password hash type ID '$type' is not recognized. " .
+                                 'Defaulting to eZUser::DEFAULT_PASSWORD_HASH.' );
+            $str = self::createHash( $user, $password, $site, self::DEFAULT_PASSWORD_HASH, $hash );
         }
         eZDebugSetting::writeDebug( 'kernel-user', $str, "ezuser($type)" );
         return $str;
