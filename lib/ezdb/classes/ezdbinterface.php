@@ -1809,6 +1809,20 @@ class eZDBInterface
      * @var int One of the eZDB::ERROR_HANDLING_* constants
      */
     protected $errorHandling = eZDB::ERROR_HANDLING_STANDARD;
+
+    /**
+     * Maximal value for mysql int columns
+     *
+     * @var int
+     */
+    public $MAX_INT = 2147483647;
+
+    /**
+     * Minimal value for mysql int columns
+     *
+     * @var int
+     */
+    public $MIN_INT = -2147483648;
 }
 
 ?>
