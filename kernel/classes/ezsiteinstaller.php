@@ -37,7 +37,7 @@ class eZSiteInstaller
      * @deprecated Use eZSiteInstaller::__construct() instead
      * @param bool $parameters
      */
-    public function eZSiteInstaller( $parameters = false )
+    function eZSiteInstaller( $parameters = false )
     {
         self::__construct( $parameters );
     }
