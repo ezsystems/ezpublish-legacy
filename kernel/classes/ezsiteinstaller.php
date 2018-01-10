@@ -39,7 +39,7 @@ class eZSiteInstaller
      */
     public function eZSiteInstaller( $parameters = false )
     {
-        self::__construct( $row );
+        self::__construct( $parameters );
     }
 
     function &instance( $params )
