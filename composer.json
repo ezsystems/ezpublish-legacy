@@ -63,6 +63,20 @@
         "phpunit/phpunit": "3.7.*",
         "zetacomponents/php-generator": "~1.1"
     },
+    "autoload": {
+      "files": ["autoload.php"]
+    },
+    "scripts": {
+      "legacy-scripts": [
+          "@php bin/php/ezpgenerateautoloads.php"
+      ],
+      "post-install-cmd": [
+          "@legacy-scripts"
+      ],
+      "post-update-cmd": [
+          "@legacy-scripts"
+      ]
+    },
     "conflict": {
         "ezsystems/ezpublish-kernel": "<6.12 || >=2014.11 <2017.10"
     },

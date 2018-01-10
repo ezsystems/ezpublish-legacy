@@ -19,6 +19,12 @@ if ( file_exists( __DIR__ . '/config.php' ) )
     require_once __DIR__ . '/config.php';
 }
 
+// If composer autoloaded context such as eZ Platform & legacy bridge, skip trying to autoload Zeta Components and such
+if ( class_exists( 'Composer\Autoload\ClassLoader', false ) )
+{
+    define( 'EZCBASE_ENABLED', false );
+}
+
 if ( !defined( 'EZCBASE_ENABLED' ) )
 {
     $defaultAppName = "app";
