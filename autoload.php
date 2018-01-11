@@ -19,57 +19,26 @@ if ( file_exists( __DIR__ . '/config.php' ) )
     require_once __DIR__ . '/config.php';
 }
 
-// If composer autoloaded context such as eZ Platform & legacy bridge, skip trying to autoload Zeta Components and such
-if ( class_exists( 'Composer\Autoload\ClassLoader', false ) )
-{
-    define( 'EZCBASE_ENABLED', false );
-}
-
+// Check for EZCBASE_ENABLED, if set we can skip autoloading Zeta Components
 if ( !defined( 'EZCBASE_ENABLED' ) )
 {
-    $defaultAppName = "app";
-    if ( !file_exists( __DIR__ . "/../$defaultAppName" ) )
+    // If composer autloader is already present we can skip trying to load it
+    if ( class_exists( 'Composer\Autoload\ClassLoader', false ) )
     {
-        $defaultAppName = "ezpublish";
+        $baseEnabled = false;
     }
+    // Composer if in eZ Platform context
+    else if ( file_exists( __DIR__ . "/../vendor/autoload.php" ) )
+    {
 
-    $appName = defined( 'EZP_APP_FOLDER_NAME' ) ? EZP_APP_FOLDER_NAME : $defaultAppName;
-    $appFolder = __DIR__ . "/../$appName";
-    $legacyVendorDir = __DIR__ . "/vendor";
-
-    // Bundled
-    if ( defined( 'EZP_USE_BUNDLED_COMPONENTS' ) ? EZP_USE_BUNDLED_COMPONENTS === true : file_exists( __DIR__ . "/lib/ezc" ) )
-    {
-        set_include_path( __DIR__ . PATH_SEPARATOR . __DIR__ . "/lib/ezc" . PATH_SEPARATOR . get_include_path() );
-        require 'Base/src/base.php';
-        $baseEnabled = true;
-    }
-    // Custom config.php defined
-    else if ( defined( 'EZC_BASE_PATH' ) )
-    {
-        require EZC_BASE_PATH;
-        $baseEnabled = true;
-    }
-    // Composer if in eZ Publish5 context
-    else if ( strpos( $appFolder, "{$appName}/../{$appName}" ) === false && file_exists( "{$appFolder}/autoload.php" ) )
-    {
-        require_once "{$appFolder}/autoload.php";
+        require_once __DIR__ . "/../vendor/autoload.php";
         $baseEnabled = false;
     }
     // Composer if in eZ Publish legacy context
-    else if ( file_exists( "{$legacyVendorDir}/autoload.php" ) )
+    else if ( file_exists( __DIR__ . "/vendor/autoload.php" ) )
     {
-        require_once "{$legacyVendorDir}/autoload.php";
+        require_once __DIR__ . "/vendor/autoload.php";
         $baseEnabled = false;
-    }
-    // PEAR install
-    else
-    {
-        $baseEnabled = @include 'ezc/Base/base.php';
-        if ( !$baseEnabled )
-        {
-            $baseEnabled = @include 'Base/src/base.php';
-        }
     }
 
     define( 'EZCBASE_ENABLED', $baseEnabled );
