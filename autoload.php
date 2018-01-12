@@ -22,26 +22,24 @@ if ( file_exists( __DIR__ . '/config.php' ) )
 // Check for EZCBASE_ENABLED, if set we can skip autoloading Zeta Components
 if ( !defined( 'EZCBASE_ENABLED' ) )
 {
-    // If composer autloader is already present we can skip trying to load it
+    // Start by setting EZCBASE_ENABLED to avoid recursion
+    define( 'EZCBASE_ENABLED', false );
+
+    // If composer autoloader is already present we can skip trying to load it
     if ( class_exists( 'Composer\Autoload\ClassLoader', false ) )
     {
-        $baseEnabled = false;
+        // do nothing
     }
     // Composer if in eZ Platform context
     else if ( file_exists( __DIR__ . "/../vendor/autoload.php" ) )
     {
-
         require_once __DIR__ . "/../vendor/autoload.php";
-        $baseEnabled = false;
     }
     // Composer if in eZ Publish legacy context
     else if ( file_exists( __DIR__ . "/vendor/autoload.php" ) )
     {
         require_once __DIR__ . "/vendor/autoload.php";
-        $baseEnabled = false;
     }
-
-    define( 'EZCBASE_ENABLED', $baseEnabled );
 }
 
 // Check if ezpAutoloader exists because it can be already declared if running in the Symfony context (e.g. CLI scripts)
