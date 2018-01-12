@@ -1072,7 +1072,7 @@ class eZScript
                 $this->setUseIncludeFiles( $useIncludeFiles );
                 $this->setDebugMessage( "\n\n" . str_repeat( '#', 36 ) . $cli->style( 'emphasize' ) . " DEBUG " . $cli->style( 'emphasize-end' )  . str_repeat( '#', 36 ) . "\n" );
             }
-            if ( count( $options['verbose'] ) > 0 )
+            if ( is_array( $options['verbose'] ) && count( $options['verbose'] ) > 0 )
             {
                 $this->setShowVerboseOutput( count( $options['verbose'] ) );
             }
