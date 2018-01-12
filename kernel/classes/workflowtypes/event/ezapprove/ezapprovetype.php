@@ -772,6 +772,12 @@ class eZApproveType extends eZWorkflowEventType
             $status = eZWorkflowType::STATUS_WORKFLOW_CANCELLED;
         }
         $contentObjectVersion->sync();
+
+        ezpEvent::getInstance()->notify(
+            'content/cache/version',
+            array( $contentObjectVersion->attribute( 'contentobject_id' ), $contentObjectVersion->attribute( 'version' ) )
+        );
+
         if ( $approvalStatus != eZApproveCollaborationHandler::STATUS_DEFERRED )
             $db->query( 'DELETE FROM ezapprove_items WHERE workflow_process_id = ' . $process->attribute( 'id' )  );
         return $status;
