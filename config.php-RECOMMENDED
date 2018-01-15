@@ -12,46 +12,6 @@
    *uncomment* the proposed settings.
 */
 
-
-/*
-   PATH TO THE EZCOMPONENTS
-   ------------------------
-   config.php can set the components path like:
-*/
-//ini_set( 'include_path', ini_get( 'include_path' ). PATH_SEPARATOR . '../ezcomponents/trunk' );
-
-/*
-    USING COMPONENTS VIA COMPOSER
-    -----------------------------
-    If installation is in a eZ Publish 5/Symfony context, composer will be attempted to be used
-    if the following file is found: '../EZP_APP_FOLDER_NAME/autoload.php'
-    Default EZP_APP_FOLDER_NAME value is "app" and this constant gives you possibility to change it.
-    In eZ Publish 5.x, default value of EZP_APP_FOLDER_NAME was "ezpublish".
-*/
-//define( 'EZP_APP_FOLDER_NAME', 'my_app' );
-
-/*
-    USING BUNDLED COMPONENTS
-    ------------------------
-    If you are using a distribution of eZ Publish with which the necessary
-    eZ Components are bundled (in lib/ezc), then you can use this setting to
-    control if the bundled eZ Components should be used (true) or not (false).
-    By default, when this setting is not present and the bundled eZ Components are
-    present, they will be used. If you're using the bundled eZ Components it's recommended
-    to define EZP_USE_BUNDLED_COMPONENTS as a boolean true anyway, for optimal speed.
-*/
-//define( 'EZP_USE_BUNDLED_COMPONENTS', true );
-
-
-/*
-   If you are not using the bundled eZ Components, then for optimal speed it is
-   recommended to set EZC_BASE_PATH to either ezc/Base/base.php or Base/src/base.php,
-   depending on how you installed the eZ Components. By default, if this setting
-   is not present, eZ Publish first tries to include ezc/Base/base.php in the standard
-   php include path. If that fails Base/src/base.php is included.
-*/
-//define( 'EZC_BASE_PATH', '/usr/lib/ezc/Base/base.php' );
-
 /*
    TIMEZONES
    ---------
