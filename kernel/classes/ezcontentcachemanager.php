@@ -696,7 +696,7 @@ class eZContentCacheManager
 
         eZDebug::accumulatorStop( 'node_cleanup_list' );
 
-        return self::clearNodeViewCacheArray( $nodeList );
+        return self::clearNodeViewCacheArray( $nodeList, array( $objectID ) );
     }
 
     /**
@@ -728,16 +728,17 @@ class eZContentCacheManager
 
         eZDebug::accumulatorStop( 'node_cleanup_list' );
 
-        return self::clearNodeViewCacheArray( $nodeList );
+        return self::clearNodeViewCacheArray( $nodeList, $objectIDList );
     }
 
     /**
      * Clears view caches for an array of nodes.
      *
      * @param  array   $nodeList List of node IDs to clear
+     * @param  array|null   $contentObjectList List of content object IDs to clear
      * @return boolean returns true on success
      */
-    public static function clearNodeViewCacheArray( array $nodeList )
+    public static function clearNodeViewCacheArray( array $nodeList, array $contentObjectList = null )
     {
         if ( count( $nodeList ) == 0 )
         {
@@ -769,7 +770,7 @@ class eZContentCacheManager
 
         if ( eZContentCache::inCleanupThresholdRange( $cleanupValue ) )
         {
-            $nodeList = ezpEvent::getInstance()->filter( 'content/cache', $nodeList );
+            $nodeList = ezpEvent::getInstance()->filter( 'content/cache', $nodeList, $contentObjectList );
             eZContentCache::cleanup( $nodeList );
         }
         else

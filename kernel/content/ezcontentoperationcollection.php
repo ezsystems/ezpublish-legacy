@@ -905,7 +905,7 @@ class eZContentOperationCollection
         }
 
         // Triggering content/cache filter for Http cache purge
-        ezpEvent::getInstance()->filter( 'content/cache', $removeNodeIdList );
+        ezpEvent::getInstance()->filter( 'content/cache', $removeNodeIdList, array_keys( $objectIdList ) );
         // we don't clear template block cache here since it's cleared in eZContentObjectTreeNode::removeNode()
 
         return array( 'status' => true );
