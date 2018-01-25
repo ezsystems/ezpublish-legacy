@@ -243,6 +243,11 @@ class eZSection extends eZPersistentObject
                     eZContentOperationCollection::updateSection( $node->attribute( "node_id" ), $sectionID );
                 }
             }
+            
+            foreach ( $assignedNodes as $node )
+            {
+               eZContentObjectTreeNode::clearViewCacheForSubtree($node, false);
+            }
         }
         else
         {
@@ -252,7 +257,7 @@ class eZSection extends eZPersistentObject
             $db->query( "UPDATE ezsearch_object_word_link SET section_id='$sectionID' WHERE  contentobject_id = '$objectID'" );
         }
         eZContentCacheManager::clearContentCacheIfNeeded( $object->attribute( "id" ) );
-        $object->expireAllViewCache();
+         
         $db->commit();
     }
 }
