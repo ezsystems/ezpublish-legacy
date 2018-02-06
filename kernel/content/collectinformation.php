@@ -31,6 +31,20 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
     $version = $object->currentVersion();
     $contentObjectAttributes = $version->contentObjectAttributes();
 
+    $isInformationCollector = false;
+    foreach ( $contentObjectAttributes as $contentObjectAttribute )
+    {
+        if ( $contentObjectAttribute->contentClassAttributeIsInformationCollector() )
+        {
+            $isInformationCollector = true;
+            break;
+        }
+    }
+    if ( !$isInformationCollector )
+    {
+        return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
+    }
+
     $user = eZUser::currentUser();
     $isLoggedIn = $user->attribute( 'is_logged_in' );
     $allowAnonymous = true;
