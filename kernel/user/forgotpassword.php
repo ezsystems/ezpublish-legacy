@@ -108,16 +108,39 @@ if ( $module->isCurrentAction( "Generate" ) )
                                                        null,
                                                        true );
         }
+
+        $random_bytes = false;
+        if ( function_exists( "openssl_random_pseudo_bytes" ) )
+        {
+            $is_crypto_strong = false;
+            $random_bytes = openssl_random_pseudo_bytes( 32, $is_crypto_strong );
+            if ( $random_bytes === false )
+            {
+                eZDebug::writeWarning('openssl_random_pseudo_bytes() cannot generate random data, falling back to insecure mt_rand(). ' .
+                    'Please check your PHP installation.' );
+            }
+            else if ( $is_crypto_strong === false )
+            {
+                eZDebug::writeWarning('openssl_random_pseudo_bytes() could not use a cryptographically strong algorithm. ' .
+                    'Please check your PHP installation.' );
+            }
+        }
+        else
+        {
+            eZDebug::writeWarning('openssl_random_pseudo_bytes() is not available, falling back to insecure mt_rand(). ' .
+                'Please install the openssl PHP extension.' );
+        }
+        if ( $random_bytes === false )
+        {
+            $random_bytes = mt_rand(); // Not secure, but should not happen since SSL is required, and anyway admins have been warned.
+        }
+
         if ( isset($users) && count($users) > 0 )
         {
             $user   = $users[0];
             $time   = time();
             $userID = $user->id();
-            $hashKey = md5(
-                $userID . ':' . microtime() . ':' .
-                ( function_exists( "openssl_random_pseudo_bytes" ) ?
-                    openssl_random_pseudo_bytes( 32 ) : mt_rand() )
-            );
+            $hashKey = md5($userID . ':' . microtime() . ':' . $random_bytes );
 
             // Create forgot password object
             if ( eZOperationHandler::operationIsAvailable( 'user_forgotpassword' ) )
