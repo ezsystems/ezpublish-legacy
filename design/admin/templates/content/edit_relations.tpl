@@ -40,7 +40,7 @@
                 </p>
             {else}
                 <p>
-                    {$RelatedImageObjects.item.name|wash} - {"You do not have permission to view this object"|i18n( 'design/admin/content/edit' )}
+                    {"You do not have permission to view this object"|i18n( 'design/admin/content/edit' )}
                 </p>
             {/if}
            <input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedImageObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to embed the object.'|i18n( 'design/admin/content/edit' )}" /><br />
@@ -105,7 +105,7 @@
                         </td>
                     {else}
                         <td class="checkbox">&nbsp;</td>
-                        <td colspan="3">{$RelatedFileObjects.item.name|wash} - {"You do not have permission to view this object"|i18n( 'design/admin/content/edit' )}</td>
+                        <td colspan="3">{"You do not have permission to view this object"|i18n( 'design/admin/content/edit' )}</td>
                         <td class="code">
                             <input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedFileObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to embed the object.'|i18n( 'design/admin/content/edit' )}" /><br />
                             <input class="linkbox" type="text" value="&lt;link href='ezobject://{$RelatedFileObjects.item.id}'&gt;&lt;/link&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to link the object.'|i18n( 'design/admin/content/edit' )}" />
@@ -167,7 +167,7 @@
                         </td>
                     {else}
                         <td class="checkbox">&nbsp;</td>
-                        <td colspan="2">{$RelatedObjects.item.name|wash} - {"You do not have permission to view this object"|i18n( 'design/admin/content/edit' )}</td>
+                        <td colspan="2">{"You do not have permission to view this object"|i18n( 'design/admin/content/edit' )}</td>
                         <td class="code">
                             <input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to embed the object.'|i18n( 'design/admin/content/edit' )}" />
                             <input class="linkbox" type="text" value="&lt;link href='ezobject://{$RelatedObjects.item.id}'&gt;&lt;/link&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to link the object.'|i18n( 'design/admin/content/edit' )}" />
