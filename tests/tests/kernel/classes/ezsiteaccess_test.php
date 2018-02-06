@@ -17,20 +17,6 @@ class eZSiteAccess_Test extends ezpTestCase
     }
 
     /**
-     * Test that global siteaccess is untouched when asking for a specific siteaccess settings
-     * & reading settings from plain siteaccess
-     */
-    public function testGetINI()
-    {
-        $current = eZSiteAccess::current();
-        $ini = eZSiteAccess::getIni('plain'/*, 'site.ini'*/);
-        self::assertEquals( $current, eZSiteAccess::current() );
-
-        // this is not totally correct way of testing, but one way of making "sure" we got correct sa
-        self::assertEquals( 'plain', $ini->variable('DesignSettings', 'SiteDesign') );
-    }
-
-    /**
      * Test findPathToSiteAccess
      */
     public function testFindPathToSiteAccess()
