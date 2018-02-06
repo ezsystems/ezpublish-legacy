@@ -203,6 +203,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
             if ( $node != null )
             {
+                if ( !$node->object()->canRead() )
+                {
+                    eZDebug::writeWarning( "Current user does not have read access to the object of node #$nodeID",
+                        'XML output handler: link' );
+                    return $ret;
+                }
+
                 $view = $element->getAttribute( 'view' );
                 if ( $view )
                     $href = 'content/view/' . $view . '/' . $nodeID;
@@ -220,6 +227,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             if ( isset( $this->ObjectArray["$objectID"] ) )
             {
                 $object = $this->ObjectArray["$objectID"];
+                if ( !$object->canRead() )
+                {
+                    eZDebug::writeWarning( "Current user does not have read access to the object #$objectID",
+                        'XML output handler: link' );
+                    return $ret;
+                }
+
                 $node = $object->attribute( 'main_node' );
                 if ( $node )
                 {
