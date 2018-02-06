@@ -796,7 +796,7 @@ CODEPIECE;
                         case eZURLOperator::HTTP_OPERATOR_TYPE_POST:
                         {
                             if ( $http->hasPostVariable( $httpName ) )
-                                $operatorValue = !$checkExistence ? filter_input(INPUT_POST, $httpName, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_NO_ENCODE_QUOTES) : true;
+                                $operatorValue = !$checkExistence ? filter_var($http->postVariable( $httpName ), FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_NO_ENCODE_QUOTES) : true;
                             else
                             {
                                 // If only check for existence - return false
@@ -811,7 +811,7 @@ CODEPIECE;
                         case eZURLOperator::HTTP_OPERATOR_TYPE_GET:
                         {
                             if ( $http->hasGetVariable( $httpName ) )
-                                $operatorValue = !$checkExistence ? filter_input(INPUT_GET, $httpName, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_NO_ENCODE_QUOTES) : true;
+                                $operatorValue = !$checkExistence ? filter_var($http->getVariable( $httpName ), FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_NO_ENCODE_QUOTES) : true;
                             else
                             {
                                 if ( $checkExistence )
@@ -848,7 +848,7 @@ CODEPIECE;
                         case eZURLOperator::HTTP_OPERATOR_TYPE_COOKIE:
                         {
                             if ( array_key_exists( $httpName, $_COOKIE ) )
-                                $operatorValue = !$checkExistence ? filter_input(INPUT_COOKIE, $httpName, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_NO_ENCODE_QUOTES) : true;
+                                $operatorValue = !$checkExistence ? filter_var($_COOKIE[$httpName], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_NO_ENCODE_QUOTES) : true;
                             else
                             {
                                 if ( $checkExistence )
