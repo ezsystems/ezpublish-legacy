@@ -3,7 +3,7 @@
 <table class="list" cellspacing="0">
 <tr>
 {section var=ColumnNames loop=$matrix.columns.sequential}
-<th>{$ColumnNames.item.name}</th>
+<th>{$ColumnNames.item.name|wash( xhtml )}</th>
 {/section}
 </tr>
 {section var=Rows loop=$matrix.rows.sequential sequence=array( bglight, bgdark )}
