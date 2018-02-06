@@ -8,6 +8,9 @@ eZ Publish 4 (Referred to as `legacy` in eZ Publish 5.x)
 
 What is eZ Publish?
 -------------------
+**eZ Publish is reaching end of life by 2021, current releases are primarily
+aimed at easing migration to it's successor; [eZ Platform](https://ezplatform.com/)**
+
 eZ Publish is a professional PHP application framework with advanced CMS
 (content management system) functionality. As a CMS its most notable feature
 is its fully customizable and extendable content model.
@@ -21,6 +24,19 @@ used for cross-platform, secure, database independent PHP projects.
 eZ Publish is database, platform and browser independent. Because it is
 browser based it can be used and updated from anywhere as long as you have
 access to the Internet.
+
+#### What is eZ Platform?
+
+eZ Publish's successor, eZ Platform, is a highly extensible, pure Content
+Managment Platform. It provides the same flexible content model at it's
+core like eZ Publish, and has a growing amount of additional features
+outside the traditional CMS scope provided by means of "Bundles"
+extending it.
+
+It is built on top of the full Symfony Framework, giving developers
+access to "standard" tools for rapid web & application development.
+
+Further reading on: https://ezplatform.com/
 
 
 License
