@@ -19,54 +19,27 @@ if ( file_exists( __DIR__ . '/config.php' ) )
     require_once __DIR__ . '/config.php';
 }
 
+// Check for EZCBASE_ENABLED, if set we can skip autoloading Zeta Components
 if ( !defined( 'EZCBASE_ENABLED' ) )
 {
-    $defaultAppName = "app";
-    if ( !file_exists( __DIR__ . "/../$defaultAppName" ) )
-    {
-        $defaultAppName = "ezpublish";
-    }
+    // Start by setting EZCBASE_ENABLED to avoid recursion
+    define( 'EZCBASE_ENABLED', false );
 
-    $appName = defined( 'EZP_APP_FOLDER_NAME' ) ? EZP_APP_FOLDER_NAME : $defaultAppName;
-    $appFolder = __DIR__ . "/../$appName";
-    $legacyVendorDir = __DIR__ . "/vendor";
-
-    // Bundled
-    if ( defined( 'EZP_USE_BUNDLED_COMPONENTS' ) ? EZP_USE_BUNDLED_COMPONENTS === true : file_exists( __DIR__ . "/lib/ezc" ) )
+    // If composer autoloader is already present we can skip trying to load it
+    if ( class_exists( 'Composer\Autoload\ClassLoader', false ) )
     {
-        set_include_path( __DIR__ . PATH_SEPARATOR . __DIR__ . "/lib/ezc" . PATH_SEPARATOR . get_include_path() );
-        require 'Base/src/base.php';
-        $baseEnabled = true;
+        // do nothing
     }
-    // Custom config.php defined
-    else if ( defined( 'EZC_BASE_PATH' ) )
+    // Composer if in eZ Platform context
+    else if ( file_exists( __DIR__ . "/../vendor/autoload.php" ) )
     {
-        require EZC_BASE_PATH;
-        $baseEnabled = true;
-    }
-    // Composer if in eZ Publish5 context
-    else if ( strpos( $appFolder, "{$appName}/../{$appName}" ) === false && file_exists( "{$appFolder}/autoload.php" ) )
-    {
-        require_once "{$appFolder}/autoload.php";
-        $baseEnabled = false;
+        require_once __DIR__ . "/../vendor/autoload.php";
     }
     // Composer if in eZ Publish legacy context
-    else if ( file_exists( "{$legacyVendorDir}/autoload.php" ) )
+    else if ( file_exists( __DIR__ . "/vendor/autoload.php" ) )
     {
-        require_once "{$legacyVendorDir}/autoload.php";
-        $baseEnabled = false;
+        require_once __DIR__ . "/vendor/autoload.php";
     }
-    // PEAR install
-    else
-    {
-        $baseEnabled = @include 'ezc/Base/base.php';
-        if ( !$baseEnabled )
-        {
-            $baseEnabled = @include 'Base/src/base.php';
-        }
-    }
-
-    define( 'EZCBASE_ENABLED', $baseEnabled );
 }
 
 // Check if ezpAutoloader exists because it can be already declared if running in the Symfony context (e.g. CLI scripts)
