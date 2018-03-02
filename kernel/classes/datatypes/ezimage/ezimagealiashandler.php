@@ -1451,6 +1451,13 @@ class eZImageAliasHandler
         $this->ContentObjectAttributeData['DataTypeCustom']['dom_tree'] = $domTree;
         $this->ContentObjectAttributeData['DataTypeCustom']['is_storage_required'] = false;
         $xmlString = $domTree->saveXML();
+
+        // Remove chars that are invalid for XML 1.0, see https://www.w3.org/TR/2008/REC-xml-20081126/#charsets
+        $xmlString = preg_replace(
+            '/[^\x{0009}\x{000A}\x{000D}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]+/u', 
+            '', $xmlString
+        );
+
         $this->ContentObjectAttributeData['data_text'] = $xmlString;
 
         if ( $storeAttribute )
