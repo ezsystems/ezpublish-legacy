@@ -9,8 +9,16 @@
     <tr>
         <td><p><b>{'Site'|i18n('design/standard/setup')}:</b></p></td><td><p>{ezini('SiteSettings','SiteURL')}</p></td>
     </tr>
+    {if $ezpublish_commit_hash}
+        <tr>
+            <td><p><b>{'Last commit hash'|i18n('design/standard/setup','eZ Publish version')}</b></p></td><td><p><a href="https://github.com/mugoweb/ezpublish-legacy/commits/{$ezpublish_commit_hash}">{$ezpublish_commit_hash}</a></p></td>
+        </tr>
+    {/if}
     <tr>
-        <td><p><b>{'Version'|i18n('design/standard/setup','eZ Publish version')}</b></p></td><td><p>{$ezpublish_version}</p></td>
+        <td><p><b>{'Code version'|i18n('design/standard/setup','eZ Publish version')}</b></p></td><td><p>{$ezpublish_version}</p></td>
+    </tr>
+    <tr>
+        <td><p><b>{'Database schema version'|i18n('design/standard/setup','DB schema version')}</b></p></td><td><p>{$ezpublish_schema_version}</p></td>
     </tr>
     <tr>
         <td><p><b>{'Extensions'|i18n('design/standard/setup','eZ Publish extensions')}</b></p></td>

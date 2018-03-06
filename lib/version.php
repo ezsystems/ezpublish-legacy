@@ -14,13 +14,14 @@
 
 class eZPublishSDK
 {
-    const VERSION_MAJOR = 5;
-    const VERSION_MINOR = 90;
+    const GIT_COMMIT_HASH = '';
+    const VERSION_MAJOR = 1;
+    const VERSION_MINOR = 0;
     const VERSION_RELEASE = 0;
-    const VERSION_STATE = 'alpha1';
+    const VERSION_STATE = 'master';
     const VERSION_DEVELOPMENT = true;
-    const VERSION_ALIAS = '5.90';
-    const EDITION = 'eZ Publish Community Project';
+    const VERSION_ALIAS = 'lovestack';
+    const EDITION = 'Lovestack Edition';
 
     /*!
       \return the SDK version as a string

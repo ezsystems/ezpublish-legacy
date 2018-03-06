@@ -76,7 +76,12 @@ if ( function_exists( 'apache_get_version' ) )
         $webserverInfo['modules'] = apache_get_modules();
 }
 
-$tpl->setVariable( 'ezpublish_version', eZPublishSDK::version() . " (" . eZPublishSDK::alias() . ")" );
+$tpl->setVariable( 'ezpublish_commit_hash', eZPublishSDK::GIT_COMMIT_HASH );
+$tpl->setVariable( 'ezpublish_version', eZPublishSDK::version() . " (" . eZPublishSDK::VERSION_ALIAS . ")" );
+$tpl->setVariable( 'ezpublish_edition', eZPublishSDK::EDITION );
+$tpl->setVariable( 'ezpublish_db_version', eZSiteData::fetchByName( 'ezpublish-version' )->value );
+$tpl->setVariable( 'ezpublish_db_version_release', eZSiteData::fetchByName( 'ezpublish-release' )->value );
+$tpl->setVariable( 'ezpublish_schema_version', eZSiteData::fetchByName( 'db-schema-version' )->value );
 $tpl->setVariable( 'ezpublish_extensions', eZExtension::activeExtensions() );
 $tpl->setVariable( 'php_version', phpversion() );
 $tpl->setVariable( 'php_accelerator', $phpAcceleratorInfo );
