@@ -1812,7 +1812,11 @@ WHERE user_id = '" . $userID . "' AND
         $password = self::trimAuthString( $password );
 
         $str = '';
-        if( $type == self::PASSWORD_HASH_MD5_USER )
+        if ( $type == self::PASSWORD_HASH_MD5_PASSWORD )
+        {
+            $str = md5( $password );
+        }
+        else if ( $type == self::PASSWORD_HASH_MD5_USER )
         {
             $str = md5( "$user\n$password" );
         }
