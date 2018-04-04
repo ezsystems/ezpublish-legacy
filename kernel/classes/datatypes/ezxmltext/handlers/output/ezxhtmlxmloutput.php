@@ -187,6 +187,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     function initHandlerLink( $element, &$attributes, &$siblingParams, &$parentParams )
     {
         $ret = array();
+        $ezxmlIni = eZINI::instance('ezxml.ini');
 
         // Set link parameters for rendering children of link tag
         $href='';
@@ -206,7 +207,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $view = $element->getAttribute( 'view' );
                 if ( $view )
                     $href = 'content/view/' . $view . '/' . $nodeID;
-                else if ( !$node->object()->canRead() )
+                else if ( !$node->object()->canRead() &&
+                          $ezxmlIni->variable( 'ezxhtml', 'ShowURLAliasForProtectedLinks' ) !== 'enabled' )
                 {
                     eZDebug::writeWarning( "Current user does not have read access to the object of node #$nodeID",
                         'XML output handler: link' );
@@ -234,7 +236,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $view = $element->getAttribute( 'view' );
                     if ( $view )
                         $href = 'content/view/' . $view . '/' . $nodeID;
-                    else if ( !$object->canRead() )
+                    else if ( !$object->canRead() &&
+                              $ezxmlIni->variable( 'ezxhtml', 'ShowURLAliasForProtectedLinks' ) !== 'enabled' )
                     {
                         eZDebug::writeWarning( "Current user does not have read access to the object #$objectID",
                             'XML output handler: link' );
