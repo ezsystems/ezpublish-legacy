@@ -648,12 +648,14 @@ class eZRSSExport extends eZPersistentObject
                     }
                     else if ( $enclosureContent instanceof eZImageAliasHandler )
                     {
-                        $enc         = $item->add( 'enclosure' );
                         $origImage   = $enclosureContent->attribute( 'original' );
-                        $enc->length = $origImage['filesize'];
-                        $enc->type   = $origImage['mime_type'];
-                        $encItemURL  = $origImage['full_path'];
-                        eZURI::transformURI( $encItemURL, true, 'full' );
+                        if ($origImage['full_path'] !== '') {
+                            $enc         = $item->add( 'enclosure' );
+                            $enc->length = $origImage['filesize'];
+                            $enc->type = $origImage['mime_type'];
+                            $encItemURL = $origImage['full_path'];
+                            eZURI::transformURI($encItemURL, true, 'full');
+                        }
                     }
                     else if ($enclosureContent instanceof eZContentObject && $enclosureContent->contentClassIdentifier() === 'image')
                     {
