@@ -1,7 +1,7 @@
 {
     "name":        "mugoweb/ezpublish-legacy",
-    "description": "eZ Publish LegacyStack (4.x)",
-    "homepage":    "http://share.ez.no",
+    "description": "eZ Publish Legacy Stack (4.x), fork maintained by Mugo Web",
+    "homepage":    "https://www.mugo.ca",
     "license":     "GPL-2.0",
     "type":        "ezpublish-legacy",
     "suggest": {
@@ -79,5 +79,8 @@
     },
     "conflict": {
         "ezsystems/ezpublish-kernel": "<6.12 || >=2014.11 <2017.10"
+    },
+    "replace": {
+        "ezsystems/ezpublish-legacy": "*"
     }
 }
