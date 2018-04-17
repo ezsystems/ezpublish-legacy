@@ -928,6 +928,11 @@ class eZPackageCreationHandler
         if ( !eZHTTPFile::canFetch( 'PackageThumbnail' ) )
             return true;
 
+        if ( !self::httpFileIsImage( 'PackageThumbnail', $errorList ) )
+        {
+            return false;
+        }
+
         $file = eZHTTPFile::fetch( 'PackageThumbnail' );
 
         $result = true;
@@ -940,6 +945,46 @@ class eZPackageCreationHandler
             $persistentData['thumbnail'] = $mimeData;
         }
         return $result;
+    }
+
+    /**
+     * Check if the HTTP file is an image.
+     *
+     * @param string $httpFileName
+     * @param array $errorList
+     * @return bool
+     */
+    static protected function httpFileIsImage( $httpFileName, &$errorList )
+    {
+        if ( !isset( $_FILES[$httpFileName] ) || $_FILES[$httpFileName]["tmp_name"] === "" )
+        {
+            $errorList[] = array( 'field' => $httpFileName,
+                                  'description' => ezpI18n::tr( 'kernel/package', 'The file does not exist.' ) );
+            return false;
+        }
+
+        if ( !$_FILES[$httpFileName]["size"] )
+        {
+            $errorList[] = array( 'field' => $httpFileName,
+                                  'description' => ezpI18n::tr( 'kernel/package', 'The image file must have non-zero size.' ) );
+            return false;
+        }
+
+        $imageFile = $_FILES[ $httpFileName ][ 'tmp_name' ];
+        $ini = eZINI::instance( 'image.ini' );
+        $fInfo = finfo_open( FILEINFO_MIME_TYPE );
+        $imageType = finfo_file( $fInfo, $imageFile );
+
+        if( !in_array( $imageType, $ini->variable( 'ValidUploadFormats', 'MIMEList' ) ) )
+        {
+            $errorList[] = array(
+                'field' => $httpFileName,
+                'description' => ezpI18n::tr( 'kernel/package', 'A valid image file is required.' )
+            );
+            return false;
+        }
+
+        return true;
     }
 
     /*!
