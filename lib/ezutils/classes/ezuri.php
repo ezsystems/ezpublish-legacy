@@ -576,7 +576,10 @@ class eZURI
         {
             if ( !isset( $GLOBALS['eZURIRequestInstance'] ) )
             {
-                $GLOBALS['eZURIRequestInstance'] = new eZURI( eZSys::requestURI() );
+                // Why urlencode? Because, eZURI expects an encoded URI but eZSYS returns a non-encoded URI
+                $uri = urlencode( eZSys::requestURI() );
+                
+                $GLOBALS['eZURIRequestInstance'] = new eZURI( $uri );
             }
             return $GLOBALS['eZURIRequestInstance'];
         }
