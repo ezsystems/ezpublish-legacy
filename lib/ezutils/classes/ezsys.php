@@ -1154,34 +1154,19 @@ class eZSys
             }
         }
 
-        // remove url and hash parameters
-        if ( isset( $requestUri[1] ) && $requestUri !== '/'  )
+        // extract path from URL
+        if ( strlen( $requestUri ) && $requestUri !== '/'  )
         {
-            $uriGetPos = strpos( $requestUri, '?' );
-            if ( $uriGetPos !== false )
-            {
-                $queryString = substr( $requestUri, $uriGetPos );
-                if ( $uriGetPos === 0 )
-                    $requestUri = '';
-                else
-                    $requestUri = substr( $requestUri, 0, $uriGetPos );
-            }
-
-            $uriHashPos = strpos( $requestUri, '#' );
-            if ( $uriHashPos === 0 )
-                $requestUri = '';
-            elseif ( $uriHashPos !== false )
-                $requestUri = substr( $requestUri, 0, $uriHashPos );
+            $requestUri = parse_url( $requestUri, PHP_URL_PATH );
         }
 
-        // normalize slash use and url decode url if needed
-        if ( $requestUri === '/' || $requestUri === '' )
+        // normalize slash use
+        $requestUri = '/' . trim( $requestUri, '/ ' );
+
+        // url decode url if needed
+        if ( $requestUri !== '/' )
         {
-            $requestUri = '';
-        }
-        else
-        {
-            $requestUri = '/' . urldecode( trim( $requestUri, '/ ' ) );
+            $requestUri = urldecode( $requestUri );
         }
 
         $instance->AccessPath = array( 'siteaccess' => array( 'name' => '', 'url' => array() ),

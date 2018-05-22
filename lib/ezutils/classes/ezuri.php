@@ -69,11 +69,12 @@ class eZURI
      * Initializes with the URI string $uri. The URI string is split on / into an array.
      *
      * @param string $uri the URI to use
+     * @param boolean $decode controls if the $uri needs to be decoded first
      * @return void
     */
-    public function __construct( $uri )
+    public function __construct( $uri, $decode = true )
     {
-        $this->setURIString( $uri );
+        $this->setURIString( $uri, true, $decode );
     }
 
     /**
@@ -84,9 +85,8 @@ class eZURI
      * @param string $str the string to decode
      * @return string decoded version of $str
      */
-    public static function decodeIRI( $str )
+    protected static function decodeIRI( $str )
     {
-        $str = urldecode( $str ); // Decode %xx entries, we now have a utf-8 string
         $codec = eZTextCodec::instance( 'utf-8' ); // Make sure string is converted from utf-8 to internal encoding
         return $codec->convertString( $str );
     }
@@ -142,7 +142,7 @@ class eZURI
             if ( $encode )
                 $data['path'] = eZURI::encodeIRI( $data['path'] ); // Make sure it is encoded to IRI format
             else
-                $data['path'] = eZURI::decodeIRI( $data['path'] ); // Make sure it is dencoded to internal encoding
+                $data['path'] = eZURI::decodeIRI( urldecode( $data['path'] ) ); // Make sure it is decoded to internal encoding
         }
 
         // Reconstruct the URL
@@ -213,13 +213,19 @@ class eZURI
      *
      * @param string $uri
      * @param boolean $fullInitialize
+     * @param boolean $decode controls if the $uri needs to be decoded first
      * @return void
      */
-    public function setURIString( $uri, $fullInitialize = true )
+    public function setURIString( $uri, $fullInitialize = true, $decode = true )
     {
         if ( strlen( $uri ) > 0 and
              $uri[0] == '/' )
             $uri = substr( $uri, 1 );
+
+        if( $decode )
+        {
+            $uri = urldecode( $uri );
+        }
 
         $uri = eZURI::decodeIRI( $uri );
 
@@ -576,10 +582,7 @@ class eZURI
         {
             if ( !isset( $GLOBALS['eZURIRequestInstance'] ) )
             {
-                // Why urlencode? Because, eZURI expects an encoded URI but eZSYS returns a non-encoded URI
-                $uri = urlencode( eZSys::requestURI() );
-                
-                $GLOBALS['eZURIRequestInstance'] = new eZURI( $uri );
+                $GLOBALS['eZURIRequestInstance'] = new eZURI( eZSys::requestURI(), false );
             }
             return $GLOBALS['eZURIRequestInstance'];
         }
