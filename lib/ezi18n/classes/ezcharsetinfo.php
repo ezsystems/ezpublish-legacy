@@ -150,7 +150,7 @@ class eZCharsetInfo
                                                            'cp849',
                                                            'cp850' ),
                                     'unicode' => array( 'unicode' ),
-                                    'utf-8' => array( 'utf-8' ) );
+                                    'utf-8' => array( 'utf-8', 'utf8mb4' ) );
         }
         return $encodingTable;
     }
