@@ -32,8 +32,10 @@
 eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
 {
     var drop = jQuery( 'select.atr_link_source_types'), inp = jQuery( 'input.link_href_input' ),
-        tagName = drop.attr('data-tag-name');
-
+        tagName = [];
+    drop.each(function(){
+        tagName[ $(this).attr('id') ] = $(this).attr('data-tag-name');
+    });
     // init source type selection
     inp.each(function( i ){
         var self = jQuery(this);
@@ -44,23 +46,23 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
         {
             var url = self.val().split('://'), id = eZOEPopupUtils.Int( url[1] );
             if ( id !== 0 && ( url[0] === 'eznode' || url[0] === 'ezobject' ) )
-                ezoeLinkAttribute.ajaxCheck.call( this, url[0] + '_' + id );
+                ezoeLinkAttribute.ajaxCheck.call( this, url[0] + '_' + id, ezoeLinkAttribute.lid( this.id, tagName[this.id + '_types'] ) );
         }
     });
 
     // add event to lookup changes to source type
     drop.change(function( e )
     {
-        var lid = ezoeLinkAttribute.lid( this.id, tagName ), input = document.getElementById( lid+'_source' );
+        var lid = ezoeLinkAttribute.lid( this.id, tagName[this.id] ), input = document.getElementById( lid+'_source' );
         if ( this.value === 'ezobject://' )
         {
-        	input.value = this.value + ezoeLinkAttribute.node['contentobject_id'];
-            ezoeLinkAttribute.namePreview( ezoeLinkAttribute.node['name'], lid );
+        	input.value = this.value + ezoeLinkAttribute.getNode( lid )['contentobject_id'];
+            ezoeLinkAttribute.namePreview( ezoeLinkAttribute.getNode( lid )['name'], lid );
         }
         else if ( this.value === 'eznode://' )
         {
-        	input.value = this.value + ezoeLinkAttribute.node['node_id'];
-            ezoeLinkAttribute.namePreview( ezoeLinkAttribute.node['name'], lid );
+        	input.value = this.value + ezoeLinkAttribute.getNode( lid )['node_id'];
+            ezoeLinkAttribute.namePreview( ezoeLinkAttribute.getNode( lid )['name'], lid );
         }
         else
         {
@@ -73,7 +75,7 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
     inp.keyup( function( e )
     {
         e = e || window.event;
-        var c = e.keyCode || e.which, lid = ezoeLinkAttribute.lid( this.id, tagName ), dropdown = jQuery( '#'+lid + '_source_types' );
+        var c = e.keyCode || e.which, lid = $(this).closest('.custom_attribute_type_link, .attribute_type_link').attr('id'), dropdown = jQuery( '#'+lid + '_source_types' );
         clearTimeout( ezoeLinkAttribute.timeOut );
 
         // break if user is pressing arrow keys
@@ -93,10 +95,11 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
 
     // setup navigation on bookmark / browse / search links to their 'boxes' (panels)
     jQuery( 'a.atr_link_search_link, a.atr_link_browse_link, a.atr_link_bookmark_link' ).click( function(){
-        ezoeLinkAttribute.id = ezoeLinkAttribute.lid( this.id, tagName );
+        var tagNameKey = $(this).closest('.custom_attribute_type_link, .attribute_type_link').find('select.atr_link_source_types').attr('id');
+        ezoeLinkAttribute.id = ezoeLinkAttribute.lid( this.id, tagName[tagNameKey] );
         jQuery('div.panel, div.link-dialog').hide();
-        jQuery('#' + ezoeLinkAttribute.box( this.id, tagName ) ).show();
-        jQuery('#' + ezoeLinkAttribute.box( this.id, tagName ) + ' input[type=text]:first').focus();
+        jQuery('#' + ezoeLinkAttribute.box( this.id, tagName[tagNameKey] ) ).show();
+        jQuery('#' + ezoeLinkAttribute.box( this.id, tagName[tagNameKey] ) + ' input[type=text]:first').focus();
     });
     jQuery( '#embed_search_go_back_link, #embed_browse_go_back_link, #embed_bookmark_go_back_link' ).click( ezoeLinkAttribute.toggleBack );
 });
@@ -127,7 +130,7 @@ eZOEPopupUtils.settings.browseLinkGenerator = function( n, mode, ed )
 // override so selected element is redirected to link input
 eZOEPopupUtils.selectByEmbedId = function( object_id, node_id, name )
 {
-    var lid = ezoeLinkAttribute.id, drop = jQuery( '#'+lid+'_source_types'), inp = jQuery( '#'+lid+'_source' ), info = jQuery( '#'+lid+'_source_info' )
+    var lid = ezoeLinkAttribute.id, drop = jQuery( '#'+lid+'_source_types'), inp = jQuery( '#'+lid+'_source' ), info = jQuery( '#'+lid+'_source_info' );
     if ( drop.val() === 'ezobject://' )
         inp.val( 'ezobject://' + object_id );
     else
@@ -135,7 +138,7 @@ eZOEPopupUtils.selectByEmbedId = function( object_id, node_id, name )
     ezoeLinkAttribute.typeSet( inp, drop );
     ezoeLinkAttribute.namePreview( name, lid );
     ezoeLinkAttribute.toggleBack();
-    ezoeLinkAttribute.node = {'contentobject_id': object_id, 'node_id': node_id, 'name': name }
+    ezoeLinkAttribute.node[lid] = {'contentobject_id': object_id, 'node_id': node_id, 'name': name }
 };
 
 // misc link related variables and functions
@@ -143,7 +146,15 @@ var ezoeLinkAttribute = {
     timeOut : null,
     slides : 0,
     id : null,
-    node : {'contentobject_id': '', 'node_id': '', 'name': '' },
+    node : [],
+    getNode : function( lid )
+    {
+        if( typeof this.node[lid] === "undefined" )
+        {
+            this.node[lid] = {'contentobject_id': '', 'node_id': '', 'name': '' };
+        }
+        return this.node[lid];
+    },
     ajaxCheck : function( url, lid )
     {
         var url = tinyMCEPopup.editor.settings.ez_extension_url + '/load/' + url;
@@ -154,7 +165,7 @@ var ezoeLinkAttribute = {
         if ( r )
         {
             ezoeLinkAttribute.namePreview( r.name, lid );
-            ezoeLinkAttribute.node = r;
+            ezoeLinkAttribute.node[lid] = r;
         }
         else
             ezoeLinkAttribute.namePreview( false, lid );
