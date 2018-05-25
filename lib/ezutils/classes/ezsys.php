@@ -1154,10 +1154,12 @@ class eZSys
             }
         }
 
-        // extract path from URL
+        // extract path and query string from URL
         if ( strlen( $requestUri ) && $requestUri !== '/'  )
         {
-            $requestUri = parse_url( $requestUri, PHP_URL_PATH );
+            $uriParts = parse_url( $requestUri );
+			$requestUri = isset( $uriParts[ 'path' ] ) ? $uriParts[ 'path' ] : '';
+			$queryString = isset( $uriParts[ 'query' ] ) ? '?' . $uriParts[ 'query' ] : '';
         }
 
         // normalize slash use
@@ -1167,6 +1169,10 @@ class eZSys
         if ( $requestUri !== '/' )
         {
             $requestUri = urldecode( $requestUri );
+        }
+        else
+        {
+			$requestUri = '';
         }
 
         $instance->AccessPath = array( 'siteaccess' => array( 'name' => '', 'url' => array() ),
