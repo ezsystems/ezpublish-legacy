@@ -1158,8 +1158,8 @@ class eZSys
         if ( strlen( $requestUri ) && $requestUri !== '/'  )
         {
             $uriParts = parse_url( $requestUri );
-			$requestUri = isset( $uriParts[ 'path' ] ) ? $uriParts[ 'path' ] : '';
-			$queryString = isset( $uriParts[ 'query' ] ) ? '?' . $uriParts[ 'query' ] : '';
+            $requestUri = isset( $uriParts[ 'path' ] ) ? $uriParts[ 'path' ] : '';
+            $queryString = isset( $uriParts[ 'query' ] ) ? '?' . $uriParts[ 'query' ] : '';
         }
 
         // normalize slash use
@@ -1172,7 +1172,7 @@ class eZSys
         }
         else
         {
-			$requestUri = '';
+            $requestUri = '';
         }
 
         $instance->AccessPath = array( 'siteaccess' => array( 'name' => '', 'url' => array() ),
