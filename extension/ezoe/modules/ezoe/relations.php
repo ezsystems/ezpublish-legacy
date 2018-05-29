@@ -270,7 +270,7 @@ if ( isset( $xmlTagAliasList[$tagName] ) )
 else
     $tpl->setVariable( 'tag_name_alias', $tagName );
 
-$tpl->setVariable( 'view_list', json_encode( array( 'embed' => $viewList, 'embed-inline' => $viewListInline ) ) );
+$tpl->setVariable( 'view_list', json_encode( array( 'embed' => array_values( $viewList ), 'embed-inline' => array_values( $viewListInline ) ) ) );
 $tpl->setVariable( 'class_list', json_encode( array( 'embed' => $classList, 'embed-inline' => $classListInline ) ) );
 $tpl->setVariable( 'attribute_defaults', json_encode( array( 'embed' => $attributeDefaults, 'embed-inline' => $attributeDefaultsInline ) ) );
 
