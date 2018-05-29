@@ -1,0 +1,34 @@
+{
+    "name": "mugoweb/project",
+    "description": "Mugo base project installer",
+    "license": "GPL-2.0",
+    "minimum-stability": "dev",
+    "require": {
+        "mugoweb/ezpublish-legacy": "*",
+
+        // == eZ Systems extensions ==
+        // "ezsystems/ezgmaplocation-ls-extension": "~5.3",
+        // "ezsystems/ezie-ls": "~5.3",
+        // "ezsystems/ezmbpaex-ls": "~5.3",
+        // "ezsystems/ezmultiupload-ls": "~5.3",
+        // "ezsystems/ezodf-ls": "~5.3",
+        // "ezsystems/ezprestapiprovider-ls": "~5.3",
+        // "ezsystems/ezstarrating-ls-extension": "~5.3",
+
+        // == Mugo Extensions ==
+        // "mugoweb/mugo_varnish": "*",
+        // "mugoweb/mugocontentclassmanager": "*",
+        // "mugoweb/data_import": "*",
+        // "mugoweb/mugo_view_extras": "*",
+
+        // eep - no composer file yet
+        // mugoweb/mugo_queue - no composer file yet
+    },
+    "extra": {
+        "ezpublish-legacy-dir": "project"
+    },
+    "config": {
+        "vendor-dir": "project/vendor",
+        "discard-changes": true
+    }
+}
