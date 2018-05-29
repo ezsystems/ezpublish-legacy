@@ -56,11 +56,12 @@ asdfasdf
 
 class eZTemplateSectionFunction
 {
-    /*!
-     Initializes the object with a name, the name is required for determining
-     the name of the -else tag.
-    */
-    function eZTemplateSectionFunction( $name = "section" )
+    /**
+     * Initializes the object with a name, the name is required for determining the name of the -else tag.
+     *
+     * @param string $name
+     */
+    public function __construct( $name = "section" )
     {
         $this->Name = $name;
     }

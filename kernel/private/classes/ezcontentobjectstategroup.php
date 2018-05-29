@@ -25,11 +25,6 @@ class eZContentObjectStateGroup extends eZPersistentObject
      */
     static $allowInternalCUD = false;
 
-    function __construct( $row = array() )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     public static function definition()
     {
         static $definition = array( "fields" => array( "id" => array( "name" => "ID",

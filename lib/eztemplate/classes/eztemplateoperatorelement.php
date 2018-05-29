@@ -22,10 +22,15 @@
 
 class eZTemplateOperatorElement
 {
-    /*!
-     Initializes the operator with a name and parameters.
-    */
-    function eZTemplateOperatorElement( $name, $params, $resource = null, $templateName = null )
+    /**
+     * Initializes the operator with a name and parameters.
+     *
+     * @param string $name
+     * @param array $params
+     * @param mixed $resource
+     * @param string $templateName
+     */
+    public function __construct( $name, $params, $resource = null, $templateName = null )
     {
         $this->Name = $name;
         $this->Params = $params;

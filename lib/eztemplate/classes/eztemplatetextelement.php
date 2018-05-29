@@ -18,10 +18,12 @@
 
 class eZTemplateTextElement
 {
-    /*!
-     Initializes the object with the text.
-    */
-    function eZTemplateTextElement( $text )
+    /**
+     * Initializes the object with $text.
+     *
+     * @param $text
+     */
+    public function __construct( $text )
     {
         $this->Text = $text;
     }

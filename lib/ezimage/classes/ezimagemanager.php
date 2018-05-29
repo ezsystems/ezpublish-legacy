@@ -83,11 +83,10 @@ $img1 = $img->convert( "image1.png", "cache/", // Scale PNG image and place in c
 
 class eZImageManager
 {
-    /*!
-     Initializes the manager by registering a application/octet-stream mimetype
-     which is applied for all unknown files.
-    */
-    function eZImageManager()
+    /**
+     * Initializes the manager by registering a application/octet-stream mimetype which is applied for all unknown files.
+     */
+    public function __construct()
     {
         $this->SupportedFormats = array();
         $this->SupportedMIMEMap = array();
@@ -99,6 +98,7 @@ class eZImageManager
         $this->MIMETypeSettingsMap = array();
         $this->QualityValues = array();
         $this->QualityValueMap = array();
+        $this->QualityValueMapOverride = array();
 
         $ini = eZINI::instance( 'image.ini' );
         $this->TemporaryImageDirPath = eZSys::cacheDirectory() . '/' . $ini->variable( 'FileSettings', 'TemporaryDir' );
@@ -178,6 +178,7 @@ class eZImageManager
             $alias = array( 'name' => 'original',
                             'reference' => false,
                             'mime_type' => false,
+                            'quality' => false,
                             'filters' => array() );
             $alias['alias_key'] = $this->createImageAliasKey( $alias );
             $aliasList['original'] = $alias;
@@ -486,9 +487,29 @@ class eZImageManager
     */
     function qualityValue( $mimeType )
     {
-        if ( isset( $this->QualityValueMap[$mimeType] ) )
+        if ( isset( $this->QualityValueMapOverride[$mimeType] ) )
+            return $this->QualityValueMapOverride[$mimeType]['value'];
+        else if ( isset( $this->QualityValueMap[$mimeType] ) )
             return $this->QualityValueMap[$mimeType]['value'];
         return false;
+    }
+
+    /*!
+     Sets a quality value override \a $qualityValue to the MIME-Type \a $mimeType in the context of an alias.
+    */
+    function setQualityValueOverride( $mimeType, $qualityValue )
+    {
+        $element = array( 'name' => $mimeType,
+                          'value' => $qualityValue );
+        $this->QualityValueMapOverride[$mimeType] = $element;
+    }
+
+    /*!
+     Reset the quality value override map if there is no alias or alias quality override
+    */
+    function resetQualityValueOverride()
+    {
+        $this->QualityValueMapOverride = array();
     }
 
     /*!
@@ -748,11 +769,14 @@ class eZImageManager
         $alias = array( 'name' => $iniGroup,
                         'reference' => false,
                         'mime_type' => false,
+                        'quality' => false,
                         'filters' => array() );
         if ( $ini->hasVariable( $iniGroup, 'Name' ) )
             $alias['name'] = $ini->variable( $iniGroup, 'Name' );
         if ( $ini->hasVariable( $iniGroup, 'MIMEType' ) )
             $alias['mime_type'] = $ini->variable( $iniGroup, 'MIMEType' );
+        if ( $ini->hasVariable( $iniGroup, 'Quality' ) )
+            $alias['quality'] = $ini->variable( $iniGroup, 'Quality' );
         if ( $ini->hasVariable( $iniGroup, 'Filters' ) )
         {
             $filters = array();
@@ -941,7 +965,7 @@ class eZImageManager
                     // url and alias name.
                     ezpEvent::getInstance()->notify( 'image/alias', array( $currentAliasData['url'],
                                                                            $currentAliasData['name'] ) );
-                    
+
                     return true;
                 }
                 // conversion failed, we abort generation
@@ -1049,6 +1073,7 @@ class eZImageManager
 
         $filters = array();
         $alias = false;
+        $this->resetQualityValueOverride();
         if ( $aliasName )
         {
             $aliasList = $this->aliasList();
@@ -1059,6 +1084,17 @@ class eZImageManager
                 if ( $alias['mime_type'] )
                 {
                     eZMimeType::changeMIMEType( $destinationMimeData, $alias['mime_type'] );
+                }
+                $qualityOverride = $alias['quality'];
+                if ( $qualityOverride )
+                {
+                    foreach ( $qualityOverride as $qualityOverrideValue )
+                    {
+                        $elements = explode( ';', $qualityOverrideValue );
+                        $mimeType = $elements[0];
+                        $qualityValue = $elements[1];
+                        $this->setQualityValueOverride( $mimeType, $qualityValue );
+                    }
                 }
             }
         }

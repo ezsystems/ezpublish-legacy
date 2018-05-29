@@ -16,14 +16,6 @@
 
 class eZCollaborationSimpleMessage extends eZPersistentObject
 {
-    /*!
-     Constructor
-    */
-    function eZCollaborationSimpleMessage( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',

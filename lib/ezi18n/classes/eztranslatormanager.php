@@ -31,7 +31,7 @@ class eZTranslatorManager
 {
     const DYNAMIC_TRANSLATIONS_ENABLED = 'eZTMDynamicTranslationsEnabled';
 
-    function eZTranslatorManager()
+    public function __construct()
     {
         $this->Handlers = array();
     }

@@ -16,14 +16,6 @@
 
 class eZMailNotificationTransport extends eZNotificationTransport
 {
-    /*!
-     Constructor
-    */
-    function eZMailNotificationTransport()
-    {
-        $this->eZNotificationTransport();
-    }
-
     function send( $addressList = array(), $subject, $body, $transportData = null, $parameters = array() )
     {
         $ini = eZINI::instance();

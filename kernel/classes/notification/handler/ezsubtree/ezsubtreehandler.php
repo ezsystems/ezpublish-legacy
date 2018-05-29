@@ -19,12 +19,9 @@ class eZSubTreeHandler extends eZNotificationEventHandler
     const NOTIFICATION_HANDLER_ID = 'ezsubtree';
     const TRANSPORT = 'ezmail';
 
-    /*!
-     Constructor
-    */
-    function eZSubTreeHandler()
+    public function __construct()
     {
-        $this->eZNotificationEventHandler( self::NOTIFICATION_HANDLER_ID, "Subtree Handler" );
+        parent::__construct( self::NOTIFICATION_HANDLER_ID, "Subtree Handler" );
     }
 
     function attributes()

@@ -81,13 +81,6 @@ class eZInputValidator
     const STATE_INVALID = 3;
 
     /*!
-     Default constructor, does nothing.
-    */
-    function eZInputValidator()
-    {
-    }
-
-    /*!
      Tries to validate to the text \a $text and returns one of the validator states
      eZInputValidator::STATE_ACCEPTED, eZInputValidator::STATE_INTERMEDIATE or
      eZInputValidator::STATE_INVALID.

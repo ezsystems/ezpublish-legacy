@@ -45,9 +45,9 @@ class eZContentObject extends eZPersistentObject
      *
      * @param int|array $row
      */
-    function eZContentObject( $row )
+    public function __construct( $row )
     {
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
         $this->ClassIdentifier = false;
         if ( isset( $row['contentclass_identifier'] ) )
             $this->ClassIdentifier = $row['contentclass_identifier'];
@@ -1762,8 +1762,9 @@ class eZContentObject extends eZPersistentObject
      *
      * @param int $objectID
      * @param string|bool $mode See eZObjectRelationListType::fixRelatedObjectItem() for valid modes
+     * @param bool $clearCacheIfEnabled If set to false cache won't be cleared
      */
-    static function fixReverseRelations( $objectID, $mode = false )
+    static function fixReverseRelations( $objectID, $mode = false, $clearCacheIfEnabled = true )
     {
         $db = eZDB::instance();
         $objectID = (int) $objectID;
@@ -1786,7 +1787,7 @@ class eZContentObject extends eZPersistentObject
                 $dataType->fixRelatedObjectItem( $attr, $objectID, $mode );
                 $objectIDList[] = $attr->attribute( 'contentobject_id' );
             }
-            if ( eZINI::instance()->variable( 'ContentSettings', 'ViewCaching' ) === 'enabled' )
+            if ( $clearCacheIfEnabled && eZINI::instance()->variable( 'ContentSettings', 'ViewCaching' ) === 'enabled' )
                 eZContentCacheManager::clearObjectViewCacheArray( $objectIDList );
         }
     }
@@ -2873,7 +2874,7 @@ class eZContentObject extends eZPersistentObject
                   WHERE  from_contentobject_id=$fromObjectID AND
                          from_contentobject_version=$fromObjectVersion AND
                          to_contentobject_id=$toObjectID AND
-                         $relationTypeMatch != 0 AND
+                         $relationTypeMatch >= 0 AND
                          contentclassattribute_id=$attributeID";
         $count = $db->arrayQuery( $query );
         // if current relation does not exist

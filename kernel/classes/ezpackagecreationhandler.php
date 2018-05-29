@@ -17,10 +17,14 @@
 
 class eZPackageCreationHandler
 {
-    /*!
-     Constructor
-    */
-    function eZPackageCreationHandler( $id, $name, $steps )
+    /**
+     * Constructor
+     *
+     * @param int $id
+     * @param string $name
+     * @param array $steps
+     */
+    public function __construct( $id, $name, $steps )
     {
         $this->Attributes = array( 'id' => $id,
                                    'name' => $name,

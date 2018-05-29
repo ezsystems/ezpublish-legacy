@@ -15,14 +15,6 @@
 */
 class eZSubtreeNotificationRule extends eZPersistentObject
 {
-    /*!
-     Constructor
-    */
-    function eZSubtreeNotificationRule( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',

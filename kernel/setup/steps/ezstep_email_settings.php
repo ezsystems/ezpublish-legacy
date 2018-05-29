@@ -16,13 +16,17 @@
 
 class eZStepEmailSettings extends eZStepInstaller
 {
-    /*!
-     Constructor
-    */
-    function eZStepEmailSettings( $tpl, $http, $ini, &$persistenceList )
+    /**
+     * Constructor
+     *
+     * @param eZTemplate $tpl
+     * @param eZHTTPTool $http
+     * @param eZINI $ini
+     * @param array $persistenceList
+     */
+    public function __construct( $tpl, $http, $ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
-                                'email_settings', 'Email settings' );
+        parent::__construct( $tpl, $http, $ini, $persistenceList, 'email_settings', 'Email settings' );
     }
 
     function processPostData()

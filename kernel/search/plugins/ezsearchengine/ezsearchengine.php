@@ -15,7 +15,7 @@
 
 class eZSearchEngine implements ezpSearchEngine
 {
-    function eZSearchEngine()
+    public function __construct()
     {
         $generalFilter = array( 'subTreeTable' => '',
                                 'searchDateQuery' => '',
@@ -168,7 +168,6 @@ class eZSearchEngine implements ezpSearchEngine
         $trans = eZCharTransform::instance();
 
         $wordCount = count( $indexArrayOnlyWords );
-        $wordIDArray = array();
         $wordArray = array();
         // store the words in the index and remember the ID
         $dbName = $db->databaseName();
@@ -185,6 +184,7 @@ class eZSearchEngine implements ezpSearchEngine
                 // Build a has of the existing words
                 $wordResCount = count( $wordRes );
                 $existingWordArray = array();
+                $wordIDArray = array();
                 for ( $i = 0; $i < $wordResCount; $i++ )
                 {
                     $wordIDArray[] = $wordRes[$i]['id'];
@@ -297,7 +297,8 @@ class eZSearchEngine implements ezpSearchEngine
             $indexWord = $indexArray[$i]['Word'];
             $contentClassAttributeID = $indexArray[$i]['ContentClassAttributeID'];
             $identifier = $indexArray[$i]['identifier'];
-            $integerValue = $indexArray[$i]['integer_value'];
+            $integerValue = min( $indexArray[$i]['integer_value'], eZDBInterface::MAX_INT );
+            $integerValue = max( $integerValue, eZDBInterface::MIN_INT );
             $wordID = $wordIDArray[$indexWord];
 
             if ( isset( $indexArray[$i+1] ) )

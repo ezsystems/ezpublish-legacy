@@ -18,6 +18,16 @@ class eZWorkflowEventRegression extends ezpDatabaseTestCase
         $this->setName( "eZWorkflowEvent Regression Tests" );
     }
 
+    protected function tearDown()
+    {
+        if ( $this->trigger )
+        {
+            $this->trigger->remove();
+            $this->trigger = null;
+        }
+        parent::tearDown();
+    }
+
     /**
      * Test regression for issue #14371 in a module/view context:
      * Workflow template repeat broken by security patch.

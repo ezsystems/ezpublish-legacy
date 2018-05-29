@@ -20,12 +20,9 @@ class eZRangeOptionType extends eZDataType
 
     const DATA_TYPE_STRING = "ezrangeoption";
 
-    /*!
-     Constructor
-    */
-    function eZRangeOptionType()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Range option", 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Range option", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

@@ -26,10 +26,7 @@
 
 class eZTemplateArrayOperator
 {
-    /*!
-     Initializes the array operator with the operator name $name.
-    */
-    function eZTemplateArrayOperator( $arrayName        = 'array',
+    public function __construct(      $arrayName        = 'array',
                                       $hashName         = 'hash',
                                       $arrayPrependName = 'array_prepend', // DEPRECATED/OBSOLETE
                                       $prependName      = 'prepend',       // New, replaces array_prepend.
@@ -434,7 +431,7 @@ class eZTemplateArrayOperator
                     {
                         if ( $isString )
                         {
-                            $result = ( strpos( $inParam, $matchParam ) !== false );
+                            $result = ( mb_strpos( $inParam, $matchParam ) !== false );
                         }
                         else if( $isArray )
                         {
@@ -453,7 +450,7 @@ class eZTemplateArrayOperator
 
                 if ( $isString )
                 {
-                    $code = '%output% = ( strpos( ' . $inParamCode . ', ' . $matchParamCode . ' ) !== false );';
+                    $code = '%output% = ( mb_strpos( ' . $inParamCode . ', ' . $matchParamCode . ' ) !== false );';
                 }
                 else if ( $isArray )
                 {
@@ -463,7 +460,7 @@ class eZTemplateArrayOperator
                 {
                     $code = 'if( is_string( ' . $inParamCode . ' ) )' . "\n" .
                         '{' . "\n" .
-                        '  %output% = ( strpos( ' . $inParamCode . ', ' . $matchParamCode . ' ) !== false );' . "\n" .
+                        '  %output% = ( mb_strpos( ' . $inParamCode . ', ' . $matchParamCode . ' ) !== false );' . "\n" .
                         '}' . "\n" .
                         'else if ( is_array( ' . $inParamCode . ' ) )' . "\n" .
                         '{' . "\n" .
@@ -731,7 +728,7 @@ class eZTemplateArrayOperator
                 {
                     if ( $isString )
                     {
-                        return array( eZTemplateNodeTool::createStringElement( substr( $inputArray, $offset, $length ) ) );
+                        return array( eZTemplateNodeTool::createStringElement( mb_substr( $inputArray, $offset, $length ) ) );
                     }
                     else if ( $isArray )
                     {
@@ -747,7 +744,7 @@ class eZTemplateArrayOperator
 
                 if ( $isString )
                 {
-                    $code = '%output% = substr( ' . $inputArrayCode . ', ' . $offsetCode;
+                    $code = '%output% = mb_substr( ' . $inputArrayCode . ', ' . $offsetCode;
                     if ( $lengthCode )
                         $code .= ', ' . $lengthCode;
                     $code .= ' );';
@@ -764,13 +761,13 @@ class eZTemplateArrayOperator
                     $code = ( '%tmp1% = ' . $inputArrayCode . ';' . "\n" .
                               'if ( is_string( %tmp1% ) )' . "\n" .
                               '{' . "\n" .
-                              '    %output% = ( substr( %tmp1%, 0, ' . $offsetCode . ' )' );
+                              '    %output% = ( mb_substr( %tmp1%, 0, ' . $offsetCode . ' )' );
 
                     $lengthCode = !$lengthCode ? 1 : $lengthCode;
 
                     if ( $lengthCode )
                     {
-                        $code .= ' . substr( %tmp1%, ' . $offsetCode . ' + ' . $lengthCode . ' )';
+                        $code .= ' . mb_substr( %tmp1%, ' . $offsetCode . ' + ' . $lengthCode . ' )';
                     }
                     $code .= ( ' );' . "\n" .
                                '}' . "\n" .
@@ -845,7 +842,7 @@ class eZTemplateArrayOperator
                 {
                     if ( $isString )
                     {
-                        return array( eZTemplateNodeTool::createStringElement( substr( $inputArray, 0, $offset ) . $insertText . substr( $inputArray, $offset ) ) );
+                        return array( eZTemplateNodeTool::createStringElement( mb_substr( $inputArray, 0, $offset ) . $insertText . mb_substr( $inputArray, $offset ) ) );
                     }
                     else if ( $isArray )
                     {
@@ -865,7 +862,7 @@ class eZTemplateArrayOperator
                 $tmpCount = 0;
                 if ( $isString )
                 {
-                    $code = '%output% = substr( ' . $inputArrayCode . ', 0, ' . $offsetCode . ' ) . ' . $insertElemCode[0] . ' . substr( ' . $inputArrayCode . ', ' . $offsetCode . ' );';
+                    $code = '%output% = mb_substr( ' . $inputArrayCode . ', 0, ' . $offsetCode . ' ) . ' . $insertElemCode[0] . ' . mb_substr( ' . $inputArrayCode . ', ' . $offsetCode . ' );';
                 }
                 else if ( $isArray )
                 {
@@ -890,7 +887,7 @@ class eZTemplateArrayOperator
                     $code = '%tmp1% = ' . $inputArrayCode . ';' . "\n" .
                          'if ( is_string( %tmp1% ) )' . "\n" .
                          '{' . "\n" .
-                         '  %output% = substr( ' . $inputArrayCode . ', 0, ' . $offsetCode . ' ) . ' . $insertElemCode[0] . ' . substr( ' . $inputArrayCode . ', ' . $offsetCode . ' );' . "\n" .
+                         '  %output% = mb_substr( ' . $inputArrayCode . ', 0, ' . $offsetCode . ' ) . ' . $insertElemCode[0] . ' . mb_substr( ' . $inputArrayCode . ', ' . $offsetCode . ' );' . "\n" .
                          '}' . "\n" .
                          'else if ( is_array( %tmp1% ) )' . "\n" .
                          '{' . "\n" .
@@ -1076,7 +1073,7 @@ class eZTemplateArrayOperator
                 {
                     if ( $isString )
                     {
-                        $result = ( strrpos( $inParam, $compareParams[0] ) === ( strlen( $inParam ) - strlen ( $compareParams[0] ) ) );
+                        $result = ( mb_strrpos( $inParam, $compareParams[0] ) === ( mb_strlen( $inParam ) - mb_strlen ( $compareParams[0] ) ) );
                     }
                     else if ( $isArray )
                     {
@@ -1100,7 +1097,7 @@ class eZTemplateArrayOperator
 
                 if ( $isString )
                 {
-                    $code = '%output% = ( strrpos( ' . $inParamCode . ', ' . $compareParamsCode[0] . ' ) === ( strlen( ' . $inParamCode . ' ) - strlen( ' . $compareParamsCode[0] . ' ) ) );';
+                    $code = '%output% = ( mb_strrpos( ' . $inParamCode . ', ' . $compareParamsCode[0] . ' ) === ( mb_strlen( ' . $inParamCode . ' ) - mb_strlen( ' . $compareParamsCode[0] . ' ) ) );';
                 }
                 else if ( $isArray )
                 {
@@ -1124,7 +1121,7 @@ class eZTemplateArrayOperator
                     $code = '%tmp4% = ' . $inParamCode . ';' . "\n" .
                          'if ( is_string( %tmp4% ) )' . "\n" .
                          '{' . "\n" .
-                         '  %output% = ( strrpos( %tmp4%, ' . $compareParamsCode[0] . ' ) === ( strlen( %tmp4% ) - strlen( ' . $compareParamsCode[0] . ' ) ) );' . "\n" .
+                         '  %output% = ( mb_strrpos( %tmp4%, ' . $compareParamsCode[0] . ' ) === ( mb_strlen( %tmp4% ) - mb_strlen( ' . $compareParamsCode[0] . ' ) ) );' . "\n" .
                          '}' . "\n" .
                          'else if( is_array( %tmp4% ) )' . "\n" .
                          '{' . "\n" .
@@ -1153,7 +1150,7 @@ class eZTemplateArrayOperator
                 {
                     if ( $isString )
                     {
-                        $result = ( strpos ( $inParam, $compareParams[0] ) === 0 );
+                        $result = ( mb_strpos ( $inParam, $compareParams[0] ) === 0 );
                     }
                     else if ( $isArray )
                     {
@@ -1173,7 +1170,7 @@ class eZTemplateArrayOperator
 
                 if ( $isString )
                 {
-                    $code = '%output% = ( ' . $compareParamsCode[0] . ' && strpos( ' . $inParamCode . ', ' . $compareParamsCode[0] . ' ) === 0 );';
+                    $code = '%output% = ( ' . $compareParamsCode[0] . ' && mb_strpos( ' . $inParamCode . ', ' . $compareParamsCode[0] . ' ) === 0 );';
                 }
                 else if ( $isArray )
                 {
@@ -1197,7 +1194,7 @@ class eZTemplateArrayOperator
                          "  if ( {$compareParamsCode[0]} == '' )\n" .
                          "    %output% = false;\n" .
                          "  else\n" .
-                         '    %output% = ( strpos( %tmp1%, ' . $compareParamsCode[0] . ' ) === 0 );' . "\n" .
+                         '    %output% = ( mb_strpos( %tmp1%, ' . $compareParamsCode[0] . ' ) === 0 );' . "\n" .
                          '}' . "\n" .
                          'else if( is_array( %tmp1% ) )' . "\n" .
                          '{' . "\n" .
@@ -1292,14 +1289,14 @@ class eZTemplateArrayOperator
                 if ( $operatorName == $this->ExtractRightName or !$length )
                 {
                     if ( is_string( $input ) )
-                        $output = substr( $input, $offset );
+                        $output = mb_substr( $input, $offset );
                     else
                         $output = array_slice( $input, $offset );
                 }
                 else
                 {
                     if ( is_string( $input ) )
-                        $output = substr( $input, $offset, $length );
+                        $output = mb_substr( $input, $offset, $length );
                     else
                         $output = array_slice( $input, $offset, $length );
                 }
@@ -1314,7 +1311,7 @@ class eZTemplateArrayOperator
         {
             $values[] = $parameters[0];
             $code = ( "if ( is_string( %" . count( $values ) . "% ) )\n" .
-                      "    %output% = substr( %" . count( $values ) . "%, " . $code . " );\n" .
+                      "    %output% = mb_substr( %" . count( $values ) . "%, " . $code . " );\n" .
                       "else\n" .
                       "    %output% = array_slice( %" . count( $values ) . "%, " . $code . " );" );
         }
@@ -1947,7 +1944,7 @@ class eZTemplateArrayOperator
                 // Check if the string contains a specified sequence of chars/string.
                 case $this->ContainsName:
                 {
-                    $operatorValue = ( strpos( $operatorValue, $namedParameters['match'] ) !== false );
+                    $operatorValue = ( mb_strpos( $operatorValue, $namedParameters['match'] ) !== false );
                 }
                 break;
 
@@ -1969,29 +1966,29 @@ class eZTemplateArrayOperator
                 case $this->ExtractName:
                 {
                     if ( $namedParameters['extract_length'] === false )
-                        $operatorValue = substr( $operatorValue, $namedParameters['extract_start'] );
+                        $operatorValue = mb_substr( $operatorValue, $namedParameters['extract_start'] );
                     else
-                        $operatorValue = substr( $operatorValue, $namedParameters['extract_start'], $namedParameters['extract_length'] );
+                        $operatorValue = mb_substr( $operatorValue, $namedParameters['extract_start'], $namedParameters['extract_length'] );
                 }
                 break;
 
                 // Extract string/portion from the start of the string.
                 case $this->ExtractLeftName:
                 {
-                    $operatorValue = substr( $operatorValue, 0, $namedParameters['length'] );
+                    $operatorValue = mb_substr( $operatorValue, 0, $namedParameters['length'] );
                 }break;
 
                 // Extract string/portion from the end of the string.
                 case $this->ExtractRightName:
                 {
-                    $offset  = strlen( $operatorValue ) - $namedParameters['length'];
-                    $operatorValue = substr( $operatorValue, $offset );
+                    $offset  = mb_strlen( $operatorValue ) - $namedParameters['length'];
+                    $operatorValue = mb_substr( $operatorValue, $offset );
                 }break;
 
                 // Check if string begins with specified sequence:
                 case $this->BeginsWithName:
                 {
-                    if ( strpos( $operatorValue, $namedParameters['match'] ) === 0 )
+                    if ( mb_strpos( $operatorValue, $namedParameters['match'] ) === 0 )
                     {
                         $operatorValue = true;
                     }
@@ -2004,7 +2001,7 @@ class eZTemplateArrayOperator
                 // Check if string ends with specified sequence:
                 case $this->EndsWithName:
                 {
-                    if ( strrpos( $operatorValue, $namedParameters['match'] ) === ( strlen( $operatorValue ) - strlen ($namedParameters['match'] ) ) )
+                    if ( mb_strrpos( $operatorValue, $namedParameters['match'] ) === ( mb_strlen( $operatorValue ) - mb_strlen ($namedParameters['match'] ) ) )
                     {
                         $operatorValue = true;
                     }
@@ -2041,24 +2038,24 @@ class eZTemplateArrayOperator
                 // Insert a given string at a specified position:
                 case $this->InsertName:
                 {
-                    $first  = substr( $operatorValue, 0, $namedParameters['insert_position'] );
-                    $second = substr( $operatorValue, $namedParameters['insert_position'] );
+                    $first  = mb_substr( $operatorValue, 0, $namedParameters['insert_position'] );
+                    $second = mb_substr( $operatorValue, $namedParameters['insert_position'] );
                     $operatorValue = $first . $namedParameters['insert_string'] . $second;
                 }break;
 
                 // Remove a portion from a string:
                 case $this->RemoveName:
                 {
-                    $first  = substr( $operatorValue, 0, $namedParameters['offset'] );
-                    $second = substr( $operatorValue, $namedParameters['offset'] + $namedParameters['length'] );
+                    $first  = mb_substr( $operatorValue, 0, $namedParameters['offset'] );
+                    $second = mb_substr( $operatorValue, $namedParameters['offset'] + $namedParameters['length'] );
                     $operatorValue = $first . $second;
                 }break;
 
                 // Replace a portion of a string:
                 case $this->ReplaceName:
                 {
-                    $first  = substr( $operatorValue, 0, $namedParameters['offset'] );
-                    $second = substr( $operatorValue, $namedParameters['offset'] + $namedParameters['length'] );
+                    $first  = mb_substr( $operatorValue, 0, $namedParameters['offset'] );
+                    $second = mb_substr( $operatorValue, $namedParameters['offset'] + $namedParameters['length'] );
                     $mid = '';
 
                     for ( $i = 2; $i < count( $operatorParameters ); ++ $i )

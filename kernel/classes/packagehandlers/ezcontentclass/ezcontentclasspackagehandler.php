@@ -24,13 +24,9 @@ class eZContentClassPackageHandler extends eZPackageHandler
     const ACTION_NEW = 3;
     const ACTION_DELETE = 4;
 
-    /*!
-     Constructor
-    */
-    function eZContentClassPackageHandler()
+    public function __construct()
     {
-        $this->eZPackageHandler( 'ezcontentclass',
-                                 array( 'extract-install-content' => true ) );
+        parent::__construct( 'ezcontentclass', array( 'extract-install-content' => true ) );
     }
 
     /*!

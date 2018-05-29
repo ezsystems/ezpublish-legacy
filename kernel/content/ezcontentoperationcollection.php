@@ -21,13 +21,6 @@ class eZContentOperationCollection
      */
     private static $operationsStack = 0;
 
-    /*!
-     Constructor
-    */
-    function eZContentOperationCollection()
-    {
-    }
-
     static public function readNode( $nodeID )
     {
 
@@ -912,7 +905,7 @@ class eZContentOperationCollection
         }
 
         // Triggering content/cache filter for Http cache purge
-        ezpEvent::getInstance()->filter( 'content/cache', $removeNodeIdList );
+        ezpEvent::getInstance()->filter( 'content/cache', $removeNodeIdList, array_keys( $objectIdList ) );
         // we don't clear template block cache here since it's cleared in eZContentObjectTreeNode::removeNode()
 
         return array( 'status' => true );
@@ -1244,6 +1237,7 @@ class eZContentOperationCollection
              $db->commit();
              if ( !eZSearch::getEngine() instanceof eZSearchEngine )
              {
+                 eZContentCacheManager::clearContentCacheIfNeeded( $objectIDs );
                  foreach ( $objectIDs as $objectID )
                  {
                      eZContentOperationCollection::registerSearchObject( $objectID );

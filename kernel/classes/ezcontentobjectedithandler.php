@@ -18,13 +18,6 @@
 class eZContentObjectEditHandler
 {
     /*!
-     Constructor
-    */
-    function eZContentObjectEditHandler()
-    {
-    }
-
-    /*!
      Override this function in the extension to handle edit input parameters.
     */
     function fetchInput( $http, &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )

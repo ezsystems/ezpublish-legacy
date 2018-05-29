@@ -21,7 +21,7 @@ class eZTSTranslator extends eZTranslatorHandler
      * @param string $filename
      * @param bool $useCache
      */
-    function eZTSTranslator( $locale, $filename = null, $useCache = true )
+    public function __construct( $locale, $filename = null, $useCache = true )
     {
         $this->UseCache = $useCache;
         if ( isset( $GLOBALS['eZSiteBasics'] ) )
@@ -31,7 +31,7 @@ class eZTSTranslator extends eZTranslatorHandler
                 $this->UseCache = false;
         }
         $this->BuildCache = false;
-        $this->eZTranslatorHandler( true );
+        parent::__construct( true );
 
         $this->Locale = $locale;
         $this->File = $filename;

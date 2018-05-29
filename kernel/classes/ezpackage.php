@@ -28,10 +28,13 @@ class eZPackage
 
     const NON_INTERACTIVE = -1;
 
-    /*!
-     Constructor
-    */
-    function eZPackage( $parameters = array(), $repositoryPath = false )
+    /**
+     * Constructor
+     *
+     * @param array $parameters
+     * @param string|bool $repositoryPath
+     */
+    public function __construct( $parameters = array(), $repositoryPath = false )
     {
         $this->setParameters( $parameters );
         if ( !$repositoryPath )

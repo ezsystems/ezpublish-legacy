@@ -24,7 +24,13 @@ class Cezpdf extends Cpdf
 
 // ------------------------------------------------------------------------------
 
-    function Cezpdf( $paper = 'a4', $orientation = 'portrait' )
+    /**
+     * Constructor
+     *
+     * @param string $paper
+     * @param string $orientation
+     */
+    public function __construct( $paper = 'a4', $orientation = 'portrait' )
     {
         // Assuming that people don't want to specify the paper size using the absolute coordinates
         // allow a couple of options:
@@ -117,7 +123,7 @@ class Cezpdf extends Cpdf
                 $size[3] = ( $paper[1] / 2.54 ) * 72;
             }
         }
-        $this->Cpdf( $size );
+        parent::__construct( $size );
         $this->ez['pageWidth']=$size[2];
         $this->ez['pageHeight']=$size[3];
 
@@ -154,7 +160,7 @@ class Cezpdf extends Cpdf
     }
 
 // ------------------------------------------------------------------------------
-// 2003-11-04 Kåre Køhler Høvik ( eZ Systems, http://ez.no )
+// 2003-11-04 KÃ¥re KÃ¸hler HÃ¸vik ( eZ Systems, http://ez.no )
 // Set fontsize
 
     function setFontSize( $size )
@@ -163,7 +169,7 @@ class Cezpdf extends Cpdf
     }
 
 // ------------------------------------------------------------------------------
-// 2003-11-06 Kåre Køhler Høvik ( eZ Systems, http://ez.no )
+// 2003-11-06 KÃ¥re KÃ¸hler HÃ¸vik ( eZ Systems, http://ez.no )
 // Set justification
 
     function setJustification( $align )
@@ -172,7 +178,7 @@ class Cezpdf extends Cpdf
     }
 
 // ------------------------------------------------------------------------------
-// 2003-11-06 Kåre Køhler Høvik ( eZ Systems, http://ez.no )
+// 2003-11-06 KÃ¥re KÃ¸hler HÃ¸vik ( eZ Systems, http://ez.no )
 // Get justification
 
     function justification()
@@ -181,7 +187,7 @@ class Cezpdf extends Cpdf
     }
 
 // ------------------------------------------------------------------------------
-// 2003-11-04 Kåre Køhler Høvik ( eZ Systems, http://ez.no )
+// 2003-11-04 KÃ¥re KÃ¸hler HÃ¸vik ( eZ Systems, http://ez.no )
 // Get fontsize
 
     function fontSize()
@@ -1309,7 +1315,7 @@ class Cezpdf extends Cpdf
     }
 
 // ------------------------------------------------------------------------------
-// 2003-11-04 Kåre Køhler Høvik ( eZ Systems, http://ez.no )
+// 2003-11-04 KÃ¥re KÃ¸hler HÃ¸vik ( eZ Systems, http://ez.no )
 // Set fontsize
 
     function strike( $info )

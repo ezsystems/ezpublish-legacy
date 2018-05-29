@@ -15,13 +15,6 @@
 */
 class eZNotificationTransport
 {
-    /*!
-     Constructor
-    */
-    function eZNotificationTransport()
-    {
-    }
-
     /**
      * Returns a shared instance of the eZNotificationTransport class.
      *

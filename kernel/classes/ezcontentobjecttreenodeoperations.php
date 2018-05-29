@@ -21,13 +21,6 @@
 class eZContentObjectTreeNodeOperations
 {
     /*!
-     Constructor
-    */
-    function eZContentObjectTreeNodeOperations()
-    {
-    }
-
-    /*!
      \static
      A wrapper for eZContentObjectTreeNode's 'move' operation.
      It does:
@@ -108,11 +101,6 @@ class eZContentObjectTreeNodeOperations
                 $nodeAssignment->setAttribute( 'parent_node', $newParentNodeID );
                 $nodeAssignment->setAttribute( 'op_code', eZNodeAssignment::OP_CODE_MOVE );
                 $nodeAssignment->store();
-
-                // update search index specifying we are doing a move operation
-                $nodeIDList = array( $nodeID );
-                eZSearch::removeNodeAssignment( $node->attribute( 'main_node_id' ), $newNode->attribute( 'main_node_id' ), $object->attribute( 'id' ), $nodeIDList );
-                eZSearch::addNodeAssignment( $newNode->attribute( 'main_node_id' ), $object->attribute( 'id' ), $nodeIDList, true );
             }
 
             $result = true;
@@ -123,6 +111,14 @@ class eZContentObjectTreeNodeOperations
         }
 
         $db->commit();
+
+        if ( $newNode && !empty($nodeAssignment) )
+        {
+            // update search index specifying we are doing a move operation
+            $nodeIDList = array( $nodeID );
+            eZSearch::removeNodeAssignment( $node->attribute( 'main_node_id' ), $newNode->attribute( 'main_node_id' ), $object->attribute( 'id' ), $nodeIDList );
+            eZSearch::addNodeAssignment( $newNode->attribute( 'main_node_id' ), $object->attribute( 'id' ), $nodeIDList, true );
+        }
 
         // clear cache for new placement.
         // If child count exceeds threshold, clear all view cache instead.

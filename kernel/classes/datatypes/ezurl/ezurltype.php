@@ -20,12 +20,9 @@ class eZURLType extends eZDataType
 {
     const DATA_TYPE_STRING = 'ezurl';
 
-    /*!
-     Initializes with a url id and a description.
-    */
-    function eZURLType()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'URL', 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'URL', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
         $this->MaxLenValidator = new eZIntegerValidator();
     }

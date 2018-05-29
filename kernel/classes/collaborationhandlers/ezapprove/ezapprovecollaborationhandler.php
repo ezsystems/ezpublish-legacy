@@ -38,16 +38,17 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     /// The contentobject was deferred and will be a draft again for reediting.
     const STATUS_DEFERRED = 3;
 
-    /*!
-     Initializes the handler
-    */
-    function eZApproveCollaborationHandler()
+    public function __construct()
     {
-        $this->eZCollaborationItemHandler( 'ezapprove',
-                                           ezpI18n::tr( 'kernel/classes', 'Approval' ),
-                                           array( 'use-messages' => true,
-                                                  'notification-types' => true,
-                                                  'notification-collection-handling' => eZCollaborationItemHandler::NOTIFICATION_COLLECTION_PER_PARTICIPATION_ROLE ) );
+        parent::__construct(
+            'ezapprove',
+            ezpI18n::tr( 'kernel/classes', 'Approval' ),
+            array(
+                'use-messages' => true,
+                'notification-types' => true,
+                'notification-collection-handling' => eZCollaborationItemHandler::NOTIFICATION_COLLECTION_PER_PARTICIPATION_ROLE
+            )
+        );
     }
 
     function title( $collaborationItem )

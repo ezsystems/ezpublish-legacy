@@ -39,15 +39,15 @@
 
 class eZLintSchema extends eZDBSchemaInterface
 {
-    /*!
-     Initializes the lint checker with a foreign db schema.
-
-     \param $db A dummy parameter, pass \c false.
-     \param $otherSchema The db schema that should be checked
-    */
-    function eZLintSchema( $db, $otherSchema )
+    /**
+     * Initializes the lint checker with a foreign db schema.
+     *
+     * @param array $db A dummy parameter, pass false.
+     * @param eZDBSchemaInterface $otherSchema The db schema that should be checked
+     */
+    public function __construct( $db, $otherSchema )
     {
-        $this->eZDBSchemaInterface( $db );
+        parent::__construct( $db );
         $this->OtherSchema = $otherSchema;
         $this->CorrectSchema = false;
         $this->IsLintChecked = false;

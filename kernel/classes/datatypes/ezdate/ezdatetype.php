@@ -25,9 +25,9 @@ class eZDateType extends eZDataType
 
     const DEFAULT_CURRENT_DATE = 1;
 
-    function eZDateType()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Date", 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Date", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

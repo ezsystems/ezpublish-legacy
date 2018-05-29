@@ -23,9 +23,9 @@ class eZBinaryFileType extends eZDataType
 
     const DATA_TYPE_STRING = "ezbinaryfile";
 
-    function eZBinaryFileType()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "File", 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "File", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -332,8 +332,8 @@ class eZBinaryFileType extends eZDataType
             else
             {
                 // if storing a different file for the same version, see if the existing file can be removed.
-                $newfilename = basename( $httpBinaryFile->attribute( "filename" ) );
-                if ( $newFilename != $binary->Filename )
+                $newFileName = basename( $httpBinaryFile->attribute( "filename" ) );
+                if ( $newFileName != $binary->Filename )
                 {
                     $this->deleteStoredObjectAttribute( $contentObjectAttribute, $version );
                 }

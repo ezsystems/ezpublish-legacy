@@ -16,12 +16,9 @@
 
 class eZMarkHashing extends eZBenchmarkCase
 {
-    /*!
-     Constructor
-    */
-    function eZMarkHashing( $name )
+    public function __construct( $name = false )
     {
-        $this->eZBenchmarkCase( $name );
+        parent::__construct( $name );
         $this->addMark( 'markMD5', 'MD5 hash', array( 'repeat_count' => 1000 ) );
         $this->addMark( 'markCRC32', 'CRC32 hash', array( 'repeat_count' => 1000 ) );
     }

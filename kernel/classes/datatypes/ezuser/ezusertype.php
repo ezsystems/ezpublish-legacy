@@ -19,9 +19,9 @@ class eZUserType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezuser";
 
-    function eZUserType( )
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "User account", 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "User account", 'Datatype name' ),
                            array( 'translation_allowed' => false,
                                   'serialize_supported' => true ) );
     }
@@ -286,7 +286,7 @@ class eZUserType extends eZDataType
      * @param eZUser $user
      * @return string
      */
-    private function serializeDraft( eZUser $user )
+    public static function serializeDraft( eZUser $user )
     {
         return json_encode(
             array(

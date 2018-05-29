@@ -21,10 +21,21 @@ class eZURLOperator
     const HTTP_OPERATOR_TYPE_SESSION = 3;
     const HTTP_OPERATOR_TYPE_COOKIE = 4;
 
-    /*!
-     Initializes the image operator with the operator name $name.
-    */
-    function eZURLOperator( $url_name = 'ezurl',
+    /**
+     * Constructor
+     *
+     * @param string $url_name
+     * @param string $urlroot_name
+     * @param string $ezsys_name
+     * @param string $design_name
+     * @param string $image_name
+     * @param string $ext_name
+     * @param string $httpName
+     * @param string $iniName
+     * @param string $iniNameHasVariable
+     * @param string $httpNameHasVariable
+     */
+    public function __construct( $url_name = 'ezurl',
                             $urlroot_name = 'ezroot',
                             $ezsys_name = 'ezsys',
                             $design_name = 'ezdesign',

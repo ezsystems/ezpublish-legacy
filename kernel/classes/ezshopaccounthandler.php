@@ -10,11 +10,6 @@
 
 class eZShopAccountHandler
 {
-    function eZShopAccountHandler()
-    {
-
-    }
-
     /**
      * Returns a shared instance of the eZShopAccountHandler class
      * as defined in shopaccount.ini[HandlerSettings]Repositories

@@ -125,9 +125,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                              'renderHandler' => 'renderText' )
     );
 
-    function eZXHTMLXMLOutput( $xmlData, $aliasedType, $contentObjectAttribute = null )
+    public function __construct( $xmlData, $aliasedType, $contentObjectAttribute = null )
     {
-        $this->eZXMLOutputHandler( $xmlData, $aliasedType, $contentObjectAttribute );
+        parent::__construct( $xmlData, $aliasedType, $contentObjectAttribute );
 
         $ini = eZINI::instance('ezxml.ini');
         if ( $ini->variable( 'ezxhtml', 'RenderParagraphInTableCells' ) == 'disabled' )

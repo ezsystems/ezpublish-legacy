@@ -17,10 +17,7 @@
 
 class eZExtensionPackageCreator extends eZPackageCreationHandler
 {
-    /*!
-     Constructor
-    */
-    function eZExtensionPackageCreator( $id )
+    public function __construct( $id )
     {
         $steps = array();
         $steps[] = array( 'id' => 'extensionlist',
@@ -33,9 +30,7 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
         $steps[] = $this->packageInformationStep();
         $steps[] = $this->packageMaintainerStep();
         $steps[] = $this->packageChangelogStep();
-        $this->eZPackageCreationHandler( $id,
-                                         ezpI18n::tr( 'kernel/package', 'Extension export' ),
-                                         $steps );
+        parent::__construct( $id, ezpI18n::tr( 'kernel/package', 'Extension export' ), $steps );
     }
 
     function finalize( &$package, $http, &$persistentData )

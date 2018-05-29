@@ -26,12 +26,9 @@ class eZObjectRelationListType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezobjectrelationlist";
 
-    /*!
-     Initializes with a string id and a description.
-    */
-    function eZObjectRelationListType()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Object relations", 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Object relations", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -386,46 +383,76 @@ class eZObjectRelationListType extends eZDataType
         return $newObjectInstance->attribute( 'id' );
     }
 
-    function storeObjectAttribute( $attribute )
+    function storeObjectAttribute( $contentObjectAttribute )
     {
-        $content = $attribute->content();
+        $content = $contentObjectAttribute->content();
         if ( isset( $content['new_object'] ) )
         {
-            $newID = $this->createNewObject( $attribute, $content['new_object'] );
+            $newID = $this->createNewObject( $contentObjectAttribute, $content['new_object'] );
             // if this is a single element selection mode (radio or dropdown), then the newly created item is the only one selected
             if ( $newID )
             {
                 if ( isset( $content['singleselect'] ) )
                     $content['relation_list'] = array();
-                $content['relation_list'][] = $this->appendObject( $newID, 0, $attribute );
+                $content['relation_list'][] = $this->appendObject( $newID, 0, $contentObjectAttribute );
             }
             unset( $content['new_object'] );
-            $attribute->setContent( $content );
+            $contentObjectAttribute->setContent( $content );
         }
 
-        $contentClassAttributeID = $attribute->ContentClassAttributeID;
-        $contentObjectID = $attribute->ContentObjectID;
-        $contentObjectVersion = $attribute->Version;
+        $contentClassAttributeID = $contentObjectAttribute->ContentClassAttributeID;
+        $contentObjectID = $contentObjectAttribute->ContentObjectID;
+        $contentObjectVersion = $contentObjectAttribute->Version;
+        $languageCode = $contentObjectAttribute->attribute( 'language_code' );
 
-        $obj = $attribute->object();
-        //get eZContentObjectVersion
-        $currVerobj = $obj->version( $contentObjectVersion );
+        /** @var eZContentObject */
+        $contentObject = $contentObjectAttribute->object();
 
-        // create translation List
-        // $translationList will contain for example eng-GB, ita-IT etc.
-        $translationList = $currVerobj->translations( false );
-
-        // get current language_code
-        $langCode = $attribute->attribute( 'language_code' );
-        // get count of LanguageCode in translationList
-        $countTsl = count( $translationList );
-        // order by asc
-        sort( $translationList );
-
-        // check if previous relation(s) should first be removed
-        if ( !$attribute->contentClassAttributeCanTranslate() )
+        if ( $contentObjectAttribute->ID !== null )
         {
-             $obj->removeContentObjectRelation( false, $contentObjectVersion, $contentClassAttributeID, eZContentObject::RELATION_ATTRIBUTE );
+            // cleanup previous relations
+            $contentObject->removeContentObjectRelation( false, $contentObjectVersion, $contentClassAttributeID, eZContentObject::RELATION_ATTRIBUTE );
+
+            // if translatable, we need to re-add the relations for other languages of (previously) published version.
+            $publishedVersionNo = $contentObject->publishedVersion();
+            if ( $contentObjectAttribute->contentClassAttributeCanTranslate() && $publishedVersionNo > 0 )
+            {
+                $existingRelations = array();
+
+                // get published translations of this attribute
+                $pubAttribute = eZContentObjectAttribute::fetch($contentObjectAttribute->ID, $publishedVersionNo);
+                if ( $pubAttribute )
+                {
+                    foreach( $pubAttribute->fetchAttributeTranslations() as $attributeTranslation )
+                    {
+                        // skip if language is the one being saved
+                        if ( $attributeTranslation->LanguageCode === $languageCode )
+                            continue;
+
+                        $relationList = $attributeTranslation->value();
+                        foreach ($relationList['relation_list'] as $relationItem) {
+                            $existingRelations[] = $relationItem['contentobject_id'];
+                        }
+                    }
+                }
+
+                // fetch existing attribute translations for current editing version
+                foreach( $contentObjectAttribute->fetchAttributeTranslations() as $attributeTranslation )
+                {
+                    if ( $attributeTranslation->LanguageCode === $languageCode )
+                        continue;
+
+                    $relationList = $attributeTranslation->value();
+                    foreach ($relationList['relation_list'] as $relationItem) {
+                        $existingRelations[] = $relationItem['contentobject_id'];
+                    }
+                }
+
+                foreach( array_unique($existingRelations) as $existingObjectId )
+                {
+                    $contentObject->addContentObjectRelation( $existingObjectId, $contentObjectVersion, $contentClassAttributeID, eZContentObject::RELATION_ATTRIBUTE );
+                }
+            }
         }
 
         foreach( $content['relation_list'] as $relationItem )
@@ -462,7 +489,7 @@ class eZObjectRelationListType extends eZDataType
                 }
             }
         }
-        return $this->storeObjectAttributeContent( $attribute, $content );
+        return $this->storeObjectAttributeContent( $contentObjectAttribute, $content );
     }
 
     function onPublish( $contentObjectAttribute, $contentObject, $publishedNodes )

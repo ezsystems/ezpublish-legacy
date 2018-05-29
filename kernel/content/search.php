@@ -47,13 +47,13 @@ $logSearchStats = $ini->variable( 'SearchSettings', 'LogSearchStats' ) == 'enabl
 
 if ( $http->hasVariable( 'BrowsePageLimit' ) )
 {
-    $pageLimit = $http->variable( 'BrowsePageLimit' );
+    $pageLimit = (int)$http->variable( 'BrowsePageLimit' );
 }
 else
 {
     if ( $http->hasVariable( 'SearchPageLimit' ) )
     {
-        $searchPageLimit = $http->variable( 'SearchPageLimit' );
+        $searchPageLimit = (int)$http->variable( 'SearchPageLimit' );
     }
     $pageLimit = pageLimit( $searchPageLimit );
 }
@@ -71,14 +71,14 @@ if ( $http->hasVariable( "SearchText" ) )
 $searchSectionID = -1;
 if ( $http->hasVariable( "SectionID" ) )
 {
-    $searchSectionID = $http->variable( "SectionID" );
+    $searchSectionID = (int)$http->variable( "SectionID" );
 }
 
 $searchTimestamp = false;
 if ( $http->hasVariable( 'SearchTimestamp' ) and
      $http->variable( 'SearchTimestamp' ) )
 {
-    $searchTimestamp = $http->variable( 'SearchTimestamp' );
+    $searchTimestamp = (int)$http->variable( 'SearchTimestamp' );
 }
 
 $searchType = "fulltext";
@@ -96,7 +96,7 @@ if ( $http->hasVariable( "SubTreeArray" ) )
         $subTreeList = array( $http->variable( "SubTreeArray" ) );
     foreach ( $subTreeList as $subTreeItem )
     {
-        if ( $subTreeItem > 0 )
+        if ( is_numeric( $subTreeItem ) && $subTreeItem > 0 )
             $subTreeArray[] = $subTreeItem;
     }
 }

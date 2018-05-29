@@ -17,12 +17,9 @@
 
 class eZPrice extends eZSimplePrice
 {
-    /*!
-     Constructor
-    */
-    function eZPrice( $classAttribute, $contentObjectAttribute, $storedPrice = null )
+    public function __construct( $classAttribute, $contentObjectAttribute, $storedPrice = null )
     {
-        eZSimplePrice::eZSimplePrice( $classAttribute, $contentObjectAttribute, $storedPrice );
+        parent::__construct( $classAttribute, $contentObjectAttribute, $storedPrice );
 
         $isVatIncluded = ( $classAttribute->attribute( eZPriceType::INCLUDE_VAT_FIELD ) == 1 );
         $VATID = $classAttribute->attribute( eZPriceType::VAT_ID_FIELD );

@@ -130,13 +130,9 @@ class eZURLAliasML extends eZPersistentObject
      */
     private static $charset = null;
 
-    /*!
-     Initializes a new URL alias from database row.
-     \note If 'path' is set it will be cached in $Path.
-    */
-    function eZURLAliasML( $row )
+    public function __construct( $row )
     {
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
         $this->Path = null;
         if ( isset( $row['path'] ) )
         {
@@ -842,6 +838,15 @@ class eZURLAliasML extends eZPersistentObject
                         $curElementID = $curID;
                         break;
                     }
+
+                    // If the current node is the same action, but the language is different
+                    // (enables adding the same URL alias for other languages)
+                    if ( !( (int)$row['lang_mask'] & $languageID ) )
+                    {
+                        // We can reuse the element so record the ID
+                        $curElementID = $curID;
+                        break;
+                    }
                 }
                 else if ( $curAction == 'nop:' || $row['is_original'] == 0 )
                 {
@@ -1497,11 +1502,15 @@ class eZURLAliasML extends eZPersistentObject
         $internalURIString = $uriString;
         $originalURIString = $uriString;
 
+        if ( $reverse )
+        {
+            return eZURLAliasML::reverseTranslate( $uri, $uriString, $internalURIString );
+        }
+
         $ini = eZINI::instance();
 
         $prefixAdded = false;
-        $prefix = $ini->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) &&
-                      $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) != '' ? eZURLAliasML::cleanURL( $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) ) : false;
+        $prefix = self::getPathPrefix();
 
         if ( $prefix )
         {
@@ -1534,10 +1543,6 @@ class eZURLAliasML extends eZPersistentObject
         $db = eZDB::instance();
         $elements = explode( '/', $internalURIString );
         $len      = count( $elements );
-        if ( $reverse )
-        {
-            return eZURLAliasML::reverseTranslate( $uri, $uriString, $internalURIString );
-        }
 
         $i = 0;
         $selects = array();
@@ -1777,6 +1782,7 @@ class eZURLAliasML extends eZPersistentObject
                     }
                 }
                 $uriString = join( '/', $path );
+                $uriString = self::removePathPrefixFromURI( $uriString );
                 if ( $uri instanceof eZURI )
                 {
                     $uri->setURIString( $uriString, false );
@@ -1793,6 +1799,53 @@ class eZURLAliasML extends eZPersistentObject
             }
         }
         return false;
+    }
+
+    /*!
+     \private
+     \static
+     Returns PathPrefix without leading or trailing slashes if it's configured. Otherwise returns false.
+     */
+    static public function getPathPrefix()
+    {
+        $ini = eZINI::instance();
+
+        return $ini->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) &&
+            $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) != ''
+            ? eZURLAliasML::cleanURL( $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) )
+            : false;
+    }
+
+    /*!
+     \private
+     \static
+     Remove PathPrefix from the URI string, if it's configured and not affected by PathPrefixExclude. Returns the URI string.
+     */
+    static public function removePathPrefixFromURI($uriString)
+    {
+        $ini = eZINI::instance();
+
+        $prefix = self::getPathPrefix();
+        if ( !$prefix )
+        {
+            return $uriString;
+        }
+
+        $exclude = $ini->hasVariable( 'SiteAccessSettings', 'PathPrefixExclude' )
+            ? $ini->variable( 'SiteAccessSettings', 'PathPrefixExclude' )
+            : false;
+        foreach ( $exclude as $item )
+        {
+            $escapedItem = preg_quote( $item, '#' );
+            if ( preg_match( "#^$escapedItem(/.*)?$#i", $uriString ) )
+            {
+                return $uriString;
+            }
+        }
+
+        $escapedPrefix = preg_quote( $prefix, '#' );
+        $modifiedUriString = preg_replace( "#^$escapedPrefix/?#i", '', $uriString );
+        return $modifiedUriString === null ? $uriString : $modifiedUriString;
     }
 
     /*!

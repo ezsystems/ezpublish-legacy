@@ -21,9 +21,9 @@ class eZBZIP2Handler extends eZCompressionHandler
     /*!
      See eZCompressionHandler::eZCompressionHandler
     */
-    function eZBZIP2Handler()
+    public function __construct()
     {
-        $this->eZCompressionHandler( 'BZIP2', 'bz2' );
+        parent::__construct( 'BZIP2', 'bz2' );
     }
 
     function doOpen( $filename, $mode )

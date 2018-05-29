@@ -16,10 +16,12 @@
 
 class eZPackageOperator
 {
-    /*!
-     Constructor
-    */
-    function eZPackageOperator( $name = 'ezpackage' )
+    /**
+     * Constructor
+     *
+     * @param string $name
+     */
+    public function __construct( $name = 'ezpackage' )
     {
         $this->Operators = array( $name );
     }
