@@ -44,7 +44,7 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
         {
             var url = self.val().split('://'), id = eZOEPopupUtils.Int( url[1] );
             if ( id !== 0 && ( url[0] === 'eznode' || url[0] === 'ezobject' ) )
-                ezoeLinkAttribute.ajaxCheck.call( this, url[0] + '_' + id );
+                ezoeLinkAttribute.ajaxCheck.call( this, url[0] + '_' + id, ezoeLinkAttribute.lid( this.id, tagName ) );
         }
     });
 
