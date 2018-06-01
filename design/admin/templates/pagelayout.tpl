@@ -80,6 +80,9 @@ div#maincolumn {ldelim} padding-right: 20px; padding-left: 50px; {rdelim}
 
 <div id="left-panels-separator">
     <div class="panels-separator-top"></div>
+    <div id="widthcontrol-handler" class="hide">
+        <div class="widthcontrol-grippy"></div>
+    </div>
     <div class="panels-separator-bottom"></div>
 </div>
 
