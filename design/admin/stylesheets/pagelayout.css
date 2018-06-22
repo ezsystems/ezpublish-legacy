@@ -472,11 +472,10 @@ ul.leftmenu-items li.current a
 #widthcontrol-handler
 {
     position: absolute;
-    right: -30px;
-    top:-20px;
+    right: 20px;
+    top: 0;
     bottom: 0; /* strech div to full width of relative box */
     width: 10px;
-    height: 5000px;
     cursor: col-resize;
     z-index:11;
 /*    background: #f8f8f8;*/
