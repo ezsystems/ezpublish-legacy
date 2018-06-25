@@ -775,7 +775,7 @@ if ( !function_exists( 'checkContentActions' ) )
                                 }
                                 if ( isset( $result['path'] ) )
                                 {
-                                    $Result['path'] = $result['path'];
+                                    $Result = array('path' => $result['path']);
                                 }
                             }
                             else
