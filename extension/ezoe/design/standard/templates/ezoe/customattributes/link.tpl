@@ -90,6 +90,7 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
         ezoeLinkAttribute.timeOut = setTimeout( eZOEPopupUtils.BIND( ezoeLinkAttribute.ajaxCheck, this, url[0] + '_' + id, lid ), 320 );
         return true;
     });
+    inp.keyup();
 
     // setup navigation on bookmark / browse / search links to their 'boxes' (panels)
     jQuery( 'a.atr_link_search_link, a.atr_link_browse_link, a.atr_link_bookmark_link' ).click( function(){
