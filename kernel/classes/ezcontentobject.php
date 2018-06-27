@@ -2644,6 +2644,57 @@ class eZContentObject extends eZPersistentObject
         unset( $GLOBALS["ez_content_object_recursion_protect"] );
     }
 
+    private static $recursionProtectionStack;
+    private static $recursionProtectionCurrent;
+
+    public static function stackRecursionProtectionStart()
+    {
+        self::$recursionProtectionStack = [];
+        self::$recursionProtectionCurrent = [];
+    }
+
+    public static function stackRecursionProtect($key, $value)
+    {
+        if (self::stackRecursionExistsOnStack($key, $value))
+        {
+            return false;
+        }
+
+        self::$recursionProtectionCurrent[$key][] = $value;
+
+        return true;
+    }
+
+    private static function stackRecursionExistsOnStack($key, $value)
+    {
+        foreach (self::$recursionProtectionStack as $stackItem)
+        {
+            if (array_key_exists($key, $stackItem) && in_array($value, $stackItem[$key], true))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static function stackRecursionProtectionPush()
+    {
+        self::$recursionProtectionStack[] = self::$recursionProtectionCurrent;
+        self::$recursionProtectionCurrent = [];
+    }
+
+    public static function stackRecursionProtectionPop()
+    {
+        self::$recursionProtectionCurrent = array_pop(self::$recursionProtectionStack);
+    }
+
+    public static function stackRecursionProtectionEnd()
+    {
+        self::$recursionProtectionStack = null;
+        self::$recursionProtectionCurrent = null;
+    }
+
     /**
      * Transaction unsafe. If you call several transaction unsafe methods you must enclose
      * the calls within a db transaction; thus within db->begin and db->commit.
