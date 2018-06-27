@@ -8,7 +8,7 @@
 
 <tr>
     <th class="tight">&nbsp;</th>
-    {foreach $matrix.columns.sequential as $ColumnNames}<th>{$ColumnNames.name}</th>{/foreach}
+    {foreach $matrix.columns.sequential as $ColumnNames}<th>{$ColumnNames.name|wash( xhtml )}</th>{/foreach}
 </tr>
 
 {foreach $matrix.rows.sequential as $index => $Rows sequence array( bglight, bgdark ) as $rowSequence}

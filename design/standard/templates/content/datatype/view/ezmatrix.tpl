@@ -3,7 +3,7 @@
 <table class="list" cellspacing="0">
 <tr>
 {foreach $matrix.columns.sequential as $ColumnNames}
-<th>{$ColumnNames.name}</th>
+<th>{$ColumnNames.name|wash( xhtml )}</th>
 {/foreach}
 </tr>
 {foreach $matrix.rows.sequential as $Rows sequence array( bglight, bgdark ) as $rowSequence}
