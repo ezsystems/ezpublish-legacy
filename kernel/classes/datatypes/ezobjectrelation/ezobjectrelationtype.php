@@ -639,7 +639,7 @@ class eZObjectRelationType extends eZDataType
         $object = $this->objectAttributeContent( $contentObjectAttribute );
         if ( $object )
         {
-            if ( eZContentObject::recursionProtect( $object->attribute( 'id' ) ) )
+            if ( eZContentObject::stackRecursionProtect( $contentObjectAttribute->attribute( 'id' ), $object->attribute( 'id' ) ) )
             {
                 // Does the related object exist in the same language as the current content attribute ?
                 if ( in_array( $contentObjectAttribute->attribute( 'language_code' ), $object->attribute( 'current' )->translationList( false, false ) ) )
@@ -651,7 +651,11 @@ class eZObjectRelationType extends eZDataType
                     $attributes = $object->contentObjectAttributes();
                 }
 
-                return eZContentObjectAttribute::metaDataArray( $attributes );
+                eZContentObject::stackRecursionProtectionPush();
+                $metaDataArray = eZContentObjectAttribute::metaDataArray( $attributes );
+                eZContentObject::stackRecursionProtectionPop();
+
+                return $metaDataArray;
             }
             else
             {

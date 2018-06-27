@@ -1616,7 +1616,7 @@ class eZObjectRelationListType extends eZDataType
                     $subObjectVersionNum = $subCurrentVersionObject->attribute( 'version' );
                 }
 
-                if ( eZContentObject::recursionProtect( $subObjectID ) )
+                if ( eZContentObject::stackRecursionProtect( $contentObjectAttribute->attribute( 'id' ), $subObjectID ) )
                 {
                     if ( !$subObject )
                     {
@@ -1626,7 +1626,10 @@ class eZObjectRelationListType extends eZDataType
                 }
             }
 
+            eZContentObject::stackRecursionProtectionPush();
             $attributeMetaDataArray = eZContentObjectAttribute::metaDataArray( $attributes );
+            eZContentObject::stackRecursionProtectionPop();
+
             $metaDataArray = array_merge( $metaDataArray, $attributeMetaDataArray );
         }
 

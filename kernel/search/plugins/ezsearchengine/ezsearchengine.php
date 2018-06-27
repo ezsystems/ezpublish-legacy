@@ -68,7 +68,7 @@ class eZSearchEngine implements ezpSearchEngine
         $placement = 0;
         $previousWord = '';
 
-        eZContentObject::recursionProtectionStart();
+        eZContentObject::stackRecursionProtectionStart();
         foreach ( $currentVersion->contentObjectAttributes() as $attribute )
         {
             $metaData = array();
@@ -136,7 +136,7 @@ class eZSearchEngine implements ezpSearchEngine
                 }
             }
         }
-        eZContentObject::recursionProtectionEnd();
+        eZContentObject::stackRecursionProtectionEnd();
 
         $wordIDArray = $this->buildWordIDArray( array_keys( $indexArrayOnlyWords ) );
 
