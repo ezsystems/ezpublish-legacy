@@ -64,7 +64,7 @@ function fixupTrashedImageXml( $imageAttribute, $optDryRun )
     eZCLI::instance()->notice( "Processing image $contentId ($version) ..." );
 
     if ( ( $doc = simplexml_load_string( $imageAttribute['data_text'] ) ) === false )
-        continue;
+        return;
 
     $doc['filename'] = '';
     $doc['basename'] = '';
