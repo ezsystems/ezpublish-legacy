@@ -823,6 +823,11 @@ class eZContentOperationCollection
 
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
+        if ( !eZSearch::getEngine() instanceof eZSearchEngine )
+        {
+            eZContentOperationCollection::registerSearchObject( $objectID );
+        }
+
         return array( 'status' => true );
     }
 
@@ -901,6 +906,13 @@ class eZContentOperationCollection
             if ( in_array( $object->attribute( 'contentclass_id' ), $userClassIdList ) )
             {
                 eZUser::purgeUserCacheByUserId( $object->attribute( 'id' ) );
+            }
+
+            // Give other search engines that the default one a chance to reindex
+            // when removing locations.
+            if ( !eZSearch::getEngine() instanceof eZSearchEngine )
+            {
+                eZContentOperationCollection::registerSearchObject( $objectId );
             }
         }
 
@@ -1125,6 +1137,10 @@ class eZContentOperationCollection
 
         // clear cache for new placement.
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
+        if ( !eZSearch::getEngine() instanceof eZSearchEngine )
+        {
+            eZContentOperationCollection::registerSearchObject( $objectID );
+        }
 
         eZSearch::swapNode( $nodeID, $selectedNodeID, $nodeIdList = array() );
 
@@ -1256,11 +1272,14 @@ class eZContentOperationCollection
      *
      * @return array An array with operation status, always true
      */
-    static public function updateMainAssignment( $mainAssignmentID, $ObjectID, $mainAssignmentParentID )
+    static public function updateMainAssignment( $mainAssignmentID, $objectID, $mainAssignmentParentID )
     {
-        eZContentObjectTreeNode::updateMainNodeID( $mainAssignmentID, $ObjectID, false, $mainAssignmentParentID );
-        eZContentCacheManager::clearContentCacheIfNeeded( $ObjectID );
-        eZContentOperationCollection::registerSearchObject( $ObjectID );
+        eZContentObjectTreeNode::updateMainNodeID( $mainAssignmentID, $objectID, false, $mainAssignmentParentID );
+        eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
+        if ( !eZSearch::getEngine() instanceof eZSearchEngine )
+        {
+            eZContentOperationCollection::registerSearchObject( $objectID );
+        }
 
         return array( 'status' => true );
     }
