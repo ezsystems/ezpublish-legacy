@@ -288,6 +288,16 @@ class eZDataType
         return false;
     }
 
+    /**
+     * Indicates if the datatype handles relations
+     *
+     * @return bool
+     */
+    public function isRelationType()
+    {
+        return false;
+    }
+
     /*!
      \virtual
      Inserts the HTTP file \a $httpFile to the content object attribute \a $objectAttribute.
