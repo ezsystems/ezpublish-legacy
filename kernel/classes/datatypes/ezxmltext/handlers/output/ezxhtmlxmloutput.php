@@ -199,7 +199,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         }
         elseif ( $element->getAttribute( 'node_id' ) != null )
         {
-            $nodeID = $element->getAttribute( 'node_id' );
+            $nodeID = (int) $element->getAttribute( 'node_id' );
             $node = isset( $this->NodeArray[$nodeID] ) ? $this->NodeArray[$nodeID] : null;
 
             if ( $node != null )
@@ -289,7 +289,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         }
         else
         {
-            $nodeID = $element->getAttribute( 'node_id' );
+            $nodeID = (int) $element->getAttribute( 'node_id' );
             if ( $nodeID )
             {
                 if ( isset( $this->NodeArray[$nodeID] ) )
