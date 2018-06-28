@@ -765,6 +765,7 @@ if ( !function_exists( 'checkContentActions' ) )
                         }
                         else if ( isset( $operationResult['result'] ) )
                         {
+                            $Result = array();
                             $result = $operationResult['result'];
                             $resultContent = false;
                             if ( is_array( $result ) )
@@ -775,7 +776,7 @@ if ( !function_exists( 'checkContentActions' ) )
                                 }
                                 if ( isset( $result['path'] ) )
                                 {
-                                    $Result = array('path' => $result['path']);
+                                    $Result['path'] = $result['path'];
                                 }
                             }
                             else
