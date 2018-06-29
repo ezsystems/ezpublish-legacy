@@ -1632,6 +1632,8 @@ class eZObjectRelationListType extends eZDataType
             $metaDataArray = array_merge( $metaDataArray, $attributeMetaDataArray );
         }
 
+        eZContentObject::recursionProtectionEnd();
+
         return $metaDataArray;
     }
 
