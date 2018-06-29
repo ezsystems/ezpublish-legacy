@@ -1182,7 +1182,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             }
 
             $datatype = $attribute->dataType();
-            if( $skipRelationAttributes && $datatype->isRelationType() )
+            if ( $skipRelationAttributes && $datatype->isRelationType() )
             {
                 continue;
             }
