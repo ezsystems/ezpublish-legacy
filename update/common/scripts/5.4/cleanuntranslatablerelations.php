@@ -82,7 +82,7 @@ do {
         "FROM ezcontentobject_attribute attr ".
         "INNER JOIN ezcontentclass_attribute classattr ON attr.contentclassattribute_id=classattr.id " .
         "WHERE classattr.data_type_string IN ( 'ezobjectrelation', 'ezobjectrelationlist' ) AND can_translate=0 " .
-        "GROUP BY contentobject_id, version, data_int"
+        "GROUP BY contentobject_id, version, data_int, attr_id, classattr.data_type_string, attr.data_text"
     );
 
     $count = count($rows);
