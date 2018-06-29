@@ -78,7 +78,7 @@
       ]
     },
     "conflict": {
-        "ezsystems/ezpublish-kernel": "<6.13 || >=2014.11 <2017.12"
+        "ezsystems/ezpublish-kernel": "<7.2 || >=2013.4"
     },
     "extra": {
         "branch-alias": {
