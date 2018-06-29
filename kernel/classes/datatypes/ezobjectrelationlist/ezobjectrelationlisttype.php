@@ -32,6 +32,11 @@ class eZObjectRelationListType extends eZDataType
                            array( 'serialize_supported' => true ) );
     }
 
+    public function isRelationType()
+    {
+        return true;
+    }
+
     /*!
      Validates the input and returns true if the input was
      valid for this datatype.
@@ -1616,17 +1621,14 @@ class eZObjectRelationListType extends eZDataType
                     $subObjectVersionNum = $subCurrentVersionObject->attribute( 'version' );
                 }
 
-                if ( eZContentObject::recursionProtect( $subObjectID ) )
+                if ( !$subObject )
                 {
-                    if ( !$subObject )
-                    {
-                        continue;
-                    }
-                    $attributes = $subObject->contentObjectAttributes( true, $subObjectVersionNum, $language );
+                    continue;
                 }
+                $attributes = $subObject->contentObjectAttributes( true, $subObjectVersionNum, $language );
             }
 
-            $attributeMetaDataArray = eZContentObjectAttribute::metaDataArray( $attributes );
+            $attributeMetaDataArray = eZContentObjectAttribute::metaDataArray( $attributes, true );
             $metaDataArray = array_merge( $metaDataArray, $attributeMetaDataArray );
         }
 
