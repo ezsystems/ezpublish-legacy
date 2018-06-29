@@ -765,6 +765,7 @@ if ( !function_exists( 'checkContentActions' ) )
                         }
                         else if ( isset( $operationResult['result'] ) )
                         {
+                            $Result = array();
                             $result = $operationResult['result'];
                             $resultContent = false;
                             if ( is_array( $result ) )
