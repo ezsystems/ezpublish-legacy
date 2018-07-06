@@ -261,16 +261,15 @@ class eZSession
      * {@link eZSession::start()}, so only call this if you don't start the session.
      *
      * @since 4.1
-     * @since v2018.06.0 Return false if session is already active since PHP 7.2 onwards emits a warning about this.
      * @return bool Depending on if eZSession is registrated as session handler.
     */
     static protected function registerFunctions( $sessionName = false, ezpSessionHandler $handler = null )
     {
-        if ( self::$hasStarted || self::$handlerInstance !== null || session_status() === PHP_SESSION_ACTIVE )
+        if ( self::$hasStarted || self::$handlerInstance !== null )
             return false;
 
         $ini = eZINI::instance();
-        if ( $sessionName !== false )
+        if ( $sessionName !== false && $sessionName !== session_name() )
         {
             session_name( $sessionName );
         }
@@ -283,7 +282,9 @@ class eZSession
                 // Use md5 to make sure name is only consistent of alphanumeric characters
                 $sessionName .=  md5( $access['name'] );
             }
-            session_name( $sessionName );
+            if ( $sessionName !== session_name() ) {
+                session_name( $sessionName );
+            }
         }
         else
         {
