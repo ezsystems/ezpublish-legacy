@@ -261,10 +261,8 @@ class eZSession
      * {@link eZSession::start()}, so only call this if you don't start the session.
      *
      * @since 4.1
+     * @since v2018.06.0 Return false if session is already active since PHP 7.2 onwards emits a warning about this.
      * @return bool Depending on if eZSession is registrated as session handler.
-     *
-     * @since v2018.06.0
-     * @return false if session is already active since PHP 7.2 onwards emits a warning about this.
     */
     static protected function registerFunctions( $sessionName = false, ezpSessionHandler $handler = null )
     {
