@@ -265,7 +265,7 @@ class eZSession
     */
     static protected function registerFunctions( $sessionName = false, ezpSessionHandler $handler = null )
     {
-        if ( self::$hasStarted || self::$handlerInstance !== null )
+        if ( self::$hasStarted || self::$handlerInstance !== null || session_status() === PHP_SESSION_ACTIVE )
             return false;
 
         $ini = eZINI::instance();
