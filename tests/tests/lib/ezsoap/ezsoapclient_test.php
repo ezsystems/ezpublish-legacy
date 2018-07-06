@@ -70,6 +70,8 @@ class eZSOAPClientTest extends ezpTestCase
      */
     public function testSoapClientSend( $expectedSendResult, $server, $path, $port, $name, $namespace, $parameters = array() )
     {
+        self::markTestSkipped( "Test disabled as critmon has been shut down. Needs a different server or way of doing this." );
+
         $client = new eZSOAPClient( $server, $path, $port );
         $request = new eZSOAPRequest( $name, $namespace, $parameters );
         $response = $client->send( $request );
