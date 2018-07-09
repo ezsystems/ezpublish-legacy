@@ -269,7 +269,7 @@ class eZSession
             return false;
 
         $ini = eZINI::instance();
-        if ( $sessionName !== false )
+        if ( $sessionName !== false && $sessionName !== session_name() )
         {
             session_name( $sessionName );
         }
@@ -282,7 +282,9 @@ class eZSession
                 // Use md5 to make sure name is only consistent of alphanumeric characters
                 $sessionName .=  md5( $access['name'] );
             }
-            session_name( $sessionName );
+            if ( $sessionName !== session_name() ) {
+                session_name( $sessionName );
+            }
         }
         else
         {
