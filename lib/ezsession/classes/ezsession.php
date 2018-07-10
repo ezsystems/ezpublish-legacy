@@ -269,20 +269,23 @@ class eZSession
             return false;
 
         $ini = eZINI::instance();
-        if ( $sessionName !== false )
+        if ( $sessionName !== false && session_status() !== PHP_SESSION_ACTIVE )
         {
             session_name( $sessionName );
         }
         else if ( $ini->variable( 'Session', 'SessionNameHandler' ) === 'custom' )
         {
             $sessionName = $ini->variable( 'Session', 'SessionNamePrefix' );
-            if ( $ini->variable( 'Session', 'SessionNamePerSiteAccess' ) === 'enabled' )
+            if( $ini->variable( 'Session', 'SessionNamePerSiteAccess' ) === 'enabled' )
             {
-                $access = $GLOBALS['eZCurrentAccess'];
+                $access = $GLOBALS[ 'eZCurrentAccess' ];
                 // Use md5 to make sure name is only consistent of alphanumeric characters
-                $sessionName .=  md5( $access['name'] );
+                $sessionName .= md5( $access[ 'name' ] );
             }
-            session_name( $sessionName );
+            if( session_status() !== PHP_SESSION_ACTIVE )
+            {
+                session_name( $sessionName );
+            }
         }
         else
         {
