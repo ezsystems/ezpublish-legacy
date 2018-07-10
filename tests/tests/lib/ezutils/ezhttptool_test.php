@@ -30,6 +30,8 @@ class eZHTTPToolTest extends ezpTestCase
      */
     public function testGetDataByURL( $expectedDataResult, $url, $justCheckURL = false, $userAgent = false )
     {
+        self::markTestSkipped( "Test disabled as critmon has been shut down. Needs a different server or way of doing this." );
+
         $this->assertEquals( eZHTTPTool::getDataByURL( $url, $justCheckURL, $userAgent ), $expectedDataResult );
 
         // There's no way to test the whole method without refactoring it.
