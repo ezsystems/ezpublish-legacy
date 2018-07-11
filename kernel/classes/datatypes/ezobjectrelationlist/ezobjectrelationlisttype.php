@@ -1614,16 +1614,16 @@ class eZObjectRelationListType extends eZDataType
                 $subObjectVersionNum = $relationItem['contentobject_version'];
                 $subObject = eZContentObject::fetch( $subObjectID );
 
+                if ( !$subObject )
+                {
+                    continue;
+                }
+
                 // Using last version of object (version inside xml data is the original version)
                 $subCurrentVersionObject = $subObject->currentVersion();
                 if( $subCurrentVersionObject instanceof eZContentObjectVersion )
                 {
                     $subObjectVersionNum = $subCurrentVersionObject->attribute( 'version' );
-                }
-
-                if ( !$subObject )
-                {
-                    continue;
                 }
                 $attributes = $subObject->contentObjectAttributes( true, $subObjectVersionNum, $language );
             }
