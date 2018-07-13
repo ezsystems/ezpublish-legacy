@@ -1032,7 +1032,11 @@ class eZLocale
             $date = 0;
         }
 
+        $tz = date_default_timezone_get();
+        date_default_timezone_set('UTC');
         $text = date( eZLocale::transformToPHPFormat( $fmt, $this->DatePHPArray ), $date );
+        date_default_timezone_set($tz);
+
         return str_replace( array( '%D', '%l', '%M', '%F' ),
                             array( $this->shortDayName( date( 'w', $date ) ),
                                    $this->longDayName( date( 'w', $date ) ),

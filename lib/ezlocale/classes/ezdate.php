@@ -62,6 +62,8 @@ class eZDate
      */
     public function __construct( $date = false )
     {
+        $tz = date_default_timezone_get();
+        date_default_timezone_set( 'UTC' );
         if ( $date === false )
         {
             $date = mktime( 0, 0, 0 );
@@ -71,6 +73,8 @@ class eZDate
             $arr = getdate( $date );
             $date = mktime( 0, 0, 0, $arr['mon'], $arr['mday'], $arr['year'] );
         }
+        date_default_timezone_set( $tz );
+
         $this->Date = $date;
         $this->Locale = eZLocale::instance();
         $this->IsValid = $date !== null;
@@ -153,7 +157,10 @@ class eZDate
     function setYear( $year )
     {
         $arr = getdate( $this->Date );
+        $tz = date_default_timezone_get();
+        date_default_timezone_set( 'UTC' );
         $this->Date = mktime( 0, 0, 0, $arr['mon'], $arr['mday'], $year );
+        date_default_timezone_set( $tz );
     }
 
     /*!
@@ -162,7 +169,10 @@ class eZDate
     function setMonth( $month )
     {
         $arr = getdate( $this->Date );
+        $tz = date_default_timezone_get();
+        date_default_timezone_set( 'UTC' );
         $this->Date = mktime( 0, 0, 0, $month, $arr['mday'], $arr['year'] );
+        date_default_timezone_set( $tz );
     }
 
     /*!
@@ -171,7 +181,10 @@ class eZDate
     function setDay( $day )
     {
         $arr = getdate( $this->Date );
+        $tz = date_default_timezone_get();
+        date_default_timezone_set( 'UTC' );
         $this->Date = mktime( 0, 0, 0, $arr['mon'], $day, $arr['year'] );
+        date_default_timezone_set( $tz );
     }
 
     /*!
@@ -179,7 +192,12 @@ class eZDate
     */
     function year()
     {
-        return date( 'Y', $this->Date );
+        $tz = date_default_timezone_get();
+        date_default_timezone_set( 'UTC' );
+        $date = date( 'Y', $this->Date );
+        date_default_timezone_set( $tz );
+
+        return $date;
     }
 
     /*!
@@ -187,7 +205,12 @@ class eZDate
     */
     function month()
     {
-        return date( 'm', $this->Date );
+        $tz = date_default_timezone_get();
+        date_default_timezone_set( 'UTC' );
+        $date = date( 'm', $this->Date );
+        date_default_timezone_set( $tz );
+
+        return $date;
     }
 
     /*!
@@ -195,7 +218,12 @@ class eZDate
     */
     function day()
     {
-        return date( 'd', $this->Date );
+        $tz = date_default_timezone_get();
+        date_default_timezone_set( 'UTC' );
+        $date = date( 'd', $this->Date );
+        date_default_timezone_set( $tz );
+
+        return $date;
     }
 
     /*!
@@ -204,12 +232,15 @@ class eZDate
     */
     function setMDY( $month, $day = 0, $year = 0 )
     {
+        $tz = date_default_timezone_get();
+        date_default_timezone_set( 'UTC' );
         if ( $year != 0 )
             $date = mktime( 0, 0, 0, $month, $day, $year );
         else if ( $day != 0 )
             $date = mktime( 0, 0, 0, $month, $day );
         else
             $date = mktime( 0, 0, 0, $month );
+        date_default_timezone_set( $tz );
         $this->Date = $date;
     }
 
@@ -220,7 +251,10 @@ class eZDate
     function adjustDate( $month, $day = 0, $year = 0 )
     {
         $arr = getdate( $this->Date );
+        $tz = date_default_timezone_get();
+        date_default_timezone_set( 'UTC' );
         $date = mktime( 0, 0, 0, $month + $arr['mon'], $day + $arr['mday'], $year + $arr['year'] );
+        date_default_timezone_set( $tz );
         $this->Date = $date;
     }
 
@@ -239,7 +273,10 @@ class eZDate
         else
         {
             $arr = getdate( $date );
+            $tz = date_default_timezone_get();
+            date_default_timezone_set( 'UTC' );
             $d2 = mktime( 0, 0, 0, $arr['mon'], $arr['mday'], $arr['year'] );
+            date_default_timezone_set( $tz );
         }
         if ( $d1 > $d2 )
             return true;
@@ -262,7 +299,10 @@ class eZDate
         else
         {
             $arr = getdate( $date );
+            $tz = date_default_timezone_get();
+            date_default_timezone_set( 'UTC' );
             $d2 = mktime( 0, 0, 0, $arr['mon'], $arr['mday'], $arr['year'] );
+            date_default_timezone_set( $tz );
         }
         return $d1 == $d2;
     }
@@ -273,12 +313,15 @@ class eZDate
     */
     static function create( $month, $day = 0, $year = 0 )
     {
+        $tz = date_default_timezone_get();
+        date_default_timezone_set( 'UTC' );
         if ( $year != 0 )
             $date = mktime( 0, 0, 0, $month, $day, $year );
         else if ( $day != 0 )
             $date = mktime( 0, 0, 0, $month, $day );
         else
             $date = mktime( 0, 0, 0, $month );
+        date_default_timezone_set( $tz );
         $newDateObject = new eZDate( $date );
         return $newDateObject;
     }
