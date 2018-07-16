@@ -269,9 +269,11 @@ class eZSession
             return false;
 
         $ini = eZINI::instance();
-        if ( $sessionName !== false && $sessionName !== session_name() )
+        if ( $sessionName !== false )
         {
-            session_name( $sessionName );
+            if ( $sessionName !== session_name() ) {
+                session_name( $sessionName );
+            }
         }
         else if ( $ini->variable( 'Session', 'SessionNameHandler' ) === 'custom' )
         {
