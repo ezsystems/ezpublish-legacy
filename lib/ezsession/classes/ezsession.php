@@ -271,7 +271,8 @@ class eZSession
         $ini = eZINI::instance();
         if ( $sessionName !== false )
         {
-            if ( $sessionName !== session_name() ) {
+            if ( $sessionName !== session_name() )
+            {
                 session_name( $sessionName );
             }
         }
