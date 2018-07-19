@@ -325,6 +325,11 @@ if ( $storingAllowed && $hasObjectInput)
             'content/cache/version',
             array( $object->attribute( 'id' ), $version->attribute( 'version' ) )
         );
+
+        ezpEvent::getInstance()->notify(
+            'content/cache/translations',
+            array( $object->attribute( 'id' ), $version->attribute( 'version' ) , [$EditLanguage])
+        );
     }
 
     $validation['processed'] = true;
