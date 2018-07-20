@@ -637,6 +637,14 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
             }
             else
             {
+                $moduleName = $this->uri->element();
+                $viewName = $this->uri->element(1);
+                $module = eZModule::findModule($moduleName);
+                if (null === $module) {
+                    throw new ezpModuleNotFound( $moduleName );
+                } elseif (!isset($module->Functions[$viewName])) {
+                    throw new ezpModuleViewNotFound( $moduleName, $viewName );
+                }
                 $moduleCheck = eZModule::accessAllowed( $this->uri );
             }
 
