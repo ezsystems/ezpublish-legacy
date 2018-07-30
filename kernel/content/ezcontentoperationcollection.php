@@ -127,18 +127,35 @@ class eZContentOperationCollection
 
     static public function setVersionStatus( $objectID, $versionNum, $status )
     {
-        $object = eZContentObject::fetch( $objectID );
+        $db = eZDB::instance();
+        $db->begin();
 
+        $objectRes = $db->query( "SELECT * FROM ezcontentobject WHERE id = $objectID LOCK IN SHARE MODE" );
         if ( !$versionNum )
         {
-            $versionNum = $object->attribute( 'current_version' );
+            $objectRow = $objectRes->fetch_array(MYSQLI_ASSOC);
+            $versionNum = $objectRow['current_version'];
         }
-        $version = $object->version( $versionNum );
-        if ( !$version )
+
+        $versionRes = $db->query( "SELECT * FROM ezcontentobject_version WHERE version = $versionNum AND contentobject_id = $objectID FOR UPDATE" );
+        $versionRow = $versionRes->fetch_array(MYSQLI_ASSOC);
+        if ( !is_array( $versionRow ) )
+        {
+            $db->commit();
             return;
+        }
+
+        $version = eZContentObjectVersion::fetch( $versionRow['id'] );
+        if ( !$version )
+        {
+            $db->commit();
+            return;
+        }
 
         $version->setAttribute( 'status', $status );
         $version->store();
+
+        $db->commit();
     }
 
     static public function setObjectStatusPublished( $objectID, $versionNum )
