@@ -269,9 +269,9 @@ class eZSession
             return false;
 
         $ini = eZINI::instance();
-        if ( $sessionName !== false && session_status() !== PHP_SESSION_ACTIVE )
+        if ( $sessionName !== false )
         {
-            session_name( $sessionName );
+            self::setSessionName( $sessionName );
         }
         else if ( $ini->variable( 'Session', 'SessionNameHandler' ) === 'custom' )
         {
@@ -282,10 +282,8 @@ class eZSession
                 // Use md5 to make sure name is only consistent of alphanumeric characters
                 $sessionName .= md5( $access[ 'name' ] );
             }
-            if( session_status() !== PHP_SESSION_ACTIVE )
-            {
-                session_name( $sessionName );
-            }
+
+            self::setSessionName( $sessionName );
         }
         else
         {
@@ -308,6 +306,23 @@ class eZSession
         }
 
         return self::getHandlerInstance( $handler )->setSaveHandler();
+    }
+
+    /**
+     * Gracefully fail if the session was started already
+     *
+     * @param $name
+     * @return bool
+     */
+    static protected function setSessionName( $name )
+    {
+        if( session_status() !== PHP_SESSION_ACTIVE )
+        {
+            session_name( $name );
+            return true;
+        }
+
+        return false;
     }
 
     /**
