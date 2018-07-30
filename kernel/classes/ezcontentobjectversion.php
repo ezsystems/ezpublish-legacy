@@ -913,6 +913,9 @@ class eZContentObjectVersion extends eZPersistentObject
         $contentobjectID = $this->attribute( 'contentobject_id' );
         $versionNum = $this->attribute( 'version' );
 
+        $db = eZDB::instance();
+        $db->begin();
+
         $contentObjectTranslations = $this->translations();
 
         foreach ( $contentObjectTranslations as $contentObjectTranslation )
@@ -923,8 +926,6 @@ class eZContentObjectVersion extends eZPersistentObject
                 $attribute->removeThis( $attribute->attribute( 'id' ), $versionNum );
             }
         }
-        $db = eZDB::instance();
-        $db->begin();
         $db->query( "DELETE FROM ezcontentobject_link
                          WHERE from_contentobject_id=$contentobjectID AND from_contentobject_version=$versionNum" );
         $db->query( "DELETE FROM eznode_assignment
