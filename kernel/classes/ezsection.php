@@ -240,7 +240,7 @@ class eZSection extends eZPersistentObject
             {
                 foreach ( $assignedNodes as $node )
                 {
-                    eZContentOperationCollection::updateSection( $node->attribute( "node_id" ), $sectionID );
+                    eZContentOperationCollection::updateSection( $node->attribute( "node_id" ), $sectionID, false );
                 }
             }
         }

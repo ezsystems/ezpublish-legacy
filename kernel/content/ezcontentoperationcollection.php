@@ -1152,12 +1152,13 @@ class eZContentOperationCollection
      *
      * @param int $nodeID
      * @param int $selectedSectionID
+     * @param bool $updateSearchIndexes
      *
-     * @return array An array with operation status, always true
+     * @return void An array with operation status, always true
      */
-    static public function updateSection( $nodeID, $selectedSectionID )
+    static public function updateSection( $nodeID, $selectedSectionID, $updateSearchIndexes = true )
     {
-        eZContentObjectTreeNode::assignSectionToSubTree( $nodeID, $selectedSectionID );
+        eZContentObjectTreeNode::assignSectionToSubTree( $nodeID, $selectedSectionID, false, $updateSearchIndexes );
     }
 
     /**
