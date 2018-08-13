@@ -156,18 +156,13 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
             usort( $GLOBALS['eZClusterInfo'], function ( $a, $b ) {
                 $a = $a['cnt'];
                 $b = $b['cnt'];
-
-                if ( $a > $b )
-                {
-                    return -1;
-                }
                 
                 if ( $a == $b )
                 {
                     return 0;
                 }
 
-                return 1;
+                return $a > $b ? -1 : 1;
             });
             array_pop( $GLOBALS['eZClusterInfo'] );
         }
