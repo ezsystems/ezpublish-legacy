@@ -1282,7 +1282,9 @@ print( $values['MyValue'] );
             if ( isset( $parameters['spacing'] ) and $this->Spacing )
                 $spacing = $parameters['spacing'];
             $text = 'unset( ';
-            array_walk( $variableNames, create_function( '&$variableName,$key', '$variableName = "\$" . $variableName;') );
+            array_walk( $variableNames, function ( &$variableName ) {
+                $variableName = "\$" . $variableName;
+            });
             $text .= join( ', ', $variableNames );
             $text .= " );\n";
             $text = eZPHPCreator::prependSpacing( $text, $spacing );

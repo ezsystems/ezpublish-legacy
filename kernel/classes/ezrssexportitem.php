@@ -202,11 +202,12 @@ class eZRSSExportItem extends eZPersistentObject
 
             // sort the array so nodes with deeper path are first
             // for class attribute to RSS field mapping
-            usort( $attributeMappings,
-                   create_function( '$a, $b',
-                                    '$a_cnt = count( $a[1]->attribute( \'path_array\' ) );' .
-                                    '$b_cnt = count( $b[1]->attribute( \'path_array\' ) );' .
-                                    'return ( $a_cnt == $b_cnt ) ? 0 : ( ( $a_cnt > $b_cnt ) ? 1 : -1 );' ) );
+            usort( $attributeMappings, function ( $a, $b ) {
+                $a_cnt = count( $a[1]->attribute( 'path_array' ) );
+                $b_cnt = count( $b[1]->attribute( 'path_array' ) );
+
+                return ( $a_cnt == $b_cnt ) ? 0 : ( ( $a_cnt > $b_cnt ) ? 1 : -1 );
+            });
         }
 
         return $attributeMappings;

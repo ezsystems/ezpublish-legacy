@@ -405,7 +405,7 @@ class eZSSLZone
              */
 
             // "flatten" the array
-            array_walk( $pathStringList, create_function( '&$a', '$a = $a[\'path_string\'];' ) );
+            array_walk( $pathStringList, function( &$a ) { $a = $a['path_string']; } );
         }
         else
         {
