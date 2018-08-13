@@ -565,7 +565,7 @@ $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
                 $column += strlen( $text );
                 $valueKeys = array_keys( $value );
                 $isIndexed = true;
-                for ( $i = 0; $i < count( $valueKeys ); ++$i )
+                for ($i = 0, $count = count($valueKeys); $i < $count; ++$i )
                 {
                     if ( $i !== $valueKeys[$i] )
                     {
@@ -676,7 +676,7 @@ $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
             $column += strlen( $text );
             $valueKeys = array_keys( $value );
             $isIndexed = true;
-            for ( $i = 0; $i < count( $valueKeys ); ++$i )
+            for ($i = 0, $count = count($valueKeys); $i < $count; ++$i )
             {
                 if ( $i !== $valueKeys[$i] )
                 {
