@@ -728,7 +728,9 @@ class eZApproveType extends eZWorkflowEventType
                              // $IDArray will contain IDs of "Excluded user groups"
                              $IDArray = explode( ',', $groupID[ 'data_text2' ] );
                              // $newIDArray will contain  array without $contentObjectID
-                             $newIDArray = array_filter( $IDArray, create_function( '$v', 'return ( $v != ' . $contentObjectID .' );' ) );
+                             $newIDArray = array_filter( $IDArray, function ( $v ) use ( $contentObjectID ) {
+                                 return $v != $contentObjectID;
+                             });
                              $newValues = $db->escapeString( implode( ',', $newIDArray ) );
                              $db->query( "UPDATE ezworkflow_event
                                           SET    data_text2 = '$newValues'

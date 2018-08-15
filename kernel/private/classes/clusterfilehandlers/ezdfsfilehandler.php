@@ -153,9 +153,17 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         if ( isset( $GLOBALS['eZClusterInfo'] ) &&
              count( $GLOBALS['eZClusterInfo'] ) >= self::INFOCACHE_MAX )
         {
-            usort( $GLOBALS['eZClusterInfo'],
-                   create_function( '$a, $b',
-                                    '$a=$a["cnt"]; $b=$b["cnt"]; if ( $a > $b ) return -1; else if ( $a == $b ) return 0; else return 1;' ) );
+            usort( $GLOBALS['eZClusterInfo'], function ( $a, $b ) {
+                $a = $a['cnt'];
+                $b = $b['cnt'];
+                
+                if ( $a == $b )
+                {
+                    return 0;
+                }
+
+                return $a > $b ? -1 : 1;
+            });
             array_pop( $GLOBALS['eZClusterInfo'] );
         }
         $GLOBALS['eZClusterInfo'][$this->filePath] = array( 'cnt' => 1,

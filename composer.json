@@ -40,6 +40,7 @@
         "ezsystems/ezprestapiprovider-ls": "~5.3",
         "ezsystems/ezstarrating-ls-extension": "~5.3",
         "ezsystems/ezwt-ls-extension": "~5.3",
+        "symfony/polyfill-php73":  "^1.9",
         "zetacomponents/archive": "~1.5",
         "zetacomponents/authentication": "~1.4",
         "zetacomponents/authentication-database-tiein": "~1.2",
