@@ -565,7 +565,7 @@ $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
                 $column += strlen( $text );
                 $valueKeys = array_keys( $value );
                 $isIndexed = true;
-                for ( $i = 0; $i < count( $valueKeys ); ++$i )
+                for ( $i = 0, $count = count( $valueKeys ); $i < $count; ++$i )
                 {
                     if ( $i !== $valueKeys[$i] )
                     {
@@ -676,7 +676,7 @@ $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
             $column += strlen( $text );
             $valueKeys = array_keys( $value );
             $isIndexed = true;
-            for ( $i = 0; $i < count( $valueKeys ); ++$i )
+            for ( $i = 0, $count = count( $valueKeys ); $i < $count; ++$i )
             {
                 if ( $i !== $valueKeys[$i] )
                 {
@@ -1282,7 +1282,9 @@ print( $values['MyValue'] );
             if ( isset( $parameters['spacing'] ) and $this->Spacing )
                 $spacing = $parameters['spacing'];
             $text = 'unset( ';
-            array_walk( $variableNames, create_function( '&$variableName,$key', '$variableName = "\$" . $variableName;') );
+            array_walk( $variableNames, function ( &$variableName ) {
+                $variableName = "\$" . $variableName;
+            });
             $text .= join( ', ', $variableNames );
             $text .= " );\n";
             $text = eZPHPCreator::prependSpacing( $text, $spacing );
