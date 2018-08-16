@@ -1,5 +1,5 @@
 Upgrading a lovestack installation
-=
+==
 The lovestack is a fork of the eZ Publish legacy
 project. This document describes the process of
 upgrade from an eZ Publish legacy version to the
@@ -9,7 +9,7 @@ to upgrade to the latest version you should look
 at _Upgrading to the latest version of the lovestack_
 
 General notes
-==
+--
 Consider making a backup of your installation. That
 includes your current code version, your database content
 and your content in the var folder (assets like images etc).
@@ -39,7 +39,7 @@ After this upgrade you need to follow the instructions of
 _Upgrading to the latest version of the lovestack_.
 
 Upgrading to the latest version of the lovestack
-==
+--
 
 This instruction assumes that you have an existing ezp
 publish installation on your system (for example under
@@ -69,16 +69,6 @@ php update/run.php #In order to get the help screen
 php update/run.php <parameters> #provide the necessary parameters
 ```
 
-Store the commit hash in eZ Publish. It will allow you
-to always check what code version of the lovestack you're
-running. You get the commit hash with the command `git rev-parse HEAD`.
-That hash string needs to be added to `lib/version.php`.
-
-```
-cd /tmp/ezpublish-legacy
-sed -i "/const GIT_COMMIT_HASH = '.*';/c\    const GIT_COMMIT_HASH = '$(git rev-parse HEAD)';" /var/www/ezp/lib/version.php
-```
-
 Now rebuild the autoload map and clear the cache
 ```
 cd /var/www/ezp
@@ -90,8 +80,19 @@ The upgrade process is now done. In case your installation is
 connected to a code repository, you can now commit the changes
 to that repository.
 
+Store the commit hash in eZ Publish
+--
+It will allow youto always check what code version of the lovestack you're
+running. You get the commit hash with the command `git rev-parse HEAD`.
+That hash string needs to be added to `lib/version.php`.
+
+```
+cd /tmp/ezpublish-legacy
+sed -i "/const GIT_COMMIT_HASH = '.*';/c\    const GIT_COMMIT_HASH = '$(git rev-parse HEAD)';" /var/www/ezp/lib/version.php
+```
+
 Notes about zeta components
-==
+--
 eZ Publish decided to rely on the zeta components being installed
 in the vendor directory. That is the case if you install/upgrade
 the eZ Publish version with composer. Previous versions of eZ Publish
@@ -99,7 +100,7 @@ supported a zeta component installation in different locations on
 the system.
 
 Notes about legacy_2018 extension
-==
+--
 The lovestack fork has an eZ Publish extension called _legacy_2018_.
 It contains features that are considered old and unwanted in the
 core system of eZ Publish ( _kernel_ or _lib_ feature). In most cases
