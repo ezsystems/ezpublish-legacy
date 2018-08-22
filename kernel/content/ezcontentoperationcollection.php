@@ -1154,7 +1154,7 @@ class eZContentOperationCollection
      * @param int $selectedSectionID
      * @param bool $updateSearchIndexes
      *
-     * @return void An array with operation status, always true
+     * @return void
      */
     static public function updateSection( $nodeID, $selectedSectionID, $updateSearchIndexes = true )
     {
