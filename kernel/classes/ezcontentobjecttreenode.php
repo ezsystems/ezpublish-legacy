@@ -2796,7 +2796,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    static function assignSectionToSubTree( $nodeID, $sectionID, $oldSectionID = false )
+    static function assignSectionToSubTree( $nodeID, $sectionID, $oldSectionID = false, $updateSearchIndexes = true )
     {
         $db = eZDB::instance();
         $node = eZContentObjectTreeNode::fetch( $nodeID );
@@ -2827,7 +2827,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         foreach ( array_chunk( $objectSimpleIDArray, 100 ) as $pagedObjectIDs )
         {
             $db->query( "UPDATE ezcontentobject SET section_id='$sectionID' WHERE $filterPart " . $db->generateSQLINStatement( $pagedObjectIDs, 'id', false, true, 'int' ) );
-            eZSearch::updateObjectsSection( $pagedObjectIDs, $sectionID );
+            if ( $updateSearchIndexes )
+            {
+                eZSearch::updateObjectsSection( $pagedObjectIDs, $sectionID );
+            }
         }
         $db->commit();
 
