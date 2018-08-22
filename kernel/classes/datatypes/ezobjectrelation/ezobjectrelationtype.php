@@ -25,6 +25,11 @@ class eZObjectRelationType extends eZDataType
                            array( 'serialize_supported' => true ) );
     }
 
+    public function isRelationType()
+    {
+        return true;
+    }
+
     /*!
      Initializes the class attribute with some data.
      */
@@ -639,24 +644,17 @@ class eZObjectRelationType extends eZDataType
         $object = $this->objectAttributeContent( $contentObjectAttribute );
         if ( $object )
         {
-            if ( eZContentObject::recursionProtect( $object->attribute( 'id' ) ) )
+            // Does the related object exist in the same language as the current content attribute ?
+            if ( in_array( $contentObjectAttribute->attribute( 'language_code' ), $object->attribute( 'current' )->translationList( false, false ) ) )
             {
-                // Does the related object exist in the same language as the current content attribute ?
-                if ( in_array( $contentObjectAttribute->attribute( 'language_code' ), $object->attribute( 'current' )->translationList( false, false ) ) )
-                {
-                    $attributes = $object->attribute( 'current' )->contentObjectAttributes( $contentObjectAttribute->attribute( 'language_code' ) );
-                }
-                else
-                {
-                    $attributes = $object->contentObjectAttributes();
-                }
-
-                return eZContentObjectAttribute::metaDataArray( $attributes );
+                $attributes = $object->attribute( 'current' )->contentObjectAttributes( $contentObjectAttribute->attribute( 'language_code' ) );
             }
             else
             {
-                return array();
+                $attributes = $object->contentObjectAttributes();
             }
+
+            return eZContentObjectAttribute::metaDataArray( $attributes, true );
         }
         return false;
     }

@@ -30,9 +30,9 @@
 <label>{'Modified'|i18n( 'design/admin/content/history' )}:</label>
 {if $object.modified}
 {$object.modified|l10n( shortdatetime )}<br />
-{foreach $object.versions as $version}
-{if eq($version.version, $object.published_version)}
-{$version.creator.name|wash}
+{foreach $object.versions as $tmp_version}
+{if eq($tmp_version.version, $object.published_version)}
+{$tmp_version.creator.name|wash}
 {break}
 {/if}
 {/foreach}

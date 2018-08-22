@@ -25,8 +25,8 @@ CREATE TABLE ezenumobjectvalue (
 #####################################################################################
 # sql script for PostgreSql
 
-drop SEQUENCE ezenumvalue_s ;
-CREATE SEQUENCE ezenumvalue_s;
+drop SEQUENCE ezenumvalue_id_seq ;
+CREATE SEQUENCE ezenumvalue_id_seq;
 
 drop table ezenumvalue;
 CREATE TABLE ezenumvalue (
@@ -34,7 +34,7 @@ CREATE TABLE ezenumvalue (
     contentclass_attribute_version integer DEFAULT 0 NOT NULL,
     enumelement character varying(255) DEFAULT ''::character varying NOT NULL,
     enumvalue character varying(255) DEFAULT ''::character varying NOT NULL,
-    id integer DEFAULT nextval('ezenumvalue_s'::text) NOT NULL,
+    id integer DEFAULT nextval('ezenumvalue_id_seq'::text) NOT NULL,
     placement integer DEFAULT 0 NOT NULL
 );
 

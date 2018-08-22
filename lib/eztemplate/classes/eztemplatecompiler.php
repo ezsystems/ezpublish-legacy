@@ -1197,7 +1197,7 @@ class eZTemplateCompiler
     static function processElementTransformationChild( $useComments, $php, $tpl, &$node,
                                                 $elementTree, $elementList, &$resourceData )
     {
-        $count = count( $elementList );
+        $count = is_countable( $elementList ) ? count( $elementList ) : 0;
         $lastElement = null;
         $newElementList = array();
         for ( $i = 0; $i < $count; ++$i )

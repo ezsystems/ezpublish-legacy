@@ -33,6 +33,15 @@ class eZSiteInstaller
         $this->LastErrorCode = eZSiteInstaller::ERR_OK;
     }
 
+    /**
+     * @deprecated Use eZSiteInstaller::__construct() instead
+     * @param bool $parameters
+     */
+    function eZSiteInstaller( $parameters = false )
+    {
+        self::__construct( $parameters );
+    }
+
     function &instance( $params )
     {
         eZDebug::writeWarning( "Your installer doesn't implement 'instance' function", __METHOD__ );

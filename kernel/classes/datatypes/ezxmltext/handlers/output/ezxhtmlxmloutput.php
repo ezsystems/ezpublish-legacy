@@ -187,6 +187,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     function initHandlerLink( $element, &$attributes, &$siblingParams, &$parentParams )
     {
         $ret = array();
+        $ezxmlIni = eZINI::instance('ezxml.ini');
 
         // Set link parameters for rendering children of link tag
         $href='';
@@ -198,7 +199,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         }
         elseif ( $element->getAttribute( 'node_id' ) != null )
         {
-            $nodeID = $element->getAttribute( 'node_id' );
+            $nodeID = (int) $element->getAttribute( 'node_id' );
             $node = isset( $this->NodeArray[$nodeID] ) ? $this->NodeArray[$nodeID] : null;
 
             if ( $node != null )
@@ -206,6 +207,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $view = $element->getAttribute( 'view' );
                 if ( $view )
                     $href = 'content/view/' . $view . '/' . $nodeID;
+                else if ( !$node->object()->canRead() &&
+                          $ezxmlIni->variable( 'ezxhtml', 'ShowURLAliasForProtectedLinks' ) !== 'enabled' )
+                {
+                    eZDebug::writeWarning( "Current user does not have read access to the object of node #$nodeID",
+                        'XML output handler: link' );
+                    $href = 'content/view/full/' . $nodeID;
+                }
                 else
                     $href = $node->attribute( 'url_alias' );
             }
@@ -228,6 +236,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $view = $element->getAttribute( 'view' );
                     if ( $view )
                         $href = 'content/view/' . $view . '/' . $nodeID;
+                    else if ( !$object->canRead() &&
+                              $ezxmlIni->variable( 'ezxhtml', 'ShowURLAliasForProtectedLinks' ) !== 'enabled' )
+                    {
+                        eZDebug::writeWarning( "Current user does not have read access to the object #$objectID",
+                            'XML output handler: link' );
+                        $href = 'content/view/full/' . $nodeID;
+                    }
                     else
                         $href = $node->attribute( 'url_alias' );
                 }
@@ -274,7 +289,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         }
         else
         {
-            $nodeID = $element->getAttribute( 'node_id' );
+            $nodeID = (int) $element->getAttribute( 'node_id' );
             if ( $nodeID )
             {
                 if ( isset( $this->NodeArray[$nodeID] ) )

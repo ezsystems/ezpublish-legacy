@@ -32,6 +32,11 @@ class eZObjectRelationListType extends eZDataType
                            array( 'serialize_supported' => true ) );
     }
 
+    public function isRelationType()
+    {
+        return true;
+    }
+
     /*!
      Validates the input and returns true if the input was
      valid for this datatype.
@@ -1609,24 +1614,21 @@ class eZObjectRelationListType extends eZDataType
                 $subObjectVersionNum = $relationItem['contentobject_version'];
                 $subObject = eZContentObject::fetch( $subObjectID );
 
+                if ( !$subObject )
+                {
+                    continue;
+                }
+
                 // Using last version of object (version inside xml data is the original version)
                 $subCurrentVersionObject = $subObject->currentVersion();
                 if( $subCurrentVersionObject instanceof eZContentObjectVersion )
                 {
                     $subObjectVersionNum = $subCurrentVersionObject->attribute( 'version' );
                 }
-
-                if ( eZContentObject::recursionProtect( $subObjectID ) )
-                {
-                    if ( !$subObject )
-                    {
-                        continue;
-                    }
-                    $attributes = $subObject->contentObjectAttributes( true, $subObjectVersionNum, $language );
-                }
+                $attributes = $subObject->contentObjectAttributes( true, $subObjectVersionNum, $language );
             }
 
-            $attributeMetaDataArray = eZContentObjectAttribute::metaDataArray( $attributes );
+            $attributeMetaDataArray = eZContentObjectAttribute::metaDataArray( $attributes, true );
             $metaDataArray = array_merge( $metaDataArray, $attributeMetaDataArray );
         }
 

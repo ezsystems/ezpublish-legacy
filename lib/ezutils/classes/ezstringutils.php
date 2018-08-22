@@ -44,7 +44,7 @@ class eZStringUtils
     static function implodeStr( $values, $delimiter = '|' )
     {
         $str = '';
-        while ( list( $key, $value ) = each( $values ) )
+        foreach ( $values as $key => $value )
         {
             $values[$key] = str_replace( $delimiter, "\\$delimiter", str_replace( '\\', '\\\\', $value ) );
         }

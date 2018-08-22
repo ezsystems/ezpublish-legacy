@@ -8,7 +8,7 @@
 
 <tr>
     <th class="tight">&nbsp;</th>
-    {section var=ColumnNames loop=$matrix.columns.sequential}<th>{$ColumnNames.item.name}</th>{/section}
+    {section var=ColumnNames loop=$matrix.columns.sequential}<th>{$ColumnNames.item.name|wash( xhtml )}</th>{/section}
 </tr>
 
 {section var=Rows loop=$matrix.rows.sequential sequence=array( bglight, bgdark )}

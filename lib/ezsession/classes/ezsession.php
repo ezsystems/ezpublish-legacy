@@ -271,7 +271,10 @@ class eZSession
         $ini = eZINI::instance();
         if ( $sessionName !== false )
         {
-            session_name( $sessionName );
+            if ( $sessionName !== session_name() )
+            {
+                session_name( $sessionName );
+            }
         }
         else if ( $ini->variable( 'Session', 'SessionNameHandler' ) === 'custom' )
         {
@@ -282,7 +285,9 @@ class eZSession
                 // Use md5 to make sure name is only consistent of alphanumeric characters
                 $sessionName .=  md5( $access['name'] );
             }
-            session_name( $sessionName );
+            if ( $sessionName !== session_name() ) {
+                session_name( $sessionName );
+            }
         }
         else
         {

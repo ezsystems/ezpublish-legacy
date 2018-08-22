@@ -243,7 +243,7 @@ class eZImageFile extends eZPersistentObject
                 AND ezcontentobject_attribute.id = %d
                 AND ( ezcontentobject_attribute.version != %d OR ezcontentobject_attribute.language_code != '%s' )
                 ",
-                $filepath, $filepath,
+                $filepath, htmlspecialchars($filepath, ENT_XML1 | ENT_COMPAT),
                 $attributeId,
                 $attributeVersion,
                 $languageCode

@@ -312,8 +312,13 @@ function installPackages( $packageList, $params = array() )
 
     // process packages
     $action = false;
-    while( ( list( , $packageName ) = each( $packageList ) ) && $action != EZ_INSTALL_PACKAGE_EXTRA_ACTION_QUIT )
+    foreach ( $packageList as $packageName )
     {
+        if ( $action == EZ_INSTALL_PACKAGE_EXTRA_ACTION_QUIT )
+        {
+            break;
+        }
+
         $action = false;
 
         $cli->output( $cli->stylize( 'emphasize', "Installing package '$packageName'" ), true );
@@ -333,9 +338,13 @@ function installPackages( $packageList, $params = array() )
         $packageType = $package->attribute( 'type' );
         $packageItems = $package->installItemsList();
 
-        while( ( list( , $item ) = each( $packageItems ) ) && $action != EZ_INSTALL_PACKAGE_EXTRA_ACTION_QUIT
-                                                           && $action != EZ_INSTALL_PACKAGE_EXTRA_ACTION_SKIP_PACKAGE )
+        foreach ( $packageItems as $item )
         {
+            if ( $action == EZ_INSTALL_PACKAGE_EXTRA_ACTION_QUIT || $action == EZ_INSTALL_PACKAGE_EXTRA_ACTION_SKIP_PACKAGE )
+            {
+                break;
+            }
+
             $itemInstalled = false;
             do
             {

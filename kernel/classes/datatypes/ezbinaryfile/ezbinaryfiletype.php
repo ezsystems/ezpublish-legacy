@@ -332,8 +332,8 @@ class eZBinaryFileType extends eZDataType
             else
             {
                 // if storing a different file for the same version, see if the existing file can be removed.
-                $newfilename = basename( $httpBinaryFile->attribute( "filename" ) );
-                if ( $newFilename != $binary->Filename )
+                $newFileName = basename( $httpBinaryFile->attribute( "filename" ) );
+                if ( $newFileName != $binary->Filename )
                 {
                     $this->deleteStoredObjectAttribute( $contentObjectAttribute, $version );
                 }

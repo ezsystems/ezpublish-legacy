@@ -187,9 +187,7 @@ class eZDataType
                     $GLOBALS["eZDataTypeObjects"][$dataTypeString] = new $className();
                 }
             }
-            uasort( $GLOBALS["eZDataTypeObjects"],
-                    create_function( '$a, $b',
-                                     'return strcmp( $a->Name, $b->Name);' ) );
+            uasort( $GLOBALS["eZDataTypeObjects"], function ( $a, $b ) { return strcmp( $a->Name, $b->Name); } );
         return $GLOBALS["eZDataTypeObjects"];
         }
         return null;
@@ -284,6 +282,16 @@ class eZDataType
      \sa insertSimpleString()
     */
     function isSimpleStringInsertionSupported()
+    {
+        return false;
+    }
+
+    /**
+     * Indicates if the datatype handles relations
+     *
+     * @return bool
+     */
+    public function isRelationType()
     {
         return false;
     }

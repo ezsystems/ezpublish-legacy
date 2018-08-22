@@ -158,8 +158,10 @@ else if ( in_array( $module->currentAction(), array(  'Create', 'StoreChanges' )
 
         // Modify chosen categories array
         // so that it can be saved into the VAT rule.
-        $addID = create_function('$i', "return array( 'id' => \$i ) ;" );
-        $chosenCategories = array_map( $addID, $chosenCategories );
+        $chosenCategories = array_map(
+            function( $i ) { return array( 'id' => $i ); },
+            $chosenCategories
+        );
 
         $vatRule->setAttribute( 'country_code', $chosenCountry );
         $vatRule->setAttribute( 'product_categories', $chosenCategories );

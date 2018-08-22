@@ -173,7 +173,14 @@ class eZMultiOption
     */
     function sortMultiOptions()
     {
-        usort( $this->Options, create_function( '$a, $b', 'if ( $a["priority"] == $b["priority"] ) { return 0; } return ( $a["priority"] < $b["priority"] ) ? -1 : 1;' ) );
+        usort( $this->Options, function( $a, $b ) {
+            if ( $a['priority'] == $b['priority'] )
+            {
+                return 0;
+            }
+
+            return ( $a['priority'] < $b['priority'] ) ? -1 : 1;
+        });
         $this->changeMultiOptionID();
     }
 
