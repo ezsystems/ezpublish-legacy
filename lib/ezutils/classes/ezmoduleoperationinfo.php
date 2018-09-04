@@ -455,8 +455,7 @@ class eZModuleOperationInfo
                     if ( !$this->UseTriggers )
                     {
                         $bodyReturnValue['status'] = eZModuleOperationInfo::STATUS_CONTINUE;
-                        continue;
-
+                        continue 2;
                     }
 
                     $triggerName = $body['name'];
