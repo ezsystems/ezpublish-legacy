@@ -196,7 +196,7 @@ class eZTranslationCache
         $php->addRawVariable( 'TranslationInfo', $cache['info'] );
         $php->addSpace();
         $php->addRawVariable( 'TranslationRoot', $cache['root'] );
-        $php->store();
+        $php->store( true );
     }
 
     /*!
