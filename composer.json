@@ -1,5 +1,5 @@
 {
-    "name":        "ezsystems/ezpublish-legacy",
+    "name":        "aplia/apublish",
     "description": "eZ Publish LegacyStack (4.x)",
     "homepage":    "http://share.ez.no",
     "license":     "GPL-2.0-only",
