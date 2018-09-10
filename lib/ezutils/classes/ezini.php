@@ -755,6 +755,8 @@ class eZINI
             return false;
         }
 
+        $contents = $this->resolveIncludes( $contents, $file );
+
         $contents = str_replace( "\r", '', $contents );
         $endOfLine = strpos( $contents, "\n" );
         $line = substr( $contents, 0, $endOfLine );
@@ -1972,6 +1974,57 @@ class eZINI
     function readOnlySettingsCheck()
     {
         return $this->ReadOnlySettingsCheck;
+    }
+
+    /**
+     * Recursive function to search for included INI files.
+     * Here is an example how to include other settings file
+     * in an ini-File: "[Include inc/*.ini]". The path is relative
+     * to the ini-File that includes other files.
+     *
+     * @param string $contents
+     * @param string $file
+     * @return string
+     */
+    protected function resolveIncludes( $contents, $file )
+    {
+        $contextDir = pathinfo( $file, PATHINFO_DIRNAME );
+
+        $contents = preg_replace_callback(
+            '#\[\s*Include\s*(.*?)\s*\]#',
+            function( $matches ) use ( $contextDir )
+            {
+                if( !empty( $matches ) )
+                {
+                    $includeFileContent = '';
+
+                    $includeRule = $contextDir . DIRECTORY_SEPARATOR . $matches[1];
+
+                    // resolves wildcards
+                    $files = glob( $includeRule );
+
+                    if( !empty( $files ) )
+                    {
+                        foreach( $files as $includeFile )
+                        {
+                            $includeFileContent .= file_get_contents( $includeFile );
+                        }
+
+                        if( strlen( $includeFileContent ) )
+                        {
+                            return $this->resolveIncludes( $includeFileContent, $includeFile );
+                        }
+                    }
+                    else
+                    {
+                        eZDebug::writeNotice( 'INI include could not be found: ' . $includeRule , __METHOD__ );
+                    }
+                }
+            },
+            $contents
+        );
+
+        return $contents;
     }
 
     /**
