@@ -72,13 +72,7 @@ class eZStepCreateSites extends eZStepInstaller
 
         $siteType = $this->chosenSiteType();
 
-        // If we are installing a package without extension packages we
-        // generate the autoload array for extensions.
-        // For the time being we only do this for the plain_site package.
-        if ( $siteType['identifier'] == 'plain_site' )
-        {
-            ezpAutoloader::updateExtensionAutoloadArray();
-        }
+        ezpAutoloader::updateExtensionAutoloadArray();
 
         $saveData = true; // set to true to save data
 
