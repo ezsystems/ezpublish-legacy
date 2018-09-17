@@ -79,11 +79,11 @@
       ]
     },
     "conflict": {
-        "ezsystems/ezpublish-kernel": "<7.2 || >=2013.4"
+        "ezsystems/ezpublish-kernel": "<7.3 || >=2013.4"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2018.06.x-dev"
+            "dev-master": "2018.09.x-dev"
         }
     }
 }
