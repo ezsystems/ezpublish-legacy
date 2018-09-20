@@ -26,7 +26,7 @@ class {$full_class_name} extends eZDataType
     */
     function {$full_class_name}()
     {literal}{{/literal}
-        $this->eZDataType( self::{$constant_name}, "{$desc_name}" );
+        parent::__construct( self::{$constant_name}, "{$desc_name}" );
     {literal}}{/literal}
 
 {if $class_input}

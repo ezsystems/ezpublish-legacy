@@ -79,7 +79,7 @@ foreach ( $linkList as $link )
               // Check if it is a valid internal link.
               foreach ( $siteURLs as $siteURL )
               {
-                  $siteURL = preg_replace("/\/$/e", "", $siteURL );
+                  $siteURL = preg_replace("/\/$/", "", $siteURL );
                   $fp = @fopen( $siteURL . "/". $url, "r" );
                   if ( !$fp )
                   {

@@ -51,11 +51,15 @@ class eZGZIPZLIBCompressionHandler extends eZCompressionHandler
     static function isAvailable()
     {
         $extensionName = 'zlib';
+
+        // dl() is removed in PHP 7.0, see https://secure.php.net/manual/en/function.dl.php
+        /*
         if ( !extension_loaded( $extensionName ) )
         {
             $dlExtension = ( eZSys::osType() == 'win32' ) ? '.dll' : '.so';
             @dl( $extensionName . $dlExtension );
         }
+        */
         return extension_loaded( $extensionName );
     }
 
