@@ -33,7 +33,7 @@ class eZPDFTable extends Cezpdf
      * @param string $paper
      * @param string $orientation
      */
-    function eZPDFTable($paper='a4',$orientation='portrait')
+    function __construct($paper='a4',$orientation='portrait')
     {
         parent::__construct( $paper, $orientation );
         $this->TOC = array();
@@ -1516,7 +1516,7 @@ class eZPDFTable extends Cezpdf
         return '';
     }
 
-    function &fixWhitespace( &$text )
+    function fixWhitespace( &$text )
     {
         $text = str_replace( array( self::SPACE,
                                     self::TAB,

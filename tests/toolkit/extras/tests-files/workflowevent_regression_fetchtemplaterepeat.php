@@ -13,7 +13,7 @@ class WorkflowEventRegressionFetchTemplateRepeatType extends eZWorkflowEventType
     const WORKFLOW_TYPE_STRING = 'fetchtemplaterepeat';
     function __construct()
     {
-        $this->eZWorkflowEventType( WorkflowEventRegressionFetchTemplateRepeatType::WORKFLOW_TYPE_STRING, "WorkflowEventRegressionFetchTemplateRepeatType test" );
+        parent::__construct( WorkflowEventRegressionFetchTemplateRepeatType::WORKFLOW_TYPE_STRING, "WorkflowEventRegressionFetchTemplateRepeatType test" );
         $this->setTriggerTypes( array( 'content' => array( 'publish' => array( 'before' ) ) ) );
     }
 

@@ -844,7 +844,7 @@ class eZMySQLiDB extends eZDBInterface
         else
         {
             eZDebug::writeDebug( 'escapeString called before connection is made', __METHOD__ );
-            return mysql_escape_string( $str );
+            return mysqli_real_escape_string( $str );
         }
     }
 

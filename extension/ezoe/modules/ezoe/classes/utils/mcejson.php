@@ -36,7 +36,7 @@ class Moxiecode_JSONReader
 	private $_lastLocations;
 	private $_needProp;
 
-	function Moxiecode_JSONReader($data) {
+	function __construct($data) {
 		$this->_data = $data;
 		$this->_len = strlen($data);
 		$this->_pos = -1;
@@ -367,7 +367,7 @@ class Moxiecode_JSONReader
  * @package MCManager.utils
  */
 class Moxiecode_JSON {
-	function Moxiecode_JSON() {
+	function __construct() {
 	}
 
 	function decode($input) {
