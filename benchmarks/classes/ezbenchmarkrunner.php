@@ -16,10 +16,10 @@
 
 class eZBenchmarkrunner
 {
-    /*!
-     Constructor
-    */
-    function eZBenchmarkrunner()
+    /**
+     * Constructor
+     */
+    public function __construct()
     {
         $this->Results = array();
         $this->CurrentResult = false;

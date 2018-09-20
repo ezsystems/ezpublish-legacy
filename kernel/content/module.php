@@ -641,10 +641,20 @@ $FunctionList['edit'] = array( 'Class' => $ClassID,
                                'Language' => $Language );
 $FunctionList['edit'] = array_merge( $FunctionList['edit'], $stateLimitations );
 
+$FunctionList['publish'] = array( 'Class' => $ClassID,
+                                  'Section' => $SectionID,
+                                  'Owner' => $AssignedEdit,
+                                  'Group' => $AssignedGroup,
+                                  'Node' => $Node,
+                                  'Subtree' => $Subtree,
+                                  'Language' => $Language );
+$FunctionList['publish'] = array_merge( $FunctionList['publish'], $stateLimitations );
+
 $FunctionList['manage_locations'] = array( 'Class' => $ClassID,
                                            'Section' => $SectionID,
                                            'Owner' => $Assigned,
                                            'Subtree' => $Subtree );
+$FunctionList['manage_locations'] = array_merge( $FunctionList['manage_locations'], $stateLimitations );
 
 $FunctionList['hide'] = array( 'Class' => $ClassID,
                                'Section' => $SectionID,

@@ -50,7 +50,7 @@ $tpl->setVariable( 'pdfexport_list', $exportList );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:pdf/list.tpl" );
-$Result['path'] = array( array( 'url' => 'kernel/pdf',
+$Result['path'] = array( array( 'url' => 'pdf/list',
                                 'text' => ezpI18n::tr( 'kernel/pdf', 'PDF Export' ) ) );
 
 ?>

@@ -19,11 +19,6 @@
 
 class eZTextDiff extends eZDiffContent
 {
-    /*!
-      Constructor
-    */
-    function eZTextDiff()
-    {
-    }
+
 }
 ?>

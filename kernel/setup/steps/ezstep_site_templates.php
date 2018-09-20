@@ -16,13 +16,17 @@
 
 class eZStepSiteTemplates extends eZStepInstaller
 {
-    /*!
-     Constructor
-    */
-    function eZStepSiteTemplates( $tpl, $http, $ini, &$persistenceList )
+    /**
+     * Constructor
+     *
+     * @param eZTemplate $tpl
+     * @param eZHTTPTool $http
+     * @param eZINI $ini
+     * @param array $persistenceList
+     */
+    public function __construct( $tpl, $http, $ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
-                                'site_templates', 'Site templates' );
+        parent::__construct( $tpl, $http, $ini, $persistenceList, 'site_templates', 'Site templates' );
     }
 
     function processPostData()

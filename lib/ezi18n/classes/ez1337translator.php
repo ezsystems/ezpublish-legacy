@@ -28,12 +28,9 @@
 
 class eZ1337Translator extends eZTranslatorHandler
 {
-    /*!
-     Construct the translator and loads the translation file $file if is set and exists.
-    */
-    function eZ1337Translator()
+    public function __construct()
     {
-        $this->eZTranslatorHandler( false );
+        parent::__construct( false );
 
         $this->Messages = array();
     }

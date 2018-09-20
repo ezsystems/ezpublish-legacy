@@ -33,20 +33,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     const SORT_ORDER_ASC = 1;
 
     /**
-     * Initializes the object with the $row.
-     *
-     * It will try to set each field taken from the database row. Calls fill
-     * to do the job. If $row is an integer, it will try to fetch it from the
-     * database using it as the unique ID.
-     *
-     * @param int|array $row
-     */
-    function eZContentObjectTreeNode( $row = array() )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
-    /**
      * @inheritdoc
      */
     static function definition()
@@ -1022,7 +1008,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     {
                         case 'path':
                         {
-                            $filterField = 'path_string';
+                            $filterField = 'ezcontentobject_tree.path_string';
                             $filterFieldType = 'string';
                         } break;
                         case 'published':
@@ -1035,7 +1021,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         } break;
                         case 'modified_subnode':
                         {
-                            $filterField = 'modified_subnode';
+                            $filterField = 'ezcontentobject_tree.modified_subnode';
                         } break;
                         case 'node_id':
                         {
@@ -1100,7 +1086,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         } break;
                         case 'depth':
                         {
-                            $filterField = 'depth';
+                            $filterField = 'ezcontentobject_tree.depth';
                         } break;
                         case 'class_identifier':
                         {
@@ -1178,6 +1164,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 if ( $filterDataType == 'string' )
                                 {
                                     $sortKey = 'sort_key_string';
+                                    $filterFieldType = 'string';
                                 }
                                 else
                                 {
@@ -1286,7 +1273,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 if ( is_array( $filter[2] ) )
                                 {
                                     reset( $filter[2] );
-                                    while ( list( $key, $value ) = each( $filter[2] ) )
+                                    foreach ( $filter[2] as $key => $value )
                                     {
                                         // Non-numerics must be escaped to avoid SQL injection
                                         switch ( $filterFieldType )
@@ -2809,28 +2796,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    static function assignSectionToSubTree( $nodeID, $sectionID, $oldSectionID = false )
+    static function assignSectionToSubTree( $nodeID, $sectionID, $oldSectionID = false, $updateSearchIndexes = true )
     {
         $db = eZDB::instance();
-
         $node = eZContentObjectTreeNode::fetch( $nodeID );
-        $nodePath =  $node->attribute( 'path_string' );
+
+        $objectSimpleIDArray = eZContentObjectTreeNode::getObjectIdsInNodeSubTree($node);
+        if ( !$objectSimpleIDArray )
+            return;
 
         $sectionID =(int) $sectionID;
-
-        $pathString = " path_string like '$nodePath%' AND ";
-
-        // fetch the object id's which needs to be updated
-        $objectIDArray = $db->arrayQuery( "SELECT
-                                                   ezcontentobject.id
-                                            FROM
-                                                   ezcontentobject_tree, ezcontentobject
-                                            WHERE
-                                                  $pathString
-                                                  ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
-                                                  ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id" );
-        if ( count( $objectIDArray ) == 0 )
-            return;
 
         // Who assigns which section at which node should be logged.
         $section = eZSection::fetch( $sectionID );
@@ -2840,12 +2815,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       'Content object ID' => $object->attribute( 'id' ),
                                                       'Content object name' => $object->attribute( 'name' ),
                                                       'Comment' => 'Assigned a section to the current node and all child objects: eZContentObjectTreeNode::assignSectionToSubTree()' ) );
-
-        $objectSimpleIDArray = array();
-        foreach ( $objectIDArray as $objectID )
-        {
-            $objectSimpleIDArray[] = $objectID['id'];
-        }
 
         $filterPart = '';
         if ( $oldSectionID !== false )
@@ -2858,7 +2827,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         foreach ( array_chunk( $objectSimpleIDArray, 100 ) as $pagedObjectIDs )
         {
             $db->query( "UPDATE ezcontentobject SET section_id='$sectionID' WHERE $filterPart " . $db->generateSQLINStatement( $pagedObjectIDs, 'id', false, true, 'int' ) );
-            eZSearch::updateObjectsSection( $pagedObjectIDs, $sectionID );
+            if ( $updateSearchIndexes )
+            {
+                eZSearch::updateObjectsSection( $pagedObjectIDs, $sectionID );
+            }
         }
         $db->commit();
 
@@ -5493,15 +5465,18 @@ class eZContentObjectTreeNode extends eZPersistentObject
         // If the name is not set yet we fetch it from the object table
         if ( $this->Name === null || $language !== false )
         {
+            $db = eZDB::instance();
             if ( $this->CurrentLanguage || $language !== false )
             {
-                $sql = "SELECT name FROM ezcontentobject_name WHERE contentobject_id=" . (int) $this->ContentObjectID . " AND content_version=" . (int)$this->attribute( 'contentobject_version' ) . " AND real_translation='" . ( $language !== false ? $language : $this->CurrentLanguage ) . "'";
+                $sql = "SELECT name FROM ezcontentobject_name WHERE"
+                    . " contentobject_id=" . (int)$this->ContentObjectID
+                    . " AND content_version=" . (int)$this->attribute( 'contentobject_version' )
+                    . " AND real_translation='" . $db->escapeString( $language ?: $this->CurrentLanguage ) . "'";
             }
             else
             {
                 $sql = "SELECT name FROM ezcontentobject WHERE id=" . (int) $this->ContentObjectID;
             }
-            $db = eZDB::instance();
             $rows = $db->arrayQuery( $sql );
             if ( count( $rows ) > 0 )
             {
@@ -6431,6 +6406,39 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         'AsObject' => false
                     )
                 ) == 0 ;
+    }
+
+    /**
+     * Returns an array of Object IDs inside node subtree or null when empty.
+     * @param $node
+     * @return array|null
+     */
+    static function getObjectIdsInNodeSubTree($node)
+    {
+        $db = eZDB::instance();
+        $nodePath =  $node->attribute( 'path_string' );
+        $pathString = " path_string like '$nodePath%' AND ";
+
+        $objectIDArray = $db->arrayQuery( "SELECT
+                                           ezcontentobject.id
+                                    FROM
+                                           ezcontentobject_tree, ezcontentobject
+                                    WHERE
+                                          $pathString
+                                          ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
+                                          ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id" );
+
+        if ( count( $objectIDArray ) == 0 )
+            return null;
+
+        $objectSimpleIDArray = array();
+
+        foreach ( $objectIDArray as $objectID )
+        {
+            $objectSimpleIDArray[] = $objectID['id'];
+        }
+
+        return $objectSimpleIDArray;
     }
 
     /**

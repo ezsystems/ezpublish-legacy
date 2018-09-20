@@ -10,7 +10,12 @@
 
 class eZAutoLinkOperator
 {
-    function eZAutoLinkOperator( $name = 'autolink' )
+    /**
+     * Constructor
+     *
+     * @param string $name
+     */
+    public function __construct( $name = 'autolink' )
     {
         $this->Operators = array( $name );
     }
@@ -48,9 +53,9 @@ class eZAutoLinkOperator
     */
     function addURILinks( $text, $max, $methods = 'http|https|ftp' )
     {
-        return preg_replace(
-            "`(?<!href=\"|href='|src=\"|src='|value=\"|value=')($methods):\/\/[\w]+(.[\w]+)([\w\-\.,@?^=%&:\/~\+#;*\(\)\!]*[\w\-\@?^=%&\/~\+#;*\(\)\!])?`e",
-            'eZAutoLinkOperator::formatUri("$0", '. $max. ')',
+        return preg_replace_callback(
+            "`(?<!href=\"|href='|src=\"|src='|value=\"|value=')($methods):\/\/[\w]+(.[\w]+)([\w\-\.,@?^=%&:\/~\+#;*\(\)\!]*[\w\-\@?^=%&\/~\+#;*\(\)\!])?`",
+            function($matches) use ($max) { return eZAutoLinkOperator::formatUri( $matches[0], $max ); },
             $text
         );
     }

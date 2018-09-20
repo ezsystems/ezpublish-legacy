@@ -16,10 +16,7 @@
 
 class eZTemplateTextOperator
 {
-    /*!
-     Constructor
-    */
-    function eZTemplateTextOperator()
+    public function __construct()
     {
         $this->Operators= array( 'concat', 'indent' );
 

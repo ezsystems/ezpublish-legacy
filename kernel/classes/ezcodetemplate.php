@@ -25,10 +25,10 @@ class eZCodeTemplate
     /// Code file was updated, but no new elements has been added
     const STATUS_NO_CHANGE = 2;
 
-    /*!
-     Constructor
-    */
-    function eZCodeTemplate()
+    /**
+     *
+     */
+    public function __construct()
     {
         $ini = eZINI::instance( 'codetemplate.ini' );
         $this->Templates = array();
@@ -311,7 +311,7 @@ class eZCodeTemplate
         {
             $originalMD5 = md5_file( $filePath );
             $updatedMD5 = md5_file( $tempFile );
-            if ( $originalMD5 == $updatedMD5 )
+            if ( $originalMD5 === $updatedMD5 )
             {
                 unlink( $tempFile );
                 return self::STATUS_NO_CHANGE;

@@ -295,20 +295,21 @@ tinymce.util.Quirks = function(editor) {
 	 */
 	function selectControlElements() {
 		editor.onClick.add(function(editor, e) {
-			e = e.target;
+            var target = e.target;
 
-			// Workaround for bug, http://bugs.webkit.org/show_bug.cgi?id=12250
-			// WebKit can't even do simple things like selecting an image
-			// Needs tobe the setBaseAndExtend or it will fail to select floated images
-			if (/^(IMG|HR)$/.test(e.nodeName)) {
-				selection.getSel().setBaseAndExtent(e, 0, e, 1);
-			}
+            // Workaround for bug, http://bugs.webkit.org/show_bug.cgi?id=12250
+            // WebKit can't even do simple things like selecting an image
+            // Needs tobe the setBaseAndExtend or it will fail to select floated images
+            if (/^(IMG|HR)$/.test(target.nodeName)) {
+                e.preventDefault();
+                editor.selection.select(target);
+                editor.nodeChanged();
+            }
 
-			if (e.nodeName == 'A' && dom.hasClass(e, 'mceItemAnchor')) {
-				selection.select(e);
-			}
-
-			editor.nodeChanged();
+            if (target.nodeName == 'A' && dom.hasClass(e, 'mceItemAnchor')) {
+                e.preventDefault();
+                selection.select(target);
+            }
 		});
 	};
 
@@ -1034,6 +1035,34 @@ tinymce.util.Quirks = function(editor) {
 		});
 	}
 
+	/**
+	 * Fixes control selection bug #6613 in IE 11 by an ugly hack. IE 11 has a bug where it will return the parent
+	 * element container of an image if you select it as the last child in for
+	 * example this HTML: <p>a<img src="b"></p>
+	 */
+	function fixControlSelection() {
+		editor.onInit.add(function() {
+			var selectedRng;
+
+			editor.getBody().addEventListener('mscontrolselect', function(e) {
+				setTimeout(function() {
+					if (editor.selection.getNode() != e.target) {
+						selectedRng = editor.selection.getRng();
+						selection.fakeRng = editor.dom.createRng();
+						selection.fakeRng.setStartBefore(e.target);
+						selection.fakeRng.setEndAfter(e.target);
+					}
+				}, 0);
+			}, false);
+
+			editor.getDoc().addEventListener('selectionchange', function(e) {
+				if (selectedRng && !tinymce.dom.RangeUtils.compareRanges(editor.selection.getRng(), selectedRng)) {
+					selection.fakeRng = selectedRng = null;
+				}
+			}, false);
+		});
+	}
+
 	// All browsers
 	disableBackspaceIntoATable();
 	removeBlockQuoteOnBackSpace();
@@ -1070,6 +1099,7 @@ tinymce.util.Quirks = function(editor) {
 	// IE 11+
 	if (tinymce.isIE11) {
 		bodyHeight();
+		fixControlSelection();
 	}
 
 	// Gecko

@@ -20,14 +20,6 @@ class eZRSSImport extends eZPersistentObject
     const STATUS_VALID = 1;
     const STATUS_DRAFT = 0;
 
-    /*!
-     Initializes a new RSSImport.
-    */
-    function eZRSSImport( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',

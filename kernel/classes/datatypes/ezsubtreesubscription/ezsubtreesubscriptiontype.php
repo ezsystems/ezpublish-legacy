@@ -18,12 +18,9 @@ class eZSubtreeSubscriptionType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezsubtreesubscription";
 
-    /*!
-     Constructor
-    */
-    function eZSubtreeSubscriptionType()
+    public function __construct()
     {
-        $this->eZDataType(  self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Subtree subscription", 'Datatype name' ),
+        parent::__construct(  self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Subtree subscription", 'Datatype name' ),
                             array( 'serialize_supported' => true,
                                    'object_serialize_map' => array( 'data_int' => 'value' ) ) );
     }

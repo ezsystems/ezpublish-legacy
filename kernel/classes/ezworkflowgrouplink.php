@@ -16,11 +16,6 @@
 
 class eZWorkflowGroupLink extends eZPersistentObject
 {
-    function eZWorkflowGroupLink( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( "fields" => array( "workflow_id" => array( 'name' => "WorkflowID",

@@ -16,14 +16,6 @@
 
 class eZDiscountSubRule extends eZPersistentObject
 {
-    /*!
-     Constructor
-    */
-    function eZDiscountSubRule( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',

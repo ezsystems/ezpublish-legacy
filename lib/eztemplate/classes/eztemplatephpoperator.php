@@ -28,16 +28,18 @@ $tpl->registerOperators( new eZTemplatePHPOperator( array( "upcase" => "strtoupp
 
 class eZTemplatePHPOperator
 {
-    /*!
-     Initializes the object with the redirection array.
-    */
-    function eZTemplatePHPOperator( $php_names )
+    /**
+     * Initializes the object with the redirection array.
+     *
+     * @param array $php_names
+     */
+    public function __construct( $php_names )
     {
         if ( !is_array( $php_names ) )
             $php_names = array( $php_names );
         $this->PHPNames = $php_names;
         reset( $php_names );
-        while ( list( $key, $val ) = each( $php_names ) )
+        foreach ( $php_names as $key => $val )
         {
             $this->Operators[] = $key;
         }

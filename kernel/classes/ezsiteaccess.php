@@ -34,13 +34,6 @@ class eZSiteAccess
     const SUBTYPE_PRE = 1;
     const SUBTYPE_POST = 2;
 
-    /*!
-     Constructor
-    */
-    function eZSiteAccess()
-    {
-    }
-
     static function siteAccessList()
     {
         $siteAccessList = array();
@@ -289,7 +282,7 @@ class eZSiteAccess
                             $matchAccess     = $matchMapItem[2];
                             $matchHostMethod = isset( $matchMapItem[3] ) ? $matchMapItem[3] : $defaultHostMatchMethod;
 
-                            if ( $matchURI !== '' && !preg_match( "@^$matchURI\b@", $uriString ) )
+                            if ( $matchURI !== '' && !preg_match( "@^$matchURI\b@u", $uriString ) )
                                 continue;
 
                             switch( $matchHostMethod )
@@ -539,10 +532,6 @@ class eZSiteAccess
                     $access['uri_part'] = array( $access['name'] );
                 else
                     $access['uri_part'] = array();
-            }
-            else
-            {
-                $access['uri_part'] = self::washName( $access['uri_part'] );
             }
 
             eZSys::setAccessPath( $access['uri_part'], $name );

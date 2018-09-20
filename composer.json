@@ -2,13 +2,14 @@
     "name":        "ezsystems/ezpublish-legacy",
     "description": "eZ Publish LegacyStack (4.x)",
     "homepage":    "http://share.ez.no",
-    "license":     "GPL-2.0",
+    "license":     "GPL-2.0-only",
     "type":        "ezpublish-legacy",
     "suggest": {
         "php-64bit": "For support of more than 30 languages, a 64bit php installation on all involved prod/dev machines is required",
         "ext-curl": "Curl provides better support for interacting with other servers, like downloading packages over SSL",
         "ext-gd": "Unless you have ImageMagic installed GD is required for eZ Publish to be able to manipulate images",
         "ext-mysqli": "Mysqli is the default database handler used by eZ Publish",
+        "ext-openssl": "OpenSSL provides cryptographically secure random bytes, which is used in certain parts of the product to greatly improve security",
         "ext-pcntl": "If you plan to take advantage of eZ Publish Async publishing feature, then pcntl extension is required",
         "ezsystems/ezsi-ls": "ezsi would allow you to use Edge/Server Side Includes of blocks in templates",
         "ezsystems/ezscriptmonitor-ls": "ezscriptmonitor makes it possible to better deal with long running bulk operations within eZ Publish",
@@ -16,7 +17,7 @@
         "ezsystems/eztags-ls": "eztags is a full tagging/taxonomy solution for eZ Publish replacing the simpler builtin ezkeywords datatype"
     },
     "require": {
-        "php": ">=5.3.3",
+        "php": "~5.5|~7.0",
         "ext-dom": "*",
         "ext-libxml": "*",
         "ext-mbstring": "*",
@@ -29,7 +30,7 @@
         "ext-simplexml": "*",
         "ezsystems/ezpublish-legacy-installer": "*",
         "ezsystems/ezautosave-ls": "~5.3",
-        "ezsystems/ezdemo-ls-extension": "~5.3",
+        "ezsystems/ezdemo-ls-extension": "~5.4",
         "ezsystems/ezflow-ls-extension": "~5.3",
         "ezsystems/ezgmaplocation-ls-extension": "~5.3",
         "ezsystems/ezie-ls": "~5.3",
@@ -39,6 +40,7 @@
         "ezsystems/ezprestapiprovider-ls": "~5.3",
         "ezsystems/ezstarrating-ls-extension": "~5.3",
         "ezsystems/ezwt-ls-extension": "~5.3",
+        "symfony/polyfill-php73":  "^1.9",
         "zetacomponents/archive": "~1.5",
         "zetacomponents/authentication": "~1.4",
         "zetacomponents/authentication-database-tiein": "~1.2",
@@ -61,5 +63,27 @@
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
         "zetacomponents/php-generator": "~1.1"
+    },
+    "autoload": {
+      "files": ["autoload.php"]
+    },
+    "scripts": {
+      "legacy-scripts": [
+          "@php bin/php/ezpgenerateautoloads.php"
+      ],
+      "post-install-cmd": [
+          "@legacy-scripts"
+      ],
+      "post-update-cmd": [
+          "@legacy-scripts"
+      ]
+    },
+    "conflict": {
+        "ezsystems/ezpublish-kernel": "<7.3 || >=2013.4"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2018.09.x-dev"
+        }
     }
 }

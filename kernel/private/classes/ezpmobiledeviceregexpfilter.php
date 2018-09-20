@@ -129,11 +129,11 @@ class ezpMobileDeviceRegexpFilter implements ezpMobileDeviceDetectFilterInterfac
 
                 if ( array_shift( $uri ) == $currentSiteAccess['name'] )
                 {
-                    $http->redirect( $redirectUrl . '/' . implode( '/', $uri ) );
+                    $http->redirect( $redirectUrl . '/' . implode( '/', $uri ) . eZSys::queryString() );
                 }
                 else
                 {
-                    $http->redirect( $redirectUrl . eZSys::requestURI() );
+                    $http->redirect( $redirectUrl . eZSys::requestURI() . eZSys::queryString() );
                 }
             }
 

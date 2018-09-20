@@ -19,48 +19,27 @@ if ( file_exists( __DIR__ . '/config.php' ) )
     require_once __DIR__ . '/config.php';
 }
 
+// Check for EZCBASE_ENABLED, if set we can skip autoloading Zeta Components
 if ( !defined( 'EZCBASE_ENABLED' ) )
 {
-    $appName = defined( 'EZP_APP_FOLDER_NAME' ) ? EZP_APP_FOLDER_NAME : 'ezpublish';
-    $appFolder = __DIR__ . "/../$appName";
-    $legacyVendorDir = __DIR__ . "/vendor";
+    // Start by setting EZCBASE_ENABLED to avoid recursion
+    define( 'EZCBASE_ENABLED', false );
 
-    // Bundled
-    if ( defined( 'EZP_USE_BUNDLED_COMPONENTS' ) ? EZP_USE_BUNDLED_COMPONENTS === true : file_exists( __DIR__ . "/lib/ezc" ) )
+    // If composer autoloader is already present we can skip trying to load it
+    if ( class_exists( 'Composer\Autoload\ClassLoader', false ) )
     {
-        set_include_path( __DIR__ . PATH_SEPARATOR . __DIR__ . "/lib/ezc" . PATH_SEPARATOR . get_include_path() );
-        require 'Base/src/base.php';
-        $baseEnabled = true;
+        // do nothing
     }
-    // Custom config.php defined
-    else if ( defined( 'EZC_BASE_PATH' ) )
+    // Composer if in eZ Platform context
+    else if ( file_exists( __DIR__ . "/../vendor/autoload.php" ) )
     {
-        require EZC_BASE_PATH;
-        $baseEnabled = true;
-    }
-    // Composer if in eZ Publish5 context
-    else if ( strpos( $appFolder, "{$appName}/../{$appName}" ) === false && file_exists( "{$appFolder}/autoload.php" ) )
-    {
-        require_once "{$appFolder}/autoload.php";
-        $baseEnabled = false;
+        require_once __DIR__ . "/../vendor/autoload.php";
     }
     // Composer if in eZ Publish legacy context
-    else if ( file_exists( "{$legacyVendorDir}/autoload.php" ) )
+    else if ( file_exists( __DIR__ . "/vendor/autoload.php" ) )
     {
-        require_once "{$legacyVendorDir}/autoload.php";
-        $baseEnabled = false;
+        require_once __DIR__ . "/vendor/autoload.php";
     }
-    // PEAR install
-    else
-    {
-        $baseEnabled = @include 'ezc/Base/base.php';
-        if ( !$baseEnabled )
-        {
-            $baseEnabled = @include 'Base/src/base.php';
-        }
-    }
-
-    define( 'EZCBASE_ENABLED', $baseEnabled );
 }
 
 // Check if ezpAutoloader exists because it can be already declared if running in the Symfony context (e.g. CLI scripts)
@@ -114,7 +93,8 @@ if ( !class_exists( 'ezpAutoloader', false ) )
                 {
                     // won't work, as eZDebug isn't initialized yet at that time
                     // eZDebug::writeError( "Kernel override is enabled, but var/autoload/ezp_override.php has not been generated\nUse bin/php/ezpgenerateautoloads.php -o", 'autoload.php' );
-                    if ( $ezpKernelOverrideClasses = include __DIR__ . '/var/autoload/ezp_override.php' )
+                    $ezpKernelOverridePath = __DIR__ . '/var/autoload/ezp_override.php';
+                    if ( file_exists( $ezpKernelOverridePath ) && $ezpKernelOverrideClasses = include $ezpKernelOverridePath )
                     {
                         self::$ezpClasses = array_merge( self::$ezpClasses, $ezpKernelOverrideClasses );
                     }

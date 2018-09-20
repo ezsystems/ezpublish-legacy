@@ -16,14 +16,6 @@
 
 class eZCollaborationGroup extends eZPersistentObject
 {
-    /*!
-     Constructor
-    */
-    function eZCollaborationGroup( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',

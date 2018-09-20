@@ -19,12 +19,15 @@
 */
 class eZPostgreSQLDB extends eZDBInterface
 {
-    /*!
-      Creates a new eZPostgreSQLDB object and connects to the database.
-    */
-    function eZPostgreSQLDB( $parameters )
+    /**
+     * Creates a new eZPostgreSQLDB object and connects to the database.
+     *
+     * @param array $parameters
+     * @throws eZDBNoConnectionException
+     */
+    public function __construct( $parameters )
     {
-        $this->eZDBInterface( $parameters );
+        parent::__construct( $parameters );
 
         if ( !extension_loaded( 'pgsql' ) )
         {
@@ -571,7 +574,7 @@ class eZPostgreSQLDB extends eZDBInterface
 
         if ( $this->isConnected() )
         {
-            $sql = "SELECT currval( '" . $table . "_s')";
+            $sql = "SELECT currval( '{$table}_{$column}_seq' )";
             $result = pg_query( $this->DBConnection, $sql );
             if ( !$result )
             {
@@ -680,7 +683,7 @@ class eZPostgreSQLDB extends eZDBInterface
                     AND pg_attribute.attrelid=pg_class.oid" );
             foreach ( $rows as $row )
             {
-                $this->query( "SELECT setval('".$row['table']."_s', max(".$row['column'].")) from ".$row['table'] );
+                $this->query( "SELECT setval('".$row['table'].'_'.$row['column']."_seq', max(".$row['column'].")) from ".$row['table'] );
             }
             return true;
         }

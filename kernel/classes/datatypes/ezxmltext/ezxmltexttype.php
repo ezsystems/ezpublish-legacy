@@ -95,9 +95,9 @@ class eZXMLTextType extends eZDataType
     // timestamp is less than this it needs to be upgraded until it is correct.
     const VERSION_TIMESTAMP = 1045487555; // AS 21-09-2007: should be the same as VERSION_30_TIMESTAMP
 
-    function eZXMLTextType()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "XML block", 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "XML block", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
         $this->deletedStoredObjectAttribute = array();
     }
@@ -185,11 +185,12 @@ class eZXMLTextType extends eZDataType
                     $urlIdArray[] = $link->getAttribute( 'url_id' );
                 }
             }
+            $urlIdArray = array_unique( $urlIdArray );
 
-            if ( count( $urlIdArray ) > 0 )
-            {
-                eZSimplifiedXMLInput::updateUrlObjectLinks( $attribute, $urlIdArray );
-            }
+            $db = eZDB::instance();
+            $db->begin();
+            eZSimplifiedXMLInput::updateUrlObjectLinks( $attribute, $urlIdArray );
+            $db->commit();
 
             // linked objects
             $linkedObjectIdArray = $this->getRelatedObjectList( $dom->getElementsByTagName( 'link' ) );

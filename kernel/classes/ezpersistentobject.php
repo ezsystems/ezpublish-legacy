@@ -49,12 +49,21 @@ class eZPersistentObject
      *
      * @param int|array $row
      */
-    public function eZPersistentObject( $row )
+    public function __construct( $row = null )
     {
         $this->PersistentDataDirty = false;
         if ( is_numeric( $row ) )
             $row = $this->fetch( $row, false );
         $this->fill( $row );
+    }
+
+    /**
+     * @deprecated Use eZPersistentObject::__construct() instead
+     * @param int|array $row
+     */
+    public function eZPersistentObject( $row = null )
+    {
+        self::__construct( $row );
     }
 
     /**
@@ -951,7 +960,7 @@ class eZPersistentObject
         if ( is_array( $rows ) )
         {
             $db = eZDB::instance();
-            foreach( $rows as $row )
+            foreach( $rows as &$row )
             {
                 self::replaceFieldsWithLongNames( $db, $objectDefinition['fields'], $row );
             }
@@ -962,7 +971,7 @@ class eZPersistentObject
             $objects = array();
             if ( is_array( $rows ) )
             {
-                foreach ( $rows as $row )
+                foreach ( $rows as &$row )
                 {
                     $objects[] = new $class_name( $row );
                 }

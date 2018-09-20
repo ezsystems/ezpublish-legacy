@@ -24,10 +24,13 @@ first_set($var1,$var2,$var3,0)
 
 class eZTemplateControlOperator
 {
-    /*!
-     Initializes the operator class with the various operator names.
-    */
-    function eZTemplateControlOperator(  /*! The name array */
+    /**
+     * Initializes the operator class with the various operator names.
+     *
+     * @param string $condName
+     * @param string $firstSetName
+     */
+    public function __construct(  /*! The name array */
         $condName = 'cond',
         $firstSetName = 'first_set' )
     {

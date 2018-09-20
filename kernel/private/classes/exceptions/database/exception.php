@@ -17,5 +17,30 @@
  */
 class eZDBException extends ezcBaseException
 {
+    /**
+     * Original message, before escaping
+     */
+    public $originalMessage;
+
+    /**
+     * Constructs a new eZDBException with $message and $code
+     *
+     * @param string $message
+     * @param int $code
+     */
+    public function __construct( $message, $code = 0 )
+    {
+        $this->originalMessage = $message;
+        $this->code = $code;
+
+        if ( php_sapi_name() == 'cli' )
+        {
+            $this->message = $message;
+        }
+        else
+        {
+            $this->message = htmlspecialchars( $message, ENT_QUOTES, 'UTF-8' );
+        }
+    }
 }
 ?>

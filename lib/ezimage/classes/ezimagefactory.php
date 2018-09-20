@@ -19,10 +19,12 @@
 
 class eZImageFactory
 {
-    /*!
-     Initializes the factory with the name \a $name.
-    */
-    function eZImageFactory( $name )
+    /**
+     * Initializes the factory with the name $name.
+     *
+     * @param string $name
+     */
+    public function __construct( $name )
     {
         $this->Name = $name;
     }

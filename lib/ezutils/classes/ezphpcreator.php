@@ -73,10 +73,15 @@ class eZPHPCreator
     const METHOD_CALL_PARAMETER_VALUE = 1;
     const METHOD_CALL_PARAMETER_VARIABLE = 2;
 
-    /*!
-     Initializes the creator with the directory path \a $dir and filename \a $file.
-    */
-    function eZPHPCreator( $dir, $file, $prefix = '', $options = array() )
+    /**
+     * Initializes the creator with the directory path $dir and filename $file.
+     *
+     * @param string $dir
+     * @param string $file
+     * @param string $prefix
+     * @param array $options
+     */
+    public function __construct( $dir, $file, $prefix = '', $options = array() )
     {
         $this->PHPDir = $dir;
         $this->PHPFile = $file;
@@ -560,7 +565,7 @@ $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
                 $column += strlen( $text );
                 $valueKeys = array_keys( $value );
                 $isIndexed = true;
-                for ( $i = 0; $i < count( $valueKeys ); ++$i )
+                for ( $i = 0, $count = count( $valueKeys ); $i < $count; ++$i )
                 {
                     if ( $i !== $valueKeys[$i] )
                     {
@@ -671,7 +676,7 @@ $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
             $column += strlen( $text );
             $valueKeys = array_keys( $value );
             $isIndexed = true;
-            for ( $i = 0; $i < count( $valueKeys ); ++$i )
+            for ( $i = 0, $count = count( $valueKeys ); $i < $count; ++$i )
             {
                 if ( $i !== $valueKeys[$i] )
                 {
@@ -1277,7 +1282,9 @@ print( $values['MyValue'] );
             if ( isset( $parameters['spacing'] ) and $this->Spacing )
                 $spacing = $parameters['spacing'];
             $text = 'unset( ';
-            array_walk( $variableNames, create_function( '&$variableName,$key', '$variableName = "\$" . $variableName;') );
+            array_walk( $variableNames, function ( &$variableName ) {
+                $variableName = "\$" . $variableName;
+            });
             $text .= join( ', ', $variableNames );
             $text .= " );\n";
             $text = eZPHPCreator::prependSpacing( $text, $spacing );

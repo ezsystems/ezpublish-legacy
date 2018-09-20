@@ -17,21 +17,18 @@
 
 class eZSOAPRequest extends eZSOAPEnvelope
 {
-    /*!
-     Constructs a new eZSOAPRequest object. You have to provide the request name
-     and the target namespace for the request.
-
-     \param name
-     \param namespace
-     \param parameters, assosiative array, example: array( 'param1' => 'value1, 'param2' => 'value2' )
-    */
-    function eZSOAPRequest( $name="", $namespace="", $parameters = array() )
+    /**
+     * Constructs a new eZSOAPRequest object. You have to provide the request name and the target namespace for the request.
+     * @param string $name
+     * @param string $namespace
+     * @param array $parameters
+     */
+    public function __construct( $name="", $namespace="", $parameters = array() )
     {
         $this->Name = $name;
         $this->Namespace = $namespace;
 
-        // call the parents constructor
-        $this->eZSOAPEnvelope();
+        parent::__construct();
 
         foreach( $parameters as $name => $value )
         {

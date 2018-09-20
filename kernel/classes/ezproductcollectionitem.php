@@ -18,11 +18,6 @@
 
 class eZProductCollectionItem extends eZPersistentObject
 {
-    function eZProductCollectionItem( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',

@@ -1,7 +1,7 @@
 language: php
 
 php:
-  - 5.3.3
+#  - 5.3.3 Broken on Shippable (does not compile)
   - 5.3
   - 5.4
   - 5.5
@@ -10,7 +10,7 @@ php:
 branches:
   only:
 #    - master
-    - 5.4
+    - "5.4"
     - stable-5.3
 
 env:
@@ -23,8 +23,8 @@ env:
 # Aim to run tests on all versions of php, make sure each db is run at least once
 matrix:
   exclude:
-    - php: 5.3.3
-      env: DB="postgresql" DB_USER="postgres"
+#    - php: 5.3.3
+#      env: DB="postgresql" DB_USER="postgres"
     - php: 5.3
       env: DB="mysql" DB_USER="root"
     - php: 5.4
@@ -35,6 +35,7 @@ matrix:
       env: DB="postgresql" DB_USER="postgres"
 
 before_script:
+  - composer selfupdate
   - if [ $DB == "mysql" ]; then mysql -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;" -u$DB_USER ; fi
   - if [ $DB == "postgresql" ]; then psql -c "CREATE DATABASE $DB_NAME;" -U $DB_USER ; psql -c "CREATE EXTENSION pgcrypto;" -U $DB_USER $DB_NAME ; fi
   - composer install --prefer-source

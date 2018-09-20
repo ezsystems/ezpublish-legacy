@@ -19,10 +19,12 @@ class eZTemplateCacheFunction
 {
     const DEFAULT_TTL = 7200; // 2 hours = 60*60*2
 
-    /*!
-     Initializes the object with names.
-    */
-    function eZTemplateCacheFunction( $blockName = 'cache-block' )
+    /**
+     * Initializes the object with names.
+     *
+     * @param string $blockName
+     */
+    public function __construct( $blockName = 'cache-block' )
     {
         $this->BlockName = $blockName;
     }

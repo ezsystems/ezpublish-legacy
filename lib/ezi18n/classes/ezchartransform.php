@@ -27,13 +27,6 @@ class eZCharTransform
     const CODE_DATE = 1177423380;
 
     /*!
-     Constructor
-    */
-    function eZCharTransform()
-    {
-    }
-
-    /*!
      Transforms the text according to the rules defined in \a $rule using character set \a $charset.
      \param $text The text string to be converted, currently Unicode arrays are not supported
      \param $rule Which transformation rule to use, can either be a string identifier or an array with identifiers.
@@ -395,12 +388,10 @@ class eZCharTransform
         $sep  = eZCharTransform::wordSeparator();
         $sepQ = preg_quote( $sep );
         $text = preg_replace( array( "#[^a-zA-Z0-9_!\.-]+#",
-                                     "#^[\.]+|[!\.]+$#", # Remove dots at beginning/end
                                      "#\.\.+#", # Remove double dots
                                      "#[{$sepQ}]+#", # Turn multiple separators into one
-                                     "#^[{$sepQ}]+|[{$sepQ}]+$#" ), # Strip separator from beginning/end
+                                     "#^[\.{$sepQ}]+|[!\.{$sepQ}]+$#" ), # Strip "!", dots and separator from beginning/end
                               array( $sep,
-                                     $sep,
                                      $sep,
                                      $sep,
                                      "" ),
@@ -423,12 +414,10 @@ class eZCharTransform
         if ( $sep != "-" )
             $prepost .= "-";
         $text = preg_replace( array( "#[ \t\\\\%\#&;/:=?\[\]()+]+#",
-                                     "#^[\.]+|[!\.]+$#", # Remove dots at beginning/end
                                      "#\.\.+#", # Remove double dots
                                      "#[{$sepQ}]+#", # Turn multiple separators into one
-                                     "#^[{$prepost}]+|[{$prepost}]+$#" ),
+                                     "#^[{$prepost}]+|[!{$prepost}]+$#" ), # Strip "!", dots and separator from beginning/end
                               array( $sep,
-                                     $sep,
                                      $sep,
                                      $sep,
                                      "" ),

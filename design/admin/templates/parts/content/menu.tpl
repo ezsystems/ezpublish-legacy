@@ -1,5 +1,6 @@
 <div id="content-tree">
-
+{* In case of error menu is hidden. It prevents showing content tree in case of errors i.e. module / action is disabled *}
+{if ne(module_params().module_name, 'error')}
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h4>{'Content structure'|i18n( 'design/admin/parts/content/menu' )}</h4>
 {* DESIGN: Header END *}</div></div>
@@ -18,6 +19,7 @@
 {/if}
 
 {* DESIGN: Content END *}</div></div></div>
+{/if}
 </div>
 
 {* See parts/ini_menu.tpl and menu.ini for more info, or parts/setup/menu.tpl for full example *}
@@ -52,9 +54,4 @@
     {/case}
 {/switch}
 </p>
-</div>
-
-{* This is the border placed to the left for draging width, js will handle disabling the one above and enabling this *}
-<div id="widthcontrol-handler" class="hide">
-<div class="widthcontrol-grippy"></div>
 </div>

@@ -13,7 +13,7 @@ require_once 'autoload.php';
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ Publish Script Executor\n\n" .
-                                                        "Allows execution of simple PHP scripts which uses eZ Publish functionality,\n" .
+                                                        "Allows execution of simple PHP scripts which use eZ Publish functionality,\n" .
                                                         "when the script is called all necessary initialization is done\n" .
                                                         "\n" .
                                                         "ezexec.php myscript.php" ),
@@ -36,7 +36,7 @@ if ( count( $options['arguments'] ) < 1 )
 $scriptFile = $options['arguments'][0];
 
 if ( !file_exists( $scriptFile ) )
-    $script->shutdown( 1, "Could execute the script '$scriptFile', file was not found" );
+    $script->shutdown( 1, "Could not execute the script '$scriptFile', file was not found" );
 
 $retCode = include( $scriptFile );
 

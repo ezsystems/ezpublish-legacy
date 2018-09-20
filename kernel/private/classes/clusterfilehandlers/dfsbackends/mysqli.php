@@ -1638,13 +1638,23 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         if ( !$this->_query( $query, "_startCacheGeneration( $filePath )", false ) )
         {
             $errno = mysqli_errno( $this->db );
+
+            // once deadlock found / lock wait timeout found, we return ko status which will force read from stale cache
+            // 'remaining' item is irrelevant in this case, but it needs to be set
+            // 1205 is 'Lock wait timeout exceeded; try restarting transaction'
+            // 1213 is 'Deadlock found when trying to get lock; try restarting transaction'
+            if ( in_array( $errno, array( 1205, 1213 ) ) )
+            {
+                return array( 'result' => 'ko', 'remaining' => 0 );
+            }
+
             if ( $errno != 1062 )
             {
                 eZDebug::writeError( "Unexpected error #$errno when trying to start cache generation on $filePath (".mysqli_error( $this->db ).")", __METHOD__ );
                 eZDebug::writeDebug( $query, '$query' );
 
-                // @todo Make this an actual error, maybe an exception
-                return array( 'res' => 'ko' );
+                // @todo throw an exception
+                return array( 'result' => 'error' );
             }
             // error 1062 is expected, since it means duplicate key (file is being generated)
             else

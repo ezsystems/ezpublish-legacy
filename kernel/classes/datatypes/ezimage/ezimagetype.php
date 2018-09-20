@@ -23,9 +23,9 @@ class eZImageType extends eZDataType
     const FILESIZE_VARIABLE = '_ezimage_max_filesize_';
     const DATA_TYPE_STRING = "ezimage";
 
-    function eZImageType()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Image", 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Image", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -229,27 +229,12 @@ class eZImageType extends eZDataType
                                                                      'The image file must have non-zero size.' ) );
                 return eZInputValidator::STATE_INVALID;
              }
-             if ( function_exists( 'getimagesize' ) )
+
+             if ( !self::validateImageFileExtension( $_FILES[$httpFileName]['name'] ) )
              {
-                $info = getimagesize( $imagefile );
-                if ( !$info )
-                {
-                    $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
-                                                                         'A valid image file is required.' ) );
-                    return eZInputValidator::STATE_INVALID;
-                }
-             }
-             else
-             {
-                 $mimeType = eZMimeType::findByURL( $_FILES[$httpFileName]['name'] );
-                 $nameMimeType = $mimeType['name'];
-                 $nameMimeTypes = explode("/", $nameMimeType);
-                 if ( $nameMimeTypes[0] != 'image' )
-                 {
-                     $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
-                                                                          'A valid image file is required.' ) );
-                     return eZInputValidator::STATE_INVALID;
-                 }
+                 $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
+                                                                           'A valid image file is required.' ) );
+                 return eZInputValidator::STATE_INVALID;
              }
         }
         if ( $mustUpload && $canFetchResult == eZHTTPFile::UPLOADEDFILE_DOES_NOT_EXIST )
@@ -271,6 +256,15 @@ class eZImageType extends eZDataType
             return eZInputValidator::STATE_INVALID;
         }
         return eZInputValidator::STATE_ACCEPTED;
+    }
+
+    private static function validateImageFileExtension($filename)
+    {
+        $mimeType = eZMimeType::findByURL( $filename );
+        $nameMimeType = $mimeType['name'];
+        $nameMimeTypes = explode('/', $nameMimeType);
+
+        return $nameMimeTypes[0] === 'image';
     }
 
     /**
@@ -326,7 +320,7 @@ class eZImageType extends eZDataType
         if ( $imageHandler )
         {
             $httpFile = $imageHandler->httpFile( true );
-            if ( $httpFile )
+            if ( $httpFile && self::validateImageFileExtension( $httpFile->attribute( 'original_filename' ) ) )
             {
                 $imageAltText = $imageHandler->attribute( 'alternative_text' );
 

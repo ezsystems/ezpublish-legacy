@@ -23,14 +23,6 @@ class eZPDFExport extends eZPersistentObject
     const CREATE_ONCE = 1;
     const CREATE_ONFLY = 2;
 
-    /*!
-     Initializes a new eZPDFExport.
-    */
-    function eZPDFExport( $row )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
     static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',

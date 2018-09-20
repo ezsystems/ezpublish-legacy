@@ -21,12 +21,9 @@ class eZSelectionType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezselection";
 
-    /*!
-      Constructor
-    */
-    function eZSelectionType()
+    public function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Selection", 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Selection", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -375,7 +372,7 @@ class eZSelectionType extends eZDataType
     function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $selected = $this->objectAttributeContent( $contentObjectAttribute );
-        return isset( $selected[0] ) && $selected[0] != ''; 
+        return isset( $selected[0] ) && $selected[0] != '';
     }
 
     function sortKey( $contentObjectAttribute )

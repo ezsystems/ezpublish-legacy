@@ -270,8 +270,6 @@ var eZOEPopupUtils = {
 
             if ( 'TABLE'.indexOf( s.editorElement.tagName ) === 0 )
                 ed.selection.select( jQuery( s.editorElement ).find( "tr:first-child > *:first-child" ).get(0), true );
-            else if ( 'DIV'.indexOf( s.editorElement.tagName ) === 0 )
-                ed.selection.select( s.editorElement );
             else
                 ed.selection.select( s.editorElement, true );
             ed.nodeChanged();
@@ -747,7 +745,7 @@ var eZOEPopupUtils = {
         var postData = '', val;
         jQuery.each( jQuery('#' + id + ' input, #' + id + ' select').serializeArray(), function(i, o){
             if ( o.value )
-                postData += ( postData ? '&' : '') + o.name + '=' + o.value;
+                postData += ( postData ? '&' : '') + o.name + '=' + encodeURIComponent(o.value);
         });
         return postData;
     },

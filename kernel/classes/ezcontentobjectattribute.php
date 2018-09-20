@@ -18,7 +18,7 @@
 
 class eZContentObjectAttribute extends eZPersistentObject
 {
-    function eZContentObjectAttribute( $row )
+    public function __construct( $row )
     {
         $this->Content = null;
         $this->DisplayInfo = null;
@@ -31,7 +31,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         $this->HasValidationError = false;
         $this->DataTypeCustom = null;
         $this->DataTypeString = null;
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
     }
 
     static function definition()
@@ -1168,7 +1168,7 @@ class eZContentObjectAttribute extends eZPersistentObject
      Goes trough all attributes and fetches metadata for the ones that is searchable.
      \return an array with metadata information.
     */
-    static function metaDataArray( &$attributes )
+    static function metaDataArray( &$attributes, $skipRelationAttributes = false )
     {
         $metaDataArray = array();
         if ( !is_array( $attributes ) )
@@ -1176,18 +1176,26 @@ class eZContentObjectAttribute extends eZPersistentObject
         foreach( $attributes as $attribute )
         {
             $classAttribute = $attribute->contentClassAttribute();
-            if ( $classAttribute->attribute( 'is_searchable' ) )
+            if ( !$classAttribute->attribute( 'is_searchable' ) )
             {
-                $attributeMetaData = $attribute->metaData();
-                if ( $attributeMetaData !== false )
+                continue;
+            }
+
+            $datatype = $attribute->dataType();
+            if ( $skipRelationAttributes && $datatype->isRelationType() )
+            {
+                continue;
+            }
+
+            $attributeMetaData = $datatype->metaData($attribute);
+            if ( $attributeMetaData !== false )
+            {
+                if ( !is_array( $attributeMetaData ) )
                 {
-                    if ( !is_array( $attributeMetaData ) )
-                    {
-                        $attributeMetaData = array( array( 'id' => '',
-                                                           'text' => $attributeMetaData ) );
-                    }
-                    $metaDataArray = array_merge( $metaDataArray, $attributeMetaData );
+                    $attributeMetaData = array( array( 'id' => '',
+                                                       'text' => $attributeMetaData ) );
                 }
+                $metaDataArray = array_merge( $metaDataArray, $attributeMetaData );
             }
         }
         return $metaDataArray;

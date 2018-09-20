@@ -20,9 +20,9 @@ class eZCodePageCodec extends eZTextCodec
     /*!
      Initializes the codepage codec with $name
     */
-    function eZCodePageCodec( $name )
+    public function __construct( $name )
     {
-        $this->eZTextCodec( $name );
+        parent::__construct( $name );
         $this->CodePage = false;
     }
 

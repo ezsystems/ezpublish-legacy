@@ -19,10 +19,13 @@ class eZCollaborationViewHandler
     const TYPE_STANDARD = 1;
     const TYPE_GROUP = 2;
 
-    /*!
-     Initializes the view mode.
-    */
-    function eZCollaborationViewHandler( $viewMode, $viewType )
+    /**
+     * Initializes the view mode.
+     *
+     * @param string $viewMode
+     * @param int $viewType
+     */
+    public function __construct( $viewMode, $viewType )
     {
         $this->ViewMode = $viewMode;
         $this->ViewType = $viewType;

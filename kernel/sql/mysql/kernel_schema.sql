@@ -497,6 +497,7 @@ CREATE TABLE ezcontentobject_trash (
   remote_id varchar(100) NOT NULL default '',
   sort_field int(11) default '1',
   sort_order int(11) default '1',
+  trashed int(11) NOT NULL default '0',
   PRIMARY KEY  (node_id),
   KEY ezcobj_trash_co_id (contentobject_id),
   KEY ezcobj_trash_depth (depth),
@@ -1604,7 +1605,7 @@ CREATE TABLE ezuser (
   contentobject_id int(11) NOT NULL default '0',
   email varchar(150) NOT NULL default '',
   login varchar(150) NOT NULL default '',
-  password_hash varchar(50) default NULL,
+  password_hash varchar(255) default NULL,
   password_hash_type int(11) NOT NULL default '1',
   PRIMARY KEY  (contentobject_id),
   KEY ezuser_login (login)

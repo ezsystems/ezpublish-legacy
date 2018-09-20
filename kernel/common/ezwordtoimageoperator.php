@@ -15,10 +15,10 @@
 */
 class eZWordToImageOperator
 {
-    /*!
-     Initializes the object with the name $name, default is "wash".
-    */
-    function eZWordToImageOperator()
+    /**
+     * Constructor
+     */
+    public function __construct()
     {
         $this->Operators = array( "wordtoimage",
                                   "mimetype_icon", "class_icon", "classgroup_icon", "action_icon", "icon",
@@ -268,7 +268,7 @@ class eZWordToImageOperator
                 }
                 else
                 {
-                    $size = $sizes[0];
+                    $size = reset($sizes);
                 }
 
                 $pathDivider = strpos( $size, ';' );

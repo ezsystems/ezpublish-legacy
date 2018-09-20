@@ -25,12 +25,21 @@ class eZSiteInstaller
     const ERR_ABORT = 1;
     const ERR_CONTINUE = 2;
 
-    function eZSiteInstaller( $parameters = false )
+    public function __construct( $parameters = false )
     {
         $this->initSettings( $parameters );
         $this->initSteps();
 
         $this->LastErrorCode = eZSiteInstaller::ERR_OK;
+    }
+
+    /**
+     * @deprecated Use eZSiteInstaller::__construct() instead
+     * @param bool $parameters
+     */
+    function eZSiteInstaller( $parameters = false )
+    {
+        self::__construct( $parameters );
     }
 
     function &instance( $params )

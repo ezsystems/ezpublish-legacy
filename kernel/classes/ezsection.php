@@ -16,13 +16,13 @@
 
 class eZSection extends eZPersistentObject
 {
-    function eZSection( $row )
+    public function __construct( $row )
     {
         if ( !isset( $row['id'] ) )
         {
             $row['id'] = null;
         }
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
     }
 
     /*!
@@ -240,7 +240,7 @@ class eZSection extends eZPersistentObject
             {
                 foreach ( $assignedNodes as $node )
                 {
-                    eZContentOperationCollection::updateSection( $node->attribute( "node_id" ), $sectionID );
+                    eZContentOperationCollection::updateSection( $node->attribute( "node_id" ), $sectionID, false );
                 }
             }
         }
@@ -253,7 +253,24 @@ class eZSection extends eZPersistentObject
         }
         eZContentCacheManager::clearContentCacheIfNeeded( $object->attribute( "id" ) );
         $object->expireAllViewCache();
-        $db->commit();
+        $commitResult = $db->commit();
+
+        // Update search indexes AFTER transaction is completed, so changes are actually available for Search Engine.
+        if ( $commitResult ) {
+            if ( !empty( $assignedNodes ) ) {
+                foreach ( $assignedNodes as $node ) {
+                    $objectIDArray = eZContentObjectTreeNode::getObjectIdsInNodeSubTree( $node );
+
+                    foreach (array_chunk($objectIDArray, 100) as $pagedObjectIDs) {
+                        // Clear cache of affected objects in sub tree so they are up-to-date when indexed.
+                        eZContentCacheManager::clearObjectViewCacheArray($pagedObjectIDs);
+                        eZSearch::updateObjectsSection($pagedObjectIDs, $sectionID);
+                    }
+                }
+            } else {
+                eZSearch::updateObjectsSection(array($object->attribute("id")), $sectionID);
+            }
+        }
     }
 }
 

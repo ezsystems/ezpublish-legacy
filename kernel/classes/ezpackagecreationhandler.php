@@ -17,10 +17,14 @@
 
 class eZPackageCreationHandler
 {
-    /*!
-     Constructor
-    */
-    function eZPackageCreationHandler( $id, $name, $steps )
+    /**
+     * Constructor
+     *
+     * @param int $id
+     * @param string $name
+     * @param array $steps
+     */
+    public function __construct( $id, $name, $steps )
     {
         $this->Attributes = array( 'id' => $id,
                                    'name' => $name,
@@ -924,6 +928,11 @@ class eZPackageCreationHandler
         if ( !eZHTTPFile::canFetch( 'PackageThumbnail' ) )
             return true;
 
+        if ( !self::httpFileIsImage( ezpI18n::tr( 'kernel/package', 'PackageThumbnail' ), $errorList ) )
+        {
+            return false;
+        }
+
         $file = eZHTTPFile::fetch( 'PackageThumbnail' );
 
         $result = true;
@@ -936,6 +945,39 @@ class eZPackageCreationHandler
             $persistentData['thumbnail'] = $mimeData;
         }
         return $result;
+    }
+
+    /*!
+     Check if the HTTP file is an image.
+    */
+    static function httpFileIsImage( $httpFileName, &$errorList )
+    {
+        if ( !isset( $_FILES[$httpFileName] ) || $_FILES[$httpFileName]["tmp_name"] === "" )
+        {
+            $errorList[] = array( 'field' => $httpFileName,
+                                  'description' => ezpI18n::tr( 'kernel/package', 'The file does not exist.' ) );
+            return false;
+        }
+
+        $imagefile = $_FILES[$httpFileName]['tmp_name'];
+        if ( !$_FILES[$httpFileName]["size"] )
+        {
+            $errorList[] = array( 'field' => $httpFileName,
+                                  'description' => ezpI18n::tr( 'kernel/package', 'The image file must have non-zero size.' ) );
+            return false;
+        }
+
+        $mimeType = eZMimeType::findByURL( $_FILES[$httpFileName]['name'] );
+        $nameMimeType = $mimeType['name'];
+        $nameMimeTypes = explode("/", $nameMimeType);
+        if ( $nameMimeTypes[0] != 'image' )
+        {
+            $errorList[] = array( 'field' => $httpFileName,
+                                  'description' => ezpI18n::tr( 'kernel/package', 'A valid image file is required.' ) );
+            return false;
+        }
+
+        return true;
     }
 
     /*!

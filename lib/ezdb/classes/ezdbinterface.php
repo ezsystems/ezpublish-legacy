@@ -43,11 +43,25 @@ class eZDBInterface
     const SERVER_SLAVE = 2;
 
     /**
+     * Maximal value for int columns
+     *
+     * @var int
+     */
+    const MAX_INT = 2147483647;
+
+    /**
+     * Minimal value for int columns
+     *
+     * @var int
+     */
+    const MIN_INT = -2147483648;
+
+    /**
      * Creates a new eZDBInterface object and connects to the database backend.
      *
      * @param array $parameters
      */
-    function eZDBInterface( $parameters )
+    public function __construct( $parameters )
     {
         $server = $parameters['server'];
         $port = $parameters['port'];

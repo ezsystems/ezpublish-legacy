@@ -289,11 +289,11 @@ class eZTemplate
 
     const FILE_ERRORS = 1;
 
-    /*!
-     Intializes the template with left and right delimiters being { and },
-     and a file resource. The literal tag "literal" is also registered.
-    */
-    function eZTemplate()
+    /**
+     * Intializes the template with left and right delimiters being { and }, and a file resource.
+     * The literal tag "literal" is also registered.
+     */
+    public function __construct()
     {
         $this->Tree = array( eZTemplate::NODE_ROOT, false );
         $this->LDelim = "{";
@@ -1879,7 +1879,7 @@ class eZTemplate
         if ( method_exists( $func_obj, "attributeList" ) )
         {
             $attrs = $func_obj->attributeList();
-            while ( list( $attr_name, $has_children ) = each( $attrs ) )
+            foreach ( $attrs as $attr_name => $has_children )
             {
                 $this->FunctionAttributes[$attr_name] = $has_children;
             }

@@ -238,6 +238,56 @@ class eZXMLInputParserTest extends ezpTestCase
         );
     }
 
+    /**
+     * Test for argument parsing with empty values
+     *
+     * @dataProvider providerForTestConvertNumericEntities
+     */
+    public function testConvertNumericEntities( $string, $expected )
+    {
+        $this->assertEquals(
+            $expected,
+            $this->parser->convertNumericEntities( $string )
+        );
+    }
+
+    public static function providerForTestConvertNumericEntities()
+    {
+        $convmap = array( 0x0, 0x2FFFF, 0, 0xFFFF );
+
+        return array(
+            // BC values, these were working even before EZP-25243:
+            // 1. Nothing to convert here
+            array( 42, 42 ),
+            array( '', '' ),
+            array( "Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn.",
+                   "Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn."
+            ),
+            // 2. Character entity references, should not be touched
+            array( "Ph&quot;nglui mglw&quot;nafh Cthulhu R&quot;lyeh wgah&quot;nagl fhtagn.",
+                   "Ph&quot;nglui mglw&quot;nafh Cthulhu R&quot;lyeh wgah&quot;nagl fhtagn."
+            ),
+            array( "A&amp;B&sect;C&copy;D&auml;E&oslash;&fnof; &Psi;",
+                   "A&amp;B&sect;C&copy;D&auml;E&oslash;&fnof; &Psi;"
+            ),
+            // 3. Numeric character references (decimal)
+            array( "Ph&#039;nglui mglw&#39;nafh Cthulhu R&#039;lyeh wgah&#0039;nagl fhtagn.",
+                   "Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn."
+            ),
+            array( "&#38;A&#0228; &#255;Bc&#0042;&#191;-&#0197;/&#185;\&#173;",
+                   mb_decode_numericentity( "&#38;A&#0228; &#255;Bc&#0042;&#191;-&#0197;/&#185;\&#173;", $convmap, 'UTF-8' )
+            ),
+
+            // These are working only after EZP-25243:
+            // 4. Numeric character references (hexadecimal)
+            array( "I&#xe4;! I&#0xE4;! Cthulhu Fhtagn!",
+                   mb_decode_numericentity( "I&#xe4;! I&#0xE4;! Cthulhu Fhtagn!", $convmap, 'UTF-8' )
+            ),
+            array( "snafu &#x1;&#x0F1; &#x004Ef; &#x460; &#xd0B; &#xFaF; &#x;069c",
+                   mb_decode_numericentity( "snafu &#x1;&#x0F1; &#x004Ef; &#x460; &#xd0B; &#xFaF; &#x;069c", $convmap, 'UTF-8' )
+            ),
+        );
+    }
 }
 
 ?>

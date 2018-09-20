@@ -16,10 +16,10 @@
 
 class eZVatRule extends eZPersistentObject
 {
-    function eZVatRule( $row )
+    public function __construct( $row )
     {
         $this->ProductCategories = null;
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
     }
 
     static function definition()

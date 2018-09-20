@@ -117,7 +117,7 @@ class eZXMLInputParser
     \param $detectErrorLevel Determines types of errors that will be detected and added to error log ($Messages).
     */
 
-    function eZXMLInputParser( $validateErrorLevel = self::ERROR_NONE, $detectErrorLevel = self::ERROR_NONE, $parseLineBreaks = false,
+    public function __construct( $validateErrorLevel = self::ERROR_NONE, $detectErrorLevel = self::ERROR_NONE, $parseLineBreaks = false,
                                $removeDefaultAttrs = false )
     {
         // Back-compatibility fixes:
@@ -413,7 +413,7 @@ class eZXMLInputParser
         //  Regular tag: get tag's name and attributes.
         else
         {
-            $tagEndPos = strpos( $data, '>', $tagBeginPos );
+            $tagEndPos = $this->findEndOpeningTagPosition( $data, $tagBeginPos );
             if ( $tagEndPos === false )
             {
                 $pos = $tagBeginPos + 1;
@@ -583,6 +583,63 @@ class eZXMLInputParser
         Helper functions for pass 1
     */
 
+    /**
+     * Finds the postion of the > character which marks the end of the opening
+     * tag that starts at $tagBeginPos in $data.
+     * It's not as easy as it seems, because some '>' can also appear in attributes.
+     * So we need to iterate over the next '>' characters to find the correct one.
+     * See https://jira.ez.no/browse/EZP-26096
+     *
+     * @param string $data
+     * @param integer $tagBeginPos
+     * @param integer $offset used for recursive call when a > is found in an attribute.
+     * @return integer|false
+     */
+    private function findEndOpeningTagPosition( $data, $tagBeginPos, $offset = 0 )
+    {
+        $endPos = strpos( $data, '>', $tagBeginPos + $offset );
+        if ( $endPos === false )
+        {
+            return false;
+        }
+        $tagCode = substr( $data, $tagBeginPos, $endPos - $tagBeginPos );
+        if ( strpos( $tagCode, '=' ) === false )
+        {
+            // this tag has no attribute, so the next '>' is the right one.
+            return $endPos;
+        }
+        if ( $this->isValidXmlTag( $tagCode ) )
+        {
+            return $endPos;
+        }
+        return $this->findEndOpeningTagPosition( $data, $tagBeginPos, $endPos - $tagBeginPos + 1 );
+    }
+
+    /**
+     * Checks whether $code can be considered as a valid XML excerpt. If not,
+     * it's probably because we found a '>' in the middle of an attribute.
+     *
+     * @param string $code
+     * @return boolean
+     */
+    private function isValidXmlTag( $code )
+    {
+        if ( $code[strlen( $code ) - 1] !== '/' )
+        {
+            $code .= '/';
+        }
+        $code .= '>';
+        $code = '<' . str_replace(
+            array( '<', '&' ),
+            array( '&lt;', '&amp;' ),
+            substr( $code, 1 )
+        );
+        $errorHanding = libxml_use_internal_errors( true );
+        $simpleXml = simplexml_load_string( $code );
+        libxml_use_internal_errors( $errorHanding );
+        return ( $simpleXml !== false );
+    }
+
     function parseAttributes( $attributeString )
     {
         $attributes = array();
@@ -651,7 +708,7 @@ class eZXMLInputParser
                     if ( isset( $this->Namespaces[$prefix] ) )
                     {
                         $URI = $this->Namespaces[$prefix];
-                        $element->setAttributeNS( $URI, $qualifiedName, $value );
+                        $element->setAttributeNS( $URI, $qualifiedName, htmlspecialchars_decode( $value ) );
                     }
                     else
                     {
@@ -660,7 +717,7 @@ class eZXMLInputParser
                 }
                 else
                 {
-                    $element->setAttribute( $qualifiedName, $value );
+                    $element->setAttribute( $qualifiedName,  htmlspecialchars_decode( $value ) );
                 }
             }
         }
@@ -725,40 +782,8 @@ class eZXMLInputParser
             return $text;
         }
         // Convert other HTML entities to the current charset characters.
-        $codec = eZTextCodec::instance( 'unicode', false );
-        $pos = 0;
-        $domString = "";
-        while ( $pos < strlen( $text ) - 1 )
-        {
-            $startPos = $pos;
-            while( !( $text[$pos] == '&' && isset($text[$pos + 1]) && $text[$pos + 1] == '#' ) && $pos < strlen( $text ) - 1 )
-            {
-                $pos++;
-            }
-
-            $domString .= substr( $text, $startPos, $pos - $startPos );
-
-            if ( $pos < strlen( $text ) - 1 )
-            {
-                $endPos = strpos( $text, ';', $pos + 2 );
-                if ( $endPos === false )
-                {
-                    $pos += 2;
-                    continue;
-                }
-
-                $code = substr( $text, $pos + 2, $endPos - ( $pos + 2 ) );
-                $char = $codec->convertString( array( $code ) );
-
-                $pos = $endPos + 1;
-                $domString .= $char;
-            }
-            else
-            {
-                $domString .= substr( $text, $pos, 2 );
-            }
-        }
-        return $domString;
+        $convmap = array( 0x0, 0x2FFFF, 0, 0xFFFF );
+        return mb_decode_numericentity( $text, $convmap, 'UTF-8' );
     }
 
     /*!

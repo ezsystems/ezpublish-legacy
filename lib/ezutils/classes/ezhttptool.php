@@ -25,7 +25,7 @@ class eZHTTPTool
     /*!
      Initializes the class. Use eZHTTPTool::instance to get a single instance.
     */
-    function eZHTTPTool()
+    public function __construct()
     {
         $this->UseFullUrl = false;
     }
@@ -746,9 +746,11 @@ EOT;
                     CURLOPT_FOLLOWLOCATION => true,
                 )
             );
+            $ini = eZINI::instance();
             if ( $justCheckURL )
             {
-                curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 2 );
+                $connTimeout = $ini->hasVariable( 'LinkCheck', 'ConnectTimeout' ) ? (int)$ini->variable( 'LinkCheck', 'ConnectTimeout' ) : 3;
+                curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, $connTimeout );
                 curl_setopt( $ch, CURLOPT_TIMEOUT, 15 );
                 curl_setopt( $ch, CURLOPT_FAILONERROR, true );
                 curl_setopt( $ch, CURLOPT_NOBODY, true );
@@ -764,7 +766,6 @@ EOT;
                 curl_setopt( $ch, CURLOPT_USERAGENT, $userAgent );
             }
 
-            $ini = eZINI::instance();
             $proxy = $ini->hasVariable( 'ProxySettings', 'ProxyServer' ) ? $ini->variable( 'ProxySettings', 'ProxyServer' ) : false;
             // If we should use proxy
             if ( $proxy )

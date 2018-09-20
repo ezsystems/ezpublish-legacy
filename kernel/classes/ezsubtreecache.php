@@ -17,13 +17,6 @@
 class eZSubtreeCache
 {
     /*!
-     Constructor
-    */
-    function eZSubtreeCache()
-    {
-    }
-
-    /*!
      \static
      Removes caches which were created using 'cache-block' operator with 'subtree_expiry' parameter.
      \a $nodeList is an array of node's ids. It is used to determine caches to remove.

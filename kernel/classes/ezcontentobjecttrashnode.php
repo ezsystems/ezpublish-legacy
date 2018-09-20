@@ -14,20 +14,6 @@
 class eZContentObjectTrashNode extends eZContentObjectTreeNode
 {
     /**
-     * Initializes the object with the $row.
-     *
-     * It will try to set each field taken from the database row. Calls fill
-     * to do the job. If $row is an integer, it will try to fetch it from the
-     * database using it as the unique ID.
-     *
-     * @param int|array $row
-     */
-    function eZContentObjectTrashNode( $row = array() )
-    {
-        $this->eZPersistentObject( $row );
-    }
-
-    /**
      * @inheritdoc
      */
     static function definition()
@@ -94,6 +80,10 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
                                          'is_invisible' => array( 'name' => 'IsInvisible',
                                                                   'datatype' => 'integer',
                                                                   'default' => 0,
+                                                                  'required' => true ),
+                                         'trashed' => array( 'name' => 'Trashed',
+                                                                  'datatype' => 'integer',
+                                                                  'default' => 0,
                                                                   'required' => true )
                                           ),
 
@@ -144,7 +134,8 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
                       'path_identification_string' => $node->attribute( 'path_identification_string' ),
                       'remote_id' => $node->attribute( 'remote_id' ),
                       'is_hidden' => $node->attribute( 'is_hidden' ),
-                      'is_invisible' => $node->attribute( 'is_invisible' ) );
+                      'is_invisible' => $node->attribute( 'is_invisible' ),
+                      'trashed' => time() );
 
         $trashNode = new eZContentObjectTrashNode( $row );
         return $trashNode;
@@ -221,6 +212,7 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
                              'Limit'                    => false,
                              'SortBy'                   => false,
                              'AttributeFilter'          => false,
+                             'Trashed'                  => false,
                              );
         }
 
@@ -229,6 +221,7 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         $asObject         = ( isset( $params['AsObject']          ) )                         ? $params['AsObject']           : true;
         $objectNameFilter = ( isset( $params['ObjectNameFilter']  ) )                         ? $params['ObjectNameFilter']   : false;
         $sortBy           = ( isset( $params['SortBy']  ) && is_array( $params['SortBy']  ) ) ? $params['SortBy']              : array( array( 'name' ) );
+        $trashed          = ( isset( $params['Trashed']  ) && is_int( $params['Trashed'] )  ) ? " AND trashed <= {$params['Trashed']}"   : '';
 
         if ( $asCount )
         {
@@ -283,7 +276,8 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
                         " . eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
                         $sqlPermissionChecking[where]
                         $objectNameFilterSQL
-                        AND " . eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
+                        AND " . eZContentLanguage::languagesSQLFilter( 'ezcontentobject' )
+                        . $trashed;
 
         if ( !$asCount && $sortingInfo['sortingFields'] && strlen( $sortingInfo['sortingFields'] ) > 5  )
             $query .= " ORDER BY $sortingInfo[sortingFields]";

@@ -9,7 +9,7 @@
 $contentObjectID = $Params['ContentObjectID'];
 $contentObjectAttributeID = $Params['ContentObjectAttributeID'];
 $contentObject = eZContentObject::fetch( $contentObjectID );
-if ( !is_object( $contentObject ) )
+if ( !is_object( $contentObject ) || $contentObject->attribute( 'status' ) == eZContentObject::STATUS_ARCHIVED)
 {
     return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }

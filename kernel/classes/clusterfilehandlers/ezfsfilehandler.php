@@ -15,9 +15,9 @@ class eZFSFileHandler implements eZClusterFileHandlerInterface
     /**
      * Constructor.
      *
-     * $filePath File path. If specified, file metadata is fetched in the constructor.
+     * @param bool $filePath File path. If specified, file metadata is fetched in the constructor.
      */
-    function eZFSFileHandler( $filePath = false )
+    public function __construct( $filePath = false )
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::instance( '$filePath' )", __METHOD__ );
         $this->Mutex = null;

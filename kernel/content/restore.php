@@ -163,9 +163,13 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
         }
     }
 
-    eZContentObject::fixReverseRelations( $objectID, 'restore' );
+    eZContentObject::fixReverseRelations( $objectID, 'restore', false );
 
     $db->commit();
+
+    // we need to clear cache again after db transcation is commited
+    eZContentCacheManager::clearContentCacheIfNeeded( $objectID,  $version->attribute( 'version' ) );
+
     $module->redirectToView( 'view', array( 'full', $mainNodeID ) );
     return;
 }

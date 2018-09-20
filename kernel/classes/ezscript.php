@@ -47,9 +47,9 @@ $script->shutdown(); // Finish execution
 */
 class eZScript
 {
-    /*!
-     Constructor
-    */
+    /**
+     * @param array $settings
+     */
     function __construct( $settings = array() )
     {
         $settings += array(
@@ -185,7 +185,7 @@ class eZScript
     */
     function startup()
     {
-        error_reporting( E_ALL );
+        error_reporting( E_ALL & ~E_DEPRECATED );
 
         eZDebug::setHandleType( eZDebug::HANDLE_TO_PHP );
 
@@ -1072,7 +1072,7 @@ class eZScript
                 $this->setUseIncludeFiles( $useIncludeFiles );
                 $this->setDebugMessage( "\n\n" . str_repeat( '#', 36 ) . $cli->style( 'emphasize' ) . " DEBUG " . $cli->style( 'emphasize-end' )  . str_repeat( '#', 36 ) . "\n" );
             }
-            if ( count( $options['verbose'] ) > 0 )
+            if ( is_array( $options['verbose'] ) && count( $options['verbose'] ) > 0 )
             {
                 $this->setShowVerboseOutput( count( $options['verbose'] ) );
             }

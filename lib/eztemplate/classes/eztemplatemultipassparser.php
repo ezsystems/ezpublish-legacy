@@ -16,10 +16,7 @@
 
 class eZTemplateMultiPassParser extends eZTemplateParser
 {
-    /*!
-     Constructor
-    */
-    function eZTemplateMultiPassParser()
+    public function __construct()
     {
         $this->ElementParser = eZTemplateElementParser::instance();
     }
@@ -181,7 +178,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         $this->gotoEndPosition( $textPortion, $tagStartLine, $tagStartColumn, $tagEndLine, $tagEndColumn );
                         $tpl->error( "", "parser error @ $relatedTemplateName:$currentLine" . "[$currentColumn]" . "\n" .
                                      "Unterminated tag, needs a $rightDelimiter to end the tag.\n" . $leftDelimiter . $textPortion,
-                                     array( array( $tagStartLine, $tagStartColumn, $tagPosition ),
+                                     array( array( $tagStartLine, $tagStartColumn, $tagPos ),
                                               array( $tagEndLine, $tagEndColumn, $sourceLength - 1 ),
                                               $relatedTemplateName ) );
                         $textElements[] = array( "text" => $data,

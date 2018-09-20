@@ -82,10 +82,4 @@
 {/switch}
 </p>
 </div>
-
-{* This is the border placed to the left for draging width, js will handle disabling the one above and enabling this *}
-<div id="widthcontrol-handler" class="hide">
-<div class="widthcontrol-grippy"></div>
-</div>
-
 {/if}{* if ne( $ui_context, 'edit' ) *}

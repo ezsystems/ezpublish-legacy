@@ -276,7 +276,7 @@ class eZTemplateNodeTool
     */
     static function isPHPVariableElement( $elements )
     {
-        return count( $elements ) === 1 && isset( $elements[0][0] ) && $elements[0][0] == eZTemplate::TYPE_PHP_VARIABLE;
+        return is_countable( $elements ) && count( $elements ) === 1 && isset( $elements[0][0] ) && $elements[0][0] == eZTemplate::TYPE_PHP_VARIABLE;
     }
 
     /*!
