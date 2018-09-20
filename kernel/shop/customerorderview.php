@@ -20,7 +20,7 @@ if ( $Email )
 {
     $Email = urldecode( $Email );
 }
-// workaround because it seems not possible to get an urlencoded "+" character accross $Params
+// workaround because it doesn't seem to be possible to get an urlencoded "+" character accross $Params
 else if ( $http->hasGetVariable( "email" ) )
 {
     $Email = $http->getVariable( "email" );
