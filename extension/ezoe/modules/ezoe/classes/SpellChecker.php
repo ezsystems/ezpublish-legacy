@@ -12,7 +12,7 @@ class SpellChecker {
 	 *
 	 * @param $config Configuration name/value array.
 	 */
-	function SpellChecker(&$config) {
+	function __construct(&$config) {
 		$this->_config = $config;
 	}
 
