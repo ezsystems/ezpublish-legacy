@@ -15,13 +15,10 @@ $http = eZHTTPTool::instance();
 
 $tpl = eZTemplate::factory();
 
-// allow usage of get parameter as well which is safer for some email formats
-if ( $Email )
-{
-    $Email = urldecode( $Email );
-}
-// workaround because it doesn't seem to be possible to get an urlencoded "+" character accross $Params
-else if ( $http->hasGetVariable( "email" ) )
+$Email = urldecode( $Email );
+
+// workaround because it doesn't seem to be possible to get an urlencoded "+" character across $Params
+if ( $http->hasGetVariable( "email" ) )
 {
     $Email = $http->getVariable( "email" );
 }
