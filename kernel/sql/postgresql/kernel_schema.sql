@@ -1650,7 +1650,8 @@ CREATE TABLE ezcontentobject_trash (
     priority integer DEFAULT 0 NOT NULL,
     remote_id character varying(100) DEFAULT ''::character varying NOT NULL,
     sort_field integer DEFAULT 1,
-    sort_order integer DEFAULT 1
+    sort_order integer DEFAULT 1,
+    trashed integer DEFAULT 0 NOT NULL
 );
 
 

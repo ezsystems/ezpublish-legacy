@@ -27,12 +27,13 @@ $script = eZScript::instance(
 $script->startup();
 
 $options = $script->getOptions(
-    "[iteration-sleep:][iteration-limit:][memory-monitoring]",
+    "[iteration-sleep:][iteration-limit:][memory-monitoring][trashed-days:]",
     "",
     array(
         'iteration-sleep' => 'Amount of seconds to sleep between each iteration when performing a purge operation, can be a float. Default is one second.',
         'iteration-limit' => 'Amount of items to remove in each iteration when performing a purge operation. Default is 100.',
-        'memory-monitoring' => 'If set, memory usage will be logged in var/log/trashpurge.log.'
+        'memory-monitoring' => 'If set, memory usage will be logged in var/log/trashpurge.log.',
+        'trashed-days'      => 'If set, only objects that has been trashed for at least the specified amount of days will be purged.'
     )
 );
 
@@ -45,7 +46,8 @@ $purgeHandler = new eZScriptTrashPurge( eZCLI::instance(), false, (bool)$options
 if (
     $purgeHandler->run(
         $options['iteration-limit'] ? (int)$options['iteration-limit'] : null,
-        $options['iteration-sleep'] ? (int)$options['iteration-sleep'] : null
+        $options['iteration-sleep'] ? (int)$options['iteration-sleep'] : null,
+        $options['trashed-days']    ? strtotime( "-{$options['trashed-days']} days" ) : null
     )
 )
 {
