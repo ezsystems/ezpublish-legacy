@@ -47,8 +47,6 @@ class eZContentUploadHandler
     {
         self::__construct( $name, $identifier );
     }
-  
-  
 
     /*!
      \pure
