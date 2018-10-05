@@ -230,7 +230,7 @@ class eZTemplateTreeCache
         $php->addVariable( 'TemplateInfo', $cache['info'] );
         $php->addSpace();
         $php->addVariable( 'TemplateRoot', $cache['root'] );
-        $php->store();
+        $php->store( true );
     }
 }
 
