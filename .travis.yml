@@ -11,6 +11,10 @@ cache:
 branches:
   only:
     - master
+    # Match year version branches
+    - /^20\d{2}.\d{2}$/
+    # Match semantic version branches (in case of legacy, only used for 5.4 ee release, kept to serve as an example)
+    - /^\d.\d$/
 
 env:
   global:
