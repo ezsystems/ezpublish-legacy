@@ -33,6 +33,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
     const SORT_ORDER_ASC = 1;
 
     /**
+     * @deprecated Use eZContentObjectTreeNode::__construct() instead
+     * @param int|array $row
+     */
+    function eZContentObjectTreeNode( $row = array() )
+    {
+        self::__construct( $row );
+    }
+
+    /**
      * @inheritdoc
      */
     static function definition()
