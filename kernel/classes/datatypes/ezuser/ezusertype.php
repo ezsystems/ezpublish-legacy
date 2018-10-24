@@ -364,6 +364,11 @@ class eZUserType extends eZDataType
         $user = eZUser::fetch( $userID );
         eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
 
+        // return if user object wasn't found to avoid a fatal error in eZUserType::updateUserDraft
+        if ( !( $user instanceof eZUser ) ) {
+            return null;
+        }
+
         // Looking for a "draft" and loading it's content
         $serializedDraft = $contentObjectAttribute->attribute( 'data_text' );
 
