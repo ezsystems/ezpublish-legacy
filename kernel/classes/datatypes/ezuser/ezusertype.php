@@ -365,7 +365,8 @@ class eZUserType extends eZDataType
         eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
 
         // return if user object wasn't found to avoid a fatal error in eZUserType::updateUserDraft
-        if ( !( $user instanceof eZUser ) ) {
+        if ( !( $user instanceof eZUser ) )
+        {
             return null;
         }
 
