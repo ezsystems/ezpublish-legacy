@@ -91,14 +91,15 @@ class eZLDAPUser extends eZUser
                         $exists = true;
                 }
 
-                eZDebugSetting::writeDebug( 'kernel-user', eZUser::createHash( $userRow['login'], $password, eZUser::site(),
-                                                                               $hashType ), "check hash" );
-                eZDebugSetting::writeDebug( 'kernel-user', $hash, "stored hash" );
                  // If current user has been disabled after a few failed login attempts.
                 $canLogin = eZUser::isEnabledAfterFailedLogin( $userID );
 
                 if ( $exists )
                 {
+                    eZDebugSetting::writeDebug( 'kernel-user', eZUser::createHash( $userRow['login'], $password, eZUser::site(),
+                                                                                   $hashType ), "check hash" );
+                    eZDebugSetting::writeDebug( 'kernel-user', $hash, "stored hash" );
+
                     // We should store userID for warning message.
                     $GLOBALS['eZFailedLoginAttemptUserID'] = $userID;
 
