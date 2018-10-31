@@ -1885,14 +1885,17 @@ WHERE user_id = '" . $userID . "' AND
         {
             $str = password_hash( $password, PASSWORD_DEFAULT );
         }
-        else if ( $type == self::PASSWORD_HASH_EMPTY )
-        {
-            eZDebug::writeError( "Cannot create hash of hash type 0 (PASSWORD_HASH_EMPTY)." );
-            return false;
-        }
         else
         {
-            eZDebug::writeError( "Password hash type ID '$type' is not recognized." );
+            if ( $type == self::PASSWORD_HASH_EMPTY )
+            {
+                eZDebug::writeError( "Cannot create hash of hash type 0 (PASSWORD_HASH_EMPTY)." );
+            }
+            else
+            {
+                eZDebug::writeError( "Password hash type ID '$type' is not recognized." );
+            }
+
             return false;
         }
 

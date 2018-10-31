@@ -822,7 +822,7 @@ class eZLDAPUser extends eZUser
         }
 
         $user->setAttribute( 'password_hash', "" );
-        $user->setAttribute( 'password_hash_type', 0 );
+        $user->setAttribute( 'password_hash_type', self::PASSWORD_HASH_EMPTY );
         $user->store();
 
         $debugArray = array( 'Updating user data',
