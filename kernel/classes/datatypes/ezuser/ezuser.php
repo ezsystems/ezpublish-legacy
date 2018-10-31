@@ -783,6 +783,11 @@ WHERE user_id = '" . $userID . "' AND
      */
     protected static function _loginUser( $login, $password, $authenticationMatch = false )
     {
+        if ( $login == '' || $password == '' )
+        {
+            return false;
+        }
+
         $http = eZHTTPTool::instance();
         $db = eZDB::instance();
 
@@ -821,6 +826,7 @@ WHERE user_id = '" . $userID . "' AND
                       WHERE ( $loginText ) AND
                         ezcontentobject.status='$contentObjectStatus' AND
                         ezcontentobject.id=contentobject_id AND
+                        password_hash_type!=0 AND
                         ( ( password_hash_type!=4 ) OR
                           ( password_hash_type=4 AND
                             password_hash=PASSWORD('$passwordEscaped') ) )";
@@ -831,6 +837,7 @@ WHERE user_id = '" . $userID . "' AND
                              password_hash_type, email, login
                       FROM   ezuser, ezcontentobject
                       WHERE  ( $loginText )
+                      AND    password_hash_type!=0
                       AND    ezcontentobject.status='$contentObjectStatus'
                       AND    ezcontentobject.id=contentobject_id";
         }
