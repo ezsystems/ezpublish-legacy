@@ -342,6 +342,12 @@ class eZContentFunctionCollection
             $treeParameters['DepthOperator'] = $depthOperator;
         }
 
+        // Set an unset ClassFilterType to 'include' if 'ClassFilterArray' is set
+        if( !empty( $treeParameters[ 'ClassFilterArray' ] ) && !$treeParameters[ 'ClassFilterType' ] )
+        {
+            $treeParameters[ 'ClassFilterType' ] = 'include';
+        }
+
         $children = null;
         if ( is_numeric( $parentNodeID ) or is_array( $parentNodeID ) )
         {
@@ -368,6 +374,12 @@ class eZContentFunctionCollection
 
         if ( is_numeric( $parentNodeID ) or is_array( $parentNodeID ) )
         {
+            // Set an unset ClassFilterType to 'include' if 'ClassFilterArray' is set
+            if( !empty( $class_filter_array ) && !$class_filter_type )
+            {
+                $class_filter_type = 'include';
+            }
+
             $childrenCount = eZContentObjectTreeNode::subTreeCountByNodeID( array( 'Limitation' => $limitation,
                                                                            'ClassFilterType' => $class_filter_type,
                                                                            'ClassFilterArray' => $class_filter_array,
