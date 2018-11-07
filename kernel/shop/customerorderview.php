@@ -15,7 +15,6 @@ $http = eZHTTPTool::instance();
 
 $tpl = eZTemplate::factory();
 
-$Email = urldecode( $Email );
 $productList = eZOrder::productList( $CustomerID, $Email );
 $orderList = eZOrder::orderList( $CustomerID, $Email );
 
