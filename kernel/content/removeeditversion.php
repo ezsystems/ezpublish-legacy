@@ -28,9 +28,6 @@ if ( $isConfirmed )
     if ( $object === null )
         return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
-    $db = eZDB::instance();
-    $db->begin();
-
     $versionObject = $object->version( $version );
     if ( is_object( $versionObject ) and
          in_array( $versionObject->attribute( 'status' ), array( eZContentObjectVersion::STATUS_DRAFT, eZContentObjectVersion::STATUS_INTERNAL_DRAFT ) ) )
@@ -49,22 +46,13 @@ if ( $isConfirmed )
                 $allowEdit = false;
 
             if ( !$allowEdit )
-            {
-                $db->rollback();
                 return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'edit' ) ) );
-            }
         }
 
         $versionCount= $object->getVersionCount();
         $nodeID = $versionCount == 1 ? $versionObject->attribute( 'main_parent_node_id' ) : $object->attribute( 'main_node_id' );
         $versionObject->removeThis();
-        $db->commit();
     }
-    else
-    {
-        $db->rollback();
-    }
-
     $hasRedirected = false;
     if ( $http->hasSessionVariable( 'RedirectIfDiscarded' ) )
     {
