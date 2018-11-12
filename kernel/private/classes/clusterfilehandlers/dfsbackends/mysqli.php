@@ -392,7 +392,8 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         }
         $deletedDBFiles = mysqli_affected_rows( $this->db );
 
-        if ( $this->_commit( $fname ) === true )
+        $commitResult = $this->_commit( $fname );
+        if ( $commitResult === true || $commitResult === null )
         {
             $this->dfsbackend->delete( $files );
 
