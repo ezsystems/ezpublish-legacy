@@ -130,7 +130,7 @@ class eZContentOperationCollection
         $db = eZDB::instance();
         $db->begin();
 
-        $objectRes = $db->query( "SELECT * FROM ezcontentobject WHERE id = $objectID LOCK IN SHARE MODE" );
+        $objectRes = $db->query( "SELECT * FROM ezcontentobject WHERE id = $objectID FOR UPDATE" );
         if ( !$versionNum )
         {
             $objectRow = $objectRes->fetch_array(MYSQLI_ASSOC);
@@ -141,14 +141,14 @@ class eZContentOperationCollection
         $versionRow = $versionRes->fetch_array(MYSQLI_ASSOC);
         if ( !is_array( $versionRow ) )
         {
-            $db->commit();
+            $db->commit(); // We haven't made any changes, but commit here to avoid affecting any outer transactions.
             return;
         }
 
         $version = eZContentObjectVersion::fetch( $versionRow['id'] );
         if ( !$version )
         {
-            $db->commit();
+            $db->commit(); // We haven't made any changes, but commit here to avoid affecting any outer transactions.
             return;
         }
 
