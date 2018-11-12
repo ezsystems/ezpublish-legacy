@@ -7,6 +7,7 @@
  */
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
+$db = eZDB::instance();
 $objectID = (int) $http->sessionVariable( "DiscardObjectID" );
 $version = (int) $http->sessionVariable( "DiscardObjectVersion" );
 $editLanguage = $http->sessionVariable( "DiscardObjectLanguage" );
@@ -28,7 +29,16 @@ if ( $isConfirmed )
     if ( $object === null )
         return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
-    $versionObject = $object->version( $version );
+    $db->begin();
+
+    $versionRes = $db->query( "SELECT * FROM ezcontentobject_version WHERE version = $version AND contentobject_id = $objectID FOR UPDATE" );
+    $versionRow = $versionRes->fetch_array(MYSQLI_ASSOC);
+    if ( !is_array( $versionRow ) )
+    {
+        $db->commit(); // We haven't made any changes, but commit here to avoid affecting any outer transactions.
+        return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
+    }
+    $versionObject = eZContentObjectVersion::fetch( $versionRow['id'] );
     if ( is_object( $versionObject ) and
          in_array( $versionObject->attribute( 'status' ), array( eZContentObjectVersion::STATUS_DRAFT, eZContentObjectVersion::STATUS_INTERNAL_DRAFT ) ) )
     {
@@ -46,13 +56,19 @@ if ( $isConfirmed )
                 $allowEdit = false;
 
             if ( !$allowEdit )
+            {
+                $db->commit(); // We haven't made any changes, but commit here to avoid affecting any outer transactions.
                 return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'edit' ) ) );
+            }
         }
 
         $versionCount= $object->getVersionCount();
         $nodeID = $versionCount == 1 ? $versionObject->attribute( 'main_parent_node_id' ) : $object->attribute( 'main_node_id' );
         $versionObject->removeThis();
     }
+
+    $db->commit();
+
     $hasRedirected = false;
     if ( $http->hasSessionVariable( 'RedirectIfDiscarded' ) )
     {
