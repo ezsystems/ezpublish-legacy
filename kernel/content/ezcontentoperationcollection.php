@@ -130,14 +130,15 @@ class eZContentOperationCollection
         $db = eZDB::instance();
         $db->begin();
 
-        $objectRes = $db->query( "SELECT * FROM ezcontentobject WHERE id = $objectID FOR UPDATE" );
         if ( !$versionNum )
         {
+            $objectRes = $db->query( "SELECT * FROM ezcontentobject WHERE id = $objectID FOR UPDATE" );
             $objectRow = $objectRes->fetch_array(MYSQLI_ASSOC);
             $versionNum = $objectRow['current_version'];
         }
 
         $versionRes = $db->query( "SELECT * FROM ezcontentobject_version WHERE version = $versionNum AND contentobject_id = $objectID FOR UPDATE" );
+        if ( !is_object($versionRes) ) { print('###'.$db->errorMessage().'###'); } // TODO: REMOVE
         $versionRow = $versionRes->fetch_array(MYSQLI_ASSOC);
         if ( !is_array( $versionRow ) )
         {
