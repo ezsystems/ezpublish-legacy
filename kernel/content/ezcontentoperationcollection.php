@@ -133,12 +133,23 @@ class eZContentOperationCollection
         if ( !$versionNum )
         {
             $objectRes = $db->query( "SELECT * FROM ezcontentobject WHERE id = $objectID FOR UPDATE" );
+            if ( !is_object($objectRes) )
+            {
+                $db->commit(); // We haven't made any changes, but commit here to avoid affecting any outer transactions.
+                return;
+            }
+
             $objectRow = $objectRes->fetch_array(MYSQLI_ASSOC);
             $versionNum = $objectRow['current_version'];
         }
 
         $versionRes = $db->query( "SELECT * FROM ezcontentobject_version WHERE version = $versionNum AND contentobject_id = $objectID FOR UPDATE" );
-        if ( !is_object($versionRes) ) { print('###'.$db->errorMessage().'###'); } // TODO: REMOVE
+        if ( !is_object($versionRes) )
+        {
+            $db->commit(); // We haven't made any changes, but commit here to avoid affecting any outer transactions.
+            return;
+        }
+
         $versionRow = $versionRes->fetch_array(MYSQLI_ASSOC);
         if ( !is_array( $versionRow ) )
         {
