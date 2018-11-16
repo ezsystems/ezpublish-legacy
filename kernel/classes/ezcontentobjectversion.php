@@ -916,6 +916,10 @@ class eZContentObjectVersion extends eZPersistentObject
         $db = eZDB::instance();
         $db->begin();
 
+        // Ensure no one else deletes this version while we are doing it.
+        $db->query( 'SELECT * FROM ezcontentobject_version
+                         WHERE id=' . $this->attribute( 'id' ) . ' FOR UPDATE' );
+
         $contentObjectTranslations = $this->translations();
 
         foreach ( $contentObjectTranslations as $contentObjectTranslation )
