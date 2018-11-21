@@ -8,6 +8,11 @@
  * @package kernel
  */
 
+// Disable the PHAR stream wrapper as it is insecure
+if (in_array('phar', stream_get_wrappers())) {
+    stream_wrapper_unregister('phar');
+}
+
 // config.php can set the components path like:
 // ini_set( 'include_path', ini_get( 'include_path' ). ':../ezcomponents/trunk' );
 // It is also possible to push a custom autoload method to the autoload
