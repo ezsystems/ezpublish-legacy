@@ -132,32 +132,24 @@ class eZContentOperationCollection
 
         if ( !$versionNum )
         {
-            $objectRes = $db->query( "SELECT * FROM ezcontentobject WHERE id = $objectID FOR UPDATE" );
-            if ( !is_object($objectRes) )
+            $objectRows = $db->arrayQuery( "SELECT * FROM ezcontentobject WHERE id = $objectID FOR UPDATE" );
+            if ( empty( $objectRows ) )
             {
                 $db->commit(); // We haven't made any changes, but commit here to avoid affecting any outer transactions.
                 return;
             }
 
-            $objectRow = $objectRes->fetch_array(MYSQLI_ASSOC);
-            $versionNum = $objectRow['current_version'];
+            $versionNum = $objectRows[0]['current_version'];
         }
 
-        $versionRes = $db->query( "SELECT * FROM ezcontentobject_version WHERE version = $versionNum AND contentobject_id = $objectID FOR UPDATE" );
-        if ( !is_object($versionRes) )
+        $versionRows = $db->arrayQuery( "SELECT * FROM ezcontentobject_version WHERE version = $versionNum AND contentobject_id = $objectID FOR UPDATE" );
+        if ( empty( $versionRows ) )
         {
             $db->commit(); // We haven't made any changes, but commit here to avoid affecting any outer transactions.
             return;
         }
 
-        $versionRow = $versionRes->fetch_array(MYSQLI_ASSOC);
-        if ( !is_array( $versionRow ) )
-        {
-            $db->commit(); // We haven't made any changes, but commit here to avoid affecting any outer transactions.
-            return;
-        }
-
-        $version = eZContentObjectVersion::fetch( $versionRow['id'] );
+        $version = eZContentObjectVersion::fetch( $versionRows[0]['id'] );
         if ( !$version )
         {
             $db->commit(); // We haven't made any changes, but commit here to avoid affecting any outer transactions.
