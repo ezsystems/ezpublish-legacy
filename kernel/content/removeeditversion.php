@@ -31,14 +31,13 @@ if ( $isConfirmed )
 
     $db->begin();
 
-    $versionRes = $db->query( "SELECT * FROM ezcontentobject_version WHERE version = $version AND contentobject_id = $objectID FOR UPDATE" );
-    $versionRow = $versionRes->fetch_array(MYSQLI_ASSOC);
-    if ( !is_array( $versionRow ) )
+    $versionRows = $db->arrayQuery( "SELECT * FROM ezcontentobject_version WHERE version = $version AND contentobject_id = $objectID FOR UPDATE" );
+    if ( empty( $versionRows ) )
     {
         $db->commit(); // We haven't made any changes, but commit here to avoid affecting any outer transactions.
         return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
     }
-    $versionObject = eZContentObjectVersion::fetch( $versionRow['id'] );
+    $versionObject = eZContentObjectVersion::fetch( $versionRows[0]['id'] );
     if ( is_object( $versionObject ) and
          in_array( $versionObject->attribute( 'status' ), array( eZContentObjectVersion::STATUS_DRAFT, eZContentObjectVersion::STATUS_INTERNAL_DRAFT ) ) )
     {
