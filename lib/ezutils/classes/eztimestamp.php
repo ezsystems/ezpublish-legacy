@@ -19,8 +19,8 @@ class eZTimestamp
 
         $localDate = new \DateTime( null, $localTimezone );
         $localDate->setTimestamp( $localTimestamp );
-
         $utcDate = new \DateTime( $localDate->format( 'Y-m-d H:i:s' ), $utcTimezone );
+
         return $utcDate->getTimestamp();
     }
 
@@ -33,11 +33,9 @@ class eZTimestamp
 
         $utcDate = new \DateTime( null, $utcTimezone );
         $utcDate->setTimestamp( $utcTimestamp );
-
         $localDate = new \DateTime( $utcDate->format( 'Y-m-d H:i:s' ), $localTimezone );
-        $localTimestamp = $localDate->getTimestamp();
 
-        return $localTimestamp;
+        return $localDate->getTimestamp();
     }
 }
 ?>
