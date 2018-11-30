@@ -153,7 +153,7 @@ class eZDateTimeType extends eZDataType
             {
                 $dateTime = new eZDateTime();
                 $dateTime->setMDYHMS( $month, $day, $year, $hour, $minute, $second );
-                $stamp = $dateTime->timeStamp();
+                $stamp = eZTimestamp::getUtcTimestampFromLocalTimestamp( $dateTime->timeStamp() );
             }
 
             $contentObjectAttribute->setAttribute( 'data_int', $stamp );
@@ -246,7 +246,7 @@ class eZDateTimeType extends eZDataType
             {
                 $dateTime = new eZDateTime();
                 $dateTime->setMDYHMS( $month, $day, $year, $hour, $minute, $second );
-                $stamp = $dateTime->timeStamp();
+                $stamp = eZTimestamp::getUtcTimestampFromLocalTimestamp( $dateTime->timeStamp() );
             }
 
             $collectionAttribute->setAttribute( 'data_int', $stamp );
@@ -262,7 +262,9 @@ class eZDateTimeType extends eZDataType
     {
         $dateTime = new eZDateTime();
         $stamp = $contentObjectAttribute->attribute( 'data_int' );
-        $dateTime->setTimeStamp( $stamp );
+        $dateTime->setTimeStamp(
+            eZTimestamp::getLocalTimestampFromUtcTimestamp( $stamp )
+        );
         return $dateTime;
     }
 
@@ -581,7 +583,13 @@ class eZDateTimeType extends eZDataType
         {
             $dom = $node->ownerDocument;
             $dateTimeNode = $dom->createElement( 'date_time' );
-            $dateTimeNode->appendChild( $dom->createTextNode( eZDateUtils::rfc1123Date( $stamp ) ) );
+            $dateTimeNode->appendChild(
+                $dom->createTextNode(
+                    eZDateUtils::rfc1123Date(
+                        eZTimestamp::getLocalTimestampFromUtcTimestamp( $stamp )
+                    )
+                )
+            );
             $node->appendChild( $dateTimeNode );
         }
         return $node;
@@ -592,7 +600,9 @@ class eZDateTimeType extends eZDataType
         $dateTimeNode = $attributeNode->getElementsByTagName( 'date_time' )->item( 0 );
         if ( is_object( $dateTimeNode ) )
         {
-            $timestamp = eZDateUtils::textToDate( $dateTimeNode->textContent );
+            $timestamp = eZTimestamp::getUtcTimestampFromLocalTimestamp(
+                eZDateUtils::textToDate( $dateTimeNode->textContent )
+            );
             $objectAttribute->setAttribute( 'data_int', $timestamp );
         }
     }
