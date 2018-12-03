@@ -165,6 +165,47 @@ class eZContentObjectVersion extends eZPersistentObject
         return isset( $ret[0] ) ? $ret[0] : false;
     }
 
+    static function fetchVersionForUpdate( $version, $contentObjectID, $asObject = true )
+    {
+        global $eZContentObjectVersionCache;
+
+        $db = eZDB::instance();
+        $version = (int) $version;
+        $contentObjectID = (int) $contentObjectID;
+
+        // Select for update, to lock the row
+        $resArray = $db->arrayQuery(
+            "SELECT * FROM
+                 ezcontentobject_version
+             WHERE
+                 version='$version' AND
+                 contentobject_id='$contentObjectID'
+             FOR UPDATE"
+        );
+
+        if ( !is_array( $resArray ) || count( $resArray ) !== 1 )
+        {
+            eZDebug::writeError( "Version '$version' for content '$contentObjectID' not found", __METHOD__ );
+            return null;
+        }
+
+        if ( !isset( $resArray[0] ) )
+        {
+            return false;
+        }
+        $versionArray = $resArray[0];
+
+        if ( !$asObject )
+        {
+            return $versionArray;
+        }
+
+        $versionObject = new eZContentObjectVersion( $versionArray );
+        $eZContentObjectVersionCache[$contentObjectID][$version] = $versionObject;
+
+        return $versionObject;
+    }
+
     static function fetchUserDraft( $objectID, $userID )
     {
         $versions = eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
