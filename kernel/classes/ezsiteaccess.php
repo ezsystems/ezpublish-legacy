@@ -157,7 +157,7 @@ class eZSiteAccess
                         return $access;
                     }
                     else
-                        continue;
+                        continue 2;
                 } break;
                 case 'port':
                 {
@@ -168,7 +168,7 @@ class eZSiteAccess
                         return $access;
                     }
                     else
-                        continue;
+                        continue 2;
                 } break;
                 case 'uri':
                 {
@@ -222,7 +222,7 @@ class eZSiteAccess
                         $match_num = $ini->variable( 'SiteAccessSettings', 'URIMatchRegexpItem' );
                     }
                     else
-                        continue;
+                        continue 2;
                 } break;
                 case 'host':
                 {
@@ -264,7 +264,7 @@ class eZSiteAccess
                         $match_num = $ini->variable( 'SiteAccessSettings', 'HostMatchRegexpItem' );
                     }
                     else
-                        continue;
+                        continue 2;
                 } break;
                 case 'host_uri':
                 {
@@ -353,7 +353,7 @@ class eZSiteAccess
                         $match_num = $ini->variable( 'SiteAccessSettings', 'IndexMatchRegexpItem' );
                     }
                     else
-                        continue;
+                        continue 2;
                 } break;
                 default:
                 {

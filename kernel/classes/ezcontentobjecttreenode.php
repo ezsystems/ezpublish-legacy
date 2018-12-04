@@ -731,7 +731,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             else
                             {
                                 eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, __METHOD__ );
-                                continue;
+                                continue 2;
                             }
                         }
                     }
