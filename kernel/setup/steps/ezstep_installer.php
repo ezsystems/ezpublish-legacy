@@ -493,7 +493,7 @@ class eZStepInstaller
                 // since they can represent any character possible in the chosen languages
                 if ( in_array( $currentCharset, array( 'utf-8', 'utf8mb4' ) ) )
                 {
-                    $result['site_charset'] = $currentCharset;
+                    $result['site_charset'] = 'utf-8';
                 }
                 else
                 {
