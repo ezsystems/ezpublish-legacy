@@ -1985,7 +1985,7 @@ class eZContentObject extends eZPersistentObject
                 {
                     $db = eZDB::instance();
                     $db->begin();
-                    foreach ( $additionalNodes as $additionalNode )
+                    foreach ( $nodes as $additionalNode )
                     {
                         if ( $additionalNode->attribute( 'node_id' ) != $node->attribute( 'main_node_id' ) )
                         {
