@@ -1178,6 +1178,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 else
                                 {
                                     $sortKey = 'sort_key_int';
+                                    $noQuotes = true;
                                 }
 
                                 $filterField = "a$filterCount.$sortKey";
@@ -2162,6 +2163,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $queryNodes = '';
 
+        $attributeFilterFromClauses = array();
+
         foreach( $nodesParams as $nodeParams )
         {
             $nodeID = $nodeParams['ParentNodeID'];
@@ -2171,6 +2174,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 eZDebug::writeWarning( __METHOD__.': Nodes parameter must be numeric or an array with numeric values.' );
                 $retValue = null;
                 return $retValue;
+            }
+
+            if ( !isset( $nodeParams['ResultID'] ) )
+            {
+                eZDebug::writeError( 'Missing ResultID', __METHOD__ );
+                return null;
             }
 
             if ( $nodeParams === null )
@@ -2199,6 +2208,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             $sortingInfo             = eZContentObjectTreeNode::createSortingSQLStrings( $sortBy );
             $attributeFilter         = eZContentObjectTreeNode::createAttributeFilterSQLStrings( $nodeParams['AttributeFilter'], $sortingInfo, $language );
+
+            if ( $attributeFilter !== false )
+            {
+                $attributeFilterFromClauses[] = $attributeFilter['from'];
+            }
 
             if ( $language )
             {
@@ -2266,6 +2280,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
             eZDebug::writeError( "Cannot use group_by parameter together with extended attribute filter which sets group_by!", __METHOD__ );
         }
 
+        $attributeFilterFromClauses = array_unique( $attributeFilterFromClauses );
+        $attributeFilterFromClause_str = implode( ' ', $attributeFilterFromClauses );
+
         $query = "SELECT DISTINCT " .
             "ezcontentobject.contentclass_id, ezcontentobject.current_version, ezcontentobject.id, ezcontentobject.initial_language_id, ezcontentobject.language_mask, " .
             "ezcontentobject.modified, ezcontentobject.owner_id, ezcontentobject.published, ezcontentobject.remote_id AS object_remote_id, " .
@@ -2283,7 +2300,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             "    ezcontentobject_name.content_version = ezcontentobject_tree.contentobject_version " .
             ") " .
             "$sortingInfo[attributeFromSQL] " .
-            "$attributeFilter[from] " .
+            "$attributeFilterFromClause_str " .
             "$extendedAttributeFilter[tables] " .
             "$sqlPermissionChecking[from] " .
             "WHERE " .
