@@ -1,0 +1,1 @@
+{* Do not output literal HTML in the Administration Interface *}<pre{if ne($classification|trim,'')} class="{$classification|wash}"{/if}>{$content|wash(xhtml)}</pre>
