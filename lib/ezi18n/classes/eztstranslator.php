@@ -218,7 +218,7 @@ class eZTSTranslator extends eZTranslatorHandler
                                 $this->Messages[$key] = $msg;
                             }
                         }
-                        else
+                        else if ( !eZTranslationCache::hasRestoredCache( $contextName ) )
                         {
                             $this->BuildCache = true;
                         }

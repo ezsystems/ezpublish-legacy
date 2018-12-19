@@ -117,9 +117,20 @@ class eZTranslationCache
 
     /*!
      \static
+     \return true if the cache with the key \a $key is in memory already.
+    */
+    public static function hasRestoredCache( $key )
+    {
+        return isset( $GLOBALS['eZTranslationCacheTable'][$key] );
+    }
+
+    /*!
+     \static
      \return true if the cache with the key \a $key can be restored.
              A cache file is found restorable when it exists and has a timestamp
              higher or equal to \a $timestamp.
+             WARNING! This function first checks if cache is already restored to memory, if
+             so it returns false.
     */
     static function canRestoreCache( $key, $timestamp )
     {
