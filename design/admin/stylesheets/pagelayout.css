@@ -472,10 +472,11 @@ ul.leftmenu-items li.current a
 #widthcontrol-handler
 {
     position: absolute;
-    right: 20px;
-    top: 0;
+    right: -30px;
+    top:-20px;
     bottom: 0; /* strech div to full width of relative box */
     width: 10px;
+    height: 5000px;
     cursor: col-resize;
     z-index:11;
 /*    background: #f8f8f8;*/
@@ -957,14 +958,14 @@ p.table-preferences a
     text-decoration: none;
 }
 
-input.button, input.defaultbutton, input.button-disabled
+input.button, input.defaultbutton, input.button-disabled, a.button, a.button-disabled
 {
     width: auto;
     overflow: visible;
     padding: 0.1em 0.5em;
 }
 
-input.button:hover
+input.button:hover, a.button:hover
 {
     border: 1px solid #999;
 }
