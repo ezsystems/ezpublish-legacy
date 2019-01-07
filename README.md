@@ -1,5 +1,5 @@
-eZ Publish 4 (Referred to as `legacy` in eZ Publish 5.x)
-=======================================================
+eZ Publish 4 (Referred to as `legacy` in eZ Publish Platform 5.x and higher)
+============================================================================
 
 [![Build Status](https://img.shields.io/travis/ezsystems/ezpublish-legacy.svg?style=flat-square&branch=master)](https://travis-ci.org/ezsystems/ezpublish-legacy)
 [![Downloads](https://img.shields.io/packagist/dt/ezsystems/ezpublish-legacy.svg?style=flat-square)](https://packagist.org/packages/ezsystems/ezpublish-legacy)
