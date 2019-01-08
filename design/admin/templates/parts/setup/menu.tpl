@@ -25,6 +25,7 @@
     'sections',           'Sections'|i18n( 'design/admin/parts/setup/menu' ),
     'states',             'States'|i18n( 'design/admin/parts/setup/menu' ),
     'sessions',           'Sessions'|i18n( 'design/admin/parts/setup/menu' ),
+    'sitedata',           'Site data'|i18n( 'design/admin/parts/setup/menu' ),
     'system_information', 'System information'|i18n( 'design/admin/parts/setup/menu' ),
     'upgrade_check',      'Upgrade check'|i18n( 'design/admin/parts/setup/menu' ),
     'triggers',           'Triggers'|i18n( 'design/admin/parts/setup/menu' ),
