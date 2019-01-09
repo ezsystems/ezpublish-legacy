@@ -218,10 +218,6 @@ class eZTSTranslator extends eZTranslatorHandler
                                 $this->Messages[$key] = $msg;
                             }
                         }
-                        else
-                        {
-                            $this->BuildCache = true;
-                        }
                         eZDebug::accumulatorStop( 'tstranslator_context_load' );
                     }
                 }
