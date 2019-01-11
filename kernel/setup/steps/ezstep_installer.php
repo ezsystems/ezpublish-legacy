@@ -489,12 +489,11 @@ class eZStepInstaller
             $checkedCharset = $db->checkCharset( $charsetsList, $currentCharset );
             if ( $checkedCharset === false )
             {
-                // If the current charset is utf-8 we use that instead
-                // since it can represent any character possible in the chosen languages
-                if ( $currentCharset == 'utf-8' )
+                // If the current charset is utf-8 or utf8mb4 we use that instead
+                // since they can represent any character possible in the chosen languages
+                if ( in_array( $currentCharset, array( 'utf-8', 'utf8mb4' ) ) )
                 {
-                    $charset = 'utf-8';
-                    $result['site_charset'] = $charset;
+                    $result['site_charset'] = 'utf-8';
                 }
                 else
                 {
