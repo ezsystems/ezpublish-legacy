@@ -190,6 +190,7 @@ class eZImageType extends eZDataType
             $imageHandler->setAttribute( 'alternative_text', false );
             $imageHandler->removeAliases();
             $imageHandler->store( $contentObjectAttribute );
+            $contentObjectAttribute->setContent( null );
         }
     }
 
