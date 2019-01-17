@@ -233,7 +233,11 @@ class eZUser extends eZPersistentObject
         unset( $GLOBALS['eZUserObject_' . $userID] );
         $GLOBALS['eZUserObject_' . $userID] = $this;
         self::purgeUserCacheByUserId( $userID );
-        parent::store( $fieldFilters );
+
+        if( $this->Login )
+        {
+            parent::store( $fieldFilters );
+        }
     }
 
     function originalPassword()
@@ -307,6 +311,11 @@ class eZUser extends eZPersistentObject
         }
     }
 
+    /**
+     * @param integer $id
+     * @param bool $asObject
+     * @return eZUser|null
+     */
     static function fetch( $id, $asObject = true )
     {
         if ( !$id )

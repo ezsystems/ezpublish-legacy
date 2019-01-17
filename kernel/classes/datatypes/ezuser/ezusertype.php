@@ -258,7 +258,10 @@ class eZUserType extends eZDataType
             }
 
             // saving information in the object attribute data_text field to simulate a draft
-            $contentObjectAttribute->setAttribute( 'data_text', $this->serializeDraft( $user ) );
+            if( $user->Login )
+            {
+                $contentObjectAttribute->setAttribute( 'data_text', $this->serializeDraft( $user ) );
+            }
         }
     }
 
@@ -360,7 +363,6 @@ class eZUserType extends eZDataType
             $GLOBALS['eZUserObject_' . $userID] = eZUser::fetch( $userID );
         }
 
-        /** @var eZUser $user */
         $user = eZUser::fetch( $userID );
         eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
 
