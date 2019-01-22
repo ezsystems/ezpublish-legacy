@@ -277,10 +277,9 @@ class eZUserType extends eZDataType
         if ( !empty( $serializedDraft ) )
         {
             $user = $this->updateUserDraft( $user, $serializedDraft );
+            $user->store();
+            $contentObjectAttribute->setContent( $user );
         }
-
-        $user->store();
-        $contentObjectAttribute->setContent( $user );
     }
 
     /**
