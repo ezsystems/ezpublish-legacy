@@ -258,7 +258,7 @@ class eZUserType extends eZDataType
             }
 
             // saving information in the object attribute data_text field to simulate a draft
-            if( $user->Login )
+            if ( $user->Login )
             {
                 $contentObjectAttribute->setAttribute( 'data_text', $this->serializeDraft( $user ) );
             }
