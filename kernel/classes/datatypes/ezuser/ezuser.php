@@ -225,7 +225,12 @@ class eZUser extends eZPersistentObject
         return new eZUser( $row );
     }
 
-    function store( $fieldFilters = null )
+    /**
+     * Only stores the entry if it has a Login value
+     *
+     * @param null $fieldFilters
+     */
+    public function store( $fieldFilters = null )
     {
         $this->Email = trim( $this->Email );
         $userID = $this->attribute( 'contentobject_id' );
