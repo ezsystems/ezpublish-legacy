@@ -239,7 +239,7 @@ class eZUser extends eZPersistentObject
         $GLOBALS['eZUserObject_' . $userID] = $this;
         self::purgeUserCacheByUserId( $userID );
 
-        if( $this->Login )
+        if ( $this->Login )
         {
             parent::store( $fieldFilters );
         }
