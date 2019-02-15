@@ -334,7 +334,6 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
      * @see _purge
      *
      * @return bool|int false if it fails, number of affected rows otherwise
-     * @todo This method should also remove the files from disk
      */
     public function _purgeByLike( $like, $onlyExpired = false, $limit = 50, $expiry = false, $fname = false )
     {
@@ -392,11 +391,16 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             return $this->_fail( "Purging file metadata by like statement $like failed" );
         }
         $deletedDBFiles = mysqli_affected_rows( $this->db );
-        $this->dfsbackend->delete( $files );
 
-        $this->_commit( $fname );
+        $commitResult = $this->_commit( $fname );
+        if ( $commitResult === true || $commitResult === null )
+        {
+            $this->dfsbackend->delete( $files );
 
-        return $deletedDBFiles;
+            return $deletedDBFiles;
+        }
+
+        return false;
     }
 
     /**
@@ -1351,6 +1355,10 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
     /**
      * Stops a current transaction and commits the changes by executing a COMMIT call.
      * If the current transaction is a sub-transaction nothing is executed.
+     *
+     * Returns true if the commit was executed successfully, false if it failed, null if it wasn't executed.
+     *
+     * @return bool|null
      */
     protected function _commit( $fname = false )
     {
@@ -1360,7 +1368,11 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             $fname = "_commit";
         $this->transactionCount--;
         if ( $this->transactionCount == 0 )
-            $this->_query( "COMMIT", $fname );
+        {
+            return $this->_query("COMMIT", $fname) !== false;
+        }
+
+        return null;
     }
 
     /**

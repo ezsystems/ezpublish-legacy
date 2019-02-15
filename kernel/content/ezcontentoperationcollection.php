@@ -127,18 +127,39 @@ class eZContentOperationCollection
 
     static public function setVersionStatus( $objectID, $versionNum, $status )
     {
-        $object = eZContentObject::fetch( $objectID );
+        $db = eZDB::instance();
+        $db->begin();
 
         if ( !$versionNum )
         {
-            $versionNum = $object->attribute( 'current_version' );
+            $objectRows = $db->arrayQuery( "SELECT * FROM ezcontentobject WHERE id = $objectID FOR UPDATE" );
+            if ( empty( $objectRows ) )
+            {
+                $db->commit(); // We haven't made any changes, but commit here to avoid affecting any outer transactions.
+                return;
+            }
+
+            $versionNum = $objectRows[0]['current_version'];
         }
-        $version = $object->version( $versionNum );
-        if ( !$version )
+
+        $versionRows = $db->arrayQuery( "SELECT * FROM ezcontentobject_version WHERE version = $versionNum AND contentobject_id = $objectID FOR UPDATE" );
+        if ( empty( $versionRows ) )
+        {
+            $db->commit(); // We haven't made any changes, but commit here to avoid affecting any outer transactions.
             return;
+        }
+
+        $version = eZContentObjectVersion::fetch( $versionRows[0]['id'] );
+        if ( !$version )
+        {
+            $db->commit(); // We haven't made any changes, but commit here to avoid affecting any outer transactions.
+            return;
+        }
 
         $version->setAttribute( 'status', $status );
         $version->store();
+
+        $db->commit();
     }
 
     static public function setObjectStatusPublished( $objectID, $versionNum )
