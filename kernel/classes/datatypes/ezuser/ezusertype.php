@@ -335,7 +335,7 @@ class eZUserType extends eZDataType
     {
         $draft = $this->unserializeDraft( $serializedDraft );
 
-        if( $draft )
+        if ( $draft )
         {
             $user->setAttribute( 'login', $draft->login );
             $user->setAttribute( 'password_hash', $draft->password_hash );
