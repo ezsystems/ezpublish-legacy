@@ -228,7 +228,7 @@ class eZUser extends eZPersistentObject
     /**
      * Only stores the entry if it has a Login value
      *
-     * @param null $fieldFilters
+     * @param mixed|null $fieldFilters
      */
     public function store( $fieldFilters = null )
     {
