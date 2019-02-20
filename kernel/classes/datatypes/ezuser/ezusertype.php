@@ -259,7 +259,7 @@ class eZUserType extends eZDataType
 
             // saving information in the object attribute data_text field to simulate a draft
             // only if the object version is a draft (status == 0)
-            if(
+            if (
                 $user->Login &&
                 $contentObjectAttribute->attribute( 'object_version' )->attribute( 'status' ) == 0
             )
