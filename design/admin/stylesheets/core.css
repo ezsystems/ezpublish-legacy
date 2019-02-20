@@ -759,3 +759,8 @@ div.attribute-multioption li
     padding: 0;
     list-style-type: none;
 }
+
+/* This is necessary to prevent the dragged row elements collapse while is being dragged */
+.ui-sortable-helper {
+    display: table!important;
+}
