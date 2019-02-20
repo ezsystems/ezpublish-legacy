@@ -258,6 +258,12 @@ var sortableSubitems = function () {
 
         // Table options
 
+        // Triggering jQuery event, when the table is rendered
+        subItemsTable.subscribe("renderEvent", function (oArgs) {
+            window.subItemsTable = subItemsTable;
+            jQuery('#content-sub-items-list').trigger('datatable:rendered');
+        });
+
         // Shows dialog, creating one when necessary
         var colLayoutHasChanged = true;
         var showTblOptsDialog = function(e) {
