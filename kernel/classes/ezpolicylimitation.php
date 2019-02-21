@@ -225,7 +225,7 @@ class eZPolicyLimitation extends eZPersistentObject
 
         if ( $limitation &&
              isset( $limitation['class'] ) &&
-             count( $limitation[ 'values' ] == 0 ) )
+             count( $limitation[ 'values' ] ) == 0  )
         {
             $obj = new $limitation['class']( array() );
             $limitationValueList = call_user_func_array ( array( $obj , $limitation['function']) , $limitation['parameter'] );
