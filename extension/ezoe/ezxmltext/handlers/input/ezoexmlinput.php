@@ -184,7 +184,6 @@ class eZOEXMLInput extends eZXMLInputHandler
             // iOS 5+
             else if ( strpos( $userAgent, 'AppleWebKit' ) !== false &&
                       strpos( $userAgent, 'Mobile' ) !== false &&
-                      strpos( $userAgent, 'Android' ) === false &&//@todo: remove when Android is supported in TinyMCE
                       preg_match('/AppleWebKit\/([0-9\.]+)/i', $userAgent, $browserInfo ) )
             {
                 if ( $browserInfo[1] >= 534.46 )
