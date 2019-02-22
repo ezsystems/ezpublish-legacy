@@ -175,8 +175,8 @@ YUI( YUI3_config ).add('io-ez', function( Y )
         else
             c = Y.merge( {on:{}, data: '', headers: {}, method: 'POST'}, c );
 
-        var _token = '', _tokenNode = document.getElementById('ezxform_token_js');
-        if ( _tokenNode ) _token = '&ezxform_token=' + _tokenNode.getAttribute('title');
+        var _token = '', _tokenNode = document.getElementById('_token_js');
+        if ( _tokenNode ) _token = '&_token=' + _tokenNode.getAttribute('title');
 
         // Append function arguments as post param if method is POST
         if ( c.method === 'POST' )
@@ -241,11 +241,11 @@ YUI( YUI3_config ).add('io-ez', function( Y )
     Y.io.ez.setPreference = function( name, value )
     {
         var c = {on:{}, data:'', headers: {}, method: 'POST'},
-            _tokenNode = document.getElementById( 'ezxform_token_js' );
+            _tokenNode = document.getElementById( '_token_js' );
 
         c.data = 'Function=set_and_exit&Key=' + encodeURIComponent( name ) + '&Value=' + encodeURIComponent( value );
         if ( _tokenNode )
-            c.data += '&ezxform_token=' + _tokenNode.getAttribute( 'title' );
+            c.data += '&_token=' + _tokenNode.getAttribute( 'title' );
         return Y.io( _prefUrl, c );
     }
 }, '3.0.0' ,{requires:['io-base', 'json-parse']});
@@ -327,21 +327,21 @@ YUI( YUI3_config ).add('io-ez', function( Y )
         var url = _serverUrl + 'call/';
         if ( post )
         {
-            var _token = '', _tokenNode = document.getElementById('ezxform_token_js');
+            var _token = '', _tokenNode = document.getElementById('_token_js');
             if ( _tokenNode ) _token = _tokenNode.getAttribute('title');
             if ( post.join !== undefined )// support serializeArray() format
             {
                 post.push( { 'name': 'ezjscServer_function_arguments', 'value': callArgs } );
-                post.push( { 'name': 'ezxform_token', 'value': _token } );
+                post.push( { 'name': '_token', 'value': _token } );
             }
             else if ( typeof(post) === 'string' )// string
             {
-                post += ( post ? '&' : '' ) + 'ezjscServer_function_arguments=' + callArgs + '&ezxform_token=' + _token;
+                post += ( post ? '&' : '' ) + 'ezjscServer_function_arguments=' + callArgs + '&_token=' + _token;
             }
             else // object
             {
                 post['ezjscServer_function_arguments'] = callArgs;
-                post['ezxform_token'] = _token;
+                post['_token'] = _token;
             }
             return $.post( url, post, callBack, 'json' );
         }
@@ -355,9 +355,9 @@ YUI( YUI3_config ).add('io-ez', function( Y )
     $.ez.setPreference = function( name, value )
     {
         var param = {'Function': 'set_and_exit', 'Key': name, 'Value': value};
-            _tokenNode = document.getElementById( 'ezxform_token_js' );
+            _tokenNode = document.getElementById( '_token_js' );
         if ( _tokenNode )
-            param.ezxform_token = _tokenNode.getAttribute( 'title' );
+            param._token = _tokenNode.getAttribute( 'title' );
 
         return $.post( _prefUrl, param );
     };
@@ -371,7 +371,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
         if ( post )
         {
             post['ezjscServer_function_arguments'] = callArgs;
-            post['ezxform_token'] = jQuery('#ezxform_token_js').attr('title');
+            post['_token'] = jQuery('#_token_js').attr('title');
         }
         else
             url += encodeURIComponent( callArgs );
