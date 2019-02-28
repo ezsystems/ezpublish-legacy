@@ -258,10 +258,10 @@ class eZUserType extends eZDataType
             }
 
             // saving information in the object attribute data_text field to simulate a draft
-            // only if the object version is a draft (status == 0)
+            // only if the object version is a draft
             if (
                 $user->Login &&
-                $contentObjectAttribute->attribute( 'object_version' )->attribute( 'status' ) == 0
+                $contentObjectAttribute->attribute( 'object_version' )->attribute( 'status' ) == eZContentObjectVersion::STATUS_DRAFT
             )
             {
                 $contentObjectAttribute->setAttribute( 'data_text', $this->serializeDraft( $user ) );
