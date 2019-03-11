@@ -258,10 +258,22 @@ class eZUserType extends eZDataType
             }
 
             // saving information in the object attribute data_text field to simulate a draft
-            $contentObjectAttribute->setAttribute( 'data_text', $this->serializeDraft( $user ) );
+            // only if the object version is a draft
+            if (
+                $user->Login &&
+                $contentObjectAttribute->attribute( 'object_version' )->attribute( 'status' ) == eZContentObjectVersion::STATUS_DRAFT
+            )
+            {
+                $contentObjectAttribute->setAttribute( 'data_text', $this->serializeDraft( $user ) );
+            }
         }
     }
 
+    /**
+     * @param $contentObjectAttribute
+     * @param eZContentObject $contentObject
+     * @param $publishedNodes
+     */
     function onPublish( $contentObjectAttribute, $contentObject, $publishedNodes )
     {
         /** @var eZContentObjectAttribute $contentObjectAttribute */
@@ -274,10 +286,13 @@ class eZUserType extends eZDataType
         if ( !empty( $serializedDraft ) )
         {
             $user = $this->updateUserDraft( $user, $serializedDraft );
-        }
+            $user->store();
+            $contentObjectAttribute->setContent( $user );
 
-        $user->store();
-        $contentObjectAttribute->setContent( $user );
+            // Clear draft info
+            $contentObjectAttribute->setAttribute( 'data_text', '' );
+            $contentObjectAttribute->store();
+        }
     }
 
     /**
@@ -320,10 +335,13 @@ class eZUserType extends eZDataType
     {
         $draft = $this->unserializeDraft( $serializedDraft );
 
-        $user->setAttribute( 'login', $draft->login );
-        $user->setAttribute( 'password_hash', $draft->password_hash );
-        $user->setAttribute( 'email', $draft->email );
-        $user->setAttribute( 'password_hash_type', $draft->password_hash_type );
+        if ( $draft )
+        {
+            $user->setAttribute( 'login', $draft->login );
+            $user->setAttribute( 'password_hash', $draft->password_hash );
+            $user->setAttribute( 'email', $draft->email );
+            $user->setAttribute( 'password_hash_type', $draft->password_hash_type );
+        }
 
         return $user;
     }
@@ -360,11 +378,10 @@ class eZUserType extends eZDataType
             $GLOBALS['eZUserObject_' . $userID] = eZUser::fetch( $userID );
         }
 
-        /** @var eZUser $user */
         $user = eZUser::fetch( $userID );
         eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
 
-        // Looking for a "draft" and loading it's content
+        //Looking for a "draft" and loading its content
         $serializedDraft = $contentObjectAttribute->attribute( 'data_text' );
 
         if ( !empty( $serializedDraft ) )

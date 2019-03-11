@@ -486,6 +486,7 @@ return array(
       'eZTextTool'                                         => 'lib/ezutils/classes/eztexttool.php',
       'eZTextType'                                         => 'kernel/classes/datatypes/eztext/eztexttype.php',
       'eZTime'                                             => 'lib/ezlocale/classes/eztime.php',
+      'eZTimestamp'                                        => 'lib/ezutils/classes/eztimestamp.php',
       'eZTimeType'                                         => 'kernel/classes/datatypes/eztime/eztimetype.php',
       'eZTipafriendCounter'                                => 'kernel/classes/eztipafriendcounter.php',
       'eZTipafriendRequest'                                => 'kernel/classes/eztipafriendrequest.php',
