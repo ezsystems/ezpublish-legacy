@@ -1,6 +1,16 @@
 <?php /* #?ini charset="utf-8"?
 # eZ publish configuration file for content and ez xml tags
 #
+# ATTENTION!
+# When adding new tags it is necessary to update:
+# extension/yourextension/design/admin/stylesheets/custom_editor.css
+# Example:
+# div.ezoeItemCustomTag.factbox:before
+# {
+#    content: "factbox";
+# }
+# so it displays the custom tag label in the online editor
+# also image previews should be placed at extension/yourextension/design/admin/images/editor/custom_tags_thumbs/
 
 # Some custom tags add special features to the editor if enabled:
 # underline: adds underline button in edtor (use this instead of custom tag to make the text appear underlined)

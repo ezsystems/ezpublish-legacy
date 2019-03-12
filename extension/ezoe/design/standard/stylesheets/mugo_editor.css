@@ -1,0 +1,79 @@
+/* custom tags tag names in the blue box */
+div.ezoeItemCustomTag,
+div.ezoeItemContentTypeObjects
+{
+    position: relative;
+    padding: 1.5em !important;
+    min-height: 25px !important;
+}
+div.ezoeItemCustomTag p,
+div.ezoeItemContentTypeObjects p
+{
+    margin: 13px 0 13px 0 !important;
+}
+div.ezoeItemCustomTag:before
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    background-color: #000;
+    color: #fff;
+    white-space: nowrap;
+    padding: 5px 20px;
+}
+
+div.ezoeItemCustomTag.factbox:before
+{
+    content: "factbox";
+}
+div.ezoeItemCustomTag.quote:before
+{
+    content: "quote";
+}
+div.ezoeItemCustomTag.strike:before
+{
+    content: "strike";
+}
+div.ezoeItemCustomTag.sub:before
+{
+    content: "sub";
+}
+div.ezoeItemCustomTag.sup:before
+{
+    content: "sup";
+}
+
+.custom_tags_controls
+{
+    position: absolute;
+    right: 5px;
+}
+
+.custom_tags_controls.up
+{
+    top: 5px;
+    width: 16px;
+    height: 16px;
+    background-image: url( "/extension/ezflow/design/admin/images/ezpage/block_up.gif" );
+    cursor: pointer; 
+}
+
+.custom_tags_controls.down
+{
+    bottom: 5px;
+    width: 16px;
+    height: 16px;
+    background-image: url( "/extension/ezflow/design/admin/images/ezpage/block_down.gif" );
+    cursor: pointer; 
+}
+
+.custom_tags_controls.edit
+{
+    bottom: 50%;
+    bottom: calc(50% - 8px);
+    width: 16px;
+    height: 16px;
+    background-image: url( "/design/standard/images/edit.gif" );
+    cursor: pointer; 
+}

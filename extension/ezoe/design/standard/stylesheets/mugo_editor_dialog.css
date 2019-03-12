@@ -1,0 +1,72 @@
+.tag-type-custom table.custom_attributes tr[id$=_inline]
+{
+    display: none;
+}
+
+.tag-type-custom label,
+.tag-type-custom input,
+.tag-type-custom select,
+.tag-type-custom textarea
+{
+    font-size: 14px;
+}
+
+.tag-type-custom table.custom_attributes tr td
+{
+    vertical-align: top;
+}
+.tag-type-custom table.properties.general_attributes
+{
+    width: 45%;
+}
+.tag-type-custom table.custom_attributes tr td.left
+{
+    width: 50%;
+}
+
+
+.tag-type-custom table, .tag-type-custom table tr
+{
+    margin: 0;
+    padding: 0;
+}
+.tag-type-custom table.custom_attributes tr td.right
+{
+    position: relative;
+}
+.tag-type-custom table.custom_attributes tr td.right h2
+{
+    position: absolute;
+    top: -30px;
+    width: 100%;
+}
+
+.tag-type-custom table.custom_attributes tr td.left table,
+.tag-type-custom table.custom_attributes tr td.left textarea,
+.tag-type-custom table.custom_attributes tr td.left select,
+.tag-type-custom table.custom_attributes tr td.left input:not([type=checkbox]),
+.tag-type-custom table.properties.general_attributes select
+{
+    width: 90%;
+}
+.tag-type-custom table.custom_attributes tr td.left select.atr_link_source_types
+{
+    width: 66%;
+}
+
+.tag-type-custom table.custom_attributes tr td.left table td:first-child,
+.tag-type-custom table.properties.general_attributes .column1
+{
+    width: 40%;
+}
+
+.tag-type-custom table.custom_attributes tr td.right
+{
+    text-align: center;
+}
+
+.tag-type-custom table.custom_attributes tr td.right img
+{
+    max-width: 100%;
+}
+

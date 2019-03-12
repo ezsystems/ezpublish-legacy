@@ -1908,7 +1908,7 @@
 
         _mceCustom : function(ui, v)
         {
-            this._generalXmlTagPopup( false, 'custom/' + v, 0, 0, ui );
+            this._generalXmlTagPopup( false, 'custom/' + v, 950, 450, ui );
         },
 
         _mceLiteral : function(ui, v)

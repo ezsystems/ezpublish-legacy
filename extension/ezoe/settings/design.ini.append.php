@@ -12,6 +12,8 @@ DesignExtensions[]=ezoe
 # this [optional]variable is taken from ezoe.ini
 EditorCSSFileList[]=skins/<skin>/content.css
 
+EditorDialogCSSFileList[]=mugo_editor_dialog.css
+EditorCSSFileList[]=mugo_editor.css
 
 ## Here is an example for appending your own css to the editor
 ## content you need to place it in the stylesheets folder in
