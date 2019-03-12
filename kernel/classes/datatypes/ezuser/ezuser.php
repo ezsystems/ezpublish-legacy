@@ -225,7 +225,12 @@ class eZUser extends eZPersistentObject
         return new eZUser( $row );
     }
 
-    function store( $fieldFilters = null )
+    /**
+     * Only stores the entry if it has a Login value
+     *
+     * @param null $fieldFilters
+     */
+    public function store( $fieldFilters = null )
     {
         $this->Email = trim( $this->Email );
         $userID = $this->attribute( 'contentobject_id' );
@@ -233,7 +238,11 @@ class eZUser extends eZPersistentObject
         unset( $GLOBALS['eZUserObject_' . $userID] );
         $GLOBALS['eZUserObject_' . $userID] = $this;
         self::purgeUserCacheByUserId( $userID );
-        parent::store( $fieldFilters );
+
+        if( $this->Login )
+        {
+            parent::store( $fieldFilters );
+        }
     }
 
     function originalPassword()
@@ -307,6 +316,11 @@ class eZUser extends eZPersistentObject
         }
     }
 
+    /**
+     * @param integer $id
+     * @param bool $asObject
+     * @return eZUser|null
+     */
     static function fetch( $id, $asObject = true )
     {
         if ( !$id )

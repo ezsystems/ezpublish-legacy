@@ -297,7 +297,7 @@ class eZUserOperationCollection
     }
 
    /**
-     * Change user password
+     * Change user password for an existing user
      *
      * @param int $userID
      * @param string $newPassword

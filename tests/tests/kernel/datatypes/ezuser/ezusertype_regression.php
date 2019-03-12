@@ -38,10 +38,15 @@ class eZUserTypeRegression extends ezpDatabaseTestCase
             'parent_node_id' => $ini->variable( 'UserSettings', 'DefaultUserPlacement' ),
             'attributes' => array(
                 'first_name' => 'foo',
-                'last_name' => 'bar' ),
+                'last_name' => 'bar',
+                'user_account' => "{$this->userLogin}|{$this->userEmail}|1234|md5_password|0",
+            ),
         );
 
         $contentObject = eZContentFunctions::createAndPublishObject( $params );
+
+        // Re-fetch to get the object after it was published
+        $contentObject = eZContentObject::fetch( $contentObject->ID );
 
         if( !$contentObject instanceof eZContentObject )
         {
@@ -110,8 +115,9 @@ class eZUserTypeRegression extends ezpDatabaseTestCase
         $userAccount = $dataMap['user_account']->fromString(
             join( '|', array( $tmpLogin, $tmpEmail, self::USER_PASSWORD_HASH, self::USER_PASSWORD_HASH_ID, 0 ) )
         );
-        $userAccount->store();
 
+        $dataMap['user_account']->setContent( $userAccount );
+        $dataMap['user_account']->store();
 
         $tempObject = eZContentObject::fetch( $this->userObject->attribute( 'id' ) );
         $dataMap = $tempObject->dataMap();
@@ -151,8 +157,9 @@ class eZUserTypeRegression extends ezpDatabaseTestCase
         $userAccount = $dataMap['user_account']->fromString(
             join( '|', array( $tmpLogin, $tmpEmail, self::USER_PASSWORD_HASH, self::USER_PASSWORD_HASH_ID, 1 ) )
         );
-        $userAccount->store();
 
+        $dataMap['user_account']->setContent( $userAccount );
+        $dataMap['user_account']->store();
 
         $tempObject = eZContentObject::fetch( $this->userObject->attribute( 'id' ) );
         $dataMap = $tempObject->dataMap();
@@ -178,6 +185,27 @@ class eZUserTypeRegression extends ezpDatabaseTestCase
         $this->assertTrue(
             $eZUser->attribute( 'is_enabled' ),
             'User should be enabled'
+        );
+    }
+
+    /**
+     * Tests that updating the password alone will update the internally stored user data
+     */
+    public function testUpdatePasswordUpdatesSerializedData()
+    {
+        $userId = $this->userObject->attribute('id');
+        $user = ezuser::fetch( $userId );
+        $passwordHash = $user->PasswordHash;
+
+        eZUserOperationCollection::password($userId, 'newpassword');
+
+        $user = ezuser::fetch( $userId );
+        $updatedPasswordHash = $user->PasswordHash;
+
+        self::assertNotEquals(
+            $passwordHash,
+            $updatedPasswordHash,
+            "The password hash stored in the user attribute should have been updated"
         );
     }
 
