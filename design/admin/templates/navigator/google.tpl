@@ -23,6 +23,7 @@
 {* Create view parameter text with the exception of offset *}
 {section loop=$view_parameters}
  {section-exclude match=$:key|eq('offset')}
+ {section-exclude match=$:key|eq('_custom')}
  {section-exclude match=$:item|eq('')}
  {set view_parameter_text=concat($:view_parameter_text,'/(',$:key,')/',$:item)}
 {/section}
