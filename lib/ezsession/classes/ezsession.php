@@ -516,10 +516,10 @@ class eZSession
         $result = self::getHandlerInstance()->destroy( session_id() );
 
         self::$hasStarted = false;
-		self::$handlerInstance = null;
+        self::$handlerInstance = null;
 
-		return $result;
-	}
+        return $result;
+    }
 
     /**
      * Sets the current userID used by ezpSessionHandlerDB::write() on shutdown.
