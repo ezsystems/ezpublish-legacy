@@ -31,7 +31,7 @@
         "ezsystems/ezautosave-ls": "~5.3",
         "ezsystems/ezflow-ls-extension": "~5.3",
         "ezsystems/ezwt-ls-extension": "~5.3",
-        "mugoweb/ezfind": "dev-master",
+        "mugoweb/ezfind": "^2019.03",
         "zetacomponents/archive": "~1.5",
         "zetacomponents/authentication": "~1.4",
         "zetacomponents/authentication-database-tiein": "~1.2",
