@@ -1075,8 +1075,8 @@ class eZDBInterface
                     {
                         header("HTTP/1.1 500 Internal Server Error");
                     }
-                    $site = eZSys::serverVariable( 'HTTP_HOST' );
-                    $uri = eZSys::serverVariable( 'REQUEST_URI' );
+                    $site = htmlentities(eZSys::serverVariable( 'HTTP_HOST' ), ENT_QUOTES);
+                    $uri = htmlentities(eZSys::serverVariable( 'REQUEST_URI' ), ENT_QUOTES);
 
                     print( "<div class=\"fatal-error\" style=\"" );
                     print( 'margin: 0.5em 0 1em 0; ' .
