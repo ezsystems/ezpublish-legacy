@@ -79,7 +79,7 @@ if (isset($_POST["json_data"]))
 if (!$raw && isset($_GLOBALS["HTTP_RAW_POST_DATA"]))
     $raw = $_GLOBALS["HTTP_RAW_POST_DATA"];
 else if (!$raw)
-    $raw = file_get_contents("php://input");;
+    $raw = file_get_contents("php://input");
 
 // Try stream
 if (!$raw)
