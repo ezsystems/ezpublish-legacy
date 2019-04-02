@@ -320,6 +320,8 @@ class eZUserOperationCollection
 
             // "Draft" must be in sync with the PersistentObject
             self::updateUserDraft( $user );
+			
+            eZContentCacheManager::clearContentCacheIfNeeded( $userID );
 
             return array( 'status' => true );
         }
