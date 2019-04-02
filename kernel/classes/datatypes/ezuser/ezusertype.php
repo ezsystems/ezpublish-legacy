@@ -301,7 +301,7 @@ class eZUserType extends eZDataType
      * @param eZUser $user
      * @return string
      */
-    private function serializeDraft( eZUser $user )
+    public static function serializeDraft( eZUser $user )
     {
         return json_encode(
             array(
