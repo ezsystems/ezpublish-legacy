@@ -24,7 +24,7 @@ class {$full_class_name} extends eZDataType
     /*!
       {'Constructor'|i18n('design/admin/setup/datatypecode')}
     */
-    function {$full_class_name}()
+    function __construct()
     {literal}{{/literal}
         parent::__construct( self::{$constant_name}, "{$desc_name}" );
     {literal}}{/literal}
