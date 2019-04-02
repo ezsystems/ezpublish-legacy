@@ -68,8 +68,5 @@
       "post-update-cmd": [
           "@legacy-scripts"
       ]
-    },
-    "replace": {
-        "ezsystems/ezpublish-legacy": "*"
     }
 }
