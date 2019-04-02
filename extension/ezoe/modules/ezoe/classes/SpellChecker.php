@@ -16,6 +16,13 @@ class SpellChecker {
 		$this->_config = $config;
 	}
 
+    /**
+     * @deprecated Use SpellChecker::__construct() instead
+     * @param $config
+     */
+	function SpellChecker(&$config) {
+		self::__construct($config);
+    }
 	/**
 	 * Simple loopback function everything that gets in will be send back.
 	 *

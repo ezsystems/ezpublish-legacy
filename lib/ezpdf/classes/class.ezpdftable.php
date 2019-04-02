@@ -49,6 +49,16 @@ class eZPDFTable extends Cezpdf
         $this->FrontpageID = null;
     }
 
+    /**
+     * @deprecated Use eZPDFTable::__construct() instead
+     * @param string $paper
+     * @param string $orientation
+     */
+    function eZPDFTable($paper='a4',$orientation='portrait')
+    {
+        self::__construct($paper,$orientation);
+    }
+
     /*!
      * \private
      * Initialize footer and header frame margins. Called by constructor

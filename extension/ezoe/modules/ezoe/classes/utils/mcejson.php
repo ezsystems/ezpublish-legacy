@@ -45,6 +45,14 @@ class Moxiecode_JSONReader
 		$this->_needProp = false;
 	}
 
+    /**
+     * @deprecated Use Moxiecode_JSONReader::__construct() instead
+     * @param $data
+     */
+    function Moxiecode_JSONReader($data) {
+		self::__construct($data);
+    }
+
 	function getToken() {
 		return $this->_token;
 	}
@@ -368,6 +376,13 @@ class Moxiecode_JSONReader
  */
 class Moxiecode_JSON {
 	function __construct() {
+	}
+
+    /**
+     * @deprecated Use Moxiecode_JSON::__construct() instead
+     */
+	function Moxiecode_JSON() {
+		self::__construct();
 	}
 
 	function decode($input) {
