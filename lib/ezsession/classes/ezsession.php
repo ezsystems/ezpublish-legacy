@@ -530,11 +530,13 @@ class eZSession
         {
              return false;
         }
-        $_SESSION = array();
-        session_destroy();
+
+        $result = self::getHandlerInstance()->destroy( session_id() );
+
         self::$hasStarted = false;
         self::$handlerInstance = null;
-        return true;
+
+        return $result;
     }
 
     /**
