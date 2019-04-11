@@ -1014,7 +1014,9 @@ class eZContentOperationCollection
                 $action = 'show';
             }
             else
+            {
                 eZContentObjectTreeNode::hideSubTree( $curNode );
+            }
 
             // Notify cache system about visibility change
             ezpEvent::getInstance()->notify('content/cache', [
