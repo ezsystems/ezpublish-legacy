@@ -4,7 +4,7 @@
  *
  * @package MCManager.utils
  * @author Moxiecode
- * @copyright Copyright © 2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright Â© 2007, Moxiecode Systems AB, All rights reserved.
  */
 
 class Moxiecode_JSONReader
@@ -45,13 +45,13 @@ class Moxiecode_JSONReader
 		$this->_needProp = false;
 	}
 
-    /**
-     * @deprecated Use Moxiecode_JSONReader::__construct() instead
-     * @param $data
-     */
-    function Moxiecode_JSONReader($data) {
+	/**
+	 * @deprecated Use Moxiecode_JSONReader::__construct() instead
+	 * @param $data
+	 */
+	function Moxiecode_JSONReader($data) {
 		self::__construct($data);
-    }
+	}
 
 	function getToken() {
 		return $this->_token;
