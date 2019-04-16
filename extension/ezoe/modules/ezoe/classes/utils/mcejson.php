@@ -378,9 +378,9 @@ class Moxiecode_JSON {
 	function __construct() {
 	}
 
-    /**
-     * @deprecated Use Moxiecode_JSON::__construct() instead
-     */
+	/**
+	 * @deprecated Use Moxiecode_JSON::__construct() instead
+	 */
 	function Moxiecode_JSON() {
 		self::__construct();
 	}
