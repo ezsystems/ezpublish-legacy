@@ -1047,7 +1047,15 @@ class eZContentOperationCollection
                 $action = 'show';
             }
             else
+            {
                 eZContentObjectTreeNode::hideSubTree( $curNode );
+            }
+
+            // Notify cache system about visibility change
+            ezpEvent::getInstance()->notify('content/cache', [
+                [(int)$nodeID],
+                [(int)$curNode->attribute('contentobject_id')]
+            ]);
         }
 
         //call appropriate method from search engine
