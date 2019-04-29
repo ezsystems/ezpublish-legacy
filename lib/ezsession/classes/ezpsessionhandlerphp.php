@@ -49,16 +49,13 @@ class ezpSessionHandlerPHP extends ezpSessionHandler
         return false;
     }
 
-    /**
-     *  reimp (not used in this handler)
-     *
-     *  So callbacks on this function is not called, this is a known limitation.
-     *  Either make sure your data does not depend on session id, or make sure it is cleanup in session_gc.php (cronjob).
-     */
     public function destroy( $sessionId )
     {
+        $_SESSION = array();
+        session_destroy();
+
         ezpEvent::getInstance()->notify( 'session/destroy', array( $sessionId ) );
-        return false;
+        return true;
     }
 
     /**

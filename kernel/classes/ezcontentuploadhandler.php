@@ -38,6 +38,16 @@ class eZContentUploadHandler
         $this->Identifier = $identifier;
     }
 
+    /**
+     * @deprecated Use eZContentUploadHandler::__construct() instead
+     * @param string $name
+     * @param string $identifier
+     */
+    public function eZContentUploadHandler( $name, $identifier )
+    {
+        self::__construct( $name, $identifier );
+    }
+
     /*!
      \pure
      Handles the file \a $filePath and creates one ore more content objects.

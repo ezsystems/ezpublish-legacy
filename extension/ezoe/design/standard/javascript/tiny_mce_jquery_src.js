@@ -8831,12 +8831,11 @@ tinymce.dom.TreeWalker = function(start_node, root_node) {
 
 					try {
 						s.removeAllRanges();
+						s.addRange(r);
 					} catch (ex) {
-						// IE9 might throw errors here don't know why
+						// IE might throw errors here if the editor is within a hidden container and selection is changed
 					}
-
-					s.addRange(r);
-
+					
 					// Forward is set to false and we have an extend function
 					if (forward === false && s.extend) {
 						s.collapse(r.endContainer, r.endOffset);

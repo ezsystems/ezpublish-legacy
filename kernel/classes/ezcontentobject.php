@@ -915,6 +915,59 @@ class eZContentObject extends eZPersistentObject
     }
 
     /**
+     * Fetches a content object by ID, using SELECT ... FOR UPDATE
+     *
+     * Ensures the table row is locked, blocking other transactions from locking it (read or write).
+     * Usage must be within a transaction, or it will be locked for the current session.
+     *
+     * @param int $id ID of the content object to fetch
+     * @param bool $asObject Return the result as an object (true) or an assoc. array (false)
+     *
+     * @return eZContentObject|mixed|null
+     */
+    static function fetchForUpdate( $id, $asObject = true )
+    {
+        global $eZContentObjectContentObjectCache;
+
+        $db = eZDB::instance();
+        $id = (int) $id;
+
+        // Select for update, to lock the row
+        $resArray = $db->arrayQuery( "SELECT * FROM ezcontentobject WHERE id='$id' FOR UPDATE" );
+
+        if ( !is_array( $resArray ) || count( $resArray ) !== 1 )
+        {
+            eZDebug::writeError( "Object not found ($id)", __METHOD__ );
+            return null;
+        }
+
+        $objectArray = $resArray[0];
+        $classId = $objectArray['contentclass_id'];
+        $contentClassResArray = $db->arrayQuery(
+            "SELECT
+                ezcontentclass.serialized_name_list as serialized_name_list,
+                ezcontentclass.identifier as contentclass_identifier,
+                ezcontentclass.is_container as is_container
+            FROM
+                ezcontentclass
+            WHERE
+                ezcontentclass.id='$classId' AND
+                ezcontentclass.version=0"
+        );
+        $objectArray = array_merge($objectArray, $contentClassResArray[0]);
+
+        if ( !$asObject )
+        {
+            return $objectArray;
+        }
+
+        $obj = new eZContentObject( $objectArray );
+        $eZContentObjectContentObjectCache[$id] = $obj;
+
+        return $obj;
+    }
+
+    /**
      * Returns true, if a content object with the ID $id exists, false otherwise
      *
      * @param int $id
@@ -1986,7 +2039,7 @@ class eZContentObject extends eZPersistentObject
                 {
                     $db = eZDB::instance();
                     $db->begin();
-                    foreach ( $additionalNodes as $additionalNode )
+                    foreach ( $nodes as $additionalNode )
                     {
                         if ( $additionalNode->attribute( 'node_id' ) != $node->attribute( 'main_node_id' ) )
                         {

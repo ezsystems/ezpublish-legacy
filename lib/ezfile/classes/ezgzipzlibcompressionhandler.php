@@ -50,13 +50,8 @@ class eZGZIPZLIBCompressionHandler extends eZCompressionHandler
     */
     static function isAvailable()
     {
-        $extensionName = 'zlib';
-        if ( !extension_loaded( $extensionName ) )
-        {
-            $dlExtension = ( eZSys::osType() == 'win32' ) ? '.dll' : '.so';
-            @dl( $extensionName . $dlExtension );
-        }
-        return extension_loaded( $extensionName );
+        // Only check a few of the functions, it's assumed all used gz methods are here if these two are present
+        return function_exists('gzcompress') && function_exists('gzuncompress');
     }
 
     function doOpen( $filename, $mode )

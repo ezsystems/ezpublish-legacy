@@ -29,12 +29,6 @@ class eZFileTransport extends eZMailTransport
         if ( !eZMail::validate( $emailSender ) )
             $emailSender = false;
 
-        $isSafeMode = ini_get( 'safe_mode' );
-        if ( $isSafeMode and
-             $emailSender and
-             $mail->sender() == false )
-            $mail->setSenderText( $emailSender );
-
         $filename = time() . '-' . mt_rand() . '.mail';
 
         $data = preg_replace('/(\r\n|\r|\n)/', "\r\n", $mail->headerText() . "\n" . $mail->body() );

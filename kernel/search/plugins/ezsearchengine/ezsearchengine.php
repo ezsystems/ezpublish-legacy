@@ -1206,7 +1206,7 @@ class eZSearchEngine implements ezpSearchEngine
                         default:
                         {
                             eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, __METHOD__ );
-                            continue;
+                            continue 2;
                         }
                     }
                     $sortOrder = true; // true is ascending

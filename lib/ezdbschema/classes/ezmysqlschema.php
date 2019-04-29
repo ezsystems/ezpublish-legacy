@@ -655,7 +655,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
             return $this->DBInstance->escapeString( $value );
         }
 
-        return mysql_escape_string( $value );
+        return mysqli_real_escape_string( $value );
     }
 
     function schemaType()

@@ -165,6 +165,47 @@ class eZContentObjectVersion extends eZPersistentObject
         return isset( $ret[0] ) ? $ret[0] : false;
     }
 
+    static function fetchVersionForUpdate( $version, $contentObjectID, $asObject = true )
+    {
+        global $eZContentObjectVersionCache;
+
+        $db = eZDB::instance();
+        $version = (int) $version;
+        $contentObjectID = (int) $contentObjectID;
+
+        // Select for update, to lock the row
+        $resArray = $db->arrayQuery(
+            "SELECT * FROM
+                 ezcontentobject_version
+             WHERE
+                 version='$version' AND
+                 contentobject_id='$contentObjectID'
+             FOR UPDATE"
+        );
+
+        if ( !is_array( $resArray ) || count( $resArray ) !== 1 )
+        {
+            eZDebug::writeError( "Version '$version' for content '$contentObjectID' not found", __METHOD__ );
+            return null;
+        }
+
+        if ( !isset( $resArray[0] ) )
+        {
+            return false;
+        }
+        $versionArray = $resArray[0];
+
+        if ( !$asObject )
+        {
+            return $versionArray;
+        }
+
+        $versionObject = new eZContentObjectVersion( $versionArray );
+        $eZContentObjectVersionCache[$contentObjectID][$version] = $versionObject;
+
+        return $versionObject;
+    }
+
     static function fetchUserDraft( $objectID, $userID )
     {
         $versions = eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
@@ -913,6 +954,13 @@ class eZContentObjectVersion extends eZPersistentObject
         $contentobjectID = $this->attribute( 'contentobject_id' );
         $versionNum = $this->attribute( 'version' );
 
+        $db = eZDB::instance();
+        $db->begin();
+
+        // Ensure no one else deletes this version while we are doing it.
+        $db->query( 'SELECT * FROM ezcontentobject_version
+                         WHERE id=' . $this->attribute( 'id' ) . ' FOR UPDATE' );
+
         $contentObjectTranslations = $this->translations();
 
         foreach ( $contentObjectTranslations as $contentObjectTranslation )
@@ -923,8 +971,6 @@ class eZContentObjectVersion extends eZPersistentObject
                 $attribute->removeThis( $attribute->attribute( 'id' ), $versionNum );
             }
         }
-        $db = eZDB::instance();
-        $db->begin();
         $db->query( "DELETE FROM ezcontentobject_link
                          WHERE from_contentobject_id=$contentobjectID AND from_contentobject_version=$versionNum" );
         $db->query( "DELETE FROM eznode_assignment
