@@ -39,10 +39,6 @@ class eZSendmailTransport extends eZMailTransport
         if ( $emailSender )
             $sendmailOptions .= ' -f'. $emailSender;
 
-        if ( $emailSender and
-             $mail->sender() == false )
-            $mail->setSenderText( $emailSender );
-
         if( function_exists( 'mail' ) )
         {
             $message = $mail->body();
