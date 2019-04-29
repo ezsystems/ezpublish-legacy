@@ -4,7 +4,7 @@
  *
  * @package MCManager.utils
  * @author Moxiecode
- * @copyright Copyright © 2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright Â© 2007, Moxiecode Systems AB, All rights reserved.
  */
 
 class Moxiecode_JSONReader
@@ -36,13 +36,21 @@ class Moxiecode_JSONReader
 	private $_lastLocations;
 	private $_needProp;
 
-	function Moxiecode_JSONReader($data) {
+	function __construct($data) {
 		$this->_data = $data;
 		$this->_len = strlen($data);
 		$this->_pos = -1;
 		$this->_location = Moxiecode_JSONReader::JSON_IN_BETWEEN;
 		$this->_lastLocations = array();
 		$this->_needProp = false;
+	}
+
+	/**
+	 * @deprecated Use Moxiecode_JSONReader::__construct() instead
+	 * @param $data
+	 */
+	function Moxiecode_JSONReader($data) {
+		self::__construct($data);
 	}
 
 	function getToken() {
@@ -367,7 +375,14 @@ class Moxiecode_JSONReader
  * @package MCManager.utils
  */
 class Moxiecode_JSON {
+	function __construct() {
+	}
+
+	/**
+	 * @deprecated Use Moxiecode_JSON::__construct() instead
+	 */
 	function Moxiecode_JSON() {
+		self::__construct();
 	}
 
 	function decode($input) {

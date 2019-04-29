@@ -31,21 +31,13 @@ class eZSendmailTransport extends eZMailTransport
         if ( !eZMail::validate( $emailSender ) )
             $emailSender = false;
 
-        $isSafeMode = ini_get( 'safe_mode' ) != 0;
-
         $sendmailOptionsArray = $ini->variable( 'MailSettings', 'SendmailOptions' );
         if( is_array($sendmailOptionsArray) )
             $sendmailOptions = implode( ' ', $sendmailOptionsArray );
         elseif( !is_string($sendmailOptionsArray) )
             $sendmailOptions = $sendmailOptionsArray;
-        if ( !$isSafeMode and
-             $emailSender )
+        if ( $emailSender )
             $sendmailOptions .= ' -f'. $emailSender;
-
-        if ( $isSafeMode and
-             $emailSender and
-             $mail->sender() == false )
-            $mail->setSenderText( $emailSender );
 
         if( function_exists( 'mail' ) )
         {

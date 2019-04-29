@@ -50,7 +50,7 @@ else
     $preFix = $protocol . "://" . $domain;
     $preFix .= eZSys::wwwDir();
 
-    $link = preg_replace("/^\//e", "", $link );
+    $link = preg_replace("/^\//", "", $link );
     $link = $preFix . "/" . $link;
 }
 

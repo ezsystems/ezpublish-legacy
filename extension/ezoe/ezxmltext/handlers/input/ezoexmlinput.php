@@ -657,7 +657,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     */
 
     // Get section level and reset curent xml node according to input header.
-    function &sectionLevel( &$sectionLevel, $headerLevel, &$TagStack, &$currentNode, &$domDocument )
+    function sectionLevel( &$sectionLevel, $headerLevel, &$TagStack, &$currentNode, &$domDocument )
     {
         if ( $sectionLevel < $headerLevel )
         {
@@ -773,7 +773,7 @@ class eZOEXMLInput extends eZXMLInputHandler
      \private
      \return the user input format for the given section
     */
-    function &inputSectionXML( &$section, $currentSectionLevel, $tdSectionLevel = null )
+    function inputSectionXML( &$section, $currentSectionLevel, $tdSectionLevel = null )
     {
         $output = '';
 
@@ -894,7 +894,7 @@ class eZOEXMLInput extends eZXMLInputHandler
      \private
      \return the user input format for the given list item
     */
-    function &inputListXML( &$listNode, $currentSectionLevel, $listSectionLevel = null, $noParagraphs = true )
+    function inputListXML( &$listNode, $currentSectionLevel, $listSectionLevel = null, $noParagraphs = true )
     {
         $output = '';
         $tagName = $listNode instanceof DOMNode ? $listNode->nodeName : '';
@@ -932,7 +932,7 @@ class eZOEXMLInput extends eZXMLInputHandler
      \private
      \return the user input format for the given table cell
     */
-    function &inputTdXML( &$tdNode, $currentSectionLevel, $tdSectionLevel = null )
+    function inputTdXML( &$tdNode, $currentSectionLevel, $tdSectionLevel = null )
     {
         $output = '';
         $tagName = $tdNode instanceof DOMNode ? $tdNode->nodeName : '';
@@ -961,7 +961,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     /*!
      \return the input xml of the given paragraph
     */
-    function &inputParagraphXML( &$paragraph,
+    function inputParagraphXML( &$paragraph,
                                   $currentSectionLevel,
                                   $tdSectionLevel = null,
                                   $noRender = false )
@@ -1045,7 +1045,7 @@ class eZOEXMLInput extends eZXMLInputHandler
      \return the input xml for the given tag
      \as in the xhtml used inside the editor
     */
-    function &inputTagXML( &$tag, $currentSectionLevel, $tdSectionLevel = null )
+    function inputTagXML( &$tag, $currentSectionLevel, $tdSectionLevel = null )
     {
         $output       = '';
         $tagName      = $tag instanceof DOMNode ? $tag->nodeName : '';

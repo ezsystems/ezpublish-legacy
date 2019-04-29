@@ -655,7 +655,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
      * @param string $dir
      * @return bool
      */
-    protected function __mkdir_p( $dir )
+    private function mkdir_p( $dir )
     {
         // create parent directories
         $dirElements = explode( '/', $dir );
@@ -683,6 +683,16 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
         }
 
         return $result;
+    }
+
+    /**
+     * @deprecated Use eZDFSFileHandlerMySQLiBackend::mkdir_p() instead
+     * @param $dir
+     * @return bool
+     */
+    protected function __mkdir_p( $dir )
+    {
+        return $this->mkdir_p( $dir );
     }
 
     /**
@@ -716,7 +726,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
                 $tmpFilePath = substr_replace( $filePath, $tmpid, strrpos( $filePath, '.' ), 0  );
             else
                 $tmpFilePath = $filePath . '.' . $tmpid;
-            $this->__mkdir_p( dirname( $tmpFilePath ) );
+            $this->mkdir_p( dirname( $tmpFilePath ) );
             eZDebugSetting::writeDebug( 'kernel-clustering', "copying DFS://$filePath to FS://$tmpFilePath on try: $loopCount " );
 
             // copy DFS file to temporary FS path
