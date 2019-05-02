@@ -87,6 +87,15 @@ class eZContentObject extends eZPersistentObject
         $this->Permissions = array();
     }
 
+    /**
+     * @deprecated Use eZContentObject::__construct() instead
+     * @param int|array $row
+     */
+    function eZContentObject( $row )
+    {
+        self::__construct( $row );
+    }
+
     static function definition()
     {
         static $definition = array( "fields" => array( "id" => array( 'name' => 'ID',
