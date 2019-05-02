@@ -69,6 +69,15 @@ class eZUser extends eZPersistentObject
         $this->OriginalPasswordConfirm = false;
     }
 
+    /**
+     * @deprecated Use eZUser::__construct() instead
+     * @param array $row
+     */
+    function eZUser( $row = array() )
+    {
+        self::__construct( $row );
+    }
+
     static function definition()
     {
         static $definition = array( 'fields' => array( 'contentobject_id' => array( 'name' => 'ContentObjectID',

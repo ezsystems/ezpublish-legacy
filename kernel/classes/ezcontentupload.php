@@ -71,6 +71,15 @@ class eZContentUpload
         }
     }
 
+    /**
+     * @deprecated Use eZContentUpload::__construct() instead
+     * @param bool $params
+     */
+    function eZContentUpload( $params = false )
+    {
+        self::__construct( $params );
+    }
+
     /*!
      \return an array with attribute names.
     */
