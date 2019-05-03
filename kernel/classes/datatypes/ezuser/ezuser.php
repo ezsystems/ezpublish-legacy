@@ -26,6 +26,7 @@ class eZUser extends eZPersistentObject
     /// MD5 of site, user and password
     const PASSWORD_HASH_MD5_SITE = 3;
     /// Legacy support for mysql hashed passwords
+    /// NB! Does not work as of MySQL 8.0 where this has been removed from MySQL.
     const PASSWORD_HASH_MYSQL = 4;
     /// Passwords in plaintext, should not be used for real sites
     const PASSWORD_HASH_PLAINTEXT = 5;
