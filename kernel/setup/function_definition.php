@@ -14,6 +14,12 @@ $FunctionList['version'] = array( 'name' => 'version',
                                                           'method' => 'fetchFullVersionString' ),
                                   'parameter_type' => 'standard',
                                   'parameters' => array( ) );
+$FunctionList['alias'] = array( 'name' => 'alias',
+                                'operation_types' => array( 'read' ),
+                                'call_method' => array( 'class' => 'eZSetupFunctionCollection',
+                                                        'method' => 'fetchVersionAlias' ),
+                                'parameter_type' => 'standard',
+                                'parameters' => array( ) );
 $FunctionList['major_version'] = array( 'name' => 'major_version',
                                         'operation_types' => array( 'read' ),
                                         'call_method' => array( 'class' => 'eZSetupFunctionCollection',
