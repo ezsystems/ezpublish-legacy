@@ -856,9 +856,7 @@ WHERE user_id = '" . $userID . "' AND
 
         $contentObjectStatus = eZContentObject::STATUS_PUBLISHED;
 
-
-
-        // We don't use Mysql's (4.1 - 5.7) PASSWORD() function here to support Mysql 8.0+
+        // PASSWORD_HASH_MYSQL is handled further down as this inital SQL needs to work on MySQL 8.0 as well as PostgreSQL
         $query = "SELECT contentobject_id, password_hash, password_hash_type, email, login
             FROM   ezuser, ezcontentobject
             WHERE  ( $loginText )
