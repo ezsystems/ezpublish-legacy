@@ -32,7 +32,7 @@ class eZPublishSDK
         if ( $asAlias )
         {
             $versionText = eZPublishSDK::alias();
-            if ( $withState )
+            if ( $withState && eZPublishSDK::state() )
                 $versionText .= "-" . eZPublishSDK::state();
         }
         else
@@ -94,7 +94,7 @@ class eZPublishSDK
     */
     static function alias()
     {
-        return eZPublishSDK::version();
+        return eZPublishSDK::VERSION_ALIAS;
     }
 
     /*!
