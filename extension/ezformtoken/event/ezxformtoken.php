@@ -203,7 +203,7 @@ class ezxFormToken
 
         eZDebugSetting::writeDebug( 'ezformtoken', 'Output protected (all forms will be modified)', __METHOD__ );
 
-        // Inject token for programmatically use (also system default for historical reasons)
+        // Inject token for programmatical use (also system default for historical reasons)
         // If document has head tag, insert in a html5 valid and semi standard way
         if ( strpos( $templateResult, '<head>' ) !== false )
         {
