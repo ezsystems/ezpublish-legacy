@@ -38,7 +38,7 @@ class ezxFormToken
     static protected $intention = 'legacy';
 
     /**
-     * @var string
+     * @var string Custom Form field, by default set to system default form field (self::FORM_FIELD).
      */
     static protected $formField = self::FORM_FIELD;
 
@@ -90,6 +90,8 @@ class ezxFormToken
     }
 
     /**
+     * Get the custom form field.
+     *
      * @return string
      */
     static protected function getFormField()
@@ -98,6 +100,8 @@ class ezxFormToken
     }
 
     /**
+     * Set the custom form field.
+     *
      * @param string $formField
      */
     static public function setFormField( $formField )
@@ -136,6 +140,11 @@ class ezxFormToken
         if ( !empty( $_POST[self::getFormField()] ) )
         {
             $token = $_POST[self::getFormField()];
+        }
+        // For historical reasons also check the system default form field
+        else if ( !empty( $_POST[self::FORM_FIELD] ) )
+        {
+            $token = $_POST[self::FORM_FIELD];
         }
         // allow ajax calls using POST with other formats than forms (such as
         // json or xml) to still validate using a custom http header
@@ -188,19 +197,22 @@ class ezxFormToken
         }
 
         $token = self::getToken();
-        $field = self::getFormField();
+        $customfield = self::getFormField();
+        $defaultField = self::FORM_FIELD;
         $replaceKey = self::REPLACE_KEY;
 
         eZDebugSetting::writeDebug( 'ezformtoken', 'Output protected (all forms will be modified)', __METHOD__ );
 
+        // Inject token for programmatical use (also system default for historical reasons)
         // If document has head tag, insert in a html5 valid and semi standard way
         if ( strpos( $templateResult, '<head>' ) !== false )
         {
             $templateResult = str_replace(
                 '<head>',
                 "<head>\n"
-                . "<meta name=\"csrf-param\" content=\"{$field}\" />\n"
-                . "<meta name=\"csrf-token\" id=\"{$field}_js\" title=\"{$token}\" content=\"{$token}\" />\n",
+                . "<meta name=\"csrf-param\" content=\"{$customfield}\" />\n"
+                . "<meta name=\"csrf-token\" id=\"{$customfield}_js\" title=\"{$token}\" content=\"{$token}\" />\n"
+                . ($defaultField !== $customfield ? "<meta name=\"csrf-token-x\" id=\"{$defaultField}_js\" title=\"{$token}\" content=\"{$token}\" />\n" : ''),
                 $templateResult
             );
         }
@@ -209,16 +221,18 @@ class ezxFormToken
         {
             $templateResult = preg_replace(
                 '/(<body[^>]*>)/i',
-                '\\1' . "\n<span style='display:none;' id=\"{$field}_js\" title=\"{$token}\"></span>\n",
+                '\\1' . "\n<span style='display:none;' id=\"{$customfield}_js\" title=\"{$token}\"></span>\n"
+                . ($defaultField !== $customfield ? "\n<span style='display:none;' id=\"{$defaultField}_js\" title=\"{$token}\"></span>\n" : ''),
                 $templateResult
             );
         }
 
+        // For forms we set the custom field which will be sent back to this class and evaluated
         if ( $filterForms )
         {
             $templateResult = preg_replace(
                 '/(<form\W[^>]*\bmethod=(\'|"|)POST(\'|"|)\b[^>]*>)/i',
-                '\\1' . "\n<input type=\"hidden\" name=\"{$field}\" value=\"{$token}\" />\n",
+                '\\1' . "\n<input type=\"hidden\" name=\"{$customfield}\" value=\"{$token}\" />\n",
                 $templateResult
             );
         }
