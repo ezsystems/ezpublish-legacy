@@ -83,7 +83,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2019.03.x-dev"
+            "dev-master": "2020.99.x-dev"
         }
     }
 }
