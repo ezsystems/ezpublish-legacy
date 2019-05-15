@@ -17,8 +17,8 @@ class eZPublishSDK
     const VERSION_MAJOR = 5;
     const VERSION_MINOR = 99;
     const VERSION_RELEASE = 3;
-    const VERSION_STATE = 'alpha1';
-    const VERSION_DEVELOPMENT = true;
+    const VERSION_STATE = '';
+    const VERSION_DEVELOPMENT = false;
     const VERSION_ALIAS = '2019.03';
     const EDITION = 'eZ Publish legacy';
 
