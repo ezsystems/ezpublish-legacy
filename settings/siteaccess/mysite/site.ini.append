@@ -23,3 +23,10 @@ SiteDesign=mysite
 # if the design was not found in the main 
 # sitedesign. StandardDesign is the fallback design.
 AdditionalSiteDesignList[]=
+
+[HTTPHeaderSettings]
+# Legacy responses are getting Cache-Control:private by default.
+# Force them to be public so Varnish / reverse proxies can cache
+CustomHeader=enabled
+OnlyForContent=disabled
+Cache-Control[/]=public
