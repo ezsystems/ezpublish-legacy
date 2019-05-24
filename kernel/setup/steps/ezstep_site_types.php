@@ -730,13 +730,10 @@ class eZStepSiteTypes extends eZStepInstaller
      */
     function fopen( $fileName, $mode )
     {
-        $savedTrackErrorsFlag = ini_get( 'track_errors' );
-        ini_set( 'track_errors', 1 );
+        error_clear_last();
 
         if ( ( $handle = @fopen( $fileName, 'wb' ) ) === false )
-            $this->FileOpenErrorMsg = $php_errormsg;
-
-        ini_set( 'track_errors', $savedTrackErrorsFlag );
+            $this->FileOpenErrorMsg = implode(',', error_get_last());
 
         return $handle;
     }

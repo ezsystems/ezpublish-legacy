@@ -136,7 +136,7 @@ class eZXMLOutputHandler
      \pure
      \return the suffix for the attribute template, if false it is ignored.
     */
-    function &viewTemplateSuffix( &$contentobjectAttribute )
+    function viewTemplateSuffix( &$contentobjectAttribute )
     {
         $suffix = false;
         return $suffix;

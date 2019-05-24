@@ -3,7 +3,7 @@
  * $Id: editor_plugin_src.js 201 2007-02-12 15:56:56Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright Â© 2004-2007, Moxiecode Systems AB, All rights reserved.
  */
 
 class SpellChecker {
@@ -12,8 +12,16 @@ class SpellChecker {
 	 *
 	 * @param $config Configuration name/value array.
 	 */
-	function SpellChecker(&$config) {
+	function __construct(&$config) {
 		$this->_config = $config;
+	}
+
+	/**
+	 * @deprecated Use SpellChecker::__construct() instead
+	 * @param $config
+	 */
+	function SpellChecker(&$config) {
+		self::__construct($config);
 	}
 
 	/**
