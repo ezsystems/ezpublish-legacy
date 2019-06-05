@@ -25,15 +25,18 @@ class eZMailTransport
         return false;
     }
 
-    /*!
-     \static
-     Sends the contents of the email object \a $mail using the default transport.
-    */
-    static function send( eZMail $mail )
+    /**
+     * Sends the contents of the email object \a $mail using the default transport.
+     *
+     * @param eZMail $mail
+     * @param string $transportType
+     * @return boolean
+     */
+    static function send( eZMail $mail, $transportType = null )
     {
         $ini = eZINI::instance();
 
-        $transportType = trim( $ini->variable( 'MailSettings', 'Transport' ) );
+        $transportType = $transportType ? $transportType : trim( $ini->variable( 'MailSettings', 'Transport' ) );
 
         $optionArray = array( 'iniFile'      => 'site.ini',
                               'iniSection'   => 'MailSettings',
