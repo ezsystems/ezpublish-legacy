@@ -26,6 +26,9 @@ class eZTemplatesStatisticsReporter
         if ( !eZTemplate::isTemplatesUsageStatisticsEnabled() )
             return $stats;
 
+        $settings = eZINI::instance();
+        $templateEditUrl = $settings->variable( 'DebugSettings', 'UsedTemplateEditUrl' );
+
         if ( $as_html )
         {
             $stats .= "<h3>Templates used to render the page:</h3>";
@@ -111,7 +114,7 @@ class eZTemplatesStatisticsReporter
                            "<td><a href=\"$requestedTemplateViewURI\">$requestedTemplateName</a></td>" .
                            "<td>$actualTemplateNameOutput</td>" .
                            "<td>$templateFileName</td>" .
-                           "<td><a href=\"$templateEditURI/(siteAccess)/$currentSiteAccess\"><img src=\"$editIconFile\" width=\"$iconSizeX\" height=\"$iconSizeY\" alt=\"Edit template\" title=\"Edit template\" /></a></td>".
+                           "<td><a href=\"". sprintf( $templateEditUrl, $templateEditURI, $currentSiteAccess, $templateFileName ) ."\"><img src=\"$editIconFile\" width=\"$iconSizeX\" height=\"$iconSizeY\" alt=\"Edit template\" title=\"Edit template\" /></a></td>".
                            "<td><a href=\"$templateOverrideURI/(siteAccess)/$currentSiteAccess\"><img src=\"$overrideIconFile\" width=\"$iconSizeX\" height=\"$iconSizeY\" alt=\"Override template\" title=\"Override template\" /></a></td></tr>" );
 
                     $j++;
