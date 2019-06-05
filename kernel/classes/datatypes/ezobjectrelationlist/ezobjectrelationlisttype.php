@@ -1192,12 +1192,14 @@ class eZObjectRelationListType extends eZDataType
         return is_numeric( $relationItem['node_id'] ) and $relationItem['node_id'] > 0;
     }
 
-    /*!
-     \private
-     Removes the relation object \a $deletionItem if the item is owned solely by this
-     version and is not published in the content tree.
-    */
-    static function removeRelationObject( $contentObjectAttribute, $deletionItem )
+    /**
+     * Removes the relation object \a $deletionItem if the item is owned solely by this
+     * version and is not published in the content tree and not in the trash.
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param array $deletionItem
+     */
+    static protected function removeRelationObject( $contentObjectAttribute, $deletionItem )
     {
         if ( self::isItemPublished( $deletionItem ) )
         {
