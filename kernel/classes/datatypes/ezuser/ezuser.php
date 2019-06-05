@@ -1544,7 +1544,7 @@ WHERE user_id = '" . $userID . "' AND
         }
         else
         {
-            return time();
+            return false;
         }
     }
 
