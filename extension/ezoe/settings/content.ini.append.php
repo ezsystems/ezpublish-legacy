@@ -30,7 +30,9 @@
 #InlineImageIconPath[mashup]=images/tango/image-x-generic22.png
 
 
-
+# Hides the custom tag in the dropdown to prevent editors from creating it
+# For example: IsHidden[]=sub
+#IsHidden[]
 
 [paragraph]
 # Human-readable aliases for class names that will be displayed
