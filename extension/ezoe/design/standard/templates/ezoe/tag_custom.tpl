@@ -101,7 +101,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     },
     onTagGenerated:  function( el, ed, args )
     {
-        if( el === null )
+        if ( el === null )
         {
             return;
         }
