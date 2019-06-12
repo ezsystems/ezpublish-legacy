@@ -53,6 +53,7 @@ class ezpSessionHandlerPHP extends ezpSessionHandler
     {
         $_SESSION = array();
         session_destroy();
+        setcookie( session_name(), "", time()-3600, '/' );
 
         ezpEvent::getInstance()->notify( 'session/destroy', array( $sessionId ) );
         return true;
