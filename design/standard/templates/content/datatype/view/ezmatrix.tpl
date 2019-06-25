@@ -6,10 +6,10 @@
 <th>{$ColumnNames.name|wash( xhtml )}</th>
 {/foreach}
 </tr>
-{foreach $matrix.rows.sequential as $Rows sequence array( bglight, bgdark ) as $rowSequence}
+{foreach $matrix.rows.sequential as $rows sequence array( bglight, bgdark ) as $rowSequence}
 <tr class="{$rowSequence}">
-    {foreach $Rows.item.columns as $Columns}
-    <td>{$Columns|wash( xhtml )}</td>
+    {foreach $rows.columns as $columns}
+    <td>{$columns|wash( xhtml )}</td>
     {/foreach}
 </tr>
 {/foreach}
