@@ -1371,6 +1371,12 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      */
     public function checkCacheGenerationTimeout()
     {
+        if ( $this->generationStartTimestamp === false )
+        {
+            eZDebug::writeError( "Cache generation has not started, cannot check timeout", 'cluster.log' );
+            return true;
+        }
+
         eZDebugSetting::writeDebug( 'kernel-clustering', 'Checking cache generation timeout', "dfs::checkCacheGenerationTimeout( '{$this->filePath}' )" );
         return self::$dbbackend->_checkCacheGenerationTimeout( $this->filePath, $this->generationStartTimestamp );
     }
