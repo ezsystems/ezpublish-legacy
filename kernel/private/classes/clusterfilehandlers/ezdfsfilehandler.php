@@ -812,7 +812,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
 
         // This checks if we entered timeout and got our generating file stolen
         // If this happens, we don't store our cache
-        if ( $store and $this->checkCacheGenerationTimeout() )
+        if ( $store && $this->generationStartTimestamp && $this->checkCacheGenerationTimeout() )
             $storeCache = true;
 
         $result = null;
