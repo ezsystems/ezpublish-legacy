@@ -21,6 +21,11 @@ class eZSetupFunctionCollection
         return array( 'result' => eZPublishSDK::version() );
     }
 
+    function fetchVersionAlias()
+    {
+        return array( 'result' => eZPublishSDK::version( false, true ) );
+    }
+
     function fetchMajorVersion()
     {
         return array( 'result' => eZPublishSDK::majorVersion() );

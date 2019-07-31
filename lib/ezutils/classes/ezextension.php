@@ -122,7 +122,7 @@ class eZExtension
             }
 
             $phpCache->addVariable( 'activeExtensions', self::$activeExtensionsCache[$cacheIdentifier] );
-            $phpCache->store();
+            $phpCache->store( true );
         }
         else
         {

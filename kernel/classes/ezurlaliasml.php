@@ -2136,7 +2136,8 @@ class eZURLAliasML extends eZPersistentObject
                 break;
 
             case 'nop':
-                $url = '/';
+                $siteINI = eZINI::instance();
+                $url = $siteINI->variable( 'URLTranslator', 'LoadOnPartialAliasPath' );
                 break;
 
             default:

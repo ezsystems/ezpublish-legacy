@@ -32,6 +32,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
     const SORT_ORDER_DESC = 0;
     const SORT_ORDER_ASC = 1;
 
+    public function __construct( $row = array() )
+    {
+        parent::__construct( $row );
+    }
+
+    /**
+     * @deprecated Use eZContentObjectTreeNode::__construct() instead
+     * @param int|array $row
+     */
+    function eZContentObjectTreeNode( $row = array() )
+    {
+        self::__construct( $row );
+    }
+
     /**
      * @inheritdoc
      */
@@ -731,7 +745,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             else
                             {
                                 eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, __METHOD__ );
-                                continue;
+                                continue 2;
                             }
                         }
                     }
@@ -2796,7 +2810,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    static function assignSectionToSubTree( $nodeID, $sectionID, $oldSectionID = false )
+    static function assignSectionToSubTree( $nodeID, $sectionID, $oldSectionID = false, $updateSearchIndexes = true )
     {
         $db = eZDB::instance();
         $node = eZContentObjectTreeNode::fetch( $nodeID );
@@ -2827,7 +2841,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         foreach ( array_chunk( $objectSimpleIDArray, 100 ) as $pagedObjectIDs )
         {
             $db->query( "UPDATE ezcontentobject SET section_id='$sectionID' WHERE $filterPart " . $db->generateSQLINStatement( $pagedObjectIDs, 'id', false, true, 'int' ) );
-            eZSearch::updateObjectsSection( $pagedObjectIDs, $sectionID );
+            if ( $updateSearchIndexes )
+            {
+                eZSearch::updateObjectsSection( $pagedObjectIDs, $sectionID );
+            }
         }
         $db->commit();
 

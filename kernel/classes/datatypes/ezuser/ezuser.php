@@ -17,6 +17,8 @@
 
 class eZUser extends eZPersistentObject
 {
+    /// No hash, used by external handlers such as LDAP and TextFile
+    const PASSWORD_HASH_EMPTY = 0;
     /// MD5 of password
     const PASSWORD_HASH_MD5_PASSWORD = 1;
     /// MD5 of user and password
@@ -24,6 +26,7 @@ class eZUser extends eZPersistentObject
     /// MD5 of site, user and password
     const PASSWORD_HASH_MD5_SITE = 3;
     /// Legacy support for mysql hashed passwords
+    /// NB! Does not work as of MySQL 8.0 where this has been removed from MySQL.
     const PASSWORD_HASH_MYSQL = 4;
     /// Passwords in plaintext, should not be used for real sites
     const PASSWORD_HASH_PLAINTEXT = 5;
@@ -65,6 +68,15 @@ class eZUser extends eZPersistentObject
         parent::__construct( $row );
         $this->OriginalPassword = false;
         $this->OriginalPasswordConfirm = false;
+    }
+
+    /**
+     * @deprecated Use eZUser::__construct() instead
+     * @param array $row
+     */
+    function eZUser( $row = array() )
+    {
+        self::__construct( $row );
     }
 
     static function definition()
@@ -123,6 +135,10 @@ class eZUser extends eZPersistentObject
     {
         switch ( $id )
         {
+            case self::PASSWORD_HASH_EMPTY:
+            {
+                return 'empty';
+            } break;
             case self::PASSWORD_HASH_MD5_PASSWORD:
             {
                 return 'md5_password';
@@ -161,6 +177,10 @@ class eZUser extends eZPersistentObject
     {
         switch ( $identifier )
         {
+            case 'empty':
+            {
+                return self::PASSWORD_HASH_EMPTY;
+            } break;
             case 'md5_password':
             {
                 return self::PASSWORD_HASH_MD5_PASSWORD;
@@ -225,7 +245,12 @@ class eZUser extends eZPersistentObject
         return new eZUser( $row );
     }
 
-    function store( $fieldFilters = null )
+    /**
+     * Only stores the entry if it has a Login value
+     *
+     * @param mixed|null $fieldFilters
+     */
+    public function store( $fieldFilters = null )
     {
         $this->Email = trim( $this->Email );
         $userID = $this->attribute( 'contentobject_id' );
@@ -233,7 +258,11 @@ class eZUser extends eZPersistentObject
         unset( $GLOBALS['eZUserObject_' . $userID] );
         $GLOBALS['eZUserObject_' . $userID] = $this;
         self::purgeUserCacheByUserId( $userID );
-        parent::store( $fieldFilters );
+
+        if ( $this->Login )
+        {
+            parent::store( $fieldFilters );
+        }
     }
 
     function originalPassword()
@@ -296,8 +325,14 @@ class eZUser extends eZPersistentObject
         if ( eZUser::validatePassword( $password ) and
              $password === $passwordConfirm ) // Cannot change login or password_hash without login and password
         {
-            $this->setAttribute( "password_hash", eZUser::createHash( $login, $password, eZUser::site(),
-                                                                      eZUser::hashType() ) );
+            if ( eZUser::hashType() !== self::PASSWORD_HASH_EMPTY )
+            {
+                $this->setAttribute(
+                    "password_hash",
+                    eZUser::createHash( $login, $password, eZUser::site(), eZUser::hashType() )
+                );
+            }
+
             $this->setAttribute( "password_hash_type", eZUser::hashType() );
         }
         else
@@ -307,6 +342,11 @@ class eZUser extends eZPersistentObject
         }
     }
 
+    /**
+     * @param integer $id
+     * @param bool $asObject
+     * @return eZUser|null
+     */
     static function fetch( $id, $asObject = true )
     {
         if ( !$id )
@@ -783,6 +823,11 @@ WHERE user_id = '" . $userID . "' AND
      */
     protected static function _loginUser( $login, $password, $authenticationMatch = false )
     {
+        if ( $login == '' || $password == '' )
+        {
+            return false;
+        }
+
         $http = eZHTTPTool::instance();
         $db = eZDB::instance();
 
@@ -811,29 +856,13 @@ WHERE user_id = '" . $userID . "' AND
 
         $contentObjectStatus = eZContentObject::STATUS_PUBLISHED;
 
-        $ini = eZINI::instance();
-        $databaseName = $db->databaseName();
-        // if mysql
-        if ( $databaseName === 'mysql' )
-        {
-            $query = "SELECT contentobject_id, password_hash, password_hash_type, email, login
-                      FROM ezuser, ezcontentobject
-                      WHERE ( $loginText ) AND
-                        ezcontentobject.status='$contentObjectStatus' AND
-                        ezcontentobject.id=contentobject_id AND
-                        ( ( password_hash_type!=4 ) OR
-                          ( password_hash_type=4 AND
-                            password_hash=PASSWORD('$passwordEscaped') ) )";
-        }
-        else
-        {
-            $query = "SELECT contentobject_id, password_hash,
-                             password_hash_type, email, login
-                      FROM   ezuser, ezcontentobject
-                      WHERE  ( $loginText )
-                      AND    ezcontentobject.status='$contentObjectStatus'
-                      AND    ezcontentobject.id=contentobject_id";
-        }
+        // PASSWORD_HASH_MYSQL is handled further down as this inital SQL needs to work on MySQL 8.0 as well as PostgreSQL
+        $query = "SELECT contentobject_id, password_hash, password_hash_type, email, login
+            FROM   ezuser, ezcontentobject
+            WHERE  ( $loginText )
+            AND    password_hash_type!=0
+            AND    ezcontentobject.status='$contentObjectStatus'
+            AND    ezcontentobject.id=contentobject_id";
 
         $users = $db->arrayQuery( $query );
         $exists = false;
@@ -849,6 +878,7 @@ WHERE user_id = '" . $userID . "' AND
                                                     $hashType,
                                                     $hash );
 
+                $databaseName = $db->databaseName();
                 // If hash type is MySql
                 if ( $hashType == self::PASSWORD_HASH_MYSQL and $databaseName === 'mysql' )
                 {
@@ -862,14 +892,15 @@ WHERE user_id = '" . $userID . "' AND
 
                 }
 
-                eZDebugSetting::writeDebug( 'kernel-user', eZUser::createHash( $userRow['login'], $password, eZUser::site(),
-                                                                               $hashType, $hash ), "check hash" );
-                eZDebugSetting::writeDebug( 'kernel-user', $hash, "stored hash" );
                  // If current user has been disabled after a few failed login attempts.
                 $canLogin = eZUser::isEnabledAfterFailedLogin( $userID );
 
                 if ( $exists )
                 {
+                    eZDebugSetting::writeDebug( 'kernel-user', eZUser::createHash( $userRow['login'], $password, eZUser::site(),
+                                                                                   $hashType, $hash ), "check hash" );
+                    eZDebugSetting::writeDebug( 'kernel-user', $hash, "stored hash" );
+
                     // We should store userID for warning message.
                     $GLOBALS['eZFailedLoginAttemptUserID'] = $userID;
 
@@ -1708,6 +1739,11 @@ WHERE user_id = '" . $userID . "' AND
     */
     static function authenticateHash( $user, $password, $site, $type, $hash )
     {
+        if ( $user == '' || $password == '' || $type == self::PASSWORD_HASH_EMPTY )
+        {
+            return false;
+        }
+
         return eZUser::createHash( $user, $password, $site, $type, $hash ) === (string) $hash;
     }
 
@@ -1856,12 +1892,20 @@ WHERE user_id = '" . $userID . "' AND
         {
             $str = password_hash( $password, PASSWORD_DEFAULT );
         }
-        else // self::DEFAULT_PASSWORD_HASH
+        else
         {
-            eZDebug::writeError( "Password hash type ID '$type' is not recognized. " .
-                                 'Defaulting to eZUser::DEFAULT_PASSWORD_HASH.' );
-            $str = self::createHash( $user, $password, $site, self::DEFAULT_PASSWORD_HASH, $hash );
+            if ( $type == self::PASSWORD_HASH_EMPTY )
+            {
+                eZDebug::writeError( "Cannot create hash of hash type 0 (PASSWORD_HASH_EMPTY)." );
+            }
+            else
+            {
+                eZDebug::writeError( "Password hash type ID '$type' is not recognized." );
+            }
+
+            return false;
         }
+
         eZDebugSetting::writeDebug( 'kernel-user', $str, "ezuser($type)" );
         return $str;
     }

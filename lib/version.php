@@ -15,11 +15,11 @@
 class eZPublishSDK
 {
     const VERSION_MAJOR = 5;
-    const VERSION_MINOR = 90;
-    const VERSION_RELEASE = 0;
+    const VERSION_MINOR = 99;
+    const VERSION_RELEASE = 99;
     const VERSION_STATE = 'alpha1';
     const VERSION_DEVELOPMENT = true;
-    const VERSION_ALIAS = '2018.06';
+    const VERSION_ALIAS = '2020.99';
     const EDITION = 'eZ Publish legacy';
 
     /*!
@@ -32,7 +32,7 @@ class eZPublishSDK
         if ( $asAlias )
         {
             $versionText = eZPublishSDK::alias();
-            if ( $withState )
+            if ( $withState && eZPublishSDK::state() )
                 $versionText .= "-" . eZPublishSDK::state();
         }
         else
@@ -94,7 +94,7 @@ class eZPublishSDK
     */
     static function alias()
     {
-        return eZPublishSDK::version();
+        return eZPublishSDK::VERSION_ALIAS;
     }
 
     /*!

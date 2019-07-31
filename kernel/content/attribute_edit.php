@@ -334,10 +334,6 @@ if ( $storingAllowed && $hasObjectInput)
     $db->begin();
     $object->setName( $class->contentObjectName( $object, $version->attribute( 'version' ), $EditLanguage ), $version->attribute( 'version' ), $EditLanguage );
     $db->commit();
-
-    // While being fetched, attributes might have been modified.
-    // The list needs to be refreshed so it is accurately displayed.
-    $contentObjectAttributes = $version->contentObjectAttributes( $EditLanguage );
 }
 elseif ( $storingAllowed )
 {
