@@ -654,7 +654,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         } break;
                         case 'trashed':
                         {
-                            $sortingFields .= 'trashed';
+                            $sortingFields .= $treeTableName . '.trashed';
                         } break;
                         case 'attribute':
                         {
