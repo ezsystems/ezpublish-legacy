@@ -17,7 +17,6 @@ foreach ( $Params['UserParameters'] as $key => $param )
 
 $Result = array();
 $Result['content'] = '';
-$Result['rerun_uri'] = '/' . implode( '/', array_splice( $Params['Parameters'], 1 ) ) . $userParamString;
 
 $layoutINI = eZINI::instance( 'layout.ini' );
 $i18nINI = eZINI::instance( 'i18n.ini' );
@@ -53,6 +52,7 @@ if ( $layoutINI->hasGroup( $LayoutStyle ) )
         }
     }
 
+    $Result['rerun_uri'] = '/' . implode( '/', array_splice( $Params['Parameters'], 1 ) ) . $userParamString;
     $Module->setExitStatus( eZModule::STATUS_RERUN );
 }
 else

@@ -848,15 +848,14 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
                 $moduleResult = $this->module->handleError( eZError::KERNEL_MODULE_DISABLED, 'kernel', array( 'check' => $moduleCheck ) );
             }
             $this->siteBasics['module-run-required'] = false;
-            if ( $this->module->exitStatus() == eZModule::STATUS_RERUN )
+            if ( isset( $moduleResult['rerun_uri'] ) )
             {
-                if ( isset( $moduleResult['rerun_uri'] ) )
-                {
-                    $this->uri = eZURI::instance( $moduleResult['rerun_uri'] );
-                    $this->siteBasics['module-run-required'] = true;
-                }
-                else
-                    eZDebug::writeError( 'No rerun URI specified, cannot continue', 'index.php' );
+                $this->uri = eZURI::instance( $moduleResult['rerun_uri'] );
+                $this->siteBasics['module-run-required'] = true;
+            }
+            else if ( $this->module->exitStatus() == eZModule::STATUS_RERUN )
+            {
+                eZDebug::writeError( 'No rerun URI specified on eZModule::STATUS_RERUN, cannot set URI', 'index.php' );
             }
 
             if ( is_array( $moduleResult ) )
