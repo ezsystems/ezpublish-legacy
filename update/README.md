@@ -57,7 +57,7 @@ git clone https://github.com/mugoweb/ezpublish-legacy.git
 
 Override your installation with the new code version
 ```
-rsync -auv /tmp/ezpublish-legacy/* /var/www/ezp
+rsync -av /tmp/ezpublish-legacy/* /var/www/ezp
 ```
 
 Run the DB update script to make sure you have the
@@ -98,6 +98,11 @@ in the vendor directory. That is the case if you install/upgrade
 the eZ Publish version with composer. Previous versions of eZ Publish
 supported a zeta component installation in different locations on
 the system.
+Upgrading from older versions of eZ Publish probably will require you
+to run composer to install the zeta components into the vendor directory
+```
+composer.phar update
+```
 
 Notes about legacy_2018 extension
 --
