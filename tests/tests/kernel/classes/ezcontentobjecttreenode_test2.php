@@ -60,4 +60,13 @@ class eZContentObjectTreeNodeTest2 extends ezpDatabaseTestCase
         $attributeFilter = eZContentObjectTreeNode::createAttributeFilterSQLStrings( $attributeFilterParams );
         $this->assertEquals( $expected, $attributeFilter['where'] );
     }
+
+    public function testSortingByTrashed()
+    {
+        // test sorting by trashed
+        $sortList = array( array( 'trashed', true ) );
+        $result = eZContentObjectTreeNode::createSortingSQLStrings( $sortList, 'ezcot' );
+        $this->assertEquals( 'ezcot.trashed asc',
+            strtolower( $result[ 'sortingFields' ] ) );
+    }
 }
