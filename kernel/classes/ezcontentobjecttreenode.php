@@ -652,6 +652,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         {
                             $sortingFields .= 'ezcontentobject_name.name';
                         } break;
+                        case 'trashed':
+                        {
+                            $sortingFields .= $treeTableName . '.trashed';
+                        } break;
                         case 'attribute':
                         {
                             $classAttributeID = $sortBy[2];

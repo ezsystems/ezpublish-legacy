@@ -24,6 +24,7 @@ env:
 matrix:
   include:
     - php: 5.5
+      dist: trusty
       env: DB="postgresql" DB_USER="postgres"
     - php: 5.6
       env: DB="mysql" DB_USER="root"
