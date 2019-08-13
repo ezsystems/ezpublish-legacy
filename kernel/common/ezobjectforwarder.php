@@ -323,8 +323,10 @@ class eZObjectForwarder
                         {
                             $matchConditionCount = 0;
 
-                            if ((($customMatch['conditions'] instanceof Countable || is_array($customMatch['conditions'])) && $customMatch['conditions']) || $customMatch['conditions'] != null) {
+                            if ($customMatch['conditions'] instanceof Countable || is_array($customMatch['conditions'])) {
                                 $matchConditionCount = count($customMatch['conditions']);
+                            } else if ($emailSender != null) {
+                                $matchConditionCount = 1;
                             }
                             $code = '';
                             if ( $matchCount > 0 )

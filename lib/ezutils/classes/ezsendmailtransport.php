@@ -24,7 +24,7 @@ class eZSendmailTransport extends eZMailTransport
         $sendmailOptions = '';
         $emailFrom = $mail->sender();
         $emailSender = isset( $emailFrom['email'] ) ? $emailFrom['email'] : false;
-        if (!$emailSender || (is_array($emailSender) || $emailSender instanceof Countable && count($emailSender) <= 0) || $emailSender == null)
+        if ( !$emailSender || ( is_array($emailSender) || $emailSender instanceof Countable && count($emailSender) <= 0) || $emailSender == null )
             $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
         if ( !$emailSender )
             $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
