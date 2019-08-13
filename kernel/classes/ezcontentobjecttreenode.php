@@ -4168,12 +4168,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $nodePath = null;
         $nodeDepth = 0;
-        if ( count( $node ) != 0 )
-        {
+        if (((is_array($node) || $node instanceof Countable) && count($node) != 0) || $node != null) {
             $nodePath = $node->attribute( 'path_string' );
             $nodeDepth = $node->attribute( 'depth' );
         }
-
         $childPath = $nodePath;
 
         $db = eZDB::instance();

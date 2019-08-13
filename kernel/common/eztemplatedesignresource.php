@@ -87,7 +87,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                 foreach ( $customMatchList as $customMatch )
                 {
                     $matchConditionCount = 0;
-                    if ($customMatch['conditions'] instanceof Countable || is_array($customMatch['conditions'])) {
+                    if ((($customMatch['conditions'] instanceof Countable || is_array($customMatch['conditions'])) && $customMatch['conditions']) || $customMatch['conditions'] != null) {
                         $matchConditionCount = count($customMatch['conditions']);
                     }
                     $code = '';
