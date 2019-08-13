@@ -90,9 +90,6 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                     if ($customMatch['conditions'] instanceof Countable || is_array($customMatch['conditions'])) {
                         $matchConditionCount = count($customMatch['conditions']);
                     }
-                    else if (!is_empty($customMatch['conditions'])) {
-                        $matchConditionCount = 1;
-                    }
                     $code = '';
                     if ( $matchCount > 0 )
                     {

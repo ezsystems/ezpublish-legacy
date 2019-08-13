@@ -325,9 +325,6 @@ class eZObjectForwarder
                             if ($customMatch['conditions'] instanceof Countable || is_array($customMatch['conditions'])) {
                                 $matchConditionCount = count($customMatch['conditions']);
                             }
-                            else if (!is_empty($customMatch['conditions'])) {
-                                $matchConditionCount = 1;
-                            }
                             $code = '';
                             if ( $matchCount > 0 )
                             {
@@ -573,6 +570,7 @@ class eZObjectForwarder
             $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$$designKeysName = array_pop( \$" . $designKeysName . "Stack );",
                                                                    array( 'spacing' => $acquisitionSpacing ) );
         }
+        die();
         return $newNodes;
     }
 
