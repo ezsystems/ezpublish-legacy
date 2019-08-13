@@ -573,7 +573,6 @@ class eZObjectForwarder
             $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$$designKeysName = array_pop( \$" . $designKeysName . "Stack );",
                                                                    array( 'spacing' => $acquisitionSpacing ) );
         }
-        die();
         return $newNodes;
     }
 
