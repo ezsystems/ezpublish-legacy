@@ -87,8 +87,7 @@ class eZContentObjectTreeNodeOperations
                 {
 
                     eZContentObjectTreeNode::assignSectionToSubTree( $newNode->attribute( 'main_node_id' ),
-                                                                     $newParentObject->attribute( 'section_id' ),
-                                                                     $oldParentObject->attribute( 'section_id' ) );
+                                                                     $newParentObject->attribute( 'section_id' ) );
                 }
             }
 
