@@ -88,55 +88,23 @@ class eZMysqlSchema extends eZDBSchemaInterface
                 else
                     $field['default'] = (string)$row['Default'];
             }
-            else
+            elseif ( $row['Default'] !== null )
             {
                 $field['default'] = (string)$row['Default'];
             }
 
-            $numericTypes = array( 'float', 'int' );
-            $blobTypes = array( 'tinytext', 'text', 'mediumtext', 'longtext' );
-            $charTypes = array( 'varchar', 'char' );
-            if ( in_array( $field['type'], $charTypes ) )
+            $numericTypes = array( 'float', 'int', 'mediumint', 'smallint', 'tinyint' );
+            if ( $field['default'] !== false && in_array( $field['type'], $numericTypes ) &&
+                 ( $field['not_null'] || is_numeric( $field['default'] ) ) )
             {
-                if ( !$field['not_null'] )
+                if ( $field['type'] == 'int' )
                 {
-                    if ( $field['default'] === null )
-                    {
-                        $field['default'] = null;
-                    }
-                    else if ( $field['default'] === false )
-                    {
-                        $field['default'] = '';
-                    }
+                    $field['default'] = (int)$field['default'];
                 }
-            }
-            else if ( in_array( $field['type'], $numericTypes ) )
-            {
-                if ( $field['default'] === false )
+                else if ( $field['type'] == 'float' )
                 {
-                    if ( $field['not_null'] )
-                    {
-                        $field['default'] = 0;
-                    }
+                    $field['default'] = (float)$field['default'];
                 }
-                else if ( $field['type'] == 'int' )
-                {
-                    if ( $field['not_null'] or
-                         is_numeric( $field['default'] ) )
-                        $field['default'] = (int)$field['default'];
-                }
-                else if ( $field['type'] == 'float' or
-                          is_numeric( $field['default'] ) )
-                {
-                    if ( $field['not_null'] or
-                         is_numeric( $field['default'] ) )
-                        $field['default'] = (float)$field['default'];
-                }
-            }
-            else if ( in_array( $field['type'], $blobTypes ) )
-            {
-                // We do not want default for blobs.
-                $field['default'] = false;
             }
 
             if ( strpos ( $row['Extra'], 'auto_increment' ) !== false )
