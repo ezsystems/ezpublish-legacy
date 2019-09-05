@@ -1079,7 +1079,11 @@ $FunctionList['related_objects'] = array( 'name' => 'object',
                                                         array( 'name' => 'related_class_identifiers',
                                                                'type' => 'array',
                                                                'required' => false,
-                                                               'default' => null ) ) );
+                                                               'default' => null ),
+                                                        array( 'name' => 'version',
+                                                               'type' => 'integer',
+                                                               'required' => false,
+                                                               'default' => false ) ) );
 
 $FunctionList['related_objects_count'] = array( 'name' => 'object',
                                  'operation_types' => array( 'read' ),
@@ -1095,6 +1099,10 @@ $FunctionList['related_objects_count'] = array( 'name' => 'object',
                                                                'default' => '0' ),
                                                         array( 'name' => 'all_relations',
                                                                'type' => 'boolean',
+                                                               'required' => false,
+                                                               'default' => false ),
+                                                        array( 'name' => 'version',
+                                                               'type' => 'integer',
                                                                'required' => false,
                                                                'default' => false ) ) );
 // Fetches reverse related objects array
