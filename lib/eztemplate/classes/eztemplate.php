@@ -1377,7 +1377,7 @@ class eZTemplate
             } break;
             case "variable":
             {
-                return $this->elementValue( $data["content"], $nspace );
+                return $this->elementValue( $data["content"], $nspace, '' );
             } break;
             default:
             {
