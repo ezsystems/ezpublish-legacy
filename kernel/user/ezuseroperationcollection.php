@@ -78,6 +78,12 @@ class eZUserOperationCollection
         $hostname = eZSys::hostname();
         $tpl->setVariable( 'hostname', $hostname );
 
+        $http = eZHTTPTool::instance();
+        if( $http->hasSessionVariable( 'GeneratedPassword' ) )
+        {
+            $tpl->setVariable( 'password', $http->sessionVariable( 'GeneratedPassword' ) );
+        }
+
         // Check whether account activation is required.
         $verifyUserType = $ini->variable( 'UserSettings', 'VerifyUserType' );
         $sendUserMail = !!$verifyUserType;
