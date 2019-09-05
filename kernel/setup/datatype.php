@@ -203,13 +203,11 @@ function datatypeDownload( $tpl, &$persistentData, $stepData )
     $contentLength = strlen( $content );
     $mimeType = 'application/octet-stream';
 
-    $version = eZPublishSDK::version();
-
     header( "Pragma: " );
     header( "Cache-Control: " );
     header( "Content-Length: $contentLength" );
     header( "Content-Type: $mimeType" );
-    header( "X-Powered-By: eZ Publish $version" );
+    header( "X-Powered-By: eZ Publish" );
     header( "Content-Disposition: attachment; filename=$filename" );
     header( "Content-Transfer-Encoding: binary" );
     ob_end_clean();
