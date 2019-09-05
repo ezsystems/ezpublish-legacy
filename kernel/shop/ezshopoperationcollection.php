@@ -323,7 +323,7 @@ class eZShopOperationCollection
         {
             if ( substr( $optionKey, 0, 4 ) == 'set_' )
             {
-                $returnStatus = eZShopOperationCollection::addToBasket( $objectID, $optionList[$optionKey] );
+                $returnStatus = $this->addToBasket( $objectID, $optionList[$optionKey], $quantity );
                 // If adding one 'option set' fails we should stop immediately
                 if ( $returnStatus['status'] == eZModuleOperationInfo::STATUS_CANCELLED )
                     return $returnStatus;
