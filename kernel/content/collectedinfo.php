@@ -59,6 +59,7 @@ $tpl->setVariable( 'viewmode', $viewMode );
 $tpl->setVariable( 'view_parameters', $userParameters );
 $tpl->setVariable( 'attribute_hide_list', $attributeHideList );
 $tpl->setVariable( 'error', false );
+$tpl->setVariable( 'persistent_variable', false );
 
 $section = eZSection::fetch( $object->attribute( 'section_id' ) );
 if ( $section )
@@ -116,5 +117,14 @@ $titlePath[] = array( 'text' => $title,
 
 $Result['path'] = $path;
 $Result['title_path'] = $titlePath;
+
+$contentInfoArray = array();
+$contentInfoArray['persistent_variable'] = false;
+if ( $tpl->variable( 'persistent_variable' ) !== false )
+{
+    $contentInfoArray['persistent_variable'] = $tpl->variable( 'persistent_variable' );
+}
+
+$Result['content_info'] = $contentInfoArray;
 
 ?>
