@@ -1170,6 +1170,24 @@ class eZScript
         eZTextCodec::updateSettings( $i18nSettings );
     }
 
+    /*!
+     \static
+     Execute a process in the background, should work on both Linux and Windows
+     From php doc:
+     http://no.php.net/manual/en/function.exec.php#86329
+    */
+    static function execInBackground( $command )
+    {
+        if ( substr( php_uname(), 0, 7 ) == 'Windows' )
+        {
+            pclose( popen( 'start /B ' . $command, 'r' ) );
+        }
+        else
+        {
+            exec( $command . ' > /dev/null &' );
+        }
+    }
+
     /// \privatesection
     public $IsInitialized;
     public $InitializationErrorMessage;
