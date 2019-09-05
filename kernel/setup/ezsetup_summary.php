@@ -76,7 +76,8 @@ class eZSetupSummary
         }
 
         // Database selected
-        if ( isset( $persistenceList['database_info'] ) ) {
+        if ( isset( $persistenceList['database_info'] ) ) 
+        {
             $database = $databaseMap[$persistenceList['database_info']['type']]['name'];
             $this->Tpl->setVariable( 'database', $database );
         }
@@ -86,7 +87,8 @@ class eZSetupSummary
         }
 
         // Languages selected
-        if ( isset( $persistenceList['regional_info'] ) ) {
+        if ( isset( $persistenceList['regional_info'] ) ) 
+        {
             $languages = $persistenceList['regional_info']['languages'];
             $this->Tpl->setVariable( 'languages', $languages );
         }
@@ -98,7 +100,8 @@ class eZSetupSummary
         // Email settings
         $this->Tpl->setVariable( 'summary_email_info', '' );
 
-        if ( isset( $persistenceList['email_info'] ) ) {
+        if ( isset( $persistenceList['email_info'] ) ) 
+        {
             if ( $persistenceList['email_info']['type'] == 1 )
             {
                 $this->Tpl->setVariable( 'summary_email_info', 'sendmail' );
@@ -109,6 +112,19 @@ class eZSetupSummary
             }
         }
 
+        // Proxy settings
+        $this->Tpl->setVariable( 'summary_proxy_info', '' );
+
+        if ( isset( $persistenceList['proxy_info'] ) ) 
+        {
+            if ( $persistenceList['proxy_info']['server'] <> "" )
+            {
+                $this->Tpl->setVariable( 'summary_proxy_info', $persistenceList['proxy_info']['server'] );
+            }else{
+                $this->Tpl->setVariable( 'summary_proxy_info', '-' );
+            }
+        }		
+		
         // Templates chosen
         $chosenSitePackage = false;
         if ( isset( $this->PersistenceList['chosen_site_package']['0'] ) )

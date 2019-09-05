@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * File containing the eZStepCreateSites class.
  *
@@ -315,6 +315,13 @@ class eZStepCreateSites extends eZStepInstaller
             $ini->setVariable( 'MailSettings', 'TransportServer', $emailInfo['server'] );
             $ini->setVariable( 'MailSettings', 'TransportUser', $emailInfo['user'] );
             $ini->setVariable( 'MailSettings', 'TransportPassword', $emailInfo['password'] );
+        }
+
+        if ( $this->PersistenceList['proxy_info']['server']<>"" )
+        {
+            $ini->setVariable( 'ProxySettings', 'ProxyServer', $this->PersistenceList['proxy_info']['server'] );
+            $ini->setVariable( 'ProxySettings', 'User', $this->PersistenceList['proxy_info']['user'] );
+            $ini->setVariable( 'ProxySettings', 'Password', $this->PersistenceList['proxy_info']['password'] );
         }
 
         // Enable design location cache
