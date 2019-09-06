@@ -47,7 +47,7 @@ if (
     $purgeHandler->run(
         $options['iteration-limit'] ? (int)$options['iteration-limit'] : null,
         $options['iteration-sleep'] ? (int)$options['iteration-sleep'] : null,
-        $options['trashed-days']    ? strtotime( "-{$options['trashed-days']} days" ) : null
+        $options['trashed-days']    ? (int)$options['trashed-days'] : null
     )
 )
 {
