@@ -48,31 +48,33 @@ admin2ppDragNDropChildren.prototype = {
         var start = +inputs.first().text();
         var increments = admin2ppDragNDropChildren.PRIORITY_OFFSET * this.sortOrder;
         var instance = this;
+        var recordPriorityIDs = [];
+        var recordPriorities  = [];
         inputs.each(function() {
             jQuery( this ).text( start ); 
             var recordId = jQuery( this ).closest('tr').attr('id');
             var record = subItemsTable.getRecordSet().getRecord(recordId);
-            instance.updatePriority(record, start);
+            recordPriorityIDs.push(record.getData('node_id'));
+            recordPriorities.push(start);
+            record.setData('priority', start);
             start = start + increments;
         });
+        instance.updatePriority(recordPriorityIDs, recordPriorities);
     },
 
-    updatePriority: function(record, priority) {
-        var sortedBy = subItemsTable.get('sortedBy'),
-            paginator = subItemsTable.get('paginator')
-        ;
-        record.setData('priority', priority);
-
-        jQuery.ez('ezjscnode::updatepriority', {
-            ContentNodeID: record.getData('parent_node_id'),
-            ContentObjectID: record.getData('contentobject_id'),
-            PriorityID: [record.getData('node_id')],
-            Priority: [priority]
-        }, onSuccess);
+    updatePriority: function(recordPriorityIDs, recordPriorities) {
 
         var onSuccess = function(data) {
-            record.setData('priority', priority);
+            // Clear JS cache
+            subItemsTable.getDataSource().flushCache();
         }
+
+        jQuery.ez('ezjscnode::updatepriority', {
+            ContentNodeID: $('input[name="ContentNodeID"]').val(),
+            ContentObjectID: $('input[name="ContentObjectID"]').val(),
+            PriorityID: recordPriorityIDs,
+            Priority: recordPriorities
+        }, onSuccess);
     },
 
     fixBackgrounds:function() {
