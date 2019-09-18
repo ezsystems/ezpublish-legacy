@@ -957,14 +957,14 @@ p.table-preferences a
     text-decoration: none;
 }
 
-input.button, input.defaultbutton, input.button-disabled
+input.button, input.defaultbutton, input.button-disabled, a.button, a.button-disabled
 {
     width: auto;
     overflow: visible;
     padding: 0.1em 0.5em;
 }
 
-input.button:hover
+input.button:hover, a.button:hover
 {
     border: 1px solid #999;
 }
