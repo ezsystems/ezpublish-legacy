@@ -696,6 +696,11 @@ class eZFSFileHandler implements eZClusterFileHandlerInterface
         eZDebug::accumulatorStop( 'dbfile' );
     }
 
+    public function filePurge( $path )
+    {
+        $this->fileDelete( $path );
+    }
+
     /**
      * Deletes specified file/directory.
      *
@@ -998,7 +1003,32 @@ class eZFSFileHandler implements eZClusterFileHandlerInterface
 
     public function getFileList($scopes = false, $excludeScopes = false)
     {
-        return false;
+        $return = [];
+
+        if( !empty( $scopes ) )
+        {
+            foreach( $scopes as $scope )
+            {
+                switch( $scope )
+                {
+                    case 'ezjscore':
+                    {
+                        $varDir = eZINI::instance()->variable( 'FileSettings', 'VarDir' );
+
+                        $return = array_merge(
+                            $return,
+                            eZDir::recursiveFind( $varDir .'/cache/public/javascript/', '.' )
+                        );
+                        $return = array_merge(
+                            $return,
+                            eZDir::recursiveFind( $varDir .'/cache/public/stylesheets/', '.' )
+                        );
+                    }
+                    break;
+                }
+            }
+        }
+        return $return;
     }
 
     public function isDBFileExpired($expiry, $curtime, $ttl)

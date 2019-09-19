@@ -30,6 +30,8 @@ tags[]=content
 tags[]=template
 path=public
 isClustered=true
+#Do not delete/purge files younger than X days
+Maxage=0
 class=ezjscCacheManager
 
 

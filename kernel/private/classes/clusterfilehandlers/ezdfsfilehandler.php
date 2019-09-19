@@ -1032,6 +1032,28 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
     }
 
     /**
+     * @param string $path
+     * @return bool|eZMySQLBackendError
+     */
+    public function filePurge( $path )
+    {
+        $path = self::cleanPath( $path );
+        $return = self::$dbbackend->_purge( $path );
+
+        // Remove local copies
+        if ( is_file( $path ) )
+        {
+            @unlink( $path );
+        }
+        elseif ( is_dir( $path ) )
+        {
+            eZDir::recursiveDelete( $path );
+        }
+
+        return $return;
+    }
+
+    /**
      * Deletes specified file/directory.
      *
      * If a directory specified it is deleted recursively.
