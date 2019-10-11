@@ -26,6 +26,7 @@ class eZUser extends eZPersistentObject
     /// MD5 of site, user and password
     const PASSWORD_HASH_MD5_SITE = 3;
     /// Legacy support for mysql hashed passwords
+    /// NB! Does not work as of MySQL 8.0 where this has been removed from MySQL.
     const PASSWORD_HASH_MYSQL = 4;
     /// Passwords in plaintext, should not be used for real sites
     const PASSWORD_HASH_PLAINTEXT = 5;
@@ -841,29 +842,13 @@ WHERE user_id = '" . $userID . "' AND
 
         $contentObjectStatus = eZContentObject::STATUS_PUBLISHED;
 
-        $ini = eZINI::instance();
-        $databaseName = $db->databaseName();
-        // if mysql
-        if ( $databaseName === 'mysql' )
-        {
-            $query = "SELECT contentobject_id, password_hash, password_hash_type, email, login
-                      FROM ezuser, ezcontentobject
-                      WHERE ( $loginText ) AND
-                        ezcontentobject.status='$contentObjectStatus' AND
-                        ezcontentobject.id=contentobject_id AND
-                        ( ( password_hash_type!=4 ) OR
-                          ( password_hash_type=4 AND
-                            password_hash=PASSWORD('$passwordEscaped') ) )";
-        }
-        else
-        {
-            $query = "SELECT contentobject_id, password_hash,
-                             password_hash_type, email, login
-                      FROM   ezuser, ezcontentobject
-                      WHERE  ( $loginText )
-                      AND    ezcontentobject.status='$contentObjectStatus'
-                      AND    ezcontentobject.id=contentobject_id";
-        }
+        // PASSWORD_HASH_MYSQL is handled further down as this inital SQL needs to work on MySQL 8.0 as well as PostgreSQL
+        $query = "SELECT contentobject_id, password_hash, password_hash_type, email, login
+            FROM   ezuser, ezcontentobject
+            WHERE  ( $loginText )
+            AND    password_hash_type!=0
+            AND    ezcontentobject.status='$contentObjectStatus'
+            AND    ezcontentobject.id=contentobject_id";
 
         $users = $db->arrayQuery( $query );
         $exists = false;
@@ -879,6 +864,7 @@ WHERE user_id = '" . $userID . "' AND
                                                     $hashType,
                                                     $hash );
 
+                $databaseName = $db->databaseName();
                 // If hash type is MySql
                 if ( $hashType == self::PASSWORD_HASH_MYSQL and $databaseName === 'mysql' )
                 {
