@@ -102,14 +102,15 @@ class eZTextFileUser extends eZUser
                         $exists = true;
                 }
 
-                eZDebugSetting::writeDebug( 'kernel-user', eZUser::createHash( $userRow['login'], $password, eZUser::site(),
-                                                                               $hashType ), "check hash" );
-                eZDebugSetting::writeDebug( 'kernel-user', $hash, "stored hash" );
                  // If current user has been disabled after a few failed login attempts.
                 $canLogin = eZUser::isEnabledAfterFailedLogin( $userID );
 
                 if ( $exists )
                 {
+                    eZDebugSetting::writeDebug( 'kernel-user', eZUser::createHash( $userRow['login'], $password, eZUser::site(),
+                                                                                   $hashType ), "check hash" );
+                    eZDebugSetting::writeDebug( 'kernel-user', $hash, "stored hash" );
+
                     // We should store userID for warning message.
                     $GLOBALS['eZFailedLoginAttemptUserID'] = $userID;
 
@@ -279,7 +280,7 @@ class eZTextFileUser extends eZUser
                             $user->setAttribute( 'login', $login );
                             $user->setAttribute( 'email', $email );
                             $user->setAttribute( 'password_hash', "" );
-                            $user->setAttribute( 'password_hash_type', 0 );
+                            $user->setAttribute( 'password_hash_type', self::PASSWORD_HASH_EMPTY );
                             $user->store();
 
                             eZUser::updateLastVisit( $userID );
@@ -318,7 +319,7 @@ class eZTextFileUser extends eZUser
                             $existUser = eZUser::fetch(  $userID );
                             $existUser->setAttribute('email', $email );
                             $existUser->setAttribute('password_hash', "" );
-                            $existUser->setAttribute('password_hash_type', 0 );
+                            $existUser->setAttribute('password_hash_type', self::PASSWORD_HASH_EMPTY );
                             $existUser->store();
 
                             if ( $defaultUserPlacement != $parentNodeID )
