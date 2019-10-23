@@ -325,7 +325,7 @@ class eZObjectForwarder
 
                             if ($customMatch['conditions'] instanceof Countable || is_array($customMatch['conditions'])) {
                                 $matchConditionCount = count($customMatch['conditions']);
-                            } else if ($emailSender != null) {
+                            } else if ($customMatch['conditions'] != null) {
                                 $matchConditionCount = 1;
                             }
                             $code = '';
