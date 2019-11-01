@@ -32,9 +32,11 @@ matrix:
       env: DB="postgresql" DB_USER="postgres"
     - php: 7.1
       env: DB="mysql" DB_USER="root"
-# Will need to update phpunit for this: https://travis-ci.org/ezsystems/ezpublish-legacy/jobs/279543965#L625
-#    - php: 7.2
-#      env: DB="postgresql" DB_USER="postgres"
+    - php: 7.2
+      env: DB="postgresql" DB_USER="postgres"
+    - php: 7.3
+      env: DB="mysql" DB_USER="root"
+
 
 before_script:
   - if [ $DB == "mysql" ]; then mysql -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;" -u$DB_USER ; fi
