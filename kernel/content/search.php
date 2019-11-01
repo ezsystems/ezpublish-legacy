@@ -150,7 +150,7 @@ if ( $http->hasVariable( 'Mode' ) && $http->variable( 'Mode' ) == 'browse' )
 //    $searchResult['RequestedURISuffix'] = $sys->serverVariable( "QUERY_STRING" );
 
 
-    $searchResult['RequestedURISuffix'] = 'SearchText=' . urlencode ( $searchText ) . ( ( $searchTimestamp > 0 ) ?  '&SearchTimestamp=' . $searchTimestamp : '' ) . '&BrowsePageLimit=' . $pageLimit . '&Mode=browse';
+    $searchResult['RequestedURISuffix'] = 'SearchText=' . urlencode ( $searchText ) . ( isset( $subTreeArray[0] ) ? '&SubTreeArray=' . $subTreeArray[0] : '' ) . ( ( $searchTimestamp > 0 ) ?  '&SearchTimestamp=' . $searchTimestamp : '' ) . '&BrowsePageLimit=' . $pageLimit . '&Mode=browse';
     return $Module->run( 'browse',array(),array( "NodeList" => $searchResult,
                                                  "Offset" => $Offset,
                                                  "NodeID" => isset( $subTreeArray[0] ) && $subTreeArray[0] != 1 ? $subTreeArray[0] : null  ) );
