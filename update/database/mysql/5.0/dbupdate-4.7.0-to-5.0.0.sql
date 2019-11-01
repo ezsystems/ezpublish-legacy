@@ -15,7 +15,7 @@ UPDATE ezcobj_state_group_language SET real_language_id = language_id & ~1;
 ALTER TABLE ezgeneral_digest_user_settings ADD COLUMN user_id int(11) NOT NULL default '0';
 DELETE FROM ezgeneral_digest_user_settings WHERE address NOT IN (SELECT email FROM ezuser);
 UPDATE ezgeneral_digest_user_settings SET user_id = (SELECT ezuser.contentobject_id
-           FROM ezuser WHERE ezuser.email = ezgeneral_digest_user_settings.address);
+           FROM ezuser WHERE ezuser.email = ezgeneral_digest_user_settings.address LIMIT 1);
 ALTER TABLE ezgeneral_digest_user_settings ADD UNIQUE INDEX ezgeneral_digest_user_id (user_id);
 ALTER TABLE ezgeneral_digest_user_settings DROP COLUMN address;
 ALTER TABLE ezuser ADD INDEX ezuser_login (login);
