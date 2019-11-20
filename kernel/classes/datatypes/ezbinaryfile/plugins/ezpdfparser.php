@@ -39,6 +39,7 @@ class eZPDFParser
         // fill the buffer with the old values
         ob_start();
         print( $buffer );
+        ob_end_clean();
 
         return $metaData;
     }
