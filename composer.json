@@ -27,7 +27,7 @@
         "zetacomponents/webdav": "~1.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.7.*",
+        "phpunit/phpunit": "4.8.36",
         "zetacomponents/php-generator": "~1.1"
     },
     "autoload": {
