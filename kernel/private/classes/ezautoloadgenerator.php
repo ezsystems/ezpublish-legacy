@@ -643,7 +643,7 @@ class eZAutoloadGenerator
                                  * @see https://www.php.net/manual/en/language.oop5.anonymous.php
                                  * NEW_TOKEN - WHITESPACE_TOKEN - CLASS_TOKEN
                                  */
-                                if($tokens[$key-2][0] === T_NEW) {
+                                if(isset($tokens[$key-2][0]) && $tokens[$key-2][0] === T_NEW) {
                                     break;
                                 }
 
