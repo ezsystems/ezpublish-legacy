@@ -3,15 +3,17 @@
 ## PHP 7.0 support
 
 For the [2017.10 release](https://github.com/ezsystems/ezpublish-legacy/releases/tag/v2017.10.0),
-eZ Publish recived changes to switch to PHP 5 style constuctors all over the code base.
+eZ Publish received changes all over the code base, switching object constructor methods to PHP 5 style.
 
-Reason is to reach full PHP 7.0 support by avoiding deprecation warnings for still using PHP 4
+The reason is to achieve full PHP 7.0 support by avoiding the deprecation warnings when using PHP 4
 style constructors.
 
-And while there are compatability functions kept around in most cases to avoid any fatal errors for you,
-to avoid warnings you'll need to adapt too. 
+Care has been taken to keep around compatibility functions in all known cases to avoid fatal errors
+for custom extensions, however to avoid warnings you might need to adapt your code as well.
 
-Here is an example of how you might need to adapt for this change in your code:
+Common cases are classes extending `eZPersistentObject` or `eZDataType`.
+
+Here is an example of how you should adapt your code for the constructor change:
 
 ```diff
 diff --git a/classes/ezfindresultnode.php b/classes/ezfindresultnode.php
@@ -29,10 +31,10 @@ index fafca310..b6462159 100644
              $this->ContentObjectID = $rows['id'];
 ```
 
-Other more common examples are classes extending `eZPersistentObject` or `eZDataType`.
-
-You should also consider changing your own code to use PHP 5 style constructor while doing this,
-in example above that would imply changing `function eZFindResultNode` to `function __construct`.
+For best results you should also consider changing your own code to use PHP 5 style constructors.
+In the example above that would mean renaming `function eZFindResultNode` to `function __construct` and,
+if you think that other code might exist which extends the `eZFindResultNode` class, add back a courtesy 
+`eZFindResultNode` function that does nothing but call `__construct`
 
 Further reading:
 - http://php.net/manual/en/language.oop5.decon.php
@@ -41,13 +43,15 @@ Further reading:
 
 ## PHP 7.2 support
 
-Starting with 2019.03 release, issues on PHP 7.2 and PHP 7.3 has been fixed, but in your own code you'll ideally also need to handle some of this.
+Starting with the 2019.03 release, issues happening on PHP 7.2 and PHP 7.3 have been fixed, but in your own code you'll
+also need to handle some of those.
 
-Most notably is `Warn when counting non-countable types` added in PHP 7.2.
+Most notable is the `Warn when counting non-countable types` change, added in PHP 7.2.
 
-To hande this across all supported PHP versions, we intropduced use of [symfony/polyfill-php73](https://github.com/symfony/polyfill-php73) package, witch backports PHP 7.3's function [is_countable](https://www.php.net/is_countable).
+To handle this across all supported PHP versions, we introduced use of [symfony/polyfill-php73](https://github.com/symfony/polyfill-php73)
+package, witch backports PHP 7.3's function [is_countable](https://www.php.net/is_countable).
 
-Here is an example of changes you might need to do in your own code around this:
+Here is an example of changes you might need to apply in your own code to work around that:
 
 ```diff
 diff --git a/kernel/common/eztemplatedesignresource.php b/kernel/common/eztemplatedesignresource.php
