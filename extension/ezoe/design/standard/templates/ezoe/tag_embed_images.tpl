@@ -55,7 +55,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
         else
         {
            var imageAtr   = eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ], imageSizeObj = imageAtr['content'][ args['alt'] ];
-           args['src']    = ed.settings.ez_root_url + imageSizeObj['url'];
+           args['src']    = imageSizeObj['url'];
            args['title']  = eZOEPopupUtils.safeHtml( imageAtr['alternative_text'] || eZOEPopupUtils.embedObject['name'] );
            args['width']  = imageSizeObj['width'];
            args['height'] = imageSizeObj['height'];
@@ -153,7 +153,7 @@ function loadImageSize( e, el )
     }
     else if ( attribObj[size] )
     {
-        previewImageNode.attr( 'src', eds.ez_root_url + attribObj[size]['url'] );
+        previewImageNode.attr( 'src', attribObj[size]['url'] );
         tinyMCEPopup.resizeToInnerSize();
     }
     else
@@ -165,7 +165,7 @@ function loadImageSize( e, el )
             {
                 var size = jQuery('#embed_size_source').val(), imageAttributes = eZOEPopupUtils.embedObject['image_attributes'];
                 eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ] = data['content']['data_map'][ imageAttributes[0] ]['content'][ size ];
-                previewImageNode.attr( 'src', eds.ez_root_url + eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ]['url'] );
+                previewImageNode.attr( 'src', eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ]['url'] );
             }
         });
     }
