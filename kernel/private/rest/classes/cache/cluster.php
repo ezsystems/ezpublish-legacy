@@ -118,7 +118,7 @@ abstract class ezpRestCacheStorageCluster extends ezpRestCacheStorageFile implem
             null, // We won't call any generate callback as we're using ezcCache mechanism, so it's up to the cache caller to generate
             $this->properties['options']['ttl'],
             null,
-            compact( 'id', 'attributes', 'fileName' )
+            compact( 'id', 'attributes' )
         );
 
         if ( !$result instanceof eZClusterFileFailure )

@@ -912,7 +912,7 @@ class eZMySQLiDB extends eZDBInterface
         $databases = array();
 
         $numRows = mysqli_num_rows( $databaseArray );
-        if ( count( $numRows ) == 0 )
+        if ( $numRows == 0 )
         {
             return false;
         }
