@@ -27,6 +27,7 @@ class eZImageType extends eZDataType
     {
         parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Image", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
+        $this->FileExtensionBlackListValidator = new eZFileExtensionBlackListValidator();
     }
 
     function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
@@ -210,14 +211,23 @@ class eZImageType extends eZDataType
         $maxSize = 1024 * 1024 * $classAttribute->attribute( self::FILESIZE_FIELD );
         $mustUpload = false;
 
+        $tmpImgObj = $contentObjectAttribute->attribute( 'content' );
+        $original = $tmpImgObj->attribute( 'original' );
         if( $contentObjectAttribute->validateIsRequired() )
         {
-            $tmpImgObj = $contentObjectAttribute->attribute( 'content' );
-            $original = $tmpImgObj->attribute( 'original' );
             if ( !$original['is_valid'] )
             {
                 $mustUpload = true;
             }
+        }
+
+        $extensionsBlackList = implode(', ', $this->FileExtensionBlackListValidator->extensionsBlackList() );
+        $state = $this->FileExtensionBlackListValidator->validate( $original['filename'] );
+        if ( $state === eZInputValidator::STATE_INVALID || $state === eZInputValidator::STATE_INTERMEDIATE )
+        {
+            $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
+                "A valid file is required. The following file extensions are blacklisted: $extensionsBlackList" ) );
+            return eZInputValidator::STATE_INVALID;
         }
 
         $canFetchResult = eZHTTPFile::canFetch( $httpFileName, $maxSize );
@@ -229,6 +239,14 @@ class eZImageType extends eZDataType
                 $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                      'The image file must have non-zero size.' ) );
                 return eZInputValidator::STATE_INVALID;
+             }
+
+             $state = $this->FileExtensionBlackListValidator->validate( $_FILES[$httpFileName]['name'] );
+             if ( $state === eZInputValidator::STATE_INVALID || $state === eZInputValidator::STATE_INTERMEDIATE )
+             {
+                 $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
+                     "A valid file is required. The following file extensions are on the blacklist: $extensionsBlackList" ) );
+                 return eZInputValidator::STATE_INVALID;
              }
 
              if ( !self::validateImageFileExtension( $_FILES[$httpFileName]['name'] ) )
@@ -652,6 +670,10 @@ class eZImageType extends eZDataType
             eZImageFile::appendFilepath( $objectAttributeId, $url, true );
         }
     }
+
+    /// \privatesection
+    /// The file extension blacklist validator
+    private $FileExtensionBlackListValidator;
 }
 
 eZDataType::register( eZImageType::DATA_TYPE_STRING, "eZImageType" );
