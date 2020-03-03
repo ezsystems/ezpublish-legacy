@@ -27,6 +27,7 @@ class eZBinaryFileType extends eZDataType
     {
         parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "File", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
+        $this->FileExtensionBlackListValidator = new eZFileExtensionBlackListValidator();
     }
 
     /*!
@@ -246,14 +247,36 @@ class eZBinaryFileType extends eZDataType
         $httpFileName = $base . "_data_binaryfilename_" . $contentObjectAttribute->attribute( "id" );
         $maxSize = 1024 * 1024 * $classAttribute->attribute( self::MAX_FILESIZE_FIELD );
 
-        if ( $contentObjectAttribute->validateIsRequired() )
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
+        $version = $contentObjectAttribute->attribute( 'version' );
+        $binary = eZBinaryFile::fetch( $contentObjectAttributeID, $version );
+        $extensionsBlackList = implode(', ', $this->FileExtensionBlackListValidator->extensionsBlackList() );
+        if ( $binary === null )
         {
-            $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
-            $version = $contentObjectAttribute->attribute( "version" );
-            $binary = eZBinaryFile::fetch( $contentObjectAttributeID, $version );
-            if ( $binary === null )
+            if ( $contentObjectAttribute->validateIsRequired() )
             {
                 $mustUpload = true;
+            }
+        }
+        else
+        {
+            $state = $this->FileExtensionBlackListValidator->validate( $binary->attribute( 'filename' ) );
+            if ( $state === eZInputValidator::STATE_INVALID || $state === eZInputValidator::STATE_INTERMEDIATE )
+            {
+                $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
+                    "A valid file is required. The following file extensions are blacklisted: $extensionsBlackList" ) );
+                return eZInputValidator::STATE_INVALID;
+            }
+        }
+
+        if ( isset( $_FILES[$httpFileName] ) && $_FILES[$httpFileName]['tmp_name'] !== '')
+        {
+            $state = $this->FileExtensionBlackListValidator->validate( $_FILES[$httpFileName]['name'] );
+            if ( $state === eZInputValidator::STATE_INVALID || $state === eZInputValidator::STATE_INTERMEDIATE )
+            {
+                $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
+                    "A valid file is required. The following file extensions are blacklisted: $extensionsBlackList" ) );
+                return eZInputValidator::STATE_INVALID;
             }
         }
 
@@ -286,6 +309,11 @@ class eZBinaryFileType extends eZDataType
     {
         eZBinaryFileType::checkFileUploads();
         if ( $this->isDeletingFile( $http, $contentObjectAttribute ) )
+        {
+            return false;
+        }
+
+        if ( $this->validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute ) !== eZInputValidator::STATE_ACCEPTED )
         {
             return false;
         }
@@ -765,6 +793,10 @@ class eZBinaryFileType extends eZDataType
 
         return $isDeletingFile;
     }
+
+    /// \privatesection
+    /// The file extension blacklist validator
+    private $FileExtensionBlackListValidator;
 }
 
 eZDataType::register( eZBinaryFileType::DATA_TYPE_STRING, "eZBinaryFileType" );

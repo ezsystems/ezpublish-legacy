@@ -478,6 +478,10 @@ class ezjscAjaxContent
                                     (string)$element, 'UTF-8'
                                 );
                             }
+                            if( $key === 'url' )
+                            {
+                                eZURI::transformURI( $element, true );
+                            }
                         }
                     );
 
