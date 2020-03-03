@@ -20,7 +20,7 @@ class eZFileExtensionBlackListValidator extends eZInputValidator
     */
     function __construct()
     {
-        parent::eZInputValidator();
+        parent::__construct();
 
         $fileIni = eZINI::instance('file.ini');
         $this->constraints['extensionsBlackList'] = $fileIni->variable('FileSettings','FileExtensionBlackList');
