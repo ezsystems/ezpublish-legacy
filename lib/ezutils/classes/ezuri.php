@@ -605,7 +605,7 @@ class eZURI
             $modifiedHref = eZClusterFileHandler::instance()->applyServerUri( $trimmedHref );
             if ( $modifiedHref != $trimmedHref )
             {
-                $href = $htmlEscape ? self::escapeHtmlTransformUri( $href ) : $href;
+                $href = $htmlEscape ? self::escapeHtmlTransformUri( $modifiedHref ) : $modifiedHref;
                 return true;
             }
             unset( $modifiedHref );
