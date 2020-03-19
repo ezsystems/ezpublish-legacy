@@ -671,6 +671,14 @@ class eZAutoloadGenerator
                                 if ($tokens[$key-1][1] === '::') {
                                     break;
                                 }
+                                /**
+                                 * Ignore token if class is anonymous: "new Class() {}"
+                                 * @see https://www.php.net/manual/en/language.oop5.anonymous.php
+                                 * NEW_TOKEN - WHITESPACE_TOKEN - CLASS_TOKEN
+                                 */
+                                if(isset($tokens[$key-2][0]) && $tokens[$key-2][0] === T_NEW) {
+                                    break;
+                                }
 
                                 // Increment stat for found class.
                                 $this->incrementProgressStat( self::OUTPUT_PROGRESS_PHASE2, 'classCount' );
