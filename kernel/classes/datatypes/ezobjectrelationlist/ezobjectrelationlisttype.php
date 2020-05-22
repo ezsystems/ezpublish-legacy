@@ -215,7 +215,6 @@ class eZObjectRelationListType extends eZDataType
         {
             $content['relation_list'] = array();
             $contentObjectAttribute->setContent( $content );
-            $contentObjectAttribute->store();
             return true;
         }
         // Type is browse and we have no http input
