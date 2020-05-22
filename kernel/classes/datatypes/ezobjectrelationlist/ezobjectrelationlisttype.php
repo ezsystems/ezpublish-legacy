@@ -76,7 +76,8 @@ class eZObjectRelationListType extends eZDataType
             // If in browse mode and relations have been added using the search field
             // items are stored in the post variable
             if (
-                $http->postVariable( $postVariableName ) != array( "no_relation" )
+                $http->hasPostVariable( $postVariableName )
+                && $http->postVariable( $postVariableName ) != array( "no_relation" )
                 && count( $http->postVariable( $postVariableName ) ) > 0
             )
             {
