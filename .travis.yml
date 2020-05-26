@@ -23,7 +23,8 @@ env:
 # Aim to run tests on all versions of php, make sure each db is run at least once
 matrix:
   include:
-    - php: 5.6
+    - php: 5.5
+      dist: trusty
       env: DB="postgresql" DB_USER="postgres"
     - php: 5.6
       env: DB="mysql" DB_USER="root"
