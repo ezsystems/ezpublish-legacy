@@ -999,7 +999,7 @@ class eZOEInputParser extends eZXMLInputParser
                 {
                     ++$sectionLevel;
                 }
-                elseif ( $current->nodeName === 'td' )
+                elseif ( $current->nodeName === 'td' || $current->nodeName === 'th' )
                 {
                     ++$sectionLevel;
                     break;
