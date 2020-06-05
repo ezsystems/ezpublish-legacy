@@ -32,7 +32,7 @@
         "ezsystems/ezflow-ls-extension": "~5.3",
         "ezsystems/ezwt-ls-extension": "~5.3",
         "symfony/polyfill-php73":  "^1.9",
-        "mugoweb/ezfind": "^2019.03",
+        "mugoweb/ezfind": "^2020.04",
         "zetacomponents/archive": "~1.5",
         "zetacomponents/authentication": "~1.4",
         "zetacomponents/authentication-database-tiein": "~1.2",
