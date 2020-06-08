@@ -29,7 +29,7 @@ class eZSiteAccessMatchHostUriTest extends ezpTestCase
                 "www.example.com;abc;abc",
                 "www.example.com;abcdefg;abcdefg",
                 "www.example.com;abcde;abcde",
-                "www.example.com;admin;admin",
+                "www.example.com;test;test",
             )
         );
     }
@@ -62,13 +62,13 @@ class eZSiteAccessMatchHostUriTest extends ezpTestCase
     public function providerForTestMatchHostUri()
     {
         return array(
-            array( "", "admin", eZSiteAccess::TYPE_DEFAULT, array() ),
-            array( "foo", "admin", eZSiteAccess::TYPE_DEFAULT, array() ),
-            array( "admin", "admin", eZSiteAccess::TYPE_HTTP_HOST_URI, array( "admin" ) ),
-            array( "admin/", "admin", eZSiteAccess::TYPE_HTTP_HOST_URI, array( "admin" ) ),
-            array( "/admin", "admin", eZSiteAccess::TYPE_HTTP_HOST_URI, array( "admin" ) ),
-            array( "/admin/", "admin", eZSiteAccess::TYPE_HTTP_HOST_URI, array( "admin" ) ),
-            array( "admin/Foo", "admin", eZSiteAccess::TYPE_HTTP_HOST_URI, array( "admin" ) ),
+            array( "", "test", eZSiteAccess::TYPE_DEFAULT, array() ),
+            array( "foo", "test", eZSiteAccess::TYPE_DEFAULT, array() ),
+            array( "test", "test", eZSiteAccess::TYPE_HTTP_HOST_URI, array( "test" ) ),
+            array( "test/", "test", eZSiteAccess::TYPE_HTTP_HOST_URI, array( "test" ) ),
+            array( "/test", "test", eZSiteAccess::TYPE_HTTP_HOST_URI, array( "test" ) ),
+            array( "/test/", "test", eZSiteAccess::TYPE_HTTP_HOST_URI, array( "test" ) ),
+            array( "test/Foo", "test", eZSiteAccess::TYPE_HTTP_HOST_URI, array( "test" ) ),
             array( "abc", "abc", eZSiteAccess::TYPE_HTTP_HOST_URI, array( "abc" ) ),
             array( "abcd", "abcd", eZSiteAccess::TYPE_HTTP_HOST_URI, array( "abcd" ) ),
             array( "abcde", "abcde", eZSiteAccess::TYPE_HTTP_HOST_URI, array( "abcde" ) ),

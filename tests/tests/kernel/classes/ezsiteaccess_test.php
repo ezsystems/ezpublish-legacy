@@ -23,11 +23,11 @@ class eZSiteAccess_Test extends ezpTestCase
     public function testGetINI()
     {
         $current = eZSiteAccess::current();
-        $ini = eZSiteAccess::getIni('plain'/*, 'site.ini'*/);
+        $ini = eZSiteAccess::getIni('test'/*, 'site.ini'*/);
         self::assertEquals( $current, eZSiteAccess::current() );
 
         // this is not totally correct way of testing, but one way of making "sure" we got correct sa
-        self::assertEquals( 'plain', $ini->variable('DesignSettings', 'SiteDesign') );
+        self::assertEquals( 'test', $ini->variable('DesignSettings', 'SiteDesign') );
     }
 
     /**
