@@ -813,7 +813,7 @@ class eZImageManager
         $aliasList = $this->aliasList();
         if ( !isset( $aliasList[$aliasName] ) )
         {
-            eZDebug::writeWarning( "Alias name $aliasName does not exist, cannot create it" );
+            eZDebug::writeWarning( "Alias name $aliasName does not exist, cannot create it", __METHOD__ );
             return false;
         }
 
@@ -848,7 +848,7 @@ class eZImageManager
         {
             if ( $referenceAlias == 'original' )
             {
-                eZDebug::writeError( "Original alias does not exist, cannot create other aliases without it" );
+                eZDebug::writeError( "Original alias does not exist, cannot create other aliases without it", __METHOD__ );
                 return false;
             }
             if ( !$this->createImageAlias( $referenceAlias, $existingAliasList, $parameters ) )

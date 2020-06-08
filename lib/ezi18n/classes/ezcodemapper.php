@@ -990,7 +990,7 @@ class eZCodeMapper
                 $subTable = $this->mappingTable( $identifier );
                 if ( !$subTable )
                 {
-                    eZDebug::writeError( "Failed to fetch mapping table for identifier: '$identifier'" );
+                    eZDebug::writeError( "Failed to fetch mapping table for identifier: '$identifier'", __METHOD__ );
                 }
                 else
                 {
@@ -1398,7 +1398,7 @@ class eZCodeMapper
         $codec = eZTextCodec::instance( 'unicode', $charset );
         if ( !$codec )
         {
-            eZDebug::writeError( "Failed to create textcodec for charset '$charset'" );
+            eZDebug::writeError( "Failed to create textcodec for charset '$charset'", __METHOD__ );
             return false;
         }
 
@@ -1646,7 +1646,7 @@ class eZCodeMapper
                 }
                 else
                 {
-                    eZDebug::writeError( "Could not locate include file '$path' for transformation '" . $command['command'] . "'" );
+                    eZDebug::writeError( "Could not locate include file '$path' for transformation '" . $command['command'] . "'", __METHOD__ );
                 }
             }
         }
@@ -1789,7 +1789,7 @@ class eZCodeMapper
                 }
                 else
                 {
-                    eZDebug::writeError( "Could not locate include file '$path' for transformation '" . $command['command'] . "'" );
+                    eZDebug::writeError( "Could not locate include file '$path' for transformation '" . $command['command'] . "'", __METHOD__ );
                 }
             }
         }

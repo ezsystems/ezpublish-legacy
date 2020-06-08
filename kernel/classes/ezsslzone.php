@@ -465,7 +465,7 @@ class eZSSLZone
         if ( $sslPriority && $keepModePriority && $sslPriority == $keepModePriority )
         {
             eZDebug::writeError( "Configuration error: view $module/$view is defined both as 'ssl' and 'keep'",
-                                 'eZSSLZone' );
+                                 __METHOD__ );
             return;
         }
 

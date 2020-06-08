@@ -61,7 +61,7 @@ class eZDefaultVATHandler
         if ( !$ini->hasVariable( 'VATSettings', 'ProductCategoryAttribute' ) )
         {
             eZDebug::writeError( "Cannot find product category: please specify its attribute identifier " .
-                                 "in the following setting: shop.ini.[VATSettings].ProductCategoryAttribute" );
+                                 "in the following setting: shop.ini.[VATSettings].ProductCategoryAttribute", __METHOD__ );
             return null;
         }
 
@@ -70,7 +70,7 @@ class eZDefaultVATHandler
         if ( !$categoryAttributeName )
         {
             eZDebug::writeError( "Cannot find product category: empty attribute name specified " .
-                                 "in the following setting: shop.ini.[VATSettings].ProductCategoryAttribute" );
+                                 "in the following setting: shop.ini.[VATSettings].ProductCategoryAttribute", __METHOD__ );
 
             return null;
         }

@@ -258,7 +258,7 @@ class eZMultiPriceType extends eZDataType
 
             default :
             {
-                eZDebug::writeError( 'Unknown custom HTTP action: ' . $action, 'eZMultiPriceType' );
+                eZDebug::writeError( 'Unknown custom HTTP action: ' . $action, __METHOD__ );
             }break;
         }
     }

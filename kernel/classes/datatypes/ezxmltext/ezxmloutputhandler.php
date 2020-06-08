@@ -346,7 +346,7 @@ class eZXMLOutputHandler
                     $classesList = $this->XMLSchema->getClassesList( $tagName );
                     if ( !in_array( $attrNode->value, $classesList ) )
                     {
-                        eZDebug::writeWarning( "Using tag '$tagName' with class '$attrNode->value' is not allowed.", 'XML output handler' );
+                        eZDebug::writeWarning( "Using tag '$tagName' with class '$attrNode->value' is not allowed.", __METHOD__ );
                         return array( true, '' );
                     }
                 }
@@ -641,7 +641,7 @@ class eZXMLOutputHandler
         }
         else
         {
-            eZDebug::writeWarning( "'$handlerName' render handler for tag <$element->nodeName> doesn't exist: '" . $thisOutputTag[$handlerName] . "'.", 'eZXML converter' );
+            eZDebug::writeWarning( "'$handlerName' render handler for tag <$element->nodeName> doesn't exist: '" . $thisOutputTag[$handlerName] . "'.", __METHOD__ );
         }
         return $result;
     }

@@ -195,7 +195,7 @@ class eZLocale
         else
         {
             $this->IsValid = false;
-            eZDebug::writeError( 'Could not load country settings for ' . $this->CountryCode, 'eZLocale' );
+            eZDebug::writeError( 'Could not load country settings for ' . $this->CountryCode, __METHOD__ );
         }
 
         // Load language information
@@ -206,7 +206,7 @@ class eZLocale
         else
         {
             $this->IsValid = false;
-            eZDebug::writeError( 'Could not load language settings for ' . $this->LanguageCode, 'eZLocale' );
+            eZDebug::writeError( 'Could not load language settings for ' . $this->LanguageCode, __METHOD__ );
         }
 
 

@@ -38,7 +38,7 @@ class eZPostgreSQLDB extends eZDBInterface
                                             'text' => 'PostgreSQL extension was not found, the DB handler will not be initialized.' ) );
                 $this->IsConnected = false;
             }
-            eZDebug::writeWarning( 'PostgreSQL extension was not found, the DB handler will not be initialized.', 'eZPostgreSQLDB' );
+            eZDebug::writeWarning( 'PostgreSQL extension was not found, the DB handler will not be initialized.', __METHOD__ );
             return;
         }
 
@@ -131,7 +131,7 @@ class eZPostgreSQLDB extends eZDBInterface
         else
         {
             $this->IsConnected = false;
-            eZDebug::writeError( "PostgreSQL support not compiled into PHP, contact your system administrator", "eZPostgreSQLDB" );
+            eZDebug::writeError( "PostgreSQL support not compiled into PHP, contact your system administrator", __METHOD__);
 
         }
     }
@@ -227,7 +227,7 @@ class eZPostgreSQLDB extends eZDBInterface
             if ( !$result )
             {
                 $this->setError();
-                eZDebug::writeError( "Error: error executing query: $sql: {$this->ErrorMessage}", "eZPostgreSQLDB" );
+                eZDebug::writeError( "Error: error executing query: $sql: {$this->ErrorMessage}", __METHOD__ );
                 if ( $this->errorHandling == eZDB::ERROR_HANDLING_EXCEPTIONS )
                 {
                     throw new eZDBException( $this->ErrorMessage, $this->ErrorNumber );

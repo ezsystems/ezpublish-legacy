@@ -1178,7 +1178,7 @@ class eZURLAliasML extends eZPersistentObject
                 // Check for a valid path
                 if ( $lastID !== false && $lastID != $paren )
                 {
-                    eZDebug::writeError( "The parent ID $paren of element with ID $id does not point to the last entry which had ID $lastID, incorrect path would be calculated, aborting" );
+                    eZDebug::writeError( "The parent ID $paren of element with ID $id does not point to the last entry which had ID $lastID, incorrect path would be calculated, aborting", __METHOD__ );
                     return null;
                 }
                 $lastID = $id;
@@ -1768,7 +1768,7 @@ class eZURLAliasML extends eZPersistentObject
                     }
                     else
                     {
-                        eZDebug::writeError( "Lookup of parent ID $paren failed, cannot perform reverse lookup of alias." );
+                        eZDebug::writeError( "Lookup of parent ID $paren failed, cannot perform reverse lookup of alias.", __METHOD__ );
                         return false;
                     }
                 }
@@ -2055,7 +2055,7 @@ class eZURLAliasML extends eZPersistentObject
     {
         if ( !preg_match( "#^([a-zA-Z0-9_]+):(.+)?$#", $action, $matches ) )
         {
-            eZDebug::writeError( "Action is not of valid syntax '{$action}'" );
+            eZDebug::writeError( "Action is not of valid syntax '{$action}'", __METHOD__ );
             return false;
         }
 
@@ -2068,7 +2068,7 @@ class eZURLAliasML extends eZPersistentObject
             case 'eznode':
                 if ( !is_numeric( $args ) )
                 {
-                    eZDebug::writeError( "Arguments to eznode action must be an integer, got '{$args}'" );
+                    eZDebug::writeError( "Arguments to eznode action must be an integer, got '{$args}'", __METHOD__ );
                     return false;
                 }
                 $url = 'content/view/full/' . $args;
@@ -2084,7 +2084,7 @@ class eZURLAliasML extends eZPersistentObject
                 break;
 
             default:
-                eZDebug::writeError( "Unknown action type '{$type}', cannot handle it" );
+                eZDebug::writeError( "Unknown action type '{$type}', cannot handle it", __METHOD__ );
                 return false;
         }
         return $url;

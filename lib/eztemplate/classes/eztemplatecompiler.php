@@ -2240,7 +2240,7 @@ END;
                 }
                 else
                     eZDebug::writeWarning( "Unknown internal template node type $nodeType, ignoring node for code generation",
-                                           'eZTemplateCompiler:generatePHPCodeChildren' );
+                                           __METHOD__ );
             }
             else if ( $nodeType == eZTemplate::NODE_ROOT )
             {

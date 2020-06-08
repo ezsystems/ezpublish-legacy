@@ -203,12 +203,12 @@ class eZBinaryFile extends eZPersistentObject
             }
             else
             {
-                eZDebug::writeWarning( "Plugin for $this->MimeType was not found", 'eZBinaryFile' );
+                eZDebug::writeWarning( "Plugin for $this->MimeType was not found", __METHOD__ );
             }
         }
         else
         {
-            eZDebug::writeWarning( "Mimetype $this->MimeType not supported for indexing", 'eZBinaryFile' );
+            eZDebug::writeWarning( "Mimetype $this->MimeType not supported for indexing", __METHOD__ );
         }
 
         return $metaData;

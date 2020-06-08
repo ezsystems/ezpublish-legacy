@@ -211,10 +211,10 @@ class eZContentClassPackageHandler extends eZPackageHandler
             case self::ACTION_REPLACE:
                 if ( eZContentClassOperations::remove( $class->attribute( 'id' ) ) == false )
                 {
-                    eZDebug::writeWarning( "Unable to remove class '$className'." );
+                    eZDebug::writeWarning( "Unable to remove class '$className'.", __METHOD__ );
                     return true;
                 }
-                eZDebug::writeNotice( "Class '$className' will be replaced.", 'eZContentClassPackageHandler' );
+                eZDebug::writeNotice( "Class '$className' will be replaced.", __METHOD__ );
                 break;
 
             case self::ACTION_SKIP:

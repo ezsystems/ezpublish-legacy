@@ -1150,7 +1150,7 @@ class eZObjectRelationListType extends eZDataType
         else
         {
             eZDebug::writeError( "Unknown custom HTTP action: " . $action,
-                                 'eZObjectRelationListType' );
+                                 __METHOD__ );
         }
     }
 
@@ -1666,7 +1666,7 @@ class eZObjectRelationListType extends eZDataType
             }
             else
             {
-                eZDebug::writeWarning( $objectID, "Can not create relation because object is missing" );
+                eZDebug::writeWarning( "Can not create relation because object {$objectID} is missing", __METHOD__ );
             }
         }
         $contentObjectAttribute->setContent( $content );
@@ -1838,7 +1838,7 @@ class eZObjectRelationListType extends eZDataType
                         $success = $relationItem->removeAttribute( $attribute->localName );
                         if ( !$success )
                         {
-                            eZDebug::writeError( 'failed removing attribute ' . $attrName . ' from relation-item element' );
+                            eZDebug::writeError( 'failed removing attribute ' . $attrName . ' from relation-item element', __METHOD__ );
                         }
                     }
                 }

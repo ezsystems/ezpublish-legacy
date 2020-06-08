@@ -121,12 +121,12 @@ class eZCodePageMapper
         $output_codepage = eZCodePage::instance( $this->OutputCharsetCode );
         if ( !$input_codepage->isValid() )
         {
-            eZDebug::writeError( "Input codepage for " . $this->InputCharsetCode . " is not valid", "eZCodePageMapper" );
+            eZDebug::writeError( "Input codepage for " . $this->InputCharsetCode . " is not valid", __METHOD__ );
             return false;
         }
         if ( !$output_codepage->isValid() )
         {
-            eZDebug::writeError( "Output codepage for " . $this->OutputCharsetCode . " is not valid", "eZCodePageMapper" );
+            eZDebug::writeError( "Output codepage for " . $this->OutputCharsetCode . " is not valid", __METHOD__ );
             return false;
         }
         $this->SubstituteInputChar = chr( $input_codepage->unicodeToCode( $char_code ) );
@@ -145,13 +145,13 @@ class eZCodePageMapper
         if ( !eZCodePage::exists( $this->InputCharsetCode ) )
         {
             $input_file = eZCodePage::fileName( $this->InputCharsetCode );
-            eZDebug::writeWarning( "Couldn't load input codepage file $input_file", "eZCodePageMapper" );
+            eZDebug::writeWarning( "Couldn't load input codepage file $input_file", __METHOD__ );
             return false;
         }
         if ( !eZCodePage::exists( $this->OutputCharsetCode ) )
         {
             $output_file = eZCodePage::fileName( $this->OutputCharsetCode );
-            eZDebug::writeWarning( "Couldn't load output codepage file $output_file", "eZCodePageMapper" );
+            eZDebug::writeWarning( "Couldn't load output codepage file $output_file", __METHOD__ );
             return false;
         }
 
@@ -184,12 +184,12 @@ class eZCodePageMapper
 
         if ( !$input_codepage->isValid() )
         {
-            eZDebug::writeError( "Input codepage for " . $this->InputCharsetCode . " is not valid", "eZCodePageMapper" );
+            eZDebug::writeError( "Input codepage for " . $this->InputCharsetCode . " is not valid", __METHOD__ );
             return false;
         }
         if ( !$output_codepage->isValid() )
         {
-            eZDebug::writeError( "Output codepage for " . $this->OutputCharsetCode . " is not valid", "eZCodePageMapper" );
+            eZDebug::writeError( "Output codepage for " . $this->OutputCharsetCode . " is not valid", __METHOD__ );
             return false;
         }
 

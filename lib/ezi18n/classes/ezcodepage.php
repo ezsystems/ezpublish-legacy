@@ -524,7 +524,7 @@ class eZCodePage
 
         if ( !file_exists( $file ) )
         {
-            eZDebug::writeWarning( "Couldn't load codepage file $file", "eZCodePage" );
+            eZDebug::writeWarning( "Couldn't load codepage file $file", "eZCodePage", __METHOD__ );
             return;
         }
         $file_m = filemtime( $file );

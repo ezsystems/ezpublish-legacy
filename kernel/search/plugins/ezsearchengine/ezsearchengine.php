@@ -440,7 +440,7 @@ class eZSearchEngine implements ezpSearchEngine
         if ( isset( $this->CreatedTempTablesNames[$index] ) )
         {
             eZDebug::writeWarning( "CreatedTempTablesNames[\$index] already exists " .
-                                   "and contains '" . $this->CreatedTempTablesNames[$index] . "'" );
+                                   "and contains '" . $this->CreatedTempTablesNames[$index] . "'", __METHOD__ );
         }
         $this->CreatedTempTablesNames[$index] = $tableName;
     }

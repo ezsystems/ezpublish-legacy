@@ -362,7 +362,7 @@ class eZWordToImageOperator
 
             default:
             {
-                eZDebug::writeError( "Unknown operator: $operatorName", "ezwordtoimageoperator.php" );
+                eZDebug::writeError( "Unknown operator: $operatorName", "ezwordtoimageoperator.php", __METHOD__ );
             }
 
         }

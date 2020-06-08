@@ -782,7 +782,7 @@ $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
             $perm = octdec( $ini->variable( 'FileSettings', 'StorageFilePermissions' ) );
             $this->FileResource = @fopen( $this->FilePrefix . $path, "w" );
             if ( !$this->FileResource )
-                eZDebug::writeError( "Could not open file '$path' for writing, perhaps wrong permissions" );
+                eZDebug::writeError( "Could not open file '$path' for writing, perhaps wrong permissions", __METHOD__ );
             if ( $this->FileResource and
                  !$pathExisted )
                 chmod( $path, $perm );

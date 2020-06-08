@@ -512,7 +512,7 @@ class eZPackage
             }
             else
             {
-                eZDebug::writeError( "Could not open file $file for md5sum calculation" );
+                eZDebug::writeError( "Could not open file $file for md5sum calculation", __METHOD__ );
             }
         }
         else
@@ -1110,7 +1110,7 @@ class eZPackage
     {
         if ( is_dir( $archiveName ) )
         {
-            eZDebug::writeError( "Importing from directory is not supported." );
+            eZDebug::writeError( "Importing from directory is not supported.", __METHOD__ );
             $retValue = false;
             return $retValue;
         }
@@ -1288,7 +1288,7 @@ class eZPackage
         }
         else
         {
-            eZDebug::writeError( "Failed to write package '$filename'" );
+            eZDebug::writeError( "Failed to write package '$filename'", __METHOD__ );
         }
         return false;
     }
@@ -1877,7 +1877,7 @@ class eZPackage
         {
             if ( !$this->installItem( $item, $installParameters ) )
             {
-                eZDebug::writeDebug( $item, 'item which failed installing' );
+                eZDebug::writeDebug( 'item which failed installing: ' . var_export( $item ), __METHOD__ );
                 $installResult = false;
             }
         }

@@ -466,7 +466,7 @@ class eZMultiOption2Type extends eZDataType
         }
         else
         {
-            eZDebug::writeError( "Unknown custom HTTP action: " . $action, "eZMultiOptionType" );
+            eZDebug::writeError( "Unknown custom HTTP action: " . $action, __METHOD__ );
         }
     }
 

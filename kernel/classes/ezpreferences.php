@@ -56,7 +56,7 @@ class eZPreferences
             $user = eZUser::fetch( $storeUserID );
             if ( !is_object( $user ) )
             {
-                eZDebug::writeError( "Cannot set preference for user $storeUserID, the user does not exist" );
+                eZDebug::writeError( "Cannot set preference for user $storeUserID, the user does not exist", __METHOD__ );
                 return false;
             }
         }

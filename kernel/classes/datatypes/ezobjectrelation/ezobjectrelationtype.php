@@ -466,7 +466,7 @@ class eZObjectRelationType extends eZDataType
 
             default :
             {
-                eZDebug::writeError( "Unknown custom HTTP action: " . $action, "eZObjectRelationType" );
+                eZDebug::writeError( "Unknown custom HTTP action: " . $action, __METHOD__ );
             } break;
         }
     }
@@ -726,7 +726,7 @@ class eZObjectRelationType extends eZDataType
             $relatedObject = eZContentObject::fetch( $relatedObjectID );
             if ( !$relatedObject )
             {
-                eZDebug::writeNotice( 'Related object with ID: ' . $relatedObjectID . ' does not exist.' );
+                eZDebug::writeNotice( 'Related object with ID: ' . $relatedObjectID . ' does not exist.', __METHOD__ );
             }
             else
             {

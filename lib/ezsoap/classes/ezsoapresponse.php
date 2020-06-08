@@ -101,12 +101,12 @@ class eZSOAPResponse extends eZSOAPEnvelope
             }
             else
             {
-                eZDebug::writeError( "Got error from server" );
+                eZDebug::writeError( "Got error from server", __METHOD__ );
             }
         }
         else
         {
-            eZDebug::writeError( "Could not process XML in response" );
+            eZDebug::writeError( "Could not process XML in response", __METHOD__ );
         }
     }
 

@@ -53,7 +53,7 @@ class eZHTTPTool
         else if ( $ret === null )
         {
             eZDebug::writeWarning( "Undefined post variable: $var",
-                                   "eZHTTPTool" );
+                                   __METHOD__ );
         }
         return $ret;
     }
@@ -90,7 +90,7 @@ class eZHTTPTool
         else if ( $ret === null )
         {
             eZDebug::writeWarning( "Undefined get variable: $var",
-                                   "eZHTTPTool" );
+                                   __METHOD__ );
         }
         return $ret;
     }
@@ -139,7 +139,7 @@ class eZHTTPTool
         if ( $ret === null )
         {
             eZDebug::writeWarning( "Undefined post/get variable: $var",
-                                   "eZHTTPTool" );
+                                   __METHOD__ );
         }
         return $ret;
     }

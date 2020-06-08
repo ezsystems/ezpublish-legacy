@@ -95,7 +95,7 @@ class eZKernelOperator
 
             default:
             {
-                eZDebug::writeError( "Unknown kernel operator: $operatorName" );
+                eZDebug::writeError( "Unknown kernel operator: $operatorName", __METHOD__ );
             }break;
         }
     }

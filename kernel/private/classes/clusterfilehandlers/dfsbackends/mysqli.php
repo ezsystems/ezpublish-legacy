@@ -1465,7 +1465,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
     {
         if ( $res === false )
         {
-            eZDebug::writeError( "SQL failed" );
+            eZDebug::writeError( "SQL failed", __METHOD__ );
         }
         elseif ( $res instanceof eZMySQLBackendError )
         {
@@ -1663,7 +1663,7 @@ class eZDFSFileHandlerMySQLiBackend implements eZClusterEventNotifier
             if ( $errno != 1062 )
             {
                 eZDebug::writeError( "Unexpected error #$errno when trying to start cache generation on $filePath (".mysqli_error( $this->db ).")", __METHOD__ );
-                eZDebug::writeDebug( $query, '$query' );
+                eZDebug::writeDebug( $query, __METHOD__ );
 
                 // @todo Make this an actual error, maybe an exception
                 return array( 'res' => 'ko' );

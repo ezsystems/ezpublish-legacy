@@ -10,7 +10,7 @@ $Module = $Params['Module'];
 
 if ( !isset ( $Params['RSSFeed'] ) )
 {
-    eZDebug::writeError( 'No RSS feed specified' );
+    eZDebug::writeError( 'No RSS feed specified', __METHOD__ );
     return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 

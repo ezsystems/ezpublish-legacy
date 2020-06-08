@@ -3743,7 +3743,7 @@ class Cpdf
         }
         if ( $error )
         {
-            eZDebug::writeError( 'Adding PNG file, '. $file .', to PDF failed: '.$errormsg, 'Cpdf::addPngFromFile' );
+            eZDebug::writeError( 'Adding PNG file, '. $file .', to PDF failed: '.$errormsg, __METHOD__ );
             $this->addMessage('PNG error - ('.$file.') '.$errormsg);
             return false;
         }

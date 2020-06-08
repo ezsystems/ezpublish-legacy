@@ -1648,7 +1648,7 @@ class eZContentObjectVersion extends eZPersistentObject
             }
             if ( count( $parentNodeIDList ) == 0 )
             {
-                eZDebug::writeWarning( $this, "unable to get parent nodes for version" );
+                eZDebug::writeWarning( "Unable to get parent nodes for ContentobjectID {$this->attribute( 'contentobject_id' )}, Version {$this->attribute( 'version' )}", __METHOD__ );
                 return;
             }
             $parentNodeIDString = implode( ',' , $parentNodeIDList );
@@ -1664,7 +1664,7 @@ class eZContentObjectVersion extends eZPersistentObject
         }
         else
         {
-            eZDebug::writeWarning( $this, "trying to unpublish non published version" );
+            eZDebug::writeWarning( "Trying to unpublish non published version {$this->attribute( 'version' )} of Contentobject {$this->attribute( 'contentobject_id' )}", __METHOD__ );
         }
 
     }

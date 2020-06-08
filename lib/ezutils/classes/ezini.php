@@ -1294,7 +1294,7 @@ class eZINI
     function prependOverrideDir( $dir, $globalDir = false, $identifier = false, $scope = null )
     {
         if ( self::isDebugEnabled() )
-            eZDebug::writeNotice( "Prepending override dir '$dir'", "eZINI" );
+            eZDebug::writeNotice( "Prepending override dir '$dir'", __METHOD__ );
 
         if ( $this->UseLocalOverrides == true )
             $dirs =& $this->LocalOverrideDirArray;
@@ -1469,7 +1469,7 @@ class eZINI
             && !isset( self::$injectedSettings[$this->FileName][$blockName] )
         )
         {
-            eZDebug::writeError( "Undefined group: '$blockName' in " . $this->FileName, "eZINI" );
+            eZDebug::writeError( "Undefined group: '$blockName' in " . $this->FileName, __METHOD__ );
             return false;
         }
         foreach ( $varNames as $key => $varName )

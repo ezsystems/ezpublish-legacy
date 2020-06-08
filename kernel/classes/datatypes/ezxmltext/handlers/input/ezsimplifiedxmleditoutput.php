@@ -297,7 +297,7 @@ class eZSimplifiedXMLEditOutput
             }
             else
             {
-                eZDebug::writeWarning( "'$handlerName' output handler for tag <$element->nodeName> doesn't exist: '" . $thisOutputTag[$handlerName] . "'.", 'eZXML converter' );
+                eZDebug::writeWarning( "'$handlerName' output handler for tag <$element->nodeName> doesn't exist: '" . $thisOutputTag[$handlerName] . "'.", __METHOD__ );
             }
         }
         return $result;

@@ -217,7 +217,7 @@ class eZApproveTypeRegression extends ezpDatabaseTestCase
                 $bodyMemento = eZOperationMemento::fetchChild( $process->attribute( 'memento_key' ) );
                 if ( is_null( $bodyMemento ) )
                 {
-                    eZDebug::writeError( $bodyMemento, "Empty body memento in workflow.php" );
+                    eZDebug::writeError( $bodyMemento, "Empty body memento in workflow.php", __METHOD__ );
                     continue;
                 }
                 $bodyMementoData = $bodyMemento->data();

@@ -833,7 +833,7 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
             }
             else if ( $moduleCheck['result'] )
             {
-                eZDebug::writeError( "Undefined module: $moduleName", "index" );
+                eZDebug::writeError( "Undefined module: $moduleName", __METHOD__ );
                 $this->module = new eZModule( "", "", $moduleName );
                 $GLOBALS['eZRequestedModule'] = $this->module;
                 $moduleResult = $this->module->handleError( eZError::KERNEL_MODULE_NOT_FOUND, 'kernel', array( 'module' => $moduleName ) );
@@ -841,9 +841,9 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
             else
             {
                 if ( $moduleCheck['view_checked'] )
-                    eZDebug::writeError( "View '" . $moduleCheck['view'] . "' in module '" . $moduleCheck['module'] . "' is disabled", "index" );
+                    eZDebug::writeError( "View '" . $moduleCheck['view'] . "' in module '" . $moduleCheck['module'] . "' is disabled", __METHOD__ );
                 else
-                    eZDebug::writeError( "Module '" . $moduleCheck['module'] . "' is disabled", "index" );
+                    eZDebug::writeError( "Module '" . $moduleCheck['module'] . "' is disabled", __METHOD__ );
                 $GLOBALS['eZRequestedModule'] = $this->module = new eZModule( "", "", $moduleCheck['module'] );
                 $moduleResult = $this->module->handleError( eZError::KERNEL_MODULE_DISABLED, 'kernel', array( 'check' => $moduleCheck ) );
             }

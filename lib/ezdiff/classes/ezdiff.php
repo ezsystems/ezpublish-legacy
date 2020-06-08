@@ -28,7 +28,7 @@ class eZDiff
         if ( $diffEngineType )
         {
             $this->DiffEngine = $diffEngineType;
-            eZDebug::writeNotice( "Diff engine type: " . $diffEngineType, 'eZDiff' );
+            eZDebug::writeNotice( "Diff engine type: " . $diffEngineType, __METHOD__ );
         }
     }
 
@@ -42,7 +42,7 @@ class eZDiff
         if ( isset( $diffEngineType ) )
         {
             $this->DiffEngine = $diffEngineType;
-            eZDebug::writeNotice( "Changing diff engine to type: " . $diffEngineType, 'eZDiff' );
+            eZDebug::writeNotice( "Changing diff engine to type: " . $diffEngineType, __METHOD__ );
         }
     }
 

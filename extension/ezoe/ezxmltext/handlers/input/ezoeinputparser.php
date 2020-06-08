@@ -266,7 +266,7 @@ class eZOEInputParser extends eZXMLInputParser
                     }
                     else
                     {
-                        eZDebug::writeWarning( "No namespace defined for prefix '$prefix'.", 'eZXML input parser' );
+                        eZDebug::writeWarning( "No namespace defined for prefix '$prefix'.", __METHOD__ );
                     }
                 }
                 else
