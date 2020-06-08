@@ -623,8 +623,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         {
                             $classNameFilter = eZContentClassName::sqlFilter();
                             $sortingFields .= 'contentclass_name';
-                            $datatypeSortingTargetSQL .= ", $classNameFilter[nameField] AS contentclass_name";
-                            $attributeFromSQL .= " INNER JOIN $classNameFilter[from] ON ($classNameFilter[where])";
+                            $datatypeSortingTargetSQL .= ", {$classNameFilter['nameField']} AS contentclass_name";
+                            $attributeFromSQL .= " INNER JOIN {$classNameFilter['from']} ON ({$classNameFilter['where']})";
                         } break;
                         case 'priority':
                         {
@@ -667,7 +667,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                                 $sql = $dataType->customSortingSQL( $params );
 
-                                $datatypeFromSQL .= " INNER JOIN $sql[from] ON ($sql[where])";
+                                $datatypeFromSQL .= " INNER JOIN {$sql['from']} ON ({$sql['where']})";
                                 $datatypeSortingFieldSQL = $sql['sorting_field'];
                                 $datatypeSortingTargetSQL .= ', ' . $sql['sorting_field'];
                             }
@@ -1102,7 +1102,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $classNameFilter = eZContentClassName::sqlFilter();
                             $filterField = $classNameFilter['nameField'];
                             $filterFieldType = 'string';
-                            $filterSQL['from'] .= " INNER JOIN $classNameFilter[from] ON ($classNameFilter[where])";
+                            $filterSQL['from'] .= " INNER JOIN {$classNameFilter['from']} ON ({$classNameFilter['where']})";
                         } break;
                         case 'priority':
                         {
@@ -2042,24 +2042,24 @@ class eZContentObjectTreeNode extends eZPersistentObject
             "    ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id AND " .
             "    ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version " .
             ") " .
-            "$sortingInfo[attributeFromSQL] $attributeFilter[from] $extendedAttributeFilter[tables] $sqlPermissionChecking[from] " .
+            "{$sortingInfo['attributeFromSQL']} {$attributeFilter['from']} {$extendedAttributeFilter['tables']} {$sqlPermissionChecking['from']} " .
             "WHERE " .
             "$pathStringCond " .
-            "$extendedAttributeFilter[joins] " .
-            "$sortingInfo[attributeWhereSQL] " .
-            "$attributeFilter[where] " .
+            "{$extendedAttributeFilter['joins']} " .
+            "{$sortingInfo['attributeWhereSQL']} " .
+            "{$attributeFilter['where']} " .
             "$notEqParentString " .
             "$mainNodeOnlyCond " .
             "$classCondition " .
             "$objectNameLanguageFilter " .
             "$showInvisibleNodesCond " .
-            "$sqlPermissionChecking[where] " .
+            "{$sqlPermissionChecking['where']} " .
             "$objectNameFilterSQL AND " .
             "$languageFilter " .
             $groupBySQL;
 
         if ( $sortingInfo['sortingFields'] )
-            $query .= " ORDER BY $sortingInfo[sortingFields]";
+            $query .= " ORDER BY {$sortingInfo['sortingFields']}";
 
         $db = eZDB::instance();
 
@@ -2235,16 +2235,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             $queryNodes .= " (
                           $pathStringCond
-                          $extendedAttributeFilter[joins]
-                          $sortingInfo[attributeWhereSQL]
-                          $attributeFilter[where]
+                          {$extendedAttributeFilter['joins']}
+                          {$sortingInfo['attributeWhereSQL']}
+                          {$attributeFilter['where']}
                           ezcontentclass.version=0 AND
                           $notEqParentString
                           $mainNodeOnlyCond
                           $classCondition
                           " . eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
                           $showInvisibleNodesCond
-                          $sqlPermissionChecking[where]
+                          {$sqlPermissionChecking['where']}
                           $languageFilter
                       )
                       OR";
@@ -2269,7 +2269,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             "ezcontentobject_tree.node_id, ezcontentobject_tree.parent_node_id, ezcontentobject_tree.path_identification_string, ezcontentobject_tree.path_string, " .
             "ezcontentobject_tree.priority, ezcontentobject_tree.remote_id, ezcontentobject_tree.sort_field, ezcontentobject_tree.sort_order, ezcontentclass.serialized_name_list as class_serialized_name_list, " .
             "ezcontentclass.identifier as class_identifier, ezcontentclass.is_container $groupBySelectText, ezcontentobject_name.name, ezcontentobject_name.real_translation " .
-            "$sortingInfo[attributeTargetSQL], $nodeParams[ResultID] AS resultid " .
+            "{$sortingInfo['attributeTargetSQL']}, {$nodeParams['ResultID']} AS resultid " .
             "FROM ezcontentobject_tree " .
             "INNER JOIN ezcontentobject ON (ezcontentobject.id = ezcontentobject_tree.contentobject_id) " .
             "INNER JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id) " .
@@ -2277,17 +2277,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
             "    ezcontentobject_name.contentobject_id = ezcontentobject_tree.contentobject_id AND " .
             "    ezcontentobject_name.content_version = ezcontentobject_tree.contentobject_version " .
             ") " .
-            "$sortingInfo[attributeFromSQL] " .
-            "$attributeFilter[from] " .
-            "$extendedAttributeFilter[tables] " .
-            "$sqlPermissionChecking[from] " .
+            "{$sortingInfo['attributeFromSQL']} " .
+            "{$attributeFilter['from']} " .
+            "{$extendedAttributeFilter['tables']} " .
+            "{$sqlPermissionChecking['from']} " .
             "WHERE " .
             substr( $queryNodes, 0, -2 ) . " " .
             $groupBySQL;
 
         if ( $sortingInfo['sortingFields'] )
         {
-            $query .= " ORDER BY $sortingInfo[sortingFields]";
+            $query .= " ORDER BY {$sortingInfo['sortingFields']}";
         }
 
         $db = eZDB::instance();
@@ -2485,19 +2485,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
                            ezcontentobject_name.contentobject_id = ezcontentobject_tree.contentobject_id AND
                            ezcontentobject_name.content_version = ezcontentobject_tree.contentobject_version
                        )
-                       $attributeFilter[from]
-                       $extendedAttributeFilter[tables]
-                       $sqlPermissionChecking[from]
+                       {$attributeFilter['from']}
+                       {$extendedAttributeFilter['tables']}
+                       {$sqlPermissionChecking['from']}
                   WHERE $pathStringCond
-                        $extendedAttributeFilter[joins]
+                        {$extendedAttributeFilter['joins']}
                         $mainNodeOnlyCond
                         $classCondition
-                        $attributeFilter[where]
+                        {$attributeFilter['where']}
                         ezcontentclass.version=0 AND
                         $notEqParentString
                         $objectNameLanguageFilter
                         $showInvisibleNodesCond
-                        $sqlPermissionChecking[where]
+                        {$sqlPermissionChecking['where']}
                         $objectNameFilterSQL
                         $languageFilter ";
 
@@ -2592,20 +2592,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           ezcontentobject_name.content_version = ezcontentobject_tree.contentobject_version
                       )
 
-                      $attributeFilter[from]
-                      $extendedAttributeFilter[tables]
-                      $sqlPermissionChecking[from]
+                      {$attributeFilter['from']}
+                      {$extendedAttributeFilter['tables']}
+                      {$sqlPermissionChecking['from']}
                    WHERE
                       $pathStringCond
-                      $extendedAttributeFilter[joins]
-                      $attributeFilter[where]
+                      {$extendedAttributeFilter['joins']}
+                      {$attributeFilter['where']}
                       ezcontentclass.version = 0 AND
                       $notEqParentString
                       $mainNodeOnlyCond
                       $classCondition
                       " . eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
                       $showInvisibleNodesCond
-                      $sqlPermissionChecking[where]
+                      {$sqlPermissionChecking['where']}
                 $groupBySQL";
 
 
@@ -5162,11 +5162,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( $fetchAll )
         {
             // If $asObject is true we fetch all fields in class
-            $fields = $asObject ? "cc.*, $classNameFilter[nameField]" : "cc.id, $classNameFilter[nameField]";
+            $fields = $asObject ? "cc.*, {$classNameFilter['nameField']}" : "cc.id, {$classNameFilter['nameField']}";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields " .
-                                     "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from] " .
-                                     "WHERE cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL AND $classNameFilter[where] " .
-                                     "ORDER BY $classNameFilter[nameField] ASC" );
+                                     "FROM ezcontentclass cc$filterTableSQL, {$classNameFilter['from']} " .
+                                     "WHERE cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL AND {$classNameFilter['where']} " .
+                                     "ORDER BY {$classNameFilter['nameField']} ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'eZContentClass', $asObject );
         }
         else
@@ -5179,12 +5179,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             $classIDCondition = $db->generateSQLINStatement( $classIDArray, 'cc.id' );
             // If $asObject is true we fetch all fields in class
-            $fields = $asObject ? "cc.*, $classNameFilter[nameField]" : "cc.id, $classNameFilter[nameField]";
+            $fields = $asObject ? "cc.*, {$classNameFilter['nameField']}" : "cc.id, {$classNameFilter['nameField']}";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields " .
-                                     "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from] " .
+                                     "FROM ezcontentclass cc$filterTableSQL, {$classNameFilter['from']} " .
                                      "WHERE $classIDCondition AND" .
-                                     "      cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL AND $classNameFilter[where] " .
-                                     "ORDER BY $classNameFilter[nameField] ASC" );
+                                     "      cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL AND {$classNameFilter['where']} " .
+                                     "ORDER BY {$classNameFilter['nameField']} ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'eZContentClass', $asObject );
         }
 

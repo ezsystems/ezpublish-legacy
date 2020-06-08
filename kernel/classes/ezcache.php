@@ -492,13 +492,13 @@ class eZCache
             if ( is_callable( $function ) )
                 call_user_func_array( $function, array( $cacheItem ) );
             else
-                eZDebug::writeError("Could not call cache item $functionName for id '$cacheItem[id]', is it a static public function?", __METHOD__ );
+                eZDebug::writeError("Could not call cache item {$functionName} for id '{$cacheItem['id']}', is it a static public function?", __METHOD__ );
         }
         else
         {
             if ( !isset( $cacheItem['path'] ) || strlen( $cacheItem['path'] ) < 1 )
             {
-                eZDebug::writeError( "No path specified for cache item '$cacheItem[name]', can not clear cache.", __METHOD__ );
+                eZDebug::writeError( "No path specified for cache item '{$cacheItem['name']}', can not clear cache.", __METHOD__ );
                 return;
             }
 

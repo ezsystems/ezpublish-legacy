@@ -851,7 +851,7 @@ class eZSearchEngine implements ezpSearchEngine
                                               $subTreeTable
                                               INNER JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id)
                                               INNER JOIN ezcontentobject_tree ON (ezcontentobject_tree.contentobject_id = ezcontentobject.id)
-                                              $sqlPermissionChecking[from]
+                                              {$sqlPermissionChecking['from']}
                                          WHERE
                                                $searchDateQuery
                                                $sectionQuery
@@ -862,7 +862,7 @@ class eZSearchEngine implements ezpSearchEngine
                                          ezcontentclass.version = '0' AND
                                          ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                                          $showInvisibleNodesCond
-                                         $sqlPermissionChecking[where]",
+                                         {$sqlPermissionChecking['where']}",
                                     eZDBInterface::SERVER_SLAVE );
                     }
                     else
@@ -880,7 +880,7 @@ class eZSearchEngine implements ezpSearchEngine
                                              INNER JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id)
                                              INNER JOIN ezcontentobject_tree ON (ezcontentobject_tree.contentobject_id = ezcontentobject.id)
                                              INNER JOIN $tmpTable0 ON ($tmpTable0.contentobject_id = ezsearch_object_word_link.contentobject_id)
-                                             $sqlPermissionChecking[from]
+                                             {$sqlPermissionChecking['from']}
                                           WHERE
                                           $searchDateQuery
                                           $sectionQuery
@@ -891,7 +891,7 @@ class eZSearchEngine implements ezpSearchEngine
                                           ezcontentclass.version = '0' AND
                                           ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                                           $showInvisibleNodesCond
-                                          $sqlPermissionChecking[where]",
+                                          {$sqlPermissionChecking['where']}",
                                     eZDBInterface::SERVER_SLAVE );
                     }
                     $i++;
@@ -913,7 +913,7 @@ class eZSearchEngine implements ezpSearchEngine
                                           $subTreeTable
                                           INNER JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id)
                                           INNER JOIN ezcontentobject_tree ON (ezcontentobject_tree.contentobject_id = ezcontentobject.id)
-                                          $sqlPermissionChecking[from]
+                                          {$sqlPermissionChecking['from']}
                                      WHERE
                                           $searchDateQuery
                                           $sectionQuery
@@ -923,7 +923,7 @@ class eZSearchEngine implements ezpSearchEngine
                                           ezcontentclass.version = '0' AND
                                           ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                                           $showInvisibleNodesCond
-                                          $sqlPermissionChecking[where]",
+                                          {$sqlPermissionChecking['where']}",
                              eZDBInterface::SERVER_SLAVE );
                  $this->TempTablesCount = 1;
                  $i = $this->TempTablesCount;
@@ -1135,7 +1135,7 @@ class eZSearchEngine implements ezpSearchEngine
                             $classNameFilter = eZContentClassName::sqlFilter();
                             $selectSQL .= ", " . $classNameFilter['nameField'] . " AS class_name";
                             $sortingFields .= "class_name";
-                            $attributeFromSQL .= " INNER JOIN $classNameFilter[from] ON ($classNameFilter[where])";
+                            $attributeFromSQL .= " INNER JOIN {$classNameFilter['from']} ON ({$classNameFilter['where']})";
                         } break;
                         case 'priority':
                         {
@@ -1394,7 +1394,7 @@ class eZSearchEngine implements ezpSearchEngine
                        $subTreeTable
                        INNER JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id)
                        INNER JOIN ezcontentobject_tree ON (ezcontentobject_tree.contentobject_id = ezcontentobject.id)
-                       $sqlPermissionChecking[from]
+                       {$sqlPermissionChecking['from']}
                     WHERE
                     $searchDateQuery
                     $sectionQuery
@@ -1404,7 +1404,7 @@ class eZSearchEngine implements ezpSearchEngine
                     $subTreeSQL
                     ezcontentclass.version = '0' AND
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
-                    $sqlPermissionChecking[where]",
+                    {$sqlPermissionChecking['where']}",
                     eZDBInterface::SERVER_SLAVE );
         }
         else
@@ -1421,7 +1421,7 @@ class eZSearchEngine implements ezpSearchEngine
                        INNER JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id)
                        INNER JOIN ezcontentobject_tree ON (ezcontentobject_tree.contentobject_id = ezcontentobject.id)
                        INNER JOIN $tmpTable0 ON ($tmpTable0.contentobject_id = ezsearch_object_word_link.contentobject_id)
-                       $sqlPermissionChecking[from]
+                       {$sqlPermissionChecking['from']}
                     WHERE
                     $searchDateQuery
                     $sectionQuery
@@ -1431,7 +1431,7 @@ class eZSearchEngine implements ezpSearchEngine
                     $subTreeSQL
                     ezcontentclass.version = '0' AND
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
-                    $sqlPermissionChecking[where]",
+                    {$sqlPermissionChecking['where']}",
                     eZDBInterface::SERVER_SLAVE );
         }
 
@@ -1533,7 +1533,7 @@ class eZSearchEngine implements ezpSearchEngine
                        $subTreeTable
                        INNER JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id)
                        INNER JOIN ezcontentobject_tree ON (ezcontentobject_tree.contentobject_id = ezcontentobject.id)
-                       $sqlPermissionChecking[from]
+                       {$sqlPermissionChecking['from']}
                     WHERE
                     $searchDateQuery
                     $sectionQuery
@@ -1543,7 +1543,7 @@ class eZSearchEngine implements ezpSearchEngine
                     $subTreeSQL
                     ezcontentclass.version = '0' AND
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
-                    $sqlPermissionChecking[where]",
+                    {$sqlPermissionChecking['where']}",
                     eZDBInterface::SERVER_SLAVE );
                 }
                 else
@@ -1560,7 +1560,7 @@ class eZSearchEngine implements ezpSearchEngine
                        INNER JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id)
                        INNER JOIN ezcontentobject_tree ON (ezcontentobject_tree.contentobject_id = ezcontentobject.id)
                        INNER JOIN $tmpTable0 ON ($tmpTable0.contentobject_id = ezsearch_object_word_link.contentobject_id)
-                       $sqlPermissionChecking[from]
+                       {$sqlPermissionChecking['from']}
                     WHERE
                     $searchDateQuery
                     $sectionQuery
@@ -1570,7 +1570,7 @@ class eZSearchEngine implements ezpSearchEngine
                     $subTreeSQL
                     ezcontentclass.version = '0' AND
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
-                    $sqlPermissionChecking[where]",
+                    {$sqlPermissionChecking['where']}",
                     eZDBInterface::SERVER_SLAVE );
                 }
                 $i++;

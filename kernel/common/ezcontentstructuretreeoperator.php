@@ -149,13 +149,13 @@ class eZContentStructureTreeOperator
                                    ezcontentobject_name.contentobject_id = ezcontentobject_tree.contentobject_id AND
                                    ezcontentobject_name.content_version = ezcontentobject_tree.contentobject_version
                                )
-                               $permissionChecking[from]
+                               {$permissionChecking['from']}
                           WHERE $pathStringCond
                                 $classCondition
                                 ezcontentclass.version=0 AND
                                 $notEqParentString
                                 " . eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
-                                $permissionChecking[where] ";
+                                {$permissionChecking['where']} ";
         }
         else
         {
@@ -174,19 +174,19 @@ class eZContentStructureTreeOperator
                                  ezcontentobject_name.contentobject_id = ezcontentobject_tree.contentobject_id AND
                                  ezcontentobject_name.content_version = ezcontentobject_tree.contentobject_version
                              )
-                             $sortingInfo[attributeFromSQL]
-                             $permissionChecking[from]
+                             {$sortingInfo['attributeFromSQL']}
+                             {$permissionChecking['from']}
                       WHERE
                              $pathStringCond
-                             $sortingInfo[attributeWhereSQL]
+                             {$sortingInfo['attributeWhereSQL']}
                              ezcontentclass.version=0 AND
                              $notEqParentString
                              $classCondition
                              ezcontentobject_tree.contentobject_is_published = 1 AND
                              " . eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' ) . "
                              $showInvisibleNodesCond
-                             $permissionChecking[where]
-                      ORDER BY $sortingInfo[sortingFields]";
+                             {$permissionChecking['where']}
+                      ORDER BY {$sortingInfo['sortingFields']}";
 
         }
 

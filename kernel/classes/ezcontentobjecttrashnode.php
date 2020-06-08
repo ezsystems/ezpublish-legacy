@@ -257,7 +257,7 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
                         ezcontentclass.identifier as class_identifier,
                         ezcontentobject_name.name as name,
                         ezcontentobject_name.real_translation
-                        $sortingInfo[attributeTargetSQL] ";
+                        {$sortingInfo['attributeTargetSQL']} ";
         }
         $query .= "FROM
                         ezcontentobject_trash ezcot
