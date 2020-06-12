@@ -202,7 +202,9 @@ class eZExecution
             }
         }
 
-        eZLog::write( 'Unexpected error, the message was : ' . $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine(), 'error.log' );
+        $msg = 'Unexpected error, the message was : ' . $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine();
+        eZLog::write( $msg, 'error.log' );
+        error_log( $msg );
 
         eZExecution::cleanup();
         eZExecution::setCleanExit();
