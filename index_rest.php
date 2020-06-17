@@ -15,6 +15,7 @@ error_reporting ( E_ALL | E_STRICT & E_DEPRECATED);
 require 'autoload.php';
 
 $kernel = new ezpKernel( new ezpKernelRest() );
-
+$moduleRepositories = eZModule::activeModuleRepositories();
+eZModule::setGlobalPathList( $moduleRepositories );
 // mvc_tools will directly output the headers and content
 $kernel->run();
