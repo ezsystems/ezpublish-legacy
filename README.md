@@ -14,8 +14,12 @@ Aplia Apublish is a fork of [eZ Publish legacy](https://github.com/ezsystems/ezp
 which includes a set for small improvements
 
 * ```composer.json``` is clean (no circular dependencies)
-* ```settings/override``` may be but inside project extension
-* improved development utilities
+* Define override folders for INI files, ie. ```settings/override``` may be inside your project extension. Same for site access folders.
+* Improvements for developers
+  * Disabling of error handler and shutdown handlers, to replace with external libraries
+  * Redirection of `eZDebug` output to a `PSR` logger
+  * Disable modifying of file permissions for created files, instead let the filesystem define permissions
+* PHP 7+ fixes
 
 #### How to merge with eZ Publish legacy
 
