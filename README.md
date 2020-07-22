@@ -2,7 +2,9 @@ Aplia APublish 1.0 (Fork of eZ Publish legacy)
 =======================================================
 
 [![Build Status](https://img.shields.io/travis/Aplia/apublish.svg?style=flat-square&branch=master)](https://travis-ci.org/Aplia/apublish)
+[![Latest Stable Version](https://img.shields.io/packagist/v/aplia/apublish.svg?style=flat-square)](https://packagist.org/packages/aplia/apublish)
 [![Latest version](https://img.shields.io/github/release/aplia/apublish.svg?style=flat-square)](https://github.com/aplia/apublish/releases)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.3-8892BF.svg?style=flat-square)](https://php.net/)
 [![License](https://img.shields.io/github/license/aplia/apublish.svg?style=flat-square)](LICENSE)
 
 What is Aplia Apublish ?
