@@ -1487,7 +1487,7 @@ class eZTemplate
      * Sets the template variable $var to the value $val.
      *
      * @param string $var
-     * @param string $val
+     * @param mixed $val
      * @param string $namespace (optional)
      * @param bool $scopeSafe If true, will assure that $var is not overridden for $namespace. False by default
      */
