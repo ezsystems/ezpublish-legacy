@@ -151,7 +151,17 @@ class eZSubtreeCache
             // in the database to determine if the cache is expired.
             // This reduces the need to perform expensive modifications to the
             // database entries for the cluster storage.
-            $fileHandler->fileDelete( $expiryCachePath );
+            try {
+                $fileHandler->fileDelete( $expiryCachePath );
+            } catch (\ErrorException $e) {
+                // Check if error relates to not being able to remove non-empty dirs.
+                // This can happen if clearing occurs at the same time as an active request writes new caches,
+                // which is not uncommon for high traffic sites.
+                if (!preg_match("|directory not empty|i", $e->getMessage())) {
+                    throw $e;
+                }
+                // else: Ignore error
+            }
         }
     }
 }
