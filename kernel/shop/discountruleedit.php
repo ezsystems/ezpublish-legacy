@@ -46,9 +46,9 @@ if ( $http->hasPostVariable( 'BrowseProductButton' ) )
                                                         'discountrule_id' => $discountRuleID ),
                                     'persistent_data' => array( 'discountrule_name' => $http->postVariable( 'discountrule_name' ),
                                                                 'discountrule_percent' => $http->postVariable( 'discountrule_percent' ),
-                                                                'Contentclasses' => ( $http->hasPostVariable( 'Contentclasses' ) )? serialize( $http->postVariable( 'Contentclasses' ) ): '',
-                                                                'Sections' => ( $http->hasPostVariable( 'Sections' ) )? serialize( $http->postVariable( 'Sections' ) ): '',
-                                                                'Products' => ( $http->hasPostVariable( 'Products' ) )? serialize( $http->postVariable( 'Products' ) ): '' ),
+                                                                'Contentclasses' => ( $http->hasPostVariable( 'Contentclasses' ) )? json_encode( $http->postVariable( 'Contentclasses' ) ): '',
+                                                                'Sections' => ( $http->hasPostVariable( 'Sections' ) )? json_encode( $http->postVariable( 'Sections' ) ): '',
+                                                                'Products' => ( $http->hasPostVariable( 'Products' ) )? json_encode( $http->postVariable( 'Products' ) ): '' ),
                                     'from_page' => "/shop/discountruleedit/$discountGroupID/$discountRuleID" ),
                              $module );
     return;
@@ -68,7 +68,7 @@ if ( $http->hasPostVariable( 'discountrule_name' ) )
         $discountRuleSelectedClasses = $http->postVariable( 'Contentclasses' );
         if ( !is_array( $discountRuleSelectedClasses ) )
         {
-            $discountRuleSelectedClasses = unserialize( $discountRuleSelectedClasses );
+            $discountRuleSelectedClasses = json_decode( $discountRuleSelectedClasses );
         }
     }
 
@@ -78,7 +78,7 @@ if ( $http->hasPostVariable( 'discountrule_name' ) )
         $discountRuleSelectedSections = $http->postVariable( 'Sections' );
         if ( !is_array( $discountRuleSelectedSections ) )
         {
-            $discountRuleSelectedSections = unserialize( $discountRuleSelectedSections );
+            $discountRuleSelectedSections = json_decode( $discountRuleSelectedSections );
         }
     }
 
@@ -88,7 +88,7 @@ if ( $http->hasPostVariable( 'discountrule_name' ) )
         $discountRuleSelectedProducts = $http->postVariable( 'Products' );
         if ( !is_array( $discountRuleSelectedProducts ) )
         {
-            $discountRuleSelectedProducts = unserialize( $discountRuleSelectedProducts );
+            $discountRuleSelectedProducts = json_decode( $discountRuleSelectedProducts );
         }
     }
 
