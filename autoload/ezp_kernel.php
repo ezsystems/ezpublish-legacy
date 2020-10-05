@@ -172,6 +172,7 @@ return array(
       'eZExtensionPackageHandler'                          => 'kernel/classes/packagehandlers/ezextension/ezextensionpackagehandler.php',
       'eZFSFileHandler'                                    => 'kernel/classes/clusterfilehandlers/ezfsfilehandler.php',
       'eZFile'                                             => 'lib/ezfile/classes/ezfile.php',
+      'eZFileExtensionBlackListValidator'                  => 'lib/ezutils/classes/ezfileextensionblacklistvalidator.php',
       'eZFileHandler'                                      => 'lib/ezfile/classes/ezfilehandler.php',
       'eZFilePackageHandler'                               => 'kernel/classes/packagehandlers/ezfile/ezfilepackagehandler.php',
       'eZFilePassthroughHandler'                           => 'kernel/classes/binaryhandlers/ezfilepassthrough/ezfilepassthroughhandler.php',

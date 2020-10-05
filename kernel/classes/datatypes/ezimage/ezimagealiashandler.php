@@ -1094,7 +1094,7 @@ class eZImageAliasHandler
      * @param eZHTTPFile $httpFile
      * @param string $imageAltText Optional image ALT text
      *
-     * @return TODO: FIXME
+     * @return bool
      */
     function initializeFromHTTPFile( $httpFile, $imageAltText = false )
     {

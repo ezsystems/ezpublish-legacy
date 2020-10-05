@@ -201,7 +201,7 @@ class eZImageType extends eZDataType
      * @param $http: http object
      * @param $base:
      * @param $contentObjectAttribute: content object attribute being validated
-     * @return validation result- eZInputValidator::STATE_INVALID or eZInputValidator::STATE_ACCEPTED
+     * @return int result- eZInputValidator::STATE_INVALID or eZInputValidator::STATE_ACCEPTED
      *
      * @see kernel/classes/eZDataType#validateObjectAttributeHTTPInput($http, $base, $objectAttribute)
      */
@@ -355,6 +355,7 @@ class eZImageType extends eZDataType
 
     function storeObjectAttribute( $contentObjectAttribute )
     {
+        /** @var eZImageAliasHandler $imageHandler */
         $imageHandler = $contentObjectAttribute->attribute( 'content' );
         if ( $imageHandler )
         {
