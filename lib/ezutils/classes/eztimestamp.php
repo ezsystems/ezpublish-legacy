@@ -15,7 +15,9 @@ class eZTimestamp
     */
     public static function getUtcTimestampFromLocalTimestamp( $localTimestamp ) {
 
-        if (!$localTimestamp) return null;
+        if (!$localTimestamp) {
+            return null;
+        }
 
         $utcTimezone = new \DateTimeZone( 'UTC' );
         $localTimezone = new \DateTimeZone( date_default_timezone_get() );
@@ -32,7 +34,9 @@ class eZTimestamp
     */
     public static function getLocalTimestampFromUtcTimestamp( $utcTimestamp ) {
 
-        if (!$utcTimestamp) return null;
+        if (!$utcTimestamp) {
+            return null;
+        }
 
         $utcTimezone = new \DateTimeZone( 'UTC' );
         $localTimezone = new \DateTimeZone( date_default_timezone_get() );
