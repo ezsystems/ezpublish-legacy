@@ -15,7 +15,7 @@ class eZTimestamp
     */
     public static function getUtcTimestampFromLocalTimestamp( $localTimestamp ) {
 
-        if ( !$localTimestamp )
+        if ( $localTimestamp === null || $localTimestamp === '' )
         {
             return null;
         }
@@ -35,7 +35,7 @@ class eZTimestamp
     */
     public static function getLocalTimestampFromUtcTimestamp( $utcTimestamp ) {
 
-        if ( !$utcTimestamp )
+        if ( $utcTimestamp === null || $utcTimestamp === '' )
         {
             return null;
         }
