@@ -1,0 +1,26 @@
+Changes from 4.6.0 to 4.7.0
+
+*Kernel:
+
+*Design:
+
+*eZTemplate:
+
+*eZLocale:
+- All share/locale/*.ini\[HTTP]\ContentLanguage have been checked and updated
+
+- httpLocaleCode() can now only return a code X-Y, with:
+  X an iso 639-1 language code (http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)
+  Y an iso 3166-1-alpha2 country code (http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
+
+- site.ini\[RegionalSettings]\HTTPLocale must be an X-Y as explained just above, if you use this setting.
+  However, you should not use anymore this setting, as it was intended to be used when an http locale is wrong,
+  which can't be the case now, as all http locales in share/locale/*.ini have been checked and updated
+
+*Package system:
+
+*Scripts:
+
+*Translations:
+
+*Bugfixes:

@@ -125,15 +125,8 @@ function eZSetupLanguageList( &$languageList, &$defaultLanguage, &$defaultExtraL
 {
     $locales = eZLocale::localeList( true );
     $languageList = array();
-    $httpMap   = array();
+    $httpMap      = array();
     $httpMapShort = array();
-    // This alias array must be filled in with known names.
-    // The key is the value from the locale INI file (HTTP group)
-    // and the value is the HTTP alias.
-    $httpAliases = array( 'no-bokmaal' => 'nb',
-                          'no-nynorsk' => 'nn',
-                          'ru-ru' => 'ru' );
-
     foreach ( array_keys( $locales ) as $localeKey )
     {
         $locale =& $locales[$localeKey];
@@ -143,11 +136,7 @@ function eZSetupLanguageList( &$languageList, &$defaultLanguage, &$defaultExtraL
             $httpLocale = strtolower( $locale->httpLocaleCode() );
             $httpMap[$httpLocale] = $locale;
             list( $httpLocaleShort ) = explode( '-', $httpLocale );
-            $httpMapShort[$httpLocale] = $locale;
-            if ( isset( $httpAliases[$httpLocale] ) )
-            {
-                $httpMapShort[$httpAliases[$httpLocale]] = $locale;
-            }
+            $httpMapShort[$httpLocaleShort] = $locale;
         }
     }
 

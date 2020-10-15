@@ -682,8 +682,7 @@ class eZLocale
     /*!
      \return the locale code which can be set in either HTTP headers or the HTML file.
              The locale code is first check for in the RegionalSettings/HTTPLocale setting in site.ini,
-             if that is empty it will use the value from localeCode().
-     \sa localeCode
+             if that is empty it will use the value from [HTTP] ContentLanguage.
     */
     function httpLocaleCode()
     {
@@ -697,7 +696,7 @@ class eZLocale
              $this->HTTPLocaleCode != '' )
             $localeCode = $this->HTTPLocaleCode;
         if ( $localeCode == '' )
-            $localeCode = $this->localeCode();
+            eZDebug::writeError( 'Impossible to find an HTTP Locale', __METHOD__ );
         return $localeCode;
     }
 
