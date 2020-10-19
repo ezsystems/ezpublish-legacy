@@ -106,6 +106,30 @@ class eZImageShellHandler extends eZImageHandler
 
         $systemString = implode( ' ', $argumentList );
 
+        if( preg_match( "|convert|", $executable ) )
+        {
+            $ini = eZINI::instance( 'image.ini' );
+            if( $ini->hasVariable( 'ImageMagick', 'MagickThreadLimit' ) )
+            {
+                $imageMagickThreadLimit = $ini->variable( 'ImageMagick', 'MagickThreadLimit' );
+                if( empty( $imageMagickThreadLimit ) )
+                {
+                    eZDebug::writeNotice( 'image.ini / [ImageMagick] / MagickThreadLimit is an empty string. Assuming default ImageMagick\'s value', __METHOD__ );
+                }
+                elseif( is_numeric( $imageMagickThreadLimit ) )
+                {
+                    eZDebug::writeNotice( 'Setting MAGICK_THREAD_LIMIT environment variable to 1', __METHOD__ );
+                    putenv( 'MAGICK_THREAD_LIMIT='. $imageMagickThreadLimit );
+                }
+                else
+                {
+                    eZDebug::writeWarning( 'image.ini / [ImageMagick] / MagickThreadLimit must be a numeric value', __METHOD__ );
+                }
+            } else {
+                eZDebug::writeNotice( 'image.ini / [ImageMagick] / MagickThreadLimit is not defined. Assuming default ImageMagick\'s value' );
+            }
+        }
+
         system( $systemString, $returnCode );
 
         if ( $returnCode == 0 )
