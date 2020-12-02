@@ -308,8 +308,8 @@ class eZImageType extends eZDataType
 
         $content = $contentObjectAttribute->attribute( 'content' );
         $httpFileName = $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" );
-
-        if ( eZHTTPFile::canFetch( $httpFileName ) )
+        if ( $contentObjectAttribute->IsValid != eZInputValidator::STATE_INVALID
+            && eZHTTPFile::canFetch( $httpFileName ) )
         {
             $httpFile = eZHTTPFile::fetch( $httpFileName );
             if ( $httpFile )
