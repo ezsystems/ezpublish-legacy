@@ -65,6 +65,12 @@ class eZScriptClusterPurge
     {
         $cli = eZCLI::instance();
 
+        if ( empty( $this->optScopes ) )
+        {
+            $cli->warning( "No scope(s) to purge provided, exiting..." );
+            return;
+        }
+
         if ( $this->optMemoryMonitoring == true )
         {
             eZLog::rotateLog( self::LOG_FILE );
