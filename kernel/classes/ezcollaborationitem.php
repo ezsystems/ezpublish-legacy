@@ -431,8 +431,16 @@ class eZCollaborationItem extends eZPersistentObject
 
         $statusText = '';
         if ( $statusTypes === false )
+        {
             $statusTypes = array( self::STATUS_ACTIVE,
                                   self::STATUS_INACTIVE );
+        }
+        else if ( !is_array($statusTypes) || empty($statusTypes) ) {
+            eZDebug::writeWarning( 'status: expected non-empty array, got ' . $statusTypes, __METHOD__ );
+            // Empty status would break the following SQL query
+            $statusTypes = array( self::STATUS_ACTIVE,
+                                  self::STATUS_INACTIVE );
+        }
         $statusText = implode( ', ', $statusTypes );
 
         if ( $asCount )
