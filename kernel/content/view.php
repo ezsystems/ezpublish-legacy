@@ -28,7 +28,12 @@ else
 {
     $UserParameters = array();
 }
-
+if ( $LanguageCode )
+{
+    $prioLanguageList = eZContentLanguage::prioritizedLanguageCodes();
+    array_unshift( $prioLanguageList, $LanguageCode );
+    eZContentLanguage::setPrioritizedLanguages( array_unique( $prioLanguageList ) );
+}
 if ( $Offset )
     $Offset = (int) $Offset;
 if ( $Year )
