@@ -523,15 +523,22 @@ class eZOEXMLInput extends eZXMLInputHandler
         $objectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $objectAttributeVersion = $contentObjectAttribute->attribute('version');
 
-        foreach( $urlIDArray as $urlID )
+        $existingUrlIDs = eZURLObjectLink::fetchLinkObjectList( $objectAttributeID, $objectAttributeVersion, false );
+        foreach ( $existingUrlIDs as &$urlRow )
         {
-            $linkObjectLink = eZURLObjectLink::fetch( $urlID, $objectAttributeID, $objectAttributeVersion );
-            if ( $linkObjectLink == null )
-            {
-                $linkObjectLink = eZURLObjectLink::create( $urlID, $objectAttributeID, $objectAttributeVersion );
-                $linkObjectLink->store();
-            }
+            $urlRow = $urlRow['url_id'];
         }
+
+        $urlsToInsert = array_diff( $urlIDArray, $existingUrlIDs );
+
+        $db = eZDB::instance();
+        $db->begin();
+        foreach( $urlsToInsert as $urlID )
+        {
+            $linkObjectLink = eZURLObjectLink::create( $urlID, $objectAttributeID, $objectAttributeVersion );
+            $linkObjectLink->store();
+        }
+        $db->commit();
     }
 
      /**
