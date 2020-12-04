@@ -15,4 +15,15 @@
         <p>{$class_attribute.data_int1}&nbsp;{'characters'|i18n( 'design/standard/class/datatype' )}</p>
     </div>
 
+    <div class="element">
+        <label>{'Trim white spaces left and right'|i18n( 'design/standard/class/datatype' )}:</label>
+        <p>
+            {if $class_attribute.data_int2}
+                {'Yes'|i18n( 'design/standard/class/datatype' )}
+            {else}
+                {'No'|i18n( 'design/standard/class/datatype' )}
+            {/if}
+        </p>
+    </div>
+
 </div>

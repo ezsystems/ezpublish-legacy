@@ -30,6 +30,8 @@ class eZStringType extends eZDataType
     const MAX_LEN_VARIABLE = '_ezstring_max_string_length_';
     const DEFAULT_STRING_FIELD = "data_text1";
     const DEFAULT_STRING_VARIABLE = "_ezstring_default_value_";
+    const TRIM_FIELD = 'data_int2';
+    const TRIM_VARIABLE = '_ezstring_trim_';
 
     /*!
      Initializes with a string id and a description.
@@ -90,19 +92,26 @@ class eZStringType extends eZDataType
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-
+    /**
+     * @param $http
+     * @param $base
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @return int
+     */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
+        $inputRequired = $contentObjectAttribute->validateIsRequired();
 
         if ( $http->hasPostVariable( $base . '_ezstring_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
+            // Only white spaces never works if input is required
             $data = trim( $http->postVariable( $base . '_ezstring_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) );
 
             if ( $data == "" )
             {
-                if ( !$classAttribute->attribute( 'is_information_collector' ) and
-                     $contentObjectAttribute->validateIsRequired() )
+                if ( !$classAttribute->attribute( 'is_information_collector' ) &&
+                    $inputRequired )
                 {
                     $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                          'Input required.' ) );
@@ -114,7 +123,7 @@ class eZStringType extends eZDataType
                 return $this->validateStringHTTPInput( $data, $contentObjectAttribute, $classAttribute );
             }
         }
-        else if ( !$classAttribute->attribute( 'is_information_collector' ) and $contentObjectAttribute->validateIsRequired() )
+        else if ( !$classAttribute->attribute( 'is_information_collector' ) && $inputRequired )
         {
             $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );
             return eZInputValidator::STATE_INVALID;
@@ -149,14 +158,22 @@ class eZStringType extends eZDataType
             return eZInputValidator::STATE_INVALID;
     }
 
-    /*!
-     Fetches the http post var string input and stores it in the data instance.
-    */
+    /**
+     * Fetches the http post var string input and stores it in the data instance.
+     * @param $http
+     * @param string $base
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @return bool|void
+     */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
+        $classAttribute = $contentObjectAttribute->contentClassAttribute();
+        $doTrim = (bool)$classAttribute->attribute( self::TRIM_FIELD );
+
         if ( $http->hasPostVariable( $base . '_ezstring_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data = $http->postVariable( $base . '_ezstring_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
+            $data = $doTrim ? trim( $data ) : $data;
             $contentObjectAttribute->setAttribute( 'data_text', $data );
             return true;
         }
@@ -253,6 +270,11 @@ class eZStringType extends eZDataType
     {
         $maxLenName = $base . self::MAX_LEN_VARIABLE . $classAttribute->attribute( 'id' );
         $defaultValueName = $base . self::DEFAULT_STRING_VARIABLE . $classAttribute->attribute( 'id' );
+        $trimName = $base . self::TRIM_VARIABLE . $classAttribute->attribute( 'id' );
+
+        // This function is also called when creating a new content class version
+        $isSubmit = $http->hasPostVariable( $maxLenName );
+
         if ( $http->hasPostVariable( $maxLenName ) )
         {
             $maxLenValue = $http->postVariable( $maxLenName );
@@ -261,9 +283,14 @@ class eZStringType extends eZDataType
         if ( $http->hasPostVariable( $defaultValueName ) )
         {
             $defaultValueValue = $http->postVariable( $defaultValueName );
-
             $classAttribute->setAttribute( self::DEFAULT_STRING_FIELD, $defaultValueValue );
         }
+
+        if( $isSubmit )
+        {
+            $classAttribute->setAttribute( self::TRIM_FIELD, (int)$http->hasPostVariable( $trimName ) );
+        }
+
         return true;
     }
 
@@ -295,7 +322,6 @@ class eZStringType extends eZDataType
     {
         return $contentObjectAttribute->setAttribute( 'data_text', $string );
     }
-
 
     /*!
      Returns the content of the string for use as a title
@@ -390,5 +416,3 @@ class eZStringType extends eZDataType
 }
 
 eZDataType::register( eZStringType::DATA_TYPE_STRING, 'eZStringType' );
-
-?>

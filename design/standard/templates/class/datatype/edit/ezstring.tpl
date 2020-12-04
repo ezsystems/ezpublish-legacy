@@ -11,3 +11,16 @@
     <label>{'Max string length'|i18n( 'design/standard/class/datatype' )}:</label>
     <input type="text" name="ContentClass_ezstring_max_string_length_{$class_attribute.id}" value="{$class_attribute.data_int1}" size="5" maxlength="5" />&nbsp;{'characters'|i18n( 'design/standard/class/datatype' )}
 </div>
+
+{* Trim input *}
+<div class="block">
+    <label>{'Trim white spaces left and right'|i18n( 'design/standard/class/datatype' )}:</label>
+    <input
+            type="checkbox"
+            name="ContentClass_ezstring_trim_{$class_attribute.id}"
+            value="1"
+            {if $class_attribute.data_int2}
+                checked="checked"
+            {/if}
+    />
+</div>
