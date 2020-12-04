@@ -84,4 +84,4 @@ $Result['path'] = array( array( 'url' => '/class/grouplist/',
                                 'text' => ezpI18n::tr( 'kernel/class', 'Class groups' ) ),
                          array( 'url' => false,
                                 'text' => $groupName ) );
-?>
+
