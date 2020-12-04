@@ -114,7 +114,10 @@
 
     {* Object name pattern. *}
     <div class="block">
-    <label for="ContentClass_contentobject_name">{'Object name pattern'|i18n( 'design/admin/class/edit' )}:</label>
+    <label for="ContentClass_contentobject_name">
+        {'Object name pattern'|i18n( 'design/admin/class/edit' )}:
+        <small>Examples '&lt;title&gt;' or '&lt;short|title&gt;' or '{ldelim}CustomEzNamepatternResolverClass{rdelim}'</small>
+    </label>
     <input class="box" type="text" id="ContentClass_contentobject_name" name="ContentClass_contentobject_name" size="30" value="{$class.contentobject_name|wash}" title="{'Use this field to configure how the name of the objects are generated. Type in the identifiers of the attributes that should be used. The identifiers must be enclosed in angle brackets. Text outside angle brackets will be included as it is shown here.'|i18n( 'design/admin/class/edit' )|wash}" />
     </div>
 

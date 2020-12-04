@@ -96,8 +96,14 @@ class eZNamePatternResolverRegression extends ezpTestCase
             ->will( $this->returnValue( $name ) );
 
 
-        $resolver = new eZNamePatternResolver( $namePattern, $contentObjectMock );
-        $result = $resolver->resolveNamePattern( $limit, $sequence );
+        $resolver = eZNamePatternResolver::instance( $namePattern );
+        $result = $resolver->resolveNamePattern(
+        	$contentObjectMock,
+			false,
+			false,
+			$limit,
+			$sequence
+		);
 
         $this->assertEquals( $expects, $result );
     }

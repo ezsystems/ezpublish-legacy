@@ -1404,10 +1404,14 @@ You will need to change the class of the node by using the swap functionality.' 
         {
             $length = self::CONTENT_OBJECT_NAME_MAX_LENGTH;
         }
-        $nameResolver = new eZNamePatternResolver( $contentObjectNamePattern, $contentObject, $version, $translation );
-        $contentObjectName = $nameResolver->resolveNamePattern( $length, $sequence );
 
-        return $contentObjectName;
+        return eZNamePatternResolver::instance( $contentObjectNamePattern )->resolveNamePattern(
+            $contentObject,
+            $version,
+            $translation,
+            $length,
+            $sequence
+        );
     }
 
     /**
@@ -1431,51 +1435,13 @@ You will need to change the class of the node by using the swap functionality.' 
         }
 
         $length = (int) eZINI::instance()->variable('URLTranslator', 'UrlAliasNameLimit');
-        $nameResolver = new eZNamePatternResolver( $urlAliasNamePattern, $contentObject, $version, $translation );
-        $urlAliasName = $nameResolver->resolveNamePattern( $length );
 
-        return $urlAliasName;
-    }
-
-    /*!
-     Generates a name for the content object based on the content object name pattern
-     and data map of an object.
-    */
-    function buildContentObjectName( $contentObjectName, $dataMap, $tmpTags = false )
-    {
-        preg_match_all( "|<[^>]+>|U",
-                        $contentObjectName,
-                        $tagMatchArray );
-
-        foreach ( $tagMatchArray[0] as $tag )
-        {
-            $tagName = str_replace( "<", "", $tag );
-            $tagName = str_replace( ">", "", $tagName );
-
-            $tagParts = explode( '|', $tagName );
-
-            $namePart = "";
-            foreach ( $tagParts as $name )
-            {
-                // get the value of the attribute to use in name
-                if ( isset( $dataMap[$name] ) )
-                {
-                    $namePart = $dataMap[$name]->title();
-                    if ( $namePart != "" )
-                        break;
-                }
-                elseif ( $tmpTags && isset( $tmpTags[$name] ) && $tmpTags[$name] != '' )
-                {
-                    $namePart = $tmpTags[$name];
-                    break;
-                }
-
-            }
-
-            // replace tag with object name part
-            $contentObjectName = str_replace( $tag, $namePart, $contentObjectName );
-        }
-        return $contentObjectName;
+        return eZNamePatternResolver::instance( $urlAliasNamePattern )->resolveNamePattern(
+            $contentObject,
+            $version,
+            $translation,
+            $length
+        );
     }
 
     /*!

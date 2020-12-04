@@ -98,34 +98,33 @@ class eZNamePatternResolver
     private $metaString = 'EZMETAGROUP_';
 
     /**
-     * Constructs a object to resolve $namePattern. $contentVersion and
-     * $contentTranslation specify which version and translation respectively
-     * of the content object to use.
-     *
+     * eZNamePatternResolver constructor.
      * @param string $namePattern
-     * @param eZContentObject $contentObject
-     * @param int|false $contentVersion
-     * @param string|false $contentTranslation
      */
-    public function __construct( $namePattern, eZContentObject $contentObject, $contentVersion = false, $contentTranslation = false )
+    public function __construct( $namePattern )
     {
         $this->origNamePattern = $namePattern;
-        $this->contentObject = $contentObject;
-        $this->version = $contentVersion;
-        $this->translation = $contentTranslation;
-
         $this->namePattern = $this->filterNamePattern( $namePattern );
     }
 
     /**
-     * Return the real name for an object name pattern
+     * Return the real name for an object name pattern. $contentVersion and
+     * $contentTranslation specify which version and translation respectively
+     * of the content object to use.
      *
+     * @param eZContentObject $contentObject
+     * @param int|false $contentVersion
+     * @param string|false $contentTranslation
      * @param int $limit The limit on the string length, by defaul 0 aka none
      * @param string $sequence End sequence applied to string if limit has been reached
      * @return string
      */
-    public function resolveNamePattern( $limit = 0, $sequence = '' )
+    public function resolveNamePattern( eZContentObject $contentObject, $contentVersion = false, $contentTranslation = false, $limit = 0, $sequence = '' )
     {
+        $this->contentObject = $contentObject;
+        $this->version = $contentVersion;
+        $this->translation = $contentTranslation;
+
         // Fetch attributes for present identifiers
         $this->fetchContentAttributes();
 
@@ -370,5 +369,31 @@ class eZNamePatternResolver
         }
         return $retArray;
     }
+
+    /**
+     * Factory
+     * @param string $namePattern
+     * @return eZNamePatternResolver
+     */
+    static public function instance( $namePattern )
+    {
+        if(
+            preg_match( '/^{(\w+?)}/', $namePattern, $matches ) &&
+            class_exists( $matches[1] ) &&
+            is_subclass_of( $matches[1], 'eZNamePatternResolver' )
+        )
+        {
+            // Class name plus 2 curly brackets
+            $remainingNamePattern = substr( $namePattern, strlen( $matches[1] ) + 2 );
+
+            $instance = new $matches[1]( $remainingNamePattern );
+        }
+        else
+        {
+            $instance = new self( $namePattern );
+        }
+
+        return $instance;
+    }
 }
-?>
+
