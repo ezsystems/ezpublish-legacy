@@ -594,6 +594,29 @@ class eZURI
     }
 
     /**
+     * Wrapper function for transformURI
+     *
+     * @param string $url
+     * @param bool $full
+     * @return string
+     */
+    public static function build( $url, $full = false )
+    {
+        $serverURL = $full ? 'full' : 'relative';
+
+        // Avoid changing original $url value
+        $url2 = $url;
+        $result = self::transformURI( $url2, false, $serverURL );
+
+        if( !$result )
+        {
+            eZDebug::writeError( 'Failed to build URL: ' . $url, __METHOD__ );
+        }
+
+        return $url2;
+    }
+
+    /**
      * Implementation of an 'ezurl' template operator
      * Makes valid eZ Publish urls to use in links
      *
@@ -601,7 +624,7 @@ class eZURI
      * @param boolean $ignoreIndexDir
      * @param string $serverURL full|relative
      * @param boolean $htmlEscape true to html escape the result for HTML
-     * @return string the link to use
+     * @return boolean
      */
     public static function transformURI( &$href, $ignoreIndexDir = false, $serverURL = null, $htmlEscape = true )
     {
