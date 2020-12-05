@@ -24,7 +24,7 @@ access to the Internet.
 
 Installation
 ------------
-Read [doc/INSTALL.md](doc/INSTALL.md) or go to http://doc.ez.no/eZ-Publish
+Read [doc/INSTALL.md](doc/INSTALL.md)
 
 How to upgrade and use the lovestack version
 --

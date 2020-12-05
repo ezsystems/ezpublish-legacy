@@ -13,7 +13,11 @@
         "ext-pcntl": "If you plan to take advantage of eZ Publish Async publishing feature, then pcntl extension is required",
         "ezsystems/ezsi-ls": "ezsi would allow you to use Edge/Server Side Includes of blocks in templates",
         "ezsystems/ezscriptmonitor-ls": "ezscriptmonitor makes it possible to better deal with long running bulk operations within eZ Publish",
-        "ezsystems/eztags-ls": "eztags is a full tagging/taxonomy solution for eZ Publish replacing the simpler builtin ezkeywords datatype"
+        "ezsystems/eztags-ls": "eztags is a full tagging/taxonomy solution for eZ Publish replacing the simpler builtin ezkeywords datatype",
+        "ezsystems/ezautosave-ls": "~5.3",
+        "ezsystems/ezflow-ls-extension": "~5.3",
+        "ezsystems/ezwt-ls-extension": "~5.3",
+        "mugoweb/ezfind": "^2020.04"
     },
     "require": {
         "php": "^7.1",
@@ -27,12 +31,8 @@
         "ext-session": "*",
         "ext-spl": "*",
         "ext-simplexml": "*",
-        "ezsystems/ezpublish-legacy-installer": "*",
-        "ezsystems/ezautosave-ls": "~5.3",
-        "ezsystems/ezflow-ls-extension": "~5.3",
-        "ezsystems/ezwt-ls-extension": "~5.3",
         "symfony/polyfill-php73":  "^1.9",
-        "mugoweb/ezfind": "^2020.04",
+        "ezsystems/ezpublish-legacy-installer": "*",
         "zetacomponents/archive": "~1.5",
         "zetacomponents/authentication": "~1.4",
         "zetacomponents/authentication-database-tiein": "~1.2",
