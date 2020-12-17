@@ -6010,6 +6010,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $db->commit();
 
+        eZSearch::updateNodeVisibility( $node->attribute( 'node_id' ), 'hide' );
+
         eZContentObjectTreeNode::clearViewCacheForSubtree( $node, $modifyRootNode );
     }
 
