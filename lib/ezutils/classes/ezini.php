@@ -482,26 +482,26 @@ class eZINI
                  else
                     $overrideFile = eZDir::path( array( $rootDir, $overrideDir, $fileName ) );
 
-                if ( file_exists( $overrideFile . '.php' ) )
+                if ( file_exists( __DIR__ . '/../../../' . $overrideFile . '.php' ) )
                 {
                     // recursion eZDebug::writeStrict( "INI files with *.ini.php suffix is DEPRECATED, use *.ini or *.ini.append.php instead: $overrideFile.php", __METHOD__ );
-                    $inputFiles[] = $overrideFile . '.php';
+                    $inputFiles[] = __DIR__ . '/../../../' . $overrideFile . '.php';
                 }
 
-                if ( file_exists( $overrideFile ) )
+                if ( file_exists( __DIR__ . '/../../../' . $overrideFile ) )
                 {
-                    $inputFiles[] = $overrideFile;
+                    $inputFiles[] = __DIR__ . '/../../../' . $overrideFile;
                 }
 
-                if ( file_exists( $overrideFile . '.append.php' ) )
+                if ( file_exists( __DIR__ . '/../../../' . $overrideFile . '.append.php' ) )
                 {
-                    $inputFiles[] = $overrideFile . '.append.php';
+                    $inputFiles[] = __DIR__ . '/../../../' . $overrideFile . '.append.php';
                 }
 
-                if ( file_exists( $overrideFile . '.append' ) )
+                if ( file_exists( __DIR__ . '/../../../' . $overrideFile . '.append' ) )
                 {
                     // recursion eZDebug::writeStrict( "INI files with *.ini.append suffix is DEPRECATED, use *.ini or *.ini.append.php instead: $overrideFile.append", __METHOD__ );
-                    $inputFiles[] = $overrideFile . '.append';
+                    $inputFiles[] = __DIR__ . '/../../../' . $overrideFile . '.append';
                 }
             }
         }
