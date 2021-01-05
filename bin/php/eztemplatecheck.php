@@ -97,6 +97,7 @@ else
     $additionalSiteDesignList = $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
 
     $designList = array_merge( array( $standardDesign ), $additionalSiteDesignList, array( $siteDesign ) );
+    $designList = array_unique( $designList );
 
     $tpl = eZTemplate::factory();
 
