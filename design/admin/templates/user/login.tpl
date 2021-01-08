@@ -1,3 +1,5 @@
+{def $allow_register_account = fetch( 'user', 'has_access_to', hash( 'module', 'user', 'function', 'register' ) )}
+
 {* Warnings *}
 {if $User:warning.bad_login}
 <div class="message-warning">
@@ -67,7 +69,7 @@
     <div class="login-input-wrapper">
         <input class="defaultbutton" type="submit" id="loginbutton" name="LoginButton" value="{'Log in'|i18n( 'design/admin/user/login', 'Login button' )}" tabindex="3" title="{'Click here to log in using the username/password combination entered in the fields above.'|i18n( 'design/admin/user/login' )}" />
     </div>
-    {if ezmodule( 'user/register' )}
+    {if and( ezmodule( 'user/register' ), $allow_register_account )}
         <div class="login-text-wrapper">
             {'or'|i18n( 'design/admin/user/login')}
             <br/>
