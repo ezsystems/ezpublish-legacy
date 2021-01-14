@@ -348,9 +348,9 @@ class eZCLI
     {
         if ( $this->isQuiet() )
             return;
-        print( $string );
+        fputs( STDOUT, $string );
         if ( $addEOL )
-            print( $this->endlineString() );
+            fputs( STDOUT, $this->endlineString() );
     }
 
     /*!
