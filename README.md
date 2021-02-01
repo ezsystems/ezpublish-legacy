@@ -1,4 +1,4 @@
-eZ Publish 4 (Referred to as `legacy` in eZ Publish 5.x)
+eZ Publish fork maintained by mugo.ca
 =======================================================
 
 [![Build Status](https://img.shields.io/travis/ezsystems/ezpublish-legacy.svg?style=flat-square&branch=master)](https://travis-ci.org/ezsystems/ezpublish-legacy)
