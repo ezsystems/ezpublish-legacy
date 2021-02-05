@@ -1,7 +1,7 @@
 {* set scope=global persistent_variable=hash('extra_menu', false()) *}
 
 <div class="context-block content-dashboard">
-    
+
 <div class="box-header">
     {include uri='design:dashboard/maintenance.tpl' }
 </div>
