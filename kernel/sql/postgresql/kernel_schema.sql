@@ -4013,7 +4013,7 @@ CREATE INDEX ezurlalias_ml_text_lang ON ezurlalias_ml USING btree (text, lang_ma
 
 
 
-CREATE INDEX ezuser_login ON ezuser USING btree (login);
+CREATE UNIQUE INDEX ezuser_login ON ezuser USING btree (login);
 
 
 

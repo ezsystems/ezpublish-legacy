@@ -7303,7 +7303,7 @@ $schema = array (
       ),
       'ezuser_login' => 
       array (
-        'type' => 'non-unique',
+        'type' => 'unique',
         'fields' => 
         array (
           0 => 'login',

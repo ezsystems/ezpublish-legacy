@@ -36949,7 +36949,14 @@ INSERT INTO ezsite_data (
   value
 ) VALUES (
   'ezpublish-version',
-  '5.90.0alpha1'
+  'lovestack'
+);
+INSERT INTO ezsite_data (
+  name,
+  value
+) VALUES (
+  'db-schema-version',
+  '5'
 );
 
 INSERT INTO ezurl (
