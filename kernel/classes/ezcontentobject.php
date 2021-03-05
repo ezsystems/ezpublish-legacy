@@ -3936,11 +3936,12 @@ class eZContentObject extends eZPersistentObject
     }
 
     /**
-     * Returns the main node id for the current object and sets the attribute MainNodeID in the current object
+     * Returns the main node id for the current object and
+     * sets the attribute MainNodeID in the current object
      *
      * @return int|null
      */
-    function mainNodeID()
+    public function mainNodeID()
     {
         if ( !is_numeric( $this->MainNodeID ) )
         {
@@ -3951,11 +3952,11 @@ class eZContentObject extends eZPersistentObject
     }
 
     /**
-     * Returns the main node id for the current object.
+     * Returns the main node for the current object.
      *
-     * @return int|null
+     * @return eZContentObjectTreeNode|null
      */
-    function mainNode()
+    public function mainNode()
     {
         return eZContentObjectTreeNode::findMainNode( $this->attribute( 'id' ), true );
     }

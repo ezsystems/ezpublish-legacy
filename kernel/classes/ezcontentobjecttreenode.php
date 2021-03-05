@@ -2966,7 +2966,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      * @param int $objectID
      * @param boolean $asObject
      *
-     * @return int|null
+     * @return int|eZContentObjectTreeNode|null
      */
     static function findMainNode( $objectID, $asObject = false )
     {
@@ -3189,11 +3189,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $returnValue;
     }
 
-    function fetchParent()
+    /**
+     * @return eZContentObjectTreeNode|null
+     */
+    public function fetchParent()
     {
         return $this->fetch( $this->attribute( 'parent_node_id' ) );
     }
 
+    /**
+     * @return array
+     */
     function pathArray()
     {
         $pathString = $this->attribute( 'path_string' );
@@ -3207,7 +3213,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $pathArray;
     }
 
-
+    /**
+     * @return eZContentObjectTreeNode[]|false
+     */
     function fetchPath()
     {
         $nodePath = $this->attribute( 'path_string' );
@@ -5870,14 +5878,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /**
      * Returns the node's class identifier
      *
-     * @return string|bool|string|null
+     * @return string|bool|null
      */
     public function classIdentifier()
     {
         if ( $this->ClassIdentifier === null )
         {
-            $object = $this->object();
-            $this->ClassIdentifier = $object->contentClassIdentifier();
+            $this->ClassIdentifier = $this->object()->contentClassIdentifier();
         }
 
         return $this->ClassIdentifier;
