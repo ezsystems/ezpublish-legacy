@@ -87,8 +87,8 @@ running. You get the commit hash with the command `git rev-parse HEAD`.
 That hash string needs to be added to `lib/version.php`.
 
 ```
-cd /tmp/ezpublish-legacy
-sed -i "/const GIT_COMMIT_HASH = '.*';/c\    const GIT_COMMIT_HASH = '$(git rev-parse HEAD)';" /var/www/ezp/lib/version.php
+cd /var/www/ezp
+sed -i "/const GIT_COMMIT_HASH = '.*';/c\    const GIT_COMMIT_HASH = '$(git rev-parse HEAD)';" lib/version.php
 ```
 
 Notes about zeta components
