@@ -108,14 +108,13 @@ class ezpI18n
      */
     protected static function translateText( $context, $source, $comment = null, $arguments = null )
     {
+        $ini = eZINI::instance();
         $localeCode = eZLocale::instance()->localeFullCode();
-        if ( $localeCode == 'eng-GB' )
+        if ( $localeCode == $ini->variable( 'RegionalSettings', 'Basei18nLocale' ) )
         {
-            // we don't have ts-file for 'eng-GB'.
             return self::insertArguments( $source, $arguments );
         }
 
-        $ini = eZINI::instance();
         $useCache = $ini->variable( 'RegionalSettings', 'TranslationCache' ) != 'disabled';
         eZTSTranslator::initialize( $context, $localeCode, 'translation.ts', $useCache );
 
