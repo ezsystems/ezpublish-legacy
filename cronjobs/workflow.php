@@ -82,6 +82,19 @@ foreach( $workflowProcessList as $process )
             continue;
         }
 
+        $originalUserId = $process->attribute( 'user_id' )
+        $originalUser = eZUser::fetch( $originalUserId );
+        if ( $originalUser )
+        {
+            // note: we still log is as original user even if has been disabled in the meantime...
+            $loggedInUser = eZUser::setCurrentlyLoggedInUser( $originalUser, $originalUserId );
+            $cli->output( "Logged in as original user: ". $originalUser->attribute( 'login' ) );
+        }
+        else
+        {
+            eZDebug::writeWarning( "User $originalUserId has been deleted and can not be used for finishing workflow", __METHOD__ );
+        }
+
         $mementoData = $bodyMemento->data();
         $mainMementoData = $mainMemento->data();
         $mementoData['main_memento'] = $mainMemento;
