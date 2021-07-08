@@ -219,7 +219,7 @@ class eZXMLInputParser
         $text = str_replace( "\t", ' ', $text);
         // replace unicode chars that will break the XML validity
         // see http://www.w3.org/TR/REC-xml/#charsets
-        $text = preg_replace( '/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', ' ', $text, -1, $count );
+        $text = preg_replace( '/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]+/u', ' ', $text, -1, $count );
         if ( $count > 0 )
         {
             $this->Messages[] = ezpI18n::tr(
