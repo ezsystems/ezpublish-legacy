@@ -42,7 +42,7 @@ class eZAudit
 
     /**
      * Writes $auditName with $auditAttributes as content
-     * to file name that will be fetched from ini settings by auditNameSettings() for logging.
+     * to file or database, based on INI configuration
      *
      * @param string $auditName
      * @param array $auditAttributes
@@ -50,12 +50,54 @@ class eZAudit
      */
     static function writeAudit( $auditName, $auditAttributes = array() )
     {
-        $enabled = eZAudit::isAuditEnabled();
+        $auditDestination = self::fetchAuditDestination();
+        if ( $auditDestination === 'database' )
+        {
+            return self::writeAuditToDatabase( $auditName, $auditAttributes );
+        }
+
+        return self::writeAuditToLog( $auditName, $auditAttributes );
+    }
+
+    /**
+     * Writes $auditName with $auditAttributes as content to database table
+     *
+     * @param string $auditName
+     * @param array $auditAttributes
+     * @return bool
+     */
+    static function writeAuditToDatabase( $auditName, $auditAttributes = array() )
+    {
+        $enabled = self::isAuditEnabled();
         if ( !$enabled )
             return false;
 
-        $auditNameSettings = eZAudit::auditNameSettings();
+        $enabledAudits = self::fetchEnabledAudits();
+        if ( !in_array( $auditName, $enabledAudits ) )
+            return false;
 
+        return eZDBAudit::writeAudit( $auditName, $auditAttributes );
+    }
+
+    /**
+     * Writes $auditName with $auditAttributes as content
+     * to file name that will be fetched from ini settings by auditNameSettings() for logging.
+     *
+     * @param string $auditName
+     * @param array $auditAttributes
+     * @return bool
+     */
+    static function writeAuditToLog( $auditName, $auditAttributes = array() )
+    {
+        $enabled = self::isAuditEnabled();
+        if ( !$enabled )
+            return false;
+
+        $enabledAudits = self::fetchEnabledAudits();
+        if ( !in_array( $auditName, $enabledAudits ) )
+            return false;
+
+        $auditNameSettings = self::auditNameSettings();
         if ( !isset( $auditNameSettings[$auditName] ) )
             return false;
 
@@ -93,7 +135,7 @@ class eZAudit
         {
             return $GLOBALS['eZAuditEnabled'];
         }
-        $enabled = eZAudit::fetchAuditEnabled();
+        $enabled = self::fetchAuditEnabled();
         $GLOBALS['eZAuditEnabled'] = $enabled;
         return $enabled;
     }
@@ -125,9 +167,54 @@ class eZAudit
         {
             return $GLOBALS['eZAuditNameSettings'];
         }
-        $nameSettings = eZAudit::fetchAuditNameSettings();
+        $nameSettings = self::fetchAuditNameSettings();
         $GLOBALS['eZAuditNameSettings'] = $nameSettings;
         return $nameSettings;
+    }
+
+    /**
+     * Returns audit destination
+     *
+     * @return string
+     */
+    static function fetchAuditDestination()
+    {
+        if ( isset( $GLOBALS['eZAuditDestination'] ) )
+        {
+            return $GLOBALS['eZAuditDestination'];
+        }
+
+        $ini = eZINI::instance( 'audit.ini' );
+        $destination = $ini->hasVariable( 'AuditSettings', 'AuditDestination' )
+                     ? $ini->variable( 'AuditSettings', 'AuditDestination' )
+                     : 'log';
+
+        $GLOBALS['eZAuditDestination'] = $destination;
+        return $destination;
+    }
+
+    /**
+     * Returns the list of enabled audits
+     *
+     * @return array
+     */
+    static function fetchEnabledAudits()
+    {
+        if ( isset( $GLOBALS['eZAuditEnabledAudits'] ) )
+        {
+            return $GLOBALS['eZAuditEnabledAudits'];
+        }
+
+        $ini = eZINI::instance( 'audit.ini' );
+
+        $enabledAudits = array();
+        if ( $ini->hasVariable( 'AuditSettings', 'EnabledAudits' ) )
+        {
+            $enabledAudits = $ini->variable( 'AuditSettings', 'EnabledAudits' );
+        }
+
+        $GLOBALS['eZAuditEnabledAudits'] = $enabledAudits;
+        return $enabledAudits;
     }
 }
 ?>

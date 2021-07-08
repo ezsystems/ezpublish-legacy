@@ -65,3 +65,25 @@ UPDATE ezpending_actions SET id=nextval('ezpending_actions_s'::text);
 -- when a user is manually enabled through the admin interface,
 -- the corresponding ezuser_accountkey record is not removed
 DELETE FROM ezuser_accountkey WHERE user_id IN ( SELECT user_id FROM ezuser_setting WHERE is_enabled = 1 );
+
+
+CREATE SEQUENCE ezaudit_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+CREATE TABLE ezaudit (
+    id integer DEFAULT nextval('ezaudit_s'::text) NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL,
+    user_login character varying(150) DEFAULT ''::character varying NOT NULL,
+    timestamp integer DEFAULT 0 NOT NULL,
+    ip_address character varying(255) DEFAULT ''::character varying NOT NULL,
+    action character varying(255) DEFAULT ''::character varying NOT NULL,
+    details text
+);
+
+ALTER TABLE ONLY ezaudit ADD CONSTRAINT ezaudit_pkey PRIMARY KEY ( id );
+CREATE INDEX ezaudit_user_id ON ezaudit USING btree ( user_id );
+CREATE INDEX ezaudit_action ON ezaudit USING btree ( action );
