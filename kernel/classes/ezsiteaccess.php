@@ -542,6 +542,13 @@ class eZSiteAccess
             eZDebugSetting::writeDebug( 'kernel-siteaccess', "Updated settings to use siteaccess '$name'", __METHOD__ );
         }
 
+        $ini = eZINI::instance();
+        if ( $ini->hasVariable( 'ExpiryHandler', 'ExpiryFilePerSiteAccess' )
+             && $ini->variable( 'ExpiryHandler', 'ExpiryFilePerSiteAccess' ) == 'enabled' )
+        {
+            eZExpiryHandler::refresh();
+        }
+
         return $access;
     }
 
