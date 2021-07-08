@@ -333,8 +333,12 @@ class eZContentObjectVersion extends eZPersistentObject
     {
         if ( $this->VersionName !== null )
             return $this->VersionName;
-        $this->VersionName = $this->attribute( 'contentobject' )->versionLanguageName( $this->attribute( 'version' ),
-                                                                                       $lang );
+        $object = $this->attribute( 'contentobject' );
+        if ( ! $object instanceof eZContentObject )
+            return null;
+        $this->VersionName = $object->versionLanguageName(
+            $this->attribute( 'version' ), $lang
+        );
         if ( $lang !== false )
         {
             $contentObject = $this->contentObject();
