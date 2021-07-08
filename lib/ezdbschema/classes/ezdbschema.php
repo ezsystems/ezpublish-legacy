@@ -49,18 +49,31 @@ class eZDbSchema
 
         /* Load the database schema handler INI stuff */
         $ini = eZINI::instance( 'dbschema.ini' );
-        $schemaPaths = $ini->variable( 'SchemaSettings', 'SchemaPaths' );
-        $schemaHandlerClasses = $ini->variable( 'SchemaSettings', 'SchemaHandlerClasses' );
 
-        /* Check if we have a handler */
-        if ( !isset( $schemaPaths[$dbname] ) or !isset( $schemaHandlerClasses[$dbname] ) )
+        $schemaHandlerClasses = $ini->variable( 'SchemaSettings', 'SchemaHandlerClasses' );
+        if ( !isset( $schemaHandlerClasses[$dbname] ) )
         {
             eZDebug::writeError( "No schema handler for database type: $dbname", __METHOD__ );
             return false;
         }
 
-        /* Include the schema file and instantiate it */
-        require_once( $schemaPaths[$dbname] );
+        // DEPRECATED still allow legacy inclusion of classes the manual way
+        if ( !class_exists( $schemaHandlerClasses[$dbname] ) )
+        {
+            $schemaPaths = $ini->variable( 'SchemaSettings', 'SchemaPaths' );
+            if ( isset( $schemaPaths[$dbname] ) )
+            {
+                eZDebug::writeStrict( 'Loading DB Schema class via SchemaSettings/SchemaPaths has been deprecated in 5.0, class autoloading should be used instead', 'Deprecation' );
+                require_once( $schemaPaths[$dbname] );
+            }
+        }
+
+        if ( !class_exists( $schemaHandlerClasses[$dbname] ) )
+        {
+            eZDebug::writeError( "Schema handler '{$schemaPaths[$dbname]}' for database type: $dbname could not be loaded", __METHOD__ );
+            return false;
+        }
+
         return new $schemaHandlerClasses[$dbname]( $params );
     }
 
