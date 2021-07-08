@@ -30,16 +30,18 @@ class eZExecution
         self::$hasCleanExit = $hasCleanExit;
     }
 
-    /*!
-     Calls the cleanup handlers to make sure that the script is ready to exit.
-    */
-    static function cleanup()
+    /**
+     * Calls the cleanup handlers to make sure that the script is ready to exit.
+     * @param bool $notFinal passed on on handlers, signals when script execution in fact continues, eg. when a Legacy
+     *                       Callback is executed from the eZPublish 5 kernel
+     */
+    static function cleanup( $notFinal = false )
     {
         $handlers = eZExecution::cleanupHandlers();
         foreach ( $handlers as $handler )
         {
             if ( is_callable( $handler ) )
-                call_user_func( $handler );
+                call_user_func( $handler, $notFinal );
             else
                 eZDebug::writeError('Could not call cleanup handler, is it a static public function?', __METHOD__ );
         }

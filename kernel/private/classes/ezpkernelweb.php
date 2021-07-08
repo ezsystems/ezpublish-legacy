@@ -1225,17 +1225,21 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
             throw $e;
         }
 
-        $this->shutdown( $postReinitialize );
+        $this->shutdown( $postReinitialize, false );
 
         return $return;
     }
 
     /**
      * Runs the shutdown process
+     * @param bool $reInitialize set it to false to speedup multiple Legacy Callback executions:
+     *                           it avoids re-bootstrapping the kernel on the next invocation of requestInit
+     * @param bool $isFinal used to distinguish between a "real" shutdown, and a shutdown executed in Legacy Callback
+     *                      context (it is passed on to cleanup handlers)
      */
-    protected function shutdown( $reInitialize = true )
+    protected function shutdown( $reInitialize = true, $isFinal = true )
     {
-        eZExecution::cleanup();
+        eZExecution::cleanup( !$isFinal );
         eZExecution::setCleanExit();
         eZExpiryHandler::shutdown();
         if ( $reInitialize )
