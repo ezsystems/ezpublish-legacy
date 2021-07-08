@@ -51,9 +51,10 @@ fclose( $fd );
 $cli->output( " parsing", false );
 
 $tree = new DOMDOcument();
-$success = $tree->loadXML( $transXML );
+if ( !$tree->loadXML( $transXML ) )
+    $script->shutdown( 1, "XML text for file $translationFile did not parse as valid XML" );
 
-$cli->output( " validating", false );
+$cli->output( " validating" );
 if ( !eZTSTranslator::validateDOMTree( $tree ) )
     $script->shutdown( 1, "XML text for file $translationFile did not validate" );
 
@@ -88,11 +89,13 @@ function handleContextNode( $context, $cli, $data )
     }
     else if ( !in_array( $contextName, $data['ignored_context_list'] ) )
     {
+        $data['context'] = array();
         foreach( $messages as $message )
         {
             $data['element_count']++;
             $data = handleMessageNode( $contextName, $message, $cli, $data, true );
         }
+        unset( $data['context'] );
     }
 
     return $data;
@@ -103,6 +106,7 @@ function handleMessageNode( $contextName, $message, $cli, $data, $requireTransla
     $source = null;
     $translation = null;
     $comment = null;
+    $type = '';
     $message_children = $message->childNodes;
     foreach( $message_children as $message_child )
     {
@@ -146,15 +150,54 @@ function handleMessageNode( $contextName, $message, $cli, $data, $requireTransla
             {
                 // Ignore it.
             }
+            /// @todo add other tags that are not used in eZP but valid in qt spec
             else
             {
-                $cli->warning( "Unknown element name: " . $message_child->localName );
+                $cli->warning( "Unknown element name: " . $message_child->localName . " in context $contextName" );
             }
         }
     }
-    if ( $source === null )
+    // give warnings for empty sources, not only for missing source element
+    if ( $source == null )
     {
-        $cli->warning( "No source name found, skipping message" );
+        $cli->warning( "No source name found, skipping message in context $contextName" );
+    }
+    else
+    {
+        if ( $type == '' )
+        {
+            // valid translations have to be not empty
+            if ( $translation == '' )
+            {
+                $cli->warning( "Empty translation found for source '$source' in context $contextName" );
+            }
+            else
+            {
+                // check for double translations (nb: comment is part of the key)
+                // nb: corner case: this works correctly in all cases ONLY if sources never end in :: or comments never start in ::
+                if ( in_array( $source . '::' . $comment, $data[ 'context'] ) )
+                {
+                    $cli->warning( "Two translations for source '$source' in context $contextName" );
+                }
+                else
+                {
+                    $data[ 'context'][] = $source . '::' . $comment;
+                }
+
+                // a token in source: check that it is not translated too (ie. it is verbatim present in translation)
+                /// @todo verify if eZP code uses the same regexp as we do to identify tokens
+                if ( preg_match_all( '/(%[0-9]+|%[a-z_]+)/', $source, $matches ) )
+                {
+                    foreach( $matches[1] as $match )
+                    {
+                        if ( strpos( $translation, $match ) === false )
+                        {
+                            $cli->warning( "No translation found for token '$match' of source '$source' in context $contextName" );
+                        }
+                    }
+                }
+            }
+        }
     }
 
     return $data;
