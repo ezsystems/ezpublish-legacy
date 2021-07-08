@@ -6154,7 +6154,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( $clearForRootNode )
         {
             $objectID = $node->attribute( 'contentobject_id' );
-            eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
+            // include CLEAR_CHILDREN_CACHE because it can increase performance of expiring all view cache when there are many subnodes.
+            eZContentCacheManager::clearContentCacheIfNeeded( $objectID, true, false, eZContentCacheManager::CLEAR_DEFAULT | eZContentCacheManager::CLEAR_CHILDREN_CACHE );
         }
 
         $offset = 0;
@@ -6178,7 +6179,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $objectIDList[] = $curNode['id'];
             unset( $subtreeChunk );
 
-            eZContentCacheManager::clearContentCacheIfNeeded( array_unique( $objectIDList ) );
+            if( $clearForRootNode )
+            {
+                //Do not clear subnode cache since it's already done in root node clearing.
+                $cacheClearType = eZContentCacheManager::CLEAR_RELATING_CACHE | eZContentCacheManager::CLEAR_KEYWORD_CACHE;
+            }
+            else
+            {
+                $cacheClearType = eZContentCacheManager::CLEAR_NODE_CACHE | eZContentCacheManager::CLEAR_RELATING_CACHE | eZContentCacheManager::CLEAR_KEYWORD_CACHE;
+            }
+            eZContentCacheManager::clearContentCacheIfNeeded( array_unique( $objectIDList ), true, false, $cacheClearType );
         }
 
         return true;

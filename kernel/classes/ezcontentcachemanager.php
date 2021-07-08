@@ -647,9 +647,10 @@ class eZContentCacheManager
      \param $versionNum The version of the object to use or \c true for current version
      \param $additionalNodeList An array with node IDs to add to clear list,
                                 or \c false for no additional nodes.
+     \param $clearCacheType clearCacheType for node list
      \return An array with node IDs that must have their viewcaches cleared.
     */
-    static function nodeList( $objectID, $versionNum )
+    static function nodeList( $objectID, $versionNum, $clearCacheType = self::CLEAR_DEFAULT )
     {
         $nodeList = array();
 
@@ -659,7 +660,7 @@ class eZContentCacheManager
             return false;
         }
 
-        eZContentCacheManager::nodeListForObject( $object, $versionNum, self::CLEAR_DEFAULT, $nodeList, $handledObjectList );
+        eZContentCacheManager::nodeListForObject( $object, $versionNum, $clearCacheType, $nodeList, $handledObjectList );
 
         return $nodeList;
     }
@@ -673,11 +674,11 @@ class eZContentCacheManager
      * @param int    $versionNum         The version of the object to use, or true for current version
      * @param array  $additionalNodeList An array with node IDs to add to clear list, or false for no additional nodes.
     */
-    static function clearObjectViewCache( $objectID, $versionNum = true, $additionalNodeList = false )
+    static function clearObjectViewCache( $objectID, $versionNum = true, $additionalNodeList = false, $clearCacheType = self::CLEAR_DEFAULT )
     {
         eZDebug::accumulatorStart( 'node_cleanup_list', '', 'Node cleanup list' );
 
-        $nodeList = eZContentCacheManager::nodeList( $objectID, $versionNum );
+        $nodeList = eZContentCacheManager::nodeList( $objectID, $versionNum, $clearCacheType );
 
         if ( $nodeList === false and !is_array( $additionalNodeList ) )
             return false;
@@ -707,8 +708,9 @@ class eZContentCacheManager
      * @see clearObjectViewCache
      *
      * @param array $objectIDList List of object ID
+     * @param int $clearCacheType clearCacheType of objects, performance-useful when clearing parent-child nodes for instance.
      */
-    public static function clearObjectViewCacheArray( array $objectIDList )
+    public static function clearObjectViewCacheArray( array $objectIDList, $clearCacheType = self::CLEAR_DEFAULT )
     {
         eZDebug::accumulatorStart( 'node_cleanup_list', '', 'Node cleanup list' );
 
@@ -716,7 +718,7 @@ class eZContentCacheManager
 
         foreach ( $objectIDList as $objectID )
         {
-            $tempNodeList = self::nodeList( $objectID, true );
+            $tempNodeList = self::nodeList( $objectID, true, $clearCacheType );
 
             if ( $tempNodeList !== false )
             {
@@ -792,7 +794,7 @@ class eZContentCacheManager
      * @param bool|int $versionNum
      * @param bool|array $additionalNodeList
      */
-    public static function clearObjectViewCacheIfNeeded( $objectID, $versionNum = true, $additionalNodeList = false )
+    public static function clearObjectViewCacheIfNeeded( $objectID, $versionNum = true, $additionalNodeList = false, $clearCacheType = self::CLEAR_DEFAULT )
     {
         if ( eZINI::instance()->variable( 'ContentSettings', 'ViewCaching' ) !== 'enabled' )
             return;
@@ -805,11 +807,11 @@ class eZContentCacheManager
                 return false;
             }
 
-            self::clearObjectViewCacheArray( $objectID );
+            self::clearObjectViewCacheArray( $objectID, $clearCacheType );
         }
         else
         {
-            self::clearObjectViewCache( $objectID, $versionNum, $additionalNodeList );
+            self::clearObjectViewCache( $objectID, $versionNum, $additionalNodeList, $clearCacheType );
         }
     }
 
@@ -1058,12 +1060,13 @@ class eZContentCacheManager
      * @param int|array $objectID (list of) object ID
      * @param bool|int $versionNum
      * @param bool|array $additionalNodeList
+     * @param int clearCacheType of each objects.
      */
-    public static function clearContentCacheIfNeeded( $objectID, $versionNum = true, $additionalNodeList = false )
+    public static function clearContentCacheIfNeeded( $objectID, $versionNum = true, $additionalNodeList = false, $clearCacheType = self::CLEAR_DEFAULT )
     {
         eZDebug::accumulatorStart( 'check_cache', '', 'Check cache' );
 
-        self::clearObjectViewCacheIfNeeded( $objectID, $versionNum, $additionalNodeList );
+        self::clearObjectViewCacheIfNeeded( $objectID, $versionNum, $additionalNodeList, $clearCacheType );
         self::clearTemplateBlockCacheIfNeeded( $objectID );
 
         // Clear cached path strings of content SSL zones.
@@ -1080,8 +1083,9 @@ class eZContentCacheManager
      * @param int|array $objectID (list of) object ID
      * @param bool|int $versionNum
      * @param bool|array $additionalNodeList
+     * @param int clearCacheType of each objects.
      */
-    static function clearContentCache( $objectID, $versionNum = true, $additionalNodeList = false )
+    static function clearContentCache( $objectID, $versionNum = true, $additionalNodeList = false, $clearCacheType = self::CLEAR_DEFAULT )
     {
         eZDebug::accumulatorStart( 'check_cache', '', 'Check cache' );
 
@@ -1093,11 +1097,11 @@ class eZContentCacheManager
                 return false;
             }
 
-            self::clearObjectViewCacheArray( $objectID );
+            self::clearObjectViewCacheArray( $objectID, $clearCacheType );
         }
         else
         {
-            self::clearObjectViewCache( $objectID, $versionNum, $additionalNodeList );
+            self::clearObjectViewCache( $objectID, $versionNum, $additionalNodeList, $clearCacheType );
         }
 
         self::clearTemplateBlockCache( $objectID );
