@@ -97,25 +97,6 @@ class eZStepCreateSites extends eZStepInstaller
         $extraLanguageCodes  = isset( $this->PersistenceList['regional_info']['languages'] ) ? $this->PersistenceList['regional_info']['languages'] : array();
         $extraLanguageCodes  = array_diff( $extraLanguageCodes, array( $primaryLanguageCode ) );
 
-        /*
-        if ( isset( $this->PersistenceList['regional_info']['variations'] ) )
-        {
-            $variations = $this->PersistenceList['regional_info']['variations'];
-            foreach ( $variations as $variation )
-            {
-                $locale = eZLocale::create( $variation );
-                if ( $locale->localeCode() == $primaryLanguageCode )
-                {
-                    $primaryLanguage = $locale;
-                }
-                else
-                {
-                    $variationsLanguages[] = $locale;
-                }
-            }
-        }
-        */
-
         if ( $primaryLanguage === null )
             $primaryLanguage = eZLocale::create( $primaryLanguageCode );
 
@@ -128,7 +109,7 @@ class eZStepCreateSites extends eZStepInstaller
         }
 
         // If we have already figured out charset we used that
-        if ( isset( $this->PersistenceList['regional_info']['site_charset'] ) and
+        if ( isset( $this->PersistenceList['regional_info']['site_charset'] ) &&
              strlen( $this->PersistenceList['regional_info']['site_charset'] ) > 0 )
         {
             $charset = $this->PersistenceList['regional_info']['site_charset'];
@@ -160,58 +141,67 @@ class eZStepCreateSites extends eZStepInstaller
         $siteINISettings = array();
         $result = true;
 
-            $accessType = $siteType['access_type'];
-            $resultArray = array( 'errors' => array() );
+        $accessType = $siteType['access_type'];
+        $resultArray = array( 'errors' => array() );
 
-            $result = $this->initializePackage( $siteType, $accessMap, $charset,
-                                                $allLanguageCodes, $allLanguages, $primaryLanguage, $this->PersistenceList['admin'],
-                                                $resultArray );
-            if ( !$result )
+        $result = $this->initializePackage( 
+            $siteType, 
+            $accessMap, 
+            $charset,
+            $allLanguageCodes, 
+            $allLanguages, 
+            $primaryLanguage, 
+            $this->PersistenceList['admin'],
+            $resultArray 
+        );
+        
+        if ( !$result )
+        {
+            $this->Error['errors'] = array_merge( $this->Error['errors'], $resultArray['errors'] );
+            $this->Error['errors'][] = array( 
+                'code' => 'EZSW-040',
+                'text' => "Failed to initialize site package '" . $siteType['identifier'] . "'" 
+            );
+
+            return false;
+        }
+
+        if ( $resultArray['common_settings'] )
+        {
+            $extraCommonSettings = $resultArray['common_settings'];
+            foreach ( $extraCommonSettings as $extraSetting )
             {
-                $this->Error['errors'] = array_merge( $this->Error['errors'], $resultArray['errors'] );
-                $this->Error['errors'][] = array( 'code' => 'EZSW-040',
-                                                  'text' => "Failed to initialize site package '" . $siteType['identifier'] . "'" );
-                //$result = false;
-                return false;
-            }
+                if ( $extraSetting === false )
+                    continue;
 
-            if ( $resultArray['common_settings'] )
-            {
-                $extraCommonSettings = $resultArray['common_settings'];
+                $iniName = $extraSetting['name'];
+                $settings = $extraSetting['settings'];
+                $resetArray = false;
+                if ( isset( $extraSetting['reset_arrays'] ) )
+                    $resetArray = $extraSetting['reset_arrays'];
 
-                foreach ( $extraCommonSettings as $extraSetting )
+                if ( $iniName == 'site.ini' )
                 {
-                    if ( $extraSetting === false )
-                        continue;
+                    $siteINISettings[] = $settings;
+                    continue;
+                }
 
-                    $iniName = $extraSetting['name'];
-                    $settings = $extraSetting['settings'];
-                    $resetArray = false;
-                    if ( isset( $extraSetting['reset_arrays'] ) )
-                        $resetArray = $extraSetting['reset_arrays'];
-
-                    if ( $iniName == 'site.ini' )
-                    {
-                        $siteINISettings[] = $settings;
-                        continue;
-                    }
-
-                    if ( file_exists( 'settings/override/' . $iniName . '.append' ) ||
-                         file_exists( 'settings/override/' . $iniName . '.append.php' ) )
-                    {
-                        $tmpINI = eZINI::instance( $iniName, 'settings/override', null, null, false, true );
-                    }
-                    else
-                    {
-                        $tmpINI = eZINI::create( $iniName );
-                    }
+                if ( file_exists( 'settings/override/' . $iniName . '.append' ) ||
+                     file_exists( 'settings/override/' . $iniName . '.append.php' ) )
+                {
+                    $tmpINI = eZINI::instance( $iniName, 'settings/override', null, null, false, true );
+                }
+                else
+                {
+                    $tmpINI = eZINI::create( $iniName );
+                }
                     // Set ReadOnlySettingsCheck to false: towards
                     // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
-                    $tmpINI->setReadOnlySettingsCheck( false );
-                    $tmpINI->setVariables( $settings );
-                    $tmpINI->save( false, '.append.php', false, true, "settings/override", $resetArray );
-                }
+                $tmpINI->setReadOnlySettingsCheck( false );
+                $tmpINI->setVariables( $settings );
+                $tmpINI->save( false, '.append.php', false, true, "settings/override", $resetArray );
             }
+        }
 
         if ( !$result )
         {
@@ -246,21 +236,7 @@ class eZStepCreateSites extends eZStepInstaller
             $saveResult = true;
         if ( $saveData )
             $saveResult = $imageINI->save( false, '.php', 'append', true );
-
-        if ( $saveResult and
-             $charset !== false )
-        {
-            /*$i18nINI = eZINI::create( 'i18n.ini' );
-            // Set ReadOnlySettingsCheck to false: towards
-            // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
-            $i18nINI->setReadOnlySettingsCheck( false );
-
-            $i18nINI->setVariable( 'CharacterSettings', 'Charset', $charset );
-            if ( $saveData )
-                $saveResult = $i18nINI->save( false, '.php', 'append', true );
-            */
-        }
-
+        
         switch ( $accessType )
         {
             case 'port':
@@ -293,12 +269,14 @@ class eZStepCreateSites extends eZStepInstaller
         {
             $ini->setVariable( 'PortAccessSettings', $port, $siteAccessName );
         }
+
         $ini->setVariable( 'SiteSettings', 'SiteList', $accessMap['sites'] );
         $ini->setVariable( 'SiteAccessSettings', 'AvailableSiteAccessList', $accessMap['accesses'] );
         $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
         $ini->setVariable( 'Session', 'SessionNameHandler', 'custom' );
         $ini->setVariable( 'MailSettings', 'AdminEmail', $this->PersistenceList['admin']['email'] );
         $ini->setVariable( 'MailSettings', 'EmailSender', false );
+        $ini->setVariable( 'ContentSettings', 'PreCacheSiteaccessArray', $accessMap['accesses'] ); 
 
         $defaultAccess = 'admin';
         if ( isset( $accessMap['accesses'][0] ) )
