@@ -123,7 +123,7 @@ class eZHTTPHeader
                         $headerValue = gmdate( 'D, d M Y H:i:s', time() + $headerValue ) . ' GMT';
                     }
 
-                    if ( $depth === null )
+                    if ( $depth === null || $uriString === $path )
                     {
                         $headerArray[$header] = $headerValue;
                     }
@@ -131,6 +131,10 @@ class eZHTTPHeader
                     {
                         $pathLevel = count( explode( '/', $path ) );
                         $uriLevel = count( explode( '/', $uriString ) );
+                        if ( $path == '/' )
+                        {
+                            $pathLevel--;
+                        }
                         if ( $level === null )
                         {
                             if ( $uriLevel <= $pathLevel + $depth )
