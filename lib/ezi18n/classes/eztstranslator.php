@@ -450,6 +450,7 @@ class eZTSTranslator extends eZTranslatorHandler
         $source = null;
         $translation = null;
         $comment = null;
+        $unfinished = false;
         $message_children = $message->childNodes;
         for( $i = 0; $i < $message_children->length; $i++ )
         {
@@ -477,6 +478,10 @@ class eZTSTranslator extends eZTranslatorHandler
                 }
                 else if ( $childName == "translation" )
                 {
+                    if ( $message_child->getAttribute( 'type' ) == 'unfinished' )
+                    {
+                        $unfinished = true;
+                    }
                     if ( $message_child->childNodes->length > 0 )
                     {
                         $translation = '';
@@ -529,7 +534,7 @@ class eZTSTranslator extends eZTranslatorHandler
             $comment = $codec->convertString( $comment );
         }
 
-        $this->insert( $contextName, $source, $translation, $comment );
+        $this->insert( $contextName, $source, $translation, $comment, $unfinished );
         return true;
     }
 
@@ -614,15 +619,21 @@ class eZTSTranslator extends eZTranslatorHandler
      * @param string $source
      * @param string $translation
      * @param string $comment
+     * @param bool $ignoreExisting If true and the translation message already exists,
+     * then the given message is ignored and does not replace the existing message.
      *
      * @return string The translation (md5) key
     */
-    function insert( $context, $source, $translation, $comment = null )
+    function insert( $context, $source, $translation, $comment = null, $ignoreExisting = false )
     {
         if ( $context == "" )
             $context = "default";
         $man = eZTranslatorManager::instance();
         $key = $man->createKey( $context, $source, $comment );
+        if ( $ignoreExisting && isset( $this->Messages[$key] ) )
+        {
+            return $key;
+        }
         $msg = $man->createMessage( $context, $source, $comment, $translation );
         $msg["key"] = $key;
         $this->Messages[$key] = $msg;
