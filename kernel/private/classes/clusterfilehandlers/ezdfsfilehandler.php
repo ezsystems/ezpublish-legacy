@@ -411,6 +411,16 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
      */
     function processCache( $retrieveCallback, $generateCallback = null, $ttl = null, $expiry = null, $extraData = null )
     {
+        $ret = $this->_processCache( $retrieveCallback, $generateCallback, $ttl, $expiry, $extraData );
+        if ( $this->useStaleCache )
+        {
+            header( "Cache­-Control: max-age=300, s-maxage=300" );
+        }
+        return $ret;
+    }
+
+    private function _processCache( $retrieveCallback, $generateCallback = null, $ttl = null, $expiry = null, $extraData = null )
+    {
         $forceDB   = false;
         $curtime   = time();
         $tries     = 0;
