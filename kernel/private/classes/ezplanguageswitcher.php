@@ -57,7 +57,19 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
     {
         if ( $this->destinationSiteAccessIni === null )
         {
-            $this->destinationSiteAccessIni = eZSiteAccess::getIni( $this->destinationSiteAccess, 'site.ini' );
+            $siteaccess=eZSiteAccess::siteAccessList();
+        	$findsiteaccess=false;
+        	foreach($siteaccess as $sa){
+        		if($sa['name']==$this->destinationSiteAccess){
+        			$findsiteaccess=true;
+        		}
+        	}
+        	if($findsiteaccess){
+            	$this->destinationSiteAccessIni = eZSiteAccess::getIni( $this->destinationSiteAccess, 'site.ini' );
+        	}else{
+        		$current=eZSiteAccess::current();
+            	$this->destinationSiteAccessIni = eZSiteAccess::getIni( $current['name'], 'site.ini' );
+        	}
         }
         return $this->destinationSiteAccessIni;
     }
