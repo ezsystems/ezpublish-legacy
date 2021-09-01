@@ -17,6 +17,50 @@
 class eZTemplateCacheBlock
 {
     /*!
+     Helper function for setting the expired flag to 1 to all cache block files related to the given cache block name and (optional) node id. 
+
+     \param $name Name of the cache block which should be expired.
+     \param $nodeID Optional the node id of which the named cache block should be expired.
+
+
+     Example of usage:
+     \code
+        eZTemplateCacheBlock::expireCacheByName( $name, $nodeID);
+     \endcode
+
+     Note: If only the $name is given all files of the named cache block will be expired. 
+           If a $nodeID is given only the file related to name and node id will be expired.
+
+     */
+    static function expireCacheByName( $name, $nodeID = false )
+    {
+        if ( $name == '' )
+        {
+            return;
+        }
+
+        $cachePath = eZTemplateCacheBlock::cachePath( eZTemplateCacheBlock::keyString( $keys ), $nodeID, $name );
+
+        $phpPath = eZTemplateCacheBlock::templateBlockCacheDir() . '/';
+
+        if ( is_numeric( $nodeID ) )
+        {
+            $phpPath .= eZTemplateCacheBlock::subtreeCacheSubDirForNode( $nodeID, $name ) . '/';
+        }
+        else
+        {
+            $phpPath .= $name . '/';
+        }
+
+        $phpPath .= $filename;
+
+        $fileHandler = eZClusterFileHandler::instance($phpPath);
+
+        $fileHandler->fileDelete( $phpPath, '' );
+    }
+
+
+    /*!
      Helper function for retrieving a cache-block entry which can be used by any custom code.
 
      \param $keys Array or string which is used for key. To ensure uniqueness prefix or add an entry which is unique to your code.
@@ -47,12 +91,12 @@ class eZTemplateCacheBlock
      Note: Because of the cluster code the storeCache() call must occur to ensure stability.
 
      */
-    static function retrieve( $keys, $subtreeExpiry, $ttl, $useGlobalExpiry = true )
+    static function retrieve( $keys, $subtreeExpiry, $ttl, $useGlobalExpiry = true, $name = '' )
     {
         $keys = (array)$keys;
         self::filterKeys( $keys );
         $nodeID = $subtreeExpiry ? eZTemplateCacheBlock::decodeNodeID( $subtreeExpiry ) : false;
-        $cachePath = eZTemplateCacheBlock::cachePath( eZTemplateCacheBlock::keyString( $keys ), $nodeID );
+        $cachePath = eZTemplateCacheBlock::cachePath( eZTemplateCacheBlock::keyString( $keys ), $nodeID, $name );
         return eZTemplateCacheBlock::handle( $cachePath, $nodeID, $ttl, $useGlobalExpiry );
     }
 
@@ -165,18 +209,25 @@ class eZTemplateCacheBlock
 
      See subtreeCacheSubDir() for more details on the $nodeID parameter.
      */
-    static function cachePath( $keyString, $nodeID = false )
+    static function cachePath( $keyString, $nodeID = false, $name = '' )
     {
         $filename = md5( $keyString ) . ".cache";
 
         $phpDir = eZTemplateCacheBlock::templateBlockCacheDir();
         if ( is_numeric( $nodeID ) )
         {
-            $phpDir .= eZTemplateCacheBlock::calculateSubtreeCacheDir( $nodeID, $filename );
+             $phpDir .=  eZTemplateCacheBlock::calculateSubtreeCacheDir( $nodeID, $filename, $name );
         }
         else
         {
-            $phpDir .= $filename[0] . '/' . $filename[1] . '/' . $filename[2];
+            if ( $name )
+            {
+                $phpDir .= $name . '/' . $filename[0] . '/' . $filename[1] . '/' . $filename[2];
+            }
+            else
+            {
+                $phpDir .= $filename[0] . '/' . $filename[1] . '/' . $filename[2];
+            }
         }
 
         $phpPath = $phpDir . '/' . $filename;
@@ -189,7 +240,7 @@ class eZTemplateCacheBlock
     */
     static function templateBlockCacheDir()
     {
-        $cacheDir = eZSys::cacheDirectory() . '/template-block/' ;
+        $cacheDir = eZSys::cacheDirectory() . '/template-block/';
         return $cacheDir;
     }
 
@@ -257,9 +308,9 @@ class eZTemplateCacheBlock
 
      See decodeNodeID() for details on the $subtreeExpiryParameter parameter.
     */
-    static function calculateSubtreeCacheDir( $nodeID, $cacheFilename )
+    static function calculateSubtreeCacheDir( $nodeID, $cacheFilename, $name = '' )
     {
-        $cacheDir = eZTemplateCacheBlock::subtreeCacheSubDirForNode( $nodeID );
+        $cacheDir = eZTemplateCacheBlock::subtreeCacheSubDirForNode( $nodeID, $name );
         $cacheDir .= '/' . $cacheFilename[0] . '/' . $cacheFilename[1] . '/' . $cacheFilename[2];
 
         return $cacheDir;
@@ -283,9 +334,14 @@ class eZTemplateCacheBlock
      \static
      Builds and returns path from $nodeID, e.g. if $nodeID = 23 then path = subtree/2/3
     */
-    static function subtreeCacheSubDirForNode( $nodeID )
+    static function subtreeCacheSubDirForNode( $nodeID, $name = '' )
     {
         $cacheDir = eZTemplateCacheBlock::subtreeCacheBaseSubDir();
+
+        if ( $name != '' )
+        {
+            $cacheDir =  $name . '/' . $cacheDir;
+        }
 
         if ( is_numeric( $nodeID ) )
         {
