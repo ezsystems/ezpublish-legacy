@@ -217,6 +217,12 @@ class eZAutoloadGenerator
     {
         $directorySeparators = "/\\";
 
+        $mode = 0777;
+        if ( defined( 'EZP_INI_FILE_PERMISSION' ) )
+        {
+            $mode = EZP_INI_FILE_PERMISSION;
+        }
+
         foreach( $this->autoloadArrays as $location => $data )
         {
             if ( $this->options->outputDir )
@@ -234,35 +240,27 @@ class eZAutoloadGenerator
             }
             else if ( !file_exists( $targetBasedir ) )
             {
-                if ( defined( 'EZP_INI_FILE_PERMISSION' ) )
+                if ( !@mkdir( $targetBasedir, $mode, true ) )
                 {
-                    mkdir( $targetBasedir, EZP_INI_FILE_PERMISSION, true );
-                }
-                else
-                {
-                    mkdir( $targetBasedir, 0777, true );
+                    throw new Exception( __METHOD__ . ": The directory {$targetBasedir} cannot be created by the system." );
                 }
             }
 
             $filename = $this->nameTable( $location );
             $filePath = $targetBasedir . DIRECTORY_SEPARATOR . $filename;
 
-             $file = fopen( $filePath, "w+" );
+             $file = @fopen( $filePath, "w+" );
              if ( $file )
              {
                  fwrite( $file, $this->dumpArrayStart( $location ) );
                  fwrite( $file, $data );
                  fwrite( $file, $this->dumpArrayEnd() );
                  fclose( $file );
-                 if ( defined( 'EZP_INI_FILE_PERMISSION' ) )
+                 // No need to update the mode if the latter is already the good one
+                 if ( fileperms( $filePath ) & octdec( $mode ) !== octdec( $mode ) && !@chmod( $filePath, $mode ) )
                  {
-                    chmod( $filePath, EZP_INI_FILE_PERMISSION );
+                    throw new Exception( __METHOD__ . ": The mode of file {$filePath} cannot be changed by the system." );
                  }
-                 else
-                 {
-                    chmod( $filePath, 0777 );
-                 }
-
              }
              else
              {
