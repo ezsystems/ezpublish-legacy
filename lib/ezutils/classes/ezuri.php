@@ -86,7 +86,7 @@ class eZURI
      */
     public static function decodeIRI( $str )
     {
-        $str = urldecode( $str ); // Decode %xx entries, we now have a utf-8 string
+        $str = eZSys::urlDecode( $str ); // Decode %xx entries, we now have a utf-8 string
         $codec = eZTextCodec::instance( 'utf-8' ); // Make sure string is converted from utf-8 to internal encoding
         return $codec->convertString( $str );
     }

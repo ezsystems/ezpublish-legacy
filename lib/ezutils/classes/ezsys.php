@@ -1181,7 +1181,7 @@ class eZSys
         }
         else
         {
-            $requestUri = '/' . urldecode( trim( $requestUri, '/ ' ) );
+            $requestUri = '/' . self::urlDecode( trim( $requestUri, '/ ' ) );
         }
 
         $instance->AccessPath = array( 'siteaccess' => array( 'name' => '', 'url' => array() ),
@@ -1192,6 +1192,22 @@ class eZSys
         $instance->IndexFile  = $IndexFile;
         $instance->RequestURI = $requestUri;
         $instance->QueryString = $queryString;
+    }
+
+    /**
+     * decode an url except the specific %2F character which is the encoded slash
+     *
+     * @param string $uri
+     * @return string The encoded uri
+     */
+    public static function urlDecode( $uri )
+    {
+        $uri = str_replace( "%2f", "%2F", $uri );
+
+        $elements = explode( "%2F", $uri );
+        array_walk( $elements, create_function( '&$val', '$val = urldecode( $val );' ) );
+
+        return implode( "%2F", $elements );
     }
 
     /**
