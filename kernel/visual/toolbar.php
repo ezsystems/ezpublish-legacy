@@ -387,7 +387,7 @@ function removeRelatedCache( $siteAccess )
     {
         $cacheDir =  eZSys::cacheDirectory();
     }
-    $compiledTemplateDir = $cacheDir . "/template/compiled";
+    $compiledTemplateDir = $cacheDir . "/" . eZTemplateCompiler::compilationDefaultDirectory();
     eZDir::unlinkWildcard( $compiledTemplateDir . "/", "*pagelayout*.*" );
     eZCache::clearByTag( 'template-block' );
 

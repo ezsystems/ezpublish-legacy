@@ -297,10 +297,25 @@ class eZTemplateCompiler
             }
             else
             {
-                $compilationDirectory = eZDir::path( array( eZSys::cacheDirectory(), 'template/compiled' ) );
+                $compilationDirectory = eZDir::path( array( eZSys::cacheDirectory(), self::compilationDefaultDirectory() ) );
             }
         }
         return $compilationDirectory;
+    }
+
+    /**
+     * Return the default directory for compiled templates
+     * @return mixed|string
+     */
+    public static function compilationDefaultDirectory()
+    {
+        $ini = eZINI::instance();
+        if ( $ini->hasVariable( 'TemplateSettings', 'DefaultCompiledTemplatesDir' ) )
+        {
+            return $ini->variable( 'TemplateSettings', 'DefaultCompiledTemplatesDir' );
+        }
+
+        return 'template/compiled';
     }
 
     /*!
