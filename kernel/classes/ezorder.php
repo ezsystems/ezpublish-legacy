@@ -1353,6 +1353,7 @@ class eZOrder extends eZPersistentObject
             $db = eZDB::instance();
             $db->begin();
             $db->query( "DELETE FROM ezorder where id='$orderID'" );
+            $db->query( "DELETE FROM ezorder_item WHERE order_id=$orderID" );
             $db->query( "DELETE FROM ezproductcollection where id='$productCollectionID'" );
             $db->query( "DELETE FROM ezproductcollection_item where productcollection_id='$productCollectionID'" );
             $db->query( "DELETE FROM ezorder_status_history WHERE order_id=$orderNr" );
