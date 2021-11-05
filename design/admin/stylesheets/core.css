@@ -323,7 +323,7 @@ optgroup
     font-style: normal;
 }
 
-input.button, button, input.defaultbutton, input.button-disabled
+input.button, button, input.defaultbutton, input.button-disabled, a.button, a.button-disabled
 {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     text-align: center;
@@ -333,9 +333,10 @@ input.button, button, input.defaultbutton, input.button-disabled
     font-weight: normal;
     padding-left: 0.25em;
     padding-right: 0.25em;
+    text-decoration: none;
 }
 
-input.defaultbutton
+input.defaultbutton, button.defaultbutton
 {
     font-weight: bold;
     padding-left: 0.45em;
@@ -343,7 +344,7 @@ input.defaultbutton
     color: #094564;
 }
 
-input.button-disabled, input.button[disabled="disabled"]
+input.button-disabled, input.button[disabled="disabled"], a.button-disabled, a.button[disabled="disabled"]
 {
     cursor: default;
     color: #888;
@@ -680,7 +681,7 @@ table.multioption
 {
     font-size:1em;
 }
-table.multioption input.button
+table.multioption input.button, table.multioption a.button
 {
     margin-left:0;
 }

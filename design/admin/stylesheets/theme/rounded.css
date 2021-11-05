@@ -208,7 +208,7 @@ a.show-hide-tabs:hover
     height:25px;
 }
 
-.controlbar form .button-left .block input.button, .controlbar form .button-left .block input.button-disabled
+.controlbar form .button-left .block input.button, .controlbar form .button-left .block input.button-disabled, .controlbar form .button-left .block a.button, .controlbar form .button-left .block a.button-disabled
 {
     margin-top: -3px;
 }
@@ -240,7 +240,7 @@ a.show-hide-tabs:hover
     border-top: 1px dashed #ccc;
     font-size:1.5em;
 }
-.box-header select, .box-header input.button
+.box-header select, .box-header input.button, .box-header a.button
 {
 margin-top:7px;
 font-size:13px;
@@ -319,7 +319,7 @@ p.table-preferences :last-child
     border-right: 0px;
 }
 
-input.button, input.defaultbutton, input.button-disabled
+input.button, input.defaultbutton, input.button-disabled, a.button, a.button-disabled
 {
     color: #44484d;
     background: #fff;
@@ -335,12 +335,12 @@ input.button, input.defaultbutton, input.button-disabled
     transition: all 300ms ease;
 }
 
-input.defaultbutton, input.button-disabled, input.button[disabled="disabled"]
+input.defaultbutton, input.button-disabled, input.button[disabled="disabled"], a.button-disabled, a.button[disabled="disabled"]
 {
     background-color: #f5f5f5;
 }
 
-input.button:hover, input.button:focus {
+input.button:hover, input.button:focus, a.button:hover, a.button:focus {
     background-color: rgba(0, 0, 0, 0.1);
     color: black;
 }
@@ -366,7 +366,7 @@ input.defaultbutton:active {
     color: #ff8300;
 }
 
-input.button-disabled, input.button[disabled="disabled"]
+input.button-disabled, input.button[disabled="disabled"], a.button-disabled, a.button[disabled="disabled"]
 {
     color: #999;
     background: #fff;

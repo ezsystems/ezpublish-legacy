@@ -98,6 +98,13 @@
     <input class="button-disabled" type="submit" name="MoveNodeButton" value="{'Move'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to move this item to another location.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
 {/if}
 
+{* Copy button. *}
+{if $node.object.can_edit}
+    <a class="button" href={concat("content/copy/",$node.contentobject_id)|ezurl}>{'Copy'|i18n( 'design/admin/node/view/full' )}</a>
+{else}
+    <a class="button-disabled" disabled="disabled" href="#">{'Copy'|i18n( 'design/admin/node/view/full' )}</a>
+{/if}
+
 {* Remove button. *}
 {if $node.can_remove}
     <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n( 'design/admin/node/view/full' )}" title="{'Remove this item.'|i18n( 'design/admin/node/view/full' )}" />
