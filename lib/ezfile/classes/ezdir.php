@@ -54,11 +54,39 @@ class eZDir
 
     static function filenamePath( $filename, $maxCharLen = 2 )
     {
+        $ini = eZINI::instance();
+        $algorithm = $ini->variable( 'ContentSettings', 'FilenamePathAlgorithm' );
+
         $path = '';
-        for ( $i = 0; $i < strlen( $filename ) and ( strlen( $filename ) - $i ) > $maxCharLen;
-              $i++ )
+        if ( $algorithm === '2by2' )
         {
-            $path = $path . substr( $filename, $i, 1 ) . '/';
+            for ( $i = 0; $i < strlen( $filename ) and ( strlen( $filename ) - $i ) > $maxCharLen; $i += 2 )
+            {
+                $path = $path . substr( $filename, $i, 2 ) . '/';
+            }
+        }
+        else if ( $algorithm === 'reverse_2by2' )
+        {
+            $filename = strrev($filename);
+            for ( $i = 0; $i < strlen( $filename ) and ( strlen( $filename ) - $i ) > $maxCharLen; $i += 2 )
+            {
+                $path = $path . substr( $filename, $i, 2 ) . '/';
+            }
+        }
+        else if ( $algorithm === 'reverse' )
+        {
+            $filename = strrev($filename);
+            for ( $i = 0; $i < strlen( $filename ) and ( strlen( $filename ) - $i ) > $maxCharLen; $i++ )
+            {
+                $path = $path . substr( $filename, $i, 1 ) . '/';
+            }
+        }
+        else
+        {
+            for ( $i = 0; $i < strlen( $filename ) and ( strlen( $filename ) - $i ) > $maxCharLen; $i++ )
+            {
+                $path = $path . substr( $filename, $i, 1 ) . '/';
+            }
         }
 
         return $path;
