@@ -423,7 +423,7 @@ class eZObjectForwarder
                     $newNodes = array_merge( $newNodes, $accessNodes );
                     $accessNodes = array();
                     // If $matchFile is an array we cannot create a transformation for this entry
-                    if ( is_array( $matchLookupArray ) )
+                    if ( is_array( $matchFile ) )
                         return false;
                     $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                                      $matchLookupArray, false,
