@@ -690,6 +690,32 @@ class eZXMLInputParser
             if ( $qualifiedName == 'class' )
             {
                 $classesList = $this->XMLSchema->getClassesList( $element->nodeName );
+
+                // Get list of classes for embed and embed inline tags
+                // use specific class list this embed class type if it exists
+                $contentIni      = eZINI::instance( 'content.ini' );
+                list($embedType, $embedId) = explode('_', $attributes['id']);
+                if( !$embedId || $embedId === '' )
+                    list($embedType, $embedId) = explode('://', $attributes['href']);
+                if ( $embedType === 'eZNode' || $embedType === 'eznode' )
+                    $embedObject = eZContentObject::fetchByNodeID( $embedId );
+                else
+                    $embedObject = eZContentObject::fetch( $embedId );
+                if( $embedObject instanceof eZContentObject )
+                {
+                    $embedClassIdentifier = $embedObject->attribute( 'class_identifier' );
+                    $contentType = self::embedTagContentType( $embedClassIdentifier, $embedClassID );
+                    if ( $contentIni->hasVariable( 'embed_' . $embedClassIdentifier, 'AvailableClasses' ) )
+                        $classListData = $contentIni->variable( 'embed_' . $embedClassIdentifier, 'AvailableClasses' );
+                    else if ( $contentIni->hasVariable( 'embed-type_' . $contentType, 'AvailableClasses' ) )
+                        $classListData = $contentIni->variable( 'embed-type_' . $contentType, 'AvailableClasses' );
+                    else if ( $contentIni->hasVariable( 'embed', 'AvailableClasses' ) )
+                        $classListData = $contentIni->variable( 'embed', 'AvailableClasses' );
+
+                    // For BC let's merge the list of classes just fetched for this specific object class with the whole list of classes available for generic embed
+                    $classesList = array_unique( array_merge( $classesList, $classListData ) );
+                }
+                
                 if ( !in_array( $value, $classesList ) )
                 {
                     $this->handleError( self::ERROR_DATA,
@@ -744,6 +770,29 @@ class eZXMLInputParser
                 }
             }
         }
+    }
+
+    /*
+     * Get content type by class identifier (Copied from eZOE)
+     */
+    public static function embedTagContentType( $classIdentifier  )
+    {
+        $contentIni = eZINI::instance('content.ini');
+
+        foreach ( $contentIni->variable( 'RelationGroupSettings', 'Groups' ) as $group )
+        {
+            $settingName = ucfirst( $group ) . 'ClassList';
+            if ( $contentIni->hasVariable( 'RelationGroupSettings', $settingName ) )
+            {
+                if ( in_array( $classIdentifier, $contentIni->variable( 'RelationGroupSettings', $settingName ) ) )
+                    return $group;
+            }
+            else
+                eZDebug::writeDebug( "Missing content.ini[RelationGroupSettings]$settingName setting.",
+                                     __METHOD__ );
+        }
+
+        return $contentIni->variable( 'RelationGroupSettings', 'DefaultGroup' );
     }
 
     function washText( $textContent )
