@@ -184,10 +184,17 @@ class eZObjectRelationListType extends eZDataType
         }
     }
 
-    /*!
-     Fetches the http post var string input and stores it in the data instance.
-    */
-    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
+    /**
+     * Fetch HTTP input for attribute
+     *
+     * Retrieves input from HTTP instance and stores it in the attribute instance.
+     *
+     * @param eZHTTPTool $http The HTTP Tool instance
+     * @param string $base The prefix to use when fetching variables
+     * @param eZContentObjectAttribute $contentObjectAttribute The attribute instance to store value in
+     * @return boolean Status of input retrieval
+     */
+    public function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $content = $contentObjectAttribute->content();
         // new object creation
