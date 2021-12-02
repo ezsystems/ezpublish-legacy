@@ -441,6 +441,10 @@ class eZRSSExport extends eZPersistentObject
                 $creatorObject->attribute('name'), ENT_NOQUOTES, 'UTF-8'
             );
         }
+        else
+        {
+            $author->name = "Admin from " . $config->variable( 'SiteSettings', 'SiteName' );
+        }
 
         $imageURL = $this->fetchImageURL();
         if ( $imageURL !== false )
@@ -557,6 +561,12 @@ class eZRSSExport extends eZPersistentObject
                     $author->name = htmlspecialchars(
                         $itemCreatorObject->attribute('name'), ENT_NOQUOTES, 'UTF-8'
                     );
+                    $author->email = $config->variable( 'MailSettings', 'AdminEmail' );
+                }
+                else
+                {
+                    $author = $item->add('author');
+                    $author->name = "Admin from " . $config->variable( 'SiteSettings', 'SiteName' );
                     $author->email = $config->variable( 'MailSettings', 'AdminEmail' );
                 }
 
