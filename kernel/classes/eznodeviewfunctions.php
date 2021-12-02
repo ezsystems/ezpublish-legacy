@@ -611,6 +611,12 @@ class eZNodeviewfunctions
             $validation
         );
 
+        // by setting cache_ttl to 0 in tpl code no cachfile should be generated
+        if ( isset( $result['no_cache'] ) && $result['no_cache'] )
+        {
+            $noCache = true;
+        }
+
         // 'store' depends on noCache: if $noCache is set, this means that retrieve
         // returned it, and the noCache fake cache file is already stored
         // and should not be stored again
