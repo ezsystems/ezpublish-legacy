@@ -305,11 +305,10 @@ if ( !$packageURL )
 //
 // 'auto-mode' option
 //
-global $autoMode;
-$autoMode = $scriptOptions['auto-mode'];
-if( $autoMode != 'off' )
+$GLOBALS['autoMode'] = $scriptOptions['auto-mode'];
+if( $GLOBALS['autoMode'] != 'off' )
 {
-    $autoMode = 'on';
+    $GLOBALS['autoMode'] = 'on';
     $importDir = eZPackage::repositoryPath() . "/$packageRepository";
     showWarning( "Processing in auto-mode: \n".
                  "- packages will be downloaded to '$packageDir';\n" .

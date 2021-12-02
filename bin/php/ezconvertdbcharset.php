@@ -88,7 +88,8 @@ class CommandLineArguments
 ***************************************************************/
 function showError( $message, $addEOL = true, $bailOut = true )
 {
-    global $cli, $script, $eZDir;
+    $cli = eZCLI::instance();
+    $script = eZScript::instance();
 
     $cli->output( $cli->stylize( 'error', "Error: " .  $message ), $addEOL );
 
@@ -101,31 +102,31 @@ function showError( $message, $addEOL = true, $bailOut = true )
 
 function showWarning( $message, $addEOL = true )
 {
-    global $cli;
+    $cli = eZCLI::instance();
     $cli->output( $cli->stylize( 'warning', "Warning: " . $message ), $addEOL );
 }
 
 function showNotice( $message, $addEOL = true )
 {
-    global $cli;
+    $cli = eZCLI::instance();
     $cli->output( $cli->stylize( 'notice', "Notice: " ) .  $message, $addEOL );
 }
 
 function showMessage( $message, $addEOL = true )
 {
-    global $cli;
+    $cli = eZCLI::instance();
     $cli->output( $cli->stylize( 'blue', $message ), $addEOL );
 }
 
 function showMessage2( $message, $addEOL = true )
 {
-    global $cli;
+    $cli = eZCLI::instance();
     $cli->output( $cli->stylize( 'red', $message ), $addEOL );
 }
 
 function showMessage3( $message, $addEOL = true )
 {
-    global $cli;
+    $cli = eZCLI::instance();
     $cli->output( $message, $addEOL );
 }
 

@@ -19,13 +19,6 @@ define( "EZ_INSTALL_PACKAGE_EXTRA_ACTION_QUIT", 'q' );
 define( "EZ_INSTALL_PACKAGE_EXTRA_ACTION_SKIP_PACKAGE", 's' );
 
 /*!
- define global vars
-*/
-global $cli;
-global $script;
-
-
-/*!
  includes
 */
 require_once 'autoload.php';
@@ -35,8 +28,8 @@ require_once 'autoload.php';
 ***************************************************************/
 function showError( $message, $addEOL = true, $bailOut = true )
 {
-    global $cli;
-    global $script;
+    $cli = eZCLI::instance();
+    $script = eZCLI::instance();
 
     $cli->output( $cli->stylize( 'error', "Error: " .  $message ), $addEOL );
 
@@ -48,25 +41,25 @@ function showError( $message, $addEOL = true, $bailOut = true )
 
 function showWarning( $message, $addEOL = true )
 {
-    global $cli;
+    $cli = eZCLI::instance();
     $cli->output( $cli->stylize( 'warning', "Warning: " . $message ), $addEOL );
 }
 
 function showNotice( $message, $addEOL = true )
 {
-    global $cli;
+    $cli = eZCLI::instance();
     $cli->output( $cli->stylize( 'notice', "Notice: " ) .  $message, $addEOL );
 }
 
 function showMessage( $message, $addEOL = true )
 {
-    global $cli;
+    $cli = eZCLI::instance();
     $cli->output( $cli->stylize( 'blue', $message ), $addEOL );
 }
 
 function showMessage2( $message, $addEOL = true )
 {
-    global $cli;
+    $cli = eZCLI::instance();
     $cli->output( $cli->stylize( 'red', $message ), $addEOL );
 }
 
@@ -137,8 +130,7 @@ function checkDir( $dirName )
 {
     if ( !file_exists( $dirName ) )
     {
-        global $autoMode;
-        if( $autoMode == 'on' )
+        if( $GLOBALS['autoMode'] == 'on' )
         {
             $action = 'y';
         }
@@ -188,8 +180,6 @@ function repositoryByVendor( $vendor )
 */
 function downloadPackages( $packageList, $packageURL, $packageDir, $packageRepository )
 {
-    global $cli;
-
     showMessage2( "Configuring..." );
 
     if ( !is_array( $packageList ) || count( $packageList ) == 0 )
@@ -204,8 +194,7 @@ function downloadPackages( $packageList, $packageURL, $packageDir, $packageRepos
 
         if( is_object( $package ) )
         {
-            global $autoMode;
-            if( $autoMode == 'on' )
+            if( $GLOBALS['autoMode'] == 'on' )
             {
                 $action = 'y';
             }
@@ -239,8 +228,7 @@ function downloadPackages( $packageList, $packageURL, $packageDir, $packageRepos
     {
         if( file_exists( "$packageDir/$packageName.ezpkg" ) )
         {
-            global $autoMode;
-            if( $autoMode == 'on' )
+            if( $GLOBALS['autoMode'] == 'on' )
             {
                 $action = 'y';
             }
@@ -302,7 +290,7 @@ function downloadPackages( $packageList, $packageURL, $packageDir, $packageRepos
 */
 function installPackages( $packageList, $params = array() )
 {
-    global $cli;
+    $cli = eZCLI::instance();
 
     showMessage2( "Installing..." );
 
@@ -353,8 +341,7 @@ function installPackages( $packageList, $params = array() )
 
                 if ( isset( $params['error'] ) && is_array( $params['error'] ) && count( $params['error'] ) > 0 )
                 {
-                    global $autoMode;
-                    if( $autoMode == 'on' )
+                    if( $GLOBALS['autoMode'] == 'on' )
                     {
                         switch( $packageType )
                         {
