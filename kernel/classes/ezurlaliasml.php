@@ -205,17 +205,7 @@ class eZURLAliasML extends eZPersistentObject
             self::$charset = eZTextCodec::internalCharset();
         }
 
-        //First try to use mbstring
-        if ( extension_loaded( 'mbstring' ) )
-        {
-            return mb_strtolower( $text, self::$charset );
-        }
-        else
-        {
-            // Fall back if mbstring is not available
-            $char = eZCharTransform::instance();
-            return $char->transformByGroup( $text, 'lowercase' );
-        }
+        return mb_strtolower( $text, self::$charset );
     }
 
     /*!

@@ -165,12 +165,11 @@ class ezpKernelWeb implements ezpWebBasedKernelHandler
         // Reads settings from i18n.ini and passes them to eZTextCodec.
         list(
             $i18nSettings['internal-charset'],
-            $i18nSettings['http-charset'],
-            $i18nSettings['mbstring-extension']
+            $i18nSettings['http-charset']
         ) = eZINI::instance( 'i18n.ini' )->variableMulti(
             'CharacterSettings',
-                array( 'Charset', 'HTTPCharset', 'MBStringExtension' ),
-                array( false, false, 'enabled' )
+                array( 'Charset', 'HTTPCharset' ),
+                array( false, false )
         );
 
         eZTextCodec::updateSettings( $i18nSettings );// @todo Change so code only supports utf-8 in 5.0?

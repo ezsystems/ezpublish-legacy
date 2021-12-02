@@ -35,7 +35,6 @@ class eZMBStringMapper
         $this->InputCharsetCode = eZCharsetInfo::realCharsetCode( $input_charset_code );
         $this->RequestedOutputCharsetCode = $output_charset_code;
         $this->OutputCharsetCode = eZCharsetInfo::realCharsetCode( $output_charset_code );
-        $this->Valid = false;
         if ( !$this->isCharsetSupported( $input_charset_code ) )
         {
             eZDebug::writeError( "Input charset $input_charset_code not supported", "eZMBStringMapper" );
@@ -44,10 +43,6 @@ class eZMBStringMapper
         {
             eZDebug::writeError( "Output charset $output_charset_code not supported", "eZMBStringMapper" );
         }
-        else if ( $this->hasMBStringExtension() )
-            $this->Valid = true;
-        else
-            eZDebug::writeError( "No mbstring functions available", "eZMBStringMapper" );
     }
 
     /*!
@@ -127,21 +122,16 @@ class eZMBStringMapper
 
     function substituteCharacter()
     {
-        if ( !$this->Valid )
-            return null;
         return mb_substitute_character();
     }
 
     function setSubstituteCharacter( $char )
     {
-        if ( $this->Valid )
-            mb_substitute_character( $char );
+        mb_substitute_character( $char );
     }
 
     function convertString( $str )
     {
-        if ( !$this->Valid )
-            return $str;
         return mb_convert_encoding( $str, $this->OutputCharsetCode, $this->InputCharsetCode );
     }
 
