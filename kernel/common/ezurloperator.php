@@ -414,6 +414,10 @@ CODEPIECE;
                     $path = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
 
                     $path = $this->eZDesign( $tpl, $path, $operatorName );
+                    $serverURL = isset( $parameters[2] ) ? eZTemplateNodeTool::elementStaticValue( $parameters[2] ) : eZURI::getTransformURIMode();
+
+                    // Same as "ezurl" without "index.php" and the siteaccess name in the returned address.
+                    eZURI::transformURI( $path, true, $serverURL );
                     $path = $this->applyQuotes( $path, $parameters[1] );
 
                     return array( eZTemplateNodeTool::createStringElement( $path ) );
@@ -446,6 +450,10 @@ CODEPIECE;
                     $path = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
 
                     $path = eZURLOperator::eZImage( $tpl, $path, $operatorName, $skipSlash );
+                    $serverURL = isset( $parameters[2] ) ? eZTemplateNodeTool::elementStaticValue( $parameters[2] ) : eZURI::getTransformURIMode();
+
+                    // Same as "ezurl" without "index.php" and the siteaccess name in the returned address.
+                    eZURI::transformURI( $path, true, $serverURL );
                     $path = $this->applyQuotes( $path, $parameters[1] );
 
                     return array( eZTemplateNodeTool::createStringElement( $path ) );
