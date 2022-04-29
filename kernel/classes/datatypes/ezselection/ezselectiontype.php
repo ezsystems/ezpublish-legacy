@@ -146,7 +146,8 @@ class eZSelectionType extends eZDataType
         {
             $data = $http->postVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) );
 
-            if ( $data == "" )
+            // Handle array check for true array([0] => "") scenario
+            if ( $data == "" || ( is_array($data) && empty(array_values($data)) ) )
             {
                 if ( !$classAttribute->attribute( 'is_information_collector' ) &&
                      $contentObjectAttribute->validateIsRequired() )
