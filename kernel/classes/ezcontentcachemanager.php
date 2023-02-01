@@ -770,7 +770,7 @@ class eZContentCacheManager
 
         if ( eZContentCache::inCleanupThresholdRange( $cleanupValue ) )
         {
-            $nodeList = ezpEvent::getInstance()->filter( 'content/cache', $nodeList, $contentObjectList );
+            ezpEvent::getInstance()->notify( 'content/cache', array( $nodeList, $contentObjectList ) );
             eZContentCache::cleanup( $nodeList );
         }
         else
