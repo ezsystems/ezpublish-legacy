@@ -1353,16 +1353,22 @@ class eZLocale
         {
             $localeRegexp = eZLocale::localeRegexp( $withVariations, false );
             $locales = array();
-            $dir = opendir( 'share/locale' );
-            while( ( $file = readdir( $dir ) ) !== false )
+            $localeDir = eZLocale::getLocaleDirectories();
+            foreach ( $localeDir as $path )
             {
-                if ( preg_match( "/^($localeRegexp)\.ini$/", $file, $regs ) )
+                $dir = opendir( $path );
+                while ( ( $file = readdir( $dir ) ) !== false )
                 {
-                    $locales[] = $regs[1];
+                    if ( preg_match( "/^($localeRegexp)\.ini$/", $file, $regs ) )
+                    {
+                        $locales[] = $regs[1];
+                    }
                 }
+                closedir( $dir );
             }
-            closedir( $dir );
+
             $locales = array_unique( $locales );
+
             sort( $locales );
             if ( $asObject )
             {
@@ -1392,15 +1398,21 @@ class eZLocale
         {
             $localeRegexp = eZLocale::localeRegexp( $withVariations, false );
             $countries = array();
-            $dir = opendir( 'share/locale' );
-            while( ( $file = readdir( $dir ) ) !== false )
+
+            $localeDir = eZLocale::getLocaleDirectories();
+            foreach ( $localeDir as $path )
             {
-                if ( preg_match( "/^$localeRegexp\.ini$/", $file, $regs ) )
+                $dir = opendir( $path );
+                while ( ( $file = readdir( $dir ) ) !== false )
                 {
-                    $countries[] = $regs[3];
+                    if ( preg_match( "/^$localeRegexp\.ini$/", $file, $regs ) )
+                    {
+                        $countries[] = $regs[3];
+                    }
                 }
+                closedir( $dir );
             }
-            closedir( $dir );
+
             $countries = array_unique( $countries );
             sort( $countries );
         }
@@ -1420,21 +1432,25 @@ class eZLocale
         {
             $localeRegexp = eZLocale::localeRegexp( $withVariations, false );
             $languages = array();
-            $dir = opendir( 'share/locale' );
-            while( ( $file = readdir( $dir ) ) !== false )
+
+            $localeDir = eZLocale::getLocaleDirectories();
+            foreach ( $localeDir as $path )
             {
-                if ( preg_match( "/^$localeRegexp\.ini$/", $file, $regs ) )
+                $dir = opendir( $path );
+                while ( ( $file = readdir( $dir ) ) !== false )
                 {
-                    $languages[] = $regs[1];
+                    if ( preg_match( "/^$localeRegexp\.ini$/", $file, $regs ) )
+                    {
+                        $languages[] = $regs[1];
+                    }
                 }
+                closedir( $dir );
             }
-            closedir( $dir );
             $languages = array_unique( $languages );
             sort( $languages );
         }
         return $languages;
     }
-
 
     /*!
      Returns the eZINI object for the locale ini file.
@@ -1461,8 +1477,16 @@ class eZLocale
             {
                 eZDebug::writeNotice( "Requesting $localeFile", __METHOD__ );
             }
-            if ( eZINI::exists( $localeFile, 'share/locale' ) )
-                $this->LocaleINI[$type] = eZINI::instance( $localeFile, 'share/locale' );
+
+            $localeDir = eZLocale::getLocaleDirectories();
+            foreach ( $localeDir as $path )
+            {
+                if ( eZINI::exists( $localeFile, $path ) )
+                {
+                    $this->LocaleINI[$type] = eZINI::instance( $localeFile, $path );
+                    break;
+                }
+            }
         }
         return $this->LocaleINI[$type];
     }
@@ -1489,8 +1513,15 @@ class eZLocale
             {
                 eZDebug::writeNotice( "Requesting $countryFile", __METHOD__ );
             }
-            if ( eZINI::exists( $countryFile, 'share/locale' ) )
-                $this->CountryINI[$type] = eZINI::instance( $countryFile, 'share/locale' );
+
+            $localeDir = eZLocale::getLocaleDirectories();
+            foreach ( $localeDir as $path )
+            {
+                if ( eZINI::exists( $countryFile, $path ) )
+                {
+                    $this->CountryINI[$type] = eZINI::instance( $countryFile, $path );
+                }
+            }
         }
         return $this->CountryINI[$type];
     }
@@ -1517,8 +1548,15 @@ class eZLocale
             {
                 eZDebug::writeNotice( "Requesting $languageFile", __METHOD__ );
             }
-            if ( eZINI::exists( $languageFile, 'share/locale' ) )
-                $this->LanguageINI[$type] = eZINI::instance( $languageFile, 'share/locale' );
+
+            $localeDir = eZLocale::getLocaleDirectories();
+            foreach ( $localeDir as $path )
+            {
+                if ( eZINI::exists( $languageFile, $path ) )
+                {
+                    $this->LanguageINI[$type] = eZINI::instance( $languageFile, $path );
+                }
+            }
         }
         return $this->LanguageINI[$type];
     }
@@ -1614,6 +1652,38 @@ class eZLocale
 
         unset( $GLOBALS["eZLocaleInstance_$localeString"] );
         unset( $GLOBALS["eZLocaleStringDefault"] );
+    }
+
+    /*!
+      \static
+     */
+    static function getLocaleRepository()
+    {
+        $ini = eZINI::instance();
+        return $ini->variable( 'RegionalSettings', 'LocaleRepository' );
+    }
+
+    /*!
+      \static
+     */
+    static function getLocaleExtensions()
+    {
+        $ini = eZINI::instance();
+        return $ini->variable( 'RegionalSettings', 'LocaleExtensions' );
+    }
+
+    /*!
+      \static
+     */
+    static function getLocaleDirectories()
+    {
+        $extensionBase = eZExtension::baseDirectory();
+        $localeDir = array( eZLocale::getLocaleRepository() );
+        foreach ( eZLocale::getLocaleExtensions() as $dir )
+        {
+            $localeDir[] = $extensionBase . '/' . $dir . '/' . eZLocale::getLocaleRepository();
+        }
+        return $localeDir;
     }
 
     //@{
