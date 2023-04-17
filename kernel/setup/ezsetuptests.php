@@ -241,7 +241,11 @@ function eZSetupTestFileUpload( $type )
 
 function eZSetupCheckMagicQuotesRuntime( $type )
 {
-    $magicQuote = get_magic_quotes_runtime();
+    if ( version_compare( PHP_VERSION, '7.4' ) >= 0 ) {
+        $magicQuote = 0;
+    } else {
+        $magicQuote = get_magic_quotes_runtime();
+    }
     $result = ( $magicQuote == 0 );
     return array( 'result' => $result,
                   'persistent_data' => array( 'result' => array( 'value' => $result ) ) );
@@ -249,7 +253,12 @@ function eZSetupCheckMagicQuotesRuntime( $type )
 
 function eZSetupCheckMagicQuotes( $type )
 {
-    $magicQuote = get_magic_quotes_gpc();
+    if ( version_compare( PHP_VERSION, '7.4' ) >= 0 ) {
+        $magicQuote = 0;
+    } else {
+        $magicQuote = get_magic_quotes_gpc();
+    }
+
     $result = ( $magicQuote == 0 );
     return array( 'result' => $result,
                   'persistent_data' => array( 'result' => array( 'value' => $result ) ) );
@@ -835,7 +844,7 @@ function eZSetupTestMemLimit( $type )
     }
 
     $byteMinMem = intval( $minMemory );
-    switch ( $minMemory{strlen( $minMemory ) - 1} )
+    switch ( $minMemory[strlen( $minMemory ) - 1] )
     {
         case 'G':
             $byteMinMem *= 1024;
@@ -846,7 +855,7 @@ function eZSetupTestMemLimit( $type )
     }
 
     $byteMemLimit = intval( $memoryLimit );
-    switch ( $memoryLimit{strlen( $memoryLimit ) - 1} )
+    switch ( $memoryLimit[strlen( $memoryLimit ) - 1] )
     {
         case 'G':
             $byteMemLimit *= 1024;

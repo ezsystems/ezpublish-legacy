@@ -147,15 +147,15 @@ class eZISBNType extends eZDataType
         $isbnNr = strtoupper( $isbnNr );
         for ( $i = 10; $i > 0; $i-- )
         {
-            if ( is_numeric( $isbnNr{$i-1} ) or ( $i == 10  and $isbnNr{$i-1} == 'X' ) )
+            if ( is_numeric( $isbnNr[$i-1] ) or ( $i == 10  and $isbnNr[$i-1] == 'X' ) )
             {
-                if ( ( $i == 1 ) and ( $isbnNr{9} == 'X' ) )
+                if ( ( $i == 1 ) and ( $isbnNr[9] == 'X' ) )
                 {
                     $result += 10 * $i;
                 }
                 else
                 {
-                    $result += $isbnNr{10-$i} * $i;
+                    $result += $isbnNr[10-$i] * $i;
                 }
             }
             else
@@ -196,7 +196,7 @@ class eZISBNType extends eZDataType
 
         for ( $i = 0; $i < 12; $i++ )
         {
-            $val = $isbnNr{$i};
+            $val = $isbnNr[$i];
             $checksum13 = $checksum13 + $weight13 * $val;
             $weight13 = ( $weight13 + 2 ) % 4;
         }

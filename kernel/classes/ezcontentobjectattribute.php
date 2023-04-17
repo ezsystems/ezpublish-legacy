@@ -302,8 +302,11 @@ class eZContentObjectAttribute extends eZPersistentObject
         unset( $eZContentObjectDataMapCache[$this->ContentObjectID] );
 
         $classAttribute = $this->contentClassAttribute();
-        $dataType = $classAttribute->dataType();
-        $this->setAttribute( 'data_type_string', $classAttribute->attribute( 'data_type_string' ) );
+        if ( is_object( $classAttribute  ) )
+        {
+            $dataType = $classAttribute->dataType();
+            $this->setAttribute( 'data_type_string', $classAttribute->attribute( 'data_type_string' ) );
+        }
         $this->updateSortKey( false );
 
         parent::store();
@@ -318,7 +321,9 @@ class eZContentObjectAttribute extends eZPersistentObject
     function updateSortKey( $storeData = true )
     {
         $classAttribute = $this->contentClassAttribute();
-        $dataType = $classAttribute->dataType();
+        $dataType = false;
+        if ( is_object( $classAttribute ) )
+            $dataType = $classAttribute->dataType();
 
         $return = false;
 
@@ -506,7 +511,9 @@ class eZContentObjectAttribute extends eZPersistentObject
 
             $classAttribute = eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
 
-            $dataType = $classAttribute->dataType();
+            $dataType = false;
+            if ( is_object($classAttribute) )
+                $dataType = $classAttribute->dataType();
 
             if ( $dataType &&
                  $dataType->Attributes["properties"]["translation_allowed"] &&

@@ -544,6 +544,7 @@ class eZExtension
                     // detect if class has a constructor, and if not write a notice about that
                     if ( $reflection->getConstructor() !== null )
                     {
+                        $handlerParams = array_values( $handlerParams );
                         $object = $reflection->newInstanceArgs( $handlerParams );
                     }
                     else

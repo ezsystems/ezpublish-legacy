@@ -283,7 +283,7 @@ class eZTemplateExecuteOperator
         }
 
         $code = '%output% = call_user_func_array( array( new ' . $functionDefinition['call_method']['class'] . '(), \'' . $functionDefinition['call_method']['method'] . '\' ),' . "\n" .
-                 '  ' . $parametersCode . ' );';
+                 '  array_values( ' . $parametersCode . ' ) );';
         $code .= "\n";
 
         $code .= '%output% = isset( %output%[\'result\'] ) ? %output%[\'result\'] : null;' . "\n";

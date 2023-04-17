@@ -1025,7 +1025,8 @@ class eZContentOperationCollection
         // See https://jira.ez.no/browse/EZP-22447
         foreach ( $aNodes as $node )
         {
-            eZContentCacheManager::addAdditionalNodeIDPerObject( $node->attribute( 'contentobject_id' ), $node->attribute( 'node_id' ) );
+            if ( is_object( $node ) )
+                eZContentCacheManager::addAdditionalNodeIDPerObject( $node->attribute( 'contentobject_id' ), $node->attribute( 'node_id' ) );
         }
         eZContentObjectTreeNode::removeSubtrees( $deleteIDArray, $moveToTrash );
         return array( 'status' => true );
@@ -1181,12 +1182,13 @@ class eZContentOperationCollection
      *
      * @param int $nodeID
      * @param int $selectedSectionID
+     * @param bool $updateSearchIndexes
      *
-     * @return array An array with operation status, always true
+     * @return void
      */
-    static public function updateSection( $nodeID, $selectedSectionID )
+    static public function updateSection( $nodeID, $selectedSectionID, $updateSearchIndexes = true )
     {
-        eZContentObjectTreeNode::assignSectionToSubTree( $nodeID, $selectedSectionID );
+        eZContentObjectTreeNode::assignSectionToSubTree( $nodeID, $selectedSectionID, false, $updateSearchIndexes );
     }
 
     /**

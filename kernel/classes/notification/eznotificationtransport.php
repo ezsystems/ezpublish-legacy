@@ -67,7 +67,7 @@ class eZNotificationTransport
         return $impl;
     }
 
-    function send( $address = array(), $subject, $body, $transportData = null )
+    function send( $address, $subject, $body, $transportData = null )
     {
         return true;
     }

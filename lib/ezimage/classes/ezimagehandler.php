@@ -34,7 +34,7 @@ class eZImageHandler
      * @param array|bool $mimeTagMap A mapping table which maps from a MIME-Type to a specific tag, this tag can be used when rewriting the filename.
      */
     public function __construct( $handlerName, $isEnabled = true, $outputRewriteType = self::REPLACE_SUFFIX,
-                             $supportedInputMIMETypes = false, $supportedOutputMIMETypes,
+                             $supportedInputMIMETypes = false, $supportedOutputMIMETypes = false,
                              $conversionRules = false, $filters = false, $mimeTagMap = false )
     {
         $this->HandlerName = $handlerName;

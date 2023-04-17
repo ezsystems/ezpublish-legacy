@@ -301,7 +301,7 @@ function logError( $msg )
     $logFile = fopen( 'urlalias_error.log', "a" );
     if ( $logFile )
     {
-        $time = strftime( "%b %d %Y %H:%M:%S", strtotime( "now" ) );
+        $time = date( "M d Y H:i:s", strtotime( "now" ) );
         $logMessage = "[ " . $time . " ] $msg\n";
         fwrite( $logFile, $logMessage );
         fclose( $logFile );
@@ -316,7 +316,7 @@ $logStoreClosure = function ( $res, $func, $args ) use ( $options )
     $logFile = fopen( 'urlalias_store.log', "a" );
     if ( $logFile )
     {
-        $time = strftime( "%b %d %Y %H:%M:%S", strtotime( "now" ) );
+        $time = date( "M d Y H:i:s", strtotime( "now" ) );
         $logMessage = "[ " . $time . " ] " . calltostring( $func, $args ) . "\n";
         fwrite( $logFile, $logMessage );
         fclose( $logFile );
@@ -331,7 +331,7 @@ function resetLogFile( $file )
         $s = stat( $file );
         if ( $s['size'] > 0 )
         {
-            $archive = $file . "." . strftime( "%Y%m%d%H%M%S", $s['mtime'] );
+            $archive = $file . "." . date( "YmdHis", $s['mtime'] );
             copy( $file, $archive );
             $cli->output( "Archived log file $file to $archive" );
         }

@@ -383,7 +383,7 @@ class eZTemplateStringOperator
         {
             case "xhtml":
             {
-                $operatorValue = htmlspecialchars( $operatorValue );
+                $operatorValue = htmlspecialchars( (string) $operatorValue );
             } break;
 
             case "email":
@@ -539,7 +539,7 @@ class eZTemplateStringOperator
             case $this->Count_charsName:
             {
                 $funcName = function_exists( 'mb_strlen' ) ? 'mb_strlen' : 'strlen';
-                $operatorValue = $funcName( $operatorValue );
+                $operatorValue = $funcName( (string) $operatorValue );
             }break;
 
             // Insert HTML line breaks before newlines.
@@ -638,9 +638,9 @@ class eZTemplateStringOperator
             case $this->TrimName:
             {
                 if ( $namedParameters['chars_to_remove'] === false )
-                    $operatorValue = trim( $operatorValue );
+                    $operatorValue = trim( (string) $operatorValue );
                 else
-                    $operatorValue = trim( $operatorValue, $namedParameters['chars_to_remove'] );
+                    $operatorValue = trim( (string) $operatorValue, $namedParameters['chars_to_remove'] );
             }break;
 
             // Pad...
@@ -719,6 +719,8 @@ class eZTemplateStringOperator
             // Default case: something went wrong - unknown things...
             default:
             {
+                if ( !isset( $type ) )
+                    $type = '';
                 $tpl->warning( $operatorName, "Unknown string type '$type'", $placement );
             } break;
         }

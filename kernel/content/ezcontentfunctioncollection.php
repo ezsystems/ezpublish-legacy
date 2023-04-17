@@ -552,7 +552,7 @@ class eZContentFunctionCollection
         return array( 'result' => $versionList[0]['count'] );
     }
 
-    static public function canInstantiateClassList( $groupID, $parentNode, $filterType = 'include', $fetchID, $asObject, $groupByClassGroup = false )
+    static public function canInstantiateClassList( $groupID, $parentNode, $filterType, $fetchID, $asObject, $groupByClassGroup = false )
     {
         $ClassGroupIDs = false;
 

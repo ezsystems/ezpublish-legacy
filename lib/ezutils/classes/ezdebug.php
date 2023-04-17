@@ -900,7 +900,7 @@ class eZDebug
         $logFile = @fopen( $fileName, "a" );
         if ( $logFile )
         {
-            $time = strftime( "%b %d %Y %H:%M:%S", strtotime( "now" ) );
+            $time = date( "M d Y H:i:s", strtotime( "now" ) );
             $ip = eZSys::clientIP();
             if ( !$ip )
                 $ip = eZSys::serverVariable( 'HOSTNAME', true );
@@ -1505,7 +1505,7 @@ class eZDebug
         {
             if ( !in_array( $debug['Level'], $allowedDebugLevels ) )
                 continue;
-            $time = strftime ("%b %d %Y %H:%M:%S", $debug['Time'] );
+            $time = date( "M d Y H:i:s", $debug['Time'] );
 
             $outputData = $this->OutputFormat[$debug["Level"]];
             if ( is_array( $outputData ) )
@@ -2034,6 +2034,16 @@ class eZDebug
     public $topReportsList;
 
     private $recursionFlag = false;
+
+    public $MessageNames;
+
+    public $AlwaysLog;
+
+    public $OldHandler;
+
+    public $TimeAccumulatorGroupList;
+
+
 }
 
 ?>

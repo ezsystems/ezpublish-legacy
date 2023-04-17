@@ -61,7 +61,7 @@ class eZPaymentLogger
 
     static function getTime()
     {
-        $time = strftime( "%d-%m-%Y %H-%M" );
+        $time = date( "d-m-Y H-i" );
         return $time;
     }
 

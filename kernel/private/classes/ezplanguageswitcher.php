@@ -36,7 +36,7 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
 
         // Removing the first part, which is the SA param.
         array_shift( $params['Parameters'] );
-        $this->origUrl = join( $params['Parameters'] , '/' );
+        $this->origUrl = join( '/', $params['Parameters']);
 
         $this->userParamString = '';
         $userParams = $params['UserParameters'];

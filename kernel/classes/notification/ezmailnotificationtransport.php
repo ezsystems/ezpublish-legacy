@@ -16,7 +16,7 @@
 
 class eZMailNotificationTransport extends eZNotificationTransport
 {
-    function send( $addressList = array(), $subject, $body, $transportData = null, $parameters = array() )
+    function send( $addressList, $subject, $body, $transportData = null, $parameters = array() )
     {
         $ini = eZINI::instance();
         $mail = new eZMail();

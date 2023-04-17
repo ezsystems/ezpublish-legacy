@@ -405,21 +405,25 @@ class eZTemplateMultiPassParser extends eZTemplateParser
 
         foreach( $textElements as $elementKey => $element )
         {
-            $elementPlacement = $element['placement'];
-            $startLine = $elementPlacement['start']['line'];
-            $startColumn = $elementPlacement['start']['column'];
-            $startPosition = $elementPlacement['start']['position'];
-            $stopLine = $elementPlacement['stop']['line'];
-            $stopColumn = $elementPlacement['stop']['column'];
-            $stopPosition = $elementPlacement['stop']['position'];
-            $templateFile = $elementPlacement['templatefile'];
-            $placement = array( array( $startLine,
-                                       $startColumn,
-                                       $startPosition ),
-                                array( $stopLine,
-                                       $stopColumn,
-                                       $stopPosition ),
-                                $templateFile );
+            if ( !is_array( $element ) )
+                continue;
+            if ( is_array( $element['placement'] ) ) {
+                $elementPlacement = $element['placement'];
+                $startLine = $elementPlacement['start']['line'];
+                $startColumn = $elementPlacement['start']['column'];
+                $startPosition = $elementPlacement['start']['position'];
+                $stopLine = $elementPlacement['stop']['line'];
+                $stopColumn = $elementPlacement['stop']['column'];
+                $stopPosition = $elementPlacement['stop']['position'];
+                $templateFile = $elementPlacement['templatefile'];
+                $placement = array(array($startLine,
+                    $startColumn,
+                    $startPosition),
+                    array($stopLine,
+                        $stopColumn,
+                        $stopPosition),
+                    $templateFile);
+            }
             switch ( $element["type"] )
             {
                 case eZTemplate::ELEMENT_TEXT:

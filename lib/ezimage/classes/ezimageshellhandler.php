@@ -155,7 +155,7 @@ class eZImageShellHandler extends eZImageHandler
                 $inputMimeList = $ini->variable( $iniGroup, 'InputMIMEList' );
             if ( $ini->hasVariable( $iniGroup, 'OutputMIMEList' ) )
                 $outputMimeList = $ini->variable( $iniGroup, 'OutputMIMEList' );
-            $qualityParameters = false;
+            $qualityParameters = array();
             if ( $ini->hasVariable( $iniGroup, 'QualityParameters' ) )
             {
                 $qualityParametersRaw = $ini->variable( $iniGroup, 'QualityParameters' );
@@ -165,8 +165,7 @@ class eZImageShellHandler extends eZImageHandler
                     $qualityParameters[$elements[0]] = $elements[1];
                 }
             }
-
-            $frameRangeParameters = false;
+            $frameRangeParameters = array();
             if ( $ini->hasVariable( $iniGroup, 'FrameRangeParameters' ) )
             {
                 foreach ( $ini->variable( $iniGroup, 'FrameRangeParameters' ) as $frameRangeParameter )
@@ -270,6 +269,11 @@ class eZImageShellHandler extends eZImageHandler
     public $Executable;
     public $PreParameters;
     public $PostParameters;
+
+    public $ExecutableWin32;
+    public $ExecutableMac;
+    public $ExecutableUnix;
+
 }
 
 ?>

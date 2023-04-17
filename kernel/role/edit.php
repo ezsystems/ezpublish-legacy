@@ -404,7 +404,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
     $currentFunctionLimitations = array();
     foreach( $functions[ $currentFunction ] as $key => $limitation )
     {
-        if( count( $limitation[ 'values' ] == 0 ) && array_key_exists( 'class', $limitation ) )
+        if( is_array( $limitation ) && count( $limitation[ 'values' ] ) == 0 && array_key_exists( 'class', $limitation ) )
         {
             $obj = new $limitation['class']( array() );
             $limitationValueList = call_user_func_array ( array( $obj , $limitation['function']) , $limitation['parameter'] );
@@ -480,7 +480,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
                     $limitationValues = $http->postVariable( $functionLimitation['name'] );
                     eZDebugSetting::writeDebug( 'kernel-role-edit', $limitationValues, 'limitationValues');
 
-                    if ( !in_array( '-1', $limitationValues ) )
+                    if ( is_array( $limitationValues ) && !in_array( '-1', $limitationValues ) )
                     {
                         $policyLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), $functionLimitation['name'] );
                         eZDebugSetting::writeDebug( 'kernel-role-edit', $policyLimitation, 'policyLimitationCreated' );

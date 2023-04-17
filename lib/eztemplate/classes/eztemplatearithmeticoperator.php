@@ -244,7 +244,7 @@ class eZTemplateArithmeticOperator
             }
             else
             {
-                $staticValue = eZTemplateNodeTool::elementConstantValue( $parameter );
+                $staticValue = (int) eZTemplateNodeTool::elementConstantValue( $parameter );
                 if ( $notInitialised )
                 {
                     $staticResult = $staticValue;
@@ -610,11 +610,11 @@ class eZTemplateArithmeticOperator
             {
                 $value = 0;
                 if ( $operatorValue !== null )
-                    $value = $operatorValue;
+                    $value = (int) $operatorValue;
                 for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                 {
                     $tmpValue = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
-                    $value += $tmpValue;
+                    $value += (int) $tmpValue;
                 }
                 $operatorValue = $value;
             } break;
@@ -622,7 +622,7 @@ class eZTemplateArithmeticOperator
             {
                 $values = array();
                 if ( $operatorValue !== null )
-                    $values[] = $operatorValue;
+                    $values[] = (int) $operatorValue;
                 for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                 {
                     $values[] = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
@@ -633,7 +633,7 @@ class eZTemplateArithmeticOperator
                     $value = $values[0];
                     for ( $i = 1; $i < count( $values ); ++$i )
                     {
-                        $value -= $values[$i];
+                        $value -= (int) $values[$i];
                     }
                 }
                 $operatorValue = $value;
@@ -660,13 +660,18 @@ class eZTemplateArithmeticOperator
                 }
                 $i = 0;
                 if ( $operatorValue !== null )
-                    $value = $operatorValue;
+                    $value = (int) $operatorValue;
                 else
-                    $value = $tpl->elementValue( $operatorParameters[$i++], $rootNamespace, $currentNamespace, $placement );
+                    $value = (int) $tpl->elementValue( $operatorParameters[$i++], $rootNamespace, $currentNamespace, $placement );
                 for ( ; $i < count( $operatorParameters ); ++$i )
                 {
                     $tmpValue = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
-                    @$value /= $tmpValue;
+                    if ( (int) $tmpValue == 0 )
+                        $value = 0;
+                    else
+                        @$value /= (int) $tmpValue;
+
+
                 }
                 $operatorValue = $value;
             } break;
@@ -704,7 +709,7 @@ class eZTemplateArithmeticOperator
                 for ( ; $i < count( $operatorParameters ); ++$i )
                 {
                     $tmpValue = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
-                    $value *= $tmpValue;
+                    $value *= (float) $tmpValue;
                 }
                 $operatorValue = $value;
             } break;

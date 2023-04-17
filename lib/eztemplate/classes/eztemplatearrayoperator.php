@@ -1806,7 +1806,7 @@ class eZTemplateArrayOperator
                 // Create a string containing the array elements with the separator string between elements.
                 case $this->ImplodeName:
                 {
-                    $operatorValue = implode( $operatorValue, $namedParameters['separator'] );
+                    $operatorValue = implode( (string)$namedParameters['separator'], (array)$operatorValue );
                 }break;
 
                 // Explode the array by making smaller arrays of it:

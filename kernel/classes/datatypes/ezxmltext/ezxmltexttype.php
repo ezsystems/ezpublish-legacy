@@ -171,7 +171,7 @@ class eZXMLTextType extends eZDataType
             $xmlText = eZXMLTextType::rawXMLText( $attribute );
 
             $dom = new DOMDocument( '1.0', 'utf-8' );
-            if ( !$dom->loadXML( $xmlText ) )
+            if ( empty( $xmlText ) || !$dom->loadXML( $xmlText ) )
                 continue;
 
             // urls

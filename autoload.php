@@ -7,6 +7,10 @@
  * @version //autogentag//
  * @package kernel
  */
+// Disable the PHAR stream wrapper as it is insecure
+if (PHP_SAPI !== 'cli' && in_array('phar', stream_get_wrappers())) {
+    stream_wrapper_unregister('phar');
+}
 
 // config.php can set the components path like:
 // ini_set( 'include_path', ini_get( 'include_path' ). ':../ezcomponents/trunk' );

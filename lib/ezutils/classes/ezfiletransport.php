@@ -22,7 +22,7 @@ class eZFileTransport extends eZMailTransport
         $sendmailOptions = '';
         $emailFrom = $mail->sender();
         $emailSender = $emailFrom['email'];
-        if ( !$emailSender || count( $emailSender) <= 0 )
+        if ( !$emailSender || ( is_array( $emailSender ) && count( $emailSender) <= 0 ) )
             $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
         if ( !$emailSender )
             $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );

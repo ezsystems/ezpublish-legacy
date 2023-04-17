@@ -737,7 +737,7 @@ class eZTemplate
      - "text", the text.
      - "time-stamp", the timestamp.
     */
-    function loadURIRoot( $uri, $displayErrors = true, &$extraParameters )
+    function loadURIRoot( $uri, $displayErrors, &$extraParameters )
     {
         $res = "";
         $template = "";
@@ -794,7 +794,7 @@ class eZTemplate
         return $resourceData;
     }
 
-    function processURI( $uri, $displayErrors = true, &$extraParameters,
+    function processURI( $uri, $displayErrors, &$extraParameters,
                          &$textElements, $rootNamespace, $currentNamespace )
     {
         $this->Level++;
@@ -1426,7 +1426,7 @@ class eZTemplate
         }
 
         $op = $this->Operators[$name];
-        if ( isset( $op ) and
+        if ( isset( $op ) and is_object( $op ) and
              method_exists( $op, "namedParameterList" ) )
         {
             $param_list = $op->namedParameterList();

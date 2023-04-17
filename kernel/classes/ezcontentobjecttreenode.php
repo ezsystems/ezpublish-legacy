@@ -774,7 +774,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         // Check for class filtering
         $classCondition = '';
 
-        if ( isset( $classFilterType ) &&
+        if ( isset( $classFilterType ) && is_array( $classFilterArray ) &&
              ( $classFilterType == 'include' || $classFilterType == 'exclude' ) &&
              count( $classFilterArray ) > 0 )
         {
@@ -2366,7 +2366,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \sa subTreeCount
     */
-    static function subTreeCountByNodeID( $params = array(), $nodeID )
+    static function subTreeCountByNodeID( $params, $nodeID )
     {
         if ( !is_numeric( $nodeID ) and !is_array( $nodeID ) )
         {
@@ -2401,7 +2401,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         // Check for class filtering
         $classCondition = '';
 
-        if ( isset( $params['ClassFilterType'] ) and isset( $params['ClassFilterArray'] ) and
+        if ( isset( $params['ClassFilterType'] ) and isset( $params['ClassFilterArray'] ) and is_array( $params['ClassFilterArray'] ) and
              ( $params['ClassFilterType'] == 'include' or $params['ClassFilterType'] == 'exclude' )
              and count( $params['ClassFilterArray'] ) > 0 )
         {
@@ -2800,28 +2800,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    static function assignSectionToSubTree( $nodeID, $sectionID, $oldSectionID = false )
+    static function assignSectionToSubTree( $nodeID, $sectionID, $oldSectionID = false, $updateSearchIndexes = true )
     {
         $db = eZDB::instance();
-
         $node = eZContentObjectTreeNode::fetch( $nodeID );
-        $nodePath =  $node->attribute( 'path_string' );
+
+        $objectSimpleIDArray = eZContentObjectTreeNode::getObjectIdsInNodeSubTree($node);
+        if ( !$objectSimpleIDArray )
+            return;
 
         $sectionID =(int) $sectionID;
-
-        $pathString = " path_string like '$nodePath%' AND ";
-
-        // fetch the object id's which needs to be updated
-        $objectIDArray = $db->arrayQuery( "SELECT
-                                                   ezcontentobject.id
-                                            FROM
-                                                   ezcontentobject_tree, ezcontentobject
-                                            WHERE
-                                                  $pathString
-                                                  ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
-                                                  ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id" );
-        if ( count( $objectIDArray ) == 0 )
-            return;
 
         // Who assigns which section at which node should be logged.
         $section = eZSection::fetch( $sectionID );
@@ -2831,12 +2819,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       'Content object ID' => $object->attribute( 'id' ),
                                                       'Content object name' => $object->attribute( 'name' ),
                                                       'Comment' => 'Assigned a section to the current node and all child objects: eZContentObjectTreeNode::assignSectionToSubTree()' ) );
-
-        $objectSimpleIDArray = array();
-        foreach ( $objectIDArray as $objectID )
-        {
-            $objectSimpleIDArray[] = $objectID['id'];
-        }
 
         $filterPart = '';
         if ( $oldSectionID !== false )
@@ -2849,7 +2831,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         foreach ( array_chunk( $objectSimpleIDArray, 100 ) as $pagedObjectIDs )
         {
             $db->query( "UPDATE ezcontentobject SET section_id='$sectionID' WHERE $filterPart " . $db->generateSQLINStatement( $pagedObjectIDs, 'id', false, true, 'int' ) );
-            eZSearch::updateObjectsSection( $pagedObjectIDs, $sectionID );
+            if ( $updateSearchIndexes )
+            {
+                eZSearch::updateObjectsSection( $pagedObjectIDs, $sectionID );
+            }
         }
         $db->commit();
 
@@ -2869,7 +2854,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    static function updateMainNodeID( $mainNodeID, $objectID, $version = false, $parentMainNodeID, $updateSection = true )
+    static function updateMainNodeID( $mainNodeID, $objectID, $version, $parentMainNodeID, $updateSection = true )
     {
         $mainNodeID = (int)$mainNodeID;
         $parentMainNodeID = (int)$parentMainNodeID;
@@ -4050,6 +4035,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return 0;
         }
 
+        $pathStringArray = array();
+        $path2StringArray = array();
         foreach( $nodeIDArray as $nodeID )
         {
             $contentObjectTreeNode = eZContentObjectTreeNode::fetch( $nodeID, false, false );
@@ -6432,6 +6419,39 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         'AsObject' => false
                     )
                 ) == 0 ;
+    }
+
+    /**
+     * Returns an array of Object IDs inside node subtree or null when empty.
+     * @param $node
+     * @return array|null
+     */
+    static function getObjectIdsInNodeSubTree($node)
+    {
+        $db = eZDB::instance();
+        $nodePath =  $node->attribute( 'path_string' );
+        $pathString = " path_string like '$nodePath%' AND ";
+
+        $objectIDArray = $db->arrayQuery( "SELECT
+                                           ezcontentobject.id
+                                    FROM
+                                           ezcontentobject_tree, ezcontentobject
+                                    WHERE
+                                          $pathString
+                                          ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
+                                          ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id" );
+
+        if ( count( $objectIDArray ) == 0 )
+            return null;
+
+        $objectSimpleIDArray = array();
+
+        foreach ( $objectIDArray as $objectID )
+        {
+            $objectSimpleIDArray[] = $objectID['id'];
+        }
+
+        return $objectSimpleIDArray;
     }
 
     /**

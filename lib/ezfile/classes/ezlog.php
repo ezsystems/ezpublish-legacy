@@ -46,7 +46,7 @@ class eZLog
         $logFile = @fopen( $fileName, "a" );
         if ( $logFile )
         {
-            $time = strftime( "%b %d %Y %H:%M:%S", strtotime( "now" ) );
+            $time = date( "M d Y H:i:s", strtotime( "now" ) );
             $logMessage = "[ " . $time . " ] $message\n";
             @fwrite( $logFile, $logMessage );
             @fclose( $logFile );
@@ -103,7 +103,7 @@ class eZLog
         $logFile = @fopen( $fileName, "a" );
         if ( $logFile )
         {
-            $time = strftime( "%b %d %Y %H:%M:%S", strtotime( "now" ) );
+            $time = date( "M d Y H:i:s", strtotime( "now" ) );
             $logMessage = "[ " . $time . " ] [" . $dir . $name . "]\n";
             @fwrite( $logFile, $logMessage );
             @fclose( $logFile );

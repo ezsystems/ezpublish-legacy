@@ -786,7 +786,7 @@ WHERE user_id = '" . $userID . "' AND
      * @param mixed $userID
      * @param string $login
      */
-     protected static function loginFailed( $userID = false, $login )
+     protected static function loginFailed( $userID, $login )
     {
         $loginEscaped = eZDB::instance()->escapeString( $login );
 

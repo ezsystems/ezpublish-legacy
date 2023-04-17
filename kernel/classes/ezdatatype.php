@@ -184,7 +184,7 @@ class eZDataType
             {
                 if ( !isset( $GLOBALS["eZDataTypeObjects"][$dataTypeString] ) )
                 {
-                    $GLOBALS["eZDataTypeObjects"][$dataTypeString] = new $className();
+                    $GLOBALS["eZDataTypeObjects"][$dataTypeString] = new $className( $dataTypeString, $className );
                 }
             }
             uasort( $GLOBALS["eZDataTypeObjects"], function ( $a, $b ) { return strcmp( $a->Name, $b->Name); } );

@@ -1745,8 +1745,17 @@ class eZINI
      */
     function findSettingPlacement( $path )
     {
-        if ( is_array( $path ) && isset( $path[0] ) )
-            $path = $path[0];
+        if ( is_array( $path ) )
+        {
+            if( isset( $path[0] ) )
+            {
+                $path = $path[0];
+            }
+            else
+            {
+                return 'undefined';
+            }
+        }
 
         // changing $path so that it's relative the root eZ Publish (legacy)
         $path = str_replace( __DIR__ . "/../../../", "", $path );

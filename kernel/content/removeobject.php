@@ -32,7 +32,7 @@ else
 {
     $contentLanguage = false;
 }
-if ( count( $deleteIDArray ) <= 0 )
+if ( is_array( $deleteIDArray ) && count( $deleteIDArray ) <= 0 )
     return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
 
 // Cleanup and redirect back when cancel is clicked
