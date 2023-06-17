@@ -1455,6 +1455,19 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         return self::$dbbackend->expiredFilesList( $scopes, $limit, $expiry );
     }
 
+    /**
+     * Fetches the number of expired files from the DB
+     *
+     * @param array $scopes Array of scopes to fetch from
+     * @param bool|int $expiry Number of seconds, only items older than this will be returned
+     *
+     * @return int
+     */
+    public function fetchExpiredItemsCount( $scopes, $expiry = false )
+    {
+        return self::$dbbackend->expiredFilesListCount( $scopes, $expiry );
+    }
+
     public function hasStaleCacheSupport()
     {
         return true;
