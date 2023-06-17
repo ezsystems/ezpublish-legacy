@@ -383,7 +383,19 @@ class eZCache
     static function clearAll( $cacheList = false )
     {
         if ( !$cacheList )
+        {
             $cacheList = eZCache::fetchList();
+
+            $excludeIdFromClearAll = eZINI::instance()->variable( 'Cache', 'ExcludeIdFromClearAll' );
+            foreach ( $cacheList as $key => $cacheItem )
+            {
+                if ( in_array( $cacheItem['id'], $excludeIdFromClearAll ) )
+                {
+                    unset( $cacheList[$key] );
+                }
+            }
+            $cacheList = array_values( $cacheList );
+        }
 
         foreach ( $cacheList as $cacheItem )
         {
