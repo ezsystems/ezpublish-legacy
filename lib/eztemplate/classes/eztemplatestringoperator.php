@@ -53,7 +53,7 @@ class eZTemplateStringOperator
                                    'pad' => array( 'return' => 'string',
                                                    'code' => '$result = $paramCount == 2 ? str_pad( $staticValues[0], $staticValues[1] ) : str_pad ( $staticValues[0], $staticValues[1], $staticValues[2] );',
                                                    'code2' => '$result = str_pad( $staticValues[0], $staticValues[1] );',
-                                                   'code3' => '$result = str_pad( $staticValues[0], $staticValues[1], $staticValues[2] );',
+                                                   'code3' => '$result = str_pad( $staticValues[0], abs($staticValues[1]), $staticValues[2], $staticValues[1] < 0 ? STR_PAD_LEFT : STR_PAD_RIGHT );',
                                                  ),
                                    'trim' => array( 'return' => 'string',
                                                     'code' => '$result = $paramCount == 1 ? trim( $staticValues[0] ) : trim ( $staticValues[0], $staticValues[1] );',
