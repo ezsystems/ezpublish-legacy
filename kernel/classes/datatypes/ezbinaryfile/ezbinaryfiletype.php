@@ -436,6 +436,10 @@ class eZBinaryFileType extends eZDataType
             $binary = eZBinaryFile::create( $attributeID, $objectVersion );
 
         $httpFile->setMimeType( $mimeData['name'] );
+        
+        $suffix = false;
+        if ( $mimeData['suffix'] )
+            $suffix = $mimeData['suffix'];
 
         $suffix = false;
         if ( isset( $mimeData['suffix'] ) )
