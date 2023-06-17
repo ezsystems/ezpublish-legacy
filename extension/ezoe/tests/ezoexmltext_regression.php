@@ -447,6 +447,42 @@ class eZOEXMLTextRegression extends ezpDatabaseTestCase
             )
         );
     }
+    
+    /**
+     * Test for EZP-24137
+     * 
+     * Alone "0" character replaced by space into inline custom tag
+     * 
+     * @link https://jira.ez.no/browse/EZP-24137
+     */
+    public function test0CharacterNotReplacedBySpaceInsideInlineCustomTag()
+    {
+        ezpINIHelper::setINISetting(
+        'content.ini', 'CustomTagSettings',
+        'AvailableCustomTags', array( 'customtagname' )
+        );
+        ezpINIHelper::setINISetting(
+        'content.ini', 'CustomTagSettings',
+        'IsInline', array( 'customtagname' => 'true' )
+        );
+        
+        $xmlData = '<?xml version="1.0" encoding="utf-8"?>';
+        $xmlData .= '<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+            xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+            xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+            <paragraph>One droogy minus one droggy equal <custom name="customtagname">0</custom> droggy.</paragraph>
+        </section>';
+        
+        $folder = new ezpObject( 'folder', 2 );
+        $folder->name = 'Orange mecanique - For children';
+        $folder->short_description = '';
+        
+        $oeHandler = new eZOEXMLInput( $xmlData, false, $folder->short_description );
+        $xhtml = $oeHandler->attribute( 'input_xml' );
+        self::assertEquals( '&lt;p&gt;One droogy minus one droggy equal &lt;span class=&quot;ezoeItemCustomTag customtagname&quot; type=&quot;custom&quot;&gt;0&lt;/span&gt; droggy.&lt;/p&gt;&lt;p&gt;&lt;br /&gt;&lt;/p&gt;', $xhtml );
+        
+        ezpINIHelper::restoreINISettings();
+    }
 }
 
 ?>

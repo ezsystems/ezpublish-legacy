@@ -1321,13 +1321,13 @@ class eZOEXMLInput extends eZXMLInputHandler
 
                 if ( isset( self::$nativeCustomTags[ $name ] ))
                 {
-                    if ( !$childTagText ) $childTagText = '&nbsp;';
+                    if ( !strlen($childTagText) ) $childTagText = '&nbsp;';
                     $output .= '<' . self::$nativeCustomTags[ $name ] . $customAttributePart . $styleString .
                                '>' . $childTagText . '</' . self::$nativeCustomTags[ $name ] . '>';
                 }
                 else if ( $inline === true )
                 {
-                    if ( !$childTagText ) $childTagText = '&nbsp;';
+                    if ( !strlen($childTagText) ) $childTagText = '&nbsp;';
                     $tagName = $name === 'underline' ? 'u' : 'span';
                     $output .= '<' . $tagName . ' class="ezoeItemCustomTag ' . $name . '" type="custom"' .
                                $customAttributePart . $styleString . '>' . $childTagText . '</' . $tagName . '>';
