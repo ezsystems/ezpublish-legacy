@@ -961,6 +961,8 @@ class eZFSFileHandler implements eZClusterFileHandlerInterface
      */
     public function abortCacheGeneration()
     {
+        $this->_freeExclusiveLock( 'storeCache' );
+
         return true;
     }
 
