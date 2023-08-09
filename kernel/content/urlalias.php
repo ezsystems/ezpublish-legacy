@@ -51,7 +51,7 @@ if ( $Module->isCurrentAction( 'RemoveAllAliases' ) )
         $filter->prepare();
     }
     $infoCode = "feedback-removed-all";
-    ezpEvent::getInstance()->notify( 'content/cache', array( $NodeID ) );
+    ezpEvent::getInstance()->notify( 'content/cache', array( array( $NodeID ) ) );
 }
 else if ( $Module->isCurrentAction( 'RemoveAlias' ) )
 {
@@ -71,7 +71,7 @@ else if ( $Module->isCurrentAction( 'RemoveAlias' ) )
             }
         }
         $infoCode = "feedback-removed";
-        ezpEvent::getInstance()->notify( 'content/cache', array( $NodeID ) );
+        ezpEvent::getInstance()->notify( 'content/cache', array( array( $NodeID ) ) );
     }
 }
 else if ( $Module->isCurrentAction( 'NewAlias' ) )
@@ -153,7 +153,7 @@ else if ( $Module->isCurrentAction( 'NewAlias' ) )
                 $infoCode = "feedback-alias-created";
             }
             $aliasText = false;
-            ezpEvent::getInstance()->notify( 'content/cache', array( $NodeID ) );
+            ezpEvent::getInstance()->notify( 'content/cache', array( array( $NodeID ) ) );
         }
     }
 }
