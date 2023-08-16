@@ -1,5 +1,10 @@
 {if and( eq( $browse.action_name, 'SwapNode' ), is_set( $browse.persistent_data.ContentNodeID ) )}
     {def $swap_node = fetch( 'content', 'node', hash( 'node_id', $browse.persistent_data.ContentNodeID ) )}
+    {if is_null( $swap_node )|not}
+        {def $swap_node_class = get_class( $swap_node )}
+    {else}
+        {def $swap_node_class = false()}
+    {/if}
 {/if}
 
 <table class="list" cellspacing="0">
@@ -69,7 +74,7 @@
             {if and( or( eq( $browse.action_name, 'MoveNode' ), eq( $browse.action_name, 'CopyNode' ), eq( $browse.action_name, 'AddNodeAssignment' ) ), $Nodes.item.object.content_class.is_container|not )}
                 <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item[$select_attribute]}" disabled="disabled" />
             {elseif and( eq( $browse.action_name, 'SwapNode' ),
-                         eq( get_class( $swap_node ), 'ezcontentobjecttreenode' ),
+                         eq( $swap_node_class, 'ezcontentobjecttreenode' ),
                          or( and( $swap_node.children_count|gt(0), $Nodes.item.object.content_class.is_container|not ),
                              and( $swap_node.is_container|not, $Nodes.item.children_count|gt(0) ) ) )}
                 <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item[$select_attribute]}" disabled="disabled" />
