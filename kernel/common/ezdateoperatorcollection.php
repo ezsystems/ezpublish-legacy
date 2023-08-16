@@ -10,6 +10,7 @@
 
 class eZDateOperatorCollection
 {
+    public $MonthOverviewName;
     /**
      * Constructor
      *

@@ -20,6 +20,8 @@
 
 class eZInformationCollection extends eZPersistentObject
 {
+    public $ID;
+    public $ContentObjectID;
     /*!
      \return the persistent object definition for the eZInformationCollection class.
     */

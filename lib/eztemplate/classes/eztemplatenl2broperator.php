@@ -19,6 +19,7 @@
 
 class eZTemplateNl2BrOperator
 {
+    public $Nl2brName;
     /**
      * Initializes the object with the name $name, default is "nl2br".
      */

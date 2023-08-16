@@ -14,6 +14,7 @@
 
 class eZProductCollection extends eZPersistentObject
 {
+    public $ID;
     static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',

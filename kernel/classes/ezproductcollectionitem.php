@@ -18,6 +18,7 @@
 
 class eZProductCollectionItem extends eZPersistentObject
 {
+    public $ContentObjectID;
     static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',

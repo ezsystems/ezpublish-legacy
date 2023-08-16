@@ -18,6 +18,8 @@
  */
 class eZClusterFileFailure
 {
+    public $Errno;
+    public $Message;
     const FILE_EXPIRED = 1,
           FILE_CONTENT_GENERATE = 2,
           FILE_RETRIEVAL_FAILED = 3;

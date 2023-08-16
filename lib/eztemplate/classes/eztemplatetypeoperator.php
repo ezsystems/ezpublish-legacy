@@ -33,6 +33,19 @@ $var|get_class or get_class( $var )
 
 class eZTemplateTypeOperator
 {
+    public $IsBooleanName;
+    public $IsIntegerName;
+    public $IsFloatName;
+    public $IsNumericName;
+    public $IsStringName;
+    public $IsObjectName;
+    public $IsClassName;
+    public $IsNullName;
+    public $IsSetName;
+    public $IsUnsetName;
+    public $GetTypeName;
+    public $GetClassName;
+    public $PHPNameMap;
     /**
      * Initializes the operator class with the various operator names.
      *

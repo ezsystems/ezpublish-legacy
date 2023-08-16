@@ -16,6 +16,7 @@
 
 class eZPDFTable extends Cezpdf
 {
+    public $fontSize;
     const NEWLINE = '<C:callNewLine>';
     const SPACE = '<C:callSpace>';
     const TAB = '<C:callTab>';

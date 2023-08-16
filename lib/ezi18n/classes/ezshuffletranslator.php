@@ -17,6 +17,7 @@
 
 class eZShuffleTranslator extends eZTranslatorHandler
 {
+    public $MaxChars;
     /**
      * Constructor
      *

@@ -15,6 +15,12 @@
 */
 class eZMultiOption2
 {
+    public $ID;
+    public $Rules;
+    /**
+     * @var int
+     */
+    public $MultiOptionCount;
     /**
      * Initializes with empty multioption2 list.
      *

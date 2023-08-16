@@ -18,6 +18,7 @@
 
 class eZBasket extends eZPersistentObject
 {
+    public $ProductCollectionID;
     /*!
      Controls the default value for how many items are cleaned in one batch operation.
     */

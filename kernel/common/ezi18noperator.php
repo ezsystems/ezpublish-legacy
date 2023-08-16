@@ -16,6 +16,7 @@
 
 class eZi18nOperator
 {
+    public $DynamicName;
     /**
      * Constructor
      *

@@ -15,6 +15,9 @@
 */
 class eZNodeAssignment extends eZPersistentObject
 {
+    public $TempNode;
+    public $Name;
+    public $OpCode;
     // Bit 0 is used to mark if the action is to be performed or not
     // A value of 0 means ignore and 1 means execute
     const OP_CODE_NOP =          0;

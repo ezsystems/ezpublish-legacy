@@ -21,6 +21,8 @@
 
 class eZTextCodec
 {
+    public $CodepageMapper;
+    public $Codepage;
     /**
      * @param string $inputCharsetCode
      * @param string $outputCharsetCode

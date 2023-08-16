@@ -197,6 +197,8 @@ Denne koster {1.4|l10n(currency)}<br>
 
 class eZTemplate
 {
+    public $MaxLevelWarning;
+    public $TemplateFetchList;
     const RESOURCE_FETCH = 1;
     const RESOURCE_QUERY = 2;
 

@@ -16,6 +16,7 @@
 
 class eZCollaborationItemParticipantLink extends eZPersistentObject
 {
+    public $ParticipantRole;
     const TYPE_USER = 1;
     const TYPE_USERGROUP = 2;
 

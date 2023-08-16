@@ -16,6 +16,8 @@
 
 class eZPackageHandler
 {
+    public $ExtractInstallContent;
+    public $HandlerType;
     /**
      * Constructor
      *

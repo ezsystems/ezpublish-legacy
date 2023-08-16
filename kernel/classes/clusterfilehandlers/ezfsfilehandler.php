@@ -10,6 +10,8 @@
 
 class eZFSFileHandler implements eZClusterFileHandlerInterface
 {
+    public $Mutex;
+    public $lifetime;
     const EXPIRY_TIMESTAMP = 233366400;
 
     /**

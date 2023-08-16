@@ -45,6 +45,8 @@
 
 class eZOrderStatus extends eZPersistentObject
 {
+    public $StatusID;
+    public $ID;
     // Define for statuses that doesn't really exist (DB error)
     const UNDEFINED = 0;
 

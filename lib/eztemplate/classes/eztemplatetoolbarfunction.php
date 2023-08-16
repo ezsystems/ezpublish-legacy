@@ -16,6 +16,7 @@
 
 class eZTemplateToolbarFunction
 {
+    public $BlockName;
     /**
      * Initializes the object with names.
      *

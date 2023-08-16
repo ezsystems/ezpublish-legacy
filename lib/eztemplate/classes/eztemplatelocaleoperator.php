@@ -28,6 +28,10 @@
 
 class eZTemplateLocaleOperator
 {
+    public $LocaleFetchName;
+    public $MakeTimeName;
+    public $MakeDateName;
+    public $GetTimeName;
     /**
      * Initializes the object with the default locale.
      *

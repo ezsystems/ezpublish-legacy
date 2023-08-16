@@ -16,6 +16,7 @@
 
 class eZSection extends eZPersistentObject
 {
+    public $ID;
     public function __construct( $row )
     {
         if ( !isset( $row['id'] ) )

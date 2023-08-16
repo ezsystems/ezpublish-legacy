@@ -33,6 +33,8 @@
 
 class eZOrderStatusHistory extends eZPersistentObject
 {
+    public $StatusName;
+    public $StatusID;
     public function __construct( $row )
     {
         parent::__construct( $row );

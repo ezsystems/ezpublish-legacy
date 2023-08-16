@@ -29,6 +29,13 @@ $cli->output( "This is a text string" );
 
 class eZCLI
 {
+    public $EndlineString;
+    public $WebOutput;
+    public $TerminalStyles;
+    public $WebStyles;
+    public $EmptyStyles;
+    public $UseStyles;
+    public $IsQuiet;
     const TERMINAL_ENDOFLINE_STRING = "\n";
 
     /**

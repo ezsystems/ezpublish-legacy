@@ -26,6 +26,28 @@
 
 class eZTemplateArrayOperator
 {
+    public $ArrayPrependName;
+    public $PrependName;
+    public $ArrayAppendName;
+    public $AppendName;
+    public $ArrayMergeName;
+    public $MergeName;
+    public $ContainsName;
+    public $CompareName;
+    public $ExtractName;
+    public $ExtractLeftName;
+    public $ExtractRightName;
+    public $BeginsWithName;
+    public $EndsWithName;
+    public $ImplodeName;
+    public $ExplodeName;
+    public $RepeatName;
+    public $ReverseName;
+    public $InsertName;
+    public $RemoveName;
+    public $ReplaceName;
+    public $UniqueName;
+    public $ArraySumName;
     public function __construct(      $arrayName        = 'array',
                                       $hashName         = 'hash',
                                       $arrayPrependName = 'array_prepend', // DEPRECATED/OBSOLETE

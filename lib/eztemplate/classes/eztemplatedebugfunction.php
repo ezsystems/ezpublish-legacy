@@ -61,6 +61,10 @@
 
 class eZTemplateDebugFunction
 {
+    public $TimingPointName;
+    public $AccumulatorName;
+    public $LogName;
+    public $TraceName;
     /**
      * Initializes the object with names.
      *

@@ -19,6 +19,23 @@
 
 class eZTemplateStringOperator
 {
+    public $phpMap;
+    public $customMap;
+    public $BreakName;
+    public $Count_charsName;
+    public $DowncaseName;
+    public $UpcaseName;
+    public $UpfirstName;
+    public $UpwordName;
+    public $Count_wordsName;
+    public $ChrName;
+    public $OrdName;
+    public $PadName;
+    public $ShortenName;
+    public $SimplifyName;
+    public $TrimName;
+    public $WrapName;
+    public $WashName;
     public function __construct()
     {
         $this->Operators = array( 'upcase', 'downcase',

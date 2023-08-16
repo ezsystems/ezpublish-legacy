@@ -17,6 +17,12 @@
 
 class eZPackageCreationHandler
 {
+    public $Attributes;
+    public $InitializeStepMethodMap;
+    public $ValidateStepMethodMap;
+    public $CommitStepMethodMap;
+    public $LoadStepMethodMap;
+    public $StepMap;
     /**
      * Constructor
      *

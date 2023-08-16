@@ -19,6 +19,10 @@
 
 class eZTemplateDigestOperator
 {
+    public $Crc32Name;
+    public $Md5Name;
+    public $Sha1Name;
+    public $Rot13Name;
     public function __construct()
     {
         $this->Operators = array( 'crc32', 'md5', 'rot13' );

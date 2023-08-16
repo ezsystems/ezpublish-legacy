@@ -54,6 +54,8 @@
 
 class eZTemplateAttributeOperator
 {
+    public $AttributeName;
+    public $DumpName;
     /**
      * Initializes the object with the name $attributeName, default is "attribute" and $dumpName, default is 'dump'
      *

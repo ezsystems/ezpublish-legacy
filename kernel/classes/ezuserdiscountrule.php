@@ -16,6 +16,7 @@
 
 class eZUserDiscountRule extends eZPersistentObject
 {
+    public $ContentobjectID;
     static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',

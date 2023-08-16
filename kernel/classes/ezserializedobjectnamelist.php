@@ -10,6 +10,7 @@
 
 class eZSerializedObjectNameList
 {
+    public $nameList;
     const ALWAYS_AVAILABLE_STR = 'always-available';
 
     public function __construct( $serializedNamesString = false )

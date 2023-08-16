@@ -16,6 +16,12 @@
 
 class eZWorkflowProcess extends eZPersistentObject
 {
+    /**
+     * @var int
+     */
+    public $EventState;
+    public $Parameters;
+    public $ParameterList;
     static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',

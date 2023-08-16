@@ -16,6 +16,12 @@
 
 class eZURLOperator
 {
+    public $SysName;
+    public $ExtName;
+    public $HTTPName;
+    public $ININame;
+    public $ININameHasVariable;
+    public $HTTPNameHasVariable;
     const HTTP_OPERATOR_TYPE_POST = 1;
     const HTTP_OPERATOR_TYPE_GET = 2;
     const HTTP_OPERATOR_TYPE_SESSION = 3;

@@ -26,6 +26,7 @@
 
 class eZTemplateSectionIterator
 {
+    public $InternalAttributes;
     /**
      * Initializes the iterator with empty values.
      */

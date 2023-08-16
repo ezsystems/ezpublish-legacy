@@ -21,6 +21,7 @@
 
 class eZURL extends eZPersistentObject
 {
+    public $Modified;
     static function definition()
     {
         static $definition = array( 'fields' => array( 'id' => array( 'name' => 'ID',

@@ -18,6 +18,16 @@
  */
 class eZDBInterface
 {
+    public $IsInternalCharset;
+    /**
+     * @var int
+     */
+    public $SlowSQLTimeout;
+    /**
+     * @var bool
+     */
+    public $QueryAnalysisOutput;
+    public $AttributeVariableMap;
     const BINDING_NO = 0;
     const BINDING_NAME = 1;
     const BINDING_ORDERED = 2;

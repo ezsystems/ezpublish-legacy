@@ -30,6 +30,10 @@
 
 class eZMultiPrice extends eZSimplePrice
 {
+    /**
+     * @var bool
+     */
+    public $IsDataDirty;
     const CALCULATION_TYPE_VAT_INCLUDE = 1;
     const CALCULATION_TYPE_VAT_EXCLUDE = 2;
     const CALCULATION_TYPE_DISCOUNT_INCLUDE = 3;

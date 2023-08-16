@@ -17,6 +17,7 @@
 
 class eZContentClassAttribute extends eZPersistentObject
 {
+    public $DataTextI18nList;
     public function __construct( $row )
     {
         parent::__construct($row);

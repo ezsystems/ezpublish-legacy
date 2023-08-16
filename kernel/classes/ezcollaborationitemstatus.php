@@ -16,6 +16,8 @@
 
 class eZCollaborationItemStatus extends eZPersistentObject
 {
+    public $UserID;
+    public $CollaborationID;
     static function definition()
     {
         return array( 'fields' => array( 'collaboration_id' => array( 'name' => 'CollaborationID',

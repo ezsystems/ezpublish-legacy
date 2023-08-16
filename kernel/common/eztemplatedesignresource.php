@@ -16,6 +16,10 @@
  */
 class eZTemplateDesignResource extends eZTemplateFileResource
 {
+    /**
+     * @var never[]|mixed[]
+     */
+    public $KeyStack;
     const DESIGN_BASE_CACHE_NAME = 'designbase_';
 
     /**

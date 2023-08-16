@@ -18,6 +18,10 @@
 
 class eZContentClass extends eZPersistentObject
 {
+    public $DataMap;
+    public $RemoteID;
+    public $InGroupIDs;
+    public $URLAliasName;
     const VERSION_STATUS_DEFINED = 0;
     const VERSION_STATUS_TEMPORARY = 1;
     const VERSION_STATUS_MODIFIED = 2;

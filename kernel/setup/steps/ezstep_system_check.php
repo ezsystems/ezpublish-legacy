@@ -16,6 +16,8 @@
 
 class eZStepSystemCheck extends eZStepInstaller
 {
+    public $OptionalResults;
+    public $OptionalResult;
     /**
      * Constructor
      *

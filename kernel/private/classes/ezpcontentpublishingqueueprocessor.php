@@ -19,6 +19,8 @@ declare( ticks=1 );
  */
 class ezpContentPublishingQueueProcessor
 {
+    public $sleepInterval;
+    public $signalQueue;
     public function __construct()
     {
         $this->contentINI = eZINI::instance( 'content.ini' );

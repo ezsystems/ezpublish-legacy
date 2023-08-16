@@ -15,6 +15,9 @@
  */
 class eZTSTranslator extends eZTranslatorHandler
 {
+    public $Locale;
+    public $HasRestoredCache;
+    public $RootCache;
     /**
      * Constructs the translator and loads the translation file $file if it is set and exists.
      * @param string $locale

@@ -28,6 +28,7 @@
  */
 class eZStaticCache implements ezpStaticCache
 {
+    public $staticStorageDir;
     /**
      * User-Agent string
      */

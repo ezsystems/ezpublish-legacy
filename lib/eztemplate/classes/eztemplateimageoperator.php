@@ -22,6 +22,9 @@
 
 class eZTemplateImageOperator
 {
+    public $WAdjust;
+    public $HAdjust;
+    public $MissingGDFunctions;
     /**
      * Initializes the image operator with the operator name $name.
      *

@@ -18,6 +18,7 @@
 
 class eZWishList extends eZPersistentObject
 {
+    public $ProductCollectionID;
     /*!
      \return the persistent object definition for the eZCard class.
     */

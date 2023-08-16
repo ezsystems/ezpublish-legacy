@@ -10,6 +10,7 @@
 
 class eZISBN10To13Converter
 {
+    public $Force;
     /*!
      Constructor
      \param $script The variable is set earlier in the script and transfered to the class.

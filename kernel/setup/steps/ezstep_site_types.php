@@ -17,6 +17,10 @@
 class eZStepSiteTypes extends eZStepInstaller
 {
     /**
+     * @var bool
+     */
+    public $ShowURL;
+    /**
      * Constructor
      *
      * @param eZTemplate $tpl

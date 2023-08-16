@@ -16,6 +16,7 @@
 
 class eZContentObjectAssignmentHandler
 {
+    public $CurrentVersion;
     /**
      * Constructor
      * @param eZContentObject $contentObject

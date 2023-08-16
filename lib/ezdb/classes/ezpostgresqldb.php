@@ -19,6 +19,7 @@
 */
 class eZPostgreSQLDB extends eZDBInterface
 {
+    public $SlowSQLTimeout;
     /**
      * Creates a new eZPostgreSQLDB object and connects to the database.
      *

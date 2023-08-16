@@ -17,6 +17,10 @@
 
 class eZImageShellHandler extends eZImageHandler
 {
+    public $UseTypeTag;
+    public $QualityParameters;
+    public $FrameRangeParameters;
+    public $HandlerName;
     public function __construct( $handlerName, $isEnabled = true, $outputRewriteType = self::REPLACE_SUFFIX,
                                   $supportedInputMIMETypes = false, $supportedOutputMIMETypes = false,
                                   $conversionRules = false, $filters = false, $mimeTagMap = false)

@@ -17,6 +17,13 @@
 
 class eZPackageInstallationHandler
 {
+    public $Package;
+    public $Attributes;
+    public $InitializeStepMethodMap;
+    public $ValidateStepMethodMap;
+    public $CommitStepMethodMap;
+    public $InstallItem;
+    public $StepMap;
     /**
      * Constructor
      *

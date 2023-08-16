@@ -16,6 +16,8 @@
 
 class eZCollaborationGroup extends eZPersistentObject
 {
+    public $PathString;
+    public $Depth;
     static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',

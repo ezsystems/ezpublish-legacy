@@ -15,6 +15,8 @@
 */
 class eZNotificationEvent extends eZPersistentObject
 {
+    public $TypeString;
+    public $EventType;
     const STATUS_CREATED = 0;
     const STATUS_HANDLED = 1;
 

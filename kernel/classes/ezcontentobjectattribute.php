@@ -18,6 +18,16 @@
 
 class eZContentObjectAttribute extends eZPersistentObject
 {
+    public $InputParameters;
+    public $HasValidationError;
+    /**
+     * @var null
+     */
+    public $DataTypeCustom;
+    public $DataTypeString;
+    public $ContentObjectID;
+    public $Version;
+    public $AddToBasketIsValid;
     public function __construct( $row )
     {
         $this->Content = null;

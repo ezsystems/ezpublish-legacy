@@ -16,6 +16,7 @@
 
 class eZGeneralDigestUserSettings extends eZPersistentObject
 {
+    public $UserID;
     const TYPE_NONE = 0;
     const TYPE_WEEKLY = 1;
     const TYPE_MONTHLY = 2;

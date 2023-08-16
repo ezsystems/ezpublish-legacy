@@ -16,6 +16,7 @@
  */
 class ezpSessionHandlerDB extends ezpSessionHandler
 {
+    public $userHasCookie;
     // Seconds before timeout occurs that gc function stops to make sure request completes
     const GC_TIMEOUT_MARGIN = 5;
 

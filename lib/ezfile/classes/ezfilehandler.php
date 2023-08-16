@@ -54,6 +54,8 @@
 
 class eZFileHandler
 {
+    public $Identifier;
+    public $FileHandler;
     /**
      * Initializes the handler.
      *

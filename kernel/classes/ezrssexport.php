@@ -17,6 +17,12 @@
 
 class eZRSSExport extends eZPersistentObject
 {
+    public $ID;
+    public $ImageID;
+    public $ModifierID;
+    public $Status;
+    public $MainNodeOnly;
+    public $NumberOfObjects;
     const STATUS_VALID = 1;
     const STATUS_DRAFT = 0;
 

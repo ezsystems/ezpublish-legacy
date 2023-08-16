@@ -18,6 +18,7 @@
 // if ( !class_exists( 'eZXMLSchema' ) )
 class eZXMLOutputHandler
 {
+    public $TemplateUri;
     /**
      * Constructor
      *

@@ -17,6 +17,18 @@
 
 class eZContentObjectVersion extends eZPersistentObject
 {
+    public $ContentObjectAttributeArray;
+    public $DataMap;
+    public $TempNode;
+    public $VersionName;
+    public $VersionNameCache;
+    public $Permissions;
+    public $ContentObject;
+    public $Version;
+    public $ContentObjectID;
+    public $Status;
+    public $CreatorID;
+    public $InitialLanguageID;
     const STATUS_DRAFT = 0;
     const STATUS_PUBLISHED = 1;
     const STATUS_PENDING = 2;

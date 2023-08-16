@@ -17,6 +17,8 @@
 
 class eZRSSExportItem extends eZPersistentObject
 {
+    public $ClassID;
+    public $SourceNodeID;
     static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',

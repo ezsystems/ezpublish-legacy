@@ -17,6 +17,11 @@
 class Cpdf
 {
 
+    public $ez;
+    /**
+     * @var int
+     */
+    public $nCallBack;
     /**
      * the current number of pdf objects in the document
      */

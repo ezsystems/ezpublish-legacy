@@ -34,6 +34,9 @@
 
 class eZModule
 {
+    public $FunctionList;
+    public $NavigationParts;
+    public $ViewActionParameters;
     /**
      * Module execution status: IDLE
      * @var int

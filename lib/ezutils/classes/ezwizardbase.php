@@ -16,6 +16,10 @@
 
 class eZWizardBase
 {
+    /**
+     * @var \eZTemplate
+     */
+    public $TPL;
     const STAGE_PRE = 0;
     const STAGE_POST = 1;
 

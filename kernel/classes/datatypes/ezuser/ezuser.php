@@ -17,6 +17,9 @@
 
 class eZUser extends eZPersistentObject
 {
+    public $ContentObjectID;
+    public $AccessArray;
+    public $GroupsAsObjects;
     /// No hash, used by external handlers such as LDAP and TextFile
     const PASSWORD_HASH_EMPTY = 0;
     /// MD5 of password

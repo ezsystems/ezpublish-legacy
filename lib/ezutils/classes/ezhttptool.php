@@ -22,6 +22,10 @@
 
 class eZHTTPTool
 {
+    /**
+     * @var bool
+     */
+    public $UseFullUrl;
     /*!
      Initializes the class. Use eZHTTPTool::instance to get a single instance.
     */

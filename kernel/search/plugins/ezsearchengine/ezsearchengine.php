@@ -15,6 +15,7 @@
 
 class eZSearchEngine implements ezpSearchEngine
 {
+    public $GeneralFilter;
     public function __construct()
     {
         $generalFilter = array( 'subTreeTable' => '',

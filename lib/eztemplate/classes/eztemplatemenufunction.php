@@ -16,6 +16,7 @@
 
 class eZTemplateMenuFunction
 {
+    public $BlockName;
     /**
      * Initializes the object with names.
      *

@@ -83,6 +83,24 @@ $img1 = $img->convert( "image1.png", "cache/", // Scale PNG image and place in c
 
 class eZImageManager
 {
+    public $SupportedFormats;
+    public $SupportedMIMEMap;
+    public $AliasList;
+    public $Factories;
+    public $ImageFilters;
+    /**
+     * @var never[]|mixed[]
+     */
+    public $MIMETypeSettings;
+    public $MIMETypeSettingsMap;
+    /**
+     * @var never[]|array<mixed, array<'name'|'value', mixed>>
+     */
+    public $QualityValues;
+    public $QualityValueMap;
+    public $QualityValueMapOverride;
+    public $TemporaryImageDirPath;
+    public $ConversionRules;
     /**
      * Initializes the manager by registering a application/octet-stream mimetype which is applied for all unknown files.
      */

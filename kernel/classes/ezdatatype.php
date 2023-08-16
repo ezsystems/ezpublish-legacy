@@ -44,6 +44,7 @@
 
 class eZDataType
 {
+    public $Attributes;
     /**
      * Initializes the datatype with the string id $dataTypeString and the name $name.
      *

@@ -26,6 +26,7 @@
 
 class eZURI
 {
+    public $OriginalURI;
     /**
      * The original URI string
      *

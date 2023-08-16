@@ -17,6 +17,7 @@
 
 class eZImageTextLayer extends eZImageLayer
 {
+    public $TextAngle;
     public function __construct( $imageObjectRef = null, $imageObject = null,
                                   $width = false, $height = false,
                                   $font = false, $boundingBox = null, $text = null, $textAngle = 0 )

@@ -16,6 +16,8 @@
 
 class eZOperationMemento extends eZPersistentObject
 {
+    public $MainMemento;
+    public $MementoData;
     static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',

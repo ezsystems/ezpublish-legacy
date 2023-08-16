@@ -16,6 +16,22 @@
 
 class eZCodePageMapper
 {
+    /**
+     * @var string
+     */
+    public $RequestedInputCharsetCode;
+    public $InputCharsetCode;
+    /**
+     * @var string
+     */
+    public $RequestedOutputCharsetCode;
+    public $OutputCharsetCode;
+    public $Valid;
+    public $InputOutputMap;
+    public $OutputInputMap;
+    public $SubstituteOutputChar;
+    public $SubstituteInputChar;
+    public $SubstituteCharValue;
     const CACHE_CODE_DATE = 1026316422;
 
     /**

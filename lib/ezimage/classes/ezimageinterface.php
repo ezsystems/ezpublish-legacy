@@ -18,6 +18,7 @@
 
 class eZImageInterface
 {
+    public $TextColor;
     /**
      * Constructor
      *

@@ -18,6 +18,10 @@
 
 class eZURLType extends eZDataType
 {
+    /**
+     * @var \eZIntegerValidator
+     */
+    public $MaxLenValidator;
     const DATA_TYPE_STRING = 'ezurl';
 
     public function __construct()

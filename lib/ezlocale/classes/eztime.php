@@ -57,6 +57,7 @@ print( $time1->isEqualTo( $time3 ) ? 'true' : 'false' ); // Prints 'true'
 
 class eZTime
 {
+    public $IsValid;
     /*!
      Number of seconds in a minute.
     */

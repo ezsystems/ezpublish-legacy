@@ -19,6 +19,8 @@
 
 class eZMySQLiDB extends eZDBInterface
 {
+    public $QueryAnalysisOutput;
+    public $SlowSQLTimeout;
     const RELATION_FOREIGN_KEY = 5;
     const RELATION_FOREIGN_KEY_BIT = 32;
 

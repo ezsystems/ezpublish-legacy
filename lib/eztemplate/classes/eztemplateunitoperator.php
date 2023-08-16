@@ -37,6 +37,8 @@
 
 class eZTemplateUnitOperator
 {
+    public $SIName;
+    public $Operators;
     /**
      * Initializes the operator with the name $name, default is "si"
      *

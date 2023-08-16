@@ -17,6 +17,10 @@
 
 class eZRSSImport extends eZPersistentObject
 {
+    public $ObjectOwnerID;
+    public $ModifierID;
+    public $ClassID;
+    public $DestinationNodeID;
     const STATUS_VALID = 1;
     const STATUS_DRAFT = 0;
 

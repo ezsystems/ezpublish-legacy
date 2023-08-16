@@ -47,6 +47,7 @@ class eZTemplateLoopSequence
 */
 class eZTemplateLoop
 {
+    public $Delimiter;
     public function __construct( $functionName, &$functionParameters, $functionChildren, $functionPlacement,
                              $tpl, &$textElements, $rootNamespace, $currentNamespace )
     {

@@ -23,6 +23,11 @@
 
 class eZMBStringMapper
 {
+    public $RequestedInputCharsetCode;
+    public $InputCharsetCode;
+    public $RequestedOutputCharsetCode;
+    public $OutputCharsetCode;
+    public $Valid;
     /**
      * Constructor
      *

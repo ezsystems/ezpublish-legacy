@@ -18,6 +18,7 @@
 
 class eZForwardCompressionHandler extends eZCompressionHandler
 {
+    public $ForwardHandler;
     /**
      * Constructor
      *

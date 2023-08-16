@@ -16,6 +16,8 @@
 
 class eZStepSystemFinetune extends eZStepInstaller
 {
+    public $OptionalResults;
+    public $OptionalResult;
     /**
      * Constructor
      *

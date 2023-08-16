@@ -109,6 +109,47 @@ The following characters are recognized in the format string:
 
 class eZLocale
 {
+    public $DateTimePHPArray;
+    /**
+     * @var string[]|null
+     */
+    public $DateTimeArray;
+    /**
+     * @var string[]|null
+     */
+    public $TimeSlashInputArray;
+    /**
+     * @var string[]|null
+     */
+    public $DateSlashInputArray;
+    /**
+     * @var string[]|null
+     */
+    public $DateTimeSlashInputArray;
+    /**
+     * @var string[]|null
+     */
+    public $TimeSlashOutputArray;
+    /**
+     * @var string[]|null
+     */
+    public $DateSlashOutputArray;
+    /**
+     * @var string[]|null
+     */
+    public $DateTimeSlashOutputArray;
+    public $HTTPLocaleCode;
+    public $functionMap;
+    public $LocaleCode;
+    public $TranslationCode;
+    public $Charset;
+    public $OverrideCharset;
+    public $DateTimeFormat;
+    public $ShortDateTimeFormat;
+    public $CurrencyName;
+    public $CurrencyShortName;
+    public $AllowedCharsets;
+    public $Language;
     const DEBUG_INTERNALS = false;
 
     /**

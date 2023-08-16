@@ -16,6 +16,7 @@
 
 class eZExtensionPackageHandler extends eZPackageHandler
 {
+    public $HandlerType;
     const ERROR_EXISTS = 1;
 
     const ACTION_REPLACE = 1;

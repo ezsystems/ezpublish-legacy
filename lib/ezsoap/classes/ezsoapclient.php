@@ -47,6 +47,12 @@ else
 
 class eZSOAPClient
 {
+    public $errorNumber;
+    public $errorString;
+    /**
+     * @var string
+     */
+    public $ErrorString;
     /**
      * Creates a new SOAP client.
      *

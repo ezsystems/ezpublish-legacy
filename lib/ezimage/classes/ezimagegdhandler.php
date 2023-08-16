@@ -22,6 +22,13 @@
 
 class eZImageGDHandler extends eZImageHandler
 {
+    public $InputMap;
+    public $OutputMap;
+    public $OutputQualityMap;
+    public $FilterFunctionMap;
+    public $LuminanceColorScales;
+    public $ThresholdList;
+    public $HandlerName;
     public function __construct( $handlerName, $isGloballyEnabled,
                                $outputRewriteType = self::REPLACE_SUFFIX,
                                $conversionRules = false )

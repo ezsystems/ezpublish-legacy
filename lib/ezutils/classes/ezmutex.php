@@ -16,6 +16,7 @@
 
 class eZMutex
 {
+    public $MetaFileName;
     const STEAL_STRING = '_eZMutex_Steal';
 
     /**

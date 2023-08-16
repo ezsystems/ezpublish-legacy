@@ -51,6 +51,9 @@ $php->close();
 
 class eZPHPCreator
 {
+    public $FilePrefix;
+    public $TemporaryCounter;
+    public $ClusterHandler;
     const VARIABLE = 1;
     const SPACE = 2;
     const TEXT = 3;

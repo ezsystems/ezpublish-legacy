@@ -17,6 +17,10 @@
 class eZStepSiteTemplates extends eZStepInstaller
 {
     /**
+     * @var string
+     */
+    public $ErrorMsg;
+    /**
      * Constructor
      *
      * @param eZTemplate $tpl

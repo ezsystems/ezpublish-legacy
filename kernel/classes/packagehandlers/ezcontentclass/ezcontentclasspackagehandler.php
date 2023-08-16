@@ -16,6 +16,7 @@
 
 class eZContentClassPackageHandler extends eZPackageHandler
 {
+    public $HandlerType;
     const ERROR_EXISTS = 1;
     const ERROR_HAS_OBJECTS = 101;
 

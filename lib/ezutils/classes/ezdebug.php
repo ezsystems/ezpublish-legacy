@@ -55,6 +55,7 @@
 
 class eZDebug
 {
+    public $StoreLog;
     const LEVEL_NOTICE = 1;
     const LEVEL_WARNING = 2;
     const LEVEL_ERROR = 3;

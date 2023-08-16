@@ -16,6 +16,9 @@
 class eZStepWelcome extends eZStepInstaller
 {
 
+    public $OptionalResults;
+    public $OptionalResult;
+    public $Results;
     /**
      * Constructor
      *

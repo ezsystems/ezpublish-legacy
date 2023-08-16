@@ -18,6 +18,10 @@
 
 class eZPackage
 {
+    public $RepositoryPath;
+    public $RepositoryInformation;
+    public $PolicyCache;
+    public $InstallData;
     const VERSION = '3.5.2';
     const DEVELOPMENT = false;
     const USE_CACHE = true;

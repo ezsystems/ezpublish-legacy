@@ -14,6 +14,7 @@
  */
 class eZExpiryHandler
 {
+    public $CacheFile;
     public function __construct()
     {
         $this->Timestamps = array();

@@ -11,6 +11,10 @@
 // if ( !class_exists( 'eZXMLInputParser' ) )
 class eZSimplifiedXMLInputParser extends eZXMLInputParser
 {
+    /**
+     * @var bool
+     */
+    public $isInputValid;
     public $InputTags = array(
         'b'       => array( 'name' => 'strong' ),
         'bold'    => array( 'name' => 'strong' ),

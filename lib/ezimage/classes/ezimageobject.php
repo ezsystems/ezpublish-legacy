@@ -17,6 +17,7 @@
 
 class eZImageObject extends eZImageInterface
 {
+    public $ImageLayerCounter;
     /// Alignment values @{
     const ALIGN_AXIS_NONE = 0x00;
     const ALIGN_AXIS_START = 0x01;

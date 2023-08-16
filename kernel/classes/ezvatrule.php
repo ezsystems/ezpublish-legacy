@@ -16,6 +16,7 @@
 
 class eZVatRule extends eZPersistentObject
 {
+    public $ID;
     public function __construct( $row )
     {
         $this->ProductCategories = null;

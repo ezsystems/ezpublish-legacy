@@ -18,6 +18,7 @@
 
 class eZContentObjectTranslation
 {
+    public $Locale;
     /**
      * Constructor
      *

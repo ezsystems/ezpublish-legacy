@@ -17,6 +17,11 @@
 class eZNotificationEventType
 {
     /**
+     * @var string
+     */
+    public $NotificationEventTypeString;
+    public $Attributes;
+    /**
      * Constructor
      *
      * @param string $notificationEventTypeString

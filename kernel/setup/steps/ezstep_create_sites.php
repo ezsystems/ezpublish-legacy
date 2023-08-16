@@ -46,6 +46,7 @@
 
 class eZStepCreateSites extends eZStepInstaller
 {
+    public $Error;
     /**
      * Constructor
      *

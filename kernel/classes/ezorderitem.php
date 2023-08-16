@@ -25,6 +25,8 @@
 
 class eZOrderItem extends eZPersistentObject
 {
+    public $VATValue;
+    public $Price;
     static function definition()
     {
         return array( "fields" => array( 'id' => array( 'name' => 'ID',

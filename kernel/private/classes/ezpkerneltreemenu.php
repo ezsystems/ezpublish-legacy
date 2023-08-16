@@ -10,6 +10,10 @@
 class ezpKernelTreeMenu implements ezpKernelHandler
 {
     /**
+     * @var array<string, bool>
+     */
+    public $siteBasics;
+    /**
      * Indicates is request has been properly initialized
      *
      * @var bool

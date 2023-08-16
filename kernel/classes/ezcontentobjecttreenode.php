@@ -15,6 +15,17 @@
  */
 class eZContentObjectTreeNode extends eZPersistentObject
 {
+    public $NodeID;
+    public $MainNodeID;
+    public $Permissions;
+    public $ContentObject;
+    public $Depth;
+    public $PathIdentificationString;
+    public $ParentNodeID;
+    public $ContentObjectID;
+    public $ContentObjectVersion;
+    public $IsHidden;
+    public $IsInvisible;
     const SORT_FIELD_PATH = 1;
     const SORT_FIELD_PUBLISHED = 2;
     const SORT_FIELD_MODIFIED = 3;

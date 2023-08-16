@@ -16,6 +16,7 @@
 
 class eZModuleOperationInfo
 {
+    public $OperationList;
     const ERROR_NO_CLASS = 5;
     const ERROR_NO_CLASS_METHOD = 6;
     const ERROR_CLASS_INSTANTIATE_FAILED = 7;

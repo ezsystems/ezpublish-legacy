@@ -16,6 +16,8 @@
 
 class eZCollaborationItemHandler
 {
+    public $NotificationCollectionHandling;
+    public $NotificationTypes;
     /*
      Definitions for notification handling for collaboration handlers.
     */

@@ -17,6 +17,7 @@
 
 class eZInformationCollectionAttribute extends eZPersistentObject
 {
+    public $ContentClassAttributeID;
     public function __construct( $row )
     {
         $this->Content = null;

@@ -24,6 +24,10 @@
 abstract class ezpSessionHandler
 {
     /**
+     * @var bool
+     */
+    public $userHasCookie;
+    /**
      * __construct
      *
      * @param bool $userHasCookie

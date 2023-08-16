@@ -17,6 +17,7 @@
 
 class eZCodePage
 {
+    public $ReadExtraMap;
     const CACHE_CODE_DATE = 1028204478;
     
     /**

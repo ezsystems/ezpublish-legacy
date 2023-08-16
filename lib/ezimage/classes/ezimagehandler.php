@@ -17,6 +17,19 @@
 
 class eZImageHandler
 {
+    /**
+     * @var string
+     */
+    public $HandlerName;
+    public $SupportedInputMIMETypes;
+    public $SupportedOutputMIMETypes;
+    public $ConversionRules;
+    public $OutputRewriteType;
+    public $Filters;
+    public $FilterMap;
+    public $SupportImageFilters;
+    public $MIMETagMap;
+    public $IsEnabled;
     const KEEP_SUFFIX = 1;
     const REPLACE_SUFFIX = 2;
     const PREPEND_TAG_REPLACE_SUFFIX = 3;

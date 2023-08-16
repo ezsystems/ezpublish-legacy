@@ -47,6 +47,27 @@ $script->shutdown(); // Finish execution
 */
 class eZScript
 {
+    public $CurrentOptions;
+    public $CurrentOptionConfig;
+    public $CurrentStandardOptions;
+    public $CurrentExcludeOptions;
+    public $CurrentOptionHelp;
+    public $IterationTrueString;
+    public $IterationFalseString;
+    public $IterationNumericStrings;
+    public $IterationWrapNumeric;
+    public $IterationIndex;
+    public $IterationColumn;
+    public $IterationColumnMax;
+    public $IterationMax;
+    public $AllowedDebugLevels;
+    public $UseDebugAccumulators;
+    public $UseDebugTimingPoints;
+    public $UseIncludeFiles;
+    public $Description;
+    public $MinVersion;
+    public $MaxVersion;
+    public $ArgumentConfig;
     /**
      * @param array $settings
      */

@@ -16,6 +16,7 @@
 
 class eZWorkflowEvent extends eZPersistentObject
 {
+    public $EventType;
     public function __construct( $row )
     {
         parent::__construct( $row );

@@ -17,6 +17,8 @@
 
 class eZPDFExport extends eZPersistentObject
 {
+    public $ModifierID;
+    public $SourceNodeID;
     const VERSION_VALID = 0;
     const VERSION_DRAFT = 1;
 
