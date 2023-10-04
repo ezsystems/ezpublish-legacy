@@ -3817,23 +3817,26 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return eZContentObjectTreeNode::removeSubtrees( $deleteIDArray, true, true );
     }
 
-    /*!
-     \static
-     Will remove the nodes in the subtrees defined in \a $deleteIDArray,
-     it will only remove the nodes unless there are no more nodes for
-     an object in which case the object is removed too.
-
-     \param $moveToTrash If \c true it will move the object to trash, if \c false
-                         the object will be purged from the system.
-     \param $infoOnly If set to \c true then it will not remove the subtree
-                      but instead return information on what will happen
-                      if it is removed. See subtreeRemovalInformation() for the
-                      returned structure.
-
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
-    static function removeSubtrees( $deleteIDArray, $moveToTrash = true, $infoOnly = false )
+    /**
+     * Will remove the nodes in the subtrees defined in $deleteIDArray,
+     * it will only remove the nodes unless there are no more nodes for
+     * an object in which case the object is removed too.
+     *
+     * @note  Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     *        the calls within a db transaction; thus within db->begin and db->commit.
+     *
+     * @param array $deleteIDArray
+     * @param bool $moveToTrash optional  If true it will move the object to trash,
+     *              If false the object will be purged from the system.
+     * @param bool $infoOnly optional  If true then it will not remove the subtree
+     *                 but instead return information on what will happen
+     *                 if it is removed. See subtreeRemovalInformation() for the
+     *                 returned structure.
+     * @param bool $onlyChildrenNode optional If true it will remove only childs of each node in $deleteIDArray.
+     * @return true|array  See subtreeRemovalInformation() for the returned structure
+     *
+     */
+    static function removeSubtrees( $deleteIDArray, $moveToTrash = true, $infoOnly = false, $onlyChildrenNode = false )
     {
         $moveToTrashAllowed = true;
         $deleteResult = array();
@@ -3976,7 +3979,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         }
                     }
 
-                    $node->removeNodeFromTree( $moveToTrashTemp );
+                    if ( !$onlyChildrenNode )
+                        $node->removeNodeFromTree( $moveToTrashTemp );
                 }
             }
             if ( !$canRemove )
