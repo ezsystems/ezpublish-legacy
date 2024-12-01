@@ -213,7 +213,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
 
     function parseType( $type_info, &$length_info )
     {
-        preg_match ( "@([a-z ]*)(\(([0-9]*|[0-9]*,[0-9]*)\))?@", $type_info, $matches );
+        preg_match ( "@([a-z]*)(\(([0-9]*|[0-9]*,[0-9]*)\))?@i", $type_info, $matches );
         if ( isset( $matches[3] ) )
         {
             $length_info = $matches[3];
