@@ -1235,9 +1235,10 @@ class eZContentFunctionCollection
      * @param bool $loadDataMap
      * @param bool $ignoreVisibility
      * @param array $relatedClassIdentifiers Array of related class identifiers that will be accepted
-     * @return array ANn array of eZContentObject
+     * @param int|bool $version The contentobject version number to fetch from, default to current version
+     * @return array An array of eZContentObject
      */
-    static public function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $limit = false, $offset = false, $asObject = true, $loadDataMap = false, $ignoreVisibility = null, array $relatedClassIdentifiers = null )
+    static public function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $limit = false, $offset = false, $asObject = true, $loadDataMap = false, $ignoreVisibility = null, array $relatedClassIdentifiers = null, $version = false )
     {
         if ( !is_numeric( $objectID ) )
         {
@@ -1311,11 +1312,17 @@ class eZContentFunctionCollection
             }
         }
 
-        return array( 'result' => $object->relatedContentObjectList( false, $objectID, $attributeID, $groupByAttribute, $params ) );
+        return array( 'result' => $object->relatedContentObjectList( $version, $objectID, $attributeID, $groupByAttribute, $params ) );
     }
 
-        // Fetches count of reverse related objects
-    static public function fetchRelatedObjectsCount( $objectID, $attributeID, $allRelations )
+    /**
+     * Fetch count of related objects
+     * @param int $objectID
+     * @param int $attributeID
+     * @param bool $allRelations
+     * @param int|bool $version The contentobject version number to fetch from, default to current version
+     */
+    static public function fetchRelatedObjectsCount( $objectID, $attributeID, $allRelations, $version = false )
     {
         if ( !is_numeric( $objectID ) )
         {
@@ -1362,7 +1369,7 @@ class eZContentFunctionCollection
             }
         }
 
-        return array( 'result' => $object->relatedContentObjectCount( false, $attributeID, $params ) );
+        return array( 'result' => $object->relatedContentObjectCount( $version, $attributeID, $params ) );
     }
 
     static public function fetchReverseRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $ignoreVisibility,  $limit = false, $offset = false, $asObject = true, $loadDataMap = false  )
