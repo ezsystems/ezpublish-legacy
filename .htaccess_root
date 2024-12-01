@@ -3,6 +3,9 @@
 
 DirectoryIndex index.php
 
+# Comment if you use apache < 2.0.46
+AllowEncodedSlashes On
+
 RewriteEngine On
 RewriteRule ^api/ index_rest.php [L]
 RewriteRule ^index_rest\.php - [L]
