@@ -40,6 +40,10 @@ class eZMysqlSchema extends eZDBSchemaInterface
                     $schema_table['name'] = $table_name;
                     $schema_table['fields'] = $this->fetchTableFields( $table_name, $params );
                     $schema_table['indexes'] = $this->fetchTableIndexes( $table_name, $params );
+                    if ( isset( $params['table_options'] ) && $params['table_options'] )
+                    {
+                        $schema_table['options'] = $this->fetchTableOptions( $table_name, $params );
+                    }
 
                     $schema[$table_name] = $schema_table;
                 }
@@ -54,6 +58,26 @@ class eZMysqlSchema extends eZDBSchemaInterface
             $schema = $this->Schema;
         }
         return $schema;
+    }
+
+    /*!
+     \private
+
+     \param table name
+     */
+    function fetchTableOptions( $table, $params )
+    {
+        $options = array();
+
+        $resultArray = $this->DBInstance->arrayQuery( "SELECT ENGINE AS table_type, SUBSTRING_INDEX(TABLE_COLLATION, '_', 1) AS table_charset, TABLE_COMMENT AS table_comment FROM information_schema.TABLES WHERE TABLE_SCHEMA = '" . $this->DBInstance->DB . "' AND TABLE_NAME = '$table'" );
+        if ( !empty( $resultArray ) )
+        {
+            $options = $resultArray[0];
+            $options['table_type'] = $this->schemaType() . ':' . strtolower( $options['table_type'] );
+            $options['table_charset'] = eZCharsetInfo::realCharsetCode( $options['table_charset'] );
+        }
+
+        return $options;
     }
 
     /*!
@@ -494,19 +518,19 @@ class eZMysqlSchema extends eZDBSchemaInterface
         $extraOptions = array();
         if ( isset( $params['table_type'] ) and $params['table_type'] )
         {
-            $typeName = $this->tableStorageTypeName( $params['table_type'] );
-            if ( $typeName )
+            if ( !isset( $tableDef['options'] ) )
             {
-                $extraOptions[] = "ENGINE=" . $typeName;
+                $tableDef['options'] = array();
             }
+            $tableDef['options']['table_type'] = $this->schemaType() . ':' . $params['table_type'];
         }
         if ( isset( $params['table_charset'] ) and $params['table_charset'] )
         {
-            $charsetName = $this->tableCharsetName( $params['table_charset'] );
-            if ( $charsetName )
+            if ( !isset( $tableDef['options'] ) )
             {
-                $extraOptions[] = "DEFAULT CHARACTER SET " . $charsetName;
+                $tableDef['options'] = array();
             }
+            $tableDef['options']['table_charset'] = $params['table_charset'];
         }
         if ( isset( $tableDef['options'] ) )
         {
@@ -557,10 +581,39 @@ class eZMysqlSchema extends eZDBSchemaInterface
     {
         switch ( $optionType )
         {
-            case 'mysql:delay_key_write':
+            case $this->schemaType() . ':delay_key_write':
             {
                 if ( $optionValue )
                     return 'DELAY_KEY_WRITE=1';
+            } break;
+
+            case 'table_type':
+            {
+                if ( preg_match( '@' . $this->schemaType() . ':([a-z]+)@i', $optionValue, $matches ) )
+                {
+                    $typeName = $this->tableStorageTypeName( $matches[1] );
+                    if ( $typeName )
+                    {
+                        return "ENGINE=" . $typeName;
+                    }
+                }
+            } break;
+
+            case 'table_charset':
+            {
+                $charsetName = $this->tableCharsetName( $optionValue );
+                if ( $charsetName )
+                {
+                    return "DEFAULT CHARACTER SET " . $charsetName;
+                }
+            } break;
+
+            case 'table_comment':
+            {
+                if ($optionValue)
+                {
+                    return "COMMENT='" . str_replace("'", "\\'", $optionValue) . "'";
+                }
             } break;
         }
         return false;
